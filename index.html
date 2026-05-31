@@ -14,21 +14,47 @@
  ul.posts a{text-decoration:none;color:#1f3864;font-size:15px;font-weight:600;}
  ul.posts a:hover{color:var(--green);}
  .foot{margin-top:24px;color:#aab;font-size:12px;}
+ #msg{color:var(--sub);font-size:14px;}
 </style></head><body>
 <div class="wrap">
  <h1>봄딩 블로그 글 미리보기</h1>
  <p class="desc">게임·육아 글 미리보기 모음입니다. 항목을 클릭하면 글이 열려요.</p>
- <h2 class="game">드래곤빌리지3</h2>
-<ul class="posts">
-<li><a href="%EB%93%9C%EB%9E%98%EA%B3%A4%EB%B9%8C%EB%A6%AC%EC%A7%803/%EB%93%9C%EB%9E%98%EA%B3%A4%EB%B9%8C%EB%A6%AC%EC%A7%803%EA%B5%90%EB%B0%B0/%EB%B4%84%EB%94%A9_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0_%EB%93%9C%EB%9E%98%EA%B3%A4%EB%B9%8C%EB%A6%AC%EC%A7%803%EA%B5%90%EB%B0%B0.html">드래곤빌리지3교배</a></li>
-</ul>
-<h2 class="game">아기 유산균 비교</h2>
-<ul class="posts">
-<li><a href="%EC%95%84%EA%B8%B0%20%EC%9C%A0%EC%82%B0%EA%B7%A0%20%EB%B9%84%EA%B5%90/%EB%93%9C%EC%8B%9C%EB%AA%A8%EB%84%A4%20%EB%B2%A0%EC%9D%B4%EB%B9%84%20vs%20%EB%B0%94%EC%9D%B4%EC%98%A4%EA%B0%80%EC%9D%B4%EC%95%84%20%EB%B2%A0%EC%9D%B4%EB%B9%84%EB%93%9C%EB%A1%AD/%EB%B4%84%EB%94%A9_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0_%EC%9C%A0%EC%82%B0%EA%B7%A0%EB%B9%84%EA%B5%90.html">드시모네 베이비 vs 바이오가이아 베이비드롭</a></li>
-</ul>
-<h2 class="game">일곱개의대죄 오리진</h2>
-<ul class="posts">
-<li><a href="%EC%9D%BC%EA%B3%B1%EA%B0%9C%EC%9D%98%EB%8C%80%EC%A3%84%20%EC%98%A4%EB%A6%AC%EC%A7%84/%ED%81%B4%EB%A1%9C%ED%86%A0%20%EC%8B%A0%EA%B7%9C%EC%98%81%EC%9B%85%20%EC%A0%95%EB%B3%B4/%EB%B4%84%EB%94%A9_%EB%AF%B8%EB%A6%AC%EB%B3%B4%EA%B8%B0_%ED%81%B4%EB%A1%9C%ED%86%A0.html">클로토 신규영웅 정보</a></li>
-</ul>
- <p class="foot">※ 발행 전 미리보기입니다. 검색 노출은 막아두었어요(noindex).</p>
-</div></body></html>
+ <div id="list"><p id="msg">목록 불러오는 중…</p></div>
+ <p class="foot">※ 발행 전 미리보기입니다. 검색 노출은 막아두었어요(noindex). 새 글은 업로드되면 이 목록에 자동으로 나타납니다.</p>
+</div>
+<script>
+(async function(){
+  const OWNER="qtdqtd002-coder", REPO="bomding-blog-preview", BRANCH="main";
+  const listEl=document.getElementById("list");
+  const enc=rel=>rel.split("/").map(encodeURIComponent).join("/");
+  function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+  try{
+    const api=`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
+    const res=await fetch(api,{headers:{"Accept":"application/vnd.github+json"}});
+    if(!res.ok) throw new Error("API "+res.status);
+    const data=await res.json();
+    const posts=(data.tree||[])
+      .filter(n=>n.type==="blob" && /\.html$/i.test(n.path))
+      .map(n=>n.path)
+      .filter(p=>p.toLowerCase()!=="index.html" && !p.split("/").some(s=>s.startsWith(".")));
+    if(!posts.length){ listEl.innerHTML='<p id="msg">아직 글이 없어요.</p>'; return; }
+    const groups={};
+    for(const p of posts.sort()){
+      const parts=p.split("/");
+      const game=parts.length>=2?parts[0]:"(기타)";
+      const topic=parts.length>=3?parts[1]:(parts.length>=2?parts[0]:parts[parts.length-1]);
+      (groups[game]=groups[game]||[]).push({topic,file:parts[parts.length-1],rel:p});
+    }
+    let html="";
+    for(const game of Object.keys(groups)){
+      html+=`<h2 class="game">${escapeHtml(game)}</h2><ul class="posts">`;
+      for(const it of groups[game]) html+=`<li><a href="${enc(it.rel)}">${escapeHtml(it.topic||it.file)}</a></li>`;
+      html+="</ul>";
+    }
+    listEl.innerHTML=html;
+  }catch(e){
+    listEl.innerHTML='<p id="msg">목록을 불러오지 못했어요(잠시 후 새로고침). '+escapeHtml(String(e.message||e))+'</p>';
+  }
+})();
+</script>
+</body></html>
