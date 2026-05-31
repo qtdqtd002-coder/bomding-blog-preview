@@ -143,6 +143,14 @@
    border:1px solid rgba(232,89,12,.25);border-radius:8px;padding:4px 10px;text-decoration:none;}
  .nlink:hover{background:rgba(232,89,12,.16);}
  .foot2{color:var(--faint);font-size:12px;line-height:1.7;text-align:center;margin-top:6px;}
+ /* 날짜 페이저 + 검색 결과 */
+ .dpager{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 10px;box-shadow:var(--shadow);}
+ .dpbtn{font-size:13px;font-weight:800;color:#fff;background:var(--ac,#5b6ef5);border:0;border-radius:9px;padding:8px 12px;cursor:pointer;font-family:inherit;flex:none;}
+ .dpbtn:disabled{background:#cbd2de;cursor:default;}
+ .dpsel{flex:1;min-width:0;font-family:inherit;font-size:13.5px;font-weight:800;color:var(--ink);background:#f7f8fc;border:1px solid var(--line);border-radius:9px;padding:8px 10px;text-align:center;cursor:pointer;}
+ .dpos{font-size:12px;font-weight:800;color:var(--faint);flex:none;}
+ .nm-head2{font-size:16px;font-weight:900;color:var(--ink);letter-spacing:-.3px;padding:2px 4px;word-break:keep-all;}
+ .nit-d{display:inline-block;font-size:11px;font-weight:800;color:#e8590c;background:rgba(232,89,12,.09);border-radius:6px;padding:2px 8px;margin-bottom:6px;}
 
  /* ---------- 모바일 반응형 ---------- */
  @media(max-width:780px){
@@ -279,6 +287,7 @@
    cur&&cur.classList.add("on");
    navEl.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
      state.view=b.dataset.k;
+     state.q=""; if(qEl)qEl.value="";
      navEl.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
      b.classList.add("on");
      render();
@@ -290,9 +299,9 @@
 
  function render(){
    if(state.view==="__about__"){ searchBox.style.display="none"; renderAbout(); return; }
-   if(state.view==="__trend__"){ searchBox.style.display="none"; renderTrend(); return; }
-   if(state.view==="__news__"){ searchBox.style.display="none"; renderNews(); return; }
-   searchBox.style.display="";
+   if(state.view==="__trend__"){ renderTrend(); return; }
+   if(state.view==="__news__"){ renderNews(); return; }
+   searchBox.style.display=""; if(qEl)qEl.placeholder="제목·주제 검색";
    let list = state.view==="__all__" ? POSTS : POSTS.filter(p=>p.author===state.view);
    if(state.q){ list=list.filter(p=>(p.topic+" "+p.group+" "+p.file).toLowerCase().includes(state.q)); }
 
@@ -358,71 +367,89 @@
      </div>
    </div>`;
  }
+ // 날짜 페이저(트렌드·뉴스 공통): 디폴트=최신, ◀과거 / 최신▶
+ function datePager(dates,cur,kind,accent){
+   const i=dates.indexOf(cur);
+   const opt=dates.map(d=>`<option value="${esc(d)}"${d===cur?" selected":""}>${esc(d)}</option>`).join("");
+   return `<div class="dpager" style="--ac:${accent}">`+
+     `<button class="dpbtn" data-pg="${kind}" data-go="older"${i<dates.length-1?"":" disabled"}>◀ 과거</button>`+
+     `<select class="dpsel" data-pgsel="${kind}">${opt}</select>`+
+     `<button class="dpbtn" data-pg="${kind}" data-go="newer"${i>0?"":" disabled"}>최신 ▶</button>`+
+     `<span class="dpos">${dates.length-i}/${dates.length}</span></div>`;
+ }
+ function attachPager(kind,dates){
+   const go=d=>{ if(!d)return; if(kind==="trend")state.trendDate=d; else state.newsDate=d; (kind==="trend"?renderTrend:renderNews)(); window.scrollTo({top:0,behavior:"smooth"}); };
+   contentEl.querySelectorAll(`[data-pg="${kind}"]`).forEach(b=>b.addEventListener("click",()=>{
+     if(b.disabled)return; const cur=kind==="trend"?state.trendDate:state.newsDate; const i=dates.indexOf(cur);
+     go(b.dataset.go==="older"?dates[i+1]:dates[i-1]);
+   }));
+   const sel=contentEl.querySelector(`[data-pgsel="${kind}"]`); if(sel)sel.addEventListener("change",()=>go(sel.value));
+ }
  function renderTrend(){
    titleEl.textContent="트렌드 브리핑";
-   subEl.innerHTML="트렌드 분석팀 · 매일 오전 9시 발행 · 신작·급상승·사전예약·블로그 급증";
+   searchBox.style.display=""; if(qEl)qEl.placeholder="트렌드 검색 (예: 명조, 사전예약)";
    const wico=w=>(KNOWN[w]&&KNOWN[w].ico)||"📈";
    const wac=w=>ACCENT[w]||(KNOWN[w]&&KNOWN[w].accent)||"#5b6ef5";
-   if(!TREND.length){
-     contentEl.innerHTML='<div class="news"><div class="news-masthead"><div class="nm-k">DAILY GAME TREND</div>'+
-       '<div class="nm-t">📈 트렌드 브리핑</div>'+
-       '<div class="nm-s">매일 오전 9시, 작성자별로 \'지금 쓰면 유입되는 게임\'을 골라 드립니다.</div></div>'+
-       '<div class="empty">아직 발행된 트렌드 브리핑이 없어요.</div></div>';
-     return;
-   }
+   const mast=`<div class="news-masthead"><div class="nm-k">DAILY GAME TREND</div><div class="nm-t">📈 트렌드 브리핑</div><div class="nm-s">트렌드 분석팀이 매일 오전 9시 작성자별 추천을 발행합니다. 일자별로 쌓이며(디폴트=최신, ◀로 과거), 검색으로 지난 브리핑도 찾을 수 있어요.</div></div>`;
+   if(!TREND.length){ subEl.innerHTML="트렌드 분석팀 · 매일 오전 9시 발행"; contentEl.innerHTML=`<div class="news">${mast}<div class="empty">아직 발행된 트렌드 브리핑이 없어요.</div></div>`; return; }
    const card=it=>{
      const ac=wac(it.writer);
      const picks=(it.picks||[]).slice(0,4).map(p=>`<span class="tchip">${esc(p)}</span>`).join("");
      return `<a class="tcard" href="${enc(it.file)}" style="--ac:${ac}">`+
-       `<div class="tcard-top"><span class="tbadge">${wico(it.writer)} ${esc(it.writer)} 편</span>`+
-       `<span class="tdate">${esc(it.date||"")}</span></div>`+
+       `<div class="tcard-top"><span class="tbadge">${wico(it.writer)} ${esc(it.writer)} 편</span><span class="tdate">${esc(it.date||"")}</span></div>`+
        `<h3 class="tcard-h">${esc(it.headline||(it.writer+" 트렌드 브리핑"))}</h3>`+
        (it.lead?`<p class="tcard-l">${esc(it.lead)}</p>`:"")+
        (picks?`<div class="tchips">${picks}</div>`:"")+
-       `<span class="tmore">브리핑 전문 보기 →</span>`+
-     `</a>`;
+       `<span class="tmore">브리핑 전문 보기 →</span></a>`;
    };
-   contentEl.innerHTML=`<div class="news">`+
-     `<div class="news-masthead"><div class="nm-k">DAILY GAME TREND</div>`+
-     `<div class="nm-t">📈 트렌드 브리핑</div>`+
-     `<div class="nm-s">블로그 컴퍼니 트렌드 분석팀이 매일 오전 9시, 작성자별로 '지금 쓰면 유입되는 게임'을 골라 드립니다. 카드를 누르면 그날의 브리핑 전문이 열려요.</div></div>`+
-     `<div class="tcards">${TREND.map(card).join("")}</div>`+
-   `</div>`;
+   if(state.q){
+     const q=state.q;
+     const hits=TREND.filter(it=>((it.headline||"")+" "+(it.lead||"")+" "+((it.picks||[]).join(" "))+" "+it.writer+" "+it.date).toLowerCase().includes(q));
+     subEl.innerHTML=`'${esc(q)}' 검색 · <b>${hits.length}</b>건`;
+     contentEl.innerHTML=`<div class="news">${mast}`+(hits.length?`<div class="tcards">${hits.map(card).join("")}</div>`:`<div class="empty">'${esc(q)}'에 해당하는 브리핑이 없어요.</div>`)+`</div>`;
+     return;
+   }
+   const dates=[...new Set(TREND.map(t=>t.date))].sort((a,b)=>String(b).localeCompare(String(a)));
+   if(!state.trendDate||dates.indexOf(state.trendDate)<0)state.trendDate=dates[0];
+   const wOrder=w=>w==="봄딩"?0:w==="영도"?1:2;
+   const day=TREND.filter(t=>t.date===state.trendDate).slice().sort((a,b)=>wOrder(a.writer)-wOrder(b.writer));
+   subEl.innerHTML=`<b>${esc(state.trendDate)}</b> 브리핑 · ${day.length}편 · 전체 ${dates.length}일치 누적`;
+   contentEl.innerHTML=`<div class="news">${mast}${datePager(dates,state.trendDate,"trend","#5b6ef5")}<div class="tcards">${day.map(card).join("")}</div></div>`;
+   attachPager("trend",dates);
  }
  function renderNews(){
    titleEl.textContent="게임 뉴스레터";
-   subEl.innerHTML="트렌드 분석팀 · 매일 오전 9시 갱신 · 인벤·루리웹 등 게임 매체 종합";
-   const empt='<div class="news"><div class="news-masthead nletter"><div class="nm-k">DAILY GAME NEWS</div>'+
-     '<div class="nm-t">📰 게임 뉴스레터</div><div class="nm-s">매일 오전 9시, 오늘의 게임 핫소식을 요약+링크로 정리해 드립니다.</div></div>'+
-     '<div class="empty">아직 발행된 뉴스레터가 없어요.</div></div>';
-   if(!NEWS.length){ contentEl.innerHTML=empt; return; }
-   let cur=NEWS.find(n=>n.date===state.newsDate)||NEWS[0];
-   state.newsDate=cur.date;
-   const chips=NEWS.slice(0,14).map(n=>`<button class="ndchip${n.date===cur.date?' on':''}" data-nd="${esc(n.date)}">${esc(n.date)}</button>`).join("");
+   searchBox.style.display=""; if(qEl)qEl.placeholder="뉴스 검색 (예: 쿠폰, 콜라보, 메이플)";
    const order=["신작","사전예약","업데이트","이벤트","콜라보","쿠폰","e스포츠","업계","기타"];
    const ICON={"신작":"🆕","사전예약":"📅","업데이트":"🔄","이벤트":"🎉","콜라보":"🤝","쿠폰":"🎟️","e스포츠":"🏆","업계":"📊","기타":"📰"};
-   const groups={};
-   (cur.items||[]).forEach(it=>{ const c=it.cat||"기타"; (groups[c]=groups[c]||[]).push(it); });
-   const cats=Object.keys(groups).sort((a,b)=>{let ia=order.indexOf(a),ib=order.indexOf(b);ia=ia<0?99:ia;ib=ib<0?99:ib;return ia-ib;});
-   const itemHtml=it=>{
+   const mast=`<div class="news-masthead nletter"><div class="nm-k">DAILY GAME NEWS</div><div class="nm-t">📰 게임 뉴스레터</div><div class="nm-s">매일 오전 9시, 오늘의 게임 핫소식을 요약+링크로 일자별 누적합니다(디폴트=최신, ◀로 과거). 검색으로 지난 소식도 찾을 수 있어요.</div></div>`;
+   if(!NEWS.length){ subEl.innerHTML="트렌드 분석팀 · 매일 오전 9시 갱신"; contentEl.innerHTML=`<div class="news">${mast}<div class="empty">아직 발행된 뉴스레터가 없어요.</div></div>`; return; }
+   const itemHtml=(it,showDate)=>{
      const links=(it.links||[]).map(l=>`<a class="nlink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("");
-     return `<div class="nitem"><div class="nit-t">${esc(it.title)}</div>`+
+     return `<div class="nitem">`+(showDate?`<span class="nit-d">${esc(it.date)} · ${esc(it.cat||"기타")}</span>`:"")+
+       `<div class="nit-t">${esc(it.title)}</div>`+
        (it.summary?`<div class="nit-s">${esc(it.summary)}</div>`:"")+
        (links?`<div class="nit-l">${links}</div>`:"")+`</div>`;
    };
-   const secHtml=c=>`<div class="nsec"><div class="nsec-h">${ICON[c]||"📰"} ${esc(c)}</div>${groups[c].map(itemHtml).join("")}</div>`;
+   if(state.q){
+     const q=state.q; const hits=[];
+     NEWS.forEach(iss=>(iss.items||[]).forEach(it=>{ if(((it.title||"")+" "+(it.summary||"")+" "+(it.cat||"")).toLowerCase().includes(q)) hits.push(Object.assign({},it,{date:iss.date})); }));
+     subEl.innerHTML=`'${esc(q)}' 검색 · <b>${hits.length}</b>건`;
+     contentEl.innerHTML=`<div class="news">${mast}`+(hits.length?`<div class="nsec"><div class="nsec-h">🔎 '${esc(q)}' 검색 결과</div>${hits.map(it=>itemHtml(it,true)).join("")}</div>`:`<div class="empty">'${esc(q)}'에 해당하는 소식이 없어요.</div>`)+`</div>`;
+     return;
+   }
+   const dates=NEWS.map(n=>n.date);
+   if(!state.newsDate||dates.indexOf(state.newsDate)<0)state.newsDate=dates[0];
+   const cur=NEWS.find(n=>n.date===state.newsDate)||NEWS[0];
+   const groups={}; (cur.items||[]).forEach(it=>{const c=it.cat||"기타";(groups[c]=groups[c]||[]).push(it);});
+   const cats=Object.keys(groups).sort((a,b)=>{let ia=order.indexOf(a),ib=order.indexOf(b);ia=ia<0?99:ia;ib=ib<0?99:ib;return ia-ib;});
+   const secHtml=c=>`<div class="nsec"><div class="nsec-h">${ICON[c]||"📰"} ${esc(c)}</div>${groups[c].map(it=>itemHtml(it,false)).join("")}</div>`;
    const total=(cur.items||[]).length;
-   contentEl.innerHTML=`<div class="news">`+
-     `<div class="news-masthead nletter"><div class="nm-k">DAILY GAME NEWS</div>`+
-     `<div class="nm-t">📰 게임 뉴스레터</div>`+
-     `<div class="nm-s">${esc(cur.headline||"오늘의 게임 소식")} · <b style="color:#fff">${esc(cur.date)}</b> · 총 ${total}건</div></div>`+
-     `<div class="ndates">${chips}</div>`+
+   subEl.innerHTML=`<b>${esc(cur.date)}</b> · ${total}건 · 전체 ${dates.length}일치 누적`;
+   contentEl.innerHTML=`<div class="news">${mast}<div class="nm-head2">${esc(cur.headline||"오늘의 게임 소식")}</div>${datePager(dates,cur.date,"news","#e8590c")}`+
      cats.map(secHtml).join("")+
-     `<p class="foot2">트렌드 분석팀이 인벤·루리웹 등 게임 매체를 종합해 매일 오전 9시 갱신합니다. 각 소식의 주황색 링크로 원문 기사를 확인하세요.</p>`+
-   `</div>`;
-   contentEl.querySelectorAll(".ndchip").forEach(b=>b.addEventListener("click",()=>{
-     state.newsDate=b.dataset.nd; renderNews(); window.scrollTo({top:0,behavior:"smooth"});
-   }));
+     `<p class="foot2">트렌드 분석팀이 인벤·루리웹 등 게임 매체를 종합해 매일 오전 9시 갱신·누적합니다. 주황색 링크로 원문 기사를 확인하세요.</p></div>`;
+   attachPager("news",dates);
  }
 })();
 </script>
