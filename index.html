@@ -30,6 +30,7 @@
  .post:hover{border-color:#c9d3e0;background:#f4f8ff;transform:translateY(-1px);}
  .post .t{font-size:14.5px;font-weight:700;line-height:1.35;display:block;}
  .post .f{margin-top:4px;font-size:11.5px;color:var(--sub);word-break:break-all;display:block;}
+ .post .d{margin-top:5px;font-size:11px;color:#9aa2ac;display:block;font-weight:600;}
  #msg{max-width:880px;margin:0 auto;padding:0 20px;color:var(--sub);font-size:14px;}
  .foot{max-width:880px;margin:0 auto;padding:6px 20px 40px;color:#aab2bd;font-size:12px;}
 </style></head><body>
@@ -50,10 +51,13 @@
  const listEl=document.getElementById("list"), filtEl=document.getElementById("filters");
  const esc=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  const enc=rel=>rel.split("/").map(encodeURIComponent).join("/");
- fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`,
+ const treeP=fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`,
    {headers:{"Accept":"application/vnd.github+json"}})
-  .then(r=>{if(!r.ok)throw new Error("API "+r.status);return r.json();})
-  .then(data=>{
+  .then(r=>{if(!r.ok)throw new Error("API "+r.status);return r.json();});
+ // 파일별 마지막 수정일시(깃 커밋 기준). 발행 시 manifest.json을 함께 push해 채운다. 없으면 날짜 생략.
+ const maniP=fetch("manifest.json?ts="+Date.now()).then(r=>r.ok?r.json():{}).catch(()=>({}));
+ Promise.all([treeP,maniP])
+  .then(([data,manifest])=>{
    const posts=(data.tree||[]).filter(n=>n.type==="blob"&&/\.html$/i.test(n.path)).map(n=>n.path)
      .filter(p=>p.toLowerCase()!=="index.html"&&!p.split("/").some(s=>s.startsWith(".")||s.startsWith("_")));
    if(!posts.length){listEl.innerHTML='<p id="msg">아직 글이 없어요.</p>';filtEl.style.display="none";return;}
@@ -83,7 +87,11 @@
      html+=`<section class="blog" data-blog="${esc(blog)}"><header style="background:${accent[blog]}"><span class="nm">${esc(blog)}</span><span class="tag">${esc(tag)}</span><span class="cnt">글 ${cnt}</span></header><div class="body">`;
      for(const game of Object.keys(games)){
        html+=`<div class="game">${esc(game)}</div><div class="posts">`;
-       for(const it of games[game]) html+=`<a class="post" href="${enc(it.rel)}"><span class="t">${esc(it.topic||it.file)}</span><span class="f">${esc(it.file)}</span></a>`;
+       for(const it of games[game]){
+         const dt=manifest[it.rel];
+         const dstr=dt?`<span class="d">🕒 ${esc(dt)}</span>`:"";
+         html+=`<a class="post" href="${enc(it.rel)}"><span class="t">${esc(it.topic||it.file)}</span><span class="f">${esc(it.file)}</span>${dstr}</a>`;
+       }
        html+="</div>";
      }
      html+="</div></section>";
