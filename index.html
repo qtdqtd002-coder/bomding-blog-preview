@@ -1,29 +1,22 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>블로그 글 미리보기 — 봄딩 · 영도</title>
+<title>블로그 글 미리보기</title>
 <style>
- :root{--bg:#eef1f5;--card:#fff;--line:#e7e9ee;--ink:#252a31;--sub:#8a929c;
-   --bomding:#03c75a;--yeongdo:#3b6fed;}
+ :root{--bg:#eef1f5;--card:#fff;--line:#e7e9ee;--ink:#252a31;--sub:#8a929c;}
  *{box-sizing:border-box;}
  body{margin:0;background:var(--bg);color:var(--ink);
    font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
- .head{max-width:860px;margin:0 auto;padding:30px 20px 6px;}
+ .head{max-width:880px;margin:0 auto;padding:30px 20px 6px;}
  .head h1{font-size:24px;margin:0 0 6px;font-weight:800;letter-spacing:-.4px;}
  .head p{margin:0;color:var(--sub);font-size:13.5px;}
- .filters{max-width:860px;margin:16px auto 0;padding:0 20px;display:flex;gap:8px;flex-wrap:wrap;}
+ .filters{max-width:880px;margin:16px auto 0;padding:0 20px;display:flex;gap:8px;flex-wrap:wrap;}
  .chip{border:1px solid var(--line);background:#fff;color:#444;border-radius:999px;
-   padding:7px 16px;font-size:13.5px;font-weight:700;cursor:pointer;user-select:none;}
- .chip.on{color:#fff;border-color:transparent;}
- .chip[data-k="전체"].on{background:#374151;}
- .chip[data-k="봄딩"].on{background:var(--bomding);}
- .chip[data-k="영도"].on{background:var(--yeongdo);}
- .wrap{max-width:860px;margin:18px auto 60px;padding:0 20px;}
+   padding:7px 16px;font-size:13.5px;font-weight:700;cursor:pointer;user-select:none;transition:.12s;}
+ .wrap{max-width:880px;margin:18px auto 60px;padding:0 20px;}
  .blog{background:var(--card);border:1px solid var(--line);border-radius:14px;
    overflow:hidden;margin-bottom:18px;box-shadow:0 1px 4px rgba(20,30,50,.04);}
  .blog>header{display:flex;align-items:center;gap:10px;padding:16px 20px;color:#fff;}
- .blog.b-봄딩>header{background:linear-gradient(135deg,#04c75a,#04a64b);}
- .blog.b-영도>header{background:linear-gradient(135deg,#4577f0,#2f56c9);}
  .blog>header .nm{font-size:17px;font-weight:800;}
  .blog>header .tag{font-size:12.5px;opacity:.92;}
  .blog>header .cnt{margin-left:auto;background:rgba(255,255,255,.22);
@@ -37,26 +30,24 @@
  .post:hover{border-color:#c9d3e0;background:#f4f8ff;transform:translateY(-1px);}
  .post .t{font-size:14.5px;font-weight:700;line-height:1.35;display:block;}
  .post .f{margin-top:4px;font-size:11.5px;color:var(--sub);word-break:break-all;display:block;}
- #msg{max-width:860px;margin:0 auto;padding:0 20px;color:var(--sub);font-size:14px;}
- .foot{max-width:860px;margin:0 auto;padding:6px 20px 40px;color:#aab2bd;font-size:12px;}
+ #msg{max-width:880px;margin:0 auto;padding:0 20px;color:var(--sub);font-size:14px;}
+ .foot{max-width:880px;margin:0 auto;padding:6px 20px 40px;color:#aab2bd;font-size:12px;}
 </style></head><body>
  <div class="head">
    <h1>📒 블로그 글 미리보기</h1>
-   <p>봄딩·영도 블로그의 발행 전 미리보기 모음입니다. 새 글이 올라오면 자동으로 나타나요.</p>
+   <p>블로거(직원)별로 발행 전 미리보기를 모았습니다. 새 글·새 직원이 올라오면 자동으로 탭이 생겨요.</p>
  </div>
- <div class="filters" id="filters">
-   <span class="chip on" data-k="전체">전체</span>
-   <span class="chip" data-k="봄딩">봄딩</span>
-   <span class="chip" data-k="영도">영도</span>
- </div>
+ <div class="filters" id="filters"></div>
  <div class="wrap" id="list"><p id="msg">목록 불러오는 중…</p></div>
  <p class="foot">※ 발행 전 미리보기입니다. 검색 노출은 막아두었어요(noindex).</p>
 <script>
 (function(){
  const OWNER="qtdqtd002-coder",REPO="bomding-blog-preview",BRANCH="main";
- const META={ "봄딩":{tag:"게임 · 육아"}, "영도":{tag:"영원한도시 · 게임"} };
- const ORDER=["봄딩","영도"];
- const listEl=document.getElementById("list");
+ // 알려진 직원(블로거) 표시 정보. 모르는 직원은 팔레트에서 색 자동 배정.
+ const KNOWN={ "봄딩":{tag:"게임 · 육아",accent:"#03c75a"}, "영도":{tag:"영원한도시 · 게임",accent:"#3b6fed"} };
+ const PALETTE=["#e8590c","#9c36b5","#0ca678","#e8a700","#1098ad","#d6336c","#5c7cfa"];
+ const PREF=["봄딩","영도"]; // 정렬 우선
+ const listEl=document.getElementById("list"), filtEl=document.getElementById("filters");
  const esc=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  const enc=rel=>rel.split("/").map(encodeURIComponent).join("/");
  fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`,
@@ -64,22 +55,32 @@
   .then(r=>{if(!r.ok)throw new Error("API "+r.status);return r.json();})
   .then(data=>{
    const posts=(data.tree||[]).filter(n=>n.type==="blob"&&/\.html$/i.test(n.path)).map(n=>n.path)
-     .filter(p=>p.toLowerCase()!=="index.html"&&!p.split("/").some(s=>s.startsWith(".")));
-   if(!posts.length){listEl.innerHTML='<p id="msg">아직 글이 없어요.</p>';return;}
+     .filter(p=>p.toLowerCase()!=="index.html"&&!p.split("/").some(s=>s.startsWith(".")||s.startsWith("_")));
+   if(!posts.length){listEl.innerHTML='<p id="msg">아직 글이 없어요.</p>';filtEl.style.display="none";return;}
+   // 1단계 폴더 = 직원(블로거). 동적으로 수집.
    const blogs={};
    for(const p of posts.sort()){
      const a=p.split("/");
-     let blog,game,topic;
-     if(["봄딩","영도"].includes(a[0])){blog=a[0];game=a[1]||"(기타)";topic=a[2]||a[a.length-1];}
-     else {blog="봄딩";game=a[0]||"(기타)";topic=a[1]||a[a.length-1];}
+     const blog=a.length>=2?a[0]:"(기타)";
+     const game=a.length>=3?a[1]:(a.length>=2?a[1]||"(기타)":"(기타)");
+     const topic=a.length>=3?a[2]:a[a.length-1];
      (blogs[blog]=blogs[blog]||{}); (blogs[blog][game]=blogs[blog][game]||[]).push({topic,file:a[a.length-1],rel:p});
    }
-   const keys=ORDER.filter(k=>blogs[k]).concat(Object.keys(blogs).filter(k=>!ORDER.includes(k)));
+   // 색 배정
+   const names=Object.keys(blogs);
+   const ordered=PREF.filter(k=>blogs[k]).concat(names.filter(k=>!PREF.includes(k)).sort());
+   const accent={}; let pi=0;
+   ordered.forEach(n=>{ accent[n]=(KNOWN[n]&&KNOWN[n].accent)||PALETTE[pi++%PALETTE.length]; });
+   // 필터 칩
+   let chips=`<span class="chip on" data-k="전체" style="background:#374151;color:#fff;border-color:transparent">전체</span>`;
+   ordered.forEach(n=>{ chips+=`<span class="chip" data-k="${esc(n)}" data-accent="${accent[n]}">${esc(n)}</span>`; });
+   filtEl.innerHTML=chips;
+   // 블로그 카드
    let html="";
-   for(const blog of keys){
+   for(const blog of ordered){
      const games=blogs[blog]; const cnt=Object.values(games).reduce((s,v)=>s+v.length,0);
-     const tag=(META[blog]||{}).tag||"";
-     html+=`<section class="blog b-${esc(blog)}" data-blog="${esc(blog)}"><header><span class="nm">${esc(blog)}</span><span class="tag">${esc(tag)}</span><span class="cnt">글 ${cnt}</span></header><div class="body">`;
+     const tag=(KNOWN[blog]&&KNOWN[blog].tag)||"";
+     html+=`<section class="blog" data-blog="${esc(blog)}"><header style="background:${accent[blog]}"><span class="nm">${esc(blog)}</span><span class="tag">${esc(tag)}</span><span class="cnt">글 ${cnt}</span></header><div class="body">`;
      for(const game of Object.keys(games)){
        html+=`<div class="game">${esc(game)}</div><div class="posts">`;
        for(const it of games[game]) html+=`<a class="post" href="${enc(it.rel)}"><span class="t">${esc(it.topic||it.file)}</span><span class="f">${esc(it.file)}</span></a>`;
@@ -88,14 +89,17 @@
      html+="</div></section>";
    }
    listEl.innerHTML=html;
-   const chips=document.querySelectorAll("#filters .chip");
-   chips.forEach(c=>c.addEventListener("click",()=>{
-     chips.forEach(x=>x.classList.remove("on")); c.classList.add("on");
+   // 필터 동작
+   const chipEls=filtEl.querySelectorAll(".chip");
+   chipEls.forEach(c=>c.addEventListener("click",()=>{
+     chipEls.forEach(x=>{x.classList.remove("on");x.style.background="#fff";x.style.color="#444";x.style.borderColor="";});
+     c.classList.add("on");
      const k=c.dataset.k;
+     c.style.background=k==="전체"?"#374151":(c.dataset.accent||"#374151"); c.style.color="#fff"; c.style.borderColor="transparent";
      document.querySelectorAll(".blog").forEach(b=>{ b.style.display=(k==="전체"||b.dataset.blog===k)?"":"none"; });
    }));
   })
-  .catch(e=>{listEl.innerHTML='<p id="msg">목록을 불러오지 못했어요(잠시 후 새로고침). '+esc(String(e.message||e))+'</p>';});
+  .catch(e=>{listEl.innerHTML='<p id="msg">목록을 불러오지 못했어요(잠시 후 새로고침). '+esc(String(e.message||e))+'</p>';filtEl.style.display="none";});
 })();
 </script>
 </body></html>
