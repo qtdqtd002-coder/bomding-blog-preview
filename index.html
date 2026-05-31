@@ -124,6 +124,26 @@
  .tchip{font-size:12px;font-weight:700;color:#39414f;background:#f3f5fa;border:1px solid var(--line);border-radius:8px;padding:4px 10px;}
  .tmore{font-size:12.5px;font-weight:800;color:var(--brand-d);}
 
+ /* ---------- 게임 뉴스레터 ---------- */
+ .news-masthead.nletter{border-top:4px solid #e8590c;}
+ .news-masthead.nletter .nm-k{color:#ffae6b;}
+ .ndates{display:flex;flex-wrap:wrap;gap:7px;}
+ .ndchip{font-size:12.5px;font-weight:800;color:var(--sub);background:var(--panel);border:1px solid var(--line);
+   border-radius:999px;padding:6px 12px;cursor:pointer;font-family:inherit;box-shadow:var(--shadow);}
+ .ndchip:hover{border-color:#f0b48a;color:#e8590c;}
+ .ndchip.on{background:#e8590c;color:#fff;border-color:#e8590c;}
+ .nsec{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:6px 4px 4px;box-shadow:var(--shadow);}
+ .nsec-h{font-size:14px;font-weight:900;color:#e8590c;padding:11px 16px 11px;border-bottom:1px solid var(--line);}
+ .nitem{padding:13px 16px;border-bottom:1px solid var(--line2);}
+ .nitem:last-child{border-bottom:0;}
+ .nit-t{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;word-break:keep-all;line-height:1.45;}
+ .nit-s{font-size:13px;color:var(--sub);margin-top:4px;line-height:1.6;}
+ .nit-l{margin-top:9px;display:flex;flex-wrap:wrap;gap:7px;}
+ .nlink{font-size:12px;font-weight:800;color:#e8590c;background:rgba(232,89,12,.08);
+   border:1px solid rgba(232,89,12,.25);border-radius:8px;padding:4px 10px;text-decoration:none;}
+ .nlink:hover{background:rgba(232,89,12,.16);}
+ .foot2{color:var(--faint);font-size:12px;line-height:1.7;text-align:center;margin-top:6px;}
+
  /* ---------- 모바일 반응형 ---------- */
  @media(max-width:780px){
    .app{grid-template-columns:1fr;gap:16px;padding:14px;}
@@ -201,15 +221,16 @@
  const enc=rel=>rel.split("/").map(encodeURIComponent).join("/");
  const toTs=d=>{ if(!d)return 0; const t=Date.parse(d.replace(" ","T")); return isNaN(t)?0:t; };
 
- let POSTS=[], ACCENT={}, TREND=[], state={view:"__all__",q:""};
+ let POSTS=[], ACCENT={}, TREND=[], NEWS=[], state={view:"__all__",q:"",newsDate:""};
 
  const treeP=fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`,
    {headers:{"Accept":"application/vnd.github+json"}})
   .then(r=>{if(!r.ok)throw new Error("API "+r.status);return r.json();});
  const maniP=fetch("manifest.json?ts="+Date.now()).then(r=>r.ok?r.json():{}).catch(()=>({}));
  const trendP=fetch("_trend/trend.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}).catch(()=>({issues:[]}));
+ const newsP=fetch("_news/news.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}).catch(()=>({issues:[]}));
 
- Promise.all([treeP,maniP,trendP]).then(([data,manifest,trend])=>{
+ Promise.all([treeP,maniP,trendP,newsP]).then(([data,manifest,trend,news])=>{
    const paths=(data.tree||[]).filter(n=>n.type==="blob"&&/\.html$/i.test(n.path)).map(n=>n.path)
      .filter(p=>p.toLowerCase()!=="index.html"&&!p.split("/").some(s=>s.startsWith(".")||s.startsWith("_")));
    if(!paths.length){ titleEl.textContent="전체 글"; subEl.textContent="아직 글이 없어요.";
@@ -231,6 +252,7 @@
    let pi=0; ordered.forEach(n=>{ ACCENT[n]=(KNOWN[n]&&KNOWN[n].accent)||PALETTE[pi++%PALETTE.length]; });
 
    TREND=((trend&&trend.issues)||[]).slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
+   NEWS=((news&&news.issues)||[]).slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
 
    buildNav(ordered);
    searchBox.style.display="";
@@ -250,6 +272,7 @@
    });
    html+=`<div class="sep"></div>`+
          `<button data-k="__trend__"><span class="ico">📈</span>트렌드 분석<span class="cnt">${TREND.length}</span></button>`+
+         `<button data-k="__news__"><span class="ico">📰</span>게임 뉴스레터</button>`+
          `<button data-k="__about__"><span class="ico">🏢</span>회사 소개</button>`;
    navEl.innerHTML=html;
    const cur=navEl.querySelector(`[data-k="${state.view==="__all__"?"__all__":state.view}"]`)||navEl.firstElementChild;
@@ -268,6 +291,7 @@
  function render(){
    if(state.view==="__about__"){ searchBox.style.display="none"; renderAbout(); return; }
    if(state.view==="__trend__"){ searchBox.style.display="none"; renderTrend(); return; }
+   if(state.view==="__news__"){ searchBox.style.display="none"; renderNews(); return; }
    searchBox.style.display="";
    let list = state.view==="__all__" ? POSTS : POSTS.filter(p=>p.author===state.view);
    if(state.q){ list=list.filter(p=>(p.topic+" "+p.group+" "+p.file).toLowerCase().includes(state.q)); }
@@ -317,7 +341,7 @@
    contentEl.innerHTML=`<div class="about">
      <div class="about-hero">
        <h2>📒 블로그 컴퍼니</h2>
-       <p>대표(오케스트레이터)가 업무를 접수해 <b>기획 → 작성 → 검수 → 발행</b>으로 직원 팀을 운영하는 블로그 콘텐츠 회사입니다. 모든 글은 사실검증(거짓없음)과 작성자별 문체 정본을 거쳐 이 미리보기 사이트에 발행돼요.</p>
+       <p>대표(오케스트레이터)가 업무를 접수해 <b>기획 → 작성 → 검수 → 발행</b>으로 직원 팀을 운영하는 블로그 콘텐츠 회사입니다. 모든 글은 사실검증(거짓없음)과 작성자별 문체 정본을 거쳐 이 미리보기 사이트에 발행돼요. 여기에 <b>트렌드 분석팀</b>이 매일 오전 9시 <b>트렌드 브리핑</b>과 <b>게임 뉴스레터</b>를 더합니다.</p>
      </div>
      <div class="pipe">
        ${stage("★","#7a5cf0","대표 · 오케스트레이터","업무를 접수해 적임 팀에 배정하고, 보고를 취합·검수해 발행을 지시합니다.",["업무 접수","배정","취합","발행 지시","사용자 보고"])}
@@ -329,6 +353,8 @@
        ${stage("3","#e8590c","검수팀","매 글마다 전원이 자동 투입돼 교차검증합니다. 사실·문체·자연스러움을 분담해 봐요.",["검수1 · 사실/공식명칭","검수2 · 문체·라이브대조","검수4 · 자연스러움/거짓없음"])}
        ${arrow}
        ${stage("4","#1098ad","발행 담당","전원 PASS면 GitHub Pages에 push해 공개 링크로 공유합니다. 작성자별로 분류돼요.",["GitHub Pages","작성자별 분류","마지막 수정일시 표시"])}
+       ${arrow}
+       ${stage("5","#d6336c","트렌드 분석팀","매일 오전 9시, 발행일 기준 게임 트렌드를 조사·분석합니다. 작성자별 '트렌드 브리핑'과, 두 블로거 공통으로 보는 '게임 뉴스레터'를 발행해요.",["팀장 1 · 분석가 ×N","트렌드 브리핑(봄딩·영도)","게임 뉴스레터(매일 갱신)","인벤·루리웹 종합·출처 링크"])}
      </div>
    </div>`;
  }
@@ -362,6 +388,41 @@
      `<div class="nm-s">블로그 컴퍼니 트렌드 분석팀이 매일 오전 9시, 작성자별로 '지금 쓰면 유입되는 게임'을 골라 드립니다. 카드를 누르면 그날의 브리핑 전문이 열려요.</div></div>`+
      `<div class="tcards">${TREND.map(card).join("")}</div>`+
    `</div>`;
+ }
+ function renderNews(){
+   titleEl.textContent="게임 뉴스레터";
+   subEl.innerHTML="트렌드 분석팀 · 매일 오전 9시 갱신 · 인벤·루리웹 등 게임 매체 종합";
+   const empt='<div class="news"><div class="news-masthead nletter"><div class="nm-k">DAILY GAME NEWS</div>'+
+     '<div class="nm-t">📰 게임 뉴스레터</div><div class="nm-s">매일 오전 9시, 오늘의 게임 핫소식을 요약+링크로 정리해 드립니다.</div></div>'+
+     '<div class="empty">아직 발행된 뉴스레터가 없어요.</div></div>';
+   if(!NEWS.length){ contentEl.innerHTML=empt; return; }
+   let cur=NEWS.find(n=>n.date===state.newsDate)||NEWS[0];
+   state.newsDate=cur.date;
+   const chips=NEWS.slice(0,14).map(n=>`<button class="ndchip${n.date===cur.date?' on':''}" data-nd="${esc(n.date)}">${esc(n.date)}</button>`).join("");
+   const order=["신작","사전예약","업데이트","이벤트","콜라보","쿠폰","e스포츠","업계","기타"];
+   const ICON={"신작":"🆕","사전예약":"📅","업데이트":"🔄","이벤트":"🎉","콜라보":"🤝","쿠폰":"🎟️","e스포츠":"🏆","업계":"📊","기타":"📰"};
+   const groups={};
+   (cur.items||[]).forEach(it=>{ const c=it.cat||"기타"; (groups[c]=groups[c]||[]).push(it); });
+   const cats=Object.keys(groups).sort((a,b)=>{let ia=order.indexOf(a),ib=order.indexOf(b);ia=ia<0?99:ia;ib=ib<0?99:ib;return ia-ib;});
+   const itemHtml=it=>{
+     const links=(it.links||[]).map(l=>`<a class="nlink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("");
+     return `<div class="nitem"><div class="nit-t">${esc(it.title)}</div>`+
+       (it.summary?`<div class="nit-s">${esc(it.summary)}</div>`:"")+
+       (links?`<div class="nit-l">${links}</div>`:"")+`</div>`;
+   };
+   const secHtml=c=>`<div class="nsec"><div class="nsec-h">${ICON[c]||"📰"} ${esc(c)}</div>${groups[c].map(itemHtml).join("")}</div>`;
+   const total=(cur.items||[]).length;
+   contentEl.innerHTML=`<div class="news">`+
+     `<div class="news-masthead nletter"><div class="nm-k">DAILY GAME NEWS</div>`+
+     `<div class="nm-t">📰 게임 뉴스레터</div>`+
+     `<div class="nm-s">${esc(cur.headline||"오늘의 게임 소식")} · <b style="color:#fff">${esc(cur.date)}</b> · 총 ${total}건</div></div>`+
+     `<div class="ndates">${chips}</div>`+
+     cats.map(secHtml).join("")+
+     `<p class="foot2">트렌드 분석팀이 인벤·루리웹 등 게임 매체를 종합해 매일 오전 9시 갱신합니다. 각 소식의 주황색 링크로 원문 기사를 확인하세요.</p>`+
+   `</div>`;
+   contentEl.querySelectorAll(".ndchip").forEach(b=>b.addEventListener("click",()=>{
+     state.newsDate=b.dataset.nd; renderNews(); window.scrollTo({top:0,behavior:"smooth"});
+   }));
  }
 })();
 </script>
