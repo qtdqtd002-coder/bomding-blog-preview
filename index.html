@@ -102,6 +102,28 @@
  .chip b{color:var(--brand-d);font-weight:800;}
  .arrow{align-self:center;color:#c3c9d6;font-size:18px;line-height:1;padding:7px 0;}
 
+ /* ---------- 트렌드 브리핑(뉴스 가판대) ---------- */
+ .news{display:flex;flex-direction:column;gap:16px;}
+ .news-masthead{background:#11141c;color:#fff;border-radius:var(--radius);padding:22px 24px;
+   box-shadow:var(--shadow);border:1px solid #1c2030;}
+ .news-masthead .nm-k{font-size:11px;font-weight:800;letter-spacing:3px;color:#8b94f0;}
+ .news-masthead .nm-t{font-size:24px;font-weight:900;letter-spacing:-.5px;margin:6px 0 8px;}
+ .news-masthead .nm-s{font-size:13px;line-height:1.7;color:rgba(255,255,255,.72);}
+ .tcards{display:flex;flex-direction:column;gap:12px;}
+ .tcard{position:relative;display:block;background:var(--panel);border:1px solid var(--line);
+   border-radius:var(--radius);padding:18px 20px 16px;box-shadow:var(--shadow);transition:.15s;overflow:hidden;}
+ .tcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ac,#5b6ef5);}
+ .tcard:hover{transform:translateY(-2px);box-shadow:var(--shadow-h);border-color:#dfe4f0;}
+ .tcard-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;}
+ .tbadge{font-size:12px;font-weight:800;color:#fff;background:var(--ac,#5b6ef5);border-radius:999px;padding:3px 11px;}
+ .tdate{font-size:12.5px;font-weight:800;color:var(--faint);font-variant-numeric:tabular-nums;}
+ .tcard-h{font-size:18px;line-height:1.4;font-weight:900;letter-spacing:-.4px;margin:0 0 6px;color:var(--ink);word-break:keep-all;}
+ .tcard:hover .tcard-h{color:var(--brand-d);}
+ .tcard-l{margin:0 0 10px;font-size:13.5px;line-height:1.65;color:var(--sub);}
+ .tchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+ .tchip{font-size:12px;font-weight:700;color:#39414f;background:#f3f5fa;border:1px solid var(--line);border-radius:8px;padding:4px 10px;}
+ .tmore{font-size:12.5px;font-weight:800;color:var(--brand-d);}
+
  /* ---------- 모바일 반응형 ---------- */
  @media(max-width:780px){
    .app{grid-template-columns:1fr;gap:16px;padding:14px;}
@@ -179,14 +201,15 @@
  const enc=rel=>rel.split("/").map(encodeURIComponent).join("/");
  const toTs=d=>{ if(!d)return 0; const t=Date.parse(d.replace(" ","T")); return isNaN(t)?0:t; };
 
- let POSTS=[], ACCENT={}, state={view:"__all__",q:""};
+ let POSTS=[], ACCENT={}, TREND=[], state={view:"__all__",q:""};
 
  const treeP=fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`,
    {headers:{"Accept":"application/vnd.github+json"}})
   .then(r=>{if(!r.ok)throw new Error("API "+r.status);return r.json();});
  const maniP=fetch("manifest.json?ts="+Date.now()).then(r=>r.ok?r.json():{}).catch(()=>({}));
+ const trendP=fetch("_trend/trend.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}).catch(()=>({issues:[]}));
 
- Promise.all([treeP,maniP]).then(([data,manifest])=>{
+ Promise.all([treeP,maniP,trendP]).then(([data,manifest,trend])=>{
    const paths=(data.tree||[]).filter(n=>n.type==="blob"&&/\.html$/i.test(n.path)).map(n=>n.path)
      .filter(p=>p.toLowerCase()!=="index.html"&&!p.split("/").some(s=>s.startsWith(".")||s.startsWith("_")));
    if(!paths.length){ titleEl.textContent="전체 글"; subEl.textContent="아직 글이 없어요.";
@@ -207,6 +230,8 @@
    const ordered=PREF.filter(n=>names.includes(n)).concat(names.filter(n=>!PREF.includes(n)).sort());
    let pi=0; ordered.forEach(n=>{ ACCENT[n]=(KNOWN[n]&&KNOWN[n].accent)||PALETTE[pi++%PALETTE.length]; });
 
+   TREND=((trend&&trend.issues)||[]).slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
+
    buildNav(ordered);
    searchBox.style.display="";
    render();
@@ -224,6 +249,7 @@
            `<span class="dot"></span>${esc(n)}<span class="cnt">${cnt(n)}</span></button>`;
    });
    html+=`<div class="sep"></div>`+
+         `<button data-k="__trend__"><span class="ico">📈</span>트렌드 분석<span class="cnt">${TREND.length}</span></button>`+
          `<button data-k="__about__"><span class="ico">🏢</span>회사 소개</button>`;
    navEl.innerHTML=html;
    const cur=navEl.querySelector(`[data-k="${state.view==="__all__"?"__all__":state.view}"]`)||navEl.firstElementChild;
@@ -241,6 +267,7 @@
 
  function render(){
    if(state.view==="__about__"){ searchBox.style.display="none"; renderAbout(); return; }
+   if(state.view==="__trend__"){ searchBox.style.display="none"; renderTrend(); return; }
    searchBox.style.display="";
    let list = state.view==="__all__" ? POSTS : POSTS.filter(p=>p.author===state.view);
    if(state.q){ list=list.filter(p=>(p.topic+" "+p.group+" "+p.file).toLowerCase().includes(state.q)); }
@@ -304,6 +331,37 @@
        ${stage("4","#1098ad","발행 담당","전원 PASS면 GitHub Pages에 push해 공개 링크로 공유합니다. 작성자별로 분류돼요.",["GitHub Pages","작성자별 분류","마지막 수정일시 표시"])}
      </div>
    </div>`;
+ }
+ function renderTrend(){
+   titleEl.textContent="트렌드 브리핑";
+   subEl.innerHTML="트렌드 분석팀 · 매일 오전 9시 발행 · 신작·급상승·사전예약·블로그 급증";
+   const wico=w=>(KNOWN[w]&&KNOWN[w].ico)||"📈";
+   const wac=w=>ACCENT[w]||(KNOWN[w]&&KNOWN[w].accent)||"#5b6ef5";
+   if(!TREND.length){
+     contentEl.innerHTML='<div class="news"><div class="news-masthead"><div class="nm-k">DAILY GAME TREND</div>'+
+       '<div class="nm-t">📈 트렌드 브리핑</div>'+
+       '<div class="nm-s">매일 오전 9시, 작성자별로 \'지금 쓰면 유입되는 게임\'을 골라 드립니다.</div></div>'+
+       '<div class="empty">아직 발행된 트렌드 브리핑이 없어요.</div></div>';
+     return;
+   }
+   const card=it=>{
+     const ac=wac(it.writer);
+     const picks=(it.picks||[]).slice(0,4).map(p=>`<span class="tchip">${esc(p)}</span>`).join("");
+     return `<a class="tcard" href="${enc(it.file)}" style="--ac:${ac}">`+
+       `<div class="tcard-top"><span class="tbadge">${wico(it.writer)} ${esc(it.writer)} 편</span>`+
+       `<span class="tdate">${esc(it.date||"")}</span></div>`+
+       `<h3 class="tcard-h">${esc(it.headline||(it.writer+" 트렌드 브리핑"))}</h3>`+
+       (it.lead?`<p class="tcard-l">${esc(it.lead)}</p>`:"")+
+       (picks?`<div class="tchips">${picks}</div>`:"")+
+       `<span class="tmore">브리핑 전문 보기 →</span>`+
+     `</a>`;
+   };
+   contentEl.innerHTML=`<div class="news">`+
+     `<div class="news-masthead"><div class="nm-k">DAILY GAME TREND</div>`+
+     `<div class="nm-t">📈 트렌드 브리핑</div>`+
+     `<div class="nm-s">블로그 컴퍼니 트렌드 분석팀이 매일 오전 9시, 작성자별로 '지금 쓰면 유입되는 게임'을 골라 드립니다. 카드를 누르면 그날의 브리핑 전문이 열려요.</div></div>`+
+     `<div class="tcards">${TREND.map(card).join("")}</div>`+
+   `</div>`;
  }
 })();
 </script>
