@@ -29,6 +29,8 @@ $missing = @()
 foreach($f in $files){
   $segs = $f -split '/'
   if($segs | Where-Object { $_ -like '_*' -or $_ -like '.*' }){ continue }
+  # 티스토리 등 '붙여넣기 소스'(_티스토리_)는 사이트 목록에 띄우지 않음 — 복붙용 본문조각이라 글 카드 아님
+  if($f -match '_티스토리_'){ continue }
 
   $full = Join-Path $base ($f -replace '/','\')
   if(-not (Test-Path $full)){ continue }
@@ -60,6 +62,7 @@ foreach($f in $files){
 $onDisk = (Get-ChildItem -Path (Join-Path $base "봄딩"),(Join-Path $base "영도"),(Join-Path $base "겜더쿠") -Recurse -Filter *.html -ErrorAction SilentlyContinue |
            ForEach-Object { $_.FullName.Substring($base.Length).TrimStart('\','/') -replace '\\','/' })
 foreach($d in $onDisk){
+  if($d -match '_티스토리_'){ continue }   # 붙여넣기 소스는 목록 비대상 → 누락 검증에서 제외
   if(-not $map.Contains($d)){ $missing += "manifest 누락(디스크에만 존재, 커밋 필요): $d" }
 }
 
