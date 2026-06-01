@@ -247,6 +247,89 @@ svg{display:block;}
   .feat{padding:20px 18px;} .f-title{font-size:20px;}
   .card{padding:16px 16px 16px 18px;}
 }
+/* ============================================================
+   디자인 포인트 보강 (원톤 탈피) + 캘린더 + 국가 선택
+   ============================================================ */
+:root{
+  --hero-tint:#F5F6FF; --hero-dot:rgba(79,70,229,.07);
+  --body-dot:rgba(16,24,40,.022); --ring:0 0 0 3px var(--brand-weak);
+  --grad-line:linear-gradient(90deg,transparent,var(--brand) 50%,transparent);
+  --a-cal:#0891B2; --a-cal-weak:#E0F4F8;
+}
+:root[data-theme="dark"]{
+  --hero-tint:#13162A; --hero-dot:rgba(129,140,248,.10);
+  --body-dot:rgba(255,255,255,.015); --a-cal:#38BDF8; --a-cal-weak:#0E2230;
+}
+/* body 표면 텍스처(아주 옅은 도트) */
+body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);background-size:22px 22px;background-attachment:fixed;}
+/* 상단 히어로 밴드 — 전체 글 뷰에서만(.main.hero) */
+.main.hero .viewhead{position:relative;margin:-8px -20px 6px;padding:30px 22px 22px;border-radius:var(--radius-xl);
+  background:radial-gradient(var(--hero-dot) 1.3px,transparent 1.3px) 0 0/20px 20px,linear-gradient(180deg,var(--hero-tint),transparent 80%);overflow:hidden;}
+.main.hero .viewhead::before{content:"";position:absolute;left:18px;right:18px;top:0;height:2px;border-radius:2px;background:var(--grad-line);opacity:.5;}
+@media(max-width:560px){ .main.hero .viewhead{margin:-6px -15px 6px;padding:24px 16px 18px;} }
+/* 통계 숫자 강조 + hover */
+.stat .n{color:var(--brand);} .stat:last-child .n{color:var(--ink);}
+.stat{transition:background-color .14s var(--ease);} .stat:hover{background:var(--surface);}
+/* 툴바 위 그라데이션 디바이더 */
+.toolbar{position:relative;}
+.toolbar::before{content:"";position:absolute;left:0;right:0;top:-11px;height:1px;background:linear-gradient(90deg,transparent,var(--line-strong) 18%,var(--line-strong) 82%,transparent);}
+/* 카드 악센트 확장: hover 틴트 + 좌측바 굵기 + 제목 작성자색 */
+.card::after,.feat::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;opacity:0;
+  background:radial-gradient(120% 80% at 0% 0%,color-mix(in srgb,var(--ac,var(--brand)) 9%,transparent),transparent 60%);transition:opacity .18s var(--ease);}
+.card:hover::after,.feat:hover::after{opacity:1;}
+.card::before,.feat::before{transition:width .16s var(--ease);}
+.card:hover::before,.feat:hover::before{width:5px;}
+.card:hover,.feat:hover{border-color:color-mix(in srgb,var(--ac,var(--brand)) 35%,var(--line));}
+.card:hover .c-title,.feat:hover .f-title{color:var(--ac,var(--brand));}
+.card>*,.feat>*{position:relative;z-index:1;}
+/* 카테고리 칩에 작성자색 한 방울 */
+.card .chip,.feat .chip{border-left:2px solid color-mix(in srgb,var(--ac,var(--brand)) 55%,transparent);background:color-mix(in srgb,var(--ac,var(--brand)) 7%,var(--surface-2));}
+/* featured 포인트: 이브로 pill + 좌측바 그라데이션 */
+.feat::before{background:linear-gradient(180deg,var(--ac,var(--brand)),color-mix(in srgb,var(--ac,var(--brand)) 55%,transparent));}
+.feat .f-k{background:color-mix(in srgb,var(--ac,var(--brand)) 12%,transparent);color:var(--ac,var(--brand));padding:4px 10px;border-radius:9999px;width:max-content;}
+/* focus-visible 링 통일 */
+.card:focus-visible,.feat:focus-visible,.tcard:focus-visible,.cal-card a:focus-visible,
+.pager button:focus-visible,.sbtn:focus-visible,.icon-btn:focus-visible,.topnav button:focus-visible,
+.nlink:focus-visible,.dpbtn:focus-visible,.dpsel:focus-visible,.cseg button:focus-visible{outline:none;box-shadow:var(--ring);border-color:var(--brand);}
+/* 마스트헤드 상단 글로우 */
+.masthead{position:relative;overflow:hidden;}
+.masthead::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(154,163,240,.6) 50%,transparent);}
+.masthead.nl::before{background:linear-gradient(90deg,transparent,rgba(251,191,107,.55) 50%,transparent);}
+
+/* ---------- 국가 선택 (뉴스레터) ---------- */
+.cbar{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;margin:2px 0 4px;}
+.cbar .ctitle{font-size:12.5px;font-weight:700;color:var(--muted);display:inline-flex;align-items:center;gap:6px;}
+.cbar .ctitle .ic{width:15px;height:15px;}
+.cseg{display:inline-flex;gap:3px;background:var(--bg-subtle);border:1px solid var(--line);border-radius:var(--radius);padding:4px;}
+.cseg button{border:0;background:transparent;color:var(--sub);font-family:inherit;font-size:12.5px;font-weight:700;
+  padding:7px 13px;border-radius:var(--radius-sm);cursor:pointer;transition:.12s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
+.cseg button .cnt{font-size:11px;font-weight:700;color:var(--muted);font-feature-settings:"tnum";}
+.cseg button:hover{color:var(--ink);}
+.cseg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh-sm);}
+.cseg button.on .cnt{color:var(--brand);}
+
+/* ---------- 출시 캘린더 ---------- */
+.cal{display:flex;flex-direction:column;gap:10px;}
+.cal-sep{font-size:12.5px;font-weight:800;color:var(--muted);letter-spacing:.02em;margin:14px 2px 2px;}
+.cal-row{position:relative;display:flex;gap:12px;align-items:stretch;}
+.cal-row.past{opacity:.5;}
+.cal-dday{flex:none;width:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:var(--radius);background:var(--bg-subtle);border:1px solid var(--line);padding:8px 4px;}
+.cal-dday .dd{font-size:14px;font-weight:800;color:var(--brand);font-feature-settings:"tnum";letter-spacing:-.02em;}
+.cal-dday .md{font-size:11px;font-weight:600;color:var(--muted);margin-top:2px;font-feature-settings:"tnum";}
+.cal-today .cal-dday{background:var(--brand);border-color:transparent;}
+.cal-today .cal-dday .dd,.cal-today .cal-dday .md{color:#fff;}
+.cal-card{flex:1;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
+  box-shadow:var(--sh-sm);padding:14px 16px;transition:transform .15s var(--ease),box-shadow .15s,border-color .15s;}
+.cal-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}
+.cal-top{display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap;}
+.cal-type{font-size:11px;font-weight:800;color:#fff;border-radius:var(--radius-sm);padding:3px 9px;background:var(--tc,var(--brand));}
+.cal-plat{font-size:11.5px;font-weight:600;color:var(--muted);}
+.cal-title{font-size:15.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.42;}
+.cal-meta{font-size:12.5px;color:var(--sub);margin-top:5px;}
+.cal-note{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5;}
+.cal-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--a-cal);margin-top:9px;}
+.cal-link .ic{width:13px;height:13px;}
 </style></head><body>
  <header class="site-head">
    <div class="head-inner">
@@ -312,7 +395,9 @@ svg{display:block;}
   ticket:'<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 11v2"/><path d="M13 17v2"/>',
   trophy:'<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
   chart:'<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
-  building:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>'
+  building:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
+  globe:'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+  calDays:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/>'
  };
  const svg=(n,cls)=>`<svg class="ic${cls?(" "+cls):""}" viewBox="0 0 24 24" aria-hidden="true">${I[n]||""}</svg>`;
 
@@ -340,9 +425,10 @@ svg{display:block;}
  const lset=(k,v)=>{ try{localStorage.setItem(k,v);}catch(e){} };
  const NEW_DAYS=3, DAY=864e5, PAGE_SIZE=9;
 
- let POSTS=[], ACCENT={}, TREND=[], NEWS=[],
-     state={view:"__all__",q:"",newsDate:"",trendDate:"",page:1,
+ let POSTS=[], ACCENT={}, TREND=[], NEWS=[], CAL=[],
+     state={view:"__all__",q:"",newsDate:"",trendDate:"",page:1,newsCountry:"ALL",
             sortDir:ls("sortDir","desc"), gridView:ls("gridView","0")==="1"};
+ const mainEl=document.querySelector(".main");
 
  /* 다크모드 토글 */
  const tt=document.getElementById("themeToggle");
@@ -366,8 +452,9 @@ svg{display:block;}
    }).catch(()=>[]));
  const trendP=fetch("_trend/trend.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}).catch(()=>({issues:[]}));
  const newsP=fetch("_news/news.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}).catch(()=>({issues:[]}));
+ const calP=fetch("_calendar/calendar.json?ts="+Date.now()).then(r=>r.ok?r.json():{events:[]}).catch(()=>({events:[]}));
 
- Promise.all([postsP,trendP,newsP]).then(([posts,trend,news])=>{
+ Promise.all([postsP,trendP,newsP,calP]).then(([posts,trend,news,cal])=>{
    POSTS=(posts||[]).filter(p=>p&&p.rel&&!p.rel.split("/").some(s=>s.startsWith(".")||s.startsWith("_"))).map(p=>{
      const a=p.rel.split("/");
      const author=p.author||(a.length>=2?a[0]:"(기타)");
@@ -385,6 +472,7 @@ svg{display:block;}
 
    TREND=((trend&&trend.issues)||[]).slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
    NEWS=((news&&news.issues)||[]).slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
+   CAL=((cal&&cal.events)||[]).slice().sort((a,b)=>String(a.date||"").localeCompare(String(b.date||"")));
 
    buildNav(ordered);
    searchBox.style.display="";
@@ -404,6 +492,7 @@ svg{display:block;}
    h+=`<span class="nav-div" aria-hidden="true"></span>`;
    h+=`<button data-k="__trend__" style="--ac:var(--a-trend)">${svg("trend")}트렌드<span class="cnt">${TREND.length}</span></button>`+
       `<button data-k="__news__" style="--ac:var(--a-news)">${svg("news")}뉴스레터</button>`+
+      `<button data-k="__calendar__" style="--ac:var(--a-cal)">${svg("calDays")}캘린더<span class="cnt">${CAL.length}</span></button>`+
       `<button data-k="__about__" style="--ac:var(--a-about)">${svg("info")}소개</button>`;
    navEl.innerHTML=h;
    navEl.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
@@ -439,10 +528,13 @@ svg{display:block;}
  }
 
  function render(){
+   mainEl.classList.remove("hero");
    if(state.view==="__about__"){ searchBox.style.display="none"; renderAbout(); return; }
    if(state.view==="__trend__"){ searchBox.style.display=""; renderTrend(); return; }
    if(state.view==="__news__"){ searchBox.style.display=""; renderNews(); return; }
+   if(state.view==="__calendar__"){ searchBox.style.display="none"; renderCalendar(); return; }
    searchBox.style.display=""; if(qEl)qEl.placeholder="제목·내용 검색";
+   mainEl.classList.toggle("hero", state.view==="__all__"&&!state.q&&state.page===1);
    let list=state.view==="__all__"?POSTS:POSTS.filter(p=>p.author===state.view);
    if(state.q){ list=list.filter(p=>(p.title+" "+p.excerpt+" "+p.cat+" "+p.group+" "+p.topic).toLowerCase().includes(state.q)); }
 
@@ -600,38 +692,83 @@ svg{display:block;}
  }
 
  /* ---------- 뉴스레터 ---------- */
+ const COUNTRY=[["ALL","전체"],["KR","한국"],["JP","일본"],["US","미국"]];
+ const CLABEL={KR:"한국",JP:"일본",US:"미국"};
+ const itemCC=it=>it.country||"KR";
+ function countrySeg(items){
+   const cnt=c=>c==="ALL"?items.length:items.filter(it=>itemCC(it)===c).length;
+   return `<div class="cbar"><span class="ctitle">${svg("globe")}국가별</span><div class="cseg">`+
+     COUNTRY.map(([c,l])=>`<button data-cc="${c}"${state.newsCountry===c?' class="on"':""}>${l}<span class="cnt">${cnt(c)}</span></button>`).join("")+
+     `</div></div>`;
+ }
+ function attachCountry(){
+   contentEl.querySelectorAll("[data-cc]").forEach(b=>b.addEventListener("click",()=>{ state.newsCountry=b.dataset.cc; renderNews(); }));
+ }
  function renderNews(){
    titleEl.textContent="게임 뉴스레터"; if(qEl)qEl.placeholder="뉴스 검색 (예: 쿠폰, 콜라보, 메이플)";
-   const order=["신작","사전예약","업데이트","이벤트","콜라보","쿠폰","e스포츠","업계","기타"];
-   const ICON={"신작":"spark","사전예약":"calendar","업데이트":"refresh","이벤트":"gift","콜라보":"users","쿠폰":"ticket","e스포츠":"trophy","업계":"chart","기타":"news"};
-   const mast=`<div class="masthead nl"><div class="mk">${svg("news")}DAILY GAME NEWS</div><div class="mt">게임 뉴스레터</div><div class="ms">매일 오전 9시, 오늘의 게임 핫소식을 요약+링크로 일자별 누적합니다(디폴트=최신). 검색으로 지난 소식도 찾을 수 있어요.</div></div>`;
+   const order=["신작","사전예약","업데이트","이벤트","콜라보","쿠폰","e스포츠","업계","업계심층","기타"];
+   const ICON={"신작":"spark","사전예약":"calendar","업데이트":"refresh","이벤트":"gift","콜라보":"users","쿠폰":"ticket","e스포츠":"trophy","업계":"chart","업계심층":"building","기타":"news"};
+   const mast=`<div class="masthead nl"><div class="mk">${svg("news")}DAILY GAME NEWS</div><div class="mt">게임 뉴스레터</div><div class="ms">매일 오전 9시, 한국·일본·미국 대표 매체의 게임 소식을 요약+원문 링크로 일자별 누적합니다. <b>국가별</b>로 골라 보고, 검색으로 지난 소식도 찾을 수 있어요.</div></div>`;
    if(!NEWS.length){ subEl.textContent="트렌드 분석팀 · 매일 오전 9시 갱신"; contentEl.innerHTML=`<div class="news">${mast}<div class="empty">아직 발행된 뉴스레터가 없어요.</div></div>`; return; }
+   const cc=state.newsCountry, byCC=arr=>cc==="ALL"?arr:arr.filter(it=>itemCC(it)===cc);
    const itemHtml=(it,showDate)=>{
      const links=(it.links||[]).map(l=>`<a class="nlink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ${svg("arrowUR")}</a>`).join("");
+     const cflag=(itemCC(it)!=="KR")?`<span class="chip" style="margin-left:6px">${esc(CLABEL[itemCC(it)]||itemCC(it))}</span>`:"";
      return `<div class="nitem">`+(showDate?`<span class="nit-d">${esc(it.date)} · ${esc(it.cat||"기타")}</span>`:"")+
-       `<div class="nit-t">${esc(it.title)}</div>`+
+       `<div class="nit-t">${esc(it.title)}${cflag}</div>`+
        (it.summary?`<div class="nit-s">${esc(it.summary)}</div>`:"")+
        (links?`<div class="nit-l">${links}</div>`:"")+`</div>`;
    };
    if(state.q){
-     const q=state.q; const hits=[];
-     NEWS.forEach(iss=>(iss.items||[]).forEach(it=>{ if(((it.title||"")+" "+(it.summary||"")+" "+(it.cat||"")).toLowerCase().includes(q)) hits.push(Object.assign({},it,{date:iss.date})); }));
-     subEl.innerHTML=`'${esc(q)}' 검색 · <b>${hits.length}</b>건`;
-     contentEl.innerHTML=`<div class="news">${mast}`+(hits.length?`<div class="nsec"><div class="nsec-h">${svg("search")} '${esc(q)}' 검색 결과</div>${hits.map(it=>itemHtml(it,true)).join("")}</div>`:`<div class="empty">'${esc(q)}'에 해당하는 소식이 없어요.</div>`)+`</div>`;
-     return;
+     const q=state.q; const all=[];
+     NEWS.forEach(iss=>(iss.items||[]).forEach(it=>{ if(((it.title||"")+" "+(it.summary||"")+" "+(it.cat||"")).toLowerCase().includes(q)) all.push(Object.assign({},it,{date:iss.date})); }));
+     const hits=byCC(all);
+     subEl.innerHTML=`'${esc(q)}' 검색 · <b>${hits.length}</b>건`+(cc!=="ALL"?` · ${CLABEL[cc]}`:"");
+     contentEl.innerHTML=`<div class="news">${mast}${countrySeg(all)}`+(hits.length?`<div class="nsec"><div class="nsec-h">${svg("search")} '${esc(q)}' 검색 결과</div>${hits.map(it=>itemHtml(it,true)).join("")}</div>`:`<div class="empty">'${esc(q)}'에 해당하는 소식이 없어요.</div>`)+`</div>`;
+     attachCountry(); return;
    }
    const dates=NEWS.map(n=>n.date);
    if(!state.newsDate||dates.indexOf(state.newsDate)<0)state.newsDate=dates[0];
    const cur=NEWS.find(n=>n.date===state.newsDate)||NEWS[0];
-   const groups={}; (cur.items||[]).forEach(it=>{const c=it.cat||"기타";(groups[c]=groups[c]||[]).push(it);});
+   const allItems=cur.items||[]; const items=byCC(allItems);
+   const groups={}; items.forEach(it=>{const c=it.cat||"기타";(groups[c]=groups[c]||[]).push(it);});
    const cats=Object.keys(groups).sort((a,b)=>{let ia=order.indexOf(a),ib=order.indexOf(b);ia=ia<0?99:ia;ib=ib<0?99:ib;return ia-ib;});
    const secHtml=c=>`<div class="nsec"><div class="nsec-h">${svg(ICON[c]||"news")}${esc(c)}</div>${groups[c].map(it=>itemHtml(it,false)).join("")}</div>`;
-   const total=(cur.items||[]).length;
-   subEl.innerHTML=`<b>${esc(cur.date)}</b> · ${total}건 · 전체 ${dates.length}일치 누적`;
-   contentEl.innerHTML=`<div class="news">${mast}<div class="nm-head2">${esc(cur.headline||"오늘의 게임 소식")}</div>${datePager(dates,cur.date,"news","var(--a-news)")}`+
-     cats.map(secHtml).join("")+
-     `<p class="foot2">트렌드 분석팀이 인벤·루리웹 등 게임 매체를 종합해 매일 오전 9시 갱신·누적합니다.</p></div>`;
-   attachPager("news",dates);
+   subEl.innerHTML=`<b>${esc(cur.date)}</b> · ${items.length}건`+(cc!=="ALL"?` · ${CLABEL[cc]}`:"")+` · 전체 ${dates.length}일치 누적`;
+   contentEl.innerHTML=`<div class="news">${mast}<div class="nm-head2">${esc(cur.headline||"오늘의 게임 소식")}</div>${countrySeg(allItems)}${datePager(dates,cur.date,"news","var(--a-news)")}`+
+     (cats.length?cats.map(secHtml).join(""):`<div class="empty">${cc!=="ALL"?CLABEL[cc]+" 소식이 이 날짜엔 없어요.":"소식이 없어요."}</div>`)+
+     `<p class="foot2">트렌드 분석팀이 한국(인벤·루리웹·게임메카·디스이즈게임·게임동아·경향게임스 등)·일본(Famitsu·4Gamer·AUTOMATON 등)·미국(IGN·GameSpot·Polygon 등) 매체를 종합·번역해 매일 갱신합니다.</p></div>`;
+   attachPager("news",dates); attachCountry();
+ }
+
+ /* ---------- 출시 캘린더 ---------- */
+ function renderCalendar(){
+   titleEl.textContent="출시 캘린더";
+   const mast=`<div class="masthead" style="background:#0b1a20;border-color:#123842"><div class="mk" style="color:#67e8f9">${svg("calDays")}RELEASE CALENDAR</div><div class="mt">출시 캘린더</div><div class="ms">앞으로의 신작·사전예약·대형 업데이트·콜라보 일정을 D-day 타임라인으로 모았습니다. 트렌드 분석팀이 매일 검증해 갱신합니다.</div></div>`;
+   if(!CAL.length){ subEl.textContent="트렌드 분석팀 · 매일 갱신"; contentEl.innerHTML=`<div class="news">${mast}<div class="empty">등록된 일정이 없어요.</div></div>`; return; }
+   const TC={"출시":"var(--brand)","콜라보":"var(--a-bomding)","업데이트":"var(--a-yeongdo)","행사":"var(--a-news)","사전예약시작":"var(--a-trend)","사전예약마감":"var(--a-trend)","테스트":"var(--a-gemdeokku)"};
+   const now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+   const ddText=ts=>{ const d=Math.round((ts-today)/DAY); return d===0?"D-DAY":(d>0?"D-"+d:"지남"); };
+   const md=ds=>{ const p=String(ds).split("-"); return p.length>=3?(+p[1])+"/"+(+p[2]):ds; };
+   const rows=CAL.map(e=>{
+     const ts=toTs(e.date), past=ts<today, isToday=ts===today, tc=TC[e.type]||"var(--a-cal)";
+     const meta=[e.genre,e.publisher].filter(Boolean).join(" · ");
+     return {past,html:`<div class="cal-row${past?" past":""}${isToday?" cal-today":""}">`+
+       `<div class="cal-dday"><span class="dd">${ddText(ts)}</span><span class="md">${esc(md(e.date))}</span></div>`+
+       `<div class="cal-card"><div class="cal-top"><span class="cal-type" style="--tc:${tc}">${esc(e.type||"일정")}</span>`+
+         (e.platform?`<span class="cal-plat">${esc(e.platform)}</span>`:"")+`</div>`+
+         `<div class="cal-title">${esc(e.title||"")}</div>`+
+         (meta?`<div class="cal-meta">${esc(meta)}</div>`:"")+
+         (e.note?`<div class="cal-note">${esc(e.note)}</div>`:"")+
+         (e.link?`<a class="cal-link" href="${esc(e.link)}" target="_blank" rel="noopener">출처 보기 ${svg("arrowUR")}</a>`:"")+
+       `</div></div>`};
+   });
+   const up=rows.filter(r=>!r.past), pst=rows.filter(r=>r.past);
+   subEl.innerHTML=`다가오는 일정 <b>${up.length}</b>건 · 전체 ${CAL.length}건`;
+   contentEl.innerHTML=`<div class="news">${mast}<div class="cal">`+
+     (up.length?up.map(r=>r.html).join(""):`<div class="empty">다가오는 일정이 없어요.</div>`)+
+     (pst.length?`<div class="cal-sep">지난 일정</div>`+pst.map(r=>r.html).join(""):"")+
+     `</div></div>`;
  }
 })();
 </script>
