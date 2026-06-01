@@ -36,6 +36,8 @@
  .head-inner{max-width:var(--maxw);margin:0 auto;padding:13px 20px 0;}
  .head-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
  .brand .logo{font-size:19px;font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:7px;}
+ .brand .logo .gt{background:linear-gradient(92deg,var(--brand),#9c36b5 55%,#e8590c);
+   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
  .brand .slogan{font-size:11.5px;color:var(--faint);font-weight:500;margin-top:2px;}
  .head-tools{display:flex;align-items:center;gap:8px;flex:none;}
  .search{position:relative;}
@@ -62,10 +64,48 @@
 
  /* ---------- 메인 ---------- */
  .main{max-width:var(--maxw);margin:0 auto;padding:26px 20px 64px;}
- .viewhead{margin:2px 2px 18px;}
+ .viewhead{margin:2px 2px 16px;}
  .viewhead h1{font-size:25px;font-weight:900;letter-spacing:-.6px;margin:0;}
  .viewhead .sub{margin:7px 0 0;color:var(--sub);font-size:13.5px;line-height:1.6;}
  .viewhead .sub b{color:var(--ink);font-weight:800;}
+
+ /* ---------- 통계 스트립 ---------- */
+ .stats{display:flex;gap:9px;margin:14px 2px 0;flex-wrap:wrap;}
+ .stat{flex:1;min-width:96px;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+   padding:11px 14px;box-shadow:var(--shadow);}
+ .stat .n{font-size:21px;font-weight:900;letter-spacing:-.5px;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1;}
+ .stat .l{font-size:11.5px;font-weight:700;color:var(--faint);margin-top:3px;}
+
+ /* ---------- 정렬·보기 툴바 ---------- */
+ .toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+   margin:18px 2px 14px;flex-wrap:wrap;}
+ .toolbar .tcount{font-size:12.5px;font-weight:700;color:var(--faint);}
+ .toolbar .tcount b{color:var(--sub);font-weight:800;}
+ .tools-r{display:flex;align-items:center;gap:7px;flex:none;}
+ .sbtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);
+   color:var(--sub);font-family:inherit;font-size:12.5px;font-weight:800;cursor:pointer;
+   padding:8px 13px;border-radius:10px;transition:.13s;white-space:nowrap;}
+ .sbtn:hover{background:var(--surface-2);color:var(--ink);border-color:var(--faint);}
+ .sbtn .ar{font-size:13px;transition:transform .2s;}
+ .sbtn.asc .ar{transform:rotate(180deg);}
+ .sbtn.act{color:var(--brand-d);border-color:color-mix(in srgb,var(--brand) 40%,var(--line));
+   background:color-mix(in srgb,var(--brand) 9%,transparent);}
+
+ /* NEW 뱃지 / 날짜 */
+ .ribbon{position:absolute;top:0;right:0;background:linear-gradient(135deg,#ff5b5b,#ff2d6f);color:#fff;
+   font-size:10.5px;font-weight:900;letter-spacing:.06em;padding:4px 10px;border-bottom-left-radius:10px;
+   box-shadow:0 2px 8px rgba(255,45,111,.35);z-index:2;}
+ .c-meta .edited{color:var(--faint);font-weight:700;}
+
+ /* 갤러리(그리드) 보기 */
+ .feed.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;}
+ .feed.grid .card{padding:18px 18px 17px 20px;}
+ @media(max-width:620px){ .feed.grid{grid-template-columns:1fr;} }
+
+ /* 렌더 페이드인 */
+ @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+ .feed>*,.feat{animation:fadeUp .32s cubic-bezier(.4,0,.2,1) both;}
+ @media(prefers-reduced-motion:reduce){.feed>*,.feat{animation:none;}}
 
  /* ---------- 피드 카드 ---------- */
  .feed{display:flex;flex-direction:column;gap:13px;}
@@ -73,7 +113,10 @@
    border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
    transition:transform .15s cubic-bezier(.4,0,.2,1),box-shadow .15s,border-color .15s;}
  .card{padding:17px 19px 17px 21px;}
- .feat{padding:24px 26px 22px 28px;border-radius:18px;}
+ .feat{padding:24px 26px 22px 28px;border-radius:18px;
+   background:
+     radial-gradient(120% 140% at 100% 0%,color-mix(in srgb,var(--ac,var(--brand)) 11%,transparent) 0%,transparent 46%),
+     var(--panel);}
  .card::before,.feat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ac,#bbb);}
  .feat::before{width:5px;}
  .card:hover,.feat:hover{transform:translateY(-2px);box-shadow:var(--shadow-h);}
@@ -178,7 +221,7 @@
    <div class="head-inner">
      <div class="head-row">
        <div class="brand">
-         <div class="logo">📒 블로그 컴퍼니</div>
+         <div class="logo">📒 <span class="gt">블로그 컴퍼니</span></div>
          <div class="slogan">기획 · 작성 · 검수 · 발행까지, 한 팀이 만드는 블로그</div>
        </div>
        <div class="head-tools">
@@ -232,8 +275,13 @@
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  const enc=rel=>rel.split("/").map(encodeURIComponent).join("/");
  const toTs=d=>{ if(!d)return 0; const t=Date.parse(String(d).replace(" ","T")); return isNaN(t)?0:t; };
+ const ls=(k,d)=>{ try{return localStorage.getItem(k)||d;}catch(e){return d;} };
+ const lset=(k,v)=>{ try{localStorage.setItem(k,v);}catch(e){} };
+ const NEW_DAYS=3, DAY=864e5;
 
- let POSTS=[], ACCENT={}, TREND=[], NEWS=[], state={view:"__all__",q:"",newsDate:"",trendDate:""};
+ let POSTS=[], ACCENT={}, TREND=[], NEWS=[],
+     state={view:"__all__",q:"",newsDate:"",trendDate:"",
+            sortDir:ls("sortDir","desc"), gridView:ls("gridView","0")==="1"};
 
  const treeP=fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`,
    {headers:{"Accept":"application/vnd.github+json"}})
@@ -255,10 +303,13 @@
      const group=meta.group||(a.length>=3?a[1]:(a[1]||""));
      const topic=a.length>=3?a[2]:a[a.length-1];
      const file=a[a.length-1];
-     const date=meta.date||"";
-     return {author,group,topic,file,rel:p,date,ts:toTs(date),
+     // 최초 등록일(created)이 표기·정렬의 단일 기준. 구버전 manifest(date만)도 호환.
+     const created=meta.created||meta.date||"";
+     const updated=meta.updated||meta.date||created;
+     return {author,group,topic,file,rel:p,created,updated,
+             ts:toTs(created),uts:toTs(updated),
              title:meta.title||"",cat:meta.cat||"",excerpt:meta.excerpt||"",readmin:meta.readmin||0};
-   }).sort((x,y)=>y.ts-x.ts);
+   });
 
    const names=[...new Set(POSTS.map(p=>p.author))];
    const ordered=PREF.filter(n=>names.includes(n)).concat(names.filter(n=>!PREF.includes(n)).sort());
@@ -299,24 +350,29 @@
 
  qEl&&qEl.addEventListener("input",()=>{ state.q=qEl.value.trim().toLowerCase(); render(); });
 
+ const fmtDay=d=>d?String(d).split(" ")[0].replace(/-/g,"."):"";
  function postCard(p,feat){
    const ac=ACCENT[p.author]||"#888";
    const ico=(KNOWN[p.author]&&KNOWN[p.author].ico)||"✍️";
    const title=p.title||p.topic||p.file;
-   const dd=p.ts?p.date.split(" ")[0].replace(/-/g,"."):"—";
+   const dd=p.ts?fmtDay(p.created):"—";
+   const isNew=p.ts && (Date.now()-p.ts) < NEW_DAYS*DAY;
+   const edited=p.uts && fmtDay(p.updated)!==fmtDay(p.created);
    const read=p.readmin?`약 ${p.readmin}분`:"";
+   const ribbon=isNew?`<span class="ribbon">NEW</span>`:"";
    const top=`<div class="c-top"><span class="badge"><span class="bdot"></span>${ico} ${esc(p.author)}</span>`+
      (p.cat?`<span class="cat-chip">${esc(p.cat)}</span>`:"")+`</div>`;
-   const meta=`<div class="c-meta"><span class="date">${esc(dd)}</span>`+
+   const meta=`<div class="c-meta"><span class="date">📅 ${esc(dd)} 등록</span>`+
+     (edited?`<span class="sepd"></span><span class="edited">수정 ${esc(fmtDay(p.updated))}</span>`:"")+
      (read?`<span class="sepd"></span>${read}`:"")+
      (p.group?`<span class="sepd"></span>${esc(p.group)}`:"")+`</div>`;
    if(feat){
-     return `<a class="feat" href="${enc(p.rel)}" style="--ac:${ac}">`+
+     return `<a class="feat" href="${enc(p.rel)}" style="--ac:${ac}">${ribbon}`+
        `<div class="f-k">★ 최신 글</div>${top}`+
        `<h2 class="f-title">${esc(title)}</h2>`+
        (p.excerpt?`<p class="c-ex f-ex">${esc(p.excerpt)}</p>`:"")+meta+`</a>`;
    }
-   return `<a class="card" href="${enc(p.rel)}" style="--ac:${ac}">${top}`+
+   return `<a class="card" href="${enc(p.rel)}" style="--ac:${ac}">${ribbon}${top}`+
      `<h3 class="c-title">${esc(title)}</h3>`+
      (p.excerpt?`<p class="c-ex">${esc(p.excerpt)}</p>`:"")+meta+`</a>`;
  }
@@ -329,19 +385,62 @@
    let list = state.view==="__all__" ? POSTS : POSTS.filter(p=>p.author===state.view);
    if(state.q){ list=list.filter(p=>(p.title+" "+p.excerpt+" "+p.cat+" "+p.group+" "+p.topic).toLowerCase().includes(state.q)); }
 
+   // 최초 등록일 기준 정렬 (동률이면 제목) — 방향 토글
+   const dir = state.sortDir==="asc" ? 1 : -1;
+   list = list.slice().sort((x,y)=> (x.ts-y.ts)*dir || x.title.localeCompare(y.title,"ko") );
+
    const who = state.view==="__all__" ? "전체 글" : esc(state.view)+" 글";
    titleEl.innerHTML = who;
    const tag = (state.view!=="__all__"&&KNOWN[state.view]) ? " · "+esc(KNOWN[state.view].tag) : "";
-   subEl.innerHTML = `최신 수정순 · 총 <b>${list.length}</b>편`+tag+(state.q?` · '${esc(state.q)}' 검색`:"");
+   const sortLabel = state.sortDir==="asc" ? "등록일 오래된순" : "등록일 최신순";
+   subEl.innerHTML = `<b>${sortLabel}</b> · 총 <b>${list.length}</b>편`+tag+(state.q?` · '${esc(state.q)}' 검색`:"");
 
-   if(!list.length){ contentEl.innerHTML='<div class="empty">조건에 맞는 글이 없어요.</div>'; return; }
+   // 통계 스트립 (전체 보기, 검색 아닐 때만)
+   const statsHtml = (state.view==="__all__" && !state.q) ? statsStrip() : "";
 
-   if(!state.q && list.length>1){
+   const desc = state.sortDir!=="asc";
+   const useFeat = !state.q && desc && list.length>1;  // 최신순일 때만 피처드
+   const toolbar = toolbarHtml(list.length);
+
+   if(!list.length){ contentEl.innerHTML=statsHtml+toolbar+'<div class="empty">조건에 맞는 글이 없어요.</div>'; attachTools(); return; }
+
+   const gridCls = state.gridView ? " grid" : "";
+   let body;
+   if(useFeat){
      const [first,...rest]=list;
-     contentEl.innerHTML=postCard(first,true)+`<div class="feed" style="margin-top:13px">${rest.map(p=>postCard(p,false)).join("")}</div>`;
+     body=postCard(first,true)+`<div class="feed${gridCls}" style="margin-top:13px">${rest.map(p=>postCard(p,false)).join("")}</div>`;
    } else {
-     contentEl.innerHTML=`<div class="feed">${list.map(p=>postCard(p,false)).join("")}</div>`;
+     body=`<div class="feed${gridCls}">${list.map(p=>postCard(p,false)).join("")}</div>`;
    }
+   contentEl.innerHTML=statsHtml+toolbar+body;
+   attachTools();
+ }
+
+ function statsStrip(){
+   const total=POSTS.length;
+   const authors=new Set(POSTS.map(p=>p.author)).size;
+   const newest=POSTS.reduce((m,p)=>(p.ts>(m?m.ts:0)?p:m),null);
+   const newCnt=POSTS.filter(p=>p.ts&&(Date.now()-p.ts)<NEW_DAYS*DAY).length;
+   const latestStr=newest?fmtDay(newest.created):"—";
+   const cell=(n,l)=>`<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`;
+   return `<div class="stats">`+cell(total,"전체 글")+cell(authors,"작성자")+
+     cell(newCnt,`최근 ${NEW_DAYS}일 NEW`)+cell(latestStr,"최근 등록일")+`</div>`;
+ }
+ function toolbarHtml(n){
+   const asc=state.sortDir==="asc";
+   return `<div class="toolbar">`+
+     `<div class="tcount">정렬: <b>최초 등록일</b> · ${n}편</div>`+
+     `<div class="tools-r">`+
+       `<button class="sbtn act${asc?" asc":""}" id="sortBtn" title="등록일 오름/내림차순">`+
+         `<span class="ar">↓</span>${asc?"오래된순":"최신순"}</button>`+
+       `<button class="sbtn" id="viewBtn" title="리스트/갤러리 보기">${state.gridView?"≣ 리스트":"▦ 갤러리"}</button>`+
+     `</div></div>`;
+ }
+ function attachTools(){
+   const sb=document.getElementById("sortBtn");
+   if(sb)sb.addEventListener("click",()=>{ state.sortDir=state.sortDir==="asc"?"desc":"asc"; lset("sortDir",state.sortDir); render(); });
+   const vb=document.getElementById("viewBtn");
+   if(vb)vb.addEventListener("click",()=>{ state.gridView=!state.gridView; lset("gridView",state.gridView?"1":"0"); render(); });
  }
 
  function renderAbout(){
@@ -372,7 +471,7 @@
        ${arrow}
        ${stage("5","#d6336c","트렌드 분석팀","매일 발행일 기준 게임 트렌드를 조사·분석합니다. 작성자별 '트렌드 브리핑'과 공통 '게임 뉴스레터'를 발행해요.",["팀장 1 · 분석가 ×N","트렌드 브리핑(봄딩·영도)","게임 뉴스레터","인벤·루리웹 종합·출처 링크"])}
        ${arrow}
-       ${stage("✓","#5c7cfa","발행 담당","전원 PASS면 GitHub Pages에 push해 공개 링크로 공유합니다. 작성자별 분류 + 마지막 수정일시 자동 표시.",["GitHub Pages","작성자별 분류","수정일시 manifest"])}
+       ${stage("✓","#5c7cfa","발행 담당","전원 PASS면 GitHub Pages에 push해 공개 링크로 공유합니다. 작성자별 분류 + 최초 등록일 기준 표기·정렬(수정일 별도 표시).",["GitHub Pages","작성자별 분류","최초 등록일 manifest","오름·내림차순 정렬"])}
      </div>
    </div>`;
  }
