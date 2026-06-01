@@ -153,6 +153,17 @@ svg{display:block;}
 .empty,.loading{background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--radius-lg);
   padding:48px 20px;text-align:center;color:var(--muted);font-size:14px;}
 
+/* 페이지네이션 */
+.pager{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:26px;flex-wrap:wrap;}
+.pager button{min-width:38px;height:38px;padding:0 11px;border:1px solid var(--line-strong);background:var(--surface);
+  color:var(--sub);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:4px;transition:.12s;font-feature-settings:"tnum";}
+.pager button .ic{width:15px;height:15px;}
+.pager button:hover:not(:disabled){background:var(--bg-subtle);color:var(--ink);}
+.pager button.cur{background:var(--brand);color:#fff;border-color:transparent;}
+.pager button:disabled{opacity:.4;cursor:default;}
+.pager .gap{color:var(--muted);padding:0 2px;font-weight:700;}
+
 /* 진입 모션 */
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 .feed>*,.feat{animation:fadeUp .3s var(--ease) both;}
@@ -327,10 +338,10 @@ svg{display:block;}
  const fmtDay=d=>d?String(d).split(" ")[0].replace(/-/g,"."):"";
  const ls=(k,d)=>{ try{return localStorage.getItem(k)||d;}catch(e){return d;} };
  const lset=(k,v)=>{ try{localStorage.setItem(k,v);}catch(e){} };
- const NEW_DAYS=3, DAY=864e5;
+ const NEW_DAYS=3, DAY=864e5, PAGE_SIZE=9;
 
  let POSTS=[], ACCENT={}, TREND=[], NEWS=[],
-     state={view:"__all__",q:"",newsDate:"",trendDate:"",
+     state={view:"__all__",q:"",newsDate:"",trendDate:"",page:1,
             sortDir:ls("sortDir","desc"), gridView:ls("gridView","0")==="1"};
 
  /* 다크모드 토글 */
@@ -342,7 +353,7 @@ svg{display:block;}
    document.documentElement.setAttribute("data-theme",cur); lset("theme",cur); setIco();
  });
  document.getElementById("homeLink").addEventListener("click",e=>{
-   e.preventDefault(); state.view="__all__"; state.q=""; if(qEl)qEl.value="";
+   e.preventDefault(); state.view="__all__"; state.q=""; state.page=1; if(qEl)qEl.value="";
    navEl.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x.dataset.k==="__all__"));
    render(); window.scrollTo({top:0,behavior:"smooth"});
  });
@@ -396,12 +407,12 @@ svg{display:block;}
       `<button data-k="__about__" style="--ac:var(--a-about)">${svg("info")}소개</button>`;
    navEl.innerHTML=h;
    navEl.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
-     state.view=b.dataset.k; state.q=""; if(qEl)qEl.value="";
+     state.view=b.dataset.k; state.q=""; state.page=1; if(qEl)qEl.value="";
      navEl.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
      b.classList.add("on"); render(); window.scrollTo({top:0,behavior:"smooth"});
    }));
  }
- qEl&&qEl.addEventListener("input",()=>{ state.q=qEl.value.trim().toLowerCase(); render(); });
+ qEl&&qEl.addEventListener("input",()=>{ state.q=qEl.value.trim().toLowerCase(); state.page=1; render(); });
 
  /* ---------- 카드 ---------- */
  function postCard(p,feat){
@@ -438,28 +449,51 @@ svg{display:block;}
    const dir=state.sortDir==="asc"?1:-1;
    list=list.slice().sort((x,y)=>(x.ts-y.ts)*dir || x.title.localeCompare(y.title,"ko"));
 
+   const total=list.length;
+   const pages=Math.max(1,Math.ceil(total/PAGE_SIZE));
+   if(state.page>pages)state.page=pages; if(state.page<1)state.page=1;
+   const start=(state.page-1)*PAGE_SIZE;
+   const pageItems=list.slice(start,start+PAGE_SIZE);
+
    const who=state.view==="__all__"?"전체 글":esc(state.view)+" 글";
    titleEl.textContent=who;
    const tag=(state.view!=="__all__"&&KNOWN[state.view])?" · "+esc(KNOWN[state.view].tag):"";
    const sortLabel=state.sortDir==="asc"?"등록일 오래된순":"등록일 최신순";
-   subEl.innerHTML=`<b>${sortLabel}</b> · 총 <b>${list.length}</b>편`+tag+(state.q?` · '${esc(state.q)}' 검색`:"");
+   subEl.innerHTML=`<b>${sortLabel}</b> · 총 <b>${total}</b>편`+tag+(state.q?` · '${esc(state.q)}' 검색`:"")+(pages>1?` · <b>${state.page}</b>/${pages}페이지`:"");
 
-   const statsHtml=(state.view==="__all__"&&!state.q)?statsStrip():"";
+   const statsHtml=(state.view==="__all__"&&!state.q&&state.page===1)?statsStrip():"";
    const desc=state.sortDir!=="asc";
-   const useFeat=!state.q&&desc&&list.length>1;
-   const toolbar=toolbarHtml(list.length);
+   const useFeat=!state.q&&desc&&state.page===1&&total>1;
+   const toolbar=toolbarHtml(total);
 
-   if(!list.length){ contentEl.innerHTML=statsHtml+toolbar+'<div class="empty">조건에 맞는 글이 없어요.</div>'; attachTools(); return; }
+   if(!total){ contentEl.innerHTML=statsHtml+toolbar+'<div class="empty">조건에 맞는 글이 없어요.</div>'; attachTools(); return; }
 
    const gridCls=state.gridView?" grid":"";
    let body;
-   if(useFeat){ const [first,...rest]=list;
-     body=postCard(first,true)+`<div class="feed${gridCls}">${rest.map(p=>postCard(p,false)).join("")}</div>`;
+   if(useFeat){ const [first,...rest]=pageItems;
+     body=postCard(first,true)+(rest.length?`<div class="feed${gridCls}">${rest.map(p=>postCard(p,false)).join("")}</div>`:"");
    } else {
-     body=`<div class="feed${gridCls}">${list.map(p=>postCard(p,false)).join("")}</div>`;
+     body=`<div class="feed${gridCls}">${pageItems.map(p=>postCard(p,false)).join("")}</div>`;
    }
-   contentEl.innerHTML=statsHtml+toolbar+body;
+   contentEl.innerHTML=statsHtml+toolbar+body+pagerHtml(state.page,pages);
    attachTools();
+ }
+
+ function pagerHtml(page,pages){
+   if(pages<=1)return"";
+   const win=1, slots=[]; let last=0;
+   for(let i=1;i<=pages;i++){
+     if(i===1||i===pages||(i>=page-win&&i<=page+win)){
+       if(last&&i-last>1)slots.push("gap"); slots.push(i); last=i;
+     }
+   }
+   const nums=slots.map(s=> s==="gap" ? `<span class="gap">…</span>`
+     : `<button data-page="${s}"${s===page?' class="cur" aria-current="page"':""}>${s}</button>`).join("");
+   return `<nav class="pager" aria-label="페이지">`+
+     `<button data-page="${page-1}"${page<=1?" disabled":""} aria-label="이전 페이지">${svg("chevL")}이전</button>`+
+     nums+
+     `<button data-page="${page+1}"${page>=pages?" disabled":""} aria-label="다음 페이지">다음${svg("chevR")}</button>`+
+   `</nav>`;
  }
 
  function statsStrip(){
@@ -481,9 +515,13 @@ svg{display:block;}
  }
  function attachTools(){
    const sb=document.getElementById("sortBtn");
-   if(sb)sb.addEventListener("click",()=>{ state.sortDir=state.sortDir==="asc"?"desc":"asc"; lset("sortDir",state.sortDir); render(); });
+   if(sb)sb.addEventListener("click",()=>{ state.sortDir=state.sortDir==="asc"?"desc":"asc"; state.page=1; lset("sortDir",state.sortDir); render(); });
    const vb=document.getElementById("viewBtn");
    if(vb)vb.addEventListener("click",()=>{ state.gridView=!state.gridView; lset("gridView",state.gridView?"1":"0"); render(); });
+   contentEl.querySelectorAll(".pager button[data-page]").forEach(b=>b.addEventListener("click",()=>{
+     if(b.disabled)return; const n=+b.dataset.page;
+     if(n&&n!==state.page){ state.page=n; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+   }));
  }
 
  /* ---------- 회사 소개 ---------- */
