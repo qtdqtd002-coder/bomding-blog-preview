@@ -1,0 +1,23 @@
+# 블로그 컴퍼니 — Jekyll (GitHub Pages) 호스팅 설정
+# 페이지(index.html)는 자기완결형 정적 HTML이라 Jekyll이 그대로 서빙한다.
+# 글 HTML(봄딩/영도/겜더쿠), posts.json, manifest.json은 정적 파일로 통과.
+title: 블로그 컴퍼니
+description: 발행 전 미리보기 (검색 노출 차단)
+lang: ko
+
+# noindex 미리보기 — 사이트맵/피드 불필요
+plugins: []
+
+# 언더스코어 폴더지만 사이트에 포함해야 하는 데이터(트렌드/뉴스 JSON)
+include:
+  - _trend
+  - _news
+
+# 빌드/도구 파일은 발행물에서 제외
+exclude:
+  - _tools
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - "*.ps1"
+  - ".claude"

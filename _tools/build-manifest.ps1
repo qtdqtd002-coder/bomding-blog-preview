@@ -21,8 +21,8 @@ function GitDate([string]$fmtArgs, [string]$file){
   return $out
 }
 
-# 1) 글 파일 수집 — 봄딩/영도 하위의 커밋된 *.html 만 (index, _접두 폴더 제외)
-$files = git -C $base ls-files "봄딩/*.html" "영도/*.html"
+# 1) 글 파일 수집 — 봄딩/영도/겜더쿠 하위의 커밋된 *.html 만 (index, _접두 폴더 제외)
+$files = git -C $base ls-files "봄딩/*.html" "영도/*.html" "겜더쿠/*.html"
 $map = [ordered]@{}
 $missing = @()
 
@@ -57,15 +57,27 @@ foreach($f in $files){
 }
 
 # 2) 검증 — 디스크의 모든 글이 manifest에 들어갔는지 (누락=사고)
-$onDisk = (Get-ChildItem -Path (Join-Path $base "봄딩"),(Join-Path $base "영도") -Recurse -Filter *.html -ErrorAction SilentlyContinue |
-           ForEach-Object { (Resolve-Path $_.FullName -Relative).TrimStart('.','\') -replace '\\','/' })
+$onDisk = (Get-ChildItem -Path (Join-Path $base "봄딩"),(Join-Path $base "영도"),(Join-Path $base "겜더쿠") -Recurse -Filter *.html -ErrorAction SilentlyContinue |
+           ForEach-Object { $_.FullName.Substring($base.Length).TrimStart('\','/') -replace '\\','/' })
 foreach($d in $onDisk){
   if(-not $map.Contains($d)){ $missing += "manifest 누락(디스크에만 존재, 커밋 필요): $d" }
 }
 
-# 3) 기록
+# 3) 기록 — manifest.json(구버전 호환, 경로키 맵) + posts.json(신버전, 배열: 런타임 GitHub API 불필요)
 [System.IO.File]::WriteAllText((Join-Path $base "manifest.json"), ($map | ConvertTo-Json -Depth 5), (New-Object System.Text.UTF8Encoding($false)))
-Write-Host ("✓ manifest.json 재생성: {0}편" -f $map.Count) -ForegroundColor Green
+
+$arr = @()
+foreach($k in $map.Keys){
+  $e = $map[$k]
+  $arr += [ordered]@{ rel=$k; author=$e.author; group=$e.group; title=$e.title; cat=$e.cat;
+                      excerpt=$e.excerpt; created=$e.created; updated=$e.updated; readmin=$e.readmin }
+}
+# 단일 원소도 배열로 직렬화(JSON.parse가 항상 array를 받도록); PS5.1엔 -AsArray가 없어 수동 보정
+$json = ConvertTo-Json @($arr) -Depth 5
+if($arr.Count -le 1){ $json = "[" + ($json -replace '^\s*\[?|\]?\s*$','') + "]" }
+[System.IO.File]::WriteAllText((Join-Path $base "posts.json"), $json, (New-Object System.Text.UTF8Encoding($false)))
+
+Write-Host ("✓ manifest.json + posts.json 재생성: {0}편" -f $map.Count) -ForegroundColor Green
 $map.GetEnumerator() | ForEach-Object { Write-Host ("   [{0}] {1}" -f $_.Value.created, $_.Key) }
 
 if($missing.Count){
