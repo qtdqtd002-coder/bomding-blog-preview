@@ -38,6 +38,8 @@ foreach($f in $files){
   $created = (& git -C $base log --diff-filter=A --follow --format="%ad" --date=format:"%Y-%m-%d %H:%M:%S" -- $f | Select-Object -Last 1)
   $updated = (& git -C $base log -1 --format="%ad" --date=format:"%Y-%m-%d %H:%M:%S" -- $f)
   if([string]::IsNullOrWhiteSpace($created)){ $created = $updated }
+  # 커밋 안 된 글은 git 날짜가 비어버림 → 빈 날짜로 발행되는 사고 방지(검증에서 잡음)
+  if([string]::IsNullOrWhiteSpace($created)){ $missing += "등록일 비어있음(먼저 커밋 후 재생성 필요): $f" }
 
   $title=""; $cat=""; $excerpt=""
   $m=[regex]::Match($html,'(?is)<h1[^>]*class="[^"]*\btitle\b[^"]*"[^>]*>(.*?)</h1>'); if($m.Success){$title=Strip $m.Groups[1].Value}
