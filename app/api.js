@@ -9,8 +9,10 @@
      ② VAPID_PUBLIC_KEY      : 웹 푸시 구독용 서버 공개키(Base64URL).
    ============================================================ */
 window.BC_CONFIG = {
-  PUBLISH_API_BASE_URL: null,   // 예: "https://api.블로그컴퍼니.example"
-  VAPID_PUBLIC_KEY: null,       // 예: "BNc...길게..."
+  // 2단계 백엔드 연결됨 (GCP e2-micro + Caddy 자동 HTTPS).
+  // ⚠ VM 외부 IP가 임시면 재시작 시 이 주소가 바뀐다 → 고정 IP 예약 권장.
+  PUBLISH_API_BASE_URL: 'https://34.139.184.70.sslip.io',
+  VAPID_PUBLIC_KEY: 'BFrapX1Q23mY2kAu_qnq8izG-lYCzsKvqF92QRscaK9b3ZBhvsGn-n0CQ7HkOlPYBNrdZqL6OsZFUpbrZ2ZsEN8',
   DATA_URLS: ['../posts.json', '../manifest.json'], // 글 목록 소스(신→구 폴백)
   SITE_BASE: '..'               // 글 본문 기준 경로(리포 루트)
 };
@@ -90,7 +92,16 @@ window.BC_CONFIG = {
         userVisibleOnly: true,
         applicationServerKey: urlB64ToUint8(window.BC_CONFIG.VAPID_PUBLIC_KEY)
       });
-      // 2단계: 여기서 sub(JSON)을 백엔드 POST {base}/push/subscribe 로 전송
+      // 2단계: 구독 객체(JSON)를 백엔드에 등록 → 발행 완료 시 이 구독으로 푸시가 온다.
+      if (base()) {
+        try {
+          await fetch(base() + '/push/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(sub) // PushSubscription → {endpoint, keys, expirationTime}
+          });
+        } catch (_) { /* 등록 실패는 조용히 무시(다음 구독 시 재시도) */ }
+      }
       return sub;
     }
   };
