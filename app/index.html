@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>블로그 컴퍼니</title>
+<meta name="description" content="블로그 컴퍼니 — 글 보기 + 새 글 요청 (설치형 웹앱)">
+<meta name="theme-color" content="#4F46E5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="블로그 컴퍼니">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="head">
+    <img class="logo" src="icons/icon-192.png" alt="">
+    <h1>블로그 컴퍼니</h1>
+    <button class="install" id="installBtn" hidden>📲 설치</button>
+  </header>
+
+  <main class="main">
+    <!-- 글 목록 -->
+    <section id="view-list">
+      <div class="filters" id="filters"></div>
+      <div id="postList"><div class="empty">글 목록 불러오는 중…</div></div>
+      <p class="pushstate" id="pushState"></p>
+      <p class="foot">블로그 컴퍼니 · 글은 발행 사이트 데이터(posts.json)를 읽어 보여줍니다.</p>
+    </section>
+
+    <!-- 새 글 요청 -->
+    <section id="view-req" hidden>
+      <span class="badge warn" id="backendBadge">백엔드 미연결</span>
+      <p class="hint">새 글 주제를 요청하면 <b>이 기기에 저장</b>됩니다. 백엔드(2단계) 연결 시 자동으로 발행 요청이 전송돼요.</p>
+      <form class="form" id="reqForm">
+        <div class="field">
+          <label for="fTopic">주제 *</label>
+          <input id="fTopic" type="text" placeholder="예: 메이크 드라마 MAD 초반 리롤 정리" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="fMaterial">소재 / 참고</label>
+          <textarea id="fMaterial" placeholder="포함했으면 하는 내용·소재·참고 링크 등"></textarea>
+        </div>
+        <div class="field">
+          <label for="fWriter">희망 작성자</label>
+          <select id="fWriter"></select>
+        </div>
+        <button class="submit" type="submit">발행 요청 보내기</button>
+      </form>
+
+      <div class="sec-h">내가 보낸 요청</div>
+      <div id="reqList"><div class="empty">아직 보낸 요청이 없어요.</div></div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button data-tab="list" class="on"><span class="ic">📰</span>글 목록</button>
+    <button data-tab="req"><span class="ic">✍️</span>새 글 요청</button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
