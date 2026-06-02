@@ -153,6 +153,7 @@
       const material = $('#fMaterial').value.trim();
       const writer = $('#fWriter').value;
       if (!topic) { toast('주제를 입력해주세요.'); $('#fTopic').focus(); return; }
+      if (!writer) { toast('희망 작성자를 선택해주세요.'); $('#fWriter').focus(); return; }
       const rec = await window.BC.PublishRequestService.submit({ topic, material, writer });
       $('#reqForm').reset();
       renderRequests();
@@ -184,7 +185,7 @@
     const known = ['봄딩', '영도', '겜더쿠'];
     const fromPosts = Array.from(new Set(POSTS.map((p) => p.author))).filter((a) => a && a !== '(기타)');
     const authors = Array.from(new Set(known.concat(fromPosts)));
-    sel.innerHTML = '<option value="">아무나 (대표 배정)</option>' + authors.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
+    sel.innerHTML = '<option value="" disabled selected>작성자를 선택하세요</option>' + authors.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
   }
 
   /* ---------- 부팅 ---------- */
