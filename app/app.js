@@ -130,6 +130,7 @@
   function renderRequests() {
     const reqs = window.BC.PublishRequestService.list();
     const box = $('#reqList');
+    const cnt = $('#reqCount'); if (cnt) cnt.textContent = reqs.length ? `${reqs.length}건` : '';
     if (!reqs.length) { box.innerHTML = '<div class="empty">아직 보낸 요청이 없어요.</div>'; return; }
     const label = { local: '저장됨(로컬)', queued: '대기(전송예정)', submitted: '전송됨' };
     box.innerHTML = reqs.map((r) =>
@@ -192,8 +193,14 @@
     renderBackendBadge(); renderRequests();
     setTab('list');
     POSTS = await loadPosts();
-    if (!POSTS.length) { $('#postList').innerHTML = '<div class="empty">글 목록을 불러오지 못했어요.<br>네트워크 확인 후 다시 시도해주세요.</div>'; }
-    else { renderFilters(); renderList(); }
+    const lc = $('#listCount');
+    if (!POSTS.length) {
+      $('#postList').innerHTML = '<div class="empty">글 목록을 불러오지 못했어요.<br>네트워크 확인 후 다시 시도해주세요.</div>';
+      if (lc) lc.textContent = '불러오지 못함';
+    } else {
+      renderFilters(); renderList();
+      if (lc) lc.textContent = `총 ${POSTS.length}개`;
+    }
     fillWriterOptions();
     // 푸시 상태 표시(2단계 대비)
     try {
