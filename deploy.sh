@@ -62,6 +62,20 @@ else
   echo "    ${PUB}"
 fi
 
+# 4b) ADMIN_TOKEN: 상태갱신/푸시 트리거 보호용. 비어 있으면 자동 발급(서버에만 저장).
+if grep -q '^ADMIN_TOKEN=.\+' .env; then
+  echo "▶ ADMIN_TOKEN 이미 설정됨 — 건너뜀"
+else
+  echo "▶ ADMIN_TOKEN 발급 → .env 기록"
+  ADMIN_TOK="$(openssl rand -hex 24 2>/dev/null || head -c 24 /dev/urandom | od -An -tx1 | tr -d ' \n')"
+  if [ -z "$ADMIN_TOK" ]; then echo "✗ ADMIN_TOKEN 발급 실패"; exit 1; fi
+  if grep -q '^ADMIN_TOKEN=' .env; then
+    sed -i "s|^ADMIN_TOKEN=.*|ADMIN_TOKEN=${ADMIN_TOK}|" .env
+  else echo "ADMIN_TOKEN=${ADMIN_TOK}" >> .env; fi
+  echo "  · ADMIN_TOKEN(작성 러너 설정에 입력, 외부 노출 금지):"
+  echo "    ${ADMIN_TOK}"
+fi
+
 # 5) 로그 디렉터리 + pm2 상시 구동
 mkdir -p logs
 echo "▶ pm2 기동"
@@ -75,4 +89,5 @@ echo "--- curl http://localhost:${PORT}/health ---"
 curl -fsS "http://localhost:${PORT}/health" || echo "(health 응답 실패 — 'pm2 logs blog-company-backend' 확인)"
 echo ""
 echo "✅ 배포 완료.  상태: pm2 status   로그: pm2 logs blog-company-backend"
-echo "   다음: PWA app/api.js BC_CONFIG 에 PUBLISH_API_BASE_URL(이 서버 주소)·VAPID_PUBLIC_KEY 입력."
+echo "   다음1: PWA app/api.js BC_CONFIG 에 PUBLISH_API_BASE_URL(이 서버 주소)·VAPID_PUBLIC_KEY 입력."
+echo "   다음2: 위 ADMIN_TOKEN 을 작성 러너(PC) 설정파일 .runner.config.json 에 입력."
