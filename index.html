@@ -88,6 +88,25 @@ svg{display:block;}
 .topnav button.on .dot{background:#fff;}
 .topnav button.on .ic{color:#fff;}
 .nav-div{width:1px;height:20px;background:var(--line-strong);margin:0 6px;flex:none;}
+/* 작성팀 드롭다운 */
+.topnav .teambtn .caret{width:14px;height:14px;margin-left:-1px;transition:transform .15s var(--ease);}
+.teambtn[aria-expanded="true"] .caret{transform:rotate(180deg);}
+.teammenu{position:fixed;z-index:60;min-width:190px;background:var(--surface);border:1px solid var(--line-strong);
+  border-radius:var(--radius);box-shadow:var(--sh-lg);padding:6px;display:flex;flex-direction:column;gap:2px;
+  animation:tmIn .14s var(--ease) both;}
+.teammenu[hidden]{display:none;}
+@keyframes tmIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+.teammenu button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:1px solid transparent;
+  background:transparent;color:var(--sub);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;
+  height:42px;padding:0 12px;border-radius:var(--radius-sm);transition:.12s;}
+.teammenu button .dot{width:9px;height:9px;border-radius:50%;background:var(--ac,#bbb);flex:none;}
+.teammenu button .cnt{margin-left:auto;font-size:12px;font-weight:700;color:var(--muted);font-feature-settings:"tnum";}
+.teammenu button:hover{background:var(--bg-subtle);color:var(--ink);}
+.teammenu button.on{background:var(--ac,var(--brand));color:#fff;}
+.teammenu button.on .dot{background:#fff;}
+.teammenu button.on .cnt{color:rgba(255,255,255,.85);}
+.teammenu button:focus-visible{outline:none;box-shadow:var(--ring);border-color:var(--brand);}
+@media(prefers-reduced-motion:reduce){.teammenu{animation:none;}}
 
 /* ---------- 메인 ---------- */
 .main{max-width:var(--maxw);margin:0 auto;padding:28px 20px 72px;}
@@ -377,6 +396,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      </div>
      <nav class="topnav" id="nav" aria-label="주 메뉴"></nav>
    </div>
+   <div id="teamMenu" class="teammenu" role="menu" aria-label="작성팀" hidden></div>
  </header>
 
  <main class="main">
@@ -409,6 +429,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
   arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
   chevL:'<path d="m15 18-6-6 6-6"/>',
   chevR:'<path d="m9 18 6-6-6-6"/>',
+  chevD:'<path d="m6 9 6 6 6-6"/>',
   spark:'<path d="M9.9 15.5A2 2 0 0 0 8.5 14L2.4 12.5a.5.5 0 0 1 0-1L8.5 10A2 2 0 0 0 9.9 8.5L11.5 2.4a.5.5 0 0 1 1 0L14 8.5A2 2 0 0 0 15.5 9.9l6.1 1.6a.5.5 0 0 1 0 1L15.5 14a2 2 0 0 0-1.4 1.4l-1.6 6.1a.5.5 0 0 1-1 0z"/>',
   flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
   refresh:'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
@@ -463,7 +484,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  });
  document.getElementById("homeLink").addEventListener("click",e=>{
    e.preventDefault(); state.view="__all__"; state.q=""; state.page=1; if(qEl)qEl.value="";
-   navEl.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x.dataset.k==="__all__"));
+   if(window.__syncNav)window.__syncNav(); else navEl.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x.dataset.k==="__all__"));
    render(); window.scrollTo({top:0,behavior:"smooth"});
  });
 
@@ -508,21 +529,55 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  /* ---------- 네비: 작성자 그룹 ‖ 코너 그룹 ---------- */
  function buildNav(ordered){
    const cnt=n=>POSTS.filter(p=>p.author===n).length;
-   let h=`<button data-k="__all__" class="on">${svg("grid")}전체<span class="cnt">${POSTS.length}</span></button>`;
-   ordered.forEach(n=>{
-     h+=`<button data-k="${esc(n)}" style="--ac:${ACCENT[n]}"><span class="dot"></span>${esc(n)}<span class="cnt">${cnt(n)}</span></button>`;
-   });
+   const writers=ordered.slice();              // 작성자 목록(동적) — '작성팀' 드롭다운으로 묶음
+   const sel=v=>'[data-k="'+String(v).replace(/["\\]/g,"\\$&")+'"]';
+   let h=`<button data-k="__all__">${svg("grid")}전체<span class="cnt">${POSTS.length}</span></button>`;
+   h+=`<button class="teambtn" id="teamBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="teamMenu">${svg("users")}작성팀${svg("chevD","caret")}</button>`;
    h+=`<span class="nav-div" aria-hidden="true"></span>`;
    h+=`<button data-k="__trend__" style="--ac:var(--a-trend)">${svg("trend")}트렌드<span class="cnt">${TREND.length}</span></button>`+
       `<button data-k="__news__" style="--ac:var(--a-news)">${svg("news")}뉴스레터</button>`+
       `<button data-k="__calendar__" style="--ac:var(--a-cal)">${svg("calDays")}캘린더<span class="cnt">${CAL.length}</span></button>`+
       `<button data-k="__about__" style="--ac:var(--a-about)">${svg("info")}소개</button>`;
    navEl.innerHTML=h;
-   navEl.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
-     state.view=b.dataset.k; state.q=""; state.page=1; if(qEl)qEl.value="";
+
+   const teamBtn=document.getElementById("teamBtn");
+   const teamMenu=document.getElementById("teamMenu");
+   teamMenu.innerHTML=writers.map(n=>`<button role="menuitem" data-k="${esc(n)}" style="--ac:${ACCENT[n]}"><span class="dot"></span>${esc(n)}<span class="cnt">${cnt(n)}</span></button>`).join("");
+
+   const isWriter=k=>writers.indexOf(k)>=0;
+   function setActive(){
      navEl.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
-     b.classList.add("on"); render(); window.scrollTo({top:0,behavior:"smooth"});
-   }));
+     teamMenu.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
+     if(isWriter(state.view)){
+       teamBtn.classList.add("on"); teamBtn.style.setProperty("--ac",ACCENT[state.view]||"var(--brand)");
+       const mi=teamMenu.querySelector(sel(state.view)); if(mi)mi.classList.add("on");
+     } else {
+       teamBtn.style.removeProperty("--ac");
+       const nb=navEl.querySelector(sel(state.view)); if(nb)nb.classList.add("on");
+     }
+   }
+   window.__syncNav=setActive;   // 홈 로고 등 외부에서 활성 동기화
+   setActive();
+
+   function positionMenu(){
+     const r=teamBtn.getBoundingClientRect();
+     teamMenu.style.top=(r.bottom+6)+"px";
+     const mw=teamMenu.offsetWidth||190;
+     let left=r.left; if(left+mw>window.innerWidth-8)left=window.innerWidth-mw-8; if(left<8)left=8;
+     teamMenu.style.left=left+"px";
+   }
+   function openMenu(){ teamMenu.hidden=false; positionMenu(); teamBtn.setAttribute("aria-expanded","true"); }
+   function closeMenu(){ if(teamMenu.hidden)return; teamMenu.hidden=true; teamBtn.setAttribute("aria-expanded","false"); }
+   teamBtn.addEventListener("click",e=>{ e.stopPropagation(); teamMenu.hidden?openMenu():closeMenu(); });
+
+   const goView=k=>{ state.view=k; state.q=""; state.page=1; if(qEl)qEl.value=""; closeMenu(); setActive(); render(); window.scrollTo({top:0,behavior:"smooth"}); };
+   navEl.querySelectorAll("button:not(#teamBtn)").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
+   teamMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
+
+   document.addEventListener("click",e=>{ if(teamMenu.hidden)return; if(!teamMenu.contains(e.target)&&!teamBtn.contains(e.target))closeMenu(); });
+   document.addEventListener("keydown",e=>{ if(e.key==="Escape")closeMenu(); });
+   window.addEventListener("scroll",closeMenu,true);
+   window.addEventListener("resize",closeMenu);
  }
  qEl&&qEl.addEventListener("input",()=>{ state.q=qEl.value.trim().toLowerCase(); state.page=1; render(); });
 
