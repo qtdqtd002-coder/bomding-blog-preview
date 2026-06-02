@@ -57,7 +57,7 @@ svg{display:block;}
 /* 로고 */
 .logo{display:flex;align-items:center;gap:9px;}
 .logo .mark{width:30px;height:30px;flex:none;color:var(--brand);}
-.logo .wm{font-size:17px;letter-spacing:-.03em;line-height:1;}
+.logo .wm{font-size:17px;letter-spacing:-.03em;line-height:1;white-space:nowrap;}
 .logo .wm b{font-weight:800;color:var(--ink);}
 .logo .wm span{font-weight:500;color:var(--sub);}
 .head-tools{display:flex;align-items:center;gap:8px;flex:none;}
@@ -71,6 +71,13 @@ svg{display:block;}
   border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.13s;}
 .icon-btn .ic{width:18px;height:18px;}
 .icon-btn:hover{background:var(--bg-subtle);color:var(--ink);}
+/* 앱(PWA) CTA */
+.app-cta{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 13px;flex:none;border:0;
+  border-radius:var(--radius-sm);background:var(--brand);color:var(--on-brand,#fff);font-size:13.5px;font-weight:700;
+  cursor:pointer;text-decoration:none;white-space:nowrap;transition:.13s;}
+.app-cta .ic{width:17px;height:17px;}
+.app-cta:hover{background:var(--brand-h);}
+@media(max-width:560px){ .app-cta{padding:0 11px;font-size:13px;} }
 
 /* ---------- 네비 (2그룹: 작성자 ‖ 코너) ---------- */
 .topnav{display:flex;align-items:center;gap:6px;overflow-x:auto;padding:7px 0 9px;
@@ -274,9 +281,11 @@ svg{display:block;}
 .site-foot b{color:var(--sub);}
 
 @media(max-width:560px){
-  .head-inner{padding:0 14px;}
+  .head-inner{padding:0 13px;}
   .logo .wm{font-size:16px;}
-  .search input{width:150px;}
+  .head-tools{gap:6px;}
+  .search input{width:96px;}
+  .app-cta{padding:0 10px;}
   .main{padding:20px 14px 56px;}
   .feat{padding:20px 18px;}
   .card{padding:16px 16px 16px 18px;}
@@ -391,6 +400,9 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
            <input id="q" type="search" placeholder="제목·내용 검색" autocomplete="off" aria-label="검색">
          </div>
+         <a class="app-cta" href="app/" title="설치형 앱으로 보기 (항상 최신 버전)" aria-label="앱으로 보기">
+           <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/></svg>앱
+         </a>
          <button class="icon-btn" id="themeToggle" title="라이트/다크 전환" aria-label="테마 전환"></button>
        </div>
      </div>
