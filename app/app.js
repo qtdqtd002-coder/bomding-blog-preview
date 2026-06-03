@@ -34,8 +34,8 @@
     { id: 'news', label: '뉴스레터', icon: 'news' },
     { id: 'calendar', label: '캘린더', icon: 'cal' }
   ];
-  const SUB = { posts: '봄딩·영도·겜더쿠 발행글', trend: '오늘 뜨는 게임·주제', news: '한·일·미 게임 뉴스', calendar: '출시·업데이트·행사 일정', request: '주제만 적으면 작성→검수→발행', home: '발행글 · 트렌드 · 뉴스레터 · 캘린더' };
-  const TITLE = { home: '블로그 컴퍼니', posts: '발행글', trend: '트렌드', news: '뉴스레터', calendar: '출시 캘린더', request: '새 글 요청' };
+  const SUB = { posts: '봄딩·영도·겜더쿠 발행글', trend: '오늘 뜨는 게임·주제', news: '한·일·미 게임 뉴스', calendar: '출시·업데이트·행사 일정', request: '주제만 적으면 작성→검수→발행', home: '당신의 글쓰기 동료' };
+  const TITLE = { home: '쓰담', posts: '발행글', trend: '트렌드', news: '뉴스레터', calendar: '출시 캘린더', request: '새 글 요청' };
 
   /* ---------- 데이터 (캐시) ---------- */
   const cache = {};
@@ -76,7 +76,7 @@
   /* ---- 홈(메인 허브) ---- */
   VIEWS.home = async (root) => {
     root.innerHTML =
-      `<section class="hero"><h2>블로그 컴퍼니</h2><p>발행글부터 오늘의 게임 트렌드·뉴스레터·출시 캘린더까지 한곳에서. 새 글도 여기서 바로 요청해요.</p>
+      `<section class="hero"><h2>쓰담</h2><p><b style="opacity:.96">당신의 글쓰기 동료</b> — 발행글·트렌드·뉴스레터·출시 캘린더를 한곳에서, 새 글도 여기서 바로 요청해요.</p>
         <span class="stat" id="heroStat">불러오는 중…</span></section>
        <div class="hub" id="hub">${skeleton(4)}</div>`;
     const [posts, trend, news, cal] = await Promise.all([

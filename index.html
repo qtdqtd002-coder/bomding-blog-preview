@@ -1,7 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>블로그 컴퍼니</title>
+<title>쓰담 — 당신의 글쓰기 동료</title>
 <script>(function(){try{var t=localStorage.getItem("theme")||((window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <style>
@@ -13,6 +13,7 @@
   --ink:#16181D; --sub:#4A4F58; --muted:#6B7280;
   --line:#E5E7EB; --line-strong:#D1D5DB;
   --brand:#4C6FFF; --brand-h:#3D5AF0; --brand-weak:#EEF1FF; --on-brand:#FFFFFF;
+  --warm:#FF8A5B; --warm-weak:#FFF1EA;
   --danger:#DC2626;
   --a-bomding:#E06C49; --a-bomding-weak:#FCEEE9;
   --a-yeongdo:#2F8F7F; --a-yeongdo-weak:#E6F2EF;
@@ -31,6 +32,7 @@
   --ink:#F2F4F7; --sub:#A8B0BD; --muted:#6E7682;
   --line:#262B33; --line-strong:#363C46;
   --brand:#8AA0FF; --brand-h:#A7B6FF; --brand-weak:#1A2140; --on-brand:#0D0F12;
+  --warm:#FF9B70; --warm-weak:#2A1C16;
   --danger:#F87171;
   --a-bomding:#F0936F; --a-bomding-weak:#2A1C16;
   --a-yeongdo:#4FB3A1; --a-yeongdo-weak:#11241F;
@@ -384,16 +386,15 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  <header class="site-head">
    <div class="head-inner">
      <div class="head-row">
-       <a class="logo" href="#" id="homeLink" aria-label="블로그 컴퍼니 홈">
+       <a class="logo" href="#" id="homeLink" aria-label="쓰담 홈">
          <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
            <rect width="32" height="32" rx="8" fill="currentColor"/>
-           <rect x="8.5" y="7" width="15" height="11" rx="2.5" fill="#fff" fill-opacity=".34"/>
-           <rect x="7" y="10" width="18" height="12.5" rx="2.5" fill="#fff" fill-opacity=".6"/>
-           <rect x="5.5" y="13" width="21" height="13.5" rx="3" fill="#fff"/>
-           <rect x="9" y="16.4" width="11" height="2" rx="1" fill="currentColor"/>
-           <rect x="9" y="20.4" width="14" height="1.6" rx=".8" fill="currentColor" fill-opacity=".45"/>
+           <rect x="6" y="12" width="20" height="13.5" rx="3" fill="#fff"/>
+           <rect x="9" y="15.6" width="9" height="2" rx="1" fill="currentColor"/>
+           <rect x="9" y="19.4" width="13" height="1.7" rx=".85" fill="currentColor" fill-opacity=".45"/>
+           <path d="M23.5 11.6C22 9.9 20.5 8.8 20.5 7.2 20.5 6 21.6 5.4 22.6 5.95 23.1 6.2 23.5 6.8 23.5 6.8 23.5 6.8 23.9 6.2 24.4 5.95 25.4 5.4 26.5 6 26.5 7.2 26.5 8.8 25 9.9 23.5 11.6Z" fill="#FF8A5B"/>
          </svg>
-         <span class="wm"><b>블로그</b> <span>컴퍼니</span></span>
+         <span class="wm"><b>쓰담</b></span>
        </a>
        <div class="head-tools">
          <div class="search" id="searchBox" style="display:none">
@@ -419,7 +420,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    <div id="content"><div class="loading">목록 불러오는 중…</div></div>
  </main>
  <footer class="site-foot">
-   <b>블로그 컴퍼니</b> · 발행 전 미리보기 (검색 노출 차단, noindex)<br>새 글·새 직원·트렌드는 발행 시 자동 반영됩니다.
+   <b>쓰담</b> · 당신의 글쓰기 동료 · 발행 전 미리보기 (검색 노출 차단, noindex)<br>새 글·새 직원·트렌드는 발행 시 자동 반영됩니다.
  </footer>
 
 <script>
@@ -708,7 +709,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 
  /* ---------- 회사 소개 ---------- */
  function renderAbout(){
-   titleEl.textContent="회사 소개"; subEl.textContent="블로그 컴퍼니 조직도 · 대표 → 팀 → 팀원";
+   titleEl.textContent="회사 소개"; subEl.textContent="쓰담을 만드는 팀 · 대표 → 팀 → 팀원";
    const bz=s=>`<span class="org-bz${s==="상설"?" on":""}">${s}</span>`;
    const mem=m=>`<div class="org-mem"><div class="org-mem-t"><span class="org-mem-n">${m[0]}</span>${m[2]?bz(m[2]):""}</div>`+
      (m[1]?`<p class="org-mem-d">${m[1]}</p>`:"")+`</div>`;
@@ -745,11 +746,11 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      team("var(--a-about)","grid","인프라실","실장: 인프라실장",
        "플랫폼(사이트+앱) 전체를 총괄합니다. 업무를 PC·모바일로 분해·배정하고, 두 산출물 방향을 맞추고 적극 피드백하며, 자가피드백+유명 블로그/앱 벤치마킹으로 개선해요. 기본은 PC·모바일 동일 구현.",[
        ["인프라실장 (Infra Division Head)","요청을 공통/PC전용/모바일전용으로 분해·배정(착각 방지)→두 팀 방향 정렬·적극 피드백→자가피드백·외부 벤치마킹→PC↔모바일 소통 주선→취합 보고.","상설"],
-       ["PC팀 · 팀장","블로그 컴퍼니 사이트(이 GitHub Pages) 구현 총괄·인프라실 보고.","상설"],
+       ["PC팀 · 팀장","쓰담 사이트(이 GitHub Pages) 구현 총괄·인프라실 보고.","상설"],
        ["PC팀 · UX/UI 디자이너","웹 비주얼·디자인 시스템(컬러·타이포·간격·컴포넌트).","온디맨드"],
        ["PC팀 · 프론트엔드 개발자","index.html·템플릿·JS·데이터 연동(manifest/트렌드/뉴스/캘린더 json)·반응형.","온디맨드"],
        ["PC팀 · 사이트기능 개발","검색·다크모드·태그/카테고리·페이저 등 기능 단위.","온디맨드"],
-       ["모바일팀 · 팀장","블로그 컴퍼니 앱(설치형 웹앱 PWA) + GCP 연동 구현 총괄·인프라실 보고.","상설"],
+       ["모바일팀 · 팀장","쓰담 앱(설치형 웹앱 PWA) + GCP 연동 구현 총괄·인프라실 보고.","상설"],
        ["모바일팀 · UX/UI 디자이너","앱 설치 아이콘·스플래시·디자인 시스템·반응형(사이트와 토큰 공유).","온디맨드"],
        ["모바일팀 · PWA 프론트 개발자","화면·네비게이션(메뉴 뎁스)·데이터 연동(json)·확장 구조.","온디맨드"],
        ["모바일팀 · 백엔드/GCP 연동 개발","발행요청 API·웹푸시·구독 등 모바일 백엔드 연동.","온디맨드"]]),
@@ -776,7 +777,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    contentEl.innerHTML=`<div class="about">
      <div class="about-hero">
        <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><rect x="8.5" y="7" width="15" height="11" rx="2.5" fill="#fff" fill-opacity=".34"/><rect x="7" y="10" width="18" height="12.5" rx="2.5" fill="#fff" fill-opacity=".6"/><rect x="5.5" y="13" width="21" height="13.5" rx="3" fill="#fff"/><rect x="9" y="16.4" width="11" height="2" rx="1" fill="currentColor"/><rect x="9" y="20.4" width="14" height="1.6" rx=".8" fill="currentColor" fill-opacity=".45"/></svg>
-       <h2>블로그 컴퍼니 조직도</h2>
+       <h2>쓰담을 만드는 팀</h2>
        <p>대표(오케스트레이터)가 업무를 접수·정리해 <b>기획 → 작성 → 검수 → 발행</b>으로 직원 팀을 운영하는 블로그 콘텐츠 회사입니다. 모든 글은 사실검증과 작성자별 문체 정본을 거치고, 이미지도 <b>기획팀이 사실과 같은 출처에서 키트로 챙겨</b> 작성팀이 맥락에 맞게 넣고 검수팀이 어울림을 봅니다(정확도·퀄리티 1순위). 작성팀엔 <b>작성팀장</b>이 공용 가이드를 갱신·전파하되 작성자 문체는 독립으로 지켜요. 여기에 <b>인프라실</b>(사이트+앱 플랫폼, PC팀·모바일팀), <b>트렌드 분석팀</b>(매일 브리핑·뉴스레터), <b>벤치마크/피드백 팀</b>(실제 author 수렴)이 더해집니다. <b style="color:var(--brand)">상설</b>은 매 작업 자동 투입, <b>온디맨드</b>는 필요할 때 투입돼요.</p>
      </div>
      <div class="relmap" style="border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--bg-subtle);padding:20px 18px;margin-bottom:18px;">
