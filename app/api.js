@@ -34,20 +34,35 @@ window.BC_CONFIG = {
     list() { return load().sort((a, b) => b.createdAt - a.createdAt); },
 
     async submit(req) {
-      const rec = Object.assign(
-        { id: 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7), createdAt: Date.now(), status: 'local' },
-        req
-      );
+      // 파일(File 객체)은 localStorage 에 직렬화하지 않는다 — 이름만 남기고 본문은 서버 전송.
+      const file = req.file || null;
+      const rec = {
+        id: 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7), createdAt: Date.now(), status: 'local',
+        topic: req.topic, material: req.material, writer: req.writer, fileName: file ? file.name : null,
+      };
       if (this.isConnected()) {
         try {
-          const res = await fetch(base() + '/requests', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(req)
-          });
+          let res;
+          if (file) {
+            // 첨부 있으면 multipart — 큐엔 저장 안 함(파일 재전송 불가하므로 실패 시 사용자 재시도).
+            const fd = new FormData();
+            fd.append('topic', req.topic || ''); fd.append('material', req.material || '');
+            if (req.writer) fd.append('writer', req.writer); fd.append('source', 'pwa');
+            fd.append('attachment', file, file.name);
+            res = await fetch(base() + '/requests', { method: 'POST', body: fd });
+          } else {
+            res = await fetch(base() + '/requests', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ topic: req.topic, material: req.material, writer: req.writer, source: 'pwa' })
+            });
+          }
           if (!res.ok) throw new Error('HTTP ' + res.status);
           const body = await res.json().catch(() => ({}));
           rec.status = 'submitted'; rec.serverId = body.id || null;
         } catch (err) {
-          rec.status = 'queued'; rec.error = String((err && err.message) || err); // 오프라인/실패 → 큐
+          // 첨부가 있는데 실패하면 큐로 두지 않는다(파일은 재전송 못 함) → 사용자에게 재시도 유도.
+          rec.status = file ? 'failed' : 'queued';
+          rec.error = String((err && err.message) || err);
         }
       }
       const all = load(); all.push(rec); save(all);

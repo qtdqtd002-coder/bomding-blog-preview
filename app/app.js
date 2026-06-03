@@ -144,7 +144,7 @@
       return `<div class="card trend"><div class="t-h"><span class="t-writer" style="--ac:${ac(w)}">${esc(w || '트렌드')}</span><span class="t-date">${esc(fmtDay(it.date))}</span></div>
         ${it.headline ? `<div class="t-head">${esc(it.headline)}</div>` : ''}${it.lead ? `<div class="t-lead">${esc(it.lead)}</div>` : ''}
         ${picks.length ? `<ol class="picks">${picks.map((p, i) => `<li><span class="pick-n">${i + 1}</span><span class="pick-tx">${esc(p)}</span></li>`).join('')}</ol>` : ''}</div>`;
-    }).join('') + siteLink('트렌드 전체는 사이트에서 보기');
+    }).join('');
   };
 
   /* ---- 뉴스레터 ---- */
@@ -162,8 +162,7 @@
         return `<div class="card"><div class="card-b nitem"><div class="n-top"><span class="flag ${esc(c)}">${esc(c || 'GL')}</span>${n.cat ? `<span class="n-cat">${esc(n.cat)}</span>` : ''}</div>
           <div class="n-title">${esc(n.title)}</div>${n.summary ? `<div class="n-sum">${esc(n.summary)}</div>` : ''}
           ${links.length ? `<div class="n-links">${links.map((l) => `<a class="n-link" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label || '링크')} ${extIco}</a>`).join('')}</div>` : ''}</div></div>`;
-      }).join('') : '<div class="empty">이번 호에 항목이 없어요.</div>') +
-      siteLink('지난 뉴스레터는 사이트에서 보기');
+      }).join('') : '<div class="empty">이번 호에 항목이 없어요.</div>');
   };
 
   /* ---- 캘린더 ---- */
@@ -202,6 +201,15 @@
          <div class="field"><label for="fTopic">주제 <span class="req-star">*</span></label><input id="fTopic" type="text" placeholder="예: 메이크 드라마 MAD 초반 리롤 정리" autocomplete="off"></div>
          <div class="field"><label for="fMaterial">소재 / 참고 <span class="opt">선택</span></label><textarea id="fMaterial" placeholder="포함했으면 하는 내용·소재·참고 링크 등"></textarea></div>
          <div class="field"><label for="fWriter">희망 작성자 <span class="req-star">*</span></label><select id="fWriter"></select></div>
+         <div class="field"><label>참고 문서 첨부 <span class="opt">선택</span></label>
+           <div class="filerow">
+             <label class="filebtn" for="fFile">📎 파일 선택</label>
+             <input id="fFile" type="file" accept=".docx,.xlsx,.pdf,.txt,.hwpx,application/pdf,text/plain" hidden>
+             <span id="fFileName" class="filename">선택된 파일 없음</span>
+             <button type="button" id="fFileClear" class="fileclear" hidden>지우기</button>
+           </div>
+           <div class="filehint">외주처가 준 "반드시 포함/제외할 내용" 문서를 올리면 <b>이 요청 글 1건에만</b> 반드시 지킬 규칙으로 반영돼요. (1회용 · docx·xlsx·pdf·txt·hwpx)</div>
+         </div>
          <button class="submit" type="submit">발행 요청 보내기</button>
        </form></div></div>
        <div class="sec-h" style="margin-top:6px"><span class="t" style="font-size:17px">내가 보낸 요청</span><span class="meta" id="reqCount"></span></div>
@@ -213,6 +221,15 @@
     $('#fWriter').innerHTML = '<option value="" disabled selected>작성자를 선택하세요</option>' + authors.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
     renderRequests();
     renderPush();
+    // 첨부 파일 선택
+    let pickedFile = null;
+    const fFile = $('#fFile'), fName = $('#fFileName'), fClear = $('#fFileClear');
+    fFile.addEventListener('change', () => {
+      pickedFile = fFile.files && fFile.files[0] || null;
+      if (pickedFile && pickedFile.size > 10 * 1024 * 1024) { toast('파일이 너무 커요 (최대 10MB).'); pickedFile = null; fFile.value = ''; }
+      fName.textContent = pickedFile ? pickedFile.name : '선택된 파일 없음'; fClear.hidden = !pickedFile;
+    });
+    fClear.addEventListener('click', () => { pickedFile = null; fFile.value = ''; fName.textContent = '선택된 파일 없음'; fClear.hidden = true; });
     $('#pushBtn').addEventListener('click', async () => {
       const btn = $('#pushBtn'); if (!btn || btn.disabled) return;
       btn.disabled = true; btn.textContent = '알림 권한 요청 중…';
@@ -226,10 +243,13 @@
       const topic = $('#fTopic').value.trim(), material = $('#fMaterial').value.trim(), writer = $('#fWriter').value;
       if (!topic) { toast('주제를 입력해주세요.'); $('#fTopic').focus(); return; }
       if (!writer) { toast('희망 작성자를 선택해주세요.'); $('#fWriter').focus(); return; }
-      const rec = await window.BC.PublishRequestService.submit({ topic, material, writer });
+      const rec = await window.BC.PublishRequestService.submit({ topic, material, writer, file: pickedFile });
       $('#reqForm').reset();
+      pickedFile = null; fName.textContent = '선택된 파일 없음'; fClear.hidden = true;
       renderRequests();
-      toast(rec.status === 'submitted' ? '발행 요청을 보냈어요.' : '요청을 이 기기에 저장했어요 (백엔드 연결 시 자동 전송).');
+      toast(rec.status === 'submitted' ? '발행 요청을 보냈어요.'
+        : rec.status === 'failed' ? '전송에 실패했어요. 잠시 후 다시 시도해주세요.'
+        : '요청을 이 기기에 저장했어요 (백엔드 연결 시 자동 전송).');
     });
   };
   async function renderPush() {
@@ -247,13 +267,9 @@
     const box = $('#reqList'); if (!box) return;
     const cnt = $('#reqCount'); if (cnt) cnt.textContent = reqs.length ? `${reqs.length}건` : '';
     if (!reqs.length) { box.innerHTML = '<div class="empty">아직 보낸 요청이 없어요.</div>'; return; }
-    const label = { local: '저장됨(로컬)', queued: '대기(전송예정)', submitted: '전송됨' };
-    box.innerHTML = reqs.map((r) => `<div class="req"><div class="r-top"><b>${esc(r.topic || '(주제 없음)')}</b><span class="rstat s-${r.status}">${label[r.status] || r.status}</span></div>${r.material ? `<div class="r-sub">소재: ${esc(r.material)}</div>` : ''}<div class="r-meta">희망 작성자: ${esc(r.writer || '미지정')} · ${esc(fmtDay(new Date(r.createdAt).toISOString().slice(0, 10)))}</div><button class="r-del" data-id="${esc(r.id)}">삭제</button></div>`).join('');
+    const label = { local: '저장됨(로컬)', queued: '대기(전송예정)', submitted: '전송됨', failed: '전송 실패(재시도 필요)' };
+    box.innerHTML = reqs.map((r) => `<div class="req"><div class="r-top"><b>${esc(r.topic || '(주제 없음)')}</b><span class="rstat s-${r.status}">${label[r.status] || r.status}</span></div>${r.material ? `<div class="r-sub">소재: ${esc(r.material)}</div>` : ''}${r.fileName ? `<div class="r-sub">📎 ${esc(r.fileName)}</div>` : ''}<div class="r-meta">희망 작성자: ${esc(r.writer || '미지정')} · ${esc(fmtDay(new Date(r.createdAt).toISOString().slice(0, 10)))}</div><button class="r-del" data-id="${esc(r.id)}">삭제</button></div>`).join('');
     $$('.r-del', box).forEach((b) => b.addEventListener('click', () => { window.BC.PublishRequestService.remove(b.dataset.id); renderRequests(); }));
-  }
-
-  function siteLink(text) {
-    return `<button class="hub-card wide" id="toSite" style="margin-top:6px"><span class="hub-ic">${ico('home')}</span><span class="tx"><span class="ttl">${esc(text)}</span><span class="dsc">블로그 컴퍼니 사이트로 이동</span></span><span class="go">${extIco}</span></button>`;
   }
 
   /* ================= 라우터 (메인=홈, 섹션 뎁스) ================= */
@@ -280,16 +296,8 @@
     const root = $('#view'); root.scrollTop = 0; window.scrollTo(0, 0);
     try { await VIEWS[route](root); } catch (e) { root.innerHTML = '<div class="empty lg">화면을 불러오지 못했어요.</div>'; console.warn(e); }
     root.focus({ preventScroll: true });
-    // 공통: 섹션 내 '사이트로 이동' 버튼
-    const ts = $('#toSite'); if (ts) ts.addEventListener('click', openSite);
   }
-  function openSite() { try { window.open(CFG('SITE_URL', '../'), '_blank', 'noopener'); } catch (_) { location.href = CFG('SITE_URL', '../'); } }
   function currentHashRoute() { const m = (location.hash || '').match(/#\/([a-z]+)/); return m && VIEWS[m[1]] ? m[1] : 'home'; }
-
-  /* ---------- 설치 프롬프트 ---------- */
-  let deferredPrompt = null;
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; window.__bcInstallable = true; const b = $('#installBtn'); if (b) b.hidden = false; });
-  window.addEventListener('appinstalled', () => { window.__bcInstalled = true; const b = $('#installBtn'); if (b) b.hidden = true; toast('앱이 설치됐어요.'); });
 
   /* ---------- 토스트 ---------- */
   let toastT;
@@ -305,11 +313,6 @@
     $$('#tabbar button').forEach((b) => b.addEventListener('click', () => go(b.dataset.go, false)));
     $('#fab').addEventListener('click', () => go('request', true));
     $('#backBtn').addEventListener('click', () => history.back());
-    $('#siteBtn').addEventListener('click', openSite);
-    $('#installBtn').addEventListener('click', async () => {
-      if (!deferredPrompt) { toast('이미 설치됐거나, 브라우저 메뉴의 "홈 화면에 추가"를 눌러주세요.'); return; }
-      deferredPrompt.prompt(); try { await deferredPrompt.userChoice; } catch (_) {} deferredPrompt = null; $('#installBtn').hidden = true;
-    });
     window.addEventListener('popstate', () => { route = currentHashRoute(); if (NAV.some((n) => n.id === route)) lastTab = route; paint(); });
   }
   function boot() {
