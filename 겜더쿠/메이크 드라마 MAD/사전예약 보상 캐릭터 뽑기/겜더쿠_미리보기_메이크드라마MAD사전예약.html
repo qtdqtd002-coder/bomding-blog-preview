@@ -113,7 +113,7 @@
     return html.slice(a,end).trim();
   }
   btn.addEventListener('click',function(){
-    var url=location.pathname.replace('_미리보기_','_티스토리_');
+    var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
     btn.textContent='불러오는 중…';
     fetch(url).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
       var b=body(t); area.value=b; tEl.textContent=pick(t,'제목'); gEl.textContent=pick(t,'태그');
