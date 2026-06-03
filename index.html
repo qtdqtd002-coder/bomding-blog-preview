@@ -382,6 +382,42 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 .cal-note{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5;}
 .cal-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--a-cal);margin-top:9px;}
 .cal-link .ic{width:13px;height:13px;}
+/* ===== 소개 탭 — 쓰담 상품 소개 ===== */
+.prod{margin-bottom:6px;}
+.prod-hero{position:relative;overflow:hidden;border-radius:var(--radius-xl);padding:30px 24px;color:#fff;
+  background:linear-gradient(125deg,var(--brand) 0%,var(--brand-2,#7C5CD1) 58%,var(--warm) 100%);
+  box-shadow:0 14px 34px rgba(76,111,255,.26);}
+.prod-hero::after{content:"";position:absolute;right:-54px;top:-54px;width:210px;height:210px;border-radius:50%;background:rgba(255,255,255,.13);}
+.prod-badge{position:relative;display:inline-block;font-size:11.5px;font-weight:700;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:5px 12px;margin-bottom:13px;}
+.prod-hero h2{position:relative;font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.25;margin:0 0 9px;}
+.prod-sub{position:relative;font-size:14.5px;line-height:1.65;opacity:.96;max-width:48ch;margin:0;}
+.prod-sub b{font-weight:800;}
+.prod-cta{position:relative;display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
+.pc-btn{display:inline-flex;align-items:center;font-size:14px;font-weight:800;border-radius:12px;padding:11px 18px;transition:transform .1s,box-shadow .15s;}
+.pc-btn:active{transform:translateY(1px);}
+.pc-btn.primary{background:#fff;color:var(--brand);box-shadow:0 6px 16px rgba(0,0,0,.16);}
+.pc-btn.ghost{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.42);}
+.prod-section-t{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:24px 4px 12px;}
+.prod-feats{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.pf{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px 16px 17px;box-shadow:var(--sh-sm);transition:transform .12s,box-shadow .18s,border-color .18s;}
+.pf:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:color-mix(in srgb,var(--fc,var(--brand)) 38%,var(--line));}
+.pf .ic{width:36px;height:36px;color:var(--fc,var(--brand));background:color-mix(in srgb,var(--fc,var(--brand)) 13%,transparent);border-radius:11px;padding:7px;margin-bottom:11px;}
+.pf-t{font-size:15.5px;font-weight:800;letter-spacing:-.01em;margin-bottom:5px;}
+.pf-d{font-size:13px;color:var(--sub);line-height:1.6;}
+.prod-steps{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;margin:22px 0 6px;
+  background:var(--bg-subtle);border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px 14px;}
+.ps{display:flex;align-items:center;gap:10px;}
+.ps-n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;font-size:13px;font-weight:800;display:grid;place-items:center;}
+.ps-x b{font-size:14px;display:block;line-height:1.2;}
+.ps-x span{font-size:11.5px;color:var(--muted);}
+.ps-arrow .ic{width:18px;height:18px;color:var(--muted);}
+.prod-goal{margin-top:18px;border:1px solid color-mix(in srgb,var(--warm) 32%,var(--line));border-radius:var(--radius-lg);background:linear-gradient(180deg,var(--warm-weak),var(--surface));padding:18px 18px 8px;}
+.pg-t{font-size:14px;font-weight:800;margin-bottom:12px;}
+.pg-items{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.pg{padding-bottom:10px;}
+.pg b{font-size:14px;display:block;margin-bottom:3px;color:var(--brand);}
+.pg span{font-size:12px;color:var(--sub);line-height:1.5;}
+@media (max-width:560px){.prod-feats{grid-template-columns:1fr;}.pg-items{grid-template-columns:1fr;}.prod-hero h2{font-size:22px;}.prod-steps{gap:6px;}}
 </style></head><body>
  <header class="site-head">
    <div class="head-inner">
@@ -775,9 +811,42 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
        ["Publisher","git push(작성자별 분류)→빌드→공개 링크. 신규 직원이면 탭 자동 생성.","상설"]])
    ];
    contentEl.innerHTML=`<div class="about">
+     <section class="prod">
+       <div class="prod-hero">
+         <span class="prod-badge">설치형 웹앱 · 무료 미리보기</span>
+         <h2>혼자 쓰지 말고, 쓰담과 함께</h2>
+         <p class="prod-sub">게임 블로거를 위한 <b>글쓰기 동료</b>. 트렌드로 글감을 잡고, 작성자 문체로 초안을 쓰고, 공식 정보로 검수해 — <b>발행까지 한 번에</b> 끝냅니다.</p>
+         <div class="prod-cta"><a class="pc-btn primary" href="app/">앱으로 시작하기</a><a class="pc-btn ghost" href="./">발행글 둘러보기</a></div>
+       </div>
+       <div class="prod-section-t">쓰담이 해주는 일</div>
+       <div class="prod-feats">
+         <div class="pf" style="--fc:var(--a-trend)">${svg("trend")}<div class="pf-t">글감부터 잡아줘요</div><div class="pf-d">매일 게임 트렌드·인기 키워드를 분석해, 지금 쓰면 유입되는 주제를 제안합니다.</div></div>
+         <div class="pf" style="--fc:var(--a-bomding)">${svg("spark")}<div class="pf-t">문체 그대로 초안</div><div class="pf-d">봄딩·영도·겜더쿠 — 작성자별 말투 정본대로 게임 글 초안을 빠르게 써줍니다.</div></div>
+         <div class="pf" style="--fc:var(--a-yeongdo)">${svg("search")}<div class="pf-t">공식 정보로 검수</div><div class="pf-d">수치·명칭·날짜·스킬명을 공식 출처와 교차검증해 사실 오류를 거릅니다.</div></div>
+         <div class="pf" style="--fc:var(--brand)">${svg("arrowUR")}<div class="pf-t">발행까지 원스톱</div><div class="pf-d">작성 → 검수 → 발행을 자동으로. 깨끗하게 통과한 글만 게시합니다.</div></div>
+         <div class="pf" style="--fc:var(--a-news)">${svg("news")}<div class="pf-t">뉴스·캘린더로 타이밍</div><div class="pf-d">한·일·미 게임 뉴스레터와 출시 캘린더로 '언제 쓸지'까지 챙겨요.</div></div>
+         <div class="pf" style="--fc:var(--warm)">${svg("info")}<div class="pf-t">어디서나, 알림까지</div><div class="pf-d">설치형 앱에서 주제만 던지면 끝. 발행이 끝나면 푸시로 알려드려요.</div></div>
+       </div>
+       <div class="prod-steps">
+         <div class="ps"><span class="ps-n">1</span><div class="ps-x"><b>요청</b><span>주제 한 줄</span></div></div>
+         <div class="ps-arrow">${svg("arrowR")}</div>
+         <div class="ps"><span class="ps-n">2</span><div class="ps-x"><b>작성 · 검수</b><span>문체 초안 → 팩트체크</span></div></div>
+         <div class="ps-arrow">${svg("arrowR")}</div>
+         <div class="ps"><span class="ps-n">3</span><div class="ps-x"><b>발행 · 알림</b><span>게시 + 푸시</span></div></div>
+       </div>
+       <div class="prod-goal">
+         <div class="pg-t">쓰담이 노리는 것</div>
+         <div class="pg-items">
+           <div class="pg"><b>검색 유입·구독 성장</b><span>꾸준한 양질 발행으로 블로그를 키웁니다</span></div>
+           <div class="pg"><b>신뢰·전문성</b><span>'검증된 글'이라는 인상을 브랜드로</span></div>
+           <div class="pg"><b>시간 절약</b><span>글감·초안·검수를 동료가 거듭니다</span></div>
+         </div>
+       </div>
+     </section>
+     <div class="prod-section-t" style="margin-top:30px">쓰담을 만드는 팀</div>
      <div class="about-hero">
        <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><rect x="8.5" y="7" width="15" height="11" rx="2.5" fill="#fff" fill-opacity=".34"/><rect x="7" y="10" width="18" height="12.5" rx="2.5" fill="#fff" fill-opacity=".6"/><rect x="5.5" y="13" width="21" height="13.5" rx="3" fill="#fff"/><rect x="9" y="16.4" width="11" height="2" rx="1" fill="currentColor"/><rect x="9" y="20.4" width="14" height="1.6" rx=".8" fill="currentColor" fill-opacity=".45"/></svg>
-       <h2>쓰담을 만드는 팀</h2>
+       <h2>기획부터 발행까지, 한 팀처럼</h2>
        <p>대표(오케스트레이터)가 업무를 접수·정리해 <b>기획 → 작성 → 검수 → 발행</b>으로 직원 팀을 운영하는 블로그 콘텐츠 회사입니다. 모든 글은 사실검증과 작성자별 문체 정본을 거치고, 이미지도 <b>기획팀이 사실과 같은 출처에서 키트로 챙겨</b> 작성팀이 맥락에 맞게 넣고 검수팀이 어울림을 봅니다(정확도·퀄리티 1순위). 작성팀엔 <b>작성팀장</b>이 공용 가이드를 갱신·전파하되 작성자 문체는 독립으로 지켜요. 여기에 <b>인프라실</b>(사이트+앱 플랫폼, PC팀·모바일팀), <b>트렌드 분석팀</b>(매일 브리핑·뉴스레터), <b>벤치마크/피드백 팀</b>(실제 author 수렴)이 더해집니다. <b style="color:var(--brand)">상설</b>은 매 작업 자동 투입, <b>온디맨드</b>는 필요할 때 투입돼요.</p>
      </div>
      <div class="relmap" style="border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--bg-subtle);padding:20px 18px;margin-bottom:18px;">
