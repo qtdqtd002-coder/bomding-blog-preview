@@ -11,6 +11,18 @@ $ErrorActionPreference = "Stop"
 try { $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 $base = Split-Path -Parent $PSScriptRoot   # = BlogPreview 루트
 
+# 발행됨(실제 블로그 게시 확인) 집합 로드 — published.json 의 publishedRels(글 rel 경로 목록).
+#   기획팀이 업무 접수(work-intake) 시 published.json 을 갱신하면, 이 재빌드로 사이트·PWA·안드로이드가
+#   같은 소스(manifest/posts.json 의 published 플래그)에서 '발행됨'을 표시한다(단일 진실원천).
+$pubSet = New-Object System.Collections.Generic.HashSet[string]
+$pubFile = Join-Path $base "published.json"
+if(Test-Path $pubFile){
+  try {
+    $pj = Get-Content $pubFile -Raw -Encoding UTF8 | ConvertFrom-Json
+    foreach($rel in @($pj.publishedRels)){ if($rel){ [void]$pubSet.Add(([string]$rel).Trim()) } }
+  } catch { Write-Host "⚠ published.json 파싱 실패 — 발행됨 플래그 없이 진행: $($_.Exception.Message)" -ForegroundColor Yellow }
+}
+
 function Strip([string]$h){
   if($null -eq $h){return ""}
   $t = $h -replace '(?s)<[^>]+>',''
@@ -57,7 +69,8 @@ foreach($f in $files){
   $group = if($segs.Count -ge 3){$segs[1]}else{""}
   if([string]::IsNullOrWhiteSpace($title)){ $title = if($segs.Count -ge 3){$segs[2]}else{$segs[-1]}; $missing += "제목없음: $f" }
 
-  $map[$f]=[ordered]@{ created=$created; updated=$updated; date=$created; title=$title; cat=$cat; excerpt=$excerpt; author=$author; group=$group; readmin=$readmin }
+  $isPub = $pubSet.Contains($f)
+  $map[$f]=[ordered]@{ created=$created; updated=$updated; date=$created; title=$title; cat=$cat; excerpt=$excerpt; author=$author; group=$group; readmin=$readmin; published=$isPub }
 }
 
 # 2) 검증 — 디스크의 모든 글이 manifest에 들어갔는지 (누락=사고)
@@ -82,7 +95,7 @@ $arr = @()
 foreach($k in $map.Keys){
   $e = $map[$k]
   $arr += [ordered]@{ rel=$k; author=$e.author; group=$e.group; title=$e.title; cat=$e.cat;
-                      excerpt=$e.excerpt; created=$e.created; updated=$e.updated; readmin=$e.readmin }
+                      excerpt=$e.excerpt; created=$e.created; updated=$e.updated; readmin=$e.readmin; published=$e.published }
 }
 # 단일 원소도 배열로 직렬화(JSON.parse가 항상 array를 받도록); PS5.1엔 -AsArray가 없어 수동 보정
 $json = ConvertTo-Json @($arr) -Depth 5

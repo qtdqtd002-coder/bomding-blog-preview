@@ -21,7 +21,8 @@
     news: '<path d="M4 5h13v14a2 2 0 0 0 2-2V8"/><path d="M4 5v14a2 2 0 0 0 2 2h13"/><path d="M7 9h7M7 13h7M7 17h4"/>',
     cal: '<rect x="3.5" y="5" width="17" height="16" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
     edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
-    chev: '<path d="M9 6l6 6-6 6"/>'
+    chev: '<path d="M9 6l6 6-6 6"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>'
   };
   const ico = (n, w) => `<svg viewBox="0 0 24 24" width="${w || 24}" height="${w || 24}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[n] || ''}</svg>`;
   const extIco = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>';
@@ -54,7 +55,7 @@
         const author = p.author || (seg.length >= 2 ? seg[0] : '(기타)');
         const created = p.created || p.date || '';
         const updated = p.updated || p.date || created;
-        return { author, rel: p.rel, title: p.title || (seg.length >= 3 ? seg[2] : seg[seg.length - 1]), cat: p.cat || '', excerpt: p.excerpt || '', created, updated, uts: toTs(updated) };
+        return { author, rel: p.rel, title: p.title || (seg.length >= 3 ? seg[2] : seg[seg.length - 1]), cat: p.cat || '', excerpt: p.excerpt || '', created, updated, uts: toTs(updated), published: p.published === true };
       })
       .sort((a, b) => b.uts - a.uts);
   }
@@ -121,8 +122,9 @@
       $('#postList').innerHTML = list.length ? list.map((p) => {
         const href = base + '/' + enc(p.rel);
         const edited = p.updated && fmtDay(p.updated) !== fmtDay(p.created);
-        return `<a class="post" href="${href}" target="_blank" rel="noopener" style="--ac:${ac(p.author)}">
-          <div class="p-top"><span class="who"><span class="dot"></span>${esc(p.author)}</span>${p.cat ? `<span class="cat">${esc(p.cat)}</span>` : ''}</div>
+        const pubBadge = p.published ? `<span class="p-pub">${ico('check', 12)}발행됨</span>` : '';
+        return `<a class="post${p.published ? ' pub' : ''}" href="${href}" target="_blank" rel="noopener" style="--ac:${ac(p.author)}">
+          <div class="p-top"><span class="who"><span class="dot"></span>${esc(p.author)}</span>${p.cat ? `<span class="cat">${esc(p.cat)}</span>` : ''}${pubBadge}</div>
           <div class="p-title">${esc(p.title)}</div>${p.excerpt ? `<div class="p-ex">${esc(p.excerpt)}</div>` : ''}
           <div class="p-meta">${esc(fmtDay(p.created) || '—')} 등록${edited ? ' · 수정 ' + esc(fmtDay(p.updated)) : ''}<span class="ext">사이트에서 보기 ${extIco}</span></div></a>`;
       }).join('') : '<div class="empty">표시할 글이 없어요.</div>';
