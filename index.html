@@ -178,6 +178,15 @@ svg{display:block;}
 .badge-new{display:inline-flex;align-items:center;font-size:10.5px;font-weight:800;letter-spacing:.05em;line-height:1.6;
   color:var(--danger);background:color-mix(in srgb,var(--danger) 12%,transparent);
   border:1px solid color-mix(in srgb,var(--danger) 35%,transparent);border-radius:9999px;padding:1px 8px;margin-left:auto;flex:none;}
+/* 발행됨(실제 블로그 게시 확인) — 딤드 + 배지 */
+.badge-pub{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;line-height:1.6;
+  color:var(--sub);background:var(--surface-2);border:1px solid var(--line);border-radius:9999px;padding:1px 8px;margin-left:auto;flex:none;}
+.badge-pub .ic{width:12px;height:12px;}
+.card.pub,.feat.pub{opacity:.5;}
+.card.pub:hover,.feat.pub:hover{opacity:.85;}
+.card.pub .c-title,.feat.pub .f-title{color:var(--sub);}
+.pub-hint{color:var(--muted);font-weight:600;}
+.sbtn.on{background:color-mix(in srgb,var(--brand) 12%,var(--surface));border-color:color-mix(in srgb,var(--brand) 40%,var(--line-strong));color:var(--brand);}
 
 .empty,.loading{background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--radius-lg);
   padding:48px 20px;text-align:center;color:var(--muted);font-size:14px;}
@@ -490,7 +499,10 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
   building:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
   globe:'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
   calDays:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/>',
-  ruler:'<path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/>'
+  ruler:'<path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/>',
+  eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  eyeOff:'<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>'
  };
  const svg=(n,cls)=>`<svg class="ic${cls?(" "+cls):""}" viewBox="0 0 24 24" aria-hidden="true">${I[n]||""}</svg>`;
 
@@ -520,7 +532,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 
  let POSTS=[], ACCENT={}, TREND=[], NEWS=[], CAL=[],
      state={view:"__all__",q:"",newsDate:"",trendDate:"",page:1,newsCountry:"ALL",
-            sortDir:ls("sortDir","desc"), gridView:ls("gridView","0")==="1"};
+            sortDir:ls("sortDir","desc"), gridView:ls("gridView","0")==="1",
+            hidePublished:ls("hidePublished","1")==="1"};
  const mainEl=document.querySelector(".main");
 
  /* 다크모드 토글 */
@@ -546,8 +559,10 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  const trendP=fetch("_trend/trend.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}).catch(()=>({issues:[]}));
  const newsP=fetch("_news/news.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}).catch(()=>({issues:[]}));
  const calP=fetch("_calendar/calendar.json?ts="+Date.now()).then(r=>r.ok?r.json():{events:[]}).catch(()=>({events:[]}));
+ const pubP=fetch("published.json?ts="+Date.now()).then(r=>r.ok?r.json():{publishedRels:[]}).catch(()=>({publishedRels:[]}));
 
- Promise.all([postsP,trendP,newsP,calP]).then(([posts,trend,news,cal])=>{
+ Promise.all([postsP,trendP,newsP,calP,pubP]).then(([posts,trend,news,cal,pub])=>{
+   const PUBSET=new Set(((pub&&pub.publishedRels)||[]));
    POSTS=(posts||[]).filter(p=>p&&p.rel&&!p.rel.split("/").some(s=>s.startsWith(".")||s.startsWith("_"))).map(p=>{
      const a=p.rel.split("/");
      const author=p.author||(a.length>=2?a[0]:"(기타)");
@@ -556,7 +571,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      const updated=p.updated||p.date||created;
      return {author,group,rel:p.rel,topic:a.length>=3?a[2]:a[a.length-1],file:a[a.length-1],
              created,updated,ts:toTs(created),uts:toTs(updated),
-             title:p.title||"",cat:p.cat||"",excerpt:p.excerpt||"",readmin:p.readmin||0};
+             title:p.title||"",cat:p.cat||"",excerpt:p.excerpt||"",readmin:p.readmin||0,
+             published:PUBSET.has(p.rel)};
    });
 
    const names=[...new Set(POSTS.map(p=>p.author))];
@@ -639,17 +655,19 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    const edited=p.uts && fmtDay(p.updated)!==fmtDay(p.created);
    const who=`<span class="who" style="--ac:${ac}"><span class="dot"></span>${esc(p.author)}</span>`;
    const newBadge=isNew?`<span class="badge-new">NEW</span>`:"";
-   const top=`<div class="c-top">${who}`+(p.cat?`<span class="chip">${esc(p.cat)}</span>`:"")+(feat?"":newBadge)+`</div>`;
+   const pubBadge=p.published?`<span class="badge-pub">${svg("check")}발행됨</span>`:"";
+   const top=`<div class="c-top">${who}`+(p.cat?`<span class="chip">${esc(p.cat)}</span>`:"")+pubBadge+(feat?"":newBadge)+`</div>`;
    const meta=`<div class="c-meta"><span class="m">${svg("calendar")}${esc(dd)} 등록</span>`+
      (edited?`<span class="m edited">수정 ${esc(fmtDay(p.updated))}</span>`:"")+
      (p.readmin?`<span class="m">${svg("clock")}${p.readmin}분</span>`:"")+`</div>`;
+   const pubCls=p.published?" pub":"";
    if(feat){
-     return `<a class="feat" href="${enc(p.rel)}" style="--ac:${ac}">`+
+     return `<a class="feat${pubCls}" href="${enc(p.rel)}" style="--ac:${ac}">`+
        `<div class="f-k">${svg("spark")} 최신 글</div>${top}`+
        `<h2 class="f-title">${esc(title)}</h2>`+
        (p.excerpt?`<p class="c-ex f-ex">${esc(p.excerpt)}</p>`:"")+meta+`</a>`;
    }
-   return `<a class="card" href="${enc(p.rel)}" style="--ac:${ac}">${top}`+
+   return `<a class="card${pubCls}" href="${enc(p.rel)}" style="--ac:${ac}">${top}`+
      `<h3 class="c-title">${esc(title)}</h3>`+
      (p.excerpt?`<p class="c-ex">${esc(p.excerpt)}</p>`:"")+meta+`</a>`;
  }
@@ -664,6 +682,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    mainEl.classList.toggle("hero", state.view==="__all__"&&!state.q&&state.page===1);
    let list=state.view==="__all__"?POSTS:POSTS.filter(p=>p.author===state.view);
    if(state.q){ list=list.filter(p=>(p.title+" "+p.excerpt+" "+p.cat+" "+p.group+" "+p.topic).toLowerCase().includes(state.q)); }
+   const hiddenPub=list.filter(p=>p.published).length;
+   if(state.hidePublished){ list=list.filter(p=>!p.published); }
 
    const dir=state.sortDir==="asc"?1:-1;
    list=list.slice().sort((x,y)=>(x.ts-y.ts)*dir || x.title.localeCompare(y.title,"ko"));
@@ -683,7 +703,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    const statsHtml=(state.view==="__all__"&&!state.q&&state.page===1)?statsStrip():"";
    const desc=state.sortDir!=="asc";
    const useFeat=!state.q&&desc&&state.page===1&&total>1;
-   const toolbar=toolbarHtml(total);
+   const toolbar=toolbarHtml(total,hiddenPub);
 
    if(!total){ contentEl.innerHTML=statsHtml+toolbar+'<div class="empty">조건에 맞는 글이 없어요.</div>'; attachTools(); return; }
 
@@ -724,15 +744,19 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    return `<div class="stats">`+cell(total,"전체 글")+cell(authors,"작성자")+
      cell(newCnt,`최근 ${NEW_DAYS}일 신규`)+cell(newest?fmtDay(newest.created):"—","최근 등록일")+`</div>`;
  }
- function toolbarHtml(n){
+ function toolbarHtml(n,hiddenPub){
+   const pubInfo=(state.hidePublished&&hiddenPub)?` · <span class="pub-hint">발행 ${hiddenPub}편 숨김</span>`:"";
    return `<div class="toolbar">`+
-     `<div class="tcount">${svg("sort")}정렬 기준 <b>최초 등록일</b> · ${n}편</div>`+
+     `<div class="tcount">${svg("sort")}정렬 기준 <b>최초 등록일</b> · ${n}편${pubInfo}</div>`+
      `<div class="tools-r">`+
+       `<button class="sbtn${state.hidePublished?" on":""}" id="pubBtn" title="발행된 글 숨기기/보기 (발행=실제 블로그에 올라간 글)">${svg(state.hidePublished?"eyeOff":"eye")}${state.hidePublished?"발행글 숨김":"발행글 보기"}</button>`+
        `<button class="sbtn" id="sortBtn" title="등록일 오름/내림차순">${svg("sort")}${state.sortDir==="asc"?"오래된순":"최신순"}</button>`+
        `<button class="sbtn" id="viewBtn" title="리스트/갤러리 보기">${svg(state.gridView?"list":"grid")}${state.gridView?"리스트":"갤러리"}</button>`+
      `</div></div>`;
  }
  function attachTools(){
+   const pb=document.getElementById("pubBtn");
+   if(pb)pb.addEventListener("click",()=>{ state.hidePublished=!state.hidePublished; state.page=1; lset("hidePublished",state.hidePublished?"1":"0"); render(); });
    const sb=document.getElementById("sortBtn");
    if(sb)sb.addEventListener("click",()=>{ state.sortDir=state.sortDir==="asc"?"desc":"asc"; state.page=1; lset("sortDir",state.sortDir); render(); });
    const vb=document.getElementById("viewBtn");
