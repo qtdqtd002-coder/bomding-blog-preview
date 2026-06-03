@@ -14,7 +14,11 @@ window.BC_CONFIG = {
   PUBLISH_API_BASE_URL: 'https://34.139.184.70.sslip.io',
   VAPID_PUBLIC_KEY: 'BFrapX1Q23mY2kAu_qnq8izG-lYCzsKvqF92QRscaK9b3ZBhvsGn-n0CQ7HkOlPYBNrdZqL6OsZFUpbrZ2ZsEN8',
   DATA_URLS: ['../posts.json', '../manifest.json'], // 글 목록 소스(신→구 폴백)
-  SITE_BASE: '..'               // 글 본문 기준 경로(리포 루트)
+  TREND_URL: '../_trend/trend.json',       // 트렌드 브리핑
+  NEWS_URL: '../_news/news.json',          // 뉴스레터
+  CALENDAR_URL: '../_calendar/calendar.json', // 출시 캘린더
+  SITE_BASE: '..',              // 글 본문 기준 경로(리포 루트)
+  SITE_URL: '../'               // '사이트로 이동' 대상 = 블로그 컴퍼니 발행 사이트
 };
 
 (function () {

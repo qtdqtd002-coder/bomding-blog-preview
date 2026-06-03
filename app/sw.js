@@ -2,12 +2,11 @@
    - 앱 셸 캐시(오프라인 기동) + 데이터 네트워크 우선
    - push / notificationclick 골격(2단계 '발행 완료 푸시' 부착 지점)
 */
-const CACHE = 'bc-app-v3';
+const CACHE = 'bc-app-v5';
 const SHELL = [
   './', './index.html', './styles.css', './app.js', './api.js',
-  './vendor/open-props.min.css',
   './manifest.webmanifest',
-  './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable.png'
+  './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable.png'
 ];
 
 self.addEventListener('install', (e) => {
@@ -30,8 +29,8 @@ self.addEventListener('fetch', (e) => {
   let url;
   try { url = new URL(req.url); } catch (_) { return; }
 
-  // 데이터(posts/manifest.json): 네트워크 우선 → 갱신 반영, 실패 시 캐시
-  if (/(posts|manifest)\.json/.test(url.pathname)) {
+  // 데이터(posts/manifest/trend/news/calendar.json): 네트워크 우선 → 갱신 반영, 실패 시 캐시
+  if (/(posts|manifest|trend|news|calendar)\.json/.test(url.pathname)) {
     e.respondWith(
       fetch(req).then((r) => {
         const cp = r.clone();
