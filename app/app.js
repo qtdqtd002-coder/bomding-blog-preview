@@ -195,6 +195,7 @@
       `<div class="livebar"><span class="live-dot"></span><div class="live-tx"><b>요청은 <u>15분에 한 번</u> 자동으로 확인돼요.</b>
         <span>접수된 요청을 차례로 <em>작성 → 검수 → 발행</em>까지 자동 처리합니다. 발행이 끝나면 알림(푸시)으로 알려드려요.</span></div>
         <span class="badge ${connected ? 'ok' : 'warn'}" id="beBadge">${esc(window.BC.PublishRequestService.backendLabel())}</span></div>
+       <button class="push-cta" id="pushBtn" type="button" hidden>🔔 발행 알림 받기</button>
        <div class="card"><div class="card-b"><form class="form" id="reqForm" novalidate>
          <div class="field"><label for="fTopic">주제 <span class="req-star">*</span></label><input id="fTopic" type="text" placeholder="예: 메이크 드라마 MAD 초반 리롤 정리" autocomplete="off"></div>
          <div class="field"><label for="fMaterial">소재 / 참고 <span class="opt">선택</span></label><textarea id="fMaterial" placeholder="포함했으면 하는 내용·소재·참고 링크 등"></textarea></div>
@@ -209,6 +210,15 @@
     const authors = Array.from(new Set(known.concat(posts.map((p) => p.author).filter((a) => a && a !== '(기타)'))));
     $('#fWriter').innerHTML = '<option value="" disabled selected>작성자를 선택하세요</option>' + authors.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
     renderRequests();
+    renderPush();
+    $('#pushBtn').addEventListener('click', async () => {
+      const btn = $('#pushBtn'); if (!btn || btn.disabled) return;
+      btn.disabled = true; btn.textContent = '알림 권한 요청 중…';
+      const sub = await window.BC.PushService.subscribe().catch(() => null);
+      if (sub) toast('알림을 켰어요. 발행이 끝나면 알려드릴게요.');
+      else toast('알림이 켜지지 않았어요. 브라우저/기기 설정에서 이 사이트의 알림을 허용해주세요.');
+      renderPush();
+    });
     $('#reqForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const topic = $('#fTopic').value.trim(), material = $('#fMaterial').value.trim(), writer = $('#fWriter').value;
@@ -220,6 +230,16 @@
       toast(rec.status === 'submitted' ? '발행 요청을 보냈어요.' : '요청을 이 기기에 저장했어요 (백엔드 연결 시 자동 전송).');
     });
   };
+  async function renderPush() {
+    const btn = $('#pushBtn'); if (!btn) return;
+    const P = window.BC.PushService;
+    const st = await P.status().catch(() => 'unsupported');
+    if (st === 'unconfigured') { btn.hidden = true; return; }   // 백엔드 미연결: 버튼 숨김
+    btn.hidden = false;
+    if (st === 'unsupported') { btn.disabled = true; btn.classList.remove('on'); btn.textContent = '이 브라우저는 알림을 지원하지 않아요'; return; }
+    if (st === 'subscribed') { btn.disabled = true; btn.classList.add('on'); btn.textContent = '🔔 발행 알림 켜짐'; return; }
+    btn.disabled = false; btn.classList.remove('on'); btn.textContent = '🔔 발행 알림 받기';
+  }
   function renderRequests() {
     const reqs = window.BC.PublishRequestService.list();
     const box = $('#reqList'); if (!box) return;
