@@ -683,12 +683,33 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  window.refreshInstallUI=refreshInstallUI;
  window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); __deferredPrompt=e; refreshInstallUI(); });
  window.addEventListener("appinstalled",()=>{ __installed=true; __deferredPrompt=null; refreshInstallUI(); });
+ const UA=navigator.userAgent||"";
+ const IS_IOS=/iphone|ipad|ipod/i.test(UA);
+ const IS_ANDROID=/android/i.test(UA);
+ // 인앱(웹뷰) 브라우저: 카톡·페북·인스타·라인·네이버·다음 등 → PWA 설치(WebAPK) 불가, 외부 브라우저로 내보내야 함.
+ const IS_INAPP=/KAKAOTALK|FBAN|FBAV|FB_IAB|Instagram|Line\//i.test(UA)||/NAVER\(inapp/i.test(UA)||/DaumApps/i.test(UA)||(/; wv\)/i.test(UA)&&IS_ANDROID);
+ // 인앱 브라우저를 외부 기본 브라우저(크롬)로 탈출. 성공 시 true.
+ function openExternally(){
+   const url=location.href;
+   if(/KAKAOTALK/i.test(UA)){ location.href="kakaotalk://web/openExternal?url="+encodeURIComponent(url); return true; }
+   if(/Line\//i.test(UA)){ location.href=url+(url.indexOf("?")<0?"?":"&")+"openExternalBrowser=1"; return true; }
+   if(IS_ANDROID){ location.href="intent://"+url.replace(/^https?:\/\//,"")+"#Intent;scheme=https;package=com.android.chrome;end"; return true; }
+   return false;
+ }
  async function triggerInstall(){
+   // ① 네이티브 설치 프롬프트가 준비됐으면 즉시 설치(진짜 앱=WebAPK).
    if(__deferredPrompt){ __deferredPrompt.prompt(); try{ await __deferredPrompt.userChoice; }catch(e){} __deferredPrompt=null; refreshInstallUI(); return; }
-   const ua=navigator.userAgent||""; const ios=/iphone|ipad|ipod/i.test(ua);
-   alert(isStandalone()? "이미 앱으로 실행 중이에요."
-     : ios ? "iOS는 사파리 공유 버튼(□↑) → '홈 화면에 추가'를 누르면 앱처럼 설치돼요."
-     : "브라우저 메뉴(⋮)의 '앱 설치' 또는 '홈 화면에 추가'를 누르면 설치돼요.\n(설치 프롬프트가 곧 뜨면 그걸 눌러도 돼요.)");
+   if(isStandalone()){ alert("이미 쓰담 앱으로 실행 중이에요."); return; }
+   // ② 카톡 등 인앱 브라우저: 여기선 '앱 설치'가 안 됨 → 크롬으로 내보낸 뒤 거기서 설치.
+   if(IS_INAPP){
+     if(openExternally()) return;
+     alert("앱 설치는 크롬 같은 일반 브라우저에서 돼요.\n우측 위 메뉴 → '다른 브라우저로 열기'(또는 크롬으로 열기)로 연 뒤, 다시 '설치'를 눌러주세요.");
+     return;
+   }
+   // ③ iOS: 사파리만 가능(애플 정책상 '홈 화면에 추가'가 유일).
+   if(IS_IOS){ alert("아이폰은 사파리에서 공유 버튼(□↑) → '홈 화면에 추가'로 설치돼요.\n(애플은 이 방법만 허용해요.)"); return; }
+   // ④ 안드로이드/데스크톱 크롬인데 아직 프롬프트 전: 메뉴의 '앱 설치'(바로가기 아님).
+   alert("브라우저 메뉴(⋮)에서 '앱 설치'를 눌러 주세요. 잠시 후 설치 안내가 뜨면 그걸 눌러도 돼요.");
  }
  document.addEventListener("click",e=>{ const t=e.target.closest&&e.target.closest("#installCta,#installCta2"); if(t){ e.preventDefault(); triggerInstall(); } });
  if(isStandalone())__installed=true;
