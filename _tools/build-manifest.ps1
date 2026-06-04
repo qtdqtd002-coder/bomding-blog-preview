@@ -11,9 +11,29 @@ $ErrorActionPreference = "Stop"
 try { $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 $base = Split-Path -Parent $PSScriptRoot   # = BlogPreview 루트
 
+# ★발행 시작 시 '발행됨' 자동 검증(2026-06-04, 인프라실)★
+#   매 발행마다 모든 글의 작성팀 직원(작성자)을 판별하고, 그 작성자의 실제 블로그(네이버/티스토리)에서
+#   제목을 조회해 게시 여부를 검토 → published.json 을 재생성한다. 그 뒤 아래에서 그 결과를 읽어
+#   manifest/posts.json 의 published 플래그를 굽는다. 즉 PC팀(사이트)·모바일팀(PWA·앤드로이드 앱)이
+#   어떤 글을 발행하든 같은 검증을 거쳐 '발행됨' 딤드+라벨이 자동 반영된다(단일 진실원천).
+#   - 네트워크 실패 등으로 검증이 실패해도 기존 published.json 으로 폴백(빌드는 계속).
+#   - 끄려면: 환경변수 SKIP_PUBLISH_CHECK=1 (오프라인/CI 등).
+if($env:SKIP_PUBLISH_CHECK -ne "1"){
+  $chk = Join-Path $PSScriptRoot "check-published.ps1"
+  if(Test-Path $chk){
+    Write-Host "▶ 발행됨 자동 검증 실행(check-published.ps1) — 작성자별 실제 블로그 대조…" -ForegroundColor Cyan
+    try {
+      & $chk
+      if($LASTEXITCODE -and $LASTEXITCODE -ne 0){ Write-Host "⚠ check-published 종료코드 $LASTEXITCODE — 기존 published.json 으로 진행" -ForegroundColor Yellow }
+    } catch {
+      Write-Host "⚠ 발행됨 검증 실패 — 기존 published.json 으로 폴백: $($_.Exception.Message)" -ForegroundColor Yellow
+    }
+  } else { Write-Host "⚠ check-published.ps1 없음 — 발행됨 자동 검증 건너뜀(기존 published.json 사용)" -ForegroundColor Yellow }
+} else { Write-Host "ℹ SKIP_PUBLISH_CHECK=1 — 발행됨 자동 검증 건너뜀(기존 published.json 사용)" -ForegroundColor DarkGray }
+
 # 발행됨(실제 블로그 게시 확인) 집합 로드 — published.json 의 publishedRels(글 rel 경로 목록).
-#   기획팀이 업무 접수(work-intake) 시 published.json 을 갱신하면, 이 재빌드로 사이트·PWA·안드로이드가
-#   같은 소스(manifest/posts.json 의 published 플래그)에서 '발행됨'을 표시한다(단일 진실원천).
+#   check-published.ps1(위)이 발행 때마다 자동 갱신한다. (수동 보정도 가능 — 같은 파일이 단일 진실원천.)
+#   이 재빌드로 사이트·PWA·안드로이드가 같은 소스(manifest/posts.json 의 published 플래그)에서 '발행됨'을 표시한다.
 $pubSet = New-Object System.Collections.Generic.HashSet[string]
 $pubFile = Join-Path $base "published.json"
 if(Test-Path $pubFile){

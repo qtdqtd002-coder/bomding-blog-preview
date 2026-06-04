@@ -62,8 +62,16 @@
   async function getPosts() {
     if (cache.posts) return cache.posts;
     const urls = CFG('DATA_URLS', ['../posts.json', '../manifest.json']);
-    for (const u of urls) { try { const arr = normalizePosts(await loadJSON(u)); if (arr.length) return (cache.posts = arr); } catch (_) {} }
-    return (cache.posts = []);
+    let arr = [];
+    for (const u of urls) { try { const a = normalizePosts(await loadJSON(u)); if (a.length) { arr = a; break; } } catch (_) {} }
+    /* '발행됨'(실제 블로그 게시 확인)을 published.json 으로도 한 번 더 머지 — 사이트(index.html)와 동일.
+       posts.json 의 baked 플래그가 빌드 타이밍으로 비어 있어도, 이 런타임 머지로 앱이 자가보정해 딤드+라벨을 단다. */
+    try {
+      const pub = await loadJSON(CFG('PUBLISHED_URL', '../published.json'));
+      const PUBSET = new Set(((pub && pub.publishedRels) || []).map((s) => String(s).trim()));
+      if (PUBSET.size) arr = arr.map((p) => (p.published || PUBSET.has(p.rel) ? Object.assign(p, { published: true }) : p));
+    } catch (_) {}
+    return (cache.posts = arr);
   }
   async function getTrend() { if (cache.trend) return cache.trend; const d = await loadJSON(CFG('TREND_URL', '../_trend/trend.json')); return (cache.trend = (d && d.issues) || []); }
   async function getNews() { if (cache.news) return cache.news; const d = await loadJSON(CFG('NEWS_URL', '../_news/news.json')); return (cache.news = (d && d.issues) || []); }
