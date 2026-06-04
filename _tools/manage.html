@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>쓰담 · 글 관리 (PC 로컬)</title>
+<style>
+  :root{
+    --bg:#0f1117; --panel:#171a23; --panel2:#1d2130; --line:#2a2f40;
+    --txt:#e8eaf2; --dim:#9aa0b4; --cobalt:#3b5bdb; --violet:#7048e8; --coral:#ff6b6b;
+    --ok:#2f9e44; --okbg:#13371f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"Segoe UI","Malgun Gothic",sans-serif;line-height:1.5}
+  header{position:sticky;top:0;z-index:5;background:linear-gradient(90deg,var(--cobalt),var(--violet));
+    padding:16px 22px;box-shadow:0 2px 14px rgba(0,0,0,.4)}
+  header h1{margin:0;font-size:18px;letter-spacing:.3px}
+  header .sub{font-size:12px;opacity:.9;margin-top:3px}
+  .wrap{max-width:920px;margin:0 auto;padding:18px 16px 80px}
+  .bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 18px}
+  .bar input[type=search]{flex:1;min-width:180px;background:var(--panel2);border:1px solid var(--line);
+    color:var(--txt);padding:9px 12px;border-radius:9px;font-size:14px}
+  .bar label{font-size:13px;color:var(--dim);display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+  .stats{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--dim);margin-bottom:6px}
+  .stats b{color:var(--txt)}
+  .author{margin:22px 0 8px;font-size:14px;font-weight:700;color:var(--violet);
+    border-bottom:1px solid var(--line);padding-bottom:6px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px;
+    margin:9px 0;display:flex;gap:14px;align-items:flex-start}
+  .card.pub{opacity:.55}
+  .card .meta{flex:1;min-width:0}
+  .card .ttl{font-size:14.5px;font-weight:600;word-break:break-word}
+  .card .grp{font-size:12px;color:var(--dim);margin-top:2px;word-break:break-all}
+  .card .info{font-size:11.5px;color:var(--dim);margin-top:6px;display:flex;gap:12px;flex-wrap:wrap}
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;white-space:nowrap}
+  .badge.pub{background:var(--okbg);color:#69db7c;border:1px solid #2b6b3d}
+  .badge.cat{background:#222740;color:#9db0ff;border:1px solid #33406b}
+  .btn-del{background:transparent;border:1px solid var(--coral);color:var(--coral);
+    padding:7px 13px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;flex:none}
+  .btn-del:hover{background:var(--coral);color:#fff}
+  .btn-del:disabled{opacity:.4;cursor:not-allowed}
+  .lock{font-size:11.5px;color:var(--dim);flex:none;align-self:center}
+  .empty{color:var(--dim);text-align:center;padding:40px 0}
+  #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--panel2);
+    border:1px solid var(--line);color:var(--txt);padding:12px 18px;border-radius:10px;font-size:13.5px;
+    box-shadow:0 6px 24px rgba(0,0,0,.5);opacity:0;transition:opacity .25s;max-width:90vw;z-index:20}
+  #toast.show{opacity:1}
+  #toast.err{border-color:var(--coral)}
+  #toast.ok{border-color:var(--ok)}
+  .note{font-size:12px;color:var(--dim);background:var(--panel);border:1px solid var(--line);
+    border-radius:10px;padding:11px 14px;margin-bottom:8px}
+  .note b{color:#ffd07a}
+</style>
+</head>
+<body>
+<header>
+  <h1>쓰담 · 글 관리</h1>
+  <div class="sub">PC 로컬 전용 — 불필요한 글(미발행)을 삭제해 사이트를 가볍게 유지합니다. 발행된 글은 보호됩니다.</div>
+</header>
+<div class="wrap">
+  <div class="note">삭제하면 글 폴더(본문·이미지·붙여넣기본 포함)가 <b>깃에서 제거되고 자동으로 커밋·푸시</b>되어 사이트/앱에서 사라집니다. 깃 히스토리에는 남아 필요 시 복구할 수 있습니다. <b>발행됨</b> 글은 삭제 버튼이 막혀 있습니다.</div>
+  <div class="stats" id="stats"></div>
+  <div class="bar">
+    <input type="search" id="q" placeholder="제목·게임·작성자 검색…">
+    <label><input type="checkbox" id="onlyDel" checked> 삭제 가능한 글만 보기</label>
+  </div>
+  <div id="list"><div class="empty">불러오는 중…</div></div>
+</div>
+<div id="toast"></div>
+
+<script>
+let POSTS = [];
+
+function fmtSize(kb){
+  if(kb == null) return '';
+  if(kb >= 1024) return (kb/1024).toFixed(1)+' MB';
+  return Math.max(1,Math.round(kb))+' KB';
+}
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function toast(msg, kind){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'show ' + (kind||'');
+  clearTimeout(t._h); t._h = setTimeout(()=>{ t.className=''; }, kind==='err'?6000:3500);
+}
+
+async function load(){
+  try{
+    const res = await fetch('/api/list', {cache:'no-store'});
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error||('HTTP '+res.status));
+    POSTS = data.posts || [];
+    render();
+  }catch(e){
+    document.getElementById('list').innerHTML =
+      '<div class="empty">목록을 불러오지 못했습니다.<br>'+esc(e.message)+'</div>';
+  }
+}
+
+function render(){
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const onlyDel = document.getElementById('onlyDel').checked;
+  const total = POSTS.length;
+  const delCount = POSTS.filter(p=>!p.published).length;
+  const delKB = POSTS.filter(p=>!p.published).reduce((s,p)=>s+(p.sizeKB||0),0);
+  document.getElementById('stats').innerHTML =
+    `전체 <b>${total}</b>편 · 삭제 가능 <b>${delCount}</b>편 · 발행됨 <b>${total-delCount}</b>편 · 정리 가능 용량 <b>${fmtSize(delKB)}</b>`;
+
+  let rows = POSTS.slice();
+  if(onlyDel) rows = rows.filter(p=>!p.published);
+  if(q) rows = rows.filter(p=>(p.title+' '+p.group+' '+p.author).toLowerCase().includes(q));
+
+  if(!rows.length){ document.getElementById('list').innerHTML = '<div class="empty">표시할 글이 없습니다.</div>'; return; }
+
+  const byAuthor = {};
+  rows.forEach(p=>{ (byAuthor[p.author] = byAuthor[p.author]||[]).push(p); });
+
+  let html = '';
+  Object.keys(byAuthor).sort().forEach(author=>{
+    html += `<div class="author">${esc(author)} <span style="color:var(--dim);font-weight:400">(${byAuthor[author].length})</span></div>`;
+    byAuthor[author].forEach(p=>{
+      const info = [];
+      if(p.created) info.push(esc(p.created.slice(0,10)));
+      if(p.sizeKB != null) info.push(fmtSize(p.sizeKB));
+      if(p.fileCount) info.push(p.fileCount+'개 파일');
+      html += `<div class="card ${p.published?'pub':''}">
+        <div class="meta">
+          <div class="ttl">${esc(p.title)} ${p.cat?`<span class="badge cat">${esc(p.cat)}</span>`:''} ${p.published?'<span class="badge pub">발행됨</span>':''}</div>
+          <div class="grp">${esc(p.group||'')} · ${esc(p.rel)}</div>
+          <div class="info">${info.join(' · ')}</div>
+        </div>
+        ${p.published
+          ? '<span class="lock">🔒 발행됨 · 삭제 불가</span>'
+          : `<button class="btn-del" data-rel="${esc(p.rel)}" data-title="${esc(p.title)}">삭제</button>`}
+      </div>`;
+    });
+  });
+  document.getElementById('list').innerHTML = html;
+}
+
+async function del(rel, title, btn){
+  if(!confirm(`정말 삭제할까요?\n\n「${title}」\n${rel}\n\n글 폴더(이미지 포함)가 깃에서 제거되고 커밋·푸시됩니다.\n(깃 히스토리로 복구는 가능합니다.)`)) return;
+  btn.disabled = true; btn.textContent = '삭제 중…';
+  try{
+    const res = await fetch('/api/delete', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({rel})
+    });
+    const data = await res.json();
+    if(!res.ok || !data.ok) throw new Error(data.error || ('HTTP '+res.status));
+    toast((data.pushed ? '삭제·푸시 완료: ' : '삭제(로컬 커밋)됨 — 푸시 확인 필요: ') + title, data.pushed ? 'ok' : 'err');
+    await load();
+  }catch(e){
+    btn.disabled = false; btn.textContent = '삭제';
+    toast('삭제 실패: ' + e.message, 'err');
+  }
+}
+
+document.getElementById('q').addEventListener('input', render);
+document.getElementById('onlyDel').addEventListener('change', render);
+document.getElementById('list').addEventListener('click', e=>{
+  const b = e.target.closest('.btn-del'); if(!b) return;
+  del(b.dataset.rel, b.dataset.title, b);
+});
+load();
+</script>
+</body>
+</html>
