@@ -228,5 +228,7 @@ $out = [ordered]@{
   publishedRels = $finalRels
 }
 $json = $out | ConvertTo-Json -Depth 5
-[System.IO.File]::WriteAllText($pubFile, $json, (New-Object System.Text.UTF8Encoding($true)))  # BOM(빌드 스크립트 PS5.1 파싱 호환)
+# no-BOM UTF-8: published.json 은 JS(fetch().json())·PowerShell(-Encoding UTF8) 양쪽이 소비하는 데이터 파일.
+#   BOM 을 넣으면 일부 JSON 파서(ConvertFrom-Json 등)가 선두 BOM 에서 실패한다 → BOM 없이 기록.
+[System.IO.File]::WriteAllText($pubFile, $json, (New-Object System.Text.UTF8Encoding($false)))
 Write-Host ("`n✓ published.json 재생성: {0}편 발행확인 → {1}" -f $finalRels.Count, $pubFile) -ForegroundColor Green
