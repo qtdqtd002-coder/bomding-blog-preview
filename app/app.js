@@ -38,6 +38,18 @@
   const SUB = { posts: '봄딩·영도·겜더쿠 발행글', trend: '오늘 뜨는 게임·주제', news: '한·일·미 게임 뉴스', calendar: '출시·업데이트·행사 일정', request: '주제만 적으면 작성→검수→발행', home: '당신의 글쓰기 동료' };
   const TITLE = { home: '쓰담', posts: '발행글', trend: '트렌드', news: '뉴스레터', calendar: '출시 캘린더', request: '새 글 요청' };
 
+  /* 글의 목적(purpose) — 백엔드 PURPOSES / post-purpose-guide.md 정본과 1:1. 값=한글 라벨. */
+  const PURPOSE_GROUPS = [
+    ['게임', ['사전예약', '출시·첫인상', '업데이트·패치', '게임 정보', '게임 공략', '쿠폰·이벤트', '티어·추천']],
+    ['제품(육아·취미)', ['제품 비교·추천', '사용 후기·리뷰']],
+  ];
+  const PURPOSE_OPTIONS =
+    '<option value="" disabled selected>목적을 선택하세요</option>' +
+    PURPOSE_GROUPS.map(([g, items]) =>
+      `<optgroup label="${g}">` + items.map((p) => `<option value="${p}">${p}</option>`).join('') + '</optgroup>'
+    ).join('') +
+    '<optgroup label="기타"><option value="기타">기타 (잘 모르겠어요 · 기획팀이 정함)</option></optgroup>';
+
   /* ---------- 데이터 (캐시) ---------- */
   const cache = {};
   async function loadJSON(url) {
@@ -206,6 +218,8 @@
         <span class="badge ${connected ? 'ok' : 'warn'}" id="beBadge">${esc(window.BC.PublishRequestService.backendLabel())}</span></div>
        <button class="push-cta" id="pushBtn" type="button" hidden>🔔 발행 알림 받기</button>
        <div class="card"><div class="card-b"><form class="form" id="reqForm" novalidate>
+         <div class="field"><label for="fPurpose">글의 목적 <span class="req-star">*</span></label><select id="fPurpose">${PURPOSE_OPTIONS}</select>
+           <div class="filehint">목적을 고르면 그 목적에 꼭 들어갈 정보(일정·쿠폰·공략 출처 등)를 챙겨 품질이 고르게 나와요. 모르겠으면 ‘기타’를 고르면 기획팀이 정해드려요.</div></div>
          <div class="field"><label for="fTopic">주제 <span class="req-star">*</span></label><input id="fTopic" type="text" placeholder="예: 메이크 드라마 MAD 초반 리롤 정리" autocomplete="off"></div>
          <div class="field"><label for="fMaterial">소재 / 참고 <span class="opt">선택</span></label><textarea id="fMaterial" placeholder="포함했으면 하는 내용·소재·참고 링크 등"></textarea></div>
          <div class="field"><label for="fWriter">희망 작성자 <span class="req-star">*</span></label><select id="fWriter"></select></div>
@@ -248,10 +262,11 @@
     });
     $('#reqForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const topic = $('#fTopic').value.trim(), material = $('#fMaterial').value.trim(), writer = $('#fWriter').value;
+      const purpose = $('#fPurpose').value, topic = $('#fTopic').value.trim(), material = $('#fMaterial').value.trim(), writer = $('#fWriter').value;
+      if (!purpose) { toast('글의 목적을 선택해주세요.'); $('#fPurpose').focus(); return; }
       if (!topic) { toast('주제를 입력해주세요.'); $('#fTopic').focus(); return; }
       if (!writer) { toast('희망 작성자를 선택해주세요.'); $('#fWriter').focus(); return; }
-      const rec = await window.BC.PublishRequestService.submit({ topic, material, writer, file: pickedFile });
+      const rec = await window.BC.PublishRequestService.submit({ purpose, topic, material, writer, file: pickedFile });
       $('#reqForm').reset();
       pickedFile = null; fName.textContent = '선택된 파일 없음'; fClear.hidden = true;
       renderRequests();
@@ -276,7 +291,7 @@
     const cnt = $('#reqCount'); if (cnt) cnt.textContent = reqs.length ? `${reqs.length}건` : '';
     if (!reqs.length) { box.innerHTML = '<div class="empty">아직 보낸 요청이 없어요.</div>'; return; }
     const label = { local: '저장됨(로컬)', queued: '대기(전송예정)', submitted: '전송됨', failed: '전송 실패(재시도 필요)' };
-    box.innerHTML = reqs.map((r) => `<div class="req"><div class="r-top"><b>${esc(r.topic || '(주제 없음)')}</b><span class="rstat s-${r.status}">${label[r.status] || r.status}</span></div>${r.material ? `<div class="r-sub">소재: ${esc(r.material)}</div>` : ''}${r.fileName ? `<div class="r-sub">📎 ${esc(r.fileName)}</div>` : ''}<div class="r-meta">희망 작성자: ${esc(r.writer || '미지정')} · ${esc(fmtDay(new Date(r.createdAt).toISOString().slice(0, 10)))}</div><button class="r-del" data-id="${esc(r.id)}">삭제</button></div>`).join('');
+    box.innerHTML = reqs.map((r) => `<div class="req"><div class="r-top"><b>${esc(r.topic || '(주제 없음)')}</b><span class="rstat s-${r.status}">${label[r.status] || r.status}</span></div>${r.material ? `<div class="r-sub">소재: ${esc(r.material)}</div>` : ''}${r.fileName ? `<div class="r-sub">📎 ${esc(r.fileName)}</div>` : ''}<div class="r-meta">${r.purpose ? `목적: ${esc(r.purpose)} · ` : ''}희망 작성자: ${esc(r.writer || '미지정')} · ${esc(fmtDay(new Date(r.createdAt).toISOString().slice(0, 10)))}</div><button class="r-del" data-id="${esc(r.id)}">삭제</button></div>`).join('');
     $$('.r-del', box).forEach((b) => b.addEventListener('click', () => { window.BC.PublishRequestService.remove(b.dataset.id); renderRequests(); }));
   }
 

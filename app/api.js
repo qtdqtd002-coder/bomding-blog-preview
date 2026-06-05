@@ -38,7 +38,7 @@ window.BC_CONFIG = {
       const file = req.file || null;
       const rec = {
         id: 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7), createdAt: Date.now(), status: 'local',
-        topic: req.topic, material: req.material, writer: req.writer, fileName: file ? file.name : null,
+        purpose: req.purpose, topic: req.topic, material: req.material, writer: req.writer, fileName: file ? file.name : null,
       };
       if (this.isConnected()) {
         try {
@@ -47,13 +47,15 @@ window.BC_CONFIG = {
             // 첨부 있으면 multipart — 큐엔 저장 안 함(파일 재전송 불가하므로 실패 시 사용자 재시도).
             const fd = new FormData();
             fd.append('topic', req.topic || ''); fd.append('material', req.material || '');
-            if (req.writer) fd.append('writer', req.writer); fd.append('source', 'pwa');
+            if (req.writer) fd.append('writer', req.writer);
+            if (req.purpose) fd.append('purpose', req.purpose);
+            fd.append('source', 'pwa');
             fd.append('attachment', file, file.name);
             res = await fetch(base() + '/requests', { method: 'POST', body: fd });
           } else {
             res = await fetch(base() + '/requests', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ topic: req.topic, material: req.material, writer: req.writer, source: 'pwa' })
+              body: JSON.stringify({ purpose: req.purpose, topic: req.topic, material: req.material, writer: req.writer, source: 'pwa' })
             });
           }
           if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -80,7 +82,7 @@ window.BC_CONFIG = {
           try {
             const res = await fetch(base() + '/requests', {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ topic: r.topic, material: r.material, writer: r.writer })
+              body: JSON.stringify({ purpose: r.purpose, topic: r.topic, material: r.material, writer: r.writer })
             });
             if (res.ok) { r.status = 'submitted'; n++; }
           } catch (_) {}
