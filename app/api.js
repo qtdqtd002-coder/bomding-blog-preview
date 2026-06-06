@@ -73,6 +73,32 @@ window.BC_CONFIG = {
 
     remove(id) { save(load().filter((r) => r.id !== id)); },
 
+    // 백엔드 GET /requests 로 내 요청들의 실제 상태를 동기화.
+    //  - serverId(접수 응답 id)로 매칭해 status/제목/발행링크 갱신.
+    //  - 발행 완료(published)된 요청은 목록에서 제거(요청 #1) → '아직 발행 안 된 것'만 남긴다.
+    //  반환: 변경 있으면 true. 네트워크 실패엔 조용히 false.
+    async syncStatuses() {
+      if (!this.isConnected()) return false;
+      let remote;
+      try { const res = await fetch(base() + '/requests'); if (!res.ok) return false; remote = await res.json(); }
+      catch (_) { return false; }
+      if (!Array.isArray(remote)) return false;
+      const byId = {}; remote.forEach((x) => { if (x && x.id) byId[x.id] = x; });
+      const all = load(); let changed = false; const kept = [];
+      for (const r of all) {
+        const rm = r.serverId && byId[r.serverId];
+        if (rm) {
+          if (r.status !== rm.status) { r.status = rm.status; changed = true; }
+          if (rm.publishUrl && r.publishUrl !== rm.publishUrl) { r.publishUrl = rm.publishUrl; changed = true; }
+          if (rm.title && r.title !== rm.title) { r.title = rm.title; changed = true; }
+          if (rm.status === 'published') { changed = true; continue; }  // 발행 완료 → 목록에서 제거
+        }
+        kept.push(r);
+      }
+      if (changed) save(kept);
+      return changed;
+    },
+
     // 2단계: 미전송(local/queued) 항목 재전송
     async flushQueue() {
       if (!this.isConnected()) return 0;

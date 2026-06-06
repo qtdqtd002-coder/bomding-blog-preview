@@ -460,6 +460,10 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
   background:color-mix(in srgb,var(--brand) 6%,transparent);border:1px solid color-mix(in srgb,var(--brand) 18%,transparent);
   border-radius:var(--radius-sm);padding:10px 12px;margin-top:12px;}
 .rf-hint .ic{width:15px;height:15px;flex:none;margin-top:1px;color:var(--brand);}
+.rf-hint-list{align-items:flex-start;}
+.rf-hl{margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:5px;list-style:decimal;}
+.rf-hl li{padding-left:2px;line-height:1.55;}
+.rf-hl li::marker{color:var(--brand);font-weight:800;}
 .rf-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
 .rf-submit{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;
   color:#fff;background:var(--brand);border:none;border-radius:var(--radius-sm);padding:12px 20px;transition:.12s;}
@@ -602,7 +606,26 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 .admin-del:hover{opacity:1;background:#c92a2a;}
 .admin-del .ic{width:14px;height:14px;}
 .admin-del[disabled]{opacity:.55;cursor:default;}
-.card.admin-on,.feat.admin-on{outline:1.5px dashed color-mix(in srgb,#e03131 55%,transparent);outline-offset:-2px;}
+/* 카드 우상단 아이콘 메뉴(관리: 발행완료·삭제) */
+.admin-menu{position:absolute;top:8px;right:8px;z-index:5;}
+.admin-menu-btn{width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--surface);color:var(--sub);border:1px solid var(--line-strong);border-radius:8px;cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.16);transition:.12s;}
+.admin-menu-btn:hover{color:var(--ink);background:var(--bg-subtle);}
+.admin-menu-btn .ic{width:17px;height:17px;}
+.admin-menu-btn .ic circle{fill:currentColor;stroke:none;}
+.admin-menu-pop{position:fixed;z-index:1200;min-width:148px;background:var(--surface);border:1px solid var(--line-strong);
+  border-radius:10px;box-shadow:var(--sh-lg);padding:5px;display:flex;flex-direction:column;gap:2px;}
+.admin-menu-pop[hidden]{display:none;}
+.admin-menu-pop button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:0;background:transparent;
+  color:var(--sub);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:9px 10px;border-radius:7px;transition:.1s;}
+.admin-menu-pop button .ic{width:15px;height:15px;}
+.admin-menu-pop button:hover{background:var(--bg-subtle);color:var(--ink);}
+.admin-menu-pop button[data-act="pub"]{color:#0a7d3b;}
+.admin-menu-pop button[data-act="pub"]:hover{background:color-mix(in srgb,#12b34a 12%,transparent);}
+.admin-menu-pop button[data-act="del"]{color:var(--danger);}
+.admin-menu-pop button[data-act="del"]:hover{background:color-mix(in srgb,var(--danger) 10%,transparent);}
+.card.admin-on,.feat.admin-on{outline:1.5px dashed color-mix(in srgb,var(--brand) 50%,transparent);outline-offset:-2px;}
 .adm-chip{position:fixed;left:16px;bottom:16px;z-index:900;display:flex;align-items:center;gap:8px;
   background:#e03131;color:#fff;border-radius:999px;padding:7px 14px 7px 12px;font-size:12.5px;font-weight:700;
   box-shadow:0 6px 22px rgba(0,0,0,.35);}
@@ -678,7 +701,9 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
   download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>',
   lock:'<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
   lockOpen:'<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>',
-  trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>'
+  trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>',
+  dots:'<circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/>',
+  checkCircle:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>'
  };
  const svg=(n,cls)=>`<svg class="ic${cls?(" "+cls):""}" viewBox="0 0 24 24" aria-hidden="true">${I[n]||""}</svg>`;
 
@@ -747,7 +772,32 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      }
      const all=reqLoad(); all.push(rec); reqSave(all); return rec;
    },
-   remove(id){ reqSave(reqLoad().filter(r=>r.id!==id)); }
+   remove(id){ reqSave(reqLoad().filter(r=>r.id!==id)); },
+   /* 백엔드 GET /requests 로 내 요청들의 실제 상태를 동기화한다.
+      - serverId(접수 응답의 id)로 매칭해 status/제목/발행링크를 갱신.
+      - 발행 완료(published)된 요청은 목록에서 제거(요청 #1) — '아직 발행 안 된 것'만 남긴다.
+      반환: 변경이 있었으면 true. 네트워크 실패엔 조용히 false(기존 표시 유지). */
+   async syncStatuses(){
+     if(!this.isConnected())return false;
+     let remote;
+     try{ const res=await fetch(apiBase()+"/requests"); if(!res.ok)return false; remote=await res.json(); }
+     catch(_){ return false; }
+     if(!Array.isArray(remote))return false;
+     const byId={}; remote.forEach(x=>{ if(x&&x.id)byId[x.id]=x; });
+     const all=reqLoad(); let changed=false; const kept=[];
+     for(const r of all){
+       const rm=r.serverId&&byId[r.serverId];
+       if(rm){
+         if(r.status!==rm.status){ r.status=rm.status; changed=true; }
+         if(rm.publishUrl&&r.publishUrl!==rm.publishUrl){ r.publishUrl=rm.publishUrl; changed=true; }
+         if(rm.title&&r.title!==rm.title){ r.title=rm.title; changed=true; }
+         if(rm.status==="published"){ changed=true; continue; }  /* 발행 완료 → 내 요청 목록에서 제거 */
+       }
+       kept.push(r);
+     }
+     if(changed)reqSave(kept);
+     return changed;
+   }
  };
  /* 웹 푸시: 사이트 SW(sw.js) 등록 후에만 동작(설치형 PWA 단계에서 등록). */
  const PushSvc={
@@ -1344,7 +1394,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  }
 
  /* ---------- 새 글 요청 (백엔드 큐 연동) ---------- */
- const REQ_STATUS_LABEL={ local:"임시저장", queued:"전송 대기", submitted:"접수됨", received:"접수됨", processing:"작성 중", published:"발행됨", failed:"실패", skipped:"건너뜀" };
+ const REQ_STATUS_LABEL={ local:"임시저장", queued:"전송 대기", submitted:"접수됨", received:"접수됨", processing:"발행중", published:"발행됨", failed:"실패", skipped:"건너뜀" };
  function renderRequest(){
    titleEl.textContent="새 글 요청"; subEl.textContent="주제만 적으면 작성→검수→발행까지 자동으로 — 발행되면 알림으로 알려드려요";
    const writers=PREF.slice();
@@ -1375,7 +1425,11 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
            <span id="rfFileName" class="rf-fname">선택된 파일 없음</span>
            <button type="button" id="rfFileClear" class="rf-fclear" hidden>지우기</button>
          </div>
-         <div class="rf-hint">${svg("info")} 외주처가 준 "반드시 포함/제외할 내용" 문서를 올리면, <b>이 요청 글 1건에만</b> 반드시 지킬 규칙으로 반영됩니다. (다른 글·작성 규칙엔 영향 없는 1회용) · docx·xlsx·pdf·txt·hwpx</div>
+         <div class="rf-hint rf-hint-list">${svg("info")}<ol class="rf-hl">
+           <li>외주처가 준 "반드시 포함/제외할 내용" 문서를 올리면 <b>이 요청 글 1건에만</b> 규칙으로 반영돼요.</li>
+           <li>다른 글·작성 규칙엔 영향 없는 <b>1회용</b>이에요.</li>
+           <li>지원 형식: docx · xlsx · pdf · txt · hwpx</li>
+         </ol></div>
          <div class="rf-actions">
            <button type="submit" class="rf-submit">${svg("send")}요청 보내기</button>
            <button type="button" id="rfPush" class="rf-push" hidden>${svg("bell")}발행 알림 받기</button>
@@ -1398,7 +1452,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 
    function showMsg(t,kind){ const m=$("#rfMsg"); m.hidden=false; m.textContent=t; m.className="rf-msg"+(kind?(" "+kind):""); }
    function drawList(){
-     const reqs=RequestService.list();
+     const reqs=RequestService.list().filter(r=>r.status!=="published");  /* 발행 완료분은 숨김(요청 #1) */
      const el=$("#reqList");
      if(!reqs.length){ el.innerHTML=""; return; }
      el.innerHTML=`<div class="rl-h">내 요청 (${reqs.length})</div>`+reqs.map(r=>{
@@ -1413,6 +1467,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      el.querySelectorAll(".rl-del").forEach(b=>b.addEventListener("click",()=>{ RequestService.remove(b.dataset.id); drawList(); }));
    }
    drawList();
+   /* 뷰 진입 시 1회 백엔드 상태 동기화 → 발행중/접수됨 라벨 갱신 + 발행 완료분 제거 */
+   RequestService.syncStatuses().then(changed=>{ if(changed)drawList(); }).catch(()=>{});
 
    $("#reqForm").addEventListener("submit",async e=>{
      e.preventDefault();
@@ -1637,6 +1693,32 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      return {count:delPaths.length};
    }
 
+   /* ---- 발행 완료(수동) — published.json 에 rel 추가 후 단일 파일 커밋 ----
+      published.json 은 '발행됨' 단일 진실원천. check-published.ps1 이 비-Strict로 기존분을 union 보존하므로
+      수동 추가분은 자동 재생성에도 살아남는다(사이트·앱 모두 같은 소스를 읽어 딤드+'발행됨' 표시). */
+   function b64utf8(str){ const bytes=new TextEncoder().encode(str); let bin=""; for(let i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]); return btoa(bin); }
+   async function markPublished(rel){
+     const p=POSTS.find(x=>x.rel===rel);
+     if(!p) throw new Error("목록에 없는 글입니다.");
+     if(p.published) return {already:true};
+     let meta=null;
+     try{ meta=await gh("/contents/published.json?ref="+BRANCH); }catch(_){ meta=null; }
+     let obj={publishedRels:[]};
+     if(meta&&meta.content){
+       try{ const bin=atob(String(meta.content).replace(/\s/g,"")); const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));
+            obj=JSON.parse(new TextDecoder("utf-8").decode(bytes)); }catch(_){ obj={publishedRels:[]}; }
+     }
+     if(!obj||typeof obj!=="object") obj={publishedRels:[]};
+     if(!Array.isArray(obj.publishedRels)) obj.publishedRels=[];
+     if(obj.publishedRels.indexOf(rel)<0){ obj.publishedRels.push(rel); obj.publishedRels.sort(); }
+     const body={ message:"발행 완료(수동): "+((p&&p.title)||rel)+"\n\nrel: "+rel,
+       content:b64utf8(JSON.stringify(obj,null,2)+"\n"), branch:BRANCH };
+     if(meta&&meta.sha) body.sha=meta.sha;
+     await gh("/contents/published.json",{method:"PUT",body:JSON.stringify(body)});
+     const lp=POSTS.find(x=>x.rel===rel); if(lp)lp.published=true;
+     return {ok:true};
+   }
+
    /* ---- 토스트 ---- */
    let _toastEl=null,_toastT=0;
    function toast(msg,kind){
@@ -1645,39 +1727,76 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      clearTimeout(_toastT); _toastT=setTimeout(()=>{ _toastEl.className="adm-toast"; }, kind==="err"?6500:3800);
    }
 
-   /* ---- 카드에 삭제 버튼 주입(미발행만) ---- */
+   /* ---- 카드 우상단 아이콘 메뉴(미발행만): 발행 완료 · 글 삭제 ---- */
+   let _pop=null;
+   function ensurePop(){
+     if(_pop) return _pop;
+     _pop=document.createElement("div"); _pop.className="admin-menu-pop"; _pop.hidden=true;
+     _pop.innerHTML='<button type="button" data-act="pub">'+svg("checkCircle")+'발행 완료</button>'+
+                    '<button type="button" data-act="del">'+svg("trash")+'글 삭제</button>';
+     _pop.querySelectorAll("[data-act]").forEach(it=>it.addEventListener("click",ev=>{
+       ev.preventDefault(); ev.stopPropagation();
+       const act=it.dataset.act, rel=_pop._rel, card=_pop._card; _pop.hidden=true;
+       if(act==="del") onDelete(rel,card); else if(act==="pub") onMarkPublished(rel,card);
+     }));
+     document.body.appendChild(_pop);
+     return _pop;
+   }
+   function closePop(){ if(_pop)_pop.hidden=true; }
+   function openPopFor(btn,rel,card){
+     const pop=ensurePop(); pop._rel=rel; pop._card=card; pop.hidden=false;
+     const r=btn.getBoundingClientRect(); const pw=pop.offsetWidth||150;
+     let left=r.right-pw; if(left<8)left=8;
+     let top=r.bottom+6; if(top+pop.offsetHeight>window.innerHeight-8)top=Math.max(8,r.top-pop.offsetHeight-6);
+     pop.style.top=top+"px"; pop.style.left=left+"px";
+   }
    function injectButtons(){
      if(!on) return;
      contentEl.querySelectorAll(".card,.feat").forEach(card=>{
-       if(card.dataset.pub==="1") return;
-       if(card.querySelector(".admin-del")) return;
+       if(card.dataset.pub==="1") return;          /* 발행글은 보호(메뉴 없음) */
+       if(card.querySelector(".admin-menu")) return;
        const rel=card.dataset.rel; if(!rel) return;
-       const b=document.createElement("button");
-       b.type="button"; b.className="admin-del"; b.title="이 글 삭제";
-       b.innerHTML=svg("trash")+"<span>삭제</span>";
-       b.addEventListener("click",ev=>{ ev.preventDefault(); ev.stopPropagation(); onDelete(rel,card); });
-       card.appendChild(b); card.classList.add("admin-on");
+       const wrap=document.createElement("div"); wrap.className="admin-menu";
+       wrap.innerHTML='<button type="button" class="admin-menu-btn" title="관리 (발행 완료·삭제)" aria-label="글 관리 메뉴">'+svg("dots")+'</button>';
+       const btn=wrap.querySelector(".admin-menu-btn");
+       btn.addEventListener("click",ev=>{ ev.preventDefault(); ev.stopPropagation();
+         if(_pop&&!_pop.hidden&&_pop._card===card){ closePop(); return; }
+         openPopFor(btn,rel,card);
+       });
+       card.appendChild(wrap); card.classList.add("admin-on");
      });
    }
    function clearButtons(){
-     document.querySelectorAll(".admin-del").forEach(b=>b.remove());
+     closePop();
+     document.querySelectorAll(".admin-menu").forEach(b=>b.remove());
      document.querySelectorAll(".admin-on").forEach(c=>c.classList.remove("admin-on"));
    }
+   document.addEventListener("click",e=>{ if(_pop&&!_pop.hidden&&!e.target.closest(".admin-menu")&&!e.target.closest(".admin-menu-pop")) closePop(); });
+   window.addEventListener("scroll",closePop,true);
+   window.addEventListener("resize",closePop);
 
    async function onDelete(rel,card){
      const p=POSTS.find(x=>x.rel===rel); const title=(p&&p.title)||rel;
      const sc=delScope(rel);
      const scopeTxt=sc.whole?"글 폴더 전체(본문·이미지·붙여넣기본 포함)":"이 글 HTML 1개(폴더에 다른 글이 있어 폴더는 유지)";
      if(!confirm("정말 삭제할까요?\n\n「"+title+"」\n"+rel+"\n\n"+scopeTxt+"가 깃에서 제거되고 즉시 커밋됩니다.\n사이트/앱 반영까지 1~2분 · 깃 히스토리로 복구 가능.")) return;
-     const btn=card.querySelector(".admin-del"); if(btn){ btn.disabled=true; btn.querySelector("span").textContent="삭제 중…"; }
+     toast("삭제 중…");
      try{
        const r=await deletePost(rel,title);
        toast("삭제 완료 ("+r.count+"개 파일 제거) · 사이트 반영 1~2분","ok");
        render();
-     }catch(e){
-       if(btn){ btn.disabled=false; btn.querySelector("span").textContent="삭제"; }
-       toast("삭제 실패: "+(e&&e.message||e),"err");
-     }
+     }catch(e){ toast("삭제 실패: "+(e&&e.message||e),"err"); }
+   }
+
+   async function onMarkPublished(rel,card){
+     const p=POSTS.find(x=>x.rel===rel); const title=(p&&p.title)||rel;
+     if(!confirm("이 글을 ‘발행 완료’로 표시할까요?\n\n「"+title+"」\n\n‘발행됨’ 라벨이 붙고 딤드 처리되며, ‘발행글 보기’를 끄면 숨겨집니다.\n서버(published.json)에 저장돼 사이트·앱에 함께 반영됩니다(1~2분).")) return;
+     toast("발행 완료 처리 중…");
+     try{
+       const r=await markPublished(rel);
+       toast(r.already?"이미 발행됨으로 표시된 글이에요.":"발행 완료 저장됨 · 사이트 반영 1~2분","ok");
+       render();
+     }catch(e){ toast("발행 완료 처리 실패: "+(e&&e.message||e),"err"); }
    }
 
    /* ---- 관리자 상태 ---- */
@@ -1704,7 +1823,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
        inner=document.createElement("div"); inner.className="adm-box";
        inner.innerHTML=
          '<h3>'+svg("lockOpen")+'관리자 모드 켜짐</h3>'+
-         '<p>로그인: <b>'+esc(who||"(확인됨)")+'</b><br>미발행 글 카드에 빨간 <b>삭제</b> 버튼이 보입니다. 발행된 글은 보호됩니다.</p>'+
+         '<p>로그인: <b>'+esc(who||"(확인됨)")+'</b><br>미발행 글 카드 우상단의 <b>⋮ 메뉴</b>에서 <b>발행 완료</b> 표시 또는 <b>글 삭제</b>를 할 수 있어요. 발행된 글은 보호됩니다.</p>'+
          '<div class="adm-row"><button class="adm-btn danger" id="admLogout">로그아웃(토큰 지움)</button>'+
          '<button class="adm-btn ghost" id="admClose">닫기</button></div>';
        mask.appendChild(inner); document.body.appendChild(mask);

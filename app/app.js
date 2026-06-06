@@ -26,7 +26,14 @@
     info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
     spark: '<path d="M9.9 15.5A2 2 0 0 0 8.5 14L2.4 12.5a.5.5 0 0 1 0-1L8.5 10A2 2 0 0 0 9.9 8.5L11.5 2.4a.5.5 0 0 1 1 0L14 8.5A2 2 0 0 0 15.5 9.9l6.1 1.6a.5.5 0 0 1 0 1L15.5 14a2 2 0 0 0-1.4 1.4l-1.6 6.1a.5.5 0 0 1-1 0z"/>',
     search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
-    rocket: '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>'
+    rocket: '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+    dots: '<circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/>',
+    trash: '<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/>',
+    checkCircle: '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+    eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+    eyeOff: '<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="M2 2l20 20"/>',
+    lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    lockOpen: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>'
   };
   const ico = (n, w) => `<svg viewBox="0 0 24 24" width="${w || 24}" height="${w || 24}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[n] || ''}</svg>`;
   const extIco = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>';
@@ -96,6 +103,206 @@
 
   const skeleton = (n) => Array.from({ length: n || 4 }, () => '<div class="skel"></div>').join('');
 
+  /* ================= 관리자 모드(GitHub 토큰) — 글 삭제 / 발행 완료 =================
+     사이트(index.html)의 관리자 모듈과 동일 계약. 삭제=Git Data API 단일 커밋,
+     발행 완료=published.json 에 rel 추가 후 Contents PUT(‘발행됨’ 단일 진실원천). */
+  const ADMIN = (function () {
+    const OWNER = 'qtdqtd002-coder', REPO = 'bomding-blog-preview', BRANCH = 'main';
+    const API = 'https://api.github.com/repos/' + OWNER + '/' + REPO;
+    const LSK = 'bc_admin_token';
+    let on = false, token = '', who = '', onChange = null;
+    const ghIco = (n) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (P[n] || '') + '</svg>';
+
+    const authHdr = (t) => ({ 'Authorization': 'Bearer ' + t, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' });
+    async function gh(path, opts) {
+      const url = path.indexOf('http') === 0 ? path : API + path;
+      const res = await fetch(url, Object.assign({ headers: authHdr(token) }, opts || {}));
+      if (!res.ok) { let m = ''; try { m = (await res.json()).message; } catch (_) {} throw new Error('GitHub ' + res.status + (m ? ': ' + m : '')); }
+      return res.status === 204 ? null : res.json();
+    }
+    async function validate(t) {
+      const r = await fetch('https://api.github.com/user', { headers: authHdr(t) });
+      if (!r.ok) throw new Error('토큰이 유효하지 않습니다 (HTTP ' + r.status + ').');
+      const u = await r.json();
+      const rr = await fetch(API, { headers: authHdr(t) });
+      if (!rr.ok) throw new Error('이 토큰으로 리포에 접근할 수 없어요 (HTTP ' + rr.status + ').');
+      const repo = await rr.json();
+      if (repo.permissions && repo.permissions.push === false) throw new Error('이 토큰엔 쓰기(Contents: Read and write) 권한이 없어요.');
+      return u.login;
+    }
+    const encPath = (p) => p.split('/').map(encodeURIComponent).join('/');
+    async function getFile(p) {
+      const r = await gh('/contents/' + encPath(p) + '?ref=' + BRANCH);
+      const bin = atob(String(r.content || '').replace(/\s/g, ''));
+      return { text: new TextDecoder('utf-8').decode(Uint8Array.from(bin, (c) => c.charCodeAt(0))), sha: r.sha };
+    }
+    function b64utf8(str) { const bytes = new TextEncoder().encode(str); let bin = ''; for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]); return btoa(bin); }
+    const posts = () => cache.posts || [];
+    const relFolder = (rel) => { const i = rel.lastIndexOf('/'); return i < 0 ? '' : rel.slice(0, i); };
+    function delScope(rel) { const f = relFolder(rel); const same = posts().filter((x) => relFolder(x.rel) === f); return (f && same.length <= 1) ? { folder: f, whole: true } : { folder: f, whole: false }; }
+
+    async function deletePost(rel, title) {
+      const p = posts().find((x) => x.rel === rel);
+      if (!p) throw new Error('목록에 없는 글입니다.');
+      if (p.published) throw new Error('발행된 글은 삭제할 수 없습니다.');
+      const sc = delScope(rel);
+      const ref = await gh('/git/ref/heads/' + BRANCH);
+      const headSha = ref.object.sha;
+      const commit = await gh('/git/commits/' + headSha);
+      const baseTree = commit.tree.sha;
+      const tree = await gh('/git/trees/' + baseTree + '?recursive=1');
+      if (tree.truncated) throw new Error('리포 트리가 너무 커 안전 처리 불가(트리 잘림).');
+      let delPaths;
+      if (sc.whole) delPaths = tree.tree.filter((t) => t.type === 'blob' && (t.path === rel || t.path.indexOf(sc.folder + '/') === 0)).map((t) => t.path);
+      else delPaths = [rel];
+      if (!delPaths.length) throw new Error('삭제할 파일을 찾지 못했습니다.');
+      let postsArr = JSON.parse((await getFile('posts.json')).text);
+      if (!Array.isArray(postsArr)) postsArr = [postsArr];
+      postsArr = postsArr.filter((x) => delPaths.indexOf(x.rel) < 0);
+      let manObj = JSON.parse((await getFile('manifest.json')).text);
+      delPaths.forEach((dp) => { if (Object.prototype.hasOwnProperty.call(manObj, dp)) delete manObj[dp]; });
+      const items = delPaths.map((pth) => ({ path: pth, mode: '100644', type: 'blob', sha: null }));
+      items.push({ path: 'posts.json', mode: '100644', type: 'blob', content: JSON.stringify(postsArr, null, 2) });
+      items.push({ path: 'manifest.json', mode: '100644', type: 'blob', content: JSON.stringify(manObj, null, 2) });
+      const newTree = await gh('/git/trees', { method: 'POST', body: JSON.stringify({ base_tree: baseTree, tree: items }) });
+      const newCommit = await gh('/git/commits', { method: 'POST', body: JSON.stringify({ message: '글 삭제(관리자): ' + title + '\n\nrel: ' + rel, tree: newTree.sha, parents: [headSha] }) });
+      await gh('/git/refs/heads/' + BRANCH, { method: 'PATCH', body: JSON.stringify({ sha: newCommit.sha }) });
+      if (cache.posts) cache.posts = cache.posts.filter((x) => delPaths.indexOf(x.rel) < 0);
+      return { count: delPaths.length };
+    }
+    async function markPublished(rel) {
+      const p = posts().find((x) => x.rel === rel);
+      if (!p) throw new Error('목록에 없는 글입니다.');
+      if (p.published) return { already: true };
+      let meta = null;
+      try { meta = await gh('/contents/published.json?ref=' + BRANCH); } catch (_) { meta = null; }
+      let obj = { publishedRels: [] };
+      if (meta && meta.content) {
+        try { const bin = atob(String(meta.content).replace(/\s/g, '')); obj = JSON.parse(new TextDecoder('utf-8').decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)))); } catch (_) { obj = { publishedRels: [] }; }
+      }
+      if (!obj || typeof obj !== 'object') obj = { publishedRels: [] };
+      if (!Array.isArray(obj.publishedRels)) obj.publishedRels = [];
+      if (obj.publishedRels.indexOf(rel) < 0) { obj.publishedRels.push(rel); obj.publishedRels.sort(); }
+      const body = { message: '발행 완료(수동): ' + ((p && p.title) || rel) + '\n\nrel: ' + rel, content: b64utf8(JSON.stringify(obj, null, 2) + '\n'), branch: BRANCH };
+      if (meta && meta.sha) body.sha = meta.sha;
+      await gh('/contents/published.json', { method: 'PUT', body: JSON.stringify(body) });
+      if (p) p.published = true;
+      return { ok: true };
+    }
+
+    let _t = null, _tT = 0;
+    function toast(msg, kind) {
+      if (!_t) { _t = document.createElement('div'); _t.className = 'adm-toast'; document.body.appendChild(_t); }
+      _t.textContent = msg; _t.className = 'adm-toast show ' + (kind || '');
+      clearTimeout(_tT); _tT = setTimeout(() => { _t.className = 'adm-toast'; }, kind === 'err' ? 6000 : 3400);
+    }
+    let _chip = null;
+    function chip(show) {
+      if (show) { if (!_chip) { _chip = document.createElement('div'); _chip.className = 'adm-chip'; _chip.innerHTML = ghIco('lockOpen') + '<span>관리자 모드</span>'; const x = document.createElement('button'); x.textContent = '끄기'; x.addEventListener('click', () => setOff()); _chip.appendChild(x); document.body.appendChild(_chip); } }
+      else if (_chip) { _chip.remove(); _chip = null; }
+    }
+    function setOn(t, login) { on = true; token = t; who = login || ''; try { localStorage.setItem(LSK, t); } catch (_) {} chip(true); if (onChange) onChange(); }
+    function setOff() { on = false; token = ''; who = ''; try { localStorage.removeItem(LSK); } catch (_) {} chip(false); if (onChange) onChange(); }
+
+    function openModal() {
+      const mask = document.createElement('div'); mask.className = 'adm-mask';
+      const close = () => mask.remove();
+      mask.addEventListener('click', (e) => { if (e.target === mask) close(); });
+      const box = document.createElement('div'); box.className = 'adm-box';
+      if (on) {
+        box.innerHTML = '<h3>' + ghIco('lockOpen') + '관리자 모드 켜짐</h3>' +
+          '<p>로그인: <b>' + esc(who || '(확인됨)') + '</b><br>발행글 탭의 미발행 글 카드 우상단 <b>⋮ 메뉴</b>에서 <b>발행 완료</b> 또는 <b>글 삭제</b>를 할 수 있어요. 발행된 글은 보호됩니다.</p>' +
+          '<div class="adm-row"><button class="adm-btn danger" id="admLogout">로그아웃</button><button class="adm-btn ghost" id="admClose">닫기</button></div>';
+        mask.appendChild(box); document.body.appendChild(mask);
+        box.querySelector('#admClose').addEventListener('click', close);
+        box.querySelector('#admLogout').addEventListener('click', () => { setOff(); close(); toast('관리자 모드를 껐어요.'); });
+        return;
+      }
+      box.innerHTML = '<h3>' + ghIco('lock') + '관리자 모드 켜기</h3>' +
+        '<p>저장소에 쓰기 권한이 있는 <b>GitHub 토큰</b>으로 잠금을 풉니다. (계정 비밀번호가 아니라 토큰)</p>' +
+        '<label>GitHub Personal Access Token</label>' +
+        '<input id="admTok" type="password" placeholder="github_pat_… 또는 ghp_…" autocomplete="off" spellcheck="false">' +
+        '<div class="adm-note">Fine-grained token · Repository access: <b>' + REPO + '</b> · Permissions → <b>Contents: Read and write</b><br>토큰은 이 기기에만 저장되고 깃허브 API로만 직접 호출돼요.</div>' +
+        '<div class="adm-msg" id="admMsg"></div>' +
+        '<div class="adm-row"><button class="adm-btn primary" id="admGo">켜기</button><button class="adm-btn ghost" id="admCancel">취소</button></div>';
+      mask.appendChild(box); document.body.appendChild(mask);
+      const tok = box.querySelector('#admTok'), msg = box.querySelector('#admMsg'), goB = box.querySelector('#admGo');
+      box.querySelector('#admCancel').addEventListener('click', close);
+      tok.focus();
+      async function submit() {
+        const t = tok.value.trim(); if (!t) { msg.className = 'adm-msg err'; msg.textContent = '토큰을 입력하세요.'; return; }
+        goB.disabled = true; msg.className = 'adm-msg'; msg.textContent = '확인 중…';
+        try { const login = await validate(t); setOn(t, login); close(); toast('관리자 모드 ON · ' + login, 'ok'); }
+        catch (e) { goB.disabled = false; msg.className = 'adm-msg err'; msg.textContent = (e && e.message) || String(e); }
+      }
+      goB.addEventListener('click', submit);
+      tok.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
+    }
+    function restore() {
+      let saved = ''; try { saved = localStorage.getItem(LSK) || ''; } catch (_) {}
+      if (saved) validate(saved).then((login) => setOn(saved, login)).catch(() => { try { localStorage.removeItem(LSK); } catch (_) {} });
+    }
+    return { isOn: () => on, openModal, deletePost, markPublished, toast, restore, setOnChange: (f) => { onChange = f; } };
+  })();
+
+  /* 글 카드 우상단 아이콘 메뉴(관리자) — 공용 fixed 팝업 */
+  let _pmPop = null;
+  function pmEnsure() {
+    if (_pmPop) return _pmPop;
+    _pmPop = document.createElement('div'); _pmPop.className = 'post-menu-pop'; _pmPop.hidden = true;
+    _pmPop.innerHTML = '<button type="button" data-act="pub">' + ico('checkCircle', 16) + '발행 완료</button>' +
+                       '<button type="button" data-act="del">' + ico('trash', 16) + '글 삭제</button>';
+    _pmPop.querySelectorAll('[data-act]').forEach((it) => it.addEventListener('click', (ev) => {
+      ev.preventDefault(); ev.stopPropagation();
+      const act = it.dataset.act, rel = _pmPop._rel; _pmPop.hidden = true;
+      if (act === 'del') pmDelete(rel); else pmPublish(rel);
+    }));
+    document.body.appendChild(_pmPop);
+    return _pmPop;
+  }
+  function pmClose() { if (_pmPop) _pmPop.hidden = true; }
+  function pmOpen(btn, rel) {
+    const pop = pmEnsure(); pop._rel = rel; pop.hidden = false;
+    const r = btn.getBoundingClientRect(); const pw = pop.offsetWidth || 150;
+    let left = r.right - pw; if (left < 8) left = 8;
+    let top = r.bottom + 6; if (top + pop.offsetHeight > window.innerHeight - 8) top = Math.max(8, r.top - pop.offsetHeight - 6);
+    pop.style.top = top + 'px'; pop.style.left = left + 'px';
+  }
+  document.addEventListener('click', (e) => { if (_pmPop && !_pmPop.hidden && !e.target.closest('.post-menu') && !e.target.closest('.post-menu-pop')) pmClose(); });
+  window.addEventListener('scroll', () => pmClose(), true);
+  window.addEventListener('resize', () => pmClose());
+  async function pmDelete(rel) {
+    const p = (cache.posts || []).find((x) => x.rel === rel); const title = (p && p.title) || rel;
+    if (!confirm('정말 삭제할까요?\n\n「' + title + '」\n\n글 폴더(본문·이미지 포함)가 깃에서 제거되고 즉시 커밋됩니다.\n사이트/앱 반영까지 1~2분 · 깃 히스토리로 복구 가능.')) return;
+    ADMIN.toast('삭제 중…');
+    try { const r = await ADMIN.deletePost(rel, title); ADMIN.toast('삭제 완료 (' + r.count + '개 파일 제거) · 반영 1~2분', 'ok'); if (route === 'posts') paint(); }
+    catch (e) { ADMIN.toast('삭제 실패: ' + (e && e.message || e), 'err'); }
+  }
+  async function pmPublish(rel) {
+    const p = (cache.posts || []).find((x) => x.rel === rel); const title = (p && p.title) || rel;
+    if (!confirm('이 글을 ‘발행 완료’로 표시할까요?\n\n「' + title + '」\n\n‘발행됨’ 라벨이 붙고 딤드 처리되며, ‘발행글 숨김’ 시 가려집니다.\n서버(published.json)에 저장돼 사이트·앱에 함께 반영됩니다(1~2분).')) return;
+    ADMIN.toast('발행 완료 처리 중…');
+    try { const r = await ADMIN.markPublished(rel); ADMIN.toast(r.already ? '이미 발행됨으로 표시된 글이에요.' : '발행 완료 저장됨 · 반영 1~2분', 'ok'); if (route === 'posts') paint(); }
+    catch (e) { ADMIN.toast('발행 완료 처리 실패: ' + (e && e.message || e), 'err'); }
+  }
+  function injectPostMenus(root) {
+    if (!ADMIN.isOn()) return;
+    $$('.post', root).forEach((card) => {
+      if (card.dataset.pub === '1') return;          // 발행글은 보호(메뉴 없음)
+      if (card.querySelector('.post-menu')) return;
+      const rel = card.dataset.rel; if (!rel) return;
+      const wrap = document.createElement('div'); wrap.className = 'post-menu';
+      wrap.innerHTML = '<button type="button" class="post-menu-btn" aria-label="글 관리 메뉴">' + ico('dots', 18) + '</button>';
+      const btn = wrap.querySelector('.post-menu-btn');
+      btn.addEventListener('click', (ev) => {
+        ev.preventDefault(); ev.stopPropagation();
+        if (_pmPop && !_pmPop.hidden && _pmPop._rel === rel) { pmClose(); return; }
+        pmOpen(btn, rel);
+      });
+      card.appendChild(wrap); card.classList.add('admin-on');
+    });
+  }
+
   /* ================= 뷰 렌더러 ================= */
   const VIEWS = {};
 
@@ -128,11 +335,12 @@
 
   /* ---- 발행글 ---- */
   let filterAuthor = '__all__';
+  let hidePub = false; try { hidePub = localStorage.getItem('bc_app_hidePub') === '1'; } catch (_) {}
   VIEWS.posts = async (root) => {
-    root.innerHTML = `<div class="sec-h"><span class="t">발행글</span><span class="meta" id="pCount"></span></div><div class="chips" id="chips"></div><div id="postList">${skeleton(5)}</div>`;
+    root.innerHTML = `<div class="sec-h"><span class="t">발행글</span><span class="meta" id="pCount"></span></div><div class="chips" id="chips"></div><div class="p-toolbar" id="pToolbar"></div><div id="postList">${skeleton(5)}</div>`;
     const posts = await getPosts().catch(() => []);
     $('#pCount').textContent = posts.length ? `총 ${posts.length}편` : '';
-    if (!posts.length) { $('#postList').innerHTML = '<div class="empty lg">글 목록을 불러오지 못했어요.<br>네트워크 확인 후 다시 시도해주세요.</div>'; $('#chips').innerHTML = ''; return; }
+    if (!posts.length) { $('#postList').innerHTML = '<div class="empty lg">글 목록을 불러오지 못했어요.<br>네트워크 확인 후 다시 시도해주세요.</div>'; $('#chips').innerHTML = ''; $('#pToolbar').innerHTML = ''; return; }
     const authors = Array.from(new Set(posts.map((p) => p.author)));
     const order = ['봄딩', '영도', '겜더쿠'];
     authors.sort((a, b) => (order.indexOf(a) < 0 ? 99 : order.indexOf(a)) - (order.indexOf(b) < 0 ? 99 : order.indexOf(b)));
@@ -143,16 +351,24 @@
     const draw = () => {
       $$('#chips [data-f]').forEach((b) => b.classList.toggle('on', b.dataset.f === filterAuthor));
       const list = filterAuthor === '__all__' ? posts : posts.filter((p) => p.author === filterAuthor);
+      const hiddenN = list.filter((p) => p.published).length;
+      const visList = hidePub ? list.filter((p) => !p.published) : list;
+      // 발행글 보기/숨김 토글
+      $('#pToolbar').innerHTML = `<button class="p-toggle${hidePub ? ' on' : ''}" id="pubToggle">${ico(hidePub ? 'eyeOff' : 'eye', 15)}${hidePub ? '발행글 숨김' : '발행글 보기'}</button>` +
+        (hidePub && hiddenN ? `<span class="p-hidden">발행 ${hiddenN}편 숨김</span>` : '');
+      const tg = $('#pubToggle');
+      if (tg) tg.addEventListener('click', () => { hidePub = !hidePub; try { localStorage.setItem('bc_app_hidePub', hidePub ? '1' : '0'); } catch (_) {} draw(); });
       const base = CFG('SITE_BASE', '..');
-      $('#postList').innerHTML = list.length ? list.map((p) => {
+      $('#postList').innerHTML = visList.length ? visList.map((p) => {
         const href = base + '/' + enc(p.rel);
         const edited = p.updated && fmtDay(p.updated) !== fmtDay(p.created);
         const pubBadge = p.published ? `<span class="p-pub">${ico('check', 12)}발행됨</span>` : '';
-        return `<a class="post${p.published ? ' pub' : ''}" href="${href}" target="_blank" rel="noopener" style="--ac:${ac(p.author)}">
+        return `<a class="post${p.published ? ' pub' : ''}" href="${href}" target="_blank" rel="noopener" style="--ac:${ac(p.author)}" data-rel="${esc(p.rel)}" data-pub="${p.published ? 1 : 0}">
           <div class="p-top"><span class="who"><span class="dot"></span>${esc(p.author)}</span>${p.cat ? `<span class="cat">${esc(p.cat)}</span>` : ''}${pubBadge}</div>
           <div class="p-title">${esc(p.title)}</div>${p.excerpt ? `<div class="p-ex">${esc(p.excerpt)}</div>` : ''}
           <div class="p-meta">${esc(fmtDay(p.created) || '—')} 등록${edited ? ' · 수정 ' + esc(fmtDay(p.updated)) : ''}<span class="ext">사이트에서 보기 ${extIco}</span></div></a>`;
-      }).join('') : '<div class="empty">표시할 글이 없어요.</div>';
+      }).join('') : `<div class="empty">${hidePub && hiddenN ? '발행글을 숨겼어요. ‘발행글 보기’로 다시 볼 수 있어요.' : '표시할 글이 없어요.'}</div>`;
+      injectPostMenus($('#postList'));
     };
     $$('#chips [data-f]').forEach((b) => b.addEventListener('click', () => { filterAuthor = b.dataset.f; draw(); }));
     draw();
@@ -421,7 +637,11 @@
              <span id="fFileName" class="filename">선택된 파일 없음</span>
              <button type="button" id="fFileClear" class="fileclear" hidden>지우기</button>
            </div>
-           <div class="filehint">외주처가 준 "반드시 포함/제외할 내용" 문서를 올리면 <b>이 요청 글 1건에만</b> 반드시 지킬 규칙으로 반영돼요. (1회용 · docx·xlsx·pdf·txt·hwpx)</div>
+           <ol class="filehint filehint-list">
+             <li>외주처가 준 "반드시 포함/제외할 내용" 문서를 올리면 <b>이 요청 글 1건에만</b> 규칙으로 반영돼요.</li>
+             <li>다른 글·작성 규칙엔 영향 없는 <b>1회용</b>이에요.</li>
+             <li>지원 형식: docx · xlsx · pdf · txt · hwpx</li>
+           </ol>
          </div>
          <button class="submit" type="submit">발행 요청 보내기</button>
        </form></div></div>
@@ -433,6 +653,8 @@
     const authors = Array.from(new Set(known.concat(posts.map((p) => p.author).filter((a) => a && a !== '(기타)'))));
     $('#fWriter').innerHTML = '<option value="" disabled selected>작성자를 선택하세요</option>' + authors.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
     renderRequests();
+    // 뷰 진입 시 1회 백엔드 상태 동기화 → 발행중/접수됨 라벨 갱신 + 발행 완료분 제거
+    window.BC.PublishRequestService.syncStatuses().then((c) => { if (c) renderRequests(); }).catch(() => {});
     renderPush();
     // 첨부 파일 선택
     let pickedFile = null;
@@ -477,11 +699,11 @@
     btn.disabled = false; btn.classList.remove('on'); btn.textContent = '🔔 발행 알림 받기';
   }
   function renderRequests() {
-    const reqs = window.BC.PublishRequestService.list();
+    const reqs = window.BC.PublishRequestService.list().filter((r) => r.status !== 'published'); // 발행 완료분은 숨김(요청 #1)
     const box = $('#reqList'); if (!box) return;
     const cnt = $('#reqCount'); if (cnt) cnt.textContent = reqs.length ? `${reqs.length}건` : '';
     if (!reqs.length) { box.innerHTML = '<div class="empty">아직 보낸 요청이 없어요.</div>'; return; }
-    const label = { local: '저장됨(로컬)', queued: '대기(전송예정)', submitted: '전송됨', failed: '전송 실패(재시도 필요)' };
+    const label = { local: '저장됨(로컬)', queued: '대기(전송예정)', submitted: '접수됨', received: '접수됨', processing: '발행중', published: '발행됨', failed: '전송 실패(재시도 필요)', skipped: '건너뜀' };
     box.innerHTML = reqs.map((r) => `<div class="req"><div class="r-top"><b>${esc(r.topic || '(주제 없음)')}</b><span class="rstat s-${r.status}">${label[r.status] || r.status}</span></div>${r.material ? `<div class="r-sub">소재: ${esc(r.material)}</div>` : ''}${r.fileName ? `<div class="r-sub">📎 ${esc(r.fileName)}</div>` : ''}<div class="r-meta">${r.purpose ? `목적: ${esc(r.purpose)} · ` : ''}희망 작성자: ${esc(r.writer || '미지정')} · ${esc(fmtDay(new Date(r.createdAt).toISOString().slice(0, 10)))}</div><button class="r-del" data-id="${esc(r.id)}">삭제</button></div>`).join('');
     $$('.r-del', box).forEach((b) => b.addEventListener('click', () => { window.BC.PublishRequestService.remove(b.dataset.id); renderRequests(); }));
   }
@@ -528,6 +750,12 @@
     $('#fab').addEventListener('click', () => go('request', true));
     $('#backBtn').addEventListener('click', () => history.back());
     window.addEventListener('popstate', () => { route = currentHashRoute(); if (NAV.some((n) => n.id === route)) lastTab = route; paint(); });
+    // 관리자 모드(잠금 버튼) — 토큰 잠금 해제 시 글 카드 메뉴(삭제/발행완료) 노출
+    const lockBtn = $('#lockBtn');
+    const updateLock = () => { if (!lockBtn) return; const on = ADMIN.isOn(); lockBtn.classList.toggle('on', on); lockBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${on ? P.lockOpen : P.lock}</svg>`; };
+    if (lockBtn) lockBtn.addEventListener('click', () => ADMIN.openModal());
+    ADMIN.setOnChange(() => { updateLock(); if (route === 'posts') paint(); });
+    ADMIN.restore();
   }
   function boot() {
     build();
