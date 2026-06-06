@@ -1448,11 +1448,11 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  function renderTrend(){
    titleEl.textContent="트렌드 브리핑"; if(qEl)qEl.placeholder="트렌드 검색 (예: 명조, 사전예약)";
    const wac=w=>ACCENT[w]||(KNOWN[w]&&KNOWN[w].ac)||"var(--brand)";
-   const mast=`<div class="masthead"><div class="mk">${svg("trend")}DAILY GAME TREND</div><div class="mt">트렌드 브리핑</div><div class="ms">트렌드 분석팀이 매일 오전 9시 작성자별 추천을 발행합니다. 일자별로 쌓이며(디폴트=최신), 검색으로 지난 브리핑도 찾을 수 있어요.</div></div>`;
-   if(!TREND.length){ subEl.textContent="트렌드 분석팀 · 매일 오전 9시 발행"; contentEl.innerHTML=`<div class="news">${mast}<div class="empty">아직 발행된 트렌드 브리핑이 없어요.</div></div>`; return; }
+   const mast=`<div class="masthead"><div class="mk">${svg("trend")}DATA ANALYSIS · 데이터 분석실</div><div class="mt">작성자별 약점 처방 + 트렌드</div><div class="ms">데이터 분석실(블로그 분석팀 × 트렌드 분석팀)이 각 작성자 블로그의 약점을 진단해, 그걸 보완하는 '오늘 쓰면 좋은 주제'를 트렌드와 함께 작성자별로 제안합니다.</div></div>`;
+   if(!TREND.length){ subEl.textContent="데이터 분석실 · 작성자별 약점 처방"; contentEl.innerHTML=`<div class="news">${mast}<div class="empty">아직 발행된 브리핑이 없어요.</div></div>`; return; }
    const card=it=>{
      const ac=wac(it.writer);
-     const picks=(it.picks||[]).slice(0,4).map(p=>`<span class="tchip">${esc(p)}</span>`).join("");
+     const picks=(it.picks||[]).slice(0,5).map(p=>`<span class="tchip">${esc(p)}</span>`).join("");
      return `<a class="tcard" href="${enc(it.file)}" style="--ac:${ac}">`+
        `<div class="tcard-top"><span class="tbadge"><span class="dot"></span>${esc(it.writer)} 편</span><span class="tdate">${esc(it.date||"")}</span></div>`+
        `<h3 class="tcard-h">${esc(it.headline||(it.writer+" 트렌드 브리핑"))}</h3>`+

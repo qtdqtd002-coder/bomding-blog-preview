@@ -160,7 +160,7 @@
 
   /* ---- 트렌드 ---- */
   VIEWS.trend = async (root) => {
-    root.innerHTML = `<div class="sec-h"><span class="t">트렌드</span><span class="meta">지금 쓰면 유입되는 게임·주제</span></div><div id="trendBox">${skeleton(3)}</div>`;
+    root.innerHTML = `<div class="sec-h"><span class="t">트렌드</span><span class="meta">데이터 분석실 · 작성자별 약점 처방 + 트렌드</span></div><div id="trendBox">${skeleton(3)}</div>`;
     let issues; try { issues = await getTrend(); } catch (_) { $('#trendBox').innerHTML = '<div class="empty lg">트렌드를 불러오지 못했어요.</div>'; return; }
     if (!issues.length) { $('#trendBox').innerHTML = '<div class="empty lg">아직 트렌드 브리핑이 없어요.</div>'; return; }
     $('#trendBox').innerHTML = issues.map((it) => {
@@ -267,11 +267,11 @@
         ['디자인검수팀장', '차원 편성·취합·판정(🔴0🟡0=PASS)·수정 루프·증원/해고.', '상설'],
         ['마감·디테일 / 일관성 / 반응형·가독성 검수', '라벨 겹침·잘림·여백, 디자인 토큰·라이트/다크 동등성, 모바일 우선 가독성·터치 타깃.', '상설'],
         ['접근성 검수(a11y)', '대비 WCAG AA·포커스·키보드·aria·reduced-motion.', '온디맨드']]) +
-      team('#C2410C', '트렌드 분석팀 · Trend', '팀장 1 · 분석가 N',
-        '매일 오전 9시 게임 트렌드를 조사해 작성자별 브리핑·게임 뉴스레터·출시 캘린더를 발행합니다.', [
-        ['트렌드 분석 팀장', '인원 조정·취합·교차검증·작성자 결 정렬·뉴스 HTML 편집·발행.', '상설'],
-        ['수집축 분석가 ×4', '신작 / 인기 급상승 / 사전예약·출시임박 / 블로그 작성수 급증 축을 병렬 조사.', '병렬'],
-        ['작성자 큐레이터 ×2 · 뉴스 데스크 ×2~3', '수집 결과를 봄딩·영도 결로 선별·뉴스화 + 한·일·미 매체 소식 수집·번역.', '병렬']]) +
+      team('#C2410C', '데이터 분석실 · Data Analysis', '실장 1 · 트렌드 + 블로그 분석팀',
+        '트렌드 분석팀(밖—무엇을 쓰면 유입)과 블로그 분석팀(안—우리 블로그 약점)을 실 내에서 교차해, 성장 기여 큰 조치·주제를 기획팀에 공급합니다.', [
+        ['데이터 분석실장', '두 팀 배정·방향 정렬·실 내 교차(트렌드 신선도 × 블로그 약점)·취합 보고·월1회 3블로그 통계 추세관리.', '상설'],
+        ['트렌드 분석팀 (팀장+분석가 N)', '매일 9시 트렌드 조사 → 작성자별 브리핑·뉴스레터·캘린더. 수집축4·큐레이터2·뉴스데스크2~3.', '상설'],
+        ['블로그 분석팀 (팀장+분석가 ×3)', '봄딩·영도·겜더쿠 실블로그 SEO 6개월 진단(발행량·클러스터·체류·롱테일/색인) → 약점 처방.', '상설']]) +
       team('#9333EA', '벤치마크 / 피드백 팀', '코치',
         '사용자가 현실 봄딩·영도 글 링크를 주면, 누가 썼는지 판별·분석해 작성팀 피드백에 반영합니다(실제 author 수렴).', [
         ['벤치마크 코치', '링크의 blogId로 작성자 판별 → 실제 글과 우리 초안 대조 → 그 writer feedback-log에 누적 반영.', '온디맨드']]) +
@@ -361,8 +361,10 @@
         ['인프라실장', '공통/PC/모바일 분해·배정·방향 정렬·피드백·벤치마킹·취합 보고.', '<code>team-org.md §5</code> · <code>infra-learnings.md</code>'],
         ['PC팀 / 모바일팀', '사이트(<code>BlogPreview</code>) / 앱(<code>app</code>)+백엔드 연동. 토큰·json 공유.', '<code>BlogPreview/*</code> · <code>blog-company-backend</code>'],
         ['디자인검수팀', '마감·일관성·반응형·접근성을 발행 전 실제 렌더로 검수(🔴0🟡0=PASS).', '<code>design-qa-checklist.md</code>']])}
-      ${pos('#C2410C', '트렌드 · 벤치마크 · 발행 · 대표', [
+      ${pos('#C2410C', '데이터 분석실 · 벤치마크 · 발행 · 대표', [
+        ['데이터 분석실', '트렌드(밖) × 블로그분석(안) 교차 → 성장 조치·주제 공급. 트렌드팀+블로그분석팀.', '스킬 <code>trend-analysis-team</code> · <code>blog-analysis-team</code>'],
         ['트렌드 분석팀', '매일 9시 트렌드 → 작성자별 브리핑·뉴스레터·캘린더 발행.', '스킬 <code>trend-analysis-team</code>'],
+        ['블로그 분석팀', '봄딩·영도·겜더쿠 실블로그 SEO 진단 → 약점 처방·성장 글 추천.', '스킬 <code>blog-analysis-team</code>'],
         ['벤치마크 코치', '현실 글 링크 → 작성자 판별 → 초안 대조 → feedback-log 누적.', '스킬 <code>blog-bench-coach</code>'],
         ['발행 담당', '전원 PASS 시 push(작성자별 탭) → 공개 링크. 발행됨 자동검증.', '<code>build-manifest.ps1</code> · <code>check-published.ps1</code>'],
         ['대표(CEO)', '업무 접수·목적 확정·중복 검수·라우팅·취합·발행 지시. 팀 신설·증원 관장.', '<code>work-intake.md</code> · 전 조직 정본']])}
