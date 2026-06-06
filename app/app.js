@@ -41,14 +41,14 @@
   /* ---------- 화면 레지스트리(하단 내비) ---------- */
   const NAV = [
     { id: 'home', label: '홈', icon: 'home' },
-    { id: 'posts', label: '발행글', icon: 'doc' },
+    { id: 'posts', label: '글', icon: 'doc' },
     { id: 'trend', label: '트렌드', icon: 'trend' },
     { id: 'news', label: '뉴스레터', icon: 'news' },
     { id: 'calendar', label: '캘린더', icon: 'cal' },
     { id: 'about', label: '소개', icon: 'info' }
   ];
-  const SUB = { posts: '봄딩·영도·겜더쿠 발행글', trend: '오늘 뜨는 게임·주제', news: '한·일·미 게임 뉴스', calendar: '출시·업데이트·행사 일정', request: '주제만 적으면 작성→검수→발행', home: '당신의 글쓰기 동료', about: '쓰담을 만드는 팀 · 일하는 방식' };
-  const TITLE = { home: '쓰담', posts: '발행글', trend: '트렌드', news: '뉴스레터', calendar: '출시 캘린더', request: '새 글 요청', about: '소개' };
+  const SUB = { posts: '확인 대기 글 · 발행·숨김은 아카이브', trend: '오늘 뜨는 게임·주제', news: '한·일·미 게임 뉴스', calendar: '출시·업데이트·행사 일정', request: '주제만 적으면 작성→검수→발행', home: '당신의 글쓰기 동료', about: '쓰담을 만드는 팀 · 일하는 방식' };
+  const TITLE = { home: '쓰담', posts: '글', trend: '트렌드', news: '뉴스레터', calendar: '출시 캘린더', request: '새 글 요청', about: '소개' };
 
   /* 글의 목적(purpose) — 백엔드 PURPOSES / post-purpose-guide.md 정본과 1:1. 값=한글 라벨. */
   const PURPOSE_GROUPS = [
@@ -66,6 +66,8 @@
   const cache = {};
   const HIDDEN = new Set();   // 숨김된 rel (백엔드 GET /hidden 으로 채움 · 런타임 토글로 갱신)
   const MPUB = new Set();     // 수동 발행완료된 rel (백엔드 GET /mpub 으로 채움 · 런타임 토글로 갱신)
+  // 아카이브 = 발행됨(자동검증·수동) 또는 숨김 처리된 글. 글 목록(작성자별 포함)에선 빼고 '아카이브'에만 모은다.
+  const isArchived = (p) => !!p.published || HIDDEN.has(p.rel);
   async function loadJSON(url) {
     const r = await fetch(url + (url.indexOf('?') < 0 ? '?ts=' : '&ts=') + Date.now());
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -287,7 +289,7 @@
     const p = (cache.posts || []).find((x) => x.rel === rel); const title = (p && p.title) || rel;
     const isH = HIDDEN.has(rel);
     if (!window.BC.HiddenService.isConnected()) { ADMIN.toast('백엔드 미연결 — 숨김은 서버 연결이 필요해요.', 'err'); return; }
-    if (!isH && !confirm('이 글을 숨길까요?\n\n「' + title + '」\n\n목록에서 모두에게 가려집니다(글은 삭제되지 않고 그대로 보존돼요).\n누구나 ‘숨긴 글 보기’에서 다시 해제할 수 있어요 · 즉시 반영.')) return;
+    if (!isH && !confirm('이 글을 숨길까요?\n\n「' + title + '」\n\n글 목록에서 빠지고 ‘아카이브’로 이동해요(글은 삭제되지 않고 그대로 보존돼요).\n누구나 아카이브에서 다시 ‘숨김 해제’할 수 있어요 · 즉시 반영.')) return;
     ADMIN.toast(isH ? '숨김 해제 중…' : '숨기는 중…');
     try {
       if (isH) { await window.BC.HiddenService.unhide(rel); HIDDEN.delete(rel); }
@@ -301,7 +303,7 @@
     const p = (cache.posts || []).find((x) => x.rel === rel); const title = (p && p.title) || rel;
     const isM = MPUB.has(rel);
     if (!window.BC.MpubService.isConnected()) { ADMIN.toast('백엔드 미연결 — 발행완료는 서버 연결이 필요해요.', 'err'); return; }
-    if (!isM && !confirm('이 글을 ‘발행 완료’로 표시할까요?\n\n「' + title + '」\n\n‘발행됨’ 라벨이 붙고 딤드 처리돼요(‘발행글 보기’를 끄면 가려짐).\n누구나 다시 ‘발행 완료 취소’할 수 있어요 · 즉시 반영.')) return;
+    if (!isM && !confirm('이 글을 ‘발행 완료’로 표시할까요?\n\n「' + title + '」\n\n글 목록에서 빠지고 ‘아카이브’로 이동해요(‘발행됨’ 라벨).\n누구나 아카이브에서 다시 ‘발행 완료 취소’할 수 있어요 · 즉시 반영.')) return;
     ADMIN.toast(isM ? '발행 완료 취소 중…' : '발행 완료 처리 중…');
     try {
       if (isM) { await window.BC.MpubService.unmark(rel); MPUB.delete(rel); }
@@ -341,7 +343,7 @@
     const [posts, trend, news, cal] = await Promise.all([
       getPosts().catch(() => []), getTrend().catch(() => []), getNews().catch(() => []), getCalendar().catch(() => ({ events: [] }))
     ]);
-    const stat = $('#heroStat'); if (stat) stat.innerHTML = `${ico('doc', 14)} 발행글 ${posts.length}편`;
+    const stat = $('#heroStat'); if (stat) stat.innerHTML = `${ico('doc', 14)} 글 ${posts.filter((p) => !isArchived(p)).length}편`;
     const tIssue = trend[0]; const nIssue = news[0];
     const today = new Date(); today.setHours(0, 0, 0, 0);
     const upcoming = (cal.events || []).filter((e) => toTs(e.date) >= today.getTime()).length;
@@ -349,7 +351,7 @@
       `<button class="hub-card" data-go="${id}"><span class="hub-ic">${ico(icon)}</span>
         <span class="ttl">${esc(ttl)}</span><span class="dsc">${esc(dsc)}</span></button>`;
     $('#hub').innerHTML =
-      card('posts', 'doc', '발행글', `봄딩·영도·겜더쿠 ${posts.length}편`) +
+      card('posts', 'doc', '글', `확인 대기 ${posts.filter((p) => !isArchived(p)).length}편 · 아카이브 ${posts.filter(isArchived).length}편`) +
       card('trend', 'trend', '트렌드', tIssue ? tIssue.headline : '오늘 뜨는 게임·주제') +
       card('news', 'news', '뉴스레터', nIssue ? `${fmtDay(nIssue.date)} · 한·일·미 소식` : '게임 뉴스 모음') +
       card('calendar', 'cal', '캘린더', upcoming ? `다가오는 일정 ${upcoming}건` : '출시·업데이트·행사') +
@@ -359,40 +361,59 @@
     $$('#hub [data-go]').forEach((b) => b.addEventListener('click', () => go(b.dataset.go, b.dataset.go === 'request')));
   };
 
-  /* ---- 발행글 ---- */
+  /* ---- 글 목록 / 아카이브 ----
+     글 목록 = 발행도 숨김도 안 한(아직 확인 안 한) 글만. 아카이브 = 발행됨·숨김 처리한 글 보관함.
+     글을 ‘발행 완료’ 또는 ‘숨기기’ 하면 아카이브로 옮겨가고 목록은 바로 새로고침됨(누구나, 토큰 불필요). */
   let filterAuthor = '__all__';
-  let hidePub = false; try { hidePub = localStorage.getItem('bc_app_hidePub') === '1'; } catch (_) {}
-  let showHidden = false; try { showHidden = localStorage.getItem('bc_app_showHidden') === '1'; } catch (_) {}
+  let archiveMode = false; try { archiveMode = localStorage.getItem('bc_app_archiveMode') === '1'; } catch (_) {}
+  let archSub = 'all';   // 아카이브 하위 필터: all | pub | hid
   VIEWS.posts = async (root) => {
-    root.innerHTML = `<div class="sec-h"><span class="t">발행글</span><span class="meta" id="pCount"></span></div><div class="chips" id="chips"></div><div class="p-toolbar" id="pToolbar"></div><div id="postList">${skeleton(5)}</div>`;
+    root.innerHTML = `<div class="sec-h"><span class="t" id="pSecT">글 목록</span><span class="meta" id="pCount"></span></div>
+      <div class="seg" id="pSeg"></div><div class="chips" id="chips"></div><div class="p-toolbar" id="pToolbar"></div><div id="postList">${skeleton(5)}</div>`;
     const posts = await getPosts().catch(() => []);
-    $('#pCount').textContent = posts.length ? `총 ${posts.length}편` : '';
-    if (!posts.length) { $('#postList').innerHTML = '<div class="empty lg">글 목록을 불러오지 못했어요.<br>네트워크 확인 후 다시 시도해주세요.</div>'; $('#chips').innerHTML = ''; $('#pToolbar').innerHTML = ''; return; }
-    const authors = Array.from(new Set(posts.map((p) => p.author)));
+    if (!posts.length) { $('#postList').innerHTML = '<div class="empty lg">글 목록을 불러오지 못했어요.<br>네트워크 확인 후 다시 시도해주세요.</div>'; $('#pSeg').innerHTML = ''; $('#chips').innerHTML = ''; $('#pToolbar').innerHTML = ''; return; }
     const order = ['봄딩', '영도', '겜더쿠'];
-    authors.sort((a, b) => (order.indexOf(a) < 0 ? 99 : order.indexOf(a)) - (order.indexOf(b) < 0 ? 99 : order.indexOf(b)));
-    const chip = (key, label, count, color) => `<button class="chip${filterAuthor === key ? ' on' : ''}" data-f="${esc(key)}" style="--ac:${color}">${key !== '__all__' ? '<span class="dot"></span>' : ''}${esc(label)}<span class="n">${count}</span></button>`;
-    let ch = chip('__all__', '전체', posts.length, '#4C6FFF');
-    authors.forEach((a) => { ch += chip(a, a, posts.filter((p) => p.author === a).length, ac(a)); });
-    $('#chips').innerHTML = ch;
+    const base = CFG('SITE_BASE', '..');
     const draw = () => {
-      $$('#chips [data-f]').forEach((b) => b.classList.toggle('on', b.dataset.f === filterAuthor));
-      const list = filterAuthor === '__all__' ? posts : posts.filter((p) => p.author === filterAuthor);
-      const hiddenN = list.filter((p) => p.published).length;
-      let visList = hidePub ? list.filter((p) => !p.published) : list;
-      const hidN = visList.filter((p) => HIDDEN.has(p.rel)).length;   // 숨김된 글 수(현재 뷰)
-      if (!showHidden) visList = visList.filter((p) => !HIDDEN.has(p.rel));
-      // 발행글 토글 + (숨김 글이 있을 때) 숨긴 글 보기 토글 — 둘 다 토큰 불필요
-      $('#pToolbar').innerHTML =
-        `<button class="p-toggle${hidePub ? ' on' : ''}" id="pubToggle">${ico(hidePub ? 'eyeOff' : 'eye', 15)}${hidePub ? '발행글 숨김' : '발행글 보기'}</button>` +
-        ((hidN || showHidden) ? `<button class="p-toggle${showHidden ? ' on' : ''}" id="hideToggle">${ico(showHidden ? 'eyeOff' : 'eye', 15)}${showHidden ? '숨긴 글 가리기' : `숨긴 글 보기${hidN ? ` (${hidN})` : ''}`}</button>` : '') +
-        (hidePub && hiddenN ? `<span class="p-hidden">발행 ${hiddenN}편 숨김</span>` : '') +
-        (!showHidden && hidN ? `<span class="p-hidden">숨김 ${hidN}편 가림</span>` : '');
-      const tg = $('#pubToggle');
-      if (tg) tg.addEventListener('click', () => { hidePub = !hidePub; try { localStorage.setItem('bc_app_hidePub', hidePub ? '1' : '0'); } catch (_) {} draw(); });
-      const hg = $('#hideToggle');
-      if (hg) hg.addEventListener('click', () => { showHidden = !showHidden; try { localStorage.setItem('bc_app_showHidden', showHidden ? '1' : '0'); } catch (_) {} draw(); });
-      const base = CFG('SITE_BASE', '..');
+      // 세그먼트(글 목록/아카이브)
+      const workN = posts.filter((p) => !isArchived(p)).length;
+      const archN = posts.filter(isArchived).length;
+      const seg = (m, label, n) => `<button class="seg-b${archiveMode === m ? ' on' : ''}" data-seg="${m ? '1' : '0'}">${label}<span class="n">${n}</span></button>`;
+      $('#pSeg').innerHTML = seg(false, '글 목록', workN) + seg(true, '아카이브', archN);
+      $$('#pSeg [data-seg]').forEach((b) => b.addEventListener('click', () => {
+        const m = b.dataset.seg === '1'; if (m === archiveMode) return;
+        archiveMode = m; filterAuthor = '__all__'; archSub = 'all';
+        try { localStorage.setItem('bc_app_archiveMode', m ? '1' : '0'); } catch (_) {}
+        draw();
+      }));
+      // 현재 세그먼트의 기준 집합
+      const baseAll = archiveMode ? posts.filter(isArchived) : posts.filter((p) => !isArchived(p));
+      // 작성자 칩(현재 세그먼트 기준 카운트)
+      const authors = Array.from(new Set(baseAll.map((p) => p.author)));
+      authors.sort((a, b) => (order.indexOf(a) < 0 ? 99 : order.indexOf(a)) - (order.indexOf(b) < 0 ? 99 : order.indexOf(b)));
+      if (filterAuthor !== '__all__' && !authors.includes(filterAuthor)) filterAuthor = '__all__';
+      const chip = (key, label, count, color) => `<button class="chip${filterAuthor === key ? ' on' : ''}" data-f="${esc(key)}" style="--ac:${color}">${key !== '__all__' ? '<span class="dot"></span>' : ''}${esc(label)}<span class="n">${count}</span></button>`;
+      let ch = chip('__all__', '전체', baseAll.length, '#4C6FFF');
+      authors.forEach((a) => { ch += chip(a, a, baseAll.filter((p) => p.author === a).length, ac(a)); });
+      $('#chips').innerHTML = ch;
+      $$('#chips [data-f]').forEach((b) => b.addEventListener('click', () => { filterAuthor = b.dataset.f; draw(); }));
+      // 작성자 필터 적용
+      const list = filterAuthor === '__all__' ? baseAll : baseAll.filter((p) => p.author === filterAuthor);
+      // 아카이브 하위 필터(전체/발행됨/숨김)
+      let visList = list;
+      if (archiveMode) {
+        const aPub = list.filter((p) => p.published).length;
+        const aHid = list.filter((p) => HIDDEN.has(p.rel) && !p.published).length;
+        if (archSub === 'pub') visList = list.filter((p) => p.published);
+        else if (archSub === 'hid') visList = list.filter((p) => HIDDEN.has(p.rel) && !p.published);
+        const sub = (k, label, c) => `<button class="p-toggle${archSub === k ? ' on' : ''}" data-sub="${k}">${ico(k === 'pub' ? 'check' : (k === 'hid' ? 'eyeOff' : 'checkCircle'), 15)}${label} (${c})</button>`;
+        $('#pToolbar').innerHTML = sub('all', '전체', aPub + aHid) + sub('pub', '발행됨', aPub) + sub('hid', '숨김', aHid);
+        $$('#pToolbar [data-sub]').forEach((b) => b.addEventListener('click', () => { archSub = b.dataset.sub; draw(); }));
+      } else {
+        $('#pToolbar').innerHTML = '';
+      }
+      $('#pSecT').textContent = archiveMode ? '아카이브' : '글 목록';
+      $('#pCount').textContent = visList.length ? `${visList.length}편` : '';
       $('#postList').innerHTML = visList.length ? visList.map((p) => {
         const href = base + '/' + enc(p.rel);
         const edited = p.updated && fmtDay(p.updated) !== fmtDay(p.created);
@@ -403,10 +424,9 @@
           <div class="p-top"><span class="who"><span class="dot"></span>${esc(p.author)}</span>${hidBadge}${p.cat ? `<span class="cat">${esc(p.cat)}</span>` : ''}${pubBadge}</div>
           <div class="p-title">${esc(p.title)}</div>${p.excerpt ? `<div class="p-ex">${esc(p.excerpt)}</div>` : ''}
           <div class="p-meta">${esc(fmtDay(p.created) || '—')} 등록${edited ? ' · 수정 ' + esc(fmtDay(p.updated)) : ''}<span class="ext">사이트에서 보기 ${extIco}</span></div></a>`;
-      }).join('') : `<div class="empty">${hidePub && hiddenN ? '발행글을 숨겼어요. ‘발행글 보기’로 다시 볼 수 있어요.' : '표시할 글이 없어요.'}</div>`;
+      }).join('') : `<div class="empty">${archiveMode ? '아카이브가 비어 있어요. 글을 ‘발행 완료’ 또는 ‘숨기기’ 하면 여기로 모여요.' : '확인할 글이 없어요. 발행·숨김 처리한 글은 ‘아카이브’에 있어요.'}</div>`;
       injectPostMenus($('#postList'));
     };
-    $$('#chips [data-f]').forEach((b) => b.addEventListener('click', () => { filterAuthor = b.dataset.f; draw(); }));
     draw();
   };
 
