@@ -306,6 +306,7 @@
     try {
       if (isM) { await window.BC.MpubService.unmark(rel); MPUB.delete(rel); }
       else { await window.BC.MpubService.mark(rel); MPUB.add(rel); }
+      if (p) p.published = p.autopub || MPUB.has(rel);   // 표시값 즉시 갱신(로드 후 토글 반영)
       ADMIN.toast(isM ? '발행 완료를 취소했어요 · 모두에게 반영' : '발행 완료로 표시했어요 · 모두에게 반영', 'ok');
       if (route === 'posts') paint();
     } catch (e) { ADMIN.toast((isM ? '발행 완료 취소 실패: ' : '발행 완료 처리 실패: ') + (e && e.message || e), 'err'); }
