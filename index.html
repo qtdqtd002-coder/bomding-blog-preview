@@ -1105,12 +1105,13 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
        ["일관성 검수","디자인 토큰·컴포넌트·라이트/다크 동등성·탭 톤 일치.","상설"],
        ["반응형/가독성 검수","모바일 우선 가독성·터치 타깃·브레이크포인트·PC 폴리시.","상설"],
        ["접근성 검수(a11y)","대비 WCAG AA·포커스·키보드·aria·reduced-motion.","온디맨드"]]),
-     team("var(--a-trend)","trend","트렌드 분석팀","팀장 1 · 분석가 N",
-       "매일 오전 9시 게임 트렌드를 조사해 작성자별 브리핑·게임 뉴스레터·출시 캘린더를 발행합니다.",[
-       ["트렌드 분석 팀장","인원 조정·취합·교차검증·작성자 결 정렬·뉴스 HTML 편집·발행.","상설"],
-       ["수집축 분석가 ×4","신작 / 인기 급상승 / 사전예약·출시임박 / 블로그 작성수 급증 축을 병렬 조사.","병렬"],
-       ["작성자 큐레이터 ×2","수집 결과를 봄딩·영도 결로 선별·뉴스화.","병렬"],
-       ["뉴스 데스크 ×2~3","한국(KR)·일본(JP)·미국(US) 매체 소식 수집·번역.","병렬"]]),
+     team("var(--a-trend)","trend","데이터 분석실","실장 1 · 트렌드 분석팀 + 블로그 분석팀",
+       "쓰담의 데이터를 분석하는 실(2026-06-06 신설). 실장이 트렌드 분석팀(밖 — 무엇을 쓰면 유입되나)과 블로그 분석팀(안 — 우리 블로그가 뭘 잘하고 뭘 고쳐야 하나)을 함께 굴리고, 실 내에서 두 결과를 교차해 '성장 기여 큰 조치·주제'로 기획팀에 공급합니다.",[
+       ["데이터 분석실장 (Data Analysis Division Head)","트렌드·블로그분석 두 팀 배정·방향 정렬 → 실 내 교차(트렌드 신선도 × 블로그 약점) → 자가/외부 검증 → 취합 보고. 월 1회 3블로그 통계 추세관리.","상설"],
+       ["트렌드 분석팀 · 팀장","매일 오전 9시 게임 트렌드 조사 → 작성자별 브리핑·뉴스레터·출시 캘린더 발행. 인원 조정·취합·결 정렬.","상설"],
+       ["트렌드 — 수집축 분석가 ×4 / 작성자 큐레이터 ×2 / 뉴스 데스크 ×2~3","신작·인기급상승·사전예약·블로그급증 축 / 봄딩·영도 결 / KR·JP·US 매체.","병렬"],
+       ["블로그 분석팀 · 팀장 (2026-06-06 신설)","봄딩·영도·겜더쿠 실제 블로그의 SEO·유입·노출을 정기 진단 → 잘하는 것/개선점/최적화안 + 성장 글·조치 추천. 트렌드팀과 교차.","상설"],
+       ["블로그 분석가 ×3","봄딩(네이버)·영도(네이버)·겜더쿠(티스토리) 각 1 — 발행량·클러스터·체류·롱테일/색인을 플랫폼별 SEO로 분석.","병렬"]]),
      team("var(--a-news)","trophy","벤치마크 / 피드백 팀","코치",
        "사용자가 현실 봄딩·영도 글 링크를 주면, 누가 썼는지 판별·분석해 작성팀 피드백에 반영합니다(실제 author 수렴).",[
        ["벤치마크 코치","링크의 blogId로 작성자 판별→실제 글과 우리 초안 대조→그 writer feedback-log에 누적 반영.","온디맨드"]]),
@@ -1201,8 +1202,10 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
          ["PC팀","쓰담 사이트(<code>BlogPreview</code>) 구현 — 디자인·프론트·기능. 데이터 소스 json + 디자인 토큰.","<code>BlogPreview/index.html</code> · <code>_design/</code> 토큰 · <code>infra-learnings.md</code>"],
          ["모바일팀","쓰담 앱(PWA <code>BlogPreview/app</code>) + GCP/백엔드 연동(발행요청·웹푸시·구독). 사이트와 토큰·json 공유로 패리티.","<code>BlogPreview/app/*</code> · <code>blog-company-backend</code> · <code>infra-learnings.md</code>"],
          ["디자인검수팀","사이트·앱의 마감·디테일·일관성·반응형·접근성을 발행 전 실제 렌더로 검수(🔴0🟡0=PASS).","<code>shared/design/design-qa-checklist.md</code> · 학습 <code>design-review-learnings.md</code>"]])}
-       ${posblock("var(--a-trend)","트렌드 분석팀 · 벤치마크 · 발행 · 대표",[
+       ${posblock("var(--a-trend)","데이터 분석실 · 벤치마크 · 발행 · 대표",[
+         ["데이터 분석실장","트렌드 분석팀 + 블로그 분석팀 총괄. 실 내에서 '밖의 트렌드 × 안의 블로그 약점'을 교차해 성장 조치·주제를 기획팀에 공급. 월 1회 3블로그 통계 추세관리.","<code>team-org.md §데이터 분석실</code>"],
          ["트렌드 분석팀","매일 9시 게임 트렌드 조사 → 작성자별 브리핑·뉴스레터·출시 캘린더 발행. 봄딩=게임만, 영도=서브컬처·기어 결.","스킬 <code>trend-analysis-team</code> · 트렌드/뉴스/캘린더 json"],
+         ["블로그 분석팀","봄딩·영도·겜더쿠 실제 블로그 SEO 진단(발행량·클러스터·체류·롱테일/색인) → 잘하는 것/개선점/최적화안 + 성장 글·조치 추천.","스킬 <code>blog-analysis-team</code> · 진단 리포트 HTML"],
          ["벤치마크 코치","현실 봄딩·영도 글 링크 → blogId로 작성자 판별 → 우리 초안과 대조 → 그 작성자 feedback-log 누적.","스킬 <code>blog-bench-coach</code> · 각 작성자 <code>feedback-log.md</code>"],
          ["발행 담당","전원 PASS 시 git push(작성자별 탭) → 공개 링크. 발행됨 라벨 자동검증. 신규 직원 탭 자동 생성.","<code>publish-github-pages.md</code> · <code>_tools/build-manifest.ps1</code> · <code>check-published.ps1</code>"],
          ["대표(CEO)","업무 접수·정리(업무접수 MD)·목적 확정·중복 검수·라우팅·취합·발행 지시·사용자 보고. 팀 신설·증원 관장.","<code>shared/blog-writing/work-intake.md</code> · 전 조직 정본 총괄"]])}
@@ -1242,7 +1245,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
          </tbody></table>
        </div>
        <div class="abx-foot">
-         <div><b>쓰담컴퍼니 회사 안내서</b> · 조직 스냅샷 기준일 2026-06-05(구조는 2026-06-03 인프라실/작성팀장 개편 이후 동일).</div>
+         <div><b>쓰담컴퍼니 회사 안내서</b> · 조직 스냅샷 기준일 2026-06-06(데이터 분석실 신설 — 트렌드 분석팀 산하 이동 + 블로그 분석팀 추가).</div>
          <div style="margin-top:6px">이 문서는 정본을 <b>요약·해설</b>한 안내서입니다. 세부·강제 규칙과 최신값은 위 §7 정본 파일이 1차 기준입니다.</div>
        </div>
      </section>`;
@@ -1301,7 +1304,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
        </div>
        <div style="border-top:1px dashed var(--line);margin:16px 0 12px;"></div>
        <div style="display:flex;flex-wrap:wrap;gap:8px 14px;font-size:11.5px;color:var(--sub);line-height:1.5;">
-         <span><b style="color:var(--ink)">트렌드 분석팀</b> → 기획팀 (지금 쓰면 유입되는 주제 공급)</span>
+         <span><b style="color:var(--ink)">데이터 분석실</b> (트렌드 분석팀 ⇄ 블로그 분석팀) → 기획팀 (트렌드 신선도 × 블로그 약점 = 성장 조치·주제 공급)</span>
          <span><b style="color:var(--ink)">벤치마크/피드백 팀</b> → 작성팀 (현실 author 글 대조 → 작성자별 feedback-log)</span>
          <span><b style="color:var(--ink)">발행 후 오류</b> → 책임 팀(기획·작성·검수)으로 회송</span>
          <span><b style="color:var(--ink)">인프라실</b> (PC팀 ⇄ 모바일팀) → <b style="color:var(--ink)">디자인검수팀</b> → 발행 (사이트·앱 트랙, 별개 게이트)</span>
