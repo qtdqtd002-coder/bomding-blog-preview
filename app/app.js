@@ -203,8 +203,9 @@
     }
     function setOn(t, login) { on = true; token = t; who = login || ''; try { localStorage.setItem(LSK, t); } catch (_) {} chip(true); if (onChange) onChange(); }
     function setOff() { on = false; token = ''; who = ''; try { localStorage.removeItem(LSK); } catch (_) {} chip(false); if (onChange) onChange(); }
+    function requireUnlock(fn) { if (on) { fn(); } else { openModal(fn); } }   // 잠금 풀려 있으면 즉시, 아니면 토큰 인증 후 이어서 실행
 
-    function openModal() {
+    function openModal(onSuccess) {
       const mask = document.createElement('div'); mask.className = 'adm-mask';
       const close = () => mask.remove();
       mask.addEventListener('click', (e) => { if (e.target === mask) close(); });
@@ -232,7 +233,7 @@
       async function submit() {
         const t = tok.value.trim(); if (!t) { msg.className = 'adm-msg err'; msg.textContent = '토큰을 입력하세요.'; return; }
         goB.disabled = true; msg.className = 'adm-msg'; msg.textContent = '확인 중…';
-        try { const login = await validate(t); setOn(t, login); close(); toast('관리자 모드 ON · ' + login, 'ok'); }
+        try { const login = await validate(t); setOn(t, login); close(); toast('관리자 모드 ON · ' + login, 'ok'); if (typeof onSuccess === 'function') onSuccess(); }
         catch (e) { goB.disabled = false; msg.className = 'adm-msg err'; msg.textContent = (e && e.message) || String(e); }
       }
       goB.addEventListener('click', submit);
@@ -242,7 +243,7 @@
       let saved = ''; try { saved = localStorage.getItem(LSK) || ''; } catch (_) {}
       if (saved) validate(saved).then((login) => setOn(saved, login)).catch(() => { try { localStorage.removeItem(LSK); } catch (_) {} });
     }
-    return { isOn: () => on, openModal, deletePost, markPublished, toast, restore, setOnChange: (f) => { onChange = f; } };
+    return { isOn: () => on, openModal, requireUnlock, deletePost, markPublished, toast, restore, setOnChange: (f) => { onChange = f; } };
   })();
 
   /* 글 카드 우상단 아이콘 메뉴(관리자) — 공용 fixed 팝업 */
@@ -255,7 +256,7 @@
     _pmPop.querySelectorAll('[data-act]').forEach((it) => it.addEventListener('click', (ev) => {
       ev.preventDefault(); ev.stopPropagation();
       const act = it.dataset.act, rel = _pmPop._rel; _pmPop.hidden = true;
-      if (act === 'del') pmDelete(rel); else pmPublish(rel);
+      if (act === 'del') ADMIN.requireUnlock(() => pmDelete(rel)); else ADMIN.requireUnlock(() => pmPublish(rel));
     }));
     document.body.appendChild(_pmPop);
     return _pmPop;
@@ -285,8 +286,8 @@
     try { const r = await ADMIN.markPublished(rel); ADMIN.toast(r.already ? '이미 발행됨으로 표시된 글이에요.' : '발행 완료 저장됨 · 반영 1~2분', 'ok'); if (route === 'posts') paint(); }
     catch (e) { ADMIN.toast('발행 완료 처리 실패: ' + (e && e.message || e), 'err'); }
   }
+  // 메뉴 아이콘은 항상 노출(미발행 글). 실제 삭제/발행완료를 누를 때만 토큰 인증을 요구한다.
   function injectPostMenus(root) {
-    if (!ADMIN.isOn()) return;
     $$('.post', root).forEach((card) => {
       if (card.dataset.pub === '1') return;          // 발행글은 보호(메뉴 없음)
       if (card.querySelector('.post-menu')) return;
@@ -299,7 +300,7 @@
         if (_pmPop && !_pmPop.hidden && _pmPop._rel === rel) { pmClose(); return; }
         pmOpen(btn, rel);
       });
-      card.appendChild(wrap); card.classList.add('admin-on');
+      card.appendChild(wrap); if (ADMIN.isOn()) card.classList.add('admin-on');
     });
   }
 

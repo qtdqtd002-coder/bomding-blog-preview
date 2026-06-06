@@ -1737,7 +1737,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      _pop.querySelectorAll("[data-act]").forEach(it=>it.addEventListener("click",ev=>{
        ev.preventDefault(); ev.stopPropagation();
        const act=it.dataset.act, rel=_pop._rel, card=_pop._card; _pop.hidden=true;
-       if(act==="del") onDelete(rel,card); else if(act==="pub") onMarkPublished(rel,card);
+       if(act==="del") requireUnlock(()=>onDelete(rel,card)); else if(act==="pub") requireUnlock(()=>onMarkPublished(rel,card));
      }));
      document.body.appendChild(_pop);
      return _pop;
@@ -1750,8 +1750,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      let top=r.bottom+6; if(top+pop.offsetHeight>window.innerHeight-8)top=Math.max(8,r.top-pop.offsetHeight-6);
      pop.style.top=top+"px"; pop.style.left=left+"px";
    }
+   /* 메뉴 아이콘은 항상 노출(미발행 글). 실제 삭제/발행완료를 누를 때만 토큰 인증을 요구한다. */
    function injectButtons(){
-     if(!on) return;
      contentEl.querySelectorAll(".card,.feat").forEach(card=>{
        if(card.dataset.pub==="1") return;          /* 발행글은 보호(메뉴 없음) */
        if(card.querySelector(".admin-menu")) return;
@@ -1763,14 +1763,10 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
          if(_pop&&!_pop.hidden&&_pop._card===card){ closePop(); return; }
          openPopFor(btn,rel,card);
        });
-       card.appendChild(wrap); card.classList.add("admin-on");
+       card.appendChild(wrap); if(on)card.classList.add("admin-on");
      });
    }
-   function clearButtons(){
-     closePop();
-     document.querySelectorAll(".admin-menu").forEach(b=>b.remove());
-     document.querySelectorAll(".admin-on").forEach(c=>c.classList.remove("admin-on"));
-   }
+   function syncOutlines(){ document.querySelectorAll(".card,.feat").forEach(c=>{ if(c.querySelector(".admin-menu"))c.classList.toggle("admin-on",on); }); }
    document.addEventListener("click",e=>{ if(_pop&&!_pop.hidden&&!e.target.closest(".admin-menu")&&!e.target.closest(".admin-menu-pop")) closePop(); });
    window.addEventListener("scroll",closePop,true);
    window.addEventListener("resize",closePop);
@@ -1800,8 +1796,9 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    }
 
    /* ---- 관리자 상태 ---- */
-   function setOn(t,login){ on=true; token=t; who=login||""; try{ localStorage.setItem(LSK,t); }catch(_){ } updateBtn(); injectButtons(); chip(true); }
-   function setOff(){ on=false; token=""; who=""; try{ localStorage.removeItem(LSK); }catch(_){ } clearButtons(); chip(false); updateBtn(); }
+   function requireUnlock(fn){ if(on){ fn(); } else { openModal(fn); } }   /* 잠금 풀려 있으면 즉시, 아니면 토큰 인증 후 이어서 실행 */
+   function setOn(t,login){ on=true; token=t; who=login||""; try{ localStorage.setItem(LSK,t); }catch(_){ } updateBtn(); injectButtons(); syncOutlines(); chip(true); }
+   function setOff(){ on=false; token=""; who=""; try{ localStorage.removeItem(LSK); }catch(_){ } closePop(); syncOutlines(); chip(false); updateBtn(); }
    function updateBtn(){ const b=document.getElementById("adminToggle"); if(!b) return; b.classList.toggle("on",on);
      b.innerHTML=svg(on?"lockOpen":"lock"); b.title=on?("관리자 모드 ON"+(who?" · "+who:"")):"관리자 모드"; }
 
@@ -1813,8 +1810,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      else if(_chip){ _chip.remove(); _chip=null; }
    }
 
-   /* ---- 로그인/상태 모달 ---- */
-   function openModal(){
+   /* ---- 로그인/상태 모달 ---- (onSuccess: 잠금 해제 직후 이어서 실행할 동작) */
+   function openModal(onSuccess){
      const mask=document.createElement("div"); mask.className="adm-mask";
      const close=()=>mask.remove();
      mask.addEventListener("click",e=>{ if(e.target===mask) close(); });
@@ -1848,7 +1845,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      async function submit(){
        const t=tokEl.value.trim(); if(!t){ msg.className="adm-msg err"; msg.textContent="토큰을 입력하세요."; return; }
        go.disabled=true; msg.className="adm-msg"; msg.textContent="확인 중…";
-       try{ const login=await validate(t); setOn(t,login); close(); toast("관리자 모드 ON · "+login,"ok"); }
+       try{ const login=await validate(t); setOn(t,login); close(); toast("관리자 모드 ON · "+login,"ok"); if(typeof onSuccess==="function")onSuccess(); }
        catch(e){ go.disabled=false; msg.className="adm-msg err"; msg.textContent=(e&&e.message)||String(e); }
      }
      go.addEventListener("click",submit);
@@ -1857,12 +1854,12 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 
    /* ---- 초기화 ---- */
    const btn=document.getElementById("adminToggle");
-   if(btn){ updateBtn(); btn.addEventListener("click",openModal); }
+   if(btn){ updateBtn(); btn.addEventListener("click",()=>openModal()); }
    let saved=""; try{ saved=localStorage.getItem(LSK)||""; }catch(_){ }
    if(saved){ validate(saved).then(login=>setOn(saved,login)).catch(()=>{ try{ localStorage.removeItem(LSK); }catch(_){ } }); }
    if(location.hash==="#admin") openModal();
-   const obs=new MutationObserver(()=>{ if(on) injectButtons(); });
-   if(contentEl) obs.observe(contentEl,{childList:true,subtree:true});
+   const obs=new MutationObserver(()=>{ injectButtons(); });   /* 메뉴는 항상 주입(인증은 동작 시점) */
+   if(contentEl){ obs.observe(contentEl,{childList:true,subtree:true}); injectButtons(); }
  })();
 
 })();
