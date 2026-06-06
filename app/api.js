@@ -182,5 +182,27 @@ window.BC_CONFIG = {
     }
   };
 
-  window.BC = { PublishRequestService, PushService, HiddenService };
+  /* 수동 발행완료(manual published) 서비스 — 숨김과 동일 구조. admin 토큰 없이 누구나 표시/취소.
+     자동검증 발행(깃 published.json)과 별개의 소프트 '발행됨' 플래그(백엔드 저장). 사이트와 동일 계약:
+     GET/POST {base}/mpub, POST {base}/mpub/unpub. 미연결/실패 시 수동 표시분은 안 보임(fail-open). */
+  const MpubService = {
+    isConnected() { return !!window.BC_CONFIG.PUBLISH_API_BASE_URL; },
+    async list() {
+      if (!this.isConnected()) return [];
+      try { const r = await fetch(base() + '/mpub?ts=' + Date.now()); if (!r.ok) return []; const d = await r.json(); return (d && d.rels) || []; }
+      catch (_) { return []; }
+    },
+    async mark(rel) {
+      if (!this.isConnected()) throw new Error('백엔드 미연결 — 발행완료는 서버 연결이 필요해요.');
+      const r = await fetch(base() + '/mpub', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rel, source: 'pwa' }) });
+      if (!r.ok) { let m = ''; try { m = (await r.json()).error; } catch (_) {} throw new Error(m || ('HTTP ' + r.status)); }
+    },
+    async unmark(rel) {
+      if (!this.isConnected()) throw new Error('백엔드 미연결 — 발행완료 취소는 서버 연결이 필요해요.');
+      const r = await fetch(base() + '/mpub/unpub', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rel }) });
+      if (!r.ok) { let m = ''; try { m = (await r.json()).error; } catch (_) {} throw new Error(m || ('HTTP ' + r.status)); }
+    }
+  };
+
+  window.BC = { PublishRequestService, PushService, HiddenService, MpubService };
 })();

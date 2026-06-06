@@ -834,6 +834,31 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    }
  };
 
+ /* ---------- 수동 발행완료(manual published) — 숨김과 동일 구조. admin 토큰 없이 누구나 표시/취소 ----------
+    자동검증 발행(깃 published.json)과 별개의 소프트 '발행됨' 플래그(백엔드 저장). 사이트가 union 해서 표시한다.
+    백엔드 미연결/실패 시엔 수동 표시분은 안 보임(자동검증 발행글은 깃에 남아 그대로). */
+ const MPUB=new Set();   // 현재 수동 발행완료된 rel (백엔드 GET /mpub 으로 채움)
+ const MpubSvc={
+   isConnected(){ return !!REQ_CFG.API_BASE; },
+   async load(){
+     if(!this.isConnected())return;
+     try{ const r=await fetch(apiBase()+"/mpub?ts="+Date.now()); if(!r.ok)return;
+          const d=await r.json(); MPUB.clear(); ((d&&d.rels)||[]).forEach(x=>MPUB.add(String(x))); }catch(_){ }
+   },
+   async mark(rel){
+     if(!this.isConnected())throw new Error("백엔드 미연결 — 발행완료는 서버 연결이 필요해요.");
+     const r=await fetch(apiBase()+"/mpub",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({rel,source:"site"})});
+     if(!r.ok){ let m=""; try{ m=(await r.json()).error; }catch(_){ } throw new Error(m||("HTTP "+r.status)); }
+     MPUB.add(rel);
+   },
+   async unmark(rel){
+     if(!this.isConnected())throw new Error("백엔드 미연결 — 발행완료 취소는 서버 연결이 필요해요.");
+     const r=await fetch(apiBase()+"/mpub/unpub",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({rel})});
+     if(!r.ok){ let m=""; try{ m=(await r.json()).error; }catch(_){ } throw new Error(m||("HTTP "+r.status)); }
+     MPUB.delete(rel);
+   }
+ };
+
  /* 웹 푸시: 사이트 SW(sw.js) 등록 후에만 동작(설치형 PWA 단계에서 등록). */
  const PushSvc={
    supported(){ return ("serviceWorker" in navigator)&&("PushManager" in window)&&("Notification" in window); },
@@ -927,8 +952,9 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  const calP=fetch("_calendar/calendar.json?ts="+Date.now()).then(r=>r.ok?r.json():{events:[]}).catch(()=>({events:[]}));
  const pubP=fetch("published.json?ts="+Date.now()).then(r=>r.ok?r.json():{publishedRels:[]}).catch(()=>({publishedRels:[]}));
  const hidP=HiddenSvc.load();   /* 백엔드 숨김 목록(GET /hidden) — 실패해도 조용히 통과(아무것도 안 숨김) */
+ const mpubP=MpubSvc.load();    /* 백엔드 수동 발행완료 목록(GET /mpub) — 실패해도 조용히 통과 */
 
- Promise.all([postsP,trendP,newsP,calP,pubP,hidP]).then(([posts,trend,news,cal,pub])=>{
+ Promise.all([postsP,trendP,newsP,calP,pubP,hidP,mpubP]).then(([posts,trend,news,cal,pub])=>{
    const PUBSET=new Set(((pub&&pub.publishedRels)||[]));
    POSTS=(posts||[]).filter(p=>p&&p.rel&&!p.rel.split("/").some(s=>s.startsWith(".")||s.startsWith("_"))).map(p=>{
      const a=p.rel.split("/");
@@ -936,10 +962,11 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      const group=p.group||(a.length>=3?a[1]:"");
      const created=p.created||p.date||"";
      const updated=p.updated||p.date||created;
+     const autopub=(p.published===true)||PUBSET.has(p.rel);   /* 자동검증 발행(깃·baked) — 보호 대상 */
      return {author,group,rel:p.rel,topic:a.length>=3?a[2]:a[a.length-1],file:a[a.length-1],
              created,updated,ts:toTs(created),uts:toTs(updated),
              title:p.title||"",cat:p.cat||"",excerpt:p.excerpt||"",readmin:p.readmin||0,
-             published:(p.published===true)||PUBSET.has(p.rel)};
+             autopub,published:autopub||MPUB.has(p.rel)};   /* 표시용 발행됨 = 자동 ∪ 수동(백엔드) */
    });
 
    const names=[...new Set(POSTS.map(p=>p.author))];
@@ -1034,12 +1061,12 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      (p.readmin?`<span class="m">${svg("clock")}${p.readmin}분</span>`:"")+`</div>`;
    const pubCls=(p.published?" pub":"")+(isHidden?" hidden-on":"");
    if(feat){
-     return `<a class="feat${pubCls}" href="${enc(p.rel)}" style="--ac:${ac}" data-rel="${esc(p.rel)}" data-pub="${p.published?1:0}">`+
+     return `<a class="feat${pubCls}" href="${enc(p.rel)}" style="--ac:${ac}" data-rel="${esc(p.rel)}" data-pub="${p.published?1:0}" data-autopub="${p.autopub?1:0}">`+
        `<div class="f-k">${svg("spark")} 최신 글</div>${top}`+
        `<h2 class="f-title">${esc(title)}</h2>`+
        (p.excerpt?`<p class="c-ex f-ex">${esc(p.excerpt)}</p>`:"")+meta+`</a>`;
    }
-   return `<a class="card${pubCls}" href="${enc(p.rel)}" style="--ac:${ac}" data-rel="${esc(p.rel)}" data-pub="${p.published?1:0}">${top}`+
+   return `<a class="card${pubCls}" href="${enc(p.rel)}" style="--ac:${ac}" data-rel="${esc(p.rel)}" data-pub="${p.published?1:0}" data-autopub="${p.autopub?1:0}">${top}`+
      `<h3 class="c-title">${esc(title)}</h3>`+
      (p.excerpt?`<p class="c-ex">${esc(p.excerpt)}</p>`:"")+meta+`</a>`;
  }
@@ -1742,31 +1769,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      return {count:delPaths.length};
    }
 
-   /* ---- 발행 완료(수동) — published.json 에 rel 추가 후 단일 파일 커밋 ----
-      published.json 은 '발행됨' 단일 진실원천. check-published.ps1 이 비-Strict로 기존분을 union 보존하므로
-      수동 추가분은 자동 재생성에도 살아남는다(사이트·앱 모두 같은 소스를 읽어 딤드+'발행됨' 표시). */
-   function b64utf8(str){ const bytes=new TextEncoder().encode(str); let bin=""; for(let i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]); return btoa(bin); }
-   async function markPublished(rel){
-     const p=POSTS.find(x=>x.rel===rel);
-     if(!p) throw new Error("목록에 없는 글입니다.");
-     if(p.published) return {already:true};
-     let meta=null;
-     try{ meta=await gh("/contents/published.json?ref="+BRANCH); }catch(_){ meta=null; }
-     let obj={publishedRels:[]};
-     if(meta&&meta.content){
-       try{ const bin=atob(String(meta.content).replace(/\s/g,"")); const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));
-            obj=JSON.parse(new TextDecoder("utf-8").decode(bytes)); }catch(_){ obj={publishedRels:[]}; }
-     }
-     if(!obj||typeof obj!=="object") obj={publishedRels:[]};
-     if(!Array.isArray(obj.publishedRels)) obj.publishedRels=[];
-     if(obj.publishedRels.indexOf(rel)<0){ obj.publishedRels.push(rel); obj.publishedRels.sort(); }
-     const body={ message:"발행 완료(수동): "+((p&&p.title)||rel)+"\n\nrel: "+rel,
-       content:b64utf8(JSON.stringify(obj,null,2)+"\n"), branch:BRANCH };
-     if(meta&&meta.sha) body.sha=meta.sha;
-     await gh("/contents/published.json",{method:"PUT",body:JSON.stringify(body)});
-     const lp=POSTS.find(x=>x.rel===rel); if(lp)lp.published=true;
-     return {ok:true};
-   }
+   /* 발행 완료(수동)는 이제 백엔드 MpubSvc(무토큰·가역)로 처리한다 → onTogglePublished 참고.
+      (옛 깃 published.json 커밋 방식은 토큰이 필요해 제거했고, 자동검증 발행은 check-published.ps1 가 계속 담당) */
 
    /* ---- 토스트 ---- */
    let _toastEl=null,_toastT=0;
@@ -1781,17 +1785,17 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    function ensurePop(){
      if(_pop) return _pop;
      _pop=document.createElement("div"); _pop.className="admin-menu-pop"; _pop.hidden=true;
-     /* 숨기기/해제: 토큰 불필요(누구나). 발행완료·삭제: 관리자(GitHub 토큰) 필요. */
+     /* 숨기기/해제·발행완료/취소: 토큰 불필요(누구나). 삭제만: 관리자(GitHub 토큰) 필요. */
      _pop.innerHTML='<button type="button" data-act="hide"></button>'+
+                    '<button type="button" data-act="pub"></button>'+
                     '<div class="admin-menu-sep"></div>'+
-                    '<button type="button" data-act="pub">'+svg("checkCircle")+'발행 완료</button>'+
                     '<button type="button" data-act="del">'+svg("trash")+'글 삭제</button>';
      _pop.querySelectorAll("[data-act]").forEach(it=>it.addEventListener("click",ev=>{
        ev.preventDefault(); ev.stopPropagation();
        const act=it.dataset.act, rel=_pop._rel, card=_pop._card; _pop.hidden=true;
-       if(act==="hide") onToggleHide(rel,card);   /* 토큰 불필요 */
+       if(act==="hide") onToggleHide(rel,card);          /* 토큰 불필요 */
+       else if(act==="pub") onTogglePublished(rel,card); /* 토큰 불필요 */
        else if(act==="del") requireUnlock(()=>onDelete(rel,card));
-       else if(act==="pub") requireUnlock(()=>onMarkPublished(rel,card));
      }));
      document.body.appendChild(_pop);
      return _pop;
@@ -1801,6 +1805,10 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      const pop=ensurePop(); pop._rel=rel; pop._card=card; pop.hidden=false;
      const hb=pop.querySelector('[data-act="hide"]'); const isH=HIDDEN.has(rel);   /* 현재 숨김 상태로 라벨 결정 */
      if(hb)hb.innerHTML=svg(isH?"eye":"eyeOff")+(isH?"숨김 해제":"숨기기");
+     const pbtn=pop.querySelector('[data-act="pub"]'); const isM=MPUB.has(rel);     /* 수동 발행완료 상태로 라벨 결정 */
+     if(pbtn)pbtn.innerHTML=svg(isM?"eyeOff":"checkCircle")+(isM?"발행 완료 취소":"발행 완료");
+     /* 삭제는 발행됨(자동·수동) 글엔 막혀 있으므로, 발행 상태면 삭제 버튼을 숨긴다(취소 후 삭제). */
+     const dbtn=pop.querySelector('[data-act="del"]'); if(dbtn)dbtn.style.display=(card&&card.dataset.pub==="1")?"none":"";
      const r=btn.getBoundingClientRect(); const pw=pop.offsetWidth||150;
      let left=r.right-pw; if(left<8)left=8;
      let top=r.bottom+6; if(top+pop.offsetHeight>window.innerHeight-8)top=Math.max(8,r.top-pop.offsetHeight-6);
@@ -1809,11 +1817,11 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    /* 메뉴 아이콘은 항상 노출(미발행 글). 실제 삭제/발행완료를 누를 때만 토큰 인증을 요구한다. */
    function injectButtons(){
      contentEl.querySelectorAll(".card,.feat").forEach(card=>{
-       if(card.dataset.pub==="1") return;          /* 발행글은 보호(메뉴 없음) */
+       if(card.dataset.autopub==="1") return;       /* 자동검증 발행글만 보호(메뉴 없음). 수동 발행완료는 메뉴 유지(취소 가능) */
        if(card.querySelector(".admin-menu")) return;
        const rel=card.dataset.rel; if(!rel) return;
        const wrap=document.createElement("div"); wrap.className="admin-menu";
-       wrap.innerHTML='<button type="button" class="admin-menu-btn" title="관리 (발행 완료·삭제)" aria-label="글 관리 메뉴">'+svg("dots")+'</button>';
+       wrap.innerHTML='<button type="button" class="admin-menu-btn" title="관리 (숨기기·발행완료·삭제)" aria-label="글 관리 메뉴">'+svg("dots")+'</button>';
        const btn=wrap.querySelector(".admin-menu-btn");
        btn.addEventListener("click",ev=>{ ev.preventDefault(); ev.stopPropagation();
          if(_pop&&!_pop.hidden&&_pop._card===card){ closePop(); return; }
@@ -1854,15 +1862,18 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      }catch(e){ toast((isH?"숨김 해제 실패: ":"숨김 실패: ")+(e&&e.message||e),"err"); }
    }
 
-   async function onMarkPublished(rel,card){
+   /* ---- 발행 완료 / 발행 완료 취소 (토큰 불필요 — 누구나, 백엔드 저장) ---- */
+   async function onTogglePublished(rel,card){
      const p=POSTS.find(x=>x.rel===rel); const title=(p&&p.title)||rel;
-     if(!confirm("이 글을 ‘발행 완료’로 표시할까요?\n\n「"+title+"」\n\n‘발행됨’ 라벨이 붙고 딤드 처리되며, ‘발행글 보기’를 끄면 숨겨집니다.\n서버(published.json)에 저장돼 사이트·앱에 함께 반영됩니다(1~2분).")) return;
-     toast("발행 완료 처리 중…");
+     const isM=MPUB.has(rel);
+     if(!MpubSvc.isConnected()){ toast("백엔드 미연결 — 발행완료는 서버 연결이 필요해요.","err"); return; }
+     if(!isM && !confirm("이 글을 ‘발행 완료’로 표시할까요?\n\n「"+title+"」\n\n‘발행됨’ 라벨이 붙고 딤드 처리돼요(‘발행글 보기’를 끄면 가려짐).\n누구나 다시 ‘발행 완료 취소’할 수 있어요 · 즉시 반영.")) return;
+     toast(isM?"발행 완료 취소 중…":"발행 완료 처리 중…");
      try{
-       const r=await markPublished(rel);
-       toast(r.already?"이미 발행됨으로 표시된 글이에요.":"발행 완료 저장됨 · 사이트 반영 1~2분","ok");
+       if(isM) await MpubSvc.unmark(rel); else await MpubSvc.mark(rel);
+       toast(isM?"발행 완료를 취소했어요 · 모두에게 반영":"발행 완료로 표시했어요 · 모두에게 반영","ok");
        render();
-     }catch(e){ toast("발행 완료 처리 실패: "+(e&&e.message||e),"err"); }
+     }catch(e){ toast((isM?"발행 완료 취소 실패: ":"발행 완료 처리 실패: ")+(e&&e.message||e),"err"); }
    }
 
    /* ---- 관리자 상태 ---- */
@@ -1890,7 +1901,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
        inner=document.createElement("div"); inner.className="adm-box";
        inner.innerHTML=
          '<h3>'+svg("lockOpen")+'관리자 모드 켜짐</h3>'+
-         '<p>로그인: <b>'+esc(who||"(확인됨)")+'</b><br>미발행 글 카드 우상단의 <b>⋮ 메뉴</b>에서 <b>발행 완료</b> 표시 또는 <b>글 삭제</b>를 할 수 있어요. 발행된 글은 보호됩니다.</p>'+
+         '<p>로그인: <b>'+esc(who||"(확인됨)")+'</b><br>관리자 모드는 이제 <b>글 삭제</b>에만 필요해요. 숨기기·발행 완료는 토큰 없이 누구나 ⋮ 메뉴에서 할 수 있어요. 자동검증 발행글은 보호됩니다.</p>'+
          '<div class="adm-row"><button class="adm-btn danger" id="admLogout">로그아웃(토큰 지움)</button>'+
          '<button class="adm-btn ghost" id="admClose">닫기</button></div>';
        mask.appendChild(inner); document.body.appendChild(mask);

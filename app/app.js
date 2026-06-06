@@ -65,6 +65,7 @@
   /* ---------- 데이터 (캐시) ---------- */
   const cache = {};
   const HIDDEN = new Set();   // 숨김된 rel (백엔드 GET /hidden 으로 채움 · 런타임 토글로 갱신)
+  const MPUB = new Set();     // 수동 발행완료된 rel (백엔드 GET /mpub 으로 채움 · 런타임 토글로 갱신)
   async function loadJSON(url) {
     const r = await fetch(url + (url.indexOf('?') < 0 ? '?ts=' : '&ts=') + Date.now());
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -96,8 +97,13 @@
       const PUBSET = new Set(((pub && pub.publishedRels) || []).map((s) => String(s).trim()));
       if (PUBSET.size) arr = arr.map((p) => (p.published || PUBSET.has(p.rel) ? Object.assign(p, { published: true }) : p));
     } catch (_) {}
-    /* 숨김 목록(백엔드) 머지 — 사이트와 동일. 실패 시 아무것도 안 숨김(fail-open). */
+    /* autopub = 자동검증 발행(깃·baked) — 보호 대상. 이 시점의 published 가 곧 autopub. */
+    arr.forEach((p) => { p.autopub = p.published === true; });
+    /* 숨김·수동발행완료(백엔드) 머지 — 사이트와 동일. 실패 시 무시(fail-open). */
     try { const rels = await window.BC.HiddenService.list(); HIDDEN.clear(); rels.forEach((x) => HIDDEN.add(String(x))); } catch (_) {}
+    try { const rels = await window.BC.MpubService.list(); MPUB.clear(); rels.forEach((x) => MPUB.add(String(x))); } catch (_) {}
+    /* 표시용 발행됨 = 자동 ∪ 수동(백엔드) */
+    arr.forEach((p) => { p.published = p.autopub || MPUB.has(p.rel); });
     return (cache.posts = arr);
   }
   async function getTrend() { if (cache.trend) return cache.trend; const d = await loadJSON(CFG('TREND_URL', '../_trend/trend.json')); return (cache.trend = (d && d.issues) || []); }
@@ -106,9 +112,9 @@
 
   const skeleton = (n) => Array.from({ length: n || 4 }, () => '<div class="skel"></div>').join('');
 
-  /* ================= 관리자 모드(GitHub 토큰) — 글 삭제 / 발행 완료 =================
-     사이트(index.html)의 관리자 모듈과 동일 계약. 삭제=Git Data API 단일 커밋,
-     발행 완료=published.json 에 rel 추가 후 Contents PUT(‘발행됨’ 단일 진실원천). */
+  /* ================= 관리자 모드(GitHub 토큰) — 글 삭제 전용 =================
+     사이트(index.html)의 관리자 모듈과 동일 계약. 삭제=Git Data API 단일 커밋(토큰 필요).
+     숨기기·발행완료는 토큰 없이 백엔드(HiddenService/MpubService)로 처리한다. */
   const ADMIN = (function () {
     const OWNER = 'qtdqtd002-coder', REPO = 'bomding-blog-preview', BRANCH = 'main';
     const API = 'https://api.github.com/repos/' + OWNER + '/' + REPO;
@@ -139,7 +145,6 @@
       const bin = atob(String(r.content || '').replace(/\s/g, ''));
       return { text: new TextDecoder('utf-8').decode(Uint8Array.from(bin, (c) => c.charCodeAt(0))), sha: r.sha };
     }
-    function b64utf8(str) { const bytes = new TextEncoder().encode(str); let bin = ''; for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]); return btoa(bin); }
     const posts = () => cache.posts || [];
     const relFolder = (rel) => { const i = rel.lastIndexOf('/'); return i < 0 ? '' : rel.slice(0, i); };
     function delScope(rel) { const f = relFolder(rel); const same = posts().filter((x) => relFolder(x.rel) === f); return (f && same.length <= 1) ? { folder: f, whole: true } : { folder: f, whole: false }; }
@@ -173,25 +178,8 @@
       if (cache.posts) cache.posts = cache.posts.filter((x) => delPaths.indexOf(x.rel) < 0);
       return { count: delPaths.length };
     }
-    async function markPublished(rel) {
-      const p = posts().find((x) => x.rel === rel);
-      if (!p) throw new Error('목록에 없는 글입니다.');
-      if (p.published) return { already: true };
-      let meta = null;
-      try { meta = await gh('/contents/published.json?ref=' + BRANCH); } catch (_) { meta = null; }
-      let obj = { publishedRels: [] };
-      if (meta && meta.content) {
-        try { const bin = atob(String(meta.content).replace(/\s/g, '')); obj = JSON.parse(new TextDecoder('utf-8').decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)))); } catch (_) { obj = { publishedRels: [] }; }
-      }
-      if (!obj || typeof obj !== 'object') obj = { publishedRels: [] };
-      if (!Array.isArray(obj.publishedRels)) obj.publishedRels = [];
-      if (obj.publishedRels.indexOf(rel) < 0) { obj.publishedRels.push(rel); obj.publishedRels.sort(); }
-      const body = { message: '발행 완료(수동): ' + ((p && p.title) || rel) + '\n\nrel: ' + rel, content: b64utf8(JSON.stringify(obj, null, 2) + '\n'), branch: BRANCH };
-      if (meta && meta.sha) body.sha = meta.sha;
-      await gh('/contents/published.json', { method: 'PUT', body: JSON.stringify(body) });
-      if (p) p.published = true;
-      return { ok: true };
-    }
+    /* 발행 완료(수동)는 이제 백엔드 MpubService(무토큰·가역)로 처리한다 → pmTogglePublished 참고.
+       (옛 깃 published.json 커밋 방식은 토큰이 필요해 제거, 자동검증 발행은 check-published.ps1 가 계속 담당) */
 
     let _t = null, _tT = 0;
     function toast(msg, kind) {
@@ -215,7 +203,7 @@
       const box = document.createElement('div'); box.className = 'adm-box';
       if (on) {
         box.innerHTML = '<h3>' + ghIco('lockOpen') + '관리자 모드 켜짐</h3>' +
-          '<p>로그인: <b>' + esc(who || '(확인됨)') + '</b><br>발행글 탭의 미발행 글 카드 우상단 <b>⋮ 메뉴</b>에서 <b>발행 완료</b> 또는 <b>글 삭제</b>를 할 수 있어요. 발행된 글은 보호됩니다.</p>' +
+          '<p>로그인: <b>' + esc(who || '(확인됨)') + '</b><br>관리자 모드는 이제 <b>글 삭제</b>에만 필요해요. 숨기기·발행 완료는 토큰 없이 누구나 ⋮ 메뉴에서 할 수 있어요. 자동검증 발행글은 보호됩니다.</p>' +
           '<div class="adm-row"><button class="adm-btn danger" id="admLogout">로그아웃</button><button class="adm-btn ghost" id="admClose">닫기</button></div>';
         mask.appendChild(box); document.body.appendChild(mask);
         box.querySelector('#admClose').addEventListener('click', close);
@@ -246,7 +234,7 @@
       let saved = ''; try { saved = localStorage.getItem(LSK) || ''; } catch (_) {}
       if (saved) validate(saved).then((login) => setOn(saved, login)).catch(() => { try { localStorage.removeItem(LSK); } catch (_) {} });
     }
-    return { isOn: () => on, openModal, requireUnlock, deletePost, markPublished, toast, restore, setOnChange: (f) => { onChange = f; } };
+    return { isOn: () => on, openModal, requireUnlock, deletePost, toast, restore, setOnChange: (f) => { onChange = f; } };
   })();
 
   /* 글 카드 우상단 아이콘 메뉴(관리자) — 공용 fixed 팝업 */
@@ -254,17 +242,17 @@
   function pmEnsure() {
     if (_pmPop) return _pmPop;
     _pmPop = document.createElement('div'); _pmPop.className = 'post-menu-pop'; _pmPop.hidden = true;
-    /* 숨기기/해제: 토큰 불필요(누구나). 발행완료·삭제: 관리자(GitHub 토큰) 필요. */
+    /* 숨기기/해제·발행완료/취소: 토큰 불필요(누구나). 삭제만: 관리자(GitHub 토큰) 필요. */
     _pmPop.innerHTML = '<button type="button" data-act="hide"></button>' +
+                       '<button type="button" data-act="pub"></button>' +
                        '<div class="post-menu-sep"></div>' +
-                       '<button type="button" data-act="pub">' + ico('checkCircle', 16) + '발행 완료</button>' +
                        '<button type="button" data-act="del">' + ico('trash', 16) + '글 삭제</button>';
     _pmPop.querySelectorAll('[data-act]').forEach((it) => it.addEventListener('click', (ev) => {
       ev.preventDefault(); ev.stopPropagation();
       const act = it.dataset.act, rel = _pmPop._rel; _pmPop.hidden = true;
       if (act === 'hide') pmToggleHide(rel);                          // 토큰 불필요
+      else if (act === 'pub') pmTogglePublished(rel);                 // 토큰 불필요
       else if (act === 'del') ADMIN.requireUnlock(() => pmDelete(rel));
-      else ADMIN.requireUnlock(() => pmPublish(rel));
     }));
     document.body.appendChild(_pmPop);
     return _pmPop;
@@ -274,6 +262,11 @@
     const pop = pmEnsure(); pop._rel = rel; pop.hidden = false;
     const hb = pop.querySelector('[data-act="hide"]'); const isH = HIDDEN.has(rel);   // 현재 숨김 상태로 라벨 결정
     if (hb) hb.innerHTML = ico(isH ? 'eye' : 'eyeOff', 16) + (isH ? '숨김 해제' : '숨기기');
+    const pb = pop.querySelector('[data-act="pub"]'); const isM = MPUB.has(rel);       // 수동 발행완료 상태로 라벨 결정
+    if (pb) pb.innerHTML = ico(isM ? 'eyeOff' : 'checkCircle', 16) + (isM ? '발행 완료 취소' : '발행 완료');
+    // 삭제는 발행됨 글엔 막혀 있으므로, 발행 상태면 삭제 버튼 숨김(취소 후 삭제)
+    const card = btn.closest('.post');
+    const db = pop.querySelector('[data-act="del"]'); if (db) db.style.display = (card && card.dataset.pub === '1') ? 'none' : '';
     const r = btn.getBoundingClientRect(); const pw = pop.offsetWidth || 150;
     let left = r.right - pw; if (left < 8) left = 8;
     let top = r.bottom + 6; if (top + pop.offsetHeight > window.innerHeight - 8) top = Math.max(8, r.top - pop.offsetHeight - 6);
@@ -303,17 +296,24 @@
       if (route === 'posts') paint();
     } catch (e) { ADMIN.toast((isH ? '숨김 해제 실패: ' : '숨김 실패: ') + (e && e.message || e), 'err'); }
   }
-  async function pmPublish(rel) {
+  // 발행 완료 / 발행 완료 취소 — 토큰 불필요(누구나). 백엔드에 즉시 반영(모두에게 적용).
+  async function pmTogglePublished(rel) {
     const p = (cache.posts || []).find((x) => x.rel === rel); const title = (p && p.title) || rel;
-    if (!confirm('이 글을 ‘발행 완료’로 표시할까요?\n\n「' + title + '」\n\n‘발행됨’ 라벨이 붙고 딤드 처리되며, ‘발행글 숨김’ 시 가려집니다.\n서버(published.json)에 저장돼 사이트·앱에 함께 반영됩니다(1~2분).')) return;
-    ADMIN.toast('발행 완료 처리 중…');
-    try { const r = await ADMIN.markPublished(rel); ADMIN.toast(r.already ? '이미 발행됨으로 표시된 글이에요.' : '발행 완료 저장됨 · 반영 1~2분', 'ok'); if (route === 'posts') paint(); }
-    catch (e) { ADMIN.toast('발행 완료 처리 실패: ' + (e && e.message || e), 'err'); }
+    const isM = MPUB.has(rel);
+    if (!window.BC.MpubService.isConnected()) { ADMIN.toast('백엔드 미연결 — 발행완료는 서버 연결이 필요해요.', 'err'); return; }
+    if (!isM && !confirm('이 글을 ‘발행 완료’로 표시할까요?\n\n「' + title + '」\n\n‘발행됨’ 라벨이 붙고 딤드 처리돼요(‘발행글 보기’를 끄면 가려짐).\n누구나 다시 ‘발행 완료 취소’할 수 있어요 · 즉시 반영.')) return;
+    ADMIN.toast(isM ? '발행 완료 취소 중…' : '발행 완료 처리 중…');
+    try {
+      if (isM) { await window.BC.MpubService.unmark(rel); MPUB.delete(rel); }
+      else { await window.BC.MpubService.mark(rel); MPUB.add(rel); }
+      ADMIN.toast(isM ? '발행 완료를 취소했어요 · 모두에게 반영' : '발행 완료로 표시했어요 · 모두에게 반영', 'ok');
+      if (route === 'posts') paint();
+    } catch (e) { ADMIN.toast((isM ? '발행 완료 취소 실패: ' : '발행 완료 처리 실패: ') + (e && e.message || e), 'err'); }
   }
   // 메뉴 아이콘은 항상 노출(미발행 글). 실제 삭제/발행완료를 누를 때만 토큰 인증을 요구한다.
   function injectPostMenus(root) {
     $$('.post', root).forEach((card) => {
-      if (card.dataset.pub === '1') return;          // 발행글은 보호(메뉴 없음)
+      if (card.dataset.autopub === '1') return;      // 자동검증 발행글만 보호. 수동 발행완료는 메뉴 유지(취소 가능)
       if (card.querySelector('.post-menu')) return;
       const rel = card.dataset.rel; if (!rel) return;
       const wrap = document.createElement('div'); wrap.className = 'post-menu';
@@ -398,7 +398,7 @@
         const pubBadge = p.published ? `<span class="p-pub">${ico('check', 12)}발행됨</span>` : '';
         const isHidden = HIDDEN.has(p.rel);
         const hidBadge = isHidden ? `<span class="p-hid">${ico('eyeOff', 12)}숨김</span>` : '';
-        return `<a class="post${p.published ? ' pub' : ''}${isHidden ? ' hidden-on' : ''}" href="${href}" target="_blank" rel="noopener" style="--ac:${ac(p.author)}" data-rel="${esc(p.rel)}" data-pub="${p.published ? 1 : 0}">
+        return `<a class="post${p.published ? ' pub' : ''}${isHidden ? ' hidden-on' : ''}" href="${href}" target="_blank" rel="noopener" style="--ac:${ac(p.author)}" data-rel="${esc(p.rel)}" data-pub="${p.published ? 1 : 0}" data-autopub="${p.autopub ? 1 : 0}">
           <div class="p-top"><span class="who"><span class="dot"></span>${esc(p.author)}</span>${hidBadge}${p.cat ? `<span class="cat">${esc(p.cat)}</span>` : ''}${pubBadge}</div>
           <div class="p-title">${esc(p.title)}</div>${p.excerpt ? `<div class="p-ex">${esc(p.excerpt)}</div>` : ''}
           <div class="p-meta">${esc(fmtDay(p.created) || '—')} 등록${edited ? ' · 수정 ' + esc(fmtDay(p.updated)) : ''}<span class="ext">사이트에서 보기 ${extIco}</span></div></a>`;
