@@ -64,6 +64,7 @@
 
   /* ---------- 데이터 (캐시) ---------- */
   const cache = {};
+  const HIDDEN = new Set();   // 숨김된 rel (백엔드 GET /hidden 으로 채움 · 런타임 토글로 갱신)
   async function loadJSON(url) {
     const r = await fetch(url + (url.indexOf('?') < 0 ? '?ts=' : '&ts=') + Date.now());
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -95,6 +96,8 @@
       const PUBSET = new Set(((pub && pub.publishedRels) || []).map((s) => String(s).trim()));
       if (PUBSET.size) arr = arr.map((p) => (p.published || PUBSET.has(p.rel) ? Object.assign(p, { published: true }) : p));
     } catch (_) {}
+    /* 숨김 목록(백엔드) 머지 — 사이트와 동일. 실패 시 아무것도 안 숨김(fail-open). */
+    try { const rels = await window.BC.HiddenService.list(); HIDDEN.clear(); rels.forEach((x) => HIDDEN.add(String(x))); } catch (_) {}
     return (cache.posts = arr);
   }
   async function getTrend() { if (cache.trend) return cache.trend; const d = await loadJSON(CFG('TREND_URL', '../_trend/trend.json')); return (cache.trend = (d && d.issues) || []); }
@@ -251,12 +254,17 @@
   function pmEnsure() {
     if (_pmPop) return _pmPop;
     _pmPop = document.createElement('div'); _pmPop.className = 'post-menu-pop'; _pmPop.hidden = true;
-    _pmPop.innerHTML = '<button type="button" data-act="pub">' + ico('checkCircle', 16) + '발행 완료</button>' +
+    /* 숨기기/해제: 토큰 불필요(누구나). 발행완료·삭제: 관리자(GitHub 토큰) 필요. */
+    _pmPop.innerHTML = '<button type="button" data-act="hide"></button>' +
+                       '<div class="post-menu-sep"></div>' +
+                       '<button type="button" data-act="pub">' + ico('checkCircle', 16) + '발행 완료</button>' +
                        '<button type="button" data-act="del">' + ico('trash', 16) + '글 삭제</button>';
     _pmPop.querySelectorAll('[data-act]').forEach((it) => it.addEventListener('click', (ev) => {
       ev.preventDefault(); ev.stopPropagation();
       const act = it.dataset.act, rel = _pmPop._rel; _pmPop.hidden = true;
-      if (act === 'del') ADMIN.requireUnlock(() => pmDelete(rel)); else ADMIN.requireUnlock(() => pmPublish(rel));
+      if (act === 'hide') pmToggleHide(rel);                          // 토큰 불필요
+      else if (act === 'del') ADMIN.requireUnlock(() => pmDelete(rel));
+      else ADMIN.requireUnlock(() => pmPublish(rel));
     }));
     document.body.appendChild(_pmPop);
     return _pmPop;
@@ -264,6 +272,8 @@
   function pmClose() { if (_pmPop) _pmPop.hidden = true; }
   function pmOpen(btn, rel) {
     const pop = pmEnsure(); pop._rel = rel; pop.hidden = false;
+    const hb = pop.querySelector('[data-act="hide"]'); const isH = HIDDEN.has(rel);   // 현재 숨김 상태로 라벨 결정
+    if (hb) hb.innerHTML = ico(isH ? 'eye' : 'eyeOff', 16) + (isH ? '숨김 해제' : '숨기기');
     const r = btn.getBoundingClientRect(); const pw = pop.offsetWidth || 150;
     let left = r.right - pw; if (left < 8) left = 8;
     let top = r.bottom + 6; if (top + pop.offsetHeight > window.innerHeight - 8) top = Math.max(8, r.top - pop.offsetHeight - 6);
@@ -278,6 +288,20 @@
     ADMIN.toast('삭제 중…');
     try { const r = await ADMIN.deletePost(rel, title); ADMIN.toast('삭제 완료 (' + r.count + '개 파일 제거) · 반영 1~2분', 'ok'); if (route === 'posts') paint(); }
     catch (e) { ADMIN.toast('삭제 실패: ' + (e && e.message || e), 'err'); }
+  }
+  // 숨기기/숨김 해제 — 토큰 불필요(누구나). 백엔드에 즉시 반영(모두에게 적용).
+  async function pmToggleHide(rel) {
+    const p = (cache.posts || []).find((x) => x.rel === rel); const title = (p && p.title) || rel;
+    const isH = HIDDEN.has(rel);
+    if (!window.BC.HiddenService.isConnected()) { ADMIN.toast('백엔드 미연결 — 숨김은 서버 연결이 필요해요.', 'err'); return; }
+    if (!isH && !confirm('이 글을 숨길까요?\n\n「' + title + '」\n\n목록에서 모두에게 가려집니다(글은 삭제되지 않고 그대로 보존돼요).\n누구나 ‘숨긴 글 보기’에서 다시 해제할 수 있어요 · 즉시 반영.')) return;
+    ADMIN.toast(isH ? '숨김 해제 중…' : '숨기는 중…');
+    try {
+      if (isH) { await window.BC.HiddenService.unhide(rel); HIDDEN.delete(rel); }
+      else { await window.BC.HiddenService.hide(rel); HIDDEN.add(rel); }
+      ADMIN.toast(isH ? '숨김을 해제했어요 · 모두에게 다시 보여요' : '숨겼어요 · 모두에게 적용됐어요', 'ok');
+      if (route === 'posts') paint();
+    } catch (e) { ADMIN.toast((isH ? '숨김 해제 실패: ' : '숨김 실패: ') + (e && e.message || e), 'err'); }
   }
   async function pmPublish(rel) {
     const p = (cache.posts || []).find((x) => x.rel === rel); const title = (p && p.title) || rel;
@@ -300,7 +324,7 @@
         if (_pmPop && !_pmPop.hidden && _pmPop._rel === rel) { pmClose(); return; }
         pmOpen(btn, rel);
       });
-      card.appendChild(wrap); if (ADMIN.isOn()) card.classList.add('admin-on');
+      card.appendChild(wrap); card.classList.add('has-mgmt'); if (ADMIN.isOn()) card.classList.add('admin-on');
     });
   }
 
@@ -337,6 +361,7 @@
   /* ---- 발행글 ---- */
   let filterAuthor = '__all__';
   let hidePub = false; try { hidePub = localStorage.getItem('bc_app_hidePub') === '1'; } catch (_) {}
+  let showHidden = false; try { showHidden = localStorage.getItem('bc_app_showHidden') === '1'; } catch (_) {}
   VIEWS.posts = async (root) => {
     root.innerHTML = `<div class="sec-h"><span class="t">발행글</span><span class="meta" id="pCount"></span></div><div class="chips" id="chips"></div><div class="p-toolbar" id="pToolbar"></div><div id="postList">${skeleton(5)}</div>`;
     const posts = await getPosts().catch(() => []);
@@ -353,19 +378,28 @@
       $$('#chips [data-f]').forEach((b) => b.classList.toggle('on', b.dataset.f === filterAuthor));
       const list = filterAuthor === '__all__' ? posts : posts.filter((p) => p.author === filterAuthor);
       const hiddenN = list.filter((p) => p.published).length;
-      const visList = hidePub ? list.filter((p) => !p.published) : list;
-      // 발행글 보기/숨김 토글
-      $('#pToolbar').innerHTML = `<button class="p-toggle${hidePub ? ' on' : ''}" id="pubToggle">${ico(hidePub ? 'eyeOff' : 'eye', 15)}${hidePub ? '발행글 숨김' : '발행글 보기'}</button>` +
-        (hidePub && hiddenN ? `<span class="p-hidden">발행 ${hiddenN}편 숨김</span>` : '');
+      let visList = hidePub ? list.filter((p) => !p.published) : list;
+      const hidN = visList.filter((p) => HIDDEN.has(p.rel)).length;   // 숨김된 글 수(현재 뷰)
+      if (!showHidden) visList = visList.filter((p) => !HIDDEN.has(p.rel));
+      // 발행글 토글 + (숨김 글이 있을 때) 숨긴 글 보기 토글 — 둘 다 토큰 불필요
+      $('#pToolbar').innerHTML =
+        `<button class="p-toggle${hidePub ? ' on' : ''}" id="pubToggle">${ico(hidePub ? 'eyeOff' : 'eye', 15)}${hidePub ? '발행글 숨김' : '발행글 보기'}</button>` +
+        ((hidN || showHidden) ? `<button class="p-toggle${showHidden ? ' on' : ''}" id="hideToggle">${ico(showHidden ? 'eyeOff' : 'eye', 15)}${showHidden ? '숨긴 글 가리기' : `숨긴 글 보기${hidN ? ` (${hidN})` : ''}`}</button>` : '') +
+        (hidePub && hiddenN ? `<span class="p-hidden">발행 ${hiddenN}편 숨김</span>` : '') +
+        (!showHidden && hidN ? `<span class="p-hidden">숨김 ${hidN}편 가림</span>` : '');
       const tg = $('#pubToggle');
       if (tg) tg.addEventListener('click', () => { hidePub = !hidePub; try { localStorage.setItem('bc_app_hidePub', hidePub ? '1' : '0'); } catch (_) {} draw(); });
+      const hg = $('#hideToggle');
+      if (hg) hg.addEventListener('click', () => { showHidden = !showHidden; try { localStorage.setItem('bc_app_showHidden', showHidden ? '1' : '0'); } catch (_) {} draw(); });
       const base = CFG('SITE_BASE', '..');
       $('#postList').innerHTML = visList.length ? visList.map((p) => {
         const href = base + '/' + enc(p.rel);
         const edited = p.updated && fmtDay(p.updated) !== fmtDay(p.created);
         const pubBadge = p.published ? `<span class="p-pub">${ico('check', 12)}발행됨</span>` : '';
-        return `<a class="post${p.published ? ' pub' : ''}" href="${href}" target="_blank" rel="noopener" style="--ac:${ac(p.author)}" data-rel="${esc(p.rel)}" data-pub="${p.published ? 1 : 0}">
-          <div class="p-top"><span class="who"><span class="dot"></span>${esc(p.author)}</span>${p.cat ? `<span class="cat">${esc(p.cat)}</span>` : ''}${pubBadge}</div>
+        const isHidden = HIDDEN.has(p.rel);
+        const hidBadge = isHidden ? `<span class="p-hid">${ico('eyeOff', 12)}숨김</span>` : '';
+        return `<a class="post${p.published ? ' pub' : ''}${isHidden ? ' hidden-on' : ''}" href="${href}" target="_blank" rel="noopener" style="--ac:${ac(p.author)}" data-rel="${esc(p.rel)}" data-pub="${p.published ? 1 : 0}">
+          <div class="p-top"><span class="who"><span class="dot"></span>${esc(p.author)}</span>${hidBadge}${p.cat ? `<span class="cat">${esc(p.cat)}</span>` : ''}${pubBadge}</div>
           <div class="p-title">${esc(p.title)}</div>${p.excerpt ? `<div class="p-ex">${esc(p.excerpt)}</div>` : ''}
           <div class="p-meta">${esc(fmtDay(p.created) || '—')} 등록${edited ? ' · 수정 ' + esc(fmtDay(p.updated)) : ''}<span class="ext">사이트에서 보기 ${extIco}</span></div></a>`;
       }).join('') : `<div class="empty">${hidePub && hiddenN ? '발행글을 숨겼어요. ‘발행글 보기’로 다시 볼 수 있어요.' : '표시할 글이 없어요.'}</div>`;

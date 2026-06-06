@@ -160,5 +160,27 @@ window.BC_CONFIG = {
     return Uint8Array.from(Array.prototype.map.call(raw, (c) => c.charCodeAt(0)));
   }
 
-  window.BC = { PublishRequestService, PushService };
+  /* 숨김(hide) 서비스 — 글 rel 단위 소프트 숨김. admin 토큰 없이 누구나 즉시 숨김/해제.
+     공유 저장은 백엔드(VM)에 둔다(사이트 index.html 과 동일 계약: GET/POST {base}/hidden, POST /hidden/unhide).
+     글 파일·발행은 건드리지 않고 목록에서만 가린다(가역). 미연결/실패 시엔 아무것도 안 숨김(fail-open). */
+  const HiddenService = {
+    isConnected() { return !!window.BC_CONFIG.PUBLISH_API_BASE_URL; },
+    async list() {
+      if (!this.isConnected()) return [];
+      try { const r = await fetch(base() + '/hidden?ts=' + Date.now()); if (!r.ok) return []; const d = await r.json(); return (d && d.rels) || []; }
+      catch (_) { return []; }
+    },
+    async hide(rel) {
+      if (!this.isConnected()) throw new Error('백엔드 미연결 — 숨김은 서버 연결이 필요해요.');
+      const r = await fetch(base() + '/hidden', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rel, source: 'pwa' }) });
+      if (!r.ok) { let m = ''; try { m = (await r.json()).error; } catch (_) {} throw new Error(m || ('HTTP ' + r.status)); }
+    },
+    async unhide(rel) {
+      if (!this.isConnected()) throw new Error('백엔드 미연결 — 숨김 해제는 서버 연결이 필요해요.');
+      const r = await fetch(base() + '/hidden/unhide', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rel }) });
+      if (!r.ok) { let m = ''; try { m = (await r.json()).error; } catch (_) {} throw new Error(m || ('HTTP ' + r.status)); }
+    }
+  };
+
+  window.BC = { PublishRequestService, PushService, HiddenService };
 })();
