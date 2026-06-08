@@ -1,5 +1,5 @@
 <!-- 제목: 패스오브엑자일2 거래 방법 총정리 — 비동기 거래·거래소 이용법 신규·복귀 가이드 -->
-<!-- 태그: 패스오브엑자일2,POE2,POE2거래,POE2거래소,비동기거래,상인의탭,고대의귀환,POE2초보가이드,POE2복귀,POE2공략 -->
+<!-- 태그: 패스오브엑자일2,POE2,비동기거래,상인의탭,고대의귀환,POE2거래,POE2거래소 -->
 <!-- ↓↓↓ 여기부터 복사해서 티스토리 글쓰기 'HTML 모드'에 붙여넣기 ↓↓↓ -->
 
 <p style="font-size:17px;line-height:1.9;color:#33333a;font-weight:500;margin:0 0 22px;word-break:keep-all;">핵앤슬래시는 결국 거래가 재미의 절반이라는 말이 있습니다. 패스 오브 엑자일 2도 좋은 장비를 직접 만드는 것만큼 <b>거래소에서 사고파는 것</b>이 성장의 큰 축인데요. 그런데 처음 시작하거나 0.5.0 '고대의 귀환'으로 복귀하면 "어디서, 어떻게 거래하지?"부터 막힙니다. 이 글에서는 거래 기본 구조와 0.3.0에 들어온 <b>비동기 거래</b>, 그리고 사기 안 당하는 법까지 정리했습니다.</p>
@@ -63,15 +63,20 @@
 
 <p style="font-size:16px;line-height:1.95;color:#2f2f37;margin:0 0 18px;word-break:keep-all;">거래에 익숙해지면 직접 만들기 어려운 장비도 손쉽게 마련할 수 있어 캐릭터 성장이 훨씬 빨라집니다. 거래가 막연했던 분들께 이 글이 출발점이 되면 좋겠습니다. 포스팅은 여기서 마치겠습니다.</p>
 
+<div style="border:1px solid #e7e1f7;border-radius:14px;padding:18px 20px;margin:34px 0 8px;background:#f8f6ff;">
+  <div style="font-size:14px;font-weight:800;color:#7048E8;margin:0 0 13px;">🎮 같이 보면 좋은 패스오브엑자일2(POE2) 글</div>
+  <a href="https://quetermoney.tistory.com/8" style="display:block;padding:13px 15px;margin:0 0 9px;background:#ffffff;border:1px solid #eae4f8;border-radius:10px;color:#2b2b33;text-decoration:none;font-size:15px;font-weight:600;line-height:1.45;word-break:keep-all;">패스오브엑자일2 0.5.0 고대의 귀환 시작 가이드 <span style="color:#7048E8;">→</span></a>
+  <a href="https://quetermoney.tistory.com/26" style="display:block;padding:13px 15px;margin:0 0 9px;background:#ffffff;border:1px solid #eae4f8;border-radius:10px;color:#2b2b33;text-decoration:none;font-size:15px;font-weight:600;line-height:1.45;word-break:keep-all;">패스오브엑자일2 트위스터 헌트리스 빌드 (리그스타터 1순위) <span style="color:#7048E8;">→</span></a>
+  <a href="https://quetermoney.tistory.com/21" style="display:block;padding:13px 15px;margin:0;background:#ffffff;border:1px solid #eae4f8;border-radius:10px;color:#2b2b33;text-decoration:none;font-size:15px;font-weight:600;line-height:1.45;word-break:keep-all;">패스오브엑자일2 신규 유저 초반 육성 가이드 <span style="color:#7048E8;">→</span></a>
+</div>
+
 <p style="margin:18px 0 0;line-height:2.4;">
   <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#패스오브엑자일2</span>
   <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#POE2</span>
-  <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#POE2거래</span>
-  <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#POE2거래소</span>
   <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#비동기거래</span>
   <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#상인의탭</span>
   <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#고대의귀환</span>
-  <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#POE2초보가이드</span>
-  <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#POE2복귀</span>
+  <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#POE2거래</span>
+  <span style="background:#f1eefc;color:#7048E8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;">#POE2거래소</span>
 </p>
 <!-- ↑↑↑ 여기까지 복사 ↑↑↑ -->
