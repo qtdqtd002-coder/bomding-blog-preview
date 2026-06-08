@@ -5,7 +5,7 @@
  :root{--bg:#eef1f6;--panel:#fff;--ink:#1d2330;--sub:#5d6675;--faint:#9aa3b0;--line:#e8ebf1;--ac:#03c75a;--ac-d:#02934a;--violet:#7048e8;--green:#15a36a;--red:#e23b4e;--amber:#e0890b;--shadow:0 1px 3px rgba(22,30,55,.06),0 8px 24px rgba(22,30,55,.05);--radius:16px;}
  *{box-sizing:border-box;} html,body{margin:0;}
  body{background:var(--bg);color:var(--ink);font-family:"Apple SD Gothic Neo","Pretendard","맑은 고딕","Malgun Gothic",system-ui,sans-serif;line-height:1.62;}
- .wrap{max-width:900px;margin:0 auto;padding:22px 18px 60px;} .back{display:inline-block;margin:2px 0 14px;font-size:13px;font-weight:700;color:var(--sub);text-decoration:none;}
+ .wrap{max-width:920px;margin:0 auto;padding:22px 18px 60px;} .back{display:inline-block;margin:2px 0 14px;font-size:13px;font-weight:700;color:var(--sub);text-decoration:none;}
  .mast{background:#11141c;color:#fff;border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow);border-top:4px solid var(--ac);}
  .mast .k{font-size:11px;font-weight:800;letter-spacing:3px;color:#5bd98a;} .mast h1{font-size:23px;font-weight:900;letter-spacing:-.6px;margin:8px 0 6px;word-break:keep-all;line-height:1.32;}
  .mast .meta{font-size:12.5px;color:rgba(255,255,255,.62);font-weight:600;} .mast .meta b{color:#fff;}
@@ -20,27 +20,46 @@
  .k2{background:#f7f9fc;border:1px solid var(--line);border-radius:11px;padding:10px 11px;} .k2.lagc{background:#fbfbfd;}
  .k2 .kv{font-size:17px;font-weight:900;letter-spacing:-.3px;line-height:1.15;} .k2 .kv .ks{font-size:11px;font-weight:700;color:var(--faint);} .k2 .kl{font-size:10.5px;color:var(--sub);margin-top:3px;font-weight:600;} .k2 .kd{font-size:10px;font-weight:800;margin-top:3px;}
  .up{color:var(--green);} .down{color:var(--red);} .flat{color:var(--amber);}
- /* 자료 신선도 배지 */
  .frbadge{font-size:11px;font-weight:800;border-radius:999px;padding:2px 10px;border:1px solid;white-space:nowrap;} .frb-ok{background:#e9f8f0;color:#15885c;border-color:#bfe9d4;} .frb-warn{background:#fdeaec;color:#c0392b;border-color:#f5c4cb;} .frb-na{background:#edeff3;color:#5d6675;border-color:#dde1e8;}
+ .expbar{display:none;margin-top:12px;background:#fdeaec;border:1px solid #f5c4cb;border-radius:11px;padding:10px 13px;color:#b02a37;font-size:12.5px;font-weight:800;}
  .expo{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px;} .expo th,.expo td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:middle;} .expo th{background:#faf9ff;font-weight:800;font-size:12px;}
  .dot{font-weight:900;} .d-no{color:var(--red);} .d-part{color:var(--amber);} .d-ok{color:var(--green);}
  .tagrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;} .hsig{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;border:1px solid;} .hs-good{background:#e9f8f0;color:#15885c;border-color:#bfe9d4;} .hs-warn{background:#fdf4e3;color:#b8740a;border-color:#f3ddb0;} .hs-bad{background:#fdeaec;color:#c0392b;border-color:#f5c4cb;} .hs-new{background:#eee9ff;color:#5b34c9;border-color:#d6ccff;}
- /* 필요 자료 블록 */
+ /* 월별 추세 바차트 */
+ .charts{display:grid;grid-template-columns:1.1fr .9fr;gap:12px;margin-top:12px;} @media(max-width:680px){.charts{grid-template-columns:1fr;}}
+ .chartbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:15px 17px;} .chartbox h4{margin:0 0 3px;font-size:13.5px;font-weight:900;} .chartbox .cnote{font-size:11px;color:var(--sub);margin:0 0 11px;}
+ .bars{display:flex;flex-direction:column;gap:7px;} .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:52px;font-size:11px;font-weight:700;color:var(--sub);} .bar .bt{flex:1;height:15px;background:#f0f2f7;border-radius:5px;overflow:hidden;} .bar .bt i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#c7d0de,#aab6c9);} .bar .bv{flex:none;width:62px;text-align:right;font-size:11px;font-weight:800;color:var(--ink);}
+ .bar.hi .bt i{background:linear-gradient(90deg,#f1a0a9,#e23b4e);} .bar.hi .bl,.bar.hi .bv{color:var(--red);} .bar.pk .bt i{background:linear-gradient(90deg,#b8c2d2,#8b98ad);}
+ /* 한눈 요약표 */
+ .snap{width:100%;border-collapse:collapse;font-size:12.5px;} .snap th,.snap td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:middle;} .snap th{font-size:11px;font-weight:800;color:var(--sub);background:#f9fafc;} .snap td.v{font-weight:900;font-size:13px;white-space:nowrap;} .snap td.t{font-weight:800;white-space:nowrap;} .snap .mn{font-size:11.5px;color:#46506094;}
+ /* 클러스터 ROI 표 */
+ .clu{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px;} .clu th,.clu td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;} .clu th{background:#faf9ff;font-weight:800;font-size:11.5px;} .clu td b{color:var(--ink);} .clu .st{font-weight:800;white-space:nowrap;} .clu .pri{color:var(--amber);font-weight:900;white-space:nowrap;letter-spacing:-1px;}
+ .kwop{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:11px;} @media(max-width:680px){.kwop{grid-template-columns:1fr;}}
+ .kw{background:#f7f9fc;border:1px solid var(--line);border-radius:11px;padding:11px 13px;} .kw h5{margin:0 0 6px;font-size:12px;font-weight:900;color:var(--violet);} .kw ul{margin:0;padding-left:15px;font-size:12px;line-height:1.6;} .kw li{margin:3px 0;}
+ /* 전일 대비 변화 */
+ .chg{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px;} .chg th,.chg td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;} .chg th{background:#f3f7ff;font-weight:800;font-size:11.5px;color:#2456a6;width:23%;} .chg td .pt{color:var(--ac-d);font-weight:700;}
  .needdata{background:#fffdf6;border:1px solid #f0e6cf;border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;margin-top:12px;} .needdata h4{margin:0 0 4px;font-size:14px;font-weight:900;color:#a9740a;display:flex;align-items:center;gap:6px;} .needdata .ndsub{font-size:11.5px;color:var(--sub);margin-bottom:10px;}
  .ndt{width:100%;border-collapse:collapse;font-size:12.5px;} .ndt th,.ndt td{border:1px solid #efe6d2;padding:8px 10px;text-align:left;vertical-align:top;} .ndt th{background:#fbf6ea;font-weight:800;font-size:11.5px;color:#8a6410;} .ndt td b{color:var(--ink);}
  .ndstat{font-weight:800;font-size:11px;white-space:nowrap;} .nd-have{color:var(--green);} .nd-req{color:var(--red);}
  .swot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;} @media(max-width:680px){.swot{grid-template-columns:1fr;}}
  .sw{border-radius:13px;padding:14px 15px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:14px;font-weight:900;display:flex;align-items:center;gap:6px;} .sw ul{margin:0;padding-left:16px;font-size:12.6px;line-height:1.65;} .sw li{margin:5px 0;}
  .sw-good{background:#f1fbf6;border-color:#cdeedd;} .sw-good h4{color:var(--green);} .sw-bad{background:#fdf3f4;border-color:#f6d4d9;} .sw-bad h4{color:var(--red);} .sw-fix{background:#f5f2ff;border-color:#ddd3ff;} .sw-fix h4{color:var(--violet);}
- .pick{background:var(--panel);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);padding:14px 17px;margin-top:10px;}
- .pick-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:6px;}
+ /* 기획팀 전달 카드 */
+ .toplan{margin-top:12px;background:linear-gradient(135deg,#f3f7ff,#f6f2ff);border:1px solid #d4ddf5;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;}
+ .toplan .th{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;} .toplan .th h3{margin:0;font-size:15px;font-weight:900;color:#2a3fb0;} .toplan .th .pin{font-size:10px;font-weight:800;color:#5b34c9;background:#eee9ff;border:1px solid #d6ccff;border-radius:999px;padding:2px 9px;}
+ .toplan .tl{font-size:12.5px;color:#3a4452;margin:0 0 12px;} .toplan .tl b{color:#2a3fb0;}
+ .tpg{display:grid;grid-template-columns:1fr 1fr;gap:10px;} @media(max-width:680px){.tpg{grid-template-columns:1fr;}}
+ .tpc{background:#fff;border:1px solid #e2e7f5;border-radius:11px;padding:12px 14px;} .tpc h5{margin:0 0 7px;font-size:12px;font-weight:900;color:#2a3fb0;} .tpc ol,.tpc ul{margin:0;padding-left:16px;font-size:12.3px;line-height:1.62;} .tpc li{margin:3px 0;} .tpc b{color:var(--ink);}
+ .tpc.dd ul{list-style:none;padding-left:0;} .tpc.dd li{padding-left:18px;position:relative;} .tpc.dd li.do:before{content:"✔";position:absolute;left:0;color:var(--green);font-weight:900;} .tpc.dd li.no:before{content:"✕";position:absolute;left:0;color:var(--red);font-weight:900;}
+ .tpsum{margin-top:11px;background:#11141c;color:#dbe6f5;border-radius:11px;padding:12px 15px;font-size:12.8px;line-height:1.6;} .tpsum b{color:#9fb6e6;}
+ .pick{background:var(--panel);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);padding:13px 16px;margin-top:10px;}
+ .pick-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px;}
  .pn{flex:none;width:23px;height:23px;border-radius:7px;background:var(--ink);color:#fff;font-size:12.5px;font-weight:900;display:flex;align-items:center;justify-content:center;}
  .purp{font-size:10.5px;font-weight:900;color:#fff;border-radius:6px;padding:3px 9px;background:var(--ac-d);} .purp.done{background:var(--green);}
- /* 픽 상태칩 */
  .pst{font-size:10px;font-weight:900;border-radius:6px;padding:3px 8px;border:1px solid;white-space:nowrap;} .pst-new{background:#eee9ff;color:#5b34c9;border-color:#d6ccff;} .pst-keep{background:#fdf4e3;color:#b8740a;border-color:#f3ddb0;} .pst-ref{background:#e7f3ff;color:#1a63c4;border-color:#c3def8;}
- .ptitle{font-size:15px;font-weight:900;letter-spacing:-.3px;color:var(--ink);word-break:keep-all;}
- .pdir{font-size:13px;color:#3a4452;line-height:1.66;margin:4px 0 0;} .pdir b{color:var(--ac-d);}
- /* 발행완료·이월 제외 띠 */
+ .ptitle{font-size:14.5px;font-weight:900;letter-spacing:-.3px;color:var(--ink);word-break:keep-all;flex:1;min-width:200px;}
+ .prow{display:grid;grid-template-columns:1fr 1fr;gap:7px;} @media(max-width:560px){.prow{grid-template-columns:1fr;}}
+ .pcell{font-size:12px;line-height:1.5;background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:7px 10px;} .pcell .pk{font-size:9.5px;font-weight:900;letter-spacing:1px;display:block;margin-bottom:1px;} .pcell.ev .pk{color:var(--sub);} .pcell.ac .pk{color:var(--ac-d);} .pcell b{color:var(--ink);}
  .relpub{margin-top:13px;background:#f4f7fb;border:1px solid #e1e7f0;border-radius:13px;padding:13px 16px;} .relpub h4{margin:0 0 7px;font-size:13px;font-weight:900;color:var(--sub);} .relpub ul{margin:0;padding-left:2px;list-style:none;font-size:12.7px;line-height:1.7;} .relpub li{margin:4px 0;} .relpub .rt{font-weight:900;font-size:10.5px;border-radius:5px;padding:2px 7px;margin-right:7px;} .rt-done{background:#e9f8f0;color:#15885c;border:1px solid #bfe9d4;} .rt-keep{background:#fdf4e3;color:#b8740a;border:1px solid #f3ddb0;}
  .desk{margin-top:24px;background:#1b2030;color:#e9edf6;border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);} .desk .lb{font-size:11px;font-weight:900;letter-spacing:2px;color:#7fe0a4;} .desk h3{margin:7px 0 9px;font-size:15.5px;font-weight:900;} .desk p{margin:0;font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.82);} .desk b{color:#bff0d3;}
  .note{font-size:12px;color:var(--sub);background:#f3f4f9;border-radius:10px;padding:11px 13px;margin-top:10px;line-height:1.6;}
@@ -51,19 +70,20 @@
  <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
  <div class="mast">
    <div class="k">DATA ANALYSIS · 봄딩 편</div>
-   <h1>봄딩 진단 리포트 &amp; 오늘 쓸 글 5선 — 발행 2.5편/일 급반등 유지, 살아있는 효자로 노출 굳히기</h1>
+   <h1>봄딩 진단 리포트 &amp; 오늘 쓸 글 5선 — 발행 2.75편/일 급반등, 살아있는 효자로 노출 굳히기</h1>
    <div class="meta">발행일 <b>2026-06-08</b> · <b>데이터 분석실</b>(블로그 분석팀 × 트렌드 분석팀) · 대상 <b>봄딩(네이버 bomding · 게임)</b></div>
-   <div class="strip"><span class="s">6월 발행 2.5편/일 (5월 0.74편/일)</span><span class="s">실측: 두두타 교배 네이버 강노출 확인</span><span class="s">오늘 신규 2 · 이월 3</span><span class="s">처방=검증 효자 리프레시+신작 선점</span></div>
+   <div class="strip"><span class="s">6월 발행 2.75편/일 (5월 0.74편/일)</span><span class="s">두두타 교배 네이버 노출 실측</span><span class="s">신규 2 · 이월 3</span><span class="s">처방=검증 효자 리프레시+신작 선점</span></div>
  </div>
 
  <h2 class="sec"><span class="ic">📊</span>오늘자 진단 대시보드 <span class="frbadge frb-ok">🟢 자료 최신 · 5월 통계 캡처 D+1 (유효 ~07-01)</span></h2>
- <p class="sub">선행지표(발행량)는 <b>06-08 글목록 API 실측</b>으로 매일 갱신, 후행지표는 작성자 5월 월간 캡처 실측(수신 06-07) — baseline 유효 <b>~07-01</b>. 핵심: 봄딩은 사실상 <b>'구글 블로그'(Google 59.8%)</b>이고, 조회수는 5개월 급락했으나 <b>발행이 6월 급반등을 이어가고 효자(두두타)는 네이버 노출 생존 확인</b>.</p>
+ <p class="sub">선행지표(발행량)는 <b>06-08 글목록 API 실측</b>으로 매일, 후행지표는 5월 월간 캡처 실측(수신 06-07) — baseline 유효 <b>~07-01</b>. ★<b>7/1부터 6월 캡처로 교체 필요</b>(만료 시 빨간 배너 표시).</p>
+ <div class="expbar" id="expbar">⏰ 후행지표 갱신 필요 — 2026.06(전월) 월간 통계 캡처 요청. 현재 표시값은 2026.05 기준(만료).</div>
  <div class="dash">
-   <div class="dash-h"><span class="dk">봄딩(네이버) · 핵심 지표</span><span class="dd">선행=2026.06.08 글목록 실측 / 후행=2026.05 월간 실측(수신 06-07)</span></div>
+   <div class="dash-h"><span class="dk">봄딩(네이버) · 핵심 지표</span><span class="dd">선행=06-08 글목록 실측 / 후행=2026.05 월간 실측(수신 06-07)</span></div>
    <div class="dash-b">
      <div class="kgrid">
-       <div class="k2"><div class="kv up">2.5편/일</div><div class="kl">6월 일 평균 발행 (선행)</div><div class="kd up">▲ 5월 0.74편/일 · 20편/8일</div></div>
-       <div class="k2"><div class="kv flat">소수</div><div class="kl">활성 클러스터</div><div class="kd flat">목표 6개+ · 메이플 활발</div></div>
+       <div class="k2"><div class="kv up">2.75편/일</div><div class="kl">6월 일 평균 발행 (선행)</div><div class="kd up">▲ 5월 0.74편/일 · 22편/8일</div></div>
+       <div class="k2"><div class="kv flat">소수</div><div class="kl">활성 클러스터</div><div class="kd flat">메이플·드빌3·파판14 활발</div></div>
        <div class="k2"><div class="kv down">0</div><div class="kl">이번달 리프레시</div><div class="kd down">목표 월 5+ · 오늘 착수</div></div>
        <div class="k2"><div class="kv up">100%</div><div class="kl">SEO 게이트 통과</div><div class="kd up">신규 글 적용중</div></div>
      </div>
@@ -74,88 +94,169 @@
        <div class="k2 lagc"><div class="kv up">59.84%</div><div class="kl">Google 유입</div><div class="kd up">▲ 네이버 통합검색(28%)보다 큼</div></div>
      </div>
      <table class="expo">
-       <thead><tr><th>검색엔진</th><th>현재 노출 (06-08 실측 / 5월 비중)</th><th>점검/확장 포인트</th></tr></thead>
+       <thead><tr><th>검색엔진</th><th>현재 노출 (06-08 실측 / 5월 비중)</th><th>점검·확장 포인트</th></tr></thead>
        <tbody>
-         <tr><td><b>네이버</b> (보조 · 5월 28%)</td><td><span class="dot d-ok">✅ 효자 강노출</span> · '두근두근타운 교배 조합' 블로그탭에서 봄딩 글 다수 노출(실측). 신규 '메이플 보우마스터 스킬트리'는 아직 미진입(색인 대기)</td><td>오늘 검증된 효자(두두타)는 <b>리프레시로 노출 보존</b>이 최우선. 신규 메이플 글은 발행 직후라 1~2일 색인 대기 정상</td></tr>
-         <tr><td><b>Google</b> (봄딩 실제 1순위 · 5월 59.8%)</td><td><span class="dot d-part">△ 측정 한계</span> · 봄딩 회복의 핵심 엔진이나 외부 측정은 미국 구글 기준이라 한국 노출과 다름</td><td>봄딩 회복은 곧 '구글 노출 회복' — 효자 리프레시로 양 엔진 동시 권위 회복(5개월 하락의 한 원인이 구글 변동일 수 있음). <b>GSC 성과 데이터 있으면 정밀 진단 가능(↓필요자료)</b></td></tr>
+         <tr><td><b>네이버</b> (보조 · 5월 28%)</td><td><span class="dot d-ok">✅ 효자 4종 강노출</span> · 두두타·포코피아·드빌3·메이플 보우마스터 키워드 블로그탭에서 봄딩 글 노출(06-08 실측)</td><td>검증 효자 <b>리프레시로 노출 보존</b>이 최우선. 신규글은 1~2일 색인 대기 정상</td></tr>
+         <tr><td><b>Google</b> (실제 1순위 · 5월 59.8%)</td><td><span class="dot d-part">△ 측정 한계</span> · 외부 측정은 미국 구글 기준이라 한국 노출과 다름</td><td>봄딩 회복=구글 노출 회복. <b>GSC 성과 데이터 있으면 정밀 진단(↓필요자료)</b></td></tr>
        </tbody>
      </table>
-     <div class="note">※ 선행지표(발행량)는 <b>06-08 네이버 글목록 API 실측</b>(6월 20편/경과 8일 = 2.5편/일, 5월 23편/31일 = 0.74편/일). 후행지표는 5월 월간 관리자 통계 실측(<b>캡처 수신 06-07, D+1 = 최신</b>). 노출은 <b>06-08 네이버 블로그탭 키워드 검색 실측</b>('두근두근타운 교배 조합'에 봄딩 글 노출 = 효자 생존 확인). 정본: <b>metrics-baseline.md</b>.</div>
-     <div class="tagrow"><span class="hsig hs-good">발행 2.5편/일 급반등 유지</span><span class="hsig hs-good">두두타 효자 네이버 강노출</span><span class="hsig hs-good">체류 7m54s 3사 최고</span><span class="hsig hs-good">Google 59.8% 장악</span><span class="hsig hs-bad">조회수 -55% 5개월 급락</span><span class="hsig hs-bad">효자 노후화·이번달 리프레시 0</span></div>
+     <div class="tagrow"><span class="hsig hs-good">발행 2.75편/일 급반등</span><span class="hsig hs-good">두두타 효자 네이버 노출</span><span class="hsig hs-good">체류 7m54s 3사 최고</span><span class="hsig hs-good">Google 59.8% 장악</span><span class="hsig hs-bad">조회수 -55% 5개월 급락</span><span class="hsig hs-bad">리프레시 0·효자 노후화</span></div>
    </div>
  </div>
 
- <h2 class="sec"><span class="ic">📋</span>분석 고도화를 위해 필요한 자료 <span style="font-size:11px;font-weight:800;color:#a9740a;">— 준비해 주시면 진단이 정밀해집니다</span></h2>
- <div class="needdata">
-   <h4>📋 봄딩 진단 — 보유/요청 자료</h4>
-   <div class="ndsub">봄딩은 후행지표(5월) 보유 중이나, 핵심 엔진(구글)과 6월 추세 자료가 더해지면 회복 여부를 조기에 확정할 수 있습니다.</div>
-   <table class="ndt">
-     <thead><tr><th style="width:24%;">자료</th><th>왜 필요한가 (가능해지는 분석)</th><th style="width:22%;">어디서</th><th style="width:11%;">상태</th></tr></thead>
-     <tbody>
-       <tr><td><b>구글 서치콘솔 성과 데이터</b></td><td>봄딩 1순위 엔진(Google 59.8%)의 <b>실제 노출·클릭·CTR·하락 구간</b> 확인 — 현재 외부 측정은 미국 구글 기준이라 한국 노출을 못 본다. 5개월 조회수 급락이 구글 변동 때문인지 확정.</td><td>Search Console &gt; 실적(쿼리·페이지·기간 16개월)</td><td class="ndstat nd-req">요청</td></tr>
-       <tr><td><b>6월 중간 월간 통계 캡처</b></td><td>6월 발행 급반등(2.5편/일)이 <b>조회수 회복으로 이어지는지</b>를 7월까지 안 기다리고 조기 확인.</td><td>네이버 블로그 관리 &gt; 통계 &gt; 월간 현황</td><td class="ndstat nd-have">5월분 보유</td></tr>
-       <tr><td><b>상세 유입 키워드 순위 캡처</b></td><td>효자(두두타·포코피아·드빌3·모동숲) <b>리프레시 우선순위</b>를 최신 키워드 점유로 정밀화.</td><td>네이버 통계 &gt; 유입분석 &gt; 상세 유입경로</td><td class="ndstat nd-have">5월분 보유</td></tr>
-     </tbody>
-   </table>
+ <h2 class="sec"><span class="ic">📈</span>월별 추세 &amp; 한눈 요약 <span style="font-size:11.5px;font-weight:800;color:var(--violet);">— 영도와 정반대 궤적</span></h2>
+ <p class="sub">5월 월간 캡처(실측)를 도표화. 후행은 하락이지만 선행(발행)은 6월 급반등 — 회복의 씨앗은 뿌려졌다.</p>
+ <div class="charts">
+   <div class="chartbox">
+     <h4>월 조회수 추이 (최근 6개월)</h4><p class="cnote">1월 고점 292K → 5월 132K (−54.8%, 5개월 연속 급락)</p>
+     <div class="bars">
+       <div class="bar pk"><span class="bl">25.12</span><span class="bt"><i style="width:98%"></i></span><span class="bv">287,275</span></div>
+       <div class="bar pk"><span class="bl">26.01</span><span class="bt"><i style="width:100%"></i></span><span class="bv">292,435</span></div>
+       <div class="bar"><span class="bl">26.02</span><span class="bt"><i style="width:80%"></i></span><span class="bv">235,175</span></div>
+       <div class="bar"><span class="bl">26.03</span><span class="bt"><i style="width:65%"></i></span><span class="bv">189,822</span></div>
+       <div class="bar"><span class="bl">26.04</span><span class="bt"><i style="width:47%"></i></span><span class="bv">136,099</span></div>
+       <div class="bar hi"><span class="bl">26.05</span><span class="bt"><i style="width:45%"></i></span><span class="bv">132,053</span></div>
+     </div>
+   </div>
+   <div class="chartbox">
+     <h4>5월 핵심 지표 한눈에</h4><p class="cnote">▲녹=건강 / ▼적=하락. 품질(체류)만 건강.</p>
+     <table class="snap">
+       <thead><tr><th>지표</th><th>5월 값</th><th>추세</th><th>의미</th></tr></thead>
+       <tbody>
+         <tr><td class="t">조회수</td><td class="v down">132,053</td><td class="down">▼ -55%</td><td class="mn">1월 고점서 반토막</td></tr>
+         <tr><td class="t">순방문자</td><td class="v down">80,921</td><td class="down">▼ -47%</td><td class="mn">조회수와 동조 하락</td></tr>
+         <tr><td class="t">PV/방문</td><td class="v down">1.63</td><td class="down">▼ 1.97→</td><td class="mn">1인당 열람도↓=모멘텀 붕괴</td></tr>
+         <tr><td class="t">체류</td><td class="v up">7m54s</td><td class="up">▲ 최고</td><td class="mn">3사 최고·품질은 최상</td></tr>
+         <tr><td class="t">재방문율</td><td class="v down">9.6%</td><td class="down">▼ 12.9→</td><td class="mn">충성층도 이탈(단 영도&gt;)</td></tr>
+         <tr><td class="t">발행(선행)</td><td class="v up">2.75/일</td><td class="up">▲ ×3.7</td><td class="mn">6월 급반등(5월 0.74)</td></tr>
+       </tbody>
+     </table>
+   </div>
+ </div>
+ <div class="note">※ 후행(5월) 하락 vs 선행(6월 발행) 반등의 시차 구간. <b>체류 7m54s가 3사 최고</b>라 하락은 품질 문제가 아니라 <b>효자 노후화 + 신선한 검색량 주제 부재</b>다. 정본 <b>metrics-baseline.md</b>.</div>
+
+ <h2 class="sec"><span class="ic">🎯</span>효자 클러스터 ROI 랭킹 &amp; 키워드 기회</h2>
+ <p class="sub">상세 유입 키워드를 클러스터로 묶어 ROI 순 정렬(06-08 노출 실측). <b>가장 빠른 회복 레버 = 살아있는 효자 리프레시.</b></p>
+ <table class="clu">
+   <thead><tr><th style="width:18%">클러스터</th><th>대표 키워드 (5월 유입점유)</th><th style="width:17%">생존상태(06-08)</th><th style="width:13%">리프레시 우선순위</th></tr></thead>
+   <tbody>
+     <tr><td><b>두두타 교배</b></td><td>꽃·고양이·장미·데이지 교배 (합산 ≈1.4%+, 단연 1위)</td><td class="st" style="color:var(--green)">✅ 살아있음</td><td class="pri">★★★★★</td></tr>
+     <tr><td><b>포코피아</b></td><td>서식지 도감·전설포켓몬 (≈0.4%)</td><td class="st" style="color:var(--green)">✅ 살아있음</td><td class="pri">★★★★☆</td></tr>
+     <tr><td><b>드래곤빌리지3</b></td><td>쿠폰·시그니처·교배 (≈0.47%)</td><td class="st" style="color:var(--green)">✅ 살아있음</td><td class="pri">★★★★☆</td></tr>
+     <tr><td><b>모동숲</b></td><td>곤충도감·해산물도감 (≈0.24%)</td><td class="st" style="color:var(--amber)">△ 불명(5월 유입)</td><td class="pri">★★★☆☆</td></tr>
+     <tr><td><b>메이플(플래닛)</b></td><td>보우마스터·썬콜·나이트로드 스킬트리</td><td class="st" style="color:var(--green)">✅ 살아있음</td><td class="pri">★★★☆☆</td></tr>
+   </tbody>
+ </table>
+ <div class="note" style="margin-top:9px;">⚠️ 기존 리포트가 효자로 적던 <b>붕스·쿠키런은 현 상위 유입 키워드에 없음</b> → 리프레시 ROI 1순위는 데이터가 증명한 두두타·포코피아·드빌3·모동숲.</div>
+ <div class="kwop">
+   <div class="kw"><h5>① 수요 있는데 얇은 곳</h5><ul><li>파판14 — 41편인데 <b>공략 0편</b></li><li>메이플 직업 '추천/티어' 허브 부재</li><li>모동숲 여름 시즌 도감 공백</li></ul></div>
+   <div class="kw"><h5>② 묶으면 클러스터</h5><ul><li>드빌3 교배+레이드+쿠폰 → '종합' 허브</li><li>포켓몬 굿즈·콜라보 단발 → 미니클러스터</li><li>피망 보드게임(포커·홀덤·맞고) 묶음</li></ul></div>
+   <div class="kw"><h5>③ 신작 선점 신규</h5><ul><li>포켓몬 챔피언즈 (6/17)</li><li>삼국지: 천하결전 (6/24)</li><li>파판14 절 요성난무 공략</li></ul></div>
  </div>
 
- <h2 class="sec"><span class="ic">📈</span>5월 실측 데이터 심층 분석 <span style="font-size:11.5px;font-weight:800;color:var(--violet);">— 영도와 정반대 궤적</span></h2>
- <p class="sub">5개 화면(조회수·순방문·체류·유입·재방문)을 분석한 결과. 봄딩은 영도와 거울상이라 처방도 정반대.</p>
- <div class="card">
-   <p style="margin:0 0 10px;font-size:13.5px;line-height:1.7;"><b>1) 최우선 문제 = 조회수·순방문 5개월 연속 급락.</b> 조회수 1월 고점 292,435 → 5월 <b>132,053(-54.8%)</b>, 순방문자도 153K→81K(-47%). PV/방문자도 1.97(2월)→<b>1.63</b>으로 함께 하락 = 단순 유입 감소가 아니라 <b>블로그 전체 모멘텀 하락</b>. 재방문율도 12.9%→9.6%로 충성층까지 이탈 중. <b>단, 이는 후행(5월) 지표</b>이고 선행(발행)은 6월에 2.5편/일로 급반등 중 — 회복의 씨앗은 뿌려졌다.</p>
-   <p style="margin:0 0 10px;font-size:13.5px;line-height:1.7;"><b>2) 품질은 3사 최고 — 하락은 품질 문제가 아니다.</b> 체류 <b>7m54s</b>로 영도(6m30s)보다 높고 검색유입(기타)도 7m55s 깊게 읽힌다. 그 결과 <b>Google 59.84%</b>(네이버 통합검색 28%의 2배 이상) — 봄딩은 사실상 구글 블로그. 콘텐츠 깊이·검색품질은 최상이므로, 문제는 <b>효자 노후화 + 신선한 검색량 주제 부재</b>다.</p>
-   <p style="margin:0 0 10px;font-size:13.5px;line-height:1.7;"><b>3) 진짜 효자는 데이터가 알려준다 — 오늘도 재확인.</b> 상세 유입 키워드 1위군은 압도적으로 <b>두두타(두근두근타운) 교배</b>(꽃·고양이·장미·데이지·강아지 교배 다수), 이어 <b>포코피아</b>(서식지 도감)·<b>드래곤빌리지3</b>(쿠폰)·<b>모동숲</b>(도감). <span style="color:var(--green);font-weight:700;">✔ 오늘 네이버 블로그탭에서 '두근두근타운 교배 조합' 검색 시 봄딩 글이 여전히 다수 노출됨을 실측</span> — 효자 클러스터가 살아있다. 리프레시 ROI 1순위는 두두타·포코피아·드빌3·모동숲. (붕스·쿠키런은 현 상위 유입 키워드엔 없으나, 붕스 4.3 리프레시는 '신규 유입 베팅'으로 유효.)</p>
-   <p style="margin:0;font-size:13.5px;line-height:1.7;background:#f5f2ff;border:1px solid #ddd3ff;border-radius:10px;padding:11px 13px;"><b>📌 7/1까지의 운영 기준(↔영도와 정반대):</b> ① <b>데이터 검증 효자(두두타·포코피아·드빌3·모동숲) 리프레시가 최우선</b>(제목/URL 유지, 최신 조합표·도감·쿠폰) = 가장 빠른 회복. ② 체류·품질은 최상이니 <b>신작 선점으로 새 효자 발굴</b>(6월 출시 러시가 기회). ③ Google 60% 의존이라 <b>구글 노출 회복</b>이 곧 조회수 회복. → 영도=분산을 묶어라 / <b>봄딩=묶인 효자를 리프레시 + 새 효자 발굴.</b> 7월 캡처에서 조회수 하락 멈춤이 성공 지표.</p>
- </div>
+ <h2 class="sec"><span class="ic">🔄</span>전일 대비 변화 (vs 06-07)</h2>
+ <table class="chg">
+   <tbody>
+     <tr><th>발행 일평균 ▲</th><td>2.3 → <b>2.75편/일</b> (나이트로드·다이슨 +2편). <span class="pt">→ 페이스 가속, 리프레시 1편 끼워도 부담 없음.</span></td></tr>
+     <tr><th>두두타 노출 =</th><td>06-07·06-08 양일 블로그탭 노출 유지. <span class="pt">→ 효자 생존 재확인, 갱신 ROI 1순위 변동 없음.</span></td></tr>
+     <tr><th>5선 구성 ▽</th><td>8선 → <b>5선 축소</b>, published.json 대조로 발행완료 2건 제외. <span class="pt">→ 매일 재등장하던 발행완료 픽 제거 완료.</span></td></tr>
+     <tr><th>들어온 픽 🆕</th><td><b>포켓몬 챔피언즈(6/17)·삼국지 천하결전(6/24)</b> = 신규 신호 2. <span class="pt">→ 출시일 WebSearch 확정, 첫 주 검색을 새 효자 후보로 베팅.</span></td></tr>
+     <tr><th>빠진 픽</th><td>솔인챈트(✅발행완료)·던파 신규전직·리니지M 쿠폰(이월 강등). <span class="pt">→ 발행완료·시급도 낮음 제외.</span></td></tr>
+   </tbody>
+ </table>
 
  <h2 class="sec"><span class="ic">🧭</span>강점 · 취약점 · 보완 포인트</h2>
- <p class="sub">봄딩은 '글 안쪽'이 아니라 '노후화와 노출 회복'이 문제(발행은 6월 급반등 지속) — 어디부터 손댈지 한눈에.</p>
  <div class="swot">
    <div class="sw sw-good"><h4>✅ 강점 (유지)</h4><ul>
-     <li><b>체류 7~8분</b> = 네이버 평균의 3배, 콘텐츠 몰입 최상</li>
-     <li><b>발행 2.5편/일</b> 급반등 유지(5월 0.74편/일) + 메이플 클러스터 활발</li>
-     <li>쿠폰·조합·도감·티어 <b>검증 유입 포맷</b>이 무기(두두타 오늘도 노출)</li>
+     <li><b>체류 7~8분</b> = 네이버 평균의 3배, 몰입 최상</li>
+     <li><b>발행 2.75편/일</b> 급반등(5월 0.74) + 메이플 활발</li>
+     <li>교배·도감·쿠폰 <b>검증 유입 포맷</b>(두두타 오늘도 노출)</li>
    </ul></div>
    <div class="sw sw-bad"><h4>⚠️ 취약점</h4><ul>
-     <li><b>조회수 5개월 −55%</b>(132K·후행) — 발행 반등 효과가 노출로 오는 데 시차</li>
-     <li>효자 클러스터 <b>노후화·이번달 리프레시 0</b> — 검증 효자=<b>두두타·포코피아·드빌3·모동숲</b></li>
-     <li>파판14 41편인데 <b>공략 0편</b> — 유입 자산 미개발</li>
+     <li><b>조회수 5개월 −55%</b>·PV·재방문 동반 하락(모멘텀↓)</li>
+     <li>효자 <b>노후화·이번달 리프레시 0</b></li>
+     <li>파판14 41편인데 <b>공략 0편</b> — 자산 미개발</li>
    </ul></div>
    <div class="sw sw-fix"><h4>🔧 보완 포인트</h4><ul>
-     <li><b>죽은(노후) 효자 리프레시</b>(가장 빠른 회복·제목/URL 유지)</li>
-     <li><b>현 발행 페이스 유지</b>(2.5편/일) + 6월 출시 러시에 신작 선점</li>
+     <li><b>죽은(노후) 효자 리프레시</b>(제목/URL 유지)</li>
+     <li><b>발행 페이스 유지</b> + 6월 신작 선점</li>
      <li>잘되는 클러스터 모델 <b>복제</b>(파판14·메이플 공략화)</li>
    </ul></div>
  </div>
 
- <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 5선 — 목적 + 상태 + 방향성</h2>
- <p class="sub">각 글의 <b>목적(라벨)</b> · <b>상태칩</b>(🆕새로 발굴 / 🔄N일째 이월·미발행 / 🔄리프레시) · <b>왜·어떻게(방향성)</b>. published.json 대조로 이미 쓴 글은 5선에서 빼고 아래 띠에 분리. <b>오늘 신규 2 · 이월 3.</b></p>
+ <h2 class="sec"><span class="ic">📨</span>기획팀 전달 — 봄딩에게 이렇게 쓰면 유입된다</h2>
+ <div class="toplan">
+   <div class="th"><h3>봄딩 작성 플레이북</h3><span class="pin">기획팀 발주에 직접 반영 · writer-playbook.md 동기화</span></div>
+   <p class="tl">데이터가 증명한 '되는 포맷'부터. 기획팀은 이 카드로 후보 발굴 → [작성팀 가이드]에 <b>Do/Don't</b> 반영.</p>
+   <div class="tpg">
+     <div class="tpc"><h5>🏆 유입 검증 포맷 3</h5><ol>
+       <li><b>교배/조합표</b> — "○○ 교배 조합표 총정리(월 최신)"</li>
+       <li><b>도감/서식지</b> — "내가 보려고 만든 ○○ 도감"</li>
+       <li><b>쿠폰/시그니처</b> — "○○ 쿠폰 코드 정리(월 최신)" 회전형</li>
+     </ol></div>
+     <div class="tpc"><h5>🎯 우선 클러스터 · 노릴 키워드</h5><ul>
+       <li><b>리프레시</b>: 두두타 교배 · 포코피아 도감 · 드빌3 쿠폰</li>
+       <li><b>신규</b>: 포켓몬 챔피언즈(6/17) · 삼국지(6/24) · 파판14 절케프카</li>
+     </ul></div>
+     <div class="tpc dd"><h5>✔ Do</h5><ul>
+       <li class="do">제목 앞단에 롱테일 명사(검색 의도 직격)</li>
+       <li class="do">효자 리프레시는 제목·URL 유지, 본문만 최신화</li>
+     </ul></div>
+     <div class="tpc dd"><h5>✕ Don't</h5><ul>
+       <li class="no">붕스·쿠키런 등 '미검증 효자'에 ROI 1순위 금지</li>
+       <li class="no">신규 단발 신작 남발(검증 포맷 우선)</li>
+     </ul></div>
+   </div>
+   <div class="tpsum">📌 <b>한 줄 총평:</b> 봄딩에겐 지금 <b>살아있는 효자(두두타·포코피아·드빌3)를 '교배/도감/쿠폰 최신 갱신'으로 리프레시</b>하면서, 6월 신작을 같은 검증 포맷으로 선점할 때. 체류·품질은 이미 최상 — 부족한 건 신선한 검색량 주제뿐.</div>
+ </div>
 
- <div class="pick"><div class="pick-top"><span class="pn">1</span><span class="purp">게임 공략</span><span class="pst pst-ref">🔄 리프레시 · 효자</span><span class="ptitle">두근두근타운 6월 교배 조합표 최신 갱신 (기존 발행글 업데이트)</span></div>
-   <p class="pdir"><b>방향성:</b> 오늘 실측에서 <b>'두근두근타운 교배 조합' 키워드에 봄딩 글이 네이버 블로그탭에 여전히 다수 노출</b> 확인 — 이미 발행된 꽃교배 조합표가 살아있는 효자다. 신규/시즌 교배 기준으로 <b>제목·URL을 유지한 채 본문만 최신화</b>해 기존 노출을 보존하는, 가장 ROI 높은 리프레시. 이번달 리프레시 0을 깨는 1순위. (신규 글 작성이 아니라 라이브 글 갱신.)</p></div>
+ <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 5선 <span style="font-size:12px;font-weight:800;color:var(--sub);">— 신규 2 · 이월 3</span></h2>
+ <p class="sub">각 픽 = 목적 + 상태칩(🆕새로 발굴 / 🔄이월·리프레시) + <b>근거·액션</b>. published.json 대조로 발행완료는 아래 띠로 분리.</p>
 
- <div class="pick"><div class="pick-top"><span class="pn">2</span><span class="purp">출시 · 첫인상</span><span class="pst pst-new">🆕 새로 발굴</span><span class="ptitle">포켓몬 챔피언즈 모바일 첫인상·기초 가이드 (6/17)</span></div>
-   <p class="pdir"><b>방향성:</b> 대형 IP의 모바일 신규 진입(6/17, iOS·안드로이드, 스위치판과 크로스플레이). 런칭 기념 라이츄 메가스톤 배포(6/17~9/2)로 다운로드·검색 폭증 예상. 봄딩 대중·캐주얼 결에 정확히 맞아 신작 첫 주 검색을 <b>새 효자 후보</b>로 잡는다. 오늘 처음 5선에 오른 신규 신호. <b>(정확 출시일·배포 일정은 작성 직전 공식 확인필요.)</b></p></div>
+ <div class="pick"><div class="pick-top"><span class="pn">1</span><span class="purp">출시·첫인상</span><span class="pst pst-new">🆕 새로 발굴</span><span class="ptitle">포켓몬 챔피언즈 모바일 첫인상·기초 가이드 (6/17)</span></div>
+   <div class="prow"><div class="pcell ev"><span class="pk">근거</span>대형 IP 모바일 진입, 메가 라이츄 이벤트(6/17~9/2)로 검색 폭증. 봄딩 포켓몬 자산(포코피아·굿즈)과 시너지</div><div class="pcell ac"><span class="pk">액션</span>출시일 6/17 확정. 배틀 기초+메가라이츄 획득법, <b>발행 직후 색인 선점</b></div></div></div>
 
- <div class="pick"><div class="pick-top"><span class="pn">3</span><span class="purp">사전예약 · 신작 선점</span><span class="pst pst-new">🆕 새로 발굴</span><span class="ptitle">삼국지: 천하결전 사전예약·초반 세력 가이드 (6/24)</span></div>
-   <p class="pdir"><b>방향성:</b> 6/24 출시되는 중국 흥행작('삼국:모정천하' 한국판, 2024 iOS 매출 2위). 6직업 시스템·실시간 전쟁 SLG는 '초반 세력·무장' 검색 수요가 커서 출시 전 가이드 선점 효과가 크다. 봄딩 대중·전략 결의 새 효자 후보로 오늘 신규 편입. <b>(출시일·시스템은 공식 재확인필요.)</b></p></div>
+ <div class="pick"><div class="pick-top"><span class="pn">2</span><span class="purp">사전예약·선점</span><span class="pst pst-new">🆕 새로 발굴</span><span class="ptitle">삼국지: 천하결전 사전예약·초반 세력 가이드 (6/24)</span></div>
+   <div class="prow"><div class="pcell ev"><span class="pk">근거</span>중국 iOS 매출 2위 SLG, 사전예약 진행 중. 초반 세력·무장 검색 수요 큼</div><div class="pcell ac"><span class="pk">액션</span>6/24 출시 확정. 사전예약 보상+초반 세력 선택으로 출시 전 선점</div></div></div>
 
- <div class="pick"><div class="pick-top"><span class="pn">4</span><span class="purp">게임 공략</span><span class="pst pst-ref">🔄 3일째 · 리프레시</span><span class="ptitle">붕괴 스타레일 4.3 6월 티어표·신캐 빌드 + 쿠폰</span></div>
-   <p class="pdir"><b>방향성:</b> 현행 버전은 4.3 '산 자의 망천에 잠겨'(6/1~), 신캐 천야·블레이드(화염 5성). 방치된 에버그린 클러스터를 현재 4.3로 되살림 — 6월 티어표·신캐 빌드 1편 + 기존 공략을 '2026년 6월 최신'으로 갱신하고 내부링크. <b>제목·URL은 유지(기존 노출 보존). 3일째 이월 중이니 이번 회차에 착수.</b> (신캐명·코드 공식 확인필요.)</p></div>
+ <div class="pick"><div class="pick-top"><span class="pn">3</span><span class="purp">게임 공략</span><span class="pst pst-ref">🔄 리프레시·효자</span><span class="ptitle">두근두근타운 6월 교배 조합표 최신 갱신 (라이브 글 업데이트)</span></div>
+   <div class="prow"><div class="pcell ev"><span class="pk">근거</span>06-08 블로그탭 노출 실측, 최대 앵커. 06-07 갱신글 발행됨</div><div class="pcell ac"><span class="pk">액션</span>제목·URL 유지, 시즌 신규 교배 추가로 노출 굳히기. <b>리프레시 0 깨는 1순위</b></div></div></div>
 
- <div class="pick"><div class="pick-top"><span class="pn">5</span><span class="purp">게임 공략 · 클러스터화</span><span class="pst pst-keep">🔄 3일째</span><span class="ptitle">파판14 7.51 절 요성난무(절케프카) 클리어 공략</span></div>
-   <p class="pdir"><b>방향성:</b> 41편이나 쓰고도 공략 에버그린이 0편 — 뉴스·패치만 있음. 검색량 큰 고난도 공략으로 '공략' 축을 새로 만들어 파판14 클러스터를 입체화. 미개발 유입 자산을 살린다. <b>3일째 떠 있는 이월 항목 — 더 미루지 말고 클러스터 첫 공략글로.</b></p></div>
+ <div class="pick"><div class="pick-top"><span class="pn">4</span><span class="purp">게임 공략</span><span class="pst pst-keep">🔄 3일째·리프레시</span><span class="ptitle">붕괴 스타레일 4.3 6월 티어표·신캐 빌드 + 쿠폰</span></div>
+   <div class="prow"><div class="pcell ev"><span class="pk">근거</span>방치된 에버그린 클러스터, 4.3 '산 자의 망천' 버전(6/1~)</div><div class="pcell ac"><span class="pk">액션</span>6월 티어표·신캐 빌드 1편+기존 공략 '6월 최신' 갱신. <b>신캐명·코드 공식 확인필요</b></div></div></div>
+
+ <div class="pick"><div class="pick-top"><span class="pn">5</span><span class="purp">공략·클러스터화</span><span class="pst pst-keep">🔄 3일째</span><span class="ptitle">파판14 7.51 절 요성난무(절케프카) 클리어 공략</span></div>
+   <div class="prow"><div class="pcell ev"><span class="pk">근거</span>41편 쓰고 공략 0편 — 미개발 유입 자산(6/5 오픈글 1편뿐)</div><div class="pcell ac"><span class="pk">액션</span>고난도 공략으로 '공략' 축 신설, 파판14 클러스터 입체화</div></div></div>
 
  <div class="relpub">
    <h4>✅ 최근 발행 · 🔄 이월 대기 — 오늘 5선에서 제외</h4>
    <ul>
-     <li><span class="rt rt-done">✅ 발행완료</span><b>메이플 여름 쇼케이스 'OVERDRIVE' 총정리</b> — 06-06 발행 확인(published.json). 13일 쇼케이스 후 확정정보 후속 갱신만 필요, 신규 추천 아님.</li>
-     <li><span class="rt rt-done">✅ 발행완료</span><b>솔: 인챈트 출시 정리</b> — 유사 발행글 '출시 핵심정리와 BJ서버 추천' 게시 확인(published.json). 출시일(6/18) 직전 쿠폰·서버 정보 갱신만.</li>
-     <li><span class="rt rt-keep">🔄 이월</span><b>리니지M 6월 쿠폰·이벤트 정리</b> — 최대 활성 클러스터(97편) 유지 레버. 상시 유효하나 시급도 낮아 5선 외. 쿠폰 신규 시 즉시 승격.</li>
+     <li><span class="rt rt-done">✅ 발행완료</span><b>메이플 여름 쇼케이스 'OVERDRIVE'</b> — 06-06 발행 확인(published.json). 13일 쇼케이스 후 확정정보 후속 갱신만.</li>
+     <li><span class="rt rt-done">✅ 발행완료</span><b>솔: 인챈트 출시</b> — '출시 핵심정리+BJ서버 추천' 발행 확인. 출시일(6/18) 직전 쿠폰·서버 갱신만.</li>
+     <li><span class="rt rt-keep">🔄 이월</span><b>리니지M 6월 쿠폰·이벤트</b> — 최대 활성 클러스터(97편) 유지 레버. 시급도 낮아 5선 외, 쿠폰 신규 시 즉시 승격.</li>
    </ul>
  </div>
 
- <div class="desk"><div class="lb">DESK NOTE · 데이터 분석실</div><h3>봄딩은 발행 급반등 지속 — 오늘 확인된 살아있는 효자로 노출을 굳힐 차례 (신규 2·이월 3)</h3>
-  <p>봄딩의 발행량은 6월 들어 <b>2.5편/일</b>로 급반등을 이어가고 있습니다(5월 0.74편/일, 06-08 글목록 실측). 체류 8분은 이미 최상위라 콘텐츠 깊이도 문제가 아니고, 남은 약점은 <b>효자 클러스터 노후화</b>와 그에 따른 <b>조회수 회복의 시차</b>입니다. 오늘 실측에서 두근두근타운 효자가 <b>여전히 네이버에 노출되고 있음</b>을 재확인했으니, ①처럼 살아있는 효자를 갱신하는 게 가장 빠른 회복입니다. <b>8선→5선으로 줄이고 published.json을 대조</b>해, 이미 발행한 메이플 쇼케이스·솔인챈트를 추천에서 빼고(매일 '오늘 쓸 글'로 재등장하던 결함 차단) <b>오늘 진짜 새로 뜬 신호 2개(포켓몬 챔피언즈·삼국지)</b>를 위로 올렸습니다. 5선 구성 = <b>리프레시 2(①④) + 공략 클러스터화 1(⑤) + 신작 선점 2(②③)</b>. <b>확인필요:</b> 각 게임 쿠폰·직업명·현재 버전은 작성 직전 공식 재확인.</p></div>
- <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(봄딩)이 진행 · 선행지표는 2026-06-08 글목록 API 실측 · 후행지표는 2026.05 월간 관리자 통계 실측(캡처 수신 06-07·D+1·유효 ~07-01) · 노출은 2026-06-08 네이버 키워드 검색 실측 · 발행완료 판정은 published.json(작성자 실제 블로그 대조) · 수치·일정은 발행일 기준, 작성 직전 공식 재확인 권장 · 봄딩 육아는 내돈내산이라 추천 제외(게임만).</p>
-</div></body></html>
+ <h2 class="sec"><span class="ic">📋</span>분석 고도화를 위해 필요한 자료</h2>
+ <div class="needdata">
+   <h4>📋 봄딩 진단 — 보유/요청 자료</h4>
+   <div class="ndsub">봄딩은 5월 후행지표 보유 중. 핵심 엔진(구글)·6월 추세 자료가 더해지면 회복 여부를 7월까지 안 기다리고 확정할 수 있습니다.</div>
+   <table class="ndt">
+     <thead><tr><th style="width:24%;">자료</th><th>왜 필요한가</th><th style="width:22%;">어디서</th><th style="width:11%;">상태</th></tr></thead>
+     <tbody>
+       <tr><td><b>구글 서치콘솔 성과</b></td><td>봄딩 1순위 엔진(Google 59.8%)의 실제 노출·클릭·CTR·하락구간. 5개월 급락이 구글 변동 탓인지 확정.</td><td>Search Console &gt; 실적(쿼리·페이지)</td><td class="ndstat nd-req">요청</td></tr>
+       <tr><td><b>6월 중간 월간 통계</b></td><td>발행 급반등(2.75편/일)이 조회수 회복으로 이어지는지 조기 확인.</td><td>네이버 통계 &gt; 월간 현황</td><td class="ndstat nd-have">5월분 보유</td></tr>
+       <tr><td><b>상세 유입 키워드 최신</b></td><td>효자 리프레시 우선순위를 최신 키워드 점유로 정밀화(노후화 속도).</td><td>네이버 통계 &gt; 상세 유입경로</td><td class="ndstat nd-have">5월분 보유</td></tr>
+     </tbody>
+   </table>
+ </div>
+
+ <div class="desk"><div class="lb">DESK NOTE · 데이터 분석실</div><h3>봄딩은 발행 급반등 지속 — 살아있는 효자로 노출 굳힐 차례 (신규 2·이월 3)</h3>
+  <p>발행량은 6월 들어 <b>2.75편/일</b>로 급반등을 이어갑니다(5월 0.74편/일). 체류 8분은 이미 최상위라 남은 약점은 <b>효자 노후화</b>와 <b>조회수 회복의 시차</b>뿐입니다. 오늘 두근두근타운 효자가 <b>여전히 네이버에 노출</b>됨을 재확인했으니 ③처럼 살아있는 효자 갱신이 가장 빠른 회복. <b>8선→5선·published.json 대조</b>로 메이플 쇼케이스·솔인챈트(발행완료)를 빼고 <b>오늘 새로 뜬 신호 2개(포켓몬 챔피언즈·삼국지)</b>를 위로 올렸습니다. 5선 = <b>리프레시 2(③④) + 공략 클러스터화 1(⑤) + 신작 선점 2(①②)</b>. <b>확인필요:</b> 쿠폰·직업명·현재 버전은 작성 직전 공식 재확인.</p></div>
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(봄딩)이 진행 · 선행=06-08 글목록 API 실측 · 후행=2026.05 월간 통계 실측(수신 06-07·D+1·유효 ~07-01) · 노출=06-08 네이버 키워드 검색 실측 · 발행완료=published.json 대조 · 기획팀 플레이북 동기화(writer-playbook.md) · 수치·일정은 발행일 기준 작성 직전 공식 재확인 권장 · 봄딩 육아는 내돈내산이라 추천 제외(게임만).</p>
+</div>
+<script>
+/* 후행지표 만료 배너: 오늘 >= 만료일(2026-07-01)이면 표시 (월 1회·매월 1일 갱신 규칙) */
+(function(){try{var exp=new Date('2026-07-01T00:00:00+09:00');var now=new Date();if(now>=exp){var b=document.getElementById('expbar');if(b)b.style.display='block';var fb=document.querySelector('.frbadge');if(fb){fb.className='frbadge frb-warn';fb.textContent='🔴 후행지표 갱신 필요 — 전월 월간 통계 캡처 요청';}}}catch(e){}})();
+</script>
+</body></html>
