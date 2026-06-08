@@ -55,16 +55,16 @@ function GitDate([string]$fmtArgs, [string]$file){
   return $out
 }
 
-# 1) 글 파일 수집 — 봄딩/영도/겜더쿠 하위의 커밋된 *.html 만 (index, _접두 폴더 제외)
-$files = git -C $base ls-files "봄딩/*.html" "영도/*.html" "겜더쿠/*.html"
+# 1) 글 파일 수집 — 봄딩/영도/겜더쿠/연봄 하위의 커밋된 *.html 만 (index, _접두 폴더 제외)
+$files = git -C $base ls-files "봄딩/*.html" "영도/*.html" "겜더쿠/*.html" "연봄/*.html"
 $map = [ordered]@{}
 $missing = @()
 
 foreach($f in $files){
   $segs = $f -split '/'
   if($segs | Where-Object { $_ -like '_*' -or $_ -like '.*' }){ continue }
-  # 티스토리 등 '붙여넣기 소스'(_티스토리_)는 사이트 목록에 띄우지 않음 — 복붙용 본문조각이라 글 카드 아님
-  if($f -match '_티스토리_'){ continue }
+  # 티스토리/워드프레스 등 '붙여넣기·발행 소스'(_티스토리_·_워드프레스_)는 사이트 목록에 띄우지 않음 — 발행용 본문이라 글 카드 아님
+  if($f -match '_티스토리_' -or $f -match '_워드프레스_'){ continue }
 
   $full = Join-Path $base ($f -replace '/','\')
   if(-not (Test-Path $full)){ continue }
@@ -94,10 +94,10 @@ foreach($f in $files){
 }
 
 # 2) 검증 — 디스크의 모든 글이 manifest에 들어갔는지 (누락=사고)
-$onDisk = (Get-ChildItem -Path (Join-Path $base "봄딩"),(Join-Path $base "영도"),(Join-Path $base "겜더쿠") -Recurse -Filter *.html -ErrorAction SilentlyContinue |
+$onDisk = (Get-ChildItem -Path (Join-Path $base "봄딩"),(Join-Path $base "영도"),(Join-Path $base "겜더쿠"),(Join-Path $base "연봄") -Recurse -Filter *.html -ErrorAction SilentlyContinue |
            ForEach-Object { $_.FullName.Substring($base.Length).TrimStart('\','/') -replace '\\','/' })
 foreach($d in $onDisk){
-  if($d -match '_티스토리_'){ continue }   # 붙여넣기 소스는 목록 비대상 → 누락 검증에서 제외
+  if($d -match '_티스토리_' -or $d -match '_워드프레스_'){ continue }   # 붙여넣기·발행 소스는 목록 비대상 → 누락 검증에서 제외
   if(-not $map.Contains($d)){ $missing += "manifest 누락(디스크에만 존재, 커밋 필요): $d" }
 }
 
