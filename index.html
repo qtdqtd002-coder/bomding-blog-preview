@@ -1230,14 +1230,15 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
        ["겜더쿠 · gemdeokku-blog-writer","게임(덕후 관점)·남성 페르소나. 티스토리+겜더쿠 탭. 가상 페르소나라 정본·피드백이 기준.","배정"],
        ["연봄 · yeonbom-blog-writer","게임 · IT·테크 · 육아 · 생활(잡블로그). 티스토리(붙여넣기, 주소 미정)+연봄 탭. 봄딩 부드러움+겜더쿠 담백 블렌드의 설계 페르소나(학습 격리). 티스토리 실게시는 사용자가 직접 붙여넣고 발행(겜더쿠와 동일).","배정"]]),
      team("var(--a-gemdeokku)","search","검수팀","팀장: 검수팀장",
-       "매 글마다 전원 자동 투입. 사실·문체·구조·자연스러움에 더해 이미지가 문단 맥락에 맞는지까지 차원별로 교차검증합니다.",[
-       ["검수팀장 (QA Lead)","레인 정본 점검·차원 편성·발견 취합·교차 점검·PASS/FAIL 판정·수정 루프·증원/해고.","상설"],
-       ["검수1 · 사실/공식명칭","수치·날짜·고유명·스킬/아이템명·성우·스펙을 공식 출처로 교차검증.","상설"],
-       ["검수2 · 문체/표현","레인 문체 정본 + 실블로그 최근 글 라이브 대조(겜더쿠는 정본·피드백만).","상설"],
-       ["검수3 · 구조/완성도","표·링크·SEO·이미지 자리·하단 버튼 등 완성도.","상설"],
-       ["검수4 · 자연스러움/거짓없음","변명·고백조, 전제 틀린 섹션, AI 티, 톤·문단 호흡.","상설"],
-       ["검수5 · 이미지 맥락/다양성","문단별 주제로 이미지 적합성·인접 중복·출처·이유 메타 검수(qa-checklist G장).","상설"],
-       ["반증 전담 (refute)","민감·고정보 글에서 주장을 반증 시도해 거짓 통과를 막음.","온디맨드"]]),
+       "매 글마다 전원 자동 투입. <b>발행 전</b>엔 사실·문체·구조·자연스러움·이미지를 차원별로 교차검증하고, <b>발행 후</b>엔 독자 시선에서 '읽어서 좋은 글인가'를 다시 봅니다.",[
+       ["검수팀장 (QA Lead)","레인 정본 점검·차원 편성·발견 취합·교차 점검·PASS/FAIL 판정·수정 루프·증원/해고. 발행 후 독자검수단 총괄.","상설"],
+       ["[발행 전] 검수1 · 사실/공식명칭","수치·날짜·고유명·스킬/아이템명·성우·스펙을 공식 출처로 교차검증.","상설"],
+       ["[발행 전] 검수2 · 문체/표현","레인 문체 정본 + 실블로그 최근 글 라이브 대조(겜더쿠·연봄은 정본·피드백만).","상설"],
+       ["[발행 전] 검수3 · 구조/완성도","표·링크·SEO·이미지 자리·하단 버튼 등 완성도.","상설"],
+       ["[발행 전] 검수4 · 자연스러움/거짓없음","변명·고백조, 전제 틀린 섹션, AI 티, 톤·문단 호흡.","상설"],
+       ["[발행 전] 검수5 · 이미지 맥락/다양성","문단별 주제로 이미지 적합성·인접 중복·출처·이유 메타 검수(qa-checklist G장).","상설"],
+       ["반증 전담 (refute)","민감·고정보 글에서 주장을 반증 시도해 거짓 통과를 막음.","온디맨드"],
+       ["★[발행 후] 독자검수단 (에디토리얼)","발행된 최종본을 독자 시선에서 6축 검수(양식·기사완성도/시각편집/가독성·템포/재미·보이스/소재다양성/정보깊이) → 작성팀·기획팀 환류 + 기준미달 자동 개선본. 작성자 개성·정본 최우선, 학습 격리.","상설"]]),
      team("var(--a-about)","grid","인프라실","실장: 인프라실장",
        "플랫폼(사이트+앱) 전체를 총괄합니다. 업무를 PC·모바일로 분해·배정하고, 두 산출물 방향을 맞추고 적극 피드백하며, 자가피드백+유명 블로그/앱 벤치마킹으로 개선해요. 기본은 PC·모바일 동일 구현.",[
        ["인프라실장 (Infra Division Head)","요청을 공통/PC전용/모바일전용으로 분해·배정(착각 방지)→두 팀 방향 정렬·적극 피드백→자가피드백·외부 벤치마킹→PC↔모바일 소통 주선→취합 보고.","상설"],
@@ -1316,6 +1317,12 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
            "백엔드 큐 요청이면 상태를 <b>발행됨</b>으로 갱신 → 구독자에 웹푸시 알림.",
            "<b>발행됨 라벨 자동검증</b> — 작성자별 실제 블로그(네이버/티스토리) 제목과 대조해 published.json 자동 생성 → 사이트·앱에 ‘발행됨’ 표시.",
            "발행 후 오류가 나오면 책임 팀(기획·작성·검수)으로 회송해 그 팀 학습에 반영."],"")}
+         ${step("var(--a-gemdeokku)","5","발행 후 독자검수 · 에디토리얼","검수팀 — 발행 후 독자검수단 (전원 공통)",[
+           "발행된 <b>최종본</b>을 독자 시선에서 냉정하게 6축 검수 — <b>양식·기사완성도</b>(뉴스·E스포츠 기사형 포함)·<b>본문 시각편집</b>·<b>가독성·템포</b>·<b>재미·읽는 맛·보이스</b>·<b>소재 다양성·신선도</b>·<b>정보 가치·깊이</b>.",
+           "발견을 <b>작성팀(문체·가독·재미·양식) / 기획팀(소재 다양성·깊이)</b> 학습 파일로 <b>환류</b> → 자기진단·스킬 강화(매 글마다).",
+           "기준미달(🔴1↑·🟡3↑)이면 그 작성자 문체 그대로 <b>자동 개선본</b>(QA·복사버튼 게이트 재통과). 외부 실게시 재게시는 사용자 직접.",
+           "<b>작성자 개성·정본 최우선</b> + 학습 격리(연봄·겜더쿠 양방향) + 획일화 금지. 본문 내부만(사이트·스킨은 디자인검수팀)."],
+           "발행 전 QA와 역할 분리 — QA=‘틀린 게 없나’(게이트) / 독자검수=‘읽어서 좋은 글인가’(우수성·학습)")}
        </div>
      </section>
 
@@ -1348,7 +1355,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
          ["검수3 구조","표·링크·SEO·이미지 자리·하단 버튼 등 완성도.","<code>qa-checklist.md</code>(구조 장)"],
          ["검수4 자연스러움","변명·고백조, 전제 틀린 섹션, AI 티, 톤·문단 호흡.","<code>qa-checklist.md</code> · <code>writing-quality.md</code>(A장 대조)"],
          ["검수5 이미지","문단별 주제로 이미지 적합성·인접 중복·출처·이유 메타.","<code>qa-checklist.md</code> G장 · <code>image-sourcing.md</code>"],
-         ["반증 전담","민감·고정보 글에서 주장을 반증 시도해 거짓 통과 차단.","<code>game-blog-qa</code>(refute 모드)"]])}
+         ["반증 전담","민감·고정보 글에서 주장을 반증 시도해 거짓 통과 차단.","<code>game-blog-qa</code>(refute 모드)"],
+         ["★발행 후 독자검수단","발행된 최종본을 독자 시선에서 6축 검수(양식·기사완성도/시각편집/가독성·템포/재미·보이스/소재다양성/정보깊이) → 작성팀·기획팀 환류 + 기준미달 자동 개선본. 작성자 개성·정본 최우선, 학습 격리, 본문 내부만.","스킬 <code>blog-editorial-review</code> · <code>editorial-checklist.md</code> · <code>feedback-routing.md</code> · 학습 <code>editorial-review-learnings.md</code>"]])}
        ${posblock("var(--a-about)","인프라실 · 디자인검수팀",[
          ["인프라실장","요청을 공통/PC/모바일로 분해·배정·방향 정렬·상호/자가 피드백·외부 벤치마킹·취합 보고. 기본 PC·모바일 동시 구현.","<code>team-org.md §5(인프라실)</code> · 학습 <code>shared/infra/infra-learnings.md</code>"],
          ["PC팀","쓰담 사이트(<code>BlogPreview</code>) 구현 — 디자인·프론트·기능. 데이터 소스 json + 디자인 토큰.","<code>BlogPreview/index.html</code> · <code>_design/</code> 토큰 · <code>infra-learnings.md</code>"],
@@ -1450,9 +1458,11 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
          <span style="color:var(--sub);text-align:center;font-size:11px;">⇄<br>키트·사실<br>↩ 발주 환류</span>
          <span style="border:1.5px solid var(--brand);color:var(--ink);font-weight:700;border-radius:9px;padding:8px 12px;text-align:center;">작성팀<br><span style="font-weight:400;color:var(--sub);font-size:11px;">문체별 독립·맥락배치</span></span>
          <span style="color:var(--sub);text-align:center;font-size:11px;">⇄<br>초안<br>↩ 지적 환류</span>
-         <span style="border:1.5px solid var(--brand);color:var(--ink);font-weight:700;border-radius:9px;padding:8px 12px;text-align:center;">검수팀<br><span style="font-weight:400;color:var(--sub);font-size:11px;">사실·문체·이미지맥락</span></span>
+         <span style="border:1.5px solid var(--brand);color:var(--ink);font-weight:700;border-radius:9px;padding:8px 12px;text-align:center;">검수팀<br><span style="font-weight:400;color:var(--sub);font-size:11px;">발행 전: 사실·문체·이미지</span></span>
          <span style="color:var(--sub);text-align:center;font-size:11px;">→<br>PASS<br>(FAIL=수정루프)</span>
          <span style="border:1.5px solid var(--brand);color:#fff;background:var(--brand);font-weight:700;border-radius:9px;padding:8px 12px;text-align:center;">발행</span>
+         <span style="color:var(--sub);text-align:center;font-size:11px;">→<br>최종본<br>독자검수</span>
+         <span style="border:1.5px solid var(--a-gemdeokku);color:var(--ink);font-weight:700;border-radius:9px;padding:8px 12px;text-align:center;">독자검수<br><span style="font-weight:400;color:var(--sub);font-size:11px;">발행 후: 환류·개선본</span></span>
        </div>
        <div style="border-top:1px dashed var(--line);margin:16px 0 12px;"></div>
        <div style="display:flex;flex-wrap:wrap;gap:8px 14px;font-size:11.5px;color:var(--sub);line-height:1.5;">
