@@ -1,171 +1,196 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>포켓몬런 온라인 챌린지 참여 방법 — 런데이로 1km 완주하고 잉어킹 카드 받기</title>
+<title>포켓몬런 온라인 챌린지 참여 방법 — 런데이로 1km 걷고 잉어킹 카드 받기</title>
 <style>
-  :root{--ink:#222831;--body:#33383f;--sub:#8a93a0;--line:#e9edf1;--blue:#4A86C5;--blue-weak:#f4f9fe;--pink:#C75D88;--pink-deep:#D96A93;--pink-weak:#fdf2f7;--hl:#F4CADC;}
+  :root{--blue:#4A86C5;--blue-ink:#3f7cb8;--blue-bg:#eef5fc;--blue-bg2:#f0f6fc;--blue-line:#dcebf9;
+        --pink:#d2628a;--pink-bg:#fdf1f6;--pink-bg2:#fdeff5;--pink-line:#f6d6e4;--hl:#fbd6e4;
+        --ink:#33373f;--body:#3a3a42;--sub:#8a8f99;--line:#eef0f4;--paper:#fbf9f7;}
   *{box-sizing:border-box;}
-  body{margin:0;background:#f4f6f9;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
-  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
-  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
-  .topbar .badge{background:var(--blue);color:#fff;font-weight:700;border-radius:5px;padding:2px 8px;font-size:12px;}
-  .post{padding:28px 28px 40px;}
-  .cat{color:var(--blue);font-size:13px;font-weight:700;margin-bottom:8px;}
-  h1.title{font-size:24px;line-height:1.45;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
-  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
-  .meta .author{font-weight:700;color:var(--blue);}
-  .post p{font-size:16px;line-height:1.98;margin:0 0 18px;word-break:keep-all;color:var(--body);}
+  body{margin:0;background:#f3f1ee;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:var(--paper);border:1px solid #eae6e1;border-radius:16px;overflow:hidden;}
+  .topbar{padding:13px 20px;border-bottom:1px solid #efe9e3;font-size:13px;color:var(--sub);background:#fffdfb;}
+  .topbar .badge{background:var(--blue);color:#fff;font-weight:700;border-radius:9999px;padding:3px 11px;font-size:12px;margin-right:6px;}
+  .topbar .heart{color:var(--pink);}
+  .post{padding:26px 26px 40px;}
+  .cat{color:var(--blue-ink);font-size:13px;font-weight:800;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.45;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;color:#2e323a;}
+  .meta{font-size:13px;color:var(--sub);border-bottom:1px solid #efe9e3;padding-bottom:15px;margin-bottom:22px;}
+  .meta .author{font-weight:800;color:var(--blue-ink);}
+  .meta .h{color:var(--pink);}
+  .post p{font-size:16px;line-height:1.97;margin:0 0 18px;word-break:keep-all;color:var(--body);}
   .post b{font-weight:800;}
-  .hl{border-bottom:2px solid var(--hl);}
-  .lead{font-size:17px;font-weight:500;color:#2b313a;line-height:1.95;}
+  .hl{border-bottom:3px solid var(--hl);}
+  .lead{font-size:17px;font-weight:500;color:#3a3a42;line-height:1.95;}
 
-  /* 먼저, 핵심만 — 팩트 카드 (윗선 3px 블루 + 키-값 헤어라인) */
-  .factcard{border:1px solid #e6ebf1;border-top:3px solid var(--blue);border-radius:4px;padding:4px 18px;margin:0 0 6px;background:#fcfdfe;}
-  .factrow{border-bottom:1px dashed #e9edf2;padding:11px 0;font-size:15px;line-height:1.7;color:#3a4048;}
-  .factrow:last-child{border-bottom:0;}
-  .factrow .fl{display:inline-block;min-width:62px;color:var(--blue);font-weight:800;}
-  .upd{font-size:12.5px;color:#9aa3ae;margin:5px 0 24px;text-align:right;}
+  /* 한눈에 보기 — 둥근 카드 + 이모지 행 */
+  .factcard{background:#f3f8fd;border:1px solid var(--blue-line);border-radius:14px;padding:14px 18px;margin:0 0 8px;}
+  .factcard .ft{font-size:13.5px;font-weight:800;color:var(--blue-ink);margin:0 0 9px;}
+  .factrow{font-size:15px;line-height:1.75;color:#41474f;margin:6px 0;}
+  .factrow b{color:var(--blue-ink);}
+  .upd{font-size:12.5px;color:#9aa0a8;margin:6px 0 24px;text-align:right;}
 
-  /* 섹션 — eyebrow 칩 + 텍스트 하단 헤어라인 h2 (좌측바 없음) */
-  .eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2.5px;color:var(--sub);border:1px solid #e6ebf1;border-radius:9999px;padding:3px 12px;margin:34px 0 0;}
-  h2.h2{font-size:21px;font-weight:800;color:var(--ink);margin:11px 0 14px;padding:0 0 7px;border-bottom:2px solid #eef1f5;letter-spacing:-.3px;}
-  h3.h3{font-size:16.5px;font-weight:800;color:#2b313a;margin:22px 0 9px;}
-  h3.h3 .dot{color:var(--pink);}
+  /* 섹션 칩(둥글고 따뜻하게, 블루/핑크) + h2(부드러운 하단선) */
+  .chip{display:inline-block;background:var(--blue-bg);color:var(--blue-ink);font-size:12.5px;font-weight:800;border-radius:9999px;padding:5px 13px;margin:34px 0 0;}
+  .chip.pink{background:var(--pink-bg2);color:var(--pink);}
+  h2.h2{font-size:20.5px;font-weight:800;color:var(--ink);margin:10px 0 13px;padding:0 0 8px;border-bottom:2px solid #f0eaf2;letter-spacing:-.3px;}
   ol.steps{margin:6px 0 18px;padding-left:20px;}
   ol.steps li{font-size:16px;line-height:1.9;margin-bottom:9px;color:var(--body);}
 
-  /* 부부 듀얼보이스 노트 */
-  .note{border-radius:6px;padding:13px 16px;margin:0 0 22px;font-size:15px;line-height:1.85;}
-  .note-yeon{border:1px solid #dce8f5;border-left:3px solid var(--blue);background:var(--blue-weak);color:#37434f;}
-  .note-yeon .nt{color:var(--blue);font-weight:800;}
-  .note-bom{border:1px solid #f3d4e1;border-left:3px solid var(--pink-deep);background:var(--pink-weak);color:#4a3a42;}
+  /* 부부 듀얼보이스 — 둥근 말풍선 카드 */
+  .note{border-radius:14px;padding:14px 16px;margin:0 0 20px;font-size:15px;line-height:1.85;}
+  .note-yeon{background:var(--blue-bg2);border:1px solid #d7e7f7;color:#3c4650;}
+  .note-yeon .nt{color:var(--blue-ink);font-weight:800;}
+  .note-bom{background:var(--pink-bg);border:1px solid var(--pink-line);color:#574048;}
   .note-bom .nt{color:var(--pink);font-weight:800;}
 
-  /* 이미지 */
+  /* 이미지(둥근 모서리) */
   .imgwrap{text-align:center;margin:18px 0 6px;}
-  .imgwrap img{max-width:100%;border-radius:10px;border:1px solid #e8ecf1;display:block;margin:0 auto;}
+  .imgwrap img{max-width:100%;border-radius:12px;border:1px solid #ecebf0;display:block;margin:0 auto;}
   .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 2px;}
-  .src{text-align:center;font-size:12px;color:#a6afbb;margin:0 0 24px;}
+  .src{text-align:center;color:#aab0b8;font-size:12px;margin:0 0 24px;}
 
-  /* 담백 라인 테이블 (헤더=옅은배경+블루 밑줄, zebra 없음) */
+  /* 표(따뜻한 헤더, zebra 없음) */
   table.tbl{width:100%;border-collapse:collapse;margin:8px 0 18px;font-size:14.5px;}
-  table.tbl th{text-align:left;font-weight:800;color:var(--blue);padding:10px 12px;border-bottom:2px solid var(--blue);background:#f7fafd;}
-  table.tbl td{padding:10px 12px;border-bottom:1px solid #edf0f4;color:#3a4048;}
+  table.tbl th{text-align:left;font-weight:800;color:var(--blue-ink);padding:10px 12px;background:var(--blue-bg);border-bottom:2px solid #cfe2f5;}
+  table.tbl td{padding:10px 12px;border-bottom:1px solid var(--line);color:#41474f;}
 
-  /* 잎사귀 호흡 구분선 */
-  .leaf{text-align:center;color:#c9d2db;font-size:14px;margin:30px 0;}
+  /* 잎사귀 호흡 */
+  .leaf{text-align:center;color:#bfc6cf;font-size:14px;margin:28px 0;letter-spacing:2px;}
 
-  /* FAQ — 핑크 Q 배지 + 핑크 좌측 룰 */
-  .faqq{font-size:16px;margin:0 0 6px;color:#2b313a;}
-  .faqq .qb{display:inline-block;background:#fbeef4;color:var(--pink);font-weight:800;border-radius:5px;padding:1px 8px;margin-right:7px;}
-  .faqa{font-size:15.5px;line-height:1.9;color:#454b53;margin:0 0 17px;padding:0 0 0 12px;border-left:2px solid #f0cdde;word-break:keep-all;}
+  /* FAQ(둥근 핑크 Q 배지) */
+  .faqq{font-size:16px;margin:0 0 6px;color:var(--ink);}
+  .faqq .qb{display:inline-block;background:var(--pink-bg2);color:var(--pink);font-weight:800;border-radius:9999px;padding:2px 10px;margin-right:8px;}
+  .faqa{font-size:15.5px;line-height:1.9;color:#4a505a;margin:0 0 17px;padding:0 0 0 12px;border-left:2px solid var(--pink-line);word-break:keep-all;}
 
-  /* 봄의 한마디 클로징 */
-  .closing{border:1px solid #f3d4e1;border-left:3px solid var(--pink-deep);background:var(--pink-weak);border-radius:6px;padding:15px 17px;margin:30px 0 18px;font-size:15.5px;line-height:1.9;color:#46383f;}
+  /* 봄의 한마디로 정리 */
+  .closing{background:var(--pink-bg);border:1px solid var(--pink-line);border-radius:14px;padding:16px 18px;margin:28px 0 16px;font-size:15.5px;line-height:1.9;color:#574048;}
   .closing .nt{color:var(--pink);font-weight:800;}
 
-  /* 태그 (아웃라인 알약) */
+  /* 태그(부드러운 알약) */
   .tags{margin-top:20px;line-height:2.4;}
-  .tags span{background:#fff;border:1px solid #dbe7f5;color:var(--blue);font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 6px 0;display:inline-block;}
+  .tags span{background:var(--blue-bg);border:1px solid var(--blue-line);color:var(--blue-ink);font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 6px 0;display:inline-block;}
 </style></head><body>
 <div class="wrap">
-  <div class="topbar"><span class="badge">🌿 blog</span> 연봄 · 덕질생활 (티스토리 발행용 미리보기)</div>
+  <div class="topbar"><span class="badge">🌿 blog</span> 연봄 <span class="heart">💙🩷</span> 부부가 함께 정리한 글 · (티스토리 발행용 미리보기)</div>
   <div class="post">
     <div class="cat">게임 · 포켓몬런 온라인 챌린지</div>
-    <h1 class="title">포켓몬런 온라인 챌린지 참여 방법 — 런데이로 1km 완주하고 잉어킹 카드 받기</h1>
-    <div class="meta"><span class="author">연봄</span><span>2026. 6. 9.</span><span>· 게임</span></div>
+    <h1 class="title">포켓몬런 온라인 챌린지 참여 방법 — 런데이로 1km 걷고 잉어킹 카드 받기</h1>
+    <div class="meta"><span class="author">연봄</span> <span class="h">💙연 🩷봄</span> · 2026. 6. 9. · 게임</div>
 
-    <p class="lead">달리기 앱을 켜고 1km만 걸어도 포켓몬 카드를 준다는 이야기, 요즘 산책길에 한 번쯤 들어보셨을 거예요. 포켓몬코리아와 SK텔레콤, 달리기 앱 ‘런데이’가 함께 여는 <b class="hl">포켓몬런 온라인 챌린지</b>인데요. 지금 한창 진행 중이라, 참가 자격부터 참여 방법, 잉어킹 카드를 받는 곳까지 헷갈리지 않게 차근차근 적어둘게요.</p>
+    <p class="lead">달리기 앱을 켜고 1km만 걸어도 포켓몬 카드를 준다는 이야기, 요즘 산책하다 한 번쯤 보셨을 거예요. 포켓몬코리아와 SK텔레콤, 달리기 앱 ‘런데이’가 같이 여는 <b class="hl">포켓몬런 온라인 챌린지</b>인데요. 지금 한창 하고 있어서, 누가 참여할 수 있는지부터 1km 채우는 법, 잉어킹 카드를 받는 곳까지 헷갈리지 않게 하나하나 적어둘게요.</p>
 
     <div class="factcard">
-      <div class="factrow"><span class="fl">기간</span> 2026년 6월 8일(월) 오전 9시 ~ <b>6월 30일(화)</b></div>
-      <div class="factrow"><span class="fl">참여</span> 런데이 앱에서 1km 완주 → 리워드 신청 → 잉어킹 카드 응모</div>
-      <div class="factrow"><span class="fl">대상</span> 만 14세 이상 개인 · 휴대폰 번호당 1회 · 통신사 무관</div>
-      <div class="factrow"><span class="fl">보상</span> [잉어킹] 프로모 카드</div>
-      <div class="factrow"><span class="fl">수령</span> <b class="hl">7월 7일~8월 31일</b>, 지정 매장·T팩토리 성수(신분증 필수)</div>
+      <div class="ft">📌 한눈에 보기</div>
+      <div class="factrow"><b>📅 기간</b>&nbsp; 2026년 6월 8일(월) 오전 9시 ~ <b style="color:inherit;">6월 30일(화)</b></div>
+      <div class="factrow"><b>🏃 참여</b>&nbsp; 런데이 앱에서 1km 걷기/달리기 → 리워드 신청 → 잉어킹 카드 응모</div>
+      <div class="factrow"><b>👥 대상</b>&nbsp; 만 14세 이상 누구나 · 휴대폰 번호당 1번 · 통신사 상관없음</div>
+      <div class="factrow"><b>🎁 보상</b>&nbsp; [잉어킹] 프로모 카드</div>
+      <div class="factrow"><b>📍 받기</b>&nbsp; <b class="hl" style="color:inherit;">7월 7일~8월 31일</b>, 지정 매장·성수 T팩토리(신분증 필요)</div>
     </div>
-    <p class="upd">🕒 최종 업데이트 2026.06.09 · 챌린지 6.8~6.30 진행 중</p>
+    <p class="upd">🕒 마지막 업데이트 2026.06.09 · 챌린지 6.8~6.30 진행 중</p>
 
-    <span class="eyebrow">기 본</span>
-    <h2 class="h2">포켓몬런 온라인 챌린지란? 런데이로 참여하는 잉어킹 이벤트</h2>
-    <p>포켓몬런 온라인 챌린지는 <b>포켓몬코리아·㈜땀(런데이)·SK텔레콤</b>이 함께 진행하는 이벤트예요. 앞서 어린이날에 뚝섬 한강에서 열린 오프라인 ‘포켓몬런’과 같은 결의 캠페인인데, 이번엔 현장에 가지 않아도 <b>달리기 앱으로 집 근처에서 참여</b>할 수 있게 한 게 특징입니다.</p>
+    <span class="chip">🏃 기본 이야기</span>
+    <h2 class="h2">포켓몬런 온라인 챌린지가 뭐예요?</h2>
+    <p>포켓몬런 온라인 챌린지는 <b>포켓몬코리아와 SK텔레콤, 달리기 앱 런데이(㈜땀)</b>가 같이 하는 이벤트예요. 앞서 어린이날에 뚝섬 한강에서 열린 오프라인 ‘포켓몬런’과 같은 캠페인인데, 이번엔 행사장에 가지 않아도 <b>달리기 앱으로 집 근처에서 참여</b>할 수 있게 한 게 다른 점입니다.</p>
     <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%EB%9F%B0/%ED%8F%AC%EC%BC%93%EB%AA%AC%EB%9F%B0%20%EC%98%A8%EB%9D%BC%EC%9D%B8%20%EC%B1%8C%EB%A6%B0%EC%A7%80/img/pokemon-runday-keyvisual.jpg" alt="포켓몬 런 캠페인의 잉어킹과 피카츄가 한강을 배경으로 달리는 키비주얼"></div>
-    <p class="cap">잉어킹과 피카츄가 등장하는 포켓몬 런 캠페인 키비주얼.</p>
+    <p class="cap">잉어킹과 피카츄가 함께 달리는 포켓몬 런 캠페인 키비주얼.</p>
     <p class="src">이미지: 포켓몬 GO 공식</p>
-    <div class="note note-yeon"><span class="nt">🔹 연의 메모</span><br>방식은 단순해요. 런데이 앱에서 챌린지에 참가해 1km를 완주하면 리워드를 신청할 수 있고, 신청을 마치면 [잉어킹] 프로모 카드에 응모하게 됩니다. 가입한 통신사와 상관없이 누구나 참여할 수 있고, 참가비도 따로 없어 런데이 앱만 있으면 추가 비용 없이 도전할 수 있답니다.</div>
+    <div class="note note-yeon"><span class="nt">💙 연의 한마디</span><br>방법은 간단해요. 런데이 앱에서 챌린지를 신청하고 1km를 채우면 리워드를 신청할 수 있고, 그걸 마치면 [잉어킹] 카드 응모까지 이어집니다. 어느 통신사를 쓰든 누구나 할 수 있고, 참가비도 따로 없어서 앱만 있으면 돈 들이지 않고 도전할 수 있어요.</div>
 
-    <span class="eyebrow">비 교</span>
+    <span class="chip">📱 런데이 앱</span>
+    <h2 class="h2">런데이가 어떤 앱이냐면요</h2>
+    <p>런데이는 <b>무료 달리기 코칭 앱</b>이에요. 귀에 들려주는 <b>100% 음성 코칭</b>이 특징인데, 마치 옆에서 트레이너가 같이 뛰면서 “이제 천천히 걸어요”, “30초만 더 달려볼까요” 하고 알려줘요. 그래서 달리기를 처음 하는 사람도 30분 코스를 어렵지 않게 마칠 수 있게 도와줍니다. 걷기·달리기는 물론 만보기, 계단 오르기, 등산 같은 운동도 기록할 수 있고요.</p>
+    <p>이번 챌린지에서 채워야 하는 1km는 생각보다 짧아요. <b>느긋하게 걸어도 15분 안팎</b>이면 채워지는 거리라, 운동을 안 하던 분도 동네 한 바퀴 산책하는 기분으로 도전해 볼 만합니다.</p>
+    <div class="note note-bom"><span class="nt">🩷 봄의 한마디</span><br>달리기가 부담스러우면 앱의 ‘걷기’ 코칭부터 켜고 가볍게 걸어보세요. 저도 숨차게 뛰는 게 싫어서 그냥 음악 들으며 천천히 걸었는데, 그것만으로도 1km는 금방 채워지더라고요.</div>
+
+    <p class="leaf">· &nbsp;🌿&nbsp; ·</p>
+
+    <span class="chip pink">⚖️ 뭐가 다를까</span>
     <h2 class="h2">오프라인 포켓몬런과 온라인 챌린지, 뭐가 다른가요</h2>
-    <p>‘포켓몬런’이라는 이름으로 올해 행사가 두 번 있었던 셈이라 살짝 헷갈릴 수 있는데요. 같은 캠페인이지만 둘은 결이 다릅니다. 한눈에 비교해 둘게요.</p>
+    <p>‘포켓몬런’이란 이름으로 올해 행사가 두 번 있었던 셈이라 살짝 헷갈릴 수 있는데요. 같은 캠페인이지만 둘은 결이 다릅니다. 먼저 끝난 <b>오프라인 행사</b>는 5월 5일 어린이날에 서울 뚝섬 한강에서 열렸고, 약 <b>5,000명</b>이 모였어요. ‘잉어킹 바둥바둥 런(5km)’, ‘잉어킹 튀어오르기 런(8km)’ 같은 코스를 기록 재지 않고 즐기는 방식이었고, 완주하면 <b>피카츄·잉어킹 인형 메달</b>을 줬습니다. 잉어킹 100마리를 연으로 띄우고 포토존·미니게임도 있어서, 참가권이 30분 만에 동났을 만큼 인기였어요.</p>
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%EB%9F%B0/%ED%8F%AC%EC%BC%93%EB%AA%AC%EB%9F%B0%20%EC%98%A8%EB%9D%BC%EC%9D%B8%20%EC%B1%8C%EB%A6%B0%EC%A7%80/img/pokemon-run-offline-pikachu.jpg" alt="오프라인 포켓몬 런 2026 현장의 대형 피카츄 풍선과 러너 인파, 뚝섬 한강공원"></div>
+    <p class="cap">5월에 열린 오프라인 포켓몬 런 현장. 대형 피카츄 풍선이 인상적이었어요.</p>
+    <p class="src">이미지: 테크M</p>
+    <p>이번 <b>온라인 챌린지</b>는 그 행사를 못 간 사람도 즐길 수 있게 만든 버전이라고 보면 돼요. 표로 정리하면 이렇습니다.</p>
     <table class="tbl">
       <tr><th>구분</th><th>오프라인 포켓몬런</th><th>온라인 챌린지</th></tr>
-      <tr><td>시기</td><td>5월 5일 어린이날 (종료)</td><td>6월 8일~30일 (진행 중)</td></tr>
+      <tr><td>시기</td><td>5월 5일 어린이날 (끝남)</td><td>6월 8일~30일 (진행 중)</td></tr>
       <tr><td>장소</td><td>서울 뚝섬 한강공원</td><td>런데이 앱 (어디서나)</td></tr>
-      <tr><td>참가비</td><td>75,000원</td><td>앱에서 무료 참여</td></tr>
-      <tr><td>보상</td><td>완주 메달·증정 키트</td><td>잉어킹 프로모 카드</td></tr>
+      <tr><td>참여</td><td>현장 달리기(5·8km), 참가권 필요</td><td>앱에서 1km, 무료</td></tr>
+      <tr><td>보상</td><td>피카츄·잉어킹 인형 메달</td><td>잉어킹 프로모 카드</td></tr>
     </table>
-    <div class="note note-bom"><span class="nt">🌸 봄의 한마디</span><br>오프라인 행사는 이미 끝났지만, 온라인 챌린지는 지금 참여할 수 있어요. ‘포켓몬런 가보고 싶었는데 놓쳤다’ 하고 아쉬웠던 분이라면 이쪽으로 가볍게 즐겨보셔도 좋아요.</div>
+    <div class="note note-bom"><span class="nt">🩷 봄의 한마디</span><br>오프라인 행사는 이미 끝났지만 온라인 챌린지는 지금 할 수 있어요. ‘포켓몬런 가보고 싶었는데 놓쳤다’ 하고 아쉬웠던 분이라면, 이번엔 동네 산책으로 가볍게 즐겨보셔도 좋아요.</div>
 
-    <p class="leaf">· ·&nbsp; 🌿 &nbsp;· ·</p>
+    <span class="chip">📅 참가 자격</span>
+    <h2 class="h2">누가, 언제까지 할 수 있나요</h2>
+    <p>기간은 <b>2026년 6월 8일 오전 9시부터 6월 30일까지</b>예요. 지금 한창 진행 중이라, 참여하려면 6월 30일이 지나기 전에 1km 채우기와 응모(=참여 신청)를 끝내야 합니다.</p>
+    <p>대상은 <b>만 14세 이상 개인</b>이고, <b>휴대폰 번호 하나당 1번</b>만 할 수 있어요. 회사(법인)나 외국인은 대상이 아니고, 카드도 본인만 받을 수 있어 대신 받는 건 안 됩니다. 통신사 제한은 없으니 SKT가 아니어도 참여 자체는 누구나 할 수 있어요.</p>
 
-    <span class="eyebrow">참가 자격</span>
-    <h2 class="h2">누가, 언제까지 참가할 수 있나요</h2>
-    <p>챌린지 기간은 <b>2026년 6월 8일 오전 9시부터 6월 30일까지</b>예요. 지금이 한창 진행 중인 시점이라, 참여하려면 6월 30일이 지나기 전에 1km 완주와 응모를 마쳐야 합니다.</p>
-    <p>참가 대상은 <b>만 14세 이상 개인 고객</b>이고, <b>휴대폰 번호 하나당 1회</b>만 참여할 수 있어요. 법인이나 외국인은 대상에서 제외되며, 카드 수령도 본인만 가능하고 대리 수령은 안 됩니다. 통신사 제한은 없으니, SKT가 아니어도 참여 자체는 누구나 할 수 있습니다.</p>
-
-    <span class="eyebrow">참가 방법</span>
-    <h2 class="h2">포켓몬런 챌린지 참가 방법, 4단계로 정리했어요</h2>
-    <p>처음 해보면 어디서 응모까지 이어지는지 헷갈릴 수 있는데요. 흐름만 잡아두면 어렵지 않습니다. 순서대로 보면 이렇게 됩니다.</p>
+    <span class="chip">👟 참가 방법</span>
+    <h2 class="h2">참가 방법, 4단계로 정리했어요</h2>
+    <p>처음 하면 어디서 응모까지 이어지는지 헷갈릴 수 있는데요. 흐름만 잡아두면 어렵지 않습니다. 순서대로 보면 이래요.</p>
     <ol class="steps">
-      <li><b>런데이 앱에서 챌린지 참가</b> — 앱을 설치하고 포켓몬런 챌린지에 들어가 참가를 신청합니다.</li>
-      <li><b>1km 챌린지 완주</b> — 걷기나 달리기로 1km를 채웁니다. ID당 1회 인정돼요.</li>
-      <li><b>리워드 신청 클릭</b> — 완주 후 리워드 신청 버튼을 누릅니다.</li>
-      <li><b>유저코드 확인 후 [잉어킹] 카드 응모</b> — 응모 페이지에서 유저코드를 확인하고 잉어킹 프로모 카드에 응모하면 끝입니다.</li>
+      <li><b>런데이 앱에서 챌린지 신청</b> — 앱을 깔고 포켓몬런 챌린지에 들어가 참가를 신청해요.</li>
+      <li><b>1km 채우기</b> — 걷기나 달리기로 1km를 채워요. 한 아이디당 1번 인정됩니다.</li>
+      <li><b>리워드 신청 누르기</b> — 다 채운 뒤 리워드 신청 버튼을 눌러요.</li>
+      <li><b>유저코드 확인 후 [잉어킹] 카드 응모</b> — 응모 페이지에서 유저코드를 확인하고 잉어킹 카드에 응모하면 끝이에요.</li>
     </ol>
     <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%EB%9F%B0/%ED%8F%AC%EC%BC%93%EB%AA%AC%EB%9F%B0%20%EC%98%A8%EB%9D%BC%EC%9D%B8%20%EC%B1%8C%EB%A6%B0%EC%A7%80/img/pokemon-runday-iring.jpg" alt="포켓몬 런 현장에서 잉어킹 모자를 쓴 참가자들, 이번 챌린지 보상도 잉어킹 테마"></div>
-    <p class="cap">이번 챌린지의 보상도 ‘잉어킹’ 테마예요. (사진은 포켓몬 런 캠페인 현장)</p>
+    <p class="cap">이번 챌린지의 보상도 ‘잉어킹’ 테마예요.</p>
     <p class="src">이미지: 인벤</p>
-    <div class="note note-yeon"><span class="nt">🔹 연의 메모</span><br>핵심은 ‘완주’에서 끝이 아니라 <b>리워드 신청과 응모까지 마쳐야</b> 한다는 점이에요. 1km만 뛰고 앱을 닫아두면 응모가 되지 않으니, 완주 직후 신청 단계까지 이어서 끝내두는 걸 추천해요.</div>
+    <div class="note note-yeon"><span class="nt">💙 연의 한마디</span><br>가장 헷갈리는 포인트만 짚자면, ‘1km 채우기’에서 끝이 아니라 <b>리워드 신청과 응모까지</b> 해야 한다는 거예요. 1km만 걷고 앱을 꺼두면 응모가 안 되니, 다 채운 김에 신청 단계까지 바로 이어서 끝내두는 걸 추천해요.</div>
 
-    <span class="eyebrow">인정 운동</span>
+    <span class="chip pink">🚶 인정 운동</span>
     <h2 class="h2">어떤 운동이 1km로 인정되나요</h2>
-    <p>1km만 채우면 되지만, <b>인정되는 운동 종류가 정해져 있다</b>는 점은 꼭 알아두세요. 이 챌린지에서 인정되는 건 <b class="hl">걷기와 달리기</b>뿐입니다.</p>
-    <p>그래서 같은 ‘운동’이라도 <b>계단 오르기, 하이킹, 킥보드, 자동차 이동, 실내 운동</b>은 미인증 처리돼요. GPS로 야외에서 걷거나 뛴 1km가 기준이라고 생각하시면 쉽습니다.</p>
-    <div class="note note-bom"><span class="nt">🌸 봄의 한마디</span><br>러닝머신 같은 실내 운동으로 채우려다 인정이 안 되는 경우가 종종 있어요. 날 좋을 때 가볍게라도 밖에서 1km를 걷는 방향이 마음 편하답니다.</div>
+    <p>1km만 채우면 되지만, <b>인정되는 운동이 정해져 있다</b>는 점은 꼭 알아두세요. 이 챌린지에서 인정되는 건 <b class="hl">걷기와 달리기</b>뿐이에요. 런데이 앱 자체는 계단 오르기나 등산도 기록되지만, 이번 챌린지는 걷기·달리기만 카운트된다는 점이 조금 달라요.</p>
+    <p>그래서 같은 ‘운동’이라도 <b>계단 오르기, 하이킹, 킥보드, 자동차 이동, 실내 운동</b>은 인정이 안 됩니다. GPS로 야외에서 걷거나 뛴 1km가 기준이라고 생각하시면 쉬워요.</p>
+    <div class="note note-bom"><span class="nt">🩷 봄의 한마디</span><br>러닝머신처럼 실내에서 뛰다가 인정이 안 돼서 다시 나가는 경우가 종종 있어요. 날씨 좋을 때 밖에서 1km 걷는 쪽이 마음이 편하답니다.</div>
 
-    <p class="leaf">· ·&nbsp; 🌿 &nbsp;· ·</p>
+    <p class="leaf">· &nbsp;🌿&nbsp; ·</p>
 
-    <span class="eyebrow">카드 수령</span>
+    <span class="chip">🎁 카드 받기</span>
     <h2 class="h2">잉어킹 카드는 언제, 어디서 받나요</h2>
-    <p>응모를 마쳤다면 카드 수령은 한 박자 뒤에 진행됩니다. 수령 기간은 <b class="hl">2026년 7월 7일(화)부터 8월 31일(월)까지</b>예요. 챌린지 기간이 끝난 뒤 받는 구조라, 응모만 해두고 잊지 않게 일정을 메모해 두면 좋습니다.</p>
-    <p>받는 곳은 <b>지정된 SK텔레콤 공식 인증 대리점(약 500곳)과 성수동 ‘T 팩토리’</b>예요. 그냥 방문하는 게 아니라 <b>방문 예약을 한 뒤</b> 찾아가야 하고, 수령할 때 <b>신분증을 반드시 지참</b>해야 합니다. 본인 수령이 원칙이라 가족이 대신 받아오는 건 안 되니, 이 부분만 미리 챙겨두면 헛걸음을 줄일 수 있어요.</p>
-    <div class="note note-yeon"><span class="nt">🔹 연의 메모</span><br>수령 매장은 전국 약 500곳으로 흩어져 있어요. 응모를 마쳤다면 7월 7일 수령 시작 전에 가까운 지정 매장을 미리 확인해 방문 예약을 잡아두면, 수령 기간에 헛걸음 없이 받을 수 있습니다.</div>
+    <p>응모를 마쳤다면 카드 받기는 한 박자 뒤에 진행돼요. 받는 기간은 <b class="hl">2026년 7월 7일(화)부터 8월 31일(월)까지</b>입니다. 챌린지가 끝난 다음에 받는 구조라, 응모만 해두고 잊지 않게 달력에 메모해 두면 좋아요.</p>
+    <p>받는 곳은 <b>지정된 SK텔레콤 공식 매장(약 500곳)과 성수동 ‘T 팩토리’</b>예요. 그냥 가는 게 아니라, 당첨되면 안내되는 <b>예약 링크로 방문 날짜를 잡은 뒤</b> 찾아가야 하고, 받을 때 <b>신분증을 꼭 챙겨야</b> 합니다. 본인만 받을 수 있어 가족이 대신 받는 건 안 되니, 이 부분만 미리 챙기면 헛걸음을 줄일 수 있어요.</p>
+    <div class="note note-yeon"><span class="nt">💙 연의 한마디</span><br>받는 매장이 전국 약 500곳으로 흩어져 있어요. 응모를 마쳤다면 7월 7일 받기 시작 전에 가까운 매장을 미리 확인하고 방문 예약을 잡아두면, 받는 기간에 여유 있게 다녀올 수 있습니다.</div>
 
-    <span class="eyebrow">체 크</span>
-    <h2 class="h2">참가 전에 꼭 알아둘 점</h2>
-    <p>마지막으로 놓치기 쉬운 유의사항을 모아둘게요. 응모 전에 한 번 훑어보면 도움이 됩니다.</p>
+    <span class="chip pink">🐟 왜 잉어킹</span>
+    <h2 class="h2">그런데 왜 하필 잉어킹일까요</h2>
+    <p>잉어킹은 포켓몬 중에서도 <b>‘제일 약한 포켓몬’</b>으로 유명해요. 할 줄 아는 거라곤 통통 튀는 ‘튀어오르기’ 정도라 늘 놀림감인데, 레벨을 올리면 강력한 <b>갸라도스로 진화</b>한다는 반전이 있죠. 그 ‘반전 매력’ 덕에 팬이 많고, 이번 캠페인의 얼굴로 딱이라 마스코트가 됐어요.</p>
+    <p>그래서 오프라인 행사도 ‘잉어킹 바둥바둥 런’, ‘잉어킹 튀어오르기 런’처럼 이름부터 잉어킹 테마였고, 잉어킹 100마리를 연으로 띄우기도 했어요. 이번 온라인 챌린지의 보상이 잉어킹 카드인 것도 같은 흐름입니다.</p>
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%EB%9F%B0/%ED%8F%AC%EC%BC%93%EB%AA%AC%EB%9F%B0%20%EC%98%A8%EB%9D%BC%EC%9D%B8%20%EC%B1%8C%EB%A6%B0%EC%A7%80/img/pokemon-run-offline-photozone.jpg" alt="포켓몬 런 SK텔레콤 포토존과 피카츄 마스코트, 행사장 분위기"></div>
+    <p class="cap">행사장에 마련됐던 포켓몬 런 포토존. 곳곳이 잉어킹·피카츄 테마였어요.</p>
+    <p class="src">이미지: 테크M</p>
+    <div class="note note-bom"><span class="nt">🩷 봄의 한마디</span><br>약하지만 미워할 수 없는 잉어킹이라, 카드 한 장이 더 귀엽게 느껴지더라고요. 1km 걷고 받는 기념품치고는 꽤 마음이 가는 보상이에요.</div>
+
+    <span class="chip">✅ 체크 포인트</span>
+    <h2 class="h2">참가 전에 알아둘 점</h2>
+    <p>마지막으로 놓치기 쉬운 점을 모아둘게요. 응모 전에 한 번 훑어보면 도움이 됩니다.</p>
     <table class="tbl">
       <tr><th>항목</th><th>내용</th></tr>
-      <tr><td>참여 횟수</td><td>휴대폰 번호당 1회</td></tr>
-      <tr><td>수령</td><td>본인만, 신분증 지참(대리 수령 불가)</td></tr>
-      <tr><td>부정행위</td><td>적발 시 당첨·혜택 취소</td></tr>
-      <tr><td>개인정보</td><td>입력한 휴대폰 번호는 이벤트 종료 후 6개월 안에 파기</td></tr>
-      <tr><td>약관</td><td>선택 약관 미동의 시 일부 혜택 제외 가능</td></tr>
+      <tr><td>참여 횟수</td><td>휴대폰 번호당 1번</td></tr>
+      <tr><td>카드 받기</td><td>본인만, 신분증 챙기기(대신 받기 불가)</td></tr>
+      <tr><td>부정 참여</td><td>걸리면 당첨·혜택 취소</td></tr>
+      <tr><td>개인정보</td><td>입력한 번호는 이벤트 끝난 뒤 6개월 안에 폐기</td></tr>
+      <tr><td>약관</td><td>선택 약관에 동의 안 하면 일부 혜택 빠질 수 있음</td></tr>
     </table>
-    <p>특히 ‘완주만 하면 무조건 받는다’기보다 <b>응모 후 안내에 따라 수령</b>하는 방식이라, 응모 페이지의 안내를 끝까지 확인하는 게 안전해요. 자세한 조건과 매장 목록은 이벤트 공식 페이지에서 다시 확인하시길 권합니다.</p>
+    <p>특히 ‘1km만 채우면 무조건 받는다’기보다 <b>응모한 뒤 안내에 따라 받는</b> 방식이라, 응모 페이지의 안내를 끝까지 확인하는 게 안전해요. 더 자세한 조건과 매장 목록은 이벤트 공식 페이지에서 다시 확인하시길 권합니다.</p>
 
-    <span class="eyebrow">F A Q</span>
+    <span class="chip pink">💬 자주 묻는 질문</span>
     <h2 class="h2">자주 묻는 질문</h2>
-    <p class="faqq"><span class="qb">Q</span><b>SKT 고객이 아니어도 참가할 수 있나요?</b></p>
-    <p class="faqa">네, 통신사 제한은 없습니다. 런데이 앱에서 누구나 챌린지에 참가할 수 있어요. 다만 카드 수령은 만 14세 이상 본인만 가능합니다.</p>
+    <p class="faqq"><span class="qb">Q</span><b>SKT 고객이 아니어도 할 수 있나요?</b></p>
+    <p class="faqa">네, 통신사 제한은 없어요. 런데이 앱에서 누구나 챌린지에 참여할 수 있습니다. 다만 카드 받기는 만 14세 이상 본인만 가능해요.</p>
+    <p class="faqq"><span class="qb">Q</span><b>런데이 앱은 돈을 내야 하나요?</b></p>
+    <p class="faqa">아니요. 런데이는 무료로 받아서 쓸 수 있어요. 이 챌린지도 참가비가 따로 없어서 앱만 있으면 됩니다.</p>
     <p class="faqq"><span class="qb">Q</span><b>꼭 ‘달리기’여야 하나요?</b></p>
     <p class="faqa">아니요. 걷기와 달리기 모두 인정돼요. 다만 계단 오르기·하이킹·킥보드·자동차·실내 운동은 인정되지 않습니다.</p>
-    <p class="faqq"><span class="qb">Q</span><b>1km를 여러 번 뛰면 카드도 여러 장 받나요?</b></p>
-    <p class="faqa">아니요. 휴대폰 번호당 1회가 기준이라, 여러 번 완주해도 참여는 1회로 봅니다.</p>
+    <p class="faqq"><span class="qb">Q</span><b>1km를 여러 번 걸으면 카드도 여러 장 받나요?</b></p>
+    <p class="faqa">아니요. 휴대폰 번호당 1번이 기준이라, 여러 번 채워도 참여는 1번으로 봅니다.</p>
     <p class="faqq"><span class="qb">Q</span><b>카드는 언제까지 받아야 하나요?</b></p>
-    <p class="faqa">수령 기간은 7월 7일부터 8월 31일까지입니다. 지정 매장·T팩토리 성수에 방문 예약 후 신분증을 지참해 받으면 됩니다.</p>
+    <p class="faqa">받는 기간은 7월 7일부터 8월 31일까지예요. 지정 매장이나 성수 T팩토리에 방문 예약을 한 뒤, 신분증을 챙겨 가서 받으면 됩니다.</p>
 
-    <div class="closing"><span class="nt">🌸 봄의 한마디로 갈무리</span><br>포켓몬런 온라인 챌린지는 <b>6월 30일까지 런데이 앱으로 1km를 완주하고 응모하면 잉어킹 프로모 카드를 받는</b> 이벤트예요. 걷기·달리기만 인정되고, 카드는 7월 7일부터 8월 31일 사이 지정 매장에서 신분증을 들고 받으면 됩니다. 날 좋을 때 가볍게 1km 걷는 김에 포켓몬 카드까지 챙길 수 있다면, 그것만으로도 산책할 이유가 하나 생기는 셈이에요. 마음 있으셨다면 미루지 말고 이번 주말 산책부터 시작해 보셔도 좋겠네요.</div>
+    <div class="closing"><span class="nt">🩷 봄의 한마디로 정리</span><br>포켓몬런 온라인 챌린지는 <b>6월 30일까지 런데이 앱으로 1km를 걷거나 뛰고 응모하면 잉어킹 카드를 받는</b> 이벤트예요. 걷기·달리기만 인정되고, 카드는 7월 7일부터 8월 31일 사이 지정 매장에서 신분증을 들고 받으면 됩니다. 날씨 좋을 때 가볍게 1km 걷는 김에 포켓몬 카드까지 챙길 수 있다면, 그것만으로도 산책할 이유가 하나 생기는 셈이에요. 마음 있으셨다면 미루지 말고 이번 주말 산책부터 시작해 보셔도 좋겠네요.</div>
 
     <div class="tags"><span>#포켓몬런</span><span>#포켓몬런온라인챌린지</span><span>#런데이</span><span>#잉어킹카드</span><span>#포켓몬이벤트</span><span>#SKT이벤트</span></div>
   </div>
