@@ -41,7 +41,7 @@
   .tags span{background:#eef4fb;color:var(--accent);font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;display:inline-block;}
 </style></head><body>
 <div class="wrap">
-  <div class="topbar"><span class="badge">🌿 blog</span> 연봄 · 덕질생활 (워드프레스 발행용 미리보기)</div>
+  <div class="topbar"><span class="badge">🌿 blog</span> 연봄 · 덕질생활 (티스토리 발행용 미리보기)</div>
   <div class="post">
     <div class="cat">게임 · 포켓몬런 온라인 챌린지</div>
     <h1 class="title">포켓몬런 온라인 챌린지 참여 방법 — 런데이로 1km 완주하고 잉어킹 카드 받기</h1>
@@ -137,4 +137,26 @@
     <div class="tags"><span>#포켓몬런</span><span>#포켓몬런온라인챌린지</span><span>#런데이</span><span>#잉어킹카드</span><span>#포켓몬이벤트</span><span>#SKT이벤트</span></div>
   </div>
 </div>
+<div id="tcopy" style="position:fixed;right:18px;bottom:18px;z-index:9999;font-family:inherit;">
+  <button onclick="tcopyRun()" style="background:#4A86C5;color:#fff;border:0;border-radius:9999px;padding:12px 18px;font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(74,134,197,.4);cursor:pointer;">📋 티스토리용 HTML 복사</button>
+  <div id="tcopyMsg" style="display:none;margin-top:8px;background:#fff;border:1px solid #dbe7f5;border-radius:8px;padding:10px 12px;font-size:12.5px;color:#2f3640;max-width:280px;line-height:1.6;"></div>
+</div>
+<script>
+async function tcopyRun(){
+  const msg=document.getElementById('tcopyMsg');
+  try{
+    const url=location.href.replace('_미리보기_','_티스토리_');
+    const html=await (await fetch(url)).text();
+    const s=html.indexOf('↓↓↓ 여기부터'); const e=html.indexOf('↑↑↑ 여기까지');
+    if(s<0||e<0||e<s){throw new Error('마커를 찾지 못했습니다');}
+    const bodyStart=html.indexOf('-->',s)+3;
+    const body=html.slice(bodyStart, html.lastIndexOf('<!--',e)).trim();
+    await navigator.clipboard.writeText(body);
+    const tm=(html.match(/<!--\s*제목:\s*([^>]*?)-->/)||[])[1]||'';
+    const tg=(html.match(/<!--\s*태그:\s*([^>]*?)-->/)||[])[1]||'';
+    msg.style.display='block';
+    msg.innerHTML='✅ 본문 복사 완료! 티스토리 HTML모드에 붙여넣으세요.<br><b>제목</b> '+tm.trim()+'<br><b>태그</b> '+tg.trim();
+  }catch(err){ msg.style.display='block'; msg.textContent='복사 실패: '+err.message; }
+}
+</script>
 </body></html>
