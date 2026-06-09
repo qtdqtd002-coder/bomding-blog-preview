@@ -189,7 +189,7 @@
   function body(html){
     var a=html.indexOf('↓↓↓ 여기부터'); if(a>=0){a=html.indexOf('-->',a); a=a>=0?a+3:0;} else a=0;
     var z=html.indexOf('↑↑↑ 여기까지'); var end=z>=0?html.lastIndexOf('<!--',z):html.length; if(end<0)end=html.length;
-    return html.slice(a,end).trim();
+    return html.slice(a,end).replace(/<!--[\s\S]*?-->/g,'').replace(/\n{3,}/g,'\n\n').trim();
   }
   btn.addEventListener('click',function(){
     var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');

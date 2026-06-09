@@ -145,12 +145,12 @@
 async function tcopyRun(){
   const msg=document.getElementById('tcopyMsg');
   try{
-    const url=location.href.replace('_미리보기_','_티스토리_');
+    const url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
     const html=await (await fetch(url)).text();
     const s=html.indexOf('↓↓↓ 여기부터'); const e=html.indexOf('↑↑↑ 여기까지');
     if(s<0||e<0||e<s){throw new Error('마커를 찾지 못했습니다');}
     const bodyStart=html.indexOf('-->',s)+3;
-    const body=html.slice(bodyStart, html.lastIndexOf('<!--',e)).trim();
+    const body=html.slice(bodyStart, html.lastIndexOf('<!--',e)).replace(/<!--[\s\S]*?-->/g,'').replace(/\n{3,}/g,'\n\n').trim();
     await navigator.clipboard.writeText(body);
     const tm=(html.match(/<!--\s*제목:\s*([^>]*?)-->/)||[])[1]||'';
     const tg=(html.match(/<!--\s*태그:\s*([^>]*?)-->/)||[])[1]||'';
