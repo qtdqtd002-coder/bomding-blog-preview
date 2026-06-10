@@ -1,0 +1,273 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 연봄 진단 리포트 &amp; 포켓몬 테마 진입 전략 · 2026-06-10</title>
+<style>
+ :root{--bg:#eef2f7;--panel:#fff;--ink:#1d2330;--sub:#5d6675;--faint:#9aa3b0;--line:#e7ecf2;--ac:#4A86C5;--ac-d:#2f6aa3;--pink:#E86A9C;--pink-d:#cf4f83;--violet:#7048e8;--green:#15a36a;--red:#e23b4e;--amber:#e0890b;--shadow:0 1px 3px rgba(22,30,55,.06),0 8px 24px rgba(22,30,55,.05);--radius:16px;}
+ *{box-sizing:border-box;} html,body{margin:0;}
+ body{background:var(--bg);color:var(--ink);font-family:"Apple SD Gothic Neo","Pretendard","맑은 고딕","Malgun Gothic",system-ui,sans-serif;line-height:1.62;}
+ .wrap{max-width:920px;margin:0 auto;padding:22px 18px 60px;} .back{display:inline-block;margin:2px 0 14px;font-size:13px;font-weight:700;color:var(--sub);text-decoration:none;}
+ .mast{background:#0f1722;color:#fff;border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow);border-top:4px solid var(--ac);}
+ .mast .k{font-size:11px;font-weight:800;letter-spacing:3px;color:#8fc0ee;} .mast h1{font-size:23px;font-weight:900;letter-spacing:-.6px;margin:8px 0 6px;word-break:keep-all;line-height:1.32;}
+ .mast .meta{font-size:12.5px;color:rgba(255,255,255,.62);font-weight:600;} .mast .meta b{color:#fff;}
+ .strip{margin-top:10px;display:flex;gap:7px;flex-wrap:wrap;} .strip .s{font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;background:rgba(74,134,197,.18);color:#a9cdee;border:1px solid rgba(74,134,197,.34);}
+ .strip .s.pk{background:rgba(232,106,156,.16);color:#f0a9c6;border-color:rgba(232,106,156,.32);}
+ h2.sec{font-size:17px;font-weight:900;letter-spacing:-.4px;margin:28px 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;} h2.sec .ic{font-size:18px;}
+ .sub{color:var(--sub);font-size:12.5px;margin:3px 0 12px;}
+ .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-top:12px;}
+ .dash{margin-top:14px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);}
+ .dash-h{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;background:#0f1722;color:#fff;padding:11px 16px;} .dash-h .dk{font-size:12.5px;font-weight:900;} .dash-h .dd{font-size:11px;color:rgba(255,255,255,.6);font-weight:700;}
+ .dash-b{background:#fff;padding:14px 16px;}
+ .expbar{background:#fbf0d6;border:1px solid #f0dca8;color:#8a6410;font-size:12px;font-weight:700;border-radius:11px;padding:9px 13px;margin-bottom:12px;line-height:1.55;}
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;} @media(max-width:560px){.kgrid{grid-template-columns:repeat(2,1fr);}}
+ .k2{background:#f6f9fc;border:1px solid var(--line);border-radius:11px;padding:10px 11px;}
+ .k2 .kv{font-size:17px;font-weight:900;letter-spacing:-.3px;line-height:1.15;} .k2 .kl{font-size:10.5px;color:var(--sub);margin-top:3px;font-weight:600;} .k2 .kd{font-size:10px;font-weight:800;margin-top:3px;}
+ .up{color:var(--green);} .down{color:var(--red);} .flat{color:var(--amber);} .neu{color:var(--ac-d);}
+ .frbadge{font-size:11px;font-weight:800;border-radius:999px;padding:2px 10px;border:1px solid;white-space:nowrap;} .frb-ok{background:#e9f8f0;color:#15885c;border-color:#bfe9d4;} .frb-warn{background:#fdeaec;color:#c0392b;border-color:#f5c4cb;} .frb-na{background:#edeff3;color:#5d6675;border-color:#dde1e8;}
+ .expo{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px;} .expo th,.expo td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:middle;} .expo th{background:#f4f8fc;font-weight:800;font-size:12px;}
+ .dot{font-weight:900;} .d-no{color:var(--red);} .d-part{color:var(--amber);} .d-ok{color:var(--green);}
+ .tagrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;} .hsig{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;border:1px solid;} .hs-good{background:#e9f8f0;color:#15885c;border-color:#bfe9d4;} .hs-warn{background:#fdf4e3;color:#b8740a;border-color:#f3ddb0;} .hs-bad{background:#fdeaec;color:#c0392b;border-color:#f5c4cb;} .hs-new{background:#e7f0fa;color:#2f6aa3;border-color:#cadff3;}
+ .strat{margin-top:12px;background:linear-gradient(135deg,#eef5fc,#f6f0f8);border:1px solid #d4e4f3;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;}
+ .strat h3{margin:0 0 4px;font-size:15px;font-weight:900;color:var(--ac-d);} .strat .ssub{font-size:12.5px;color:#3a4452;margin:0 0 12px;}
+ .stg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;} @media(max-width:680px){.stg{grid-template-columns:1fr;}}
+ .stc{background:#fff;border:1px solid #dbe7f3;border-radius:12px;padding:13px 15px;} .stc .stn{font-size:10px;font-weight:900;letter-spacing:1px;color:var(--ac);} .stc h4{margin:4px 0 6px;font-size:13.5px;font-weight:900;color:var(--ink);} .stc p{margin:0;font-size:12.3px;line-height:1.6;color:#3a4452;} .stc p b{color:var(--ac-d);}
+ .charts{display:grid;grid-template-columns:1.1fr .9fr;gap:12px;margin-top:12px;} @media(max-width:680px){.charts{grid-template-columns:1fr;}}
+ .chartbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:15px 17px;} .chartbox h4{margin:0 0 3px;font-size:13.5px;font-weight:900;} .chartbox .cnote{font-size:11px;color:var(--sub);margin:0 0 11px;}
+ .bars{display:flex;flex-direction:column;gap:7px;} .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:120px;font-size:10.5px;font-weight:700;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} .bar .bt{flex:1;height:15px;background:#eef2f7;border-radius:5px;overflow:hidden;} .bar .bt i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#bcd8f0,#4A86C5);} .bar .bv{flex:none;width:42px;text-align:right;font-size:10.5px;font-weight:800;color:var(--ink);}
+ .bar.hi .bt i{background:linear-gradient(90deg,#9cc4e8,#2f6aa3);} .bar.hi .bl,.bar.hi .bv{color:var(--ac-d);}
+ .bar.pk .bt i{background:linear-gradient(90deg,#f3bcd2,#E86A9C);}
+ .snap{width:100%;border-collapse:collapse;font-size:12.5px;} .snap th,.snap td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:middle;} .snap th{font-size:11px;font-weight:800;color:var(--sub);background:#f8fafc;} .snap td.v{font-weight:900;font-size:12.5px;white-space:nowrap;} .snap td.t{font-weight:800;white-space:nowrap;} .snap .mn{font-size:11.5px;color:#46506094;}
+ .clu{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px;} .clu th,.clu td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;} .clu th{background:#f4f8fc;font-weight:800;font-size:11.5px;} .clu td b{color:var(--ink);} .clu .st{font-weight:800;white-space:nowrap;font-size:11.5px;} .clu .pri{color:var(--amber);font-weight:900;white-space:nowrap;letter-spacing:-1px;}
+ .kwop{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:11px;} @media(max-width:680px){.kwop{grid-template-columns:1fr;}}
+ .kw{background:#f6f9fc;border:1px solid var(--line);border-radius:11px;padding:11px 13px;} .kw h5{margin:0 0 6px;font-size:12px;font-weight:900;color:var(--ac-d);} .kw ul{margin:0;padding-left:15px;font-size:12px;line-height:1.6;} .kw li{margin:3px 0;}
+ .chg{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px;} .chg th,.chg td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;} .chg th{background:#eef5fc;font-weight:800;font-size:11.5px;color:#2456a6;width:23%;} .chg td .pt{color:var(--ac-d);font-weight:700;}
+ .swot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;} @media(max-width:680px){.swot{grid-template-columns:1fr;}}
+ .sw{border-radius:13px;padding:14px 15px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:14px;font-weight:900;display:flex;align-items:center;gap:6px;} .sw ul{margin:0;padding-left:16px;font-size:12.6px;line-height:1.65;} .sw li{margin:5px 0;}
+ .sw-good{background:#f1fbf6;border-color:#cdeedd;} .sw-good h4{color:var(--green);} .sw-bad{background:#fdf3f4;border-color:#f6d4d9;} .sw-bad h4{color:var(--red);} .sw-fix{background:#eef5fc;border-color:#d3e4f5;} .sw-fix h4{color:var(--ac-d);}
+ .toplan{margin-top:12px;background:linear-gradient(135deg,#eef5fc,#fbeff5);border:1px solid #cfe0f0;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;}
+ .toplan .th{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;} .toplan .th h3{margin:0;font-size:15px;font-weight:900;color:var(--ac-d);} .toplan .th .pin{font-size:10px;font-weight:800;color:var(--pink-d);background:#fbe4ee;border:1px solid #f4cce0;border-radius:999px;padding:2px 9px;}
+ .toplan .tl{font-size:12.5px;color:#3a4452;margin:0 0 12px;} .toplan .tl b{color:var(--ac-d);}
+ .tpg{display:grid;grid-template-columns:1fr 1fr;gap:10px;} @media(max-width:680px){.tpg{grid-template-columns:1fr;}}
+ .tpc{background:#fff;border:1px solid #d8e5f1;border-radius:11px;padding:12px 14px;} .tpc h5{margin:0 0 7px;font-size:12px;font-weight:900;color:var(--ac-d);} .tpc ol,.tpc ul{margin:0;padding-left:16px;font-size:12.3px;line-height:1.62;} .tpc li{margin:3px 0;} .tpc b{color:var(--ink);}
+ .tpc.dd ul{list-style:none;padding-left:0;} .tpc.dd li{padding-left:18px;position:relative;} .tpc.dd li.do:before{content:"✔";position:absolute;left:0;color:var(--green);font-weight:900;} .tpc.dd li.no:before{content:"✕";position:absolute;left:0;color:var(--red);font-weight:900;}
+ .tpsum{margin-top:11px;background:#0f1722;color:#cfe2f3;border-radius:11px;padding:12px 15px;font-size:12.8px;line-height:1.6;} .tpsum b{color:#8fc0ee;}
+ .pick{background:var(--panel);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);padding:13px 16px;margin-top:10px;}
+ .pick-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px;}
+ .pn{flex:none;width:23px;height:23px;border-radius:7px;background:var(--ac);color:#fff;font-size:12.5px;font-weight:900;display:flex;align-items:center;justify-content:center;}
+ .purp{font-size:10.5px;font-weight:900;color:#fff;border-radius:6px;padding:3px 9px;background:var(--ac-d);}
+ .pst{font-size:10px;font-weight:900;border-radius:6px;padding:3px 8px;border:1px solid;white-space:nowrap;} .pst-new{background:#e7f0fa;color:#2f6aa3;border-color:#cadff3;}
+ .ptitle{font-size:14.5px;font-weight:900;letter-spacing:-.3px;color:var(--ink);word-break:keep-all;flex:1;min-width:200px;}
+ .pmeta{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 7px;} .pm{font-size:10px;font-weight:800;border-radius:6px;padding:2px 8px;border:1px solid;} .pm-fit{background:#eef7f1;color:#15885c;border-color:#cce8d8;} .pm-comp{background:#fdf4e3;color:#b8740a;border-color:#f3ddb0;} .pm-time{background:#eef2fb;color:#4257b8;border-color:#d2dbf3;} .pm-hub{background:#e7f0fa;color:#2f6aa3;border-color:#cadff3;}
+ .prow{display:grid;grid-template-columns:1fr 1fr;gap:7px;} @media(max-width:560px){.prow{grid-template-columns:1fr;}}
+ .pcell{font-size:12px;line-height:1.5;background:#f7fafc;border:1px solid var(--line);border-radius:8px;padding:7px 10px;} .pcell .pk{font-size:9.5px;font-weight:900;letter-spacing:1px;display:block;margin-bottom:1px;} .pcell.ev .pk{color:var(--sub);} .pcell.ac .pk{color:var(--ac-d);} .pcell b{color:var(--ink);}
+ .relpub{margin-top:13px;background:#f3f7fb;border:1px solid #dfe8f1;border-radius:13px;padding:13px 16px;} .relpub h4{margin:0 0 7px;font-size:13px;font-weight:900;color:var(--sub);} .relpub ul{margin:0;padding-left:2px;list-style:none;font-size:12.7px;line-height:1.7;} .relpub li{margin:6px 0;} .relpub .rt{font-weight:900;font-size:10.5px;border-radius:5px;padding:2px 7px;margin-right:7px;} .rt-warn{background:#fdeaec;color:#c0392b;border:1px solid #f5c4cb;} .rt-time{background:#fdf4e3;color:#b8740a;border:1px solid #f3ddb0;}
+ .needdata{background:#fffdf6;border:1px solid #f0e6cf;border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;margin-top:12px;} .needdata h4{margin:0 0 4px;font-size:14px;font-weight:900;color:#a9740a;display:flex;align-items:center;gap:6px;} .needdata .ndsub{font-size:11.5px;color:var(--sub);margin-bottom:10px;}
+ .ndt{width:100%;border-collapse:collapse;font-size:12.5px;} .ndt th,.ndt td{border:1px solid #efe6d2;padding:8px 10px;text-align:left;vertical-align:top;} .ndt th{background:#fbf6ea;font-weight:800;font-size:11.5px;color:#8a6410;} .ndt td b{color:var(--ink);}
+ .ndstat{font-weight:800;font-size:11px;white-space:nowrap;} .nd-have{color:var(--green);} .nd-req{color:var(--red);}
+ .desk{margin-top:24px;background:#16202e;color:#e9eef6;border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);} .desk .lb{font-size:11px;font-weight:900;letter-spacing:2px;color:#8fc0ee;} .desk h3{margin:7px 0 9px;font-size:15.5px;font-weight:900;} .desk p{margin:0;font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.82);} .desk b{color:#8fc0ee;}
+ .note{font-size:12px;color:var(--sub);background:#f2f5f9;border-radius:10px;padding:11px 13px;margin-top:10px;line-height:1.6;}
+ .foot{margin-top:22px;color:var(--faint);font-size:12px;line-height:1.7;text-align:center;}
+ @media(max-width:560px){.wrap{padding:14px 12px 40px;}.mast h1{font-size:19px;}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+ <div class="mast">
+   <div class="k">DATA ANALYSIS · 연봄 편</div>
+   <h1>연봄 진단 리포트 &amp; 포켓몬 테마 진입 전략 — 신생 잡블로그의 첫 기둥을 '입문·정리·일상' 각도로 세우기</h1>
+   <div class="meta">발행일 <b>2026-06-10</b> · <b>데이터 분석실</b>(블로그 분석팀 × 트렌드 분석팀) · 대상 <b>연봄(티스토리 · 게임·IT·육아·생활 잡블로그 · 주소 미정·신생)</b></div>
+   <div class="strip"><span class="s">데이터 분석에 연봄 신규 편입(오늘부터)</span><span class="s pk">테마 진입=포켓몬(30주년)</span><span class="s">정량 미확보 → 정성·프록시 신호</span><span class="s">추천 5선 전부 🆕 신규(dedup 검증)</span></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📊</span>오늘자 진단 대시보드 <span class="frbadge frb-na">⚪ 신생 — 후행 통계 미제공(발행·색인 데이터 축적 전)</span></h2>
+ <p class="sub">연봄은 <b>주소 미정·신생</b>이라 본격 진단은 보류, <b>발행량·색인부터 추적</b>한다(blog-analysis-team §연봄). 현재 콘텐츠 = 포켓몬 테마 <b>초안 1편(미발행)</b>. 이 리포트는 정기 픽 사이클이 아니라 <b>'테마 진입 전략'</b> 1회 분석이다. ★티스토리 처방 결(구글·다음·빙 검색이 무대, 네이버 D.I.A 장문 노림 금지).</p>
+ <div class="dash">
+   <div class="dash-h"><span class="dk">연봄(티스토리) · 진입 기준선</span><span class="dd">발행=posts.json/published.json 실측(06-10) · 후행=미제공</span></div>
+   <div class="dash-b">
+     <div class="expbar">⚪ <b>후행지표(조회수·체류·유입·색인 커버리지) 미제공</b> — 정식 발행이 시작되고 티스토리 방문통계·GSC가 쌓여야 측정 가능. 현재 표시값은 전부 '진입 기준선'(0/초기)이며, 가짜 수치를 만들지 않는다.</div>
+     <div class="kgrid">
+       <div class="k2"><div class="kv neu">0편</div><div class="kl">정식 발행 (published.json)</div><div class="kd neu">초안 1편(미발행) 보유</div></div>
+       <div class="k2"><div class="kv neu">0개</div><div class="kl">활성 클러스터</div><div class="kd neu">포켓몬 허브 0(이 리포트가 설계)</div></div>
+       <div class="k2"><div class="kv neu">추적 시작</div><div class="kl">색인(구글·다음·빙)</div><div class="kd neu">발행 후 노출 추적 개시</div></div>
+       <div class="k2"><div class="kv neu">미제공</div><div class="kl">후행 통계</div><div class="kd neu">조회·체류·유입 캡처 필요</div></div>
+     </div>
+     <table class="expo">
+       <thead><tr><th>검색엔진</th><th>현재 상태 (연봄=신생·주소 미정)</th><th>발행 시작 후 확인할 곳</th></tr></thead>
+       <tbody>
+         <tr><td><b>구글</b> (티스토리 최대 무대)</td><td><span class="dot d-part">○ 측정 대기</span> · 발행·색인 전이라 노출 0(정상). 겜더쿠 선례상 티스토리는 구글·빙 색인이 가장 먼저 열림</td><td>Google Search Console(색인 커버리지·노출·클릭) — 발행 직후 사이트 등록·sitemap 제출</td></tr>
+         <tr><td><b>다음(Daum)</b></td><td><span class="dot d-part">○ 측정 대기</span> · 다음은 티스토리 자사 플랫폼이라 색인 우호적(겜더쿠도 다음 먼저 진입)</td><td>Daum 검색등록(register.search.daum.net) — 발행 시작 시 등록</td></tr>
+         <tr><td><b>빙(Bing)</b></td><td><span class="dot d-part">○ 측정 대기</span> · 겜더쿠 실측상 티스토리 신생의 <b>최대 유입처가 빙</b>이었음 → 연봄도 초기 빙 비중 클 가능성</td><td>Bing 웹마스터도구 등록·사이트맵 제출(처음부터 챙기면 무료 증분)</td></tr>
+         <tr><td><b>네이버</b></td><td><span class="dot d-part">○ 측정 대기</span> · 외부 도메인이라 약하나 겜더쿠도 일부 유입 있었음</td><td>네이버 서치어드바이저 사이트맵·RSS 제출</td></tr>
+       </tbody>
+     </table>
+     <div class="tagrow"><span class="hsig hs-new">신생 — 발행량·색인부터</span><span class="hsig hs-new">잡블로그(게임·IT·육아·생활) 폭 넓음</span><span class="hsig hs-warn">기둥(허브) 0 — 첫 클러스터 설계 필요</span><span class="hsig hs-warn">초안 1편 팩트 확인필요(↓제외 띠)</span></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🧭</span>① 앞으로의 방향 (진입 전략)</h2>
+ <p class="sub">연봄은 부드럽고 담백한 친근 노트 톤의 잡블로그다. 강점은 하드코어 공략이 아니라 <b>입문·정리·일상 친화</b>. 포켓몬은 갈래가 넓고 30주년으로 수요가 끓고 있어, 신생이 색인·발행량을 빠르게 쌓기 좋은 진입 테마다. 단 전문 공략·티어 키워드는 인벤·나무위키·전문 블로그에 포화 → <b>그들이 안 다루는 '친절한 정리/일상' 빈틈</b>을 노린다.</p>
+ <div class="strat">
+   <h3>연봄 포켓몬 진입 — 3원칙</h3>
+   <p class="ssub">"무엇을 쓸지"의 기준. 아래 카테고리·클러스터·5선은 전부 이 3원칙에서 도출된다.</p>
+   <div class="stg">
+     <div class="stc"><div class="stn">원칙 1 · 각도</div><h4>공략 말고 '입문·정리'</h4><p>티어·빌드·레이드 카운터는 선점·톤 모두 불리. <b>친구코드·시청 순서·콜라보 총정리·기기 차이</b> 같은 <b>친절한 정리/입문</b>으로. 연봄 톤이 곧 차별화.</p></div>
+     <div class="stc"><div class="stn">원칙 2 · 구조</div><h4>에버그린 기둥 + 시즌 부스터</h4><p>신생 색인엔 <b>오래 검색되는 에버그린 허브</b>(입문·기기·앱)가 기둥. 여기에 <b>30주년 시즌 글</b>(콜라보·띠부씰·나들이)을 얹어 단기 트래픽 스파이크로 색인을 끌어온다.</p></div>
+     <div class="stc"><div class="stn">원칙 3 · 결</div><h4>게임 1색 말고 '잡블로그 폭'</h4><p>게임만이 아니라 <b>IT(기기·앱)·생활(굿즈·콜라보)·육아(정보형)</b>까지 포켓몬으로 묶어 잡블로그 정체성을 살린다. 단 <b>육아는 내돈내산 후기 신중</b> — 정보·정리형 위주.</p></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📈</span>포켓몬 키워드 수요 — 정량 보강 시도 &amp; 프록시 신호 <span style="font-size:11.5px;font-weight:800;color:var(--amber);">— ⚠️ 정량 미확보</span></h2>
+ <p class="sub">★<b>정직 고지</b>: 네이버 데이터랩·구글 트렌드는 로그인·동적렌더(JS)라 도구(WebFetch)로 <b>상대 관심도 수치를 확보하지 못했다</b>(datalab 접근 차단 확인). 아래 막대는 절대 검색량이 아니라 <b>뉴스·리셀·커뮤니티·이벤트 빈도로 가늠한 정성 프록시 강도</b>다. 정밀 수치는 사람이 datalab.naver.com / trends.google.com 직접 조회 필요.</p>
+ <div class="charts">
+   <div class="chartbox">
+     <h4>2026-06 포켓몬 갈래별 수요 (정성 프록시 강도)</h4><p class="cnote">절대치 아님 — 뉴스/리셀/이벤트/커뮤니티 신호 종합. 30주년이 우산 키워드.</p>
+     <div class="bars">
+       <div class="bar hi pk"><span class="bl">포켓몬빵·띠부씰(30주년)</span><span class="bt"><i style="width:100%"></i></span><span class="bv">최상</span></div>
+       <div class="bar pk"><span class="bl">30주년 콜라보·메가페스타</span><span class="bt"><i style="width:82%"></i></span><span class="bv">상</span></div>
+       <div class="bar"><span class="bl">포켓몬카드(어비스아이 5/22)</span><span class="bt"><i style="width:74%"></i></span><span class="bv">상</span></div>
+       <div class="bar"><span class="bl">포켓몬GO(6/20 CD·GO Fest)</span><span class="bt"><i style="width:60%"></i></span><span class="bv">중상</span></div>
+       <div class="bar"><span class="bl">레전드 Z-A(구작·메가)</span><span class="bt"><i style="width:46%"></i></span><span class="bv">중</span></div>
+       <div class="bar"><span class="bl">TCG Pocket(모바일)</span><span class="bt"><i style="width:44%"></i></span><span class="bv">중</span></div>
+       <div class="bar"><span class="bl">슬립(스마트워치 연동)</span><span class="bt"><i style="width:30%"></i></span><span class="bv">중하·저경쟁</span></div>
+     </div>
+   </div>
+   <div class="chartbox">
+     <h4>한눈 요약 — 진입 판단</h4><p class="cnote">수요 크기 × 경쟁 × 연봄 적합을 1줄로</p>
+     <table class="snap">
+       <thead><tr><th>갈래</th><th>수요</th><th>경쟁</th><th>연봄</th></tr></thead>
+       <tbody>
+         <tr><td class="t">띠부씰·빵</td><td class="v">최상</td><td class="flat">포화</td><td class="mn">중(정리력 승부)</td></tr>
+         <tr><td class="t">30주년 콜라보</td><td class="v">상</td><td class="up">중·빈틈</td><td class="mn">상(묶음정리)</td></tr>
+         <tr><td class="t">슬립 연동</td><td class="v">중하</td><td class="up">하·빈틈</td><td class="mn">상(IT·생활)</td></tr>
+         <tr><td class="t">애니 시청순서</td><td class="v">중</td><td class="up">중·빈틈</td><td class="mn">상(육아정보)</td></tr>
+         <tr><td class="t">카드 수집입문</td><td class="v">중</td><td class="up">중·빈틈</td><td class="mn">상(취미)</td></tr>
+         <tr><td class="t">Z-A 기기차이</td><td class="v">중</td><td class="up">중·빈틈</td><td class="mn">상(IT)</td></tr>
+       </tbody>
+     </table>
+   </div>
+ </div>
+ <div class="note">※ <b>공식 확인된 시의성</b>: 포켓몬 레전드 Z-A = 2025-10-16 출시(Switch+Switch2, <b>구작</b>·메가차원러시 DLC 1/29) · 포켓몬GO 6월 커뮤니티데이 <b>프리기바스 6/20</b>·GO Fest 글로벌 <b>7/11~12</b> · 실물카드 '어비스아이' <b>5/22 발매</b> · 포켓몬빵 Since 1996 띠부씰 100종 5/7 출시(5/29 신상 4종 추가·품절 대란) · 메가페스타 서울숲 'Secret Forest' <b>~6/21 종료 임박</b> · 올리브영 콜라보 5/30 종료. (오프라인 '포켓몬런' 5/5 종료.)</div>
+
+ <h2 class="sec"><span class="ic">🗂️</span>② 카테고리 구분 + ③ 카테고리별 허브-클러스터</h2>
+ <p class="sub">연봄 잡블로그 결로 포켓몬을 <b>5개 카테고리</b>로 나누고, 각 카테고리에서 묶기 좋은 <b>허브 1 + 스포크 N</b>을 설계했다. 우선순위(★)는 신생 색인 ROI(수요×빈틈×에버그린)로 매겼다.</p>
+ <table class="clu">
+   <thead><tr><th style="width:15%">카테고리</th><th style="width:24%">허브(클러스터 진입점)</th><th>스포크 후보(노릴 키워드)</th><th style="width:9%">시의성</th><th style="width:9%">우선</th></tr></thead>
+   <tbody>
+     <tr><td><b>게임·앱 입문</b><br><span class="mn" style="font-size:10.5px;color:var(--sub)">(에버그린 기둥)</span></td><td><b>"포켓몬 게임·앱 입문 총정리"</b><br>(포켓몬 입문, 포켓몬 뭐부터)</td><td>포켓몬GO 친구코드·기초 / <b>슬립 입문·스마트워치 연동</b> / TCG Pocket 무과금 입문 / 포켓몬 어디서 시작(기기 분기)</td><td class="st" style="color:var(--green)">에버그린</td><td class="pri">★★★★★</td></tr>
+     <tr><td><b>IT·테크</b></td><td><b>"포켓몬 게임 기기 가이드"</b><br>(스위치2 포켓몬, 기기 차이)</td><td><b>Z-A 스위치 vs 스위치2 차이</b> / 슬립 스마트워치 연동 셋업 / 입문자 기기 살까말까</td><td class="st" style="color:var(--green)">에버그린</td><td class="pri">★★★★☆</td></tr>
+     <tr><td><b>생활·쇼핑</b><br><span class="mn" style="font-size:10.5px;color:var(--sub)">(시즌 부스터)</span></td><td><b>"2026 포켓몬 30주년 콜라보 한눈에"</b><br>(포켓몬 30주년 콜라보, 콜라보 정리)</td><td>유니클로 UT / 레고 / 아디다스(가을) / 올영 200종 / 다이소 / <b>띠부씰 100종·가격·판매처</b></td><td class="st" style="color:var(--amber)">시즌(연중)</td><td class="pri">★★★★☆</td></tr>
+     <tr><td><b>육아·키즈</b><br><span class="mn" style="font-size:10.5px;color:var(--sub)">(정보형만)</span></td><td><b>"아이와 포켓몬 시작하기"</b><br>(아이 포켓몬 입문, 시청 순서)</td><td><b>애니 뭐부터 보여줄까(부모 시점 시청순서)</b> / 완구·피규어 연령별 정리 / 생일파티 아이디어</td><td class="st" style="color:var(--green)">에버그린</td><td class="pri">★★★★☆</td></tr>
+     <tr><td><b>취미·나들이</b></td><td><b>"포켓몬 취미 입문"</b><br>(포켓몬카드 수집, 포켓몬 팝업)</td><td><b>카드 수집 입문(룰·구입처·보관)</b> / 메가페스타 나들이(서울숲·성수) / 굿즈 모으기</td><td class="st" style="color:var(--red)">일부 ~6/21</td><td class="pri">★★★☆☆</td></tr>
+   </tbody>
+ </table>
+ <div class="kwop">
+   <div class="kw"><h5>① 수요 큰데 연봄이 비집을 빈틈</h5><ul><li>슬립 <b>스마트워치 연동 셋업</b>(한글 정리 희소)</li><li>Z-A <b>"기기 살까말까"</b> 비전문 정리</li><li>애니 <b>부모 시점 시청순서</b></li></ul></div>
+   <div class="kw"><h5>② 묶으면 좋은 미니클러스터</h5><ul><li>30주년 콜라보 = 유니클로·레고·올영·빵 한 허브</li><li>게임·앱 입문 = GO·슬립·Pocket 한 허브</li><li>→ 내부링크로 체류·색인↑</li></ul></div>
+   <div class="kw"><h5>③ 시의성 긴급(쓰려면 지금)</h5><ul><li><b>메가페스타 서울숲 ~6/21</b> 나들이</li><li>포켓몬GO <b>6/20 프리기바스</b> CD</li><li>→ 종료·날짜 임박, 선점 가치</li></ul></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔄</span>전일 대비 변화 (데이터 분석 편입 첫 회)</h2>
+ <table class="chg">
+   <tbody>
+     <tr><th>연봄 신규 편입 🆕</th><td><b>오늘부터 연봄이 데이터 분석실 트렌드/진단 대상에 정식 편입</b>됐다(트렌드 탭·앱에 연봄 편 노출 시작). <span class="pt">→ 직전 연봄 브리핑이 없어 KPI 전일 대비는 다음 회부터. 오늘은 '진입 기준선' 수립.</span></td></tr>
+     <tr><th>테마 설정 🩷</th><td>첫 기둥 테마 = <b>포켓몬(30주년)</b>으로 확정. 카테고리 5·허브 5·5선 도출. <span class="pt">→ 신생 색인엔 한 테마로 클러스터를 모으는 게 분산보다 유리.</span></td></tr>
+     <tr><th>외부 신호 ⏱</th><td>메가페스타 서울숲 <b>~6/21 종료 임박</b> / 포켓몬GO <b>6/20 프리기바스 CD</b> / 띠부씰 품절 대란 지속. <span class="pt">→ 시즌 글을 쓰려면 이번 주가 골든타임, 에버그린 기둥은 급할 것 없음.</span></td></tr>
+     <tr><th>후행지표 ⚪</th><td>미제공(신생). <span class="pt">→ 정식 발행 시작 후 티스토리 방문통계·GSC 캡처가 쌓이면 월 1회 정례 갱신으로 전환.</span></td></tr>
+   </tbody>
+ </table>
+
+ <h2 class="sec"><span class="ic">🧭</span>강점 · 취약점 · 보완 포인트 <span style="font-size:11.5px;font-weight:800;color:var(--ac-d);">(연봄 포켓몬 진입)</span></h2>
+ <div class="swot">
+   <div class="sw sw-good"><h4>✅ 강점</h4><ul>
+     <li><b>친근·담백 톤</b> = 입문·정리 각도에 최적(전문사이트가 못 따라오는 영역)</li>
+     <li><b>잡블로그 폭</b> = 게임·IT·생활·육아를 포켓몬 하나로 묶어 클러스터화 쉬움</li>
+     <li><b>30주년 타이밍</b> = 대중 검색량 큰 시즌 키워드가 지금 살아있음</li>
+   </ul></div>
+   <div class="sw sw-bad"><h4>⚠️ 취약점</h4><ul>
+     <li><b>신생·기둥 0</b> — 색인·권위 없음, 첫 허브부터 쌓아야 함</li>
+     <li><b>띠부씰·티어는 포화</b> — 전문 블로그 선점, 정면승부 불리</li>
+     <li><b>기존 초안 1편 팩트 리스크</b> — '포켓몬런 온라인 챌린지' 메커니즘 공식 미확인(↓)</li>
+   </ul></div>
+   <div class="sw sw-fix"><h4>🔧 보완 포인트</h4><ul>
+     <li><b>에버그린 입문 허브부터</b>(슬립·기기·애니) — 오래 검색되는 기둥 확보</li>
+     <li><b>30주년 콜라보 '묶음 정리'</b>로 시즌 트래픽 → 색인 가속</li>
+     <li><b>발행 즉시 GSC·빙·다음 등록</b> + 초안 팩트 재검(QA)</li>
+   </ul></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📨</span>기획팀 전달 — 연봄에게 이렇게 쓰면 유입된다</h2>
+ <div class="toplan">
+   <div class="th"><h3>연봄 포켓몬 작성 플레이북</h3><span class="pin">기획팀 발주 참고 · 연봄 결(친근·담백) 최우선</span></div>
+   <p class="tl">신생이라 <b>에버그린 입문 허브</b>로 색인 기둥을 먼저 세우고, <b>30주년 시즌 글</b>로 트래픽을 끌어온다. ★티스토리는 구글·빙·다음 검색이 무대 — 발행 즉시 색인 등록.</p>
+   <div class="tpg">
+     <div class="tpc"><h5>🏆 노릴 포맷 3 (연봄 결)</h5><ol>
+       <li><b>입문·셋업 가이드</b> — 슬립 연동·GO 친구코드(에버그린·저경쟁)</li>
+       <li><b>묶음 총정리</b> — 30주년 콜라보·기기 차이(연봄 정리력)</li>
+       <li><b>부모/입문자 시점 큐레이션</b> — 애니 시청순서·카드 수집입문</li>
+     </ol></div>
+     <div class="tpc"><h5>🎯 우선 허브 · 키워드</h5><ul>
+       <li><b>기둥</b>: 게임·앱 입문 / 기기 가이드(에버그린)</li>
+       <li><b>부스터</b>: 30주년 콜라보 한눈에(시즌)</li>
+       <li><b>긴급</b>: 메가페스타 ~6/21 · GO 6/20 CD</li>
+     </ul></div>
+     <div class="tpc dd"><h5>✔ Do</h5><ul>
+       <li class="do">친절한 1인칭 노트 톤, 캡처·표로 따라하기 쉽게</li>
+       <li class="do">"끝난 것/지금 살 수 있는 것" 구분(시즌글 신선도)</li>
+     </ul></div>
+     <div class="tpc dd"><h5>✕ Don't</h5><ul>
+       <li class="no">티어·빌드·레이드 카운터 하드코어 공략(선점·톤 불리)</li>
+       <li class="no">미확인 이벤트·날짜 단정(포켓몬런/메가페스타 종료일 등 재확인)</li>
+     </ul></div>
+   </div>
+   <div class="tpsum">📌 <b>한 줄 총평:</b> 연봄의 첫 포켓몬 기둥은 <b>'슬립 스마트워치 연동'·'30주년 콜라보 총정리'·'아이 애니 시청순서'</b> 같은 입문·정리 에버그린이다. 띠부씰·티어 같은 레드오션은 정면승부 말고, 친근 정리력으로 빈틈을 먹는다. 시즌 글(메가페스타·GO CD)은 이번 주가 골든타임.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">✍️</span>④⑤ 추천 우선순위 5선 <span style="font-size:12px;font-weight:800;color:var(--sub);">— 전부 🆕 신규(dedup 검증) · 시의성·경쟁·연봄 적합 표기</span></h2>
+ <p class="sub">★<b>classify-picks.ps1</b> 결정론 대조 결과 5개 후보 전부 <b>🆕 신규</b>(연봄 발행 0·직전 트렌드 0). 우선순위 = 신생 색인 ROI(에버그린·저경쟁·연봄 적합 우선). 시즌·긴급 글은 별도 표기.</p>
+
+ <div class="pick"><div class="pick-top"><span class="pn">1</span><span class="purp">게임 정보·입문</span><span class="pst pst-new">🆕 신규</span><span class="ptitle">포켓몬 슬립 입문 + 스마트워치 연동 셋업 가이드(갤워치·애플워치)</span></div>
+   <div class="pmeta"><span class="pm pm-time">시의성: 에버그린</span><span class="pm pm-comp">경쟁: 하(빈틈 큼)</span><span class="pm pm-fit">연봄 적합: 상</span><span class="pm pm-hub">허브: 게임·앱 입문</span></div>
+   <div class="prow"><div class="pcell ev"><span class="pk">근거</span>슬립 스마트워치 연동(애플·갤럭시·픽셀·핏빗) 정식 개시인데 <b>한글 셋업 정리글이 희소</b>. IT+생활+건강 융합이라 연봄 결에 가장 정확. 게임 공략색 0·에버그린이라 신생 색인에 유리</div><div class="pcell ac"><span class="pk">액션</span>연동 단계별 캡처·기기별 차이 정리. 첫 에버그린 기둥. <b>기기별 지원 범위는 공식(pokemonsleep.net) 재확인</b></div></div></div>
+
+ <div class="pick"><div class="pick-top"><span class="pn">2</span><span class="purp">게임 정보·정리</span><span class="pst pst-new">🆕 신규</span><span class="ptitle">2026 포켓몬 30주년 콜라보 한눈에 — 유니클로·레고·올영·빵 '지금 살 수 있는 것/끝난 것'</span></div>
+   <div class="pmeta"><span class="pm pm-time">시의성: 시즌(연중)</span><span class="pm pm-comp">경쟁: 중</span><span class="pm pm-fit">연봄 적합: 상</span><span class="pm pm-hub">허브: 생활·쇼핑</span></div>
+   <div class="prow"><div class="pcell ev"><span class="pk">근거</span>30주년 콜라보가 봄~가을 내내 깔려(GQ가 묶을 만큼 수요). <b>묶음 총정리</b>는 연봄 톤 최적이고 시즌 내내 유입. 개별 콜라보 단독글보다 허브가 색인·체류에 유리</div><div class="pcell ac"><span class="pk">액션</span>발매일·구매처·종료여부 표로. <b>아디다스 삼바/슈퍼스타는 '가을'만 확인됨(구체일 미공개)</b> → 확인필요 표기, 끝난 올영(5/30)은 '종료'로</div></div></div>
+
+ <div class="pick"><div class="pick-top"><span class="pn">3</span><span class="purp">게임 정보·육아</span><span class="pst pst-new">🆕 신규</span><span class="ptitle">아이에게 포켓몬 뭐부터 보여줄까 — 부모용 애니 시청 순서 가이드</span></div>
+   <div class="pmeta"><span class="pm pm-time">시의성: 에버그린</span><span class="pm pm-comp">경쟁: 중(부모시점 빈틈)</span><span class="pm pm-fit">연봄 적합: 상</span><span class="pm pm-hub">허브: 육아·키즈</span></div>
+   <div class="prow"><div class="pcell ev"><span class="pk">근거</span>시리즈 순서 정리글은 많지만 <b>'부모 시점·정주행 부담 없이 어디부터'</b> 큐레이션은 빈틈. 연봄 육아 결+정보형(내돈내산 아님)이라 결에 맞고 에버그린</div><div class="pcell ac"><span class="pk">액션</span>"신작부터 가볍게" 등 연령·취향별 진입점 제시. <b>국내 검색량은 미검증(정성)</b> — 발주 전 키워드 도구 보강 권장</div></div></div>
+
+ <div class="pick"><div class="pick-top"><span class="pn">4</span><span class="purp">제품 비교·추천</span><span class="pst pst-new">🆕 신규</span><span class="ptitle">포켓몬 레전드 Z-A, 스위치 vs 스위치2 — 입문자가 알아야 할 차이</span></div>
+   <div class="pmeta"><span class="pm pm-time">시의성: 에버그린</span><span class="pm pm-comp">경쟁: 중(코어 위주)</span><span class="pm pm-fit">연봄 적합: 상</span><span class="pm pm-hub">허브: IT·테크</span></div>
+   <div class="prow"><div class="pcell ev"><span class="pk">근거</span>Z-A는 Switch+Switch2 동시 출시(2025-10-16). 코어 비교(DF·DLSS)는 많지만 <b>"기기 살까말까" 비전문 친절 정리</b>가 빈틈. IT 결·담백 톤 적합</div><div class="pcell ac"><span class="pk">액션</span>해상도·프레임·하위호환·업그레이드팩을 쉬운 말로. <b>구작이라 시급성 없음·에버그린</b>, 수치는 공식·DF 교차</div></div></div>
+
+ <div class="pick"><div class="pick-top"><span class="pn">5</span><span class="purp">게임 정보·취미</span><span class="pst pst-new">🆕 신규</span><span class="ptitle">포켓몬카드 수집 입문 — 룰·구입처·보관·입문 박스(완전 초보용)</span></div>
+   <div class="pmeta"><span class="pm pm-time">시의성: 에버그린</span><span class="pm pm-comp">경쟁: 중(입문 빈틈)</span><span class="pm pm-fit">연봄 적합: 상</span><span class="pm pm-hub">허브: 취미·나들이</span></div>
+   <div class="prow"><div class="pcell ev"><span class="pk">근거</span>Pocket 메타·티어(레드오션) 말고 <b>실물 카드 취미 입문</b> 각도. 30주년 실물카드 붐(어비스아이 5/22)으로 입문자 유입, 부모·초보 시점이라 연봄 결</div><div class="pcell ac"><span class="pk">액션</span>기본 룰·구입처·슬리브 보관·입문 박스 추천. <b>실물 신탄 한국 발매일은 pokemoncard.co.kr 재확인</b></div></div></div>
+
+ <div class="relpub">
+   <h4>⏱ 시의성 긴급 · ⚠️ 기존 초안 — 5선과 별도 관리</h4>
+   <ul>
+     <li><span class="rt rt-time">⏱ 긴급(쓰려면 지금)</span><b>메가페스타 서울숲 'Secret Forest' 나들이 후기·동선(~6/21 종료) · 포켓몬GO 6/20 프리기바스 커뮤니티데이</b> — 적합도 상이나 <b>날짜 임박</b>이라 5선(에버그린 기둥)과 분리. 시즌 부스터로 즉시 쓰면 가치 있음. 종료일·CD 대상은 발행 직전 공식 재확인.</li>
+     <li><span class="rt rt-warn">⚠️ 기존 초안 · 팩트 확인필요</span><b>포켓몬런 온라인 챌린지(런데이·1km·잉어킹 카드)</b> — 연봄에 이미 초안 1편 존재(미발행). 그러나 <b>'런데이 앱 연동 온라인 챌린지' 메커니즘이 공식·뉴스 어디서도 확인 안 됨</b>. 실제 확인된 것은 ①오프라인 포켓몬런 5/5 종료 ②포켓몬GO 스탬프랠리(성수 5/1~)로 잉어킹 프로모 카드 지급 → 인파로 5/1 중단·온라인 인증 폼 전환. <b>발행 전 사실관계 교정(game-blog-qa) 필수</b>, 현 상태로 발행 비권장.</li>
+   </ul>
+ </div>
+
+ <h2 class="sec"><span class="ic">📋</span>분석 고도화를 위해 필요한 자료 <span class="frbadge frb-na" style="margin-left:4px;">⚪ 신생 — 발행 시작 후 수집</span></h2>
+ <div class="needdata">
+   <h4>📋 연봄 진단을 '추정 → 실측'으로 바꾸려면</h4>
+   <div class="ndsub">연봄은 신생이라 후행 데이터가 없다. 아래가 쌓이면 다음 회부터 봄딩·겜더쿠처럼 실측 대시보드가 가능하다.</div>
+   <table class="ndt">
+     <thead><tr><th style="width:24%;">자료</th><th>왜 필요(이게 있으면 가능한 분석)</th><th style="width:22%;">어디서</th><th style="width:11%;">상태</th></tr></thead>
+     <tbody>
+       <tr><td><b>티스토리 주소 확정</b></td><td>색인·노출을 실제로 측정하려면 발행 도메인이 있어야 함(현재 '주소 미정').</td><td>티스토리 블로그 개설/주소</td><td class="ndstat nd-req">요청</td></tr>
+       <tr><td><b>티스토리 방문통계</b></td><td>발행 후 조회·유입경로·인기글 — 어떤 포켓몬 글이 먹히는지 실측.</td><td>티스토리 관리 &gt; 통계</td><td class="ndstat nd-req">발행 후</td></tr>
+       <tr><td><b>Google Search Console</b></td><td>색인 커버리지·노출·클릭·검색어 — 신생 색인 진입 추적의 핵심.</td><td>Search Console(사이트 등록)</td><td class="ndstat nd-req">발행 후</td></tr>
+       <tr><td><b>(선택) 키워드 도구</b></td><td>'애니 시청순서'·'생일파티' 등 국내 검색량 정량 보강(현재 정성 추정).</td><td>네이버 키워드도구·구글 트렌드</td><td class="ndstat nd-req">선택</td></tr>
+     </tbody>
+   </table>
+ </div>
+
+ <div class="desk"><div class="lb">DESK NOTE · 데이터 분석실</div><h3>연봄을 데이터 분석에 편입하고, 첫 테마 '포켓몬'의 진입 기준선·전략·클러스터·5선을 수립 — 신생은 '입문·정리 에버그린 기둥'부터</h3>
+  <p>오늘 연봄이 트렌드/진단 대상에 정식 편입돼 <b>트렌드 탭·앱에 연봄 편</b>이 노출되기 시작합니다(직전 비교는 다음 회부터). 연봄은 주소 미정·신생이라 후행 통계가 없어 <b>가짜 수치 없이 '진입 기준선(0/초기)'</b>으로만 대시보드를 채웠습니다. 포켓몬 수요는 정량(데이터랩·구글트렌드)을 도구로 못 뽑아 <b>정성·프록시 신호</b>임을 명시했고(정밀 수치는 사람 직접 조회 필요), 그 한계 위에서 <b>띠부씰·티어 같은 레드오션은 피하고</b> 연봄 톤이 강점이 되는 <b>입문·정리·일상 빈틈</b>을 5선으로 골랐습니다 — 전부 dedup 검증상 🆕 신규입니다. 전략은 <b>에버그린 입문 허브(슬립·기기·애니)로 색인 기둥을 세우고 30주년 시즌 글로 트래픽을 끌어오는</b> 2층 구조입니다. ★두 가지 주의: ⓐ <b>메가페스타(~6/21)·GO CD(6/20)</b> 시즌 글은 이번 주가 골든타임이라 5선과 분리해 '긴급'으로 뒀고, ⓑ 기존 초안 <b>'포켓몬런 온라인 챌린지'는 메커니즘이 공식 미확인</b>이라 발행 전 팩트 교정이 필요합니다. <b>확인필요:</b> 애니 시청순서 국내 검색량, 아디다스 콜라보 발매일, 실물카드 한국 신탄일, 메가페스타 종료일·GO CD 대상 — 작성 직전 공식 재확인.</p></div>
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(연봄)이 진행 · 연봄=신생이라 발행량·색인부터 추적(후행 통계 미제공) · <b>포켓몬 수요는 정량 미확보 → 뉴스·리셀·이벤트·커뮤니티 빈도 기반 정성·프록시 신호</b>(정밀 수치는 네이버 데이터랩·구글 트렌드 직접 조회 필요) · 5선 dedup=classify-picks.ps1 결정론 대조(전부 🆕) · 시의성·출시일은 발행일 기준, 작성 직전 공식 재확인 권장 · 글 작성·발행은 본 리포트 범위 밖(분석 전용).</p>
+</div>
+</body></html>
