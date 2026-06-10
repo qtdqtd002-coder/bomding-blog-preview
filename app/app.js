@@ -7,7 +7,7 @@
   const $$ = (s, r) => Array.prototype.slice.call((r || document).querySelectorAll(s));
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const enc = (rel) => rel.split('/').map(encodeURIComponent).join('/');
-  const ACCENT = { '봄딩': '#E06C49', '영도': '#2F8F7F', '겜더쿠': '#7C5CD1' };
+  const ACCENT = { '봄딩': '#E06C49', '영도': '#2F8F7F', '겜더쿠': '#7C5CD1', '연봄': '#4A86C5' };
   const ac = (a) => ACCENT[a] || '#4C6FFF';
   const fmtDay = (d) => d ? String(d).split(' ')[0].replace(/-/g, '.') : '';
   const toTs = (d) => { if (!d) return 0; const t = Date.parse(String(d).replace(' ', 'T')); return isNaN(t) ? 0 : t; };
@@ -372,7 +372,7 @@
       <div class="seg" id="pSeg"></div><div class="chips" id="chips"></div><div class="p-toolbar" id="pToolbar"></div><div id="postList">${skeleton(5)}</div>`;
     const posts = await getPosts().catch(() => []);
     if (!posts.length) { $('#postList').innerHTML = '<div class="empty lg">글 목록을 불러오지 못했어요.<br>네트워크 확인 후 다시 시도해주세요.</div>'; $('#pSeg').innerHTML = ''; $('#chips').innerHTML = ''; $('#pToolbar').innerHTML = ''; return; }
-    const order = ['봄딩', '영도', '겜더쿠'];
+    const order = ['봄딩', '영도', '겜더쿠', '연봄'];
     const base = CFG('SITE_BASE', '..');
     const draw = () => {
       // 세그먼트(글 목록/아카이브)
@@ -543,7 +543,7 @@
         '트렌드 분석팀(밖—무엇을 쓰면 유입)과 블로그 분석팀(안—우리 블로그 약점)을 실 내에서 교차해, 성장 기여 큰 조치·주제를 기획팀에 공급합니다.', [
         ['데이터 분석실장', '두 팀 배정·방향 정렬·실 내 교차(트렌드 신선도 × 블로그 약점)·취합 보고·월1회 3블로그 통계 추세관리.', '상설'],
         ['트렌드 분석팀 (팀장+분석가 N)', '매일 9시 트렌드 조사 → 작성자별 브리핑·뉴스레터·캘린더. 수집축4·큐레이터2·뉴스데스크2~3.', '상설'],
-        ['블로그 분석팀 (팀장+분석가 ×3)', '봄딩·영도·겜더쿠 실블로그 SEO 6개월 진단(발행량·클러스터·체류·롱테일/색인) → 약점 처방.', '상설']]) +
+        ['블로그 분석팀 (팀장+분석가 ×4)', '봄딩·영도·겜더쿠·연봄 실블로그 SEO 진단(발행량·클러스터·체류·롱테일/색인) → 약점 처방(연봄=신생이라 발행량·색인부터).', '상설']]) +
       team('#9333EA', '벤치마크 / 피드백 팀', '코치',
         '사용자가 현실 봄딩·영도 글 링크를 주면, 누가 썼는지 판별·분석해 작성팀 피드백에 반영합니다(실제 author 수렴).', [
         ['벤치마크 코치', '링크의 blogId로 작성자 판별 → 실제 글과 우리 초안 대조 → 그 writer feedback-log에 누적 반영.', '온디맨드']]) +
@@ -636,7 +636,7 @@
       ${pos('#C2410C', '데이터 분석실 · 벤치마크 · 발행 · 대표', [
         ['데이터 분석실', '트렌드(밖) × 블로그분석(안) 교차 → 성장 조치·주제 공급. 트렌드팀+블로그분석팀.', '스킬 <code>trend-analysis-team</code> · <code>blog-analysis-team</code>'],
         ['트렌드 분석팀', '매일 9시 트렌드 → 작성자별 브리핑·뉴스레터·캘린더 발행.', '스킬 <code>trend-analysis-team</code>'],
-        ['블로그 분석팀', '봄딩·영도·겜더쿠 실블로그 SEO 진단 → 약점 처방·성장 글 추천.', '스킬 <code>blog-analysis-team</code>'],
+        ['블로그 분석팀', '봄딩·영도·겜더쿠·연봄 실블로그 SEO 진단 → 약점 처방·성장 글 추천(연봄=신생이라 발행량·색인부터).', '스킬 <code>blog-analysis-team</code>'],
         ['벤치마크 코치', '현실 글 링크 → 작성자 판별 → 초안 대조 → feedback-log 누적.', '스킬 <code>blog-bench-coach</code>'],
         ['발행 담당', '전원 PASS 시 push(작성자별 탭) → 공개 링크. 발행됨 자동검증.', '<code>build-manifest.ps1</code> · <code>check-published.ps1</code>'],
         ['대표(CEO)', '업무 접수·목적 확정·중복 검수·라우팅·취합·발행 지시. 팀 신설·증원 관장.', '<code>work-intake.md</code> · 전 조직 정본']])}
@@ -705,7 +705,7 @@
        <div id="reqList"><div class="empty">아직 보낸 요청이 없어요.</div></div>`;
     // 작성자 옵션
     const posts = await getPosts().catch(() => []);
-    const known = ['봄딩', '영도', '겜더쿠'];
+    const known = ['봄딩', '영도', '겜더쿠', '연봄'];
     const authors = Array.from(new Set(known.concat(posts.map((p) => p.author).filter((a) => a && a !== '(기타)'))));
     $('#fWriter').innerHTML = '<option value="" disabled selected>작성자를 선택하세요</option>' + authors.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
     renderRequests();
