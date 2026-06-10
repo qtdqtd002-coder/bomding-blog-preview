@@ -2,7 +2,7 @@
    - 앱 셸 캐시(오프라인 기동) + 데이터 네트워크 우선
    - push / notificationclick 골격(2단계 '발행 완료 푸시' 부착 지점)
 */
-const CACHE = 'sseudam-v11';
+const CACHE = 'sseudam-v12';
 const SHELL = [
   './', './index.html', './styles.css', './app.js', './api.js',
   './manifest.webmanifest',
