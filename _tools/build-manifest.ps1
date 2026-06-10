@@ -80,6 +80,10 @@ foreach($f in $files){
 
   $title=""; $cat=""; $excerpt=""
   $m=[regex]::Match($html,'(?is)<h1[^>]*class="[^"]*\btitle\b[^"]*"[^>]*>(.*?)</h1>'); if($m.Success){$title=Strip $m.Groups[1].Value}
+  # 폴백: class 없는 평문 <h1> (연봄 미리보기 등 — 2026-06-11)
+  if([string]::IsNullOrWhiteSpace($title)){ $m=[regex]::Match($html,'(?is)<h1[^>]*>(.*?)</h1>'); if($m.Success){$title=Strip $m.Groups[1].Value} }
+  # 폴백 2: <title> 태그
+  if([string]::IsNullOrWhiteSpace($title)){ $m=[regex]::Match($html,'(?is)<title[^>]*>(.*?)</title>'); if($m.Success){$title=Strip $m.Groups[1].Value} }
   $m=[regex]::Match($html,'(?is)<div[^>]*class="[^"]*\bcat\b[^"]*"[^>]*>(.*?)</div>'); if($m.Success){$cat=Strip $m.Groups[1].Value}
   $m=[regex]::Match($html,'(?is)<p[^>]*>(.*?)</p>'); if($m.Success){$ex=Strip $m.Groups[1].Value; if($ex.Length -gt 110){$ex=$ex.Substring(0,110).TrimEnd()+'…'}; $excerpt=$ex}
 
