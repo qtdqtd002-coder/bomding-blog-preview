@@ -1,7 +1,7 @@
 ﻿# check-published.ps1 — '발행됨' 자동 검증기 (인프라팀, 2026-06-04)
 # 목적: 발행을 시작할 때마다 BlogPreview 안의 모든 글에 대해
-#   ① 글의 작성팀 직원(작성자=최상위 폴더: 봄딩/영도/겜더쿠)을 판별하고
-#   ② 그 작성자의 "실제 블로그"(네이버 봄딩=bomding/영도=kkodug9, 티스토리 겜더쿠=quetermoney)에서 제목을 수집해
+#   ① 글의 작성팀 직원(작성자=최상위 폴더: 봄딩/영도/겜더쿠/연봄)을 판별하고
+#   ② 그 작성자의 "실제 블로그"(네이버 봄딩=bomding/영도=kkodug9, 티스토리 겜더쿠=quetermoney/연봄=bom-ding)에서 제목을 수집해
 #   ③ 정규화 토큰(문자 bigram) 매칭으로 실제 게시 여부를 검토한 뒤
 #   ④ published.json(publishedRels)을 "처음부터" 재생성한다.
 #  → build-manifest.ps1 이 이 published.json 을 읽어 manifest.json/posts.json 의 published 플래그를 굽고,
@@ -36,6 +36,7 @@ $AUTHORS = @{
   "봄딩"   = @{ kind = "naver";   id = "bomding"     }
   "영도"   = @{ kind = "naver";   id = "kkodug9"     }
   "겜더쿠" = @{ kind = "tistory"; id = "quetermoney" }
+  "연봄"   = @{ kind = "tistory"; id = "bom-ding"    }   # 2026-06-11 주소 확정(bom-ding.tistory.com)
 }
 
 # ── 정규화: 한글/영숫자만 남기고 소문자화(공백·문장부호·이모지 제거) ──
@@ -93,7 +94,7 @@ function Get-TistoryTitles([string]$blogId){
 }
 
 # ── 1) 글 파일 수집(build-manifest 와 동일 규칙) ──
-$files = git -C $base ls-files "봄딩/*.html" "영도/*.html" "겜더쿠/*.html"
+$files = git -C $base ls-files "봄딩/*.html" "영도/*.html" "겜더쿠/*.html" "연봄/*.html"
 $posts = @()
 foreach($f in $files){
   $segs = $f -split '/'
@@ -222,7 +223,7 @@ if($DryRun){ Write-Host "`n(DryRun) published.json 미기록." -ForegroundColor 
 $today = (& git -C $base log -1 --format="%ad" --date=format:"%Y-%m-%d" 2>$null)
 if([string]::IsNullOrWhiteSpace($today)){ $today = "" }
 $out = [ordered]@{
-  _comment = "실제 블로그(네이버 봄딩=bomding/영도=kkodug9, 티스토리 겜더쿠=quetermoney) 게시 확인된 글. check-published.ps1 이 발행 시작 시 자동 재생성(작성자별 블로그 제목 조회→정규화 bigram 매칭). 사이트는 딤드+'발행됨' 라벨."
+  _comment = "실제 블로그(네이버 봄딩=bomding/영도=kkodug9, 티스토리 겜더쿠=quetermoney/연봄=bom-ding) 게시 확인된 글. check-published.ps1 이 발행 시작 시 자동 재생성(작성자별 블로그 제목 조회→정규화 bigram 매칭). 사이트는 딤드+'발행됨' 라벨."
   checkedAt = $today
   method = ("작성자별 실제 블로그 제목 수집(네이버 PostTitleListAsync 전체 카테고리 + 티스토리 RSS) → 정규화 문자 bigram 매칭. 발행 판정 = Jaccard>={0:0.00} 또는 (overlap-coefficient>={1:0.00} 그리고 Jaccard>={2:0.00}). 제목 거의 동일만 확정 — 프랜차이즈명/일반어만 겹치는 오매칭 차단. 조회 실패 작성자는 기존 확인분 유지." -f $JacTh, $OvlTh, $OvlJacFloor)
   publishedRels = $finalRels
