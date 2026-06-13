@@ -49,6 +49,16 @@ DENY = {
     ],
 }
 
+# 맺음말(마지막 본문 단락) 한정 금지 패턴 (2026-06-13 신설).
+# 봄딩·겜더쿠·연봄은 본문 중 '댓글' 언급은 정당("필요한 분은 댓글 남겨주세요" 등)하나,
+# 글을 '댓글 유도'로 닫는 사인오프는 영도 마무리 축(교차오염). 영도는 댓글 마무리가 시그니처라 제외.
+# 봄딩 마무리 정본(opening-closing-bank B-1~B-4)엔 댓글로 닫는 유형이 없다.
+CLOSING_DENY = {
+    "봄딩":   [("영도식 댓글 유도 마무리(맺음말이 댓글로 닫힘)", r"댓글")],
+    "겜더쿠": [("영도식 댓글 유도 마무리(맺음말이 댓글로 닫힘)", r"댓글")],
+    "연봄":   [("영도식 댓글 유도 마무리(맺음말이 댓글로 닫힘)", r"댓글")],
+}
+
 def strip_html(s):
     s = re.sub(r"<!--.*?-->", " ", s, flags=re.S)
     s = re.sub(r"<style.*?</style>", " ", s, flags=re.S)
@@ -57,6 +67,12 @@ def strip_html(s):
     s = re.sub(r'<div class="topbar">.*?</div>', " ", s, flags=re.S)
     s = re.sub(r"<[^>]+>", " ", s)
     return s
+
+def closing_paragraph(raw):
+    # 캡션(class="cap" 등)을 뺀 마지막 본문 <p> = 맺음말. 없으면 빈 문자열.
+    blocks = re.findall(r"<p\b([^>]*)>(.*?)</p>", raw, flags=re.S)
+    body = [re.sub(r"<[^>]+>", " ", t) for attrs, t in blocks if "cap" not in attrs]
+    return body[-1] if body else ""
 
 def main():
     problems = []
@@ -69,11 +85,18 @@ def main():
                 if not fn.endswith(".html"):
                     continue
                 p = os.path.join(dp, fn)
-                text = strip_html(open(p, encoding="utf-8").read())
+                raw = open(p, encoding="utf-8").read()
+                text = strip_html(raw)
+                rel = os.path.relpath(p, BASE)
                 for label, pat in rules:
                     hits = re.findall(pat, text)
                     if hits:
-                        rel = os.path.relpath(p, BASE)
+                        problems.append((author, rel, label, len(hits)))
+                # 맺음말 한정 검사(본문 중 정당 사용은 통과, 글을 그 표현으로 '닫는' 경우만 적발)
+                close = closing_paragraph(raw)
+                for label, pat in CLOSING_DENY.get(author, []):
+                    hits = re.findall(pat, close)
+                    if hits:
                         problems.append((author, rel, label, len(hits)))
     if problems:
         print("[STYLE-LINT] 교차오염 의심 발견:", len(problems), "건")
