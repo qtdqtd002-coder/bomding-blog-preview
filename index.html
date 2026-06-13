@@ -135,6 +135,16 @@ svg{display:block;}
 .topnav button.nav-corner:hover{background:var(--bg-subtle);}
 .topnav button.nav-corner.on{background:var(--ac);color:#fff;}
 .topnav button.nav-corner.on .ic,.topnav button.nav-corner.on .cnt{color:#fff;opacity:1;}
+/* 트렌드 분할 버튼(본체=트렌드로 이동 / ▾캐럿=뉴스레터·캘린더 하위메뉴) */
+.topnav .trendwrap{display:inline-flex;align-items:center;flex:none;}
+.topnav .trendmain{border-top-right-radius:0;border-bottom-right-radius:0;padding-right:8px;}
+.topnav .trendcaret{border-top-left-radius:0;border-bottom-left-radius:0;padding:0 11px 0 5px;}
+.topnav .trendcaret .caret{width:14px;height:14px;transition:transform .15s var(--ease);}
+.trendcaret[aria-expanded="true"] .caret{transform:rotate(180deg);}
+/* 드롭다운 메뉴: 아이콘 색 + 구분선(아카이브 분리) */
+.teammenu button .ic{width:18px;height:18px;color:var(--ac,var(--brand));flex:none;}
+.teammenu button.on .ic{color:#fff;}
+.tm-sep{height:1px;background:var(--line);margin:5px 6px;}
 /* 새 글 요청 FAB(우하단 상시) */
 .fab{position:fixed;right:22px;bottom:22px;z-index:80;display:inline-flex;align-items:center;gap:8px;
   height:54px;padding:0 22px 0 19px;border:none;border-radius:27px;background:var(--brand);color:#fff;
@@ -710,6 +720,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      <nav class="topnav" id="nav" aria-label="주 메뉴"></nav>
    </div>
    <div id="teamMenu" class="teammenu" role="menu" aria-label="작성팀" hidden></div>
+   <div id="trendMenu" class="teammenu" role="menu" aria-label="트렌드·뉴스레터·캘린더" hidden></div>
  </header>
 
  <main class="main">
@@ -1145,56 +1156,91 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    const sel=v=>'[data-k="'+String(v).replace(/["\\]/g,"\\$&")+'"]';
    const allCnt=POSTS.filter(p=>!isArchived(p)).length;   /* 전체=발행·숨김 뺀 글만 */
    const archCnt=POSTS.filter(isArchived).length;
+   const trendSub=["__trend__","__news__","__calendar__"];
+   const SUBAC={ "__trend__":"var(--a-trend)", "__news__":"var(--a-news)", "__calendar__":"var(--a-cal)" };
    let h=`<span class="nav-grp">글 보기</span>`;
    h+=`<button data-k="__all__">${svg("grid")}전체<span class="cnt">${allCnt}</span></button>`;
    h+=`<button class="teambtn" id="teamBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="teamMenu">${svg("users")}작성팀${svg("chevD","caret")}</button>`;
-   h+=`<button data-k="__archive__">${svg("archive")}아카이브<span class="cnt">${archCnt}</span></button>`;
    h+=`<span class="nav-div" aria-hidden="true"></span>`;
    h+=`<span class="nav-grp">인사이트</span>`;
-   h+=`<button class="nav-corner" data-k="__trend__" style="--ac:var(--a-trend)">${svg("trend")}트렌드<span class="cnt">${TREND.length}</span></button>`+
-      `<button class="nav-corner" data-k="__news__" style="--ac:var(--a-news)">${svg("news")}뉴스레터</button>`+
-      `<button class="nav-corner" data-k="__calendar__" style="--ac:var(--a-cal)">${svg("calDays")}캘린더<span class="cnt">${CAL.length}</span></button>`+
-      `<button class="nav-corner" data-k="__about__" style="--ac:var(--a-about)">${svg("info")}소개</button>`;
+   /* 트렌드 = 자주 보는 뷰라 본체는 1클릭 이동, ▾캐럿만 하위(뉴스레터·캘린더) 메뉴 */
+   h+=`<span class="trendwrap" style="--ac:var(--a-trend)">`+
+        `<button class="nav-corner trendmain" data-k="__trend__">${svg("trend")}트렌드<span class="cnt">${TREND.length}</span></button>`+
+        `<button class="nav-corner trendcaret" id="trendCaret" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="trendMenu" aria-label="뉴스레터·캘린더 더보기">${svg("chevD","caret")}</button>`+
+      `</span>`;
+   h+=`<button class="nav-corner" data-k="__about__" style="--ac:var(--a-about)">${svg("info")}소개</button>`;
    navEl.innerHTML=h;
 
    const teamBtn=document.getElementById("teamBtn");
    const teamMenu=document.getElementById("teamMenu");
-   teamMenu.innerHTML=writers.map(n=>`<button role="menuitem" data-k="${esc(n)}" style="--ac:${ACCENT[n]}">${avatar(n,"s")}${esc(n)}<span class="cnt">${cnt(n)}</span></button>`).join("");
+   const trendWrap=navEl.querySelector(".trendwrap");
+   const trendMain=navEl.querySelector(".trendmain");
+   const trendCaret=document.getElementById("trendCaret");
+   const trendMenu=document.getElementById("trendMenu");
+
+   /* 작성팀 메뉴 = 작성자들 + 구분선 + 아카이브(메뉴로 이동) */
+   teamMenu.innerHTML=writers.map(n=>`<button role="menuitem" data-k="${esc(n)}" style="--ac:${ACCENT[n]}">${avatar(n,"s")}${esc(n)}<span class="cnt">${cnt(n)}</span></button>`).join("")
+     +`<div class="tm-sep" role="separator"></div>`
+     +`<button role="menuitem" data-k="__archive__" style="--ac:var(--brand)">${svg("archive")}아카이브<span class="cnt">${archCnt}</span></button>`;
+   /* 트렌드 메뉴 = 트렌드 브리핑 + 뉴스레터 + 캘린더 */
+   trendMenu.innerHTML=
+       `<button role="menuitem" data-k="__trend__" style="--ac:var(--a-trend)">${svg("trend")}트렌드 브리핑<span class="cnt">${TREND.length}</span></button>`
+     +`<button role="menuitem" data-k="__news__" style="--ac:var(--a-news)">${svg("news")}뉴스레터</button>`
+     +`<button role="menuitem" data-k="__calendar__" style="--ac:var(--a-cal)">${svg("calDays")}캘린더<span class="cnt">${CAL.length}</span></button>`;
 
    const isWriter=k=>writers.indexOf(k)>=0;
    function setActive(){
      navEl.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
      teamMenu.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
-     if(isWriter(state.view)){
-       teamBtn.classList.add("on"); teamBtn.style.setProperty("--ac",ACCENT[state.view]||"var(--brand)");
-       const mi=teamMenu.querySelector(sel(state.view)); if(mi)mi.classList.add("on");
-     } else {
-       teamBtn.style.removeProperty("--ac");
-       const nb=navEl.querySelector(sel(state.view)); if(nb)nb.classList.add("on");
-     }
+     trendMenu.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
+     const v=state.view;
+     if(isWriter(v)||v==="__archive__"){
+       teamBtn.classList.add("on");
+       teamBtn.style.setProperty("--ac", isWriter(v)?(ACCENT[v]||"var(--brand)"):"var(--brand)");
+       const mi=teamMenu.querySelector(sel(v)); if(mi)mi.classList.add("on");
+     } else teamBtn.style.removeProperty("--ac");
+     if(trendSub.indexOf(v)>=0){
+       trendMain.classList.add("on"); trendCaret.classList.add("on");
+       trendWrap.style.setProperty("--ac",SUBAC[v]);
+       const ti=trendMenu.querySelector(sel(v)); if(ti)ti.classList.add("on");
+     } else trendWrap.style.setProperty("--ac","var(--a-trend)");
+     if(v==="__all__"||v==="__about__"){ const nb=navEl.querySelector(sel(v)); if(nb)nb.classList.add("on"); }
    }
    window.__syncNav=setActive;   // 홈 로고 등 외부에서 활성 동기화
    setActive();
 
-   function positionMenu(){
-     const r=teamBtn.getBoundingClientRect();
-     teamMenu.style.top=(r.bottom+6)+"px";
-     const mw=teamMenu.offsetWidth||190;
-     let left=r.left; if(left+mw>window.innerWidth-8)left=window.innerWidth-mw-8; if(left<8)left=8;
-     teamMenu.style.left=left+"px";
+   /* 드롭다운 컨트롤러(작성팀·트렌드 공용, 상호 배타) */
+   const drops=[];
+   function mkDrop(anchor,menu,expBtn){
+     const d={menu,expBtn};
+     d.position=function(){ const r=anchor.getBoundingClientRect(); menu.style.top=(r.bottom+6)+"px";
+       const mw=menu.offsetWidth||190; let left=r.left; if(left+mw>window.innerWidth-8)left=window.innerWidth-mw-8; if(left<8)left=8; menu.style.left=left+"px"; };
+     d.close=function(){ if(menu.hidden)return; menu.hidden=true; if(expBtn)expBtn.setAttribute("aria-expanded","false"); };
+     d.open=function(){ drops.forEach(x=>{ if(x!==d)x.close(); }); menu.hidden=false; d.position(); if(expBtn)expBtn.setAttribute("aria-expanded","true"); };
+     d.toggle=function(){ menu.hidden?d.open():d.close(); };
+     drops.push(d); return d;
    }
-   function openMenu(){ teamMenu.hidden=false; positionMenu(); teamBtn.setAttribute("aria-expanded","true"); }
-   function closeMenu(){ if(teamMenu.hidden)return; teamMenu.hidden=true; teamBtn.setAttribute("aria-expanded","false"); }
-   teamBtn.addEventListener("click",e=>{ e.stopPropagation(); teamMenu.hidden?openMenu():closeMenu(); });
+   const teamDrop=mkDrop(teamBtn,teamMenu,teamBtn);
+   const trendDrop=mkDrop(trendWrap,trendMenu,trendCaret);
+   function closeAll(){ drops.forEach(d=>d.close()); }
 
-   const goView=k=>{ state.view=k; state.q=""; state.page=1; if(qEl)qEl.value=""; closeMenu(); setActive(); render(); window.scrollTo({top:0,behavior:"smooth"}); };
-   navEl.querySelectorAll("button:not(#teamBtn)").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
+   const goView=k=>{ state.view=k; state.q=""; state.page=1; if(qEl)qEl.value=""; closeAll(); setActive(); render(); window.scrollTo({top:0,behavior:"smooth"}); };
+
+   teamBtn.addEventListener("click",e=>{ e.stopPropagation(); teamDrop.toggle(); });
+   trendMain.addEventListener("click",e=>{ e.stopPropagation(); closeAll(); goView("__trend__"); });
+   trendCaret.addEventListener("click",e=>{ e.stopPropagation(); trendDrop.toggle(); });
+   navEl.querySelectorAll("button[data-k]:not(.trendmain)").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
    teamMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
+   trendMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
 
-   document.addEventListener("click",e=>{ if(teamMenu.hidden)return; if(!teamMenu.contains(e.target)&&!teamBtn.contains(e.target))closeMenu(); });
-   document.addEventListener("keydown",e=>{ if(e.key==="Escape")closeMenu(); });
-   window.addEventListener("scroll",closeMenu,true);
-   window.addEventListener("resize",closeMenu);
+   document.addEventListener("click",e=>{
+     const inTeam=teamMenu.contains(e.target)||teamBtn.contains(e.target);
+     const inTrend=trendMenu.contains(e.target)||trendWrap.contains(e.target);
+     if(!inTeam&&!inTrend)closeAll();
+   });
+   document.addEventListener("keydown",e=>{ if(e.key==="Escape")closeAll(); });
+   window.addEventListener("scroll",closeAll,true);
+   window.addEventListener("resize",closeAll);
    const fab=document.getElementById("fabReq");   /* 새 글 요청 FAB → 어느 탭에서든 요청 폼으로 */
    if(fab&&!fab.__bound){ fab.__bound=1; fab.addEventListener("click",()=>goView("__request__")); }
    window.__goView=goView;   /* 외부(로고·딥링크)에서 뷰 전환 */
@@ -1363,9 +1409,11 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    if(!navEl)return;
    const setC=(el,v)=>{ if(el){ const c=el.querySelector(".cnt"); if(c)c.textContent=v; } };
    setC(navEl.querySelector('[data-k="__all__"]'),POSTS.filter(p=>!isArchived(p)).length);
-   setC(navEl.querySelector('[data-k="__archive__"]'),POSTS.filter(isArchived).length);
-   const tm=document.getElementById("teamMenu");
-   if(tm)tm.querySelectorAll("button[data-k]").forEach(b=>setC(b,POSTS.filter(p=>p.author===b.dataset.k&&!isArchived(p)).length));
+   const tm=document.getElementById("teamMenu");   /* 아카이브는 작성팀 메뉴로 이동 — 메뉴 안에서 카운트 갱신 */
+   if(tm)tm.querySelectorAll("button[data-k]").forEach(b=>{
+     const k=b.dataset.k;
+     setC(b, k==="__archive__" ? POSTS.filter(isArchived).length : POSTS.filter(p=>p.author===k&&!isArchived(p)).length);
+   });
  }
  function attachTools(){
    contentEl.querySelectorAll(".arch-sub[data-sub]").forEach(b=>b.addEventListener("click",()=>{ state.archiveSub=b.dataset.sub; state.page=1; render(); }));
