@@ -20,18 +20,18 @@
   --bg:#FFFFFF; --bg-subtle:#F7F8FA; --surface:#FFFFFF; --surface-2:#F2F4F7;
   --ink:#16181D; --sub:#4A4F58; --muted:#6B7280;
   --line:#E5E7EB; --line-strong:#D1D5DB;
-  --brand:#4C6FFF; --brand-h:#3D5AF0; --brand-weak:#EEF1FF; --on-brand:#FFFFFF;
-  --warm:#FF8A5B; --warm-weak:#FFF1EA;
+  --brand:#5A4FE6; --brand-h:#4A3FD4; --brand-weak:#EDEBFC; --on-brand:#FFFFFF;
+  --warm:#FF6F52; --warm-weak:#FFEEE9;
   --danger:#DC2626;
   --a-bomding:#E06C49; --a-bomding-weak:#FCEEE9;
   --a-yeongdo:#2F8F7F; --a-yeongdo-weak:#E6F2EF;
   --a-gemdeokku:#7C5CD1; --a-gemdeokku-weak:#F0EBFB;
   --a-yeonbom:#4A86C5; --a-yeonbom-weak:#E7F0F9;
-  --a-trend:#C2410C; --a-news:#B45309; --a-about:#4C6FFF;
+  --a-trend:#C2410C; --a-news:#B45309; --a-about:#5A4FE6;
   --sh-sm:0 1px 2px rgba(16,24,40,.05);
-  --sh-md:0 4px 12px rgba(16,24,40,.08);
-  --sh-lg:0 12px 28px rgba(16,24,40,.12);
-  --radius-sm:6px; --radius:10px; --radius-lg:14px; --radius-xl:20px;
+  --sh-md:0 6px 16px rgba(16,24,40,.07);
+  --sh-lg:0 14px 34px rgba(40,32,90,.14);
+  --radius-sm:8px; --radius:12px; --radius-lg:16px; --radius-xl:22px;
   --maxw:940px; --head-h:60px;
   --ease:cubic-bezier(.2,.8,.2,1);
   --font:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,"맑은 고딕",sans-serif;
@@ -40,14 +40,14 @@
   --bg:#0D0F12; --bg-subtle:#121519; --surface:#16191E; --surface-2:#1E2228;
   --ink:#F2F4F7; --sub:#A8B0BD; --muted:#6E7682;
   --line:#262B33; --line-strong:#363C46;
-  --brand:#8AA0FF; --brand-h:#A7B6FF; --brand-weak:#1A2140; --on-brand:#0D0F12;
-  --warm:#FF9B70; --warm-weak:#2A1C16;
+  --brand:#9D93FF; --brand-h:#B5AEFF; --brand-weak:#221C46; --on-brand:#0D0F12;
+  --warm:#FF8868; --warm-weak:#2A1813;
   --danger:#F87171;
   --a-bomding:#F0936F; --a-bomding-weak:#2A1C16;
   --a-yeongdo:#4FB3A1; --a-yeongdo-weak:#11241F;
   --a-gemdeokku:#A78BE8; --a-gemdeokku-weak:#1F1A2E;
   --a-yeonbom:#6FA6DD; --a-yeonbom-weak:#14202E;
-  --a-trend:#FB923C; --a-news:#FBBF24; --a-about:#8AA0FF;
+  --a-trend:#FB923C; --a-news:#FBBF24; --a-about:#9D93FF;
   --sh-sm:0 1px 2px rgba(0,0,0,.3); --sh-md:0 4px 12px rgba(0,0,0,.4); --sh-lg:0 12px 28px rgba(0,0,0,.5);
 }
 *{box-sizing:border-box;}
@@ -126,6 +126,25 @@ svg{display:block;}
 .teammenu button.on .cnt{color:rgba(255,255,255,.85);}
 .teammenu button:focus-visible{outline:none;box-shadow:var(--ring);border-color:var(--brand);}
 @media(prefers-reduced-motion:reduce){.teammenu{animation:none;}}
+/* 네비 그룹 라벨 + 인사이트 칩(비활성에도 그룹 색) */
+.nav-grp{flex:none;align-self:center;font-size:11px;font-weight:800;color:var(--muted);
+  letter-spacing:.03em;padding:0 4px;white-space:nowrap;}
+.topnav button.nav-corner{color:var(--ac);}
+.topnav button.nav-corner .ic{color:var(--ac);}
+.topnav button.nav-corner .cnt{color:var(--ac);opacity:.7;}
+.topnav button.nav-corner:hover{background:var(--bg-subtle);}
+.topnav button.nav-corner.on{background:var(--ac);color:#fff;}
+.topnav button.nav-corner.on .ic,.topnav button.nav-corner.on .cnt{color:#fff;opacity:1;}
+/* 새 글 요청 FAB(우하단 상시) */
+.fab{position:fixed;right:22px;bottom:22px;z-index:80;display:inline-flex;align-items:center;gap:8px;
+  height:54px;padding:0 22px 0 19px;border:none;border-radius:27px;background:var(--brand);color:#fff;
+  font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:var(--sh-lg);
+  transition:transform .14s var(--ease),background .14s;}
+.fab .ic{width:20px;height:20px;}
+.fab:hover{background:var(--brand-h);transform:translateY(-2px);}
+.fab:active{transform:translateY(0);}
+.fab:focus-visible{outline:none;box-shadow:var(--sh-lg),0 0 0 3px var(--brand-weak);}
+@media(max-width:560px){ .fab{right:16px;bottom:16px;height:52px;padding:0 19px 0 17px;font-size:14.5px;} }
 
 /* ---------- 메인 ---------- */
 .main{max-width:var(--maxw);margin:0 auto;padding:28px 20px 72px;}
@@ -462,6 +481,18 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
   background:color-mix(in srgb,var(--brand) 6%,transparent);border:1px solid color-mix(in srgb,var(--brand) 18%,transparent);
   border-radius:var(--radius-sm);padding:10px 12px;margin-top:12px;}
 .rf-hint .ic{width:15px;height:15px;flex:none;margin-top:1px;color:var(--brand);}
+.rf-hint.on{background:color-mix(in srgb,var(--brand) 11%,transparent);border-color:color-mix(in srgb,var(--brand) 30%,transparent);color:var(--ink);font-weight:600;}
+.rf-sec{font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.03em;margin:20px 0 2px;padding-top:15px;border-top:1px solid var(--line);}
+.rf-sec:first-of-type{border-top:none;padding-top:2px;margin-top:6px;}
+.rf-chips{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 0;}
+.rf-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-strong);background:var(--surface);color:var(--sub);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:7px 13px;border-radius:999px;transition:.12s;}
+.rf-chip .rf-chip-dot{width:8px;height:8px;border-radius:50%;background:var(--ac,var(--muted));flex:none;}
+.rf-chip .rf-chip-plat{font-size:10.5px;font-weight:700;color:var(--muted);}
+.rf-chip:hover{border-color:var(--ac,var(--brand));color:var(--ink);}
+.rf-wchip.on{background:var(--ac,var(--brand));color:#fff;border-color:transparent;}
+.rf-wchip.on .rf-chip-dot{background:#fff;}
+.rf-wchip.on .rf-chip-plat{color:rgba(255,255,255,.82);}
+.rf-winfo{font-size:12px;color:var(--muted);margin-top:8px;min-height:15px;}
 .rf-hint-list{align-items:flex-start;}
 .rf-hl{margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:5px;list-style:decimal;}
 .rf-hl li{padding-left:2px;line-height:1.55;}
@@ -598,6 +629,10 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  <footer class="site-foot">
    <b>쓰담</b> · 당신의 글쓰기 동료 · 발행 전 미리보기 (검색 노출 차단, noindex)<br>새 글·새 직원·트렌드는 발행 시 자동 반영됩니다.
  </footer>
+ <button class="fab" id="fabReq" type="button" aria-label="새 글 요청">
+   <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+   <span class="fab-tx">새 글 요청</span>
+ </button>
 
 <style>
 /* ===== 관리자 모드(삭제) ===== */
@@ -998,15 +1033,16 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    const sel=v=>'[data-k="'+String(v).replace(/["\\]/g,"\\$&")+'"]';
    const allCnt=POSTS.filter(p=>!isArchived(p)).length;   /* 전체=발행·숨김 뺀 글만 */
    const archCnt=POSTS.filter(isArchived).length;
-   let h=`<button data-k="__all__">${svg("grid")}전체<span class="cnt">${allCnt}</span></button>`;
+   let h=`<span class="nav-grp">글 보기</span>`;
+   h+=`<button data-k="__all__">${svg("grid")}전체<span class="cnt">${allCnt}</span></button>`;
    h+=`<button class="teambtn" id="teamBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="teamMenu">${svg("users")}작성팀${svg("chevD","caret")}</button>`;
    h+=`<button data-k="__archive__">${svg("archive")}아카이브<span class="cnt">${archCnt}</span></button>`;
    h+=`<span class="nav-div" aria-hidden="true"></span>`;
-   h+=`<button data-k="__trend__" style="--ac:var(--a-trend)">${svg("trend")}트렌드<span class="cnt">${TREND.length}</span></button>`+
-      `<button data-k="__news__" style="--ac:var(--a-news)">${svg("news")}뉴스레터</button>`+
-      `<button data-k="__calendar__" style="--ac:var(--a-cal)">${svg("calDays")}캘린더<span class="cnt">${CAL.length}</span></button>`+
-      `<button data-k="__about__" style="--ac:var(--a-about)">${svg("info")}소개</button>`+
-      `<button data-k="__request__" class="req-nav" style="--ac:var(--brand)">${svg("edit")}새 글 요청</button>`;
+   h+=`<span class="nav-grp">인사이트</span>`;
+   h+=`<button class="nav-corner" data-k="__trend__" style="--ac:var(--a-trend)">${svg("trend")}트렌드<span class="cnt">${TREND.length}</span></button>`+
+      `<button class="nav-corner" data-k="__news__" style="--ac:var(--a-news)">${svg("news")}뉴스레터</button>`+
+      `<button class="nav-corner" data-k="__calendar__" style="--ac:var(--a-cal)">${svg("calDays")}캘린더<span class="cnt">${CAL.length}</span></button>`+
+      `<button class="nav-corner" data-k="__about__" style="--ac:var(--a-about)">${svg("info")}소개</button>`;
    navEl.innerHTML=h;
 
    const teamBtn=document.getElementById("teamBtn");
@@ -1047,6 +1083,9 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    document.addEventListener("keydown",e=>{ if(e.key==="Escape")closeMenu(); });
    window.addEventListener("scroll",closeMenu,true);
    window.addEventListener("resize",closeMenu);
+   const fab=document.getElementById("fabReq");   /* 새 글 요청 FAB → 어느 탭에서든 요청 폼으로 */
+   if(fab&&!fab.__bound){ fab.__bound=1; fab.addEventListener("click",()=>goView("__request__")); }
+   window.__goView=goView;   /* 외부(로고·딥링크)에서 뷰 전환 */
  }
  qEl&&qEl.addEventListener("input",()=>{ state.q=qEl.value.trim().toLowerCase(); state.page=1; render(); });
 
@@ -1083,6 +1122,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  function render(){
    mainEl.classList.remove("hero");
    updateNavCounts();
+   { const _fab=document.getElementById("fabReq"); if(_fab)_fab.style.display=(state.view==="__request__")?"none":""; }  /* 요청 폼에선 FAB 숨김 */
    const isArchiveView=state.view==="__archive__";
    if(state.view==="__about__"){ searchBox.style.display="none"; renderAbout(); return; }
    if(state.view==="__request__"){ searchBox.style.display="none"; renderRequest(); return; }
@@ -1511,9 +1551,31 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  function renderRequest(){
    titleEl.textContent="새 글 요청"; subEl.textContent="주제만 적으면 작성→검수→발행까지 자동으로 — 발행되면 알림으로 알려드려요";
    const writers=PREF.slice();
-   const wopts=`<option value="">자동(주제에 맞춰 배정)</option>`+writers.map(w=>`<option value="${esc(w)}">${esc(w)}</option>`).join("");
+   /* 작성자 칩(플랫폼 자동) — payload writer 키는 hidden #rfWriter로 보존 */
+   const WRITER_INFO={
+     "":{plat:"",desc:"주제에 맞는 작성자를 회사가 배정해요"},
+     "봄딩":{plat:"네이버",ac:"--a-bomding",desc:"게임·육아·취미 · 친근한 후기체"},
+     "영도":{plat:"네이버",ac:"--a-yeongdo",desc:"게임·게이밍기어 · 서브컬처"},
+     "겜더쿠":{plat:"티스토리",ac:"--a-gemdeokku",desc:"게임 덕후 · 빌드·공략·티어"},
+     "연봄":{plat:"티스토리",ac:"--a-yeonbom",desc:"포켓몬 전문 · 담백한 정보"}
+   };
+   const writerChips=`<button type="button" class="rf-chip rf-wchip on" data-w="">자동 배정</button>`+
+     writers.map(w=>{const i=WRITER_INFO[w]||{};return `<button type="button" class="rf-chip rf-wchip" data-w="${esc(w)}" style="--ac:var(${i.ac||'--brand'})"><span class="rf-chip-dot"></span>${esc(w)}<span class="rf-chip-plat">${esc(i.plat||'')}</span></button>`;}).join("");
    /* 글의 목적(purpose) — 백엔드 PURPOSES / post-purpose-guide.md 정본과 1:1 */
    const PURPOSE_GROUPS=[["게임",["사전예약","출시·첫인상","업데이트·패치","게임 정보","게임 공략","쿠폰·이벤트","티어·추천"]],["제품(육아·취미)",["제품 비교·추천","사용 후기·리뷰"]]];
+   /* 목적별 '꼭 들어갈 정보' 한 줄 — post-purpose-guide.md 정본 요약 */
+   const PURPOSE_HINT={
+     "사전예약":"예약 기간·출시일·플랫폼·예약 방법·핵심 콘셉트",
+     "출시·첫인상":"출시일·플랫폼·장르·첫인상(좋은 점/아쉬운 점)·추천 대상",
+     "업데이트·패치":"패치 버전·적용일·공식 노트 변경점·핵심 분석",
+     "게임 정보":"검증된 핵심 사실·요청 소재 전부·출처",
+     "게임 공략":"신뢰 출처(교차 확인)·실전 단계·수치·표·대상(초보·엔드)",
+     "쿠폰·이벤트":"유효 코드+입력 경로·이벤트명·기간·조건·보상",
+     "티어·추천":"추천 기준·출처+메타 정립 여부·결론(1티어) 먼저",
+     "제품 비교·추천":"비교 후보·항목별 비교(가격·스펙)·추천 기준·내돈내산 고지",
+     "사용 후기·리뷰":"직접 사용 경험·솔직 장단·팁·추천 대상·내돈내산 고지",
+     "기타":"원하는 방향만 적어주세요 — 기획팀이 목적을 정해드려요"
+   };
    const popts=`<option value="" disabled selected>목적을 선택하세요</option>`+
      PURPOSE_GROUPS.map(([g,items])=>`<optgroup label="${esc(g)}">`+items.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join("")+`</optgroup>`).join("")+
      `<optgroup label="기타"><option value="기타">기타 (잘 모르겠어요 · 기획팀이 정함)</option></optgroup>`;
@@ -1522,15 +1584,19 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      <div class="reqcard">
        <div class="reqcard-h">${svg("edit")}<div><div class="rc-t">새 글 요청하기</div><div class="rc-s">${connected?"백엔드 연결됨 · 접수되면 작성팀이 작성→검수→발행합니다":"백엔드 미연결 — 임시 저장만 됩니다"}</div></div></div>
        <form id="reqForm" novalidate>
+         <div class="rf-sec">필수 정보</div>
          <label class="rf-l">글의 목적 <span class="rf-req">*</span></label>
          <select id="rfPurpose" class="rf-i">${popts}</select>
-         <div class="rf-hint">${svg("info")} 목적을 고르면 그 목적에 꼭 들어갈 정보(일정·쿠폰·공략 출처 등)를 챙겨 품질이 고르게 나와요. 모르겠으면 ‘기타’를 고르면 기획팀이 정해드려요.</div>
+         <div class="rf-hint" id="rfPurposeHint">${svg("info")} <span>목적을 고르면 그 목적에 꼭 들어갈 정보를 자동으로 안내해드려요.</span></div>
          <label class="rf-l">주제 <span class="rf-req">*</span></label>
          <input id="rfTopic" class="rf-i" type="text" placeholder="예: 명조 2.0 신규 캐릭터 정보 정리" maxlength="200" required>
+         <div class="rf-sec">선택 정보</div>
          <label class="rf-l">소재·참고 메모 <span class="rf-opt">(선택)</span></label>
          <textarea id="rfMaterial" class="rf-i rf-ta" placeholder="꼭 넣을 내용, 참고 링크, 톤 등 자유롭게" maxlength="2000"></textarea>
-         <label class="rf-l">희망 작성자 <span class="rf-opt">(선택)</span></label>
-         <select id="rfWriter" class="rf-i">${wopts}</select>
+         <label class="rf-l">희망 작성자 <span class="rf-opt">(선택 · 플랫폼 자동)</span></label>
+         <div class="rf-chips" id="rfWriterChips">${writerChips}</div>
+         <input type="hidden" id="rfWriter" value="">
+         <div class="rf-winfo" id="rfWriterInfo">주제에 맞는 작성자를 회사가 배정해요</div>
          <label class="rf-l">참고 문서 첨부 <span class="rf-opt">(선택)</span></label>
          <div class="rf-file">
            <label class="rf-fbtn" for="rfFile">${svg("paperclip")}파일 선택</label>
@@ -1554,6 +1620,20 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    </div>`;
 
    const $=s=>contentEl.querySelector(s);
+   /* 목적 선택 → 그 목적에 꼭 들어갈 정보 자동 안내 */
+   const purSel=$("#rfPurpose"), purHint=$("#rfPurposeHint");
+   purSel.addEventListener("change",()=>{ const h=PURPOSE_HINT[purSel.value];
+     purHint.innerHTML=h?(svg("info")+' <span><b>'+esc(purSel.value)+'</b>엔 꼭 — '+esc(h)+'</span>')
+       :(svg("info")+' <span>목적을 고르면 그 목적에 꼭 들어갈 정보를 자동으로 안내해드려요.</span>');
+     purHint.classList.toggle("on",!!h);
+   });
+   /* 작성자 칩 → hidden #rfWriter(payload writer 키 보존) + 소개 갱신 */
+   const wInput=$("#rfWriter"), wInfo=$("#rfWriterInfo");
+   $("#rfWriterChips").querySelectorAll(".rf-wchip").forEach(c=>c.addEventListener("click",()=>{
+     $("#rfWriterChips").querySelectorAll(".rf-wchip").forEach(x=>x.classList.remove("on"));
+     c.classList.add("on"); wInput.value=c.dataset.w;
+     const i=WRITER_INFO[c.dataset.w]||WRITER_INFO[""]; wInfo.textContent=(i.plat?i.plat+" · ":"")+i.desc;
+   }));
    let picked=null;
    const fileInput=$("#rfFile"), fname=$("#rfFileName"), fclear=$("#rfFileClear");
    fileInput.addEventListener("change",()=>{
@@ -1592,7 +1672,9 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      showMsg("보내는 중…");
      try{
        const rec=await RequestService.submit({purpose,topic,material,writer,file:picked});
-       if(rec.status==="submitted"){ showMsg("요청이 접수됐어요. 작성→검수→발행 후 알림으로 알려드릴게요.","ok"); e.target.reset(); picked=null; fname.textContent="선택된 파일 없음"; fclear.hidden=true; }
+       if(rec.status==="submitted"){ showMsg("요청이 접수됐어요. 작성→검수→발행 후 알림으로 알려드릴게요.","ok"); e.target.reset(); picked=null; fname.textContent="선택된 파일 없음"; fclear.hidden=true;
+         wInput.value=""; $("#rfWriterChips").querySelectorAll(".rf-wchip").forEach((x,j)=>x.classList.toggle("on",j===0)); wInfo.textContent=WRITER_INFO[""].desc;
+         purHint.classList.remove("on"); purHint.innerHTML=svg("info")+' <span>목적을 고르면 그 목적에 꼭 들어갈 정보를 자동으로 안내해드려요.</span>'; }
        else if(rec.status==="failed"){ showMsg("전송에 실패했어요. 파일은 다시 첨부해서 보내주세요.","err"); }
        else if(rec.status==="queued"){ showMsg("네트워크 문제로 임시 저장했어요. 연결되면 다시 시도하세요.","err"); e.target.reset(); picked=null; fname.textContent="선택된 파일 없음"; fclear.hidden=true; }
        else { showMsg("임시 저장했어요(백엔드 미연결).","ok"); e.target.reset(); picked=null; fname.textContent="선택된 파일 없음"; fclear.hidden=true; }

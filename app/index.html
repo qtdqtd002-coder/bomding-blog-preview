@@ -2,62 +2,30 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>쓰담 — 당신의 글쓰기 동료</title>
-<meta name="description" content="쓰담 — 당신의 글쓰기 동료. 발행글·트렌드·뉴스레터·캘린더 + 새 글 요청 (설치형 웹앱)">
-<meta name="theme-color" content="#4C6FFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0C0E12" media="(prefers-color-scheme: dark)">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="쓰담">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="stylesheet" href="styles.css">
+<meta http-equiv="refresh" content="0; url=../">
+<title>쓰담 — 메인으로 이동</title>
+<link rel="canonical" href="../">
+<style>
+  body{font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    background:#fff;color:#555;text-align:center;padding:48px 24px;line-height:1.7;}
+  a{color:#5A4FE6;font-weight:700;text-decoration:none;}
+  @media(prefers-color-scheme:dark){ body{background:#0D0F12;color:#A8B0BD;} a{color:#9D93FF;} }
+</style>
 </head>
 <body>
-  <!-- ===== 스플래시(앱 셸 시작 화면) ===== -->
-  <div class="splash" id="splash" aria-hidden="true">
-    <div class="splash-mark">
-      <img src="icons/icon.svg" alt="" width="84" height="84">
-    </div>
-    <div class="splash-name">쓰담</div>
-    <div class="splash-tag">당신의 글쓰기 동료</div>
-    <div class="splash-bar"><span></span></div>
-  </div>
-
-  <!-- ===== 앱바 ===== -->
-  <header class="appbar" id="appbar">
-    <button class="ab-back" id="backBtn" hidden aria-label="뒤로">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <img class="ab-logo" id="abLogo" src="icons/icon.svg" alt="" width="30" height="30">
-    <div class="ab-tt">
-      <h1 id="abTitle">쓰담</h1>
-      <span class="ab-sub" id="abSub">당신의 글쓰기 동료</span>
-    </div>
-    <button class="ab-lock" id="lockBtn" type="button" aria-label="관리자 모드" title="관리자 모드">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    </button>
-  </header>
-
-  <!-- ===== 뷰(라우트별 JS 렌더) ===== -->
-  <main class="view" id="view" tabindex="-1"></main>
-
-  <!-- ===== 새 글 요청 FAB ===== -->
-  <button class="fab" id="fab" aria-label="새 글 요청">
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-  </button>
-
-  <!-- ===== 하단 내비(JS가 레지스트리로 구성) ===== -->
-  <nav class="tabbar" id="tabbar" aria-label="주요 메뉴"></nav>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <script src="api.js"></script>
-  <script src="app.js"></script>
+  <p>쓰담 앱이 메인으로 통합됐어요.<br>잠시 후 자동으로 이동합니다…</p>
+  <p><a href="../">지금 이동하기</a></p>
+  <script>
+    try{
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.getRegistrations().then(function(rs){
+          rs.forEach(function(r){ if((r.scope||'').indexOf('/app')>-1){ r.unregister(); } });
+        });
+      }
+    }catch(e){}
+    location.replace('../');
+  </script>
 </body>
 </html>
