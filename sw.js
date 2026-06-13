@@ -2,7 +2,7 @@
    목적: ① 사이트를 설치형 PWA로(installability) ② 오프라인 최소 동작 ③ 발행 완료 웹푸시 수신.
    원칙: 네트워크 우선(stale 캐시로 라이브 사이트가 옛 내용으로 굳는 사고 방지). 캐시는 오프라인 폴백 용도.
    ※ /app/ 경로는 app/sw.js(더 좁은 스코프)가 제어하므로 여기선 관여하지 않는다. */
-const CACHE = 'sseudam-site-v1';
+const CACHE = 'sseudam-site-v2';
 const SHELL = ['./', './index.html'];
 
 self.addEventListener('install', (e) => {
