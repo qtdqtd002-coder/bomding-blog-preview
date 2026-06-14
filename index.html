@@ -291,16 +291,32 @@ svg{display:block;}
   border-radius:var(--radius-lg);padding:18px 20px 16px;box-shadow:var(--sh-sm);transition:transform .15s var(--ease),box-shadow .15s;overflow:hidden;}
 .tcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac,var(--brand));}
 .tcard:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}
+.tcard-main{display:block;color:inherit;text-decoration:none;}
 .tcard-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;}
 .tbadge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#fff;background:var(--ac,var(--brand));border-radius:var(--radius-sm);padding:4px 10px;}
 .tbadge .dot{width:7px;height:7px;border-radius:50%;background:#fff;}
 .tdate{font-size:12.5px;font-weight:700;color:var(--muted);font-feature-settings:"tnum";}
 .tcard-h{font-size:17px;line-height:1.4;font-weight:700;letter-spacing:-.01em;margin:0 0 6px;color:var(--ink);}
-.tcard:hover .tcard-h{color:var(--brand);}
+.tcard-main:hover .tcard-h{color:var(--brand);}
 .tcard-l{margin:0 0 10px;font-size:13.5px;line-height:1.6;color:var(--sub);}
-.tchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
-.tchip{font-size:11.5px;font-weight:600;color:var(--sub);background:var(--surface-2);border-radius:var(--radius-sm);padding:4px 9px;}
-.tmore{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:var(--brand);}
+/* 추천 리스트 + 새 글 요청(반자동) */
+.tpicks{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:6px;}
+.tpick{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600;color:var(--sub);
+  background:var(--surface-2);border-radius:var(--radius-sm);padding:9px 11px;}
+.tpick-tx{flex:1 1 auto;min-width:0;line-height:1.5;}
+.tp-act{flex:none;display:inline-flex;gap:6px;align-items:center;margin-left:auto;}
+.tpick.has-req{align-items:flex-start;}
+.pq-req,.pq-copy{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;cursor:pointer;
+  border-radius:9px;border:1px solid transparent;padding:6px 11px;transition:filter .12s,background .12s,opacity .12s;line-height:1;}
+.pq-req{color:#fff;background:var(--ac,var(--brand));}
+.pq-req:hover{filter:brightness(1.08);}
+.pq-copy{color:var(--sub);background:var(--surface);border-color:var(--line);padding:6px 9px;}
+.pq-copy:hover{color:var(--ink);}
+.pq-req .ic,.pq-copy .ic{width:14px;height:14px;flex:none;}
+.pq-req.done{background:#1b9e6f;}
+.pq-req:disabled,.pq-copy:disabled{opacity:.55;cursor:default;}
+.tmore{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:var(--brand);text-decoration:none;}
+.tmore:hover{text-decoration:underline;}
 .tmore .ic{width:14px;height:14px;}
 .nsec{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--sh-sm);overflow:hidden;}
 .nsec-h{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:var(--ink);padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg-subtle);}
@@ -855,7 +871,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
   trash:'<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>',
   dots:'<circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/>',
   checkCircle:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
-  archive:'<rect x="2" y="4" width="20" height="5" rx="1"/><path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9"/><path d="M10 13h4"/>'
+  archive:'<rect x="2" y="4" width="20" height="5" rx="1"/><path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9"/><path d="M10 13h4"/>',
+  copy:'<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>'
  };
  const svg=(n,cls)=>`<svg class="ic${cls?(" "+cls):""}" viewBox="0 0 24 24" aria-hidden="true">${I[n]||""}</svg>`;
 
@@ -1888,6 +1905,42 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    })();
  }
 
+ /* ---------- 트렌드: pick 정규화 + 추천→새 글 요청(반자동) ---------- */
+ /* pick = 문자열(레거시) 또는 {label, req:{purpose,topic,material,writer}}.
+    req.topic/purpose 가 있으면 '발행 요청' 버튼 노출(작성형). 색인요청·관리형은 req 없이 텍스트만. */
+ function normPick(p){
+   if(p&&typeof p==="object")return {label:String(p.label||""),req:(p.req&&(p.req.topic||p.req.purpose))?p.req:null};
+   return {label:String(p||""),req:null};
+ }
+ function pickPlain(label){ return String(label).replace(/\[[^\]]*\]\s*$/,"").replace(/^[\s\u{1F000}-\u{1FAFF}←-➿✅🔼🆕📌🔄🎧🎰🔎•·\-]+/u,"").trim(); }
+ /* 추천 → 새 글 요청. send=확인 후 백엔드 큐로 전송, copy=목적·주제·소재 양식 클립보드 복사. */
+ async function pickRequest(btn,copyOnly){
+   const purpose=btn.dataset.p||"기타",topic=btn.dataset.t||"",material=btn.dataset.m||"",writer=btn.dataset.w||"";
+   const block=`[목적] ${purpose}\n[작성자] ${writer||"미지정"}\n[주제] ${topic}\n[소재/참고메모] ${material||"(없음)"}`;
+   if(copyOnly){
+     try{ await navigator.clipboard.writeText(block); toast("요청 양식을 복사했어요."); }
+     catch(e){ toast("복사에 실패했어요.","err"); }
+     return;
+   }
+   if(!confirm("이 추천을 기획팀에 새 글로 요청할까요?\n\n"+block+"\n\n접수되면 작성 → 검수 → 발행이 진행돼요. 진행 상황은 ‘새 글 요청’에서 볼 수 있어요."))return;
+   const wrap=btn.closest(".tp-act"); if(wrap)wrap.querySelectorAll("button").forEach(b=>b.disabled=true);
+   const old=btn.innerHTML; btn.innerHTML="요청 중…";
+   try{
+     const rec=await RequestService.submit({purpose,topic,material,writer,source:"trend"});
+     const ok=rec.status==="submitted";
+     btn.innerHTML=(ok?svg("check"):"")+(ok?"요청됨":"대기열 저장"); btn.classList.add("done");
+     toast(ok?"발행 요청을 보냈어요. ‘새 글 요청’에서 진행 상황을 볼 수 있어요."
+       :(RequestService.isConnected()?"전송 대기열에 저장했어요(연결되면 자동 전송).":"백엔드 미연결 — 로컬에 저장했어요."));
+   }catch(e){
+     if(wrap)wrap.querySelectorAll("button").forEach(b=>b.disabled=false);
+     btn.innerHTML=old; toast("요청 전송 실패: "+((e&&e.message)||e),"err");
+   }
+ }
+ document.addEventListener("click",e=>{
+   const rq=e.target.closest&&e.target.closest(".pq-req"); if(rq){ e.preventDefault(); pickRequest(rq,false); return; }
+   const cp=e.target.closest&&e.target.closest(".pq-copy"); if(cp){ e.preventDefault(); pickRequest(cp,true); }
+ });
+
  /* ---------- 트렌드 ---------- */
  function renderTrend(){
    titleEl.textContent="트렌드 브리핑"; if(qEl)qEl.placeholder="트렌드 검색 (예: 명조, 사전예약)";
@@ -1896,17 +1949,28 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    if(!TREND.length){ subEl.textContent="데이터 분석실 · 작성자별 약점 처방"; contentEl.innerHTML=`<div class="news">${mast}${emptyBox("base","아직 발행된 브리핑이 없어요.")}</div>`; return; }
    const card=it=>{
      const ac=wac(it.writer);
-     const picks=(it.picks||[]).slice(0,5).map(p=>`<span class="tchip">${esc(p)}</span>`).join("");
-     return `<a class="tcard" href="${enc(it.file)}" style="--ac:${ac}">`+
+     const w=it.writer||"";
+     const picks=(it.picks||[]).slice(0,5).map(raw=>{
+       const o=normPick(raw); let act="";
+       if(o.req){
+         const purpose=esc(o.req.purpose||"기타"),topic=esc(o.req.topic||pickPlain(o.label)),material=esc(o.req.material||""),writer=esc(o.req.writer||w);
+         const d=`data-p="${purpose}" data-t="${topic}" data-m="${material}" data-w="${writer}"`;
+         act=`<span class="tp-act"><button type="button" class="pq-req" ${d} title="이 추천을 기획팀에 새 글로 요청">${svg("send")}발행 요청</button>`+
+             `<button type="button" class="pq-copy" ${d} title="목적·주제·소재 양식 복사" aria-label="요청 양식 복사">${svg("copy")}</button></span>`;
+       }
+       return `<li class="tpick${o.req?" has-req":""}"><span class="tpick-tx">${esc(o.label)}</span>${act}</li>`;
+     }).join("");
+     return `<div class="tcard" style="--ac:${ac}">`+
+       `<a class="tcard-main" href="${enc(it.file)}">`+
        `<div class="tcard-top"><span class="tbadge">${avatar(it.writer,"s")}${esc(it.writer)} 편</span><span class="tdate">${esc(it.date||"")}</span></div>`+
        `<h3 class="tcard-h">${esc(it.headline||(it.writer+" 트렌드 브리핑"))}</h3>`+
-       (it.lead?`<p class="tcard-l">${esc(it.lead)}</p>`:"")+
-       (picks?`<div class="tchips">${picks}</div>`:"")+
-       `<span class="tmore">브리핑 전문 보기 ${svg("arrowR")}</span></a>`;
+       (it.lead?`<p class="tcard-l">${esc(it.lead)}</p>`:"")+`</a>`+
+       (picks?`<ol class="tpicks">${picks}</ol>`:"")+
+       `<a class="tmore" href="${enc(it.file)}">브리핑 전문 보기 ${svg("arrowR")}</a></div>`;
    };
    if(state.q){
      const q=state.q;
-     const hits=TREND.filter(it=>((it.headline||"")+" "+(it.lead||"")+" "+((it.picks||[]).join(" "))+" "+it.writer+" "+it.date).toLowerCase().includes(q));
+     const hits=TREND.filter(it=>((it.headline||"")+" "+(it.lead||"")+" "+((it.picks||[]).map(p=>normPick(p).label).join(" "))+" "+it.writer+" "+it.date).toLowerCase().includes(q));
      subEl.innerHTML=`'${esc(q)}' 검색 · <b>${hits.length}</b>건`;
      contentEl.innerHTML=`<div class="news">${mast}`+(hits.length?`<div class="tcards">${hits.map(card).join("")}</div>`:emptyBox("search",`‘${esc(q)}’에 해당하는 브리핑이 없어요.`))+`</div>`;
      return;
