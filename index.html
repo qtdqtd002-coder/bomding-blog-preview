@@ -291,32 +291,16 @@ svg{display:block;}
   border-radius:var(--radius-lg);padding:18px 20px 16px;box-shadow:var(--sh-sm);transition:transform .15s var(--ease),box-shadow .15s;overflow:hidden;}
 .tcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac,var(--brand));}
 .tcard:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}
-.tcard-main{display:block;color:inherit;text-decoration:none;}
 .tcard-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;}
 .tbadge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#fff;background:var(--ac,var(--brand));border-radius:var(--radius-sm);padding:4px 10px;}
 .tbadge .dot{width:7px;height:7px;border-radius:50%;background:#fff;}
 .tdate{font-size:12.5px;font-weight:700;color:var(--muted);font-feature-settings:"tnum";}
 .tcard-h{font-size:17px;line-height:1.4;font-weight:700;letter-spacing:-.01em;margin:0 0 6px;color:var(--ink);}
-.tcard-main:hover .tcard-h{color:var(--brand);}
+.tcard:hover .tcard-h{color:var(--brand);}
 .tcard-l{margin:0 0 10px;font-size:13.5px;line-height:1.6;color:var(--sub);}
-/* 추천 리스트 + 새 글 요청(반자동) */
-.tpicks{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:6px;}
-.tpick{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:600;color:var(--sub);
-  background:var(--surface-2);border-radius:var(--radius-sm);padding:9px 11px;}
-.tpick-tx{flex:1 1 auto;min-width:0;line-height:1.5;}
-.tp-act{flex:none;display:inline-flex;gap:6px;align-items:center;margin-left:auto;}
-.tpick.has-req{align-items:flex-start;}
-.pq-req,.pq-copy{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;cursor:pointer;
-  border-radius:9px;border:1px solid transparent;padding:6px 11px;transition:filter .12s,background .12s,opacity .12s;line-height:1;}
-.pq-req{color:#fff;background:var(--ac,var(--brand));}
-.pq-req:hover{filter:brightness(1.08);}
-.pq-copy{color:var(--sub);background:var(--surface);border-color:var(--line);padding:6px 9px;}
-.pq-copy:hover{color:var(--ink);}
-.pq-req .ic,.pq-copy .ic{width:14px;height:14px;flex:none;}
-.pq-req.done{background:#1b9e6f;}
-.pq-req:disabled,.pq-copy:disabled{opacity:.55;cursor:default;}
-.tmore{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:var(--brand);text-decoration:none;}
-.tmore:hover{text-decoration:underline;}
+.tchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.tchip{font-size:11.5px;font-weight:600;color:var(--sub);background:var(--surface-2);border-radius:var(--radius-sm);padding:4px 9px;}
+.tmore{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:var(--brand);}
 .tmore .ic{width:14px;height:14px;}
 .nsec{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--sh-sm);overflow:hidden;}
 .nsec-h{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:var(--ink);padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg-subtle);}
@@ -553,42 +537,56 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 /* ===== 작업 큐 탭 ===== */
 .q-loading{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13.5px;padding:30px 6px;justify-content:center;}
 .q-loading .ic{width:16px;height:16px;}
-.qstats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px;}
-.qstat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:13px 10px;text-align:center;
-  display:flex;flex-direction:column;gap:2px;box-shadow:var(--sh-sm);}
-.qstat b{font-size:23px;font-weight:800;line-height:1;font-feature-settings:"tnum";}
-.qstat span{font-size:11.5px;font-weight:700;color:var(--muted);}
-.qstat.s-received b{color:var(--brand);} .qstat.s-processing b{color:#c47f00;}
-.qstat.s-failed b{color:var(--danger);} .qstat.s-published b{color:#0a9d4a;}
-.q-actions{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.qstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.qstat{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:15px 10px 13px;text-align:center;
+  display:flex;flex-direction:column;gap:3px;box-shadow:var(--sh-sm);overflow:hidden;}
+.qstat::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--qc,var(--muted));}
+.qstat b{font-size:26px;font-weight:800;line-height:1;font-feature-settings:"tnum";color:var(--qc,var(--ink));}
+.qstat span{font-size:12px;font-weight:700;color:var(--muted);}
+.qstat.s-received{--qc:var(--brand);} .qstat.s-processing{--qc:#d98a00;} .qstat.s-failed{--qc:var(--danger);}
+.q-actions{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
 .q-refresh{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;cursor:pointer;
   border:1px solid var(--line);background:var(--surface);color:var(--sub);border-radius:9px;padding:7px 12px;transition:.12s;}
-.q-refresh:hover{color:var(--ink);} .q-refresh .ic{width:14px;height:14px;}
+.q-refresh:hover{color:var(--ink);border-color:var(--line-strong);} .q-refresh .ic{width:14px;height:14px;}
 .q-refresh:disabled{opacity:.6;cursor:default;}
 .q-hint{font-size:11.5px;color:var(--muted);}
-.q-sec{margin-bottom:18px;}
-.q-sec-h{font-size:13px;font-weight:800;color:var(--ink);margin:0 2px 9px;display:flex;align-items:center;gap:7px;}
-.q-sec-n{font-size:11.5px;font-weight:800;color:var(--muted);background:var(--surface-2);border-radius:999px;padding:1px 8px;}
-.q-empty{font-size:13px;color:var(--muted);background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--radius);padding:18px;text-align:center;}
-.q-item{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:13px 15px;margin-bottom:9px;box-shadow:var(--sh-sm);}
-.q-item.s-received{border-left:3px solid var(--brand);} .q-item.s-processing{border-left:3px solid #f59e0b;}
-.q-item.s-failed{border-left:3px solid var(--danger);} .q-item.s-published{border-left:3px solid #12b34a;} .q-item.s-skipped{border-left:3px solid var(--muted);}
-.q-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
-.q-title{font-size:14px;font-weight:700;line-height:1.45;color:var(--ink);}
+/* 영역 구분: 두 섹션을 카드로 감싸고 헤더에 색 띠 */
+.q-sec{border:1px solid var(--line);border-radius:var(--radius-lg);padding:6px 14px 14px;margin-bottom:18px;background:var(--bg-subtle);}
+.q-sec.q-active{background:color-mix(in srgb,var(--brand) 5%,var(--surface));border-color:color-mix(in srgb,var(--brand) 22%,var(--line));}
+.q-sec.q-history{background:var(--bg-subtle);}
+.q-sec-h{font-size:13.5px;font-weight:800;color:var(--ink);margin:0 0 4px;padding:12px 2px 11px;display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--line);}
+.q-sec.q-active .q-sec-h{border-bottom-color:color-mix(in srgb,var(--brand) 22%,var(--line));}
+.q-sec-h .ic{width:16px;height:16px;flex:none;}
+.q-active .q-sec-h .ic{color:var(--brand);} .q-history .q-sec-h .ic{color:var(--danger);}
+.q-sec-h>span:first-of-type{flex:1;}
+.q-sec-n{font-size:12px;font-weight:800;color:#fff;background:var(--muted);border-radius:999px;padding:1px 9px;min-width:22px;text-align:center;}
+.q-active .q-sec-n{background:var(--brand);} .q-history .q-sec-n{background:var(--danger);}
+.q-list{display:flex;flex-direction:column;gap:10px;padding-top:12px;}
+.q-empty{font-size:13px;color:var(--muted);padding:20px;text-align:center;}
+/* 아이템: 왼쪽 보더 = 작성자 악센트색(작성자 구분) */
+.q-item{position:relative;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wac,var(--line-strong));
+  border-radius:var(--radius);padding:13px 15px;box-shadow:var(--sh-sm);}
+.q-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;}
+.q-who{display:inline-flex;align-items:center;gap:7px;min-width:0;}
+.q-who .av{width:24px;height:24px;flex:none;}
+.q-who .ic{width:18px;height:18px;color:var(--muted);flex:none;}
+.q-wname{font-size:13px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.q-title{font-size:14.5px;font-weight:700;line-height:1.45;color:var(--ink);}
 .q-sub{font-size:12.5px;color:var(--sub);margin-top:6px;line-height:1.5;}
-.q-reason{display:flex;align-items:flex-start;gap:6px;margin-top:8px;font-size:12.5px;line-height:1.5;
-  color:var(--danger);background:color-mix(in srgb,var(--danger) 8%,transparent);border:1px solid color-mix(in srgb,var(--danger) 22%,transparent);
-  border-radius:8px;padding:7px 9px;}
+.q-reason{display:flex;align-items:flex-start;gap:6px;margin-top:9px;font-size:12.5px;line-height:1.5;
+  color:var(--danger);background:color-mix(in srgb,var(--danger) 9%,transparent);border:1px solid color-mix(in srgb,var(--danger) 24%,transparent);
+  border-radius:8px;padding:8px 10px;}
 .q-reason .ic{width:14px;height:14px;flex:none;margin-top:1px;} .q-reason b{font-weight:800;}
-.q-item.s-skipped .q-reason{color:var(--sub);background:var(--surface-2);border-color:var(--line);}
-.q-meta{font-size:12px;color:var(--muted);margin-top:8px;}
-.q-link{color:var(--brand);font-weight:700;display:inline-flex;align-items:center;gap:3px;}
-.q-link .ic{width:12px;height:12px;}
-.q-cancel{position:absolute;right:13px;bottom:11px;display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;
-  color:var(--muted);background:none;border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer;transition:.12s;}
-.q-cancel:hover{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 40%,transparent);}
+.q-reason.cancel{color:var(--sub);background:var(--surface-2);border-color:var(--line);}
+.q-meta{font-size:12px;color:var(--muted);margin-top:9px;}
+.q-cancel{position:absolute;right:13px;bottom:12px;display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;
+  color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;transition:.12s;}
+.q-cancel:hover{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 45%,transparent);background:color-mix(in srgb,var(--danger) 6%,var(--surface));}
 .q-cancel .ic{width:13px;height:13px;}
-@media(max-width:520px){ .q-cancel{position:static;margin-top:9px;} }
+/* 상태 배지: 큐 전용 색(처리중·취소 보강) */
+.rl-st.s-cancel{color:var(--sub);background:var(--surface-2);border-color:var(--line-strong);}
+@media(max-width:520px){ .q-item{padding-bottom:42px;} .q-cancel{right:12px;bottom:11px;} }
 
 /* ===== 소개 탭 — 회사 안내서(파이프라인·플랫폼·포지션·규칙·정본) ===== */
 .about code{background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.85em;
@@ -1824,9 +1822,9 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  }
  window.__cancelQueued=cancelQueued;
  function renderQueue(){
-   titleEl.textContent="작업 큐 · 히스토리"; subEl.textContent="대기·진행 중인 글과 실패·취소 기록(사유 포함) — 큐가 얼마나 쌓였는지 한눈에";
+   titleEl.textContent="작업 큐"; subEl.textContent="대기·진행 중인 글과 실패·취소 기록 — 작성자별로, 큐가 얼마나 쌓였는지 한눈에";
    if(QUEUE_TIMER){ clearInterval(QUEUE_TIMER); QUEUE_TIMER=null; }
-   const mast=`<div class="masthead" style="--ac:var(--a-queue)"><div class="mk">${svg("inbox")}WORK QUEUE · 작업 큐</div><div class="mt">발행 요청 대기열 · 실패 히스토리</div><div class="ms">‘발행 요청’으로 들어온 글들이 작성→검수→발행되는 큐예요. 진행 상황과 실패 사유를 보고, 아직 시작 안 한 요청은 취소(삭제)할 수 있어요.</div></div>`;
+   const mast=`<div class="masthead" style="--ac:var(--a-queue)"><div class="mk">${svg("inbox")}WORK QUEUE · 작업 큐</div><div class="mt">발행 요청 대기열 · 실패·취소 기록</div><div class="ms">‘발행 요청’으로 들어온 글들이 작성→검수→발행되는 큐예요. 진행 상황과 실패 사유를 작성자별로 보고, 아직 시작 안 한 요청은 취소(삭제)할 수 있어요. (발행 완료 글은 ‘전체 글’에서 확인.)</div></div>`;
    if(!RequestService.isConnected()){
      contentEl.innerHTML=`<div class="news">${mast}${emptyBox("request","백엔드가 연결돼 있지 않아 큐를 불러올 수 없어요.")}</div>`; return;
    }
@@ -1834,30 +1832,36 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    const paint=(all)=>{
      const box=document.getElementById("qBox"); if(!box)return;
      const by=s=>all.filter(x=>x.status===s);
-     const received=by("received"), processing=by("processing"), published=by("published"), failed=by("failed"), skipped=by("skipped");
+     /* 발행됨(published)은 '전체 글'에 나오므로 큐에서 제외(사용자 06-14). */
+     const received=by("received"), processing=by("processing"), failed=by("failed"), skipped=by("skipped");
      const active=[...processing,...received].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-     const history=[...published,...failed,...skipped].sort((a,b)=>(b.statusAt||b.createdAt||0)-(a.statusAt||a.createdAt||0));
+     const history=[...failed,...skipped].sort((a,b)=>(b.statusAt||b.createdAt||0)-(a.statusAt||a.createdAt||0));
      const stat=(n,label,cls)=>`<div class="qstat ${cls}"><b>${n}</b><span>${label}</span></div>`;
-     const bar=`<div class="qstats">${stat(received.length,"대기","s-received")}${stat(processing.length,"진행중","s-processing")}${stat(failed.length,"실패","s-failed")}${stat(published.length,"완료","s-published")}</div>`;
-     const stLabel=r=>r.status==="skipped"&&/취소/.test(r.error||"")?"취소됨":(REQ_STATUS_LABEL[r.status]||r.status);
-     const item=(r,opts)=>{
-       const cancellable=r.status==="received";
-       const reason=(r.status==="failed"||r.status==="skipped")&&r.error?`<div class="q-reason">${svg("alertTri")}<span><b>사유</b> ${esc(r.error)}</span></div>`:"";
-       const link=r.publishUrl?`<a class="q-link" href="${esc(r.publishUrl)}" target="_blank" rel="noopener">발행글 보기 ${svg("arrowUR")}</a>`:"";
+     const bar=`<div class="qstats">${stat(received.length,"대기","s-received")}${stat(processing.length,"진행 중","s-processing")}${stat(failed.length,"실패","s-failed")}</div>`;
+     const isCancel=r=>r.status==="skipped"&&/취소/.test(r.error||"");
+     const item=(r)=>{
+       const wr=r.writer||""; const wac=ACCENT[wr]||"var(--line-strong)";
+       const cancel=isCancel(r);
+       const stCls=cancel?"cancel":r.status; const stLab=cancel?"취소됨":(REQ_STATUS_LABEL[r.status]||r.status);
+       const reason=(r.status==="failed"||r.status==="skipped")&&r.error
+         ? `<div class="q-reason${cancel?" cancel":""}">${svg(cancel?"info":"alertTri")}<span><b>${cancel?"취소":"실패 사유"}</b> ${esc(r.error)}</span></div>` : "";
        const tWhen=r.status==="received"?r.createdAt:(r.statusAt||r.createdAt);
-       return `<div class="q-item s-${esc(r.status)}"><div class="q-top"><span class="q-title">${esc(r.topic||"(주제 없음)")}</span><span class="rl-st s-${esc(r.status)}">${esc(stLabel(r))}</span></div>`+
+       const meta=[r.purpose?"목적 "+esc(r.purpose):"", r.source?esc(r.source):"", esc(qTime(tWhen))].filter(Boolean).join(" · ");
+       return `<div class="q-item s-${esc(stCls)}" style="--wac:${wac}">`+
+         `<div class="q-top"><span class="q-who">${wr?avatar(wr,"s"):svg("inbox")}<span class="q-wname">${esc(wr||"작성자 자동배정")}</span></span><span class="rl-st s-${esc(stCls)}">${esc(stLab)}</span></div>`+
+         `<div class="q-title">${esc(r.topic||"(주제 없음)")}</div>`+
          (r.material?`<div class="q-sub">${esc((r.material||"").slice(0,140))}${(r.material||"").length>140?"…":""}</div>`:"")+
          reason+
-         `<div class="q-meta">${r.purpose?`목적 ${esc(r.purpose)} · `:""}작성자 ${esc(r.writer||"자동배정")}${r.source?` · ${esc(r.source)}`:""} · ${esc(qTime(tWhen))}${link?" · "+link:""}</div>`+
-         (cancellable?`<button class="q-cancel" data-id="${esc(r.id)}" data-topic="${esc(r.topic||"")}">${svg("trash")}취소</button>`:"")+
+         `<div class="q-meta">${meta}</div>`+
+         (r.status==="received"?`<button class="q-cancel" data-id="${esc(r.id)}" data-topic="${esc(r.topic||"")}">${svg("trash")}취소</button>`:"")+
          `</div>`;
      };
-     const sec=(title,arr,emptyMsg)=>`<div class="q-sec"><div class="q-sec-h">${esc(title)} <span class="q-sec-n">${arr.length}</span></div>`+
-       (arr.length?arr.map(item).join(""):`<div class="q-empty">${esc(emptyMsg)}</div>`)+`</div>`;
+     const sec=(title,icon,arr,emptyMsg,cls)=>`<section class="q-sec ${cls}"><h3 class="q-sec-h">${svg(icon)}<span>${esc(title)}</span><span class="q-sec-n">${arr.length}</span></h3>`+
+       (arr.length?`<div class="q-list">${arr.map(item).join("")}</div>`:`<div class="q-empty">${esc(emptyMsg)}</div>`)+`</section>`;
      box.innerHTML=bar+
-       `<div class="q-actions"><button class="q-refresh" id="qRefresh">${svg("refresh")}새로고침</button><span class="q-hint">20초마다 자동 갱신</span></div>`+
-       sec("작업 대기·진행 중",active,"대기 중인 글이 없어요. 트렌드 추천이나 ‘새 글 요청’에서 보내보세요.")+
-       sec("히스토리 (완료·실패·취소)",history,"아직 처리된 기록이 없어요.");
+       `<div class="q-actions"><button class="q-refresh" id="qRefresh">${svg("refresh")}새로고침</button><span class="q-hint">20초마다 자동 갱신 · 발행 완료 글은 ‘전체 글’에서 확인</span></div>`+
+       sec("작업 대기·진행 중","clock",active,"대기 중인 글이 없어요. 트렌드 브리핑이나 ‘새 글 요청’에서 보내보세요.","q-active")+
+       sec("실패·취소 기록","alertTri",history,"실패하거나 취소된 글이 없어요.","q-history");
      box.querySelectorAll(".q-cancel").forEach(b=>b.addEventListener("click",()=>cancelQueued(b.dataset.id,b.dataset.topic)));
      const rf=document.getElementById("qRefresh"); if(rf)rf.addEventListener("click",()=>load(true));
    };
@@ -2017,41 +2021,13 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    })();
  }
 
- /* ---------- 트렌드: pick 정규화 + 추천→새 글 요청(반자동) ---------- */
- /* pick = 문자열(레거시) 또는 {label, req:{purpose,topic,material,writer}}.
-    req.topic/purpose 가 있으면 '발행 요청' 버튼 노출(작성형). 색인요청·관리형은 req 없이 텍스트만. */
+ /* ---------- 트렌드: pick 정규화 ---------- */
+ /* pick = 문자열(레거시) 또는 {label, req:{purpose,topic,material,writer}}. 트렌드 카드는 label만 칩으로 표시.
+    발행 요청 버튼은 브리핑 전문(글 안)에서만 — _trend/req-widget.js 가 처리(사용자 06-14). */
  function normPick(p){
    if(p&&typeof p==="object")return {label:String(p.label||""),req:(p.req&&(p.req.topic||p.req.purpose))?p.req:null};
    return {label:String(p||""),req:null};
  }
- function pickPlain(label){ return String(label).replace(/\[[^\]]*\]\s*$/,"").replace(/^[\s\u{1F000}-\u{1FAFF}←-➿✅🔼🆕📌🔄🎧🎰🔎•·\-]+/u,"").trim(); }
- /* 추천 → 새 글 요청. send=확인 후 백엔드 큐로 전송, copy=목적·주제·소재 양식 클립보드 복사. */
- async function pickRequest(btn,copyOnly){
-   const purpose=btn.dataset.p||"기타",topic=btn.dataset.t||"",material=btn.dataset.m||"",writer=btn.dataset.w||"";
-   const block=`[목적] ${purpose}\n[작성자] ${writer||"미지정"}\n[주제] ${topic}\n[소재/참고메모] ${material||"(없음)"}`;
-   if(copyOnly){
-     try{ await navigator.clipboard.writeText(block); toast("요청 양식을 복사했어요."); }
-     catch(e){ toast("복사에 실패했어요.","err"); }
-     return;
-   }
-   if(!confirm("이 추천을 기획팀에 새 글로 요청할까요?\n\n"+block+"\n\n접수되면 작성 → 검수 → 발행이 진행돼요. 진행 상황은 ‘새 글 요청’에서 볼 수 있어요."))return;
-   const wrap=btn.closest(".tp-act"); if(wrap)wrap.querySelectorAll("button").forEach(b=>b.disabled=true);
-   const old=btn.innerHTML; btn.innerHTML="요청 중…";
-   try{
-     const rec=await RequestService.submit({purpose,topic,material,writer,source:"trend"});
-     const ok=rec.status==="submitted";
-     btn.innerHTML=(ok?svg("check"):"")+(ok?"요청됨":"대기열 저장"); btn.classList.add("done");
-     toast(ok?"발행 요청을 보냈어요. ‘새 글 요청’에서 진행 상황을 볼 수 있어요."
-       :(RequestService.isConnected()?"전송 대기열에 저장했어요(연결되면 자동 전송).":"백엔드 미연결 — 로컬에 저장했어요."));
-   }catch(e){
-     if(wrap)wrap.querySelectorAll("button").forEach(b=>b.disabled=false);
-     btn.innerHTML=old; toast("요청 전송 실패: "+((e&&e.message)||e),"err");
-   }
- }
- document.addEventListener("click",e=>{
-   const rq=e.target.closest&&e.target.closest(".pq-req"); if(rq){ e.preventDefault(); pickRequest(rq,false); return; }
-   const cp=e.target.closest&&e.target.closest(".pq-copy"); if(cp){ e.preventDefault(); pickRequest(cp,true); }
- });
 
  /* ---------- 트렌드 ---------- */
  function renderTrend(){
@@ -2061,24 +2037,14 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    if(!TREND.length){ subEl.textContent="데이터 분석실 · 작성자별 약점 처방"; contentEl.innerHTML=`<div class="news">${mast}${emptyBox("base","아직 발행된 브리핑이 없어요.")}</div>`; return; }
    const card=it=>{
      const ac=wac(it.writer);
-     const w=it.writer||"";
-     const picks=(it.picks||[]).slice(0,5).map(raw=>{
-       const o=normPick(raw); let act="";
-       if(o.req){
-         const purpose=esc(o.req.purpose||"기타"),topic=esc(o.req.topic||pickPlain(o.label)),material=esc(o.req.material||""),writer=esc(o.req.writer||w);
-         const d=`data-p="${purpose}" data-t="${topic}" data-m="${material}" data-w="${writer}"`;
-         act=`<span class="tp-act"><button type="button" class="pq-req" ${d} title="이 추천을 기획팀에 새 글로 요청">${svg("send")}발행 요청</button>`+
-             `<button type="button" class="pq-copy" ${d} title="목적·주제·소재 양식 복사" aria-label="요청 양식 복사">${svg("copy")}</button></span>`;
-       }
-       return `<li class="tpick${o.req?" has-req":""}"><span class="tpick-tx">${esc(o.label)}</span>${act}</li>`;
-     }).join("");
-     return `<div class="tcard" style="--ac:${ac}">`+
-       `<a class="tcard-main" href="${enc(it.file)}">`+
+     /* 발행 요청 버튼은 브리핑 전문(글 안)에서만 — 트렌드 카드 요약엔 칩만(사용자 06-14). */
+     const picks=(it.picks||[]).slice(0,5).map(raw=>`<span class="tchip">${esc(normPick(raw).label)}</span>`).join("");
+     return `<a class="tcard" href="${enc(it.file)}" style="--ac:${ac}">`+
        `<div class="tcard-top"><span class="tbadge">${avatar(it.writer,"s")}${esc(it.writer)} 편</span><span class="tdate">${esc(it.date||"")}</span></div>`+
        `<h3 class="tcard-h">${esc(it.headline||(it.writer+" 트렌드 브리핑"))}</h3>`+
-       (it.lead?`<p class="tcard-l">${esc(it.lead)}</p>`:"")+`</a>`+
-       (picks?`<ol class="tpicks">${picks}</ol>`:"")+
-       `<a class="tmore" href="${enc(it.file)}">브리핑 전문 보기 ${svg("arrowR")}</a></div>`;
+       (it.lead?`<p class="tcard-l">${esc(it.lead)}</p>`:"")+
+       (picks?`<div class="tchips">${picks}</div>`:"")+
+       `<span class="tmore">브리핑 전문 보기 ${svg("arrowR")}</span></a>`;
    };
    if(state.q){
      const q=state.q;
