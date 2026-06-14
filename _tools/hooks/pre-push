@@ -7,11 +7,34 @@
 #       문체 톤·사실 검증은 이 훅이 못 잡는다(파이프라인 QA/검수2 담당) — 이 훅은 '기계적 게이트가 항상 돌게' 하는 백스톱.
 
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+
+# ---- (0) 쓰담 스킬 수정 잠금 검사 (글 변형 방지 백스톱, 2026-06-14) ----
+# .bc-locks/state/skill-edit.lock 의 mtime 이 TTL(초) 이내면 '스킬 수정 중' → push 차단.
+# Claude PreToolUse 게이트를 거치지 않는 '손수 push'까지 막는다. 동시발행 직렬화(mutex)는
+# 세션 소유 판별이 필요해 여기선 안 한다(Claude 게이트 담당) — 이 훅은 스킬락만 본다.
+SKILL_LOCK="C:/Users/qtdqt/Desktop/Claude/.bc-locks/state/skill-edit.lock"
+SKILL_TTL=600
+if [ -f "$SKILL_LOCK" ]; then
+  NOW=$(date +%s)
+  MT=$(stat -c %Y "$SKILL_LOCK" 2>/dev/null || stat -f %m "$SKILL_LOCK" 2>/dev/null)
+  if [ -n "$MT" ]; then
+    AGE=$((NOW - MT))
+    if [ "$AGE" -lt "$SKILL_TTL" ]; then
+      echo ""
+      echo "[pre-push] ✗ 쓰담 컴퍼니 스킬이 수정 중입니다(마지막 수정 ${AGE}초 전) — push 차단."
+      echo "           스킬 수정 중 발행하면 글이 변형될 수 있습니다. 편집을 끝내고 약 $(( (SKILL_TTL - AGE + 59) / 60 ))분(무수정) 뒤 다시 push 하세요."
+      echo "           수동 해제: powershell -File \"C:\\Users\\qtdqt\\Desktop\\Claude\\.bc-locks\\lock.ps1\" clear skill"
+      exit 1
+    fi
+  fi
+fi
+
 LINT="$REPO_ROOT/_tools/style-lint.py"
 
 if [ ! -f "$LINT" ]; then
-  echo "[pre-push] style-lint.py 없음 — 게이트 건너뜀(경로 확인 필요): $LINT"
-  exit 0
+  echo "[pre-push] ✗ style-lint.py 없음 — 게이트를 확인할 수 없어 push 중단(fail-closed): $LINT"
+  echo "           _tools/style-lint.py 경로를 복구한 뒤 다시 push하세요. (게이트가 없으면 발행을 막는다 — 사고·예외 0 원칙)"
+  exit 1
 fi
 
 # python 실행기 탐색(py 런처 우선 → python → python3)

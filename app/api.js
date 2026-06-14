@@ -33,6 +33,13 @@ window.BC_CONFIG = {
     backendLabel() { return this.isConnected() ? '백엔드 연결됨' : '백엔드 미연결 (로컬 저장)'; },
     list() { return load().sort((a, b) => b.createdAt - a.createdAt); },
 
+    // 점검(maintenance) 상태 — 스킬 점검 중이면 발행 일시 중단. 실패/미연결 시 null(배너 안 띄움).
+    async maintenance() {
+      if (!this.isConnected()) return null;
+      try { const r = await fetch(base() + '/maintenance?ts=' + Date.now()); if (!r.ok) return null; return await r.json(); }
+      catch (_) { return null; }
+    },
+
     async submit(req) {
       // 파일(File 객체)은 localStorage 에 직렬화하지 않는다 — 이름만 남기고 본문은 서버 전송.
       const file = req.file || null;

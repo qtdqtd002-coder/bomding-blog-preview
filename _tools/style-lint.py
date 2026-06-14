@@ -10,6 +10,13 @@
 #       으로 발행된 사고. 이 린트가 push마다 자동(pre-push 훅) 실행되도록 강제 + 면책박스류를 전 작성자 공통 금지로 추가.
 import os, re, sys
 
+# Windows 기본 콘솔(cp949)에서 이모지(⚠ ✗)·한글 출력이 UnicodeEncodeError로 크래시 → pre-push 훅이 통째로 죽던 버그 수정(2026-06-14).
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARAEA = "ㆍ"  # ㆍ 아래아(영도 전용 나열 구분자)
 
@@ -64,20 +71,45 @@ CLOSING_DENY = {
     "연봄":   [("영도식 댓글 유도 마무리(맺음말이 댓글로 닫힘)", r"댓글")],
 }
 
+# 양식 변형 차단 — 작성자 정본 스켈레톤(output-format §1-3) 위반. 봄딩·영도(네이버)에 금지된 티스토리/겜더쿠식 장식.
+# 배경: 2026-06-14 봄딩 '레테' 글이 정본 스켈레톤을 안 타고 자유 생성돼, §1-3가 봄딩에 금지한 '내부링크 박스(같이 보면 좋은 글)'가 섞여 들어온 사고.
+# 겜더쿠·연봄(티스토리)은 클러스터 내부링크 박스를 정당하게 쓰므로 여기서 제외(봄딩·영도만 적용).
+FORMAT_DENY = {
+    "봄딩": [
+        ("티스토리/겜더쿠식 내부링크 박스 '같이 보면 좋은 글'(§1-3 봄딩 금지)", r"같이\s*보면\s*좋은\s*글"),
+    ],
+    "영도": [
+        ("티스토리/겜더쿠식 내부링크 박스 '같이 보면 좋은 글'(§1-3 영도 금지)", r"같이\s*보면\s*좋은\s*글"),
+    ],
+}
+
+# 양식 변형 경고 — push는 막지 않으나 정본 스켈레톤 미사용(자유 생성) 의심. 봄딩·영도만.
+# 봄딩 정본 소제목=h2.sub 클래스 / 영도=h2.sec 클래스. 인라인 style= 남용과 빈 앵커(href="#")는 정본 미준수 신호.
+FORMAT_WARN = {
+    "봄딩": [
+        ("본문 <h2> 인라인 style= 사용(정본은 h2.sub 클래스)", r"<h2[^>]*\bstyle="),
+        ('죽은/빈 링크 href="#" (실제 내부링크 URL 아님)', r'href="#"'),
+    ],
+    "영도": [
+        ("본문 <h2> 인라인 style= 사용(정본은 h2.sec 클래스)", r"<h2[^>]*\bstyle="),
+        ('죽은/빈 링크 href="#" (실제 내부링크 URL 아님)', r'href="#"'),
+    ],
+}
+
 # 발행본 절대금지 — 전 작성자 공통(범인 글이 어느 폴더에 있든 적용). 정상 발행글엔 0건이어야 한다.
 # 'AI 일반 템플릿 면책 박스 / 초안·QA 내부 잔재'로, 봄딩 우마무스메 사고(2026-06-14)의 핵심 시그니처.
 PUBLISH_DENY = [
     ("AI 일반 템플릿 면책 박스(.disclaimer) — 정본 스켈레톤엔 없음", r'class="disclaimer"'),
     ("초안/QA 잔재 면책 문구 '게임 내 확인 필요'(발행본 노출 금지)", r"게임 내 확인 필요"),
+    # ↓ 2026-06-14 WARN→DENY 승격(해당 잔존 글 전부 정리 완료: 포켓몬카드 아마존 재작성·유산균비교·레이드공략 메타푸터 제거)
+    ("작성자 스켈레톤 대신 일반 .container 래퍼 사용(정본은 .wrap/.post)", r'class="container"'),
+    ("초안 이미지 자리 'img-placeholder'(정본은 .ss/.shoot/.imgwrap)", r"img-placeholder"),
+    ("발행본 금지 메타 푸터 '작성 참고…사실 확인'(검증 방법론은 내부 기록일 뿐 발행본 요소 아님)", r"작성\s*참고[\s\S]{0,40}사실\s*확인"),
 ]
 
-# 비표준 템플릿 경고 — push를 막지는 않으나(WARN) 작성자 정본 스켈레톤 미사용(파이프라인 우회) 의심.
-# (현재 기존 글 일부에 잔존 → 정리 후 PUBLISH_DENY로 승격 예정: 포켓몬카드 아마존·유산균비교·레이드공략 등)
-PUBLISH_WARN = [
-    ("작성자 스켈레톤 대신 일반 .container 래퍼 사용", r'class="container"'),
-    ("초안 이미지 자리 'img-placeholder'(정본은 .ss/.shoot/.imgwrap)", r"img-placeholder"),
-    ("발행본 금지 메타 푸터 '작성 참고…사실 확인'(검증 방법론은 내부 기록)", r"작성\s*참고[\s\S]{0,40}사실\s*확인"),
-]
+# 비표준 템플릿 경고(WARN) — push를 막지는 않으나 정본 스켈레톤 미사용 의심. 전 작성자 공통분은 모두 DENY로 승격돼 현재 비어 있음.
+# (봄딩·영도 양식 변형 경고는 위 FORMAT_WARN에서 처리: 인라인 h2·href="#")
+PUBLISH_WARN = []
 
 def strip_meta(s):
     # 클래스/태그는 남기되(class="disclaimer" 등 탐지 위해) 주석·스타일·스크립트만 제거.
@@ -133,8 +165,18 @@ def main():
                     hits = re.findall(pat, meta)
                     if hits:
                         problems.append((author, rel, label, len(hits)))
+                # 2-1) 양식 변형 차단(봄딩·영도 정본 스켈레톤 위반 — §1-3)
+                for label, pat in FORMAT_DENY.get(author, []):
+                    hits = re.findall(pat, meta)
+                    if hits:
+                        problems.append((author, rel, label, len(hits)))
                 # 3) 비표준 템플릿 경고(WARN)
                 for label, pat in PUBLISH_WARN:
+                    hits = re.findall(pat, meta)
+                    if hits:
+                        warnings.append((author, rel, label, len(hits)))
+                # 3-1) 양식 변형 경고(인라인 h2·빈 앵커 — 봄딩·영도)
+                for label, pat in FORMAT_WARN.get(author, []):
                     hits = re.findall(pat, meta)
                     if hits:
                         warnings.append((author, rel, label, len(hits)))

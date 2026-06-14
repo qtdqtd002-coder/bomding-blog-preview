@@ -5,7 +5,7 @@
   :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
   *{box-sizing:border-box;}
   body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
-  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}  /* overflow:hidden 두지 말 것 — §1-4 사이드 노트가 카드 밖에서 잘림 */
   .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
   .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
   .post{padding:28px 28px 40px;}
@@ -31,7 +31,18 @@
   .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
   .tbl th{background:#f7f8fa;font-weight:700;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* §1-4 출처 재서술 표시(미리보기 전용) */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
 </style></head><body>
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
   <div class="post">
@@ -48,12 +59,26 @@
     <p class="cap">지옥의 힘을 끌어다 쓰는 '악마의 지배자', 악마술사가 17일에 옵니다.</p>
 
     <h2>악마술사, 어떤 직업이에요?</h2>
-    <p>공식 소개를 한마디로 줄이면 <b>혼합형 원거리 시전자이자 '악마의 지배자'</b>예요. 지옥 그 자체의 힘을 끌어내서 악마를 불러일으키고, 불지옥 마법을 펼치는 사악한 능력을 다루는 직업인데요. 멀리서 마법을 쏘는 시전자이면서 동시에 악마 군단을 부리는 소환사 느낌이라, 결이 꽤 독특하더라고요.</p>
+    <div class="para-wrap">
+    <p>공식 소개를 한마디로 줄이면 <b><span class="rev-hl">혼합형 원거리 시전자이자 '악마의 지배자'</span></b>예요. <span class="rev-hl">지옥의 힘을 끌어내 악마를 불러일으키고, 불지옥 마법을 펼치는 사악한 능력을 다루는 직업</span>인데요. 멀리서 마법을 쏘는 시전자이면서 동시에 악마 군단을 부리는 소환사 느낌이라, 결이 꽤 독특하더라고요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 직업 콘셉트</span>
+        <span class="sn-src"><b>악마술사 공개 보도자료</b>가 "지옥의 힘을 다루는 혼합형 원거리 시전자, '악마의 지배자'"로 소개했어요. (<a href="https://www.inven.co.kr/webzine/news/?news=317290" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 보도 문구를 그대로 옮기지 않고 핵심(원거리 시전+악마 지배)만 추려 봄딩 말투로 풀었어요.</span>
+      </div>
+    </div>
     <p>특히 눈에 띄는 건 악마를 '소환'하고 '지휘'하고 '희생'시켜서 전투를 지배한다는 설명이에요. 단순히 악마를 불러놓고 싸우는 게 아니라, 상황에 따라 불러낸 악마를 제물로 바쳐 더 큰 힘을 끌어내는 식의 운영이 가능하다는 거죠. 이 <b>'희생'</b>이라는 키워드가 다른 소환형 직업과 악마술사를 가르는 포인트가 되지 않을까 싶네요.</p>
 
     <h2>핵심은 '영혼 탐닉자' - 1레벨부터 악마를 집어삼킨다</h2>
     <p>악마술사를 이야기할 때 빠지지 않는 게 <b>'영혼 탐닉자(Soulgorger)'</b>인데요. 1레벨부터 곁에 두고 쓸 수 있는 상징적인 동료라고 해요. 처음 키우기 시작하는 순간부터 함께한다는 거라, 악마술사의 정체성을 초반부터 바로 체감하게 되는 셈이죠.</p>
-    <p>이 영혼 탐닉자가 하는 일이 꽤 살벌합니다. 전투 중에 악마를 통째로 집어삼켜서 그 힘을 흡수하는 <b>포식 메커니즘</b>을 가지고 있거든요. 적이든 내가 부린 악마든, 삼켜서 양분으로 바꾼다는 콘셉트라 '지배자'라는 별명이 그냥 붙은 게 아니구나 싶더라고요. 이 포식을 어떻게 굴리느냐가 악마술사 플레이의 손맛을 좌우할 것 같습니다.</p>
+    <div class="para-wrap">
+    <p>이 영혼 탐닉자가 하는 일이 꽤 살벌합니다. <span class="rev-hl">전투 중에 악마를 통째로 집어삼켜 그 힘을 흡수하는 포식 메커니즘</span>을 가지고 있거든요. 적이든 내가 부린 악마든, 삼켜서 양분으로 바꾼다는 콘셉트라 '지배자'라는 별명이 그냥 붙은 게 아니구나 싶더라고요. 이 포식을 어떻게 굴리느냐가 악마술사 플레이의 손맛을 좌우할 것 같습니다.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 영혼 탐닉자 포식</span>
+        <span class="sn-src"><b>악마술사 공개 보도자료</b>가 1레벨 동료 '영혼 탐닉자(Soulgorger)'의 악마 포식·흡수 메커니즘을 소개했어요. (<a href="https://www.gamevu.co.kr/news/articleView.html?idxno=58545" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ "악마를 집어삼켜 양분으로 바꾼다"는 봄딩 말투로 풀고, 포식 운영의 손맛으로 연결했어요.</span>
+      </div>
+    </div>
 
     <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 영혼 탐닉자 동료 / 악마 포식 연출</span></div>
     <div class="shoot">📸 공식 이미지 권장 — 받을 곳: <a href="https://news.blizzard.com/ko-kr" target="_blank">블리자드 공식 뉴스</a> · <a href="https://www.gamevu.co.kr/news/articleView.html?idxno=58545" target="_blank">게임뷰 악마술사 보도자료</a></div>

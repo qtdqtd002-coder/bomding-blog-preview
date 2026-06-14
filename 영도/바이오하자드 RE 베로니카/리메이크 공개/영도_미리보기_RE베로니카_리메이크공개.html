@@ -5,7 +5,7 @@
   :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
   *{box-sizing:border-box;}
   body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
-  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}  /* overflow:hidden 두지 말 것 — §1-4 사이드 노트가 카드 밖에서 잘림 */
   .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
   .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
   .post{padding:28px 28px 40px;}
@@ -39,7 +39,18 @@
   .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
     text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* §1-4 출처 재서술 표시(미리보기 전용) */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
 </style></head><body>
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 영도 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
   <div class="post">
@@ -70,9 +81,23 @@
 
     <h2 class="sec">2. RE:베로니카 ↔ 원작, 뭐가 달라지나 - 파리가 새로 등장!</h2>
 
-    <p>이번 <b>'RE:베로니카'</b>는 캡콤이 RE2ㆍRE3ㆍRE4 리메이크에서 써 온 그 <b>'RE 엔진'</b>으로 다시 만들어집니다. 트레일러만 봐도 클레어의 표정ㆍ피부ㆍ머리카락 디테일이 확 올라왔는데요. <b>한층 사실적이고 수려하게 모델링된 클레어와 무대</b>가 이번 리메이크의 1차 셀링포인트라고 보시면 됩니다.</p>
+    <div class="para-wrap">
+    <p>이번 <b>'RE:베로니카'</b>는 <span class="rev-hl">캡콤이 RE2ㆍRE3ㆍRE4 리메이크에서 써 온 그 <b>'RE 엔진'</b>으로 다시 만들어집니다.</span> 트레일러만 봐도 클레어의 표정ㆍ피부ㆍ머리카락 디테일이 확 올라왔는데요. <b>한층 사실적이고 수려하게 모델링된 클레어와 무대</b>가 이번 리메이크의 1차 셀링포인트라고 보시면 됩니다.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 리메이크 방식</span>
+        <span class="sn-src"><b>캡콤 공식 리빌(서머 게임 페스트 2026)</b>이 RE 엔진 기반 리메이크임을 공개했어요. (<a href="https://www.youtube.com/watch?v=5FBrW2dIYo4" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ "RE2·3·4에서 써 온 그 엔진"이라고 영도 말투로 풀어 친숙하게 연결했어요.</span>
+      </div>
+    </div>
 
-    <p>그런데 이번 공개에서 제일 눈에 띈 건 따로 있었습니다. 바로 원작엔 없던 <b>'파리(엄브렐러 파리 지부)' 무대가 새로 추가</b>된다는 점인데요. 트레일러는 파리를 배경으로 한 노파의 등장으로 시작해서, 방 안의 오브젝트들을 하나씩 천천히 비추며 긴장감을 쌓다가, 마지막에 RE 엔진으로 빚어낸 클레어의 모습으로 마무리됩니다. 연출만 봐도 "아, 이번엔 공포 쪽으로 제대로 조이겠구나" 싶더라고요.</p>
+    <div class="para-wrap">
+    <p>그런데 이번 공개에서 제일 눈에 띈 건 따로 있었습니다. <span class="rev-hl">바로 원작엔 없던 <b>'파리(엄브렐러 파리 지부)' 무대가 새로 추가</b>된다는 점</span>인데요. 트레일러는 파리를 배경으로 한 노파의 등장으로 시작해서, 방 안의 오브젝트들을 하나씩 천천히 비추며 긴장감을 쌓다가, 마지막에 RE 엔진으로 빚어낸 클레어의 모습으로 마무리됩니다. 연출만 봐도 "아, 이번엔 공포 쪽으로 제대로 조이겠구나" 싶더라고요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 신규 '파리' 무대</span>
+        <span class="sn-src"><b>리빌 트레일러</b>가 원작에 없던 파리(엄브렐러 파리 지부) 무대와 노파 등장 연출을 보여줬어요. (<a href="https://www.youtube.com/watch?v=5FBrW2dIYo4" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 트레일러 장면을 그대로 옮기지 않고 "원작엔 없던 새 무대"라는 의미로 짚어 풀었어요.</span>
+      </div>
+    </div>
 
     <p>스토리 흐름을 보면, 클레어가 <b>오빠 크리스를 찾기 위해 파리의 엄브렐러 지부에 잠입</b>하는 과정에서 파리의 한 숙소를 거치는 장면이 그려졌는데요. 원작이 곧장 록포트 섬에서 출발했던 걸 떠올리면, 도입부 서사가 꽤 확장될 수 있다는 신호로 읽힙니다.</p>
 

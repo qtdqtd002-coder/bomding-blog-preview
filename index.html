@@ -537,6 +537,14 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 .rl-del:hover{color:var(--danger);}
 
 /* ===== 작업 큐 탭 ===== */
+/* 점검 중 배너 — 스킬 점검으로 발행 일시 중단 시 작업 큐 상단에 노출 */
+.q-maint{display:flex;gap:11px;align-items:flex-start;margin-bottom:14px;padding:13px 15px;
+  border:1px solid #e9b949;border-left:4px solid #d98a00;border-radius:var(--radius);
+  background:rgba(217,138,0,.09);box-shadow:var(--sh-sm);}
+.q-maint .ic{width:18px;height:18px;color:#d98a00;flex:0 0 auto;margin-top:1px;}
+.q-maint-tx{display:flex;flex-direction:column;gap:3px;}
+.q-maint-tx b{font-size:14px;font-weight:800;color:var(--ink);}
+.q-maint-tx span{font-size:12.5px;line-height:1.5;color:var(--sub);}
 .q-loading{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13.5px;padding:30px 6px;justify-content:center;}
 .q-loading .ic{width:16px;height:16px;}
 .qstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
@@ -1807,6 +1815,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  let QUEUE_TIMER=null;
  function qTime(ms){ try{ const d=new Date(ms); const p=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }catch(e){ return ""; } }
  async function queueFetch(){ const r=await fetch(apiBase()+"/requests?ts="+Date.now()); if(!r.ok)throw new Error("HTTP "+r.status); const a=await r.json(); return Array.isArray(a)?a:[]; }
+ /* 점검(maintenance) 상태 — 스킬 점검 중이면 발행이 일시 중단됨. 실패 시 null(배너 안 띄움). */
+ async function maintenanceFetch(){ try{ const r=await fetch(apiBase()+"/maintenance?ts="+Date.now()); if(!r.ok)return null; return await r.json(); }catch(_){ return null; } }
  async function refreshQueueBadge(){
    const el=document.getElementById("navQueueCnt"); if(!el)return;
    if(!RequestService.isConnected()){ el.hidden=true; return; }
@@ -1831,8 +1841,11 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      contentEl.innerHTML=`<div class="news">${mast}${emptyBox("request","백엔드가 연결돼 있지 않아 큐를 불러올 수 없어요.")}</div>`; return;
    }
    contentEl.innerHTML=`<div class="news">${mast}<div id="qBox"><div class="q-loading">${svg("refresh")} 큐를 불러오는 중…</div></div></div>`;
-   const paint=(all)=>{
+   const paint=(all,maint)=>{
      const box=document.getElementById("qBox"); if(!box)return;
+     const maintBanner=(maint&&maint.active)
+       ? `<div class="q-maint" role="status">${svg("alertTri")}<div class="q-maint-tx"><b>점검 중 — 발행 일시 중단</b><span>스킬 점검 중이라 글 발행을 잠시 멈췄어요. 새 글 요청은 정상 접수되며, 점검이 끝나면 대기 순서대로 다시 자동 발행됩니다.</span></div></div>`
+       : "";
      const by=s=>all.filter(x=>x.status===s);
      /* 발행됨(published)은 '전체 글'에 나오므로 큐에서 제외(사용자 06-14). */
      const received=by("received"), processing=by("processing"), failed=by("failed"), skipped=by("skipped");
@@ -1860,7 +1873,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      };
      const sec=(title,icon,arr,emptyMsg,cls)=>`<section class="q-sec ${cls}"><h3 class="q-sec-h">${svg(icon)}<span>${esc(title)}</span><span class="q-sec-n">${arr.length}</span></h3>`+
        (arr.length?`<div class="q-list">${arr.map(item).join("")}</div>`:`<div class="q-empty">${esc(emptyMsg)}</div>`)+`</section>`;
-     box.innerHTML=bar+
+     box.innerHTML=maintBanner+bar+
        `<div class="q-actions"><button class="q-refresh" id="qRefresh">${svg("refresh")}새로고침</button><span class="q-hint">20초마다 자동 갱신 · 발행 완료 글은 ‘전체 글’에서 확인</span></div>`+
        sec("작업 대기·진행 중","clock",active,"대기 중인 글이 없어요. 트렌드 브리핑이나 ‘새 글 요청’에서 보내보세요.","q-active")+
        sec("실패·취소 기록","alertTri",history,"실패하거나 취소된 글이 없어요.","q-history");
@@ -1868,7 +1881,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      const rf=document.getElementById("qRefresh"); if(rf)rf.addEventListener("click",()=>load(true));
    };
    const load=(manual)=>{ if(manual){ const box=document.getElementById("qBox"); if(box){ const rf=document.getElementById("qRefresh"); if(rf){ rf.disabled=true; rf.innerHTML=svg("refresh")+"갱신 중…"; } } }
-     queueFetch().then(all=>{ paint(all); const el=document.getElementById("navQueueCnt"); if(el){ const a=all.filter(x=>x.status==="received"||x.status==="processing").length; if(a>0){el.textContent=a;el.hidden=false;}else{el.hidden=true;} } })
+     Promise.all([queueFetch(),maintenanceFetch()]).then(([all,maint])=>{ paint(all,maint); const el=document.getElementById("navQueueCnt"); if(el){ const a=all.filter(x=>x.status==="received"||x.status==="processing").length; if(a>0){el.textContent=a;el.hidden=false;}else{el.hidden=true;} } })
        .catch(e=>{ const box=document.getElementById("qBox"); if(box)box.innerHTML=emptyBox("base","큐를 불러오지 못했어요. 잠시 후 새로고침해주세요."); }); };
    load(false);
    QUEUE_TIMER=setInterval(()=>{ if(state.view==="__queue__"){ load(false); } else { clearInterval(QUEUE_TIMER); QUEUE_TIMER=null; } },20000);

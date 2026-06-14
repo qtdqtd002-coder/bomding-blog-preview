@@ -687,6 +687,7 @@
   VIEWS.request = async (root) => {
     const connected = window.BC.PublishRequestService.isConnected();
     root.innerHTML =
+      `<div id="maintBanner"></div>` +
       `<div class="livebar"><span class="live-dot"></span><div class="live-tx"><b>요청은 <u>15분에 한 번</u> 자동으로 확인돼요.</b>
         <span>접수된 요청을 차례로 <em>작성 → 검수 → 발행</em>까지 자동 처리합니다. 발행이 끝나면 알림(푸시)으로 알려드려요.</span></div>
         <span class="badge ${connected ? 'ok' : 'warn'}" id="beBadge">${esc(window.BC.PublishRequestService.backendLabel())}</span></div>
@@ -722,6 +723,13 @@
     renderRequests();
     // 뷰 진입 시 1회 백엔드 상태 동기화 → 발행중/접수됨 라벨 갱신 + 발행 완료분 제거
     window.BC.PublishRequestService.syncStatuses().then((c) => { if (c) renderRequests(); }).catch(() => {});
+    // 점검 중이면 상단 배너(스킬 점검 → 발행 일시 중단). 실패/미연결이면 표시 안 함.
+    window.BC.PublishRequestService.maintenance().then((m) => {
+      const el = $('#maintBanner'); if (!el) return;
+      el.innerHTML = (m && m.active)
+        ? `<div class="maint-banner" role="status"><span class="mi">🔧</span><div><b>점검 중 — 발행 일시 중단</b><span>스킬 점검 중이라 글 발행을 잠시 멈췄어요. 요청은 정상 접수되며, 점검이 끝나면 차례로 자동 발행됩니다.</span></div></div>`
+        : '';
+    }).catch(() => {});
     renderPush();
     // 첨부 파일 선택
     let pickedFile = null;
