@@ -5,7 +5,7 @@
   :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
   *{box-sizing:border-box;}
   body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
-  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
   .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
   .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
   .post{padding:28px 28px 40px;}
@@ -32,19 +32,21 @@
   .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
   .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
   .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin:0 2px;vertical-align:middle;white-space:nowrap;}
-  .rev{display:inline-block;background:#eef6ff;border:1px solid #9cc3f0;color:#1a5fb4;font-size:10.5px;font-weight:700;border-radius:4px;padding:1px 6px;margin:0 2px;vertical-align:middle;white-space:nowrap;text-decoration:none;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
-  /* 표현 히스토리(발행 전 확인용 — 네이버 붙여넣기 시 제외) */
-  .revhist{max-width:720px;margin:0 auto 28px;background:#fffaf0;border:1px dashed #e0b84d;border-radius:8px;padding:16px 18px;font-size:13px;color:#6b5a2e;line-height:1.7;}
-  .revhist .rh-h{font-weight:800;color:#8a6d1f;font-size:14px;margin-bottom:4px;}
-  .revhist .rh-sub{color:#a08a4a;font-size:11.5px;margin-bottom:12px;}
-  .revhist table{width:100%;border-collapse:collapse;font-size:12.5px;}
-  .revhist th,.revhist td{border:1px solid #ecd9a0;padding:7px 9px;text-align:left;vertical-align:top;}
-  .revhist th{background:#fbf2d6;font-weight:700;white-space:nowrap;}
-  .revhist .mine{color:#0a7d3c;}
-  .revhist a{color:#1a73e8;text-decoration:none;}
-  .revhist .note{margin-top:10px;font-size:11.5px;color:#9a7b2e;}
+  /* 재서술 표시: 본문 노란 음영 + 오른쪽 사이드 메모 (발행 전 확인용 — 네이버엔 본문만 복사) */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){
+    .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;}
+  }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
 </style></head><body>
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 영도 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
   <div class="post">
@@ -72,12 +74,26 @@
 
     <h2 class="sec">2. 새 주인공은 '이비' - 전작 '이브' 아니에요(한 끗 차이 주의!)</h2>
     <p>여기가 댓글에서 제일 많이 싸우는(?) 부분인데요. 전작 주인공은 <b>'이브'</b>였죠. 그런데 이번 블러드 레인을 끌고 가는 주인공은 <b>'이비'</b>입니다. 받침 하나, 모음 하나 차이라 "그거 이브 아니야?" 하시는 분들 진짜 많은데요. <b>이브랑 이비는 아예 다른 사람</b>이에요. 이름이 비슷한 거지 동일 인물이 아닙니다.</p>
-    <p>트레일러 속 이비를 보면 머리를 짧게 친 <b>실전형 전사</b> 느낌이더라고요. 군더더기 없이 딱 떨어지는 전투복 차림에, 어디 특수부대 출신 같은 분위기랄까요. 길고 화려한 인상이던 전작 이브랑은 첫인상부터 결이 확 갈려서, 같은 세계관이어도 캐릭터는 완전히 새로 간다는 게 눈으로 바로 와닿았습니다.<a href="#revhist" class="rev">✍️ 재서술①</a></p>
+    <div class="para-wrap">
+      <p>트레일러 속 이비를 보면 <span class="rev-hl">머리를 짧게 친 <b>실전형 전사</b> 느낌이더라고요. 군더더기 없이 딱 떨어지는 전투복 차림에, 어디 특수부대 출신 같은 분위기랄까요.</span> 길고 화려한 인상이던 전작 이브랑은 첫인상부터 결이 확 갈려서, 같은 세계관이어도 캐릭터는 완전히 새로 간다는 게 눈으로 바로 와닿았습니다.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 이비 외형</span>
+        <span class="sn-src">블로거 <b>jejecha114</b>가 "강하 요원 느낌의 수트·짧은 머리 여전사, 전작 이브가 길고 부드러운 이미지"라고 묘사했어요. (<a href="https://blog.naver.com/jejecha114/224308034241" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 그대로 쓰면 표절·중복 신호라, "실전형 전사 / 특수부대 출신 분위기"로 영도 식으로 바꿔 썼습니다.</span>
+      </div>
+    </div>
 
     <h2 class="sec">3. 검 버리고 주먹? - 전투 방식이 통째로 바뀌었어요</h2>
     <p>주인장이 트레일러 보면서 제일 흥분한 포인트가 바로 이 <b>전투(?)</b>인데요. 전작 이브가 긴 검 한 자루로 스타일리시하게 베고 다녔다면, 이비는 노는 물이 좀 다릅니다.</p>
     <p>이비는 양손에 낀 강화 장갑, 그러니까 <b>'건틀릿'으로 적을 두들겨 패는 근접 격투</b>가 메인이에요. 쉽게 말해 칼잡이에서 <b>주먹잡이</b>로 무게추가 넘어간 셈이죠. 그렇다고 칼을 아예 손에서 놓은 건 또 아니고, 상황 봐서 <b>팔에 칼날을 붙여 쓰는 장면</b>도 잠깐 비치더라고요. 평소엔 주먹, 필요할 땐 칼, 이렇게 섞어 쓰는 그림으로 보입니다.</p>
-    <p>회피 기술로 <b>'블링크'</b>라는 것도 확인됐는데요. 짧게 순간이동하듯 슉 빠지는 동작이라 손맛이 꽤 경쾌해 보였습니다. 참고로 트레일러 막판엔 <b>검을 거꾸로 쥔</b> 듯한 컷도 잠깐 스쳤는데요. 이걸 두고 매체마다 본 게 달라서, <b>인벤은 '역수검', 게임톡은 '역날검'</b>이라고 서로 다르게 적었더라고요.<a href="#revhist" class="rev">✍️ 재서술②</a> <span class="chk">🔍 정식 공개 전 추정</span> 아직 시프트업이 공식 명칭으로 못 박았단 얘기죠. 그만큼 이비가 굴리는 무기 폭이 생각보다 넓을 수도 있겠다 싶은데, 정확한 건 정식 정보 나오면 그때 다시 정리해 드릴게요.</p>
+    <div class="para-wrap">
+      <p>회피 기술로 <b>'블링크'</b>라는 것도 확인됐는데요. 짧게 순간이동하듯 슉 빠지는 동작이라 손맛이 꽤 경쾌해 보였습니다. 참고로 트레일러 막판엔 <b>검을 거꾸로 쥔</b> 듯한 컷도 잠깐 스쳤는데요. 이걸 두고 매체마다 본 게 달라서, <span class="rev-hl"><b>인벤은 '역수검', 게임톡은 '역날검'</b>이라고 서로 다르게 적었더라고요.</span> <span class="chk">🔍 정식 공개 전 추정</span> 아직 시프트업이 공식 명칭으로 못 박았단 얘기죠. 그만큼 이비가 굴리는 무기 폭이 생각보다 넓을 수도 있겠다 싶은데, 정확한 건 정식 정보 나오면 그때 다시 정리해 드릴게요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 역수검(무기)</span>
+        <span class="sn-src"><b>인벤</b>은 "역수검을 장착한 듯한 모습"(<a href="https://www.inven.co.kr/webzine/news/?news=317183" target="_blank">출처</a>), <b>게임톡</b>은 같은 장면을 "역날검"(<a href="https://www.gametoc.co.kr/news/articleView.html?idxno=109026" target="_blank">출처</a>)이라 적었어요. 둘 다 시프트업 공식 명칭은 아닙니다.</span>
+        <span class="sn-mine">→ 한 매체 표현으로 단정하지 않고 둘 다 병기 + 🔍 추정 표시로 "공식 아님"을 드러냈습니다.</span>
+      </div>
+    </div>
 
     <!-- 이미지 이유: 3번 섹션(건틀릿 격투) 직후 이비의 격투 장면을 가리키는 자리 / 출처: 공식 리빌 트레일러 / 분류: B형 -->
     <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 이비가 건틀릿으로 근접 격투하는 인게임 장면(검 전환 컷이면 더 좋음)</span></div>
@@ -112,25 +128,5 @@
 
     <div class="tags">#스텔라블레이드 #블러드레인 #스텔라블레이드블러드레인 #시프트업 #이비 #SGF2026 #스텔라블레이드후속작 #시프트업신작 #콘솔게임추천 #신작게임추천</div>
   </div>
-</div>
-<div class="revhist" id="revhist">
-  <div class="rh-h">✍️ 표현 히스토리 (영도 — 발행 전 확인용)</div>
-  <div class="rh-sub">아래 소재는 같은 발표를 다룬 다른 글·기사에도 비슷한 표현이 있어, 그대로 베끼지 않고 영도 문체로 바꿔 썼습니다. 본문 속 파란 <b>✍️ 재서술①·②</b> 마커가 가리키는 자리이고, 마커를 누르면 이 표로 옵니다. <b>네이버에 붙여넣을 땐 이 박스와 본문 ✍️ 마커는 빼고 본문만 복사하세요.</b></div>
-  <table>
-    <tr><th>표시</th><th>소재</th><th>출처에서 쓴 표현</th><th>영도가 바꿔 쓴 표현</th></tr>
-    <tr>
-      <td><b>✍️①</b></td>
-      <td>새 주인공<br>이비 외형</td>
-      <td>"외형은 <b>강하 요원 느낌의 수트와 짧은 머리</b>를 지닌 여전사… <b>전작 이브가 길고</b> 부드러운 이미지였다면…"<br>— jejecha114, <a href="https://blog.naver.com/jejecha114/224308034241" target="_blank">네이버 블로그</a></td>
-      <td class="mine">"머리를 짧게 친 <b>실전형 전사</b> 느낌… 어디 <b>특수부대 출신</b> 같은 분위기랄까요. 길고 화려한 인상이던 전작 이브랑은…"</td>
-    </tr>
-    <tr>
-      <td><b>✍️②</b></td>
-      <td>역수검<br>(무기)</td>
-      <td>"트레일러 말미에는 <b>역수검</b>을 장착한 듯한 모습도 확인됐다."<br>— 인벤, <a href="https://www.inven.co.kr/webzine/news/?news=317183" target="_blank">웹진 인벤</a> / 같은 장면을 <b>게임톡은 '역날검'</b>(<a href="https://www.gametoc.co.kr/news/articleView.html?idxno=109026" target="_blank">기사</a>)이라고 다르게 표기</td>
-      <td class="mine">"트레일러 막판엔 검을 거꾸로 쥔 듯한 컷도 잠깐 스쳤는데요. 이걸 두고 <b>인벤은 '역수검', 게임톡은 '역날검'</b>이라고 서로 다르게 적었더라고요. 🔍 아직 시프트업이 공식 명칭으로 못 박았단 얘기죠…"</td>
-    </tr>
-  </table>
-  <div class="note">✅ 처리 완료: '역수검'은 시프트업 공식 명칭이 아니라 매체 표현이라, 본문에 <b>인벤·게임톡 출처를 둘 다 병기</b>하고 <b>🔍 추정 마커</b>를 달아 "공식 아님"을 드러냈습니다. (그대로 단정하지 않음)</div>
 </div>
 </body></html>
