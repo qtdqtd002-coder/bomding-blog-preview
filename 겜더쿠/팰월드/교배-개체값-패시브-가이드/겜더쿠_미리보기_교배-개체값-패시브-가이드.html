@@ -1,0 +1,175 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>팰월드 교배 개체값·패시브 가이드 (강한 팰 만들기)</title>
+<style>
+  :root{--ink:#23232b;--sub:#8b8b96;--line:#e8e8ee;--accent:#7048E8;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f3f1f9;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--accent);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--accent);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:var(--accent);}
+  .lead{font-size:17px;line-height:1.9;color:#33333a;font-weight:500;margin:0 0 22px;word-break:keep-all;}
+  .box{background:#f6f4fd;border:1px solid #e3dcfb;border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin:0 0 26px;}
+  .box .t{font-size:13px;font-weight:800;color:var(--accent);margin-bottom:10px;}
+  .box ul{margin:0;padding-left:18px;font-size:15px;line-height:1.85;color:#33333a;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 18px;word-break:keep-all;color:#2f2f37;}
+  .post b{font-weight:800;}
+  h2.h2{font-size:20px;font-weight:800;color:var(--ink);margin:34px 0 14px;padding:0 0 9px 12px;border-left:4px solid var(--accent);border-bottom:1px solid #ececf3;}
+  .callout{background:#fbfaff;border:1px solid #ece7fb;border-radius:8px;padding:13px 16px;margin:0 0 22px;font-size:15px;line-height:1.85;color:#4a4458;}
+  .callout b{color:var(--accent);}
+  .quote{text-align:center;font-size:18px;font-weight:800;color:var(--ink);line-height:1.6;margin:26px 0;padding:0 10px;}
+  .imgwrap{margin:20px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:10px;border:1px solid var(--line);}
+  .cap{text-align:center;color:#7a7a8c;font-size:13px;margin:0 0 2px;}
+  .src{text-align:center;color:#a59fc0;font-size:12px;margin:0 0 26px;}
+  .tbl{width:100%;border-collapse:collapse;margin:6px 0 24px;font-size:14.5px;}
+  .tbl th{background:var(--accent);color:#fff;padding:10px 12px;text-align:left;font-weight:700;}
+  .tbl td{padding:9px 12px;border-bottom:1px solid #ececf3;}
+  .tbl tr:nth-child(even){background:#faf9fe;}
+  .hr{text-align:center;color:#cfc9e6;font-size:13px;letter-spacing:.5em;margin:30px 0;}
+  .faqq{font-size:16px;font-weight:800;color:#33333a;margin:0 0 6px;}
+  .faqa{font-size:16px;line-height:1.9;color:#2f2f37;margin:0 0 16px;word-break:keep-all;}
+  .sumbox{background:#f6f4fd;border:1px solid #e3dcfb;border-radius:8px;padding:16px 18px;margin:30px 0 18px;}
+  .sumbox .t{font-size:13px;font-weight:800;color:var(--accent);margin-bottom:8px;}
+  .tags{margin-top:22px;}
+  .tags span{background:#f1eefc;color:var(--accent);font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 6px 0;display:inline-block;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">🎮 blog</span> 겜더쿠 · 게임 덕질 (티스토리 발행용 미리보기)</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">팰월드 교배 개체값·패시브 가이드 (강한 팰 만들기)</h1>
+    <div class="meta"><span class="author">겜더쿠</span><span>2026.06.14</span><span>· 게임</span></div>
+
+    <p class="lead">팰월드에서 <b>교배를 해도 더 센 팰이 안 나온다면</b>, 십중팔구 개체값과 패시브를 안 보고 아무 팰이나 붙여서입니다. 교배는 그냥 알을 받는 게 아니라 <b>부모를 골라 강한 팰을 '설계'하는 작업</b>인데요. 이번 글에서는 <b>개체값·패시브 유전 원리와 강한 팰 만드는 실전 순서</b>를 정리했습니다.</p>
+
+    <div class="box">
+      <div class="t">📌 이 글 한눈에</div>
+      <ul>
+        <li>교배 = 부모의 <b>개체값·패시브·액티브</b>를 물려받아 더 강한 팰을 설계</li>
+        <li>개체값(공·방·체)은 부모에서 <b>각 30%씩(합 60%) 유전, 40%는 랜덤</b></li>
+        <li>패시브는 부모 것 중 <b>0~4개 유전</b> → 원하는 패시브를 부모 둘에 나눠 갖추는 게 핵심</li>
+        <li>전투용 추천 패시브: <b>귀신(공+30%)·사나움(공+20%)·사디스트(공+15%)</b> 등</li>
+      </ul>
+    </div>
+
+    <h2 class="h2">교배는 왜 하나 — 강한 팰을 설계한다</h2>
+    <p>교배는 '배합 목장'에 팰 두 마리를 넣고 '케이크'를 채워두면 알이 나오는 시스템입니다. 여기서 핵심은 <b>알에서 태어난 자식이 부모의 개체값·패시브 스킬·액티브 스킬을 물려받는다</b>는 점인데요. 그래서 좋은 부모를 골라 교배를 반복하면, 야생에서 잡는 것보다 훨씬 강한 팰을 손으로 만들어낼 수 있습니다.</p>
+    <!-- 이미지 이유: 육성/포획 시네마틱 도입 / 출처: 팰월드 공식 트레일러 / 분류: A형 self-host -->
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EA%B2%9C%EB%8D%94%EC%BF%A0/%ED%8C%B0%EC%9B%94%EB%93%9C/%EA%B5%90%EB%B0%B0-%EA%B0%9C%EC%B2%B4%EA%B0%92-%ED%8C%A8%EC%8B%9C%EB%B8%8C-%EA%B0%80%EC%9D%B4%EB%93%9C/img/b1.jpg" alt="팰월드 팰 스피어를 든 시네마틱 — 강한 팰 만들기"></div>
+    <p class="cap">잡는 것에서 끝내지 않고, 교배로 '더 나은 개체'를 만들어가는 게 팰월드 육성의 끝판입니다.</p>
+    <p class="src">이미지: 팰월드 공식(포켓페어)</p>
+
+    <h2 class="h2">개체값 유전 — 숫자부터 이해하자</h2>
+    <p>팰은 <b>공격·방어·체력</b>에 각각 <b>0~100</b>의 개체값을 가집니다. 같은 종이라도 이 값이 높을수록 더 센 개체죠. 교배할 때 개체값은 이렇게 정해집니다.</p>
+    <div class="callout">각 능력치는 <b>부모 한쪽에서 30%씩, 양쪽 합쳐 60% 확률로 유전</b>되고, 나머지 <b>40%는 랜덤</b>한 값이 붙습니다.</div>
+    <p>그래서 <b>개체값이 높은 부모끼리 교배</b>하면 자식도 높은 값을 받을 확률이 올라갑니다. 같은 종끼리 계속 교배해 개체값만 끌어올리는 식도 가능하고요. 참고로 팰의 개체값은 '재능 안경' 같은 아이템으로 확인할 수 있으니, 부모를 고를 때 한 번씩 들여다보시면 됩니다.</p>
+    <!-- 이미지 이유: 알(교배 결과물) / 출처: 팰월드 공식 스팀 / 분류: A형 self-host -->
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EA%B2%9C%EB%8D%94%EC%BF%A0/%ED%8C%B0%EC%9B%94%EB%93%9C/%EA%B5%90%EB%B0%B0-%EA%B0%9C%EC%B2%B4%EA%B0%92-%ED%8C%A8%EC%8B%9C%EB%B8%8C-%EA%B0%80%EC%9D%B4%EB%93%9C/img/b2.jpg" alt="팰월드 전투 중 바닥에 떨어진 팰 알"></div>
+    <p class="cap">바닥에 떨어진 알 하나에도 부모의 능력치와 패시브가 담겨 있습니다.</p>
+    <p class="src">이미지: 팰월드 공식 스팀</p>
+
+    <h2 class="h2">패시브 스킬 유전 — 여기가 진짜 핵심</h2>
+    <p>팰의 강함은 개체값보다 <b>패시브 스킬</b>에서 더 크게 갈립니다. 자식은 <b>부모 두 마리가 가진 패시브 중 0~4개를 랜덤으로 물려받습니다.</b> 패시브 슬롯은 최대 4개고요.</p>
+    <p>그래서 원하는 패시브 4개를 다 가진 팰을 만들려면, <b>부모 둘이 합쳐서 그 4개를 갖고 있어야 합니다.</b> 한 부모에 다 몰아넣으려 하지 말고, <b>원하는 패시브를 1~2개씩 가진 팰을 단계적으로 교배해 한 마리로 모으는 게 정석</b>입니다. 가끔은 돌연변이로 부모에 없던 패시브가 자식에게 붙기도 하고요.</p>
+    <p class="quote">“강한 팰 = 높은 개체값 + 잘 고른 패시브 4개의 조합입니다.”</p>
+    <p>참고로 패시브가 영 안 붙으면, 교배만 고집하지 말고 <b>특성을 바꿔주는 '임플란트'</b>로 원하는 패시브를 직접 갈아끼우는 방법도 있습니다. 상황에 따라 교배보다 이쪽이 빠를 때도 많습니다.</p>
+
+    <p class="hr">• • •</p>
+
+    <h2 class="h2">전투 팰에 붙이면 좋은 추천 패시브</h2>
+    <p>전투용 팰이라면 <b>공격력을 올려주는 패시브</b> 위주로 모읍니다. 대표적인 공격 패시브를 정리했습니다.</p>
+    <table class="tbl">
+      <tr><th>패시브</th><th>효과</th></tr>
+      <tr><td>귀신</td><td>공격 +30%, 방어 +5%</td></tr>
+      <tr><td>운동 바보</td><td>공격 +30% (작업 속도 -50%, 전투 전용)</td></tr>
+      <tr><td>사나움</td><td>공격 +20%</td></tr>
+      <tr><td>희귀</td><td>공격 +15% (작업 속도 +15%)</td></tr>
+      <tr><td>사디스트</td><td>공격 +15% (방어 -15%)</td></tr>
+      <tr><td>용감</td><td>공격 +10%</td></tr>
+      <tr><td>전설</td><td>공격·방어 +20%, 이동 속도 +15% (전설팰 전용)</td></tr>
+    </table>
+    <p>공격 극대화 세팅이라면 <b>'귀신' + '운동 바보' + '사나움' + '사디스트'</b>처럼 공격 패시브 4개를 모으는 게 종결입니다. 방어나 작업 속도 페널티는 감수하는 대신 화력이 확 올라가거든요. 속성 공격을 올려주는 패시브도 있는데, 이건 일부 팰에만 붙으니 해당 속성 딜러에게 챙겨주면 좋습니다.</p>
+    <!-- 이미지 이유: 강한 전투 팰(패시브 섹션) / 출처: 팰월드 공식 스팀 / 분류: A형 self-host -->
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EA%B2%9C%EB%8D%94%EC%BF%A0/%ED%8C%B0%EC%9B%94%EB%93%9C/%EA%B5%90%EB%B0%B0-%EA%B0%9C%EC%B2%B4%EA%B0%92-%ED%8C%A8%EC%8B%9C%EB%B8%8C-%EA%B0%80%EC%9D%B4%EB%93%9C/img/b4.jpg" alt="팰월드 강력한 전투·비행 팰"></div>
+    <p class="cap">같은 팰이라도 패시브 4개를 잘 맞추면 체감 화력이 완전히 달라집니다.</p>
+    <p class="src">이미지: 팰월드 공식 스팀</p>
+
+    <p class="hr">• • •</p>
+
+    <h2 class="h2">강한 팰 만드는 실전 순서</h2>
+    <div class="callout">
+      <b>1. 목표 정하기</b> — 어떤 팰에, 어떤 패시브 4개를 붙일지 먼저 정합니다.<br>
+      <b>2. 부모 모으기</b> — 그 패시브를 1~2개씩 가진 팰을 야생에서 잡아 모읍니다.<br>
+      <b>3. 단계적 교배</b> — 패시브를 한 마리에 차곡차곡 합쳐 4개를 채웁니다.<br>
+      <b>4. 개체값도 챙기기</b> — 가능하면 개체값 높은 개체를 부모로 써서 공·방·체도 같이 끌어올립니다.<br>
+      <b>5. 케이크 자동화</b> — 교배 회전이 빨라야 하니, 케이크를 미리 대량으로 만들어 두는 게 좋습니다.
+    </div>
+    <p>한 가지 알아두면 좋은 건, <b>같은 종끼리 교배하면 같은 종이 나와</b> 개체값·패시브를 고정하기 좋다는 점입니다. 반대로 <b>다른 종끼리는 정해진 조합표</b>가 있어 전혀 다른 팰이 나오는데요. 예를 들어 '헤로롱'과 '일렉판다'를 교배하면 발전 4레벨 팰인 '전룡맨'이 나옵니다. 특정 팰을 노린다면 이런 조합을 외우기보다 <b>교배 계산기 사이트</b>로 경로를 찾는 게 가장 빠릅니다.</p>
+    <!-- 이미지 이유: 다양한 팰(교배 부모 모으기) / 출처: 팰월드 공식 스팀 / 분류: A형 self-host -->
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EA%B2%9C%EB%8D%94%EC%BF%A0/%ED%8C%B0%EC%9B%94%EB%93%9C/%EA%B5%90%EB%B0%B0-%EA%B0%9C%EC%B2%B4%EA%B0%92-%ED%8C%A8%EC%8B%9C%EB%B8%8C-%EA%B0%80%EC%9D%B4%EB%93%9C/img/b5.jpg" alt="팰월드 거점에 모인 다양한 팰 — 교배 부모 후보"></div>
+    <p class="cap">교배는 결국 좋은 부모 모으기 싸움입니다. 패시브 좋은 팰이 보이면 일단 잡아두세요.</p>
+    <p class="src">이미지: 팰월드 공식 스팀</p>
+
+    <h2 class="h2">자주 묻는 질문</h2>
+    <p class="faqq">Q. 교배하면 무조건 더 센 팰이 나오나요?</p>
+    <p class="faqa">아닙니다. 부모의 개체값과 패시브가 좋아야 강한 자식이 나옵니다. 아무 팰이나 교배하면 평범하거나 오히려 더 약한 개체가 나올 수도 있습니다.</p>
+    <p class="faqq">Q. 패시브는 몇 개까지 물려받나요?</p>
+    <p class="faqa">부모가 가진 패시브 중 0~4개입니다. 슬롯은 최대 4개라, 원하는 4개를 부모 두 마리에 나눠 갖춰두고 단계적으로 합치는 게 핵심입니다.</p>
+    <p class="faqq">Q. 전투 팰엔 어떤 패시브가 좋나요?</p>
+    <p class="faqa">'귀신'(공+30%·방+5%)·'사나움'(공+20%) 같은 공격 강화 계열이 1순위입니다. 전설팰은 공·방 +20%에 이동 속도까지 올려주는 전용 '전설' 패시브를 기본으로 가지고 있습니다.</p>
+    <p class="faqq">Q. 특정 팰을 만들려면 어떻게 하나요?</p>
+    <p class="faqa">다른 종 교배는 정해진 조합이 있어서, 교배 계산기로 목표 팰까지 가는 경로를 찾는 게 가장 빠릅니다. '헤로롱+일렉판다=전룡맨'처럼 조합이 고정돼 있습니다.</p>
+
+    <p>처음엔 복잡해 보여도 부모 두 마리만 신경 쓰면 금방 감이 옵니다. 교배 이야기는 여기까지 풀어봤습니다.</p>
+
+    <div class="sumbox">
+      <div class="t">한 줄 정리</div>
+      <p style="margin:0;font-size:15.5px;line-height:1.85;color:#33333a;">교배는 개체값(부모 60%·랜덤 40%)과 패시브(0~4개)를 물려받아 강한 팰을 설계하는 작업입니다. 원하는 공격 패시브를 부모 둘에 나눠 갖춰 단계적으로 합치고, 개체값 높은 부모를 쓰면 점점 센 팰이 완성됩니다.</p>
+    </div>
+
+    <div class="tags">
+      <span>#팰월드</span><span>#팰월드교배</span><span>#팰월드개체값</span><span>#팰월드패시브</span><span>#팰월드교배조합</span><span>#팰월드공략</span>
+    </div>
+  </div>
+</div>
+
+<div id="tcopy" style="position:fixed;top:14px;right:14px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;max-width:92vw;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;">
+  <button id="tcopyBtn" type="button" style="background:#7048E8;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(112,72,232,.35);">📋 티스토리용 HTML 복사</button>
+  <div id="tcopyPanel" style="display:none;width:min(92vw,580px);background:#fff;border:1px solid #d9d2f5;border-radius:10px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);">
+    <div style="font-size:12px;color:#7a72a0;margin-bottom:8px;line-height:1.6;">티스토리 글쓰기 → <b>HTML 모드</b>로 바꾼 뒤 아래 본문을 붙여넣기. 제목·태그는 각 칸에 따로 입력하세요.</div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0;"><b style="color:#7048E8;">제목</b> <span id="tcopyTitle" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0 8px;"><b style="color:#7048E8;">태그</b> <span id="tcopyTags" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <textarea id="tcopyArea" readonly style="width:100%;height:180px;font-size:11.5px;line-height:1.5;border:1px solid #e3dcfb;border-radius:8px;padding:9px;background:#faf9ff;box-sizing:border-box;"></textarea>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('tcopyBtn'),panel=document.getElementById('tcopyPanel'),
+      area=document.getElementById('tcopyArea'),tEl=document.getElementById('tcopyTitle'),gEl=document.getElementById('tcopyTags');
+  function pick(html,label){ var m=html.match(new RegExp('<!--\\s*'+label+':([\\s\\S]*?)-->')); return m?m[1].trim():''; }
+  function body(html){
+    var a=html.indexOf('↓↓↓ 여기부터'); if(a>=0){a=html.indexOf('-->',a); a=a>=0?a+3:0;} else a=0;
+    var z=html.indexOf('↑↑↑ 여기까지'); var end=z>=0?html.lastIndexOf('<!--',z):html.length; if(end<0)end=html.length;
+    return html.slice(a,end).trim();
+  }
+  btn.addEventListener('click',function(){
+    var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
+    btn.textContent='불러오는 중…';
+    fetch(url).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
+      var b=body(t); area.value=b; tEl.textContent=pick(t,'제목'); gEl.textContent=pick(t,'태그');
+      panel.style.display='block'; area.focus(); area.select();
+      function ok(){ btn.textContent='✅ 본문 복사됨! HTML 모드에 붙여넣기'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(b).then(ok,function(){try{document.execCommand("copy");}catch(e){} ok();}); }
+      else { try{document.execCommand("copy");}catch(e){} ok(); }
+    }).catch(function(){ btn.textContent='⚠ 복사 실패 — 같은 폴더 _티스토리_ 파일 확인'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); });
+  });
+})();
+</script>
+</body></html>
