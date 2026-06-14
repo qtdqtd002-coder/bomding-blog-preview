@@ -27,7 +27,7 @@
   --a-yeongdo:#2F8F7F; --a-yeongdo-weak:#E6F2EF;
   --a-gemdeokku:#7C5CD1; --a-gemdeokku-weak:#F0EBFB;
   --a-yeonbom:#4A86C5; --a-yeonbom-weak:#E7F0F9;
-  --a-trend:#C2410C; --a-news:#B45309; --a-about:#5A4FE6;
+  --a-trend:#C2410C; --a-news:#B45309; --a-about:#5A4FE6; --a-queue:#0E7490;
   --sh-sm:0 1px 2px rgba(16,24,40,.05);
   --sh-md:0 6px 16px rgba(16,24,40,.07);
   --sh-lg:0 14px 34px rgba(40,32,90,.14);
@@ -47,7 +47,7 @@
   --a-yeongdo:#4FB3A1; --a-yeongdo-weak:#11241F;
   --a-gemdeokku:#A78BE8; --a-gemdeokku-weak:#1F1A2E;
   --a-yeonbom:#6FA6DD; --a-yeonbom-weak:#14202E;
-  --a-trend:#FB923C; --a-news:#FBBF24; --a-about:#9D93FF;
+  --a-trend:#FB923C; --a-news:#FBBF24; --a-about:#9D93FF; --a-queue:#22D3EE;
   --sh-sm:0 1px 2px rgba(0,0,0,.3); --sh-md:0 4px 12px rgba(0,0,0,.4); --sh-lg:0 12px 28px rgba(0,0,0,.5);
 }
 *{box-sizing:border-box;}
@@ -550,6 +550,46 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 .rl-del{position:absolute;right:12px;bottom:12px;font-size:12px;font-weight:700;color:var(--muted);background:none;border:none;cursor:pointer;}
 .rl-del:hover{color:var(--danger);}
 
+/* ===== 작업 큐 탭 ===== */
+.q-loading{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13.5px;padding:30px 6px;justify-content:center;}
+.q-loading .ic{width:16px;height:16px;}
+.qstats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px;}
+.qstat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:13px 10px;text-align:center;
+  display:flex;flex-direction:column;gap:2px;box-shadow:var(--sh-sm);}
+.qstat b{font-size:23px;font-weight:800;line-height:1;font-feature-settings:"tnum";}
+.qstat span{font-size:11.5px;font-weight:700;color:var(--muted);}
+.qstat.s-received b{color:var(--brand);} .qstat.s-processing b{color:#c47f00;}
+.qstat.s-failed b{color:var(--danger);} .qstat.s-published b{color:#0a9d4a;}
+.q-actions{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.q-refresh{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);color:var(--sub);border-radius:9px;padding:7px 12px;transition:.12s;}
+.q-refresh:hover{color:var(--ink);} .q-refresh .ic{width:14px;height:14px;}
+.q-refresh:disabled{opacity:.6;cursor:default;}
+.q-hint{font-size:11.5px;color:var(--muted);}
+.q-sec{margin-bottom:18px;}
+.q-sec-h{font-size:13px;font-weight:800;color:var(--ink);margin:0 2px 9px;display:flex;align-items:center;gap:7px;}
+.q-sec-n{font-size:11.5px;font-weight:800;color:var(--muted);background:var(--surface-2);border-radius:999px;padding:1px 8px;}
+.q-empty{font-size:13px;color:var(--muted);background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--radius);padding:18px;text-align:center;}
+.q-item{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:13px 15px;margin-bottom:9px;box-shadow:var(--sh-sm);}
+.q-item.s-received{border-left:3px solid var(--brand);} .q-item.s-processing{border-left:3px solid #f59e0b;}
+.q-item.s-failed{border-left:3px solid var(--danger);} .q-item.s-published{border-left:3px solid #12b34a;} .q-item.s-skipped{border-left:3px solid var(--muted);}
+.q-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.q-title{font-size:14px;font-weight:700;line-height:1.45;color:var(--ink);}
+.q-sub{font-size:12.5px;color:var(--sub);margin-top:6px;line-height:1.5;}
+.q-reason{display:flex;align-items:flex-start;gap:6px;margin-top:8px;font-size:12.5px;line-height:1.5;
+  color:var(--danger);background:color-mix(in srgb,var(--danger) 8%,transparent);border:1px solid color-mix(in srgb,var(--danger) 22%,transparent);
+  border-radius:8px;padding:7px 9px;}
+.q-reason .ic{width:14px;height:14px;flex:none;margin-top:1px;} .q-reason b{font-weight:800;}
+.q-item.s-skipped .q-reason{color:var(--sub);background:var(--surface-2);border-color:var(--line);}
+.q-meta{font-size:12px;color:var(--muted);margin-top:8px;}
+.q-link{color:var(--brand);font-weight:700;display:inline-flex;align-items:center;gap:3px;}
+.q-link .ic{width:12px;height:12px;}
+.q-cancel{position:absolute;right:13px;bottom:11px;display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;
+  color:var(--muted);background:none;border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer;transition:.12s;}
+.q-cancel:hover{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 40%,transparent);}
+.q-cancel .ic{width:13px;height:13px;}
+@media(max-width:520px){ .q-cancel{position:static;margin-top:9px;} }
+
 /* ===== 소개 탭 — 회사 안내서(파이프라인·플랫폼·포지션·규칙·정본) ===== */
 .about code{background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.85em;
   font-family:"SF Mono",Consolas,"D2Coding",monospace;color:var(--sub);word-break:break-all;}
@@ -872,7 +912,10 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
   dots:'<circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/>',
   checkCircle:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
   archive:'<rect x="2" y="4" width="20" height="5" rx="1"/><path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9"/><path d="M10 13h4"/>',
-  copy:'<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>'
+  copy:'<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+  alertTri:'<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'
  };
  const svg=(n,cls)=>`<svg class="ic${cls?(" "+cls):""}" viewBox="0 0 24 24" aria-hidden="true">${I[n]||""}</svg>`;
 
@@ -1161,6 +1204,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    buildNav(ordered);
    searchBox.style.display="";
    render();
+   refreshQueueBadge();   /* 큐 깊이 배지 초기화(백엔드 연결 시) */
  }).catch(e=>{
    titleEl.textContent="전체 글"; subEl.textContent="목록을 불러오지 못했어요.";
    contentEl.innerHTML='<div class="empty">목록을 불러오지 못했어요(잠시 후 새로고침).<br>'+esc(String(e&&e.message||e))+'</div>';
@@ -1186,6 +1230,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
         `<button class="nav-corner trendcaret" id="trendCaret" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="trendMenu" aria-label="뉴스레터·캘린더 더보기">${svg("chevD","caret")}</button>`+
       `</span>`;
    h+=`<button class="nav-corner" data-k="__about__" style="--ac:var(--a-about)">${svg("info")}소개</button>`;
+   h+=`<button class="nav-corner" data-k="__queue__" style="--ac:var(--a-queue)">${svg("inbox")}작업 큐<span class="cnt" id="navQueueCnt" hidden></span></button>`;
    navEl.innerHTML=h;
 
    const teamBtn=document.getElementById("teamBtn");
@@ -1221,7 +1266,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
        trendWrap.style.setProperty("--ac",SUBAC[v]);
        const ti=trendMenu.querySelector(sel(v)); if(ti)ti.classList.add("on");
      } else trendWrap.style.setProperty("--ac","var(--a-trend)");
-     if(v==="__all__"||v==="__about__"){ const nb=navEl.querySelector(sel(v)); if(nb)nb.classList.add("on"); }
+     if(v==="__all__"||v==="__about__"||v==="__queue__"){ const nb=navEl.querySelector(sel(v)); if(nb)nb.classList.add("on"); }
    }
    window.__syncNav=setActive;   // 홈 로고 등 외부에서 활성 동기화
    setActive();
@@ -1301,6 +1346,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    { const _fab=document.getElementById("fabReq"); if(_fab)_fab.style.display=(state.view==="__request__")?"none":""; }  /* 요청 폼에선 FAB 숨김 */
    const isArchiveView=state.view==="__archive__";
    if(state.view==="__about__"){ searchBox.style.display="none"; renderAbout(); return; }
+   if(state.view==="__queue__"){ searchBox.style.display="none"; renderQueue(); return; }
    if(state.view==="__request__"){ searchBox.style.display="none"; renderRequest(); return; }
    if(state.view==="__trend__"){ searchBox.style.display=""; renderTrend(); return; }
    if(state.view==="__news__"){ searchBox.style.display=""; renderNews(); return; }
@@ -1754,6 +1800,72 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      go(b.dataset.go==="older"?dates[i+1]:dates[i-1]);
    }));
    const sel=contentEl.querySelector(`[data-pgsel="${kind}"]`); if(sel)sel.addEventListener("change",()=>go(sel.value));
+ }
+
+ /* ---------- 작업 큐 · 히스토리 (백엔드 GET /requests 전체 — 누구나 열람) ---------- */
+ /* 대기/진행 중인 글, 실패·취소 히스토리(사유 포함), 큐 깊이를 보여주고, 접수 대기 요청은 취소(삭제)한다. */
+ let QUEUE_TIMER=null;
+ function qTime(ms){ try{ const d=new Date(ms); const p=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }catch(e){ return ""; } }
+ async function queueFetch(){ const r=await fetch(apiBase()+"/requests?ts="+Date.now()); if(!r.ok)throw new Error("HTTP "+r.status); const a=await r.json(); return Array.isArray(a)?a:[]; }
+ async function refreshQueueBadge(){
+   const el=document.getElementById("navQueueCnt"); if(!el)return;
+   if(!RequestService.isConnected()){ el.hidden=true; return; }
+   try{ const all=await queueFetch(); const active=all.filter(x=>x.status==="received"||x.status==="processing").length;
+     if(active>0){ el.textContent=active; el.hidden=false; } else { el.hidden=true; } }catch(e){ el.hidden=true; }
+ }
+ async function cancelQueued(id,topic){
+   if(!confirm(`이 요청을 큐에서 취소(삭제)할까요?\n\n「${topic||"(주제 없음)"}」\n\n접수 대기 중인 요청만 취소돼요. 작성이 이미 시작된 요청은 취소되지 않아요.`))return;
+   try{
+     const r=await fetch(apiBase()+"/requests/"+encodeURIComponent(id)+"/cancel",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({by:"queue-ui"})});
+     if(r.status===409){ const b=await r.json().catch(()=>({})); toast(b.error||"이미 처리가 시작돼 취소할 수 없어요.","err"); renderQueue(); return; }
+     if(!r.ok)throw new Error("HTTP "+r.status);
+     toast("요청을 취소했어요."); renderQueue(); refreshQueueBadge();
+   }catch(e){ toast("취소 실패: "+((e&&e.message)||e),"err"); }
+ }
+ window.__cancelQueued=cancelQueued;
+ function renderQueue(){
+   titleEl.textContent="작업 큐 · 히스토리"; subEl.textContent="대기·진행 중인 글과 실패·취소 기록(사유 포함) — 큐가 얼마나 쌓였는지 한눈에";
+   if(QUEUE_TIMER){ clearInterval(QUEUE_TIMER); QUEUE_TIMER=null; }
+   const mast=`<div class="masthead" style="--ac:var(--a-queue)"><div class="mk">${svg("inbox")}WORK QUEUE · 작업 큐</div><div class="mt">발행 요청 대기열 · 실패 히스토리</div><div class="ms">‘발행 요청’으로 들어온 글들이 작성→검수→발행되는 큐예요. 진행 상황과 실패 사유를 보고, 아직 시작 안 한 요청은 취소(삭제)할 수 있어요.</div></div>`;
+   if(!RequestService.isConnected()){
+     contentEl.innerHTML=`<div class="news">${mast}${emptyBox("request","백엔드가 연결돼 있지 않아 큐를 불러올 수 없어요.")}</div>`; return;
+   }
+   contentEl.innerHTML=`<div class="news">${mast}<div id="qBox"><div class="q-loading">${svg("refresh")} 큐를 불러오는 중…</div></div></div>`;
+   const paint=(all)=>{
+     const box=document.getElementById("qBox"); if(!box)return;
+     const by=s=>all.filter(x=>x.status===s);
+     const received=by("received"), processing=by("processing"), published=by("published"), failed=by("failed"), skipped=by("skipped");
+     const active=[...processing,...received].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+     const history=[...published,...failed,...skipped].sort((a,b)=>(b.statusAt||b.createdAt||0)-(a.statusAt||a.createdAt||0));
+     const stat=(n,label,cls)=>`<div class="qstat ${cls}"><b>${n}</b><span>${label}</span></div>`;
+     const bar=`<div class="qstats">${stat(received.length,"대기","s-received")}${stat(processing.length,"진행중","s-processing")}${stat(failed.length,"실패","s-failed")}${stat(published.length,"완료","s-published")}</div>`;
+     const stLabel=r=>r.status==="skipped"&&/취소/.test(r.error||"")?"취소됨":(REQ_STATUS_LABEL[r.status]||r.status);
+     const item=(r,opts)=>{
+       const cancellable=r.status==="received";
+       const reason=(r.status==="failed"||r.status==="skipped")&&r.error?`<div class="q-reason">${svg("alertTri")}<span><b>사유</b> ${esc(r.error)}</span></div>`:"";
+       const link=r.publishUrl?`<a class="q-link" href="${esc(r.publishUrl)}" target="_blank" rel="noopener">발행글 보기 ${svg("arrowUR")}</a>`:"";
+       const tWhen=r.status==="received"?r.createdAt:(r.statusAt||r.createdAt);
+       return `<div class="q-item s-${esc(r.status)}"><div class="q-top"><span class="q-title">${esc(r.topic||"(주제 없음)")}</span><span class="rl-st s-${esc(r.status)}">${esc(stLabel(r))}</span></div>`+
+         (r.material?`<div class="q-sub">${esc((r.material||"").slice(0,140))}${(r.material||"").length>140?"…":""}</div>`:"")+
+         reason+
+         `<div class="q-meta">${r.purpose?`목적 ${esc(r.purpose)} · `:""}작성자 ${esc(r.writer||"자동배정")}${r.source?` · ${esc(r.source)}`:""} · ${esc(qTime(tWhen))}${link?" · "+link:""}</div>`+
+         (cancellable?`<button class="q-cancel" data-id="${esc(r.id)}" data-topic="${esc(r.topic||"")}">${svg("trash")}취소</button>`:"")+
+         `</div>`;
+     };
+     const sec=(title,arr,emptyMsg)=>`<div class="q-sec"><div class="q-sec-h">${esc(title)} <span class="q-sec-n">${arr.length}</span></div>`+
+       (arr.length?arr.map(item).join(""):`<div class="q-empty">${esc(emptyMsg)}</div>`)+`</div>`;
+     box.innerHTML=bar+
+       `<div class="q-actions"><button class="q-refresh" id="qRefresh">${svg("refresh")}새로고침</button><span class="q-hint">20초마다 자동 갱신</span></div>`+
+       sec("작업 대기·진행 중",active,"대기 중인 글이 없어요. 트렌드 추천이나 ‘새 글 요청’에서 보내보세요.")+
+       sec("히스토리 (완료·실패·취소)",history,"아직 처리된 기록이 없어요.");
+     box.querySelectorAll(".q-cancel").forEach(b=>b.addEventListener("click",()=>cancelQueued(b.dataset.id,b.dataset.topic)));
+     const rf=document.getElementById("qRefresh"); if(rf)rf.addEventListener("click",()=>load(true));
+   };
+   const load=(manual)=>{ if(manual){ const box=document.getElementById("qBox"); if(box){ const rf=document.getElementById("qRefresh"); if(rf){ rf.disabled=true; rf.innerHTML=svg("refresh")+"갱신 중…"; } } }
+     queueFetch().then(all=>{ paint(all); const el=document.getElementById("navQueueCnt"); if(el){ const a=all.filter(x=>x.status==="received"||x.status==="processing").length; if(a>0){el.textContent=a;el.hidden=false;}else{el.hidden=true;} } })
+       .catch(e=>{ const box=document.getElementById("qBox"); if(box)box.innerHTML=emptyBox("base","큐를 불러오지 못했어요. 잠시 후 새로고침해주세요."); }); };
+   load(false);
+   QUEUE_TIMER=setInterval(()=>{ if(state.view==="__queue__"){ load(false); } else { clearInterval(QUEUE_TIMER); QUEUE_TIMER=null; } },20000);
  }
 
  /* ---------- 새 글 요청 (백엔드 큐 연동) ---------- */
