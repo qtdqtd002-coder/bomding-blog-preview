@@ -1,0 +1,33 @@
+#!/bin/sh
+# BlogPreview 발행 게이트 — push 전에 style-lint를 자동 실행해 '게이트 건너뛰기'를 구조적으로 차단한다.
+# 배경: 2026-06-14 봄딩 우마무스메 글이 작성스킬·QA·린트를 통째로 건너뛰고 손수 커밋/푸시되어
+#       AI 일반 템플릿(.container/.disclaimer/🔍 본문노출)으로 발행된 사고. 이후 모든 push가 이 훅을 거친다.
+# 설치(재클론·새 PC 시): cp _tools/hooks/pre-push .git/hooks/pre-push   (Windows Git Bash에서도 동일)
+# 동작: style-lint.py exit 2(교차오염/발행본 금지요소)면 push 중단. WARN(비표준 템플릿)은 통과시키되 출력으로 알림.
+#       문체 톤·사실 검증은 이 훅이 못 잡는다(파이프라인 QA/검수2 담당) — 이 훅은 '기계적 게이트가 항상 돌게' 하는 백스톱.
+
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+LINT="$REPO_ROOT/_tools/style-lint.py"
+
+if [ ! -f "$LINT" ]; then
+  echo "[pre-push] style-lint.py 없음 — 게이트 건너뜀(경로 확인 필요): $LINT"
+  exit 0
+fi
+
+# python 실행기 탐색(py 런처 우선 → python → python3)
+if command -v py >/dev/null 2>&1; then PY="py"; elif command -v python >/dev/null 2>&1; then PY="python"; else PY="python3"; fi
+
+echo "[pre-push] 발행 게이트 실행: style-lint.py"
+PYTHONIOENCODING=utf-8 "$PY" "$LINT"
+RC=$?
+
+if [ "$RC" -ne 0 ]; then
+  echo ""
+  echo "[pre-push] ✗ 발행 게이트 실패(exit $RC) — push 중단."
+  echo "           해당 글을 작성자 정본 스켈레톤/문체로 교정한 뒤 다시 push하세요."
+  echo "           (정말 우회가 필요하면 git push --no-verify 지만, 발행 사고 재발 방지를 위해 권장하지 않음)"
+  exit 1
+fi
+
+echo "[pre-push] ✓ 게이트 통과."
+exit 0
