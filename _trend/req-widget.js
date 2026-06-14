@@ -84,7 +84,7 @@
 
   var flashEl = null, flashT = null;
   function flash(msg) {
-    if (!flashEl) { flashEl = document.createElement('div'); flashEl.className = 'rw-flash'; document.body.appendChild(flashEl); }
+    if (!flashEl) { flashEl = document.createElement('div'); flashEl.className = 'rw-flash'; flashEl.setAttribute('role', 'status'); flashEl.setAttribute('aria-live', 'polite'); document.body.appendChild(flashEl); }
     flashEl.textContent = msg; flashEl.classList.add('show');
     clearTimeout(flashT); flashT = setTimeout(function () { flashEl.classList.remove('show'); }, 2400);
   }

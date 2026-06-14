@@ -6,10 +6,12 @@
 <link rel="icon" type="image/png" sizes="192x192" href="app/icons/icon-192.png">
 <link rel="apple-touch-icon" href="app/icons/icon-192.png">
 <link rel="manifest" href="site.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="쓰담">
-<meta name="theme-color" content="#4C6FFF">
+<meta name="theme-color" content="#4C6FFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D0F12" media="(prefers-color-scheme: dark)">
 <script>(function(){try{var t=localStorage.getItem("theme")||((window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light");document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <style>
@@ -1939,7 +1941,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
            <button type="submit" class="rf-submit">${svg("send")}요청 보내기</button>
            <button type="button" id="rfPush" class="rf-push" hidden>${svg("bell")}발행 알림 받기</button>
          </div>
-         <div id="rfMsg" class="rf-msg" hidden></div>
+         <div id="rfMsg" class="rf-msg" role="status" aria-live="polite" hidden></div>
        </form>
      </div>
      <div class="reqlist" id="reqList"></div>
@@ -2229,7 +2231,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    /* ---- 토스트 ---- */
    let _toastEl=null,_toastT=0;
    function toast(msg,kind){
-     if(!_toastEl){ _toastEl=document.createElement("div"); _toastEl.className="adm-toast"; document.body.appendChild(_toastEl); }
+     if(!_toastEl){ _toastEl=document.createElement("div"); _toastEl.className="adm-toast"; _toastEl.setAttribute("role","status"); _toastEl.setAttribute("aria-live","polite"); _toastEl.setAttribute("aria-atomic","true"); document.body.appendChild(_toastEl); }
      _toastEl.textContent=msg; _toastEl.className="adm-toast show "+(kind||"");
      clearTimeout(_toastT); _toastT=setTimeout(()=>{ _toastEl.className="adm-toast"; }, kind==="err"?6500:3800);
    }
