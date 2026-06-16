@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>포켓몬 챔피언스 팀 짜는 법 — 타입 조합·초보 추천 덱 3가지</title>
+<style>
+  :root{ --blue:#4A86C5; --blueT:#3f7cb8; --pink:#d2628a; --ink:#33373f; --body:#3a3a42; --sub:#8a8f99; --line:#eef0f4; --paper:#fbf9f7; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#eef1f4; font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif; color:var(--body); }
+  .topbar{ background:#fff; border-bottom:1px solid #e7eaee; font-size:12.5px; color:#6f8295; padding:9px 16px; text-align:center; }
+  .wrap{ max-width:760px; margin:18px auto 60px; background:var(--paper); border:1px solid #efeae6; border-radius:16px; padding:34px 30px 44px; }
+  h1{ font-size:26px; line-height:1.4; font-weight:800; color:var(--ink); margin:0 0 10px; letter-spacing:-.4px; word-break:keep-all; }
+  .cat{ font-size:13px; color:var(--blueT); font-weight:700; margin:0 0 22px; }
+  .lead{ font-size:17px; line-height:1.95; color:var(--body); font-weight:500; margin:0 0 18px; word-break:keep-all; }
+  .hl{ font-weight:800; border-bottom:3px solid #fbd6e4; }
+  .factcard{ background:#f3f8fd; border:1px solid #dcebf9; border-radius:14px; padding:14px 18px; margin:0 0 8px; }
+  .factcard .ttl{ font-size:13.5px; font-weight:800; color:var(--blueT); margin:0 0 9px; display:flex; align-items:center; gap:5px; }
+  .factrow{ font-size:15px; line-height:1.75; color:#41474f; margin:6px 0; word-break:keep-all; }
+  .factrow b{ color:var(--blueT); }
+  .upd{ font-size:12.5px; color:#9aa0a8; margin:6px 0 24px; text-align:right; display:flex; align-items:center; justify-content:flex-end; gap:4px; }
+  .chip{ display:inline-flex; align-items:center; gap:5px; background:#eef5fc; color:var(--blueT); font-size:12.5px; font-weight:800; border-radius:9999px; padding:5px 13px; margin:34px 0 0; }
+  .chip.pink{ background:#fdeff5; color:var(--pink); }
+  h2.h2{ font-size:20.5px; font-weight:800; color:var(--ink); margin:10px 0 13px; padding:0 0 8px; border-bottom:2px solid #f0eaf2; letter-spacing:-.3px; word-break:keep-all; }
+  p.tx{ font-size:16px; line-height:1.97; color:var(--body); margin:0 0 18px; word-break:keep-all; }
+  p.tx b{ font-weight:800; }
+  p.tx .num{ font-weight:800; border-bottom:3px solid #fbd6e4; }
+  ul.bul{ margin:0 0 18px; padding:0 0 0 2px; list-style:none; }
+  ul.bul li{ font-size:15.5px; line-height:1.85; color:#41474f; margin:0 0 8px; padding:0 0 0 18px; position:relative; word-break:keep-all; }
+  ul.bul li::before{ content:"·"; color:var(--blue); font-weight:800; position:absolute; left:4px; top:-1px; }
+  .note-yeon{ background:#f0f6fc; border:1px solid #d7e7f7; border-radius:14px; padding:14px 16px; margin:0 0 20px; font-size:15px; line-height:1.85; color:#3c4650; }
+  .note-yeon b{ color:var(--blueT); }
+  .note-bom{ background:#fdf1f6; border:1px solid #f6d6e4; border-radius:14px; padding:14px 16px; margin:0 0 20px; font-size:15px; line-height:1.85; color:#574048; }
+  .note-bom b{ color:var(--pink); }
+  table.tbl{ width:100%; border-collapse:collapse; margin:8px 0 18px; font-size:14.5px; }
+  table.tbl th{ text-align:left; font-weight:800; color:var(--blueT); padding:10px 12px; background:#eef5fc; border-bottom:2px solid #cfe2f5; word-break:keep-all; }
+  table.tbl td{ padding:10px 12px; border-bottom:1px solid var(--line); color:#41474f; word-break:keep-all; }
+  table.tbl td.lab{ white-space:nowrap; font-weight:700; color:var(--blueT); }
+  .teamcard{ border:1px solid #dcebf9; border-radius:14px; padding:15px 17px; margin:0 0 14px; background:#fff; }
+  .teamcard h3{ font-size:17.5px; font-weight:800; color:var(--ink); margin:0 0 7px; letter-spacing:-.3px; }
+  .teamcard h3 .badge{ display:inline-block; background:var(--blue); color:#fff; font-weight:800; border-radius:9999px; padding:3px 12px; font-size:13px; margin-right:8px; vertical-align:2px; }
+  .teamcard .meta{ font-size:13.5px; color:var(--sub); margin:0 0 9px; word-break:keep-all; }
+  .teamcard p{ font-size:15.5px; line-height:1.9; color:var(--body); margin:0 0 6px; word-break:keep-all; }
+  .imgwrap{ text-align:center; margin:18px 0 6px; }
+  .imgwrap img{ max-width:100%; border-radius:12px; border:1px solid #ecebf0; }
+  .cap{ text-align:center; color:var(--sub); font-size:13px; margin:0 0 2px; }
+  .src{ text-align:center; color:#aab0b8; font-size:12px; margin:0 0 24px; }
+  .leaf{ text-align:center; color:#bfc6cf; font-size:14px; margin:28px 0; letter-spacing:2px; }
+  .faqq{ font-size:16px; margin:0 0 6px; color:var(--ink); }
+  .faqq .qb{ display:inline-block; background:#fdeff5; color:var(--pink); font-weight:800; border-radius:9999px; padding:2px 10px; margin-right:8px; }
+  .faqa{ font-size:15.5px; line-height:1.9; color:#4a505a; margin:0 0 17px; padding:0 0 0 12px; border-left:2px solid #f6d6e4; word-break:keep-all; }
+  .linkbox{ background:#f0f6fc; border:1px solid #d7e7f7; border-radius:14px; padding:14px 16px; margin:20px 0; font-size:15px; line-height:1.85; color:#3c4650; }
+  .linkbox a{ color:var(--blueT); text-decoration:none; font-weight:700; }
+  .closing{ background:#fdf1f6; border:1px solid #f6d6e4; border-radius:14px; padding:16px 18px; margin:28px 0 16px; font-size:15.5px; line-height:1.9; color:#574048; }
+  .closing b{ color:var(--pink); }
+  .tags{ margin:18px 0 0; line-height:2.4; }
+  .tags span{ background:#eef5fc; border:1px solid #dcebf9; color:var(--blueT); font-size:13px; border-radius:9999px; padding:4px 12px; margin:0 4px 6px 0; display:inline-block; }
+  .subbanner{ margin:28px 0 4px; }
+  .subbanner img{ width:100%; max-width:760px; display:block; margin:0 auto; border-radius:14px; border:1px solid #f0e8e6; }
+  svg.ic{ vertical-align:-2px; }
+</style>
+</head>
+<body>
+<div class="topbar">🌿 blog 연봄 · 덕질생활 (티스토리 발행용 미리보기) · 💙🩷 부부가 함께 정리한 글</div>
+<div class="wrap">
+<h1>포켓몬 챔피언스 팀 짜는 법 — 타입 조합·초보 추천 덱 3가지</h1>
+<div class="cat">포켓몬! · 게임 공략 · 포켓몬 챔피언스</div>
+
+<p class="lead">포켓몬 챔피언스를 시작하면 포켓몬은 데려왔는데, 막상 <b>이 여섯 마리를 어떻게 묶지</b>에서 한 번은 멈칫하게 되는데요. 이 글에서는 출시(6월 17일)에 맞춰 바로 써먹게, <b class="hl">포켓몬 챔피언스 팀(덱) 짜는 법</b>을 타입 조합·역할 분담 기본부터 <b class="hl">초보가 그대로 따라 짜는 추천 팀 틀 3가지</b>까지 차근차근 정리해 볼게요.</p>
+
+<div class="factcard">
+  <div class="ttl"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>한눈에 보기</div>
+  <div class="factrow"><b>팀 구성</b>&nbsp; 엔트리 6마리를 짜두고, 싱글배틀은 그중 3마리·더블배틀은 4마리를 골라 싸워요</div>
+  <div class="factrow"><b>첫 뼈대</b>&nbsp; ① 타입으로 약점 흩기 → ② 어태커·탱커·서포터 역할 나누기</div>
+  <div class="factrow"><b>메가진화</b>&nbsp; 팀에 메가 1마리를 축으로 두면 화력·안정감이 올라가요</div>
+  <div class="factrow"><b>추천 틀 3가지</b>&nbsp; 밸런스(스탠다드) · 날씨 · 트릭룸</div>
+  <div class="factrow"><b>기준</b>&nbsp; 출시 직후라 '정답 메타'가 아니라 <b>초보가 첫 팀을 잡는 틀</b>이에요(메타는 차차 굳어져요)</div>
+</div>
+<p class="upd"><svg class="ic" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>마지막 업데이트 2026.06.16 · 출시 직후 기준</p>
+
+<p class="chip"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>팀 구성 기본</p>
+<h2 class="h2">챔피언스 팀, 몇 마리로 어떻게 짜나요</h2>
+<p class="tx">챔피언스는 본가 포켓몬과 똑같이 <b>엔트리(팀) 6마리</b>를 미리 짜 두고, 실제 대전에서는 그중 일부만 골라 내보내는 방식이에요. <b class="num">싱글배틀은 6마리 중 3마리, 더블배틀은 4마리</b>를 골라 싸우는데요. 그래서 여섯 마리를 두루 잘 만들어 두되, '이 상대에겐 이 셋(또는 넷)'을 골라내는 감각이 그대로 실력으로 이어져요.</p>
+<p class="tx">싱글은 한 마리씩 맞붙어 인과가 단순하고, 더블은 두 마리가 동시에 서서 서로를 받쳐주는 시너지가 핵심이에요. 처음엔 싱글로 감을 잡고 익숙해지면 더블로 넘어가면 부담이 적어요.</p>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%EB%AA%A8%EB%B0%94%EC%9D%BC%20%EC%9E%85%EB%AC%B8%20%EC%A0%95%EB%A6%AC/img/champions-appstore-shot3.webp" alt="포켓몬 챔피언스 한국어 배틀 화면 — 팀에서 포켓몬을 골라 대전하는 모습" style="width:560px;"></div>
+<p class="cap">엔트리 6마리에서 골라 싸우는 챔피언스 배틀 화면(한글 지원)</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="note-yeon"><b>💙 연의 한마디</b><br>처음부터 어렵게 보지 말고 6마리부터 채워 보세요. 싱글이냐 더블이냐에 따라 골라 내보내는 수가 3·4로 달라질 뿐, 팀을 '여섯 마리 묶음'으로 짜 두는 건 똑같아요.</div>
+<div class="linkbox"><b>🔗 이어서 보면 좋은 글</b><br>포켓몬을 데려오는 법(매일 무료 모집·HOME 전송)이 헷갈리면 → <a href="https://bom-ding.tistory.com/11">포켓몬 챔피언스 리세마라·초보 가이드</a></div>
+
+<p class="chip"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>첫 뼈대 ①</p>
+<h2 class="h2">타입 조합으로 약점을 흩는다</h2>
+<p class="tx">가장 먼저 챙길 건 <b>타입 약점이 한쪽으로 몰리지 않게</b> 하는 거예요. 예를 들어 불꽃·바위·땅처럼 물에 약한 포켓몬만 잔뜩 모으면, 물 타입 상대 하나에 팀이 통째로 흔들리거든요. 그래서 서로의 약점을 메워주는 타입을 섞는 게 기본이에요.</p>
+<ul class="bul">
+  <li><b>한 타입에 몰빵 금지</b> — 좋아하는 타입만 모으면 그 타입의 약점이 그대로 팀 전체의 약점이 돼요.</li>
+  <li><b>서로 보완</b> — A가 약한 타입을 B가 반감·무효로 받아주게 짝지어요(예: 풀에 약한 불꽃 옆에 풀을 반감하는 물·바위 계열).</li>
+</ul>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%EB%9E%AD%ED%81%AC%EB%B0%B0%ED%8B%80%20%EB%8C%80%ED%9A%8C%20WCS%20%EC%A0%95%EB%A6%AC/img/champions-vgc-battle.png" alt="포켓몬 챔피언스 배틀 장면 — 타입 상성으로 맞붙는 대전"></div>
+<p class="cap">타입 상성이 팀의 첫 뼈대 — 약점을 흩어 두는 게 핵심</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="note-bom"><b>🩷 봄의 한마디</b><br>저도 처음엔 좋아하는 포켓몬만 골라 담았다가, 약점이 한 타입에 겹쳐서 자꾸 무너졌어요. 마음에 드는 한 마리를 정했으면, 그 옆은 '그 약점을 받아주는 친구'로 채운다고 생각하면 한결 편해요.</div>
+
+<p class="chip"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>첫 뼈대 ②</p>
+<h2 class="h2">역할 분담 — 어태커·탱커·서포터</h2>
+<p class="tx">타입 다음은 <b>역할</b>이에요. 여섯 마리가 전부 공격형이면 한 번 밀리기 시작했을 때 끝까지 못 버티거든요. 보통 이렇게 나눠서 채워요.</p>
+<ul class="bul">
+  <li><b>어태커(딜러)</b> — 화력 담당. 상대 약점을 찌르는 핵심 역할이에요.</li>
+  <li><b>탱커(받이)</b> — 단단해서 시간을 벌고, 무너지는 포켓몬을 교체로 받아줘요.</li>
+  <li><b>서포터</b> — 날씨·트릭룸·도구·상태이상으로 판을 깔아 다른 포켓몬을 강하게 만들어요.</li>
+</ul>
+<p class="tx">여섯 마리를 어태커 위주로 두되 <b>탱커 1~2마리·서포터 1마리</b>를 끼우면 균형이 잡혀요. 전부 딜러로 채우면 화력은 세도 흐름이 한 번 넘어가면 되돌리기 어렵거든요.</p>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%EB%9E%AD%ED%81%AC%EB%B0%B0%ED%8B%80%20%EB%8C%80%ED%9A%8C%20WCS%20%EC%A0%95%EB%A6%AC/img/champions-training.png" alt="포켓몬 챔피언스 팀 편성·트레이닝 화면 — 역할별로 포켓몬을 배치"></div>
+<p class="cap">역할을 나눠 두면 한 마리가 무너져도 다음 포켓몬이 받아줘요</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="note-yeon"><b>💙 연의 한마디</b><br>역할은 '이 포켓몬이 무너지기 시작할 때 누가 받아주나'를 떠올리면 자연스럽게 채워져요. 전부 딜러면 화력은 세도 한 번 흐름을 내주면 되돌리기 어려워요.</div>
+
+<p class="leaf">· &nbsp;🌿&nbsp; ·</p>
+
+<p class="chip"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>짜는 순서</p>
+<h2 class="h2">막막할 땐 이 4단계로</h2>
+<p class="tx">뭐부터 손대야 할지 막막하면 순서대로 가면 돼요. 에이스 한 마리만 정해도 나머지가 술술 따라와요.</p>
+<table class="tbl">
+  <tr><th>단계</th><th>할 일</th></tr>
+  <tr><td class="lab">1단계</td><td>좋아하거나 강한 포켓몬 <b>1마리(에이스)</b>를 먼저 정해요</td></tr>
+  <tr><td class="lab">2단계</td><td>그 에이스의 <b>약점을 받아줄 포켓몬 1~2마리</b>를 넣어요</td></tr>
+  <tr><td class="lab">3단계</td><td>남는 자리에 <b>역할(탱커·서포터)</b>을 채워요</td></tr>
+  <tr><td class="lab">4단계</td><td>팀에 <b>메가진화 1마리를 축</b>으로 두고, 각자 도구를 맞춰요</td></tr>
+</table>
+<div class="linkbox"><b>🔗 이어서 보면 좋은 글</b><br>메가스톤을 어떻게 구하고 어떤 메가가 좋은지는 → <a href="https://bom-ding.tistory.com/15">포켓몬 챔피언스 메가진화 총정리</a></div>
+<div class="note-bom"><b>🩷 봄의 한마디</b><br>순서대로 가면 '이 포켓몬을 왜 넣었지' 싶은 칸이 안 생겨요. 에이스 한 마리만 정해도 그 약점을 메우고 역할을 채우다 보면 어느새 여섯 칸이 다 차 있더라고요.</div>
+
+<p class="chip pink"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>추천 팀 틀 3가지</p>
+<h2 class="h2">초보가 잡기 좋은 팀 틀 3가지</h2>
+<p class="tx">출시 직후라 '정답 메타'는 아직 굳지 않았지만, 챔피언스 대전에서 자주 보이는 팀 성격을 <b>초보가 잡기 좋은 틀</b>로 추려봤어요. 마음에 드는 틀 하나를 골라 위 4단계대로 채우면 돼요. 특정 포켓몬은 본인이 데려온 것·취향에 맞춰 고르시면 되고, 여기선 '어떤 성격의 팀인지'를 위주로 볼게요.</p>
+<div class="teamcard">
+  <h3><span class="badge">틀 1</span>밸런스(스탠다드)형</h3>
+  <p class="meta">난이도 낮음 · 가장 무난 · 첫 팀 추천</p>
+  <p>어태커·탱커·서포터를 고르게 섞어 어느 한쪽으로도 안 치우치게 짠 팀이에요. 특수한 한 수(날씨·트릭룸)가 없어도 타입과 역할만 맞으면 굴러가서, <b>처음 배우기에 가장 편한 틀</b>이에요. 어떤 상대를 만나도 무난하게 받아쳐요.</p>
+</div>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%EB%A9%94%EA%B0%80%EC%A7%84%ED%99%94%20%EC%B4%9D%EC%A0%95%EB%A6%AC/img/champions-battle-shot.webp" alt="포켓몬 챔피언스 대전 장면 — 밸런스형 팀으로 맞붙는 모습"></div>
+<p class="cap">밸런스형은 타입·역할만 맞춰도 굴러가서 첫 팀으로 제일 편해요</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="teamcard">
+  <h3><span class="badge">틀 2</span>날씨형</h3>
+  <p class="meta">난이도 중간 · 화력 강함 · 한 콘셉트로 몰기</p>
+  <p>서포터가 비·맑음 같은 <b>날씨를 깔고</b>, 그 날씨에서 강해지는 어태커로 몰아치는 팀이에요. 잘 맞물리면 화력이 확 세지지만, 날씨를 까는 포켓몬이 먼저 쓰러지면 힘이 빠지니 그 한 마리를 지키는 게 핵심이에요.</p>
+</div>
+<div class="teamcard">
+  <h3><span class="badge">틀 3</span>트릭룸(내구)형</h3>
+  <p class="meta">난이도 중간 · 굳히기 강함 · 느림보 활용</p>
+  <p><b>트릭룸</b>으로 '느린 포켓몬이 먼저 움직이는' 판을 깔아, 느리지만 단단하고 강한 포켓몬으로 밀어붙이는 팀이에요. 판만 깔리면 한 방이 묵직해서 굳히기 좋아요. 트릭룸이 풀리는 타이밍을 계산하는 재미가 있어요.</p>
+</div>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%EB%A9%94%EA%B0%80%EC%A7%84%ED%99%94%20%EC%B4%9D%EC%A0%95%EB%A6%AC/img/champions-trainer-battle.jpg" alt="포켓몬 챔피언스 트레이너 대전 — 콘셉트가 뚜렷한 팀끼리의 배틀"></div>
+<p class="cap">날씨·트릭룸은 '판을 까는' 한 수가 더해진 한 단계 위 틀</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="note-yeon"><b>💙 연의 한마디</b><br>셋 중 헷갈리면 <b>밸런스형부터</b> 시작하세요. 날씨·트릭룸은 '판을 까는' 한 수가 필요해서 한 단계 위인데, 밸런스형은 타입·역할만 맞춰도 굴러가서 첫 팀으로 제일 편해요.</div>
+
+<p class="chip pink"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>자주 묻는 질문</p>
+<h2 class="h2">챔피언스 팀, 이건 궁금해요</h2>
+<p class="faqq"><span class="qb">Q</span><b>덱 코드(팀 ID)로 남의 팀을 그대로 따라 짤 수 있나요?</b></p>
+<p class="faqa">네. 챔피언스에는 <b>팀 ID(코드)</b>를 입력하면 그 조합에 맞춰 도구·능력치까지 맞춰주는 기능이 있어요. 잘 짜인 팀을 불러와 똑같이 써볼 수 있는데, 그 포켓몬·도구를 내가 갖고 있어야 해요. 처음엔 좋은 팀을 따라 짜며 배우는 것도 좋아요.</p>
+<p class="faqq"><span class="qb">Q</span><b>무과금으로도 팀을 다 짤 수 있나요?</b></p>
+<p class="faqa">매일 무료 모집으로 꾸준히 모으면 팀의 뼈대는 무과금으로 만들 수 있어요. 데려오는 법은 위에 링크한 리세마라·초보 가이드에 정리돼 있어요.</p>
+<p class="faqq"><span class="qb">Q</span><b>메가진화는 꼭 넣어야 하나요?</b></p>
+<p class="faqa">필수는 아니에요. 다만 메가 1마리를 축으로 두면 화력·안정감이 확 올라서, 익숙해질수록 한 마리는 넣게 돼요. 어떤 메가가 좋은지는 메가진화 글에 모아 뒀어요.</p>
+<p class="faqq"><span class="qb">Q</span><b>싱글이랑 더블, 뭐부터 할까요?</b></p>
+<p class="faqa">처음엔 1대1이라 인과가 단순한 <b>싱글</b>로 감을 잡고, 익으면 두 마리 시너지가 있는 더블로 넘어가는 걸 추천해요. 팀은 어느 쪽이든 6마리로 짜 두면 돼요.</p>
+
+<div class="closing"><b>🩷 봄의 한마디로 정리</b><br>정리하면, 포켓몬 챔피언스 첫 팀은 <b>타입으로 약점을 흩고, 어태커·탱커·서포터 역할을 나눠 여섯 마리</b>를 짠 다음, 밸런스·날씨·트릭룸 중 마음에 드는 틀 하나로 채우면 돼요. 출시 첫날부터 이대로 한 팀 짜 두면 캐주얼 배틀에서 충분히 즐기실 수 있을 거예요.</div>
+
+<p class="tags"><span>#포켓몬챔피언스</span><span>#포켓몬챔피언스덱</span><span>#포켓몬챔피언스팀</span><span>#포켓몬챔피언스공략</span><span>#타입상성</span><span>#포켓몬배틀</span><span>#챔피언스초보</span></p>
+
+<div class="subbanner"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/yb-assets/yeonbom-post-banner.jpeg" alt="연봄 부부의 인사 — 공감 하나, 구독 하나가 연봄 부부에게 큰 힘이 돼요"></div>
+</div>
+
+<!-- ▶ 티스토리 복사 버튼 (연봄 미리보기 전용 — _티스토리_ 본문을 클립보드로) -->
+<div id="tcopy" style="position:fixed;top:14px;right:14px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;max-width:92vw;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;">
+  <button id="tcopyBtn" type="button" style="background:#4A86C5;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(74,134,197,.35);">📋 티스토리용 HTML 복사</button>
+  <div id="tcopyPanel" style="display:none;width:min(92vw,580px);background:#fff;border:1px solid #cfe0f1;border-radius:10px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);">
+    <div style="font-size:12px;color:#6f8295;margin-bottom:8px;line-height:1.6;">티스토리 글쓰기 → <b>HTML 모드</b>로 바꾼 뒤 아래 본문을 붙여넣기. 제목·태그는 각 칸에 따로 입력하세요.</div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0;"><b style="color:#4A86C5;">제목</b> <span id="tcopyTitle" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0 8px;"><b style="color:#4A86C5;">태그</b> <span id="tcopyTags" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <textarea id="tcopyArea" readonly style="width:100%;height:180px;font-size:11.5px;line-height:1.5;border:1px solid #d7e6f5;border-radius:8px;padding:9px;background:#f7fafd;box-sizing:border-box;"></textarea>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('tcopyBtn'),panel=document.getElementById('tcopyPanel'),
+      area=document.getElementById('tcopyArea'),tEl=document.getElementById('tcopyTitle'),gEl=document.getElementById('tcopyTags');
+  function pick(html,label){ var m=html.match(new RegExp('<!--\\s*'+label+':([\\s\\S]*?)-->')); return m?m[1].trim():''; }
+  function body(html){
+    var a=html.indexOf('↓↓↓ 여기부터'); if(a>=0){a=html.indexOf('-->',a); a=a>=0?a+3:0;} else a=0;
+    var z=html.indexOf('↑↑↑ 여기까지'); var end=z>=0?html.lastIndexOf('<!--',z):html.length; if(end<0)end=html.length;
+    return html.slice(a,end).replace(/<!--[\s\S]*?-->/g,'').replace(/\n{3,}/g,'\n\n').trim();
+  }
+  btn.addEventListener('click',function(){
+    var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
+    btn.textContent='불러오는 중…';
+    fetch(url).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
+      var b=body(t); area.value=b; tEl.textContent=pick(t,'제목'); gEl.textContent=pick(t,'태그');
+      panel.style.display='block'; area.focus(); area.select();
+      function ok(){ btn.textContent='✅ 본문 복사됨! HTML 모드에 붙여넣기'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(b).then(ok,function(){try{document.execCommand("copy");}catch(e){} ok();}); }
+      else { try{document.execCommand("copy");}catch(e){} ok(); }
+    }).catch(function(){ btn.textContent='⚠ 복사 실패 — 같은 폴더 _티스토리_ 파일 확인'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); });
+  });
+})();
+</script>
+</body>
+</html>
