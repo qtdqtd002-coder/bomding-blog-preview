@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>포켓몬 챔피언스 크로스플레이 연동 방법 (스위치·모바일 같이 하기)</title>
+<style>
+  body{margin:0;background:#eef0f3;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#33373f;}
+  .topbar{background:#33373f;color:#cfe0f1;font-size:12.5px;text-align:center;padding:7px 10px;letter-spacing:.2px;}
+  .wrap{max-width:760px;margin:0 auto;background:#fbf9f7;padding:30px 26px 60px;}
+  h1{font-size:26px;font-weight:800;line-height:1.4;letter-spacing:-.5px;color:#2b2b33;margin:6px 0 10px;word-break:keep-all;}
+  .cat{display:inline-block;background:#eef5fc;color:#3f7cb8;font-size:12.5px;font-weight:800;border-radius:9999px;padding:4px 12px;margin:0 0 14px;}
+  .lead{font-size:17px;line-height:1.95;color:#3a3a42;font-weight:500;margin:0 0 18px;word-break:keep-all;}
+  .hl{font-weight:800;border-bottom:3px solid #fbd6e4;}
+  .factcard{background:#f3f8fd;border:1px solid #dcebf9;border-radius:14px;padding:14px 18px;margin:0 0 8px;}
+  .fchead{font-size:13.5px;font-weight:800;color:#3f7cb8;margin:0 0 9px;}
+  .factrow{font-size:15px;line-height:1.75;color:#41474f;margin:6px 0;}
+  .factrow b{color:#3f7cb8;}
+  .upd{font-size:12.5px;color:#9aa0a8;margin:6px 0 24px;text-align:right;}
+  .chip{display:inline-block;background:#eef5fc;color:#3f7cb8;font-size:12.5px;font-weight:800;border-radius:9999px;padding:5px 13px;}
+  .chip.pink{background:#fdeff5;color:#d2628a;}
+  .chipwrap{margin:34px 0 0;}
+  h2.h2{font-size:20.5px;font-weight:800;color:#33373f;margin:10px 0 13px;padding:0 0 8px;border-bottom:2px solid #f0eaf2;letter-spacing:-.3px;}
+  p.b{font-size:16px;line-height:1.97;color:#3a3a42;margin:0 0 18px;word-break:keep-all;}
+  p.b b{font-weight:800;}
+  .note-yeon{background:#f0f6fc;border:1px solid #d7e7f7;border-radius:14px;padding:14px 16px;margin:0 0 20px;font-size:15px;line-height:1.85;color:#3c4650;}
+  .note-yeon b{color:#3f7cb8;}
+  .note-bom{background:#fdf1f6;border:1px solid #f6d6e4;border-radius:14px;padding:14px 16px;margin:0 0 20px;font-size:15px;line-height:1.85;color:#574048;}
+  .note-bom b{color:#d2628a;}
+  table.tbl{width:100%;border-collapse:collapse;margin:8px 0 18px;font-size:14.5px;}
+  table.tbl th{text-align:left;font-weight:800;color:#3f7cb8;padding:10px 12px;background:#eef5fc;border-bottom:2px solid #cfe2f5;word-break:keep-all;}
+  table.tbl td{padding:10px 12px;border-bottom:1px solid #eef0f4;color:#41474f;word-break:keep-all;}
+  .imgwrap{text-align:center;margin:18px 0 6px;}
+  .imgwrap img{max-width:100%;border-radius:12px;border:1px solid #ecebf0;}
+  .cap{text-align:center;color:#8a8f99;font-size:13px;margin:0 0 2px;}
+  .src{text-align:center;color:#aab0b8;font-size:12px;margin:0 0 24px;}
+  .leaf{text-align:center;color:#bfc6cf;font-size:14px;margin:28px 0;letter-spacing:2px;}
+  .faqq{font-size:16px;margin:0 0 6px;color:#33373f;}
+  .qbadge{display:inline-block;background:#fdeff5;color:#d2628a;font-weight:800;border-radius:9999px;padding:2px 10px;margin-right:8px;}
+  .faqa{font-size:15.5px;line-height:1.9;color:#4a505a;margin:0 0 17px;padding:0 0 0 12px;border-left:2px solid #f6d6e4;word-break:keep-all;}
+  .closing{background:#fdf1f6;border:1px solid #f6d6e4;border-radius:14px;padding:16px 18px;margin:28px 0 16px;font-size:15.5px;line-height:1.9;color:#574048;}
+  .closing b{color:#d2628a;}
+  .tags{margin:18px 0 0;line-height:2.4;}
+  .tags span{background:#eef5fc;border:1px solid #dcebf9;color:#3f7cb8;font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 6px 0;display:inline-block;}
+  .linkbox{background:#f0f6fc;border:1px solid #d7e7f7;border-radius:14px;padding:14px 16px;margin:20px 0;font-size:15px;line-height:1.85;color:#3c4650;}
+  .linkbox b{color:#3f7cb8;}
+  .linkbox a{color:#3f7cb8;text-decoration:none;font-weight:700;}
+  .cardbox{background:#f3f8fd;border:1px solid #dcebf9;border-radius:14px;padding:14px 18px;margin:34px 0 8px;}
+  .cardbox .ttl{font-size:14px;font-weight:800;color:#3f7cb8;margin:0 0 11px;}
+  .cardbox a{display:block;padding:11px 13px;margin:0 0 8px;background:#fff;border:1px solid #dcebf9;border-radius:10px;color:#2b2b33;text-decoration:none;font-size:15px;font-weight:600;line-height:1.45;word-break:keep-all;}
+  .cardbox a span{color:#3f7cb8;}
+  svg{stroke:currentColor;}
+</style>
+</head>
+<body>
+<div class="topbar">🌿 blog 연봄 · 덕질생활 (티스토리 발행용 미리보기) · 💙🩷 부부가 함께 정리한 글</div>
+<div class="wrap">
+  <div class="cat">포켓몬! Pokémon · 게임 정보</div>
+  <h1>포켓몬 챔피언스 크로스플레이 연동 방법 (스위치·모바일 같이 하기)</h1>
+
+  <p class="lead"><b class="hl">포켓몬 챔피언스</b>가 6월 17일 모바일로 넘어오는데요, 스위치에서 이미 하고 계셨던 분이라면 키우던 포켓몬을 폰에서 <b class="hl">그대로 이어서</b> 할 수 있어요. 비결은 딱 하나, <b>닌텐도 어카운트</b>예요. 스위치를 새로 사거나 데이터를 따로 옮길 필요 없이, 양쪽 기기에 같은 어카운트로 로그인하면 됩니다. 이 글에서는 <b>크로스플레이가 정확히 뭔지, 어떻게 연동하는지, 연동 전에 꼭 알아둘 점</b>까지 차근차근 정리해 둘게요.</p>
+
+  <div class="factcard">
+    <div class="fchead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>한눈에 보기</div>
+    <div class="factrow"><b><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>모바일 출시</b>&nbsp; 2026년 6월 17일 (스위치판은 4월 8일 선출시)</div>
+    <div class="factrow"><b><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>플랫폼</b>&nbsp; 닌텐도 스위치 · 스위치 2 · iOS · 안드로이드</div>
+    <div class="factrow"><b><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>가격</b>&nbsp; 기본 무료로 시작(free-to-start)</div>
+    <div class="factrow"><b><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>연동 방식</b>&nbsp; 양쪽 기기에 같은 닌텐도 어카운트 로그인</div>
+    <div class="factrow"><b><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>같이 되는 것</b>&nbsp; 기기 사이 대전(크로스플레이) + 세이브 동기화(크로스세이브)</div>
+  </div>
+  <p class="upd"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>마지막 업데이트 2026.06.16 · 모바일 출시 직전 기준</p>
+
+  <div class="chipwrap"><span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>크로스플레이란</span></div>
+  <h2 class="h2">크로스플레이가 뭔가요? 스위치·모바일이 같이 대전해요</h2>
+  <p class="b">먼저 결론부터 말하면, 챔피언스의 크로스플레이는 <b>스위치·스위치 2·아이폰·안드로이드가 한 무대에서 같이 대전</b>하는 기능이에요. 폰으로 하는 사람과 스위치로 하는 사람이 따로 노는 게 아니라, 모두 같은 매칭 풀에 들어가서 서로 붙는 식이거든요. 별도로 켜고 끄는 설정도 없이 자동으로 적용돼서, 친구가 스위치를 쓰든 폰을 쓰든 신경 쓸 필요가 없습니다.</p>
+  <p class="b">챔피언스는 모험 없이 <b>대전에만 집중한 포켓몬 게임</b>이라, 같이 붙을 상대가 많을수록 매칭이 빨라지고 재미도 커지는데요. 그래서 모바일판이 더해지면서 대전 상대 풀이 훨씬 넓어진 게 이번 출시의 핵심이에요. 승패로 등급이 갈리는 <b>랭크배틀</b>, 가볍게 즐기는 <b>캐주얼배틀</b>, 친구·가족과 붙는 <b>프라이빗배틀</b>이 모두 이 크로스플레이 위에서 돌아갑니다.</p>
+  <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%81%AC%EB%A1%9C%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4%20%EC%97%B0%EB%8F%99%20%EB%B0%A9%EB%B2%95/img/champions-crossplay-kv.png" alt="포켓몬 챔피언스 대전 화면 — 가디안과 삼삼드래가 관중석 앞에서 배틀하는 장면"></div>
+  <p class="cap">스위치든 폰이든 같은 무대에서 붙는 게 크로스플레이예요.</p>
+  <p class="src">이미지: 닌텐도 공식</p>
+  <div class="note-yeon"><b>💙 연의 한마디</b><br>대전 상대가 폰인지 스위치인지는 매칭에서 따로 구분되지 않아요. 그러니 "폰 사용자라 불리하지 않을까" 걱정은 안 하셔도 됩니다. 입력 방식만 다를 뿐, 같은 룰·같은 풀에서 붙거든요.</div>
+  <div class="linkbox"><b>🔗 이어서 보면 좋은 글</b><br>챔피언스가 어떤 게임인지 처음부터 궁금하다면 → <a href="https://bom-ding.tistory.com/8">포켓몬 챔피언스 모바일 입문 정리</a></div>
+
+  <div class="chipwrap"><span class="chip pink"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>세이브 이어짐</span></div>
+  <h2 class="h2">연동만 하면 세이브도 그대로 이어져요 (크로스세이브)</h2>
+  <p class="b">여기서 한 가지 짚고 갈 게 있는데요, <b>크로스플레이</b>와 <b>크로스세이브</b>는 서로 다른 기능이에요. 헷갈리기 쉬운 부분이라 한 번 정리해 둘게요. 크로스플레이는 위에서 본 것처럼 <b>기기끼리 대전이 붙는 것</b>이고, 크로스세이브(공식 표현으로는 크로스 프로그레션)는 <b>진행도가 기기 사이에서 동기화되는 것</b>이에요.</p>
+  <p class="b">즉 스위치에서 키우던 포켓몬, 모아둔 재화, 랭크 기록을 <b class="hl">모바일에서도 똑같이</b> 이어서 쓸 수 있다는 뜻이에요. 출근길엔 폰으로 대전을 돌리고, 집에서는 스위치 큰 화면으로 이어서 키우는 식이 되는 거죠. 두 기기가 별개의 게임이 아니라 <b>하나의 계정 데이터</b>를 같이 보는 거라고 생각하시면 편합니다.</p>
+  <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%81%AC%EB%A1%9C%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4%20%EC%97%B0%EB%8F%99%20%EB%B0%A9%EB%B2%95/img/champions-train.png" alt="포켓몬 챔피언스 포켓몬 육성 화면 — 가디안의 능력치와 기술 구성"></div>
+  <p class="cap">스위치에서 이만큼 키워뒀다면, 모바일에서도 그대로예요.</p>
+  <p class="src">이미지: 닌텐도 공식</p>
+  <div class="note-bom"><b>🩷 봄의 한마디</b><br>저는 처음에 "모바일판은 따로 처음부터 키워야 하나" 했는데, 그게 아니라서 마음이 놓였어요. 스위치로 쌓아둔 게 사라지지 않고 폰으로 그대로 넘어오니까, 새 기기가 생겨도 부담 없이 옮겨 다닐 수 있더라고요.</div>
+
+  <div class="chipwrap"><span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>연동 방법</span></div>
+  <h2 class="h2">연동 방법 — 닌텐도 어카운트 하나면 끝</h2>
+  <p class="b">연동이라고 하면 복잡할 것 같지만, 사실 핵심은 <b class="hl">두 기기에 같은 닌텐도 어카운트로 로그인</b>하는 것 하나예요. 큰 흐름은 이렇습니다.</p>
+  <table class="tbl">
+    <tr><th style="white-space:nowrap;">순서</th><th>할 일</th></tr>
+    <tr><td style="white-space:nowrap;">1단계</td><td>스위치판에서 이미 쓰고 있는 <b>닌텐도 어카운트</b>가 무엇인지 확인</td></tr>
+    <tr><td style="white-space:nowrap;">2단계</td><td>6월 17일, 앱스토어·구글플레이에서 <b>챔피언스 모바일판</b> 설치</td></tr>
+    <tr><td style="white-space:nowrap;">3단계</td><td>앱을 켜고 <b>스위치와 같은 닌텐도 어카운트</b>로 로그인</td></tr>
+    <tr><td style="white-space:nowrap;">4단계</td><td>로그인하면 스위치 세이브가 자동으로 연동 — 그대로 이어서 플레이</td></tr>
+  </table>
+  <p class="b">반대로 <b>모바일로 처음 시작하는 분</b>이라면, 모바일에서 닌텐도 어카운트로 로그인해 두면 나중에 스위치를 들였을 때 그 어카운트로 똑같이 이어집니다. 어느 쪽으로 시작하든 <b>"같은 어카운트로 로그인"</b>이라는 한 줄만 지키면 되는 셈이에요. 데이터를 손으로 내보내거나 옮기는 절차는 없습니다.</p>
+  <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%81%AC%EB%A1%9C%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4%20%EC%97%B0%EB%8F%99%20%EB%B0%A9%EB%B2%95/img/champions-screen2.png" alt="포켓몬 챔피언스 배틀 장면 — 망나뇽이 하이드로 펌프를 쓰는 모습"></div>
+  <p class="cap">로그인만 맞추면 어느 기기서든 같은 배틀로 이어져요.</p>
+  <p class="src">이미지: 닌텐도 공식</p>
+  <div class="note-yeon"><b>💙 연의 한마디</b><br>닌텐도 어카운트가 기억이 안 난다면, 평소 스위치에서 e숍이나 온라인에 쓰던 그 계정이에요. 모바일에서 새 계정을 만들지 말고, 스위치에서 쓰던 걸 그대로 불러오는 게 핵심입니다.</div>
+
+  <div class="chipwrap"><span class="chip pink"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>연동 전 주의</span></div>
+  <h2 class="h2">연동하기 전에 꼭 알아둘 것</h2>
+  <p class="b">연동 자체는 간단하지만, 그래서 더 <b>처음에 어떤 계정으로 로그인하느냐</b>가 중요해요. 닌텐도 기기는 한 세이브에 어카운트를 한 번 묶으면 다른 어카운트로 바꾸기가 까다로운 편이거든요. 그러니 가족 계정이나 부계정이 아니라, <b class="hl">앞으로 쭉 쓸 본인 주 계정</b>으로 로그인하는 걸 권합니다. 한 번 정해두면 스위치든 폰이든 계속 그 계정으로 이어가는 게 가장 깔끔해요.</p>
+  <p class="b">가격도 한 번 짚고 갈게요. 챔피언스 모바일판은 <b>기본 무료로 시작(free-to-start)</b>할 수 있어요. 그래서 일단 받아서 대전을 해보고 마음에 들면 더 들여다보는 식으로 부담 없이 입문할 수 있습니다. 다만 게임 안의 세부 결제 항목은 출시 전이라 단정하지 않을게요 — 설치할 때 스토어 안내를 한 번 확인하시면 됩니다.</p>
+  <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%81%AC%EB%A1%9C%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4%20%EC%97%B0%EB%8F%99%20%EB%B0%A9%EB%B2%95/img/champions-battle.png" alt="포켓몬 챔피언스 대전 화면 — 포켓몬이 마주 보고 배틀을 시작하는 장면"></div>
+  <p class="cap">처음 로그인할 계정만 잘 정해두면 그다음은 편해요.</p>
+  <p class="src">이미지: 닌텐도 공식</p>
+  <div class="note-bom"><b>🩷 봄의 한마디</b><br>저희도 기기를 바꿔가며 게임을 하다 보면 "어, 이거 어느 계정으로 했더라" 하고 헤맨 적이 종종 있었어요. 그래서 처음 로그인할 때 메모 한 줄 해두면 마음이 편하더라고요. 작은 습관인데 나중에 정말 도움이 돼요.</div>
+
+  <p class="leaf">· &nbsp;🌿&nbsp; ·</p>
+
+  <div class="chipwrap"><span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>포켓몬 홈 연동</span></div>
+  <h2 class="h2">포켓몬 홈과도 연동돼요 (단, 빌린 포켓몬은 제외)</h2>
+  <p class="b">챔피언스는 기기 사이 연동만이 아니라 <b>포켓몬 홈</b>과도 연결돼요. 포켓몬 홈에 챔피언스 전용 연동 기능이 따로 있어서, 이걸 통해 내 포켓몬을 챔피언스로 데려오거나 다시 홈으로 보낼 수 있습니다. 스칼렛·바이올렛 같은 본가에서 키운 포켓몬을 대전 무대로 불러오고 싶을 때 쓰는 통로인 셈이에요.</p>
+  <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%81%AC%EB%A1%9C%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4%20%EC%97%B0%EB%8F%99%20%EB%B0%A9%EB%B2%95/img/pokemon-home-link.png" alt="포켓몬 홈 로고 — 챔피언스와 포켓몬을 주고받는 연동 통로"></div>
+  <p class="cap">본가에서 키운 포켓몬을 챔피언스로 데려오는 통로예요.</p>
+  <p class="src">이미지: 포켓몬 공식</p>
+  <p class="b">한 가지 알아둘 점은, 챔피언스 안에서 <b>빌려서(스카우트) 쓴 포켓몬</b>은 포켓몬 홈으로 보낼 수 없다는 거예요. 챔피언스에는 일정 비용을 내고 포켓몬을 일정 기간 또는 영구히 빌려 팀을 꾸리는 시스템이 있는데, 이렇게 데려온 친구는 대전용일 뿐 홈으로 옮겨 소장하는 건 안 됩니다. 그러니 <b class="hl">소장하고 싶은 포켓몬</b>과 <b>대전용으로 빌리는 포켓몬</b>은 처음부터 나눠서 생각하시는 게 좋아요.</p>
+  <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%81%AC%EB%A1%9C%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4%20%EC%97%B0%EB%8F%99%20%EB%B0%A9%EB%B2%95/img/champions-recruit.png" alt="포켓몬 챔피언스 스카우트 화면 — 7일 체험과 영구 영입 중 고르는 영입 안내"></div>
+  <p class="cap">체험·영구로 빌린 포켓몬은 대전용 — 포켓몬 홈으론 못 보내요.</p>
+  <p class="src">이미지: 닌텐도 공식</p>
+  <div class="note-yeon"><b>💙 연의 한마디</b><br>정리하면, 기기끼리는 닌텐도 어카운트로 묶이고, 본가 포켓몬과는 포켓몬 홈으로 오가는 구조예요. 두 통로가 따로 있다고 보면 됩니다. 빌린 포켓몬만 홈 전송이 안 된다는 것 하나만 기억해 두면 헷갈릴 일이 없어요.</div>
+
+  <div class="chipwrap"><span class="chip pink"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>자주 묻는 질문</span></div>
+  <h2 class="h2">자주 묻는 질문</h2>
+  <p class="faqq"><b class="qbadge">Q</b><b>스위치에서 하던 걸 모바일에서 그대로 이어서 할 수 있나요?</b></p>
+  <p class="faqa">네. 모바일에서 <b>스위치와 같은 닌텐도 어카운트</b>로 로그인하면 세이브가 그대로 연동돼서, 키우던 포켓몬·재화·랭크를 이어서 쓸 수 있어요.</p>
+  <p class="faqq"><b class="qbadge">Q</b><b>크로스플레이랑 크로스세이브가 뭐가 다른가요?</b></p>
+  <p class="faqa">크로스플레이는 <b>기기끼리 대전이 붙는 것</b>, 크로스세이브(크로스 프로그레션)는 <b>진행도가 동기화되는 것</b>이에요. 챔피언스는 둘 다 됩니다.</p>
+  <p class="faqq"><b class="qbadge">Q</b><b>스위치 2나 아이폰·안드로이드도 다 같이 되나요?</b></p>
+  <p class="faqa">네. <b>스위치·스위치 2·iOS·안드로이드</b>가 모두 크로스플레이 대상이라 한 무대에서 같이 붙어요. 닌텐도 어카운트만 같으면 기기 종류는 상관없습니다.</p>
+  <p class="faqq"><b class="qbadge">Q</b><b>연동할 어카운트를 나중에 다른 걸로 바꿀 수 있나요?</b></p>
+  <p class="faqa">닌텐도 어카운트는 한 번 세이브에 묶으면 다른 계정으로 바꾸기가 까다로운 편이에요. 그래서 처음부터 <b>앞으로 쭉 쓸 주 계정</b>으로 로그인하는 걸 권합니다.</p>
+  <p class="faqq"><b class="qbadge">Q</b><b>돈을 내야 시작할 수 있나요?</b></p>
+  <p class="faqa">아니요. <b>기본 무료로 시작(free-to-start)</b>할 수 있어요. 일단 받아서 대전해 보고 판단하셔도 됩니다. 게임 안 세부 결제 항목은 설치 시 스토어 안내로 확인하세요.</p>
+
+  <div class="closing"><b>🩷 봄의 한마디로 정리</b><br>정리하면, 챔피언스 크로스플레이 연동은 <b>두 기기에 같은 닌텐도 어카운트로 로그인</b>하는 것 하나로 끝나요. 그러면 대전도 같이 붙고 세이브도 그대로 이어지고, 포켓몬 홈으로 본가 포켓몬도 오갈 수 있거든요. 처음 로그인할 계정만 신중히 정해두시면, 스위치와 폰을 오가며 부담 없이 즐기실 수 있을 거예요.</div>
+
+  <p class="tags">
+    <span>#포켓몬챔피언스</span><span>#챔피언스크로스플레이</span><span>#챔피언스연동방법</span><span>#닌텐도어카운트연동</span><span>#포켓몬챔피언스모바일</span><span>#크로스세이브</span><span>#포켓몬홈연동</span>
+  </p>
+
+  <div class="cardbox">
+    <div class="ttl">📎 같이 보면 좋은 챔피언스 글</div>
+    <a href="https://bom-ding.tistory.com/11">포켓몬 챔피언스 리세마라·초보 대전 가이드 <span>→</span></a>
+    <a href="https://bom-ding.tistory.com/15">포켓몬 챔피언스 메가진화 총정리 <span>→</span></a>
+  </div>
+
+  <div style="margin:28px 0 4px;">
+    <img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/yb-assets/yeonbom-post-banner.jpeg" alt="연봄 부부의 인사 — 공감 하나, 구독 하나가 연봄 부부에게 큰 힘이 돼요" style="width:100%;max-width:760px;display:block;margin:0 auto;border-radius:14px;border:1px solid #f0e8e6;"/>
+  </div>
+</div>
+
+<!-- ▶ 티스토리 복사 버튼 (연봄 미리보기 전용 — _티스토리_ 본문을 클립보드로) -->
+<div id="tcopy" style="position:fixed;top:14px;right:14px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;max-width:92vw;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;">
+  <button id="tcopyBtn" type="button" style="background:#4A86C5;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(74,134,197,.35);">📋 티스토리용 HTML 복사</button>
+  <div id="tcopyPanel" style="display:none;width:min(92vw,580px);background:#fff;border:1px solid #cfe0f1;border-radius:10px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);">
+    <div style="font-size:12px;color:#6f8295;margin-bottom:8px;line-height:1.6;">티스토리 글쓰기 → <b>HTML 모드</b>로 바꾼 뒤 아래 본문을 붙여넣기. 제목·태그는 각 칸에 따로 입력하세요.</div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0;"><b style="color:#4A86C5;">제목</b> <span id="tcopyTitle" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0 8px;"><b style="color:#4A86C5;">태그</b> <span id="tcopyTags" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <textarea id="tcopyArea" readonly style="width:100%;height:180px;font-size:11.5px;line-height:1.5;border:1px solid #d7e6f5;border-radius:8px;padding:9px;background:#f7fafd;box-sizing:border-box;"></textarea>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('tcopyBtn'),panel=document.getElementById('tcopyPanel'),
+      area=document.getElementById('tcopyArea'),tEl=document.getElementById('tcopyTitle'),gEl=document.getElementById('tcopyTags');
+  function pick(html,label){ var m=html.match(new RegExp('<!--\\s*'+label+':([\\s\\S]*?)-->')); return m?m[1].trim():''; }
+  function body(html){
+    var a=html.indexOf('↓↓↓ 여기부터'); if(a>=0){a=html.indexOf('-->',a); a=a>=0?a+3:0;} else a=0;
+    var z=html.indexOf('↑↑↑ 여기까지'); var end=z>=0?html.lastIndexOf('<!--',z):html.length; if(end<0)end=html.length;
+    return html.slice(a,end).replace(/<!--[\s\S]*?-->/g,'').replace(/\n{3,}/g,'\n\n').trim();
+  }
+  btn.addEventListener('click',function(){
+    var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
+    btn.textContent='불러오는 중…';
+    fetch(url).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
+      var b=body(t); area.value=b; tEl.textContent=pick(t,'제목'); gEl.textContent=pick(t,'태그');
+      panel.style.display='block'; area.focus(); area.select();
+      function ok(){ btn.textContent='✅ 본문 복사됨! HTML 모드에 붙여넣기'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(b).then(ok,function(){try{document.execCommand("copy");}catch(e){} ok();}); }
+      else { try{document.execCommand("copy");}catch(e){} ok(); }
+    }).catch(function(){ btn.textContent='⚠ 복사 실패 — 같은 폴더 _티스토리_ 파일 확인'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); });
+  });
+})();
+</script>
+</body>
+</html>
