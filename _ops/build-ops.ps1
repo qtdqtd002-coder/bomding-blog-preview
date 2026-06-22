@@ -45,7 +45,12 @@ Write-JsonNoBom @{ generated="(stamp on commit)"; count=$records.Count; lessons=
 
 # ── ② 집계 → dashboard.json ──
 $byStatus = @{}; $records | ForEach-Object { $s=$_.status; if(-not $byStatus.ContainsKey($s)){$byStatus[$s]=0}; $byStatus[$s]++ }
-$repeatWatch = @($records | Where-Object { $_.hits -ge 2 } | Sort-Object hits -Descending | ForEach-Object { [ordered]@{ lane=$_.lane; scope=$_.scope; hits=$_.hits; trigger=$_.trigger; guard=$_.guard } })
+$repeatWatch = @($records | Where-Object { $_.hits -ge 2 } | Sort-Object hits -Descending | ForEach-Object {
+  $g = [string]$_.guard
+  $isGuarded = -not ($g -match '^\s*none')                                   # ^none = 아직 사람 약속(미가드)
+  $planned = if ($g -match '^\s*none\s*(?:[→-]+>?|->)\s*(.+)$') { $matches[1].Trim() } else { '' }  # none→code:.. 의 계획분
+  [ordered]@{ lane=$_.lane; scope=$_.scope; hits=$_.hits; trigger=$_.trigger; guard=$g; guarded=$isGuarded; plannedGuard=$planned }
+})
 
 $emp = @{}; $byTeam=@{}; $byType=@{}; $built=0; $pending=0
 if (Test-Path $registry) {

@@ -1894,7 +1894,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      <div class="ops-card"><h3>아웃박스</h3><div class="ops-rows">${row("발행 완료 (_done)",ob.done??0)}${row("대기 (pending)",ob.pending??0)}<div class="ops-row"><span>실패 (_failed)</span><span class="v"${failColor}>${ob.failed??0}</span></div></div></div>
    </div>`;
    const watch=(les.repeatWatch||[]).slice().sort((a,b)=>b.hits-a.hits)
-     .map(w=>{const g=w.guard||"none";const has=!/^none\b/.test(String(g).trim());
+     .map(w=>{const g=w.guard||"none";const has=(w.guarded!==undefined)?w.guarded:!/^none\b/.test(String(g).trim());
        return `<tr><td class="p" data-label="hits"><span class="ops-hits">×${w.hits}</span></td><td data-label="레인/scope"><b>${esc(w.lane)}</b> / ${esc(w.scope)}</td><td data-label="trigger">${esc(w.trigger)}</td><td data-label="guard" class="${has?"ops-guard-has":"ops-guard-none"}">${esc(g)}</td></tr>`;}).join("");
    const watchBlock=`<div class="ops-sec-h warn">${svg("alertTri")}재발 감시 (hits ≥ 2 · 승격 후보)</div>
      <table class="abx-table"><thead><tr><th>hits</th><th>레인 / scope</th><th>trigger</th><th>guard</th></tr></thead>

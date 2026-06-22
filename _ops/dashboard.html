@@ -51,7 +51,7 @@ async function load(){
   const teamRows=Object.entries(emp.byTeam||{}).map(([t,n])=>`<div class="row"><span>${t}</span><span>${n}</span></div>`).join('');
   const typeRows=Object.entries(emp.byType||{}).map(([t,n])=>`<div class="row"><span><span class="pill ${TYPE[t]||''}">${t}</span></span><span>${n}</span></div>`).join('');
   const statRows=Object.entries(les.byStatus||{}).map(([s,n])=>`<div class="row"><span>${s}</span><span>${n}</span></div>`).join('');
-  const watch=(les.repeatWatch||[]).map(w=>`<tr><td class="hits">×${w.hits}</td><td>${w.lane}/${w.scope}</td><td>${w.trigger}</td><td class="${(w.guard&&!/^none\b/.test(String(w.guard).trim()))?'guard-has':'guard-none'}">${w.guard||'none'}</td></tr>`).join('');
+  const watch=(les.repeatWatch||[]).map(w=>{const has=(w.guarded!==undefined)?w.guarded:(w.guard&&!/^none\b/.test(String(w.guard).trim()));return `<tr><td class="hits">×${w.hits}</td><td>${w.lane}/${w.scope}</td><td>${w.trigger}</td><td class="${has?'guard-has':'guard-none'}">${w.guard||'none'}</td></tr>`;}).join('');
   const emps=Object.entries(reg.employees).map(([k,v])=>`<tr><td><b>${v.display}</b></td><td><span class="pill ${TYPE[v.type]||''}">${v.type}</span></td><td>${v.team}</td><td><span class="pill ${STAT[v.status]||'b-pend'}">${v.status}</span></td></tr>`).join('');
   document.getElementById('app').innerHTML=`
     <div class="grid">
