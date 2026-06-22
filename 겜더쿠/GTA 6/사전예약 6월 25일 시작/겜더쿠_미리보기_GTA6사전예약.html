@@ -15,11 +15,6 @@
   .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
   .meta .author{font-weight:700;color:var(--accent);}
   .post img{max-width:100%;}
-  #tcopy{position:fixed;right:18px;bottom:18px;z-index:50;background:#7048E8;color:#fff;border:none;border-radius:8px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(112,72,232,.4);}
-  #tcopy:active{transform:translateY(1px);}
-  #tcopy.done{background:#2bb673;}
-  #tpanel{position:fixed;right:18px;bottom:70px;z-index:50;background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:12.5px;color:#555;max-width:280px;display:none;box-shadow:0 4px 14px rgba(0,0,0,.12);line-height:1.6;}
-  #tpanel b{color:var(--accent);}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">🎮 blog</span> 겜더쿠 · 게임 덕질 (티스토리 발행용 미리보기)</div>
@@ -147,28 +142,36 @@
   </div>
 </div>
 
-<button id="tcopy" onclick="copyTistory()">📋 티스토리용 HTML 복사</button>
-<div id="tpanel"></div>
+<div id="tcopy" style="position:fixed;top:14px;right:14px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;max-width:92vw;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;">
+  <button id="tcopyBtn" type="button" style="background:#7048E8;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(112,72,232,.35);">📋 티스토리용 HTML 복사</button>
+  <div id="tcopyPanel" style="display:none;width:min(92vw,580px);background:#fff;border:1px solid #d9d2f5;border-radius:10px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);">
+    <div style="font-size:12px;color:#7a72a0;margin-bottom:8px;line-height:1.6;">티스토리 글쓰기 → <b>HTML 모드</b>로 바꾼 뒤 아래 본문을 붙여넣기. 제목·태그는 각 칸에 따로 입력하세요.</div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0;"><b style="color:#7048E8;">제목</b> <span id="tcopyTitle" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0 8px;"><b style="color:#7048E8;">태그</b> <span id="tcopyTags" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <textarea id="tcopyArea" readonly style="width:100%;height:180px;font-size:11.5px;line-height:1.5;border:1px solid #e3dcfb;border-radius:8px;padding:9px;background:#faf9ff;box-sizing:border-box;"></textarea>
+  </div>
+</div>
 <script>
-function copyTistory(){
-  var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
-  fetch(url).then(function(r){return r.text();}).then(function(t){
-    var s=t.indexOf('↓↓↓ 여기부터');
-    var e=t.indexOf('↑↑↑ 여기까지');
-    if(s<0||e<0){alert('마커를 찾지 못했습니다');return;}
-    s=t.indexOf('-->',s)+3;
-    var body=t.slice(s,e);
-    body=body.replace(/<!--[\s\S]*?-->/g,'').trim();
-    var titM=t.match(/<!--\s*제목:\s*([^>]*?)-->/);
-    var tagM=t.match(/<!--\s*태그:\s*([^>]*?)-->/);
-    navigator.clipboard.writeText(body).then(function(){
-      var btn=document.getElementById('tcopy');btn.textContent='✅ 복사됨!';btn.className='done';
-      setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';btn.className='';},2000);
-      var p=document.getElementById('tpanel');
-      p.style.display='block';
-      p.innerHTML='<b>제목</b><br>'+(titM?titM[1].trim():'')+'<br><br><b>태그</b><br>'+(tagM?tagM[1].trim():'');
-    });
+(function(){
+  var btn=document.getElementById('tcopyBtn'),panel=document.getElementById('tcopyPanel'),
+      area=document.getElementById('tcopyArea'),tEl=document.getElementById('tcopyTitle'),gEl=document.getElementById('tcopyTags');
+  function pick(html,label){ var m=html.match(new RegExp('<!--\\s*'+label+':([\\s\\S]*?)-->')); return m?m[1].trim():''; }
+  function body(html){
+    var a=html.indexOf('↓↓↓ 여기부터'); if(a>=0){a=html.indexOf('-->',a); a=a>=0?a+3:0;} else a=0;
+    var z=html.indexOf('↑↑↑ 여기까지'); var end=z>=0?html.lastIndexOf('<!--',z):html.length; if(end<0)end=html.length;
+    return html.slice(a,end).replace(/<!--[\s\S]*?-->/g,'').replace(/\n{3,}/g,'\n\n').trim();
+  }
+  btn.addEventListener('click',function(){
+    var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
+    btn.textContent='불러오는 중…';
+    fetch(url).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
+      var b=body(t); area.value=b; tEl.textContent=pick(t,'제목'); gEl.textContent=pick(t,'태그');
+      panel.style.display='block'; area.focus(); area.select();
+      function ok(){ btn.textContent='✅ 본문 복사됨! HTML 모드에 붙여넣기'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(b).then(ok,function(){try{document.execCommand("copy");}catch(e){} ok();}); }
+      else { try{document.execCommand("copy");}catch(e){} ok(); }
+    }).catch(function(){ btn.textContent='⚠ 복사 실패 — 같은 폴더 _티스토리_ 파일 확인'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); });
   });
-}
+})();
 </script>
 </body></html>

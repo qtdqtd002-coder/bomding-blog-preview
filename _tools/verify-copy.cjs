@@ -83,6 +83,21 @@ function checkPair(previewPath) {
     return { rel, fails };
   }
 
+  // 2b. [정본 복사 UI 패널] 제목·태그·본문(textarea)을 사용자에게 함께 노출하는 정본 스니펫인가.
+  //     버튼만 있고 제목/태그/본문 패널이 빠진 약식 스니펫을 손으로 작성하면 여기서 걸린다.
+  //     정본 = 이미 발행된 겜더쿠/연봄 미리보기 </body> 직전 id="tcopy" 블록(tcopyTitle/tcopyTags/tcopyArea).
+  const hasTitleEl = /id=["']tcopyTitle["']/.test(preview);
+  const hasTagsEl = /id=["']tcopyTags["']/.test(preview);
+  const hasAreaEl = /id=["']tcopyArea["']/.test(preview);
+  if (!hasTitleEl || !hasTagsEl || !hasAreaEl) {
+    const miss = [
+      !hasTitleEl && 'tcopyTitle(제목)',
+      !hasTagsEl && 'tcopyTags(태그)',
+      !hasAreaEl && 'tcopyArea(본문 textarea)',
+    ].filter(Boolean).join(', ');
+    fails.push('정본 복사 패널 요소 누락: ' + miss + ' — 제목·태그·본문 HTML을 함께 보여주는 정본 스니펫(이미 발행된 겜더쿠/연봄 미리보기의 id="tcopy" 블록)을 그대로 사용할 것. 약식 직접 작성 금지.');
+  }
+
   // 3. URL 디코딩 가드 — href 를 디코딩 없이 replace 하면 한글 파일명에서 깨진다.
   const usesRawHref = /location\.href\.replace\(\s*['"]_미리보기_['"]/.test(preview);
   const decodesUrl = /decodeURIComponent\(\s*location\.(pathname|href)\s*\)/.test(preview);
