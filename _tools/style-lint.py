@@ -133,53 +133,75 @@ def closing_paragraph(raw):
     body = [re.sub(r"<[^>]+>", " ", t) for attrs, t in blocks if "cap" not in attrs]
     return body[-1] if body else ""
 
+def check_file(author, p, problems, warnings):
+    raw = open(p, encoding="utf-8").read()
+    text = strip_html(raw)
+    meta = strip_meta(raw)
+    rel = os.path.relpath(p, BASE)
+    # 1) 작성자 간 교차오염(본문 텍스트)
+    for label, pat in DENY[author]:
+        hits = re.findall(pat, text)
+        if hits:
+            problems.append((author, rel, label, len(hits)))
+    # 맺음말 한정 검사(본문 중 정당 사용은 통과, 글을 그 표현으로 '닫는' 경우만 적발)
+    close = closing_paragraph(raw)
+    for label, pat in CLOSING_DENY.get(author, []):
+        hits = re.findall(pat, close)
+        if hits:
+            problems.append((author, rel, label, len(hits)))
+    # 2) 전 작성자 공통 발행본 금지요소(클래스/문구 — 주석·스타일 제거 후)
+    for label, pat in PUBLISH_DENY:
+        hits = re.findall(pat, meta)
+        if hits:
+            problems.append((author, rel, label, len(hits)))
+    # 2-1) 양식 변형 차단(봄딩·영도 정본 스켈레톤 위반 — §1-3)
+    for label, pat in FORMAT_DENY.get(author, []):
+        hits = re.findall(pat, meta)
+        if hits:
+            problems.append((author, rel, label, len(hits)))
+    # 3) 비표준 템플릿 경고(WARN)
+    for label, pat in PUBLISH_WARN:
+        hits = re.findall(pat, meta)
+        if hits:
+            warnings.append((author, rel, label, len(hits)))
+    # 3-1) 양식 변형 경고(인라인 h2·빈 앵커 — 봄딩·영도)
+    for label, pat in FORMAT_WARN.get(author, []):
+        hits = re.findall(pat, meta)
+        if hits:
+            warnings.append((author, rel, label, len(hits)))
+
+
+def author_of(p):
+    # 경로 첫 세그먼트가 작성자명이면 그 작성자, 아니면 None(검사 대상 아님).
+    rel = os.path.relpath(os.path.abspath(p), BASE)
+    seg = rel.replace("\\", "/").split("/")[0]
+    return seg if seg in DENY else None
+
+
 def main():
     problems = []   # exit 2 — push 차단
     warnings = []   # WARN — push 막지 않음
-    for author in DENY.keys():
-        root = os.path.join(BASE, author)
-        if not os.path.isdir(root):
-            continue
-        for dp, _, fs in os.walk(root):
-            for fn in fs:
-                if not fn.endswith(".html"):
-                    continue
-                p = os.path.join(dp, fn)
-                raw = open(p, encoding="utf-8").read()
-                text = strip_html(raw)
-                meta = strip_meta(raw)
-                rel = os.path.relpath(p, BASE)
-                # 1) 작성자 간 교차오염(본문 텍스트)
-                for label, pat in DENY[author]:
-                    hits = re.findall(pat, text)
-                    if hits:
-                        problems.append((author, rel, label, len(hits)))
-                # 맺음말 한정 검사(본문 중 정당 사용은 통과, 글을 그 표현으로 '닫는' 경우만 적발)
-                close = closing_paragraph(raw)
-                for label, pat in CLOSING_DENY.get(author, []):
-                    hits = re.findall(pat, close)
-                    if hits:
-                        problems.append((author, rel, label, len(hits)))
-                # 2) 전 작성자 공통 발행본 금지요소(클래스/문구 — 주석·스타일 제거 후)
-                for label, pat in PUBLISH_DENY:
-                    hits = re.findall(pat, meta)
-                    if hits:
-                        problems.append((author, rel, label, len(hits)))
-                # 2-1) 양식 변형 차단(봄딩·영도 정본 스켈레톤 위반 — §1-3)
-                for label, pat in FORMAT_DENY.get(author, []):
-                    hits = re.findall(pat, meta)
-                    if hits:
-                        problems.append((author, rel, label, len(hits)))
-                # 3) 비표준 템플릿 경고(WARN)
-                for label, pat in PUBLISH_WARN:
-                    hits = re.findall(pat, meta)
-                    if hits:
-                        warnings.append((author, rel, label, len(hits)))
-                # 3-1) 양식 변형 경고(인라인 h2·빈 앵커 — 봄딩·영도)
-                for label, pat in FORMAT_WARN.get(author, []):
-                    hits = re.findall(pat, meta)
-                    if hits:
-                        warnings.append((author, rel, label, len(hits)))
+    # ★인자로 파일을 주면 그 파일만 검사(드레이너의 job별 게이트). 인자 없으면 전체 스캔(pre-push 훅 — 종전 동작).
+    args = [a for a in sys.argv[1:] if not a.startswith("-")]
+    if args:
+        for a in args:
+            p = os.path.abspath(a)
+            if not (p.endswith(".html") and os.path.isfile(p)):
+                continue
+            author = author_of(p)
+            if not author:
+                continue  # 봄딩/영도/겜더쿠/연봄 외(아이콘·트렌드 등)는 작성자 린트 대상 아님
+            check_file(author, p, problems, warnings)
+    else:
+        for author in DENY.keys():
+            root = os.path.join(BASE, author)
+            if not os.path.isdir(root):
+                continue
+            for dp, _, fs in os.walk(root):
+                for fn in fs:
+                    if not fn.endswith(".html"):
+                        continue
+                    check_file(author, os.path.join(dp, fn), problems, warnings)
 
     if warnings:
         print("[STYLE-LINT] ⚠ 비표준 템플릿 경고(push는 막지 않음 — 작성자 정본 스켈레톤 사용 권장):", len(warnings), "건")
