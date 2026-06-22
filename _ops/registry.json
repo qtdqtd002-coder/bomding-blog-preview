@@ -1,0 +1,47 @@
+{
+  "_doc": "쓰담 컴퍼니 단일 직원 인덱스 (L3). 모든 직원 → 실행방식·정의·정본·lesson store·상태를 한 곳에서. 새 top-level 저장소 금지 — 직원/자산은 전부 여기에 매단다. 변경 시 org-changelog에도 기록.",
+  "_schema": "employee: { display, type(subagent|skill|hat|script), team, lane, agent_def, record, lesson_store, canon, status(built|pending), notes }",
+  "version": "0.1-phaseA",
+  "updated": "2026-06-22",
+  "employees": {
+    "ceo": { "display": "대표(오케스트레이터)", "type": "hat", "team": "대표", "lane": "전사", "agent_def": null, "record": null, "lesson_store": "lessons/ops.md", "canon": "skills/blog-company/SKILL.md", "status": "built", "notes": "메인 세션. 접수·배정·취합·발행지시·보고" },
+
+    "qa-lead":      { "display": "검수팀장", "type": "subagent", "team": "검수", "lane": "전레인", "agent_def": "agents/qa-lead.md", "record": "staff/qa-lead.md", "lesson_store": "lessons/qa.md#전체", "canon": "team-org.md#3", "status": "built" },
+    "qa-fact":      { "display": "검수1 사실/공식명칭", "type": "subagent", "team": "검수", "lane": "게임", "agent_def": "agents/qa-fact.md", "record": "staff/qa-fact.md", "lesson_store": "lessons/qa.md#게임,범용", "canon": "skills/game-blog-qa/", "status": "built" },
+    "qa-style":     { "display": "검수2 문체/표현", "type": "subagent", "team": "검수", "lane": "작성자별", "agent_def": "agents/qa-style.md", "record": "staff/qa-style.md", "lesson_store": "lessons/qa.md#작성자별,범용", "canon": "staff-registry.md", "status": "built", "notes": "작성자 scope 격리 핵심" },
+    "qa-structure": { "display": "검수3 구조/완성도", "type": "subagent", "team": "검수", "lane": "전레인", "agent_def": "agents/qa-structure.md", "record": "staff/qa-structure.md", "lesson_store": "lessons/qa.md#범용", "canon": "skills/game-blog-qa/", "status": "built", "notes": "연봄 J장 정의 보강 대상" },
+    "qa-natural":   { "display": "검수4 자연스러움/거짓없음", "type": "subagent", "team": "검수", "lane": "전레인", "agent_def": "agents/qa-natural.md", "record": "staff/qa-natural.md", "lesson_store": "lessons/qa.md#범용", "canon": "skills/blog-company/SKILL.md#검수4", "status": "built" },
+    "qa-image":     { "display": "검수5 이미지 맥락/다양성", "type": "subagent", "team": "검수", "lane": "전레인", "agent_def": "agents/qa-image.md", "record": "staff/qa-image.md", "lesson_store": "lessons/qa.md#범용", "canon": "image-sourcing.md", "status": "built", "notes": "밀도·CLS는 겜더쿠·연봄만" },
+    "refute":       { "display": "반증 전담", "type": "subagent", "team": "검수", "lane": "전레인", "agent_def": "agents/refute.md", "record": "staff/refute.md", "lesson_store": "lessons/qa.md#승격대기", "canon": "skills/game-blog-qa/", "status": "built", "notes": "온디맨드" },
+
+    "editorial":     { "display": "발행 후 독자검수단(에디토리얼 6축)", "type": "subagent", "team": "검수", "lane": "전레인", "agent_def": "agents/editorial-reviewer.md", "record": "staff/editorial-reviewer.md", "lesson_store": "lessons/qa.md", "canon": "skills/blog-editorial-review/", "status": "built" },
+
+    "planning-lead":      { "display": "기획팀장", "type": "hat", "team": "기획", "lane": "전레인", "agent_def": null, "record": "staff/planning-lead.md", "lesson_store": "lessons/planning.md", "canon": "team-org.md#2", "status": "built" },
+    "planner-researcher": { "display": "기획자(레인별 병렬)", "type": "subagent", "team": "기획", "lane": "게임|육아|취미|게이밍기어", "agent_def": "agents/planner-researcher.md", "record": "staff/planner-researcher.md", "lesson_store": "lessons/planning.md", "canon": "skills/blog-planner/", "status": "built" },
+
+    "writing-lead": { "display": "작성팀장", "type": "hat", "team": "작성", "lane": "공용", "agent_def": null, "record": "staff/writing-lead.md", "lesson_store": "lessons/writing.md", "canon": "team-org.md#2b", "status": "built", "notes": "공용가이드·교차오염 거버넌스" },
+    "bomding":   { "display": "봄딩", "type": "skill", "team": "작성", "lane": "게임|육아|취미", "agent_def": "N/A-전환금지", "record": "staff/bomding.md", "lesson_store": "lessons/writing.md#봄딩", "canon": "skills/bomding-blog-writer/", "status": "built", "notes": "★서브에이전트 전환금지(보이스 일관성). 인사기록·진화엔진은 부여" },
+    "yeongdo":   { "display": "영도", "type": "skill", "team": "작성", "lane": "게임|게이밍기어", "agent_def": "N/A-전환금지", "record": "staff/yeongdo.md", "lesson_store": "lessons/writing.md#영도", "canon": "skills/yeongdo-blog-writer/", "status": "built", "notes": "★전환금지" },
+    "gemdeokku": { "display": "겜더쿠", "type": "skill", "team": "작성", "lane": "게임", "agent_def": "N/A-전환금지", "record": "staff/gemdeokku.md", "lesson_store": "lessons/writing.md#겜더쿠", "canon": "skills/gemdeokku-blog-writer/", "status": "built", "notes": "★전환금지. 연봄과 학습 양방향 격리" },
+    "yeonbom":   { "display": "연봄", "type": "skill", "team": "작성", "lane": "게임|IT|육아|생활", "agent_def": "N/A-전환금지", "record": "staff/yeonbom.md", "lesson_store": "lessons/writing.md#연봄", "canon": "skills/yeonbom-blog-writer/", "status": "built", "notes": "★전환금지. 겜더쿠와 학습 양방향 격리" },
+
+    "design-qa-lead":  { "display": "디자인검수팀장", "type": "hat", "team": "디자인검수", "lane": "플랫폼", "agent_def": null, "record": null, "lesson_store": "lessons/ops.md", "canon": "shared/design/design-qa-checklist.md", "status": "indexed", "notes": "모자 — 인덱스만(Phase C 기록 보강 가능)" },
+    "design-reviewer": { "display": "디자인검수 차원(마감·일관성·반응형·접근성)", "type": "subagent", "team": "디자인검수", "lane": "플랫폼", "agent_def": "agents/design-reviewer.md", "record": "staff/design-reviewer.md", "lesson_store": "lessons/ops.md", "canon": "shared/design/design-review-learnings.md", "status": "built" },
+
+    "infra-head":   { "display": "인프라실장", "type": "hat", "team": "인프라실", "lane": "플랫폼", "agent_def": null, "record": null, "lesson_store": "lessons/ops.md", "canon": "shared/infra/infra-learnings.md", "status": "indexed", "notes": "모자 — 인덱스만" },
+    "infra-impl":   { "display": "구현직(프론트·PWA·백엔드 등)", "type": "subagent", "team": "인프라실", "lane": "플랫폼", "agent_def": "agents/infra-impl.md", "record": "staff/infra-impl.md", "lesson_store": "lessons/ops.md", "canon": "shared/infra/infra-learnings.md", "status": "built", "notes": "병렬 시 worktree 격리" },
+
+    "data-head":     { "display": "데이터분석실장", "type": "hat", "team": "데이터분석실", "lane": "분석", "agent_def": null, "record": null, "lesson_store": "lessons/research.md", "canon": "skills/blog-analysis-team/", "status": "indexed", "notes": "모자 — 인덱스만" },
+    "trend-analyst": { "display": "트렌드 분석가", "type": "subagent", "team": "데이터분석실", "lane": "분석", "agent_def": "agents/trend-analyst.md", "record": "staff/trend-analyst.md", "lesson_store": "lessons/research.md", "canon": "skills/trend-analysis-team/", "status": "built" },
+    "blog-analyst":  { "display": "블로그 분석가", "type": "subagent", "team": "데이터분석실", "lane": "분석", "agent_def": "agents/blog-analyst.md", "record": "staff/blog-analyst.md", "lesson_store": "lessons/research.md", "canon": "shared/blog-writing/blog-analysis-learnings.md", "status": "built" },
+
+    "coach":     { "display": "벤치마크/피드백 코치", "type": "skill", "team": "코치", "lane": "공용", "agent_def": null, "record": null, "lesson_store": "lessons/writing.md", "canon": "skills/blog-bench-coach/", "status": "pending" },
+    "publisher": { "display": "발행 담당(Publisher)", "type": "script", "team": "발행", "lane": "공용", "agent_def": null, "record": null, "lesson_store": "lessons/ops.md", "canon": ".bc-locks/drain.ps1", "status": "pending", "notes": "drain.ps1 단독 push" },
+    "cluster-curator": { "display": "클러스터 연결 담당", "type": "skill", "team": "발행", "lane": "겜더쿠·연봄", "agent_def": null, "record": null, "lesson_store": "lessons/ops.md", "canon": "BlogPreview/_cluster/cluster-link-ledger.json", "status": "pending", "notes": "임계치20 데드락=백로그 보강" }
+  },
+  "reinforcements": {
+    "_doc": "CEO 스코프 판정(2026-06-22): 반복장애/잠재위험 기준 보강 항목",
+    "in": ["queue-runner-heartbeat(설계반영·자동화재개시 활성)", "prose→hard 승격(교차오염·분량측정·부재단정)=lessons/qa.md 부팅 완료", "발행 문서부채 git add -A 정리", "연봄 J장 분량게이트 추가"],
+    "backlog": ["발행 단일장애점(pull-rebase 자가복구·skill락 stale 해제)", "클러스터 임계치20 신생블로그 데드락"]
+  }
+}

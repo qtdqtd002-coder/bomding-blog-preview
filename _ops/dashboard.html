@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>쓰담 운영 대시보드 (L3)</title>
+<style>
+  :root{--cobalt:#3B4FE0;--violet:#7C4DFF;--coral:#FF6B5B;--ink:#16182b;--sub:#5a5f7a;--line:#e6e8f2;--bg:#f7f8fc;--card:#fff;--ok:#1faa6c;--warn:#e6a417;--bad:#e2483b;--chip:#eef0fb;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Pretendard","Malgun Gothic",sans-serif;background:var(--bg);color:var(--ink);padding:28px;line-height:1.55;font-size:14px}
+  h1{font-size:22px;font-weight:800;margin-bottom:4px}
+  .sub{color:var(--sub);font-size:12.5px;margin-bottom:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:0 2px 10px rgba(30,32,60,.04)}
+  .card h2{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:10px;letter-spacing:.2px}
+  .big{font-size:30px;font-weight:800;color:var(--cobalt)}
+  .big small{font-size:14px;color:var(--sub);font-weight:600}
+  .row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #eef0f7;font-size:13px}
+  .row:last-child{border:none}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;margin-right:4px}
+  .b-built{background:var(--ok)} .b-idx{background:var(--warn)} .b-pend{background:#9aa0bd}
+  .b-sub{background:var(--cobalt)} .b-skill{background:var(--ok)} .b-hat{background:var(--violet)} .b-script{background:var(--warn)}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--chip);color:var(--sub);font-size:11.5px}
+  .hits{font-weight:800;color:var(--bad)}
+  .err{background:#fdf0ef;border:1px solid #f6cdc8;border-radius:10px;padding:14px 16px;color:var(--bad);font-size:13px}
+  .guard-none{color:var(--bad);font-weight:700} .guard-has{color:var(--ok)}
+  .foot{color:var(--sub);font-size:11.5px;margin-top:18px}
+</style>
+</head>
+<body>
+  <h1>쓰담 운영 대시보드 <span style="font-size:13px;color:var(--sub)">L3</span></h1>
+  <div class="sub" id="gen">데이터 로딩…</div>
+  <div id="app"></div>
+  <div class="foot">생성: <code>_ops/build-ops.ps1</code> → dashboard.json · registry.json. 로컬에서 볼 땐 <code>python -m http.server</code>로 서빙(file://는 fetch 차단).</div>
+<script>
+const TYPE={subagent:'b-sub',skill:'b-skill',hat:'b-hat',script:'b-script'};
+const STAT={built:'b-built',indexed:'b-idx',pending:'b-pend'};
+async function load(){
+  let dash,reg;
+  try{
+    dash=await (await fetch('./dashboard.json')).json();
+    reg =await (await fetch('./registry.json')).json();
+  }catch(e){
+    document.getElementById('app').innerHTML='<div class="err">JSON을 못 읽었습니다. <b>file://</b>에선 fetch가 막힙니다 — <code>_ops</code>에서 <code>python -m http.server</code> 후 <code>http://localhost:8000/dashboard.html</code>로 여세요. (먼저 <code>build-ops.ps1</code> 실행해 dashboard.json 생성)</div>';
+    return;
+  }
+  document.getElementById('gen').textContent='집계 기준: build-ops 실행 시점 · 직원 '+dash.employees.total+'명';
+  const emp=dash.employees, les=dash.lessons, ob=dash.outbox;
+  const teamRows=Object.entries(emp.byTeam||{}).map(([t,n])=>`<div class="row"><span>${t}</span><span>${n}</span></div>`).join('');
+  const typeRows=Object.entries(emp.byType||{}).map(([t,n])=>`<div class="row"><span><span class="pill ${TYPE[t]||''}">${t}</span></span><span>${n}</span></div>`).join('');
+  const statRows=Object.entries(les.byStatus||{}).map(([s,n])=>`<div class="row"><span>${s}</span><span>${n}</span></div>`).join('');
+  const watch=(les.repeatWatch||[]).map(w=>`<tr><td class="hits">×${w.hits}</td><td>${w.lane}/${w.scope}</td><td>${w.trigger}</td><td class="${(w.guard&&!/^none\b/.test(String(w.guard).trim()))?'guard-has':'guard-none'}">${w.guard||'none'}</td></tr>`).join('');
+  const emps=Object.entries(reg.employees).map(([k,v])=>`<tr><td><b>${v.display}</b></td><td><span class="pill ${TYPE[v.type]||''}">${v.type}</span></td><td>${v.team}</td><td><span class="pill ${STAT[v.status]||'b-pend'}">${v.status}</span></td></tr>`).join('');
+  document.getElementById('app').innerHTML=`
+    <div class="grid">
+      <div class="card"><h2>직원</h2><div class="big">${emp.built}<small>/${emp.total} built</small></div><div style="margin-top:8px">${typeRows}</div></div>
+      <div class="card"><h2>팀별 인원</h2>${teamRows}</div>
+      <div class="card"><h2>교훈(L5) 상태</h2><div class="big">${les.total}<small> 건</small></div><div style="margin-top:8px">${statRows}</div></div>
+      <div class="card"><h2>아웃박스</h2><div class="row"><span>발행 완료(_done)</span><span>${ob.done}</span></div><div class="row"><span>대기(pending)</span><span>${ob.pending}</span></div><div class="row"><span>실패(_failed)</span><span style="color:${ob.failed>0?'var(--bad)':'inherit'}">${ob.failed}</span></div></div>
+    </div>
+    <div class="card" style="margin-bottom:14px"><h2>⚠ 재발 감시 (hits ≥ 2 — 승격 후보)</h2><table><tr><th>hits</th><th>레인/scope</th><th>trigger</th><th>guard</th></tr>${watch||'<tr><td colspan=4>없음</td></tr>'}</table><div style="font-size:11.5px;color:var(--sub);margin-top:6px">guard=<b>none</b>(빨강)은 아직 사람 약속 — 코드/린트/정본 승격 1순위.</div></div>
+    <div class="card"><h2>직원 명단 (registry)</h2><table><tr><th>직원</th><th>실행방식</th><th>팀</th><th>상태</th></tr>${emps}</table></div>`;
+}
+load();
+</script>
+</body>
+</html>

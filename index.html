@@ -29,7 +29,8 @@
   --a-yeongdo:#2F8F7F; --a-yeongdo-weak:#E6F2EF;
   --a-gemdeokku:#7C5CD1; --a-gemdeokku-weak:#F0EBFB;
   --a-yeonbom:#4A86C5; --a-yeonbom-weak:#E7F0F9;
-  --a-trend:#C2410C; --a-news:#B45309; --a-about:#5A4FE6; --a-queue:#0E7490;
+  --a-trend:#C2410C; --a-news:#B45309; --a-about:#5A4FE6; --a-queue:#0E7490; --a-ops:#0F766E;
+  --ok:#1FAA6C; --ok-weak:#E4F6ED; --warn:#C2810C; --warn-weak:#FBF1DC; --bad:#DC2626; --bad-weak:#FCEAEA;
   --sh-sm:0 1px 2px rgba(16,24,40,.05);
   --sh-md:0 6px 16px rgba(16,24,40,.07);
   --sh-lg:0 14px 34px rgba(40,32,90,.14);
@@ -49,7 +50,8 @@
   --a-yeongdo:#4FB3A1; --a-yeongdo-weak:#11241F;
   --a-gemdeokku:#A78BE8; --a-gemdeokku-weak:#1F1A2E;
   --a-yeonbom:#6FA6DD; --a-yeonbom-weak:#14202E;
-  --a-trend:#FB923C; --a-news:#FBBF24; --a-about:#9D93FF; --a-queue:#22D3EE;
+  --a-trend:#FB923C; --a-news:#FBBF24; --a-about:#9D93FF; --a-queue:#22D3EE; --a-ops:#2DD4BF;
+  --ok:#34D399; --ok-weak:#10241D; --warn:#FBBF24; --warn-weak:#2A2210; --bad:#F87171; --bad-weak:#2A1414;
   --sh-sm:0 1px 2px rgba(0,0,0,.3); --sh-md:0 4px 12px rgba(0,0,0,.4); --sh-lg:0 12px 28px rgba(0,0,0,.5);
 }
 *{box-sizing:border-box;}
@@ -648,7 +650,34 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
   .abx-table tr{border-bottom:1px solid var(--line);padding:6px 0;}
   .abx-table td{border:0;padding:3px 12px;}
   .abx-table td.p{padding-top:9px;color:var(--brand);}
+  .abx-table td[data-label]::before{content:attr(data-label) ":  ";font-weight:800;opacity:.6;}
 }
+/* 운영 대시보드(L3) */
+.ops-wrap{margin-top:18px;}
+.ops-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:16px;}
+.ops-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
+  padding:16px 18px;box-shadow:var(--sh-sm);}
+.ops-card h3{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:0 0 11px;}
+.ops-big{font-size:30px;font-weight:800;color:var(--a-ops);line-height:1;letter-spacing:-.02em;}
+.ops-big small{font-size:13.5px;color:var(--sub);font-weight:700;margin-left:4px;}
+.ops-rows{margin-top:10px;}
+.ops-row{display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:5px 0;border-bottom:1px dashed var(--line);font-size:13px;color:var(--sub);}
+.ops-row:last-child{border-bottom:0;}
+.ops-row .v{font-weight:800;color:var(--ink);font-feature-settings:"tnum";}
+.ops-pill{display:inline-block;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;color:#fff;}
+.ops-pill.t-subagent{background:var(--a-queue);} .ops-pill.t-skill{background:var(--ok);}
+.ops-pill.t-hat{background:var(--a-about);} .ops-pill.t-script{background:var(--warn);}
+.ops-pill.s-built{background:var(--ok);} .ops-pill.s-indexed{background:var(--warn);} .ops-pill.s-pending{background:var(--muted);}
+.ops-sec-h{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:800;color:var(--ink);margin:24px 0 10px;}
+.ops-sec-h .ic{width:17px;height:17px;color:var(--a-ops);flex:none;}
+.ops-sec-h.warn .ic{color:var(--bad);}
+.ops-hits{font-weight:800;color:var(--bad);white-space:nowrap;}
+.abx-table td.ops-guard-none{color:var(--bad);font-weight:800;}
+.abx-table td.ops-guard-has{color:var(--ok);font-weight:700;}
+.ops-note{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.6;}
+.ops-foot{font-size:11.5px;color:var(--muted);margin-top:18px;line-height:1.7;}
+.ops-foot code{background:var(--bg-subtle);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:11px;}
 /* 핵심 규칙 그리드 */
 .abx-rules{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media(max-width:560px){.abx-rules{grid-template-columns:1fr;}}
@@ -1239,6 +1268,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
       `</span>`;
    h+=`<button class="nav-corner" data-k="__about__" style="--ac:var(--a-about)">${svg("info")}소개</button>`;
    h+=`<button class="nav-corner" data-k="__queue__" style="--ac:var(--a-queue)">${svg("inbox")}작업 큐<span class="cnt" id="navQueueCnt" hidden></span></button>`;
+   h+=`<button class="nav-corner" data-k="__ops__" style="--ac:var(--a-ops)">${svg("building")}운영</button>`;
    navEl.innerHTML=h;
 
    const teamBtn=document.getElementById("teamBtn");
@@ -1274,7 +1304,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
        trendWrap.style.setProperty("--ac",SUBAC[v]);
        const ti=trendMenu.querySelector(sel(v)); if(ti)ti.classList.add("on");
      } else trendWrap.style.setProperty("--ac","var(--a-trend)");
-     if(v==="__all__"||v==="__about__"||v==="__queue__"){ const nb=navEl.querySelector(sel(v)); if(nb)nb.classList.add("on"); }
+     if(v==="__all__"||v==="__about__"||v==="__queue__"||v==="__ops__"){ const nb=navEl.querySelector(sel(v)); if(nb)nb.classList.add("on"); }
    }
    window.__syncNav=setActive;   // 홈 로고 등 외부에서 활성 동기화
    setActive();
@@ -1355,6 +1385,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    const isArchiveView=state.view==="__archive__";
    if(state.view==="__about__"){ searchBox.style.display="none"; renderAbout(); return; }
    if(state.view==="__queue__"){ searchBox.style.display="none"; renderQueue(); return; }
+   if(state.view==="__ops__"){ searchBox.style.display="none"; renderOps(); return; }
    if(state.view==="__request__"){ searchBox.style.display="none"; renderRequest(); return; }
    if(state.view==="__trend__"){ searchBox.style.display=""; renderTrend(); return; }
    if(state.view==="__news__"){ searchBox.style.display=""; renderNews(); return; }
@@ -1833,6 +1864,50 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    }catch(e){ toast("취소 실패: "+((e&&e.message)||e),"err"); }
  }
  window.__cancelQueued=cancelQueued;
+ /* ---------- 운영 대시보드(L3) ---------- */
+ const OPS_TYPE={subagent:"subagent",skill:"skill",hat:"hat",script:"script"};
+ const OPS_STAT={built:"built",indexed:"indexed",pending:"pending"};
+ async function renderOps(){
+   titleEl.textContent="운영 대시보드"; subEl.textContent="L3 — 직원·교훈(L5)·재발 감시·아웃박스 한눈에";
+   const mast=`<div class="masthead" style="--ac:var(--a-ops)"><div class="mk">${svg("building")}OPERATIONS · 운영</div><div class="mt">쓰담 컴퍼니 운영 대시보드 <span style="font-size:14px;font-weight:700;opacity:.7">L3</span></div><div class="ms">직원 인덱스·교훈(L5) 상태·재발 감시(승격 후보)·아웃박스 현황을 사이트에서 봅니다. 데이터는 <code style="background:rgba(255,255,255,.12);border-radius:5px;padding:1px 5px">_ops/build-ops.ps1</code> 실행 시점 기준이에요.</div></div>`;
+   contentEl.innerHTML=`<div class="news"><div class="ops-wrap">${mast}<div id="opsBox" style="margin-top:16px"><div class="q-loading">${svg("refresh")} 운영 데이터를 불러오는 중…</div></div></div></div>`;
+   const box=document.getElementById("opsBox"); if(!box)return;
+   let dash,reg;
+   try{
+     const [d,r]=await Promise.all([fetch("_ops/dashboard.json"),fetch("_ops/registry.json")]);
+     if(!d.ok||!r.ok)throw new Error("HTTP "+d.status+"/"+r.status);
+     dash=await d.json(); reg=await r.json();
+   }catch(e){
+     box.innerHTML=emptyBox("base","운영 데이터를 불러오지 못했어요. <code>_ops/build-ops.ps1</code>로 dashboard.json·registry.json을 먼저 생성하세요. (로컬에선 정적 서버로 열어야 fetch가 동작해요.)");
+     return;
+   }
+   const emp=dash.employees||{}, les=dash.lessons||{}, ob=dash.outbox||{};
+   const row=(k,v,vCls)=>`<div class="ops-row"><span>${esc(k)}</span><span class="v${vCls?(" "+vCls):""}">${v}</span></div>`;
+   const typeRows=Object.entries(emp.byType||{}).map(([t,n])=>`<div class="ops-row"><span><span class="ops-pill t-${OPS_TYPE[t]||"script"}">${esc(t)}</span></span><span class="v">${n}</span></div>`).join("");
+   const teamRows=Object.entries(emp.byTeam||{}).sort((a,b)=>b[1]-a[1]).map(([t,n])=>row(t,n)).join("");
+   const statRows=Object.entries(les.byStatus||{}).sort((a,b)=>b[1]-a[1]).map(([s,n])=>row(s,n)).join("");
+   const failColor=(ob.failed>0)?' style="color:var(--bad)"':"";
+   const cards=`<div class="ops-grid">
+     <div class="ops-card"><h3>직원</h3><div class="ops-big">${emp.built??0}<small>/ ${emp.total??0} built</small></div><div class="ops-rows">${typeRows}</div></div>
+     <div class="ops-card"><h3>팀별 인원</h3><div class="ops-rows">${teamRows}</div></div>
+     <div class="ops-card"><h3>교훈(L5) 상태</h3><div class="ops-big">${les.total??0}<small>건</small></div><div class="ops-rows">${statRows}</div></div>
+     <div class="ops-card"><h3>아웃박스</h3><div class="ops-rows">${row("발행 완료 (_done)",ob.done??0)}${row("대기 (pending)",ob.pending??0)}<div class="ops-row"><span>실패 (_failed)</span><span class="v"${failColor}>${ob.failed??0}</span></div></div></div>
+   </div>`;
+   const watch=(les.repeatWatch||[]).slice().sort((a,b)=>b.hits-a.hits)
+     .map(w=>{const g=w.guard||"none";const has=!/^none\b/.test(String(g).trim());
+       return `<tr><td class="p" data-label="hits"><span class="ops-hits">×${w.hits}</span></td><td data-label="레인/scope"><b>${esc(w.lane)}</b> / ${esc(w.scope)}</td><td data-label="trigger">${esc(w.trigger)}</td><td data-label="guard" class="${has?"ops-guard-has":"ops-guard-none"}">${esc(g)}</td></tr>`;}).join("");
+   const watchBlock=`<div class="ops-sec-h warn">${svg("alertTri")}재발 감시 (hits ≥ 2 · 승격 후보)</div>
+     <table class="abx-table"><thead><tr><th>hits</th><th>레인 / scope</th><th>trigger</th><th>guard</th></tr></thead>
+     <tbody>${watch||'<tr><td colspan="4">없음</td></tr>'}</tbody></table>
+     <div class="ops-note">guard=<b style="color:var(--bad)">none</b>(빨강)은 아직 사람 약속 — 코드·린트·정본 승격 1순위.</div>`;
+   const emps=Object.entries(reg.employees||{})
+     .map(([k,v])=>`<tr><td class="p" data-label="직원">${esc(v.display||k)}</td><td data-label="실행방식"><span class="ops-pill t-${OPS_TYPE[v.type]||"script"}">${esc(v.type||"")}</span></td><td data-label="팀">${esc(v.team||"")}</td><td data-label="상태"><span class="ops-pill s-${OPS_STAT[v.status]||"pending"}">${esc(v.status||"")}</span></td></tr>`).join("");
+   const empBlock=`<div class="ops-sec-h">${svg("users")}직원 명단 (registry)</div>
+     <table class="abx-table"><thead><tr><th>직원</th><th>실행방식</th><th>팀</th><th>상태</th></tr></thead>
+     <tbody>${emps||'<tr><td colspan="4">없음</td></tr>'}</tbody></table>`;
+   box.innerHTML=cards+watchBlock+empBlock+`<div class="ops-foot">집계 기준: <code>_ops/build-ops.ps1</code> 실행 시점 → <code>dashboard.json</code> · <code>registry.json</code>. 직원 ${emp.total??0}명 / 교훈 ${les.total??0}건.</div>`;
+ }
+
  function renderQueue(){
    titleEl.textContent="작업 큐"; subEl.textContent="대기·진행 중인 글과 실패·취소 기록 — 작성자별로, 큐가 얼마나 쌓였는지 한눈에";
    if(QUEUE_TIMER){ clearInterval(QUEUE_TIMER); QUEUE_TIMER=null; }
