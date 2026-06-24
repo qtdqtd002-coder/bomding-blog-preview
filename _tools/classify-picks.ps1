@@ -25,6 +25,9 @@ param(
   [string]$Base,                            # BlogPreview 루트(비우면 스크립트 위치에서 추론)
   [int]$PrevIssues = 6,                     # 직전 브리핑 몇 개까지 거슬러 🔄 N일째 셀지
   [string]$ExcludeDate,                      # 이 날짜의 trend.json 이슈는 직전 비교에서 제외(재생성 중인 오늘자 자기참조 차단). 비우면 오늘.
+  [string]$FailedFile,                       # 실패 주제 블로클리스트(비우면 _trend\_failed-requests.json)
+  [string]$FailedApi = "https://34.139.184.70.sslip.io/requests?status=failed",  # -RefreshFailed 시 갱신원
+  [switch]$RefreshFailed,                     # 켜면 백엔드에서 실패목록을 새로 받아 캐시 갱신(네트워크 실패 시 기존 캐시 사용)
   [switch]$Pretty
 )
 $ErrorActionPreference = "Stop"
@@ -181,6 +184,37 @@ if(Test-Path $trendFile){
   }
 }
 
+# ── 실패 주제 블로클리스트 로드(2026-06-24) — 이미 발행요청 실패한 주제 재추천 차단 ──
+#   백엔드 GET /requests?status=failed 스냅샷(_trend\_failed-requests.json). 같은 작성자가 이미 실패한 주제와
+#   강하게 겹치면 ❌failed로 하드 드롭 → 중복·자기잠식·전제오류 주제가 발주로 재유입되는 걸 사전 차단.
+$failedFileP = if([string]::IsNullOrWhiteSpace($FailedFile)){ Join-Path $Base "_trend\_failed-requests.json" } else { $FailedFile }
+if($RefreshFailed){
+  try {
+    $resp = Invoke-WebRequest -Uri $FailedApi -TimeoutSec 12 -UseBasicParsing
+    $arr = $resp.Content | ConvertFrom-Json
+    if($arr){
+      $slim = @($arr | ForEach-Object { [pscustomobject]@{ writer=$_.writer; topic=$_.topic; purpose=$_.purpose; reason=(([string]$_.error) -replace '\s+',' ') } })
+      ([ordered]@{ updated=$TODAY; count=$slim.Count; failed=$slim } | ConvertTo-Json -Depth 5) | Set-Content -Path $failedFileP -Encoding UTF8
+    }
+  } catch { }   # 네트워크 실패 → 기존 캐시 사용(거짓 게이트 금지)
+}
+$failedTopics = @()
+if(Test-Path $failedFileP){
+  try {
+    $fj = Get-Content $failedFileP -Raw -Encoding UTF8 | ConvertFrom-Json
+    foreach($f in @($fj.failed)){
+      if([string]::IsNullOrWhiteSpace($f.topic)){ continue }
+      if(-not $f.writer){ continue }                       # writer 빈값(null 요청)은 오탐 방지로 제외
+      if(([string]$f.writer) -ne $Writer){ continue }       # 작성자 단위 dedup
+      $tn = Norm ([string]$f.topic)
+      $failedTopics += [pscustomobject]@{
+        topic=[string]$f.topic; norm=$tn; bg=(Bigrams $tn); kw=(Find-Keywords $tn)
+        game=(Game-Of $tn); reason=([string]$f.reason); reasonCat=([string]$f.reasonCat)
+      }
+    }
+  } catch { }
+}
+
 # ── 후보 읽기 ──
 $rawCands = @()
 if($CandidatesFile){ $rawCands = Get-Content -Path $CandidatesFile -Encoding UTF8 | Where-Object { $_.Trim() -ne "" } }
@@ -235,9 +269,24 @@ foreach($raw in $rawCands){
   # 연속성: 가장 최근 날짜부터 끊김 없이 이어진 일수(단순히 등장 횟수로 근사 — N일째 표기용)
   $carryN = $daysList.Count + 1   # 오늘 포함 N일째
 
-  # 3) 상태 확정(우선순위: published > review > carried > new)
+  # 0) 실패 블로클리스트 대조(최우선) — 같은 작성자가 이미 발행요청 실패한 주제와 강하게 겹치면 드롭
+  $failedHit = $null
+  foreach($ft in $failedTopics){
+    $ovF = JacOvl $ft.bg $cbg
+    $anchorF = Game-Anchor $ft.game $cn $cbg
+    $sharedF = Inter-Count $ft.kw $ckw
+    if(($ovF.jac -ge 0.5) -or ($ovF.ovl -ge 0.7 -and $sharedF -ge 1) -or ($anchorF -ge 0.7 -and $sharedF -ge 2)){
+      $failedHit = $ft; break
+    }
+  }
+
+  # 3) 상태 확정(우선순위: failed > published > review > carried > new)
   $status = "new"; $reason = "직전 브리핑에 없던 신규"
-  if($bestPub -and $bestPub.isPub){
+  if($failedHit){
+    $status = "failed"
+    $rc = if($failedHit.reasonCat){ " [$($failedHit.reasonCat)]" } else { "" }
+    $reason = "이미 발행요청 실패한 주제(재추천 금지)$rc — `"$($failedHit.topic)`": $($failedHit.reason)"
+  } elseif($bestPub -and $bestPub.isPub){
     $status = "published"
     $reason = "발행완료: $($bestPub.game)/$($bestPub.topic) (anchor=$($bestPub.anchor), jac=$($bestPub.jac), 공유키워드=$([string]::Join('·',$bestPub.sharedHard)))"
   } elseif($bestPub -and $bestPub.tier -eq "review"){
@@ -247,7 +296,7 @@ foreach($raw in $rawCands){
     $status = "carried"
     $reason = "이월: 직전 $($daysList.Count)개 브리핑에 등장(최근 $($daysList[0]))"
   }
-  $chip = switch($status){ "published"{"✅"} "review"{"🟡"} "carried"{"🔄"} default{"🆕"} }
+  $chip = switch($status){ "failed"{"❌"} "published"{"✅"} "review"{"🟡"} "carried"{"🔄"} default{"🆕"} }
 
   $results += [pscustomobject]@{
     pick = $clean
@@ -259,6 +308,8 @@ foreach($raw in $rawCands){
     chip = $chip
     carryDays = $(if($carried){$carryN}else{$null})
     matchedPublished = $(if($bestPub -and ($bestPub.isPub -or $bestPub.tier -eq 'review')){ "$($bestPub.game)/$($bestPub.topic)" }else{$null})
+    failedMatch = $(if($failedHit){ $failedHit.topic }else{$null})
+    failedCat = $(if($failedHit){ $failedHit.reasonCat }else{$null})
     reason = $reason
   }
 }
@@ -304,9 +355,10 @@ $summary = [ordered]@{
   date = $TODAY
   publishedCount = @($pubTopics).Count
   prevIssues = @($prevByDate | ForEach-Object { $_.date })
+  failedBlocklist = @($failedTopics | ForEach-Object { $_.topic })
   results = $results
   diversity = $diversity
-  rule = "✅발행완료=추천 제외(→최근발행) · 🟡review=기본 제외(새 각도 근거시 채택) · 🔄이월/🆕신규=추천 가능. published.json+trend.json 결정론 대조. + 게임다양성: 트랙별 같은 게임/프랜차이즈 ≤2개(over2 비면 OK)."
+  rule = "❌failed=이미 발행요청 실패한 주제(하드 드롭·재추천 금지) · ✅발행완료=추천 제외(→최근발행) · 🟡review=기본 제외(새 각도 근거시 채택) · 🔄이월/🆕신규=추천 가능. failed-requests+published.json+trend.json 결정론 대조. + 게임다양성: 트랙별 같은 게임 ≤2개(over2 비면 OK)."
 }
 $json = $summary | ConvertTo-Json -Depth 6
 Write-Output $json
@@ -314,13 +366,14 @@ Write-Output $json
 if($Pretty){
   Write-Host "`n── [$Writer] 후보 분류 (오늘 $TODAY) ──" -ForegroundColor Cyan
   foreach($r in $results){
-    $col = switch($r.status){ "published"{"Red"} "review"{"Yellow"} "carried"{"DarkYellow"} default{"Green"} }
+    $col = switch($r.status){ "failed"{"Magenta"} "published"{"Red"} "review"{"Yellow"} "carried"{"DarkYellow"} default{"Green"} }
     Write-Host ("{0} [{1}] {2}" -f $r.chip, $r.status, $r.pick) -ForegroundColor $col
     Write-Host ("      └ {0}" -f $r.reason) -ForegroundColor DarkGray
   }
+  $fail = @($results | Where-Object { $_.status -eq 'failed' }).Count
   $pub = @($results | Where-Object { $_.status -eq 'published' }).Count
   $rev = @($results | Where-Object { $_.status -eq 'review' }).Count
-  Write-Host ("`n→ 추천 제외 권고: ✅{0} 🟡{1} / 추천 가능: {2}" -f $pub, $rev, ($results.Count-$pub-$rev)) -ForegroundColor Cyan
+  Write-Host ("`n→ 추천 제외 권고: ❌{0}(실패재추천) ✅{1}(발행완료) 🟡{2}(검토) / 추천 가능: {3}" -f $fail, $pub, $rev, ($results.Count-$fail-$pub-$rev)) -ForegroundColor Cyan
   Write-Host "`n── 게임 다양성(트랙별 · 하드: 같은 게임 ≤2 / 소프트: 프랜차이즈 ≤4) ──" -ForegroundColor Cyan
   foreach($d in $diversity){
     $distStr = (($d.distribution | ForEach-Object { "{0}×{1}" -f $_.game, $_.count }) -join ", ")
