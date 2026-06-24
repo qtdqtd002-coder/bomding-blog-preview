@@ -1,0 +1,384 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 봄딩 진단 &amp; 오늘 쓸 글 · 2026-06-25</title>
+<style>
+ /* ── 쓰담 디자인 시스템 정렬(DESIGN.md) · 봄딩 액센트 #E06C49 ── */
+ :root{
+   --bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--inset2:#f2f4f7;
+   --ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--line2:#d8dbe2;
+   --brand:#5a4fe6;--warm:#ff6f52;--warm-weak:#ffeee9;
+   --ac:#E06C49;--ac-d:#b8502f;--ac-weak:#fbe9e3;     /* 봄딩 테라코타 */
+   --good:#1f9d6b;--good-weak:#e7f6ef;--warn:#e0890b;--warn-weak:#fbf1de;--bad:#dc2626;--bad-weak:#fdecec;
+   --r-sm:9px;--r:13px;--r-lg:18px;
+   --sh-sm:0 1px 2px rgba(16,24,40,.05);--sh-md:0 6px 18px rgba(90,50,32,.07);
+   --tnum:"tnum" 1;
+ }
+ *{box-sizing:border-box;} html,body{margin:0;}
+ body{background:var(--bg);color:var(--ink);
+   font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+   line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;}
+ .wrap{max-width:840px;margin:0 auto;padding:20px 18px 64px;}
+ .back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;}
+ .back:hover{color:var(--ink);}
+ .num{font-feature-settings:var(--tnum);}
+ h2.sec{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:34px 0 2px;display:flex;align-items:center;gap:9px;}
+ h2.sec .ic{font-size:18px;}
+ h2.sec .tag{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:0;}
+ .sub{color:var(--sub);font-size:12.5px;margin:4px 0 12px;line-height:1.55;}
+ .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:18px 20px;margin-top:12px;}
+
+ /* ── 마스트헤드(가볍고 또렷) ── */
+ .mast{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+   background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:20px 22px;}
+ .mast .l{flex:1;min-width:240px;}
+ .who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ac-d);
+   background:var(--ac-weak);border-radius:999px;padding:4px 11px;}
+ .who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac);}
+ .mast h1{font-size:clamp(18px,3.4vw,21px);font-weight:800;letter-spacing:-.02em;margin:11px 0 7px;line-height:1.4;text-wrap:balance;}
+ .mast .meta{font-size:12px;color:var(--muted);font-weight:500;} .mast .meta b{color:var(--sub);font-weight:700;}
+ .score{flex:none;text-align:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:108px;background:var(--inset);}
+ .score .sl{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--muted);}
+ .score .sv{font-size:38px;font-weight:800;line-height:1.02;margin-top:3px;font-feature-settings:var(--tnum);} .score .sv small{font-size:15px;color:var(--faint);font-weight:700;}
+ .score .sg{font-size:13px;font-weight:800;margin-top:1px;}
+ .g-a{color:var(--good);} .g-b{color:var(--ac-d);} .g-c{color:var(--warn);}
+
+ /* ── 🎯 오늘 한눈에 : 3시각 블렌드 + 처방 ── */
+ .glance{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden;}
+ .glance .gh{display:flex;align-items:center;gap:8px;padding:14px 20px 12px;border-bottom:1px solid var(--line);}
+ .glance .gh b{font-size:14px;font-weight:800;letter-spacing:-.01em;} .glance .gh .gt{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .lens{display:flex;gap:13px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:flex-start;}
+ .lens:last-of-type{border-bottom:none;}
+ .lens .li{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--inset2);}
+ .lens .lc{flex:1;min-width:0;}
+ .lens .lk{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
+ .lens .lx{font-size:13.5px;font-weight:600;line-height:1.5;margin-top:2px;color:var(--ink);}
+ .lens .lx b{font-weight:800;color:var(--ac-d);}
+ .lens .lm{flex:none;text-align:right;min-width:74px;}
+ .lens .lmv{font-size:19px;font-weight:800;font-feature-settings:var(--tnum);line-height:1.1;} .lens .lmv small{font-size:11px;color:var(--faint);font-weight:700;}
+ .lens .lml{font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+ @media(max-width:540px){.lens .lm{display:none;}}
+
+ /* 처방(오늘 할 일) */
+ .todo{background:var(--inset);padding:14px 20px;}
+ .todo .th{font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:.02em;margin-bottom:9px;}
+ .trow{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line2);align-items:flex-start;} .trow:first-of-type{border-top:none;}
+ .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:2px 8px;margin-top:1px;font-feature-settings:var(--tnum);}
+ .pp.p2{background:#d98064;} .pp.p3{background:#e6a08c;}
+ .tc{font-size:13px;line-height:1.5;} .tc b{font-weight:800;} .tc .tw{color:var(--muted);}
+ .kind{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+ .k-write{background:var(--ac-weak);color:var(--ac-d);} .k-seo{background:#e6ebff;color:#3b43b8;} .k-keep{background:var(--warn-weak);color:#9a6207;}
+
+ /* ── KPI 타일 ── */
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;} @media(max-width:560px){.kgrid{grid-template-columns:repeat(2,1fr);}}
+ .k{background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 13px;}
+ .k .kv{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-feature-settings:var(--tnum);} .k .kv small{font-size:11px;font-weight:700;color:var(--faint);}
+ .k .kl{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:600;} .k .kd{font-size:10px;font-weight:800;margin-top:4px;}
+ .up{color:var(--good);} .down{color:var(--bad);} .flat{color:var(--warn);}
+
+ /* ── 차트(바) ── */
+ .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;} @media(max-width:600px){.charts{grid-template-columns:1fr;}}
+ .ch h5{margin:0 0 9px;font-size:11.5px;font-weight:800;color:var(--sub);}
+ .bars{display:flex;flex-direction:column;gap:7px;}
+ .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:78px;font-size:10.5px;font-weight:700;color:var(--sub);}
+ .bar .bt{flex:1;height:11px;background:var(--inset2);border-radius:6px;overflow:hidden;}
+ .bar .bt i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#eeb5a3,var(--ac));}
+ .bar .bv{flex:none;width:52px;text-align:right;font-size:10.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .bar.hi .bt i{background:linear-gradient(90deg,#e08f73,var(--ac-d));}
+ .bar.lo .bt i{background:linear-gradient(90deg,#f6c074,var(--warn));} .bar.lo .bl,.bar.lo .bv{color:#9a6207;}
+ .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+ .chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid;}
+ .c-good{background:var(--good-weak);color:#157a52;border-color:#c2e8d6;} .c-warn{background:var(--warn-weak);color:#9a6207;border-color:#f0d9a8;} .c-bad{background:var(--bad-weak);color:#b91c1c;border-color:#f3c2c2;}
+ .note{margin-top:13px;font-size:12px;line-height:1.55;color:var(--sub);background:var(--inset);border-radius:var(--r-sm);padding:11px 13px;} .note b{color:var(--ink);}
+
+ /* ── SEO 검수 ── */
+ .seoq td{text-align:left;vertical-align:top;} .seoq .stitle{font-weight:700;}
+ table{width:100%;border-collapse:collapse;font-size:12px;} th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:center;}
+ thead th{background:transparent;border-bottom:1.5px solid var(--line2);font-weight:800;font-size:10.5px;color:var(--muted);letter-spacing:.02em;}
+ .sc{font-weight:800;text-align:center;white-space:nowrap;font-feature-settings:var(--tnum);} .sc-hi{color:var(--good);} .sc-mid{color:var(--warn);} .sc-lo{color:var(--bad);}
+ .pf{font-weight:800;font-size:10px;border-radius:5px;padding:1px 6px;background:var(--ac-weak);color:var(--ac-d);white-space:nowrap;}
+
+ /* ── 강·약점 ── */
+ .swot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;} @media(max-width:540px){.swot{grid-template-columns:1fr;}}
+ .sw{border-radius:var(--r);padding:14px 16px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:13px;font-weight:800;}
+ .sw ul{margin:0;padding-left:17px;font-size:12.5px;line-height:1.6;} .sw li{margin:6px 0;} .sw li b{font-weight:800;} .sw small{color:var(--muted);font-weight:600;}
+ .sw-good{background:var(--good-weak);border-color:#cfeadd;} .sw-good h4{color:#157a52;}
+ .sw-bad{background:#fbf5f5;border-color:#f0d6d6;} .sw-bad h4{color:#b91c1c;}
+
+ /* ── 추천(3트랙 + 게임분포) ── */
+ .tabs{margin-top:12px;} .tabs>input{position:absolute;opacity:0;pointer-events:none;}
+ .tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px;}
+ .tablab{font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:var(--r-sm);background:var(--inset2);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s;}
+ .tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px;font-feature-settings:var(--tnum);}
+ .tpanel{display:none;}
+ #t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3]{background:var(--ac);color:#fff;border-color:var(--ac);}
+ #t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt{color:rgba(255,255,255,.7);}
+ #t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3{display:block;}
+ /* 게임 분포 바 */
+ .dist{display:flex;align-items:center;gap:9px;margin-bottom:12px;background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;flex-wrap:wrap;}
+ .dist .dl{font-size:10.5px;font-weight:800;color:var(--muted);}
+ .distbar{flex:1;min-width:160px;display:flex;height:9px;border-radius:5px;overflow:hidden;background:var(--inset2);}
+ .distbar span{height:100%;}
+ .distleg{display:flex;gap:9px;flex-wrap:wrap;} .distleg b{font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:4px;color:var(--sub);}
+ .distleg b i{width:8px;height:8px;border-radius:2px;display:inline-block;}
+ .pick{border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;margin-bottom:9px;background:var(--panel);transition:border-color .12s;}
+ .pick:hover{border-color:var(--line2);}
+ .pick-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+ .gtag{font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 7px;}
+ .purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset2);border-radius:5px;padding:2px 7px;}
+ .pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--warm-weak);color:#c2451f;}
+ .ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:160px;line-height:1.4;}
+ .pwhy{font-size:12px;line-height:1.5;color:var(--sub);} .pwhy b{color:var(--ink);font-weight:700;} .pwhy a{color:var(--brand);text-decoration:none;border-bottom:1px solid #c7c2f5;}
+
+ /* ── 총평 + 지수 ── */
+ .verdict{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:20px 22px;}
+ .verdict .lb{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--ac-d);}
+ .verdict h3{margin:8px 0 10px;font-size:15.5px;font-weight:800;letter-spacing:-.01em;line-height:1.45;text-wrap:balance;}
+ .verdict p{margin:0 0 16px;font-size:13px;line-height:1.75;color:var(--sub);} .verdict p b{color:var(--ink);font-weight:700;}
+ .gauge{border-top:1px solid var(--line);padding-top:15px;}
+ .gtop{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap;}
+ .gtop .gv{font-size:30px;font-weight:800;font-feature-settings:var(--tnum);} .gtop .gv small{font-size:14px;color:var(--faint);font-weight:700;}
+ .gtop .gg{font-size:15px;font-weight:800;} .gtop .gn{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .grow{display:flex;align-items:center;gap:10px;margin:8px 0;}
+ .grow .gl{flex:none;width:88px;font-size:11.5px;font-weight:700;color:var(--sub);}
+ .grow .gt{flex:1;height:9px;background:var(--inset2);border-radius:5px;overflow:hidden;} .grow .gt i{display:block;height:100%;border-radius:5px;}
+ .grow .gs{flex:none;width:30px;text-align:right;font-size:11.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .b-hi i{background:linear-gradient(90deg,#e08f73,var(--ac-d));} .b-mid i{background:linear-gradient(90deg,#f6c074,var(--warn));} .b-lo i{background:linear-gradient(90deg,#f08e8e,var(--bad));}
+
+ details.more{margin-top:12px;} details.more>summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--ac-d);list-style:none;padding:9px 0;}
+ details.more>summary::-webkit-details-marker{display:none;} details.more>summary::before{content:"▸ ";} details.more[open]>summary::before{content:"▾ ";}
+ .more .mbody{font-size:12.5px;line-height:1.7;color:var(--sub);background:var(--inset);border-radius:var(--r-sm);padding:13px 15px;} .more .mbody b{color:var(--ink);}
+ .foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center;}
+ @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+ @media(max-width:540px){.wrap{padding:14px 12px 44px;}.score{padding:10px 14px;min-width:92px;}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+
+ <!-- 마스트헤드 -->
+ <div class="mast">
+   <div class="l">
+     <span class="who">데이터 분석실 · 봄딩 편</span>
+     <h1>발행은 정점권이에요(6월 70편·하루 2.8편). 오늘 GTA6 사전예약·마비노기 모바일 시즌2가 겹친 최대 기회일 — 같은 게임 글끼리 링크로 묶고 5월 효자 글을 다시 손보는 게 조회수 회복 열쇠예요.</h1>
+     <div class="meta">발행일 <b>2026-06-25</b> · 대상 <b>봄딩</b>(네이버 bomding · 게임)</div>
+   </div>
+   <div class="score"><div class="sl">오늘 지수</div><div class="sv num">80<small>/100</small></div><div class="sg g-b">B+</div></div>
+ </div>
+
+ <!-- 🎯 오늘 한눈에 : 3시각 블렌드 -->
+ <div class="glance">
+   <div class="gh">🎯 <b>오늘 한눈에</b><span class="gt">데이터 · 트렌드 · 크리에이터 세 시각</span></div>
+
+   <div class="lens">
+     <div class="li">📊</div>
+     <div class="lc">
+       <div class="lk">데이터 분석가가 보는 것</div>
+       <div class="lx">글 올리는 속도가 <b>6월 70편, 하루 평균 2.8편</b>으로 셋 중 가장 빨라요. 머문 시간(7분 54초)도 가장 길고요. 다만 한 사람이 여러 번 다시 보는 글이 적어(글 1편당 1.63쪽) 같은 게임 글끼리 안 묶인 게 보여요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">2.8<small>편/일</small></div><div class="lml">발행 속도(6월)</div></div>
+   </div>
+
+   <div class="lens">
+     <div class="li">📈</div>
+     <div class="lc">
+       <div class="lk">트렌드 분석가가 보는 것</div>
+       <div class="lx">오늘 두 개가 겹쳤어요 — <b>GTA6 사전예약 개시·마비노기 모바일 시즌2 출시</b>(둘 다 오늘). 이어서 메이플랜드 2.0(6/30)·삼국지 천하결전(7/2)도 임박했고, 5월에 잘 나가던 두두타·포코피아·드빌3 글은 6월 들어 손을 안 댔어요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">D-0 · D-5</div><div class="lml">오늘 출시·임박</div></div>
+   </div>
+
+   <div class="lens">
+     <div class="li">🎨</div>
+     <div class="lc">
+       <div class="lk">크리에이터 컨설턴트가 보는 것</div>
+       <div class="lx">제목·시의성·머문 시간은 이미 최상위인데 <b>같은 게임 글끼리 링크로 안 묶인 게 유일한 약점</b>이에요. 최근 5편 8가지 기준 중 내부링크만 60점(대부분 링크 0~1개) — 신작 글에 기존 글 링크 2개만 고정해도 점수가 가장 크게 올라요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">60<small>점</small></div><div class="lml">내부링크(약점 1순위)</div></div>
+   </div>
+
+   <!-- 처방 -->
+   <div class="todo">
+     <div class="th">🩺 그래서 오늘 할 일 (우선순위 순)</div>
+     <div class="trow"><span class="pp">P1</span><div class="tc"><span class="kind k-seo">검색조치</span><b>신작 글에 같은 게임 기존 글 링크 2개 넣기를 규칙으로 고정</b> — 글 8가지 기준 중 내부링크만 60점으로 뚝 떨어져요(나머지 7개는 80~90점). 솔인챈트·포챔스·드빌3 글이 여러 편인데 서로 안 묶여 있어요. <span class="tw">(→ 발행 직전 같은 게임 글 제목 검색 → 본문·하단 "함께 보기"에 링크 2개)</span></div></div>
+     <div class="trow"><span class="pp p2">P2</span><div class="tc"><span class="kind k-write">글쓰기</span><b>5월 효자 글(두두타 교배·포코피아·드빌3) 바로 다시 손보기</b> — 5월에 가장 많이 들어오던 키워드 3개인데 6월엔 신작에만 쏠려 비었어요. <span class="tw">(줄어든 조회수를 되살릴 가장 빠른 레버 → 추천 ①)</span></div></div>
+     <div class="trow"><span class="pp p3">P3</span><div class="tc"><span class="kind k-write">글쓰기</span><b>오늘 출시·임박 단편 빠르게 잇기</b> — 마비노기 모바일 시즌2(오늘)·메이플랜드 2.0(6/30)·삼국지 천하결전(7/2)처럼 출시 직전·직후 검색이 폭증해요. <span class="tw">(→ 추천 ②③)</span></div></div>
+   </div>
+ </div>
+
+ <!-- 📊 핵심 지표 -->
+ <h2 class="sec"><span class="ic">📊</span>핵심 지표 <span class="tag">— 네이버 글목록 API 실측(06-25) + 8축 체질 분석</span></h2>
+ <div class="panel">
+   <div class="kgrid">
+     <div class="k"><div class="kv up num">2.8 <small>편/일</small></div><div class="kl">게임글 발행 속도</div><div class="kd up num">▲ 6월 70편/25일 · 오늘 3편(게임)</div></div>
+     <div class="k"><div class="kv flat num">5 <small>개</small></div><div class="kl">활성 글 묶음(클러스터)</div><div class="kd flat">솔인챈트·포챔스·드빌3·두두타·메이플 — 서로 미연결</div></div>
+     <div class="k"><div class="kv up num">80 <small>/100</small></div><div class="kl">최근글 품질 평균(8축)</div><div class="kd up">시의성 90·제목 88 최고 / 내부링크 60 최저</div></div>
+     <div class="k"><div class="kv down num">60</div><div class="kl">약점 — 내부링크</div><div class="kd down">최근 5편 중 다수 0~1개 · 즉시 조치(→P1)</div></div>
+   </div>
+   <div class="charts">
+     <div class="ch"><h5>최근글 8가지 기준 점수 (높은 순)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">시의성</span><span class="bt"><i style="width:100%"></i></span><span class="bv num">90</span></div>
+         <div class="bar hi"><span class="bl">제목·검색어</span><span class="bt"><i style="width:98%"></i></span><span class="bv num">88</span></div>
+         <div class="bar"><span class="bl">이미지</span><span class="bt"><i style="width:95%"></i></span><span class="bv num">86</span></div>
+         <div class="bar"><span class="bl">검색의도</span><span class="bt"><i style="width:94%"></i></span><span class="bv num">85</span></div>
+         <div class="bar"><span class="bl">가독성</span><span class="bt"><i style="width:92%"></i></span><span class="bv num">83</span></div>
+         <div class="bar"><span class="bl">분량·깊이</span><span class="bt"><i style="width:91%"></i></span><span class="bv num">82</span></div>
+         <div class="bar"><span class="bl">구조</span><span class="bt"><i style="width:89%"></i></span><span class="bv num">80</span></div>
+         <div class="bar lo"><span class="bl">내부링크</span><span class="bt"><i style="width:67%"></i></span><span class="bv num">60</span></div>
+       </div>
+     </div>
+     <div class="ch"><h5>총평 게이지 — 4개 영역</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">발행 동력</span><span class="bt"><i style="width:90%"></i></span><span class="bv num">90</span></div>
+         <div class="bar hi"><span class="bl">글 품질</span><span class="bt"><i style="width:80%"></i></span><span class="bv num">80</span></div>
+         <div class="bar lo"><span class="bl">검색 건강</span><span class="bt"><i style="width:68%"></i></span><span class="bv num">68</span></div>
+         <div class="bar"><span class="bl">기회·다양성</span><span class="bt"><i style="width:82%"></i></span><span class="bv num">82</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="chips">
+     <span class="chip c-good">발행 동력 정점권(6월 70편)</span>
+     <span class="chip c-good">시의성 90·제목 88</span>
+     <span class="chip c-good">머문 시간 셋 중 최고</span>
+     <span class="chip c-warn">글 길이 들쭉날쭉(뉴스 단발)</span>
+     <span class="chip c-bad">내부링크 60</span>
+     <span class="chip c-bad">조회수 추세 하락</span>
+   </div>
+   <div class="note">쉽게 말하면 — <b>글은 빠르고 부지런하게 잘 올리고 있어요</b>. 제목 짓는 솜씨와 발 빠른 소재 포착은 셋 중 최강이고, 독자가 오래 머무는 글이에요. 딱 하나, <b>같은 게임 글끼리 링크로 안 묶인 점(내부링크 62)</b>만 손보면 종합 점수가 가장 빨리 올라요. (조회수 같은 후행 수치는 아래 월별 추세에서 한 달에 한 번 갱신해요.)</div>
+ </div>
+
+ <!-- 🔍 글 품질 검수 -->
+ <h2 class="sec"><span class="ic">🔍</span>최근 글 품질 검수 <span class="tag">— 최근 게임글 5편을 8가지 기준으로 채점</span></h2>
+ <p class="sub">최근 게임글을 글목록·스니펫·체질 baseline 교차로 8가지 항목에 0~100점 채점했어요(네이버 직접렌더 제한·일부 항목 추정). 잘 쓴 글은 80~90점, 약한 항목만 60~70점으로 표시해요.</p>
+ <div class="panel" style="padding-top:8px">
+   <table class="seoq">
+     <thead><tr><th style="text-align:left">최근 게임글</th><th style="width:9%">점수</th><th style="width:8%">유형</th><th style="text-align:left">한 줄 평</th></tr></thead>
+     <tbody>
+       <tr><td class="stitle">포챔스 따라큐 공략 — 기술세팅·팀편성 (6/23)</td><td class="sc sc-hi">78</td><td><span class="pf">공략</span></td><td>5편 중 최고. 도입부 '덱세팅 오해' 교정이 검색의도를 정조준, 이미지도 다수. 내부링크 2건 있어 가장 결속됨.</td></tr>
+       <tr><td class="stitle">리니지M 요정 스킬북 리부트 이벤트 9종 (6/24)</td><td class="sc sc-mid">71</td><td><span class="pf">정보</span></td><td>광고 콘텐츠(유료 명시·신뢰 양호). 이벤트 9종 목록 구조는 좋으나 내부링크 0이 발목.</td></tr>
+       <tr><td class="stitle">로스트아크 차원술사 사전예약·복귀 혜택 (6/23)</td><td class="sc sc-hi">77</td><td><span class="pf">정보</span></td><td>키워드·분량 충분, 사전예약 시의성 강함. 로아 글끼리 링크 묶었다면 80점대였을 글.</td></tr>
+       <tr><td class="stitle">젠존제 3.0 무료 폴리크롬 받는 법 (6/24)</td><td class="sc sc-mid">76</td><td><span class="pf">정보</span></td><td>제목 명확·구조(지금/7/4 분리) 좋음. 내부링크 0. 3.1 2주년(7/4) 각도가 더 날카로웠을 글.</td></tr>
+       <tr><td class="stitle">팰월드 1.0 앞서해보기 변경점·신규 팰 (6/24)</td><td class="sc sc-mid">75</td><td><span class="pf">정보</span></td><td>분량·깊이 충분(소송 경과까지 커버). 내부링크 1건만 — 출시 후 '팰 교배' 후속 안 쓰면 뉴스글로 끝나요.</td></tr>
+     </tbody>
+   </table>
+   <div class="charts" style="grid-template-columns:1fr;margin-top:16px">
+     <div class="ch"><h5>🧬 블로그 체질 — 8가지 기준 평균 (최근 5편)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">시의성</span><span class="bt"><i style="width:90%"></i></span><span class="bv num">90</span></div>
+         <div class="bar hi"><span class="bl">제목·검색어</span><span class="bt"><i style="width:88%"></i></span><span class="bv num">88</span></div>
+         <div class="bar"><span class="bl">이미지</span><span class="bt"><i style="width:86%"></i></span><span class="bv num">86</span></div>
+         <div class="bar"><span class="bl">검색의도</span><span class="bt"><i style="width:85%"></i></span><span class="bv num">85</span></div>
+         <div class="bar"><span class="bl">가독성</span><span class="bt"><i style="width:83%"></i></span><span class="bv num">83</span></div>
+         <div class="bar"><span class="bl">분량·깊이</span><span class="bt"><i style="width:82%"></i></span><span class="bv num">82</span></div>
+         <div class="bar"><span class="bl">구조</span><span class="bt"><i style="width:80%"></i></span><span class="bv num">80</span></div>
+         <div class="bar lo"><span class="bl">내부링크</span><span class="bt"><i style="width:60%"></i></span><span class="bv num">60</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="note">🧭 봄딩은 <b>시의성·제목이 셋 중 가장 강한 체질</b>이에요. 약한 항목은 딱 하나, <b>내부링크(60)</b> — 같은 게임 글을 여러 편 올려도 서로 연결이 끊겨 글 하나하나가 외딴 섬이에요. 다른 7개 항목이 이미 80~90점이라, <b>같은 게임 기존 글 링크 2개를 고정하는 것만으로</b> 종합 점수가 가장 빨리 올라요(→P1).</div>
+ </div>
+
+ <!-- 📈 월별 추세 (네이버는 월1회 갱신 → 접기) -->
+ <h2 class="sec"><span class="ic">📈</span>월별 추세 <span class="tag">— 후행 조회수(한 달에 한 번 갱신 · 평소 접힘)</span></h2>
+ <details class="more">
+   <summary>조회수 추세 보기 — 2026.05 기준(만료 임박, 7/1 전월 캡처로 교체 예정)</summary>
+   <div class="mbody">
+     월간 조회수는 전월 확정 캡처가 있어야 갱신돼서 날마다 바뀌지 않아요. 현재 표시값은 <b>2026.05 실측</b>이에요.<br><br>
+     · 조회수 <b>132K</b> — 5개월 연속 우하향(292K → 132K, <b>-55%</b>)이 유일한 경고 신호예요.<br>
+     · 머문 시간 <b>7분 54초</b>(셋 중 최고) · 검색 유입 <b>59.8%</b> · 다시 찾는 비율 9.6% · 글 1편당 본 쪽수 1.63<br><br>
+     발행량은 6월에도 하루 2.8편 정점권(오늘 3편)을 유지 중이라, <b>검색량 큰 신선 주제</b>(사전예약·쿠폰·효자 글 다시 손보기)가 다음 캡처에서 추세를 꺾을 열쇠예요. <b>7/1에 2026.06 캡처로 교체 예정.</b>
+   </div>
+ </details>
+
+ <!-- 🧭 강·약점 -->
+ <h2 class="sec"><span class="ic">🧭</span>강점 · 보강 포인트</h2>
+ <div class="swot">
+   <div class="sw sw-good"><h4>잘하고 있는 것</h4><ul>
+     <li><b>발 빠른 소재 포착(시의성 90)</b> — 로아 차원술사 사전예약 당일·리니지M 9주년 당일·팰월드 1.0 D-15까지 거의 실시간으로 커버. 셋 중 최강.</li>
+     <li><b>제목 검색어 설계(88)</b> — '솔인챈트 무과금 30레벨'·'팰월드 1.0 신규팰'처럼 검색되는 말을 앞에 배치해 검색 의도를 직격.</li>
+     <li>머문 시간 7분 54초(셋 중 최고)·다시 찾는 비율 9.6% — 콘텐츠 신뢰가 검증된 자산. 새 방문만 늘면 효율이 높아요.</li>
+   </ul></div>
+   <div class="sw sw-bad"><h4>보강하면 좋은 것</h4><ul>
+     <li><b>같은 게임 글끼리 안 묶임(내부링크 62)</b> — 여러 편 올려도 서로 미연결, 각 글이 외딴 섬 <small>(→P1)</small></li>
+     <li><b>5월 효자 글 다시 손보기 공백</b> — 두두타·포코피아·드빌3가 최대 유입인데 6월 대응이 비었음 <small>(→P2)</small></li>
+     <li>뉴스 단발과 오래가는 글의 균형(분량 77) — 젠존제 3.0처럼 피크 지난 뉴스 비중, 후속 공략 부재 <small>(→보강)</small></li>
+   </ul></div>
+ </div>
+
+ <!-- ✍️ 오늘 쓸 글 추천 (3트랙 × 8 + 게임분포) -->
+ <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 추천 <span class="tag">— 3트랙 각 8개 · 게임만(육아 제외) · 트렌드 게이트 통과분</span></h2>
+ <p class="sub">각 글 카드의 <b>발행 요청</b> 버튼을 누르면 기획팀에 바로 발주돼요. 오늘 발행분(GTA6·로아 사전예약 등) 및 06-22~24 발행분은 제외하고, 시의성·구체 날짜·검색 수요를 통과한 픽만 담았어요. 트랙별로 같은 게임은 최대 2개까지만.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3">
+   <div class="tabbar">
+     <label class="tablab" for="t1">① 확장할 것 <span class="cnt">8</span></label>
+     <label class="tablab" for="t2">② 새로 발굴 <span class="cnt">8</span></label>
+     <label class="tablab" for="t3">③ 단편 소식 <span class="cnt">8</span></label>
+   </div>
+
+   <!-- ① 확장 -->
+   <div class="tpanel" id="p1">
+     <div class="dist"><span class="dl">다룬 게임</span>
+       <div class="distbar"><span style="width:12.5%;background:#E06C49"></span><span style="width:12.5%;background:#d98064"></span><span style="width:12.5%;background:#e6a08c"></span><span style="width:12.5%;background:#b8502f"></span><span style="width:12.5%;background:#eeb5a3"></span><span style="width:12.5%;background:#cf6e4a"></span><span style="width:12.5%;background:#e0917a"></span><span style="width:12.5%;background:#f0c4b6"></span></div>
+       <div class="distleg"><b><i style="background:#E06C49"></i>8게임 전부 다름(두두·포코·드빌3·모동숲·솔인챈트·메이플·포챔스·리니지M)</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">두두타</span><span class="purp">게임 공략</span><span class="pwhen">효자 키워드</span><span class="ptitle">두두타(두근두근타운) 신규 꽃 교배 조합표 6월 최신 업데이트판</span></div><div class="pwhy">두두타 교배가 <b>5월 최상위 유입</b>(합산 1.4%+)인데 6월 대응이 비었어요. 기존 글 다시 손보기 + 링크로 오래가는 글로 유지(→P1·P2). <a href="https://blog.naver.com/bomding/224308548502">기존 두두타</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포코피아</span><span class="purp">업데이트·패치</span><span class="pwhen">무료 업뎃 8/26</span><span class="ptitle">포켓몬 포코피아 수중 무료 업데이트 8월 26일 — 달라지는 점 미리보기</span></div><div class="pwhy">포코피아가 5월 최대 유입 묶음. 확장패스 없이 받는 무료 대상 확인 수요 상존, 기존 글과 다른 각도(→P2). <a href="https://www.gamemeca.com">게임메카</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">드빌3</span><span class="purp">쿠폰·이벤트</span><span class="pwhen">효자 키워드</span><span class="ptitle">드래곤빌리지3 쿠폰 6월 최신 코드 + 파루파루 이후 이벤트 교배 조합</span></div><div class="pwhy">드빌3 쿠폰이 5월 최상위 유입. 6/13 파루파루 교배 글과 연결하면 묶음 링크 완성(→P1·P2). <a href="https://blog.naver.com/bomding/224314782469">6/13 파루파루</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">모동숲</span><span class="purp">게임 정보</span><span class="pwhen">여름 시즌</span><span class="ptitle">모여봐요 동물의 숲 2026 여름 — 지금 잡는 벌레·물고기·해산물 완전 정리</span></div><div class="pwhy">모동숲 도감이 검증된 살아있는 클러스터. 6월 하반기 여름 도감 시점, 기발행과 시기 다름(→P2). <a href="https://blog.naver.com/bomding">기존 모동숲</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">솔인챈트</span><span class="purp">티어·추천</span><span class="pwhen">6/18 출시 D+7</span><span class="ptitle">솔:인챈트 직업별 특성 비교 — 나이트·레인저·메이지·힐러 누가 편해?</span></div><div class="pwhy">출시 D+7, 양대마켓 매출 1위. 무과금 육성글에 이어 직업 선택 가이드가 묶음의 2번 글(→P1). <a href="https://www.betanews.net/article/view/beta202606220001">베타뉴스</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플</span><span class="purp">게임 정보</span><span class="pwhen">레테 D+7</span><span class="ptitle">메이플 신규 직업 레테 스킬·소환수 총정리 — 하이퍼버닝 MAX 육성법</span></div><div class="pwhy">레테 출시 D+7, 오버드라이브 시즌 중. 티어표에 이어 레테 전용 육성 가이드가 메이플 묶음의 스포크. 하이퍼버닝 수요 정점. <a href="https://www.inven.co.kr/board/maple/2295/295935">인벤</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포챔스</span><span class="purp">게임 공략</span><span class="pwhen">모바일 D+8</span><span class="ptitle">포켓몬 챔피언스 다음에 키울 포켓몬 — 메가진화 우선순위 1~5위</span></div><div class="pwhy">모바일 출시 D+8, 입문 완료층이 다음 단계 탐색 중. 기발행 포챔스 4편과 각도 다름, 링크로 묶기(→P1). <a href="https://www.inven.co.kr">인벤</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">리니지M</span><span class="purp">쿠폰·이벤트</span><span class="pwhen">9주년 ~기간한정</span><span class="ptitle">리니지M 9주년 요정 리부트 — 스킬북 구매 우선순위 추천</span></div><div class="pwhy">6/24 시작 9주년 요정 리부트 이벤트. 어제 올린 이벤트 정리글에 '구매 우선순위' 각도를 더해 묶기. 공식 확인 권장. <a href="https://www.gametoc.co.kr/news/articleView.html?idxno=109296">게임톡</a></div></div>
+   </div>
+
+   <!-- ② 발굴 -->
+   <div class="tpanel" id="p2">
+     <div class="dist"><span class="dl">다룬 게임</span>
+       <div class="distbar"><span style="width:12.5%;background:#E06C49"></span><span style="width:12.5%;background:#d98064"></span><span style="width:12.5%;background:#e6a08c"></span><span style="width:12.5%;background:#b8502f"></span><span style="width:12.5%;background:#eeb5a3"></span><span style="width:12.5%;background:#cf6e4a"></span><span style="width:12.5%;background:#e0917a"></span><span style="width:12.5%;background:#f0c4b6"></span></div>
+       <div class="distleg"><b><i style="background:#E06C49"></i>8게임 전부 다름</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">마비노기 모바일</span><span class="purp">출시·첫인상</span><span class="pwhen">오늘 출시 D-0</span><span class="ptitle">마비노기 모바일 시즌2 빛과 어둠 — 오늘 출시, 만렙 100·신규 지역 뭐가 달라졌나</span></div><div class="pwhy"><b>오늘 출시</b>, 검색 폭발 타이밍. 만렙 85→100·신규 지역·솔로 어비스·시즌 스킬. 봄딩 MMO 출시 당일 커버 강점. <a href="https://www.betanews.net/article/view/beta202606200001">베타뉴스</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">삼국지 천하결전</span><span class="purp">사전예약</span><span class="pwhen">7/2 출시 D-7</span><span class="ptitle">삼국지 천하결전 사전예약 보상 총정리 — 69만 명 달성, 출시 전 챙길 것</span></div><div class="pwhy">7/2 출시 D-7. 사전예약 69만 명, SLG 신작 중 이례적 수요. 봄딩에 SLG 글 공백, 전략 초보 가이드는 오래가요. <a href="https://www.gamemeca.com/en/view.php?gid=1776429">게임메카</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플랜드</span><span class="purp">게임 정보</span><span class="pwhen">2.0 오픈 D-5</span><span class="ptitle">메이플랜드 2.0 초보 시작 가이드 — 직업 선택·달라진 점(6/30 오픈)</span></div><div class="pwhy">2.0 오픈 6/30 D-5. 6/22 '1.0 종료·2.0 오픈' 이후 초보 시작 각도는 미커버. ★클래식 메이플 용어로(현대 메이플 오염 주의). <a href="https://www.gametoc.co.kr/news/articleView.html?idxno=109355">게임톡</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">원신</span><span class="purp">업데이트·패치</span><span class="pwhen">7/1 배너 D-6</span><span class="ptitle">원신 6.7 산드로네 배너 7월 1일 — 지금 로엔 뽑나 vs 다음 기다리나</span></div><div class="pwhy">6.6 복각 6/30 종료·6.7 산드로네 7/1 전환으로 '지금 뽑나 vs 다음' 수요 폭발. 봄딩 원신 글 공백. <a href="https://www.gamsgo.com/ko/blog/%EC%9B%90%EC%8B%A0-6-7-%ED%95%8D%EC%97%85">gamsgo</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">FC온라인</span><span class="purp">게임 공략</span><span class="pwhen">월드컵 ~7/22</span><span class="ptitle">FC온라인 월드컵 페스타 PTG 선수 — 7월 22일까지 어떻게 챙기나</span></div><div class="pwhy">월드컵 본선 시즌 특수(~7/22), PTG·TK 클래스 신규. 봄딩 FC온라인 글 미발행, 대중 스포츠게임 수요. <a href="https://www.inven.co.kr/webzine/news/?news=317430">인벤</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">윈드러너 키우기</span><span class="purp">사전예약</span><span class="pwhen">7월 출시</span><span class="ptitle">윈드러너 키우기 사전예약 — 6천만 IP 방치형, 보상·직업 미리보기</span></div><div class="pwhy">6/16 사전예약 개시, 7월 출시. 메이플/드래곤빌리지 키우기 계보 = 방치형 키우기 장르 수요 검증. 공식 출시일 확인 권장. <a href="https://www.inven.co.kr/webzine/news/?news=317510">인벤</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">디아블로4</span><span class="purp">게임 정보</span><span class="pwhen">7/1 시즌 D-6</span><span class="ptitle">디아블로4 시즌14 죽음의 각성 — 악마술사 무료 체험·오버워치 콜라보</span></div><div class="pwhy">7/1 시즌14 시작 D-6. 악마술사 7/8까지 무료 체험·오버워치 스킨 콜라보. 시즌 시작 전 준비 검색 상승. <a href="https://www.gamemeca.com/view.php?gid=1776914">게임메카</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">던파 키우기</span><span class="purp">게임 정보</span><span class="pwhen">사전예약 대기</span><span class="ptitle">던전앤파이터 키우기 출시 대기 — 사전예약 개시되면 받을 보상 미리 정리</span></div><div class="pwhy">메이플 키우기 대히트 이후 IP 방치형 계보, 던파 IP는 국내 최대급. 사전예약 개시 알림 글을 미리 준비하면 개시 즉시 선점. 공식 일정 확인 권장. <a href="https://www.gamemeca.com/view.php?gid=1773487">게임메카</a></div></div>
+   </div>
+
+   <!-- ③ 단편 -->
+   <div class="tpanel" id="p3">
+     <div class="dist"><span class="dl">다룬 게임</span>
+       <div class="distbar"><span style="width:12.5%;background:#E06C49"></span><span style="width:12.5%;background:#d98064"></span><span style="width:12.5%;background:#e6a08c"></span><span style="width:12.5%;background:#b8502f"></span><span style="width:12.5%;background:#eeb5a3"></span><span style="width:12.5%;background:#cf6e4a"></span><span style="width:12.5%;background:#e0917a"></span><span style="width:12.5%;background:#f0c4b6"></span></div>
+       <div class="distleg"><b><i style="background:#E06C49"></i>8게임 전부 다름</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">마비노기 모바일</span><span class="purp">출시·첫인상</span><span class="pwhen">출시 D-0</span><span class="ptitle">마비노기 모바일 시즌2 만렙 100 — 오늘 출시, 주요 변경점 5가지</span></div><div class="pwhy">오늘 출시, 짧은 변경점 정리로 출시 당일 검색을 빠르게 흡수. 신규 사냥터·소울스트림·마도 압력. <a href="https://www.inven.co.kr/webzine/news/?news=317635">인벤</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플랜드</span><span class="purp">업데이트·패치</span><span class="pwhen">2.0 오픈 D-5</span><span class="ptitle">메이플랜드 2.0 D-5 — 6월 30일 오픈 전 꼭 확인할 것(데이터 이전·직업)</span></div><div class="pwhy">6/30 본서버 전환 D-5. 데이터 유지·월드리프 이전 등 귀환 유저 체크리스트. ★클래식 메이플 용어. <a href="https://arca.live/b/mapleland/174232390">아카라이브</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">팰월드</span><span class="purp">업데이트·패치</span><span class="pwhen">정식출시 D-15</span><span class="ptitle">팰월드 1.0 D-15 정식 출시 — 기존 플레이어가 알아야 할 핵심 3가지</span></div><div class="pwhy">7/10 정식출시 D-15. 세이브 유지 여부·새 월드 권장 이유 등 기존 유저 행동 가이드(어제 변경점 글의 후속). <a href="https://www.gamemeca.com/view.php?gid=1776138">게임메카</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">젠레스존제로</span><span class="purp">업데이트·패치</span><span class="pwhen">3.1 D-9</span><span class="ptitle">젠레스 존 제로 3.1 버전 D-9 — 7월 4일 새 배너 시작 전 준비 체크리스트</span></div><div class="pwhy">3.0 종료·3.1 전환(7/4) D-9. 오늘 올린 3.0 폴리크롬 글과 피크를 분리하는 후속 단편. 공식 일정 확인 권장. <a href="https://www.hoyolab.com/article/27545300">HoYoLAB</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">솔인챈트</span><span class="purp">쿠폰·이벤트</span><span class="pwhen">출시 D+7</span><span class="ptitle">솔:인챈트 쿠폰 최신 코드 + 입력 방법 (6월 모음)</span></div><div class="pwhy">출시 D+7, 쿠폰 수요는 1~2주차 정점. 무과금·직업 글과 묶으면 솔인챈트 3편이 링크로 결속(→P1). 코드는 발행 당일 공식 재확인. <a href="https://kr.ldplayer.net/blog/sol-enchant-coupon-code-guide.html">LD플레이어</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">삼국지 천하결전</span><span class="purp">사전예약</span><span class="pwhen">출시 D-7</span><span class="ptitle">삼국지 천하결전 D-7 — 7월 2일 출시 전 사전예약 마감 보상 막차 체크</span></div><div class="pwhy">7/2 출시 D-7, 사전예약 마감 임박. 짧게 보상·마감일을 정리해 '막차' 검색을 흡수. <a href="https://www.gamemeca.com/en/view.php?gid=1776429">게임메카</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">우마무스메</span><span class="purp">업데이트·패치</span><span class="pwhen">픽업 마감 D-5</span><span class="ptitle">우마무스메 오르페브르 픽업 D-5 — 6월 30일 종료 전 뽑을지 말지</span></div><div class="pwhy">4주년 오르페브르 픽업 6/30 종료 D-5. '마감 전 결정 가이드' 각도로 막판 결정 검색을 받아요. 공식 가챠 달력 확인 권장. <a href="https://www.betanews.net/article/view/beta202606220001">베타뉴스</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">명조</span><span class="purp">쿠폰·이벤트</span><span class="pwhen">콜라보 ~7/9</span><span class="ptitle">명조 3.4 사이버펑크 레베카 무료 획득 방법 — 조건·기간 총정리</span></div><div class="pwhy">최초 크로스IP 콜라보, 무료 5성 레베카 배포로 라이트 유저 진입. "무료 획득" 검색 수요 집중, 종료 7/9 전 막판. <a href="https://wutheringwaves.kurogames.com/kr/main/news/detail/4814">쿠로게임즈</a></div></div>
+   </div>
+ </div>
+
+ <!-- 🏁 총평 + 지수 -->
+ <div class="verdict">
+   <div class="lb">오늘자 총평 · 데이터 분석실</div>
+   <h3>발행은 정점권을 지켜요 — 오늘 GTA6·마비노기 더블 출시를 잡고, 흩어진 신작을 같은 게임끼리 묶고, 잠든 5월 효자를 깨우는 한 주.</h3>
+   <p>봄딩은 6월에 <b>70편(하루 2.8편)으로 발행 동력을 정점권에 유지</b>하고 있고, GTA6 사전예약·마비노기 모바일 시즌2가 겹친 오늘이 최대 기회일이에요. 당일 주요 이슈를 거의 전부 선점하는 타이밍은 셋 중 최강이에요. 글 8가지 기준은 <b>내부링크(60)를 빼면 80~90으로 이미 상위권</b>이고, 시의성 90·제목 88·머문 시간 7분 54초는 흔들림 없는 자산이에요. 약점은 둘 — 여러 편 올리는 같은 게임 글이 <b>서로 링크로 안 묶여 글 하나하나가 외딴 섬</b>이라는 것, 그리고 <b>5월에 가장 많이 들어오던 효자(두두타·포코피아·드빌3) 다시 손보기가 비었다</b>는 것이에요. 발행량이 받쳐주는 지금, 할 일은 분명해요 — 신작 글마다 같은 게임 기존 글 링크 2개를 규칙으로 고정하고, 효자 글을 바로 다시 손봐 줄어든 조회수를 되살리는 거예요.</p>
+   <div class="gauge">
+     <div class="gtop"><span class="gv num">80<small>/100</small></span><span class="gg g-b">B+</span><span class="gn">내부링크 단일 약축이 천장</span></div>
+     <div class="grow"><span class="gl">발행 동력</span><span class="gt b-hi"><i style="width:90%"></i></span><span class="gs num">90</span></div>
+     <div class="grow"><span class="gl">글 품질</span><span class="gt b-hi"><i style="width:80%"></i></span><span class="gs num">80</span></div>
+     <div class="grow"><span class="gl">검색 건강</span><span class="gt b-mid"><i style="width:68%"></i></span><span class="gs num">68</span></div>
+     <div class="grow"><span class="gl">기회·다양성</span><span class="gt b-hi"><i style="width:82%"></i></span><span class="gs num">82</span></div>
+   </div>
+ </div>
+
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(봄딩) · 발행 페이스=네이버 글목록 API 실측(06-25) · 8가지 기준=글목록·스니펫·체질 baseline 교차 분석(네이버 직접렌더 제한·일부 추정) · 후행 조회수=2026.05 baseline(월1회·7/1 갱신) · 추천 수치·일정은 작성 직전 공식 재확인 권장 · 봄딩 육아는 내돈내산이라 추천 제외(게임만).</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
