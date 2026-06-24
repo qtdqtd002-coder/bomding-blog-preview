@@ -103,6 +103,27 @@ function Game-Anchor([string]$gameNorm,[string]$candNorm,$candBg){
   return $best
 }
 
+# ── 게임/프랜차이즈 다양성(2026-06-24 신설) ──
+#   같은 게임·프랜차이즈가 한 트랙에 3개 이상이면 '쏠림'으로 경고(스킬 규칙: 같은 게임 ≤2개/트랙).
+#   머리어가 같은 계열(메이플랜드/메이플플래닛/메이플월드/메이플스토리 = '메이플')은 한 묶음으로 카운트.
+$FranchiseHeads = @('메이플','포켓몬','리니지','던전앤파이터','로스트아크','블루아카이브','명일방주','원신','붕괴','니케','우마무스메','삼국지','팰월드','젠존제','젠레스','명조','일랜시아','패스오브엑자일','디아블로','발로란트','오버워치','리그오브레전드','발더스게이트','스타듀밸리','데드오어얼라이브')
+$StaticGames = @('메이플스토리','메이플랜드','메이플플래닛','메이플월드','메이크드라마','템빨용사','솔인챈트','GTA6','DOA6','MSI','LCK','챔피언스','띠부씰','이환','영원한도시','롤','POE2')
+# Game-Of  = 정확히 같은 게임(가장 긴 known-game 매칭). 메이플랜드 ≠ 메이플플래닛 (다른 게임).
+#   → 다양성 '하드 게이트'는 이 정확한 게임 기준 ≤2개/트랙(사용자: 동일한 게임 도배 방지).
+function Game-Of([string]$candNorm){
+  if([string]::IsNullOrEmpty($candNorm)){ return '' }
+  $best=''; $bestLen=0
+  foreach($g in @($script:KnownGames)){ $gn=(Norm $g); if($gn.Length -ge 2 -and $candNorm.Contains($gn) -and $gn.Length -gt $bestLen){ $best=$g; $bestLen=$gn.Length } }
+  return $best
+}
+# Franchise-Of = 프랜차이즈 머리어(메이플 계열은 한 묶음). 한 트랙 절반(5+) 넘으면 '소프트' 경고(정보).
+#   겜더쿠는 메이플 4종이 메인이라 머리어 묶음은 하드 게이트가 아니라 참고용.
+function Franchise-Of([string]$candNorm){
+  if([string]::IsNullOrEmpty($candNorm)){ return '' }
+  foreach($h in @($script:FranchiseHeads)){ $hn=(Norm $h); if($hn.Length -ge 2 -and $candNorm.Contains($hn)){ return $h } }
+  return (Game-Of $candNorm)
+}
+
 # ── published.json 로드 → 작성자 발행주제(게임·토픽) 목록 ──
 $pubFile = Join-Path $Base "published.json"
 $pubTopics = @()   # @{ game; topic; gameNorm; comboNorm; comboBg; kw; rel }
@@ -124,6 +145,23 @@ if(Test-Path $pubFile){
     }
   }
 }
+
+# ── 알려진 게임 사전 구축(발행이력 + 정적 + 겜더쿠 포트폴리오) → 다양성 집계용 ──
+$script:FranchiseHeads = $FranchiseHeads
+$kg = New-Object System.Collections.Generic.List[string]
+foreach($pt in $pubTopics){ if($pt.game){ [void]$kg.Add([string]$pt.game) } }
+foreach($g in $StaticGames){ [void]$kg.Add($g) }
+foreach($h in $FranchiseHeads){ [void]$kg.Add($h) }   # 단일게임 프랜차이즈(젠존제·명조 등)는 머리어=게임명
+$gjf = Join-Path $Base "_trend\_gemdeokku-games.json"
+if(Test-Path $gjf){
+  try {
+    $gj = Get-Content $gjf -Raw -Encoding UTF8 | ConvertFrom-Json
+    foreach($m in @($gj.main)){ if($m.game){ [void]$kg.Add([string]$m.game) } }
+    foreach($s in @($gj.sub)){ if($s.game){ [void]$kg.Add([string]$s.game) } }
+    foreach($c in @($gj.candidates)){ if($c.game){ [void]$kg.Add([string]$c.game) } }
+  } catch {}
+}
+$script:KnownGames = @($kg | Where-Object { $_ -and $_.Trim() -ne "" } | Select-Object -Unique)
 
 # ── trend.json 로드 → 작성자 직전 픽(날짜별) ──
 $trendFile = Join-Path $Base "_trend\trend.json"
@@ -149,8 +187,12 @@ if($CandidatesFile){ $rawCands = Get-Content -Path $CandidatesFile -Encoding UTF
 else { $rawCands = @($input) | Where-Object { $_.Trim() -ne "" } }
 
 # ── 분류 ──
+#   트랙 헤더 줄(예: "#확장" / "=== 발굴 ===" / "[단편]")은 분류 대상이 아니라 이후 픽의 트랙을 지정한다.
 $results = @()
+$curTrack = ''
 foreach($raw in $rawCands){
+  $hdr = $raw.Trim()
+  if($hdr -match '^[#=\-\[\s]*(확장|발굴|단편|기어)[\]\s=]*$'){ $curTrack = $Matches[1]; continue }
   $clean = Clean-Pick $raw
   $cn = Norm $clean
   $cbg = Bigrams $cn
@@ -210,11 +252,49 @@ foreach($raw in $rawCands){
   $results += [pscustomobject]@{
     pick = $clean
     raw = $raw.Trim()
+    track = $curTrack
+    game = (Game-Of $cn)
+    franchise = (Franchise-Of $cn)
     status = $status
     chip = $chip
     carryDays = $(if($carried){$carryN}else{$null})
     matchedPublished = $(if($bestPub -and ($bestPub.isPub -or $bestPub.tier -eq 'review')){ "$($bestPub.game)/$($bestPub.topic)" }else{$null})
     reason = $reason
+  }
+}
+
+# ── 게임 다양성 집계(트랙별) ── 하드: 정확히 같은 게임 ≤2 / 소프트: 한 프랜차이즈가 트랙 절반(5+) 초과 ──
+$byTrackGame = @{}; $byTrackFran = @{}
+foreach($r in $results){
+  $tk = if([string]::IsNullOrWhiteSpace($r.track)){ '전체' } else { $r.track }
+  $gm = if([string]::IsNullOrWhiteSpace($r.game)){ '기타' } else { $r.game }
+  $fr = if([string]::IsNullOrWhiteSpace($r.franchise)){ '기타' } else { $r.franchise }
+  if(-not $byTrackGame.ContainsKey($tk)){ $byTrackGame[$tk] = @{} }
+  if(-not $byTrackGame[$tk].ContainsKey($gm)){ $byTrackGame[$tk][$gm] = 0 }
+  $byTrackGame[$tk][$gm]++
+  if(-not $byTrackFran.ContainsKey($tk)){ $byTrackFran[$tk] = @{} }
+  if(-not $byTrackFran[$tk].ContainsKey($fr)){ $byTrackFran[$tk][$fr] = 0 }
+  $byTrackFran[$tk][$fr]++
+}
+$diversity = @()
+foreach($tk in $byTrackGame.Keys){
+  $dist = @(); $over = @()
+  foreach($gm in $byTrackGame[$tk].Keys){
+    $c = $byTrackGame[$tk][$gm]
+    $dist += [pscustomobject]@{ game=$gm; count=$c }
+    if($gm -ne '기타' -and $c -ge 3){ $over += "$gm×$c" }   # 하드: 같은 게임 3개 이상 = 위반
+  }
+  $franSoft = @()
+  foreach($fr in $byTrackFran[$tk].Keys){
+    $c = $byTrackFran[$tk][$fr]
+    if($fr -ne '기타' -and $c -ge 5){ $franSoft += "$fr×$c" }  # 소프트: 한 프랜차이즈가 트랙 절반 초과
+  }
+  $diversity += [pscustomobject]@{
+    track = $tk
+    distribution = @($dist | Sort-Object -Property count -Descending)
+    over2 = $over                         # 하드 위반(같은 게임 3+): 비어야 통과
+    franchiseHeavy = $franSoft            # 소프트 경고(프랜차이즈 5+): 정보
+    ok = ($over.Count -eq 0)
   }
 }
 
@@ -225,7 +305,8 @@ $summary = [ordered]@{
   publishedCount = @($pubTopics).Count
   prevIssues = @($prevByDate | ForEach-Object { $_.date })
   results = $results
-  rule = "✅발행완료=5선 제외(→최근발행 띠) · 🟡review=기본 제외(새 각도 근거시 채택) · 🔄이월/🆕신규=5선. published.json+trend.json 결정론 대조."
+  diversity = $diversity
+  rule = "✅발행완료=추천 제외(→최근발행) · 🟡review=기본 제외(새 각도 근거시 채택) · 🔄이월/🆕신규=추천 가능. published.json+trend.json 결정론 대조. + 게임다양성: 트랙별 같은 게임/프랜차이즈 ≤2개(over2 비면 OK)."
 }
 $json = $summary | ConvertTo-Json -Depth 6
 Write-Output $json
@@ -239,5 +320,12 @@ if($Pretty){
   }
   $pub = @($results | Where-Object { $_.status -eq 'published' }).Count
   $rev = @($results | Where-Object { $_.status -eq 'review' }).Count
-  Write-Host ("`n→ 5선 제외 권고: ✅{0} 🟡{1} / 5선 가능: {2}" -f $pub, $rev, ($results.Count-$pub-$rev)) -ForegroundColor Cyan
+  Write-Host ("`n→ 추천 제외 권고: ✅{0} 🟡{1} / 추천 가능: {2}" -f $pub, $rev, ($results.Count-$pub-$rev)) -ForegroundColor Cyan
+  Write-Host "`n── 게임 다양성(트랙별 · 하드: 같은 게임 ≤2 / 소프트: 프랜차이즈 ≤4) ──" -ForegroundColor Cyan
+  foreach($d in $diversity){
+    $distStr = (($d.distribution | ForEach-Object { "{0}×{1}" -f $_.game, $_.count }) -join ", ")
+    Write-Host ("[{0}] {1}" -f $d.track, $distStr) -ForegroundColor DarkGray
+    if(-not $d.ok){ Write-Host ("   ⚠ 같은 게임 쏠림 — {0} (다른 게임으로 교체 필요)" -f ($d.over2 -join ", ")) -ForegroundColor Red }
+    if(@($d.franchiseHeavy).Count -gt 0){ Write-Host ("   · 프랜차이즈 편중(참고) — {0}" -f ($d.franchiseHeavy -join ", ")) -ForegroundColor DarkYellow }
+  }
 }

@@ -2187,7 +2187,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    const card=it=>{
      const ac=wac(it.writer);
      /* 발행 요청 버튼은 브리핑 전문(글 안)에서만 — 트렌드 카드 요약엔 칩만(사용자 06-14). */
-     const picks=(it.picks||[]).slice(0,5).map(raw=>`<span class="tchip">${esc(normPick(raw).label)}</span>`).join("");
+     const picks=(it.picks||[]).slice(0,8).map(raw=>`<span class="tchip">${esc(normPick(raw).label)}</span>`).join("");
      return `<a class="tcard" href="${enc(it.file)}" style="--ac:${ac}">`+
        `<div class="tcard-top"><span class="tbadge">${avatar(it.writer,"s")}${esc(it.writer)} 편</span><span class="tdate">${esc(it.date||"")}</span></div>`+
        `<h3 class="tcard-h">${esc(it.headline||(it.writer+" 트렌드 브리핑"))}</h3>`+
