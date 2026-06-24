@@ -1,0 +1,44 @@
+name: Deploy static site to Pages
+
+# 쓰담 사이트(BlogPreview) 배포.
+#   기존 legacy(브랜치 Jekyll) 빌드가 콘텐츠 문제 없이도 간헐적으로 "Page build failed"를 내
+#   발행이 막히는 사고가 반복돼(2026-06-25 트렌드 탭 미반영), Jekyll을 거치지 않는
+#   정적 업로드 → 배포 방식(Actions)으로 전환한다. 레포 전체를 그대로 올리므로 동작은
+#   기존과 동일하고, 빌드 단계가 없어 spurious 실패가 사라진다. 실패 시 Actions 탭에서 재실행 가능.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:        # 수동 재실행(배포만 다시 굽고 싶을 때)
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 동시 배포 충돌 방지: 진행 중인 배포는 끝까지 두고(완료 보장) 새 푸시는 큐잉.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'           # 레포 전체를 그대로 정적 사이트로 업로드(.nojekyll 유지)
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
