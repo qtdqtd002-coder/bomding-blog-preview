@@ -136,8 +136,8 @@ def main():
     if file_args:
         for f in file_args:
             p = os.path.abspath(f)
-            author = next((a for a in TARGET_AUTHORS if f"{os.sep}{a}{os.sep}" in p or p.split(os.sep)[-3:].count(a)), None)
-            author = author or "겜더쿠"
+            segs = p.replace(os.sep, "/").split("/")
+            author = next((a for a in TARGET_AUTHORS if a in segs), None) or "겜더쿠"  # 경로 세그먼트로 작성자 판별(폴백 오채점 방지)
             try:
                 m = metrics(open(p, encoding="utf-8").read(), author)
             except Exception as e:
@@ -149,7 +149,7 @@ def main():
 
     if not authors:
         authors = TARGET_AUTHORS
-    metric_keys = list(TH.keys())
+    metric_keys = list(TH["겜더쿠"].keys())   # ★지표명(TH는 작성자별 dict이라 TH.keys()는 작성자명 — --stats 크래시 수정 2026-06-27)
     grand_warn = 0
     for author in authors:
         posts = collect(author)
