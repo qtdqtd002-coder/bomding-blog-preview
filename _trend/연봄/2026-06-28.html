@@ -1,0 +1,342 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 연봄 진단 &amp; 오늘 쓸 글 · 2026-06-28</title>
+<style>
+ :root{
+   --bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--inset2:#f2f4f7;
+   --ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--line2:#d8dbe2;
+   --brand:#5a4fe6;--warm:#ff6f52;--warm-weak:#ffeee9;
+   --ac:#4a86c5;--ac-d:#356a9e;--ac-weak:#e7f0f9;
+   --good:#1f9d6b;--good-weak:#e7f6ef;--warn:#e0890b;--warn-weak:#fbf1de;--bad:#dc2626;--bad-weak:#fdecec;
+   --r-sm:9px;--r:13px;--r-lg:18px;
+   --sh-sm:0 1px 2px rgba(16,24,40,.05);--sh-md:0 6px 18px rgba(40,32,90,.07);
+   --tnum:"tnum" 1;
+ }
+ *{box-sizing:border-box;} html,body{margin:0;}
+ body{background:var(--bg);color:var(--ink);
+   font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+   line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;}
+ .wrap{max-width:840px;margin:0 auto;padding:20px 18px 64px;}
+ .back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;}
+ .back:hover{color:var(--ink);}
+ .num{font-feature-settings:var(--tnum);}
+ h2.sec{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:34px 0 2px;display:flex;align-items:center;gap:9px;}
+ h2.sec .ic{font-size:18px;}
+ h2.sec .tag{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:0;}
+ .sub{color:var(--sub);font-size:12.5px;margin:4px 0 12px;line-height:1.55;}
+ .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:18px 20px;margin-top:12px;}
+ .mast{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+   background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:20px 22px;}
+ .mast .l{flex:1;min-width:240px;}
+ .who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ac-d);
+   background:var(--ac-weak);border-radius:999px;padding:4px 11px;}
+ .who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac);}
+ .mast h1{font-size:clamp(18px,3.4vw,21px);font-weight:800;letter-spacing:-.02em;margin:11px 0 7px;line-height:1.4;text-wrap:balance;}
+ .mast .meta{font-size:12px;color:var(--muted);font-weight:500;} .mast .meta b{color:var(--sub);font-weight:700;}
+ .score{flex:none;text-align:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:108px;background:var(--inset);}
+ .score .sl{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--muted);}
+ .score .sv{font-size:38px;font-weight:800;line-height:1.02;margin-top:3px;font-feature-settings:var(--tnum);} .score .sv small{font-size:15px;color:var(--faint);font-weight:700;}
+ .score .sg{font-size:13px;font-weight:800;margin-top:1px;}
+ .g-a{color:var(--good);} .g-b{color:var(--ac-d);} .g-c{color:var(--warn);}
+ .glance{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden;}
+ .glance .gh{display:flex;align-items:center;gap:8px;padding:14px 20px 12px;border-bottom:1px solid var(--line);}
+ .glance .gh b{font-size:14px;font-weight:800;letter-spacing:-.01em;} .glance .gh .gt{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .lens{display:flex;gap:13px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:flex-start;}
+ .lens:last-of-type{border-bottom:none;}
+ .lens .li{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--inset2);}
+ .lens .lc{flex:1;min-width:0;}
+ .lens .lk{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
+ .lens .lx{font-size:13.5px;font-weight:600;line-height:1.5;margin-top:2px;color:var(--ink);}
+ .lens .lx b{font-weight:800;color:var(--ac-d);}
+ .lens .lm{flex:none;text-align:right;min-width:74px;}
+ .lens .lmv{font-size:19px;font-weight:800;font-feature-settings:var(--tnum);line-height:1.1;} .lens .lmv small{font-size:11px;color:var(--faint);font-weight:700;}
+ .lens .lml{font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+ @media(max-width:540px){.lens .lm{display:none;}}
+ .todo{background:var(--inset);padding:14px 20px;}
+ .todo .th{font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:.02em;margin-bottom:9px;}
+ .trow{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line2);align-items:flex-start;} .trow:first-of-type{border-top:none;}
+ .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:2px 8px;margin-top:1px;font-feature-settings:var(--tnum);}
+ .pp.p2{background:#6fa0d4;} .pp.p3{background:#94bae0;}
+ .tc{font-size:13px;line-height:1.5;} .tc b{font-weight:800;} .tc .tw{color:var(--muted);}
+ .kind{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+ .k-write{background:var(--ac-weak);color:var(--ac-d);} .k-seo{background:#e6ebff;color:#3b43b8;} .k-keep{background:var(--warn-weak);color:#9a6207;}
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;} @media(max-width:560px){.kgrid{grid-template-columns:repeat(2,1fr);}}
+ .k{background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 13px;}
+ .k .kv{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-feature-settings:var(--tnum);} .k .kv small{font-size:11px;font-weight:700;color:var(--faint);}
+ .k .kl{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:600;} .k .kd{font-size:10px;font-weight:800;margin-top:4px;}
+ .up{color:var(--good);} .down{color:var(--bad);} .flat{color:var(--warn);}
+ .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;} @media(max-width:600px){.charts{grid-template-columns:1fr;}}
+ .ch h5{margin:0 0 9px;font-size:11.5px;font-weight:800;color:var(--sub);}
+ .bars{display:flex;flex-direction:column;gap:7px;}
+ .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:62px;font-size:10.5px;font-weight:700;color:var(--sub);}
+ .bar .bt{flex:1;height:11px;background:var(--inset2);border-radius:6px;overflow:hidden;}
+ .bar .bt i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#a9c6e6,var(--ac));}
+ .bar .bv{flex:none;width:52px;text-align:right;font-size:10.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .bar.hi .bt i{background:linear-gradient(90deg,#7aa6d6,var(--ac-d));}
+ .bar.lo .bt i{background:linear-gradient(90deg,#f6c074,var(--warn));} .bar.lo .bl,.bar.lo .bv{color:#9a6207;}
+ .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+ .chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid;}
+ .c-good{background:var(--good-weak);color:#157a52;border-color:#c2e8d6;} .c-warn{background:var(--warn-weak);color:#9a6207;border-color:#f0d9a8;} .c-bad{background:var(--bad-weak);color:#b91c1c;border-color:#f3c2c2;}
+ .note{margin-top:13px;font-size:12px;line-height:1.55;color:var(--sub);background:var(--inset);border-radius:var(--r-sm);padding:11px 13px;} .note b{color:var(--ink);}
+ table{width:100%;border-collapse:collapse;font-size:12px;} th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:center;}
+ thead th{background:transparent;border-bottom:1.5px solid var(--line2);font-weight:800;font-size:10.5px;color:var(--muted);letter-spacing:.02em;}
+ td.gl{text-align:left;font-weight:700;} td.vd{text-align:left;font-size:11.5px;color:var(--sub);line-height:1.45;}
+ .st{font-weight:800;white-space:nowrap;} .st-keep{color:var(--good);} .st-watch{color:var(--warn);} .st-drop{color:var(--bad);}
+ .seoq td{text-align:left;vertical-align:top;} .seoq .stitle{font-weight:700;}
+ .sc{font-weight:800;text-align:center;white-space:nowrap;font-feature-settings:var(--tnum);} .sc-hi{color:var(--good);} .sc-mid{color:var(--warn);} .sc-lo{color:var(--bad);}
+ .pf{font-weight:800;font-size:10px;border-radius:5px;padding:1px 6px;background:var(--ac-weak);color:var(--ac-d);white-space:nowrap;}
+ .swot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;} @media(max-width:540px){.swot{grid-template-columns:1fr;}}
+ .sw{border-radius:var(--r);padding:14px 16px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:13px;font-weight:800;}
+ .sw ul{margin:0;padding-left:17px;font-size:12.5px;line-height:1.6;} .sw li{margin:6px 0;} .sw li b{font-weight:800;} .sw small{color:var(--muted);font-weight:600;}
+ .sw-good{background:var(--good-weak);border-color:#cfeadd;} .sw-good h4{color:#157a52;}
+ .sw-bad{background:#fbf5f5;border-color:#f0d6d6;} .sw-bad h4{color:#b91c1c;}
+ .tabs{margin-top:12px;} .tabs>input{position:absolute;opacity:0;pointer-events:none;}
+ .tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px;}
+ .tablab{font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:var(--r-sm);background:var(--inset2);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s;}
+ .tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px;font-feature-settings:var(--tnum);}
+ .tpanel{display:none;}
+ #t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3]{background:var(--ac);color:#fff;border-color:var(--ac);}
+ #t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt{color:rgba(255,255,255,.7);}
+ #t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3{display:block;}
+ .dist{display:flex;align-items:center;gap:9px;margin-bottom:12px;background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;flex-wrap:wrap;}
+ .dist .dl{font-size:10.5px;font-weight:800;color:var(--muted);}
+ .distbar{flex:1;min-width:160px;display:flex;height:9px;border-radius:5px;overflow:hidden;background:var(--inset2);}
+ .distbar span{height:100%;}
+ .distleg{display:flex;gap:9px;flex-wrap:wrap;} .distleg b{font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:4px;color:var(--sub);}
+ .distleg b i{width:8px;height:8px;border-radius:2px;display:inline-block;}
+ .pick{border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;margin-bottom:9px;background:var(--panel);transition:border-color .12s;}
+ .pick:hover{border-color:var(--line2);}
+ .pick-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+ .gtag{font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 7px;}
+ .purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset2);border-radius:5px;padding:2px 7px;}
+ .pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--warm-weak);color:#c2451f;}
+ .ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:160px;line-height:1.4;}
+ .pwhy{font-size:12px;line-height:1.5;color:var(--sub);} .pwhy b{color:var(--ink);font-weight:700;} .pwhy a{color:var(--brand);text-decoration:none;border-bottom:1px solid #c7c2f5;}
+ .ixreq h4{margin:0 0 5px;font-size:13px;font-weight:800;color:#157a52;} .ixreq .ixsub{font-size:11.5px;color:var(--sub);margin-bottom:9px;line-height:1.5;} .ixreq .ixsub b{color:var(--ink);}
+ .verdict{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:20px 22px;}
+ .verdict .lb{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--ac-d);}
+ .verdict h3{margin:8px 0 10px;font-size:15.5px;font-weight:800;letter-spacing:-.01em;line-height:1.45;text-wrap:balance;}
+ .verdict p{margin:0 0 16px;font-size:13px;line-height:1.75;color:var(--sub);} .verdict p b{color:var(--ink);font-weight:700;}
+ .gauge{border-top:1px solid var(--line);padding-top:15px;}
+ .gtop{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap;}
+ .gtop .gv{font-size:30px;font-weight:800;font-feature-settings:var(--tnum);} .gtop .gv small{font-size:14px;color:var(--faint);font-weight:700;}
+ .gtop .gg{font-size:15px;font-weight:800;} .gtop .gn{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .grow{display:flex;align-items:center;gap:10px;margin:8px 0;}
+ .grow .gl{flex:none;width:88px;font-size:11.5px;font-weight:700;color:var(--sub);}
+ .grow .gt{flex:1;height:9px;background:var(--inset2);border-radius:5px;overflow:hidden;} .grow .gt i{display:block;height:100%;border-radius:5px;}
+ .grow .gs{flex:none;width:30px;text-align:right;font-size:11.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .b-hi i{background:linear-gradient(90deg,#7aa6d6,var(--ac-d));} .b-mid i{background:linear-gradient(90deg,#f6c074,var(--warn));} .b-lo i{background:linear-gradient(90deg,#f08e8e,var(--bad));}
+ .foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center;}
+ @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+ @media(max-width:540px){.wrap{padding:14px 12px 44px;}.score{padding:10px 14px;min-width:92px;}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+
+ <div class="mast">
+   <div class="l">
+     <span class="who">데이터 분석실 · 연봄 편</span>
+     <h1>GO Fest D-13 + 울머기 커뮤니티데이 D-6 — 두 시의성 이벤트가 겹치는 오늘, 내부링크 강화와 글 품질 80점대 유지가 두 번째 기둥을 세운다.</h1>
+     <div class="meta">발행일 <b>2026-06-28</b> · 대상 <b>연봄</b>(티스토리 bom-ding · 포켓몬 전문 신생) · GSC ⚪ API 권한 미설정(연봄 속성) — 이전 측정치(6/19~25) 참조</div>
+   </div>
+   <div class="score"><div class="sl">오늘 지수</div><div class="sv num">74<small>/100</small></div><div class="sg g-b">B</div></div>
+ </div>
+
+ <div class="glance">
+   <div class="gh">🎯 <b>오늘 한눈에</b><span class="gt">데이터 · 트렌드 · 크리에이터 세 시각</span></div>
+   <div class="lens">
+     <div class="li">📊</div>
+     <div class="lc">
+       <div class="lk">데이터 분석가가 보는 것</div>
+       <div class="lx">GSC API 서비스 계정이 연봄 속성에 권한이 없어 오늘은 실측치를 직접 가져오지 못했어요. <b>어제까지 마지막 수치 — 주간 270클릭, CTR 12.8%, 색인 5/5 PASS</b>. 오늘 SEO 검수(최근 5편 /39~/45)는 평균 80.4점으로 어제(80.8)와 거의 같아요. 신생 도메인의 근본 제약은 유지 중.</div>
+     </div>
+     <div class="lm"><div class="lmv num">⚪</div><div class="lml">GSC 미제공</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">📈</div>
+     <div class="lc">
+       <div class="lk">트렌드 분석가가 보는 것</div>
+       <div class="lx">오늘 두 이벤트가 겹쳐요. <b>울머기 커뮤니티데이(7/4, D-6)</b>는 7월 롱테일 중 가장 확실한 소재 — "울머기 진화 방법·하이드로캐논 받는 법"이 비어 있어요. <b>GO Fest 글로벌(7/11~12, D-13)</b>은 무료라 '어떻게 참여하나' 검색이 이미 시작됐고 메가뮤츠Y(7/12) 카운터 글도 비어 있어요. 어제 /44에서 메가뮤츠Y를 다뤘지만 카운터 전용 글은 없어요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">D-6</div><div class="lml">울머기 CD까지</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">🎨</div>
+     <div class="lc">
+       <div class="lk">크리에이터 컨설턴트가 보는 것</div>
+       <div class="lx">오늘 검수한 5편(/39~/45)에서 내부링크가 글마다 편차가 커요. <b>/44(메가뮤츠Y)는 내부링크 1개뿐</b>이라 GO Fest 클러스터와 단절됐어요. 어제 발행한 3편(/43·/44·/45)에 GO Fest 시리즈 링크를 역방향으로 추가하면 크롤 경로가 뚫리고 권위가 쌓여요. 메타·OG 설명도 티스토리 관리자에서 수동 작성 여부 확인이 필요해요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">60<small>점</small></div><div class="lml">/44 내부링크 최저</div></div>
+   </div>
+   <div class="todo">
+     <div class="th">🩺 그래서 오늘 할 일 (우선순위 순)</div>
+     <div class="trow"><span class="pp">P1</span><div class="tc"><span class="kind k-write">글쓰기</span><b>울머기 커뮤니티데이 7/4 진화·하이드로캐논 선점 글</b> — D-6, 경쟁 공백. 커뮤니티데이 당일~직전 검색이 몰리는 구조라 지금 발행해야 색인 시간 확보. <span class="tw">(→ B트랙 ①②)</span></div></div>
+     <div class="trow"><span class="pp p2">P2</span><div class="tc"><span class="kind k-seo">유지보수</span><b>/44 내부링크 역방향 3개 추가 — GO Fest 클러스터 연결</b> — /10·/40·/21로 링크 추가, 10분 작업. 클러스터 단절 차단. <span class="tw">(→ 내부링크 60점 수정)</span></div></div>
+     <div class="trow"><span class="pp p3">P3</span><div class="tc"><span class="kind k-write">글쓰기</span><b>GO Fest 종이신도(카르타나) 레이드 카운터 — D-3 시급</b> — 6/24~7/1 레이드 중, 내일(6/29)~7/1까지만 유효. '불 타입 카운터' 구체 롱테일. <span class="tw">(→ B트랙 ②)</span></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📊</span>핵심 지표 <span class="tag">— GSC API 권한 미설정(연봄) · 이전 측정치(6/19~25) 참조</span></h2>
+ <div class="panel">
+   <div style="background:var(--warn-weak);border:1px solid #f0d9a8;border-radius:var(--r-sm);padding:10px 14px;margin-bottom:14px;font-size:12px;color:#9a6207;font-weight:600;">
+     ⚪ <b>GSC 실측 미제공</b> — GSC 서비스 계정이 연봄(bom-ding.tistory.com) 속성에 권한이 없어(HTTP 403) 오늘자 데이터를 가져오지 못했어요. 아래는 마지막 확보된 측정치(6/19~25)이며, 오늘 새로 집계된 수치가 아닙니다. 속성 권한 추가 후 다음 리포트부터 실측 복구 예정.
+   </div>
+   <div class="kgrid">
+     <div class="k"><div class="kv down num">270 <small>회</small></div><div class="kl">주간 검색 클릭(6/19~25)</div><div class="kd down num">▼ -26% (365→270)</div></div>
+     <div class="k"><div class="kv up num">2,104 <small>회</small></div><div class="kl">검색 노출(6/19~25)</div><div class="kd up num">▲ +26%</div></div>
+     <div class="k"><div class="kv num">12.8<small>%</small></div><div class="kl">클릭률(CTR)</div><div class="kd flat">신생치고 높음</div></div>
+     <div class="k"><div class="kv up">5/5</div><div class="kl">최근 글 색인(직전)</div><div class="kd up">발행 당일 등록</div></div>
+   </div>
+   <div class="charts">
+     <div class="ch"><h5>일별 검색 클릭 — 참조치(6/19~24)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">6/19 금</span><span class="bt"><i style="width:100%"></i></span><span class="bv num">97</span></div>
+         <div class="bar hi"><span class="bl">6/20 토</span><span class="bt"><i style="width:81%"></i></span><span class="bv num">79</span></div>
+         <div class="bar"><span class="bl">6/21 일</span><span class="bt"><i style="width:57%"></i></span><span class="bv num">55</span></div>
+         <div class="bar lo"><span class="bl">6/22 월</span><span class="bt"><i style="width:14%"></i></span><span class="bv num">14</span></div>
+         <div class="bar lo"><span class="bl">6/23 화</span><span class="bt"><i style="width:12%"></i></span><span class="bv num">12</span></div>
+         <div class="bar lo"><span class="bl">6/24 수</span><span class="bt"><i style="width:13%"></i></span><span class="bv num">13</span></div>
+       </div>
+     </div>
+     <div class="ch"><h5>디바이스 분포 — 직전 참조</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">모바일</span><span class="bt"><i style="width:73%"></i></span><span class="bv num">72.6%</span></div>
+         <div class="bar"><span class="bl">데스크톱</span><span class="bt"><i style="width:25%"></i></span><span class="bv num">24.8%</span></div>
+         <div class="bar lo"><span class="bl">태블릿</span><span class="bt"><i style="width:3%"></i></span><span class="bv num">2.6%</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="chips">
+     <span class="chip c-warn">GSC API 403 — 연봄 속성 권한 없음</span>
+     <span class="chip c-warn">이전 참조치(6/19~25) 사용</span>
+     <span class="chip c-good">직전 색인 5/5 PASS</span>
+     <span class="chip c-warn">리세마라 단일기둥 78.9% 지속</span>
+   </div>
+   <div class="note">쉽게 말하면 — 오늘은 GSC를 직접 열어볼 수 없었어요(서비스 계정 권한 미설정). <b>어제까지 수치로 보면 색인 속도는 좋고, 클릭은 /11 리세마라 의존이 여전</b>해요. 오늘과 내일 울머기 커뮤니티데이·GO Fest 롱테일을 잡으면 두 번째 기둥을 세울 수 있어요. GSC 권한은 연봄 속성에 서비스 계정을 추가하면 다음 리포트부터 바로 실측 복구됩니다.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔍</span>최근 글 품질 검수 <span class="tag">— 최근 5편(/39~/45)을 8가지 기준으로 채점</span></h2>
+ <p class="sub">어제 발행 3편(/43·/44·/45)과 기존 2편(/39·/40) 포함 5편을 직접 열어 채점했어요. 제목·구조·키워드는 강하고, 내부링크 편차(60~90)와 메타·OG(70) 확인이 약점이에요. 5편 모두 포켓몬! 분류.</p>
+ <div class="panel" style="padding-top:8px">
+   <table class="seoq">
+     <thead><tr><th style="text-align:left">최근 글</th><th style="width:7%">점수</th><th style="width:7%">유형</th><th style="text-align:left">한 줄 평</th></tr></thead>
+     <tbody>
+       <tr><td class="stitle">GO Fest 서울 교통 (/40)</td><td class="sc sc-hi">84</td><td><span class="pf">H</span></td><td>5편 최고. 소제목 키워드 구체, og:title 실측 확인, 내부링크 4개. 모범.</td></tr>
+       <tr><td class="stitle">포켓몬 챔피언스 VP 비용 (/43)</td><td class="sc sc-hi">83</td><td><span class="pf">D</span></td><td>표·OL 구조 우수, 키워드 밀도 87. 클러스터 연결 양호.</td></tr>
+       <tr><td class="stitle">계정 연동 방법 (/45)</td><td class="sc sc-hi">83</td><td><span class="pf">G</span></td><td>내부링크 8개 최다. FAQ·단계별 OL로 스니펫 포착. 강점 글.</td></tr>
+       <tr><td class="stitle">메가뮤츠Y 무료 입수 (/44)</td><td class="sc sc-mid">78</td><td><span class="pf">N</span></td><td>내부링크 1개 — GO Fest 클러스터(/10·/40·/21) 연결 누락. 역방향 추가 필요.</td></tr>
+       <tr><td class="stitle">레전드 Z-A DLC (/39)</td><td class="sc sc-mid">76</td><td><span class="pf">N</span></td><td>이미지 2장·H2 이모지 혼용·인게임 스크린샷 없음(G-7 미달). 리프레시 후보.</td></tr>
+     </tbody>
+   </table>
+   <div class="charts" style="grid-template-columns:1fr;margin-top:16px">
+     <div class="ch"><h5>🧬 블로그 체질 — 8가지 기준 평균 (최근 5편 /39~/45)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">제목·H태그</span><span class="bt"><i style="width:85%"></i></span><span class="bv num">85</span></div>
+         <div class="bar hi"><span class="bl">구조</span><span class="bt"><i style="width:84%"></i></span><span class="bv num">84</span></div>
+         <div class="bar"><span class="bl">키워드 밀도</span><span class="bt"><i style="width:83%"></i></span><span class="bv num">83</span></div>
+         <div class="bar"><span class="bl">분량·깊이</span><span class="bt"><i style="width:82%"></i></span><span class="bv num">82</span></div>
+         <div class="bar"><span class="bl">이미지·alt</span><span class="bt"><i style="width:81%"></i></span><span class="bv num">81</span></div>
+         <div class="bar lo"><span class="bl">색인 가능성</span><span class="bt"><i style="width:77%"></i></span><span class="bv num">77</span></div>
+         <div class="bar lo"><span class="bl">내부링크</span><span class="bt"><i style="width:74%"></i></span><span class="bv num">74</span></div>
+         <div class="bar lo"><span class="bl">메타·OG</span><span class="bt"><i style="width:70%"></i></span><span class="bv num">70</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="note">🧭 강점 = <b>제목·구조·키워드</b>(신생치고 상위권). 약점 3위 — ①<b>메타·OG(70)</b>: 티스토리 관리자 SEO 설정 탭에서 각 글 설명 수동 입력 여부 확인 필요(자동생성 의존 탈피). ②<b>내부링크 편차(60~90)</b>: /44가 1개로 최저, /45가 8개로 최고. 일관되게 3개+ 목표. ③<b>색인 가능성(77)</b>: 신생 도메인 근본 제약 — 에버그린 롱테일 축적만이 해결책. /39는 인게임 스크린샷 추가(G-7)도 필요.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🧭</span>강점 · 보강 포인트</h2>
+ <div class="swot">
+   <div class="sw sw-good"><h4>잘하고 있는 것</h4><ul>
+     <li><b>80.4점 SEO 평균 유지</b> — 신생 22일차에 안정적 품질.</li>
+     <li>클러스터 구조 정착 — GO Fest·챔피언스·레전드ZA 각각 허브-스포크 연결 중.</li>
+     <li>색인 속도 우수 — 어제 발행 3편 모두 당일 크롤 예상.</li>
+     <li>발행 페이스 적정(1~3편/일) — 과도한 몰아치기 없음.</li>
+   </ul></div>
+   <div class="sw sw-bad"><h4>보강하면 좋은 것</h4><ul>
+     <li><b>GSC 서비스 계정 권한 추가</b> — 연봄 속성에 등록 필요(실측 복구) <small>(→ 인프라)</small></li>
+     <li><b>/44 내부링크 1개</b> — GO Fest 클러스터 단절. 3개 역추가 시급 <small>(→P2)</small></li>
+     <li>메타·OG 70점 — 각 글 description 수동 입력 권장 <small>(→P3+)</small></li>
+     <li>3대분류 '포켓몬!' 편중 지속 — 게이무!/아니메! 글 아직 없음.</li>
+   </ul></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 추천 <span class="tag">— 트랙마다 8개 · 신생기 저경쟁 롱테일 우선</span></h2>
+ <p class="sub">신생 단계라 <b>헤드 키워드 단독("포켓몬 GO")은 피하고, 검색자가 정확히 치는 구체 롱테일</b>로 좁혔어요. 울머기 CD D-6·종이신도 레이드 D-3·GO Fest D-13 — 세 시의성이 겹치는 오늘의 선택이에요. 발행완료·실패 주제는 dedup으로 제외했어요.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3">
+   <div class="tabbar">
+     <label class="tablab" for="t1">A GO Fest 서울 <span class="cnt">8</span></label>
+     <label class="tablab" for="t2">B 울머기 CD + 레이드 <span class="cnt">8</span></label>
+     <label class="tablab" for="t3">C 포켓몬 에버그린 <span class="cnt">8</span></label>
+   </div>
+
+   <div class="tpanel" id="p1">
+     <div class="dist"><span class="dl">주제 분포</span>
+       <div class="distbar"><span style="width:75%;background:#4a86c5"></span><span style="width:25%;background:#356a9e"></span></div>
+       <div class="distleg"><b><i style="background:#4a86c5"></i>GO Fest 클러스터 6 (허브 /10)</b><b><i style="background:#356a9e"></i>GO Fest × 챔피언스 교차 2</b> · 전부 포켓몬!</div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest</span><span class="purp">정보·가이드</span><span class="pwhen">D-13 무료</span><span class="ptitle">포켓몬 GO Fest 글로벌 2026 무료 참여 방법 — 티켓 없이 온라인·현장 즐기기</span></div><div class="pwhy"><b>무료 첫 개최</b>라 '무료 입장·참여 방법' 롱테일이 공백. 허브 /10 소속. <a href="https://pokemongo.com/en/gofest/global">공식 GO Fest 페이지</a> · 결N · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest</span><span class="purp">공략</span><span class="pwhen">7/12 레이드</span><span class="ptitle">포켓몬 GO 메가뮤츠Y 약점·카운터 — GO Fest 7/12 레이드 공략</span></div><div class="pwhy">/44(무료 입수)가 있지만 <b>카운터 전용 글은 비어 있어요</b>. X 카운터(/36)와 짝으로 클러스터 완성. 결N · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest</span><span class="purp">정보·가이드</span><span class="pwhen">D-13</span><span class="ptitle">포켓몬 GO 캠프파이어 앱 사용법 — GO Fest 서울 현장 신청하는 법</span></div><div class="pwhy">캠프파이어 앱을 모르는 신규 유저 전용 롱테일. /10·/21·/40과 연결. 결G · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest</span><span class="purp">공략</span><span class="pwhen">D-13</span><span class="ptitle">포켓몬 GO 제라오라 스페셜리서치 — GO Fest 2026 보상·진행 순서</span></div><div class="pwhy">제라오라 첫 공식 스페셜리서치 — 이름 자체가 희귀 롱테일. 허브 /10. 결N · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest</span><span class="purp">정보·가이드</span><span class="pwhen">D-13</span><span class="ptitle">GO Fest 서울 현장 꿀팁 — 배터리·동선·여름 더위 대비 체크리스트</span></div><div class="pwhy">🟡 새 각도: /21(준비물 물품 목록)과 다른 현장 행동요령. /40 교통 + /21과 묶으면 GO Fest 현장 3총사 클러스터. 결R · 🔄</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest</span><span class="purp">공략</span><span class="pwhen">D-13</span><span class="ptitle">포켓몬 GO 원격 레이드 파티 방법 — GO Fest 집에서 친구와 함께</span></div><div class="pwhy">🟡 새 각도: /42(원격 레이드 패스)는 패스 구매법이고, 이 글은 '파티 생성·참여 방법'. 결N · 🔄</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest</span><span class="purp">공략</span><span class="pwhen">전 준비</span><span class="ptitle">포켓몬 GO 메가뮤츠X vs Y 차이 — GO Fest 때 뭘 먼저 잡아야 하나</span></div><div class="pwhy">7/11(X)·7/12(Y) 순서 고민이 검색 수요. /36(X 카운터)·/44(Y 입수)와 연결 허브화. 결D · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">챔피언스</span><span class="purp">정보·가이드</span><span class="pwhen">미수확 회수</span><span class="ptitle">포켓몬 챔피언스 로그아웃 방법 — 계정 전환·닌텐도 계정 분리</span></div><div class="pwhy">직전 브리핑서 '35노출·CTR 0%가 /11에 잘못 붙음'으로 지목된 미수확 단독 글. 결N · 🔄</div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="dist"><span class="dl">주제 분포</span>
+       <div class="distbar"><span style="width:62%;background:#4a86c5"></span><span style="width:38%;background:#356a9e"></span></div>
+       <div class="distleg"><b><i style="background:#4a86c5"></i>울머기 커뮤니티데이 5 (D-6)</b><b><i style="background:#356a9e"></i>종이신도 레이드 3 (D-3)</b> · 전부 포켓몬!</div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">울머기 CD</span><span class="purp">공략</span><span class="pwhen">7/4 D-6 시급</span><span class="ptitle">포켓몬 GO 울머기 커뮤니티데이 7월 — 진화 방법·하이드로캐논 받는 법</span></div><div class="pwhy"><b>7/4 커뮤니티데이 핵심 롱테일</b>, 경쟁 공백. "커뮤니티데이 진화 방법"은 매 시즌 초보자 유입. <a href="https://pokemongo.com/en/news/communityday-july-2026-sobble">공식 공지</a> · 결N · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">울머기 CD</span><span class="purp">공략</span><span class="pwhen">7/4 D-6</span><span class="ptitle">포켓몬 GO 인텔리레온 하이드로캐논 — 커뮤니티데이 4시간 이내 진화 타이밍</span></div><div class="pwhy">"4시간 이내 진화 안 하면 못 받음"이 핵심 불안. 구체 롱테일, 위 글과 짝으로 CD 클러스터. 결N · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">울머기 CD</span><span class="purp">정보·가이드</span><span class="pwhen">7/4</span><span class="ptitle">포켓몬 GO 울머기 커뮤니티데이 보너스 총정리 — 스타더스트·부화거리·사탕 효율</span></div><div class="pwhy">이벤트 보너스(1/4 부화·스타더스트 2배·사탕XL) 정리 — 에버그린 포맷. 결D · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">울머기 CD</span><span class="purp">공략</span><span class="pwhen">7/4</span><span class="ptitle">포켓몬 GO 짠다이버 진화 방법 — 울머기부터 인텔리레온까지 단계</span></div><div class="pwhy">울머기→짠다이버→인텔리레온 진화 단계가 헷갈리는 초보 수요. 위 글 보조 스포크. 결G · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">울머기 CD</span><span class="purp">정보·가이드</span><span class="pwhen">7/4</span><span class="ptitle">포켓몬 GO 커뮤니티데이 한국 시간 — 7월 4일 몇 시부터 몇 시까지</span></div><div class="pwhy">"커뮤니티데이 시간" 초보 롱테일. 신생 도메인이 빠르게 색인 잡을 수 있는 단순명확 주제. 결N · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">종이신도 레이드</span><span class="purp">공략</span><span class="pwhen">D-3 시급</span><span class="ptitle">포켓몬 GO 종이신도(카르타나) 약점·카운터 — 불꽃 타입으로 잡는 법</span></div><div class="pwhy"><b>6/24~7/1 레이드 중, D-3</b>. "울트라비스트 쉬운가" 검색 수요. 메가 번치코·메가리자몽Y가 최고 카운터. <a href="https://pokemongohub.net/post/guide/kartana-ultra-beast-raid-guide/">공략 출처</a> · 결N · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">종이신도 레이드</span><span class="purp">공략</span><span class="pwhen">D-3</span><span class="ptitle">포켓몬 GO 종이신도 솔로 가능한가 — 레이드 최적 인원·난이도</span></div><div class="pwhy">"솔로 도전 가능한가" 구체 롱테일. 방어력 낮아 솔로 가능 — 그 이유를 설명하는 전용 글. 결G · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">종이신도 레이드</span><span class="purp">정보·가이드</span><span class="pwhen">상시</span><span class="ptitle">포켓몬 GO 울트라비스트 포획 방법 — 레이드 후 잡는 팁·볼 개수</span></div><div class="pwhy">에버그린 UB 포획 가이드, 종이신도 클러스터 허브 연결. 레이드 후에도 살아남는 글. 결G · 🆕</div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <div class="dist"><span class="dl">주제 분포</span>
+       <div class="distbar"><span style="width:25%;background:#4a86c5"></span><span style="width:25%;background:#356a9e"></span><span style="width:25%;background:#6fa0d4"></span><span style="width:12.5%;background:#94bae0"></span><span style="width:12.5%;background:#a9c6e6"></span></div>
+       <div class="distleg"><b><i style="background:#4a86c5"></i>포켓몬카드 2</b><b><i style="background:#356a9e"></i>챔피언스 2</b><b><i style="background:#6fa0d4"></i>띠부씰 2</b><b><i style="background:#94bae0"></i>게이무! 1</b><b><i style="background:#a9c6e6"></i>윈드&웨이브 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬카드</span><span class="purp">정보·가이드</span><span class="pwhen">가격 인상 후</span><span class="ptitle">포켓몬카드 어비스아이 박스 가격 얼마 올랐나 — 1팩 1,500원 인상 이유</span></div><div class="pwhy">6/26 발매 시점부터 1팩 1,500원(기존 1,000원). <b>"왜 올랐나·얼마나" 검색은 이후에도 지속</b>. 에버그린 뉴스형. <a href="https://pokemonkorea.co.kr/news/2/19285">공식 공지</a> · 결N · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬카드</span><span class="purp">정보·가이드</span><span class="pwhen">상시</span><span class="ptitle">포켓몬카드 어비스아이 주목 수록 카드 정리 — 레어도별 확률</span></div><div class="pwhy">🟡 /9(출시일 정보)와 다른 수록 카드 목록·레어도 정리 각도. '어비스아이 출시일' 39노출·CTR 0% 미수확 회수. 결D · 🔄</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">챔피언스</span><span class="purp">공략</span><span class="pwhen">미수확 회수</span><span class="ptitle">포켓몬 챔피언스 기술 변경 방법 — 배운 기술 바꾸는 순서</span></div><div class="pwhy">'챔피언스 기술 바꾸기' 노출 있으나 전용 글 없음. /43(VP 비용) 관련 독립 주제. 결N · 🔄</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">챔피언스</span><span class="purp">공략</span><span class="pwhen">상시</span><span class="ptitle">포켓몬 챔피언스 렌탈팀 사용법 — 남의 팀 빌려 대전하는 법</span></div><div class="pwhy">'챔피언스 렌탈팀 하는법' 4노출·CTR 25% — /41(자원관리)과 다른 조작법. 결N · 🔄</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">띠부씰</span><span class="purp">정보·가이드</span><span class="pwhen">상시 수요</span><span class="ptitle">포켓몬 빵 띠부씰 확률 — 어떤 캐릭터가 잘 나오나 정리</span></div><div class="pwhy">GSC '띠부씰' 쿼리 다수 노출. /22(시세)와 다른 확률 각도. 에버그린 상시. 결D · 🔄</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">띠부씰</span><span class="purp">정보·가이드</span><span class="pwhen">상시</span><span class="ptitle">포켓몬 빵 띠부씰 세대별 시세 흐름 — 1세대부터 현재까지</span></div><div class="pwhy">🟡 /22(특정 종 시세)와 다른 세대별 전체 흐름. 에버그린 자산. 결D · 🔄</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">윈드&웨이브</span><span class="purp">정보·가이드</span><span class="pwhen">상시 에버그린</span><span class="ptitle">포켓몬스터 윈드&웨이브 — 10세대 스위치2 신작 기본 정보 총정리</span></div><div class="pwhy">2027 출시 예정, 정보 적어 <b>저경쟁 에버그린</b>. 게이무! 분류 공백 채움. 결R · 🆕</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">게이무!</span><span class="purp">사용 후기·리뷰</span><span class="pwhen">분류 균형</span><span class="ptitle">포켓몬 슬리핑 최신 이벤트 — 직접 플레이한 주간 리뷰</span></div><div class="pwhy"><b>3대분류 게이무! 공백</b> 채우기. 수면 게임 = 부부 일상 정체성과 연결. 결R · 🆕</div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔎</span>구글 색인 요청 <span class="tag">— 현황</span></h2>
+ <div class="panel ixreq">
+   <h4>⚪ GSC API 권한 미설정 — 색인 요청 실행 불가</h4>
+   <div class="ixsub">연봄(bom-ding.tistory.com) 속성에 서비스 계정 권한이 없어 색인 상태 조회와 요청이 오늘은 불가해요. 직전 리포트 기준 최근 5편(/38~/42) 전부 색인 PASS였고, 어제 발행한 /43·/44·/45는 당일 크롤 예상. <b>GSC Search Console 속성에 서비스 계정 이메일을 "소유자" 또는 "전체 사용자"로 추가</b>하면 다음 리포트부터 색인 요청이 자동 실행됩니다. 추가할 계정: <code>compute-sa@...</code>(~/.gsc/compute-sa.json의 client_email 참조).</div>
+ </div>
+
+ <div class="verdict">
+   <div class="lb">오늘자 총평 · 데이터 분석실</div>
+   <h3>울머기 D-6·종이신도 D-3·GO Fest D-13 — 세 시의성이 겹치는 오늘, 롱테일 선점 속도가 두 번째 기둥을 결정한다.</h3>
+   <p>오늘은 세 이벤트가 동시에 돌아가요. 가장 시급한 건 <b>울머기 커뮤니티데이(7/4) 진화·하이드로캐논</b> — D-6이라 지금 발행해야 색인이 이벤트 전에 들어가요. 종이신도 레이드는 D-3이라 오늘~내일 이내에만 유효. GO Fest는 D-13으로 여유가 있지만 캠프파이어·제라오라·메가뮤츠Y 카운터는 경쟁이 없어 선점 가치가 높아요. SEO 품질 80.4점은 어제와 같아 안정적이에요. GSC 권한 추가가 내일 리포트를 실측으로 채울 수 있는 가장 빠른 인프라 조치입니다.</p>
+   <div class="gauge">
+     <div class="gtop"><span class="gv num">74<small>/100</small></span><span class="gg g-b">B</span><span class="gn">울머기 CD·GO Fest 이중 선점 기회</span></div>
+     <div class="grow"><span class="gl">발행 동력</span><span class="gt b-hi"><i style="width:82%"></i></span><span class="gs num">82</span></div>
+     <div class="grow"><span class="gl">글 품질</span><span class="gt b-hi"><i style="width:80%"></i></span><span class="gs num">80</span></div>
+     <div class="grow"><span class="gl">검색 건강</span><span class="gt b-lo"><i style="width:55%"></i></span><span class="gs num">55</span></div>
+     <div class="grow"><span class="gl">기회·다양성</span><span class="gt b-mid"><i style="width:77%"></i></span><span class="gs num">77</span></div>
+   </div>
+ </div>
+
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(연봄) · GSC API 권한 미설정으로 오늘 실측 불가 · 글 품질은 라이브 본문 직접 확인 · 추천 수치·일정은 작성 직전 공식 재확인 권장 · 포켓몬 우선·롱테일 선점 · 프릭시베이 커뮤니티데이는 6/28 기준 예정 없음(7월 CD는 울머기 확인됨).</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
