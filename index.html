@@ -172,12 +172,6 @@ svg{display:block;}
 .topnav button.nav-corner:hover{background:var(--bg-subtle);}
 .topnav button.nav-corner.on{background:var(--ac-fill);color:var(--ac-fg);}
 .topnav button.nav-corner.on .ic,.topnav button.nav-corner.on .cnt{color:var(--ac-fg);opacity:1;}
-/* 트렌드 분할 버튼(본체=트렌드로 이동 / ▾캐럿=뉴스레터·캘린더 하위메뉴) */
-.topnav .trendwrap{display:inline-flex;align-items:center;flex:none;}
-.topnav .trendmain{border-top-right-radius:0;border-bottom-right-radius:0;padding-right:8px;}
-.topnav .trendcaret{border-top-left-radius:0;border-bottom-left-radius:0;padding:0 11px 0 5px;}
-.topnav .trendcaret .caret{width:14px;height:14px;transition:transform .15s var(--ease);}
-.trendcaret[aria-expanded="true"] .caret{transform:rotate(180deg);}
 /* 드롭다운 메뉴: 아이콘 색 + 구분선(아카이브 분리) */
 .teammenu button .ic{width:18px;height:18px;color:var(--ac,var(--brand));flex:none;}
 .teammenu button.on .ic{color:#fff;}
@@ -291,42 +285,6 @@ svg{display:block;}
   /* 모션 제거 시에도 콘텐츠는 즉시 완전 가시(both이 남긴 opacity:0 방지) */
   .feed>*,.feat{opacity:1!important;transform:none!important;}
 }
-
-/* ---------- 회사 소개 ---------- */
-.about{display:flex;flex-direction:column;gap:14px;}
-.about-hero{background:var(--bg-subtle);border:1px solid var(--line);border-radius:var(--radius-xl);padding:30px 30px;}
-.about-hero .mark{width:40px;height:40px;color:var(--brand);margin-bottom:14px;}
-.about-hero h2{margin:0 0 12px;font-size:24px;font-weight:700;letter-spacing:-.02em;}
-.about-hero p{margin:0;font-size:14.5px;line-height:1.8;color:var(--sub);}
-.about-hero b{color:var(--ink);font-weight:700;}
-/* 조직도 (계층) */
-.org{display:flex;flex-direction:column;align-items:center;gap:0;}
-.org-ceo{width:100%;max-width:540px;text-align:center;background:var(--brand-solid);color:var(--on-brand);border-radius:var(--radius-lg);padding:16px 20px;box-shadow:var(--sh-md);}
-.org-ceo .r{font-size:11px;font-weight:800;letter-spacing:.16em;opacity:.82;}
-.org-ceo .n{font-size:18px;font-weight:800;margin-top:3px;letter-spacing:-.01em;}
-.org-ceo .d{font-size:12.5px;line-height:1.6;opacity:.92;margin-top:7px;}
-.org-conn{width:2px;height:18px;background:var(--line);}
-.org-teams{width:100%;display:flex;flex-direction:column;gap:10px;}
-/* ★ border-left 컬러 스트라이프 제거 — 1px 풀보더 + 헤더 아이콘 칩(작성자색)으로 구분 */
-.org-team{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:15px 17px;box-shadow:var(--sh-sm);
-  transition:border-color .18s var(--ease);}
-.org-team:hover{border-color:color-mix(in srgb,var(--ac,var(--brand)) 34%,var(--line));}
-.org-team-h{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
-.org-team-h .ic{width:30px;height:30px;flex:none;color:var(--ac,var(--brand));
-  background:color-mix(in srgb,var(--ac,var(--brand)) 13%,transparent);border-radius:9px;padding:6px;}
-.org-team-n{font-size:15.5px;font-weight:800;letter-spacing:-.01em;}
-.org-team-lead{font-size:11.5px;font-weight:700;color:var(--ac-ink,var(--brand));background:var(--bg-subtle);border:1px solid var(--line);border-radius:999px;padding:3px 9px;}
-.org-team-d{margin:9px 0 0;font-size:12.5px;line-height:1.6;color:var(--sub);}
-.org-members{margin-top:11px;display:flex;flex-direction:column;gap:0;}
-.org-mem{border-top:1px dashed var(--line);padding:8px 0;}
-.org-mem:first-child{border-top:none;padding-top:2px;}
-.org-mem:last-child{padding-bottom:2px;}
-.org-mem-t{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.org-mem-n{font-size:13px;font-weight:700;color:var(--ink);}
-.org-mem-d{margin:3px 0 0;font-size:12px;line-height:1.55;color:var(--sub);}
-.org-bz{font-size:10px;font-weight:800;letter-spacing:.02em;border-radius:999px;padding:2px 8px;border:1px solid var(--line);color:var(--muted);flex:none;}
-.org-bz.on{background:var(--ac-fill,var(--brand));color:var(--ac-fg);border-color:transparent;}
-
 /* ---------- 트렌드/뉴스 ---------- */
 .news{display:flex;flex-direction:column;gap:14px;}
 .masthead{border-radius:var(--radius-xl);padding:24px 26px;color:#fff;background:#11141c;border:1px solid #1c2030;}
@@ -351,26 +309,7 @@ svg{display:block;}
 .tchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
 .tchip{font-size:11.5px;font-weight:600;color:var(--sub);background:var(--surface-2);border-radius:var(--radius-sm);padding:4px 9px;}
 .tmore{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:var(--brand-ink);}
-.tmore .ic{width:14px;height:14px;}
-.nsec{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--sh-sm);overflow:hidden;}
-.nsec-h{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700;color:var(--ink);padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg-subtle);}
-.nsec-h .ic{width:16px;height:16px;color:var(--a-news);}
-.nitem{padding:14px 16px;border-bottom:1px solid var(--line);}
-.nitem:last-child{border-bottom:0;}
-.nit-d{display:inline-block;font-size:11px;font-weight:700;color:color-mix(in srgb,var(--a-news) 82%,var(--ac-mixfloor,#15171C));background:color-mix(in srgb,var(--a-news) 12%,transparent);border-radius:var(--radius-sm);padding:2px 8px;margin-bottom:7px;}
-:root[data-theme="dark"] .nit-d{color:var(--a-news);}
-.nit-t{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.45;}
-.nit-s{font-size:13.5px;color:var(--sub);margin-top:5px;line-height:1.6;}
-.nit-l{margin-top:10px;display:flex;flex-wrap:wrap;gap:7px;}
-.nlink{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:color-mix(in srgb,var(--a-news) 82%,var(--ac-mixfloor,#15171C));
-  background:color-mix(in srgb,var(--a-news) 10%,transparent);border:1px solid color-mix(in srgb,var(--a-news) 28%,transparent);
-  border-radius:var(--radius-sm);padding:4px 10px;}
-:root[data-theme="dark"] .nlink{color:var(--a-news);}
-.nlink .ic{width:13px;height:13px;}
-.nlink:hover{background:color-mix(in srgb,var(--a-news) 18%,transparent);}
-.nm-head2{font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.02em;padding:2px 2px;}
-.foot2{color:var(--muted);font-size:12px;line-height:1.7;text-align:center;margin-top:2px;}
-/* 일자 페이저 */
+.tmore .ic{width:14px;height:14px;}/* 일자 페이저 */
 .dpager{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px;box-shadow:var(--sh-sm);}
 .dpbtn{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--ac-fg);background:var(--ac-fill,var(--brand));border:0;border-radius:var(--radius-sm);padding:8px 12px;cursor:pointer;font-family:inherit;flex:none;}
 .dpbtn .ic{width:15px;height:15px;}
@@ -446,84 +385,6 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 .masthead{position:relative;overflow:hidden;}
 .masthead::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(124,148,255,.55) 50%,transparent);}
 .masthead.nl::before{background:linear-gradient(90deg,transparent,rgba(251,191,107,.55) 50%,transparent);}
-
-/* ---------- 국가 선택 (뉴스레터) ---------- */
-.cbar{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;margin:2px 0 4px;}
-.cbar .ctitle{font-size:12.5px;font-weight:700;color:var(--muted);display:inline-flex;align-items:center;gap:6px;}
-.cbar .ctitle .ic{width:15px;height:15px;}
-.cseg{display:inline-flex;gap:3px;background:var(--bg-subtle);border:1px solid var(--line);border-radius:var(--radius);padding:4px;}
-.cseg button{border:0;background:transparent;color:var(--sub);font-family:inherit;font-size:12.5px;font-weight:700;
-  padding:7px 13px;border-radius:var(--radius-sm);cursor:pointer;transition:.12s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
-.cseg button .cnt{font-size:11px;font-weight:700;color:var(--muted);font-feature-settings:"tnum";}
-.cseg button:hover{color:var(--ink);}
-.cseg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh-sm);}
-.cseg button.on .cnt{color:var(--brand-h);}
-
-/* ---------- 출시 캘린더 ---------- */
-.cal{display:flex;flex-direction:column;gap:10px;}
-.cal-sep{font-size:12.5px;font-weight:800;color:var(--muted);letter-spacing:.02em;margin:14px 2px 2px;}
-.cal-row{position:relative;display:flex;gap:12px;align-items:stretch;}
-.cal-row.past{opacity:.5;}
-.cal-dday{flex:none;width:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border-radius:var(--radius);background:var(--bg-subtle);border:1px solid var(--line);padding:8px 4px;}
-.cal-dday .dd{font-size:14px;font-weight:800;color:var(--brand-ink);font-feature-settings:"tnum";letter-spacing:-.02em;}
-.cal-dday .md{font-size:11px;font-weight:600;color:var(--muted);margin-top:2px;font-feature-settings:"tnum";}
-.cal-today .cal-dday{background:color-mix(in srgb,var(--brand) 80%,var(--ac-mixfloor,#15171C));border-color:transparent;}
-.cal-today .cal-dday .dd,.cal-today .cal-dday .md{color:var(--ac-fg,#fff);}
-:root[data-theme="dark"] .cal-today .cal-dday{background:var(--brand);}
-.cal-card{flex:1;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
-  box-shadow:var(--sh-sm);padding:14px 16px;transition:transform .15s var(--ease),box-shadow .15s,border-color .15s;}
-.cal-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}
-.cal-top{display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap;}
-.cal-type{font-size:11px;font-weight:800;color:#fff;border-radius:var(--radius-sm);padding:3px 9px;background:color-mix(in srgb,var(--tc,var(--brand)) 80%,var(--ac-mixfloor,#15171C));}
-:root[data-theme="dark"] .cal-type{color:var(--bg);background:var(--tc,var(--brand));}
-.cal-plat{font-size:11.5px;font-weight:600;color:var(--muted);}
-.cal-title{font-size:15.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em;line-height:1.42;}
-.cal-meta{font-size:12.5px;color:var(--sub);margin-top:5px;}
-.cal-note{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5;}
-.cal-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:color-mix(in srgb,var(--a-cal) 72%,var(--ac-mixfloor,#15171C));margin-top:9px;}
-:root[data-theme="dark"] .cal-link{color:var(--a-cal);}
-.cal-link .ic{width:13px;height:13px;}
-/* ===== 소개 탭 — 쓰담 상품 소개 ===== */
-.prod{margin-bottom:6px;}
-/* ★ SaaS 보라→파랑 그라데이션 히어로(anti-reference) 폐기 → 솔리드 브랜드 면 + 코랄 웜 글로우 한 방울.
-   히어로 면색은 라이트/다크 공통으로 충분히 진한 브랜드(#3A5AEB)로 고정 → 흰 글자 AA(5.47) 보장 */
-.prod-hero{position:relative;overflow:hidden;border-radius:var(--radius-xl);padding:30px 24px;color:#fff;
-  background:#3A5AEB;box-shadow:0 14px 34px rgba(30,30,75,.22);}
-:root[data-theme="dark"] .prod-hero{background:#2C46C4;}
-.prod-hero::after{content:"";position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;
-  background:radial-gradient(circle,color-mix(in srgb,var(--warm) 62%,transparent),transparent 68%);pointer-events:none;}
-.prod-badge{position:relative;display:inline-block;font-size:11.5px;font-weight:700;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:5px 12px;margin-bottom:13px;}
-.prod-hero h2{position:relative;font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.25;margin:0 0 9px;}
-.prod-sub{position:relative;font-size:14.5px;line-height:1.65;opacity:.96;max-width:48ch;margin:0;}
-.prod-sub b{font-weight:800;}
-.prod-cta{position:relative;display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
-.pc-btn{display:inline-flex;align-items:center;font-size:14px;font-weight:800;border-radius:12px;padding:11px 18px;transition:transform .1s,box-shadow .15s;font-family:inherit;cursor:pointer;border:0;text-decoration:none;}
-.pc-btn:active{transform:translateY(1px);}
-.pc-btn.primary{background:#fff;color:#3A5AEB;box-shadow:0 6px 16px rgba(0,0,0,.16);}
-.pc-btn.ghost{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.42);}
-.prod-section-t{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:24px 4px 12px;}
-.prod-feats{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.pf{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px 16px 17px;box-shadow:var(--sh-sm);transition:transform .12s,box-shadow .18s,border-color .18s;}
-.pf:hover{transform:translateY(-2px);box-shadow:var(--sh-md);border-color:color-mix(in srgb,var(--fc,var(--brand)) 38%,var(--line));}
-.pf .ic{width:36px;height:36px;color:var(--fc,var(--brand));background:color-mix(in srgb,var(--fc,var(--brand)) 13%,transparent);border-radius:11px;padding:7px;margin-bottom:11px;}
-.pf-t{font-size:15.5px;font-weight:800;letter-spacing:-.01em;margin-bottom:5px;}
-.pf-d{font-size:13px;color:var(--sub);line-height:1.6;}
-.prod-steps{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;margin:22px 0 6px;
-  background:var(--bg-subtle);border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px 14px;}
-.ps{display:flex;align-items:center;gap:10px;}
-.ps-n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--brand-solid);color:var(--on-brand);font-size:13px;font-weight:800;display:grid;place-items:center;}
-.ps-x b{font-size:14px;display:block;line-height:1.2;}
-.ps-x span{font-size:11.5px;color:var(--muted);}
-.ps-arrow .ic{width:18px;height:18px;color:var(--muted);}
-.prod-goal{margin-top:18px;border:1px solid color-mix(in srgb,var(--warm) 32%,var(--line));border-radius:var(--radius-lg);background:linear-gradient(180deg,var(--warm-weak),var(--surface));padding:18px 18px 8px;}
-.pg-t{font-size:14px;font-weight:800;margin-bottom:12px;}
-.pg-items{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
-.pg{padding-bottom:10px;}
-.pg b{font-size:14px;display:block;margin-bottom:3px;color:var(--brand-ink);}
-.pg span{font-size:12px;color:var(--sub);line-height:1.5;}
-@media (max-width:560px){.prod-feats{grid-template-columns:1fr;}.pg-items{grid-template-columns:1fr;}.prod-hero h2{font-size:22px;}.prod-steps{gap:6px;}}
-
 /* ---------- 새 글 요청 폼 ---------- */
 .req-nav{--ac:var(--brand);}
 .reqwrap{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:18px;}
@@ -657,99 +518,6 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
 /* 상태 배지: 큐 전용 색(처리중·취소 보강) */
 .rl-st.s-cancel{color:var(--sub);background:var(--surface-2);border-color:var(--line-strong);}
 @media(max-width:520px){ .q-item{padding-bottom:42px;} .q-cancel{right:12px;bottom:11px;} }
-
-/* ===== 소개 탭 — 회사 안내서(파이프라인·플랫폼·포지션·규칙·정본) ===== */
-.about code{background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.85em;
-  font-family:"SF Mono",Consolas,"D2Coding",monospace;color:var(--sub);word-break:break-all;}
-.abx-sec{margin-top:30px;}
-.abx-h{display:flex;align-items:center;gap:11px;margin:0 0 4px;}
-.abx-h .no{flex:none;width:30px;height:30px;border-radius:9px;background:var(--brand-solid);color:var(--on-brand);display:grid;place-items:center;font-weight:800;font-size:15px;}
-.abx-h h3{margin:0;font-size:20px;font-weight:800;letter-spacing:-.02em;}
-.abx-subt{color:var(--sub);font-size:13.5px;margin:3px 0 16px 41px;line-height:1.6;}
-@media(max-width:560px){.abx-subt{margin-left:0;}}
-.abx-note{background:var(--brand-weak);border:1px solid color-mix(in srgb,var(--brand) 25%,var(--line));border-radius:var(--radius);
-  padding:12px 15px;font-size:13px;color:var(--sub);line-height:1.65;margin-bottom:14px;}
-.abx-note b{color:var(--ink);}
-/* 파이프라인 */
-.abx-flow{display:flex;flex-direction:column;}
-.abx-step{display:flex;gap:14px;}
-.abx-rail{display:flex;flex-direction:column;align-items:center;flex:none;width:34px;}
-.abx-num{width:34px;height:34px;border-radius:50%;background:var(--ac-fill,var(--brand));color:var(--ac-fg);display:grid;place-items:center;
-  font-weight:800;font-size:15px;flex:none;box-shadow:var(--sh-md);}
-.abx-vline{width:2px;flex:1;background:var(--line);margin:4px 0;min-height:14px;}
-.abx-step:last-child .abx-vline{display:none;}
-.abx-body{padding:2px 0 20px;flex:1;min-width:0;}
-.abx-st{font-weight:800;font-size:16px;letter-spacing:-.01em;}
-.abx-who{font-size:11.5px;font-weight:800;color:var(--ac-ink,var(--brand));text-transform:uppercase;letter-spacing:.04em;margin:2px 0 7px;}
-.abx-body ul{margin:6px 0 0;padding-left:18px;font-size:13.5px;color:var(--sub);line-height:1.65;}
-.abx-body ul li{margin-bottom:4px;}
-.abx-body ul li b{color:var(--ink);}
-.abx-gate{margin-top:9px;background:var(--warm-weak);border:1px solid color-mix(in srgb,var(--warm) 38%,var(--line));
-  border-radius:9px;padding:7px 11px;font-size:12.5px;color:var(--ink);font-weight:700;line-height:1.55;}
-/* 플랫폼/카드 */
-.abx-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:18px 20px;
-  box-shadow:var(--sh-sm);font-size:14px;line-height:1.75;color:var(--sub);}
-.abx-card b{color:var(--ink);} .abx-card p{margin:0 0 10px;} .abx-card p:last-child{margin-bottom:0;}
-/* 포지션 표 */
-.abx-posblock{margin-bottom:16px;}
-.abx-ph{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:800;margin:0 0 8px;}
-.abx-ph .dot{width:9px;height:9px;border-radius:3px;flex:none;}
-.abx-table{width:100%;border-collapse:collapse;font-size:13px;background:var(--surface);border:1px solid var(--line);
-  border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--sh-sm);}
-.abx-table th{background:var(--bg-subtle);text-align:left;padding:9px 12px;font-size:11px;font-weight:800;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line);}
-.abx-table td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.55;color:var(--sub);}
-.abx-table tr:last-child td{border-bottom:0;}
-.abx-table td.p{font-weight:800;color:var(--ink);white-space:nowrap;}
-.abx-table td b{color:var(--ink);} .abx-table td code{display:inline-block;margin:1px 0;}
-@media(max-width:560px){
-  .abx-table,.abx-table tbody,.abx-table tr,.abx-table td{display:block;width:100%;}
-  .abx-table thead{display:none;}
-  .abx-table tr{border-bottom:1px solid var(--line);padding:6px 0;}
-  .abx-table td{border:0;padding:3px 12px;}
-  .abx-table td.p{padding-top:9px;color:var(--brand-ink);}
-  .abx-table td[data-label]::before{content:attr(data-label) ":  ";font-weight:800;opacity:.6;}
-}
-/* 운영 대시보드(L3) */
-.ops-wrap{margin-top:18px;}
-.ops-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:16px;}
-.ops-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
-  padding:16px 18px;box-shadow:var(--sh-sm);}
-.ops-card h3{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:0 0 11px;}
-.ops-big{font-size:30px;font-weight:800;color:var(--a-ops);line-height:1;letter-spacing:-.02em;}
-.ops-big small{font-size:13.5px;color:var(--sub);font-weight:700;margin-left:4px;}
-.ops-rows{margin-top:10px;}
-.ops-row{display:flex;justify-content:space-between;align-items:center;gap:10px;
-  padding:5px 0;border-bottom:1px dashed var(--line);font-size:13px;color:var(--sub);}
-.ops-row:last-child{border-bottom:0;}
-.ops-row .v{font-weight:800;color:var(--ink);font-feature-settings:"tnum";}
-.ops-pill{display:inline-block;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;color:#fff;}
-.ops-pill.t-subagent{background:var(--a-queue);} .ops-pill.t-skill{background:var(--ok);}
-.ops-pill.t-hat{background:var(--a-about);} .ops-pill.t-script{background:var(--warn);}
-.ops-pill.s-built{background:var(--ok);} .ops-pill.s-indexed{background:var(--warn);} .ops-pill.s-pending{background:var(--muted);}
-.ops-sec-h{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:800;color:var(--ink);margin:24px 0 10px;}
-.ops-sec-h .ic{width:17px;height:17px;color:var(--a-ops);flex:none;}
-.ops-sec-h.warn .ic{color:var(--bad);}
-.ops-hits{font-weight:800;color:var(--bad);white-space:nowrap;}
-.abx-table td.ops-guard-none{color:var(--bad);font-weight:800;}
-.abx-table td.ops-guard-has{color:var(--ok);font-weight:700;}
-.ops-note{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.6;}
-.ops-foot{font-size:11.5px;color:var(--muted);margin-top:18px;line-height:1.7;}
-.ops-foot code{background:var(--bg-subtle);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:11px;}
-/* 핵심 규칙 그리드 */
-.abx-rules{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:560px){.abx-rules{grid-template-columns:1fr;}}
-.abx-rule{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);padding:13px 15px;}
-.abx-rule .rt{font-weight:800;font-size:14px;margin-bottom:3px;color:var(--ink);}
-.abx-rule .rd{font-size:12.5px;color:var(--sub);line-height:1.6;}
-/* 정본 색인 */
-.abx-canon{width:100%;border-collapse:collapse;font-size:13px;}
-.abx-canon td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--sub);}
-.abx-canon tr:last-child td{border-bottom:0;}
-.abx-canon td:first-child{white-space:nowrap;}
-.abx-foot{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.7;}
-.abx-foot b{color:var(--sub);}
-
 /* ============================================================
    2차 개편 — 작성자 아바타 · 일러스트 · 브랜드 히어로
    ============================================================ */
@@ -872,7 +640,6 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      <nav class="topnav" id="nav" aria-label="주 메뉴"></nav>
    </div>
    <div id="teamMenu" class="teammenu" role="menu" aria-label="작성팀" hidden></div>
-   <div id="trendMenu" class="teammenu" role="menu" aria-label="트렌드·뉴스레터·캘린더" hidden></div>
  </header>
 
  <main class="main">
@@ -1193,8 +960,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
  };
  function b64ToU8(b64){ const pad="=".repeat((4-(b64.length%4))%4); const s=(b64+pad).replace(/-/g,"+").replace(/_/g,"/"); const raw=atob(s); return Uint8Array.from(Array.prototype.map.call(raw,c=>c.charCodeAt(0))); }
 
- let POSTS=[], ACCENT={}, TREND=[], NEWS=[], CAL=[],
-     state={view:"__all__",q:"",newsDate:"",trendDate:"",page:1,newsCountry:"ALL",
+ let POSTS=[], ACCENT={}, TREND=[],
+     state={view:"__all__",q:"",trendDate:"",page:1,
             sortDir:ls("sortDir","desc"), gridView:ls("gridView","0")==="1",
             archiveSub:"all"};
  /* 아카이브 = 발행됨(자동검증·수동) 또는 숨김 처리된 글. 전체·작성자별 목록에선 빼고 '아카이브' 탭에만 모은다.
@@ -1268,13 +1035,11 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      return Object.keys(m||{}).map(k=>{const v=(typeof m[k]==="string")?{date:m[k]}:m[k];return Object.assign({rel:k},v);});
    }).catch(()=>[]));
  const trendP=fetch("_trend/trend.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}).catch(()=>({issues:[]}));
- const newsP=fetch("_news/news.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}).catch(()=>({issues:[]}));
- const calP=fetch("_calendar/calendar.json?ts="+Date.now()).then(r=>r.ok?r.json():{events:[]}).catch(()=>({events:[]}));
  const pubP=fetch("published.json?ts="+Date.now()).then(r=>r.ok?r.json():{publishedRels:[]}).catch(()=>({publishedRels:[]}));
  const hidP=HiddenSvc.load();   /* 백엔드 숨김 목록(GET /hidden) — 실패해도 조용히 통과(아무것도 안 숨김) */
  const mpubP=MpubSvc.load();    /* 백엔드 수동 발행완료 목록(GET /mpub) — 실패해도 조용히 통과 */
 
- Promise.all([postsP,trendP,newsP,calP,pubP,hidP,mpubP]).then(([posts,trend,news,cal,pub])=>{
+ Promise.all([postsP,trendP,pubP,hidP,mpubP]).then(([posts,trend,pub])=>{
    const PUBSET=new Set(((pub&&pub.publishedRels)||[]));
    POSTS=(posts||[]).filter(p=>p&&p.rel&&!p.rel.split("/").some(s=>s.startsWith(".")||s.startsWith("_"))).map(p=>{
      const a=p.rel.split("/");
@@ -1294,8 +1059,6 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    ordered.forEach(n=>{ ACCENT[n]=(KNOWN[n]&&KNOWN[n].ac)||FALLBACK_AC; });
 
    TREND=((trend&&trend.issues)||[]).slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
-   NEWS=((news&&news.issues)||[]).slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
-   CAL=((cal&&cal.events)||[]).slice().sort((a,b)=>String(a.date||"").localeCompare(String(b.date||"")));
 
    buildNav(ordered);
    searchBox.style.display="";
@@ -1313,57 +1076,34 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    const sel=v=>'[data-k="'+String(v).replace(/["\\]/g,"\\$&")+'"]';
    const allCnt=POSTS.filter(p=>!isArchived(p)).length;   /* 전체=발행·숨김 뺀 글만 */
    const archCnt=POSTS.filter(isArchived).length;
-   const trendSub=["__trend__","__news__","__calendar__"];
-   const SUBAC={ "__trend__":"var(--a-trend)", "__news__":"var(--a-news)", "__calendar__":"var(--a-cal)" };
    let h=`<span class="nav-grp">글 보기</span>`;
    h+=`<button data-k="__all__">${svg("grid")}전체<span class="cnt">${allCnt}</span></button>`;
    h+=`<button class="teambtn" id="teamBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="teamMenu">${svg("users")}작성팀${svg("chevD","caret")}</button>`;
    h+=`<span class="nav-div" aria-hidden="true"></span>`;
    h+=`<span class="nav-grp">인사이트</span>`;
-   /* 트렌드 = 자주 보는 뷰라 본체는 1클릭 이동, ▾캐럿만 하위(뉴스레터·캘린더) 메뉴 */
-   h+=`<span class="trendwrap" style="--ac:var(--a-trend)">`+
-        `<button class="nav-corner trendmain" data-k="__trend__">${svg("trend")}트렌드<span class="cnt">${TREND.length}</span></button>`+
-        `<button class="nav-corner trendcaret" id="trendCaret" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="trendMenu" aria-label="뉴스레터·캘린더 더보기">${svg("chevD","caret")}</button>`+
-      `</span>`;
-   h+=`<button class="nav-corner" data-k="__about__" style="--ac:var(--a-about)">${svg("info")}소개</button>`;
+   h+=`<button class="nav-corner" data-k="__trend__" style="--ac:var(--a-trend)">${svg("trend")}트렌드<span class="cnt">${TREND.length}</span></button>`;
    h+=`<button class="nav-corner" data-k="__queue__" style="--ac:var(--a-queue)">${svg("inbox")}작업 큐<span class="cnt" id="navQueueCnt" hidden></span></button>`;
-   h+=`<button class="nav-corner" data-k="__ops__" style="--ac:var(--a-ops)">${svg("building")}운영</button>`;
    navEl.innerHTML=h;
 
    const teamBtn=document.getElementById("teamBtn");
    const teamMenu=document.getElementById("teamMenu");
-   const trendWrap=navEl.querySelector(".trendwrap");
-   const trendMain=navEl.querySelector(".trendmain");
-   const trendCaret=document.getElementById("trendCaret");
-   const trendMenu=document.getElementById("trendMenu");
 
    /* 작성팀 메뉴 = 작성자들 + 구분선 + 아카이브(메뉴로 이동) */
    teamMenu.innerHTML=writers.map(n=>`<button role="menuitem" data-k="${esc(n)}" style="--ac:${ACCENT[n]}">${avatar(n,"s")}${esc(n)}<span class="cnt">${cnt(n)}</span></button>`).join("")
      +`<div class="tm-sep" role="separator"></div>`
      +`<button role="menuitem" data-k="__archive__" style="--ac:var(--brand)">${svg("archive")}아카이브<span class="cnt">${archCnt}</span></button>`;
-   /* 트렌드 메뉴 = 트렌드 브리핑 + 뉴스레터 + 캘린더 */
-   trendMenu.innerHTML=
-       `<button role="menuitem" data-k="__trend__" style="--ac:var(--a-trend)">${svg("trend")}트렌드 브리핑<span class="cnt">${TREND.length}</span></button>`
-     +`<button role="menuitem" data-k="__news__" style="--ac:var(--a-news)">${svg("news")}뉴스레터</button>`
-     +`<button role="menuitem" data-k="__calendar__" style="--ac:var(--a-cal)">${svg("calDays")}캘린더<span class="cnt">${CAL.length}</span></button>`;
 
    const isWriter=k=>writers.indexOf(k)>=0;
    function setActive(){
      navEl.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
      teamMenu.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
-     trendMenu.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
      const v=state.view;
      if(isWriter(v)||v==="__archive__"){
        teamBtn.classList.add("on");
        teamBtn.style.setProperty("--ac", isWriter(v)?(ACCENT[v]||"var(--brand)"):"var(--brand)");
        const mi=teamMenu.querySelector(sel(v)); if(mi)mi.classList.add("on");
      } else teamBtn.style.removeProperty("--ac");
-     if(trendSub.indexOf(v)>=0){
-       trendMain.classList.add("on"); trendCaret.classList.add("on");
-       trendWrap.style.setProperty("--ac",SUBAC[v]);
-       const ti=trendMenu.querySelector(sel(v)); if(ti)ti.classList.add("on");
-     } else trendWrap.style.setProperty("--ac","var(--a-trend)");
-     if(v==="__all__"||v==="__about__"||v==="__queue__"||v==="__ops__"){ const nb=navEl.querySelector(sel(v)); if(nb)nb.classList.add("on"); }
+     if(v==="__all__"||v==="__trend__"||v==="__queue__"){ const nb=navEl.querySelector(sel(v)); if(nb)nb.classList.add("on"); }
    }
    window.__syncNav=setActive;   // 홈 로고 등 외부에서 활성 동기화
    setActive();
@@ -1380,22 +1120,17 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      drops.push(d); return d;
    }
    const teamDrop=mkDrop(teamBtn,teamMenu,teamBtn);
-   const trendDrop=mkDrop(trendWrap,trendMenu,trendCaret);
    function closeAll(){ drops.forEach(d=>d.close()); }
 
    const goView=k=>{ state.view=k; state.q=""; state.page=1; if(qEl)qEl.value=""; closeAll(); setActive(); render(); window.scrollTo({top:0,behavior:"smooth"}); };
 
    teamBtn.addEventListener("click",e=>{ e.stopPropagation(); teamDrop.toggle(); });
-   trendMain.addEventListener("click",e=>{ e.stopPropagation(); closeAll(); goView("__trend__"); });
-   trendCaret.addEventListener("click",e=>{ e.stopPropagation(); trendDrop.toggle(); });
-   navEl.querySelectorAll("button[data-k]:not(.trendmain)").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
+   navEl.querySelectorAll("button[data-k]").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
    teamMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
-   trendMenu.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
 
    document.addEventListener("click",e=>{
      const inTeam=teamMenu.contains(e.target)||teamBtn.contains(e.target);
-     const inTrend=trendMenu.contains(e.target)||trendWrap.contains(e.target);
-     if(!inTeam&&!inTrend)closeAll();
+     if(!inTeam)closeAll();
    });
    document.addEventListener("keydown",e=>{ if(e.key==="Escape")closeAll(); });
    window.addEventListener("scroll",closeAll,true);
@@ -1442,13 +1177,9 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    updateNavCounts();
    { const _fab=document.getElementById("fabReq"); if(_fab)_fab.style.display=(state.view==="__request__")?"none":""; }  /* 요청 폼에선 FAB 숨김 */
    const isArchiveView=state.view==="__archive__";
-   if(state.view==="__about__"){ searchBox.style.display="none"; renderAbout(); return; }
    if(state.view==="__queue__"){ searchBox.style.display="none"; renderQueue(); return; }
-   if(state.view==="__ops__"){ searchBox.style.display="none"; renderOps(); return; }
    if(state.view==="__request__"){ searchBox.style.display="none"; renderRequest(); return; }
    if(state.view==="__trend__"){ searchBox.style.display=""; renderTrend(); return; }
-   if(state.view==="__news__"){ searchBox.style.display=""; renderNews(); return; }
-   if(state.view==="__calendar__"){ searchBox.style.display="none"; renderCalendar(); return; }
    searchBox.style.display=""; if(qEl)qEl.placeholder=isArchiveView?"아카이브 검색":"제목·내용 검색";
    mainEl.classList.toggle("hero", state.view==="__all__"&&!state.q&&state.page===1);
    let list;
@@ -1588,300 +1319,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    }));
  }
 
- /* ---------- 회사 소개 ---------- */
- function renderAbout(){
-   titleEl.textContent="회사 소개"; subEl.textContent="쓰담을 만드는 팀 · 대표 → 팀 → 팀원";
-   const bz=s=>`<span class="org-bz${s==="상설"?" on":""}">${s}</span>`;
-   const mem=m=>{
-     const wn=PREF.find(n=>String(m[0]).indexOf(n)===0&&AVATAR[n]);
-     const av=wn?avatar(wn,"l org-mem-av"):"";
-     return `<div class="org-mem${wn?" org-writer":""}">${av}<div class="org-mem-t"><span class="org-mem-n">${m[0]}</span>${m[2]?bz(m[2]):""}</div>`+
-       (m[1]?`<p class="org-mem-d">${m[1]}</p>`:"")+`</div>`;
-   };
-   const team=(ac,icon,name,lead,desc,members)=>
-     `<div class="org-team" style="--ac:${ac}">`+
-       `<div class="org-team-h">${svg(icon)}<span class="org-team-n">${name}</span>${lead?`<span class="org-team-lead">${lead}</span>`:""}</div>`+
-       (desc?`<p class="org-team-d">${desc}</p>`:"")+
-       `<div class="org-members">${members.map(mem).join("")}</div>`+
-     `</div>`;
-   const teams=[
-     team("var(--a-yeongdo)","spark","기획팀","팀장: 기획팀장",
-       "입력이 무엇이든 가장 먼저 거치는 관문. 실조사로 사실·전제를 검증해 작성팀이 바로 쓸 발주 양식을 만들고, 같은 출처에서 이미지 키트까지 챙겨 함께 넘깁니다.",[
-       ["기획팀장 (Planning Lead)","카테고리 레인 판정·기획자 편성·전제 검증·전수 검수(이미지 키트 동봉 게이트)·증원/해고.","상설"],
-       ["게임 기획자 ×N","시스템·꿀팁·이벤트·경쟁정찰로 나눠 병렬 조사(공식·위키·커뮤니티·타 블로그).","온디맨드"],
-       ["육아 기획자","제품 스펙·가격·판매처·안전/연령 근거 조사.","온디맨드"],
-       ["취미 기획자","콜라보·굿즈·한정판을 복수 판매채널로 교차확인.","온디맨드"],
-       ["게이밍기어 기획자","영도용 하드웨어 스펙·비교 조사.","온디맨드"],
-       ["서비스기획 파트","콘텐츠가 아닌 사이트/서비스 자체를 기획 — IA·사용자 흐름·기능·디자인 방향을 사이트 기획안으로.","온디맨드"]]),
-     team("var(--a-bomding)","news","작성팀","팀장: 작성팀장",
-       "작성자별 독립 문체 정본대로 글을 씁니다. 작성팀장이 전 작성자 공용 가이드를 갱신·전파하되, 작성자·카테고리 문체는 절대 섞지 않아요.",[
-       ["작성팀장 (Writing Lead)","전 작성자 공용 가이드(이미지 파이프라인·도입/마무리 뱅크 등) 소유·갱신·4작성자 반영 교차확인 + 문체 독립성(교차오염) 수호. 개별 글 문체엔 미개입.","상설"],
-       ["봄딩 · bomding-blog-writer","게임 · 육아 · 취미. 실제 블로그 blog.naver.com/bomding 기준 문체(개별 feedback-log).","배정"],
-       ["영도 · yeongdo-blog-writer","게임 · 게이밍기어. 실제 블로그 blog.naver.com/kkodug9 기준 문체(개별 feedback-log).","배정"],
-       ["겜더쿠 · gemdeokku-blog-writer","게임(덕후 관점)·남성 페르소나. 티스토리+겜더쿠 탭. 가상 페르소나라 정본·피드백이 기준.","배정"],
-       ["연봄 · yeonbom-blog-writer","게임 · IT·테크 · 육아 · 생활(잡블로그). 티스토리(붙여넣기, 주소 미정)+연봄 탭. 봄딩 부드러움+겜더쿠 담백 블렌드의 설계 페르소나(학습 격리). 티스토리 실게시는 사용자가 직접 붙여넣고 발행(겜더쿠와 동일).","배정"]]),
-     team("var(--a-gemdeokku)","search","검수팀","팀장: 검수팀장",
-       "매 글마다 전원 자동 투입. <b>발행 전</b>엔 사실·문체·구조·자연스러움·이미지를 차원별로 교차검증하고, <b>발행 후</b>엔 독자 시선에서 '읽어서 좋은 글인가'를 다시 봅니다.",[
-       ["검수팀장 (QA Lead)","레인 정본 점검·차원 편성·발견 취합·교차 점검·PASS/FAIL 판정·수정 루프·증원/해고. 작성자별 분량 게이트 판정(미달 시 기획팀 보강 환류). 발행 후 독자검수단 총괄.","상설"],
-       ["[발행 전] 검수1 · 사실/공식명칭","수치·날짜·고유명·스킬/아이템명·성우·스펙을 공식 출처로 교차검증.","상설"],
-       ["[발행 전] 검수2 · 문체/표현","레인 문체 정본 + 실블로그 최근 글 라이브 대조(겜더쿠·연봄은 정본·피드백만).","상설"],
-       ["[발행 전] 검수3 · 구조/완성도","표·링크·SEO·이미지 자리·하단 버튼 등 완성도.","상설"],
-       ["[발행 전] 검수4 · 자연스러움/거짓없음","변명·고백조, 전제 틀린 섹션, AI 티, 톤·문단 호흡.","상설"],
-       ["[발행 전] 검수5 · 이미지 맥락/다양성","문단별 주제로 이미지 적합성·인접 중복·출처·이유 메타 검수(qa-checklist G장).","상설"],
-       ["반증 전담 (refute)","민감·고정보 글에서 주장을 반증 시도해 거짓 통과를 막음.","온디맨드"],
-       ["★[발행 후] 독자검수단 (에디토리얼)","발행된 최종본을 독자 시선에서 6축 검수(양식·기사완성도/시각편집/가독성·템포/재미·보이스/소재다양성/정보깊이) → 작성팀·기획팀 환류 + 기준미달 자동 개선본. 작성자 개성·정본 최우선, 학습 격리.","상설"]]),
-     team("var(--a-about)","grid","인프라실","실장: 인프라실장",
-       "플랫폼(사이트+앱) 전체를 총괄합니다. 업무를 PC·모바일로 분해·배정하고, 두 산출물 방향을 맞추고 적극 피드백하며, 자가피드백+유명 블로그/앱 벤치마킹으로 개선해요. 기본은 PC·모바일 동일 구현.",[
-       ["인프라실장 (Infra Division Head)","요청을 공통/PC전용/모바일전용으로 분해·배정(착각 방지)→두 팀 방향 정렬·적극 피드백→자가피드백·외부 벤치마킹→PC↔모바일 소통 주선→취합 보고.","상설"],
-       ["PC팀 · 팀장","쓰담 사이트(이 GitHub Pages) 구현 총괄·인프라실 보고.","상설"],
-       ["PC팀 · UX/UI 디자이너","웹 비주얼·디자인 시스템(컬러·타이포·간격·컴포넌트).","온디맨드"],
-       ["PC팀 · 프론트엔드 개발자","index.html·템플릿·JS·데이터 연동(manifest/트렌드/뉴스/캘린더 json)·반응형.","온디맨드"],
-       ["PC팀 · 사이트기능 개발","검색·다크모드·태그/카테고리·페이저 등 기능 단위.","온디맨드"],
-       ["모바일팀 · 팀장","쓰담 앱(설치형 웹앱 PWA) + GCP 연동 구현 총괄·인프라실 보고.","상설"],
-       ["모바일팀 · UX/UI 디자이너","앱 설치 아이콘·스플래시·디자인 시스템·반응형(사이트와 토큰 공유).","온디맨드"],
-       ["모바일팀 · PWA 프론트 개발자","화면·네비게이션(메뉴 뎁스)·데이터 연동(json)·확장 구조.","온디맨드"],
-       ["모바일팀 · 백엔드/GCP 연동 개발","발행요청 API·웹푸시·구독 등 모바일 백엔드 연동.","온디맨드"]]),
-     team("var(--a-cal)","ruler","디자인검수팀","팀장: 디자인검수팀장",
-       "사이트·앱의 마감·디테일·일관성을 발행 전 전담 검수하고(인프라실과 별개 게이트), 겜더쿠 티스토리 블로그의 시각 디자인도 담당합니다. 모바일+PC, 라이트+다크 실제 렌더로 확인.",[
-       ["디자인검수팀장 (Design QA Lead)","차원 편성·취합·판정(🔴0🟡0=PASS)·수정 루프·증원/해고.","상설"],
-       ["마감·디테일 검수","라벨 겹침/과잉·잘림·여백 리듬·빈/에러 상태·인터랙션.","상설"],
-       ["일관성 검수","디자인 토큰·컴포넌트·라이트/다크 동등성·탭 톤 일치.","상설"],
-       ["반응형/가독성 검수","모바일 우선 가독성·터치 타깃·브레이크포인트·PC 폴리시.","상설"],
-       ["접근성 검수(a11y)","대비 WCAG AA·포커스·키보드·aria·reduced-motion.","온디맨드"],
-       ["겜더쿠 블로그 디자인 담당","겜더쿠 티스토리(Odyssey 스킨) 테마·메뉴·허브 쇼케이스 디자인. CSS/사이드바는 사용자 붙여넣기+라이브 검증, 데이터는 직접 적용(정본 gemdeokku-blog-design.md).","상설"]]),
-     team("var(--a-trend)","trend","데이터 분석실","실장 1 · 트렌드 분석팀 + 블로그 분석팀",
-       "쓰담의 데이터를 분석하는 실(2026-06-06 신설). 실장이 트렌드 분석팀(밖 — 무엇을 쓰면 유입되나)과 블로그 분석팀(안 — 우리 블로그가 뭘 잘하고 뭘 고쳐야 하나)을 함께 굴리고, 실 내에서 두 결과를 교차해 '성장 기여 큰 조치·주제'로 기획팀에 공급합니다.",[
-       ["데이터 분석실장 (Data Analysis Division Head)","트렌드·블로그분석 두 팀 배정·방향 정렬 → 실 내 교차(트렌드 신선도 × 블로그 약점) → 자가/외부 검증 → 취합 보고. 월 1회 3블로그 통계 추세관리.","상설"],
-       ["트렌드 분석팀 · 팀장","매일 오전 6시 게임 트렌드 조사 → 작성자별 브리핑 4편(봄딩·영도·겜더쿠·연봄)·뉴스레터·출시 캘린더 발행. 인원 조정·취합·결 정렬.","상설"],
-       ["트렌드 — 수집축 분석가 ×4 / 작성자 큐레이터 ×4 / 뉴스 데스크 ×2~3","신작·인기급상승·사전예약·블로그급증 축 / 봄딩·영도·겜더쿠·연봄 결 / KR·JP·US 매체.","병렬"],
-       ["블로그 분석팀 · 팀장 (2026-06-06 신설)","봄딩·영도·겜더쿠·연봄 실제 블로그의 SEO·유입·노출을 정기 진단 → 잘하는 것/개선점/최적화안 + 성장 글·조치 추천. 트렌드팀과 교차.","상설"],
-       ["블로그 분석가 ×4","봄딩(네이버)·영도(네이버)·겜더쿠(티스토리)·연봄(티스토리, 주소 미정) 각 1 — 발행량·클러스터·체류·롱테일/색인을 플랫폼별 SEO로 분석(연봄=신생이라 발행량·색인부터).","병렬"]]),
-     team("var(--a-news)","trophy","벤치마크 / 피드백 팀","코치",
-       "사용자가 현실 봄딩·영도 글 링크를 주면, 누가 썼는지 판별·분석해 작성팀 피드백에 반영합니다(실제 author 수렴).",[
-       ["벤치마크 코치","링크의 blogId로 작성자 판별→실제 글과 우리 초안 대조→그 writer feedback-log에 누적 반영.","온디맨드"]]),
-     team("var(--brand)","arrowUR","발행 담당","Publisher",
-       "검수 전원 PASS면 GitHub Pages에 push해 공개 링크로 공유합니다. 작성자별 1단계 폴더가 곧 탭이에요.",[
-       ["Publisher","git push(작성자별 분류)→빌드→공개 링크. 신규 직원이면 탭 자동 생성.","상설"]])
-   ];
-   /* ===== 회사 안내서 — §3~§7 (파이프라인·플랫폼·포지션·규칙·정본) ===== */
-   const secH=(no,t,sub)=>`<div class="abx-h"><span class="no">${no}</span><h3>${t}</h3></div><p class="abx-subt">${sub}</p>`;
-   const step=(ac,n,st,who,items,gate)=>
-     `<div class="abx-step" style="--ac:${ac}"><div class="abx-rail"><div class="abx-num">${n}</div><div class="abx-vline"></div></div>`+
-     `<div class="abx-body"><div class="abx-st">${st}</div><div class="abx-who">${who}</div>`+
-     `<ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>`+(gate?`<div class="abx-gate">${gate}</div>`:"")+`</div></div>`;
-   const posblock=(color,name,rows)=>
-     `<div class="abx-posblock"><div class="abx-ph"><span class="dot" style="background:${color}"></span>${name}</div>`+
-     `<table class="abx-table"><thead><tr><th>포지션</th><th>역할·수행</th><th>보유/준수 지침</th></tr></thead><tbody>`+
-     rows.map(r=>`<tr><td class="p">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")+`</tbody></table></div>`;
-   const rule=(t,d)=>`<div class="abx-rule"><div class="rt">${t}</div><div class="rd">${d}</div></div>`;
-   const guide=`
-     <section class="abx-sec">
-       ${secH("3","글 작성 방법 (콘텐츠 파이프라인)","한 편의 글이 만들어지는 0~5단계 · 예외 없이 모든 글이 이 길을 탑니다")}
-       <div class="abx-note">대표는 <b>허브</b>입니다. 모든 팀 간 전달은 대표를 거쳐 정리돼 오가되, 흐름은 한 방향이 아니라 <b>쌍방(⇄)</b> — 받은 팀은 반드시 <b>수용·이의·보완요청</b> 중 하나로 응답합니다(묵살 금지). 모든 팀은 전용 학습 파일로 <b>시작 전 읽기 → 작업 → 종료 시 자가피드백 → 교훈 누적</b> 루프를 돕니다.</div>
-       <div class="abx-flow">
-         ${step("var(--brand)","0","업무 접수 · 목적 확정","대표 (오케스트레이터)",[
-           "사용자 원문을 가공 없이 보존한 채 <b>업무접수 표준 MD</b>로 정리(원 요청·대표 해석·라우팅·팀별 지시 카드).",
-           "글이면 <b>목적(purpose)을 먼저 확정</b> — 사전예약·출시·첫인상·업데이트·패치·게임 정보·게임 공략·쿠폰·이벤트·티어·추천·제품 비교·추천·사용 후기·리뷰·기타. 목적별 ‘반드시 들어갈 정보’를 챙깁니다.",
-           "접수 시 기존 발행물과의 <b>중복 검수</b>(작성자 단위) — 같은 작성자 기존 글과만 비교, 교차 작성자 중복은 허용.",
-           "(작성자 × 카테고리) 2값을 확정해 오염 없이 팀에 배정."],
-           "게이트 — 목적·작성자·카테고리가 불명확하면 진행 금지, 기획팀/사용자에 확인")}
-         ${step("var(--a-yeongdo)","1","기획 · 사실조사 + 이미지 키트","기획팀 (팀장 + 레인별 기획자)",[
-           "기획팀장이 <b>카테고리 레인</b>(게임/육아/취미/게이밍기어/신규)을 판정하고 기획자를 편성.",
-           "기획자는 <b>실조사로만</b> 사실·전제를 검증(공식·위키·커뮤니티·복수 판매채널). 상상·추측 금지.",
-           "사실을 검증한 그 출처에서 <b>이미지 키트</b>(섹션별 후보 URL·삽입 이유·분류 A/B + 다양성 점검)를 발주마다 필수 동봉.",
-           "발주 양식 = [목적]/[게임·제품]/[주제]/[내용]/[반드시 지킬 것]/[반드시 참고할 사이트] + 이미지 키트."],
-           "출고 게이트 — 팀장 전수 검수(자가 5점검) + 이미지 키트 동봉을 통과해야 발주가 나갑니다")}
-         ${step("var(--a-bomding)","2","작성 · 문체 정본으로 초안","작성팀 (봄딩 / 영도 / 겜더쿠 / 연봄)",[
-           "확정된 (작성자 × 카테고리) 쌍의 <b>문체 정본 1개만</b> 로드(다른 작성자·카테고리 정본 끌어오기 금지).",
-           "작성 전 <b>실제 블로그 최근 글 2~3편을 fetch해 학습</b>(봄딩·영도). 겜더쿠·연봄은 설계 페르소나라 정본+피드백(+변주 뱅크)이 유일 기준.",
-           "<b>AI 티 제거</b> — 실제 작성자 글의 결·리듬을 모방하고, 최근 발행 글의 반복 패턴(도입각·마무리·소제목 골격)을 탐지해 <b>변주</b>. 군더더기·동어반복·변명조 금지.",
-           "<b>목적별 필수 정보</b>(일정·쿠폰·공략 출처 등) + <b>플랫폼 SEO</b>(네이버=봄딩·영도 / 티스토리=겜더쿠·연봄) + 적정 분량.",
-           "이미지 키트를 1차 자료원으로 받아 <b>맥락에 맞게 최종 배치·교체</b>(억지 삽입 금지) + self-host + 3종 메타(출처·이유·분류)."],
-           "충돌 원칙 — 문체·페르소나·금지어가 SEO·변주와 부딪치면 <b>각 작성자 정본이 이깁니다</b>. 자연스러움이 항상 우선")}
-         ${step("var(--a-gemdeokku)","3","검수 · 차원 패널 교차검증","검수팀 (팀장 + 검수1~5 + refute)",[
-           "기본 전원 자동 투입 — 검수1(사실/공식명칭)·2(문체/실블로그 대조)·3(구조/완성도)·4(자연스러움/거짓없음)·5(이미지 맥락/다양성). 민감·고정보 글엔 반증 전담 추가.",
-           "검수팀장이 발견을 <b>취합·중복제거·교차 점검</b>하고 <b>PASS/FAIL 판정</b>(전원 🔴0 🟡0이어야 PASS).",
-           "🔴/🟡이면 대표 경유로 작성자에 환류해 <b>증분 재검(최대 3라운드)</b>.",
-           "<b>거짓없이 보고</b> — 확인 못 한 건 PASS로 만들지 않고 ‘확인 불가’로 드러내고, 심각도를 낮추지 않습니다."],
-           "게이트 — FAIL이면 발행을 막습니다. 3R 초과 FAIL이면 대표에 보고")}
-         ${step("var(--brand)","4","발행 · 게시 + 알림","발행 담당 (Publisher)",[
-           "전원 PASS → <b>GitHub Pages에 git push</b>(작성자별 폴더=탭) → 공개 링크. 겜더쿠는 티스토리 붙여넣기본도 동시 산출.",
-           "백엔드 큐 요청이면 상태를 <b>발행됨</b>으로 갱신 → 구독자에 웹푸시 알림.",
-           "<b>발행됨 라벨 자동검증</b> — 작성자별 실제 블로그(네이버/티스토리) 제목과 대조해 published.json 자동 생성 → 사이트·앱에 ‘발행됨’ 표시.",
-           "발행 후 오류가 나오면 책임 팀(기획·작성·검수)으로 회송해 그 팀 학습에 반영."],"")}
-         ${step("var(--a-gemdeokku)","5","발행 후 독자검수 · 에디토리얼","검수팀 — 발행 후 독자검수단 (전원 공통)",[
-           "발행된 <b>최종본</b>을 독자 시선에서 냉정하게 6축 검수 — <b>양식·기사완성도</b>(뉴스·E스포츠 기사형 포함)·<b>본문 시각편집</b>·<b>가독성·템포</b>·<b>재미·읽는 맛·보이스</b>·<b>소재 다양성·신선도</b>·<b>정보 가치·깊이</b>.",
-           "발견을 <b>작성팀(문체·가독·재미·양식) / 기획팀(소재 다양성·깊이)</b> 학습 파일로 <b>환류</b> → 자기진단·스킬 강화(매 글마다).",
-           "기준미달(🔴1↑·🟡2↑)이면 그 작성자 문체 그대로 <b>자동 개선본</b>(QA·복사버튼 게이트 재통과). 외부 실게시 재게시는 사용자 직접.",
-           "<b>작성자 개성·정본 최우선</b> + 학습 격리(연봄·겜더쿠 양방향) + 획일화 금지. 본문 내부만(사이트·스킨은 디자인검수팀)."],
-           "발행 전 QA와 역할 분리 — QA=‘틀린 게 없나’(게이트) / 독자검수=‘읽어서 좋은 글인가’(우수성·학습)")}
-       </div>
-     </section>
-
-     <section class="abx-sec">
-       ${secH("4","플랫폼(사이트·앱) 트랙","콘텐츠 글과 별개의 게이트 — 사이트와 앱을 만들고 고치는 길")}
-       <div class="abx-card">
-         <p><b>서비스기획(기획팀)</b> → <b>인프라실 구현</b>(PC팀 ⇄ 모바일팀, 기본 동시 구현) → <b>인프라 자체검수</b> → <b style="color:var(--a-cal)">디자인검수팀</b>(모바일+PC, 라이트+다크 실제 렌더) → <b>발행</b>.</p>
-         <p style="font-size:13px;">인프라실장이 업무를 <b>공통/PC전용/모바일전용</b>으로 분해·배정해 착각을 막고, PC↔모바일 두 산출물의 방향을 맞춥니다. 앱은 <b>설치형 웹앱(PWA, <code>BlogPreview/app</code>)</b>으로 일원화 — 사이트와 같은 웹스택이라 디자인 토큰·컴포넌트를 공유합니다. 네이티브 <code>blog-company-app</code>(Kotlin/Compose)은 파킹(보존·투자 중단).</p>
-       </div>
-     </section>
-
-     <section class="abx-sec">
-       ${secH("5","포지션별 역할 · 보유 지침","각 포지션이 무슨 역할로 무엇을 수행하고, 어떤 정본/가이드 파일을 따르는가 (경로: <code>~/.claude/…</code> · 스킬은 스킬 식별자)")}
-       ${posblock("var(--a-yeongdo)","기획팀",[
-         ["기획팀장","레인 판정·기획자 편성·전제 검증·전수 검수(이미지 키트 동봉 게이트)·증원/해고. 발주가 나가기 전 자가 5점검 통과시킴.","<code>team-org.md §1,§2</code> · 학습 <code>blog-planner/references/planning-learnings.md</code>"],
-         ["레인별 기획자","배정 레인 컨텍스트만 로드해 실조사(공식·위키·커뮤니티·복수 채널). 게임은 시스템/꿀팁/이벤트/경쟁정찰로 병렬 분할.","스킬 <code>blog-planner</code> · 레인 전용 정본/용어집 <code>_glossary/&lt;게임명&gt;.md</code>"],
-         ["전 기획자 공통","발주마다 <b>이미지 키트</b> 필수 동봉(사실 검증 출처에서 후보 URL·이유·분류 A/B + 다양성).","<code>shared/blog-writing/image-sourcing.md</code> · 목적별 필수정보 <code>post-purpose-guide.md</code>"],
-         ["서비스기획 파트","사이트/서비스 자체 기획 — IA·사용자 흐름·기능·디자인 방향을 사이트 기획안으로(콘텐츠와 별개 트랙).","스킬 <code>blog-planner</code>(서비스 트랙) · 인프라실과 협업"]])}
-       ${posblock("var(--a-bomding)","작성팀",[
-         ["작성팀장","전 작성자 공용 가이드 소유·갱신·4작성자 반영 교차확인 + 문체 독립성(교차오염) 수호. 2일마다 문체 수렴 스케줄. 개별 글 문체엔 미개입.","<code>team-org.md §2b</code> · <code>shared/blog-writing/*</code>(공용 정본 전체)"],
-         ["봄딩","게임·육아·취미 글을 blog.naver.com/bomding 문체로. 작성 전 같은 카테고리 최근 글 fetch 학습.","스킬 <code>bomding-blog-writer</code> · <code>style-guide.md</code>(게임)/<code>parenting-style.md</code>/<code>hobby-style.md</code> + <code>feedback-log.md</code>"],
-         ["영도","게임·게이밍기어 글을 blog.naver.com/kkodug9 문체로(가운뎃점 ㆍ·“주인장” 시그니처). 작성 전 최근 글 fetch 학습.","스킬 <code>yeongdo-blog-writer</code> · <code>references/style-guide.md</code> + <code>feedback-log.md</code>"],
-         ["겜더쿠","덕후·남성 페르소나 게임 글을 티스토리 + 겜더쿠 탭에. 가상 페르소나라 실블로그 학습 안 함(학습 격리).","스킬 <code>gemdeokku-blog-writer</code> · <code>style-guide.md</code> + <code>feedback-log.md</code> + <code>writing-method.md</code>"],
-         ["연봄","부드럽고 담백한 잡블로그(게임·IT·육아·생활)를 티스토리(붙여넣기, 주소 미정) + 연봄 탭에. 봄딩 부드러움+겜더쿠 담백 블렌드의 설계 페르소나(학습 격리). 티스토리 실게시는 사용자가 직접 붙여넣고 발행(겜더쿠와 동일).","스킬 <code>yeonbom-blog-writer</code> · <code>style-guide.md</code> + <code>feedback-log.md</code> + <code>expression-variation-bank.md</code>"],
-         ["전 작성자 공통","<b>AI 티 제거</b>(실제 결 모방 + 반복 패턴 변주) · 플랫폼 SEO · 목적별 필수정보 · 이미지 맥락 배치.","<code>writing-quality.md</code> · <code>post-purpose-guide.md</code> · <code>image-sourcing.md</code> · <code>staff-registry.md</code>(라우팅)"]])}
-       ${posblock("var(--a-gemdeokku)","검수팀",[
-         ["검수팀장","차원 편성·레인 정본 로드 확인·취합·교차 점검·PASS/FAIL 판정·수정 루프(3R)·증원/해고. 매 라운드 자가 6점검. 거짓없이 보고.","학습 <code>game-blog-qa/references/qa-lead-learnings.md</code> · <code>team-org.md §3</code>"],
-         ["검수1 사실","수치·날짜·고유명·스킬/아이템명·성우·스펙을 공식 출처로 교차검증. 일반어→인게임 공식 용어 교정.","스킬 <code>game-blog-qa</code> · <code>qa-checklist.md</code> · <code>_glossary/*</code>"],
-         ["검수2 문체","레인 문체 정본 + 실블로그 최근 글 라이브 대조(겜더쿠는 정본·피드백만). 작성자별 금지표현 차이 확인.","<code>game-blog-qa</code> + 해당 작성자 <code>style-guide</code>/<code>feedback-log</code>"],
-         ["검수3 구조","표·링크·SEO·이미지 자리·하단 버튼 등 완성도.","<code>qa-checklist.md</code>(구조 장)"],
-         ["검수4 자연스러움","변명·고백조, 전제 틀린 섹션, AI 티, 톤·문단 호흡.","<code>qa-checklist.md</code> · <code>writing-quality.md</code>(A장 대조)"],
-         ["검수5 이미지","문단별 주제로 이미지 적합성·인접 중복·출처·이유 메타.","<code>qa-checklist.md</code> G장 · <code>image-sourcing.md</code>"],
-         ["반증 전담","민감·고정보 글에서 주장을 반증 시도해 거짓 통과 차단.","<code>game-blog-qa</code>(refute 모드)"],
-         ["★발행 후 독자검수단","발행된 최종본을 독자 시선에서 6축 검수(양식·기사완성도/시각편집/가독성·템포/재미·보이스/소재다양성/정보깊이) → 작성팀·기획팀 환류 + 기준미달 자동 개선본. 작성자 개성·정본 최우선, 학습 격리, 본문 내부만.","스킬 <code>blog-editorial-review</code> · <code>editorial-checklist.md</code> · <code>feedback-routing.md</code> · 학습 <code>editorial-review-learnings.md</code>"]])}
-       ${posblock("var(--a-about)","인프라실 · 디자인검수팀",[
-         ["인프라실장","요청을 공통/PC/모바일로 분해·배정·방향 정렬·상호/자가 피드백·외부 벤치마킹·취합 보고. 기본 PC·모바일 동시 구현.","<code>team-org.md §5(인프라실)</code> · 학습 <code>shared/infra/infra-learnings.md</code>"],
-         ["PC팀","쓰담 사이트(<code>BlogPreview</code>) 구현 — 디자인·프론트·기능. 데이터 소스 json + 디자인 토큰.","<code>BlogPreview/index.html</code> · <code>_design/</code> 토큰 · <code>infra-learnings.md</code>"],
-         ["모바일팀","쓰담 앱(PWA <code>BlogPreview/app</code>) + GCP/백엔드 연동(발행요청·웹푸시·구독). 사이트와 토큰·json 공유로 패리티.","<code>BlogPreview/app/*</code> · <code>blog-company-backend</code> · <code>infra-learnings.md</code>"],
-         ["디자인검수팀","사이트·앱의 마감·디테일·일관성·반응형·접근성을 발행 전 실제 렌더로 검수(🔴0🟡0=PASS).","<code>shared/design/design-qa-checklist.md</code> · 학습 <code>design-review-learnings.md</code>"]])}
-       ${posblock("var(--a-trend)","데이터 분석실 · 벤치마크 · 발행 · 대표",[
-         ["데이터 분석실장","트렌드 분석팀 + 블로그 분석팀 총괄. 실 내에서 '밖의 트렌드 × 안의 블로그 약점'을 교차해 성장 조치·주제를 기획팀에 공급. 월 1회 3블로그 통계 추세관리.","<code>team-org.md §데이터 분석실</code>"],
-         ["트렌드 분석팀","매일 오전 6시 게임 트렌드 조사 → 작성자별 브리핑 4편(봄딩·영도·겜더쿠·연봄)·뉴스레터·출시 캘린더 발행. 봄딩=게임만, 영도=서브컬처·기어, 겜더쿠=덕후·빌드, 연봄=게임·IT·생활 대중검색 결.","스킬 <code>trend-analysis-team</code> · 트렌드/뉴스/캘린더 json"],
-         ["블로그 분석팀","봄딩·영도·겜더쿠·연봄 실제 블로그 SEO 진단(발행량·클러스터·체류·롱테일/색인) → 잘하는 것/개선점/최적화안 + 성장 글·조치 추천(연봄=신생이라 발행량·색인부터).","스킬 <code>blog-analysis-team</code> · 진단 리포트 HTML"],
-         ["벤치마크 코치","현실 봄딩·영도 글 링크 → blogId로 작성자 판별 → 우리 초안과 대조 → 그 작성자 feedback-log 누적.","스킬 <code>blog-bench-coach</code> · 각 작성자 <code>feedback-log.md</code>"],
-         ["발행 담당","전원 PASS 시 git push(작성자별 탭) → 공개 링크. 발행됨 라벨 자동검증. 신규 직원 탭 자동 생성.","<code>publish-github-pages.md</code> · <code>_tools/build-manifest.ps1</code> · <code>check-published.ps1</code>"],
-         ["대표(CEO)","업무 접수·정리(업무접수 MD)·목적 확정·중복 검수·라우팅·취합·발행 지시·사용자 보고. 팀 신설·증원 관장.","<code>shared/blog-writing/work-intake.md</code> · 전 조직 정본 총괄"]])}
-     </section>
-
-     <section class="abx-sec">
-       ${secH("6","핵심 규칙 (전 팀 공통)","혼선·품질 사고를 막는 회사 차원의 가드레일")}
-       <div class="abx-rules">
-         ${rule("카테고리 레인 고정","모든 기획·검수 작업은 레인 1개(게임/육아/취미/게이밍기어/신규)에 배정. 그 레인 정본·용어집·학습만 로드(타 레인 끌어오기 금지).")}
-         ${rule("(작성자 × 카테고리) 1정본","출력 직전 ①작성자 ②카테고리 ③사용한 정본 ④참고한 실블로그가 레지스트리 같은 행으로 맞물리는지 자기점검. 안 맞으면 출력 금지.")}
-         ${rule("작성자 단위 중복 판단","글 중복/각도는 작성자(블로그) 단위로만 비교. 교차 작성자 중복은 허용(같은 작성자 기존 글과만 대조).")}
-         ${rule("페르소나 학습 격리(겜더쿠·연봄)","설계 페르소나(겜더쿠·연봄)의 학습·규칙은 봄딩·영도 등 다른 작성자로 전파 금지(양방향). 공용 정본도 작성자별 확인 후 분리 적용.")}
-         ${rule("거짓없이 보고","확인 못 한 건 PASS로 만들지 않고 ‘확인 불가’로 드러낸다. 놓친 건 숨기지 않고 정직히. 결론을 좋게 보이려 심각도를 낮추지 않는다.")}
-         ${rule("자가진단·자가피드백","모든 팀이 전용 학습 파일로 시작 전 읽기 → 작업 → 자가피드백 → 교훈 누적. 매 작업마다 취약점 보강.")}
-         ${rule("양방향 소통(묵살 금지)","대표 허브를 거치되 흐름은 쌍방. 받은 팀은 수용·이의·보완요청 중 하나로 응답.")}
-         ${rule("발행됨 라벨 자동검증","작성자별 실제 블로그 제목 대조로 published.json 자동 생성 → 사이트·앱에 ‘발행됨’ 딤드 표시(미발행 글과 구분).")}
-         ${rule("관리자 삭제 모드","사이트 헤더 자물쇠 + GitHub 토큰으로 미발행 글만 삭제(발행글 보호), GitHub API 단일 커밋.")}
-         ${rule("신규 직원 온보딩","정본 체크리스트 A~E로 추가하고, 지원 가능해지면 대표가 묻지 않고 전 팀에 자동 통합.")}
-       </div>
-     </section>
-
-     <section class="abx-sec">
-       ${secH("7","정본 색인 (Canon Index)","이 안내서가 요약한 1차 정본 파일들 — 충돌 시 항상 정본이 이깁니다")}
-       <div class="abx-card" style="padding:12px 16px">
-         <table class="abx-canon"><tbody>
-           <tr><td><code>shared/blog-writing/team-org.md</code></td><td>조직 정본 — 팀장 권한·카테고리 레인·자가피드백·명단(Roster)</td></tr>
-           <tr><td><code>shared/blog-writing/org-changelog.md</code></td><td>조직 변경 이력 + 현재 조직 스냅샷 + 기록·보고 규칙</td></tr>
-           <tr><td><code>shared/blog-writing/staff-registry.md</code></td><td>라우팅 정본 — (작성자×카테고리)→정본·블로그, 혼선 방지 규칙</td></tr>
-           <tr><td><code>shared/blog-writing/work-intake.md</code></td><td>대표 업무접수·지시 표준(오염 방지·목적 확정·발행 검수)</td></tr>
-           <tr><td><code>shared/blog-writing/post-purpose-guide.md</code></td><td>글 목적 10종별 ‘반드시 들어갈 최소 정보’</td></tr>
-           <tr><td><code>shared/blog-writing/writing-quality.md</code></td><td>작성 품질 정본 — AI티 제거·플랫폼 SEO·분량</td></tr>
-           <tr><td><code>shared/blog-writing/image-sourcing.md</code></td><td>이미지 파이프라인 회사표준(기획 키트→작성 배치→검수 맥락)</td></tr>
-           <tr><td><code>shared/design/design-qa-checklist.md</code></td><td>디자인검수 체크리스트(마감·일관성·반응형·a11y)</td></tr>
-           <tr><td><code>shared/infra/infra-learnings.md</code></td><td>인프라실 자가/벤치마킹 학습</td></tr>
-           <tr><td><code>_brand/쓰담_brand-foundation.md</code></td><td>브랜드 정본 — 네이밍·팔레트·로고·태그라인</td></tr>
-           <tr><td>스킬</td><td><code>blog-company</code> · <code>blog-planner</code> · <code>bomding/yeongdo/gemdeokku/yeonbom-blog-writer</code> · <code>game-blog-qa</code> · <code>game-blog-publish</code> · <code>trend-analysis-team</code> · <code>blog-analysis-team</code> · <code>blog-bench-coach</code></td></tr>
-         </tbody></table>
-       </div>
-       <div class="abx-foot">
-         <div><b>쓰담컴퍼니 회사 안내서</b> · 조직 스냅샷 기준일 2026-06-11(작성팀 4인 — 연봄 합류·티스토리 전환 / 검수팀에 발행 후 독자검수단 신설 / 작성자별 분량 게이트 / 디자인검수팀 겜더쿠 블로그 디자인 담당).</div>
-         <div style="margin-top:6px">이 문서는 정본을 <b>요약·해설</b>한 안내서입니다. 세부·강제 규칙과 최신값은 위 §7 정본 파일이 1차 기준입니다.</div>
-       </div>
-     </section>`;
-   contentEl.innerHTML=`<div class="about">
-     <section class="prod">
-       <div class="prod-hero">
-         <div class="prod-hero-tx">
-           <span class="prod-badge">설치형 웹앱 · 무료 미리보기</span>
-           <h2>혼자 쓰지 말고, 쓰담과 함께</h2>
-           <p class="prod-sub">게임 블로거를 위한 <b>글쓰기 동료</b>. 트렌드로 글감을 잡고, 작성자 문체로 초안을 쓰고, 공식 정보로 검수해 — <b>발행까지 한 번에</b> 끝냅니다.</p>
-           <div class="prod-cta"><button type="button" class="pc-btn primary" id="installCta2">앱으로 설치하기</button><a class="pc-btn ghost" href="./">발행글 둘러보기</a></div>
-         </div>
-         <img class="prod-hero-mascot" src="${MASCOT}" alt="" loading="lazy" decoding="async">
-       </div>
-       <div class="prod-section-t">쓰담이 해주는 일</div>
-       <div class="prod-feats">
-         <div class="pf" style="--fc:var(--a-trend)">${svg("trend")}<div class="pf-t">글감부터 잡아줘요</div><div class="pf-d">매일 게임 트렌드·인기 키워드를 분석해, 지금 쓰면 유입되는 주제를 제안합니다.</div></div>
-         <div class="pf" style="--fc:var(--a-bomding)">${svg("spark")}<div class="pf-t">문체 그대로 · AI 티 없이</div><div class="pf-d">봄딩·영도·겜더쿠·연봄 — 작성자별 말투 정본대로, 실제 글의 결을 학습·변주해 'AI가 쓴 티' 없이 초안을 써줍니다.</div></div>
-         <div class="pf" style="--fc:var(--a-yeongdo)">${svg("search")}<div class="pf-t">공식 정보로 검수</div><div class="pf-d">수치·명칭·날짜·스킬명을 공식 출처와 교차검증해 사실 오류를 거릅니다.</div></div>
-         <div class="pf" style="--fc:var(--brand)">${svg("arrowUR")}<div class="pf-t">발행까지 원스톱</div><div class="pf-d">작성 → 검수 → 발행을 자동으로. 깨끗하게 통과한 글만 게시합니다.</div></div>
-         <div class="pf" style="--fc:var(--a-news)">${svg("news")}<div class="pf-t">뉴스·캘린더로 타이밍</div><div class="pf-d">한·일·미 게임 뉴스레터와 출시 캘린더로 '언제 쓸지'까지 챙겨요.</div></div>
-         <div class="pf" style="--fc:var(--warm)">${svg("info")}<div class="pf-t">어디서나, 알림까지</div><div class="pf-d">설치형 앱에서 주제만 던지면 끝. 발행이 끝나면 푸시로 알려드려요.</div></div>
-       </div>
-       <div class="prod-steps">
-         <div class="ps"><span class="ps-n">1</span><div class="ps-x"><b>요청</b><span>주제 한 줄</span></div></div>
-         <div class="ps-arrow">${svg("arrowR")}</div>
-         <div class="ps"><span class="ps-n">2</span><div class="ps-x"><b>작성 · 검수</b><span>문체 초안 → 팩트체크</span></div></div>
-         <div class="ps-arrow">${svg("arrowR")}</div>
-         <div class="ps"><span class="ps-n">3</span><div class="ps-x"><b>발행 · 알림</b><span>게시 + 푸시</span></div></div>
-       </div>
-       <div class="prod-goal">
-         <div class="pg-t">쓰담이 노리는 것</div>
-         <div class="pg-items">
-           <div class="pg"><b>검색 유입·구독 성장</b><span>꾸준한 양질 발행으로 블로그를 키웁니다</span></div>
-           <div class="pg"><b>신뢰·전문성</b><span>'검증된 글'이라는 인상을 브랜드로</span></div>
-           <div class="pg"><b>시간 절약</b><span>글감·초안·검수를 동료가 거듭니다</span></div>
-         </div>
-       </div>
-     </section>
-     <div class="prod-section-t" style="margin-top:30px">쓰담을 만드는 팀</div>
-     <div class="about-hero">
-       <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><rect x="8.5" y="7" width="15" height="11" rx="2.5" fill="#fff" fill-opacity=".34"/><rect x="7" y="10" width="18" height="12.5" rx="2.5" fill="#fff" fill-opacity=".6"/><rect x="5.5" y="13" width="21" height="13.5" rx="3" fill="#fff"/><rect x="9" y="16.4" width="11" height="2" rx="1" fill="currentColor"/><rect x="9" y="20.4" width="14" height="1.6" rx=".8" fill="currentColor" fill-opacity=".45"/></svg>
-       <h2>기획부터 발행까지, 한 팀처럼</h2>
-       <p>대표(오케스트레이터)가 업무를 접수·정리해 <b>기획 → 작성 → 검수 → 발행</b>으로 직원 팀을 운영하는 블로그 콘텐츠 회사입니다. 모든 글은 <b>목적(사전예약·공략·리뷰 등)을 먼저 잡아</b> 그 목적에 꼭 필요한 정보를 챙기고, 사실검증과 작성자별 문체 정본·<b>작성품질(AI 티 제거·검색 최적화)</b>을 거칩니다. 같은 작성자의 기존 글과 겹치지 않는지(작성자 단위 중복)도 살피고, 이미지도 <b>기획팀이 사실과 같은 출처에서 키트로 챙겨</b> 작성팀이 맥락에 맞게 넣고 검수팀이 어울림을 봅니다(정확도·퀄리티 1순위). 발행 뒤엔 실제 블로그 제목과 대조해 <b>‘발행됨’ 여부를 자동 검증</b>합니다. 작성팀엔 <b>작성팀장</b>이 공용 가이드를 갱신·전파하되 작성자 문체는 독립으로 지켜요. 발행 뒤엔 <b>독자검수단</b>이 최종본을 독자 시선에서 6축으로 다시 보고 작성·기획에 환류해요. 여기에 <b>인프라실</b>(사이트+앱 플랫폼, PC팀·모바일팀), <b>데이터 분석실</b>(트렌드 분석팀+블로그 분석팀 — 매일 브리핑·SEO 진단), <b>벤치마크/피드백 팀</b>(실제 author 수렴)이 더해집니다. <b style="color:var(--brand)">상설</b>은 매 작업 자동 투입, <b>온디맨드</b>는 필요할 때 투입돼요.</p>
-     </div>
-     <div class="relmap" style="border:1px solid var(--line);border-radius:var(--radius-xl);background:var(--bg-subtle);padding:20px 18px;margin-bottom:18px;">
-       <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:3px;">팀 관계도 · 일은 이렇게 흐릅니다</div>
-       <div style="font-size:12px;color:var(--sub);margin-bottom:16px;line-height:1.6;"><b style="color:var(--ink)">→</b> 단방향 · <b style="color:var(--ink)">⇄</b> 쌍방(받은 팀은 <b>수용·이의·보완요청</b> 중 하나로 응답, 묵살 금지). 대표가 허브라 모든 전달은 대표를 거쳐 정리돼 오갑니다.</div>
-       <div style="text-align:center;margin-bottom:6px;"><span style="display:inline-block;background:var(--brand);color:#fff;font-weight:800;font-size:13px;border-radius:10px;padding:8px 18px;">대표 · 오케스트레이터 (허브) — 업무접수 MD로 정리·배정·취합</span></div>
-       <div style="text-align:center;color:var(--sub);font-size:16px;line-height:1;margin-bottom:8px;">▼ 발주+이미지키트 ▼</div>
-       <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:7px;font-size:12.5px;line-height:1.4;">
-         <span style="border:1.5px solid var(--brand);color:var(--ink);font-weight:700;border-radius:9px;padding:8px 12px;text-align:center;">기획팀<br><span style="font-weight:400;color:var(--sub);font-size:11px;">사실검증·이미지키트</span></span>
-         <span style="color:var(--sub);text-align:center;font-size:11px;">⇄<br>키트·사실<br>↩ 발주 환류</span>
-         <span style="border:1.5px solid var(--brand);color:var(--ink);font-weight:700;border-radius:9px;padding:8px 12px;text-align:center;">작성팀<br><span style="font-weight:400;color:var(--sub);font-size:11px;">문체별 독립·맥락배치</span></span>
-         <span style="color:var(--sub);text-align:center;font-size:11px;">⇄<br>초안<br>↩ 지적 환류</span>
-         <span style="border:1.5px solid var(--brand);color:var(--ink);font-weight:700;border-radius:9px;padding:8px 12px;text-align:center;">검수팀<br><span style="font-weight:400;color:var(--sub);font-size:11px;">발행 전: 사실·문체·이미지</span></span>
-         <span style="color:var(--sub);text-align:center;font-size:11px;">→<br>PASS<br>(FAIL=수정루프)</span>
-         <span style="border:1.5px solid var(--brand);color:#fff;background:var(--brand);font-weight:700;border-radius:9px;padding:8px 12px;text-align:center;">발행</span>
-         <span style="color:var(--sub);text-align:center;font-size:11px;">→<br>최종본<br>독자검수</span>
-         <span style="border:1.5px solid var(--a-gemdeokku);color:var(--ink);font-weight:700;border-radius:9px;padding:8px 12px;text-align:center;">독자검수<br><span style="font-weight:400;color:var(--sub);font-size:11px;">발행 후: 환류·개선본</span></span>
-       </div>
-       <div style="border-top:1px dashed var(--line);margin:16px 0 12px;"></div>
-       <div style="display:flex;flex-wrap:wrap;gap:8px 14px;font-size:11.5px;color:var(--sub);line-height:1.5;">
-         <span><b style="color:var(--ink)">데이터 분석실</b> (트렌드 분석팀 ⇄ 블로그 분석팀) → 기획팀 (트렌드 신선도 × 블로그 약점 = 성장 조치·주제 공급)</span>
-         <span><b style="color:var(--ink)">벤치마크/피드백 팀</b> → 작성팀 (현실 author 글 대조 → 작성자별 feedback-log)</span>
-         <span><b style="color:var(--ink)">발행 후 오류</b> → 책임 팀(기획·작성·검수)으로 회송</span>
-         <span><b style="color:var(--ink)">인프라실</b> (PC팀 ⇄ 모바일팀) → <b style="color:var(--ink)">디자인검수팀</b> → 발행 (사이트·앱 트랙, 별개 게이트)</span>
-       </div>
-       <div style="border-top:1px dashed var(--line);margin:12px 0 10px;"></div>
-       <div style="font-size:11.5px;color:var(--sub);line-height:1.6;"><b style="color:var(--ink)">자가진단·자가피드백</b> — 모든 팀이 전용 학습 파일을 갖고 <b>시작 전 읽기 → 작업 → 종료 시 자가피드백 → 교훈 누적(append)</b>으로 매 작업마다 취약점을 보강합니다(기획·작성자별·검수·디자인검수·인프라 각각).</div>
-       <div style="border-top:1px dashed var(--line);margin:12px 0 10px;"></div>
-       <div style="font-size:11.5px;color:var(--sub);line-height:1.7;"><b style="color:var(--ink)">회사가 지키는 규칙</b> — 카테고리 레인 고정 · (작성자×카테고리) 1정본 · <b>작성자 단위 중복 판단</b>(교차 작성자는 허용) · <b>페르소나 학습 격리</b>(겜더쿠·연봄 ↔ 타 작성자 양방향 비전파) · <b>거짓없이 보고</b>(확인 못 한 건 PASS 금지) · 양방향 소통(묵살 금지) · <b>발행됨 라벨 자동검증</b> · 관리자 삭제 모드(미발행 글만).</div>
-     </div>
-     <div class="org">
-       <div class="org-ceo"><div class="r">CEO · 오케스트레이터</div><div class="n">대표</div><div class="d">업무를 접수해 업무접수 MD로 정리한 뒤 적임 팀에 배정하고, 보고를 취합·검수해 발행을 지시합니다. 회사 차원의 팀 신설·증원을 관장해요.</div></div>
-       <div class="org-conn"></div>
-       <div class="org-teams">${teams.join("")}</div>
-     </div>
-     ${guide}
-     </div>`;
-   if(window.refreshInstallUI)window.refreshInstallUI();
- }
-
- /* ---------- 일자 페이저 (트렌드/뉴스 공용) ---------- */
+ /* ---------- 일자 페이저 (트렌드) ---------- */
  function datePager(dates,cur,kind,accent){
    const i=dates.indexOf(cur);
    const opt=dates.map(d=>`<option value="${esc(d)}"${d===cur?" selected":""}>${esc(d)}</option>`).join("");
@@ -1892,9 +1330,9 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      `<span class="dpos">${dates.length-i}/${dates.length}</span></div>`;
  }
  function attachPager(kind,dates){
-   const go=d=>{ if(!d)return; if(kind==="trend")state.trendDate=d; else state.newsDate=d; (kind==="trend"?renderTrend:renderNews)(); window.scrollTo({top:0,behavior:"smooth"}); };
+   const go=d=>{ if(!d)return; state.trendDate=d; renderTrend(); window.scrollTo({top:0,behavior:"smooth"}); };
    contentEl.querySelectorAll(`[data-pg="${kind}"]`).forEach(b=>b.addEventListener("click",()=>{
-     if(b.disabled)return; const cur=kind==="trend"?state.trendDate:state.newsDate; const i=dates.indexOf(cur);
+     if(b.disabled)return; const cur=state.trendDate; const i=dates.indexOf(cur);
      go(b.dataset.go==="older"?dates[i+1]:dates[i-1]);
    }));
    const sel=contentEl.querySelector(`[data-pgsel="${kind}"]`); if(sel)sel.addEventListener("change",()=>go(sel.value));
@@ -1923,50 +1361,6 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    }catch(e){ toast("취소 실패: "+((e&&e.message)||e),"err"); }
  }
  window.__cancelQueued=cancelQueued;
- /* ---------- 운영 대시보드(L3) ---------- */
- const OPS_TYPE={subagent:"subagent",skill:"skill",hat:"hat",script:"script"};
- const OPS_STAT={built:"built",indexed:"indexed",pending:"pending"};
- async function renderOps(){
-   titleEl.textContent="운영 대시보드"; subEl.textContent="L3 — 직원·교훈(L5)·재발 감시·아웃박스 한눈에";
-   const mast=`<div class="masthead" style="--ac:var(--a-ops)"><div class="mk">${svg("building")}OPERATIONS · 운영</div><div class="mt">쓰담 컴퍼니 운영 대시보드 <span style="font-size:14px;font-weight:700;opacity:.7">L3</span></div><div class="ms">직원 인덱스·교훈(L5) 상태·재발 감시(승격 후보)·아웃박스 현황을 사이트에서 봅니다. 데이터는 <code style="background:rgba(255,255,255,.12);border-radius:5px;padding:1px 5px">_ops/build-ops.ps1</code> 실행 시점 기준이에요.</div></div>`;
-   contentEl.innerHTML=`<div class="news"><div class="ops-wrap">${mast}<div id="opsBox" style="margin-top:16px"><div class="q-loading">${svg("refresh")} 운영 데이터를 불러오는 중…</div></div></div></div>`;
-   const box=document.getElementById("opsBox"); if(!box)return;
-   let dash,reg;
-   try{
-     const [d,r]=await Promise.all([fetch("_ops/dashboard.json"),fetch("_ops/registry.json")]);
-     if(!d.ok||!r.ok)throw new Error("HTTP "+d.status+"/"+r.status);
-     dash=await d.json(); reg=await r.json();
-   }catch(e){
-     box.innerHTML=emptyBox("base","운영 데이터를 불러오지 못했어요. <code>_ops/build-ops.ps1</code>로 dashboard.json·registry.json을 먼저 생성하세요. (로컬에선 정적 서버로 열어야 fetch가 동작해요.)");
-     return;
-   }
-   const emp=dash.employees||{}, les=dash.lessons||{}, ob=dash.outbox||{};
-   const row=(k,v,vCls)=>`<div class="ops-row"><span>${esc(k)}</span><span class="v${vCls?(" "+vCls):""}">${v}</span></div>`;
-   const typeRows=Object.entries(emp.byType||{}).map(([t,n])=>`<div class="ops-row"><span><span class="ops-pill t-${OPS_TYPE[t]||"script"}">${esc(t)}</span></span><span class="v">${n}</span></div>`).join("");
-   const teamRows=Object.entries(emp.byTeam||{}).sort((a,b)=>b[1]-a[1]).map(([t,n])=>row(t,n)).join("");
-   const statRows=Object.entries(les.byStatus||{}).sort((a,b)=>b[1]-a[1]).map(([s,n])=>row(s,n)).join("");
-   const failColor=(ob.failed>0)?' style="color:var(--bad)"':"";
-   const cards=`<div class="ops-grid">
-     <div class="ops-card"><h3>직원</h3><div class="ops-big">${emp.built??0}<small>/ ${emp.total??0} built</small></div><div class="ops-rows">${typeRows}</div></div>
-     <div class="ops-card"><h3>팀별 인원</h3><div class="ops-rows">${teamRows}</div></div>
-     <div class="ops-card"><h3>교훈(L5) 상태</h3><div class="ops-big">${les.total??0}<small>건</small></div><div class="ops-rows">${statRows}</div></div>
-     <div class="ops-card"><h3>아웃박스</h3><div class="ops-rows">${row("발행 완료 (_done)",ob.done??0)}${row("대기 (pending)",ob.pending??0)}<div class="ops-row"><span>실패 (_failed)</span><span class="v"${failColor}>${ob.failed??0}</span></div></div></div>
-   </div>`;
-   const watch=(les.repeatWatch||[]).slice().sort((a,b)=>b.hits-a.hits)
-     .map(w=>{const g=w.guard||"none";const has=(w.guarded!==undefined)?w.guarded:!/^none\b/.test(String(g).trim());
-       return `<tr><td class="p" data-label="hits"><span class="ops-hits">×${w.hits}</span></td><td data-label="레인/scope"><b>${esc(w.lane)}</b> / ${esc(w.scope)}</td><td data-label="trigger">${esc(w.trigger)}</td><td data-label="guard" class="${has?"ops-guard-has":"ops-guard-none"}">${esc(g)}</td></tr>`;}).join("");
-   const watchBlock=`<div class="ops-sec-h warn">${svg("alertTri")}재발 감시 (hits ≥ 2 · 승격 후보)</div>
-     <table class="abx-table"><thead><tr><th>hits</th><th>레인 / scope</th><th>trigger</th><th>guard</th></tr></thead>
-     <tbody>${watch||'<tr><td colspan="4">없음</td></tr>'}</tbody></table>
-     <div class="ops-note">guard=<b style="color:var(--bad)">none</b>(빨강)은 아직 사람 약속 — 코드·린트·정본 승격 1순위.</div>`;
-   const emps=Object.entries(reg.employees||{})
-     .map(([k,v])=>`<tr><td class="p" data-label="직원">${esc(v.display||k)}</td><td data-label="실행방식"><span class="ops-pill t-${OPS_TYPE[v.type]||"script"}">${esc(v.type||"")}</span></td><td data-label="팀">${esc(v.team||"")}</td><td data-label="상태"><span class="ops-pill s-${OPS_STAT[v.status]||"pending"}">${esc(v.status||"")}</span></td></tr>`).join("");
-   const empBlock=`<div class="ops-sec-h">${svg("users")}직원 명단 (registry)</div>
-     <table class="abx-table"><thead><tr><th>직원</th><th>실행방식</th><th>팀</th><th>상태</th></tr></thead>
-     <tbody>${emps||'<tr><td colspan="4">없음</td></tr>'}</tbody></table>`;
-   box.innerHTML=cards+watchBlock+empBlock+`<div class="ops-foot">집계 기준: <code>_ops/build-ops.ps1</code> 실행 시점 → <code>dashboard.json</code> · <code>registry.json</code>. 직원 ${emp.total??0}명 / 교훈 ${les.total??0}건.</div>`;
- }
-
  function renderQueue(){
    titleEl.textContent="작업 큐"; subEl.textContent="대기·진행 중인 글과 실패·취소 기록 — 작성자별로, 큐가 얼마나 쌓였는지 한눈에";
    if(QUEUE_TIMER){ clearInterval(QUEUE_TIMER); QUEUE_TIMER=null; }
@@ -2211,85 +1605,6 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    attachPager("trend",dates);
  }
 
- /* ---------- 뉴스레터 ---------- */
- const COUNTRY=[["ALL","전체"],["KR","한국"],["JP","일본"],["US","미국"]];
- const CLABEL={KR:"한국",JP:"일본",US:"미국"};
- const itemCC=it=>it.country||"KR";
- function countrySeg(items){
-   const cnt=c=>c==="ALL"?items.length:items.filter(it=>itemCC(it)===c).length;
-   return `<div class="cbar"><span class="ctitle">${svg("globe")}국가별</span><div class="cseg">`+
-     COUNTRY.map(([c,l])=>`<button data-cc="${c}"${state.newsCountry===c?' class="on"':""}>${l}<span class="cnt">${cnt(c)}</span></button>`).join("")+
-     `</div></div>`;
- }
- function attachCountry(){
-   contentEl.querySelectorAll("[data-cc]").forEach(b=>b.addEventListener("click",()=>{ state.newsCountry=b.dataset.cc; renderNews(); }));
- }
- function renderNews(){
-   titleEl.textContent="게임 뉴스레터"; if(qEl)qEl.placeholder="뉴스 검색 (예: 쿠폰, 콜라보, 메이플)";
-   const order=["신작","사전예약","업데이트","이벤트","콜라보","쿠폰","e스포츠","업계","업계심층","기타"];
-   const ICON={"신작":"spark","사전예약":"calendar","업데이트":"refresh","이벤트":"gift","콜라보":"users","쿠폰":"ticket","e스포츠":"trophy","업계":"chart","업계심층":"building","기타":"news"};
-   const mast=`<div class="masthead nl"><div class="mk">${svg("news")}DAILY GAME NEWS</div><div class="mt">게임 뉴스레터</div><div class="ms">매일 오전 9시, 한국·일본·미국 대표 매체의 게임 소식을 요약+원문 링크로 일자별 누적합니다. <b>국가별</b>로 골라 보고, 검색으로 지난 소식도 찾을 수 있어요.</div></div>`;
-   if(!NEWS.length){ subEl.textContent="트렌드 분석팀 · 매일 오전 9시 갱신"; contentEl.innerHTML=`<div class="news">${mast}${emptyBox("base","아직 발행된 뉴스레터가 없어요.")}</div>`; return; }
-   const cc=state.newsCountry, byCC=arr=>cc==="ALL"?arr:arr.filter(it=>itemCC(it)===cc);
-   const itemHtml=(it,showDate)=>{
-     const links=(it.links||[]).map(l=>`<a class="nlink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ${svg("arrowUR")}</a>`).join("");
-     const cflag=(itemCC(it)!=="KR")?`<span class="chip" style="margin-left:6px">${esc(CLABEL[itemCC(it)]||itemCC(it))}</span>`:"";
-     return `<div class="nitem">`+(showDate?`<span class="nit-d">${esc(it.date)} · ${esc(it.cat||"기타")}</span>`:"")+
-       `<div class="nit-t">${esc(it.title)}${cflag}</div>`+
-       (it.summary?`<div class="nit-s">${esc(it.summary)}</div>`:"")+
-       (links?`<div class="nit-l">${links}</div>`:"")+`</div>`;
-   };
-   if(state.q){
-     const q=state.q; const all=[];
-     NEWS.forEach(iss=>(iss.items||[]).forEach(it=>{ if(((it.title||"")+" "+(it.summary||"")+" "+(it.cat||"")).toLowerCase().includes(q)) all.push(Object.assign({},it,{date:iss.date})); }));
-     const hits=byCC(all);
-     subEl.innerHTML=`'${esc(q)}' 검색 · <b>${hits.length}</b>건`+(cc!=="ALL"?` · ${CLABEL[cc]}`:"");
-     contentEl.innerHTML=`<div class="news">${mast}${countrySeg(all)}`+(hits.length?`<div class="nsec"><div class="nsec-h">${svg("search")} '${esc(q)}' 검색 결과</div>${hits.map(it=>itemHtml(it,true)).join("")}</div>`:emptyBox("search",`‘${esc(q)}’에 해당하는 소식이 없어요.`))+`</div>`;
-     attachCountry(); return;
-   }
-   const dates=NEWS.map(n=>n.date);
-   if(!state.newsDate||dates.indexOf(state.newsDate)<0)state.newsDate=dates[0];
-   const cur=NEWS.find(n=>n.date===state.newsDate)||NEWS[0];
-   const allItems=cur.items||[]; const items=byCC(allItems);
-   const groups={}; items.forEach(it=>{const c=it.cat||"기타";(groups[c]=groups[c]||[]).push(it);});
-   const cats=Object.keys(groups).sort((a,b)=>{let ia=order.indexOf(a),ib=order.indexOf(b);ia=ia<0?99:ia;ib=ib<0?99:ib;return ia-ib;});
-   const secHtml=c=>`<div class="nsec"><div class="nsec-h">${svg(ICON[c]||"news")}${esc(c)}</div>${groups[c].map(it=>itemHtml(it,false)).join("")}</div>`;
-   subEl.innerHTML=`<b>${esc(cur.date)}</b> · ${items.length}건`+(cc!=="ALL"?` · ${CLABEL[cc]}`:"")+` · 전체 ${dates.length}일치 누적`;
-   contentEl.innerHTML=`<div class="news">${mast}<div class="nm-head2">${esc(cur.headline||"오늘의 게임 소식")}</div>${countrySeg(allItems)}${datePager(dates,cur.date,"news","var(--a-news)")}`+
-     (cats.length?cats.map(secHtml).join(""):`<div class="empty">${cc!=="ALL"?CLABEL[cc]+" 소식이 이 날짜엔 없어요.":"소식이 없어요."}</div>`)+
-     `<p class="foot2">트렌드 분석팀이 한국(인벤·루리웹·게임메카·디스이즈게임·게임동아·경향게임스 등)·일본(Famitsu·4Gamer·AUTOMATON 등)·미국(IGN·GameSpot·Polygon 등) 매체를 종합·번역해 매일 갱신합니다.</p></div>`;
-   attachPager("news",dates); attachCountry();
- }
-
- /* ---------- 출시 캘린더 ---------- */
- function renderCalendar(){
-   titleEl.textContent="출시 캘린더";
-   const mast=`<div class="masthead" style="background:#0b1a20;border-color:#123842"><div class="mk" style="color:#67e8f9">${svg("calDays")}RELEASE CALENDAR</div><div class="mt">출시 캘린더</div><div class="ms">앞으로의 신작·사전예약·대형 업데이트·콜라보 일정을 D-day 타임라인으로 모았습니다. 트렌드 분석팀이 매일 검증해 갱신합니다.</div></div>`;
-   if(!CAL.length){ subEl.textContent="트렌드 분석팀 · 매일 갱신"; contentEl.innerHTML=`<div class="news">${mast}${emptyBox("base","등록된 일정이 없어요.")}</div>`; return; }
-   const TC={"출시":"var(--brand)","콜라보":"var(--a-bomding)","업데이트":"var(--a-yeongdo)","행사":"var(--a-news)","사전예약시작":"var(--a-trend)","사전예약마감":"var(--a-trend)","테스트":"var(--a-gemdeokku)"};
-   const now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
-   const ddText=ts=>{ const d=Math.round((ts-today)/DAY); return d===0?"D-DAY":(d>0?"D-"+d:"지남"); };
-   const md=ds=>{ const p=String(ds).split("-"); return p.length>=3?(+p[1])+"/"+(+p[2]):ds; };
-   const rows=CAL.map(e=>{
-     const ts=toTs(e.date), past=ts<today, isToday=ts===today, tc=TC[e.type]||"var(--a-cal)";
-     const meta=[e.genre,e.publisher].filter(Boolean).join(" · ");
-     return {past,html:`<div class="cal-row${past?" past":""}${isToday?" cal-today":""}">`+
-       `<div class="cal-dday"><span class="dd">${ddText(ts)}</span><span class="md">${esc(md(e.date))}</span></div>`+
-       `<div class="cal-card"><div class="cal-top"><span class="cal-type" style="--tc:${tc}">${esc(e.type||"일정")}</span>`+
-         (e.platform?`<span class="cal-plat">${esc(e.platform)}</span>`:"")+`</div>`+
-         `<div class="cal-title">${esc(e.title||"")}</div>`+
-         (meta?`<div class="cal-meta">${esc(meta)}</div>`:"")+
-         (e.note?`<div class="cal-note">${esc(e.note)}</div>`:"")+
-         (e.link?`<a class="cal-link" href="${esc(e.link)}" target="_blank" rel="noopener">출처 보기 ${svg("arrowUR")}</a>`:"")+
-       `</div></div>`};
-   });
-   const up=rows.filter(r=>!r.past), pst=rows.filter(r=>r.past);
-   subEl.innerHTML=`다가오는 일정 <b>${up.length}</b>건 · 전체 ${CAL.length}건`;
-   contentEl.innerHTML=`<div class="news">${mast}<div class="cal">`+
-     (up.length?up.map(r=>r.html).join(""):`<div class="empty">다가오는 일정이 없어요.</div>`)+
-     (pst.length?`<div class="cal-sep">지난 일정</div>`+pst.map(r=>r.html).join(""):"")+
-     `</div></div>`;
- }
  /* ========================================================================
     관리자 모드 — GitHub 토큰으로 잠금 해제 후 미발행 글을 사이트에서 직접 삭제.
     삭제 = GitHub Git Data API 로 글 폴더의 파일(blob)들을 제거하고 posts.json/

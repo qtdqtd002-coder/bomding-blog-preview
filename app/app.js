@@ -42,13 +42,10 @@
   const NAV = [
     { id: 'home', label: '홈', icon: 'home' },
     { id: 'posts', label: '글', icon: 'doc' },
-    { id: 'trend', label: '트렌드', icon: 'trend' },
-    { id: 'news', label: '뉴스레터', icon: 'news' },
-    { id: 'calendar', label: '캘린더', icon: 'cal' },
-    { id: 'about', label: '소개', icon: 'info' }
+    { id: 'trend', label: '트렌드', icon: 'trend' }
   ];
-  const SUB = { posts: '확인 대기 글 · 발행·숨김은 아카이브', trend: '오늘 뜨는 게임·주제', news: '한·일·미 게임 뉴스', calendar: '출시·업데이트·행사 일정', request: '주제만 적으면 작성→검수→발행', home: '당신의 글쓰기 동료', about: '쓰담을 만드는 팀 · 일하는 방식' };
-  const TITLE = { home: '쓰담', posts: '글', trend: '트렌드', news: '뉴스레터', calendar: '출시 캘린더', request: '새 글 요청', about: '소개' };
+  const SUB = { posts: '확인 대기 글 · 발행·숨김은 아카이브', trend: '오늘 뜨는 게임·주제', request: '주제만 적으면 작성→검수→발행', home: '당신의 글쓰기 동료' };
+  const TITLE = { home: '쓰담', posts: '글', trend: '트렌드', request: '새 글 요청' };
 
   /* 글의 목적(purpose) — 백엔드 PURPOSES / post-purpose-guide.md 정본과 1:1. 값=한글 라벨. */
   const PURPOSE_GROUPS = [
@@ -109,8 +106,6 @@
     return (cache.posts = arr);
   }
   async function getTrend() { if (cache.trend) return cache.trend; const d = await loadJSON(CFG('TREND_URL', '../_trend/trend.json')); return (cache.trend = (d && d.issues) || []); }
-  async function getNews() { if (cache.news) return cache.news; const d = await loadJSON(CFG('NEWS_URL', '../_news/news.json')); return (cache.news = (d && d.issues) || []); }
-  async function getCalendar() { if (cache.cal) return cache.cal; const d = await loadJSON(CFG('CALENDAR_URL', '../_calendar/calendar.json')); return (cache.cal = d || { events: [] }); }
 
   const skeleton = (n) => Array.from({ length: n || 4 }, () => '<div class="skel"></div>').join('');
 
@@ -337,24 +332,20 @@
   /* ---- 홈(메인 허브) ---- */
   VIEWS.home = async (root) => {
     root.innerHTML =
-      `<section class="hero"><h2>쓰담</h2><p><b style="opacity:.96">당신의 글쓰기 동료</b> — 발행글·트렌드·뉴스레터·출시 캘린더를 한곳에서, 새 글도 여기서 바로 요청해요.</p>
+      `<section class="hero"><h2>쓰담</h2><p><b style="opacity:.96">당신의 글쓰기 동료</b> — 발행글·트렌드를 한곳에서, 새 글도 여기서 바로 요청해요.</p>
         <span class="stat" id="heroStat">불러오는 중…</span></section>
        <div class="hub" id="hub">${skeleton(4)}</div>`;
-    const [posts, trend, news, cal] = await Promise.all([
-      getPosts().catch(() => []), getTrend().catch(() => []), getNews().catch(() => []), getCalendar().catch(() => ({ events: [] }))
+    const [posts, trend] = await Promise.all([
+      getPosts().catch(() => []), getTrend().catch(() => [])
     ]);
     const stat = $('#heroStat'); if (stat) stat.innerHTML = `${ico('doc', 14)} 글 ${posts.filter((p) => !isArchived(p)).length}편`;
-    const tIssue = trend[0]; const nIssue = news[0];
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-    const upcoming = (cal.events || []).filter((e) => toTs(e.date) >= today.getTime()).length;
+    const tIssue = trend[0];
     const card = (id, icon, ttl, dsc) =>
       `<button class="hub-card" data-go="${id}"><span class="hub-ic">${ico(icon)}</span>
         <span class="ttl">${esc(ttl)}</span><span class="dsc">${esc(dsc)}</span></button>`;
     $('#hub').innerHTML =
       card('posts', 'doc', '글', `확인 대기 ${posts.filter((p) => !isArchived(p)).length}편 · 아카이브 ${posts.filter(isArchived).length}편`) +
       card('trend', 'trend', '트렌드', tIssue ? tIssue.headline : '오늘 뜨는 게임·주제') +
-      card('news', 'news', '뉴스레터', nIssue ? `${fmtDay(nIssue.date)} · 한·일·미 소식` : '게임 뉴스 모음') +
-      card('calendar', 'cal', '캘린더', upcoming ? `다가오는 일정 ${upcoming}건` : '출시·업데이트·행사') +
       `<button class="hub-card wide cta" data-go="request"><span class="hub-ic">${ico('edit')}</span>
         <span class="tx"><span class="ttl">새 글 요청하기</span><span class="dsc">주제만 적으면 작성→검수→발행까지 자동으로</span></span>
         <span class="go">${ico('chev', 20)}</span></button>`;
@@ -442,245 +433,6 @@
         ${it.headline ? `<div class="t-head">${esc(it.headline)}</div>` : ''}${it.lead ? `<div class="t-lead">${esc(it.lead)}</div>` : ''}
         ${picks.length ? `<ol class="picks">${picks.map((p, i) => `<li><span class="pick-n">${i + 1}</span><span class="pick-tx">${esc(p)}</span></li>`).join('')}</ol>` : ''}</div>`;
     }).join('');
-  };
-
-  /* ---- 뉴스레터 ---- */
-  VIEWS.news = async (root) => {
-    root.innerHTML = `<div class="sec-h"><span class="t">뉴스레터</span><span class="meta">한·일·미 게임 소식</span></div><div id="newsBox">${skeleton(4)}</div>`;
-    let issues; try { issues = await getNews(); } catch (_) { $('#newsBox').innerHTML = '<div class="empty lg">뉴스레터를 불러오지 못했어요.</div>'; return; }
-    if (!issues.length) { $('#newsBox').innerHTML = '<div class="empty lg">아직 뉴스레터가 없어요.</div>'; return; }
-    const issue = issues[0];
-    const items = Array.isArray(issue.items) ? issue.items : [];
-    $('#newsBox').innerHTML =
-      `<div class="news-date">${esc(fmtDay(issue.date))}</div>${issue.headline ? `<div class="news-head">${esc(issue.headline)}</div>` : ''}` +
-      (items.length ? items.map((n) => {
-        const links = Array.isArray(n.links) ? n.links : [];
-        const c = String(n.country || '').toUpperCase();
-        return `<div class="card"><div class="card-b nitem"><div class="n-top"><span class="flag ${esc(c)}">${esc(c || 'GL')}</span>${n.cat ? `<span class="n-cat">${esc(n.cat)}</span>` : ''}</div>
-          <div class="n-title">${esc(n.title)}</div>${n.summary ? `<div class="n-sum">${esc(n.summary)}</div>` : ''}
-          ${links.length ? `<div class="n-links">${links.map((l) => `<a class="n-link" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label || '링크')} ${extIco}</a>`).join('')}</div>` : ''}</div></div>`;
-      }).join('') : '<div class="empty">이번 호에 항목이 없어요.</div>');
-  };
-
-  /* ---- 캘린더 ---- */
-  VIEWS.calendar = async (root) => {
-    root.innerHTML = `<div class="sec-h"><span class="t">출시 캘린더</span><span class="meta" id="calMeta"></span></div><div id="calBox">${skeleton(4)}</div>`;
-    let data; try { data = await getCalendar(); } catch (_) { $('#calBox').innerHTML = '<div class="empty lg">캘린더를 불러오지 못했어요.</div>'; return; }
-    const events = (data.events || []).slice().sort((a, b) => toTs(a.date) - toTs(b.date));
-    if (!events.length) { $('#calBox').innerHTML = '<div class="empty lg">등록된 일정이 없어요.</div>'; return; }
-    if (data.updated) $('#calMeta').textContent = '갱신 ' + fmtDay(data.updated);
-    const today = new Date(); today.setHours(0, 0, 0, 0); const tts = today.getTime();
-    const upcoming = events.filter((e) => toTs(e.date) >= tts);
-    const past = events.filter((e) => toTs(e.date) < tts).reverse();
-    const M = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
-    const evHtml = (e) => {
-      const dt = new Date(toTs(e.date)); const isToday = toTs(e.date) === tts;
-      const metaBits = [e.platform, e.genre, e.publisher].filter(Boolean).map(esc).join(' · ');
-      return `<div class="event"><div class="ev-date${isToday ? ' d-today' : ''}"><span class="d">${dt.getDate() || ''}</span><span class="m">${M[dt.getMonth()] || ''}</span></div>
-        <div class="ev-body"><div class="ev-top">${e.type ? `<span class="ev-type">${esc(e.type)}</span>` : ''}${isToday ? '<span class="ev-plat" style="color:var(--brand);font-weight:800">오늘</span>' : ''}</div>
-          <div class="ev-title">${esc(e.title)}</div>${metaBits ? `<div class="ev-meta">${metaBits}</div>` : ''}${e.note ? `<div class="ev-note">${esc(e.note)}</div>` : ''}
-          ${e.link ? `<a class="ev-link" href="${esc(e.link)}" target="_blank" rel="noopener">자세히 ${extIco}</a>` : ''}</div></div>`;
-    };
-    $('#calBox').innerHTML =
-      (upcoming.length ? `<div class="cal-group">다가오는 일정</div>` + upcoming.map(evHtml).join('') : '') +
-      (past.length ? `<div class="cal-group">지난 일정</div>` + past.map(evHtml).join('') : '');
-  };
-
-  /* ---- 소개(회사 안내서) ---- */
-  VIEWS.about = async (root) => {
-    /* 정적 콘텐츠라 await 불필요 — 사이트(index.html renderAbout)와 같은 정본 내용 */
-    const bz = (s) => `<span class="abx-bz${s === '상설' ? ' on' : ''}">${s}</span>`;
-    const mem = (n, r, b) => `<div class="abx-mem"><div class="mn">${n}<span class="mr">${r}</span></div>${b ? bz(b) : ''}</div>`;
-    const team = (acc, name, lead, desc, members) =>
-      `<div class="abx-team" style="--ac:${acc}"><div class="abx-team-h"><span class="abx-team-n">${name}</span><span class="abx-team-lead">${lead}</span></div>` +
-      `<div class="abx-team-d">${desc}</div>${members.map((m) => mem(m[0], m[1], m[2])).join('')}</div>`;
-    const step = (acc, n, st, who, items, gate) =>
-      `<div class="abx-step" style="--ac:${acc}"><div class="abx-rail"><div class="abx-num">${n}</div><div class="abx-vline"></div></div>` +
-      `<div class="abx-body"><div class="abx-st">${st}</div><div class="abx-who">${who}</div>` +
-      `<ul>${items.map((i) => `<li>${i}</li>`).join('')}</ul>${gate ? `<div class="abx-gate">${gate}</div>` : ''}</div></div>`;
-    const feat = (icon, t, d) => `<div class="abx-feat"><div class="fi">${ico(icon)}</div><div class="ft">${t}</div><div class="fd">${d}</div></div>`;
-    const pos = (color, name, rows) =>
-      `<div class="abx-pos"><div class="abx-pos-h"><span class="dot" style="background:${color}"></span>${name}</div>` +
-      rows.map((r) => `<div class="abx-pos-i"><div class="pp">${r[0]}</div><div class="pr">${r[1]}</div><div class="pg">${r[2]}</div></div>`).join('') + '</div>';
-    const rule = (t, d) => `<div class="abx-rule"><div class="rt">${t}</div><div class="rd">${d}</div></div>`;
-
-    const teams =
-      team('#2F8F7F', '기획팀 · Planning', '팀장: 기획팀장',
-        '입력이 무엇이든 가장 먼저 거치는 관문. 실조사로 사실·전제를 검증해 작성팀이 바로 쓸 발주 양식을 만들고, 같은 출처에서 이미지 키트까지 챙겨 함께 넘깁니다.', [
-        ['기획팀장 (Planning Lead)', '카테고리 레인 판정·기획자 편성·전제 검증·전수 검수(이미지 키트 동봉 게이트)·증원/해고.', '상설'],
-        ['게임 기획자 ×N', '시스템·꿀팁·이벤트·경쟁정찰로 나눠 병렬 조사(공식·위키·커뮤니티·타 블로그).', '온디맨드'],
-        ['육아 기획자', '제품 스펙·가격·판매처·안전/연령 근거 조사.', '온디맨드'],
-        ['취미 기획자', '콜라보·굿즈·한정판을 복수 판매채널로 교차확인.', '온디맨드'],
-        ['게이밍기어 기획자', '영도용 하드웨어 스펙·비교 조사.', '온디맨드'],
-        ['서비스기획 파트', '콘텐츠가 아닌 사이트/서비스 자체를 기획 — IA·사용자 흐름·기능·디자인 방향을 사이트 기획안으로.', '온디맨드']]) +
-      team('#E06C49', '작성팀 · Writers', '팀장: 작성팀장',
-        '작성자별 독립 문체 정본대로 글을 씁니다. 작성팀장이 전 작성자 공용 가이드를 갱신·전파하되, 작성자·카테고리 문체는 절대 섞지 않아요.', [
-        ['작성팀장 (Writing Lead)', '전 작성자 공용 가이드 소유·갱신·4작성자 반영 교차확인 + 문체 독립성(교차오염) 수호. 개별 글 문체엔 미개입.', '상설'],
-        ['봄딩 · bomding-blog-writer', '게임 · 육아 · 취미. 실제 블로그 blog.naver.com/bomding 기준 문체(개별 feedback-log).', '배정'],
-        ['영도 · yeongdo-blog-writer', '게임 · 게이밍기어. 실제 블로그 blog.naver.com/kkodug9 기준 문체(개별 feedback-log).', '배정'],
-        ['겜더쿠 · gemdeokku-blog-writer', '게임(덕후 관점)·남성 페르소나. 티스토리+겜더쿠 탭. 가상 페르소나라 정본·피드백이 기준.', '배정'],
-        ['연봄 · yeonbom-blog-writer', '게임 · IT·테크 · 육아 · 생활(잡블로그). 티스토리(붙여넣기, 주소 미정)+연봄 탭. 봄딩 부드러움+겜더쿠 담백 블렌드의 설계 페르소나(학습 격리).', '배정']]) +
-      team('#7C5CD1', '검수팀 · QA Panel', '팀장: 검수팀장',
-        '매 글마다 전원 자동 투입. 발행 전엔 사실·문체·구조·자연스러움·이미지를 차원별로 교차검증하고, 발행 후엔 독자 시선에서 ‘읽어서 좋은 글인가’를 다시 봅니다.', [
-        ['검수팀장 (QA Lead)', '레인 정본 점검·차원 편성·발견 취합·교차 점검·PASS/FAIL 판정·수정 루프·증원/해고. 작성자별 분량 게이트 판정(미달 시 기획팀 보강 환류). 발행 후 독자검수단 총괄.', '상설'],
-        ['[발행 전] 검수1 · 사실/공식명칭', '수치·날짜·고유명·스킬/아이템명·성우·스펙을 공식 출처로 교차검증.', '상설'],
-        ['[발행 전] 검수2 · 문체/표현', '레인 문체 정본 + 실블로그 최근 글 라이브 대조(겜더쿠·연봄은 정본·피드백만).', '상설'],
-        ['[발행 전] 검수3 · 구조/완성도', '표·링크·SEO·이미지 자리·하단 버튼 등 완성도.', '상설'],
-        ['[발행 전] 검수4 · 자연스러움/거짓없음', '변명·고백조, 전제 틀린 섹션, AI 티, 톤·문단 호흡.', '상설'],
-        ['[발행 전] 검수5 · 이미지 맥락/다양성', '문단별 주제로 이미지 적합성·인접 중복·출처·이유 메타 검수.', '상설'],
-        ['반증 전담 (refute)', '민감·고정보 글에서 주장을 반증 시도해 거짓 통과를 막음.', '온디맨드'],
-        ['★[발행 후] 독자검수단 (에디토리얼)', '발행된 최종본을 독자 시선에서 6축 검수(양식·기사완성도/시각편집/가독성·템포/재미·보이스/소재다양성/정보깊이) → 작성팀·기획팀 환류 + 기준미달 자동 개선본. 작성자 개성·정본 최우선, 학습 격리.', '상설']]) +
-      team('#4C6FFF', '인프라실 · Infra', '실장: 인프라실장',
-        '플랫폼(사이트+앱) 전체를 총괄합니다. 업무를 PC·모바일로 분해·배정하고, 두 산출물 방향을 맞추고 적극 피드백하며, 자가피드백+벤치마킹으로 개선해요. 기본은 PC·모바일 동일 구현.', [
-        ['인프라실장', '요청을 공통/PC전용/모바일전용으로 분해·배정 → 두 팀 방향 정렬·피드백 → 자가피드백·외부 벤치마킹 → 취합 보고.', '상설'],
-        ['PC팀 · 팀장', '쓰담 사이트(GitHub Pages) 구현 총괄 · 인프라실 보고.', '상설'],
-        ['모바일팀 · 팀장', '쓰담 앱(이 PWA) + GCP 연동 구현 총괄 · 인프라실 보고.', '상설'],
-        ['PC·모바일 디자이너 / 개발자', 'UX/UI·프론트·기능·백엔드 연동(json·매니페스트·웹푸시)을 필요 시 투입.', '온디맨드']]) +
-      team('#0891B2', '디자인검수팀 · Design QA', '팀장: 디자인검수팀장',
-        '사이트·앱의 마감·디테일·일관성을 발행 전 전담 검수하고(인프라실과 별개 게이트), 겜더쿠 티스토리 블로그의 시각 디자인도 담당합니다. 모바일+PC, 라이트+다크 실제 렌더로 확인.', [
-        ['디자인검수팀장', '차원 편성·취합·판정(🔴0🟡0=PASS)·수정 루프·증원/해고.', '상설'],
-        ['마감·디테일 / 일관성 / 반응형·가독성 검수', '라벨 겹침·잘림·여백, 디자인 토큰·라이트/다크 동등성, 모바일 우선 가독성·터치 타깃.', '상설'],
-        ['접근성 검수(a11y)', '대비 WCAG AA·포커스·키보드·aria·reduced-motion.', '온디맨드'],
-        ['겜더쿠 블로그 디자인 담당', '겜더쿠 티스토리(Odyssey 스킨) 테마·메뉴·허브 쇼케이스 디자인. CSS는 사용자 붙여넣기+라이브 검증, 데이터는 직접 적용.', '상설']]) +
-      team('#C2410C', '데이터 분석실 · Data Analysis', '실장 1 · 트렌드 + 블로그 분석팀',
-        '트렌드 분석팀(밖—무엇을 쓰면 유입)과 블로그 분석팀(안—우리 블로그 약점)을 실 내에서 교차해, 성장 기여 큰 조치·주제를 기획팀에 공급합니다.', [
-        ['데이터 분석실장', '두 팀 배정·방향 정렬·실 내 교차(트렌드 신선도 × 블로그 약점)·취합 보고·월1회 블로그 통계 추세관리.', '상설'],
-        ['트렌드 분석팀 (팀장+분석가 N)', '매일 오전 6시 트렌드 조사 → 작성자별 브리핑 4편(봄딩·영도·겜더쿠·연봄)·뉴스레터·캘린더. 수집축4·큐레이터4·뉴스데스크2~3.', '상설'],
-        ['블로그 분석팀 (팀장+분석가 ×4)', '봄딩·영도·겜더쿠·연봄 실블로그 SEO 진단(발행량·클러스터·체류·롱테일/색인) → 약점 처방(연봄=신생이라 발행량·색인부터).', '상설']]) +
-      team('#9333EA', '벤치마크 / 피드백 팀', '코치',
-        '사용자가 현실 봄딩·영도 글 링크를 주면, 누가 썼는지 판별·분석해 작성팀 피드백에 반영합니다(실제 author 수렴).', [
-        ['벤치마크 코치', '링크의 blogId로 작성자 판별 → 실제 글과 우리 초안 대조 → 그 writer feedback-log에 누적 반영.', '온디맨드']]) +
-      team('#475569', '발행 담당 · Publisher', 'Publisher',
-        '검수 전원 PASS면 GitHub Pages에 push해 공개 링크로 공유합니다. 작성자별 1단계 폴더가 곧 탭이에요.', [
-        ['Publisher', 'git push(작성자별 분류) → 빌드 → 공개 링크. 발행됨 라벨 자동검증. 신규 직원이면 탭 자동 생성.', '상설']]);
-
-    root.innerHTML =
-      `<section class="abx-hero">
-        <span class="abx-badge">설치형 웹앱 · 무료 미리보기</span>
-        <h2>혼자 쓰지 말고, 쓰담과 함께</h2>
-        <p>게임 블로거를 위한 <b>글쓰기 동료</b>. 트렌드로 글감을 잡고, 작성자 문체로 초안을 쓰고, 공식 정보로 검수해 — <b>발행까지 한 번에</b> 끝냅니다.</p>
-      </section>
-
-      <div class="sec-h"><span class="t">쓰담이 해주는 일</span></div>
-      <div class="abx-feats">
-        ${feat('trend', '글감부터 잡아줘요', '매일 게임 트렌드·인기 키워드를 분석해, 지금 쓰면 유입되는 주제를 제안합니다.')}
-        ${feat('spark', '문체 그대로 · AI 티 없이', '봄딩·영도·겜더쿠·연봄 — 작성자별 말투 정본대로, 실제 글의 결을 학습·변주해 초안을 써줍니다.')}
-        ${feat('search', '공식 정보로 검수', '수치·명칭·날짜·스킬명을 공식 출처와 교차검증해 사실 오류를 거릅니다.')}
-        ${feat('rocket', '발행까지 원스톱', '작성 → 검수 → 발행을 자동으로. 깨끗하게 통과한 글만 게시합니다.')}
-        ${feat('news', '뉴스·캘린더로 타이밍', '한·일·미 게임 뉴스레터와 출시 캘린더로 ‘언제 쓸지’까지 챙겨요.')}
-        ${feat('info', '어디서나, 알림까지', '설치형 앱에서 주제만 던지면 끝. 발행이 끝나면 푸시로 알려드려요.')}
-      </div>
-
-      <div class="sec-h abx-secgap"><span class="t">글 작성 방법</span></div>
-      <p class="abx-lead">한 편의 글이 만들어지는 0~5단계 · 예외 없이 모든 글이 이 길을 탑니다.</p>
-      <div class="abx-flow">
-        ${step('var(--brand)', '0', '업무 접수 · 목적 확정', '대표 (오케스트레이터)', [
-          '사용자 원문을 보존한 채 <b>업무접수 표준 MD</b>로 정리(원 요청·대표 해석·라우팅·팀별 지시 카드).',
-          '글이면 <b>목적(purpose)을 먼저 확정</b>하고 목적별 ‘반드시 들어갈 정보’를 챙깁니다.',
-          '기존 발행물과의 <b>중복 검수</b>(작성자 단위) — 같은 작성자 글과만 비교, 교차 작성자는 허용.',
-          '(작성자 × 카테고리) 2값을 확정해 오염 없이 팀에 배정.'],
-          '게이트 — 목적·작성자·카테고리가 불명확하면 진행 금지, 확인 먼저')}
-        ${step('#2F8F7F', '1', '기획 · 사실조사 + 이미지 키트', '기획팀', [
-          '기획팀장이 <b>카테고리 레인</b>을 판정하고 기획자를 편성.',
-          '기획자는 <b>실조사로만</b> 사실·전제를 검증(공식·위키·커뮤니티·복수 채널). 상상·추측 금지.',
-          '사실 검증 출처에서 <b>이미지 키트</b>(후보 URL·이유·분류 A/B + 다양성)를 발주마다 동봉.',
-          '발주 양식 = [목적]/[게임·제품]/[주제]/[내용]/[지킬 것]/[참고 사이트] + 이미지 키트.'],
-          '출고 게이트 — 팀장 전수 검수 + 이미지 키트 동봉을 통과해야 발주가 나갑니다')}
-        ${step('#E06C49', '2', '작성 · 문체 정본으로 초안', '작성팀 (봄딩/영도/겜더쿠/연봄)', [
-          '확정된 (작성자 × 카테고리) 쌍의 <b>문체 정본 1개만</b> 로드(타 정본 끌어오기 금지).',
-          '작성 전 <b>실제 블로그 최근 글 2~3편 학습</b>(봄딩·영도). 겜더쿠·연봄은 설계 페르소나라 정본+피드백이 유일 기준.',
-          '<b>AI 티 제거</b> — 실제 결·리듬 모방 + 반복 패턴 <b>변주</b>. 군더더기·변명조 금지.',
-          '목적별 필수 정보 + 플랫폼 SEO + 이미지 <b>맥락 배치</b>(억지 삽입 금지)·self-host.'],
-          '충돌 원칙 — SEO·변주와 부딪치면 <b>각 작성자 정본이 이깁니다</b>. 자연스러움이 항상 우선')}
-        ${step('#7C5CD1', '3', '검수 · 차원 패널 교차검증', '검수팀 (팀장 + 검수1~5)', [
-          '전원 자동 투입 — 사실·문체·구조·자연스러움·이미지 맥락. 민감 글엔 반증 전담 추가.',
-          '검수팀장이 발견을 <b>취합·중복제거·교차 점검</b>하고 <b>PASS/FAIL 판정</b>(전원 🔴0 🟡0이어야 PASS).',
-          '🔴/🟡이면 작성자에 환류해 <b>증분 재검(최대 3라운드)</b>.',
-          '<b>거짓없이 보고</b> — 확인 못 한 건 ‘확인 불가’로 드러내고 심각도를 낮추지 않습니다.'],
-          '게이트 — FAIL이면 발행을 막습니다. 3R 초과 FAIL이면 대표에 보고')}
-        ${step('var(--brand)', '4', '발행 · 게시 + 알림', '발행 담당 (Publisher)', [
-          '전원 PASS → <b>GitHub Pages에 push</b>(작성자별 폴더=탭) → 공개 링크. 겜더쿠·연봄은 티스토리 붙여넣기본도 동시 산출.',
-          '백엔드 큐 요청이면 상태를 <b>발행됨</b>으로 갱신 → 구독자에 웹푸시 알림.',
-          '<b>발행됨 라벨 자동검증</b> — 실제 블로그 제목과 대조해 앱·사이트에 ‘발행됨’ 표시.',
-          '발행 후 오류는 책임 팀(기획·작성·검수)으로 회송해 학습에 반영.'], '')}
-        ${step('#7C5CD1', '5', '발행 후 독자검수 · 에디토리얼', '검수팀 — 발행 후 독자검수단 (전원 공통)', [
-          '발행된 <b>최종본</b>을 독자 시선에서 6축 검수 — 양식·기사완성도 / 본문 시각편집 / 가독성·템포 / 재미·보이스 / 소재 다양성 / 정보 깊이.',
-          '발견을 <b>작성팀(문체·가독·재미·양식) / 기획팀(소재·깊이)</b> 학습 파일로 <b>환류</b> → 매 글마다 자기진단·스킬 강화.',
-          '기준미달(🔴1↑·🟡2↑)이면 그 작성자 문체 그대로 <b>자동 개선본</b>. 외부 실게시 재게시는 사용자 직접.',
-          '<b>작성자 개성·정본 최우선</b> + 학습 격리(겜더쿠·연봄 양방향) + 획일화 금지. 본문 내부만.'],
-          '발행 전 QA와 역할 분리 — QA=‘틀린 게 없나’(게이트) / 독자검수=‘읽어서 좋은 글인가’(우수성·학습)')}
-      </div>
-
-      <div class="sec-h abx-secgap"><span class="t">플랫폼 트랙</span></div>
-      <p class="abx-lead">콘텐츠 글과 별개의 게이트 — 사이트와 앱을 만들고 고치는 길.</p>
-      <div class="card"><div class="card-b abx-prose">
-        <p><b>서비스기획(기획팀)</b> → <b>인프라실 구현</b>(PC팀 ⇄ 모바일팀, 기본 동시 구현) → <b>인프라 자체검수</b> → <b>디자인검수팀</b>(모바일+PC, 라이트+다크 실제 렌더) → <b>발행</b>.</p>
-        <p>인프라실장이 업무를 <b>공통/PC전용/모바일전용</b>으로 분해·배정해 착각을 막고, 두 산출물 방향을 맞춥니다. 앱은 <b>설치형 웹앱(PWA, <code>BlogPreview/app</code>)</b>으로 일원화 — 사이트와 같은 웹스택이라 디자인 토큰·컴포넌트를 공유합니다. 네이티브 <code>blog-company-app</code>은 파킹.</p>
-      </div></div>
-
-      <div class="sec-h abx-secgap"><span class="t">조직도</span><span class="meta">대표 → 8개 팀/실 → 팀원</span></div>
-      <div class="abx-ceo"><div class="r">CEO · 오케스트레이터</div><div class="n">대표</div><div class="d">업무를 접수해 업무접수 MD로 정리한 뒤 적임 팀에 배정하고, 보고를 취합·검수해 발행을 지시합니다. 회사 차원의 팀 신설·증원을 관장해요.</div></div>
-      ${teams}
-
-      <div class="sec-h abx-secgap"><span class="t">포지션별 역할</span><span class="meta">역할 · 따르는 정본</span></div>
-      ${pos('#2F8F7F', '기획팀', [
-        ['기획팀장', '레인 판정·기획자 편성·전제 검증·전수 검수(이미지 키트 게이트)·증원/해고.', '<code>team-org.md</code> · <code>planning-learnings.md</code>'],
-        ['레인별 기획자', '배정 레인만 로드해 실조사(공식·위키·커뮤니티·복수 채널).', '스킬 <code>blog-planner</code> · <code>_glossary/&lt;게임&gt;.md</code>'],
-        ['전 기획자 공통', '발주마다 <b>이미지 키트</b> 필수 동봉(후보 URL·이유·분류 + 다양성).', '<code>image-sourcing.md</code> · <code>post-purpose-guide.md</code>'],
-        ['서비스기획 파트', '사이트/서비스 자체 기획 — IA·흐름·기능·디자인 방향.', '스킬 <code>blog-planner</code>(서비스 트랙)']])}
-      ${pos('#E06C49', '작성팀', [
-        ['작성팀장', '공용 가이드 소유·갱신 + 문체 독립성 수호. 개별 글 문체엔 미개입.', '<code>team-org.md §2b</code> · <code>shared/blog-writing/*</code>'],
-        ['봄딩', 'blog.naver.com/bomding 문체(게임·육아·취미). 최근 글 fetch 학습.', '스킬 <code>bomding-blog-writer</code> + <code>feedback-log</code>'],
-        ['영도', 'blog.naver.com/kkodug9 문체(게임·기어, “주인장” 시그니처).', '스킬 <code>yeongdo-blog-writer</code> + <code>feedback-log</code>'],
-        ['겜더쿠', '덕후·남성 페르소나, 티스토리. 가상 페르소나라 학습 격리.', '스킬 <code>gemdeokku-blog-writer</code> + <code>writing-method</code>'],
-        ['연봄', '부드럽고 담백한 잡블로그(게임·IT·육아·생활), 티스토리(주소 미정). 설계 페르소나라 학습 격리.', '스킬 <code>yeonbom-blog-writer</code> + <code>expression-variation-bank</code>'],
-        ['전 작성자 공통', 'AI 티 제거 · 플랫폼 SEO · 목적별 필수정보 · 이미지 맥락 배치.', '<code>writing-quality.md</code> · <code>staff-registry.md</code>']])}
-      ${pos('#7C5CD1', '검수팀', [
-        ['검수팀장', '차원 편성·취합·교차 점검·PASS/FAIL·수정 루프(3R)·증원/해고. 거짓없이 보고.', '<code>qa-lead-learnings.md</code> · <code>team-org.md §3</code>'],
-        ['검수1~5', '사실/공식명칭 · 문체/실블로그 대조 · 구조 · 자연스러움 · 이미지 맥락.', '스킬 <code>game-blog-qa</code> · <code>qa-checklist.md</code>'],
-        ['반증 전담', '민감·고정보 글에서 주장을 반증 시도해 거짓 통과 차단.', '<code>game-blog-qa</code>(refute)'],
-        ['★발행 후 독자검수단', '발행된 최종본을 독자 시선에서 6축 검수 → 작성·기획 환류 + 기준미달 자동 개선본.', '스킬 <code>blog-editorial-review</code> · <code>editorial-checklist.md</code>']])}
-      ${pos('#4C6FFF', '인프라실 · 디자인검수팀', [
-        ['인프라실장', '공통/PC/모바일 분해·배정·방향 정렬·피드백·벤치마킹·취합 보고.', '<code>team-org.md §5</code> · <code>infra-learnings.md</code>'],
-        ['PC팀 / 모바일팀', '사이트(<code>BlogPreview</code>) / 앱(<code>app</code>)+백엔드 연동. 토큰·json 공유.', '<code>BlogPreview/*</code> · <code>blog-company-backend</code>'],
-        ['디자인검수팀', '마감·일관성·반응형·접근성을 발행 전 실제 렌더로 검수(🔴0🟡0=PASS).', '<code>design-qa-checklist.md</code>']])}
-      ${pos('#C2410C', '데이터 분석실 · 벤치마크 · 발행 · 대표', [
-        ['데이터 분석실', '트렌드(밖) × 블로그분석(안) 교차 → 성장 조치·주제 공급. 트렌드팀+블로그분석팀.', '스킬 <code>trend-analysis-team</code> · <code>blog-analysis-team</code>'],
-        ['트렌드 분석팀', '매일 9시 트렌드 → 작성자별 브리핑·뉴스레터·캘린더 발행.', '스킬 <code>trend-analysis-team</code>'],
-        ['블로그 분석팀', '봄딩·영도·겜더쿠·연봄 실블로그 SEO 진단 → 약점 처방·성장 글 추천(연봄=신생이라 발행량·색인부터).', '스킬 <code>blog-analysis-team</code>'],
-        ['벤치마크 코치', '현실 글 링크 → 작성자 판별 → 초안 대조 → feedback-log 누적.', '스킬 <code>blog-bench-coach</code>'],
-        ['발행 담당', '전원 PASS 시 push(작성자별 탭) → 공개 링크. 발행됨 자동검증.', '<code>build-manifest.ps1</code> · <code>check-published.ps1</code>'],
-        ['대표(CEO)', '업무 접수·목적 확정·중복 검수·라우팅·취합·발행 지시. 팀 신설·증원 관장.', '<code>work-intake.md</code> · 전 조직 정본']])}
-
-      <div class="sec-h abx-secgap"><span class="t">핵심 규칙</span><span class="meta">전 팀 공통 가드레일</span></div>
-      <div class="abx-rules">
-        ${rule('카테고리 레인 고정', '작업은 레인 1개(게임/육아/취미/게이밍기어/신규)에 배정. 그 레인 정본·용어집·학습만 로드.')}
-        ${rule('(작성자×카테고리) 1정본', '출력 직전 작성자·카테고리·정본·참고 실블로그가 한 행으로 맞물리는지 자기점검. 안 맞으면 출력 금지.')}
-        ${rule('작성자 단위 중복 판단', '중복/각도는 작성자(블로그) 단위로만 비교. 교차 작성자 중복은 허용.')}
-        ${rule('페르소나 학습 격리(겜더쿠·연봄)', '설계 페르소나(겜더쿠·연봄)의 학습·규칙은 타 작성자로 전파 금지(양방향). 공용 정본도 작성자별 확인 후 분리 적용.')}
-        ${rule('거짓없이 보고', '확인 못 한 건 PASS로 만들지 않고 ‘확인 불가’로 드러낸다. 심각도를 낮추지 않는다.')}
-        ${rule('자가진단·자가피드백', '모든 팀이 전용 학습 파일로 시작 전 읽기 → 작업 → 자가피드백 → 교훈 누적.')}
-        ${rule('양방향 소통(묵살 금지)', '대표 허브를 거치되 흐름은 쌍방. 받은 팀은 수용·이의·보완요청 중 하나로 응답.')}
-        ${rule('발행됨 라벨 자동검증', '실제 블로그 제목 대조로 published.json 자동 생성 → 앱·사이트에 ‘발행됨’ 딤드 표시.')}
-        ${rule('관리자 삭제 모드', '사이트 헤더 자물쇠 + GitHub 토큰으로 미발행 글만 삭제(발행글 보호).')}
-        ${rule('신규 직원 온보딩', '정본 체크리스트 A~E로 추가, 지원 가능해지면 대표가 전 팀에 자동 통합.')}
-      </div>
-
-      <div class="sec-h abx-secgap"><span class="t">정본 색인</span><span class="meta">충돌 시 정본이 이깁니다</span></div>
-      <div class="card"><div class="card-b abx-canon">
-        <div class="ci"><code>shared/blog-writing/team-org.md</code> — 조직 정본(팀장 권한·레인·명단)</div>
-        <div class="ci"><code>org-changelog.md</code> — 조직 변경 이력 + 현재 스냅샷</div>
-        <div class="ci"><code>staff-registry.md</code> — 라우팅 정본((작성자×카테고리)→정본·블로그)</div>
-        <div class="ci"><code>work-intake.md</code> — 대표 업무접수·지시 표준</div>
-        <div class="ci"><code>post-purpose-guide.md</code> — 글 목적별 ‘반드시 들어갈 최소 정보’</div>
-        <div class="ci"><code>writing-quality.md</code> — 작성 품질(AI티 제거·SEO·분량)</div>
-        <div class="ci"><code>image-sourcing.md</code> — 이미지 파이프라인 회사표준</div>
-        <div class="ci"><code>shared/design/design-qa-checklist.md</code> — 디자인검수 체크리스트</div>
-        <div class="ci"><code>shared/infra/infra-learnings.md</code> — 인프라실 자가/벤치마킹 학습</div>
-        <div class="ci"><code>_brand/쓰담_brand-foundation.md</code> — 브랜드 정본(네이밍·팔레트·로고)</div>
-        <div class="ci">스킬 — <code>blog-company</code> · <code>blog-planner</code> · <code>bomding/yeongdo/gemdeokku/yeonbom-blog-writer</code> · <code>game-blog-qa</code> · <code>blog-editorial-review</code> · <code>game-blog-publish</code> · <code>trend-analysis-team</code> · <code>blog-analysis-team</code> · <code>blog-bench-coach</code></div>
-      </div></div>
-      <div class="foot">쓰담컴퍼니 회사 안내서 · 조직 스냅샷 기준일 2026-06-11 (작성팀 4인 — 연봄 합류 · 검수팀 발행 후 독자검수단 신설 · 작성자별 분량 게이트)<br>이 화면은 정본을 요약·해설한 안내서입니다. 세부·최신값은 위 정본 파일이 1차 기준.</div>`;
   };
 
   /* ---- 새 글 요청 ---- */
