@@ -1,0 +1,130 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬 상성표 총정리! 18타입 약점·강점 한눈에 보기 (이중타입 계산까지)</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td:first-child{font-weight:800;white-space:nowrap;background:#fafbfc;}
+  .good{color:#d6336c;font-weight:700;}
+  .bad{color:#1971c2;}
+  .none{color:#868e96;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 봄딩 전용 스크랩북 인포그래픽(핑크) */
+  .memo{position:relative;background:#FFEFF5;border:1px solid #f7c6da;border-radius:10px;padding:18px 20px 16px;margin:6px 0 24px;box-shadow:0 2px 8px rgba(214,62,122,.08);transform:rotate(-.6deg);}
+  .memo:before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(2deg);width:96px;height:18px;background:rgba(236,92,146,.22);border-radius:2px;}
+  .memo h4{margin:4px 0 12px;font-size:15px;color:#D63E7A;font-weight:800;}
+  .memo ul{margin:0;padding:0;list-style:none;}
+  .memo li{position:relative;padding:5px 0 5px 26px;font-size:14px;line-height:1.7;border-bottom:1px dashed #f3b9d0;}
+  .memo li:last-child{border-bottom:none;}
+  .memo li:before{content:"✓";position:absolute;left:4px;top:5px;color:#EC5C92;font-weight:800;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 정보</div>
+    <h1 class="title">포켓몬 상성표 총정리! 18타입 약점·강점 한눈에 보기 (이중타입 계산까지)</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 6. 27.</span><span>· 게임</span></div>
+
+    <p>포켓몬 배틀을 하다 보면 결국 한 번은 부딪히는 게 바로 '타입 상성'인데요. 분명히 레벨도 높고 좋은 포켓몬을 냈는데 기술이 영 안 박힌다 싶을 때, 십중팔구 타입 상성에서 손해를 보고 있는 경우더라고요. 저도 처음엔 감으로만 싸우다가 상성표를 한 번 제대로 외우고 나니 배틀이 확 쉬워졌답니다.</p>
+
+    <p>그래서 오늘은 헷갈리기 쉬운 <b>포켓몬 18타입 상성표</b>를 한눈에 보기 좋게 정리하고, 두 타입을 가진 포켓몬은 어떻게 계산하는지, 또 외우기 막막한 분들을 위한 규칙까지 같이 풀어보려고 합니다.</p>
+
+    <h2 class="sub">타입 상성, 왜 이렇게 중요하냐면요</h2>
+    <p>포켓몬 기술에는 타입이 있고, 그 타입이 상대 포켓몬 타입과 어떻게 맞물리느냐에 따라 데미지가 <b>2배(효과가 굉장함)</b>가 되기도 하고, <b>0.5배(효과가 별로)</b>로 반토막 나기도 해요. 심지어 아예 <b>0배(효과가 없음)</b>로 한 대도 안 들어가는 경우도 있고요.</p>
+    <p>같은 화력이어도 상성을 맞춰 때리면 두 배로 아프고, 반대로 잘못 때리면 반밖에 안 들어가니까, 이 차이가 곧 승패로 이어지거든요. 그래서 강한 포켓몬을 고르는 것 못지않게 <b>상성을 읽는 눈</b>이 중요하답니다.</p>
+
+    <h2 class="sub">18타입 전체 상성표</h2>
+    <p>아래 표는 <b>'이 타입 기술로 때릴 때'</b>를 기준으로 정리한 거예요. 왼쪽이 공격 타입이고, 오른쪽으로 2배·0.5배·0배가 되는 상대 타입을 적어뒀어요.</p>
+    <table class="tbl">
+      <tr><th style="width:58px;">공격</th><th>2배 (굉장함)</th><th>0.5배 (별로)</th><th>0배</th></tr>
+      <tr><td>노말</td><td class="none">―</td><td class="bad">바위, 강철</td><td class="none">고스트</td></tr>
+      <tr><td>불꽃</td><td class="good">풀, 얼음, 벌레, 강철</td><td class="bad">불꽃, 물, 바위, 드래곤</td><td class="none">―</td></tr>
+      <tr><td>물</td><td class="good">불꽃, 땅, 바위</td><td class="bad">물, 풀, 드래곤</td><td class="none">―</td></tr>
+      <tr><td>풀</td><td class="good">물, 땅, 바위</td><td class="bad">불꽃, 풀, 독, 비행, 벌레, 드래곤, 강철</td><td class="none">―</td></tr>
+      <tr><td>전기</td><td class="good">물, 비행</td><td class="bad">전기, 풀, 드래곤</td><td class="none">땅</td></tr>
+      <tr><td>얼음</td><td class="good">풀, 땅, 비행, 드래곤</td><td class="bad">불꽃, 물, 얼음, 강철</td><td class="none">―</td></tr>
+      <tr><td>격투</td><td class="good">노말, 얼음, 바위, 악, 강철</td><td class="bad">독, 비행, 에스퍼, 벌레, 페어리</td><td class="none">고스트</td></tr>
+      <tr><td>독</td><td class="good">풀, 페어리</td><td class="bad">독, 땅, 바위, 고스트</td><td class="none">강철</td></tr>
+      <tr><td>땅</td><td class="good">불꽃, 전기, 독, 바위, 강철</td><td class="bad">풀, 벌레</td><td class="none">비행</td></tr>
+      <tr><td>비행</td><td class="good">풀, 격투, 벌레</td><td class="bad">전기, 바위, 강철</td><td class="none">―</td></tr>
+      <tr><td>에스퍼</td><td class="good">격투, 독</td><td class="bad">에스퍼, 강철</td><td class="none">악</td></tr>
+      <tr><td>벌레</td><td class="good">풀, 에스퍼, 악</td><td class="bad">불꽃, 격투, 독, 비행, 고스트, 강철, 페어리</td><td class="none">―</td></tr>
+      <tr><td>바위</td><td class="good">불꽃, 얼음, 비행, 벌레</td><td class="bad">격투, 땅, 강철</td><td class="none">―</td></tr>
+      <tr><td>고스트</td><td class="good">에스퍼, 고스트</td><td class="bad">악</td><td class="none">노말</td></tr>
+      <tr><td>드래곤</td><td class="good">드래곤</td><td class="bad">강철</td><td class="none">페어리</td></tr>
+      <tr><td>악</td><td class="good">에스퍼, 고스트</td><td class="bad">격투, 악, 페어리</td><td class="none">―</td></tr>
+      <tr><td>강철</td><td class="good">얼음, 바위, 페어리</td><td class="bad">불꽃, 물, 전기, 강철</td><td class="none">―</td></tr>
+      <tr><td>페어리</td><td class="good">격투, 드래곤, 악</td><td class="bad">불꽃, 독, 강철</td><td class="none">―</td></tr>
+    </table>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 포켓몬 18타입 아이콘 모음(타입별 색상 칩)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://ko.portal-pokemon.com/" target="_blank">포켓몬 공식 포털</a></div>
+    <p class="cap">타입별 색만 익혀둬도 표 보기가 한결 수월해져요.</p>
+
+    <h2 class="sub">공격으로 읽을까, 방어로 읽을까</h2>
+    <p>표 하나로 두 가지를 다 볼 수 있는데요. <b>내가 쓰는 기술 타입</b>이 궁금하면 위 표를 그대로 가로로 읽으면 돼요. 예를 들어 '불꽃' 기술은 풀·얼음·벌레·강철에 2배로 들어가는 식이죠.</p>
+    <p>반대로 <b>내 포켓몬이 무슨 타입에 약한지</b>가 궁금하면, 표를 뒤집어서 '나를 때리는 타입' 쪽으로 보면 됩니다. 한 가지 재밌는 건, <b>강철 타입은 방어 하나만큼은 최고</b>라는 거예요. 무려 열 개나 되는 타입을 반감하고 독은 아예 무효라, 약점이 불꽃·격투·땅 세 개밖에 없거든요. 그래서 받아치는 벽으로 강철 포켓몬이 자주 보이는 거랍니다.</p>
+    <p>방어로 읽는 연습은 자주 보는 타입 몇 개로 해두면 좋은데요. 예를 들어 <b>드래곤</b> 타입은 불꽃·물·풀·전기 기술을 전부 반감해서 어지간한 공격엔 끄떡없지만, 얼음·드래곤·페어리에는 약하답니다. <b>페어리</b> 타입은 격투·벌레·악을 반감하고 드래곤 기술은 아예 무효라 든든한 대신, 독과 강철에는 약하고요. 이렇게 '내 포켓몬이 뭘 반감하고 뭐에 약한지'만 알아둬도, 상대가 어떤 기술을 낼지 미리 읽고 교체 타이밍을 잡을 수 있어요.</p>
+
+    <h2 class="sub">두 타입이면 배율이 곱해져요</h2>
+    <p>포켓몬은 두 개의 타입을 동시에 가진 경우가 많은데, 이때는 <b>각 타입의 배율을 곱해서</b> 계산해요. 이게 상성표의 진짜 묘미인데요.</p>
+    <p>대표적인 게 <b>리자몽</b>이에요. 불꽃·비행 타입이라 바위 기술을 맞으면, 바위는 불꽃에 2배·비행에 2배라서 <b>2배 × 2배 = 4배</b>로 그냥 한 방에 훅 가버려요. 땅·바위 타입인 <b>거대코뿌리</b>도 물 기술에 똑같이 4배로 약하고요. 이렇게 두 타입이 같은 방향으로 약하면 4배 약점이 생기는 거죠.</p>
+    <p>반대로 두 타입이 모두 그 기술을 반감하면 <b>0.25배</b>까지 내려가서 거의 안 아프고, 한쪽이 무효를 가지고 있으면 곱하기 0이라 <b>아예 0배</b>가 돼요. 물·비행 타입인 <b>갸라도스</b>한테 땅 기술이 안 통하는 게 딱 그 경우예요. 비행이 땅을 무효로 막아주니까요.</p>
+    <p>0.25배가 어떤 느낌인지 예를 들면, 풀·독 타입인 <b>이상해꽃</b>한테 풀 기술을 쓰는 경우예요. 풀은 풀에도 0.5배, 독에도 0.5배라서 <b>0.5배 × 0.5배 = 0.25배</b>가 되거든요. 거의 간지럽힌 수준이라, 이럴 땐 풀 기술 대신 다른 타입으로 때리는 게 훨씬 낫답니다. 그래서 포켓몬 한 마리한테 서로 다른 타입의 기술을 골고루 배워두는 '기술 커버리지'가 중요한 거예요.</p>
+
+    <h2 class="sub">외우기 막막하면 이 규칙만</h2>
+    <p>324칸짜리 표를 통째로 외우려면 머리가 아프니까, 자주 쓰이는 규칙성 몇 개만 잡아두면 훨씬 수월해요. 우선 <b>페어리</b>는 6세대에 드래곤을 잡으려고 나온 타입이라 드래곤·악·격투에 강하고, 그다음 앞에서 말한 것처럼 <b>강철</b>은 방어가 제일 단단하답니다.</p>
+    <p>그리고 입문자가 제일 자주 헛스윙하는 게 바로 <b>'안 통하는' 조합</b>이에요. 이 세 가지만 외워두면 헛방을 크게 줄일 수 있어요.</p>
+
+    <div class="memo">
+      <h4>🌸 이것만은 외우자, 3대 무효</h4>
+      <ul>
+        <li><b>전기 → 땅</b> 타입에게 0배 (땅에 전기는 안 통해요)</li>
+        <li><b>노말·격투 → 고스트</b> 타입에게 0배 (고스트는 만질 수가 없죠)</li>
+        <li><b>땅 → 비행</b> 타입에게 0배 (날고 있으니 땅이 안 닿아요)</li>
+      </ul>
+    </div>
+
+    <p>여기에 하나 더, <b>에스퍼는 악 타입에게 안 통한다</b>는 것도 같이 알아두면 좋아요. 강해 보이는 에스퍼 포켓몬도 악 타입 앞에선 기술이 0배라 맥을 못 추거든요. 이렇게 무효 관계 몇 개만 챙겨도 '왜 안 들어가지?' 하는 답답한 순간이 확 줄어든답니다.</p>
+    <p>실제 배틀에선 이 상성을 공격과 수비 양쪽으로 같이 굴리게 되는데요. 내가 낼 기술이 상대에게 2배로 박히는지 먼저 보고, 동시에 상대 기술이 내 포켓몬에 몇 배로 들어오는지도 같이 따지는 거예요. 이 두 가지를 빠르게 가늠하다 보면 '지금은 밀어붙일 때다', 아니면 '한 박자 빼면서 포켓몬을 바꿀 때다' 하는 판단이 서거든요. 처음엔 표를 보면서 천천히 해도 괜찮고, 몇 판 하다 보면 신기하게도 머리에 자연스럽게 들어온답니다.</p>
+
+    <h2 class="sub">포켓몬 상성표 정리</h2>
+    <p>그래서 핵심만 다시 짚어보면, 기술 타입과 상대 타입이 맞물려 <b>2배·0.5배·0배</b>가 갈리고, 두 타입을 가진 포켓몬은 배율을 곱해서 <b>4배나 0배</b>까지 벌어진다는 거예요. 전체를 다 외우기 어렵다면 3대 무효와 강철·페어리의 결만 먼저 잡아도 충분해요.</p>
+    <p>특히 <b>포켓몬 챔피언스</b>처럼 스토리 없이 배틀만 하는 게임에선, 강한 포켓몬을 고르는 것 못지않게 이 상성표를 읽는 눈이 승패를 가르더라고요. 상성표는 어느 한 게임에만 쓰이는 게 아니라 포켓몬 시리즈 전체에 통하는 기본기니까, 한 번 익혀두면 어떤 작품을 하든 두고두고 써먹을 수 있어요. 오늘 정리한 표, 캡처해 두고 배틀할 때 슬쩍 꺼내 보시면 좋겠습니다.</p>
+
+    <p><b>✔ 포켓몬 같이 보기 좋은 내용</b><br>
+    · 포켓몬 챔피언스 티어표 정리 (같은 날 올린 글 — 발행 시 링크 연결)<br>
+    · <a href="https://blog.naver.com/bomding/224310053211" target="_blank">포켓몬 챔피언스 출시 정보 총정리</a></p>
+    <!-- 내부링크: 포켓몬 챔피언스 티어표 글 네이버 post ID 확인 후 연결 -->
+
+    <div class="tags">#포켓몬상성표 #포켓몬타입상성 #포켓몬상성 #포켓몬타입 #포켓몬약점 #포켓몬챔피언스 #포켓몬배틀 #봄딩게임</div>
+  </div>
+</div>
+</body></html>
