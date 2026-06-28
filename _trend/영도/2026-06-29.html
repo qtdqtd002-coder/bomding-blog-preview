@@ -1,0 +1,344 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 영도 진단 &amp; 오늘 쓸 글 · 2026-06-29</title>
+<style>
+ :root{
+   --bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--inset2:#f2f4f7;
+   --ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--line2:#d8dbe2;
+   --brand:#5a4fe6;--warm:#ff6f52;--warm-weak:#ffeee9;
+   --ac:#2f8f7f;--ac-d:#216b5e;--ac-weak:#e3f2ee;
+   --good:#1f9d6b;--good-weak:#e7f6ef;--warn:#e0890b;--warn-weak:#fbf1de;--bad:#dc2626;--bad-weak:#fdecec;
+   --r-sm:9px;--r:13px;--r-lg:18px;
+   --sh-sm:0 1px 2px rgba(16,24,40,.05);--sh-md:0 6px 18px rgba(32,70,60,.07);
+   --tnum:"tnum" 1;
+ }
+ *{box-sizing:border-box;} html,body{margin:0;}
+ body{background:var(--bg);color:var(--ink);
+   font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+   line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;}
+ .wrap{max-width:840px;margin:0 auto;padding:20px 18px 64px;}
+ .back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;}
+ .back:hover{color:var(--ink);}
+ .num{font-feature-settings:var(--tnum);}
+ h2.sec{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:34px 0 2px;display:flex;align-items:center;gap:9px;}
+ h2.sec .ic{font-size:18px;}
+ h2.sec .tag{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:0;}
+ .sub{color:var(--sub);font-size:12.5px;margin:4px 0 12px;line-height:1.55;}
+ .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:18px 20px;margin-top:12px;}
+ .mast{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+   background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:20px 22px;}
+ .mast .l{flex:1;min-width:240px;}
+ .who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ac-d);
+   background:var(--ac-weak);border-radius:999px;padding:4px 11px;}
+ .who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac);}
+ .mast h1{font-size:clamp(18px,3.4vw,21px);font-weight:800;letter-spacing:-.02em;margin:11px 0 7px;line-height:1.4;text-wrap:balance;}
+ .mast .meta{font-size:12px;color:var(--muted);font-weight:500;} .mast .meta b{color:var(--sub);font-weight:700;}
+ .score{flex:none;text-align:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:108px;background:var(--inset);}
+ .score .sl{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--muted);}
+ .score .sv{font-size:38px;font-weight:800;line-height:1.02;margin-top:3px;font-feature-settings:var(--tnum);} .score .sv small{font-size:15px;color:var(--faint);font-weight:700;}
+ .score .sg{font-size:13px;font-weight:800;margin-top:1px;}
+ .g-a{color:var(--good);} .g-b{color:var(--ac-d);} .g-c{color:var(--warn);}
+ .glance{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden;}
+ .glance .gh{display:flex;align-items:center;gap:8px;padding:14px 20px 12px;border-bottom:1px solid var(--line);}
+ .glance .gh b{font-size:14px;font-weight:800;letter-spacing:-.01em;} .glance .gh .gt{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .lens{display:flex;gap:13px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:flex-start;}
+ .lens:last-of-type{border-bottom:none;}
+ .lens .li{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--inset2);}
+ .lens .lc{flex:1;min-width:0;}
+ .lens .lk{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
+ .lens .lx{font-size:13.5px;font-weight:600;line-height:1.5;margin-top:2px;color:var(--ink);}
+ .lens .lx b{font-weight:800;color:var(--ac-d);}
+ .lens .lm{flex:none;text-align:right;min-width:74px;}
+ .lens .lmv{font-size:19px;font-weight:800;font-feature-settings:var(--tnum);line-height:1.1;} .lens .lmv small{font-size:11px;color:var(--faint);font-weight:700;}
+ .lens .lml{font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+ @media(max-width:540px){.lens .lm{display:none;}}
+ .todo{background:var(--inset);padding:14px 20px;}
+ .todo .th{font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:.02em;margin-bottom:9px;}
+ .trow{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line2);align-items:flex-start;} .trow:first-of-type{border-top:none;}
+ .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:2px 8px;margin-top:1px;font-feature-settings:var(--tnum);}
+ .pp.p2{background:#5faea0;} .pp.p3{background:#8fc9bf;}
+ .tc{font-size:13px;line-height:1.5;} .tc b{font-weight:800;} .tc .tw{color:var(--muted);}
+ .kind{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+ .k-write{background:var(--ac-weak);color:var(--ac-d);} .k-seo{background:#e6ebff;color:#3b43b8;} .k-keep{background:var(--warn-weak);color:#9a6207;}
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;} @media(max-width:560px){.kgrid{grid-template-columns:repeat(2,1fr);}}
+ .k{background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 13px;}
+ .k .kv{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-feature-settings:var(--tnum);} .k .kv small{font-size:11px;font-weight:700;color:var(--faint);}
+ .k .kl{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:600;} .k .kd{font-size:10px;font-weight:800;margin-top:4px;}
+ .up{color:var(--good);} .down{color:var(--bad);} .flat{color:var(--warn);}
+ .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;} @media(max-width:600px){.charts{grid-template-columns:1fr;}}
+ .ch h5{margin:0 0 9px;font-size:11.5px;font-weight:800;color:var(--sub);}
+ .bars{display:flex;flex-direction:column;gap:7px;}
+ .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:62px;font-size:10.5px;font-weight:700;color:var(--sub);}
+ .bar .bt{flex:1;height:11px;background:var(--inset2);border-radius:6px;overflow:hidden;}
+ .bar .bt i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#a9d6cd,var(--ac));}
+ .bar .bv{flex:none;width:52px;text-align:right;font-size:10.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .bar.hi .bt i{background:linear-gradient(90deg,#5faea0,var(--ac-d));}
+ .bar.lo .bt i{background:linear-gradient(90deg,#f6c074,var(--warn));} .bar.lo .bl,.bar.lo .bv{color:#9a6207;}
+ .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+ .chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid;}
+ .c-good{background:var(--good-weak);color:#157a52;border-color:#c2e8d6;} .c-warn{background:var(--warn-weak);color:#9a6207;border-color:#f0d9a8;} .c-bad{background:var(--bad-weak);color:#b91c1c;border-color:#f3c2c2;}
+ .note{margin-top:13px;font-size:12px;line-height:1.55;color:var(--sub);background:var(--inset);border-radius:var(--r-sm);padding:11px 13px;} .note b{color:var(--ink);}
+ .lagline{margin-top:11px;font-size:11.5px;line-height:1.55;color:var(--muted);background:var(--inset2);border-radius:var(--r-sm);padding:9px 12px;} .lagline b{color:var(--sub);}
+ table{width:100%;border-collapse:collapse;font-size:12px;} th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:center;}
+ thead th{background:transparent;border-bottom:1.5px solid var(--line2);font-weight:800;font-size:10.5px;color:var(--muted);letter-spacing:.02em;}
+ td.gl{text-align:left;font-weight:700;} td.vd{text-align:left;font-size:11.5px;color:var(--sub);line-height:1.45;}
+ .seoq td{text-align:left;vertical-align:top;} .seoq .stitle{font-weight:700;}
+ .sc{font-weight:800;text-align:center;white-space:nowrap;font-feature-settings:var(--tnum);} .sc-hi{color:var(--good);} .sc-mid{color:var(--warn);} .sc-lo{color:var(--bad);}
+ .swot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;} @media(max-width:540px){.swot{grid-template-columns:1fr;}}
+ .sw{border-radius:var(--r);padding:14px 16px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:13px;font-weight:800;}
+ .sw ul{margin:0;padding-left:17px;font-size:12.5px;line-height:1.6;} .sw li{margin:6px 0;} .sw li b{font-weight:800;} .sw small{color:var(--muted);font-weight:600;}
+ .sw-good{background:var(--good-weak);border-color:#cfeadd;} .sw-good h4{color:#157a52;}
+ .sw-bad{background:#fbf5f5;border-color:#f0d6d6;} .sw-bad h4{color:#b91c1c;}
+ details.trend{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:4px 16px;}
+ details.trend summary{cursor:pointer;font-size:13px;font-weight:800;padding:11px 0;list-style:none;color:var(--sub);}
+ details.trend summary::-webkit-details-marker{display:none;}
+ details.trend summary::before{content:"▸ ";color:var(--ac);} details.trend[open] summary::before{content:"▾ ";}
+ .chg{margin-top:12px;}
+ .chgrow{display:flex;gap:10px;padding:9px 0;border-top:1px dashed var(--line2);align-items:flex-start;font-size:12.5px;line-height:1.5;} .chgrow:first-of-type{border-top:none;}
+ .chgk{flex:none;font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 8px;margin-top:1px;white-space:nowrap;}
+ .tabs{margin-top:12px;} .tabs>input{position:absolute;opacity:0;pointer-events:none;}
+ .tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px;}
+ .tablab{font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:var(--r-sm);background:var(--inset2);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s;}
+ .tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px;font-feature-settings:var(--tnum);}
+ .tpanel{display:none;}
+ #t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3],#t4:checked~.tabbar label[for=t4]{background:var(--ac);color:#fff;border-color:var(--ac);}
+ #t4:checked~.tabbar label[for=t4]{background:#3b6fb5;border-color:#3b6fb5;}
+ #t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt,#t4:checked~.tabbar label[for=t4] .cnt{color:rgba(255,255,255,.75);}
+ #t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3,#t4:checked~#p4{display:block;}
+ .dist{display:flex;align-items:center;gap:9px;margin-bottom:12px;background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;flex-wrap:wrap;}
+ .dist .dl{font-size:10.5px;font-weight:800;color:var(--muted);}
+ .distbar{flex:1;min-width:160px;display:flex;height:9px;border-radius:5px;overflow:hidden;background:var(--inset2);}
+ .distbar span{height:100%;}
+ .distleg{display:flex;gap:9px;flex-wrap:wrap;} .distleg b{font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:4px;color:var(--sub);}
+ .distleg b i{width:8px;height:8px;border-radius:2px;display:inline-block;}
+ .pick{border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;margin-bottom:9px;background:var(--panel);transition:border-color .12s;}
+ .pick:hover{border-color:var(--line2);}
+ .pick-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+ .gtag{font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 7px;}
+ .gtag.gear{color:#2a5694;background:#e7f0f9;}
+ .purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset2);border-radius:5px;padding:2px 7px;}
+ .pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--warm-weak);color:#c2451f;}
+ .ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:160px;line-height:1.4;}
+ .pwhy{font-size:12px;line-height:1.5;color:var(--sub);} .pwhy b{color:var(--ink);font-weight:700;} .pwhy a{color:var(--brand);text-decoration:none;border-bottom:1px solid #c7c2f5;}
+ .verdict{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:20px 22px;}
+ .verdict .lb{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--ac-d);}
+ .verdict h3{margin:8px 0 10px;font-size:15.5px;font-weight:800;letter-spacing:-.01em;line-height:1.45;text-wrap:balance;}
+ .verdict p{margin:0 0 16px;font-size:13px;line-height:1.75;color:var(--sub);} .verdict p b{color:var(--ink);font-weight:700;}
+ .gauge{border-top:1px solid var(--line);padding-top:15px;}
+ .gtop{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap;}
+ .gtop .gv{font-size:30px;font-weight:800;font-feature-settings:var(--tnum);} .gtop .gv small{font-size:14px;color:var(--faint);font-weight:700;}
+ .gtop .gg{font-size:15px;font-weight:800;} .gtop .gn{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .grow{display:flex;align-items:center;gap:10px;margin:8px 0;}
+ .grow .gl{flex:none;width:88px;font-size:11.5px;font-weight:700;color:var(--sub);}
+ .grow .gt{flex:1;height:9px;background:var(--inset2);border-radius:5px;overflow:hidden;} .grow .gt i{display:block;height:100%;border-radius:5px;}
+ .grow .gs{flex:none;width:30px;text-align:right;font-size:11.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .b-hi i{background:linear-gradient(90deg,#5faea0,var(--ac-d));} .b-mid i{background:linear-gradient(90deg,#f6c074,var(--warn));} .b-lo i{background:linear-gradient(90deg,#f08e8e,var(--bad));}
+ .foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center;}
+ @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+ @media(max-width:540px){.wrap{padding:14px 12px 44px;}.score{padding:10px 14px;min-width:92px;}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+
+ <div class="mast">
+   <div class="l">
+     <span class="who">데이터 분석실 · 영도 편</span>
+     <h1>본진 이환 1.2 D-9 — 영도에게 최상의 시의성 창. 콘텐츠 품질은 상위권이나 발행 페이스 0.72편/일·내부링크 0건이 포텐셜을 잠그는 중.</h1>
+     <div class="meta">발행일 <b>2026-06-29</b> · 대상 <b>영도</b>(네이버 kkodug9 · 이환·서브컬처·기어) · 후행지표 2026.05 실측(7/1 갱신 예정)</div>
+   </div>
+   <div class="score"><div class="sl">오늘 지수</div><div class="sv num">72<small>/100</small></div><div class="sg g-b">B</div></div>
+ </div>
+
+ <div class="glance">
+   <div class="gh">🎯 <b>오늘 한눈에</b><span class="gt">데이터 · 트렌드 · 크리에이터 세 시각</span></div>
+   <div class="lens">
+     <div class="li">📊</div>
+     <div class="lc">
+       <div class="lk">데이터 분석가가 보는 것</div>
+       <div class="lx">6월 발행이 <b>하루 0.72편으로 떨어졌어요</b>(5월 1.55편의 절반). 콘텐츠 품질(머문 시간 6분30초·이미지 풍부)은 여전히 상위권이지만, 최근 5편 모두 <b>다른 글로 가는 내부링크가 0건</b>이라 방문이 한 글에서 끝나요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">0.72<small>편/일</small></div><div class="lml">6월 발행 페이스</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">📈</div>
+     <div class="lc">
+       <div class="lk">트렌드 분석가가 보는 것</div>
+       <div class="lx"><b>이환(NTE) 1.2 신쿠·일로이 픽업(7/8, D-9)</b>이 본진 최고 시의성 창이에요 — 6/27 프리뷰 방송으로 뽑기 정보 검색이 급증 중. 같은 주 <b>명조 콜라보(7/9 종료)·로스트아크 차원술사(7/8)</b>도 겹쳐요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">D-9</div><div class="lml">이환 1.2까지</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">🎨</div>
+     <div class="lc">
+       <div class="lk">크리에이터 컨설턴트가 보는 것</div>
+       <div class="lx">이미지·분량은 강한데(90·87) <b>내부링크가 30점</b>으로 가장 약해요. 이환 글이 10편 넘게 쌓였는데 서로 연결이 안 돼 있어요 — <b>허브 1편 + "같이 보면 좋은 글" 링크 박스</b>만 붙이면 방문당 페이지가 바로 올라가요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">30<small>점</small></div><div class="lml">내부링크(최약축)</div></div>
+   </div>
+   <div class="todo">
+     <div class="th">🩺 그래서 오늘 할 일 (우선순위 순)</div>
+     <div class="trow"><span class="pp">P1</span><div class="tc"><span class="kind k-write">글쓰기</span><b>이환 1.2 신쿠 픽업 가이드 + 내부링크 박스</b> — 7/8 D-9. 신쿠 뽑기 가치 글 말미에 기존 이환 공략 3~4편을 "같이 보면 좋은 글"로 링크. 시의성+내부링크 동시 공략. <span class="tw">(→ ①확장 ①)</span></div></div>
+     <div class="trow"><span class="pp p2">P2</span><div class="tc"><span class="kind k-write">글쓰기</span><b>이환 1.2 총정리 허브 1편 신설</b> — 신쿠·일로이부터 카오스 아크까지 묶는 허브에서 기존 이환 스포크로 내부링크. 허브 없으면 10+편이 단편으로 흩어져요. <span class="tw">(→ ①확장 ②)</span></div></div>
+     <div class="trow"><span class="pp p3">P3</span><div class="tc"><span class="kind k-write">글쓰기</span><b>서브컬처 2축 확장(명조·붕스)</b> — 명조 콜라보 7/9 종료 D-10·붕스 4.3 천야 픽업. 6월 명조 커버 0건. 단발이라도 지금 발행해야 다음 업데이트 클러스터 씨앗. <span class="tw">(→ ②발굴)</span></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📊</span>진단 대시보드 <span class="tag">— 선행지표는 매일 실측(네이버 글목록)</span></h2>
+ <div class="panel">
+   <div class="kgrid">
+     <div class="k"><div class="kv num down">0.72 <small>편/일</small></div><div class="kl">6월 발행 페이스</div><div class="kd down num">5월 1.55편/일 → -54%</div></div>
+     <div class="k"><div class="kv num">3 <small>개</small></div><div class="kl">활성 클러스터</div><div class="kd flat">이환(4편)·기어·피망</div></div>
+     <div class="k"><div class="kv num">74</div><div class="kl">최근글 SEO 평균</div><div class="kd flat">분량·이미지 강·내부링크 약</div></div>
+     <div class="k"><div class="kv num down">30</div><div class="kl">내부링크(약점 축)</div><div class="kd down">5편 전부 0건</div></div>
+   </div>
+   <div class="lagline">📌 후행지표(2026.05 실측 · <b>D+2 신선 · 7/1 월간 캡처로 갱신 예정</b>) — 월 조회수 <b>142K</b>(전월 대비 <b>+28.5% 반등</b>), 평균 체류 <b>6분 30초</b>, 검색유입 구글 32%, 재방문 6.4%. 콘텐츠 품질은 우량하나 발행 페이스 저하가 C-Rank 주제집중도 신호를 희석할 수 있어 관찰 중.</div>
+   <div class="chips">
+     <span class="chip c-good">조회수 142K(+28.5% 반등)·체류 6m30s</span>
+     <span class="chip c-good">이미지 밀도·분량 상위권</span>
+     <span class="chip c-good">이환 본진 D-9 시의성 창</span>
+     <span class="chip c-warn">발행 0.72편/일(5월 -54%)</span>
+     <span class="chip c-bad">내부링크 0건·허브 부재</span>
+   </div>
+ </div>
+
+ <details class="trend"><summary>📈 월별 조회수 추세 (월 1회 갱신 · 다음 7/1)</summary>
+   <p class="sub" style="margin-top:6px">2026.05 실측 기준 — 전월 대비 +28.5% 반등 확인(영도는 3사 중 유일하게 조회수 반등 국면). 6월 확정치는 7/1 월간 통계 캡처 수신 후 갱신합니다(월별 시계열은 캡처 확보분만 표기, 미캡처 월 추정 금지).</p>
+   <div class="note">5월 142K(+28.5%)는 봄딩(-55% 급락)과 대조되는 영도의 강점이에요. 다만 6월 발행 페이스가 절반으로 떨어진 게 이 반등을 이어갈지 변수 — 7/1 통계로 확정합니다. 발행량 회복(이환 클러스터 묶기)이 이 곡선 유지의 핵심.</div>
+ </details>
+
+ <h2 class="sec"><span class="ic">🔍</span>최근 글 품질 검수 <span class="tag">— 최근 5편을 8가지 기준으로 채점</span></h2>
+ <p class="sub">최근 5편을 직접 열어 8가지 SEO·품질 항목으로 채점했어요. 이미지·분량은 최상위인데, 5편 전부 내부링크 0건이 체질 최약점이에요.</p>
+ <div class="panel" style="padding-top:8px">
+   <table class="seoq">
+     <thead><tr><th style="text-align:left">최근 글</th><th style="width:8%">점수</th><th style="text-align:left">한 줄 평</th></tr></thead>
+     <tbody>
+       <tr><td class="stitle">이환 카오스 콘솔 아크 파티 조합 공략 (6/29)</td><td class="sc sc-mid">78</td><td>본진 1.2 D-9 시의성 직격·이미지 풍부. 내부링크 0이 점수 잠금.</td></tr>
+       <tr><td class="stitle">바람의기사단 정식 출시 후기 (6/26)</td><td class="sc sc-mid">76</td><td>출시 시의성·이미지 35장. 단발 글로 클러스터 미연결.</td></tr>
+       <tr><td class="stitle">어나더던전 사냥터 추천 공략 (6/24)</td><td class="sc sc-mid">76</td><td>검색의도 명확·실용 공략. 내부링크·허브 없음.</td></tr>
+       <tr><td class="stitle">한게임 로얄홀덤 대회 (6/27)</td><td class="sc sc-mid">70</td><td>분량 충실하나 본진 대비 시의성·검색의도 집중 낮음.</td></tr>
+       <tr><td class="stitle">피망섯다 채솔 모델 (6/25)</td><td class="sc sc-mid">68</td><td>카드게임 단발·시의성 약. 서브컬처 클러스터 성장 기여 낮음.</td></tr>
+     </tbody>
+   </table>
+   <div class="charts" style="grid-template-columns:1fr;margin-top:16px">
+     <div class="ch"><h5>🧬 블로그 체질 — 8가지 기준 평균 (최근 5편)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">이미지</span><span class="bt"><i style="width:90%"></i></span><span class="bv num">90</span></div>
+         <div class="bar hi"><span class="bl">분량·깊이</span><span class="bt"><i style="width:87%"></i></span><span class="bv num">87</span></div>
+         <div class="bar"><span class="bl">구조</span><span class="bt"><i style="width:79%"></i></span><span class="bv num">79</span></div>
+         <div class="bar"><span class="bl">제목·검색어</span><span class="bt"><i style="width:78%"></i></span><span class="bv num">78</span></div>
+         <div class="bar"><span class="bl">가독·메타</span><span class="bt"><i style="width:76%"></i></span><span class="bv num">76</span></div>
+         <div class="bar"><span class="bl">검색의도</span><span class="bt"><i style="width:74%"></i></span><span class="bv num">74</span></div>
+         <div class="bar lo"><span class="bl">시의성</span><span class="bt"><i style="width:73%"></i></span><span class="bv num">73</span></div>
+         <div class="bar lo"><span class="bl">내부링크</span><span class="bt"><i style="width:30%"></i></span><span class="bv num">30</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="note">🧭 영도는 <b>이미지·분량이 압도적으로 강한 체질</b>이에요(체류 6분30초의 동력). 진짜 약점은 하나 — <b>내부링크 30점</b>이에요. 이환만 10편 넘게 쌓였는데 서로 연결이 0건이라 방문이 한 글에서 끝나요. <b>허브 + "같이 보면 좋은 글" 링크 박스</b>를 정착시키면 이 한 축이 60+로 뛰며 방문당 페이지가 올라가요(→P1·P2). 시의성(73)은 본진 외 단발(홀덤·피망)이 끌어내린 것 — 추천 트랙을 본진·서브컬처로 모으면 함께 개선돼요.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🧭</span>강점 · 보강 포인트</h2>
+ <div class="swot">
+   <div class="sw sw-good"><h4>잘하고 있는 것</h4><ul>
+     <li><b>이미지 밀도·분량 상위권</b> — 편당 21~37장·5,500~6,300자. 체류 6분30초의 핵심.</li>
+     <li><b>조회수 +28.5% 반등</b> — 3사 중 유일한 반등 국면(5월 142K).</li>
+     <li><b>이환 본진 반응 속도</b> — 1.2 D-9에 카오스 콘솔 아크 공략 즉시 발행.</li>
+     <li>도메인 신뢰도 자산 — 누적 글 6,000편+.</li>
+   </ul></div>
+   <div class="sw sw-bad"><h4>보강하면 좋은 것</h4><ul>
+     <li><b>내부링크 0건(30)</b> — 이환 10+편 미연결. 허브+링크 박스(→P1·P2)</li>
+     <li><b>발행 페이스 0.72편/일</b> — 5월 -54%. 이환 클러스터 묶기로 회복</li>
+     <li><b>서브컬처 단발 분산</b> — 홀덤·피망 단발이 결을 흐림. 명조·붕스로 모으기(→P3)</li>
+     <li>본진 외 시의성 약 — 추천을 본진·서브컬처·기어로 집중.</li>
+   </ul></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 추천 <span class="tag">— 게임 3트랙 각 8개 + 🎧 기어 5개</span></h2>
+ <p class="sub">각 글 카드의 <b>발행 요청</b> 버튼을 누르면 기획팀에 바로 발주돼요. 발행완료·실패블록 주제는 제외(제외 2건)했고, 확장 트랙의 본진(이환)은 최대 2개까지만 넣었어요. 🎧 기어는 소개 3·비교 2 혼합.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3"><input type="radio" name="rec" id="t4">
+   <div class="tabbar">
+     <label class="tablab" for="t1">① 확장 <span class="cnt">8</span></label>
+     <label class="tablab" for="t2">② 발굴 <span class="cnt">8</span></label>
+     <label class="tablab" for="t3">③ 단편 <span class="cnt">8</span></label>
+     <label class="tablab" for="t4">🎧 기어 <span class="cnt">5</span></label>
+   </div>
+
+   <div class="tpanel" id="p1">
+     <div class="dist"><span class="dl">다룬 게임</span>
+       <div class="distbar"><span style="width:25%;background:#2f8f7f"></span><span style="width:12.5%;background:#5faea0"></span><span style="width:12.5%;background:#8fc9bf"></span><span style="width:12.5%;background:#216b5e"></span><span style="width:12.5%;background:#47a08f"></span><span style="width:12.5%;background:#73bdb0"></span><span style="width:12.5%;background:#a9d6cd"></span></div>
+       <div class="distleg"><b><i style="background:#2f8f7f"></i>이환 2</b><b><i style="background:#5faea0"></i>명조 1</b><b><i style="background:#8fc9bf"></i>로스트아크 1</b><b><i style="background:#216b5e"></i>붕스 1</b><b><i style="background:#47a08f"></i>스타세일러 1</b><b><i style="background:#73bdb0"></i>SAO 1</b><b><i style="background:#a9d6cd"></i>트릭컬파티마 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">이환</span><span class="purp">뽑기 가이드</span><span class="pwhen">출시 D-9</span><span class="ptitle">이환 1.2 신쿠 Cosmos DPS 픽업 가이드 — 뽑기 가치·자원 준비</span></div><div class="pwhy"><b>P1 최우선</b>. 7/8 Phase1·6/27 프리뷰 방송 완료. 본진 최고 시의성 창. 글 말미에 기존 이환 공략 3~4편 "같이 보면 좋은 글" 링크 박스 필수.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">이환</span><span class="purp">허브</span><span class="pwhen">출시 D-9</span><span class="ptitle">이환 NTE 1.2 총정리 허브 — 신쿠·일로이부터 카오스 아크까지</span></div><div class="pwhy"><b>P2</b>. 신쿠+일로이 양 페이즈를 한 편에 묶는 허브. 기존 이환 스포크로 내부링크 연결 — 내부링크 0건 해소.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">명조</span><span class="purp">이벤트 정보</span><span class="pwhen">콜라보 D-10</span><span class="ptitle">명조 에지러너 콜라보 루시·레베카 — 이벤트 총정리·획득법</span></div><div class="pwhy">7/9 종료 임박, 마감 전 재검색 수요 피크. 명조 3.5(7/10) 직전 버프. 6월 명조 커버 0건 — 클러스터 씨앗.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">로스트아크</span><span class="purp">직업 정보</span><span class="pwhen">출시 D-9</span><span class="ptitle">로스트아크 차원술사 — 직업 정보·플레이 스타일 미리보기</span></div><div class="pwhy">7/8 동시 출시. 인기 직업 사전 서치 급등. 영도 로아 클러스터 재가동 계기.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">붕스</span><span class="purp">투자 가이드</span><span class="pwhen">픽업 진행</span><span class="ptitle">붕괴 스타레일 4.3 천야·블레이드 픽업 투자 가이드</span></div><div class="pwhy">4.3 라이브·4.4 전환 전 "어디 투자하나" 검색 수요. 서브컬처 결 적합.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">스타세일러</span><span class="purp">신작 소개</span><span class="pwhen">출시 D-1</span><span class="ptitle">스타세일러 6/30 글로벌 출시 — 소개·초반 공략·추천 캐릭터</span></div><div class="pwhy">내일 출시. 수집형 RPG·콕스 아트로 여성향 독자 흡수. 영도 결 적합·출시 직전 선점.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">SAO</span><span class="purp">데모 리뷰</span><span class="pwhen">출시 D-10</span><span class="ptitle">SAO 에코스 오브 아인크라드 데모 체험 리뷰</span></div><div class="pwhy">7/9 D-10·데모 제공 중. 실플레이 후기로 검색 선점. SAO IP 서브컬처 팬덤.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">트릭컬파티마</span><span class="purp">신작 정보</span><span class="pwhen">오늘 공개</span><span class="ptitle">트릭컬 파티마 정식공개 총정리 — 장르·시스템 첫 공개</span></div><div class="pwhy">6/29 18시 공개(오늘). 트릭컬 IP 차기작 첫 공개라 검색 스파이크 즉시 발생. 서브컬처 팬덤 정보 갈증.</div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="dist"><span class="dl">다룬 게임</span>
+       <div class="distbar"><span style="width:12.5%;background:#2f8f7f"></span><span style="width:12.5%;background:#5faea0"></span><span style="width:12.5%;background:#8fc9bf"></span><span style="width:12.5%;background:#216b5e"></span><span style="width:12.5%;background:#47a08f"></span><span style="width:12.5%;background:#73bdb0"></span><span style="width:12.5%;background:#a9d6cd"></span><span style="width:12.5%;background:#d3ebe6"></span></div>
+       <div class="distleg"><b><i style="background:#2f8f7f"></i>명조 1</b><b><i style="background:#5faea0"></i>스타세일러 1</b><b><i style="background:#8fc9bf"></i>로스트아크 1</b><b><i style="background:#216b5e"></i>디지몬 1</b><b><i style="background:#47a08f"></i>붕스 1</b><b><i style="background:#73bdb0"></i>트릭컬파티마 1</b><b><i style="background:#a9d6cd"></i>이환 1</b><b><i style="background:#d3ebe6"></i>SAO 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">명조</span><span class="purp">업데이트 정보</span><span class="pwhen">출시 D-11</span><span class="ptitle">명조 3.5 버전 주요 변경사항 정리</span></div><div class="pwhy">7/10 D-11. 콜라보 종료 직후 3.5 기대감 전환점. 명조 클러스터 확장.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">스타세일러</span><span class="purp">게임성 분석</span><span class="pwhen">출시 D-1</span><span class="ptitle">스타세일러 수집형 RPG 게임성 분석 — 왜 주목해야 하나</span></div><div class="pwhy">출시 전 게임성 소개로 출시 당일 검색 선점. 소규모 신작 선발주자 효과.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">로스트아크</span><span class="purp">직업 분석</span><span class="pwhen">출시 D-9</span><span class="ptitle">로스트아크 차원술사 스킬·플레이 스타일 분석</span></div><div class="pwhy">D-9 준비글. 영도 로아 라인 추가(기존 이터널리턴·POE 클러스터에).</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">디지몬</span><span class="purp">신작 정보</span><span class="pwhen">출시 D-10</span><span class="ptitle">디지몬 타임스트레인저 스위치2 출시 정보·첫인상</span></div><div class="pwhy">7/9 D-10·스위치2 첫 디지몬 타이틀. 콘솔 신작 팬 검색. 영도 닌텐도 리뷰 전례.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">붕스</span><span class="purp">자원 전략</span><span class="pwhen">시즌 진행</span><span class="ptitle">붕괴 스타레일 4.3 무과금 자원 수급 전략</span></div><div class="pwhy">라이브 진행 중. 픽업 이후 "어떻게 쌓나" 에버그린 수요.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">트릭컬파티마</span><span class="purp">신작 분석</span><span class="pwhen">오늘 공개</span><span class="ptitle">트릭컬 파티마 장르·시스템 소개 — 본가 트릭컬과의 차이</span></div><div class="pwhy">오늘 공개 직후 "이게 뭔 게임이야" 정보 수요 즉시 발생.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">이환</span><span class="purp">공략 심화</span><span class="pwhen">스포크</span><span class="ptitle">이환 NTE 카오스 콘솔 아크 완전 공략 심화편</span></div><div class="pwhy">오늘 발행 글의 허브-스포크 연장. 허브에서 내부링크 받는 심화 스포크.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">SAO</span><span class="purp">입문 가이드</span><span class="pwhen">출시 D-10</span><span class="ptitle">SAO 에코스 아인크라드 직업 추천 입문 가이드</span></div><div class="pwhy">7/9 D-10. 데모 플레이어 직업 고민 시작, 발굴 선점.</div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <div class="dist"><span class="dl">다룬 게임</span>
+       <div class="distbar"><span style="width:12.5%;background:#2f8f7f"></span><span style="width:12.5%;background:#5faea0"></span><span style="width:12.5%;background:#8fc9bf"></span><span style="width:12.5%;background:#216b5e"></span><span style="width:12.5%;background:#47a08f"></span><span style="width:12.5%;background:#73bdb0"></span><span style="width:12.5%;background:#a9d6cd"></span><span style="width:12.5%;background:#d3ebe6"></span></div>
+       <div class="distleg"><b><i style="background:#2f8f7f"></i>명조 1</b><b><i style="background:#5faea0"></i>스타세일러 1</b><b><i style="background:#8fc9bf"></i>트릭컬파티마 1</b><b><i style="background:#216b5e"></i>로스트아크 1</b><b><i style="background:#47a08f"></i>붕스 1</b><b><i style="background:#73bdb0"></i>이환 1</b><b><i style="background:#a9d6cd"></i>SAO 1</b><b><i style="background:#d3ebe6"></i>디지몬 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">명조</span><span class="purp">굿즈 단편</span><span class="pwhen">콜라보 D-10</span><span class="ptitle">명조 루시·레베카 팝업 굿즈 리스트 정리</span></div><div class="pwhy">D-10. 팝업 관심층 굿즈 수집 수요. 영도 팝업·굿즈 커버 전례.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">스타세일러</span><span class="purp">보상 단편</span><span class="pwhen">출시 D-1</span><span class="ptitle">스타세일러 출시 기념 패키지·보상 총정리</span></div><div class="pwhy">출시 직전 "뭐 받나" 단편 수요. 빠른 검색 포맷.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">트릭컬파티마</span><span class="purp">이벤트 단편</span><span class="pwhen">오늘 공개</span><span class="ptitle">트릭컬 파티마 사전등록 이벤트 정리</span></div><div class="pwhy">오늘 공개=사전등록 링크 공개. 즉시 단편 정리 가능.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">로스트아크</span><span class="purp">이벤트 단편</span><span class="pwhen">출시 D-9</span><span class="ptitle">로스트아크 차원술사 출시 기념 이벤트 정리</span></div><div class="pwhy">D-9. 출시 전 이벤트 미리 정리. 로아 복귀 수요.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">붕스</span><span class="purp">단편</span><span class="pwhen">시즌 진행</span><span class="ptitle">붕괴 스타레일 4.3 무료 뽑기 일정·수령 방법</span></div><div class="pwhy">라이브 진행. "무료 뽑기 언제까지" 에버그린 단편.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">이환</span><span class="purp">방송 요약</span><span class="pwhen">D-9</span><span class="ptitle">이환 1.2 프리뷰 핵심 포인트 — 신쿠·일로이 확인사항</span></div><div class="pwhy">6/27 방송 후 D-9. 프리뷰 요약 단편으로 확장 트랙과 앵커-스포크 구성.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">SAO</span><span class="purp">데모 단편</span><span class="pwhen">출시 D-10</span><span class="ptitle">SAO 에코스 데모 다운로드 방법·첫 체험 팁</span></div><div class="pwhy">D-10 데모 제공 중. "어떻게 해볼 수 있나" 즉각 검색.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">디지몬</span><span class="purp">단편</span><span class="pwhen">출시 D-10</span><span class="ptitle">디지몬 타임스트레인저 한국 출시 여부·플랫폼 정리</span></div><div class="pwhy">D-10. 스위치2 첫 타이틀이라 "한국판 나오나" 검색.</div></div>
+   </div>
+
+   <div class="tpanel" id="p4">
+     <p class="sub" style="margin-top:0">🎧 <b>게이밍 기어(영도 고유)</b> — 소개 3 + 비교 2 혼합. 신상/화제(CES·최근 출시) 제품, 검색의도 명확한 것만.</p>
+     <div class="pick"><div class="pick-top"><span class="gtag gear">기어</span><span class="purp">소개</span><span class="pwhen">CES 후</span><span class="ptitle">2026 경량 게이밍 마우스 신제품 정리 — CES 이후 출시작 총정리</span></div><div class="pwhy">CES 이후 출시 사이클 활성. 영도 게이밍 기어 전례(펄사 콜라보) 후속.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag gear">기어</span><span class="purp">소개</span><span class="pwhen">상반기 교체</span><span class="ptitle">CES 2026 게이밍 모니터 신제품 — 144Hz 이상 예산별 추천</span></div><div class="pwhy">2026 상반기 모니터 교체 수요. "게이밍 모니터 추천 2026" 롱테일.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag gear">기어</span><span class="purp">소개</span><span class="pwhen">에버그린</span><span class="ptitle">게이밍 헤드셋 입문 추천 — 3만원대부터 10만원대까지</span></div><div class="pwhy">검색의도 명확(게이밍 헤드셋 추천). 에버그린 상위노출 지속.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag gear">기어</span><span class="purp">비교</span><span class="pwhen">현행 제품</span><span class="ptitle">레이저 바실리스크 V3 vs 로지텍 G Pro X 슈퍼라이트2 — 무선 마우스 비교</span></div><div class="pwhy">양 제품 현행. "무선 마우스 비교" 고검색의도. (펄사 스텔라이브 마우스는 기발행 제외)</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag gear">기어</span><span class="purp">비교</span><span class="pwhen">현행 제품</span><span class="ptitle">HyperX Cloud Alpha S vs 스틸시리즈 Arctis Nova 7 — 게이밍 헤드셋 비교</span></div><div class="pwhy">두 제품 현재 판매 중·"헤드셋 비교" 검색의도 명확.</div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔄</span>전일 대비 변화</h2>
+ <div class="panel chg">
+   <div class="chgrow"><span class="chgk">이환 D-9 진입</span><div>6/28 D-10 → 6/29 D-9. 오늘 카오스 콘솔 아크 파티 공략 즉시 발행(실측). <b>그래서</b> — 본진 시의성 반응은 확인됨, 이제 허브+내부링크 세트로 묶을 차례.</div></div>
+   <div class="chgrow"><span class="chgk">트릭컬 파티마 공개</span><div>어제까지 예고만 있던 신규 IP가 오늘 18시 정식공개로 전환. <b>그래서</b> — 단편·발굴 트랙 즉시 가동 가능(공개 직후 검색 스파이크).</div></div>
+   <div class="chgrow"><span class="chgk">짧게</span><div>발행 0.72편/일·내부링크 0건 두 약점이 29일째 유지. <b>그래서</b> — 이환 D-9를 '허브+링크 박스'로 쓰는 것이 두 약점을 동시에 푸는 가장 빠른 레버.</div></div>
+ </div>
+
+ <div class="verdict">
+   <div class="lb">오늘자 총평 · 데이터 분석실</div>
+   <h3>콘텐츠 품질은 상위권·조회수 +28.5% 반등 — 본진 이환 1.2 D-9를 '허브+내부링크 세트'로 쓰는 것이 발행저하·내부링크 0건을 동시에 푸는 레버.</h3>
+   <p>영도는 이미지·분량(체류 6분30초)과 5월 조회수 반등(+28.5%)이라는 강한 자산을 가졌어요. 약점도 또렷해요 — <b>발행 페이스 0.72편/일</b>(5월의 절반)과 <b>내부링크 0건</b>. 둘은 사실 한 처방으로 풀려요: 본진 이환 1.2(D-9)를 <b>허브 1편 + 신쿠 픽업 가이드 + "같이 보면 좋은 글" 링크 박스</b>로 묶으면 시의성·발행량·내부링크가 한 번에 채워져요. 여기에 명조·붕스 서브컬처 2축을 더하면 흩어진 단발(홀덤·피망)을 클러스터로 모을 수 있어요.</p>
+   <div class="gauge">
+     <div class="gtop"><span class="gv num">72<small>/100</small></span><span class="gg g-b">B</span><span class="gn">이환 허브·내부링크 정착 시 B+ 복귀</span></div>
+     <div class="grow"><span class="gl">발행 동력</span><span class="gt b-mid"><i style="width:62%"></i></span><span class="gs num">62</span></div>
+     <div class="grow"><span class="gl">글 품질</span><span class="gt b-mid"><i style="width:78%"></i></span><span class="gs num">78</span></div>
+     <div class="grow"><span class="gl">검색 건강</span><span class="gt b-mid"><i style="width:78%"></i></span><span class="gs num">78</span></div>
+     <div class="grow"><span class="gl">기회·다양성</span><span class="gt b-mid"><i style="width:70%"></i></span><span class="gs num">70</span></div>
+   </div>
+ </div>
+
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(영도) · 선행지표는 네이버 글목록 실측 · 후행지표는 2026.05 월간 통계(7/1 갱신) · 글 품질은 본문 직접 확인 · 추천 수치·일정·제품은 작성 직전 공식 재확인 권장.</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>

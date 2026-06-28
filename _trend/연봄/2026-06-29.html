@@ -1,0 +1,357 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 연봄 진단 &amp; 오늘 쓸 글 · 2026-06-29</title>
+<style>
+ :root{
+   --bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--inset2:#f2f4f7;
+   --ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--line2:#d8dbe2;
+   --brand:#5a4fe6;--warm:#ff6f52;--warm-weak:#ffeee9;
+   --ac:#4a86c5;--ac-d:#356a9e;--ac-weak:#e7f0f9;
+   --good:#1f9d6b;--good-weak:#e7f6ef;--warn:#e0890b;--warn-weak:#fbf1de;--bad:#dc2626;--bad-weak:#fdecec;
+   --r-sm:9px;--r:13px;--r-lg:18px;
+   --sh-sm:0 1px 2px rgba(16,24,40,.05);--sh-md:0 6px 18px rgba(32,55,90,.07);
+   --tnum:"tnum" 1;
+ }
+ *{box-sizing:border-box;} html,body{margin:0;}
+ body{background:var(--bg);color:var(--ink);
+   font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+   line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;}
+ .wrap{max-width:840px;margin:0 auto;padding:20px 18px 64px;}
+ .back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;}
+ .back:hover{color:var(--ink);}
+ .num{font-feature-settings:var(--tnum);}
+ h2.sec{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:34px 0 2px;display:flex;align-items:center;gap:9px;}
+ h2.sec .ic{font-size:18px;}
+ h2.sec .tag{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:0;}
+ .sub{color:var(--sub);font-size:12.5px;margin:4px 0 12px;line-height:1.55;}
+ .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:18px 20px;margin-top:12px;}
+ .mast{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+   background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:20px 22px;}
+ .mast .l{flex:1;min-width:240px;}
+ .who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ac-d);
+   background:var(--ac-weak);border-radius:999px;padding:4px 11px;}
+ .who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac);}
+ .mast h1{font-size:clamp(18px,3.4vw,21px);font-weight:800;letter-spacing:-.02em;margin:11px 0 7px;line-height:1.4;text-wrap:balance;}
+ .mast .meta{font-size:12px;color:var(--muted);font-weight:500;} .mast .meta b{color:var(--sub);font-weight:700;}
+ .score{flex:none;text-align:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:108px;background:var(--inset);}
+ .score .sl{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--muted);}
+ .score .sv{font-size:38px;font-weight:800;line-height:1.02;margin-top:3px;font-feature-settings:var(--tnum);} .score .sv small{font-size:15px;color:var(--faint);font-weight:700;}
+ .score .sg{font-size:13px;font-weight:800;margin-top:1px;}
+ .g-a{color:var(--good);} .g-b{color:var(--ac-d);} .g-c{color:var(--warn);}
+ .glance{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden;}
+ .glance .gh{display:flex;align-items:center;gap:8px;padding:14px 20px 12px;border-bottom:1px solid var(--line);}
+ .glance .gh b{font-size:14px;font-weight:800;letter-spacing:-.01em;} .glance .gh .gt{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .lens{display:flex;gap:13px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:flex-start;}
+ .lens:last-of-type{border-bottom:none;}
+ .lens .li{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--inset2);}
+ .lens .lc{flex:1;min-width:0;}
+ .lens .lk{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
+ .lens .lx{font-size:13.5px;font-weight:600;line-height:1.5;margin-top:2px;color:var(--ink);}
+ .lens .lx b{font-weight:800;color:var(--ac-d);}
+ .lens .lm{flex:none;text-align:right;min-width:74px;}
+ .lens .lmv{font-size:19px;font-weight:800;font-feature-settings:var(--tnum);line-height:1.1;} .lens .lmv small{font-size:11px;color:var(--faint);font-weight:700;}
+ .lens .lml{font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+ @media(max-width:540px){.lens .lm{display:none;}}
+ .todo{background:var(--inset);padding:14px 20px;}
+ .todo .th{font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:.02em;margin-bottom:9px;}
+ .trow{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line2);align-items:flex-start;} .trow:first-of-type{border-top:none;}
+ .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:2px 8px;margin-top:1px;font-feature-settings:var(--tnum);}
+ .pp.p2{background:#6ba2d4;} .pp.p3{background:#9cc0e3;}
+ .tc{font-size:13px;line-height:1.5;} .tc b{font-weight:800;} .tc .tw{color:var(--muted);}
+ .kind{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+ .k-write{background:var(--ac-weak);color:var(--ac-d);} .k-seo{background:#e6ebff;color:#3b43b8;} .k-keep{background:var(--warn-weak);color:#9a6207;}
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;} @media(max-width:560px){.kgrid{grid-template-columns:repeat(2,1fr);}}
+ .k{background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 13px;}
+ .k .kv{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-feature-settings:var(--tnum);} .k .kv small{font-size:11px;font-weight:700;color:var(--faint);}
+ .k .kl{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:600;} .k .kd{font-size:10px;font-weight:800;margin-top:4px;}
+ .up{color:var(--good);} .down{color:var(--bad);} .flat{color:var(--warn);}
+ .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;} @media(max-width:600px){.charts{grid-template-columns:1fr;}}
+ .ch h5{margin:0 0 9px;font-size:11.5px;font-weight:800;color:var(--sub);}
+ .bars{display:flex;flex-direction:column;gap:7px;}
+ .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:62px;font-size:10.5px;font-weight:700;color:var(--sub);}
+ .bar .bt{flex:1;height:11px;background:var(--inset2);border-radius:6px;overflow:hidden;}
+ .bar .bt i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#bcd5ee,var(--ac));}
+ .bar .bv{flex:none;width:52px;text-align:right;font-size:10.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .bar.hi .bt i{background:linear-gradient(90deg,#6ba2d4,var(--ac-d));}
+ .bar.lo .bt i{background:linear-gradient(90deg,#f6c074,var(--warn));} .bar.lo .bl,.bar.lo .bv{color:#9a6207;}
+ .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+ .chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid;}
+ .c-good{background:var(--good-weak);color:#157a52;border-color:#c2e8d6;} .c-warn{background:var(--warn-weak);color:#9a6207;border-color:#f0d9a8;} .c-bad{background:var(--bad-weak);color:#b91c1c;border-color:#f3c2c2;}
+ .note{margin-top:13px;font-size:12px;line-height:1.55;color:var(--sub);background:var(--inset);border-radius:var(--r-sm);padding:11px 13px;} .note b{color:var(--ink);}
+ table{width:100%;border-collapse:collapse;font-size:12px;} th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:center;}
+ thead th{background:transparent;border-bottom:1.5px solid var(--line2);font-weight:800;font-size:10.5px;color:var(--muted);letter-spacing:.02em;}
+ td.gl{text-align:left;font-weight:700;} td.vd{text-align:left;font-size:11.5px;color:var(--sub);line-height:1.45;}
+ .st{font-weight:800;white-space:nowrap;} .st-keep{color:var(--good);} .st-watch{color:var(--warn);} .st-drop{color:var(--bad);}
+ .seoq td{text-align:left;vertical-align:top;} .seoq .stitle{font-weight:700;}
+ .sc{font-weight:800;text-align:center;white-space:nowrap;font-feature-settings:var(--tnum);} .sc-hi{color:var(--good);} .sc-mid{color:var(--warn);} .sc-lo{color:var(--bad);}
+ .pf{font-weight:800;font-size:10px;border-radius:5px;padding:1px 6px;background:var(--ac-weak);color:var(--ac-d);white-space:nowrap;}
+ .cf{font-weight:800;font-size:9.5px;border-radius:5px;padding:1px 6px;background:#fff1e9;color:#c2451f;white-space:nowrap;}
+ .swot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;} @media(max-width:540px){.swot{grid-template-columns:1fr;}}
+ .sw{border-radius:var(--r);padding:14px 16px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:13px;font-weight:800;}
+ .sw ul{margin:0;padding-left:17px;font-size:12.5px;line-height:1.6;} .sw li{margin:6px 0;} .sw li b{font-weight:800;} .sw small{color:var(--muted);font-weight:600;}
+ .sw-good{background:var(--good-weak);border-color:#cfeadd;} .sw-good h4{color:#157a52;}
+ .sw-bad{background:#fbf5f5;border-color:#f0d6d6;} .sw-bad h4{color:#b91c1c;}
+ .tabs{margin-top:12px;} .tabs>input{position:absolute;opacity:0;pointer-events:none;}
+ .tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px;}
+ .tablab{font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:var(--r-sm);background:var(--inset2);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s;}
+ .tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px;font-feature-settings:var(--tnum);}
+ .tpanel{display:none;}
+ #t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3]{background:var(--ac);color:#fff;border-color:var(--ac);}
+ #t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt{color:rgba(255,255,255,.75);}
+ #t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3{display:block;}
+ .dist{display:flex;align-items:center;gap:9px;margin-bottom:12px;background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;flex-wrap:wrap;}
+ .dist .dl{font-size:10.5px;font-weight:800;color:var(--muted);}
+ .distbar{flex:1;min-width:160px;display:flex;height:9px;border-radius:5px;overflow:hidden;background:var(--inset2);}
+ .distbar span{height:100%;}
+ .distleg{display:flex;gap:9px;flex-wrap:wrap;} .distleg b{font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:4px;color:var(--sub);}
+ .distleg b i{width:8px;height:8px;border-radius:2px;display:inline-block;}
+ .pick{border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;margin-bottom:9px;background:var(--panel);transition:border-color .12s;}
+ .pick:hover{border-color:var(--line2);}
+ .pick-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+ .gtag{font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 7px;}
+ .purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset2);border-radius:5px;padding:2px 7px;}
+ .pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--warm-weak);color:#c2451f;}
+ .ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:160px;line-height:1.4;}
+ .pwhy{font-size:12px;line-height:1.5;color:var(--sub);} .pwhy b{color:var(--ink);font-weight:700;} .pwhy a{color:var(--brand);text-decoration:none;border-bottom:1px solid #c7c2f5;}
+ .ixreq h4{margin:0 0 5px;font-size:13px;font-weight:800;color:#157a52;} .ixreq .ixsub{font-size:11.5px;color:var(--sub);margin-bottom:9px;line-height:1.5;} .ixreq .ixsub b{color:var(--ink);}
+ .verdict{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:20px 22px;}
+ .verdict .lb{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--ac-d);}
+ .verdict h3{margin:8px 0 10px;font-size:15.5px;font-weight:800;letter-spacing:-.01em;line-height:1.45;text-wrap:balance;}
+ .verdict p{margin:0 0 16px;font-size:13px;line-height:1.75;color:var(--sub);} .verdict p b{color:var(--ink);font-weight:700;}
+ .gauge{border-top:1px solid var(--line);padding-top:15px;}
+ .gtop{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap;}
+ .gtop .gv{font-size:30px;font-weight:800;font-feature-settings:var(--tnum);} .gtop .gv small{font-size:14px;color:var(--faint);font-weight:700;}
+ .gtop .gg{font-size:15px;font-weight:800;} .gtop .gn{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .grow{display:flex;align-items:center;gap:10px;margin:8px 0;}
+ .grow .gl{flex:none;width:88px;font-size:11.5px;font-weight:700;color:var(--sub);}
+ .grow .gt{flex:1;height:9px;background:var(--inset2);border-radius:5px;overflow:hidden;} .grow .gt i{display:block;height:100%;border-radius:5px;}
+ .grow .gs{flex:none;width:30px;text-align:right;font-size:11.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .b-hi i{background:linear-gradient(90deg,#6ba2d4,var(--ac-d));} .b-mid i{background:linear-gradient(90deg,#f6c074,var(--warn));} .b-lo i{background:linear-gradient(90deg,#f08e8e,var(--bad));}
+ .foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center;}
+ @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+ @media(max-width:540px){.wrap{padding:14px 12px 44px;}.score{padding:10px 14px;min-width:92px;}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+
+ <div class="mast">
+   <div class="l">
+     <span class="who">데이터 분석실 · 연봄 편</span>
+     <h1>연봄, 신생 졸업 직전 — 실검색 방문이 붙기 시작(주간 152클릭). 포챔스 리세마라 클러스터 1페이지 안착, GO Fest 서울 D-12 롱테일이 이번 주 최대 레버.</h1>
+     <div class="meta">발행일 <b>2026-06-29</b> · 대상 <b>연봄</b>(티스토리 bom-ding · 포켓몬 전문) · 측정창 6/22~28(GSC final)</div>
+   </div>
+   <div class="score"><div class="sl">오늘 지수</div><div class="sv num">74<small>/100</small></div><div class="sg g-b">B</div></div>
+ </div>
+
+ <div class="glance">
+   <div class="gh">🎯 <b>오늘 한눈에</b><span class="gt">데이터 · 트렌드 · 크리에이터 세 시각</span></div>
+   <div class="lens">
+     <div class="li">📊</div>
+     <div class="lc">
+       <div class="lk">데이터 분석가가 보는 것</div>
+       <div class="lx">구글 방문이 <b>주간 152클릭으로 실제로 붙기 시작</b>했어요(더 이상 집계 전 아님). 지난주 583클릭은 포챔스 리세마라 출시 스파이크라 이번 주는 그 반동으로 줄었지만, 6/25~26 하루 56·57클릭으로 다시 올라오고 있어요. '포챔스 리세' 검색순위 2.0위로 1페이지 안착.</div>
+     </div>
+     <div class="lm"><div class="lmv num">152<small>회</small></div><div class="lml">주간 검색 방문</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">📈</div>
+     <div class="lc">
+       <div class="lk">트렌드 분석가가 보는 것</div>
+       <div class="lx"><b>포켓몬 GO Fest 서울(7/11~12, 반포한강, D-12)</b>이 이번 주 최대 기회예요. 교통·준비물은 이미 썼으니 <b>"무료 입장 방법"·"제라오라 잡는 법"</b> 같은 빈 롱테일을 지금 선점해야 행사 전에 구글 등록을 받아요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">D-12</div><div class="lml">GO Fest 서울</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">🎨</div>
+     <div class="lc">
+       <div class="lk">크리에이터 컨설턴트가 보는 것</div>
+       <div class="lx">제목·구조·검색의도는 90점대로 최상위인데 <b>내부링크(78)</b>가 가장 약해요. 유나이트 2편·카드 글이 허브 없이 떠 있어요 — <b>"완전 가이드 허브" 1편</b>으로 묶으면 구글이 주제 권위를 인식해요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">78<small>점</small></div><div class="lml">내부링크(최약축)</div></div>
+   </div>
+   <div class="todo">
+     <div class="th">🩺 그래서 오늘 할 일 (우선순위 순)</div>
+     <div class="trow"><span class="pp">P1</span><div class="tc"><span class="kind k-write">글쓰기</span><b>GO Fest 서울 롱테일 잔여 각도 선점</b> — "무료 입장 방법"·"제라오라 잡는 법"은 아직 미발행. D-12라 오늘~내일 써야 행사 전 구글 등록. <span class="tw">(→ ①확장 ①②)</span></div></div>
+     <div class="trow"><span class="pp p2">P2</span><div class="tc"><span class="kind k-write">글쓰기</span><b>유나이트·카드 클러스터 허브 신설</b> — 유나이트 2편(입문·무과금)이 허브 없이 단편. "완전 가이드 허브" 1편으로 묶어 쌍방 내부링크. <span class="tw">(→ ①확장 ④)</span></div></div>
+     <div class="trow"><span class="pp p3">P3</span><div class="tc"><span class="kind k-seo">색인 요청</span><b>/48 유나이트 무과금 라이선스 색인 요청</b> — GSC inspect 결과 "발견됨·아직 미등록". 색인 요청 1순위. <span class="tw">(→ 색인 현황)</span></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📊</span>핵심 지표 <span class="tag">— 구글 검색 데이터 실측(6/22~28 final)</span></h2>
+ <div class="panel">
+   <div class="kgrid">
+     <div class="k"><div class="kv num down">152 <small>회</small></div><div class="kl">주간 검색 클릭</div><div class="kd down num">지난주 583(스파이크) → 반동</div></div>
+     <div class="k"><div class="kv num flat">7.33<small>위</small></div><div class="kl">평균 검색순위</div><div class="kd flat">지난주 5.71위 → 소폭 밀림</div></div>
+     <div class="k"><div class="kv num up">8.42<small>%</small></div><div class="kl">클릭률(노출 대비)</div><div class="kd up num">노출 1,805 · fresh 236</div></div>
+     <div class="k"><div class="kv num">2 / 3</div><div class="kl">최근 3편 구글 등록</div><div class="kd flat">/47·/46 PASS · /48 미등록</div></div>
+   </div>
+   <div class="charts">
+     <div class="ch"><h5>일별 검색 클릭 (6/22~26)</h5>
+       <div class="bars">
+         <div class="bar"><span class="bl">6/22 월</span><span class="bt"><i style="width:25%"></i></span><span class="bv num">14</span></div>
+         <div class="bar"><span class="bl">6/23 화</span><span class="bt"><i style="width:21%"></i></span><span class="bv num">12</span></div>
+         <div class="bar"><span class="bl">6/24 수</span><span class="bt"><i style="width:23%"></i></span><span class="bv num">13</span></div>
+         <div class="bar hi"><span class="bl">6/25 목</span><span class="bt"><i style="width:98%"></i></span><span class="bv num">56</span></div>
+         <div class="bar hi"><span class="bl">6/26 금</span><span class="bt"><i style="width:100%"></i></span><span class="bv num">57</span></div>
+       </div>
+     </div>
+     <div class="ch"><h5>상위 게시글 클릭 (많은 순)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">/11 리세마라</span><span class="bt"><i style="width:100%"></i></span><span class="bv num">64</span></div>
+         <div class="bar"><span class="bl">/10</span><span class="bt"><i style="width:16%"></i></span><span class="bv num">10</span></div>
+         <div class="bar"><span class="bl">/22</span><span class="bt"><i style="width:14%"></i></span><span class="bv num">9</span></div>
+         <div class="bar"><span class="bl">/9</span><span class="bt"><i style="width:14%"></i></span><span class="bv num">9</span></div>
+         <div class="bar"><span class="bl">/30</span><span class="bt"><i style="width:13%"></i></span><span class="bv num">8</span></div>
+       </div>
+     </div>
+   </div>
+   <div style="margin-top:12px"><h5 style="margin:0 0 8px;font-size:11.5px;font-weight:800;color:var(--sub)">디바이스 비율 (6/22~28)</h5>
+     <div style="display:flex;gap:8px;flex-wrap:wrap">
+       <div style="flex:1;background:var(--inset);border-radius:var(--r-sm);padding:8px 12px;min-width:120px"><div style="font-size:11px;color:var(--muted);font-weight:700">모바일</div><div style="font-size:18px;font-weight:800;color:var(--ac-d)" class="num">70.5%</div><div style="font-size:10px;color:var(--faint)">107클릭</div></div>
+       <div style="flex:1;background:var(--inset);border-radius:var(--r-sm);padding:8px 12px;min-width:120px"><div style="font-size:11px;color:var(--muted);font-weight:700">데스크톱</div><div style="font-size:18px;font-weight:800" class="num">27.0%</div><div style="font-size:10px;color:var(--faint)">41클릭</div></div>
+       <div style="flex:1;background:var(--inset);border-radius:var(--r-sm);padding:8px 12px;min-width:120px"><div style="font-size:11px;color:var(--muted);font-weight:700">태블릿</div><div style="font-size:18px;font-weight:800;color:var(--muted)" class="num">2.6%</div><div style="font-size:10px;color:var(--faint)">4클릭</div></div>
+     </div>
+   </div>
+   <div class="chips">
+     <span class="chip c-good">포챔스 리세 20클릭(순위2.0·1페이지)</span>
+     <span class="chip c-good">포챔스 리세마라 14클릭(순위3.8)</span>
+     <span class="chip c-good">6/25~26 일클릭 56·57 재상승</span>
+     <span class="chip c-warn">주간 152(지난주 583 스파이크 반동)</span>
+     <span class="chip c-warn">평균순위 7.33위 소폭 밀림</span>
+   </div>
+   <div class="note">쉽게 말하면 — 연봄은 <b>이제 실제 검색 방문이 붙는 단계</b>예요(더 이상 "집계 전"이 아님). 지난주 583클릭은 포챔스 리세마라 출시에 맞춘 일시 스파이크라 이번 주(152)는 그 반동이고, <b>6/25~26 하루 56·57로 바닥을 다지며 재상승</b> 중이에요. /11(리세마라)이 64클릭으로 기둥 역할 — 이 클러스터를 GO Fest 롱테일로 넓히는 게 다음 단계예요.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔍</span>최근 글 품질 검수 <span class="tag">— 최근 5편을 8가지 기준으로 채점</span></h2>
+ <p class="sub">최근 5편을 직접 열어 8가지 SEO·품질 항목으로 채점했어요(메타는 라이브 head 직접 확인 — 티스토리 og:description 자동 생성 정상). 제목·구조·검색의도가 최상위, 내부링크가 약점이에요.</p>
+ <div class="panel" style="padding-top:8px">
+   <table class="seoq">
+     <thead><tr><th style="text-align:left">최근 글</th><th style="width:7%">점수</th><th style="width:7%">결</th><th style="width:10%">분류</th><th style="width:7%">색인</th><th style="text-align:left">한 줄 평</th></tr></thead>
+     <tbody>
+       <tr><td class="stitle">메가뮤츠Y 얻는 방법 (티켓 없이 무료) /44</td><td class="sc sc-hi">90</td><td><span class="pf">G</span></td><td><span class="cf">포켓몬!</span></td><td class="st st-keep">PASS</td><td>GO Fest 시의성·롱테일 정조준. 5편 중 최고점.</td></tr>
+       <tr><td class="stitle">포켓몬 GO 날씨 부스트 종류별 정리 /47</td><td class="sc sc-hi">89</td><td><span class="pf">H</span></td><td><span class="cf">포켓몬!</span></td><td class="st st-keep">PASS</td><td>허브형·분량·구조 모범. 내부링크 밀도도 양호.</td></tr>
+       <tr><td class="stitle">포켓몬 챔피언스 계정 연동 방법 /45</td><td class="sc sc-hi">85</td><td><span class="pf">N</span></td><td><span class="cf">포켓몬!</span></td><td class="st st-keep">PASS</td><td>롱테일 수요 상존·정보형 깔끔.</td></tr>
+       <tr><td class="stitle">유나이트 무과금 라이선스 모으는 법 /48</td><td class="sc sc-hi">84</td><td><span class="pf">N</span></td><td><span class="cf">게이무!</span></td><td class="st st-watch">미등록</td><td>정보형 충실하나 허브 없음·아직 구글 미등록(색인 요청 P3).</td></tr>
+       <tr><td class="stitle">유나이트 입문 어떤 포켓몬 고를까 /46</td><td class="sc sc-hi">83</td><td><span class="pf">G</span></td><td><span class="cf">게이무!</span></td><td class="st st-keep">PASS</td><td>입문 가이드·/48과 묶을 허브 필요.</td></tr>
+     </tbody>
+   </table>
+   <div class="charts" style="grid-template-columns:1fr;margin-top:16px">
+     <div class="ch"><h5>🧬 블로그 체질 — 8가지 기준 평균 (최근 5편)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">제목·검색어</span><span class="bt"><i style="width:91%"></i></span><span class="bv num">91</span></div>
+         <div class="bar hi"><span class="bl">검색의도</span><span class="bt"><i style="width:89%"></i></span><span class="bv num">89</span></div>
+         <div class="bar hi"><span class="bl">구조</span><span class="bt"><i style="width:89%"></i></span><span class="bv num">89</span></div>
+         <div class="bar hi"><span class="bl">가독·메타</span><span class="bt"><i style="width:88%"></i></span><span class="bv num">88</span></div>
+         <div class="bar"><span class="bl">분량·깊이</span><span class="bt"><i style="width:85%"></i></span><span class="bv num">85</span></div>
+         <div class="bar"><span class="bl">시의성</span><span class="bt"><i style="width:85%"></i></span><span class="bv num">85</span></div>
+         <div class="bar"><span class="bl">이미지</span><span class="bt"><i style="width:84%"></i></span><span class="bv num">84</span></div>
+         <div class="bar lo"><span class="bl">내부링크</span><span class="bt"><i style="width:78%"></i></span><span class="bv num">78</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="note">🧭 연봄은 신생인데도 <b>제목·검색의도·구조가 90점 안팎</b>으로 단단해요. 약점은 <b>내부링크(78)</b> 하나 — GO·챔피언스 클러스터는 연결이 시작됐지만 유나이트·카드 클러스터가 허브 없이 스포크끼리만 있어요. <b>"완전 가이드 허브" 1편</b>으로 묶고 쌍방 링크하면 이 축이 85+로 오르며 구글이 토픽 권위를 인식해요(→P2).</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🧭</span>강점 · 보강 포인트</h2>
+ <div class="swot">
+   <div class="sw sw-good"><h4>잘하고 있는 것</h4><ul>
+     <li><b>신생 최상위 발행 밀도</b> — 46편/17일 = 2.7편/일. 5개 클러스터 골격(GO·챔피언스·유나이트·카드·30주년).</li>
+     <li><b>실검색 방문 안착</b> — '포챔스 리세' 순위 2.0위·/11 64클릭 기둥. 더 이상 노출 0이 아님.</li>
+     <li><b>제목·구조·검색의도 90점대</b> — 신생인데 본문 품질이 단단함.</li>
+     <li>GO Fest D-12 사전 배치(레이드 카운터·준비물) — 기획력 우수.</li>
+   </ul></div>
+   <div class="sw sw-bad"><h4>보강하면 좋은 것</h4><ul>
+     <li><b>내부링크 78·허브 미완</b> — 유나이트·카드 허브 신설(→P2)</li>
+     <li><b>주간 클릭 반동(152)</b> — 포챔스 스파이크 후 정상화. GO Fest 롱테일로 새 기둥 만들기(→P1)</li>
+     <li><b>/48 미등록</b> — 색인 요청 필요(→P3)</li>
+     <li>결 다변화 — 최근 5편 H·G·N뿐. D·R결도 섞으면 소재 폭 확대.</li>
+   </ul></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 추천 <span class="tag">— 트랙마다 8개 · 포켓몬 우선·롱테일 선별</span></h2>
+ <p class="sub">각 글 카드의 <b>발행 요청</b> 버튼을 누르면 기획팀에 바로 발주돼요. 발행완료(✅6)·실패블록(❌1) 주제는 제외했어요. 연봄 신생기라 <b>대형 헤드 키워드 대신 구체 한정 롱테일</b>로 잡았고, 픽마다 결·분류·클러스터를 달았어요.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3">
+   <div class="tabbar">
+     <label class="tablab" for="t1">① 확장 <span class="cnt">8</span></label>
+     <label class="tablab" for="t2">② 발굴 <span class="cnt">8</span></label>
+     <label class="tablab" for="t3">③ 단편 <span class="cnt">8</span></label>
+   </div>
+
+   <div class="tpanel" id="p1">
+     <div class="dist"><span class="dl">분류 분포</span>
+       <div class="distbar"><span style="width:75%;background:#4a86c5"></span><span style="width:25%;background:#5fae a0;background:#3aa17f"></span></div>
+       <div class="distleg"><b><i style="background:#4a86c5"></i>포켓몬! 6</b><b><i style="background:#3aa17f"></i>게이무! 2</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest 서울</span><span class="purp">가이드 · 포켓몬!</span><span class="pwhen">행사 D-12</span><span class="ptitle">GO Fest 서울 무료 입장 방법 — 티켓 없어도 이만큼 된다</span></div><div class="pwhy"><b>P1</b>. "GO Fest 서울 무료입장" 롱테일 폭증·미발행 빈 각도. 교통·준비물은 발행됨. D-12 선점 필수. 결G</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest 서울</span><span class="purp">정보 · 포켓몬!</span><span class="pwhen">행사 D-12</span><span class="ptitle">GO Fest 서울 제라오라 잡는 법 — 어디서 어떻게 등장하나</span></div><div class="pwhy">제라오라는 메가뮤츠X/Y에 가려진 틈새 롱테일(경쟁도 낮음). "제라오라 GO Fest 서울" 선점. 결N</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">유나이트</span><span class="purp">허브 · 게이무!</span><span class="pwhen">클러스터 완성</span><span class="ptitle">포켓몬 유나이트 역할군 총정리 허브 — 어택·밸런스·서포트</span></div><div class="pwhy"><b>P2</b>. 입문(/46)·무과금(/48) 2편 묶는 허브. 내부링크 체계 완성. 결D</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest 서울</span><span class="purp">비교 · 포켓몬!</span><span class="pwhen">행사 D-12</span><span class="ptitle">GO Fest 서울 무료 레이드 vs 유료 티켓 — 뭐가 다른가</span></div><div class="pwhy">현장 무료·유료 비교는 기존 "원격 레이드 패스"와 다른 의사결정 프레임. 결G</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">수급 · 포켓몬!</span><span class="pwhen">GO Fest 연계</span><span class="ptitle">포켓몬 GO 메가에너지 모으는 법 — GO Fest 레이드 전 준비</span></div><div class="pwhy">기존 "메가뮤츠Y 무료"는 특정 공략, 이건 에너지 수급 에버그린. GO Fest 연계 시의성. 결R</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">챔피언스</span><span class="purp">수급 · 게이무!</span><span class="pwhen">에버그린</span><span class="ptitle">포켓몬 챔피언스 스카우트 포인트 모으는 법 — 무과금 수급 경로</span></div><div class="pwhy">기존 "무과금 렌탈 운영"과 다른 포인트 수급 루트 특화. /11 리세마라 클러스터 확장. 결N</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">가이드 · 포켓몬!</span><span class="pwhen">에버그린</span><span class="ptitle">포켓몬 GO 알 부화 거리 종류별 정리 2026 — 2·5·10·12km</span></div><div class="pwhy">날씨 부스트(/47)와 다른 독립 에버그린 롱테일. 저경쟁. 결G</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GO Fest 서울</span><span class="purp">현장팁 · 포켓몬!</span><span class="pwhen">행사 D-12</span><span class="ptitle">GO Fest 서울 당일 현장 팁 — 배터리·핫스팟·부스트 활용</span></div><div class="pwhy">기존 준비물(가져갈 것)과 다른 행동 방식 각도. "GO Fest 서울 꿀팁" 롱테일. 결N</div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="dist"><span class="dl">분류 분포</span>
+       <div class="distbar"><span style="width:62.5%;background:#4a86c5"></span><span style="width:25%;background:#b07cc9"></span><span style="width:12.5%;background:#3aa17f"></span></div>
+       <div class="distleg"><b><i style="background:#4a86c5"></i>포켓몬! 5</b><b><i style="background:#b07cc9"></i>아니메! 2</b><b><i style="background:#3aa17f"></i>게이무! 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">레전드 ZA</span><span class="purp">정보 · 포켓몬!</span><span class="pwhen">에버그린</span><span class="ptitle">포켓몬 레전드 Z-A 출시일·예약 구매 총정리 2026</span></div><div class="pwhy">"레전드 ZA 출시일·예약" 롱테일 에버그린. 본편 출시 정보글 미발행. 결N</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">레전드 ZA</span><span class="purp">공략 · 포켓몬!</span><span class="pwhen">에버그린</span><span class="ptitle">포켓몬 레전드 Z-A 루카리오 메가진화 — 조건·활용법</span></div><div class="pwhy">레전드 ZA 대표 포켓몬·개별 메가진화 롱테일 수요. 결G</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 카드</span><span class="purp">후기 · 포켓몬!</span><span class="pwhen">상시 수요</span><span class="ptitle">포켓몬 카드 어비스아이 팩 개봉 후기 — 레어 확률·시세 실측</span></div><div class="pwhy">최신 확장팩·개봉 후기·시세 롱테일. 기존 "가격인상"과 다른 개봉·시세 각도. 결R</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 카드</span><span class="purp">입문 · 포켓몬!</span><span class="pwhen">에버그린</span><span class="ptitle">포켓몬 카드 처음 시작 — 어떤 팩부터 살까 2026 기준</span></div><div class="pwhy">기존 "가격인상"과 다른 순수 입문 팩 선택 가이드. "포켓몬 카드 처음 사는 법" 저경쟁. 결G</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">30주년</span><span class="purp">정보 · 포켓몬!</span><span class="pwhen">에버그린</span><span class="ptitle">포켓몬빵 띠부씰 교환 사이트 이용법 — 거래 플랫폼별 비교</span></div><div class="pwhy">기존 "100종 목록"과 다른 교환 플랫폼·방법 각도. "띠부씰 교환 사이트" 꾸준한 롱테일. 결D</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 애니</span><span class="purp">리뷰 · 아니메!</span><span class="pwhen">시즌 진행</span><span class="ptitle">포켓몬스터 애니 2026 시즌 — 방영 일정·어디서 보나</span></div><div class="pwhy">아니메! 분류 강화. "포켓몬 애니 2026 어디서 보나" 롱테일. 결R</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">디지몬</span><span class="purp">정보 · 아니메!</span><span class="pwhen">방영 D-10</span><span class="ptitle">디지몬 타임스트레인저 7/9 방영 — 스토리·캐릭터 총정리</span></div><div class="pwhy">7/9 D-10·포켓몬 인접 검색 수요. 아니메! 다변화(포켓몬 우선 전제 하 7일 내 선점). 결G</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">팰월드</span><span class="purp">비교 · 게이무!</span><span class="pwhen">출시 D-11</span><span class="ptitle">팰월드 1.0 출시 — 포켓몬 GO와 뭐가 다른가</span></div><div class="pwhy">7/10 D-11. "팰월드 포켓몬 차이"는 포켓몬 팬 검색 연결. 포켓몬 전문 블로그에서 자연스러운 비교 각도. 결N</div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <div class="dist"><span class="dl">분류 분포</span>
+       <div class="distbar"><span style="width:75%;background:#4a86c5"></span><span style="width:12.5%;background:#3aa17f"></span><span style="width:12.5%;background:#b07cc9"></span></div>
+       <div class="distleg"><b><i style="background:#4a86c5"></i>포켓몬! 6</b><b><i style="background:#3aa17f"></i>게이무! 1</b><b><i style="background:#b07cc9"></i>아니메! 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">정보 · 포켓몬!</span><span class="pwhen">에버그린</span><span class="ptitle">포켓몬 GO 거리 알 부화 완전 정리 — 거리별 포켓몬 목록</span></div><div class="pwhy">"포켓몬 GO 알 부화 거리" 꾸준한 롱테일. 날씨 부스트와 키워드 영역 분리. 결N</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">가이드 · 포켓몬!</span><span class="pwhen">GO Fest 연계</span><span class="ptitle">포켓몬 GO 복귀자 가이드 — GO Fest 전 2주 루트</span></div><div class="pwhy">기존 "준비물 체크리스트"와 다른 복귀자 2주 경로 가이드. 결G</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">챔피언스</span><span class="purp">가이드 · 게이무!</span><span class="pwhen">상시 수요</span><span class="ptitle">포켓몬 챔피언스 렌탈 포켓몬 완전 가이드 — 쓰고 돌려받기</span></div><div class="pwhy">기존 "무과금 렌탈 운영"과 다른 렌탈 시스템 자체 설명·입문. 결D</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 카드</span><span class="purp">입문 · 포켓몬!</span><span class="pwhen">에버그린</span><span class="ptitle">포켓몬 카드 보관 방법 — 슬리브·바인더·습도 관리 입문</span></div><div class="pwhy">카드 입문자 "포켓몬 카드 보관법" 저경쟁 에버그린. 카드 클러스터 확장. 결N</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">수급 · 포켓몬!</span><span class="pwhen">GO Fest 연계</span><span class="ptitle">포켓몬 GO 메가에너지 빠르게 — 레이드·오픈 방법별 비교</span></div><div class="pwhy">GO Fest 시즌 메가에너지 수요. 단편 분량 충분. 결R</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 애니</span><span class="purp">정보 · 아니메!</span><span class="pwhen">에버그린</span><span class="ptitle">포켓몬스터 애니 등장인물 총정리 — 주인공·라이벌·지도자</span></div><div class="pwhy">저경쟁 "포켓몬 애니 등장인물" 롱테일. 아니메! 분류 단편. 결G</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">레전드 ZA</span><span class="purp">정보 · 포켓몬!</span><span class="pwhen">에버그린</span><span class="ptitle">포켓몬 레전드 Z-A 클리어 후 할 거리 — 포스트게임 총정리</span></div><div class="pwhy">ZA 클러스터 3번째 스포크. 포스트게임 에버그린 롱테일. 결N</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">설정 · 포켓몬!</span><span class="pwhen">행사 D-12</span><span class="ptitle">포켓몬 GO 배터리 관리 — GO Fest 하루 버티는 설정</span></div><div class="pwhy">GO Fest D-12 시의성. "배터리 아끼는 법" 롱테일. 현장팁(행동)과 분리(설정). 결D</div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔎</span>구글 등록 현황 <span class="tag">— 색인 실측(오늘 기준)</span></h2>
+ <div class="panel ixreq">
+   <h4>🔎 색인 요청 권고 1건 — /48 미등록</h4>
+   <div class="ixsub">최근 발행 중 <b>/48(유나이트 무과금 라이선스)이 "발견됨 · 아직 구글 미등록"</b> 상태예요(GSC inspect 실측). /47·/46은 등록 PASS. 아래 1건을 GSC 콘솔에서 URL 검사 → 색인 요청 하세요(API 색인요청은 불가, 콘솔 수동).</div>
+   <table>
+     <thead><tr><th style="text-align:left">URL</th><th style="text-align:left">제목</th><th>상태</th></tr></thead>
+     <tbody>
+       <tr><td class="gl">bom-ding.tistory.com/48</td><td class="vd">유나이트 무과금 라이선스 모으는 법</td><td class="st st-watch">Discovered · 미등록</td></tr>
+       <tr><td class="gl">bom-ding.tistory.com/47</td><td class="vd">포켓몬 GO 날씨 부스트 정리</td><td class="st st-keep">PASS</td></tr>
+       <tr><td class="gl">bom-ding.tistory.com/46</td><td class="vd">유나이트 입문 어떤 포켓몬</td><td class="st st-keep">PASS</td></tr>
+     </tbody>
+   </table>
+ </div>
+
+ <div class="verdict">
+   <div class="lb">오늘자 총평 · 데이터 분석실</div>
+   <h3>실검색 방문이 붙기 시작한 신생 졸업 직전 — 포챔스 스파이크 반동을 GO Fest 서울 D-12 롱테일로 새 기둥 만들기 + 유나이트 허브 묶기가 이번 주 레버.</h3>
+   <p>연봄은 큰 분기를 지났어요 — <b>더 이상 "노출 0·집계 전"이 아니라 실제 검색 방문이 붙는 단계</b>예요('포챔스 리세' 순위 2.0위·/11 64클릭). 지난주 583클릭은 포챔스 리세마라 출시 스파이크였고 이번 주 152는 그 반동이지만, <b>6/25~26 하루 56·57로 재상승</b> 중이라 바닥은 다졌어요. 콘텐츠 품질(제목·구조·검색의도 90점대)은 신생답지 않게 단단하고요. 이번 주는 <b>GO Fest 서울 D-12 빈 롱테일(무료입장·제라오라) 선점(P1)</b>으로 새 기둥을 만들고, <b>유나이트·카드 허브 묶기(P2)</b>로 내부링크 약점을 메우면 돼요. /48 색인 요청(P3)도 잊지 마세요.</p>
+   <div class="gauge">
+     <div class="gtop"><span class="gv num">74<small>/100</small></span><span class="gg g-b">B</span><span class="gn">GO Fest 새 기둥·허브 정착 시 B+ 진입</span></div>
+     <div class="grow"><span class="gl">발행 동력</span><span class="gt b-hi"><i style="width:84%"></i></span><span class="gs num">84</span></div>
+     <div class="grow"><span class="gl">글 품질</span><span class="gt b-hi"><i style="width:80%"></i></span><span class="gs num">80</span></div>
+     <div class="grow"><span class="gl">검색 건강</span><span class="gt b-mid"><i style="width:60%"></i></span><span class="gs num">60</span></div>
+     <div class="grow"><span class="gl">기회·다양성</span><span class="gt b-mid"><i style="width:70%"></i></span><span class="gs num">70</span></div>
+   </div>
+ </div>
+
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(연봄) · 검색 데이터는 구글 서치콘솔 실측(6/22~28 final) · 글 품질은 본문 직접 확인 · 연봄 신생기 롱테일 우선 선별 · 추천 수치·일정은 작성 직전 공식 재확인 권장.</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
