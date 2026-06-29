@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>포켓몬 챔피언스 티어표 — 지금 강한 포켓몬 싱글·더블</title>
+<style>
+  :root{ --blue:#4A86C5; --blueT:#3f7cb8; --pink:#d2628a; --ink:#33373f; --body:#3a3a42; --sub:#8a8f99; --line:#eef0f4; --paper:#fbf9f7; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#eef1f4; font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif; color:var(--body); }
+  .topbar{ background:#fff; border-bottom:1px solid #e7eaee; font-size:12.5px; color:#6f8295; padding:9px 16px; text-align:center; }
+  .wrap{ max-width:760px; margin:18px auto 60px; background:var(--paper); border:1px solid #efeae6; border-radius:16px; padding:34px 30px 44px; }
+  h1{ font-size:26px; line-height:1.4; font-weight:800; color:var(--ink); margin:0 0 10px; letter-spacing:-.4px; word-break:keep-all; }
+  .cat{ font-size:13px; color:var(--blueT); font-weight:700; margin:0 0 22px; }
+  .lead{ font-size:17px; line-height:1.95; color:var(--body); font-weight:500; margin:0 0 18px; word-break:keep-all; }
+  .hl{ font-weight:800; border-bottom:3px solid #fbd6e4; }
+  .factcard{ background:#f3f8fd; border:1px solid #dcebf9; border-radius:14px; padding:14px 18px; margin:0 0 8px; }
+  .factcard .ttl{ font-size:13.5px; font-weight:800; color:var(--blueT); margin:0 0 9px; display:flex; align-items:center; gap:5px; }
+  .factrow{ font-size:15px; line-height:1.75; color:#41474f; margin:6px 0; word-break:keep-all; }
+  .factrow b{ color:var(--blueT); }
+  .upd{ font-size:12.5px; color:#9aa0a8; margin:6px 0 24px; text-align:right; display:flex; align-items:center; justify-content:flex-end; gap:4px; }
+  .chip{ display:inline-flex; align-items:center; gap:5px; background:#eef5fc; color:var(--blueT); font-size:12.5px; font-weight:800; border-radius:9999px; padding:5px 13px; margin:34px 0 0; }
+  .chip.pink{ background:#fdeff5; color:var(--pink); }
+  h2.h2{ font-size:20.5px; font-weight:800; color:var(--ink); margin:10px 0 13px; padding:0 0 8px; border-bottom:2px solid #f0eaf2; letter-spacing:-.3px; word-break:keep-all; }
+  p.tx{ font-size:16px; line-height:1.97; color:var(--body); margin:0 0 18px; word-break:keep-all; }
+  p.tx b{ font-weight:800; }
+  p.tx .num{ font-weight:800; border-bottom:3px solid #fbd6e4; }
+  ul.bul{ margin:0 0 18px; padding:0 0 0 2px; list-style:none; }
+  ul.bul li{ font-size:15.5px; line-height:1.85; color:#41474f; margin:0 0 8px; padding:0 0 0 18px; position:relative; word-break:keep-all; }
+  ul.bul li::before{ content:"·"; color:var(--blue); font-weight:800; position:absolute; left:4px; top:-1px; }
+  .note-yeon{ background:#f0f6fc; border:1px solid #d7e7f7; border-radius:14px; padding:14px 16px; margin:0 0 20px; font-size:15px; line-height:1.85; color:#3c4650; }
+  .note-yeon b{ color:var(--blueT); }
+  .note-bom{ background:#fdf1f6; border:1px solid #f6d6e4; border-radius:14px; padding:14px 16px; margin:0 0 20px; font-size:15px; line-height:1.85; color:#574048; }
+  .note-bom b{ color:var(--pink); }
+  table.tbl{ width:100%; border-collapse:collapse; margin:8px 0 18px; font-size:14.5px; }
+  table.tbl th{ text-align:left; font-weight:800; color:var(--blueT); padding:10px 12px; background:#eef5fc; border-bottom:2px solid #cfe2f5; word-break:keep-all; }
+  table.tbl td{ padding:10px 12px; border-bottom:1px solid var(--line); color:#41474f; word-break:keep-all; }
+  table.tbl td.lab{ white-space:nowrap; font-weight:700; color:var(--blueT); }
+  table.tbl td.rk{ white-space:nowrap; font-weight:800; color:var(--blue); text-align:center; }
+  .imgwrap{ text-align:center; margin:18px 0 6px; }
+  .imgwrap img{ max-width:100%; border-radius:12px; border:1px solid #ecebf0; }
+  .cap{ text-align:center; color:var(--sub); font-size:13px; margin:0 0 2px; }
+  .src{ text-align:center; color:#aab0b8; font-size:12px; margin:0 0 24px; }
+  .leaf{ text-align:center; color:#bfc6cf; font-size:14px; margin:28px 0; letter-spacing:2px; }
+  .faqq{ font-size:16px; margin:0 0 6px; color:var(--ink); }
+  .faqq .qb{ display:inline-block; background:#fdeff5; color:var(--pink); font-weight:800; border-radius:9999px; padding:2px 10px; margin-right:8px; }
+  .faqa{ font-size:15.5px; line-height:1.9; color:#4a505a; margin:0 0 17px; padding:0 0 0 12px; border-left:2px solid #f6d6e4; word-break:keep-all; }
+  .linkbox{ background:#f0f6fc; border:1px solid #d7e7f7; border-radius:14px; padding:14px 16px; margin:20px 0; font-size:15px; line-height:1.85; color:#3c4650; }
+  .linkbox a{ color:var(--blueT); text-decoration:none; font-weight:700; }
+  .closing{ background:#fdf1f6; border:1px solid #f6d6e4; border-radius:14px; padding:16px 18px; margin:28px 0 16px; font-size:15.5px; line-height:1.9; color:#574048; }
+  .closing b{ color:var(--pink); }
+  .tags{ margin:18px 0 0; line-height:2.4; }
+  .tags span{ background:#eef5fc; border:1px solid #dcebf9; color:var(--blueT); font-size:13px; border-radius:9999px; padding:4px 12px; margin:0 4px 6px 0; display:inline-block; }
+  .subbanner{ margin:28px 0 4px; }
+  .subbanner img{ width:100%; max-width:760px; display:block; margin:0 auto; border-radius:14px; border:1px solid #f0e8e6; }
+  svg.ic{ vertical-align:-2px; }
+</style>
+</head>
+<body>
+<div class="topbar">🌿 blog 연봄 · 덕질생활 (티스토리 발행용 미리보기) · 💙🩷 부부가 함께 정리한 글</div>
+<div class="wrap">
+<h1>포켓몬 챔피언스 티어표 — 지금 강한 포켓몬 싱글·더블</h1>
+<div class="cat">포켓몬! · 게임 공략 · 포켓몬 챔피언스</div>
+
+<p class="lead">남들 티어표를 보고 강하다는 포켓몬만 골라 담았다가, 막상 챔피언스 랭크에선 그 포켓몬이 안 보여서 머쓱했던 적 있으실 거예요. 챔피언스는 본가랑 쓸 수 있는 포켓몬이 따로 정해져 있어서 그래요. 이 글에서는 <b class="hl">포켓몬 챔피언스 티어표</b>를 2026년 6월, 지금 도는 레귤레이션 M-B 기준으로 <b>싱글·더블 나눠서</b> 지금 뭐가 강한지 한눈에 보이게 정리해 볼게요.</p>
+
+<div class="factcard">
+  <div class="ttl"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>한눈에 보기</div>
+  <div class="factrow"><b>기준</b>&nbsp; 2026년 6월, 레귤레이션 M-B(6/17~9/2) · 쓸 수 있는 포켓몬 224종 안에서 정리</div>
+  <div class="factrow"><b>싱글 강세</b>&nbsp; 한카리아스 · 따라큐 · 마스카나 · 브리두라스 · 메타그로스</div>
+  <div class="factrow"><b>더블 강세</b>&nbsp; 한카리아스 · 대쓰여너 · 어흥염 · 대도각참 (메가는 메가팬텀 · 메가리자몽Y)</div>
+  <div class="factrow"><b>★주의</b>&nbsp; 본가에서 세던 날개치는머리(플러터마인) · 무쇠손은 챔피언스엔 아예 안 나와요</div>
+  <div class="factrow"><b>성격</b>&nbsp; '영원한 1티어'가 아니라 <b>지금 시즌 스냅샷</b>이에요(9/2 지나면 또 바뀌어요)</div>
+</div>
+<p class="upd"><svg class="ic" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>마지막 업데이트 2026.06.30 · 레귤레이션 M-B 기준 · 사용률 출처 op.gg</p>
+
+<p class="chip"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>티어표 보기 전에</p>
+<h2 class="h2">왜 본가 티어표가 챔피언스엔 안 맞을까</h2>
+<p class="tx">포켓몬 챔피언스 티어를 검색해 보면 글마다 강하다는 포켓몬이 조금씩 다른데요. 이유는 단순해요. 챔피언스 랭크는 <b>'레귤레이션'</b>이라는 기간제 규칙으로 돌아가는데, 그 기간마다 쓸 수 있는 포켓몬이 정해져 있거든요. 지금은 <b>레귤레이션 M-B</b>고, 기간은 <b class="num">2026년 6월 17일부터 9월 2일까지</b>예요. 그 전 시즌(M-A) 기준으로 적힌 티어표는 지금이랑 다를 수 있다는 뜻이에요.</p>
+<p class="tx">지금 M-B에서 쓸 수 있는 포켓몬은 모두 <b class="num">224종</b>이에요. M-A 때보다 포켓몬 22종이랑 메가진화 16종이 새로 풀리면서 메타가 한 번 바뀌었고요. 그런데 여기서 가장 헷갈리는 게 하나 있어요. 본가 스칼렛·바이올렛에서 1티어로 날뛰던 <b>날개치는머리(플러터마인)</b>나 <b>무쇠손</b> 같은 포켓몬은 챔피언스 랭크에선 아예 못 써요. 패러독스 포켓몬이랑 파오젠 같은 '금단의 포켓몬'은 합법 목록에 안 들어가 있거든요. 그래서 본가 티어표를 그대로 들고 오면 안 맞아요.</p>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%8B%B0%EC%96%B4%ED%91%9C/img/champions-tier-keyvisual.jpg" alt="포켓몬 챔피언스 공식 배틀 화면 — 리자몽·피카츄 등 대표 포켓몬 대전" width="2048" height="1042"></div>
+<p class="cap">챔피언스는 본가 도감 전체가 아니라 '정해진 224종' 안에서 대전해요</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%8B%B0%EC%96%B4%ED%91%9C/img/champions-team-select.jpg" alt="포켓몬 챔피언스 팀 구성 메뉴 화면 — 정해진 포켓몬 중에서 골라 팀 편성" width="606" height="341"></div>
+<p class="cap">쓸 수 있는 224종 안에서 여섯 마리를 골라 팀을 짜는 화면이에요</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="note-yeon"><b>💙 연의 한마디</b><br>티어표를 볼 땐 항상 <b>'어느 레귤레이션 기준인지'</b>부터 보세요. 같은 챔피언스라도 시즌이 바뀌면 강한 포켓몬이 통째로 달라져서, 날짜가 없는 티어표는 참고만 하시는 게 좋아요.</div>
+
+<p class="chip"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/></svg>싱글 배틀</p>
+<h2 class="h2">싱글에서 지금 강한 포켓몬</h2>
+<p class="tx">먼저 1대1로 싸우는 <b>싱글 배틀</b>이에요. 아래는 op.gg 챔피언스 기준으로 실제로 많이 쓰이는 포켓몬을 추린 거예요(2026년 6월 29일 기준). 싱글은 한 마리씩 맞붙어서, <b>능력치랑 스피드가 좋고 두루 쓰기 편한 포켓몬</b>이 강세예요.</p>
+<table class="tbl">
+  <tr><th style="text-align:center;">순위</th><th>포켓몬</th><th>한 줄 설명</th></tr>
+  <tr><td class="rk">1</td><td class="lab">한카리아스</td><td>메가진화 없이도 최상급. 지진·드래곤 기술로 폭넓게 견제하는 만능형</td></tr>
+  <tr><td class="rk">2</td><td class="lab">따라큐</td><td>'탈을쓴'으로 한 번 버티고 받아쳐서, 1대1 흐름을 뒤집기 좋아요</td></tr>
+  <tr><td class="rk">3</td><td class="lab">마스카나</td><td>빠른 스피드에 항상 급소인 '트릭플라워'로 깎아 들어가는 속공형</td></tr>
+  <tr><td class="rk">4</td><td class="lab">브리두라스</td><td>단단한 몸과 높은 특수공격으로 받아치며 굴리는 강철·드래곤</td></tr>
+  <tr><td class="rk">5</td><td class="lab">메타그로스</td><td>M-B에서 새로 합류한 묵직한 강철 어태커</td></tr>
+</table>
+<p class="tx">표에서 1위 <b>한카리아스</b>는 싱글이든 더블이든 다 강해서, 처음 시작할 때 가장 먼저 챙기라고들 하는 포켓몬이에요. 메가진화를 안 써도 체급이 좋아서 어느 팀에 넣어도 제 몫을 하거든요.</p>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%8B%B0%EC%96%B4%ED%91%9C/img/champions-single-battle.jpg" alt="포켓몬 챔피언스 싱글 배틀 인게임 화면 — 한 마리씩 맞붙는 대전" width="2234" height="1256"></div>
+<p class="cap">싱글은 한 마리의 체급과 스피드가 곧 승부예요</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="note-bom"><b>🩷 봄의 한마디</b><br>저도 처음엔 이름만 듣고 세 보이는 포켓몬을 골라 담았는데, 정작 챔피언스에 없는 포켓몬이라 헛걸음한 적이 있어요. 강한 포켓몬을 데려오는 법은 따로 정리해 뒀으니, 모으는 게 막막하면 그 글을 먼저 보셔도 좋아요.</div>
+<div class="linkbox"><b>🔗 이어서 보면 좋은 글</b><br>강한 포켓몬을 모으는 법(매일 무료 모집)이 헷갈리면 → <a href="https://bom-ding.tistory.com/11">포켓몬 챔피언스 리세마라·초보 가이드</a></div>
+
+<p class="chip"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>더블 배틀</p>
+<h2 class="h2">더블에서 자주 보이는 강한 포켓몬</h2>
+<p class="tx">다음은 두 마리씩 싸우는 <b>더블 배틀</b>이에요. 정식 대회(VGC) 방식이기도 한데, 싱글이랑은 강한 포켓몬이 꽤 달라요. 더블은 깡딜보다 <b>견제랑 서포트</b>가 중요해서, 직접 때리기보다 판을 깔아주는 포켓몬이 상위에 많이 보여요. 아래는 사용률이랑 더블 경쟁 평가를 같이 본 거예요(출처마다 한두 칸 차이는 있어요).</p>
+<table class="tbl">
+  <tr><th>묶음</th><th>포켓몬</th><th>역할</th></tr>
+  <tr><td class="lab">S · 가장 자주</td><td>한카리아스 · 대쓰여너 · 어흥염 · 대도각참</td><td>어태커 + '위협' 서포터(어흥염)</td></tr>
+  <tr><td class="lab">A · 꾸준히</td><td>엘풍 · 그우린차 · 키키링 · 페리퍼 · 브리두라스</td><td>서포터 · 트릭룸 · 날씨 세터</td></tr>
+  <tr><td class="lab">B · 역할 확실</td><td>님피아 · 코터스 · 입치트 · 대짱이 · 플라엣테(영원의 꽃)</td><td>광역 · 날씨 · 한 방 화력</td></tr>
+</table>
+<p class="tx">더블에서 눈에 띄는 건 <b>어흥염</b>이에요. 화력이 화려한 건 아닌데, <b>'위협'</b>으로 나오자마자 상대 공격을 깎아줘서 거의 모든 더블 팀이 한 번은 고민하는 포켓몬이거든요. 그리고 엘풍·그우린차·키키링처럼 직접 안 때려도 판을 깔아주는 포켓몬이 상위에 많은 게 더블의 특징이에요.</p>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%8B%B0%EC%96%B4%ED%91%9C/img/champions-double-battle.png" alt="포켓몬 챔피언스 더블 배틀 인게임 화면 — 두 마리씩 나오는 2대2 대전" width="1212" height="803"></div>
+<p class="cap">더블은 한 번에 두 마리가 나와서 견제와 서포트 호흡이 중요해요</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="note-yeon"><b>💙 연의 한마디</b><br>싱글이 한 마리의 힘이라면, 더블은 두 마리의 호흡이에요. 그래서 직접 때리지 않아도 판을 깔아주는 포켓몬(엘풍·그우린차·키키링)이 귀하게 쓰여요. 싱글 티어만 보고 더블 팀을 짜면 어긋날 수 있어요.</div>
+
+<p class="leaf">· &nbsp;🌿&nbsp; ·</p>
+
+<p class="chip pink"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>메가 · 날씨</p>
+<h2 class="h2">메가진화랑 날씨 파티는 뭘 봐야 하나</h2>
+<p class="tx">챔피언스 메타를 가르는 또 하나가 <b>메가진화</b>랑 <b>날씨 파티</b>예요. 메가 중에선 두 마리가 자주 1순위로 꼽혀요.</p>
+<table class="tbl">
+  <tr><th>메가진화</th><th>왜 강한가</th></tr>
+  <tr><td class="lab">메가팬텀</td><td>특성 <b>'그림자밟기'</b>로 상대가 도망(교체)을 못 하게 묶어두고, <b>'멸망의노래'</b>로 끝내는 팀의 핵심이에요</td></tr>
+  <tr><td class="lab">메가리자몽Y</td><td>메가진화하면 특성이 <b>'가뭄'</b>이라 햇빛을 깔아서, 햇빛 파티의 중심이 돼요(열풍 같은 기술이 더 세져요)</td></tr>
+</table>
+<p class="tx">날씨 파티는 크게 셋이에요. <b>햇빛</b>은 메가리자몽Y랑 코터스(가뭄)가 깔고, <b>비</b>는 페리퍼(강우)가 깔아서 대쓰여너·대짱이 같은 물 포켓몬을 띄워요. 여기에 메가팬텀으로 상대를 묶는 방식까지, 더블은 이 <b>'날씨랑 묶기'</b> 싸움이 메타의 큰 줄기예요.</p>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%8B%B0%EC%96%B4%ED%91%9C/img/champions-weather-battle.jpg" alt="포켓몬 챔피언스 메가진화·날씨 파티 인게임 배틀 화면" width="1600" height="900"></div>
+<p class="cap">메가진화와 날씨 세팅이 한 판을 가르는 챔피언스 더블의 핵심이에요</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="linkbox"><b>🔗 이어서 보면 좋은 글</b><br>메가스톤 구하는 법이랑 어떤 메가가 좋은지는 → <a href="https://bom-ding.tistory.com/15">포켓몬 챔피언스 메가진화 총정리</a></div>
+<div class="note-bom"><b>🩷 봄의 한마디</b><br>메가는 한 팀에 한 마리만 쓸 수 있어서, 욕심내지 말고 메가팬텀이나 메가리자몽Y처럼 두루 좋은 걸 하나만 정해서 맞추는 게 편해요. 날씨 팀을 할 거면 날씨 까는 포켓몬(코터스·페리퍼)부터 한 마리 챙기시고요.</div>
+
+<p class="chip"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>랭크 등급</p>
+<h2 class="h2">랭크는 어떻게 올라가나</h2>
+<p class="tx">티어만큼 자주 묻는 게 <b>랭크 등급</b>이에요. 챔피언스 랭크 배틀은 이런 순서로 올라가요.</p>
+<table class="tbl">
+  <tr><th>등급</th><th>올라가는 방식</th></tr>
+  <tr><td class="lab">비기너</td><td>시작 단계</td></tr>
+  <tr><td class="lab">몬스터볼 4~1</td><td>이기고 지는 걸로 승급</td></tr>
+  <tr><td class="lab">슈퍼볼 4~1</td><td>이기고 지는 걸로 승급</td></tr>
+  <tr><td class="lab">하이퍼볼 4~1</td><td>이기고 지는 걸로 승급 (여기까지는 점수 비공개)</td></tr>
+  <tr><td class="lab">마스터볼 4~1</td><td>전체 순위(레이팅)로 갈려요. 마스터볼3은 약 5만 위, 2는 약 1만 위, 1은 약 1천 위 안쪽</td></tr>
+  <tr><td class="lab">챔피언급</td><td>전체 상위 약 300위 안쪽</td></tr>
+</table>
+<p class="tx">핵심은 <b>하이퍼볼까지는 이기고 지는 걸로 차곡차곡 오르지만, 마스터볼부터는 전체 순위로 갈린다</b>는 거예요. 인원 컷은 시즌마다 조금씩 달라지니 대략으로만 봐 주세요.</p>
+<div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EC%97%B0%EB%B4%84/%ED%8F%AC%EC%BC%93%EB%AA%AC%20%EC%B1%94%ED%94%BC%EC%96%B8%EC%8A%A4/%ED%8B%B0%EC%96%B4%ED%91%9C/img/champions-rank-battle.jpg" alt="포켓몬 챔피언스 랭크 배틀 인게임 화면" width="2234" height="1256"></div>
+<p class="cap">마스터볼부터는 한 판 한 판이 순위에 바로 반영돼요</p>
+<p class="src">이미지: 포켓몬 챔피언스 공식</p>
+<div class="note-yeon"><b>💙 연의 한마디</b><br>마스터볼부터는 순위 싸움이라 위에서 본 티어가 더 중요해져요. 다만 처음부터 순위에 너무 매이지 말고, 좋아하는 포켓몬으로 감을 잡으면서 천천히 올라가시는 걸 추천해요.</div>
+
+<p class="chip pink"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>자주 묻는 질문</p>
+<h2 class="h2">챔피언스 티어, 이건 궁금해요</h2>
+<p class="faqq"><span class="qb">Q</span><b>싱글이랑 더블 티어가 왜 이렇게 다른가요?</b></p>
+<p class="faqa">포맷이 다르기 때문이에요. 싱글은 1대1이라 <b>한 마리의 힘(능력치·스피드)</b>이 중요해서 한카리아스·메타그로스 같은 포켓몬이 강하고, 더블은 2대2라 <b>견제랑 서포트</b>가 중요해서 어흥염·엘풍·키키링 같은 받쳐주는 포켓몬이 올라와요.</p>
+<p class="faqq"><span class="qb">Q</span><b>본가에선 세던 날개치는머리(플러터마인)·무쇠손이 왜 안 보여요?</b></p>
+<p class="faqa">챔피언스 M-B는 쓸 수 있는 포켓몬이 <b>224종으로 정해져</b> 있고, 거기에 패러독스 포켓몬이랑 금단의 포켓몬이 빠져 있어요. 본가 스칼렛·바이올렛 티어표를 그대로 챔피언스에 가져오면 안 맞는 이유가 이거예요.</p>
+<p class="faqq"><span class="qb">Q</span><b>메가진화는 뭐부터 맞춰요?</b></p>
+<p class="faqa">두루 좋은 <b>메가팬텀(그림자밟기)·메가리자몽Y(가뭄)</b>가 1순위로 꼽혀요. 한 팀에 메가는 하나만 쓸 수 있으니, 둘 중 팀 방향(상대를 묶을지, 햇빛으로 갈지)에 맞는 걸 먼저 맞추면 돼요.</p>
+<p class="faqq"><span class="qb">Q</span><b>이 티어, 언제까지 맞나요?</b></p>
+<p class="faqa">지금 레귤레이션 <b>M-B가 끝나는 2026년 9월 2일</b>까지예요. 다음 레귤레이션이 오면 쓸 수 있는 포켓몬이 바뀌어서 티어도 다시 짜여요. 그래서 챔피언스 티어표는 늘 '어느 레귤레이션 기준인지'를 같이 보는 게 좋아요.</p>
+
+<div class="closing"><b>🩷 봄의 한마디로 정리</b><br>챔피언스 티어는 결국 <b>'지금 이 시즌(M-B)에 뭐가 강한가'</b>예요. 싱글은 한카리아스·따라큐·마스카나, 더블은 한카리아스·대쓰여너·어흥염·대도각참, 메가는 메가팬텀·메가리자몽Y만 기억해도 출발이 한결 편해요. 본가 티어표랑은 다르다는 것만 알고 가시면, 강한 포켓몬 따라 담았다 헛걸음하는 일은 없으실 거예요.</div>
+
+<p class="tags"><span>#포켓몬챔피언스</span><span>#포켓몬챔피언스티어표</span><span>#포켓몬챔피언스티어</span><span>#레귤레이션MB</span><span>#포켓몬더블배틀</span><span>#포켓몬싱글배틀</span><span>#포켓몬챔피언스공략</span></p>
+
+<div class="subbanner"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/yb-assets/yeonbom-post-banner.jpeg" alt="연봄 부부의 인사 — 공감 하나, 구독 하나가 연봄 부부에게 큰 힘이 돼요" width="1536" height="672"></div>
+</div>
+
+<!-- ▶ 티스토리 복사 버튼 (연봄 미리보기 전용 — _티스토리_ 본문을 클립보드로) -->
+<div id="tcopy" style="position:fixed;top:14px;right:14px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;max-width:92vw;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;">
+  <button id="tcopyBtn" type="button" style="background:#4A86C5;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(74,134,197,.35);">📋 티스토리용 HTML 복사</button>
+  <div id="tcopyPanel" style="display:none;width:min(92vw,580px);background:#fff;border:1px solid #cfe0f1;border-radius:10px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);">
+    <div style="font-size:12px;color:#6f8295;margin-bottom:8px;line-height:1.6;">티스토리 글쓰기 → <b>HTML 모드</b>로 바꾼 뒤 아래 본문을 붙여넣기. 제목·태그는 각 칸에 따로 입력하세요.</div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0;"><b style="color:#4A86C5;">제목</b> <span id="tcopyTitle" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0 8px;"><b style="color:#4A86C5;">태그</b> <span id="tcopyTags" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <textarea id="tcopyArea" readonly style="width:100%;height:180px;font-size:11.5px;line-height:1.5;border:1px solid #d7e6f5;border-radius:8px;padding:9px;background:#f7fafd;box-sizing:border-box;"></textarea>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('tcopyBtn'),panel=document.getElementById('tcopyPanel'),
+      area=document.getElementById('tcopyArea'),tEl=document.getElementById('tcopyTitle'),gEl=document.getElementById('tcopyTags');
+  function pick(html,label){ var m=html.match(new RegExp('<!--\\s*'+label+':([\\s\\S]*?)-->')); return m?m[1].trim():''; }
+  function body(html){
+    var a=html.indexOf('↓↓↓ 여기부터'); if(a>=0){a=html.indexOf('-->',a); a=a>=0?a+3:0;} else a=0;
+    var z=html.indexOf('↑↑↑ 여기까지'); var end=z>=0?html.lastIndexOf('<!--',z):html.length; if(end<0)end=html.length;
+    return html.slice(a,end).replace(/<!--[\s\S]*?-->/g,'').replace(/\n{3,}/g,'\n\n').trim();
+  }
+  btn.addEventListener('click',function(){
+    var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
+    btn.textContent='불러오는 중…';
+    fetch(url).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
+      var b=body(t); area.value=b; tEl.textContent=pick(t,'제목'); gEl.textContent=pick(t,'태그');
+      panel.style.display='block'; area.focus(); area.select();
+      function ok(){ btn.textContent='✅ 본문 복사됨! HTML 모드에 붙여넣기'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(b).then(ok,function(){try{document.execCommand("copy");}catch(e){} ok();}); }
+      else { try{document.execCommand("copy");}catch(e){} ok(); }
+    }).catch(function(){ btn.textContent='⚠ 복사 실패 — 같은 폴더 _티스토리_ 파일 확인'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); });
+  });
+})();
+</script>
+</body>
+</html>
