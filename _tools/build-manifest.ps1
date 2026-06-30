@@ -71,8 +71,11 @@ foreach($f in $files){
   if(-not (Test-Path $full)){ continue }
   $html = [System.IO.File]::ReadAllText($full,[System.Text.Encoding]::UTF8)
 
-  # 최초 등록일(created) = 첫 커밋, 마지막 수정일(updated) = 최신 커밋
-  $created = (& git -C $base log --diff-filter=A --follow --format="%ad" --date=format:"%Y-%m-%d %H:%M:%S" -- $f | Select-Object -Last 1)
+  # 최초 등록일(created) = 그 경로의 첫 커밋, 마지막 수정일(updated) = 최신 커밋
+  # ★2026-07-01: --follow 제거. --follow 의 rename/copy 추적이 '기존 글을 골격째 복제해 만든 새 글'(예: 제논을
+  #   아델 미리보기 복제)을 원본의 첫 커밋(아델 06-23)으로 오추적해, 신규 글 created 가 과거로 박혀 정렬이 묻히던 버그.
+  #   현재 경로의 첫 Add 커밋을 created 로 쓴다(이동된 글은 이동 시점이 등록일 — 의도된 동작에 수렴).
+  $created = (& git -C $base log --diff-filter=A --format="%ad" --date=format:"%Y-%m-%d %H:%M:%S" -- $f | Select-Object -Last 1)
   $updated = (& git -C $base log -1 --format="%ad" --date=format:"%Y-%m-%d %H:%M:%S" -- $f)
   if([string]::IsNullOrWhiteSpace($created)){ $created = $updated }
   # 커밋 안 된 글은 git 날짜가 비어버림 → 빈 날짜로 발행되는 사고 방지(검증에서 잡음)

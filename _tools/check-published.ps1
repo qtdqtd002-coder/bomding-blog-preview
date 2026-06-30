@@ -170,7 +170,7 @@ foreach($author in ($posts | Select-Object -ExpandProperty author -Unique)){
 #     · 주(主) 지표 = Jaccard. 제목이 거의 동일하면 합집합이 작아 높게 나온다. ($JacTh 이상이면 발행)
 #     · 보조 = overlap-coefficient. 블로그 제목이 SEO로 길어진 정탐을 구제하되, 일반어/프랜차이즈만
 #       겹치는 오매칭을 막기 위해 'overlap이 매우 높고(>= $OvlTh) 동시에 Jaccard도 어느 정도(>= $OvlJacFloor)'일 때만 인정.
-$JacTh      = 0.55   # 제목 거의 동일
+$JacTh      = 0.70   # 제목 거의 동일 (★2026-07-01 0.55→0.70: 같은 시리즈 제목 오탐 방지. 예 '메이플 제논 육성 가이드' vs '아델 육성 가이드' jac 0.60이 0.55를 넘어 미게시 글이 발행됨 처리→메인뷰서 숨던 사고. 자기매칭은 ~0.95라 0.70로 분리, 기존 확인분은 union 보존이라 드롭 없음)
 $OvlTh      = 0.92   # 사이트 제목이 블로그 제목에 거의 그대로 포함(SEO 패딩 정탐 구제)
 $OvlJacFloor= 0.40   # 단, 합집합 기준으로도 최소한의 동일성은 있어야(일반어 오매칭 차단)
 $matched = @{}    # rel → @{ jac; ovl; pub }  (조회 성공 작성자에 한해)
