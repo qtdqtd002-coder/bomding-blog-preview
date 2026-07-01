@@ -28,6 +28,8 @@ param(
   [string]$FailedFile,                       # 실패 주제 블로클리스트(비우면 _trend\_failed-requests.json)
   [string]$FailedApi = "https://34.139.184.70.sslip.io/requests?status=failed",  # -RefreshFailed 시 갱신원
   [switch]$RefreshFailed,                     # 켜면 백엔드에서 실패목록을 새로 받아 캐시 갱신(네트워크 실패 시 기존 캐시 사용)
+  [switch]$RefreshPublished,                  # 켜면 dedup 전에 check-published.ps1 으로 실제 라이브 블로그를 새로 조회→published.json+_live-titles.json 갱신(stale 재추천 차단). 네트워크 실패 시 기존 파일 사용
+  [int]$RefreshMaxAgeMin = 20,                # -RefreshPublished: published.json 이 이 분(分) 안에 이미 갱신됐으면 재조회 생략(작성자 4회 연속 호출 시 라이브 1회만)
   [switch]$Pretty
 )
 $ErrorActionPreference = "Stop"
@@ -89,6 +91,24 @@ function Find-Keywords([string]$norm){
 function Inter-Count($a,$b){ $n=0; foreach($x in @($a)){ if(@($b) -contains $x){ $n++ } }; return $n }
 function Shared-Hard($a,$b){ $r=@(); foreach($x in @($a)){ if((@($b) -contains $x) -and ($HARD -contains $x)){ $r+=$x } }; return $r }
 
+# ── 단일유형 패밀리(2026-06-25) — '게임당 사실상 한 편'인 글 유형. 표기차(티어표↔티어↔리세마라 우선순위)로 같은 글이
+#   🟡review 로 새 나가 '새 각도'로 재발행 → 라이브 중복/요청실패 되던 루프홀을 막는다. 같은 게임 + 같은 단일유형 = 자기잠식 → ✅published 하드드롭.
+#   ★주의: 보스·직업·조합·교배처럼 '게임당 여러 편(엔티티별)'인 유형은 여기 넣지 않는다(서로 다른 글이라 over-drop 위험).
+$SINGLETON_FAMILIES = @(
+  @('티어','티어표','티어리스트','리세마라','우선순위','픽업','순위'),  # 티어/리세마라/픽업 우선순위 = 한 편
+  @('쿠폰','쿠폰코드','쿠폰번호'),                                       # 쿠폰 모음 = 한 편
+  @('허브','공략모음','종합공략','올인원')                                # 클러스터 허브 = 한 편
+)
+function Family-Match([string]$candNorm,[string]$pubNorm){
+  if([string]::IsNullOrEmpty($candNorm) -or [string]::IsNullOrEmpty($pubNorm)){ return $false }
+  foreach($fam in $SINGLETON_FAMILIES){
+    $inC=$false; $inP=$false
+    foreach($w in $fam){ $wn=(Norm $w); if($wn.Length -ge 2){ if($candNorm.Contains($wn)){ $inC=$true }; if($pubNorm.Contains($wn)){ $inP=$true } } }
+    if($inC -and $inP){ return $true }
+  }
+  return $false
+}
+
 # ── 게임 앵커: 발행주제의 게임명이 후보 안에 사실상 들어있나 ──
 #   (a) 정규화 게임명이 후보에 substring, 또는 (b) 게임명 bigram이 후보에 ovl>=0.7 포함
 function Game-Anchor([string]$gameNorm,[string]$candNorm,$candBg){
@@ -127,8 +147,31 @@ function Franchise-Of([string]$candNorm){
   return (Game-Of $candNorm)
 }
 
-# ── published.json 로드 → 작성자 발행주제(게임·토픽) 목록 ──
+# ── (선택) 발행상태 라이브 갱신 ── -RefreshPublished: dedup 직전에 실제 블로그를 새로 조회해 published.json+_live-titles.json 을 신선하게.
+#   왜: published.json 은 평소 발행시점(build-manifest)에만 갱신 → 브리핑(00시) 때 stale → 방금 발행한 글이 목록에 없어 재추천되는 사고.
+#   신선도 가드: 이미 $RefreshMaxAgeMin 분 안에 갱신됐으면 재조회 생략(작성자마다 호출돼도 라이브 조회는 회당 1회). 네트워크 실패 → 기존 파일 사용(거짓 게이트 금지).
 $pubFile = Join-Path $Base "published.json"
+$refreshNote = ""
+if($RefreshPublished){
+  $needRefresh = $true
+  if(Test-Path $pubFile){
+    $ageMin = ((Get-Date) - (Get-Item $pubFile).LastWriteTime).TotalMinutes
+    if($ageMin -lt $RefreshMaxAgeMin){ $needRefresh = $false; $refreshNote = ("published.json 이 {0:0}분 전 갱신됨 — 라이브 재조회 생략" -f $ageMin) }
+  }
+  if($needRefresh){
+    $chk = Join-Path $PSScriptRoot "check-published.ps1"
+    if(Test-Path $chk){
+      try {
+        & $chk *> $null    # 라이브 조회 + published.json/_live-titles.json 재생성. 모든 스트림 억제(stdout JSON 오염 방지)
+        $refreshNote = "라이브 블로그 재조회 완료(published.json+_live-titles.json 갱신)"
+      } catch {
+        $refreshNote = ("라이브 재조회 실패 — 기존 published.json 사용: {0}" -f $_.Exception.Message)
+      }
+    } else { $refreshNote = "check-published.ps1 미발견 — 기존 published.json 사용" }
+  }
+}
+
+# ── published.json 로드 → 작성자 발행주제(게임·토픽) 목록 ──
 $pubTopics = @()   # @{ game; topic; gameNorm; comboNorm; comboBg; kw; rel }
 if(Test-Path $pubFile){
   $pj = Get-Content $pubFile -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -147,6 +190,24 @@ if(Test-Path $pubFile){
       kw = (Find-Keywords (Norm "$game $topic"))
     }
   }
+}
+
+# ── _live-titles.json 로드 → 작성자 실제 라이브 발행 제목(원문) ──
+#   published.json(레포 폴더 경로)이 못 잡는 케이스 보완: 레포에 글 파일이 없거나 폴더명이 다른데 이미 라이브에 발행된 글.
+#   후보 제목을 '실제 발행된 제목'과 직접 bigram 대조 → 강하게 겹치면 ✅published 하드 드롭(재추천 차단).
+$liveFile = Join-Path $Base "_trend\_live-titles.json"
+$liveTitles = @()   # @{ raw; norm; bg }
+if(Test-Path $liveFile){
+  try {
+    $lj = Get-Content $liveFile -Raw -Encoding UTF8 | ConvertFrom-Json
+    $arr = @()
+    if($lj.byAuthor -and ($lj.byAuthor.PSObject.Properties.Name -contains $Writer)){ $arr = @($lj.byAuthor.$Writer) }
+    foreach($t in $arr){
+      $tn = Norm ([string]$t)
+      if($tn.Length -lt 2){ continue }
+      $liveTitles += [pscustomobject]@{ raw=[string]$t; norm=$tn; bg=(Bigrams $tn) }
+    }
+  } catch {}
 }
 
 # ── 알려진 게임 사전 구축(발행이력 + 정적 + 겜더쿠 포트폴리오) → 다양성 집계용 ──
@@ -239,16 +300,31 @@ foreach($raw in $rawCands){
     $combo  = JacOvl $pt.comboBg $cbg
     $sharedHard = @(Shared-Hard $pt.kw $ckw)
     $sharedAll  = Inter-Count $pt.kw $ckw
-    # 판정 점수: 게임 앵커가 있어야 의미. 앵커×(키워드 겹침 + combo)
+    # 판정 점수: 게임 앵커가 있어야 의미. 앵커×(키워드 겹침 + combo + 단일유형 패밀리)
+    $famMatch = Family-Match $cn $pt.comboNorm
     $isPub = $false; $tier = "none"
     if($anchor -ge 0.7){
-      if(($sharedHard.Count -ge 1) -or ($sharedAll -ge 2) -or ($combo.jac -ge 0.45)){ $isPub=$true; $tier="published" }
+      if(($sharedHard.Count -ge 1) -or ($sharedAll -ge 2) -or ($combo.jac -ge 0.45) -or $famMatch){ $isPub=$true; $tier="published" }
       elseif($sharedAll -eq 1){ $tier="review" }
     } elseif($combo.jac -ge 0.50){ $isPub=$true; $tier="published" }   # 게임명이 약해도 제목 자체가 거의 동일
     $score = [Math]::Round( ($anchor*0.5 + $combo.jac*0.3 + [Math]::Min($sharedAll,3)/3.0*0.2), 3)
     if($score -gt $bestPubScore){
       $bestPubScore = $score
-      $bestPub = [pscustomobject]@{ rel=$pt.rel; game=$pt.game; topic=$pt.topic; anchor=[Math]::Round($anchor,2); jac=[Math]::Round($combo.jac,2); ovl=[Math]::Round($combo.ovl,2); sharedHard=$sharedHard; shared=$sharedAll; tier=$tier; isPub=$isPub }
+      $bestPub = [pscustomobject]@{ rel=$pt.rel; game=$pt.game; topic=$pt.topic; anchor=[Math]::Round($anchor,2); jac=[Math]::Round($combo.jac,2); ovl=[Math]::Round($combo.ovl,2); sharedHard=$sharedHard; shared=$sharedAll; tier=$tier; isPub=$isPub; famMatch=$famMatch }
+    }
+  }
+
+  # 1.5) 라이브 제목 직접 대조 — 실제 발행된 제목과 거의 동일하면 ✅published(레포 폴더가 없어도 잡음)
+  #   판정: jac>=0.45(제목 거의 동일) 또는 (ovl>=0.60 & jac>=0.30 & 교집합 bigram>=6)(후보가 라이브 제목에 거의 포함).
+  #   교집합 floor(>=6)로 일반어/짧은 제목 오매칭 차단. 재현율 우선(이미 라이브에 있는 글이라 드롭이 안전).
+  $liveHit = $null; $bestLiveJac = 0.0
+  foreach($lt in $liveTitles){
+    $sc = JacOvl $lt.bg $cbg
+    $inter = 0; foreach($x in $cbg){ if($lt.bg.Contains($x)){ $inter++ } }
+    $isLive = ($sc.jac -ge 0.45) -or ($sc.ovl -ge 0.60 -and $sc.jac -ge 0.30 -and $inter -ge 6)
+    if($isLive -and $sc.jac -gt $bestLiveJac){
+      $bestLiveJac = $sc.jac
+      $liveHit = [pscustomobject]@{ title=$lt.raw; jac=[Math]::Round($sc.jac,2); ovl=[Math]::Round($sc.ovl,2); inter=$inter }
     }
   }
 
@@ -280,15 +356,19 @@ foreach($raw in $rawCands){
     }
   }
 
-  # 3) 상태 확정(우선순위: failed > published > review > carried > new)
+  # 3) 상태 확정(우선순위: failed > published[라이브/폴더] > review > carried > new)
   $status = "new"; $reason = "직전 브리핑에 없던 신규"
   if($failedHit){
     $status = "failed"
     $rc = if($failedHit.reasonCat){ " [$($failedHit.reasonCat)]" } else { "" }
     $reason = "이미 발행요청 실패한 주제(재추천 금지)$rc — `"$($failedHit.topic)`": $($failedHit.reason)"
+  } elseif($liveHit){
+    $status = "published"
+    $reason = "라이브 블로그에 이미 발행됨(실제 제목과 동일/유사) — `"$($liveHit.title)`" (jac=$($liveHit.jac), ovl=$($liveHit.ovl))"
   } elseif($bestPub -and $bestPub.isPub){
     $status = "published"
-    $reason = "발행완료: $($bestPub.game)/$($bestPub.topic) (anchor=$($bestPub.anchor), jac=$($bestPub.jac), 공유키워드=$([string]::Join('·',$bestPub.sharedHard)))"
+    $famTxt = if($bestPub.famMatch){ "·단일유형동일(티어/쿠폰/허브)" } else { "" }
+    $reason = "발행완료: $($bestPub.game)/$($bestPub.topic) (anchor=$($bestPub.anchor), jac=$($bestPub.jac), 공유키워드=$([string]::Join('·',$bestPub.sharedHard))$famTxt)"
   } elseif($bestPub -and $bestPub.tier -eq "review"){
     $status = "review"
     $reason = "같은 게임 약한 겹침(새 각도 가능): $($bestPub.game)/$($bestPub.topic) — 채택하려면 '새 각도' 근거 명시"
@@ -308,6 +388,7 @@ foreach($raw in $rawCands){
     chip = $chip
     carryDays = $(if($carried){$carryN}else{$null})
     matchedPublished = $(if($bestPub -and ($bestPub.isPub -or $bestPub.tier -eq 'review')){ "$($bestPub.game)/$($bestPub.topic)" }else{$null})
+    liveMatch = $(if($liveHit){ $liveHit.title }else{$null})
     failedMatch = $(if($failedHit){ $failedHit.topic }else{$null})
     failedCat = $(if($failedHit){ $failedHit.reasonCat }else{$null})
     reason = $reason
@@ -353,18 +434,21 @@ foreach($tk in $byTrackGame.Keys){
 $summary = [ordered]@{
   writer = $Writer
   date = $TODAY
+  refreshed = $(if($RefreshPublished){ $refreshNote } else { "(라이브 미갱신 — -RefreshPublished 미사용)" })
   publishedCount = @($pubTopics).Count
+  liveTitleCount = @($liveTitles).Count
   prevIssues = @($prevByDate | ForEach-Object { $_.date })
   failedBlocklist = @($failedTopics | ForEach-Object { $_.topic })
   results = $results
   diversity = $diversity
-  rule = "❌failed=이미 발행요청 실패한 주제(하드 드롭·재추천 금지) · ✅발행완료=추천 제외(→최근발행) · 🟡review=기본 제외(새 각도 근거시 채택) · 🔄이월/🆕신규=추천 가능. failed-requests+published.json+trend.json 결정론 대조. + 게임다양성: 트랙별 같은 게임 ≤2개(over2 비면 OK)."
+  rule = "❌failed=이미 발행요청 실패한 주제(하드 드롭·재추천 금지) · ✅발행완료=추천 제외(→최근발행, 라이브 제목 직접대조+published.json 폴더대조) · 🟡review=기본 제외(새 각도 근거시 채택) · 🔄이월/🆕신규=추천 가능. failed-requests+published.json+_live-titles.json+trend.json 결정론 대조. + 게임다양성: 트랙별 같은 게임 ≤2개(over2 비면 OK)."
 }
 $json = $summary | ConvertTo-Json -Depth 6
 Write-Output $json
 
 if($Pretty){
   Write-Host "`n── [$Writer] 후보 분류 (오늘 $TODAY) ──" -ForegroundColor Cyan
+  if($RefreshPublished){ Write-Host ("  발행상태: {0} · 라이브 제목 {1}개 대조" -f $refreshNote, @($liveTitles).Count) -ForegroundColor DarkGray }
   foreach($r in $results){
     $col = switch($r.status){ "failed"{"Magenta"} "published"{"Red"} "review"{"Yellow"} "carried"{"DarkYellow"} default{"Green"} }
     Write-Host ("{0} [{1}] {2}" -f $r.chip, $r.status, $r.pick) -ForegroundColor $col
