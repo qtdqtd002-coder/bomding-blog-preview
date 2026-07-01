@@ -1,0 +1,154 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>두근두근타운 여름 시즌 심해에서의 만남 7월 이벤트 리딤코드 총정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td.code{font-family:"Consolas","Menlo",monospace;font-weight:700;color:#222;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 출처 사이드노트(미리보기 전용) */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+  /* 봄딩 전용 스크랩북 인포그래픽(핑크) */
+  .memo{position:relative;background:#FFEFF5;border:1px solid #f7c6da;border-radius:10px;padding:18px 20px 16px;margin:6px 0 24px;box-shadow:0 2px 8px rgba(214,62,122,.08);transform:rotate(-.6deg);}
+  .memo:before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(2deg);width:96px;height:18px;background:rgba(236,92,146,.22);border-radius:2px;}
+  .memo h4{margin:4px 0 12px;font-size:15px;color:#D63E7A;font-weight:800;}
+  .memo ul{margin:0;padding:0;list-style:none;}
+  .memo li{position:relative;padding:5px 0 5px 26px;font-size:14px;line-height:1.7;border-bottom:1px dashed #f3b9d0;}
+  .memo li:last-child{border-bottom:none;}
+  .memo li:before{content:"✓";position:absolute;left:4px;top:5px;color:#EC5C92;font-weight:800;}
+</style></head><body>
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">업데이트·패치</div>
+    <h1 class="title">두근두근타운 여름 시즌 심해에서의 만남 7월 이벤트 리딤코드 총정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 7. 2.</span><span>· 게임</span></div>
+
+    <p>두근두근타운 하다가 요즘 <b>슬슬 여름 느낌 나는 소식</b> 없나 찾아보시는 분들 많으시죠. 저도 마을 꾸미던 손을 잠깐 멈추고 공식 소식 좀 훑어봤는데, 마침 딱 반년 기념 방송에서 여름 시즌 예고에 새 이벤트에 리딤코드까지 한꺼번에 풀렸더라고요. 그래서 오늘은 <b>두근두근타운 7월 소식을 한 번에</b> 정리해보려고 합니다.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 두근두근타운 메인 타운 화면(여름 분위기가 느껴지는 컷)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 게임 접속 직후 내 타운이 보이는 메인 화면을 캡처. 분위기 참고: <a href="https://game.naver.com/lounge/Heartopia/home" target="_blank">두근두근타운 공식 라운지</a></div>
+    <p class="cap">6월 8일 쿠폰정리 글 이후로 딱 한 달 만에 여름 소식이 왕창 풀렸어요</p>
+
+    <h2 class="sub">반년 기념 방송에서 나온 여름 시즌 예고</h2>
+    <div class="para-wrap">
+      <p>지난 <b>6월 27일 저녁 8시 30분</b>, 두근두근타운 정식 출시 반년(180일)을 기념하는 예고 방송이 열렸는데요. <span class="rev-hl">여기서 신규 트렌드 시즌 「심해에서의 만남」이 공개됐어요.</span> 이름 그대로 고래를 테마로 한 시즌이고, 원예·낚시·요리 쪽에 새로운 콘텐츠가 같이 딸려 온다고 해요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 예고 방송 정보</span>
+        <span class="sn-src">공식 예고 방송(2026-06-27 20:30, 반년 기념)에서 신규 트렌드 시즌 「심해에서의 만남」(고래 테마)을 발표했어요.</span>
+        <span class="sn-mine">→ 방송 발표 내용을 날짜·핵심만 뽑아 자연스럽게 풀어 썼어요.</span>
+      </div>
+    </div>
+    <p>다만 시작일은 살짝 헷갈릴 수 있는 부분이 있어요. <b>중국 서버 기준으로는 7월 11일 시작 예정</b>이라고 나와 있는데, 우리가 하는 <b>한국(글로벌) 서버는 이보다 살짝 늦게 열릴 가능성이 있어요</b><span class="chk">🔍 한국 서버 시작일 공식 공지 확인</span>. 그래서 정확한 시작 날짜는 인게임 공지나 공식 채널에서 한 번 더 확인하시는 걸 추천드려요.</p>
+    <p>구조는 지금까지 나온 트렌드 시즌이랑 비슷하게 <b>약 6주짜리 시즌 패스형</b>으로 굴러갈 예정인데요. 무료 트랙과 유료 트랙이 나뉘어 있고, 주간 챌린지랑 일일 요청을 깨서 포인트를 모으면 그 포인트로 시즌 한정 의상·가구·펫 스킨 같은 보상을 챙기는 방식이에요. 고래 테마다 보니 바닷속 느낌 나는 코스튬이나 소품이 꽤 기대되더라고요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 트렌드 시즌 패스 화면(주간 챌린지·포인트 진행 바)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 인게임 시즌 패스/트렌드 탭 화면을 캡처. 참고: 인게임 이벤트 메뉴 · <a href="https://game.naver.com/lounge/Heartopia/home" target="_blank">공식 라운지</a></div>
+    <p class="cap">주간 챌린지랑 일일 요청, 미리 어떤 게 있는지 봐두면 시즌 시작하자마자 바로 달릴 수 있어요</p>
+
+    <h2 class="sub">7월에 진행 중인 이벤트도 같이 챙기세요</h2>
+    <p>여름 시즌만 기다리기엔 지금도 진행 중인 이벤트가 있어서 같이 짚고 갈게요. 우선 <b>진귀한 보물 전시 「서부의 전설」</b>과 <b>달빛 보석함 「열광의 도가니」</b>가 6월 중순부터 열려서 7월 말까지 이어지고 있고요, 여기서 각각 신규 의상 세트가 하나씩 나와요. 그리고 지난 6월 21일에 공지됐던 <b>「SANRIO CHARACTERS」 콜라보</b>도 7월 안에 본격적으로 진행될 예정이라 산리오 좋아하시는 분들은 기대해볼 만해요.</p>
+    <table class="tbl">
+      <tr><th>이벤트명</th><th>기간</th><th>핵심 보상</th></tr>
+      <tr><td>진귀한 보물 전시 「서부의 전설」</td><td>2026.6.18 07:00 ~ 7.30 05:59</td><td>서부 테마 신규 의상 세트</td></tr>
+      <tr><td>달빛 보석함 「열광의 도가니」</td><td>2026.6.18 07:00 ~ 7.30 05:59</td><td>신규 의상 세트(별도 세트)</td></tr>
+      <tr><td>「SANRIO CHARACTERS」 콜라보</td><td>7월 진행 예정<span class="chk">🔍 세부 일정 공식 공지 확인</span></td><td>산리오 협업 콘텐츠<span class="chk">🔍 세부 보상 확인</span></td></tr>
+    </table>
+    <p>서부의 전설이랑 열광의 도가니는 <b>7월 30일 오전 5시 59분에 끝난다</b>는 게 확정 정보라 아직 참여 안 하셨으면 여유 있게 챙기실 수 있어요. 산리오 콜라보는 세부 보상까지는 아직 다 안 풀린 상태라, 자세한 내용은 이벤트가 열리면 인게임 공지에서 확인하시는 게 정확해요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 「서부의 전설」 또는 「열광의 도가니」 이벤트 화면(신규 의상 세트 확인 컷)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 인게임 이벤트 탭에서 해당 이벤트 페이지 캡처. 참고: <a href="https://game.naver.com/lounge/Heartopia/home" target="_blank">공식 라운지</a></div>
+    <p class="cap">기간 안에 참여만 해두면 의상은 그대로 내 옷장에 남으니 미리 챙겨두는 게 좋아요</p>
+
+    <h2 class="sub">7월 신규 리딤코드, 이번엔 이거예요</h2>
+    <p>이번에 예고 방송을 하면서 <b>새 리딤코드도 같이 풀렸는데요.</b> 6월에 정리해드렸던 shakeurbody나 Junegift, dcthx4u 같은 코드는 이미 다 만료됐으니 이 글 보시는 분은 아래 새 코드로 바로 넘어가시면 됩니다.</p>
+    <table class="tbl">
+      <tr><th>쿠폰 코드</th><th>혜택</th><th>사용 가능 기한</th></tr>
+      <tr><td class="code">oceanguardians</td><td>달빛 크리스탈 등 보상</td><td>2026년 8월 1일까지</td></tr>
+      <tr><td class="code">callofwhales0709</td><td>달빛 크리스탈 등 보상</td><td>2026년 8월 1일까지</td></tr>
+      <tr><td class="code">180daysjoy</td><td>반년(180일) 기념 보상</td><td>2026년 8월 1일까지</td></tr>
+    </table>
+    <p>세 코드 다 <b>대소문자 그대로</b> 입력해야 하니, 복사가 안 되면 한 글자씩 천천히 옮겨 적어주시는 게 좋아요. callofwhales0709처럼 숫자가 뒤에 붙는 코드는 오타 나기 쉬우니 한 번 더 확인하고 넣으시길 추천드립니다.</p>
+
+    <h2 class="sub">쿠폰은 어디서 넣나요?</h2>
+    <p>입력 경로는 지난번 쿠폰 정리 때랑 똑같아요. <b>화면 오른쪽 위 시계(설정) 아이콘</b>을 누르고 '설정' 탭에서 '리딤 코드' 입력란을 찾아 코드를 넣으면 되는데요, 보상은 바로 화면에 뜨지 않고 <b>게임 안 메일함으로 들어오니</b> 입력한 다음엔 메일함을 꼭 열어 챙겨주세요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 설정 → '리딤 코드' 입력란 + 메일함 수령 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 시계(설정) 아이콘 → 리딤 코드 입력 화면과 메일함 수령 장면을 함께 캡처.</div>
+    <p class="cap">입력하고 나면 꼭 메일함까지 확인해야 보상이 완성돼요</p>
+
+    <h2 class="sub">여름 앞두고 꽃 교배도 살짝 대비해두면 좋아요</h2>
+    <p>여름 시즌엔 원예 쪽에도 새 콘텐츠가 딸려 온다고 하니, 지금 다들 하고 계시는 <b>꽃 교배 시스템</b>도 가볍게 복습하고 넘어가면 좋을 것 같아요. 두근두근타운 교배는 <b>같은 종 꽃끼리만</b> 되는데요, 인접한 성체 꽃 두 송이가 매일 오전 6시에 확률 판정을 거쳐 새 씨앗을 만들어내는 방식이에요. 100% 되는 게 아니라서 물을 하루 5회 꾸준히 주고, 원예 레벨을 올리고, 다른 사람이 내 꽃에 물을 줘도 확률이 올라간다고 해요.</p>
+    <p>색 조합 자체가 결과 색을 정하는 건 아니고, 대신 <b>빨간 꽃이 모든 색 계열의 원류</b>라는 점만 기억해두면 됩니다. 예를 들어 나팔꽃은 빨강과 노랑을 교배하면 주황이 나오고, 주황끼리 다시 교배하면 검정, 검정끼리는 보라, 보라끼리 교배하면 마지막 단계인 야광색까지 이어진다고 해요. 확실하게 교배시키고 싶으면 원예 레벨 6에서 만들 수 있는 <b>무지개 성장촉진제(3,000골드, 주간 100개 한도)</b>를 뿌리는 방법이 있는데, 이건 교배 자체를 확정해주는 거지 다음에 어떤 색·등급이 나올지까지 확정해주는 건 아니에요<span class="chk">🔍 인게임 확률표 확인</span>.</p>
+    <p>여름 시즌 신규 꽃이나 새 조합이 뭐가 나올지는 아직 공식으로 공개된 게 없어서, 이 부분은 시즌이 열리고 나면 그때 다시 정리해드릴게요. 지금은 물주기랑 원예 레벨업으로 기본기만 탄탄히 다져두면 나중에 신규 콘텐츠 나왔을 때 훨씬 수월할 거예요.</p>
+
+    <div class="memo">
+      <h4>🌸 여름 시즌 오기 전 미리 챙길 것</h4>
+      <ul>
+        <li>「서부의 전설」·「열광의 도가니」 <b>7월 30일 5:59 마감</b> 전에 참여하기</li>
+        <li>신규 코드 <b>oceanguardians·callofwhales0709·180daysjoy</b> 메일함까지 확인</li>
+        <li>원예 레벨업 + 물주기 루틴으로 <b>교배 확률</b> 미리 다져두기</li>
+        <li>「심해에서의 만남」 시작일은 <b>공식 공지로 재확인</b>하기</li>
+      </ul>
+    </div>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 꽃밭에서 교배 중인 꽃 화면(인접한 성체 꽃 두 송이)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 내 정원에서 교배 판정을 기다리는 꽃 화면을 캡처. 참고: <a href="https://game.naver.com/lounge/Heartopia/home" target="_blank">공식 라운지</a></div>
+    <p class="cap">물 주는 걸 하루라도 거르면 확률이 아쉬워지니 여름 전에 루틴부터 다시 잡아두세요</p>
+
+    <h2 class="sub">두근두근타운 7월 소식 정리</h2>
+    <p>요약하면, <b>6월 27일 반년 기념 방송</b>에서 여름 트렌드 시즌 「심해에서의 만남」이 예고됐고 한국 서버는 7월 중순쯤 열릴 것으로 보이며, 지금은 「서부의 전설」·「열광의 도가니」가 <b>7월 30일까지</b> 진행 중이고 산리오 콜라보도 7월 안에 이어질 예정이에요. 새 리딤코드 <b>oceanguardians·callofwhales0709·180daysjoy</b>는 8월 1일까지 유효하니 메일함까지 챙기시면 되고요. 여름 시즌 신규 교배 조합은 아직 베일에 싸여 있으니, 그전까지는 원예 레벨이랑 물주기 루틴부터 탄탄히 다져두시면 좋을 것 같아요. 시즌 열리면 그때 새로운 내용으로 다시 찾아올게요.</p>
+
+    <p><b>✔ 두근두근타운 같이 보기 좋은 내용</b><br>
+    · 두근두근타운 꽃 교배 조합표 — 나팔꽃 등 종별 교배 단계를 더 자세히 다룬 글이에요 (발행 시 링크 연결)<br>
+    · 두근두근타운 교배·입양 총정리 — 동물 입양까지 함께 정리한 글이에요 (발행 시 링크 연결)<br>
+    · 두근두근타운쿠폰 6월 이벤트 정리 — 지난달 코드·입력법을 다룬 글이에요 (발행 시 링크 연결)</p>
+    <!-- 내부링크: 「꽃교배조합표」·「교배입양총정리」·「6월 쿠폰정리」 글 네이버 post ID 확인 후 연결 -->
+
+    <div class="btns">
+      <a href="https://game.naver.com/lounge/Heartopia/home" target="_blank">공식 라운지</a>
+    </div>
+
+    <div class="tags">#두근두근타운 #두두타 #두근두근타운이벤트 #두근두근타운리딤코드 #심해에서의만남 #두근두근타운여름 #Heartopia #봄딩게임</div>
+  </div>
+</div>
+</body></html>
