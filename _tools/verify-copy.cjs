@@ -198,6 +198,40 @@ function contentGateChecks(previewPath, preview, tistory, body) {
     }
   }
 
+  // 14. 이미지 재사용 금지 (2026-07-03 신설 — 글 내부 중복 + 같은 작성자 기존 발행글과 대조)
+  // 근거: 라이브 전수 스캔에서 이미지 28개가 글 2~7편에 재사용됨(mad-illustar 7편, POE2 kv 6편 등)
+  // — 클러스터 연작이 같은 키비주얼을 돌려쓰면 "동일 게시물 여러 버전" 신호를 강화한다.
+  // 예외: 시그니처 자산(마스코트·배너), 또는 명시 주석 <!-- 이미지 재사용 허용: 사유 -->.
+  // 한계: 라이브 전용 편집으로 넣은 이미지(repo 스냅샷에 없음)는 대조 못 함 — 신규 글은 글 폴더 img/ 고유 파일이 원칙.
+  const SIG_ASSET = /mascot|gd-assets\/(?:badge|icon)|yb-assets\/(?:banner|badge|icon)/i;
+  const srcs = [...body.matchAll(/<img[^>]+src="([^"]+)"/gi)].map(m => m[1]).filter(s => !SIG_ASSET.test(s));
+  const reuseExempt = /이미지 재사용 허용\s*:/.test(preview) || /이미지 재사용 허용\s*:/.test(tistory);
+  // 14a. 글 내부 동일 이미지 2회+
+  const seenIn = new Set();
+  for (const s of srcs) {
+    if (seenIn.has(s)) { fails.push(`글 내부 이미지 중복: ${s.split('/').pop()} — 같은 이미지를 한 글에 두 번 쓰지 말 것(다른 컷으로 교체)`); break; }
+    seenIn.add(s);
+  }
+  // 14b. 같은 작성자 기존 발행글(로컬 _티스토리_ 전수)과 대조 — src 전체 또는 파일명 일치
+  if (!reuseExempt && srcs.length) {
+    const allBodies = recentTistoryFiles(author, tistoryPath, 10000)
+      .map(p => { try { return extractBody(fs.readFileSync(p, 'utf8')); } catch { return ''; } });
+    const usedSrcs = new Set(), usedNames = new Set();
+    for (const b of allBodies) {
+      for (const m of b.matchAll(/<img[^>]+src="([^"]+)"/gi)) {
+        if (SIG_ASSET.test(m[1])) continue;
+        usedSrcs.add(m[1]);
+        usedNames.add(decodeURIComponent(m[1]).split('/').pop().toLowerCase());
+      }
+    }
+    for (const s of new Set(srcs)) {
+      const name = decodeURIComponent(s).split('/').pop().toLowerCase();
+      if (usedSrcs.has(s) || usedNames.has(name)) {
+        fails.push(`이미지 재사용: ${name} — 이 작성자의 기존 발행글에서 이미 쓴 이미지. 같은 게임 연작이라도 다른 컷으로 교체(불가피하면 <!-- 이미지 재사용 허용: 사유 --> 주석으로 예외, 남발 금지)`);
+      }
+    }
+  }
+
   return fails;
 }
 
