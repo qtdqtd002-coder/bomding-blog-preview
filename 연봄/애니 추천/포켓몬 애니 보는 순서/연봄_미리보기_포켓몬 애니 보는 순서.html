@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>포켓몬 애니 보는 순서 총정리 — 무인편부터 리코와 로드까지</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; background:#fbf9f7; font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif; }
+  .topicbar { background:#fff; border-bottom:1px solid #eef0f4; padding:10px 20px; font-size:12.5px; color:#8a8f99; }
+  .wrap { max-width:720px; margin:0 auto; padding:34px 20px 60px; }
+  h1 { font-size:26px; font-weight:800; color:#282c33; line-height:1.4; margin:0 0 10px; letter-spacing:-.4px; }
+  .cat { display:inline-block; background:#fdeff5; color:#d2628a; font-size:12.5px; font-weight:800; border-radius:9999px; padding:4px 13px; margin:0 0 18px; }
+  .lead { font-size:17px; line-height:1.95; color:#3a3a42; font-weight:500; margin:0 0 18px; word-break:keep-all; }
+  .hl { font-weight:800; border-bottom:3px solid #fbd6e4; }
+  .factcard { background:#f3f8fd; border:1px solid #dcebf9; border-radius:14px; padding:14px 18px; margin:0 0 8px; }
+  .factcard .lbl { font-size:13.5px; font-weight:800; color:#3f7cb8; margin:0 0 9px; display:flex; align-items:center; gap:6px; }
+  .factcard .row { font-size:15px; line-height:1.75; color:#41474f; margin:6px 0; }
+  .factcard .row b { color:#3f7cb8; }
+  .chip { display:inline-block; background:#eef5fc; color:#3f7cb8; font-size:12.5px; font-weight:800; border-radius:9999px; padding:5px 13px; margin:34px 0 0; display:inline-flex; align-items:center; gap:5px; }
+  .chip.pink { background:#fdeff5; color:#d2628a; }
+  h2.h2 { font-size:20.5px; font-weight:800; color:#33373f; margin:10px 0 13px; padding:0 0 8px; border-bottom:2px solid #f0eaf2; letter-spacing:-.3px; }
+  p.body { font-size:16px; line-height:1.97; color:#3a3a42; margin:0 0 18px; word-break:keep-all; }
+  .card { border:1px solid #dcebf9; border-radius:14px; padding:15px 17px; margin:10px 0 14px; background:#fff; }
+  .card h3 { font-size:17.5px; font-weight:800; color:#33373f; margin:0 0 6px; letter-spacing:-.3px; }
+  .badge { display:inline-block; background:#4A86C5; color:#fff; font-weight:800; border-radius:9999px; padding:3px 12px; font-size:13px; margin-right:8px; vertical-align:2px; }
+  .badge.pink { background:#d2628a; }
+  .meta { font-size:13.5px; color:#8a8f99; margin:0 0 9px; word-break:keep-all; }
+  .card p.body { font-size:15.5px; line-height:1.9; color:#3a3a42; margin:0; word-break:keep-all; }
+  .note-yeon { background:#f0f6fc; border:1px solid #d7e7f7; border-radius:14px; padding:14px 16px; margin:0 0 20px; font-size:15px; line-height:1.85; color:#3c4650; }
+  .note-yeon b { color:#3f7cb8; }
+  .note-bom { background:#fdf1f6; border:1px solid #f6d6e4; border-radius:14px; padding:14px 16px; margin:0 0 20px; font-size:15px; line-height:1.85; color:#574048; }
+  .note-bom b { color:#d2628a; }
+  .imgwrap { text-align:center; margin:18px 0 6px; }
+  .imgwrap img { max-width:100%; border-radius:12px; border:1px solid #ecebf0; }
+  .cap { text-align:center; color:#8a8f99; font-size:13px; margin:0 0 2px; }
+  .src { text-align:center; color:#aab0b8; font-size:12px; margin:0 0 24px; }
+  .leaf { text-align:center; color:#bfc6cf; font-size:14px; margin:28px 0; letter-spacing:2px; }
+  table.tbl { width:100%; border-collapse:collapse; margin:8px 0 18px; font-size:14.5px; }
+  table.tbl th { text-align:left; font-weight:800; color:#3f7cb8; padding:10px 12px; background:#eef5fc; border-bottom:2px solid #cfe2f5; word-break:keep-all; }
+  table.tbl td { padding:10px 12px; border-bottom:1px solid #eef0f4; color:#41474f; word-break:keep-all; }
+  .nowrap { white-space:nowrap; }
+  .faqq { font-size:16px; margin:0 0 6px; color:#33373f; }
+  .qbadge { display:inline-block; background:#fdeff5; color:#d2628a; font-weight:800; border-radius:9999px; padding:2px 10px; margin-right:8px; }
+  .faqa { font-size:15.5px; line-height:1.9; color:#4a505a; margin:0 0 17px; padding:0 0 0 12px; border-left:2px solid #f6d6e4; word-break:keep-all; }
+  .closing { background:#fdf1f6; border:1px solid #f6d6e4; border-radius:14px; padding:16px 18px; margin:28px 0 16px; font-size:15.5px; line-height:1.9; color:#574048; }
+  .closing b { color:#d2628a; }
+  .tags { margin:18px 0 0; line-height:2.4; }
+  .tag { background:#eef5fc; border:1px solid #dcebf9; color:#3f7cb8; font-size:13px; border-radius:9999px; padding:4px 12px; margin:0 4px 6px 0; display:inline-block; }
+  .linkbanner { background:#f0f6fc; border:1px solid #d7e7f7; border-radius:14px; padding:14px 16px; margin:20px 0; font-size:15px; line-height:1.85; color:#3c4650; }
+  .linkbanner b { color:#3f7cb8; }
+  .linkbanner a { color:#3f7cb8; text-decoration:none; font-weight:700; }
+  .banner { margin:28px 0 4px; }
+  .banner img { width:100%; max-width:760px; display:block; margin:0 auto; border-radius:14px; border:1px solid #f0e8e6; }
+</style>
+</head>
+<body>
+<div class="topicbar">🌿 blog 연봄 · 덕질생활 (티스토리 발행용 미리보기) · 💙🩷 부부가 함께 정리한 글</div>
+<div class="wrap">
+
+<h1>포켓몬 애니 보는 순서 총정리 — 무인편부터 리코와 로드까지</h1>
+<div class="cat">포켓몬! · 게임 정보</div>
+
+<p class="lead"><b class="hl">포켓몬 애니는 1997년부터 지금까지 세대가 다섯 번 넘게 바뀐 초장수 시리즈</b>라, 처음 보려는 분들은 뭐부터 봐야 할지 막막하실 것 같아요. 무인편·AG·DP·베스트위시·XY·썬&문을 거쳐 지우가 은퇴한 뒤, 지금은 <b style="font-weight:800;">리코와 로드</b>라는 완전히 새로운 주인공들의 이야기가 이어지고 있거든요. 저희가 나무위키와 포켓몬 공식 자료를 하나하나 대조해가며 <b style="font-weight:800;">방영 순서·정식 명칭·주인공 교체 시점</b>을 정리했고, 굳이 다 안 보고 싶은 분들을 위한 현실적인 진입점까지 같이 짚어봤어요.</p>
+
+<div class="factcard">
+  <div class="lbl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>한눈에 보기</div>
+  <div class="row"><b>전체 세대</b>&nbsp; 지우 시대 7개 시즌(무인편~W) + 새 시대 1개 시즌(리코와 로드)</div>
+  <div class="row"><b>최신 시리즈</b>&nbsp; 포켓몬스터: 리코와 로드의 모험(2023년 4월~ 방영 중)</div>
+  <div class="row"><b>주인공 교체</b>&nbsp; 2023년 3월 지우 최종장 종영 → 4월부터 리코·로드로 완전 세대교체</div>
+  <div class="row"><b>바로 시작하고 싶다면</b>&nbsp; 리코와 로드의 모험부터(과거 시리즈와 스토리 연결 없음)</div>
+</div>
+
+<div class="imgwrap"><img src="./img/horizons-key-visual.jpg" alt="포켓몬스터 리코와 로드의 모험 공식 키비주얼, 리코·로드·프리다·아메시오와 피카츄가 함께 있는 모습"></div>
+<p class="cap">포켓몬스터: 리코와 로드의 모험 공식 키비주얼 — 지우 이후 새 시대를 여는 시리즈예요</p>
+<p class="src">이미지: 포켓몬 공식 사이트(horizons.pokemon.com)</p>
+
+<span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>지우 시대 계보</span>
+<h2 class="h2">지우 시대 7개 시즌, 세대별로 묶어 정리</h2>
+<p class="body">1997년 일본에서 첫 방영된 이래로 <b style="font-weight:800;">2023년 3월까지 26년 동안 한지우(사토시)가 줄곧 주인공</b>이었어요. 국내에는 1999년 7월 SBS를 통해 처음 들어왔고요. 배경 지방이 바뀔 때마다 시리즈 이름도 함께 바뀌는데, 정식 명칭과 순서를 표로 정리하면 이렇습니다.</p>
+
+<table class="tbl">
+  <tr><th class="nowrap">시리즈</th><th class="nowrap">배경 지방</th><th>국내 방영</th></tr>
+  <tr><td class="nowrap">포켓몬스터(무인편)</td><td class="nowrap">관동·오렌지제도·성도</td><td>1999.7~2002 (SBS)</td></tr>
+  <tr><td class="nowrap">포켓몬스터 AG</td><td class="nowrap">호연(+배틀 프런티어)</td><td>2002~2006</td></tr>
+  <tr><td class="nowrap">포켓몬스터 DP</td><td class="nowrap">신오</td><td>2006~2011</td></tr>
+  <tr><td class="nowrap">포켓몬스터 베스트위시(BW)</td><td class="nowrap">하나·데코로라제도</td><td>2010~2014</td></tr>
+  <tr><td class="nowrap">포켓몬스터 XY</td><td class="nowrap">칼로스</td><td>2013~2016</td></tr>
+  <tr><td class="nowrap">포켓몬스터 썬&문</td><td class="nowrap">알로라</td><td>2016~2019</td></tr>
+  <tr><td class="nowrap">포켓몬스터W(여행)</td><td class="nowrap">전 지방+가라르</td><td>2019~2022</td></tr>
+</table>
+
+<div class="note-yeon"><b>💙 연의 한마디</b><br>표만 보면 복잡해 보이지만, 사실 지우와 피카츄가 지방만 바꿔가며 계속 여행하는 하나의 큰 이야기예요. 무인편에서 오렌지제도·성도까지가 1부, AG부터 XY까지가 각 지방 리그에 도전하는 시기, 썬&문은 학교물로 톤이 확 바뀌고, 마지막 포켓몬스터W(흔히 '여행' 시리즈로도 불려요)에서 지우가 처음으로 전 세계를 무대로 한 월드 챔피언십에 도전해요. 참고로 국내 지우 성우는 시기에 따라 바뀌었는데, 무인편은 최덕희 성우님이, AG 이후로는 이선호 성우님이 맡아 오셨어요.</div>
+
+<p class="body">특히 마지막 <b style="font-weight:800;">포켓몬스터W</b>(흔히 '여행'이라는 별칭으로도 불려요)는 지우와 신규 주인공 <b style="font-weight:800;">고우</b>가 채박사 연구소의 조사 연구원이라는 명분으로 함께 전 지방을 돌아다니는 구성이었어요. 같은 여행을 해도 <b>지우는 포켓몬 배틀로 강해지는 것</b>, <b>고우는 환상의 포켓몬 뮤를 포함해 최대한 많은 포켓몬을 포획하는 것</b>이 목표라 두 사람의 결이 대비되게 짜여 있었고요. 그렇게 지우가 알로라 리그 우승 이후 꿈꿔온 <b style="font-weight:800;">포켓몬 월드 챔피언십 마스터즈 토너먼트에서 우승</b>하면서 정식 시리즈가 마무리됐어요. 이어서 방영된 스페셜 에피소드와 후속작 <b style="font-weight:800;">포켓몬스터W: 내 꿈은 포켓몬마스터</b>(2023년 1~3월)가 지우와 피카츄만을 위한 진짜 마지막 여정이었고요. 최종화에서 지우는 챔피언 타이틀에 안주하지 않고 <b>"세계의 모든 포켓몬과 친구가 되는 것"</b>을 새로운 목표로 삼으며 여행을 이어가는 모습으로 시리즈를 마쳤어요. 1999년 7월 국내 첫 방영을 기준으로 하면 무려 <b style="font-weight:800;">24년 만의 완결</b>이었습니다.</p>
+
+<p class="leaf">· &nbsp;🌿&nbsp; ·</p>
+
+<span class="chip pink"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>새 시대 전환</span>
+<h2 class="h2">리코와 로드 — 지우 없는 완전히 새로운 포켓몬 애니</h2>
+<p class="body">지우의 마지막 시리즈가 끝난 지 한 달도 안 된 <b style="font-weight:800;">2023년 4월 14일</b>, 26년 만에 완전히 새로운 주인공들이 등장하는 시리즈가 시작됐어요. 한국 정식 명칭은 <b class="hl">포켓몬스터: 리코와 로드의 모험</b>인데, 이게 일본판 부제를 그대로 옮긴 표기예요. 해외에서는 'Pokémon Horizons: The Series(포켓몬 지평선)'이라는 이름으로 알려져서 이 제목으로 검색하시는 분도 많은데, <b>국내 정식 명칭은 '리코와 로드의 모험' 쪽</b>이라는 것만 기억해두시면 헷갈리지 않으실 거예요.</p>
+
+<div class="imgwrap"><img src="./img/horizons-liko-naoha-scene.png" alt="포켓몬스터 리코와 로드의 모험 인게임 스틸컷, 주인공 리코와 파트너 포켓몬 나오하가 스마트폰형 로토무폰을 보며 웃는 장면"></div>
+<p class="cap">주인공 리코와 파트너 포켓몬이 함께하는 본편 장면이에요</p>
+<p class="src">이미지: 포켓몬 공식 사이트(pokemonkorea.co.kr)</p>
+
+<div class="note-bom"><b>🩷 봄의 한마디</b><br>팔데아 출신 소녀 리코와 관동 출신 소년 로드가 주인공인데, 리코는 신비한 펜던트를, 로드는 정체를 알 수 없는 몬스터볼을 갖고 있어서 그 수수께끼를 풀어가며 여행하는 게 이번 시리즈의 큰 줄기예요. 그동안 늘 관동에서 시작하던 것과 달리 이번엔 처음부터 여러 지방을 넘나드는 게 색다르더라고요.</div>
+
+<p class="body">스토리 연결 면에서는 <b style="font-weight:800;">지우 시대와 세계관을 공유하되 이야기는 완전히 독립</b>돼 있어요. 즉 무인편부터 안 보고 리코와 로드부터 시작해도 스토리를 이해하는 데는 전혀 문제가 없다는 뜻이에요. 국내에서는 <b style="font-weight:800;">투니버스</b>에서 방영 중이고, 넷플릭스에서도 1장(1~25화)이 <b>2023년 11월 3일</b>부터 스트리밍되고 있어요. 이후 파트는 넷플릭스 공개 여부와 시점이 계속 갱신되는 사안이라, 최신 화수는 넷플릭스·투니버스 편성표에서 직접 확인하시는 게 정확해요. 참고로 직전 시리즈인 <b style="font-weight:800;">포켓몬스터W</b>도 넷플릭스에 별도 페이지로 올라와 있어서, 지우의 마지막 여정과 새 시대 리코·로드를 넷플릭스 한 곳에서 이어 볼 수 있는 조합이 이미 갖춰져 있는 셈이에요.</p>
+
+<p class="leaf">· &nbsp;🌿&nbsp; ·</p>
+
+<span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>극장판 보는 법</span>
+<h2 class="h2">극장판은 어떻게 끼워 보면 좋을까</h2>
+<p class="body">포켓몬 극장판은 시기에 따라 TV 시리즈와의 관계가 달라요. <b style="font-weight:800;">무인편부터 베스트위시 이전까지</b>는 극장판이 그 시기 TV판 등장인물·분위기를 그대로 이어받는 경우가 많아서, 해당 시즌을 보는 중간중간에 순서대로 끼워 보면 몰입이 더 잘 돼요. 실제로 초기 극장판은 <b style="font-weight:800;">1998년 뮤츠의 역습 → 1999년 루기아의 탄생 → 2000년 결정탑의 제왕 앤테이</b> 순서로 매년 여름 개봉하면서 무인편과 나란히 이어졌고, 원래는 이 3부작으로 이야기를 마무리 지으려던 기획이었는데 TV판이 장기 시리즈로 방향을 틀면서 극장판도 이후 시즌마다 계속 나오는 형태로 이어졌다고 해요. 반면 <b style="font-weight:800;">베스트위시 이후</b>부터는 극장판이 TV 시리즈와 노선을 분리해서, 극장판마다 독립된 이야기로 봐도 무리가 없어요. 결론적으로 극장판은 <b>"꼭 봐야 진도가 나가는" 필수 코스가 아니라 "구미가 당기면 그때그때 골라 보는" 사이드 코스</b>로 생각하시면 부담이 훨씬 줄어들어요.</p>
+
+<div class="note-yeon"><b>💙 연의 한마디</b><br>극장판까지 다 챙기려고 하면 시작하기도 전에 지칠 수 있어요. 저희는 TV 시리즈를 먼저 쭉 따라가다가, 좋아하는 세대의 극장판만 나중에 골라보는 방식을 추천해요.</div>
+
+<p class="leaf">· &nbsp;🌿&nbsp; ·</p>
+
+<span class="chip pink"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>현실적인 진입점</span>
+<h2 class="h2">꼭 순서대로 다 봐야 할까 — 상황별 추천</h2>
+<p class="body">여기까지 정리하고 보니 <b style="font-weight:800;">전체 시즌 수가 8개, 에피소드로는 1,200화가 훌쩍 넘는 분량</b>이에요. 현실적으로 이걸 처음부터 다 보고 시작하는 건 웬만한 팬이 아니고서는 쉽지 않아요. 그래서 상황별로 어디서부터 보면 좋을지 나눠봤어요.</p>
+
+<div class="card">
+  <h3><span class="badge">추천</span>시간 없이 지금 바로 새 애니만 보고 싶다면</h3>
+  <p class="body"><b style="font-weight:800;">리코와 로드의 모험부터 바로 시작</b>하세요. 앞서 말씀드렸듯 지우 시대 이야기와 독립돼 있어서 배경지식 없이도 완전히 이해가 돼요. 지금 방영 중인 최신 시리즈라 화제성도 가장 높고요.</p>
+</div>
+<div class="card">
+  <h3><span class="badge pink">추천</span>어릴 때 보던 추억을 되짚고 싶다면</h3>
+  <p class="body"><b style="font-weight:800;">무인편(관동편)부터</b> 보세요. 처음 방식 그대로 지우가 파이리·꼬부기·이상해씨를 만나가는 과정이라 향수를 자극하기 딱 좋아요. 이후 시즌은 원하는 세대에서 멈춰도 괜찮아요.</p>
+</div>
+<div class="card">
+  <h3><span class="badge">추천</span>본가 게임(스칼렛·바이올렛)부터 입문했다면</h3>
+  <p class="body">리코와 로드의 배경이 <b style="font-weight:800;">팔데아 지방을 포함한 세계관</b>이라 게임에서 본 지역·포켓몬이 애니에도 자연스럽게 등장해요. 게임과 애니를 같이 즐기고 싶다면 이 시리즈가 가장 잘 맞아요.</p>
+</div>
+<div class="card">
+  <h3><span class="badge pink">추천</span>지우의 완결까지 챙겨보고 싶은 팬이라면</h3>
+  <p class="body">순서대로 다 보되, 정 시간이 부족하면 <b style="font-weight:800;">각 세대의 리그 결승·마지막 화 위주로 건너뛰며</b> 보는 것도 방법이에요. 최소한 마지막 W와 W: 내 꿈은 포켓몬마스터는 지우 서사의 결말이라 놓치지 않는 걸 추천해요.</p>
+</div>
+<div class="card">
+  <h3><span class="badge">추천</span>극장판까지 챙기고 싶은 영화파라면</h3>
+  <p class="body">TV 시리즈를 다 좇기보다 <b style="font-weight:800;">극장판만 개봉 순서대로</b> 보는 것도 하나의 방법이에요. 1998년 뮤츠의 역습부터 시작해 매년 여름 나온 극장판만 따라가면, 지우 시대 전체 분위기를 훨씬 짧은 시간에 훑어볼 수 있어요.</p>
+</div>
+
+<div class="note-bom" style="margin:0 0 12px;"><b>🩷 봄의 한마디</b><br>가장 많이 헷갈려하시는 부분만 짚으면, <b>포켓몬 지평선과 리코와 로드의 모험은 같은 작품</b>이에요(해외판/국내판 제목 차이). 그리고 <b>리코와 로드부터 봐도 지우 이야기를 몰라서 이해가 안 되는 일은 없어요</b> — 세계관은 이어지지만 이야기 자체는 독립적으로 짜여 있거든요.</div>
+
+<div class="closing"><b>🩷 봄의 한마디로 정리</b><br>정리하자면, 지우 시대(무인편~W)는 시간순으로 이어지는 하나의 큰 이야기고 리코와 로드의 모험은 그 뒤를 잇는 완전히 새로운 시대라 어디서 시작해도 괜찮아요. 저희는 옛날 감성이 그리울 땐 무인편을, 요즘 애니 느낌을 즐기고 싶을 땐 리코와 로드를 번갈아 보고 있어요. 다 못 봐도 괜찮으니 부담 갖지 말고 끌리는 지점부터 편하게 시작해보세요.</div>
+
+<p class="tags">
+  <span class="tag">#포켓몬애니보는순서</span>
+  <span class="tag">#포켓몬스터애니메이션</span>
+  <span class="tag">#리코와로드의모험</span>
+  <span class="tag">#포켓몬지평선</span>
+  <span class="tag">#한지우</span>
+  <span class="tag">#포켓몬애니추천</span>
+</p>
+
+<div class="linkbanner"><b>🔗 이어서 보면 좋은 글</b><br>2026년 3분기 신작 애니가 궁금하시다면 이 글도 함께 봐 주세요 → <a href="https://bom-ding.tistory.com/61">2026년 3분기 신작 애니 추천 — 7월 시작 다섯 편만 골랐어요</a></div>
+
+<div class="banner">
+  <img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/yb-assets/yeonbom-post-banner.jpeg" alt="연봄 부부의 인사 — 공감 하나, 구독 하나가 연봄 부부에게 큰 힘이 돼요"/>
+</div>
+
+</div>
+
+<!-- ▶ 티스토리 복사 버튼 (연봄 미리보기 전용 — _티스토리_ 본문을 클립보드로) -->
+<div id="tcopy" style="position:fixed;top:14px;right:14px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;max-width:92vw;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;">
+  <button id="tcopyBtn" type="button" style="background:#4A86C5;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(74,134,197,.35);">📋 티스토리용 HTML 복사</button>
+  <div id="tcopyPanel" style="display:none;width:min(92vw,580px);background:#fff;border:1px solid #cfe0f1;border-radius:10px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);">
+    <div style="font-size:12px;color:#6f8295;margin-bottom:8px;line-height:1.6;">티스토리 글쓰기 → <b>HTML 모드</b>로 바꾼 뒤 아래 본문을 붙여넣기. 제목·태그는 각 칸에 따로 입력하세요.</div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0;"><b style="color:#4A86C5;">제목</b> <span id="tcopyTitle" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0 8px;"><b style="color:#4A86C5;">태그</b> <span id="tcopyTags" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <textarea id="tcopyArea" readonly style="width:100%;height:180px;font-size:11.5px;line-height:1.5;border:1px solid #d7e6f5;border-radius:8px;padding:9px;background:#f7fafd;box-sizing:border-box;"></textarea>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('tcopyBtn'),panel=document.getElementById('tcopyPanel'),
+      area=document.getElementById('tcopyArea'),tEl=document.getElementById('tcopyTitle'),gEl=document.getElementById('tcopyTags');
+  function pick(html,label){ var m=html.match(new RegExp('<!--\\s*'+label+':([\\s\\S]*?)-->')); return m?m[1].trim():''; }
+  function body(html){
+    var a=html.indexOf('↓↓↓ 여기부터'); if(a>=0){a=html.indexOf('-->',a); a=a>=0?a+3:0;} else a=0;
+    var z=html.indexOf('↑↑↑ 여기까지'); var end=z>=0?html.lastIndexOf('<!--',z):html.length; if(end<0)end=html.length;
+    return html.slice(a,end).replace(/<!--[\s\S]*?-->/g,'').replace(/\n{3,}/g,'\n\n').trim();
+  }
+  btn.addEventListener('click',function(){
+    var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
+    btn.textContent='불러오는 중…';
+    fetch(url).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
+      var b=body(t); area.value=b; tEl.textContent=pick(t,'제목'); gEl.textContent=pick(t,'태그');
+      panel.style.display='block'; area.focus(); area.select();
+      function ok(){ btn.textContent='✅ 본문 복사됨! HTML 모드에 붙여넣기'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(b).then(ok,function(){try{document.execCommand("copy");}catch(e){} ok();}); }
+      else { try{document.execCommand("copy");}catch(e){} ok(); }
+    }).catch(function(){ btn.textContent='⚠ 복사 실패 — 같은 폴더 _티스토리_ 파일 확인'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); });
+  });
+})();
+</script>
+</body>
+</html>
