@@ -35,6 +35,41 @@
   .bd-step b{color:#D63E7A;}
   .bd-step .rk{float:right;color:#EC5C92;font-size:12.5px;font-weight:700;}
   .bd-arrow{text-align:center;color:#EC5C92;font-size:13px;margin:2px 0;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
@@ -115,4 +150,99 @@
     <div class="tags">#포켓몬챔피언스 #포켓몬챔피언스랭크전 #포켓몬챔피언스공략 #포켓몬챔피언스티어 #포켓몬챔피언스덱</div>
   </div>
 </div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 2곳(약 3분):</b> 📷 <b>사진 2곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬챔피언스 랭크전 공략, 상위 티어 빠르게 올리는 법 (덱 선택·대전 팁)</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>포켓몬 챔피언스 랭크배틀을 돌다 보면 어느 순간 꼭 막히는 구간이 오더라고요. 처음 몬스터볼 티어는 슬슬 올라가는데, 그다음부터는 한 판 이기고 한 판 지면서 게이지가 제자리걸음을 하는 느낌이랄까요. 저도 모바일 버전 나오고 본격적으로 손대면서 똑같이 헤맸는데, 시스템을 제대로 이해하고 나니 확실히 덜 돌고도 위로 올라가지더라고요.</p>
+      <p>그래서 오늘은 <b>랭크전 티어 구조부터, 빠르게 올리는 핵심, 덱을 어떻게 짜야 하는지, 실전에서 챙기면 좋은 팁</b>까지 한 번에 풀어보겠습니다. 지난 '랭크전 첫 주 팁' 글에서 못 다룬 심화 내용 위주로 담았어요.</p>
+      <p class="ph">📷 〔사진 자리 1〕 랭크배틀 메인 화면(현재 내 티어·랭크 게이지가 보이는 장면) — 네이버에서 직접 업로드<br>└ 캡션 추천: "제 화면 기준이라 여러분 티어랑은 다를 수 있는데요, 위치 잡는 데 참고하세요."</p>
+      <h3>랭크전, 티어부터 알고 가야 덜 헤매요</h3>
+      <p>포켓몬 챔피언스 랭크전은 배틀 종류가 셋으로 나뉘는데요. 순위가 오르내리는 <b>'랭크배틀'</b>, 순위에 영향이 없는 <b>'캐주얼배틀'</b>, 친구끼리 붙는 <b>'프라이빗배틀'</b>이 있습니다. 우리가 올려야 하는 건 당연히 랭크배틀이고요.</p>
+      <p>티어는 볼 종류로 이름이 붙어 있어요. 초보자 구간을 지나면 <b>몬스터볼 → 슈퍼볼 → 하이퍼볼 → 마스터볼 → 챔피언급</b> 순서로 올라갑니다. 그리고 초보자랑 챔피언급을 뺀 각 티어는 다시 <b>랭크4부터 랭크1까지 4단계</b>로 쪼개져 있어요. 시작은 몬스터볼 티어 랭크4고요.</p>
+      <h3>🏆 포켓몬 챔피언스 랭크 티어 사다리 (아래에서 위로)</h3>
+      <ul>
+        <li><b>몬스터볼</b> — 여기 랭크4부터 시작!</li>
+        <li><b>슈퍼볼</b> — 랭크 4 → 1</li>
+        <li><b>하이퍼볼</b> — 랭크 4 → 1</li>
+        <li><b>마스터볼</b> — 랭크 4 → 1</li>
+        <li><b>챔피언급</b> — 최상위 · 시즌 1주 뒤 개방</li>
+      </ul>
+      <p>여기서 하나 마음이 놓이는 부분이 있는데요. <b>한 번 올린 볼 티어 아래로는 시즌 중에 떨어지지 않습니다.</b> 예를 들어 하이퍼볼에 한 번 올라가면 그 시즌 안에서는 슈퍼볼로 강등될 일이 없고, 같은 하이퍼볼 안의 랭크에서만 오르내려요. 그래서 일단 한 단계 올려두면 마음 편하게 다음 도전을 할 수 있답니다.</p>
+      <h3>왜 굳이 티어를 올려야 하냐면요</h3>
+      <p>이게 빠지면 방향이 안 잡히니까 먼저 짚고 갈게요. 티어를 올리면 뭘 얻느냐면, 우선 <b>슈퍼볼·하이퍼볼·마스터볼에 처음 올라갈 때마다 전용 트레이너 칭호와 박스 보관 칸이 늘어나요.</b> 슈퍼볼과 하이퍼볼은 각각 5칸, 마스터볼은 10칸이 추가된다고 해요. 포켓몬을 많이 굴리는 사람일수록 이 보관 칸이 은근히 소중하네요.</p>
+      <p>그리고 진짜 큰 건 <b>시즌 종료 보상으로 주는 VP(빅토리 포인트)</b>인데요. 도달한 티어가 높을수록 시즌 끝에 받는 VP가 확 커집니다. 마스터볼 랭크1이면 1만 5천, 챔피언급까지 가면 2만 가까이 받는다고 알려져 있어요. 이 VP가 포켓몬을 모으고 세팅하는 핵심 재화라, 결국 위로 올라갈수록 다음 시즌이 편해지는 구조랍니다.</p>
+      <h3>빠르게 올리는 핵심은 '연승 게이지'예요</h3>
+      <p>여기가 오늘 글에서 제일 중요한 부분인데요. 랭크 게이지는 기본적으로 <b>한 판 이기면 1/4 차고, 한 판 지면 1/4 깎입니다.</b> 그러니까 이기고 지고를 반복하면 영원히 제자리인 거죠. 제가 초반에 게이지가 안 오른다고 느낀 이유가 딱 이거였어요.</p>
+      <p>그런데 핵심 장치가 하나 있어요. <b>2연승을 넘겨 연승이 이어지면, 그때부터는 한 판 이길 때마다 게이지가 2/4씩 차오릅니다.</b> 채우는 속도가 두 배가 되는 거라, 운 좋게 흐름을 타면 한 랭크를 여덟 판 정도로 끊어낼 수도 있어요. 그래서 랭크전은 '많이 하는 것'보다 <b>연승 흐름을 끊기지 않게 가져가는 것</b>이 훨씬 중요합니다.</p>
+      <p>그러니 컨디션이 안 좋거나 같은 상대에게 연패 중이라면, 무리해서 계속 들이받기보다 잠깐 캐주얼배틀로 손을 풀거나 쉬었다 오는 게 오히려 이득이에요. 진 판은 게이지만 깎는 게 아니라 연승까지 끊어버리니까요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 연승 중일 때 게이지가 2칸씩 차오르는 장면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "연승 붙었을 때 게이지 차는 속도가 확 달라지는 게 눈에 보이거든요."</p>
+      <h3>덱은 어떻게 짜야 할까요?</h3>
+      <p>포켓몬 챔피언스의 공식 경쟁 종목은 <b>더블배틀(VGC)</b>이에요. 2026년부터 포켓몬 월드챔피언십 VGC 종목으로도 채택됐고요. 싱글과 더블 랭킹이 따로 매겨지니까, 둘 다 돌리면 시즌 보상을 양쪽에서 챙길 수 있다는 것도 알아두면 좋습니다.</p>
+      <p>덱을 짤 때 알아둘 게, 이 게임은 포켓몬을 <b>VP로 모집하고 세팅하는 방식</b>이라는 거예요. 포켓몬 한 마리를 모집하는 데만 2,500 VP쯤 들고, 거기에 기술·성격·특성까지 손보면 비용이 더 붙는다고 보시면 되네요. 그러다 보니 처음부터 여러 마리를 풀세팅하려다 VP가 금방 바닥나기 쉬운데요.</p>
+      <p>그래서 추천드리는 흐름은 이렇습니다. 우선 <b>7일 체험 모집</b>으로 쓰고 싶은 포켓몬을 먼저 굴려보고, 손에 맞는 조합이 잡힌 다음에 VP를 들여 정식으로 세팅하는 거예요. 안 맞는 포켓몬에 재화를 쏟고 후회하는 걸 막아주거든요. 구체적인 1티어 조합은 시즌마다 메타가 바뀌니, 인게임 모집 목록과 최신 대회 흐름을 보고 손에 맞는 쪽으로 맞춰주시는 게 좋습니다.</p>
+      <h3>실전 대전 팁 몇 가지</h3>
+      <p>마지막으로 올리면서 챙기면 좋은 실전 팁들을 묶어볼게요.</p>
+      <p>첫째, <b>VP는 주간 미션에서 가장 효율적으로 모입니다.</b> 매일 들어오는 일일 과제도 있지만, 주간 미션 한 묶음이 주는 양이 훨씬 크거든요. 시간이 빠듯하면 일일보다 주간을 먼저 채우는 걸 우선으로 두세요. 아래 표는 VP가 들어오는 주요 경로를 정리한 건데, 정확한 수치는 시즌·패치에 따라 달라질 수 있으니 흐름만 참고하시면 됩니다.</p>
+      <table>
+        <thead><tr><th>VP 획득 경로</th><th>대략 보상</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td class="l">주간 미션</td><td>주당 약 9,000 VP</td><td>효율 1순위</td></tr>
+          <tr><td class="l">일일 과제</td><td>약 500 VP</td><td>매일 갱신</td></tr>
+          <tr><td class="l">랭크배틀 승리</td><td>약 300 VP</td><td>이기면 챙김</td></tr>
+          <tr><td class="l">랭크배틀 패배</td><td>약 120 VP</td><td>져도 위로금</td></tr>
+          <tr><td class="l">시즌 종료 보상</td><td>티어 비례(최대 2만대)</td><td>높을수록 ↑</td></tr>
+        </tbody>
+      </table>
+      <p class="tnote-line">정확한 수치는 게임 내 표기 기준으로 확인해 주세요(시즌마다 조정될 수 있어요).</p>
+      <p>둘째, <b>강등 안전망을 적극적으로 활용하세요.</b> 앞에서 말했듯 시즌 중에는 올린 볼 티어 아래로 안 떨어지니까, 한 티어 올리는 데 성공했으면 그 자리를 깔고 다음 랭크에 부담 없이 도전해도 됩니다. 떨어질 걱정이 없으니 새로운 덱을 실험하기에도 딱 좋고요.</p>
+      <p>셋째, <b>시즌 타이밍을 의식하세요.</b> 마스터볼 상위 랭크와 챔피언급 티어는 시즌이 시작되고 일주일쯤 지나야 열린다고 해요. 그래서 시즌 초에는 그 아래 구간에서 덱을 다듬고 연승 감각을 끌어올려 두고, 상위 구간이 열리는 타이밍에 흐름을 타고 치고 올라가는 게 효율적입니다.</p>
+      <p>끝으로, 초보분들이 자주 하는 실수가 <b>안 풀릴 때 멈추지 못하고 계속 들이받는 것</b>인데요. 연패는 게이지도 깎고 연승 흐름도 끊으니 손해가 두 배예요. 흐름이 안 좋다 싶으면 잠깐 쉬어가는 것, 이게 의외로 제일 빠른 길이더라고요. 참고하시면 되겠습니다.</p>
+      <h3>포켓몬 챔피언스 랭크전 정리</h3>
+      <p>한마디로, 랭크전은 <b>티어 구조를 이해하고(올린 티어는 안 떨어진다), 연승 게이지로 효율을 두 배로 끌어올리고, 덱은 7일 체험으로 검증한 뒤 VP를 투자하고, 주간 미션과 시즌 타이밍을 챙기는 것</b>이 핵심이에요. 무작정 많이 도는 것보다 흐름을 관리하는 쪽이 훨씬 덜 지치고 빠르더라고요. 오늘 정리한 내용 참고하셔서 여러분도 한 티어씩 차근히 올려보시면 좋겠습니다.</p>
+      <p><b>✔ 포켓몬 챔피언스 같이 보기 좋은 내용</b><br>
+      · 포켓몬 챔피언스 랭크전 첫 주 팁 (같은 게임의 입문 편에서 더 기본적인 내용을 다뤘어요 — 발행 시 링크 연결)</p>
+      <p class="tags-line">#포켓몬챔피언스 #포켓몬챔피언스랭크전 #포켓몬챔피언스공략 #포켓몬챔피언스티어 #포켓몬챔피언스덱</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

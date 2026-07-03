@@ -45,6 +45,42 @@
     .tbl td{border:none;padding:6px 12px;}
     .tbl td[data-label]::before{content:attr(data-label);display:block;font-size:11.5px;font-weight:700;color:var(--sub);margin-bottom:2px;}
   }
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .spec{color:#333;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .minus-line{color:#9a4a3a;}
+  #copy .warn-line{color:#b5651d;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 육아</div>
@@ -148,4 +184,152 @@
     <div class="tags">#아기물티슈추천 #무형광물티슈 #무알코올물티슈 #베베숲 #순둥이 #하늘수 #다이소에끌라 #신생아물티슈 #봄딩육아</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>, 👉 쿠팡 링크는 본인 파트너스 URL 연결.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 6가지(약 5분):</b> 📷 <b>사진 2곳</b> 업로드 · 👉 <b>쿠팡 링크 4곳(①~④)</b> 본인 파트너스 URL. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 아기 물티슈 추천 2026 무형광·무알코올 4종 성분 비교</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p class="notice-line">[필수 고지] 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 가격·평점은 작성 시점 기준이라 변동될 수 있으니 구매 전 확인해 주세요!</p>
+
+      <p>귤씨 낳고 나서 진짜 제일 많이 재구매하는 육아템 하나만 꼽으라면 저는 고민 없이 물티슈예요. 하루에도 몇 번씩 얼굴 닦고 손 닦고 엉덩이 닦고, 외출할 땐 아예 한 팩씩 들고 나가니까 소비 속도가 어마어마하더라고요. 그런데 막상 사려고 보면 브랜드도 많고 무형광이니 무알코올이니 문구도 다 비슷해서 뭘 기준으로 골라야 하나 헷갈리는 분들 많으실 것 같아요.</p>
+      <p>그래서 이번엔 <b>무형광·무알코올, 화장품법상 인체세정용 화장품</b>으로 관리되는 아기 물티슈 중에서 실제로 다나와·쿠팡·화해에서 꾸준히 상위권에 올라오는 4종을 직접 비교해봤어요. 미리 솔직하게 말씀드리면, 제가 네 개를 다 오래 써본 건 아니에요. 저희 집은 지금 베베숲을 주로 쓰고 있고, 나머지 세 종류는 공식몰·화해 리뷰·다나와 스펙을 부지런히 대조해서 정리한 비교글이라는 점 먼저 말씀드릴게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 아기 물티슈 4종을 나란히 놓고 찍은 비교컷 — 네이버에서 직접 업로드<br>└ 캡션 추천: "고르는 기준은 성분, 전성분 표기(화장품 기준), 두께·매수, 가격 이렇게 크게 네 가지로 봤어요."</p>
+
+      <h3>아기 물티슈 고를 때 진짜 봐야 하는 것</h3>
+      <p>물티슈는 아기 피부에 매일 직접 닿는 제품이다 보니 <b>무형광·무알코올·무파라벤</b> 표기부터 확인하는 게 기본이에요. 여기에 하나 더, 인체세정용 아기 물티슈는 <b>2015년 7월부터 화장품법 적용을 받아 식약처 관리 대상</b>이고, 전성분 표시 의무와 형광증백제 등 사용금지 원료 기준이 적용돼요. 다만 전성분 표기가 온라인 상세페이지에 항상 큼직하게 박혀 있는 건 아니라서, 정확한 성분 정보까지 보고 싶으면 식약처 의약품안전나라나 제품 상세페이지 전성분 표시를 직접 확인하시는 게 제일 확실해요. 이 글에서는 각 브랜드가 공식적으로 밝히고 있는 정보 위주로 정리했다는 점 참고해주세요.</p>
+
+      <h3>베베숲 시그니처 블루 에코</h3>
+      <p class="spec"><b>레이온 100% 원단</b> · 💰 70매 캡형 10팩 26,900원대(작성 시점)</p>
+      <p>베베숲은 오랜 스테디셀러로 자리 잡은 브랜드라 다들 한 번쯤 써보셨을 거예요. <b>시그니처 블루 에코</b>는 그중에서도 원단을 레이온 100%로 바꿔서 생분해가 되도록 만든 라인인데요, 브랜드가 <b>무형광·무알코올</b> 성분을 앞세워 홍보하고 있고, 정제수를 5단계 정수해서 쓴다는 점도 특징이에요.</p>
+      <p>👍 좋은 점</p>
+      <ul>
+        <li>평량 75gsm으로 물티슈 중에서는 두꺼운 편이라 한 장으로도 잘 닦여요.</li>
+        <li>EWG 그린등급 원료를 쓴다고 밝히고 있어서 성분 확인이 비교적 투명해요.</li>
+        <li>오랜 스테디셀러인 만큼 재구매·리필 구하기가 제일 쉬워요.</li>
+      </ul>
+      <p class="minus-line">👎 아쉬운 점</p>
+      <ul>
+        <li>상세페이지에 무형광·무알코올 문구는 있지만, 전성분 전체 표기까지는 잘 안 보여서 궁금하면 별도로 확인이 필요해요.</li>
+        <li>두꺼운 만큼 얇은 제품보다 살짝 결이 뻣뻣하게 느껴진다는 후기도 있어요.</li>
+      </ul>
+      <p>💰 <b>70매 캡형 10팩 기준 26,900원대(작성 시점 기준, 변동 가능)</b> — 1매당 약 38원 정도예요.</p>
+      <p class="ph">👉 〔쿠팡 링크 자리 ①〕 베베숲 시그니처 블루 에코 — 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
+      <p>이런 분께 추천! <b>일단 검증된 스테디셀러로 안전하게 고르고 싶은 분, 물티슈 두께가 도톰한 걸 선호하는 분</b>께 잘 맞아요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 베베숲 시그니처 블루 에코 캡 클로즈업 + 원단 질감 — 네이버에서 직접 업로드<br>└ 캡션 추천: "두께감이 있어서 한 장 뽑아도 힘없이 늘어지지 않는 느낌이에요."</p>
+
+      <h3>순둥이 베이직</h3>
+      <p class="spec"><b>오스트리아산 레이온·평량 55gsm</b> · 💰 100매 캡형 10팩 21,900원대(작성 시점)</p>
+      <p>순둥이는 <b>업계 최초로 '대한민국 로하스(LOHAS)' 인증을 여러 해 연속으로 받아온</b> 브랜드예요. 로하스 인증은 친환경·지속가능성 관점에서 보는 인증이라 무형광·무알코올과는 결이 좀 다르지만, 유해성분 불검출 판정을 꾸준히 받아왔다는 점에서 안전성 이력이 긴 브랜드라고 볼 수 있어요. 원단은 오스트리아산 레이온을 쓰고 유럽 Oeko-Tex Standard 100 인증도 받았다고 밝히고 있고요.</p>
+      <p>👍 좋은 점</p>
+      <ul>
+        <li>로하스 인증을 여러 해 유지해온 만큼 안전성 관련 이력이 두터워요.</li>
+        <li>원단 자체가 유럽 인증(Oeko-Tex)까지 받았다고 밝히고 있어서 소재 신뢰도가 높은 편이에요.</li>
+        <li>평량 55gsm 라인이라 얇고 가벼워서 휴대하기 편해요.</li>
+      </ul>
+      <p class="minus-line">👎 아쉬운 점</p>
+      <ul>
+        <li>공식 상세페이지에 무형광·무알코올 여부가 직접 명시돼 있진 않아서, 이 부분은 <b>확인 필요</b>로 남겨둘게요.</li>
+        <li>베베숲보다 얇은 편이라 물기가 많은 상황에선 두 장씩 쓰게 되기도 해요.</li>
+      </ul>
+      <p>💰 <b>대용량 100매 캡형 10팩 기준 21,900원대(작성 시점 기준, 변동 가능)</b>예요.</p>
+      <p class="ph">👉 〔쿠팡 링크 자리 ②〕 순둥이 베이직 — 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
+      <p>이런 분께 추천! <b>친환경·인증 이력을 중요하게 보는 분, 얇고 가벼운 물티슈로 매수를 넉넉하게 쓰고 싶은 분</b>께 맞아요.</p>
+
+      <h3>하늘수 프리미엄</h3>
+      <p class="spec"><b>정제수+징크제올라이트 2성분</b> · 💰 캡형 10팩 20,000원대(작성 시점)</p>
+      <p>하늘수는 성분표를 보면 정말 단순해요. <b>정제수와 징크제올라이트</b>, 이 두 가지로만 이뤄져 있다고 밝히는 물티슈라 향료나 보존제 자체가 최소화된 구성이에요. 다만 첨가물이 거의 없다 보니 특유의 냄새가 약하게 난다는 후기도 종종 보이더라고요. 라인은 프리미엄·센서티브·퓨어로 나뉘는데 성분은 동일하고 두께와 크기 차이만 있어요.</p>
+      <p>👍 좋은 점</p>
+      <ul>
+        <li>성분 구성 자체가 단순해서 향료·색소 걱정을 덜 수 있어요.</li>
+        <li>라인이 나뉘어 있어서 신생아용(센서티브)부터 골라 쓸 수 있어요.</li>
+      </ul>
+      <p class="minus-line">👎 아쉬운 점</p>
+      <ul>
+        <li>1매당 단가가 20~30원대로 네 제품 중 상대적으로 비싼 편이에요.</li>
+        <li>무형광·무알코올을 별도 문구로 강조하고 있진 않은데, 이건 성분 자체가 정제수·징크제올라이트뿐이라 형광증백제·알코올이 들어갈 여지가 적은 구성으로 이해하시면 될 것 같아요(공식 확인 문구는 아니라 참고만 해주세요).</li>
+      </ul>
+      <p>💰 <b>캡형 10팩 기준 20,000원대(작성 시점 기준, 변동 가능)</b>예요.</p>
+      <p class="ph">👉 〔쿠팡 링크 자리 ③〕 하늘수 프리미엄 — 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
+      <p>이런 분께 추천! <b>향료·첨가물을 최소한으로 줄이고 싶은 분, 신생아부터 쓸 라인을 따로 고르고 싶은 분</b>께 어울려요.</p>
+
+      <h3>다이소 에끌라 깨끗한</h3>
+      <p class="spec"><b>150매 캡형·UV 살균 7단계 정수</b> · 💰 150매 캡형 1팩 1,000원(작성 시점)</p>
+      <p>가성비로 요즘 제일 화제인 게 다이소 에끌라예요. <b>150매 캡형이 1,000원대</b>라 1매당 단가가 압도적으로 저렴하고, 다이소몰 자체 랭킹에서도 판매 1위에 오를 만큼 반응이 좋아요. UV 살균과 7단계 정수 과정을 거친 정제수를 쓴다고 밝히고 있고요.</p>
+      <p>👍 좋은 점</p>
+      <ul>
+        <li>1매당 단가가 가장 저렴해서 외출용·여벌용으로 부담 없이 쟁여둘 수 있어요.</li>
+        <li>근처 다이소에서 바로 사올 수 있어 접근성이 제일 좋아요.</li>
+      </ul>
+      <p class="minus-line">👎 아쉬운 점</p>
+      <ul>
+        <li>성분표에 소듐벤조에이트(보존제) 0.4%, 폴리솔베이트20(계면활성제) 등이 포함돼 있어서, 무향·무첨가를 최우선으로 보는 분들껜 다른 세 제품보다 성분이 더 들어가 있는 구성이에요.</li>
+        <li>무형광·무알코올 여부와 전성분 전체 표기가 상세페이지에 별도로 크게 나와 있진 않아서 이 부분은 <b>확인 필요</b>로 남겨둘게요.</li>
+      </ul>
+      <p>💰 <b>150매 캡형 1팩 기준 1,000원(작성 시점 기준, 변동 가능)</b>이에요.</p>
+      <p class="ph">👉 〔쿠팡 링크 자리 ④〕 다이소 에끌라 깨끗한 — 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
+      <p>이런 분께 추천! <b>가성비를 최우선으로 보고 외출용·물티슈를 넉넉히 쓰고 싶은 분</b>께 잘 맞아요. 다만 신생아 얼굴처럼 예민한 부위엔 앞의 세 제품을 먼저 고려해보시길 추천드려요.</p>
+
+      <p>✍️ 4종 각 제품의 정확한 전성분 목록은 식약처 의약품안전나라(nedrug.mfds.go.kr) 화장품 정보 또는 제품 상세페이지 전성분 표시에서 직접 조회하면 더 명확하게 확인하실 수 있어요.</p>
+
+      <h3>아기 물티슈 4종 한눈에 비교</h3>
+      <p>표로 정리하면 이런 느낌이에요. 별점은 <b>공식 표기 전성분 표기(화장품 기준) + 화해·다나와 등 공신력 지표 + 가격대</b>를 종합해서 작성 시점 기준으로 매긴 거예요.</p>
+      <table>
+        <thead><tr><th>제품</th><th>두께(평량)</th><th>가격(작성시점)</th><th>특징</th><th>추천도</th></tr></thead>
+        <tbody>
+          <tr><td class="l">베베숲 시그니처 블루 에코</td><td>75gsm</td><td>70매×10팩 26,900원대</td><td>무형광·무알코올 표방, EWG 그린등급, 두꺼운 원단</td><td>★★★★☆</td></tr>
+          <tr><td class="l">순둥이 베이직</td><td>55gsm</td><td>100매×10팩 21,900원대</td><td>로하스 인증 여러 해 연속, Oeko-Tex 원단, 가벼운 원단</td><td>★★★★☆</td></tr>
+          <tr><td class="l">하늘수 프리미엄</td><td>라인별 상이(확인 필요)</td><td>10팩 20,000원대</td><td>정제수+징크제올라이트 2성분, 라인 세분화</td><td>★★★★☆</td></tr>
+          <tr><td class="l">다이소 에끌라 깨끗한</td><td>약 40~50gsm대</td><td>150매 1팩 1,000원</td><td>압도적 가성비, 보존제 소량 포함, 접근성 최고</td><td>★★★☆☆</td></tr>
+        </tbody>
+      </table>
+
+      <h3>그래서 저는 뭘 쓰고 있냐면요</h3>
+      <p>저희 집은 지금 <b>베베숲 시그니처 블루 에코</b>를 꾸준히 쓰고 있어요. 처음엔 그냥 오래된 스테디셀러라길래 시작했는데, 두께감이 있어서 한 장으로 잘 닦이는 게 은근 편하더라고요. 다만 이건 저희 귤씨 기준이고, 성분을 더 최소화하고 싶으면 하늘수, 인증 이력을 더 보고 싶으면 순둥이, 그냥 가볍게 여러 개 쟁여두고 싶으면 다이소 에끌라도 충분히 좋은 선택이라고 생각해요.</p>
+      <p>정답이 딱 하나 있는 건 아니고, 결국 우리 아이 피부 상태랑 우리 집 소비 패턴에 맞춰 고르는 게 제일이더라고요. 저처럼 물티슈 하나 사는데도 한참 고민하시는 분들께 이 비교가 도움이 됐으면 좋겠네요.</p>
+
+      <p class="tags-line">#아기물티슈추천 #무형광물티슈 #무알코올물티슈 #베베숲 #순둥이 #하늘수 #다이소에끌라 #신생아물티슈 #봄딩육아</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

@@ -49,6 +49,41 @@
   .memo li{position:relative;padding:5px 0 5px 26px;font-size:14px;line-height:1.7;border-bottom:1px dashed #f3b9d0;}
   .memo li:last-child{border-bottom:none;}
   .memo li:before{content:"✓";position:absolute;left:4px;top:5px;color:#EC5C92;font-weight:800;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
 </style></head><body>
 <div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
 <div class="wrap">
@@ -144,4 +179,115 @@
     <div class="tags">#스타세일러 #스타세일러영웅추천 #스타세일러픽업 #하이디 #스타세일러리세마라 #스타세일러티어 #컴투스홀딩스 #수집형RPG #봄딩게임 #신작게임추천</div>
   </div>
 </div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳(약 3분):</b> 📷 <b>사진 3곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 스타세일러 영웅추천 하이디 픽업 캐릭터 정보 초반 파티 조합 컴투스홀딩스 수집형RPG</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>지난번엔 출시 첫날 리세마라 방법이랑 쿠폰까지 한 번 정리해 드렸었는데요, 그때는 저도 게임을 막 시작한 참이라 "어떤 캐릭터가 좋다"까지는 자신 있게 못 짚었어요. 그 사이 <b>스타 세일러</b>를 사흘 정도 굴려보고, 커뮤니티 반응도 계속 지켜보고 있는데요. 이제 조금씩 "초반엔 이 친구들이 쓸 만하더라" 하는 얘기가 쌓이고 있어서, 오늘은 <b>영웅(캐릭터) 추천</b>이랑 이번에 새로 들어온 <b>픽업 캐릭터 하이디</b> 얘기를 같이 풀어보려고 합니다.</p>
+
+      <p>먼저 미리 말씀드릴 게 하나 있는데요, <b>출시한 지 이제 겨우 사흘이라 공식이든 커뮤니티든 '확정 티어표'라고 부를 만한 건 아직 없습니다.</b> 아래 정리한 내용은 초기 유저 반응과 인게임에서 확인되는 사실을 섞어 정리한 거라, "지금 이런 분위기다" 정도로 참고해 주시면 딱 좋을 것 같아요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 스타 세일러 공식 앱 아이콘 또는 대표 이미지 — 네이버에서 직접 업로드<br>└ 캡션 추천: "출시 사흘 차, 이제 초반 파티 그림이 조금씩 잡혀가요."</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 인게임 소환(가챠) 화면 또는 캐릭터 목록 화면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "파티에 넣을 캐릭터 후보를 하나씩 늘려가는 중이에요."</p>
+
+      <h3>지금 초반 추천으로 자주 꼽히는 영웅들</h3>
+      <p>일단 표부터 보여드릴게요. 확정 순위가 아니라 <b>"초반에 쓸 만하다"고 자주 언급되는 캐릭터들</b>을 정리한 표라고 봐주시면 됩니다.</p>
+      <table>
+        <tr><th>캐릭터</th><th>역할·설명</th><th>초반 반응</th></tr>
+        <tr><td class="l">하이디 언더본</td><td>SSR · 이번 출시 픽업</td><td>리세마라 1순위로 가장 많이 거론</td></tr>
+        <tr><td class="l">니나 스팅블레이드</td><td>SSR · 아름다운 배신자·이중 스파이</td><td>전용무기 세트로 자주 추천</td></tr>
+        <tr><td class="l">카이라</td><td>SSR</td><td>리세마라 상위 후보로 언급</td></tr>
+        <tr><td class="l">아이리스</td><td>빛 속성 서브 딜러 · 상시 획득</td><td>속성 상성 걸리면 활용도 높다는 평</td></tr>
+        <tr><td class="l">프린세스 젠 / 에단</td><td>-</td><td>파티 구성 후보로 함께 거론</td></tr>
+      </table>
+      <p>보시면 하이디랑 니나, 카이라 세 명이 유독 자주 묶여 나오는데요. <b>이 셋이 지금 리세마라 판단 기준으로 가장 많이 언급되는 편</b>이라고 보시면 될 것 같아요. 아이리스는 픽업은 아니고 상시로 얻을 수 있는 빛 속성 서브 딜러인데, 상대 속성에 따라 확실히 힘을 쓴다는 반응이 있어서 파티 두 번째 자리로 챙기는 분들이 꽤 계시더라고요.</p>
+
+      <h3>🌸 리세마라 이렇게 노려보세요</h3>
+      <ul>
+        <li>이번 픽업 <b>하이디</b>부터 노려보기 (SSR·출시 확률업)</li>
+        <li>안 나오면 <b>니나 or 카이라</b>로 방향 틀기</li>
+        <li>캐릭터 하나만 보지 말고 <b>전무(전용무기)</b>도 같이 확인</li>
+        <li>상시 캐릭터 <b>아이리스</b>는 리세마라 대상 아니어도 파티엔 쓸모 있음</li>
+      </ul>
+
+      <p class="ph">📷 〔사진 자리 3〕 하이디 언더본 상세 정보 화면(설정·스킬 페이지) — 네이버에서 직접 업로드<br>└ 캡션 추천: "그림자 엘프답게 분위기부터 남다른 캐릭터예요."</p>
+
+      <h3>이번 픽업 하이디 언더본, 어떤 캐릭터냐면요</h3>
+      <p>이번 출시 기념 픽업으로 확률이 올라간 캐릭터가 바로 <b>하이디 언더본</b>인데요. 불의 화신과 계약을 맺은 그림자 엘프라는 설정을 갖고 있고, 등급은 <b>SSR</b>이에요. 픽업이랑 같이 SSR 메모리피스 <b>「하이디가 보는 세상」</b>도 새로 추가돼서, 하이디를 뽑을 계획이면 이 메모리피스까지 같이 노리는 게 좋습니다.</p>
+      <p>출시 기념으로 <b>하이디를 포함한 고정 프리셋 파티로 체험 스테이지</b>도 열려 있는데요, 이 스테이지를 완료하면 다이아 보상까지 챙길 수 있으니 하이디를 못 뽑았더라도 일단 이 체험판으로 캐릭터 감을 먼저 잡아보시는 걸 추천드려요. 다만 <b>픽업이 언제까지 이어지는지는 정확한 종료일이 따로 공지된 걸 못 찾았습니다.</b> 확률업 이벤트는 보통 인게임 공지나 공식 라운지에 기간이 걸리는 편이라, 노리고 계신 분들은 접속하실 때 이벤트 탭 한 번씩 확인해두시는 게 안전해요.</p>
+
+      <table>
+        <tr><th>구분</th><th>내용</th></tr>
+        <tr><td class="l">등급</td><td>SSR</td></tr>
+        <tr><td class="l">설정</td><td>불의 화신과 계약한 그림자 엘프</td></tr>
+        <tr><td class="l">동반 콘텐츠</td><td>SSR 메모리피스 「하이디가 보는 세상」</td></tr>
+        <tr><td class="l">체험 스테이지</td><td>하이디 고정 프리셋 · 완료 시 다이아 보상</td></tr>
+        <tr><td class="l">종료일</td><td>미공지 — 인게임/공식 라운지 확인</td></tr>
+      </table>
+
+      <h3>캐릭터만 보지 말고 전무(전용무기)도 같이 챙기세요</h3>
+      <p>여기서 하나 짚고 넘어갈 게 있는데요, 스타 세일러 커뮤니티에서는 <b>캐릭터 자체보다 전무, 그러니까 전용무기가 사실상 '본체'</b>라는 얘기가 정설처럼 돌고 있어요. 그래서 리세마라할 때도 캐릭터 하나만 보고 판단하지 말고, <b>캐릭터+전무 세트</b>로 나왔는지를 같이 확인하는 게 좋다고 하더라고요. 캐릭터는 뽑았는데 전무가 없으면 성능이 반쪽짜리인 느낌이라는 반응도 있고요.</p>
+      <p>같이 알아두면 좋은 게 <b>메모리피스</b>인데요, 장비나 유물 같은 개념으로 캐릭터를 한 번 더 성장시키는 시스템이에요. 여기도 SSR 등급이 존재하고, 커뮤니티에서는 이 메모리피스 성장이 은근한 병목 구간으로 꼽히더라고요. 하이디처럼 픽업 캐릭터에 전용 메모리피스가 같이 나오는 경우엔, 캐릭터랑 메모리피스를 세트로 챙겨야 진짜 성능이 나온다고 보시면 될 것 같아요.</p>
+
+      <p class="ph">📷 〔사진 자리 4〕 전무(전용무기) 장착 화면 또는 메모리피스 세팅 화면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "캐릭터 하나만 보지 말고 전무·메모리피스까지 세트로 챙기는 게 포인트예요."</p>
+
+      <h3>전투는 브레이크·오버드라이브 조합, 자동전투 믿지 마세요</h3>
+      <p>스타 세일러는 7개 클래스에 무료로 얻는 동료가 16종, 출시 오리지널 캐릭터가 23종이나 되는 꽤 규모 있는 수집형 RPG인데요. 2성에서 3성으로 각성시키는 성장 구조에, 속성 상성을 따지는 전투까지 겹쳐서 초반엔 챙길 게 좀 많아요. 여기에 <b>소환수 시스템</b>도 있는데, 다른 게임과 다르게 소환수엔 속도 스탯이 없는 게 이 게임 밸런스의 특징 중 하나라고 하네요.</p>
+      <p>전투 자체는 상대 <b>약점을 노려 방어를 무너뜨리는 브레이크</b>랑, <b>SP를 채워 강한 한 방을 꽂는 오버드라이브</b>, 그리고 버스트 찬스 타이밍에 맞춰 누르는 QTE까지 겹쳐서 손이 좀 가는 구조예요. 그래서인지 <b>자동전투는 일부러 약하게 설계</b>돼 있다는 얘기가 많은데요, 직접 이것저것 눌러보니 확실히 자동으로만 돌리면 스킬 연계가 제대로 안 나오는 느낌이더라고요. 초반엔 답답해도 수동으로 몇 판 돌려보시는 걸 추천드려요.</p>
+
+      <h3>쿠폰이랑 자세한 리세마라 방법은 여기서</h3>
+      <p>쿠폰 코드나 리세마라 절차 자체는 지난 글에서 이미 자세히 다뤄서 여기선 짧게만 짚을게요. <b>GRANDLAUNCH100</b> 쿠폰이 아직 살아 있는 걸로 알고 있는데, 정확한 유효기간은 공식 라운지에서 한 번 더 확인해보시는 게 안전해요. 리세마라 절차나 계정 초기화 방법이 궁금하신 분들은 아래 링크로 넘어가시면 더 자세히 나와 있습니다.</p>
+
+      <h3>영웅추천·하이디 픽업 정리하며</h3>
+      <p>사흘 굴려본 소감을 정리하면, 지금은 <b>하이디·니나·카이라</b> 셋이 리세마라 판단 기준으로 가장 많이 오르내리고, 그중에서도 이번 픽업인 <b>하이디</b>를 우선 노려보는 분들이 많은 분위기예요. 다만 아직 출시 초반이라 이 반응도 며칠 지나면 또 바뀔 수 있으니, 여기 정리한 내용은 참고만 하시고 결국은 직접 몇 판 돌려보면서 손에 맞는 캐릭터를 찾아가시는 게 제일 정확할 것 같아요. 저도 조금 더 굴려보고 확실한 그림이 잡히면 다시 정리해서 들고 올게요.</p>
+
+      <p><b>✔ 스타 세일러 같이 보기 좋은 내용</b><br>
+      · 스타 세일러 사전예약 총정리 — 게임 소개·콕스 아트·5인 파티 시스템 (봄딩 '스타 세일러' 카테고리)<br>
+      · 스타 세일러 출시 첫날 가이드 첫인상 정리 — 첫날 동선·튜토리얼 순서 (봄딩 '스타 세일러' 카테고리)<br>
+      · 스타 세일러 리세마라 가이드 쿠폰 정리 — 쿠폰 코드·리세마라 절차 상세 (봄딩 '스타 세일러' 카테고리)</p>
+
+      <p class="tags-line">#스타세일러 #스타세일러영웅추천 #스타세일러픽업 #하이디 #스타세일러리세마라 #스타세일러티어 #컴투스홀딩스 #수집형RPG #봄딩게임 #신작게임추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

@@ -34,6 +34,41 @@
   .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
     text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
@@ -108,4 +143,98 @@
     <div class="tags">#열혈강호넥스트 #열혈강호넥스트사전예약 #무협신작게임추천 #신작게임추천 #킹넷 #펀게임즈 #MMORPG추천</div>
   </div>
 </div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳(약 3분):</b> 📷 <b>사진 3곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 열혈강호 넥스트 사전예약 - 5직업 무협 신작 미리보기</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>무협 만화 좋아하시는 분들 많으시죠. 저도 어릴 때부터 <b>'열혈강호'</b> 보면서 자란 세대라 그런지, 이번에 <b>열혈강호: 넥스트</b>가 사전예약을 시작했다는 소식을 듣자마자 반가운 마음에 바로 찾아봤는데요. 원작이 연재 <b>32주년</b>을 맞은 대한민국 대표 무협 만화다 보니, 이번 신작도 기대하는 분들이 꽤 많더라고요. 오늘은 사전예약 정보랑 5직업 구성까지 확인된 내용으로 정리해 볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 열혈강호 넥스트 공식 키비주얼(카툰 렌더링 그래픽) — 네이버에서 직접 업로드<br>└ 캡션 추천: "업그레이드된 카툰 렌더링으로 원작 감성을 살렸다고 해요."</p>
+
+      <h3>열혈강호 넥스트, 어떤 게임이에요?</h3>
+      <p><b>열혈강호: 넥스트</b>는 무협 만화 '열혈강호' IP를 기반으로 한 <b>MMORPG</b>인데요. 개발은 <b>펀게임즈</b>, 퍼블리싱은 <b>킹넷</b>이 맡았습니다. 원작 특유의 청춘 무협 감성과 강호 세계관을 현대적으로 재해석했고, 업그레이드된 카툰 렌더링 그래픽과 연출을 입혔다고 하니 원작 팬이라면 반가울 만한 포인트죠. <b>PC와 모바일 크로스 플레이</b>를 지원해서 상황에 따라 편한 쪽으로 접속할 수 있다는 것도 장점이고요.</p>
+
+      <h3>5직업 구성은?</h3>
+      <p>이번 신작의 핵심 특징 중 하나가 바로 <b>5종 직업</b>인데요. 도무사·검무사·창무사·궁무사·의원, 이렇게 다섯 직업이 공개됐습니다. 무기 계열로 나뉜 도무사·검무사·창무사·궁무사에 힐/서포트 성격의 의원까지 더해진 구성이라, 원작 캐릭터들의 무공 색깔을 살린 느낌이더라고요. 세부 스킬이나 각 직업 특징은 아직 공식 소개가 더 나온 게 없어서, 정보 풀리면 다시 정리해드릴게요.</p>
+
+      <table>
+        <tr><th>직업</th><th>계열(추정 콘셉트)</th></tr>
+        <tr><td class="l">도무사</td><td>도(刀) 계열 근접 무공</td></tr>
+        <tr><td class="l">검무사</td><td>검(劍) 계열 근접 무공</td></tr>
+        <tr><td class="l">창무사</td><td>창(槍) 계열 근접 무공</td></tr>
+        <tr><td class="l">궁무사</td><td>궁(弓) 계열 원거리 무공</td></tr>
+        <tr><td class="l">의원</td><td>치료·보조 계열</td></tr>
+      </table>
+      <p>직업명 5종은 공식 확인, 세부 스킬·역할은 추가 공개 필요해요.</p>
+
+      <h3>전투 시스템 - 무공 조합 기반</h3>
+      <p>전투는 <b>무공 조합 기반 전투 시스템</b>을 내세우고 있는데요. 무협 게임답게 여러 무공을 조합해서 자기만의 콤보를 짜는 방식으로 보이는데, 구체적인 조합 방식이나 스킬 트리는 아직 상세히 공개되지 않았어요. 이 부분도 CBT나 추가 정보가 나오면 채워 넣을게요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 5직업 캐릭터 일러스트 또는 인게임 전투 연출컷 — 네이버에서 직접 업로드<br>└ 캡션 추천: "도무사·검무사·창무사·궁무사·의원, 다섯 캐릭터가 한자리에."</p>
+
+      <h3>사전예약 기간·방법</h3>
+      <p>사전예약은 <b>2026년 6월 29일</b>부터 시작됐습니다. 마감일은 아직 공식적으로 못 박히지 않았고, 목표 인원 달성 여부에 따라 보상이 갈리는 방식이라 여유 있게 진행될 걸로 보여요. 참여는 <b>구글 플레이스토어, 애플 앱스토어, 삼성 갤럭시스토어, 원스토어</b>랑 <a href="https://yulgang-next.com/" target="_blank">공식 사전예약 페이지</a>에서 할 수 있고요, 공식 커뮤니티는 네이버 게임 라운지에도 열려 있습니다.</p>
+      <p>출시일은 이 글 쓰는 시점 기준으로 <b>아직 미정</b>이에요. 사전예약으로 먼저 관심 모으고, 이후 론칭 일정을 발표하는 흐름으로 보이니 너무 조급해하지 않으셔도 될 것 같아요. 유무료 과금 구조도 아직 공식적으로 안 나와서, 이 부분은 확인되는 대로 업데이트하겠습니다.</p>
+
+      <h3>사전예약 보상 - 뭘 챙길 수 있나요?</h3>
+      <p>사전예약자 전원한테는 <b>한정 코스튬, 프로필 프레임, 칭호</b> 같은 인게임 보상이 지급된다고 해요. 여기에 사전예약 목표 인원을 달성하면 실물 굿즈까지 풀리는데, 한비광×진풍백 쿠션·무선 충전기·대형 부채·미니 병풍·열혈강호 30주년 기념집 한정판처럼 원작 팬이라면 욕심날 만한 구성이더라고요. 추첨 이벤트로는 순금 골드바, 맥북 프로, 닌텐도 스위치2, KBO 인기 구단 VIP 관람권, 작가 친필 사인본까지 걸려 있어서 참여만 해둬도 손해 볼 건 없어 보입니다.</p>
+
+      <table>
+        <tr><th>구분</th><th>보상</th></tr>
+        <tr><td class="l">사전예약자 전원</td><td>한정 코스튬, 프로필 프레임, 칭호(인게임)</td></tr>
+        <tr><td class="l">목표 인원 달성 시</td><td>한비광×진풍백 쿠션, 무선 충전기, 대형 부채, 미니 병풍, 30주년 기념집 한정판</td></tr>
+        <tr><td class="l">추첨 이벤트</td><td>순금 골드바, 맥북 프로, 닌텐도 스위치2, KBO VIP 관람권, 작가 친필 사인본 등</td></tr>
+      </table>
+      <p>전원 지급분은 확정, 추첨은 응모 후 결과에 따라 달라져요.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 사전예약 보상 안내 화면(한정 코스튬·목표 달성 굿즈) — 네이버에서 직접 업로드<br>└ 캡션 추천: "한비광×진풍백 굿즈 조합, 원작 팬이면 반가울 라인업이에요."</p>
+
+      <h3>열혈강호 넥스트 정리</h3>
+      <p>정리하자면 <b>열혈강호: 넥스트</b>는 펀게임즈가 개발하고 킹넷이 서비스하는 무협 MMORPG로, 6월 29일부터 사전예약을 진행 중이고 도무사·검무사·창무사·궁무사·의원 5직업에 무공 조합 기반 전투, PC·모바일 크로스 플레이를 내세우고 있어요. 다만 <b>출시일과 사전예약 마감일, BM은 아직 미정</b>이라 이 부분은 확정되는 대로 다시 정리해드릴게요. 원작 열혈강호 팬이시라면 사전예약만 걸어둬도 코스튬이랑 칭호는 챙길 수 있으니, 가볍게 등록해두고 추가 소식 기다려보시는 것도 좋을 것 같아요.</p>
+
+      <p>(같은 게임의 다른 소식은 아직 발행한 글이 없어요 — 열혈강호 넥스트 관련 후속 글이 올라오면 여기에 링크 연결할게요.)</p>
+
+      <p class="tags-line">#열혈강호넥스트 #열혈강호넥스트사전예약 #무협신작게임추천 #신작게임추천 #킹넷 #펀게임즈 #MMORPG추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

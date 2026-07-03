@@ -36,6 +36,41 @@
   .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
     text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
@@ -126,4 +161,115 @@
     <div class="tags">#메이플스토리 #챌린저스월드 #챌린저스월드시즌4 #월드리프 #메이플리프 #메이플7월23일 #메소마켓 #메이플스토리체크리스트</div>
   </div>
 </div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 1곳(약 1분):</b> 📷 <b>사진 1곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플 챌린저스 월드 시즌4 리프 전 체크리스트, 7월 23일부터는 되돌릴 수 없어요</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>챌린저스 월드 시즌4 키우고 계신 분들, <b>7월 23일(목) 점검 후부터 1차 사전 리프가 시작</b>되는 거 알고 계셨나요? 저도 캘린더에 표시해두고 있는데요. 리프는 한 번 신청하면 취소가 안 되는 구조라, 시작 전에 뭘 챙기고 뭘 비워둬야 하는지 미리 정리해두는 게 마음 편하더라고요. 오늘은 딱 그 얘기만, 리프 신청 전에 반드시 확인해야 할 항목들로만 짧게 정리해볼게요.</p>
+
+      <h3>챌린저스 월드 시즌4, 리프가 뭔가요?</h3>
+      <p>챌린저스 월드는 <b>2026년 6월 18일(목) 점검 후부터 9월 17일(목) 점검 전까지</b> 육성하는 한정 서버인데요. 육성이 끝나면 그걸로 끝이 아니라, 키운 캐릭터를 <b>일반 월드로 옮기는 절차인 '리프'</b>를 거쳐야 진짜 내 캐릭터가 되는 거예요. 시즌4 리프 일정은 아래처럼 세 단계로 나뉩니다.</p>
+
+      <table>
+        <tr><th>구분</th><th>기간</th></tr>
+        <tr><td class="l">육성 기간</td><td>2026. 6. 18(목) 점검 후 ~ 9. 17(목) 점검 전</td></tr>
+        <tr><td class="l"><b>1차 사전 리프</b></td><td><b>2026. 7. 23(목) 점검 후 ~ 8. 19(수) 23:59</b></td></tr>
+        <tr><td class="l">2차 사전 리프</td><td>2026. 8. 20(목) 점검 후 ~ 9. 16(수) 23:59</td></tr>
+        <tr><td class="l">종료 리프</td><td>2026. 9. 17(목) 점검 후 ~ 9. 30(수) 23:59</td></tr>
+      </table>
+      <p>7월 23일부터가 진짜 시작이에요. 그 전에 정리를 끝내두는 게 좋겠죠.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 챌린저스 월드 리프 신청 화면(NPC 대화창) — 네이버에서 직접 업로드<br>└ 캡션 추천: "리프 신청 버튼 누르기 전에, 딱 여기서 한 번 더 멈춰야 해요."</p>
+
+      <h3>리프하면 되돌릴 수 없는 것부터 짚고 갈게요</h3>
+      <p>가장 중요한 부분부터 먼저 말씀드릴게요. 공식 공지에 <b>"최초로 선택한 출발/도착 월드로만 이동할 수 있으며, 이후 출발/도착 월드는 변경할 수 없다"</b>고 명시되어 있어요. 리프 특성상 한 번 진행하고 나면 되돌리기도 어려운 절차고요. 그러니까 아래 항목들은 리프 버튼을 누르기 전에 미리 확인·정리해두시는 게 좋아요. 하나씩 볼게요.</p>
+
+      <h3>체크① 캐시 보관함·창고·메이플 옥션 — 안 옮겨져요</h3>
+      <p>넥슨 공식 공지에 <b>"캐시 보관함 내 아이템과 창고, 메이플 옥션에 보관 중인 아이템은 이동되지 않습니다"</b>라고 명확히 나와 있어요. 즉 리프 대상 캐릭터가 캐시 보관함이나 창고, 메이플 옥션에 뭔가 맡겨둔 상태라면 리프해도 그 아이템은 챌린저스 월드에 그대로 남는다는 뜻이에요. <b>리프 전에 창고·캐시 보관함·옥션을 전부 비워서 인벤토리로 꺼내두는 게 첫 번째 할 일</b>입니다.</p>
+
+      <table>
+        <tr><th>보관 위치</th><th>리프 시 이동 여부</th><th>해야 할 일</th></tr>
+        <tr><td class="l">인벤토리(장착·소지)</td><td>이동 O</td><td>특별히 조치 불필요</td></tr>
+        <tr><td class="l">창고</td><td>이동 X</td><td>리프 전 전부 인벤토리로 꺼내기</td></tr>
+        <tr><td class="l">캐시 보관함</td><td>이동 X</td><td>리프 전 전부 수령·인벤토리로 꺼내기</td></tr>
+        <tr><td class="l">메이플 옥션</td><td>이동 X</td><td>등록 아이템 취소하거나 판매 완료 후 정리</td></tr>
+      </table>
+
+      <h3>체크② 메소마켓, 거래 중이면 리프 자체가 막혀요</h3>
+      <p>이건 놓치기 쉬운 부분인데요. 공식 공지에 <b>"메소마켓 거래를 진행 중인 캐릭터는 챌린저스 월드 리프를 진행할 수 없습니다"</b>라고 되어 있어요. 되돌릴 수 없다기보다는, <b>거래가 남아있으면 애초에 리프 신청 자체가 안 되는 구조</b>인 거죠. 메소마켓에 판매 등록해둔 게 있다면 리프 전에 거래를 완료하거나 등록을 취소해서 깔끔하게 정리해두셔야 합니다.</p>
+
+      <h3>♥ 7월 23일 전에 이건 꼭 챙기세요!</h3>
+      <ul>
+        <li><b>창고 비우기</b> — 리프해도 안 옮겨져요</li>
+        <li><b>캐시 보관함 비우기</b> — 마찬가지로 미이동이에요</li>
+        <li><b>메이플 옥션 등록물 정리</b> — 미이동, 취소나 판매완료로</li>
+        <li><b>메소마켓 거래 종료</b> — 거래 중이면 리프 신청 자체가 막혀요</li>
+        <li><b>도착 월드 빈 캐릭터 슬롯 확인</b> — 미리 봐두면 안전해요</li>
+      </ul>
+
+      <h3>체크③ 도착할 월드 캐릭터 슬롯도 미리 확인해두세요</h3>
+      <p>이 부분은 시즌4 공지에 별도로 명시된 내용은 아니지만, 일반적으로 월드 이동은 <b>도착 월드에 빈 캐릭터 슬롯이 있어야 진행되는 게 리프 공통 조건</b>이에요. 챌린저스 월드는 기본 캐릭터 슬롯이 5개 제공되는데요, 옮겨갈 본섭 월드 쪽 슬롯이 꽉 차 있으면 리프 신청 단계에서 막힐 수 있으니 미리 확인해두면 안전합니다. 본 월드 캐릭터 슬롯을 미리 확인해서, 부족하면 슬롯 확장부터 해두시는 게 좋아요. 슬롯 확장 방법은 워낙 다양한 경로가 있어서, 이건 따로 자세히 다뤄볼게요.</p>
+
+      <h3>체크④ 챌린저스 월드 전용 아이템·보상은 리프 전에 정리</h3>
+      <p>챌린저스 월드에서만 쓸 수 있는 전용 아이템(메멘토 큐브, 챌린저스 강화권 등)은 <b>소지한 채로는 월드 리프가 진행되지 않는다</b>고 공지되어 있어요. 리프 전에 사용하거나 처리해두셔야 하고요, <b>챌린저스 패스 보상이나 랭크 보상처럼 리프 이후엔 수령이 안 되는 보상</b>도 있으니 남은 보상은 미리 다 챙겨두는 게 좋습니다. 버닝 BEYOND 효과는 <b>한 번 지정하면 취소가 안 된다</b>는 점도 함께 알아두시면 좋아요.</p>
+
+      <h3>챌린저스 월드 시즌4 리프 체크리스트 정리</h3>
+      <table>
+        <tr><th>확인 항목</th><th>공식 근거</th></tr>
+        <tr><td class="l">1차 사전 리프 = 7/23(목) 점검 후 시작</td><td>확인 · 공식 공지</td></tr>
+        <tr><td class="l">출발/도착 월드는 이후 변경 불가</td><td>확인 · 공식 공지</td></tr>
+        <tr><td class="l">창고·캐시 보관함·메이플 옥션 아이템 미이동</td><td>확인 · 공식 공지 원문</td></tr>
+        <tr><td class="l">메소마켓 거래 중이면 리프 불가</td><td>확인 · 공식 공지 원문</td></tr>
+        <tr><td class="l">도착 월드에 빈 슬롯 필요</td><td>확인 · 리프 공통 사항(시즌4 공지 미명시)</td></tr>
+        <tr><td class="l">챌린저스 전용템·보상 리프 전 정리</td><td>확인 · 공식 공지 기반</td></tr>
+      </table>
+      <p>결국 핵심은 <b>7월 23일 전까지 창고·캐시 보관함·메이플 옥션을 비우고, 메소마켓 거래를 끝내고, 도착 월드 슬롯을 확인해두는 것</b> — 이 세 가지만 미리 해두셔도 리프 당일 당황할 일이 없을 것 같아요. 리프는 한 번 누르면 되돌릴 수 없으니, 신청 전에 이 글 체크리스트로 한 번씩만 짚어보고 진행하시길 바라요.</p>
+
+      <p><b>✔ 메이플스토리 같이 보기 좋은 내용</b><br>
+      · <a href="https://m.blog.naver.com/bomding/224308082962" target="_blank">메이플스토리 여름 쇼케이스 예고 — 확정 vs 루머 정리(쇼케이스 전)</a><br>
+      · (같은 게임의 '7월 23일 업데이트 6차 스킬 코어' 글에서도 같은 날짜를 다뤘어요 — 발행 시 링크 연결)</p>
+
+      <p class="tags-line">#메이플스토리 #챌린저스월드 #챌린저스월드시즌4 #월드리프 #메이플리프 #메이플7월23일 #메소마켓 #메이플스토리체크리스트</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>
