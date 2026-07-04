@@ -1571,6 +1571,15 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    if(p&&typeof p==="object")return {label:String(p.label||""),req:(p.req&&(p.req.topic||p.req.purpose))?p.req:null};
    return {label:String(p||""),req:null};
  }
+ /* 트렌드 브리핑 파일 경로 정규화 — index.html 루트 기준 상대링크라 반드시 `_trend/` 접두어가 있어야 한다.
+    생성 코드(트렌드 브리핑 파이프라인)가 접두어를 빠뜨려도(2026-07-04 404 재발) 여기서 방어 복원한다.
+    ① file 없으면 writer/date로 조립  ② `_trend/`로 시작 안 하면 접두어 부여(선행 슬래시 제거 후). */
+ function trendFile(it){
+   let f=String((it&&it.file)||"").replace(/^\.?\//,"");
+   if(!f&&it&&it.writer&&it.date)f=it.writer+"/"+it.date+".html";
+   if(f&&!/^_trend\//.test(f))f="_trend/"+f.replace(/^\/+/,"");
+   return f;
+ }
 
  /* ---------- 트렌드 ---------- */
  function renderTrend(){
@@ -1582,7 +1591,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      const ac=wac(it.writer);
      /* 발행 요청 버튼은 브리핑 전문(글 안)에서만 — 트렌드 카드 요약엔 칩만(사용자 06-14). */
      const picks=(it.picks||[]).slice(0,8).map(raw=>`<span class="tchip">${esc(normPick(raw).label)}</span>`).join("");
-     return `<a class="tcard" href="${enc(it.file)}" style="--ac:${ac}">`+
+     return `<a class="tcard" href="${enc(trendFile(it))}" style="--ac:${ac}">`+
        `<div class="tcard-top"><span class="tbadge">${avatar(it.writer,"s")}${esc(it.writer)} 편</span><span class="tdate">${esc(it.date||"")}</span></div>`+
        `<h3 class="tcard-h">${esc(it.headline||(it.writer+" 트렌드 브리핑"))}</h3>`+
        (it.lead?`<p class="tcard-l">${esc(it.lead)}</p>`:"")+
