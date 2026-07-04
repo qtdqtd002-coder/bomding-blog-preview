@@ -1,0 +1,281 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>태아보험 어디가 좋을까 - 5개 보험사 비교</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 5x7 비교표 모바일 카드 전환 */
+  @media (max-width:480px){
+    .tbl.cmp thead{display:none;}
+    .tbl.cmp, .tbl.cmp tbody, .tbl.cmp tr, .tbl.cmp td{display:block;width:100%;}
+    .tbl.cmp tr{border:1px solid var(--line);border-radius:8px;margin-bottom:12px;padding:6px 0;}
+    .tbl.cmp td{border:none;border-bottom:1px dashed var(--line);padding:8px 12px;}
+    .tbl.cmp td:last-child{border-bottom:none;}
+    .tbl.cmp td::before{content:attr(data-label);display:block;font-size:11.5px;font-weight:700;color:var(--green);margin-bottom:3px;}
+  }
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 육아</div>
+  <div class="post">
+    <div class="cat">육아일상</div>
+    <h1 class="title">태아보험 어디가 좋을까? 5개 보험사 비교하고 우리 귤이는 현대해상으로 결정한 이야기</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.04</span><span>· 육아</span></div>
+
+    <p>임신 사실 알고 나서 정신없이 좋아하다가, 얼마 안 가서 바로 부딪히는 숙제가 <b>태아보험</b>이더라고요. 저도 임신 초반에 여기저기 검색만 하다가 뭘 기준으로 봐야 하는지 몰라서 며칠을 헤맸는데요. 오늘은 제가 직접 비교해본 <b>현대해상·삼성화재·DB손해보험·메리츠화재·KB손해보험</b> 5개사 태아보험을 정리해보고, 저희 부부가 왜 귤이를 현대해상으로 가입했는지까지 솔직하게 풀어볼게요.</p>
+
+    <div class="notice">이 글은 태아보험 상품 구조를 비교한 <b>참고용 글</b>이에요. 실제 보험료와 보장 범위는 가입 시점·태아 주수·산모 나이·특약 구성·건강 고지에 따라 사람마다 달라지니, 아래 내용은 큰 틀로만 참고하시고 <b>가입 전에는 꼭 보험사·설계사 상담과 약관 확인</b>을 거치시길 바라요.</p></div>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 임신 초음파 사진 또는 태아보험 안내 책자를 살펴보는 모습</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 초음파 사진이나 보험 상담 자료 사진 활용</div>
+    <p class="cap">임신 알고 나면 곧바로 마주치는 게 태아보험 고민이더라고요.</p>
+
+    <h2 class="sub">태아보험, 이건 알고 시작하세요</h2>
+    <p>태아보험은 이름 그대로 <b>아기가 태어나기 전, 뱃속에 있을 때 가입하는 보험</b>인데요. 여기서 제일 중요한 게 <b>가입 시기</b>예요. 태아 특약은 보통 <b>임신 22주(22주 6일)까지</b> 마감되는 경우가 많고, 그중에서도 <b>현대해상과 KB손해보험은 26주까지</b> 가능하다고 안내되는 편이라 조금 여유가 있더라고요. 다만 <b>마감 주수는 보험사·상품·가입 시점마다 조금씩 달라질 수 있어서</b>, 정확한 기준은 가입 전에 꼭 다시 확인하시는 게 안전해요. 그래서 보통은 <b>12~16주 즈음</b>에 많이들 가입을 서두르시는데요, 이유는 <b>4D 정밀초음파(보통 20~24주 사이 진행)</b> 전에 가입해야 태아 이상 소견이 나오기 전에 보장을 받을 수 있어서예요. 초음파에서 뭔가 소견이 나오고 나면 그 이후엔 가입 자체가 까다로워지거나 보장이 제한될 수 있거든요.</p>
+
+    <p>만기는 크게 <b>30세만기</b>와 <b>100세만기</b> 두 갈래로 나뉘는데요. 30세만기는 보험료가 상대적으로 저렴하면서 성장기 보장에 집중하는 대신, 성인이 된 이후엔 따로 재설계가 필요해요. 100세만기는 어린이보험과 성인보험을 통합한 느낌으로 평생 보장이 이어지는 대신 보험료가 더 나가고요. 대략적인 감으로는 <b>30세만기 단독형이 월 8~10만원대, 100세만기 통합형이 월 12~15만원대</b> 선에서 많이 설계되는 편인데, 이건 어디까지나 <b>설계 조건과 특약 구성에 따라 크게 달라지는 대략치</b>라 참고만 해주시면 좋겠어요.</p>
+
+    <p>또 하나 헷갈리는 게 <b>순수보장형이랑 만기환급형</b>인데요. 환급형은 만기 때 낸 돈을 돌려받는 대신 보험료가 <b>순수보장형보다 30~40% 정도 높은 편</b>이고, 장기로 보면 실질 수익률은 그렇게 좋지 않다는 이야기가 많더라고요. 그래서 요즘은 <b>순수보장형으로 가입하고 남는 돈은 따로 저축하는 방식</b>이 더 효율적이라는 의견이 많아요. 저희도 이 부분 상담받으면서 순수보장형 쪽으로 마음을 굳혔어요.</p>
+
+    <h2 class="sub">꼭 챙겨야 할 태아·산모 특약</h2>
+    <p>태아 특약 중에서는 <b>선천이상 수술비</b>(대략 2,000~3,000만원 수준으로 설계되는 경우가 많아요), <b>신생아 질병 입원일당</b>(하루 5~10만원대), <b>저체중아·신생아 집중치료실(NICU) 입원일당</b>(하루 50만원 이상으로 두툼하게 설계되기도 해요), <b>뇌성마비 진단비</b>, <b>장해 관련 특약</b>은 거의 필수로 챙기시는 걸 추천드려요. 특히 NICU 입원일당은 조산이나 저체중으로 태어났을 때 실제로 목돈이 나갈 수 있는 항목이라 꼼꼼히 봐야 하더라고요.</p>
+
+    <p>산모 본인을 위한 특약도 빼먹으면 안 되는데요. <b>임신중독증·유산·조산·제왕절개</b> 관련 특약이 대표적이에요. 이건 산모 본인이 겪을 수 있는 상황을 보장하는 거라 태아 특약이랑은 별개로 챙겨야 하고, 상품마다 보장 실효성 차이가 있으니 설계사분한테 꼭 물어보시는 게 좋아요. 그리고 요즘 가입하시는 분들은 <b>2026년 5월 6일 이후 신규 가입이면 5세대 실손 기준</b>으로 적용된다는 점도 알아두시면 좋을 것 같아요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 보험 설계사와 상담하는 모습 또는 보험 약관 서류</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 실제 상담 장면이나 서류 사진</div>
+    <p class="cap">특약 하나하나 뜯어보다 보면 시간 훌쩍 가더라고요.</p>
+
+    <h2 class="sub">현대해상 태아보험</h2>
+    <p>👍 NICU·신생아 관련 보장이 탄탄한 편이고, 인수(가입 심사) 기준이 비교적 관대해서 초기 상담 때 부담이 덜했어요. 가입 마감도 26주까지라 다른 곳보다 여유가 있고요.</p>
+    <p>👎 다만 그만큼 보험료는 다른 곳보다 약간 높게 잡히는 편이라, 예산 맞추실 땐 특약을 좀 덜어내며 조절하시는 분들도 계시더라고요.</p>
+
+    <h2 class="sub">삼성화재 태아보험</h2>
+    <p>👍 대형사답게 안정적이고, 실제로 보험금 청구했을 때 처리 만족도가 높다는 이야기를 주변에서 많이 들었어요.</p>
+    <p>👎 특약 단가가 다소 높게 책정되는 편이고, 가입 마감이 22주라 현대해상·KB보다는 서둘러야 해요.</p>
+
+    <h2 class="sub">DB손해보험 태아보험</h2>
+    <p>👍 입원일당이나 수술비 관련 담보가 두툼하게 설계되는 편이라 실제 입원·수술 상황에서 든든한 편이에요.</p>
+    <p>👎 마감 주수는 22주로 짧은 편이라 일찍 준비하셔야 해요.</p>
+
+    <h2 class="sub">메리츠화재 태아보험</h2>
+    <p>👍 30세만기 기준으로 가성비가 좋다는 평이 많고, 진단비 관련 특약이 강한 편이에요.</p>
+    <p>👎 역시 22주 마감이라 시간이 넉넉하지 않고, 100세만기로 확장할 땐 다른 곳과 비교가 필요해요.</p>
+
+    <h2 class="sub">KB손해보험 태아보험</h2>
+    <p>👍 실손 통합 구성이 잘 되어 있는 편이고, 현대해상처럼 26주까지 가입할 수 있어서 시간에 쫓기지 않고 알아보기 좋아요.</p>
+    <p>👎 어린이종합진단비 관련 보장은 다른 곳보다 상대적으로 약한 편이라는 이야기가 있어서, 이 부분이 중요하시면 다른 특약으로 보완하는 걸 고려하셔야 해요.</p>
+
+    <h2 class="sub">5개사 한눈에 비교</h2>
+    <p>다섯 곳 다 나름의 강점이 있어서 어디가 무조건 정답이라고 하긴 어렵더라고요. 제가 상담받으면서 정리한 내용을 표로 한번 모아봤어요. 별점은 위에서 짚은 성향과 가입 마감 여유, 특약 강점을 종합해서 <b>제 나름대로</b> 매긴 참고용 점수라 <b>작성 시점(2026년 7월) 기준</b>으로 봐주시면 좋겠어요.</p>
+
+    <table class="tbl cmp">
+      <thead><tr><th>보험사</th><th>만기 선택폭</th><th>태아특약 성향</th><th>가입 마감주수</th><th>강점</th><th>아쉬운 점</th><th>추천도</th></tr></thead>
+      <tbody>
+        <tr><td data-label="보험사"><b>현대해상</b></td><td data-label="만기 선택폭">30세/100세</td><td data-label="태아특약 성향">NICU·신생아 강함</td><td data-label="가입 마감주수">26주</td><td data-label="강점">인수 관대·마감 여유</td><td data-label="아쉬운 점">보험료 약간 높음</td><td data-label="추천도">★★★★☆</td></tr>
+        <tr><td data-label="보험사"><b>삼성화재</b></td><td data-label="만기 선택폭">30세/100세</td><td data-label="태아특약 성향">전반 균형형</td><td data-label="가입 마감주수">22주</td><td data-label="강점">청구 처리 만족도</td><td data-label="아쉬운 점">특약 단가 높음</td><td data-label="추천도">★★★★☆</td></tr>
+        <tr><td data-label="보험사"><b>DB손해보험</b></td><td data-label="만기 선택폭">30세/100세</td><td data-label="태아특약 성향">입원일당·수술비 두터움</td><td data-label="가입 마감주수">22주</td><td data-label="강점">입원·수술 보장 탄탄</td><td data-label="아쉬운 점">마감 촉박</td><td data-label="추천도">★★★☆☆</td></tr>
+        <tr><td data-label="보험사"><b>메리츠화재</b></td><td data-label="만기 선택폭">30세 위주</td><td data-label="태아특약 성향">진단비 강함</td><td data-label="가입 마감주수">22주</td><td data-label="강점">30세만기 가성비</td><td data-label="아쉬운 점">마감 촉박</td><td data-label="추천도">★★★☆☆</td></tr>
+        <tr><td data-label="보험사"><b>KB손해보험</b></td><td data-label="만기 선택폭">30세/100세</td><td data-label="태아특약 성향">실손 통합형</td><td data-label="가입 마감주수">26주</td><td data-label="강점">마감 여유·실손 통합</td><td data-label="아쉬운 점">어린이종합진단비 약함</td><td data-label="추천도">★★★☆☆</td></tr>
+      </tbody>
+    </table>
+    <p class="cap" style="text-align:left;color:#8c8c8c;font-size:12.5px;">※ 추천도는 제가 상담·조사하면서 느낀 정성적 평가이며, 보험사 공식 순위나 마케팅 수치가 아니에요. 보험료·보장 조건과 가입 마감 주수는 보험사·상품·시점마다 달라질 수 있으니 실제 설계는 꼭 상담받아보세요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 비교표를 직접 작성하거나 스마트폰으로 여러 보험사 앱을 비교하는 모습</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비교 메모나 상담 자료 사진</div>
+    <p class="cap">이렇게 표로 정리해두니까 저희도 훨씬 결정이 쉬워지더라고요.</p>
+
+    <h2 class="sub">우리 귤이는 결국 현대해상으로</h2>
+    <p>이것저것 다 따져보고 저희 부부는 <b>귤이를 현대해상 태아보험으로 가입</b>했어요. 사실 다섯 군데 다 나름 괜찮아서 끝까지 고민했는데요, 저희한테는 <b>NICU 관련 보장이 든든하다는 점</b>이랑 <b>인수 기준이 비교적 관대하다는 점</b>이 크게 다가왔어요. 임신 초반에 이런저런 소견이 나올까 봐 걱정이 많았던 저희 부부한테는 그 부분이 마음을 놓이게 하더라고요. 거기다 <b>26주까지 가입 여유</b>가 있어서 급하게 결정하지 않고 천천히 비교해볼 수 있었던 것도 컸고요.</p>
+    <p>다만 이게 <b>"현대해상이 무조건 정답"이라는 뜻은 절대 아니에요.</b> 저희 상황(NICU 걱정, 여유 있게 비교하고 싶었던 마음)이랑 잘 맞았던 것뿐이고, 다른 분들은 진단비가 강한 메리츠화재나 청구 처리가 편한 삼성화재가 더 잘 맞으실 수도 있어요. 결국은 각자 집 상황이랑 우선순위에 따라 답이 달라지는 것 같아요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 신생아 귤이 사진 또는 보험 가입 완료 서류</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 아기 사진(초상권 고려)이나 가입증서 사진</div>
+    <p class="cap">이 작은 서류 한 장이 이렇게 든든할 줄이야.</p>
+
+    <h2 class="sub">태아보험 정리</h2>
+    <p>이런 분께 추천드려요. <b>평생 든든하게 챙기고 싶다면</b> 100세만기 통합형, <b>가성비 있게 심플하게 가고 싶다면</b> 30세만기, <b>가족력이 걱정된다면</b> 진단비 특약이 큰 곳, <b>보험금 청구 편의를 중요하게 본다면</b> 대형사 위주로 보시면 좋을 것 같아요. 결국 정답이 딱 하나 있는 건 아니고, 우리 아이 상황이랑 우리 집 예산에 맞춰 고르는 게 제일이더라고요. 저처럼 처음이라 막막하신 예비맘·예비대디분들께 이 글이 조금이나마 도움이 됐으면 좋겠어요.</p>
+
+    <p><b>✔ 임신·출산 준비 같이 보기 좋은 내용</b><br>
+    · <!-- 내부링크: 봄딩 육아 카테고리 내 출산 준비물/태아보험 관련 기존 글 post ID 확인 후 연결 --> (같은 카테고리에 출산 준비 관련 글이 있으면 여기에 링크로 연결할 예정이에요 — 발행 시 링크 연결)</p>
+
+    <div class="tags">#태아보험 #태아보험비교 #현대해상태아보험 #삼성화재태아보험 #DB손해보험 #메리츠화재 #KB손해보험 #임신준비 #출산준비 #예비맘</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 4곳</b> 업로드, 그리고 마지막 내부링크 자리 1곳(기존 글 있으면 연결). 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 태아보험 어디가 좋을까? 5개 보험사 비교하고 우리 귤이는 현대해상으로 결정한 이야기</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p class="notice-line">[안내] 이 글은 태아보험 상품 구조를 비교한 참고용 글이에요. 실제 보험료와 보장 범위는 가입 시점·태아 주수·산모 나이·특약 구성·건강 고지에 따라 사람마다 달라지니, 아래 내용은 큰 틀로만 참고하시고 가입 전에는 꼭 보험사·설계사 상담과 약관 확인을 거치시길 바라요.</p>
+
+      <p>임신 사실 알고 나서 정신없이 좋아하다가, 얼마 안 가서 바로 부딪히는 숙제가 <b>태아보험</b>이더라고요. 저도 임신 초반에 여기저기 검색만 하다가 뭘 기준으로 봐야 하는지 몰라서 며칠을 헤맸는데요. 오늘은 제가 직접 비교해본 <b>현대해상·삼성화재·DB손해보험·메리츠화재·KB손해보험</b> 5개사 태아보험을 정리해보고, 저희 부부가 왜 귤이를 현대해상으로 가입했는지까지 솔직하게 풀어볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 임신 초음파 사진 또는 태아보험 안내 책자를 살펴보는 모습 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "임신 알고 나면 곧바로 마주치는 게 태아보험 고민이더라고요."</p>
+
+      <h3>태아보험, 이건 알고 시작하세요</h3>
+      <p>태아보험은 이름 그대로 <b>아기가 태어나기 전, 뱃속에 있을 때 가입하는 보험</b>인데요. 여기서 제일 중요한 게 <b>가입 시기</b>예요. 태아 특약은 보통 <b>임신 22주(22주 6일)까지</b> 마감되는 경우가 많고, 그중에서도 <b>현대해상과 KB손해보험은 26주까지</b> 가능하다고 안내되는 편이라 조금 여유가 있더라고요. 다만 <b>마감 주수는 보험사·상품·가입 시점마다 조금씩 달라질 수 있어서</b>, 정확한 기준은 가입 전에 꼭 다시 확인하시는 게 안전해요. 그래서 보통은 <b>12~16주 즈음</b>에 많이들 가입을 서두르시는데요, 이유는 <b>4D 정밀초음파(보통 20~24주 사이 진행)</b> 전에 가입해야 태아 이상 소견이 나오기 전에 보장을 받을 수 있어서예요. 초음파에서 뭔가 소견이 나오고 나면 그 이후엔 가입 자체가 까다로워지거나 보장이 제한될 수 있거든요.</p>
+
+      <p>만기는 크게 <b>30세만기</b>와 <b>100세만기</b> 두 갈래로 나뉘는데요. 30세만기는 보험료가 상대적으로 저렴하면서 성장기 보장에 집중하는 대신, 성인이 된 이후엔 따로 재설계가 필요해요. 100세만기는 어린이보험과 성인보험을 통합한 느낌으로 평생 보장이 이어지는 대신 보험료가 더 나가고요. 대략적인 감으로는 <b>30세만기 단독형이 월 8~10만원대, 100세만기 통합형이 월 12~15만원대</b> 선에서 많이 설계되는 편인데, 이건 어디까지나 <b>설계 조건과 특약 구성에 따라 크게 달라지는 대략치</b>라 참고만 해주시면 좋겠어요.</p>
+
+      <p>또 하나 헷갈리는 게 <b>순수보장형이랑 만기환급형</b>인데요. 환급형은 만기 때 낸 돈을 돌려받는 대신 보험료가 <b>순수보장형보다 30~40% 정도 높은 편</b>이고, 장기로 보면 실질 수익률은 그렇게 좋지 않다는 이야기가 많더라고요. 그래서 요즘은 <b>순수보장형으로 가입하고 남는 돈은 따로 저축하는 방식</b>이 더 효율적이라는 의견이 많아요. 저희도 이 부분 상담받으면서 순수보장형 쪽으로 마음을 굳혔어요.</p>
+
+      <h3>꼭 챙겨야 할 태아·산모 특약</h3>
+      <p>태아 특약 중에서는 <b>선천이상 수술비</b>(대략 2,000~3,000만원 수준으로 설계되는 경우가 많아요), <b>신생아 질병 입원일당</b>(하루 5~10만원대), <b>저체중아·신생아 집중치료실(NICU) 입원일당</b>(하루 50만원 이상으로 두툼하게 설계되기도 해요), <b>뇌성마비 진단비</b>, <b>장해 관련 특약</b>은 거의 필수로 챙기시는 걸 추천드려요. 특히 NICU 입원일당은 조산이나 저체중으로 태어났을 때 실제로 목돈이 나갈 수 있는 항목이라 꼼꼼히 봐야 하더라고요.</p>
+
+      <p>산모 본인을 위한 특약도 빼먹으면 안 되는데요. <b>임신중독증·유산·조산·제왕절개</b> 관련 특약이 대표적이에요. 이건 산모 본인이 겪을 수 있는 상황을 보장하는 거라 태아 특약이랑은 별개로 챙겨야 하고, 상품마다 보장 실효성 차이가 있으니 설계사분한테 꼭 물어보시는 게 좋아요. 그리고 요즘 가입하시는 분들은 <b>2026년 5월 6일 이후 신규 가입이면 5세대 실손 기준</b>으로 적용된다는 점도 알아두시면 좋을 것 같아요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 보험 설계사와 상담하는 모습 또는 보험 약관 서류 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "특약 하나하나 뜯어보다 보면 시간 훌쩍 가더라고요."</p>
+
+      <h3>현대해상 태아보험</h3>
+      <p>👍 NICU·신생아 관련 보장이 탄탄한 편이고, 인수(가입 심사) 기준이 비교적 관대해서 초기 상담 때 부담이 덜했어요. 가입 마감도 26주까지라 다른 곳보다 여유가 있고요.</p>
+      <p>👎 다만 그만큼 보험료는 다른 곳보다 약간 높게 잡히는 편이라, 예산 맞추실 땐 특약을 좀 덜어내며 조절하시는 분들도 계시더라고요.</p>
+
+      <h3>삼성화재 태아보험</h3>
+      <p>👍 대형사답게 안정적이고, 실제로 보험금 청구했을 때 처리 만족도가 높다는 이야기를 주변에서 많이 들었어요.</p>
+      <p>👎 특약 단가가 다소 높게 책정되는 편이고, 가입 마감이 22주라 현대해상·KB보다는 서둘러야 해요.</p>
+
+      <h3>DB손해보험 태아보험</h3>
+      <p>👍 입원일당이나 수술비 관련 담보가 두툼하게 설계되는 편이라 실제 입원·수술 상황에서 든든한 편이에요.</p>
+      <p>👎 마감 주수는 22주로 짧은 편이라 일찍 준비하셔야 해요.</p>
+
+      <h3>메리츠화재 태아보험</h3>
+      <p>👍 30세만기 기준으로 가성비가 좋다는 평이 많고, 진단비 관련 특약이 강한 편이에요.</p>
+      <p>👎 역시 22주 마감이라 시간이 넉넉하지 않고, 100세만기로 확장할 땐 다른 곳과 비교가 필요해요.</p>
+
+      <h3>KB손해보험 태아보험</h3>
+      <p>👍 실손 통합 구성이 잘 되어 있는 편이고, 현대해상처럼 26주까지 가입할 수 있어서 시간에 쫓기지 않고 알아보기 좋아요.</p>
+      <p>👎 어린이종합진단비 관련 보장은 다른 곳보다 상대적으로 약한 편이라는 이야기가 있어서, 이 부분이 중요하시면 다른 특약으로 보완하는 걸 고려하셔야 해요.</p>
+
+      <h3>5개사 한눈에 비교</h3>
+      <p>다섯 곳 다 나름의 강점이 있어서 어디가 무조건 정답이라고 하긴 어렵더라고요. 제가 상담받으면서 정리한 내용을 표로 한번 모아봤어요. 별점은 위에서 짚은 성향과 가입 마감 여유, 특약 강점을 종합해서 <b>제 나름대로</b> 매긴 참고용 점수라 <b>작성 시점(2026년 7월) 기준</b>으로 봐주시면 좋겠어요.</p>
+      <table>
+        <tr><th>보험사</th><th>만기 선택폭</th><th>태아특약 성향</th><th>가입 마감주수</th><th>강점</th><th>아쉬운 점</th><th>추천도</th></tr>
+        <tr><td class="l">현대해상</td><td>30세/100세</td><td>NICU·신생아 강함</td><td>26주</td><td>인수 관대·마감 여유</td><td>보험료 약간 높음</td><td>★★★★☆</td></tr>
+        <tr><td class="l">삼성화재</td><td>30세/100세</td><td>전반 균형형</td><td>22주</td><td>청구 처리 만족도</td><td>특약 단가 높음</td><td>★★★★☆</td></tr>
+        <tr><td class="l">DB손해보험</td><td>30세/100세</td><td>입원일당·수술비 두터움</td><td>22주</td><td>입원·수술 보장 탄탄</td><td>마감 촉박</td><td>★★★☆☆</td></tr>
+        <tr><td class="l">메리츠화재</td><td>30세 위주</td><td>진단비 강함</td><td>22주</td><td>30세만기 가성비</td><td>마감 촉박</td><td>★★★☆☆</td></tr>
+        <tr><td class="l">KB손해보험</td><td>30세/100세</td><td>실손 통합형</td><td>26주</td><td>마감 여유·실손 통합</td><td>어린이종합진단비 약함</td><td>★★★☆☆</td></tr>
+      </table>
+      <p class="tnote-line">※ 추천도는 제가 상담·조사하면서 느낀 정성적 평가이며, 보험사 공식 순위나 마케팅 수치가 아니에요. 보험료·보장 조건과 가입 마감 주수는 보험사·상품·시점마다 달라질 수 있으니 실제 설계는 꼭 상담받아보세요.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 비교표를 직접 작성하거나 스마트폰으로 여러 보험사 앱을 비교하는 모습 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "이렇게 표로 정리해두니까 저희도 훨씬 결정이 쉬워지더라고요."</p>
+
+      <h3>우리 귤이는 결국 현대해상으로</h3>
+      <p>이것저것 다 따져보고 저희 부부는 <b>귤이를 현대해상 태아보험으로 가입</b>했어요. 사실 다섯 군데 다 나름 괜찮아서 끝까지 고민했는데요, 저희한테는 <b>NICU 관련 보장이 든든하다는 점</b>이랑 <b>인수 기준이 비교적 관대하다는 점</b>이 크게 다가왔어요. 임신 초반에 이런저런 소견이 나올까 봐 걱정이 많았던 저희 부부한테는 그 부분이 마음을 놓이게 하더라고요. 거기다 <b>26주까지 가입 여유</b>가 있어서 급하게 결정하지 않고 천천히 비교해볼 수 있었던 것도 컸고요.</p>
+      <p>다만 이게 <b>"현대해상이 무조건 정답"이라는 뜻은 절대 아니에요.</b> 저희 상황(NICU 걱정, 여유 있게 비교하고 싶었던 마음)이랑 잘 맞았던 것뿐이고, 다른 분들은 진단비가 강한 메리츠화재나 청구 처리가 편한 삼성화재가 더 잘 맞으실 수도 있어요. 결국은 각자 집 상황이랑 우선순위에 따라 답이 달라지는 것 같아요.</p>
+
+      <p class="ph">📷 〔사진 자리 4〕 신생아 귤이 사진 또는 보험 가입 완료 서류 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "이 작은 서류 한 장이 이렇게 든든할 줄이야."</p>
+
+      <h3>태아보험 정리</h3>
+      <p>이런 분께 추천드려요. <b>평생 든든하게 챙기고 싶다면</b> 100세만기 통합형, <b>가성비 있게 심플하게 가고 싶다면</b> 30세만기, <b>가족력이 걱정된다면</b> 진단비 특약이 큰 곳, <b>보험금 청구 편의를 중요하게 본다면</b> 대형사 위주로 보시면 좋을 것 같아요. 결국 정답이 딱 하나 있는 건 아니고, 우리 아이 상황이랑 우리 집 예산에 맞춰 고르는 게 제일이더라고요. 저처럼 처음이라 막막하신 예비맘·예비대디분들께 이 글이 조금이나마 도움이 됐으면 좋겠어요.</p>
+
+      <p><b>✔ 임신·출산 준비 같이 보기 좋은 내용</b><br>
+      〔같은 카테고리에 출산 준비 관련 기존 글이 있으면 여기에 링크로 연결하세요〕</p>
+
+      <p class="tags-line">#태아보험 #태아보험비교 #현대해상태아보험 #삼성화재태아보험 #DB손해보험 #메리츠화재 #KB손해보험 #임신준비 #출산준비 #예비맘</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
