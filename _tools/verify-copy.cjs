@@ -33,7 +33,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const AUTHORS = ['겜더쿠', '연봄']; // 티스토리 붙여넣기본을 쓰는 작성자만
+const AUTHORS = ['겜더쿠', '연봄', '김복리']; // 티스토리 붙여넣기본을 쓰는 작성자만 (김복리 2026-07-05 추가 — 겜더쿠 방식 채택)
 
 const START = '↓↓↓ 여기부터';
 const END = '↑↑↑ 여기까지';
@@ -94,6 +94,13 @@ const CONTENT_GATES = {
       { name: '팩트카드 한눈에 보기(②)', re: /한눈에 보기/, max: 6 },
       { name: 'FAQ(⑭)', re: /자주 묻는 질문/, max: 5 },
     ],
+  },
+  '김복리': {
+    // 딥그린 #0B7A4B + 골드 #C0892E 브랜드 2색 통일 → 겜더쿠 #7048E8 팔레트 이슈 없음(palette=null).
+    // 헤더바 시그니처 박스(핵심 브리핑/귀띔/조심하세요/한마디)는 표준 템플릿 상시 사용이라 쿼터 미적용.
+    // 활성 게이트 = 8골격메타 · 9분량밴드 · 10실사이미지≥2 · 11상단이미지(SVG 인포그래픽은 이미지에 안 셈, YMYL 실사/공식 이미지 강제 — 2026-07-05 사용자 지시).
+    palette: null,
+    quotas: [],
   },
 };
 const QUOTA_WINDOW = 10; // 이번 글 포함 최근 10편
@@ -299,6 +306,24 @@ function checkPair(previewPath, contentGates) {
       !hasAreaEl && 'tcopyArea(본문 textarea)',
     ].filter(Boolean).join(', ');
     fails.push('정본 복사 패널 요소 누락: ' + miss + ' — 제목·태그·본문 HTML을 함께 보여주는 정본 스니펫(이미 발행된 겜더쿠/연봄 미리보기의 id="tcopy" 블록)을 그대로 사용할 것. 약식 직접 작성 금지.');
+  }
+
+  // 2c. [본문 슬라이싱 로직 = 정본] 미리보기에 박힌 body() 가 '화살표 포함 마커'로 잘라야 한다.
+  //     게이트 자신은 올바른 extractBody 로 티스토리를 보므로(5/6번), '미리보기의 실제 복사 JS' 가 드리프트/오타로
+  //     깨져도 위 검사만으로는 통과한다 → 여기서 JS 로직을 직접 검증한다.
+  //     bare indexOf('여기부터')+slice(s,e) 는 여는 주석 꼬리(…↓↓↓ -->)와 닫는 주석 머리(<!-- ↑↑↑)가
+  //     짝 안 맞는 조각이라 .replace(/<!--…-->/) 로도 안 지워져 본문에 누출된다(삼국지 6대직업 사례, 2026-07-05).
+  const bareBodySlice = /indexOf\(\s*['"]여기부터['"]\s*\)/.test(preview) || /indexOf\(\s*['"]여기까지['"]\s*\)/.test(preview);
+  const arrowBodySlice = preview.includes("indexOf('↓↓↓ 여기부터')") && /lastIndexOf\(\s*['"]<!--['"]/.test(preview);
+  if (bareBodySlice || !arrowBodySlice) {
+    fails.push("복사 body() 로직이 정본 아님 — 화살표 마커로 슬라이싱해야 함: indexOf('↓↓↓ 여기부터')…indexOf('-->') / indexOf('↑↑↑ 여기까지')…lastIndexOf('<!--'). bare indexOf('여기부터')+slice(s,e) 방식은 여는/닫는 주석 조각이 본문에 누출됨(삼국지 6대직업 사례).");
+  }
+
+  // 2d. [제목/태그 추출 정규식 = 정본] pick() 의 new RegExp 는 '<!--\\s*'(백슬래시 2개)여야 JS 에서 \s 로 산다.
+  //     '<!--\s*'(1개)는 문자열에서 \s 가 s 로 소멸 → '<!-- 제목:'(공백) 매칭 실패 → 패널 제목/태그 빈칸(카오스·연봄 사례, 2026-07-05).
+  const singleBackslashPick = /new RegExp\(\s*['"]<!--\\s\*/.test(preview);
+  if (singleBackslashPick) {
+    fails.push("복사 pick() 정규식 오류 — new RegExp('<!--\\\\s*'…) 의 백슬래시가 1개('<!--\\s*') 라 JS 에서 \\s 가 s 로 소멸, 제목/태그 매칭 실패(빈칸). 백슬래시 2개('<!--\\\\s*') 로 고칠 것.");
   }
 
   // 3. URL 디코딩 가드 — href 를 디코딩 없이 replace 하면 한글 파일명에서 깨진다.
