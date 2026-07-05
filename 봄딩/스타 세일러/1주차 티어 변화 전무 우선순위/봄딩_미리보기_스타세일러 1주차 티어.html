@@ -1,0 +1,265 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>스타세일러 1주차 티어 변화 전무 우선순위 캐릭터 육성 순서</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;white-space:nowrap;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 봄딩 전용 스크랩북 인포그래픽(핑크) */
+  .memo{position:relative;background:#FFEFF5;border:1px solid #f7c6da;border-radius:10px;padding:18px 20px 16px;margin:6px 0 24px;box-shadow:0 2px 8px rgba(214,62,122,.08);transform:rotate(-.6deg);}
+  .memo:before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(2deg);width:96px;height:18px;background:rgba(236,92,146,.22);border-radius:2px;}
+  .memo h4{margin:4px 0 12px;font-size:15px;color:#D63E7A;font-weight:800;}
+  .memo ul{margin:0;padding:0;list-style:none;}
+  .memo li{position:relative;padding:5px 0 5px 26px;font-size:14px;line-height:1.7;border-bottom:1px dashed #f3b9d0;}
+  .memo li:last-child{border-bottom:none;}
+  .memo li:before{content:"✓";position:absolute;left:4px;top:5px;color:#EC5C92;font-weight:800;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 정보</div>
+    <h1 class="title">스타세일러 1주차 티어 변화 전무 우선순위 캐릭터 육성 순서</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 7. 5.</span><span>· 게임</span></div>
+
+    <p><b>스타 세일러</b> 굴리다 보니 어느새 출시 일주일이 다 됐는데요. 처음 하이디 픽업 때 얘기했던 초반 반응이랑 지금 분위기가 슬슬 갈리는 게 느껴지더라고요. 그때는 "하이디·니나·카이라가 리세마라 상위권"이라는 정도만 얘기가 돌았다면, 일주일 지난 지금은 <b>젠(Jen)</b>까지 확실히 자리를 잡으면서 4명 체제로 굳어지는 분위기예요. 그래서 오늘은 <b>1주차 기준으로 바뀐 티어 흐름</b>이랑, 다들 궁금해하시는 <b>전무(전용무기) 뭐부터 챙겨야 하는지</b>를 정리해보려고 합니다.</p>
+
+    <p>먼저 하나 짚고 갈게요. <b>스타 세일러는 이제 겨우 출시 일주일 차라, 아래 내용은 '확정 티어표'가 아니라 해외·국내 커뮤니티에서 공통적으로 반복되는 초반 평가 기준</b>이에요. 여러 해외 가이드 사이트랑 국내 갤러리 반응을 같이 살펴봤을 때 겹치는 부분 위주로 정리했으니, 메타가 더 굳기 전까지는 "지금은 이렇게들 보고 있다" 정도로 참고해 주시면 됩니다.</p>
+
+    <div class="imgwrap"><img src="img/star-sailor-appicon.jpg" alt="스타 세일러 공식 앱 아이콘"></div>
+    <p class="cap">출시 일주일 차, 초반 파티 그림이 이제 꽤 뚜렷해졌네요.</p>
+    <p class="src">이미지 출처: <a href="https://apps.apple.com/kr/app/id6749404408" target="_blank">애플 앱스토어 스타 세일러</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 도입부 시각 알맹이 확보 / 출처: iTunes Lookup API 검증 artworkUrl512(apps.apple.com id6749404408, 공식 CDN) / 분류: A형 self-host, 기존 클러스터 글과 동일 검증 자료 재사용 -->
+
+    <h2 class="sub">1주차 지나면서 바뀐 것 — 젠(Jen) 합류</h2>
+    <p>지난 하이디 픽업 글에서는 <b>하이디·니나·카이라</b> 셋을 리세마라 판단 기준으로 가장 많이 봤었는데요. 일주일 굴려보고 여러 해외 티어 정리 글을 교차로 살펴보니, 배틀 파트너 최상위권에 <b>젠(Jen)</b>이 확실히 끼어 있더라고요. 탱커·서포터 역할을 같이 하는 캐릭터인데, 힐이랑 피해 경감을 같이 챙겨주고 적 버프까지 벗겨내는 능력이 있어서 안정성 쪽으로 평가가 좋네요. 그래서 지금은 <b>하이디·니나·젠·카이라 넷</b>이 배틀 파트너 최상위권으로 거의 굳어지는 흐름이라고 보시면 될 것 같아요.</p>
+    <p>어시스트 파트너 쪽은 <b>헌터 K</b>랑 <b>아이리스</b> 둘이 최상위로 꾸준히 언급되고 있어요. 아이리스는 지난 글에서도 "상시 획득인데 속성 상성 걸리면 확실히 힘을 쓴다"고 말씀드렸었는데, 일주일 지나서도 이 평가가 그대로 유지되는 편이에요. 헌터 K는 자동 스킬 발동이나 아군 스탯 지원 쪽에서 좋은 평가를 받고 있고요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 인게임 캐릭터 목록·티어 확인 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 인게임 파티 편성 화면 / 참고: <a href="https://starsailors.com2us.com/ko" target="_blank">스타 세일러 공식 홈페이지</a></div>
+    <p class="cap">배틀 4명·어시스트 2명 구도가 슬슬 자리를 잡아가는 느낌이에요.</p>
+
+    <h2 class="sub">1주차 초반 우선순위 정리</h2>
+    <p>표로 한 번 정리해볼게요. 등급이 아니라 <b>지금 시점 초반 우선순위</b> 기준으로 봐주시면 됩니다.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>캐릭터</th><th>1주차 평가</th></tr>
+      <tr><td rowspan="4">배틀 파트너 최상위</td><td>니나</td><td>단일 대상 딜 1순위, 리세마라 안전픽으로 계속 거론</td></tr>
+      <tr><td>하이디</td><td>광역 딜 1순위, 다단히트 스킬로 잡몹 정리 특화</td></tr>
+      <tr><td>젠</td><td>탱커+서포터 겸용, 힐·피해경감·버프 해제까지</td></tr>
+      <tr><td>카이라</td><td>힐+서브딜 겸용, 장기전(보스전)에서 특히 강세</td></tr>
+      <tr><td rowspan="2">어시스트 파트너 최상위</td><td>헌터 K</td><td>자동 스킬·스탯 지원 축으로 꾸준히 상위 언급</td></tr>
+      <tr><td>아이리스</td><td>상시 획득, 속성 상성 걸리면 활용도 높음</td></tr>
+      <tr><td>배틀 파트너 준상위</td><td>캐럿</td><td>낮은 등급인데 3연타 스킬로 무과금도 오래 쓸 만하다는 평</td></tr>
+    </table>
+    <p>여기서 <b>캐럿</b>이 눈에 띄는데요, SSR급이 아닌데도 초반부터 스토리 진행에 계속 써먹을 만하다는 얘기가 많아요. 등급 낮다고 창고에 묵히지 말고 일단 굴려보시는 걸 추천드려요.</p>
+
+    <div class="memo">
+      <h4>🌸 1주차 육성 우선순위 이렇게 잡아보세요</h4>
+      <ul>
+        <li>배틀 파트너는 <b>니나·하이디·젠·카이라</b> 순으로 자원 몰아주기</li>
+        <li>어시스트는 <b>헌터 K·아이리스</b> 위주로 벤치 구성</li>
+        <li>무과금이면 <b>캐럿</b>으로 스토리 진행 버티기</li>
+        <li>메타 안 굳었으니 <b>한두 캐릭터만 보지 말고 파티 전체 그림 우선</b></li>
+      </ul>
+    </div>
+
+    <h2 class="sub">전무(전용무기), 뭐부터 뽑아야 하나요</h2>
+    <div class="para-wrap">
+      <p>지난 글에서 "커뮤니티에서 캐릭터보다 전무가 사실상 본체라는 얘기가 돈다"고 말씀드렸었는데요, 일주일 굴려보고 확실히 이해한 게 있어요. <b>스타 세일러는 캐릭터 소환 배너랑 전무(메모리피스) 소환 배너가 아예 분리돼 있어요.</b> 전무 배너에는 캐릭터가 안 나오고 <b>SSR 메모리피스</b>만 나오는 구조라, 캐릭터를 뽑았다고 전무가 저절로 따라오는 게 아니더라고요. 국내 갤러리에서도 "전무 3돌"처럼 전무 자체를 강화 단계로 부르는 말이 흔하게 쓰이는 걸 보면, 캐릭터만큼이나 전무 투자를 따로 신경 쓴다는 얘기예요.</p>
+    </div>
+    <p>그래서 재화 배분이 좀 갈리는데요, <b>신규 계정 기준으로는 캐릭터 배너에 먼저 재화를 쏟고, 전무 배너는 그다음</b>이라는 의견이 많아요. 전무 배너는 캐릭터가 안 나오니 초반엔 파티부터 채우는 게 우선이라는 논리인데, 저도 이 순서로 가는 중이에요. 다만 <b>이미 하이디·니나처럼 확실한 S티어 캐릭터를 뽑았다면, 그 캐릭터 전무를 최우선으로 노리는 게 맞다</b>는 의견이 지배적이에요. 어중간한 캐릭터 전무보다 이미 뽑은 확정 주력 캐릭터 전무 하나에 몰아주는 게 체감 전투력 상승이 크다고들 하더라고요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 전무(메모리피스) 소환 배너 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 인게임 전무/메모리피스 배너 화면</div>
+    <p class="cap">캐릭터 배너랑 전무 배너가 따로 있다는 걸 처음엔 저도 헷갈렸어요.</p>
+
+    <table class="tbl">
+      <tr><th>전무 우선순위</th><th>기준</th></tr>
+      <tr><td>1순위</td><td>이미 뽑은 배틀 파트너 최상위(니나·하이디·젠·카이라) 중 주력 캐릭터</td></tr>
+      <tr><td>2순위</td><td>어시스트 최상위(헌터 K·아이리스) — 캐릭터 확보 후 여유될 때</td></tr>
+      <tr><td>참고</td><td>전무 배너=캐릭터 미출현, SSR 메모리피스 전용 <span class="chk">🔍 게임 내 확인</span></td></tr>
+    </table>
+    <p>하이디 전용 메모리피스 <b>「하이디가 보는 세상」</b>은 지난 글에서 말씀드린 그대로 여전히 있는 콘텐츠고요, 니나·젠·카이라도 각자 전용 메모리피스가 있는 걸로 확인은 되는데, <b>정확한 효과 수치까지는 공식 문서로 다 못 찾았어요.</b> 이 부분은 인게임에서 직접 메모리피스 정보 창을 열어 확인하시는 게 제일 정확합니다.</p>
+
+    <h2 class="sub">쿠폰은 만료 임박, 서둘러 챙기세요</h2>
+    <p>1주차 딱 맞춰 쓸 수 있는 쿠폰도 같이 챙겨가시면 좋은데요, 이번 주 기준으로 <b>GRANDLAUNCH100</b>이랑 <b>SAILORS222</b> 코드가 살아있어요. 다만 둘 다 <b>이번 주 안에 만료</b>되는 걸로 확인돼서, 이 글 보시면 오늘 안에 바로 입력하시는 걸 추천드려요. 정확한 만료 일자랑 입력 경로는 공식 라운지나 인게임 공지에서 한 번 더 확인해보시는 게 안전합니다.</p>
+
+    <h2 class="sub">1주차 티어·전무 우선순위 짚어보며</h2>
+    <p>정리하자면, 1주차를 지나면서 배틀 파트너는 <b>니나·하이디·젠·카이라</b> 넷이 최상위로 굳어지는 분위기고, 어시스트는 <b>헌터 K·아이리스</b>가 그 자리를 지키고 있어요. 전무는 캐릭터 배너랑 따로 도는 만큼 <b>이미 뽑은 주력 캐릭터 전무부터</b> 챙기는 걸 우선으로 두시면 될 것 같아요. 다만 아직 딱 일주일이라 이 흐름도 다음 픽업이나 밸런스 조정에 따라 또 바뀔 수 있으니, 큰 방향만 참고하시고 본인 파티 손맛대로 굴려보시는 게 제일이에요. 저도 2주차 지나면서 또 달라지는 게 있으면 다시 들고 올게요.</p>
+
+    <p><b>✔ 스타 세일러 같이 보기 좋은 내용</b><br>
+    · 스타 세일러 사전예약 총정리 — 게임 소개·콕스 아트·5인 파티 시스템 (봄딩 '스타 세일러' 카테고리)<br>
+    · 스타 세일러 출시 첫날 가이드 리세마라 첫인상 정리 — 첫날 동선·튜토리얼 순서 (봄딩 '스타 세일러' 카테고리)<br>
+    · 스타 세일러 영웅추천 하이디 픽업 정리 — 픽업 캐릭터·초반 파티 조합 (봄딩 '스타 세일러' 카테고리)<br>
+    · 스타 세일러 리세마라 가이드 쿠폰 정리 — 쿠폰 코드·리세마라 절차 상세 (봄딩 '스타 세일러' 카테고리)</p>
+    <!-- 내부링크: 사전예약·출시첫날·영웅추천하이디·리세마라쿠폰 4편 네이버 post ID 확인 후 연결(현재 라이브 logNo 미확보 → 텍스트 안내) -->
+
+    <div class="tags">#스타세일러 #스타세일러티어 #스타세일러전무 #스타세일러1주차 #니나 #하이디 #컴투스홀딩스 #수집형RPG #봄딩게임 #신작게임추천</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 2곳(약 2분):</b> 📷 <b>사진 2곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 스타세일러 1주차 티어 변화 전무 우선순위 캐릭터 육성 순서</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p><b>스타 세일러</b> 굴리다 보니 어느새 출시 일주일이 다 됐는데요. 처음 하이디 픽업 때 얘기했던 초반 반응이랑 지금 분위기가 슬슬 갈리는 게 느껴지더라고요. 그때는 "하이디·니나·카이라가 리세마라 상위권"이라는 정도만 얘기가 돌았다면, 일주일 지난 지금은 <b>젠(Jen)</b>까지 확실히 자리를 잡으면서 4명 체제로 굳어지는 분위기예요. 그래서 오늘은 <b>1주차 기준으로 바뀐 티어 흐름</b>이랑, 다들 궁금해하시는 <b>전무(전용무기) 뭐부터 챙겨야 하는지</b>를 정리해보려고 합니다.</p>
+
+      <p>먼저 하나 짚고 갈게요. <b>스타 세일러는 이제 겨우 출시 일주일 차라, 아래 내용은 '확정 티어표'가 아니라 해외·국내 커뮤니티에서 공통적으로 반복되는 초반 평가 기준</b>이에요. 여러 해외 가이드 사이트랑 국내 갤러리 반응을 같이 살펴봤을 때 겹치는 부분 위주로 정리했으니, 메타가 더 굳기 전까지는 "지금은 이렇게들 보고 있다" 정도로 참고해 주시면 됩니다.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 스타 세일러 공식 앱 아이콘 또는 대표 이미지 — 네이버에서 직접 업로드<br>└ 캡션 추천: "출시 일주일 차, 초반 파티 그림이 이제 꽤 뚜렷해졌네요."</p>
+
+      <h3>1주차 지나면서 바뀐 것 — 젠(Jen) 합류</h3>
+      <p>지난 하이디 픽업 글에서는 <b>하이디·니나·카이라</b> 셋을 리세마라 판단 기준으로 가장 많이 봤었는데요. 일주일 굴려보고 여러 해외 티어 정리 글을 교차로 살펴보니, 배틀 파트너 최상위권에 <b>젠(Jen)</b>이 확실히 끼어 있더라고요. 탱커·서포터 역할을 같이 하는 캐릭터인데, 힐이랑 피해 경감을 같이 챙겨주고 적 버프까지 벗겨내는 능력이 있어서 안정성 쪽으로 평가가 좋네요. 그래서 지금은 <b>하이디·니나·젠·카이라 넷</b>이 배틀 파트너 최상위권으로 거의 굳어지는 흐름이라고 보시면 될 것 같아요.</p>
+      <p>어시스트 파트너 쪽은 <b>헌터 K</b>랑 <b>아이리스</b> 둘이 최상위로 꾸준히 언급되고 있어요. 아이리스는 지난 글에서도 "상시 획득인데 속성 상성 걸리면 확실히 힘을 쓴다"고 말씀드렸었는데, 일주일 지나서도 이 평가가 그대로 유지되는 편이에요. 헌터 K는 자동 스킬 발동이나 아군 스탯 지원 쪽에서 좋은 평가를 받고 있고요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 인게임 캐릭터 목록·티어 확인 화면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "배틀 4명·어시스트 2명 구도가 슬슬 자리를 잡아가는 느낌이에요."</p>
+
+      <h3>1주차 초반 우선순위 정리</h3>
+      <p>표로 한 번 정리해볼게요. 등급이 아니라 <b>지금 시점 초반 우선순위</b> 기준으로 봐주시면 됩니다.</p>
+      <table>
+        <tr><th>구분</th><th>캐릭터</th><th>1주차 평가</th></tr>
+        <tr><td class="l">배틀 파트너 최상위</td><td>니나</td><td>단일 대상 딜 1순위, 리세마라 안전픽으로 계속 거론</td></tr>
+        <tr><td class="l">배틀 파트너 최상위</td><td>하이디</td><td>광역 딜 1순위, 다단히트 스킬로 잡몹 정리 특화</td></tr>
+        <tr><td class="l">배틀 파트너 최상위</td><td>젠</td><td>탱커+서포터 겸용, 힐·피해경감·버프 해제까지</td></tr>
+        <tr><td class="l">배틀 파트너 최상위</td><td>카이라</td><td>힐+서브딜 겸용, 장기전(보스전)에서 특히 강세</td></tr>
+        <tr><td class="l">어시스트 파트너 최상위</td><td>헌터 K</td><td>자동 스킬·스탯 지원 축으로 꾸준히 상위 언급</td></tr>
+        <tr><td class="l">어시스트 파트너 최상위</td><td>아이리스</td><td>상시 획득, 속성 상성 걸리면 활용도 높음</td></tr>
+        <tr><td class="l">배틀 파트너 준상위</td><td>캐럿</td><td>낮은 등급인데 3연타 스킬로 무과금도 오래 쓸 만하다는 평</td></tr>
+      </table>
+      <p>여기서 <b>캐럿</b>이 눈에 띄는데요, SSR급이 아닌데도 초반부터 스토리 진행에 계속 써먹을 만하다는 얘기가 많아요. 등급 낮다고 창고에 묵히지 말고 일단 굴려보시는 걸 추천드려요.</p>
+
+      <h3>🌸 1주차 육성 우선순위 이렇게 잡아보세요</h3>
+      <ul>
+        <li>배틀 파트너는 <b>니나·하이디·젠·카이라</b> 순으로 자원 몰아주기</li>
+        <li>어시스트는 <b>헌터 K·아이리스</b> 위주로 벤치 구성</li>
+        <li>무과금이면 <b>캐럿</b>으로 스토리 진행 버티기</li>
+        <li>메타 안 굳었으니 <b>한두 캐릭터만 보지 말고 파티 전체 그림 우선</b></li>
+      </ul>
+
+      <h3>전무(전용무기), 뭐부터 뽑아야 하나요</h3>
+      <p>지난 글에서 "커뮤니티에서 캐릭터보다 전무가 사실상 본체라는 얘기가 돈다"고 말씀드렸었는데요, 일주일 굴려보고 확실히 이해한 게 있어요. <b>스타 세일러는 캐릭터 소환 배너랑 전무(메모리피스) 소환 배너가 아예 분리돼 있어요.</b> 전무 배너에는 캐릭터가 안 나오고 <b>SSR 메모리피스</b>만 나오는 구조라, 캐릭터를 뽑았다고 전무가 저절로 따라오는 게 아니더라고요. 국내 갤러리에서도 "전무 3돌"처럼 전무 자체를 강화 단계로 부르는 말이 흔하게 쓰이는 걸 보면, 캐릭터만큼이나 전무 투자를 따로 신경 쓴다는 얘기예요.</p>
+      <p>그래서 재화 배분이 좀 갈리는데요, <b>신규 계정 기준으로는 캐릭터 배너에 먼저 재화를 쏟고, 전무 배너는 그다음</b>이라는 의견이 많아요. 전무 배너는 캐릭터가 안 나오니 초반엔 파티부터 채우는 게 우선이라는 논리인데, 저도 이 순서로 가는 중이에요. 다만 <b>이미 하이디·니나처럼 확실한 S티어 캐릭터를 뽑았다면, 그 캐릭터 전무를 최우선으로 노리는 게 맞다</b>는 의견이 지배적이에요. 어중간한 캐릭터 전무보다 이미 뽑은 확정 주력 캐릭터 전무 하나에 몰아주는 게 체감 전투력 상승이 크다고들 하더라고요.</p>
+
+      <table>
+        <tr><th>전무 우선순위</th><th>기준</th></tr>
+        <tr><td class="l">1순위</td><td>이미 뽑은 배틀 파트너 최상위(니나·하이디·젠·카이라) 중 주력 캐릭터</td></tr>
+        <tr><td class="l">2순위</td><td>어시스트 최상위(헌터 K·아이리스) — 캐릭터 확보 후 여유될 때</td></tr>
+        <tr><td class="l">참고</td><td>전무 배너=캐릭터 미출현, SSR 메모리피스 전용</td></tr>
+      </table>
+      <p>하이디 전용 메모리피스 <b>「하이디가 보는 세상」</b>은 지난 글에서 말씀드린 그대로 여전히 있는 콘텐츠고요, 니나·젠·카이라도 각자 전용 메모리피스가 있는 걸로 확인은 되는데, <b>정확한 효과 수치까지는 공식 문서로 다 못 찾았어요.</b> 이 부분은 인게임에서 직접 메모리피스 정보 창을 열어 확인하시는 게 제일 정확합니다.</p>
+
+      <h3>쿠폰은 만료 임박, 서둘러 챙기세요</h3>
+      <p>1주차 딱 맞춰 쓸 수 있는 쿠폰도 같이 챙겨가시면 좋은데요, 이번 주 기준으로 <b>GRANDLAUNCH100</b>이랑 <b>SAILORS222</b> 코드가 살아있어요. 다만 둘 다 <b>이번 주 안에 만료</b>되는 걸로 확인돼서, 이 글 보시면 오늘 안에 바로 입력하시는 걸 추천드려요. 정확한 만료 일자랑 입력 경로는 공식 라운지나 인게임 공지에서 한 번 더 확인해보시는 게 안전합니다.</p>
+
+      <h3>1주차 티어·전무 우선순위 짚어보며</h3>
+      <p>정리하자면, 1주차를 지나면서 배틀 파트너는 <b>니나·하이디·젠·카이라</b> 넷이 최상위로 굳어지는 분위기고, 어시스트는 <b>헌터 K·아이리스</b>가 그 자리를 지키고 있어요. 전무는 캐릭터 배너랑 따로 도는 만큼 <b>이미 뽑은 주력 캐릭터 전무부터</b> 챙기는 걸 우선으로 두시면 될 것 같아요. 다만 아직 딱 일주일이라 이 흐름도 다음 픽업이나 밸런스 조정에 따라 또 바뀔 수 있으니, 큰 방향만 참고하시고 본인 파티 손맛대로 굴려보시는 게 제일이에요. 저도 2주차 지나면서 또 달라지는 게 있으면 다시 들고 올게요.</p>
+
+      <p><b>✔ 스타 세일러 같이 보기 좋은 내용</b><br>
+      · 스타 세일러 사전예약 총정리 — 게임 소개·콕스 아트·5인 파티 시스템 (봄딩 '스타 세일러' 카테고리)<br>
+      · 스타 세일러 출시 첫날 가이드 리세마라 첫인상 정리 — 첫날 동선·튜토리얼 순서 (봄딩 '스타 세일러' 카테고리)<br>
+      · 스타 세일러 영웅추천 하이디 픽업 정리 — 픽업 캐릭터·초반 파티 조합 (봄딩 '스타 세일러' 카테고리)<br>
+      · 스타 세일러 리세마라 가이드 쿠폰 정리 — 쿠폰 코드·리세마라 절차 상세 (봄딩 '스타 세일러' 카테고리)</p>
+
+      <p class="tags-line">#스타세일러 #스타세일러티어 #스타세일러전무 #스타세일러1주차 #니나 #하이디 #컴투스홀딩스 #수집형RPG #봄딩게임 #신작게임추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
