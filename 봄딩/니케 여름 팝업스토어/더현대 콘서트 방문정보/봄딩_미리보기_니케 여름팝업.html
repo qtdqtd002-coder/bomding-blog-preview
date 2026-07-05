@@ -1,0 +1,219 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>니케 여름 팝업스토어 더현대 서울 방문정보</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  .gap{border:1px dashed #d9c2ea;background:#faf5fd;border-radius:8px;padding:12px 14px;font-size:13px;color:#6b4d80;margin:0 0 22px;line-height:1.7;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 취미</div>
+  <div class="post">
+    <div class="cat">취미 · 팝업스토어</div>
+    <h1 class="title">니케 여름 팝업스토어 더현대 서울 방문정보 (feat. 콘서트 일정)</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.05</span><span>· 취미</span></div>
+
+    <p>서브컬처 게임 좋아하시는 분들, 요즘 SNS에 <b>'승리의 여신: 니케'</b> 여름 팝업 얘기 한 번쯤 보셨을 것 같은데요. 저도 도로롱 인형 사진 보고 바로 일정 캘린더에 박아뒀거든요. 오늘은 <b>이번 니케 여름 팝업스토어랑 같이 열리는 콘서트</b>, 헷갈리지 않게 날짜·장소부터 싹 정리해드릴게요.</p>
+
+    <div class="imgwrap"><img src="https://gametoc.gukjenews.com" alt="니케 여름 팝업스토어 이미지 예시"></div>
+    <p class="cap">더현대 서울 아이코닉 팝업존, 여름 분위기로 꾸며진 니케 팝업 현장 (예시 이미지)</p>
+    <p class="src">이미지 출처: 게임톡 등 니케 팝업스토어 보도 기사 · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 도입부 팝업 현장 분위기를 보여주는 시각 앵커 / 출처: 게임 매체 팝업 현장 기사 / 분류: A형(뉴스 이미지, 실제 URL은 재확인 후 다운로드) -->
+
+    <h2 class="sub">니케 여름 팝업, 언제 어디서 열려요?</h2>
+    <p>이번 <b>'니케 2026 여름 팝업스토어'</b>는 <b>7월 17일(금)부터 7월 30일(목)</b>까지 2주 동안 열려요. 장소는 여의도 <b>더현대 서울 지하1층(B1F) 아이코닉 팝업존</b>이고요. 여름 시즌 니케 팝업은 매년 더현대 서울에서 열리는 편이라, 이번에도 같은 자리라고 보시면 될 것 같아요.</p>
+    <p><b>사전예약 오픈 일정은 7월 8일(수)에 공식 공개될 예정</b>이에요. 지난 회차들을 보면 니케 팝업은 초반 며칠은 사전예약자 위주로, 이후엔 현장 대기도 함께 받는 식으로 운영된 적이 많았거든요. 다만 이번 회차의 운영시간·입장방법(사전예약 전용인지, 현장 대기도 되는지)은 아직 공식 공지 전이라, <b>7월 8일 예약 오픈 안내가 뜨면 그때 확인하시는 게 제일 확실해요.</b><span class="chk">🔍 공식 공지 확인(운영시간·입장방법)</span></p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 더현대 서울 아이코닉 팝업존 입구 전경</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://www.thehyundaiseoul.com" target="_blank">더현대 서울 공식 홈페이지</a> · <a href="https://x.com/NIKKE_kr" target="_blank">니케 공식 X(트위터)</a></div>
+    <p class="cap">아이코닉 팝업존은 더현대 서울 지하1층, 늘 화제의 팝업이 열리는 자리예요.</p>
+
+    <h2 class="sub">이번엔 어떤 굿즈가 나올까요?</h2>
+    <p>사전 공개된 굿즈 라인업으로는 <b>아크릴 스탠드, 비치타올, 도로롱 비치볼, 도로롱 스마트 워치 스트랩, 레드 후드 게이밍 키보드, 갓데스 아티산 키캡, 알트아이젠 MK.VI 블록 에디션, 도로롱 인형</b>까지 나와 있어요. 여름 시즌답게 비치타올·비치볼처럼 실사용 굿즈가 많이 보이고, 게이밍 키보드·키캡·블록 에디션처럼 소장각인 아이템도 섞여 있더라고요.</p>
+    <p>특히 <b>도로롱</b> 굿즈가 눈에 띄는데요. 원래 니케 팬층에서 대표 캐릭터 '도로시'를 변형해 만든 밈이었다가, 시프트업이 정식으로 저작권을 확보하면서 지금은 게임 마스코트처럼 자리 잡은 캐릭터예요. 인형·스마트워치 스트랩까지 나오는 걸 보면 이번 팝업에서도 도로롱이 메인으로 밀리는 분위기예요.</p>
+    <div class="gap">✍️ 직접 조사·입력 필요 — 굿즈별 정확한 가격, 구매 수량 제한(1인당 한도), 세트 구성 여부는 아직 공식 미발표라 비워둡니다. 7월 8일 사전예약 공지에서 함께 나올 가능성이 높아요.</div>
+
+    <div class="imgwrap"><img src="https://gametoc.gukjenews.com" alt="니케 도로롱 굿즈 이미지 예시"></div>
+    <p class="cap">도로롱 인형·스마트워치 스트랩 등 이번 팝업 굿즈 라인업 (예시 이미지)</p>
+    <p class="src">이미지 출처: 니케 공식 X · 게임 매체 보도 기사 · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 본문에서 방금 언급한 굿즈 라인업을 시각적으로 보여주는 자리 / 출처: 니케 공식 SNS·매체 이미지 / 분류: A형 -->
+
+    <h2 class="sub">같이 열리는 콘서트도 챙기세요 - 풀 버스트 라이브</h2>
+    <p>팝업이랑 같은 시기에 <b>니케 밴드 라이브 콘서트 '풀 버스트 라이브(Full Burst Live)'</b>도 열려요. <b>7월 18일(토) 오후 7시, 7월 19일(일) 오후 5시</b> 이렇게 이틀 총 2회, 장소는 <b>서울 광진구 예스24 라이브홀</b>이에요. 더현대 서울(여의도)이랑 예스24 라이브홀(광진구)은 위치가 다르니, 팝업 들렀다가 바로 콘서트장까지 이동한다면 동선은 미리 확인해두시는 게 좋아요.</p>
+    <p>이번 공연은 게임 속 전투·스토리를 장식했던 OST를 록 밴드 편곡으로 새롭게 들려주는 자리라고 해요. 보컬 <b>앰버</b>와 <b>LACO</b>가 무대에 서고, '라피' 역을 맡은 <b>김보나</b> 성우가 게스트로 출연하며, 니케 <b>유형석</b> 디렉터와 사운드 디렉터도 스페셜 게스트로 함께한다고 하니 팬이라면 놓치기 아까운 라인업이에요.</p>
+
+    <table class="tbl">
+      <tr><th>구분</th><th>일시</th><th>장소</th></tr>
+      <tr><td>공연 1회차</td><td>7월 18일(토) 오후 7시</td><td rowspan="2">예스24 라이브홀 (서울 광진구)</td></tr>
+      <tr><td>공연 2회차</td><td>7월 19일(일) 오후 5시</td></tr>
+    </table>
+
+    <p><b>티켓 예매는 예스24 티켓에서 진행돼요.</b> 예매 오픈일·좌석 등급별 가격은 예매처 공지가 기준이니, 예매 계획 있으시면 예스24 티켓 페이지에서 직접 확인하시는 걸 추천드려요.<span class="chk">🔍 티켓 오픈일·가격 예매처 확인</span></p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 예스24 티켓 니케 콘서트 예매 페이지</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 확인 위치: <a href="https://ticket.yes24.com" target="_blank">예스24 티켓</a> 내 '풀 버스트 라이브' 공연 상세 페이지</div>
+    <p class="cap">예매 전 좌석 등급·오픈일은 예스24 티켓 페이지에서 최종 확인하는 게 가장 정확해요.</p>
+
+    <h2 class="sub">방문 전 이거 하나만 기억하세요</h2>
+    <p>정리하면 <b>더현대 서울 팝업(7/17~30)</b>과 <b>예스24 라이브홀 콘서트(7/18~19)</b>는 같은 니케 여름 시즌 행사이지만 <b>장소도, 예약 방식도 서로 다르다는 것</b>만 기억하시면 헷갈릴 일이 없어요. 팝업은 사전예약이 7월 8일에 열리고, 콘서트는 예스24 티켓에서 따로 예매해야 하거든요.</p>
+    <p>저처럼 굿즈랑 라이브 둘 다 챙기고 싶은 분이라면, 7월 8일 팝업 사전예약이랑 콘서트 티켓 오픈일 둘 다 캘린더에 표시해두시는 걸 추천드려요. 정확한 운영시간이나 굿즈 가격처럼 아직 안 풀린 정보는 공식 채널에서 순차로 나올 것 같으니, 저도 새 소식 뜨면 다시 업데이트해서 들고 올게요.</p>
+
+    <p><b>✔ 니케 같이 보기 좋은 내용</b><br>
+    <!-- 내부링크: 봄딩 기존 니케/서브컬처 게임 관련 글 post ID 확인 후 연결(같은 게임·주제 기존글 없으면 생략) --></p>
+
+    <div class="tags">#니케 #승리의여신니케 #니케팝업스토어 #더현대서울 #니케콘서트 #풀버스트라이브 #도로롱</div>
+  </div>
+</div>
+</body>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 5분):</b> 📷 <b>사진 3곳</b> 업로드 · 🔍 <b>공식 미확정 항목 2곳</b>(팝업 운영시간·콘서트 티켓 오픈일) 확인 · 내부링크 1곳(기존 니케 관련 글 있으면 연결). 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 니케 여름 팝업스토어 더현대 서울 방문정보 (feat. 콘서트 일정)</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>서브컬처 게임 좋아하시는 분들, 요즘 SNS에 <b>'승리의 여신: 니케'</b> 여름 팝업 얘기 한 번쯤 보셨을 것 같은데요. 저도 도로롱 인형 사진 보고 바로 일정 캘린더에 박아뒀거든요. 오늘은 <b>이번 니케 여름 팝업스토어랑 같이 열리는 콘서트</b>, 헷갈리지 않게 날짜·장소부터 싹 정리해드릴게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 더현대 서울 아이코닉 팝업존 여름 분위기 현장 사진 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "더현대 서울 아이코닉 팝업존, 여름 분위기로 꾸며진 니케 팝업 현장"</p>
+
+      <h3>니케 여름 팝업, 언제 어디서 열려요?</h3>
+      <p>이번 <b>'니케 2026 여름 팝업스토어'</b>는 <b>7월 17일(금)부터 7월 30일(목)</b>까지 2주 동안 열려요. 장소는 여의도 <b>더현대 서울 지하1층(B1F) 아이코닉 팝업존</b>이고요. 여름 시즌 니케 팝업은 매년 더현대 서울에서 열리는 편이라, 이번에도 같은 자리라고 보시면 될 것 같아요.</p>
+      <p><b>사전예약 오픈 일정은 7월 8일(수)에 공식 공개될 예정</b>이에요. 지난 회차들을 보면 니케 팝업은 초반 며칠은 사전예약자 위주로, 이후엔 현장 대기도 함께 받는 식으로 운영된 적이 많았거든요. 다만 이번 회차의 운영시간·입장방법은 아직 공식 공지 전이라, <b>7월 8일 예약 오픈 안내가 뜨면 그때 확인하시는 게 제일 확실해요.</b></p>
+
+      <p class="ph">📷 〔사진 자리 2〕 더현대 서울 아이코닉 팝업존 입구 전경 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "아이코닉 팝업존은 더현대 서울 지하1층, 늘 화제의 팝업이 열리는 자리예요."</p>
+
+      <h3>이번엔 어떤 굿즈가 나올까요?</h3>
+      <p>사전 공개된 굿즈 라인업으로는 <b>아크릴 스탠드, 비치타올, 도로롱 비치볼, 도로롱 스마트 워치 스트랩, 레드 후드 게이밍 키보드, 갓데스 아티산 키캡, 알트아이젠 MK.VI 블록 에디션, 도로롱 인형</b>까지 나와 있어요. 여름 시즌답게 비치타올·비치볼처럼 실사용 굿즈가 많이 보이고, 게이밍 키보드·키캡·블록 에디션처럼 소장각인 아이템도 섞여 있더라고요.</p>
+      <p>특히 <b>도로롱</b> 굿즈가 눈에 띄는데요. 원래 니케 팬층에서 대표 캐릭터 '도로시'를 변형해 만든 밈이었다가, 시프트업이 정식으로 저작권을 확보하면서 지금은 게임 마스코트처럼 자리 잡은 캐릭터예요. 인형·스마트워치 스트랩까지 나오는 걸 보면 이번 팝업에서도 도로롱이 메인으로 밀리는 분위기예요.</p>
+      <p>〔✍️ 직접 조사·입력 필요 — 굿즈별 정확한 가격, 구매 수량 제한, 세트 구성 여부는 아직 공식 미발표라 비워둡니다. 7월 8일 사전예약 공지에서 함께 나올 가능성이 높아요.〕</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 도로롱 인형·스마트워치 스트랩 등 이번 팝업 굿즈 라인업 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "도로롱 인형·스마트워치 스트랩 등 이번 팝업 굿즈 라인업"</p>
+
+      <h3>같이 열리는 콘서트도 챙기세요 - 풀 버스트 라이브</h3>
+      <p>팝업이랑 같은 시기에 <b>니케 밴드 라이브 콘서트 '풀 버스트 라이브(Full Burst Live)'</b>도 열려요. <b>7월 18일(토) 오후 7시, 7월 19일(일) 오후 5시</b> 이렇게 이틀 총 2회, 장소는 <b>서울 광진구 예스24 라이브홀</b>이에요. 더현대 서울(여의도)이랑 예스24 라이브홀(광진구)은 위치가 다르니, 팝업 들렀다가 바로 콘서트장까지 이동한다면 동선은 미리 확인해두시는 게 좋아요.</p>
+      <p>이번 공연은 게임 속 전투·스토리를 장식했던 OST를 록 밴드 편곡으로 새롭게 들려주는 자리라고 해요. 보컬 <b>앰버</b>와 <b>LACO</b>가 무대에 서고, '라피' 역을 맡은 <b>김보나</b> 성우가 게스트로 출연하며, 니케 <b>유형석</b> 디렉터와 사운드 디렉터도 스페셜 게스트로 함께한다고 하니 팬이라면 놓치기 아까운 라인업이에요.</p>
+
+      <table>
+        <tr><th>구분</th><th>일시</th><th>장소</th></tr>
+        <tr><td class="l">공연 1회차</td><td>7월 18일(토) 오후 7시</td><td rowspan="2">예스24 라이브홀 (서울 광진구)</td></tr>
+        <tr><td class="l">공연 2회차</td><td>7월 19일(일) 오후 5시</td></tr>
+      </table>
+
+      <p><b>티켓 예매는 예스24 티켓에서 진행돼요.</b> 예매 오픈일·좌석 등급별 가격은 예매처 공지가 기준이니, 예매 계획 있으시면 예스24 티켓 페이지에서 직접 확인하시는 걸 추천드려요.</p>
+
+      <p class="ph">📷 〔사진 자리 4, 선택〕 예스24 티켓 니케 콘서트 예매 페이지 캡처 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "예매 전 좌석 등급·오픈일은 예스24 티켓 페이지에서 최종 확인하는 게 가장 정확해요."</p>
+
+      <h3>방문 전 이거 하나만 기억하세요</h3>
+      <p>정리하면 <b>더현대 서울 팝업(7/17~30)</b>과 <b>예스24 라이브홀 콘서트(7/18~19)</b>는 같은 니케 여름 시즌 행사이지만 <b>장소도, 예약 방식도 서로 다르다는 것</b>만 기억하시면 헷갈릴 일이 없어요. 팝업은 사전예약이 7월 8일에 열리고, 콘서트는 예스24 티켓에서 따로 예매해야 하거든요.</p>
+      <p>저처럼 굿즈랑 라이브 둘 다 챙기고 싶은 분이라면, 7월 8일 팝업 사전예약이랑 콘서트 티켓 오픈일 둘 다 캘린더에 표시해두시는 걸 추천드려요. 정확한 운영시간이나 굿즈 가격처럼 아직 안 풀린 정보는 공식 채널에서 순차로 나올 것 같으니, 저도 새 소식 뜨면 다시 업데이트해서 들고 올게요.</p>
+
+      <p><b>✔ 니케 같이 보기 좋은 내용</b><br>
+      〔같은 게임의 기존 글이 있다면 네이버에서 여기 링크 연결 — 없으면 이 줄 삭제〕</p>
+
+      <p class="tags-line">#니케 #승리의여신니케 #니케팝업스토어 #더현대서울 #니케콘서트 #풀버스트라이브 #도로롱</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</html>
