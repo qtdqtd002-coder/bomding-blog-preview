@@ -1,0 +1,228 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬 챔피언스 과금 비교</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">포켓몬 챔피언스 과금 스타터팩 배틀패스 멤버십 가성비 비교</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.06</span><span>· 게임</span></div>
+
+    <p>포켓몬 챔피언스가 무과금으로도 웬만한 배틀은 다 돌아가게 만들어놨다고는 하는데요, 그래도 막상 상점 들어가서 스타터팩이랑 배틀패스, 멤버십 가격표 보고 있으면 이걸 사야 되나 말아야 되나 고민되시는 분들 많으실 거예요. 저도 처음엔 그냥 무과금으로 버텨보자 했다가, 박스 칸 부족한 거 체감하고 나서 결국 상점을 몇 번 들락날락하게 되더라고요. 그래서 오늘은 <b>포켓몬 챔피언스에 실제로 어떤 유료 상품이 있는지, 각각 얼마고 뭘 주는지</b>를 하나씩 정리해서 어떤 유형의 유저한테 뭐가 맞는지 담백하게 짚어드릴게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 포켓몬 챔피언스 인게임 상점 화면 — 스타터팩·배틀패스·멤버십 세 탭이 함께 보이는 구도</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 인게임 상점 진입 후 캡처. 참고할 곳: <a href="https://champions.pokemon.com/en-us/rewards-and-premium-bonuses/" target="_blank">포켓몬 챔피언스 공식 보상 안내 페이지</a></div>
+    <p class="cap">상점 딱 열면 세 가지가 나란히 뜨는데, 뭐부터 봐야 할지 감이 안 잡히실 수 있어요</p>
+
+    <h2 class="sub">포켓몬 챔피언스, 과금 상품이 진짜 있긴 있어요?</h2>
+    <p>결론부터 말씀드리면 <b>포켓몬 챔피언스는 기본 게임 자체는 완전 무료</b>고요, 그 위에 실제로 세 가지 유료 상품이 붙어 있습니다. <b>스타터팩</b>(1회성 구매), <b>프리미엄 배틀패스</b>(시즌제), <b>멤버십</b>(월 구독) 이렇게 세 종류인데요, 이게 다 확률형 뽑기 같은 게 아니라 정찰 가능한 정가 상품이라 비교하기가 오히려 쉬운 편이에요. 아이템 하나씩 뜯어보면 <b>확률형 아이템은 없고 다 정찰제</b>라서 가격표만 보면 뭘 주는지 딱 나옵니다.</p>
+
+    <h2 class="sub">스타터팩 1만 원 — 뭐가 들었나?</h2>
+    <p>스타터팩은 <b>10,000원</b>에 판매 중인데요, 구성은 <b>포켓몬 박스 보관 상한 50마리 증가, 트레이닝 티켓 50장, 레귤러 티켓 30장</b>이고 덤으로 렛츠고 피카츄·이브이에 나왔던 배틀 BGM 하나가 딸려 옵니다. 처음 시작하면 기본 박스 칸이 넉넉지 않다는 걸 금방 느끼실 텐데, 그 답답함을 바로 풀어주는 상품이라고 보시면 됩니다.</p>
+    <p>티켓 값어치로 따지면 <b>플레이타임을 꽤 아껴주는 쪽</b>이라는 평이 많더라고요. 시간을 갈아서 얻어야 할 걸 한 번에 사는 구조라, 세 상품 중에서는 가장 실속 있다는 이야기가 커뮤니티에서도 반복해서 나옵니다. 무엇보다 <b>포켓몬 챔피언스가 확률형 뽑기 구조가 아니라 정가제</b>라는 걸 생각하면, 이 만 원은 '운에 돈을 거는' 결제가 아니라 '박스 칸이랑 초반 진행 속도를 사는' 결제라는 게 확실해서 부담이 덜하더라고요. 박스 상한이 안 늘어나면 포켓몬을 잡아도 계속 방출·이동을 신경 써야 하는데, 딱 이 지점을 첫 결제 한 번으로 해결해주니까 <b>첫 과금으로는 가장 무난한 선택지</b>라는 생각이 들었어요. 티켓 두 종류도 결국 초반에 손이 많이 가는 육성·진행 과정을 줄여주는 구성이라, 이후에 나오는 배틀패스나 멤버십보다 '입문 편의성' 쪽에 확실히 방점이 찍혀 있다고 보시면 됩니다.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 스타터팩 구매 페이지 — 박스 확장·티켓 구성 상세</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 인게임 상점 스타터팩 상세 화면. 참고할 곳: <a href="https://store.nintendo.co.kr/70070000035701" target="_blank">닌텐도 스토어 코리아 상품 페이지</a></div>
+    <p class="cap">박스 50칸 늘어나는 거 하나만으로도 초반엔 숨통이 트여요</p>
+
+    <h2 class="sub">프리미엄 배틀패스 14,400원 — 스킨 욕심 있는 분만?</h2>
+    <p>프리미엄 배틀패스는 <b>14,400원</b>이고 시즌마다 새로 나오는 방식인데요, 시즌 포인트(SP)를 쌓아서 진행하는 기본 배틀패스 트랙 위에 프리미엄 트랙이 하나 더 얹히는 구조입니다. 여기서 얻는 건 <b>시즌 전용 스킨(코스튬)과 메가스톤류 보상, 추가 육성 재화</b> 쪽인데요, 배틀 실력이나 파티 구성 자체에 직접 영향을 주는 상품은 아니네요.</p>
+    <p>그래서 <b>코스튬 수집에 관심이 없으면 굳이 안 사도 되는 상품</b>이라는 평가가 많습니다. 배틀만 즐기고 꾸미기엔 관심 없는 분이라면 우선순위에서 한참 밀려도 되는 항목이고요, 반대로 시즌마다 나오는 한정 스킨을 꼭 모으고 싶은 분들한테는 매 시즌 챙기는 재미가 있는 상품이에요. 스타터팩이 '진행 편의'를 사는 결제라면, 배틀패스는 <b>성능이 아니라 외형·수집 쪽 만족감을 사는 결제</b>라고 보시면 딱 맞아떨어집니다. 배틀 승률에 영향을 주는 게 아니다 보니, 대전 자체에 집중하고 싶은 분은 안 사도 전혀 손해가 아니고요, 반대로 시즌마다 코스튬 모으는 걸 하나의 수집 목표로 삼는 분한테는 매 시즌 놓치기 아까운 상품이 되는 거죠.</p>
+
+    <h2 class="sub">월정액 멤버십 7,200원 — 하드코어용 맞아요</h2>
+    <p>멤버십은 <b>월 7,200원</b>으로 구독하는 방식인데, 박스 보관 확장과 <b>동시에 등록 가능한 배틀 팀 수 증가</b>, 멤버십 전용 미션·배틀 BGM 같은 혜택을 줍니다. 매달 결제가 이어지는 구조라 스타터팩·배틀패스보다는 진입 문턱이 확실히 높은 편이에요.</p>
+    <p>이건 여러 파티를 동시에 굴려야 하는 <b>랭크 상위권 노리는 진성 유저</b> 쪽에 맞는 상품이라고 보시면 됩니다. 그냥 캐주얼하게 배틀 몇 판 즐기는 정도라면 월 구독까지 갈 필요는 크지 않아 보여요. 스타터팩·배틀패스가 한 번 사면 끝나는 결제인 것과 달리 멤버십은 <b>매달 나가는 고정비</b>라, '이번 시즌만 반짝 결제'가 아니라 게임을 오래 붙잡고 갈 분한테 맞는 상품이랍니다. 배틀 팀을 여러 개 동시에 굴리면서 이것저것 실험해보고 싶은 진성 유저한테는 팀 슬롯이 늘어나는 게 꽤 체감되는 혜택이겠지만, 어쩌다 한 번씩 배틀 돌리는 정도라면 월정액까지는 과한 선택일 수 있어요.</p>
+
+    <h2 class="sub">한눈에 비교표로 정리해봤어요</h2>
+    <table class="tbl">
+      <tr><th>상품</th><th>가격</th><th>구성</th><th>결제 방식</th></tr>
+      <tr><td><b>스타터팩</b></td><td>10,000원</td><td>박스 +50, 트레이닝 티켓 50, 레귤러 티켓 30, BGM 1곡</td><td>1회성</td></tr>
+      <tr><td><b>프리미엄 배틀패스</b></td><td>14,400원</td><td>시즌 전용 스킨, 메가스톤류 보상, 육성 재화</td><td>시즌제(갱신형)</td></tr>
+      <tr><td><b>멤버십</b></td><td>월 7,200원</td><td>박스 추가 확장, 배틀 팀 등록 수 증가, 전용 미션·BGM</td><td>월 구독</td></tr>
+    </table>
+    <p class="cap">가격은 작성 시점(2026년 7월) 기준이고요, 최신가는 상점에서 한 번 더 확인하고 결제하시는 걸 추천드려요</p>
+
+    <h2 class="sub">그래서 어떤 유형이 뭘 사면 좋을까?</h2>
+    <p>무과금으로 가시는 분들도 충분히 배틀 자체는 즐기실 수 있는 구조라, <b>이 셋 중 하나도 안 사도 진행 자체는 막히지 않습니다.</b> 다만 시간을 좀 아끼고 싶다 하시는 분들은 얘기가 조금 달라지는데요, 유형별로 나눠서 말씀드리면 이래요.</p>
+    <p><b>무과금</b>이라면 그냥 배틀 자주 돌리면서 무료 배틀패스 트랙과 인게임 재화만으로 진행하셔도 됩니다. 앞서 봤듯 확률에 돈을 붓는 뽑기 구조가 아니라, 스카우트로 포켓몬을 계속 확보할 수 있는 정가제 게임이라 <b>무과금이라고 진행이 막히는 일은 없다는 게 핵심이죠.</b> 시간은 좀 걸리지만 못 할 건 없어요.<br>
+    <b>소과금</b>이라면 <b>스타터팩 하나만 사는 게 가장 무난한 선택</b>이에요. 만 원짜리 1회 결제로 박스 답답함이랑 초반 재화 갈증을 한 번에 풀어주니까, 세 상품 중 실속으로는 제일 앞선다고 봐요.<br>
+    <b>과금</b> 쪽으로 좀 더 즐기고 싶은 분들은 스타터팩에 <b>프리미엄 배틀패스를 시즌마다 병행</b>하는 조합이 합리적이라는 이야기가 많아요. 코스튬 욕심 있으면 이쪽으로 가시면 되고요.<br>
+    거기서 더 나아가 <b>랭크 경쟁까지 진지하게 노리는 분</b>이라면 멤버십까지 얹어서 팀 구성을 여러 개 굴리는 쪽이 맞습니다. 다만 이건 매달 나가는 돈이라 캐주얼 유저한테까지 권할 상품은 아니에요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 멤버십 가입 화면 — 배틀 팀 슬롯 증가 안내 부분</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 인게임 멤버십 상세 안내 화면</div>
+    <p class="cap">팀 슬롯 늘어나는 거 하나 보고 매달 결제할지는 진짜 취향 차이인 거 같아요</p>
+
+    <h2 class="sub">포켓몬 챔피언스 과금 정리</h2>
+    <p>요약하면 <b>스타터팩(1만 원, 1회성) · 프리미엄 배틀패스(14,400원, 시즌제) · 멤버십(월 7,200원, 구독)</b> 이렇게 세 상품이 있고, 다 확률형이 아니라 정가라 뭘 주는지 명확한 편이네요. 급하게 뭐부터 살지 고민되시면 <b>스타터팩부터 챙기시는 게 가장 무난</b>하고, 코스튬이나 랭크 경쟁 쪽으로 욕심이 생기면 그때 배틀패스나 멤버십을 추가로 보시면 될 것 같아요.</p>
+
+    <p><b>✔ 포켓몬 챔피언스 같이 보기 좋은 내용</b><br>
+    (같은 게임의 다른 글에서 더 자세히 다뤘어요 — 발행 시 링크 연결)</p>
+    <!-- 내부링크: 포켓몬 챔피언스 관련 봄딩 기존글 post ID 확인 후 연결 -->
+
+    <div class="tags">#포켓몬챔피언스 #포켓몬챔피언스과금 #포켓몬챔피언스스타터팩 #포켓몬챔피언스배틀패스 #포켓몬챔피언스멤버십 #포켓몬챔피언스가성비</div>
+  </div>
+</div>
+
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 5분):</b> 📷 <b>사진 3곳</b> 업로드, 🔗 <b>내부링크 1곳</b> post ID 연결. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬 챔피언스 과금 스타터팩 배틀패스 멤버십 가성비 비교</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>포켓몬 챔피언스가 무과금으로도 웬만한 배틀은 다 돌아가게 만들어놨다고는 하는데요, 그래도 막상 상점 들어가서 스타터팩이랑 배틀패스, 멤버십 가격표 보고 있으면 이걸 사야 되나 말아야 되나 고민되시는 분들 많으실 거예요. 저도 처음엔 그냥 무과금으로 버텨보자 했다가, 박스 칸 부족한 거 체감하고 나서 결국 상점을 몇 번 들락날락하게 되더라고요. 그래서 오늘은 <b>포켓몬 챔피언스에 실제로 어떤 유료 상품이 있는지, 각각 얼마고 뭘 주는지</b>를 하나씩 정리해서 어떤 유형의 유저한테 뭐가 맞는지 담백하게 짚어드릴게요.</p>
+
+      <p>📷 〔사진 자리 1〕 포켓몬 챔피언스 인게임 상점 화면 — 스타터팩·배틀패스·멤버십 세 탭이 함께 보이는 구도 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "상점 딱 열면 세 가지가 나란히 뜨는데, 뭐부터 봐야 할지 감이 안 잡히실 수 있어요"</p>
+
+      <h3>포켓몬 챔피언스, 과금 상품이 진짜 있긴 있어요?</h3>
+      <p>결론부터 말씀드리면 <b>포켓몬 챔피언스는 기본 게임 자체는 완전 무료</b>고요, 그 위에 실제로 세 가지 유료 상품이 붙어 있습니다. <b>스타터팩</b>(1회성 구매), <b>프리미엄 배틀패스</b>(시즌제), <b>멤버십</b>(월 구독) 이렇게 세 종류인데요, 이게 다 확률형 뽑기 같은 게 아니라 정찰 가능한 정가 상품이라 비교하기가 오히려 쉬운 편이에요. 아이템 하나씩 뜯어보면 <b>확률형 아이템은 없고 다 정찰제</b>라서 가격표만 보면 뭘 주는지 딱 나옵니다.</p>
+
+      <h3>스타터팩 1만 원 — 뭐가 들었나?</h3>
+      <p>스타터팩은 <b>10,000원</b>에 판매 중인데요, 구성은 <b>포켓몬 박스 보관 상한 50마리 증가, 트레이닝 티켓 50장, 레귤러 티켓 30장</b>이고 덤으로 렛츠고 피카츄·이브이에 나왔던 배틀 BGM 하나가 딸려 옵니다. 처음 시작하면 기본 박스 칸이 넉넉지 않다는 걸 금방 느끼실 텐데, 그 답답함을 바로 풀어주는 상품이라고 보시면 됩니다.</p>
+      <p>티켓 값어치로 따지면 <b>플레이타임을 꽤 아껴주는 쪽</b>이라는 평이 많더라고요. 시간을 갈아서 얻어야 할 걸 한 번에 사는 구조라, 세 상품 중에서는 가장 실속 있다는 이야기가 커뮤니티에서도 반복해서 나옵니다. 무엇보다 <b>포켓몬 챔피언스가 확률형 뽑기 구조가 아니라 정가제</b>라는 걸 생각하면, 이 만 원은 '운에 돈을 거는' 결제가 아니라 '박스 칸이랑 초반 진행 속도를 사는' 결제라는 게 확실해서 부담이 덜하더라고요. 박스 상한이 안 늘어나면 포켓몬을 잡아도 계속 방출·이동을 신경 써야 하는데, 딱 이 지점을 첫 결제 한 번으로 해결해주니까 <b>첫 과금으로는 가장 무난한 선택지</b>라는 생각이 들었어요. 티켓 두 종류도 결국 초반에 손이 많이 가는 육성·진행 과정을 줄여주는 구성이라, 이후에 나오는 배틀패스나 멤버십보다 '입문 편의성' 쪽에 확실히 방점이 찍혀 있다고 보시면 됩니다.</p>
+
+      <p>📷 〔사진 자리 2〕 스타터팩 구매 페이지 — 박스 확장·티켓 구성 상세 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "박스 50칸 늘어나는 거 하나만으로도 초반엔 숨통이 트여요"</p>
+
+      <h3>프리미엄 배틀패스 14,400원 — 스킨 욕심 있는 분만?</h3>
+      <p>프리미엄 배틀패스는 <b>14,400원</b>이고 시즌마다 새로 나오는 방식인데요, 시즌 포인트(SP)를 쌓아서 진행하는 기본 배틀패스 트랙 위에 프리미엄 트랙이 하나 더 얹히는 구조입니다. 여기서 얻는 건 <b>시즌 전용 스킨(코스튬)과 메가스톤류 보상, 추가 육성 재화</b> 쪽인데요, 배틀 실력이나 파티 구성 자체에 직접 영향을 주는 상품은 아니네요.</p>
+      <p>그래서 <b>코스튬 수집에 관심이 없으면 굳이 안 사도 되는 상품</b>이라는 평가가 많습니다. 배틀만 즐기고 꾸미기엔 관심 없는 분이라면 우선순위에서 한참 밀려도 되는 항목이고요, 반대로 시즌마다 나오는 한정 스킨을 꼭 모으고 싶은 분들한테는 매 시즌 챙기는 재미가 있는 상품이에요. 스타터팩이 '진행 편의'를 사는 결제라면, 배틀패스는 <b>성능이 아니라 외형·수집 쪽 만족감을 사는 결제</b>라고 보시면 딱 맞아떨어집니다. 배틀 승률에 영향을 주는 게 아니다 보니, 대전 자체에 집중하고 싶은 분은 안 사도 전혀 손해가 아니고요, 반대로 시즌마다 코스튬 모으는 걸 하나의 수집 목표로 삼는 분한테는 매 시즌 놓치기 아까운 상품이 되는 거죠.</p>
+
+      <h3>월정액 멤버십 7,200원 — 하드코어용 맞아요</h3>
+      <p>멤버십은 <b>월 7,200원</b>으로 구독하는 방식인데, 박스 보관 확장과 <b>동시에 등록 가능한 배틀 팀 수 증가</b>, 멤버십 전용 미션·배틀 BGM 같은 혜택을 줍니다. 매달 결제가 이어지는 구조라 스타터팩·배틀패스보다는 진입 문턱이 확실히 높은 편이에요.</p>
+      <p>이건 여러 파티를 동시에 굴려야 하는 <b>랭크 상위권 노리는 진성 유저</b> 쪽에 맞는 상품이라고 보시면 됩니다. 그냥 캐주얼하게 배틀 몇 판 즐기는 정도라면 월 구독까지 갈 필요는 크지 않아 보여요. 스타터팩·배틀패스가 한 번 사면 끝나는 결제인 것과 달리 멤버십은 <b>매달 나가는 고정비</b>라, '이번 시즌만 반짝 결제'가 아니라 게임을 오래 붙잡고 갈 분한테 맞는 상품이랍니다. 배틀 팀을 여러 개 동시에 굴리면서 이것저것 실험해보고 싶은 진성 유저한테는 팀 슬롯이 늘어나는 게 꽤 체감되는 혜택이겠지만, 어쩌다 한 번씩 배틀 돌리는 정도라면 월정액까지는 과한 선택일 수 있어요.</p>
+
+      <h3>한눈에 비교표로 정리해봤어요</h3>
+      <table>
+        <tr><th>상품</th><th>가격</th><th>구성</th><th>결제 방식</th></tr>
+        <tr><td class="l">스타터팩</td><td>10,000원</td><td>박스 +50, 트레이닝 티켓 50, 레귤러 티켓 30, BGM 1곡</td><td>1회성</td></tr>
+        <tr><td class="l">프리미엄 배틀패스</td><td>14,400원</td><td>시즌 전용 스킨, 메가스톤류 보상, 육성 재화</td><td>시즌제(갱신형)</td></tr>
+        <tr><td class="l">멤버십</td><td>월 7,200원</td><td>박스 추가 확장, 배틀 팀 등록 수 증가, 전용 미션·BGM</td><td>월 구독</td></tr>
+      </table>
+      <p class="tnote-line">가격은 작성 시점(2026년 7월) 기준이고요, 최신가는 상점에서 한 번 더 확인하고 결제하시는 걸 추천드려요.</p>
+
+      <h3>그래서 어떤 유형이 뭘 사면 좋을까?</h3>
+      <p>무과금으로 가시는 분들도 충분히 배틀 자체는 즐기실 수 있는 구조라, <b>이 셋 중 하나도 안 사도 진행 자체는 막히지 않습니다.</b> 다만 시간을 좀 아끼고 싶다 하시는 분들은 얘기가 조금 달라지는데요, 유형별로 나눠서 말씀드리면 이래요.</p>
+      <p><b>무과금</b>이라면 그냥 배틀 자주 돌리면서 무료 배틀패스 트랙과 인게임 재화만으로 진행하셔도 됩니다. 앞서 봤듯 확률에 돈을 붓는 뽑기 구조가 아니라, 스카우트로 포켓몬을 계속 확보할 수 있는 정가제 게임이라 <b>무과금이라고 진행이 막히는 일은 없다는 게 핵심이죠.</b> 시간은 좀 걸리지만 못 할 건 없어요.<br>
+      <b>소과금</b>이라면 <b>스타터팩 하나만 사는 게 가장 무난한 선택</b>이에요. 만 원짜리 1회 결제로 박스 답답함이랑 초반 재화 갈증을 한 번에 풀어주니까, 세 상품 중 실속으로는 제일 앞선다고 봐요.<br>
+      <b>과금</b> 쪽으로 좀 더 즐기고 싶은 분들은 스타터팩에 <b>프리미엄 배틀패스를 시즌마다 병행</b>하는 조합이 합리적이라는 이야기가 많아요. 코스튬 욕심 있으면 이쪽으로 가시면 되고요.<br>
+      거기서 더 나아가 <b>랭크 경쟁까지 진지하게 노리는 분</b>이라면 멤버십까지 얹어서 팀 구성을 여러 개 굴리는 쪽이 맞습니다. 다만 이건 매달 나가는 돈이라 캐주얼 유저한테까지 권할 상품은 아니에요.</p>
+
+      <p>📷 〔사진 자리 3〕 멤버십 가입 화면 — 배틀 팀 슬롯 증가 안내 부분 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "팀 슬롯 늘어나는 거 하나 보고 매달 결제할지는 진짜 취향 차이인 거 같아요"</p>
+
+      <h3>포켓몬 챔피언스 과금 정리</h3>
+      <p>요약하면 <b>스타터팩(1만 원, 1회성) · 프리미엄 배틀패스(14,400원, 시즌제) · 멤버십(월 7,200원, 구독)</b> 이렇게 세 상품이 있고, 다 확률형이 아니라 정가라 뭘 주는지 명확한 편이네요. 급하게 뭐부터 살지 고민되시면 <b>스타터팩부터 챙기시는 게 가장 무난</b>하고, 코스튬이나 랭크 경쟁 쪽으로 욕심이 생기면 그때 배틀패스나 멤버십을 추가로 보시면 될 것 같아요.</p>
+
+      <p><b>✔ 포켓몬 챔피언스 같이 보기 좋은 내용</b><br>
+      🔗 〔내부링크 자리 ①〕 같은 게임의 다른 글 — 네이버에서 기존 글 링크 연결</p>
+
+      <p class="tags-line">#포켓몬챔피언스 #포켓몬챔피언스과금 #포켓몬챔피언스스타터팩 #포켓몬챔피언스배틀패스 #포켓몬챔피언스멤버십 #포켓몬챔피언스가성비</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
