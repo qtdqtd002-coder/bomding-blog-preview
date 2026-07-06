@@ -1,0 +1,68 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  금융왕 김복리 — 메인 홈 배너 (일러스트 배경형)
+  붙여넣는 곳: 티스토리 [꾸미기 → 스킨편집 → html/css편집 → HTML 탭]
+  위치: 맨 아래   </body>   바로 위에 붙여넣기
+  (배경 이미지·색·버튼 디자인은 CSS(김복리_브랜드.css)에 이미 들어 있습니다.
+   이 스크립트는 '홈'에서만 배너 자리에 문구+버튼을 넣어줍니다.)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+<script>
+(function(){
+  // 홈(첫 화면)에서만 표시 — 글/카테고리/검색 화면에는 안 나옴
+  var isHome = (location.pathname === '/' || location.pathname === '')
+               || !!document.getElementById('tt-body-index')
+               || (document.body && /\bindex\b/.test(document.body.className));
+  if(!isHome) return;
+  if(document.getElementById('kb-hero')) return;
+
+  // 삽입 위치: 헤더(메뉴) 바로 아래 = #container 안, 본문/사이드바(.content-wrap) 앞 → 최상단 전체폭 배너
+  var container = document.querySelector('#container');
+  var cw = document.querySelector('#container > .content-wrap') || document.querySelector('.content-wrap');
+  var host = null, ref = null;
+  if(container && cw && cw.parentElement === container){ host = container; ref = cw; }
+  else { host = document.querySelector('#content') || document.querySelector('main'); }  // 폴백
+  if(!host) return;
+
+  // 사이드바 카테고리 링크에서 실제 주소를 찾아 버튼에 연결(깨진 링크 방지)
+  var catLinks = [].slice.call(document.querySelectorAll(
+    '#aside .category a, .sidebar .category a, #aside .category-list a, .category_list a, #category a'));
+  function findHref(re){
+    for(var i=0;i<catLinks.length;i++){
+      if(re.test((catLinks[i].textContent||'').replace(/\s/g,''))) return catLinks[i].getAttribute('href');
+    }
+    return null;
+  }
+  var wants = [
+    ['정부지원금', /지원금|정책/],
+    ['세금',       /세금|연말정산/],
+    ['저축',       /저축|재테크|예금|적금/],
+    ['대출',       /대출|신용/]
+  ];
+  var btns = '';
+  wants.forEach(function(w){
+    var href = findHref(w[1]);
+    if(href) btns += '<a href="'+href+'">'+w[0]+'</a>';
+  });
+  if(!btns) btns = '<a href="/">전체 글 보기</a>';
+
+  var hero = document.createElement('div');
+  hero.id = 'kb-hero';
+  hero.innerHTML =
+    '<div class="kbh-in">'
+    + '<h2>금융, 어렵지 않아요. <em>제일 쉽게</em> 알려드릴게요.</h2>'
+    + '<p>지원금·세금·저축부터 대출까지, 처음 보는 분도 이해하게 하나씩 풀어드려요.</p>'
+    + '<div class="kbh-btns">'+btns+'</div>'
+    + '</div>';
+  host.insertBefore(hero, ref || host.firstChild);
+})();
+</script>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ※ 배너가 안 보이면:
+   1) CSS(김복리_브랜드.css)를 최신본으로 CSS탭 맨 끝에 다시 붙여넣었는지 확인
+      (배경 이미지가 CSS 안에 들어 있어서, CSS가 최신이어야 배경이 뜹니다)
+   2) HTML탭에 위 <script>가 </body> 위에 들어갔는지 확인
+   3) 저장 후 홈(bokriking.tistory.com)을 새로고침
+  ※ 버튼 링크가 비어 보이면 사이드바에 해당 카테고리가 없는 경우입니다
+     (카테고리를 만들면 자동으로 연결됩니다).
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

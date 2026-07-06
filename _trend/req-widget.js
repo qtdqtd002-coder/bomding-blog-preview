@@ -12,7 +12,7 @@
   if (window.__reqWidgetLoaded) return; window.__reqWidgetLoaded = true;
   var API = 'https://34.139.184.70.sslip.io';
   var PURPOSES = ['사전예약', '출시·첫인상', '업데이트·패치', '게임 정보', '게임 공략', '쿠폰·이벤트', '티어·추천', '제품 비교·추천', '사용 후기·리뷰'];
-  var WRITERS = ['봄딩', '영도', '겜더쿠', '연봄'];
+  var WRITERS = ['봄딩', '영도', '겜더쿠', '연봄', '김복리'];
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
   function txt(el) { return el ? (el.textContent || '').replace(/\s+/g, ' ').trim() : ''; }

@@ -38,6 +38,7 @@ $AUTHORS = @{
   "영도"   = @{ kind = "naver";   id = "kkodug9"     }
   "겜더쿠" = @{ kind = "tistory"; id = "quetermoney" }
   "연봄"   = @{ kind = "tistory"; id = "bom-ding"    }   # 2026-06-11 주소 확정(bom-ding.tistory.com)
+  "김복리" = @{ kind = "tistory"; id = "bokriking" }   # 2026-07-05 주소 확정(bokriking.tistory.com)
 }
 
 # ── 정규화: 한글/영숫자만 남기고 소문자화(공백·문장부호·이모지 제거) ──
