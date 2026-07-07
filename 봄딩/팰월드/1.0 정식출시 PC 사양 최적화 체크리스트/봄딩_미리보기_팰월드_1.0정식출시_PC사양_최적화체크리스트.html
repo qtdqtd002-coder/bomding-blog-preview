@@ -1,0 +1,222 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>팰월드 1.0 정식출시 D-3 PC 사양·최적화 체크리스트</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">팰월드 1.0 정식출시 D-3, 내 PC로 돌아갈까 사양·최적화 체크리스트</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 7. 7.</span><span>· 게임</span></div>
+
+    <p>제가 팰월드 1.0 소식을 <b>변경점</b> 편, <b>기존 유저 세이브</b> 편으로 두 번 짚어드렸는데요, 정작 가장 많이 물어보시는 건 콘텐츠 얘기가 아니라 <b>"내 컴퓨터로 돌아가긴 하는 거냐"</b>는 현실적인 질문이더라고요. 팰월드는 팰을 포획해서 거점을 꾸리고 전투·채집까지 같이 굴리는 <b>오픈월드 생존·크래프팅 게임</b>이다 보니, 거점이 커질수록 컴퓨터가 버텨줘야 하는 구조예요. 이제 <b>7월 10일 정식 출시까지 딱 3일</b> 남았으니, 오늘은 신규 팰이나 세계수 얘기는 잠깐 접어두고 <b>PC 사양이랑 최적화</b>만 콕 집어서 정리해볼게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 스팀 상점 페이지 시스템 요구 사항 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — <a href="https://store.steampowered.com/app/1623730/Palworld/" target="_blank">팰월드 스팀 상점 페이지</a> 하단 '시스템 요구 사항' 항목을 캡처하시면 됩니다.</div>
+    <p class="cap">최소·권장 사양이 나란히 적혀 있는 그 화면이에요.</p>
+
+    <h2 class="sub">7월 10일, 얼리 액세스가 끝나요</h2>
+    <p>팰월드는 <b>2024년 1월에 앞서 해보기(얼리 액세스)로 첫선</b>을 보인 뒤 약 2년 반을 달려왔는데요, <b>2026년 7월 10일에 1.0 정식 출시</b>로 전환되면서 얼리 액세스가 마무리돼요. 포켓페어가 서머 게임 페스트 쇼케이스에서 이 일정을 확정했는데, <b>PC(스팀)·PS5·엑스박스 시리즈 X·S</b> 모두 이미 얼리 액세스 때부터 나란히 서비스돼 온 플랫폼들이라 이번 1.0도 세 플랫폼이 동시에 맞이하는 거예요. PS5는 2024년 9월에 얼리 액세스로 깜짝 합류했었거든요.</p>
+
+    <h2 class="sub">내 PC 사양, 스팀 기준으로 정확히 보면</h2>
+    <p>사양표는 사람마다 다르게 옮겨 적는 경우가 많아서, 저는 발행 직전에 <b>스팀 상점 페이지</b>를 직접 열어서 최소·권장 사양을 그대로 옮겨왔어요. 아래 표 참고하시면 됩니다.</p>
+
+    <table class="tbl">
+      <tr><th></th><th>최소 사양</th><th>권장 사양</th></tr>
+      <tr><td>운영체제</td><td>Windows 10 이상 (64비트)</td><td>Windows 10 이상 (64비트)</td></tr>
+      <tr><td>프로세서</td><td>i5-3570K 3.4GHz 4코어</td><td>i9-9900K 3.6GHz 8코어</td></tr>
+      <tr><td>메모리</td><td>16GB RAM</td><td>32GB RAM</td></tr>
+      <tr><td>그래픽</td><td>GeForce GTX 1050 (2GB)</td><td>GeForce RTX 2070</td></tr>
+      <tr><td>DirectX</td><td>버전 11</td><td>버전 11</td></tr>
+      <tr><td>저장공간</td><td>40GB</td><td>40GB</td></tr>
+    </table>
+
+    <p>표를 보시면 아시겠지만, <b>최소 사양에도 램이 16GB로 잡혀 있는 게</b> 눈에 띄어요. 요즘 나오는 생존·크래프팅 게임치고는 램 요구치가 꽤 높은 편이라, "8GB로 버틸 수 있지 않을까" 기대하셨던 분이라면 이 부분은 미리 확인해두시는 게 좋아요. 그래픽카드는 최소가 GTX 1050으로 오래된 보급형 카드도 커버가 되는데, 권장으로 가면 RTX 2070급까지 올라가니 <b>거점을 크게 짓고 팰을 많이 풀어둘수록 그래픽카드 부담이 커진다</b>고 보시면 됩니다.</p>
+
+    <h2 class="sub">내 컴퓨터가 되는지, 이렇게 비교해보세요</h2>
+    <p>사양표만 봐서는 "이게 좋은 건지 나쁜 건지" 감이 잘 안 오실 수 있는데요, 우선 <b>CPU와 그래픽카드 이름을 그대로 검색</b>해서 내가 쓰는 부품이 표에 적힌 것보다 위인지 아래인지부터 확인하는 게 첫걸음이에요. 예를 들어 그래픽카드가 GTX 1050보다 신형이면 일단 최소 사양은 넘는 거고, RTX 2070급 이상이면 권장 사양까지 맞춘 거라고 보시면 됩니다.</p>
+    <p>노트북을 쓰시는 분은 특히 <b>그래픽카드가 '모바일용(M 표기)'인지</b>를 챙겨보시는 게 좋아요. 같은 이름이라도 노트북용 그래픽카드는 데스크톱용보다 성능이 낮게 나오는 경우가 많거든요. 그리고 램은 표에서 요구하는 용량보다 여유 있게 갖추는 편이 게임 실행 중 다른 프로그램(디스코드·브라우저 등)과 같이 켜둬도 버벅임이 덜하답니다.</p>
+
+    <h2 class="sub">그래픽 옵션, 뭐부터 낮춰야 프레임이 오를까요</h2>
+    <p>사양이 애매하게 걸치는 분들을 위해 <b>실제로 프레임에 영향을 크게 주는 옵션</b> 위주로 정리해봤어요. 해외 성능 벤치마크를 찾아보니 프레임을 가장 많이 잡아먹는 옵션 1순위는 역시 <b>그림자(Shadow) 품질</b>이더라고요. 최하로 내리면 최고 대비 프레임이 <b>30% 가까이</b> 올라간다고 하니, 다른 옵션 만지기 전에 이것부터 먼저 낮춰보시는 게 가장 효율이 좋아요. 시야 거리를 낮추면 5~8% 정도, 이펙트 품질을 낮추면 8~9% 정도 오르는데 시야 거리는 멀리 있는 오브젝트가 늦게 나타나는 '팝인' 현상이 생길 수 있으니 참고하시고요, 반면 <b>잔디(풀) 디테일은 의외로 프레임에 미치는 영향이 미미하다</b>는 결과라 이건 취향껏 켜두셔도 괜찮아요. 정리하면 옵션을 하나하나 다 만지기보다는 <b>그림자 낮추기 + 업스케일링 켜기</b> 이 두 개만 챙겨도 가성비가 가장 좋습니다.</p>
+    <p>엔비디아 그래픽카드를 쓰신다면 <b>DLSS(업스케일링)</b>는 확실하게 지원되니 품질 모드로 켜두는 걸 추천드려요. 해상도를 살짝 낮춰서 렌더링한 뒤 다시 키워 보여주는 기술인데, 화질 손실은 거의 못 느끼면서 프레임은 <b>30~50% 정도</b> 벌 수 있다고 하네요. AMD 그래픽카드용 FSR도 옵션 메뉴에 있는지는 자료마다 얘기가 조금씩 달라서, 이 부분은 실제 게임 옵션 메뉴에서 직접 확인해보시는 게 정확할 것 같아요. 화면 모드는 창모드보다 전체화면으로 두는 게 유리하고, 모니터가 프리싱크·지싱크를 지원한다면 수직동기화(브이싱크)는 꺼두는 편이 입력 지연을 줄이는 데 도움이 된다고 해요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 그래픽 설정 메뉴(그림자·텍스처·잔디 항목)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 게임 실행 후 옵션 → 그래픽 메뉴를 캡처하시면 됩니다. 항목 위치가 궁금하면 <a href="https://www.digitaltrends.com/computing/palworld-performance-guide-best-settings/" target="_blank">Digital Trends 성능 가이드</a> 참고하셔도 좋아요.</div>
+    <p class="cap">이 메뉴에서 그림자부터 낮춰보시면 체감이 확 다를 거예요.</p>
+
+    <p>그 밖에 자잘하지만 도움 되는 팁도 있어요. <b>그래픽 드라이버를 최신 버전으로 업데이트</b>해두는 건 기본이고, 방송이나 편집 프로그램처럼 <b>CPU를 많이 잡아먹는 백그라운드 프로그램은 게임 켜기 전에 미리 꺼두는 게</b> 좋습니다. 팰월드는 거점에 팰과 시설이 많이 쌓일수록 CPU 부담도 함께 늘어나는 구조라, 사양이 애매한 분이라면 거점 규모를 처음부터 너무 욕심내지 않는 것도 하나의 요령이에요.</p>
+
+    <h2 class="sub">콘솔·휴대용은 어떤가요</h2>
+    <p>PC 말고 다른 기기로 하실 분들 위해 짧게 덧붙이면, <b>PS5와 엑스박스 시리즈 X·S</b>는 별도 사양 걱정 없이 정식 지원되는 플랫폼이에요. 그리고 스팀덱으로 즐기는 분들도 꽤 계실 텐데, 팰월드는 얼마 전 <b>스팀덱 '베리파이드(공식 지원)' 등급</b>까지 확정받았어요. 실제 플레이 체감은 소·중형 거점 기준으로 OLED가 35~40fps, LCD가 28~30fps 정도로 대략 알려져 있고, 거점이 커지면 20fps 초반대까지 떨어질 수 있다고 하네요. 배터리는 OLED 기준 대략 3.8시간 정도 버틴다고 하니 참고하시면 좋을 것 같아요. 다만 스팀덱은 화면이 작은 만큼 그래픽 설정을 중간이나 낮음 쪽으로 직접 맞춰야 쾌적하게 돌아간다고 하니, 기본값 그대로 켜기보다는 옵션을 한 번 손봐주시는 게 좋을 것 같아요.</p>
+
+    <h2 class="sub">팰월드 1.0 PC 사양 정리</h2>
+    <p>핵심만 다시 챙겨보면, <b>① 최소 사양은 i5-3570K·16GB 램·GTX 1050급, 권장은 i9-9900K·32GB 램·RTX 2070급 ② 그래픽카드보다 램이 먼저 발목 잡힐 수 있으니 16GB부터 확인 ③ 프레임이 아쉬우면 그림자부터 낮추고 엔비디아면 DLSS 활용 ④ PS5·엑스박스는 얼리 액세스 때부터 함께해온 플랫폼, 스팀덱도 베리파이드 등급</b>이에요.</p>
+
+    <p>사양표만 미리 봐둬도 출시일에 우왕좌왕할 일이 줄어드니까, 정식 출시 전에 한 번씩 내 컴퓨터랑 대조해보시길 추천드려요. 저도 그림자 옵션 낮춰서 미리 세팅해뒀는데 확실히 한결 가볍더라고요. 7월 10일에 다들 새 월드에서 무사히 만나길 바라볼게요.</p>
+
+    <p><b>✔ 팰월드 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding" target="_blank">팰월드 1.0 정식출시 앞서해보기와 뭐가 달라지나, 신규 팰 미리보기</a><br>
+    · <a href="https://blog.naver.com/bomding" target="_blank">팰월드 1.0 정식출시 D-15, 기존 유저가 알아야 할 핵심 3가지</a></p>
+    <!-- 내부링크: 위 두 편은 네이버 post ID 미확인이라 blogId 링크로 임시 표시. 발행 시 실제 post ID로 교체 필요 -->
+
+    <div class="tags">#팰월드 #팰월드1.0 #팰월드사양 #팰월드최적화 #팰월드PC사양 #Palworld #팰월드7월10일 #팰월드스팀덱</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 3분):</b> 📷 <b>사진 2곳</b> 업로드, 내부링크 2개는 실제 네이버 post ID로 확인 후 연결. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 팰월드 1.0 정식출시 D-3, 내 PC로 돌아갈까 사양·최적화 체크리스트</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>제가 팰월드 1.0 소식을 변경점 편, 기존 유저 세이브 편으로 두 번 짚어드렸는데요, 정작 가장 많이 물어보시는 건 콘텐츠 얘기가 아니라 "내 컴퓨터로 돌아가긴 하는 거냐"는 현실적인 질문이더라고요. 팰월드는 팰을 포획해서 거점을 꾸리고 전투·채집까지 같이 굴리는 <b>오픈월드 생존·크래프팅 게임</b>이다 보니, 거점이 커질수록 컴퓨터가 버텨줘야 하는 구조예요. 이제 <b>7월 10일 정식 출시까지 딱 3일</b> 남았으니, 오늘은 신규 팰이나 세계수 얘기는 잠깐 접어두고 <b>PC 사양이랑 최적화</b>만 콕 집어서 정리해볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 스팀 상점 페이지 시스템 요구 사항 화면 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "최소·권장 사양이 나란히 적혀 있는 그 화면이에요."</p>
+
+      <h3>7월 10일, 얼리 액세스가 끝나요</h3>
+      <p>팰월드는 2024년 1월에 앞서 해보기(얼리 액세스)로 첫선을 보인 뒤 약 2년 반을 달려왔는데요, <b>2026년 7월 10일에 1.0 정식 출시</b>로 전환되면서 얼리 액세스가 마무리돼요. 포켓페어가 서머 게임 페스트 쇼케이스에서 이 일정을 확정했는데, <b>PC(스팀)·PS5·엑스박스 시리즈 X·S</b> 모두 이미 얼리 액세스 때부터 나란히 서비스돼 온 플랫폼들이라 이번 1.0도 세 플랫폼이 동시에 맞이하는 거예요. PS5는 2024년 9월에 얼리 액세스로 깜짝 합류했었거든요.</p>
+
+      <h3>내 PC 사양, 스팀 기준으로 정확히 보면</h3>
+      <p>사양표는 사람마다 다르게 옮겨 적는 경우가 많아서, 저는 발행 직전에 스팀 상점 페이지를 직접 열어서 최소·권장 사양을 그대로 옮겨왔어요. 아래 표 참고하시면 됩니다.</p>
+
+      <table>
+        <tr><th></th><th>최소 사양</th><th>권장 사양</th></tr>
+        <tr><td class="l">운영체제</td><td>Windows 10 이상 (64비트)</td><td>Windows 10 이상 (64비트)</td></tr>
+        <tr><td class="l">프로세서</td><td>i5-3570K 3.4GHz 4코어</td><td>i9-9900K 3.6GHz 8코어</td></tr>
+        <tr><td class="l">메모리</td><td>16GB RAM</td><td>32GB RAM</td></tr>
+        <tr><td class="l">그래픽</td><td>GeForce GTX 1050 (2GB)</td><td>GeForce RTX 2070</td></tr>
+        <tr><td class="l">DirectX</td><td>버전 11</td><td>버전 11</td></tr>
+        <tr><td class="l">저장공간</td><td>40GB</td><td>40GB</td></tr>
+      </table>
+
+      <p>표를 보시면 아시겠지만, <b>최소 사양에도 램이 16GB로 잡혀 있는 게</b> 눈에 띄어요. 요즘 나오는 생존·크래프팅 게임치고는 램 요구치가 꽤 높은 편이라, "8GB로 버틸 수 있지 않을까" 기대하셨던 분이라면 이 부분은 미리 확인해두시는 게 좋아요. 그래픽카드는 최소가 GTX 1050으로 오래된 보급형 카드도 커버가 되는데, 권장으로 가면 RTX 2070급까지 올라가니 거점을 크게 짓고 팰을 많이 풀어둘수록 그래픽카드 부담이 커진다고 보시면 됩니다.</p>
+
+      <h3>내 컴퓨터가 되는지, 이렇게 비교해보세요</h3>
+      <p>사양표만 봐서는 "이게 좋은 건지 나쁜 건지" 감이 잘 안 오실 수 있는데요, 우선 CPU와 그래픽카드 이름을 그대로 검색해서 내가 쓰는 부품이 표에 적힌 것보다 위인지 아래인지부터 확인하는 게 첫걸음이에요. 예를 들어 그래픽카드가 GTX 1050보다 신형이면 일단 최소 사양은 넘는 거고, RTX 2070급 이상이면 권장 사양까지 맞춘 거라고 보시면 됩니다.</p>
+      <p>노트북을 쓰시는 분은 특히 그래픽카드가 '모바일용(M 표기)'인지를 챙겨보시는 게 좋아요. 같은 이름이라도 노트북용 그래픽카드는 데스크톱용보다 성능이 낮게 나오는 경우가 많거든요. 그리고 램은 표에서 요구하는 용량보다 여유 있게 갖추는 편이 게임 실행 중 다른 프로그램(디스코드·브라우저 등)과 같이 켜둬도 버벅임이 덜하답니다.</p>
+
+      <h3>그래픽 옵션, 뭐부터 낮춰야 프레임이 오를까요</h3>
+      <p>사양이 애매하게 걸치는 분들을 위해 실제로 프레임에 영향을 크게 주는 옵션 위주로 정리해봤어요. 해외 성능 벤치마크를 찾아보니 프레임을 가장 많이 잡아먹는 옵션 1순위는 역시 그림자(Shadow) 품질이더라고요. 최하로 내리면 최고 대비 프레임이 <b>30% 가까이</b> 올라간다고 하니, 다른 옵션 만지기 전에 이것부터 먼저 낮춰보시는 게 가장 효율이 좋아요. 시야 거리를 낮추면 5~8% 정도, 이펙트 품질을 낮추면 8~9% 정도 오르는데 시야 거리는 멀리 있는 오브젝트가 늦게 나타나는 '팝인' 현상이 생길 수 있으니 참고하시고요, 반면 <b>잔디(풀) 디테일은 의외로 프레임에 미치는 영향이 미미하다</b>는 결과라 이건 취향껏 켜두셔도 괜찮아요. 정리하면 옵션을 하나하나 다 만지기보다는 <b>그림자 낮추기 + 업스케일링 켜기</b> 이 두 개만 챙겨도 가성비가 가장 좋습니다.</p>
+      <p>엔비디아 그래픽카드를 쓰신다면 DLSS(업스케일링)는 확실하게 지원되니 품질 모드로 켜두는 걸 추천드려요. 해상도를 살짝 낮춰서 렌더링한 뒤 다시 키워 보여주는 기술인데, 화질 손실은 거의 못 느끼면서 프레임은 <b>30~50% 정도</b> 벌 수 있다고 하네요. AMD 그래픽카드용 FSR도 옵션 메뉴에 있는지는 자료마다 얘기가 조금씩 달라서, 이 부분은 실제 게임 옵션 메뉴에서 직접 확인해보시는 게 정확할 것 같아요. 화면 모드는 창모드보다 전체화면으로 두는 게 유리하고, 모니터가 프리싱크·지싱크를 지원한다면 수직동기화(브이싱크)는 꺼두는 편이 입력 지연을 줄이는 데 도움이 된다고 해요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 그래픽 설정 메뉴(그림자·텍스처·잔디 항목) — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "이 메뉴에서 그림자부터 낮춰보시면 체감이 확 다를 거예요."</p>
+
+      <p>그 밖에 자잘하지만 도움 되는 팁도 있어요. 그래픽 드라이버를 최신 버전으로 업데이트해두는 건 기본이고, 방송이나 편집 프로그램처럼 CPU를 많이 잡아먹는 백그라운드 프로그램은 게임 켜기 전에 미리 꺼두는 게 좋습니다. 팰월드는 거점에 팰과 시설이 많이 쌓일수록 CPU 부담도 함께 늘어나는 구조라, 사양이 애매한 분이라면 거점 규모를 처음부터 너무 욕심내지 않는 것도 하나의 요령이에요.</p>
+
+      <h3>콘솔·휴대용은 어떤가요</h3>
+      <p>PC 말고 다른 기기로 하실 분들 위해 짧게 덧붙이면, PS5와 엑스박스 시리즈 X·S는 별도 사양 걱정 없이 정식 지원되는 플랫폼이에요. 그리고 스팀덱으로 즐기는 분들도 꽤 계실 텐데, 팰월드는 얼마 전 스팀덱 '베리파이드(공식 지원)' 등급까지 확정받았어요. 실제 플레이 체감은 소·중형 거점 기준으로 OLED가 35~40fps, LCD가 28~30fps 정도로 대략 알려져 있고, 거점이 커지면 20fps 초반대까지 떨어질 수 있다고 하네요. 배터리는 OLED 기준 대략 3.8시간 정도 버틴다고 하니 참고하시면 좋을 것 같아요. 다만 스팀덱은 화면이 작은 만큼 그래픽 설정을 중간이나 낮음 쪽으로 직접 맞춰야 쾌적하게 돌아간다고 하니, 기본값 그대로 켜기보다는 옵션을 한 번 손봐주시는 게 좋을 것 같아요.</p>
+
+      <h3>팰월드 1.0 PC 사양 정리</h3>
+      <p>핵심만 다시 챙겨보면, <b>① 최소 사양은 i5-3570K·16GB 램·GTX 1050급, 권장은 i9-9900K·32GB 램·RTX 2070급 ② 그래픽카드보다 램이 먼저 발목 잡힐 수 있으니 16GB부터 확인 ③ 프레임이 아쉬우면 그림자부터 낮추고 엔비디아면 DLSS 활용 ④ PS5·엑스박스는 얼리 액세스 때부터 함께해온 플랫폼, 스팀덱도 베리파이드 등급</b>이에요.</p>
+
+      <p>사양표만 미리 봐둬도 출시일에 우왕좌왕할 일이 줄어드니까, 정식 출시 전에 한 번씩 내 컴퓨터랑 대조해보시길 추천드려요. 저도 그림자 옵션 낮춰서 미리 세팅해뒀는데 확실히 한결 가볍더라고요. 7월 10일에 다들 새 월드에서 무사히 만나길 바라볼게요.</p>
+
+      <p><b>✔ 팰월드 같이 보기 좋은 내용</b><br>
+      〔내부링크 자리 — 팰월드 1.0 변경점·신규 팰 편 / 기존 유저 세이브 편 실제 post ID로 연결〕</p>
+
+      <p class="tags-line">#팰월드 #팰월드1.0 #팰월드사양 #팰월드최적화 #팰월드PC사양 #Palworld #팰월드7월10일 #팰월드스팀덱</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
