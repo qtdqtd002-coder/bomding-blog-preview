@@ -1,0 +1,394 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>아기 서큘레이터 추천 - BLDC 무소음 4종 비교</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 8px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td.l{text-align:left;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .coupang{display:block;text-align:center;background:#fef2ef;border:1px solid #f3b8a8;color:#c0392b;
+    text-decoration:none;padding:12px;border-radius:8px;font-weight:700;font-size:14.5px;margin:6px 0 22px;}
+  .coupang small{display:block;color:#9a6b62;font-weight:500;font-size:11.5px;margin-top:3px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 모바일 카드형 비교표 전환 */
+  @media(max-width:480px){
+    .tbl.cardify thead{display:none;}
+    .tbl.cardify, .tbl.cardify tbody, .tbl.cardify tr, .tbl.cardify td{display:block;width:100%;}
+    .tbl.cardify tr{border:1px solid var(--line);border-radius:8px;margin-bottom:12px;padding:6px 0;}
+    .tbl.cardify td{border:none;border-bottom:1px dashed var(--line);text-align:right;padding:7px 12px;position:relative;}
+    .tbl.cardify td:last-child{border-bottom:none;}
+    .tbl.cardify td[data-label]:before{content:attr(data-label);float:left;font-weight:700;color:#555;}
+    .tbl.cardify td.l{text-align:center;background:#f7f8fa;font-size:15px;}
+    .tbl.cardify td.l:before{content:none;}
+  }
+  /* 봄딩 인포그래픽 — 스크랩북/포스트잇 (핑크) */
+  .memo{background:#fff;border:2px solid #EC5C92;border-radius:14px;padding:14px 18px 16px;margin:8px 0 24px;box-shadow:1px 3px 10px rgba(236,92,146,.12);}
+  .memo .memo-h{display:inline-flex;align-items:center;gap:6px;background:#EC5C92;color:#fff;font-size:12.5px;font-weight:800;padding:4px 12px;border-radius:0 0 10px 10px;margin:-14px 0 10px 0;}
+  .memo .row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed #f3c9da;}
+  .memo .row:last-child{border-bottom:none;}
+  .memo .row .lab{flex:0 0 92px;font-size:12.5px;font-weight:800;color:#D63E7A;}
+  .memo .row .bar{flex:1;min-width:0;height:14px;background:#FFEFF5;border-radius:7px;overflow:hidden;position:relative;}
+  .memo .row .bar i{display:block;height:100%;background:#EC5C92;border-radius:7px;}
+  .memo .row .val{flex:0 0 auto;font-size:12px;color:#4a4047;font-weight:700;}
+  /* 하트 게이지 */
+  .heart-gauge{display:flex;align-items:center;gap:10px;padding:9px 0;}
+  .heart-gauge .lab2{flex:0 0 96px;font-size:12.5px;font-weight:800;color:#4a4047;}
+  .heart-gauge .hearts{font-size:15px;letter-spacing:2px;}
+  /* 네이버 붙여넣기 위젯 */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 육아</div>
+  <div class="post">
+    <div class="cat">육아 · 제품 비교</div>
+    <h1 class="title">아기 서큘레이터 추천, 조용하고 전기료 적은 BLDC 무소음 4종 비교해봤어요</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.07</span><span>· 육아</span></div>
+    <div class="notice">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+
+    <p>귤씨 낮잠 재우다가 에어컨만 틀면 너무 춥고, 그렇다고 안 틀자니 땀띠 날까 봐 걱정되고. <b>이 딜레마 겪어보신 분들 정말 많으실 거예요.</b> 그래서 요즘 육아 커뮤니티마다 빠지지 않고 나오는 게 바로 서큘레이터인데요, 그중에서도 <b>BLDC 모터 서큘레이터</b>가 아기 있는 집 필수템으로 자리 잡은 지 좀 됐죠.</p>
+
+    <p>일반 AC모터 선풍기는 낮은 단에서도 "웅~" 소리가 은근히 거슬리는데, BLDC 모터는 브러시 마찰 자체가 없어서 저단으로 갈수록 소음이 확 줄어요. 게다가 전기도 덜 먹어서 밤새 틀어놔도 부담이 적고요. 오늘은 <b>신일 · 샤오미 · 루메나 · 보네이도</b> 이렇게 인기 BLDC 서큘레이터 4종을, 소음·전기료·아기방 실사용 관점에서 나란히 놓고 비교해볼게요. 비교 기준은 <b>소비전력·회전 기능·안전망·타이머·가격대</b> 이렇게 다섯 가지로 잡았습니다.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 아기방에 서큘레이터 놓고 낮잠 재우는 분위기컷</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 아기방 침대 옆에 서큘레이터 놓인 모습, 비슷한 분위기 참고할 곳: <a href="https://www.pexels.com/search/baby%20room%20fan/" target="_blank">Pexels 무료스톡</a></div>
+    <p class="cap">직바람 안 닿는 자리에 놓고 벽 쪽으로 은은하게 순환만 시켜주는 게 포인트예요.</p>
+
+    <h2 class="sub">서큘레이터 고를 때 먼저 알아두면 좋은 것들</h2>
+    <p>제품 하나하나 보기 전에, <b>아기방 서큘레이터는 일반 거실용이랑 고르는 기준이 좀 달라요.</b> 첫째는 <b>저단 소음</b>이에요. 최고단 풍량이 세도 상관없고, 실제로 밤새 켜두는 1~2단에서 얼마나 조용한지가 진짜 스펙이거든요. 둘째는 <b>직바람 회피</b>. 아기한테 바람이 얼굴로 바로 가면 안 되니까 벽이나 천장으로 바람을 돌릴 수 있는 회전 기능(좌우·상하)이 있는지 봐야 하고요. 셋째는 <b>안전망 촘촘함</b>이에요. 기어다니는 시기 되면 손가락 넣기 딱 좋아서, 그릴 간격이 좁고 안전망이 분리돼서 세척까지 되는지가 중요하더라고요. 넷째는 <b>전기료</b>인데, BLDC라고 다 같은 소비전력이 아니라 모델별로 차이가 있어서 이것도 비교해봤어요.</p>
+
+    <div class="memo">
+      <span class="memo-h">♥ 이건 꼭 챙기세요!</span>
+      <div class="row"><span class="lab">저단 소음</span><div class="bar"><i style="width:92%"></i></div><span class="val">최우선</span></div>
+      <div class="row"><span class="lab">직바람 회피</span><div class="bar"><i style="width:80%"></i></div><span class="val">회전기능</span></div>
+      <div class="row"><span class="lab">안전망</span><div class="bar"><i style="width:75%"></i></div><span class="val">촘촘함+분리세척</span></div>
+      <div class="row"><span class="lab">전기료</span><div class="bar"><i style="width:60%"></i></div><span class="val">소비전력 W</span></div>
+    </div>
+
+    <h2 class="sub">신일 air S8 SIF-TW80T — 국내 대표 스테디셀러</h2>
+    <p>신일은 국내 서큘레이터 시장에서 <b>가장 오래되고 대중적인 브랜드</b>죠. air S8 SIF-TW80T는 그중에서도 스탠드형 대표 모델로, BLDC 모터에 <b>16단 풍량 조절</b>(초미풍부터 터보풍까지)이 되고 22.5cm 3엽 날개를 달았어요. 좌우회전에 상하각도조절(위로 73도·아래로 17도), 거기다 3D 입체회전까지 되니까 <b>벽 쪽으로 바람을 돌려서 아기한테 직바람 안 가게</b> 세팅하기가 편해요.</p>
+    <p>내세우는 특징은 역시 <b>내구성</b>이에요. 국내 A/S망이 탄탄하고 오래 써도 잔고장이 적다는 후기가 많고요, 안전망도 앞뒤 모두 분리되는 구조라 물로 씻어서 말리기 좋다는 점도 육아용으로 매력적이에요. 아쉬운 점이라면 최고단 소비전력이 <b>33W</b>로 이 비교군에서 중간 정도라 "초저전력"까지는 아니라는 것, 그리고 소음 데시벨을 제조사가 공식 수치로 공개하지 않고 있어서<span class="chk">🔍 공식 소음 dB 확인 필요</span> 정확한 저단 소음값은 아직 확인이 어렵다는 점이에요.</p>
+    <ul>
+      <li>👍 국내 브랜드 특유의 탄탄한 내구성 + A/S 편의성</li>
+      <li>👍 안전망 전후면 분리형이라 물세척 간편</li>
+      <li>👍 3D 입체회전으로 벽면 반사 바람 세팅 쉬움</li>
+      <li>⚠️ 공식 소음 dB 미공개 — 실사용 후기 기준 "저단 조용한 편"</li>
+      <li>⚠️ 소비전력 33W는 4종 중 두 번째로 높은 편</li>
+    </ul>
+
+    <!-- 이미지 이유: 신일 SIF-TW80T 제품 소개 문단 직후 실제 제품 사진 / 출처: 신일전자 공식 홈페이지 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/shinil_tw80t.jpg" width="494" height="549" alt="신일 air S8 SIF-TW80T 서큘레이터 제품 사진"></div>
+    <p class="cap">신일 특유의 베이지톤 스탠드형, 아기방 인테리어에도 무난하게 어울려요.</p>
+    <p class="src">이미지: <a href="https://shinil.co.kr/ko/product/product_view.html?p_no=78&p=1" target="_blank">신일전자 공식 홈페이지</a></p>
+
+    <a class="coupang" href="#" data-coupang="신일 air S8 SIF-TW80T">👉 신일 air S8 SIF-TW80T 쿠팡 최저가 보기<small>쿠팡 파트너스 링크 — 발행 시 교체</small></a>
+
+    <h2 class="sub">샤오미 미지아 스마트 에어 서큘레이터 6세대 — 가성비 스마트홈형</h2>
+    <p>샤오미 미지아 6세대(모델명 BPLDS06DM)는 <b>가성비와 스마트 기능</b>을 동시에 내세우는 모델이에요. 전용 앱으로 <b>100단 세밀 풍속 조절</b>이 되고, 수면풍·자연풍·에코풍(자동 풍속조절) 모드가 있어서 아기 재울 때 수면풍 모드로 은은하게 틀어두기 좋아요. 좌우회전+상하각도조절+높이조절까지 다 되고, 소비전력은 <b>28W</b>로 이 비교군 4종 중 가장 낮은 편이에요. 전기료 걱정 없이 밤새 틀어두기엔 이쪽이 유리하겠더라고요.</p>
+    <p>다만 아기방 관점에서는 몇 가지 확인할 게 있어요. 스마트 기능이 <b>와이파이 연결·앱 세팅이 기본 전제</b>라 처음 설정이 조금 번거로울 수 있고, 정품 병행수입/해외구매 유통 비중이 커서 <b>국내 A/S가 신일만큼 촘촘하지 않다</b>는 점은 감안해야 해요. 소음 dB도 공식 수치가 명확히 표기돼 있지 않아서<span class="chk">🔍 공식 소음 dB 확인 필요</span> 이 부분은 구매 전 최신 리뷰로 한 번 더 확인하시는 걸 추천드려요.</p>
+    <ul>
+      <li>👍 소비전력 28W로 4종 중 가장 낮음 — 전기료 부담 적음</li>
+      <li>👍 앱 100단 세밀 조절 + 수면풍 모드 별도 지원</li>
+      <li>👍 4종 중 가장 낮은 가격대(8~9만원대)</li>
+      <li>⚠️ 와이파이·앱 연동이 기본이라 초기 설정 번거로울 수 있음</li>
+      <li>⚠️ 해외구매 유통 비중 커 국내 A/S는 상대적으로 약함</li>
+    </ul>
+
+    <!-- 이미지 이유: 샤오미 미지아 6세대 제품 소개 문단 직후 실제 제품 사진 / 출처: 다나와 가격비교(제조사 제공 이미지) / 분류: A형 -->
+    <div class="imgwrap"><img src="img/xiaomi_bplds06dm.jpg" width="500" height="500" alt="샤오미 미지아 스마트 에어 서큘레이터 6세대 BPLDS06DM 제품 사진"></div>
+    <p class="cap">미니멀한 화이트 톤이라 어느 방에 놔도 튀지 않아요.</p>
+    <p class="src">이미지: <a href="https://prod.danawa.com/info/?pcode=16847297" target="_blank">다나와 가격비교</a></p>
+
+    <a class="coupang" href="#" data-coupang="샤오미 미지아 6세대">👉 샤오미 미지아 6세대 쿠팡 최저가 보기<small>쿠팡 파트너스 링크 — 발행 시 교체</small></a>
+
+    <h2 class="sub">루메나 FAN GRANDE 2 — 저소음 특화 프리미엄형</h2>
+    <p>루메나는 원래 캠핑 랜턴으로 유명한 브랜드인데, 이 FAN GRANDE 2는 <b>저소음을 정면으로 내세운 프리미엄 서큘레이터</b>예요. 15단 풍속 조절에 좌우 90도 회전(30/60/90도 단계 + 자동회전), 상하는 위로 80도·아래로 10도까지 꺾여서 <b>벽이나 천장 쪽으로 바람을 완전히 돌리기</b> 편해요. 제조사가 표방하는 건 <b>1단 초저소음 기술</b>인데, 1단 기준 하루 10시간 틀어도 월 전기료가 약 47원 수준이라고 밝히고 있어서<span class="chk">🔍 제조사 표기 전기료 산정 기준 확인 필요</span> 실사용 조건에 따라 체감은 다를 수 있어요.</p>
+    <p>안전망·날개·안전망 홀더까지 전부 분리해서 물로 씻을 수 있는 구조라 <b>위생 관리가 수월</b>한 것도 육아용으로 좋은 점이에요. 다만 <b>가격대가 4종 중 가장 높은 편</b>(15만원대 후반)이라 가성비보다는 저소음·세척 편의성에 예산을 더 쓰고 싶은 분께 맞는 선택이에요. 최대 소비전력은 36W로 4종 중 제일 높지만, 이건 최고단 터보 기준이고 아기방에서 실제로 쓰는 1~2단은 소비전력이 훨씬 낮아지는 구조예요.</p>
+    <ul>
+      <li>👍 1단 초저소음 기술 — 제조사가 저소음을 핵심 셀링포인트로 내세움</li>
+      <li>👍 안전망·날개 완전 분리형이라 물세척 가능, 위생 관리 편함</li>
+      <li>👍 좌우 90도+상하 80/10도로 회전 범위가 4종 중 가장 넓음</li>
+      <li>⚠️ 4종 중 가격대가 가장 높음</li>
+      <li>⚠️ 최고단 소비전력(36W)은 4종 중 제일 높음(단, 저단 위주 사용 시엔 무관)</li>
+    </ul>
+
+    <!-- 이미지 이유: 루메나 FAN GRANDE 2 제품 소개 문단 직후 실제 제품 사진 / 출처: 루메나 공식 홈페이지 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/lumena_fangrande2.jpg" width="700" height="900" alt="루메나 FAN GRANDE 2 BLDC 서큘레이터 제품 사진, 그레이·베이지 색상 두 종"></div>
+    <p class="cap">키가 큰 스탠드형(베이지)과 낮은 탁상형(그레이) 두 가지로 높이 조절해 쓸 수 있어요.</p>
+    <p class="src">이미지: <a href="https://lumena.co.kr/product/%EB%A3%A8%EB%A9%94%EB%82%98-%EB%AC%B4%EC%86%8C%EC%9D%8C-bldc-%EC%9C%A0%EC%84%A0-%EC%97%90%EC%96%B4-%EC%8D%A8%ED%81%98%EB%A0%88%EC%9D%B4%ED%84%B0-fan-grande-2/473/" target="_blank">루메나 공식 홈페이지</a></p>
+
+    <a class="coupang" href="#" data-coupang="루메나 FAN GRANDE 2">👉 루메나 FAN GRANDE 2 쿠팡 최저가 보기<small>쿠팡 파트너스 링크 — 발행 시 교체</small></a>
+
+    <h2 class="sub">보네이도 633DC — 회전 없이 바람으로만 순환시키는 원조 방식</h2>
+    <p>보네이도는 미국 브랜드인데, <b>회전 기능이 아예 없는 대신 특유의 볼텍스(vortex) 기류</b>로 방 전체 공기를 순환시키는 게 셀링포인트예요. 633DC는 탁상형 BLDC 모델로 사용 면적 35㎡(약 10평대) 정도를 커버하고, 미세 풍량 조절과 상하각도조절이 됩니다. <b>촘촘한 전면 그릴 디자인</b>에 쿨터치 기능까지 있어서, 아기가 만져도 뜨겁지 않고 그릴 틈새로 손가락이 잘 안 들어가는 구조라는 게 육아용으로 눈에 띄는 강점이에요.</p>
+    <p>소비전력은 <b>40W</b>로 이 비교군 4종 중 가장 높은데, 대신 공기이동거리가 길고 순환력이 강해서 넓은 방을 빠르게 돌리는 데는 강점이 있네요. 다만 <b>좌우로 고개를 돌리는 회전 기능 자체가 없고, 타이머·리모컨도 없다는 점</b>은 정직하게 짚고 가야 해요 — 보네이도는 "회전 안 해도 바람이 방 전체를 돈다"는 방식이라 회전이 없는 건 단점이라기보다 다른 설계 철학인데, 아기 침대 방향을 서큘레이터 정면에서 비껴 놓는 배치 감각이 필요하고, 밤에 자동으로 꺼지는 타이머가 없어서 아기방 야간용으론 이 부분을 감안하셔야 해요. 소음은 30~58dB 구간으로 알려져 있는데, 아기방에선 최저단 위주로 쓰게 되겠죠.</p>
+    <ul>
+      <li>👍 촘촘한 전면 그릴 + 쿨터치, 아기 손가락 안전 설계</li>
+      <li>👍 회전 없이도 방 전체 공기를 순환시키는 볼텍스 기류 방식 — 순환력 강함</li>
+      <li>⚠️ 좌우회전 기능 자체가 없음(직바람 회피는 배치로 해결해야 함)</li>
+      <li>⚠️ 타이머·리모컨 없음 — 야간 자동 꺼짐이 안 됨</li>
+      <li>⚠️ 소비전력 40W로 4종 중 가장 높음</li>
+    </ul>
+
+    <!-- 이미지 이유: 보네이도 633DC 제품 소개 문단 직후 실제 제품 사진 / 출처: 공기닷컴(보네이도코리아 수입정품 판매처) / 분류: A형 -->
+    <div class="imgwrap"><img src="img/vornado_633dc.jpg" width="400" height="400" alt="보네이도 633DC 서큘레이터 제품 사진"></div>
+    <p class="cap">둥근 원통형 그릴이 특징이라 다른 3종이랑 생김새부터 확 달라요.</p>
+    <p class="src">이미지: <a href="https://www.gonggi.com/goods/view?no=427" target="_blank">공기닷컴(보네이도코리아 수입정품)</a></p>
+
+    <a class="coupang" href="#" data-coupang="보네이도 633DC">👉 보네이도 633DC 쿠팡 최저가 보기<small>쿠팡 파트너스 링크 — 발행 시 교체</small></a>
+
+    <h2 class="sub">4종 한눈에 비교표</h2>
+    <p>네 제품 다 소개해드렸으니 이제 한눈에 비교할 수 있게 표로 정리해뒀네요. <b>소비전력·회전기능·안전망·타이머·가격대·추천도(★)</b> 순서로 담았고, 추천도는 <b>아기방 실사용(저단 소음·직바람 회피·안전망) 기준</b>으로 제가 매긴 참고용 점수예요.</p>
+    <table class="tbl cardify">
+      <thead><tr><th>제품명</th><th>소비전력</th><th>회전기능</th><th>안전망</th><th>타이머</th><th>가격대</th><th>추천도</th></tr></thead>
+      <tbody>
+        <tr><td class="l" data-label="제품명">신일 SIF-TW80T</td><td data-label="소비전력">33W</td><td data-label="회전기능">좌우+상하+3D</td><td data-label="안전망">전후 분리세척</td><td data-label="타이머">O</td><td data-label="가격대">11~14만원대</td><td data-label="추천도">★★★★☆</td></tr>
+        <tr><td class="l" data-label="제품명">샤오미 미지아 6세대</td><td data-label="소비전력">28W</td><td data-label="회전기능">좌우+상하+높이</td><td data-label="안전망">확인 필요</td><td data-label="타이머">O</td><td data-label="가격대">8~9만원대</td><td data-label="추천도">★★★★☆</td></tr>
+        <tr><td class="l" data-label="제품명">루메나 FAN GRANDE 2</td><td data-label="소비전력">36W(최고단)</td><td data-label="회전기능">좌우90+상하80/10</td><td data-label="안전망">완전분리 세척</td><td data-label="타이머">1/2/4/8h</td><td data-label="가격대">15~19만원대</td><td data-label="추천도">★★★★★</td></tr>
+        <tr><td class="l" data-label="제품명">보네이도 633DC</td><td data-label="소비전력">40W</td><td data-label="회전기능">없음(볼텍스 방식)</td><td data-label="안전망">촘촘+쿨터치</td><td data-label="타이머">X(없음)</td><td data-label="가격대">12~14만원대</td><td data-label="추천도">★★★☆☆</td></tr>
+      </tbody>
+    </table>
+    <p class="cap" style="margin-top:-14px;">가격은 작성 시점(2026년 7월) 기준 쿠팡·주요 유통채널 시세 대략치예요, 시기·판매처별로 달라질 수 있어요.</p>
+
+    <div class="heart-gauge"><span class="lab2">저단 소음 기대치</span><span class="hearts">💗💗💗💗🤍 루메나</span></div>
+    <div class="heart-gauge"><span class="lab2">전기료 부담</span><span class="hearts">💗💗💗💗💗 샤오미(적음)</span></div>
+    <div class="heart-gauge"><span class="lab2">안전망 신뢰도</span><span class="hearts">💗💗💗💗🤍 신일/보네이도</span></div>
+
+    <h2 class="sub">사기 전에 확인해두면 좋은 것 — 안전 체크리스트</h2>
+    <p>제품 스펙표만큼 중요한 게 <b>실제 배치·사용 습관</b>이더라고요. 아무리 좋은 서큘레이터라도 이 부분을 놓치면 의미가 없으니 구매 전에 한 번 체크해보세요.</p>
+    <div class="memo">
+      <span class="memo-h">♥ 안전 체크리스트</span>
+      <div class="row"><span class="lab" style="flex:0 0 auto;">✓</span><span style="font-size:13.5px;color:#4a4047;">아기 침대·이불에 바람이 직접 닿지 않는 위치에 놓기(벽 반사 활용)</span></div>
+      <div class="row"><span class="lab" style="flex:0 0 auto;">✓</span><span style="font-size:13.5px;color:#4a4047;">기어다니는 시기라면 안전망 틈이 촘촘한지, 손가락이 들어가지 않는지 확인</span></div>
+      <div class="row"><span class="lab" style="flex:0 0 auto;">✓</span><span style="font-size:13.5px;color:#4a4047;">전선 정리 — 아기 손 안 닿는 위치로, 케이블타이로 고정</span></div>
+      <div class="row"><span class="lab" style="flex:0 0 auto;">✓</span><span style="font-size:13.5px;color:#4a4047;">KC 인증(전기용품안전인증) 여부 구매 전 확인</span></div>
+    </div>
+
+    <h2 class="sub">이런 분께 추천드려요</h2>
+    <p>정답이 딱 하나 있는 건 아니고, 결국 우리 집 예산이랑 아기방 상황에 맞춰 고르는 게 제일이더라고요.</p>
+    <ul>
+      <li><b>전기료를 최우선으로 아끼고 싶다면</b> → 샤오미 미지아 6세대(28W, 가장 저렴)</li>
+      <li><b>저소음·세척 편의성에 예산을 더 쓰고 싶다면</b> → 루메나 FAN GRANDE 2</li>
+      <li><b>국내 A/S와 내구성이 제일 중요하다면</b> → 신일 air S8 SIF-TW80T</li>
+      <li><b>회전 없이도 방 전체를 순환시키는 독특한 기류가 궁금하다면</b> → 보네이도 633DC(단, 배치에 신경 써야 함)</li>
+    </ul>
+    <p>저희 집은 아직 넷 다 직접 써본 건 아니라서, 이번 여름엔 <b>저단 소음이 관건인 만큼 후기가 꾸준히 쌓이는 제품 위주로</b> 한 번 더 비교해보고 들일 생각이네요. 다들 이 폭염 무사히 넘기시고, 귤씨 같은 우리 아기들 시원하게 재워주는 여름 되면 좋겠습니다.</p>
+
+    <p><b>✔ 아기 여름용품 같이 보기 좋은 내용</b><br>
+    (같은 카테고리 기존 발행글의 네이버 post ID를 아직 확인하지 못해 링크는 비워뒀어요 — 발행 시 관련 글 URL 확인 후 연결 예정)</p>
+    <!-- 내부링크: 아기 여름 용품(쿨매트·모기장 등) 관련 기존글 post ID 확인 후 연결 -->
+
+    <div class="tags">#아기서큘레이터 #BLDC서큘레이터 #무소음서큘레이터 #신일서큘레이터 #샤오미서큘레이터 #루메나팬그란데 #보네이도633dc #아기방여름나기 #쿠팡파트너스</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>, 👉 쿠팡 링크는 본인 파트너스 URL 연결.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 8분):</b> 📷 <b>사진 5곳</b> 업로드(제품4+분위기1) · 👉 쿠팡 링크 4곳 본인 파트너스 URL. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 아기 서큘레이터 추천, 조용하고 전기료 적은 BLDC 무소음 4종 비교해봤어요</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p class="notice-line">[필수 고지] 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+
+      <p>귤씨 낮잠 재우다가 에어컨만 틀면 너무 춥고, 그렇다고 안 틀자니 땀띠 날까 봐 걱정되고. 이 딜레마 겪어보신 분들 정말 많으실 거예요. 그래서 요즘 육아 커뮤니티마다 빠지지 않고 나오는 게 바로 서큘레이터인데요, 그중에서도 <b>BLDC 모터 서큘레이터</b>가 아기 있는 집 필수템으로 자리 잡은 지 좀 됐죠.</p>
+
+      <p>일반 AC모터 선풍기는 낮은 단에서도 "웅~" 소리가 은근히 거슬리는데, BLDC 모터는 브러시 마찰 자체가 없어서 저단으로 갈수록 소음이 확 줄어요. 게다가 전기도 덜 먹어서 밤새 틀어놔도 부담이 적고요. 오늘은 <b>신일 · 샤오미 · 루메나 · 보네이도</b> 이렇게 인기 BLDC 서큘레이터 4종을, 소음·전기료·아기방 실사용 관점에서 나란히 놓고 비교해볼게요. 비교 기준은 <b>소비전력·회전 기능·안전망·타이머·가격대</b> 이렇게 다섯 가지로 잡았습니다.</p>
+
+      <p>📷 〔사진 자리 1〕 아기방에 서큘레이터 놓고 낮잠 재우는 분위기 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "직바람 안 닿는 자리에 놓고 벽 쪽으로 은은하게 순환만 시켜주는 게 포인트예요."</p>
+
+      <h3>서큘레이터 고를 때 먼저 알아두면 좋은 것들</h3>
+      <p>제품 하나하나 보기 전에, 아기방 서큘레이터는 일반 거실용이랑 고르는 기준이 좀 달라요. 첫째는 <b>저단 소음</b>이에요. 최고단 풍량이 세도 상관없고, 실제로 밤새 켜두는 1~2단에서 얼마나 조용한지가 진짜 스펙이거든요. 둘째는 <b>직바람 회피</b>. 아기한테 바람이 얼굴로 바로 가면 안 되니까 벽이나 천장으로 바람을 돌릴 수 있는 회전 기능(좌우·상하)이 있는지 봐야 하고요. 셋째는 <b>안전망 촘촘함</b>이에요. 기어다니는 시기 되면 손가락 넣기 딱 좋아서, 그릴 간격이 좁고 안전망이 분리돼서 세척까지 되는지가 중요하더라고요. 넷째는 <b>전기료</b>인데, BLDC라고 다 같은 소비전력이 아니라 모델별로 차이가 있어서 이것도 비교해봤어요.</p>
+      <ul>
+        <li>저단 소음 — 최우선으로 볼 것</li>
+        <li>직바람 회피 — 회전 기능(좌우·상하) 확인</li>
+        <li>안전망 — 촘촘함 + 분리세척 가능 여부</li>
+        <li>전기료 — 소비전력(W) 비교</li>
+      </ul>
+
+      <h3>신일 air S8 SIF-TW80T — 국내 대표 스테디셀러</h3>
+      <p>신일은 국내 서큘레이터 시장에서 가장 오래되고 대중적인 브랜드죠. air S8 SIF-TW80T는 그중에서도 스탠드형 대표 모델로, BLDC 모터에 <b>16단 풍량 조절</b>(초미풍부터 터보풍까지)이 되고 22.5cm 3엽 날개를 달았어요. 좌우회전에 상하각도조절(위로 73도·아래로 17도), 거기다 3D 입체회전까지 되니까 벽 쪽으로 바람을 돌려서 아기한테 직바람 안 가게 세팅하기가 편해요.</p>
+      <p>내세우는 특징은 역시 <b>내구성</b>이에요. 국내 A/S망이 탄탄하고 오래 써도 잔고장이 적다는 후기가 많고요, 안전망도 앞뒤 모두 분리되는 구조라 물로 씻어서 말리기 좋다는 점도 육아용으로 매력적이에요. 아쉬운 점이라면 최고단 소비전력이 <b>33W</b>로 이 비교군에서 중간 정도라 "초저전력"까지는 아니라는 것, 그리고 소음 데시벨을 제조사가 공식 수치로 공개하지 않고 있어서 정확한 저단 소음값은 아직 확인이 어렵다는 점이에요.</p>
+      <ul>
+        <li>국내 브랜드 특유의 탄탄한 내구성 + A/S 편의성</li>
+        <li>안전망 전후면 분리형이라 물세척 간편</li>
+        <li>3D 입체회전으로 벽면 반사 바람 세팅 쉬움</li>
+        <li>공식 소음 dB 미공개 — 실사용 후기 기준 "저단 조용한 편"</li>
+        <li>소비전력 33W는 4종 중 두 번째로 높은 편</li>
+      </ul>
+      <p>📷 〔사진 자리 2〕 신일 air S8 SIF-TW80T 제품 사진 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "신일 특유의 베이지톤 스탠드형, 아기방 인테리어에도 무난하게 어울려요."</p>
+      <p>👉 〔쿠팡 링크 자리 ①〕 신일 air S8 SIF-TW80T — 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
+
+      <h3>샤오미 미지아 스마트 에어 서큘레이터 6세대 — 가성비 스마트홈형</h3>
+      <p>샤오미 미지아 6세대(모델명 BPLDS06DM)는 가성비와 스마트 기능을 동시에 내세우는 모델이에요. 전용 앱으로 <b>100단 세밀 풍속 조절</b>이 되고, 수면풍·자연풍·에코풍(자동 풍속조절) 모드가 있어서 아기 재울 때 수면풍 모드로 은은하게 틀어두기 좋아요. 좌우회전+상하각도조절+높이조절까지 다 되고, 소비전력은 <b>28W</b>로 이 비교군 4종 중 가장 낮은 편이에요. 전기료 걱정 없이 밤새 틀어두기엔 이쪽이 유리하겠더라고요.</p>
+      <p>다만 아기방 관점에서는 몇 가지 확인할 게 있어요. 스마트 기능이 와이파이 연결·앱 세팅이 기본 전제라 처음 설정이 조금 번거로울 수 있고, 정품 병행수입/해외구매 유통 비중이 커서 국내 A/S가 신일만큼 촘촘하지 않다는 점은 감안해야 해요. 소음 dB도 공식 수치가 명확히 표기돼 있지 않아서 이 부분은 구매 전 최신 리뷰로 한 번 더 확인하시는 걸 추천드려요.</p>
+      <ul>
+        <li>소비전력 28W로 4종 중 가장 낮음 — 전기료 부담 적음</li>
+        <li>앱 100단 세밀 조절 + 수면풍 모드 별도 지원</li>
+        <li>4종 중 가장 낮은 가격대(8~9만원대)</li>
+        <li>와이파이·앱 연동이 기본이라 초기 설정 번거로울 수 있음</li>
+        <li>해외구매 유통 비중 커 국내 A/S는 상대적으로 약함</li>
+      </ul>
+      <p>📷 〔사진 자리 3〕 샤오미 미지아 6세대 제품 사진 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "미니멀한 화이트 톤이라 어느 방에 놔도 튀지 않아요."</p>
+      <p>👉 〔쿠팡 링크 자리 ②〕 샤오미 미지아 6세대 — 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
+
+      <h3>루메나 FAN GRANDE 2 — 저소음 특화 프리미엄형</h3>
+      <p>루메나는 원래 캠핑 랜턴으로 유명한 브랜드인데, 이 FAN GRANDE 2는 저소음을 정면으로 내세운 프리미엄 서큘레이터예요. 15단 풍속 조절에 좌우 90도 회전(30/60/90도 단계 + 자동회전), 상하는 위로 80도·아래로 10도까지 꺾여서 벽이나 천장 쪽으로 바람을 완전히 돌리기 편해요. 제조사가 표방하는 건 <b>1단 초저소음 기술</b>인데, 1단 기준 하루 10시간 틀어도 월 전기료가 약 47원 수준이라고 밝히고 있어서 실사용 조건에 따라 체감은 다를 수 있어요.</p>
+      <p>안전망·날개·안전망 홀더까지 전부 분리해서 물로 씻을 수 있는 구조라 위생 관리가 수월한 것도 육아용으로 좋은 점이에요. 다만 가격대가 4종 중 가장 높은 편(15만원대 후반)이라 가성비보다는 저소음·세척 편의성에 예산을 더 쓰고 싶은 분께 맞는 선택이에요. 최대 소비전력은 36W로 4종 중 제일 높지만, 이건 최고단 터보 기준이고 아기방에서 실제로 쓰는 1~2단은 소비전력이 훨씬 낮아지는 구조예요.</p>
+      <ul>
+        <li>1단 초저소음 기술 — 제조사가 저소음을 핵심 셀링포인트로 내세움</li>
+        <li>안전망·날개 완전 분리형이라 물세척 가능, 위생 관리 편함</li>
+        <li>좌우 90도+상하 80/10도로 회전 범위가 4종 중 가장 넓음</li>
+        <li>4종 중 가격대가 가장 높음</li>
+        <li>최고단 소비전력(36W)은 4종 중 제일 높음(단, 저단 위주 사용 시엔 무관)</li>
+      </ul>
+      <p>📷 〔사진 자리 4〕 루메나 FAN GRANDE 2 제품 사진 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "키가 큰 스탠드형(베이지)과 낮은 탁상형(그레이) 두 가지로 높이 조절해 쓸 수 있어요."</p>
+      <p>👉 〔쿠팡 링크 자리 ③〕 루메나 FAN GRANDE 2 — 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
+
+      <h3>보네이도 633DC — 회전 없이 바람으로만 순환시키는 원조 방식</h3>
+      <p>보네이도는 미국 브랜드인데, 회전 기능이 아예 없는 대신 특유의 볼텍스(vortex) 기류로 방 전체 공기를 순환시키는 게 셀링포인트예요. 633DC는 탁상형 BLDC 모델로 사용 면적 35㎡(약 10평대) 정도를 커버하고, 미세 풍량 조절과 상하각도조절이 됩니다. <b>촘촘한 전면 그릴 디자인</b>에 쿨터치 기능까지 있어서, 아기가 만져도 뜨겁지 않고 그릴 틈새로 손가락이 잘 안 들어가는 구조라는 게 육아용으로 눈에 띄는 강점이에요.</p>
+      <p>소비전력은 <b>40W</b>로 이 비교군 4종 중 가장 높은데, 대신 공기이동거리가 길고 순환력이 강해서 넓은 방을 빠르게 돌리는 데는 강점이 있네요. 다만 <b>좌우로 고개를 돌리는 회전 기능 자체가 없고, 타이머·리모컨도 없다는 점</b>은 정직하게 짚고 가야 해요 — 보네이도는 "회전 안 해도 바람이 방 전체를 돈다"는 방식이라 회전이 없는 건 단점이라기보다 다른 설계 철학인데, 아기 침대 방향을 서큘레이터 정면에서 비껴 놓는 배치 감각이 필요하고, 밤에 자동으로 꺼지는 타이머가 없어서 아기방 야간용으론 이 부분을 감안하셔야 해요. 소음은 30~58dB 구간으로 알려져 있는데, 아기방에선 최저단 위주로 쓰게 되겠죠.</p>
+      <ul>
+        <li>촘촘한 전면 그릴 + 쿨터치, 아기 손가락 안전 설계</li>
+        <li>회전 없이도 방 전체 공기를 순환시키는 볼텍스 기류 방식 — 순환력 강함</li>
+        <li>좌우회전 기능 자체가 없음(직바람 회피는 배치로 해결해야 함)</li>
+        <li>타이머·리모컨 없음 — 야간 자동 꺼짐이 안 됨</li>
+        <li>소비전력 40W로 4종 중 가장 높음</li>
+      </ul>
+      <p>📷 〔사진 자리 5〕 보네이도 633DC 제품 사진 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "둥근 원통형 그릴이 특징이라 다른 3종이랑 생김새부터 확 달라요."</p>
+      <p>👉 〔쿠팡 링크 자리 ④〕 보네이도 633DC — 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
+
+      <h3>4종 한눈에 비교표</h3>
+      <p>네 제품 다 소개해드렸으니 이제 한눈에 비교할 수 있게 표로 정리해뒀네요. 소비전력·회전기능·안전망·타이머·가격대·추천도(★) 순서로 담았고, 추천도는 아기방 실사용(저단 소음·직바람 회피·안전망) 기준으로 제가 매긴 참고용 점수예요.</p>
+      <table>
+        <tr><th>제품명</th><th>소비전력</th><th>회전기능</th><th>안전망</th><th>타이머</th><th>가격대</th><th>추천도</th></tr>
+        <tr><td class="l">신일 SIF-TW80T</td><td>33W</td><td>좌우+상하+3D</td><td>전후 분리세척</td><td>O</td><td>11~14만원대</td><td>★★★★☆</td></tr>
+        <tr><td class="l">샤오미 미지아 6세대</td><td>28W</td><td>좌우+상하+높이</td><td>확인 필요</td><td>O</td><td>8~9만원대</td><td>★★★★☆</td></tr>
+        <tr><td class="l">루메나 FAN GRANDE 2</td><td>36W(최고단)</td><td>좌우90+상하80/10</td><td>완전분리 세척</td><td>1/2/4/8h</td><td>15~19만원대</td><td>★★★★★</td></tr>
+        <tr><td class="l">보네이도 633DC</td><td>40W</td><td>없음(볼텍스 방식)</td><td>촘촘+쿨터치</td><td>X(없음)</td><td>12~14만원대</td><td>★★★☆☆</td></tr>
+      </table>
+      <p class="tnote-line">가격은 작성 시점(2026년 7월) 기준 쿠팡·주요 유통채널 시세 대략치예요, 시기·판매처별로 달라질 수 있어요.</p>
+
+      <h3>사기 전에 확인해두면 좋은 것 — 안전 체크리스트</h3>
+      <p>제품 스펙표만큼 중요한 게 실제 배치·사용 습관이더라고요. 아무리 좋은 서큘레이터라도 이 부분을 놓치면 의미가 없으니 구매 전에 한 번 체크해보세요.</p>
+      <ul>
+        <li>아기 침대·이불에 바람이 직접 닿지 않는 위치에 놓기(벽 반사 활용)</li>
+        <li>기어다니는 시기라면 안전망 틈이 촘촘한지, 손가락이 들어가지 않는지 확인</li>
+        <li>전선 정리 — 아기 손 안 닿는 위치로, 케이블타이로 고정</li>
+        <li>KC 인증(전기용품안전인증) 여부 구매 전 확인</li>
+      </ul>
+
+      <h3>이런 분께 추천드려요</h3>
+      <p>정답이 딱 하나 있는 건 아니고, 결국 우리 집 예산이랑 아기방 상황에 맞춰 고르는 게 제일이더라고요.</p>
+      <ul>
+        <li>전기료를 최우선으로 아끼고 싶다면 → 샤오미 미지아 6세대(28W, 가장 저렴)</li>
+        <li>저소음·세척 편의성에 예산을 더 쓰고 싶다면 → 루메나 FAN GRANDE 2</li>
+        <li>국내 A/S와 내구성이 제일 중요하다면 → 신일 air S8 SIF-TW80T</li>
+        <li>회전 없이도 방 전체를 순환시키는 독특한 기류가 궁금하다면 → 보네이도 633DC(단, 배치에 신경 써야 함)</li>
+      </ul>
+      <p>저희 집은 아직 넷 다 직접 써본 건 아니라서, 이번 여름엔 저단 소음이 관건인 만큼 후기가 꾸준히 쌓이는 제품 위주로 한 번 더 비교해보고 들일 생각이네요. 다들 이 폭염 무사히 넘기시고, 귤씨 같은 우리 아기들 시원하게 재워주는 여름 되면 좋겠습니다.</p>
+
+      <p class="tags-line">#아기서큘레이터 #BLDC서큘레이터 #무소음서큘레이터 #신일서큘레이터 #샤오미서큘레이터 #루메나팬그란데 #보네이도633dc #아기방여름나기 #쿠팡파트너스</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
