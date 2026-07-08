@@ -1,0 +1,222 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>로스트아크 차원술사 스킬트리 트라이포드 초보 세팅 총정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .gap{border:1px dashed #cbb;background:#fdf6f6;border-radius:6px;padding:10px 12px;font-size:12.5px;color:#8a5a5a;margin:4px 0 20px;line-height:1.6;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">로스트아크 차원술사 스킬트리 트라이포드 초보 세팅 총정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 7. 8.</span><span>· 게임</span></div>
+
+    <p>드디어 오늘 <b>차원술사</b>가 출시됐어요. 사전예약 걸어두고 기다리던 분들 많으셨을 텐데, 막상 캐릭터 만들고 접속하니까 "그래서 스킬은 뭐부터 찍어야 해?" 싶은 분들이 대부분이실 것 같더라고요. 저도 오전부터 붙잡고 만져봤는데, 신규 클래스 특유의 <b>스킬 배치·트라이포드 선택지가 낯설어서</b> 처음엔 좀 헤맸어요. 그래서 오늘은 사전예약·혜택 얘기는 다른 글에서 이미 정리했으니 그건 넘어가고, <b>딱 스킬트리랑 트라이포드, 초보 세팅</b>만 콕 집어서 풀어볼게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">이미지 자리: 차원술사 캐릭터 생성 화면 또는 시침·분침 무기를 든 전투 모션 컷</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://lostark.game.onstove.com/" target="_blank">로스트아크 공식 홈페이지</a> · 공식 유튜브 차원술사 소개 영상</div>
+    <p class="cap">차원 시계의 시침과 분침을 무기로 쓰는 모습, 딱 봐도 콘셉트가 확실하죠</p>
+
+    <h2 class="sub">차원술사, 어떤 클래스인지부터 짚고 가요</h2>
+    <p>세팅 얘기로 바로 들어가기 전에 클래스 정체성부터 한 번 짚을게요. 차원술사는 <b>스페셜리스트 계열의 남성 '요즈' 종족</b>을 기반으로 한 완전히 새로운 오리지널 클래스예요. 기존 직업의 남성 버전이 아니라 처음부터 새로 설계된 직업이라는 점이 포인트고요. 무기는 <b>차원 시계의 시침과 분침</b>인데, 이 둘을 검처럼 다루면서 시간과 공간을 비트는 환영술을 쓰는 콘셉트더라고요. 싸울수록 전투 속도와 스킬 회전율이 점점 빨라지는 '시간' 계열 감각과, 원하는 곳에 공간을 열어서 공격을 꽂아 넣는 '공간' 계열 감각이 스킬 전반에 깔려 있어요.</p>
+    <p>조작 난이도는 공식적으로 <b>진입이 쉬운 편으로 소개</b>됐어요. 공격 속도 증가나 쿨다운 감소, 이동기가 넉넉한 편이라 신규·복귀 유저가 첫 캐릭터로 잡기에도 부담이 적다고 하니, 로아를 처음 시작하시는 분들도 눈여겨볼 만해요.</p>
+
+    <h2 class="sub">시간 관리자 vs 공간 검사, 뭐가 다른 거예요?</h2>
+    <p>차원술사를 키우다 보면 제일 먼저 마주치는 갈림길이 바로 이거예요. 차원술사는 두 가지 전투 스타일을 지원하는데요, <b>'시간 관리자'</b>와 <b>'공간 검사'</b>로 나뉩니다. 이름만 보면 감이 잘 안 오실 수 있는데, 풀어보면 이렇습니다.</p>
+    <table class="tbl">
+      <tr><th>스타일</th><th>포지션</th><th>핵심 개념</th></tr>
+      <tr><td>시간 관리자</td><td>전방향 딜러</td><td>전투 중 특정 시점을 저장해뒀다가, 원하는 타이밍에 그 시점으로 되돌아간다. 체력·위치·쿨타임까지 저장 시점 상태로 복구</td></tr>
+      <tr><td>공간 검사</td><td>백어택 딜러</td><td>적의 취약 공간을 열어서, 정면에서 때려도 백어택 판정을 받을 수 있게 만든다</td></tr>
+    </table>
+    <p>단순하게 보면 <b>시간 관리자는 위치를 안 가리는 전방향 딜러</b>라 공격대에서 자리싸움 스트레스가 적고, <b>공간 검사는 백어택 효과를 스스로 만들어내는 딜러</b>라 백어택 조건을 놓쳐서 딜 손해 보는 일이 줄어드는 방향이에요. 어느 쪽이 초보에게 더 편하냐고 물으면, 개인적으로는 <b>포지션 신경 덜 쓰는 시간 관리자 쪽이 처음엔 조금 더 손이 편할 것 같다</b>는 인상이었어요. 다만 이건 제 체감이고, 둘 다 정식 출시 첫날이라 공략 커뮤니티에서도 아직 우열을 가리는 중이더라고요. <span class="chk">🔍 게임 내 실전 비교 필요</span></p>
+
+    <h2 class="sub">스킬은 크게 세 갈래로 나뉘어요</h2>
+    <p>차원술사 스킬트리를 처음 보면 스킬 아이콘 배치가 기존 클래스랑 달라서 낯설 수 있는데, 구조 자체는 어렵지 않아요. 공식적으로 스킬이 <b>시침 스킬 / 분침 스킬 / 결합 스킬</b>, 이렇게 세 갈래로 소개됐거든요.</p>
+    <p>우선 <b>시침 스킬</b>은 공간을 열거나 적을 묶어두는 쪽에 가까운 스킬들이고, <b>분침 스킬</b>은 찌르기 위주의 딜링 동작과 함께 공간을 찢거나 시간을 되돌리는 효과가 얹힌 스킬들이에요. 그리고 이 둘을 합쳐서 쓰는 게 <b>결합 스킬</b>인데, 시침과 분침 각각의 특성을 한 번에 발동시키는 개념으로 보시면 됩니다. 정리하면 시침이 '견제·컨트롤', 분침이 '딜링', 결합이 그 둘의 '합주' 정도로 이해하고 스킬창을 열어보시면 훨씬 감이 잡히실 거예요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">이미지 자리: 스킬창 UI 전체 화면(시침/분침/결합 스킬 배치가 보이는 컷)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 게임 내 스킬 트리 화면 캡처</div>
+    <p class="cap">아이콘 색이나 배치로 시침·분침 계열이 구분돼 있어서 익숙해지면 헷갈릴 일은 적어요</p>
+
+    <h2 class="sub">트라이포드는 어떻게 골라야 할까요?</h2>
+    <p>기존 클래스 하시던 분들은 아시겠지만, 트라이포드는 스킬 하나마다 <b>세 가지 강화 방향 중 하나를 골라 그 스킬의 성격을 바꾸는 시스템</b>이에요. 딜 증가형, 범위 확장형, 이동·생존 보조형 이렇게 갈리는 경우가 많은데요, 차원술사도 이 틀은 그대로 따라갑니다.</p>
+    <p>다만 <b>솔직히 말씀드리면, 오늘 막 출시된 클래스라 "이 스킬엔 무조건 이 트라이포드" 하는 확정 세팅은 아직 커뮤니티에서도 정립되기 전이에요.</b> 이건 거짓말을 안 하는 게 맞다고 생각해서 정직하게 말씀드릴게요. 그래서 지금 시점에서 초보 기준으로 드릴 수 있는 현실적인 조언은 이거예요. <b>우선 딜 증가·타격 횟수 증가 계열 트라이포드부터 찍어서 기본 딜 사이클을 만들고</b>, 그다음 파티 상황에 맞춰서 이동·생존 계열을 곁들이는 순서로 가시는 걸 추천드립니다. 저도 오늘은 일단 이 순서로 찍어두고, 앞으로 공대 도는 유저들 반응 보면서 자리 잡히는 걸 지켜보고 있어요.</p>
+    <div class="gap">✍️ 직접 조사·입력 필요 — 스킬별 구체적인 트라이포드 이름·추천 옵션은 게임 내 스킬 정보 창에서 직접 확인 후 채워 넣으시면 좋아요(출시 직후라 스킬명 자체가 아직 커뮤니티에 완전히 정리되지 않았어요).</div>
+
+    <h2 class="sub">아크 패시브랑 각인, 초보는 뭘 봐야 하나요?</h2>
+    <p>로스트아크는 스킬트리 말고도 <b>아크 패시브</b>라는 성장 시스템이 하나 더 있죠. 진화·깨달음·도약, 이렇게 세 탭으로 나뉘어서 캐릭터 전투 레벨과 장비에서 얻는 포인트를 투자하는 구조인데요, 차원술사도 당연히 이 틀 안에 들어와요. 다만 <b>차원술사 전용 아크 패시브 옵션 이름이나 각인 조합은 지금 시점엔 저도 확답을 드리기가 조심스러워요.</b> 출시 당일이라 아크 그리드 코어(질서·혼돈) 쪽 세팅도 유저들이 이제 막 만져보기 시작한 단계거든요.</p>
+    <p>그래서 초보 기준으로 드릴 수 있는 현실적인 팁은, <b>일단 게임 내 '추천 스킬' 기능을 켜보시라는 것</b>이에요. 공식적으로 7월 15일부터 스킬 통계 기반 추천 기능이 제공된다고 안내됐으니, 그때부터는 실제로 많이 쓰는 세팅을 참고하기가 훨씬 수월해질 거예요. 그전까지는 <b>딜 계열 각인·질서 코어 위주로 무난하게 맞춰두고</b>, 통계가 열리면 그때 한 번 더 다듬는 식으로 접근하시는 걸 권해드려요. 확정 정보인 척 티어를 단정하는 것보단, 지금은 다 같이 맞춰가는 시기라고 보시는 게 마음 편하실 거예요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">이미지 자리: 아크 그리드/각인 세팅 화면 캡처</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 게임 내 아크 그리드 화면 또는 <a href="https://m-lostark.game.onstove.com/GameGuide/Pages/%EC%95%84%ED%81%AC%20%EA%B7%B8%EB%A6%AC%EB%93%9C" target="_blank">공식 아크 그리드 가이드</a> 캡처</div>
+    <p class="cap">질서·혼돈 코어는 기존 클래스랑 틀은 같으니 아예 낯설진 않으실 거예요</p>
+
+    <h2 class="sub">출시 첫날, 초보 세팅은 이렇게 접근하면 돼요</h2>
+    <p>정리해 보면 오늘 시점에서 차원술사 초보 세팅은 <b>완성형을 만드는 게 아니라 방향만 잡아두는 개념</b>으로 접근하시는 게 맞아요. 우선 <b>시간 관리자와 공간 검사 중 어느 쪽이 내 플레이 스타일에 편한지</b>부터 골라보시고, 스킬은 시침·분침·결합 구조를 이해한 다음 딜 사이클이 나오는 스킬 위주로 트라이포드를 채워나가시면 됩니다. 각인·아크 패시브는 일단 무난한 방향으로 맞춰두시고, <b>7월 15일 추천 스킬 통계가 열리면 그때 세팅을 한 번 더 다듬는 흐름</b>으로 가시는 게 지금은 가장 현실적이지 싶어요.</p>
+    <p>참고로 지금 성장 지원 이벤트로 아이템 레벨 1,720까지 받쳐주는 상황이라, 세팅을 완벽하게 못 맞췄다고 너무 조급해하실 필요는 없어요. 어차피 초반엔 다 같이 시행착오 겪는 시기니까요. 저도 오늘 하루 만져본 소감 위주로 적었는데, 이번 주말 지나면서 정립되는 세팅들 있으면 그때 한 번 더 다뤄볼게요.</p>
+
+    <p><b>✔ 로스트아크 차원술사 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/" target="_blank">로스트아크 차원술사 사전예약, 복귀·신규 혜택 총정리</a><br>
+    <!-- 내부링크: 그 외 차원술사 관련 후속 글 있으면 post ID 확인 후 연결 --></p>
+
+    <p>오늘은 딱 스킬트리랑 트라이포드, 초보 세팅 흐름만 정리해봤어요. 신규 클래스 첫날이라 다들 감 잡아가는 중일 텐데, 위 순서대로만 잡아두셔도 초반 진행엔 크게 무리 없을 것 같아요.</p>
+
+    <div class="tags">#로스트아크 #차원술사 #차원술사스킬트리 #차원술사트라이포드 #차원술사초보세팅 #로아차원술사 #로스트아크신규클래스 #로아공략</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 5분):</b> 📷 <b>사진 3곳</b> 업로드 · ✍️ 트라이포드·각인 세팅 정보 확인 후 채우기 · ✔ 내부링크 post ID 연결.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 로스트아크 차원술사 스킬트리 트라이포드 초보 세팅 총정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>드디어 오늘 <b>차원술사</b>가 출시됐어요. 사전예약 걸어두고 기다리던 분들 많으셨을 텐데, 막상 캐릭터 만들고 접속하니까 "그래서 스킬은 뭐부터 찍어야 해?" 싶은 분들이 대부분이실 것 같더라고요. 저도 오전부터 붙잡고 만져봤는데, 신규 클래스 특유의 <b>스킬 배치·트라이포드 선택지가 낯설어서</b> 처음엔 좀 헤맸어요. 그래서 오늘은 사전예약·혜택 얘기는 다른 글에서 이미 정리했으니 그건 넘어가고, <b>딱 스킬트리랑 트라이포드, 초보 세팅</b>만 콕 집어서 풀어볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 차원술사 캐릭터 생성 화면 또는 시침·분침 무기를 든 전투 모션 컷 — 네이버에서 직접 업로드</p>
+      <p class="tnote-line">└ 캡션 추천: "차원 시계의 시침과 분침을 무기로 쓰는 모습, 딱 봐도 콘셉트가 확실하죠"</p>
+
+      <h3>차원술사, 어떤 클래스인지부터 짚고 가요</h3>
+      <p>세팅 얘기로 바로 들어가기 전에 클래스 정체성부터 한 번 짚을게요. 차원술사는 <b>스페셜리스트 계열의 남성 '요즈' 종족</b>을 기반으로 한 완전히 새로운 오리지널 클래스예요. 기존 직업의 남성 버전이 아니라 처음부터 새로 설계된 직업이라는 점이 포인트고요. 무기는 <b>차원 시계의 시침과 분침</b>인데, 이 둘을 검처럼 다루면서 시간과 공간을 비트는 환영술을 쓰는 콘셉트더라고요. 싸울수록 전투 속도와 스킬 회전율이 점점 빨라지는 '시간' 계열 감각과, 원하는 곳에 공간을 열어서 공격을 꽂아 넣는 '공간' 계열 감각이 스킬 전반에 깔려 있어요.</p>
+      <p>조작 난이도는 공식적으로 <b>진입이 쉬운 편으로 소개</b>됐어요. 공격 속도 증가나 쿨다운 감소, 이동기가 넉넉한 편이라 신규·복귀 유저가 첫 캐릭터로 잡기에도 부담이 적다고 하니, 로아를 처음 시작하시는 분들도 눈여겨볼 만해요.</p>
+
+      <h3>시간 관리자 vs 공간 검사, 뭐가 다른 거예요?</h3>
+      <p>차원술사를 키우다 보면 제일 먼저 마주치는 갈림길이 바로 이거예요. 차원술사는 두 가지 전투 스타일을 지원하는데요, <b>'시간 관리자'</b>와 <b>'공간 검사'</b>로 나뉩니다. 이름만 보면 감이 잘 안 오실 수 있는데, 풀어보면 이렇습니다.</p>
+      <table>
+        <tr><th>스타일</th><th>포지션</th><th>핵심 개념</th></tr>
+        <tr><td class="l">시간 관리자</td><td>전방향 딜러</td><td>전투 중 특정 시점을 저장해뒀다가, 원하는 타이밍에 그 시점으로 되돌아간다. 체력·위치·쿨타임까지 저장 시점 상태로 복구</td></tr>
+        <tr><td class="l">공간 검사</td><td>백어택 딜러</td><td>적의 취약 공간을 열어서, 정면에서 때려도 백어택 판정을 받을 수 있게 만든다</td></tr>
+      </table>
+      <p>단순하게 보면 <b>시간 관리자는 위치를 안 가리는 전방향 딜러</b>라 공격대에서 자리싸움 스트레스가 적고, <b>공간 검사는 백어택 효과를 스스로 만들어내는 딜러</b>라 백어택 조건을 놓쳐서 딜 손해 보는 일이 줄어드는 방향이에요. 어느 쪽이 초보에게 더 편하냐고 물으면, 개인적으로는 <b>포지션 신경 덜 쓰는 시간 관리자 쪽이 처음엔 조금 더 손이 편할 것 같다</b>는 인상이었어요. 다만 이건 제 체감이고, 둘 다 정식 출시 첫날이라 공략 커뮤니티에서도 아직 우열을 가리는 중이더라고요.</p>
+
+      <h3>스킬은 크게 세 갈래로 나뉘어요</h3>
+      <p>차원술사 스킬트리를 처음 보면 스킬 아이콘 배치가 기존 클래스랑 달라서 낯설 수 있는데, 구조 자체는 어렵지 않아요. 공식적으로 스킬이 <b>시침 스킬 / 분침 스킬 / 결합 스킬</b>, 이렇게 세 갈래로 소개됐거든요.</p>
+      <p>우선 <b>시침 스킬</b>은 공간을 열거나 적을 묶어두는 쪽에 가까운 스킬들이고, <b>분침 스킬</b>은 찌르기 위주의 딜링 동작과 함께 공간을 찢거나 시간을 되돌리는 효과가 얹힌 스킬들이에요. 그리고 이 둘을 합쳐서 쓰는 게 <b>결합 스킬</b>인데, 시침과 분침 각각의 특성을 한 번에 발동시키는 개념으로 보시면 됩니다. 정리하면 시침이 '견제·컨트롤', 분침이 '딜링', 결합이 그 둘의 '합주' 정도로 이해하고 스킬창을 열어보시면 훨씬 감이 잡히실 거예요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 스킬창 UI 전체 화면(시침/분침/결합 스킬 배치가 보이는 컷) — 네이버에서 직접 업로드</p>
+      <p class="tnote-line">└ 캡션 추천: "아이콘 색이나 배치로 시침·분침 계열이 구분돼 있어서 익숙해지면 헷갈릴 일은 적어요"</p>
+
+      <h3>트라이포드는 어떻게 골라야 할까요?</h3>
+      <p>기존 클래스 하시던 분들은 아시겠지만, 트라이포드는 스킬 하나마다 <b>세 가지 강화 방향 중 하나를 골라 그 스킬의 성격을 바꾸는 시스템</b>이에요. 딜 증가형, 범위 확장형, 이동·생존 보조형 이렇게 갈리는 경우가 많은데요, 차원술사도 이 틀은 그대로 따라갑니다.</p>
+      <p>다만 <b>솔직히 말씀드리면, 오늘 막 출시된 클래스라 "이 스킬엔 무조건 이 트라이포드" 하는 확정 세팅은 아직 커뮤니티에서도 정립되기 전이에요.</b> 이건 거짓말을 안 하는 게 맞다고 생각해서 정직하게 말씀드릴게요. 그래서 지금 시점에서 초보 기준으로 드릴 수 있는 현실적인 조언은 이거예요. <b>우선 딜 증가·타격 횟수 증가 계열 트라이포드부터 찍어서 기본 딜 사이클을 만들고</b>, 그다음 파티 상황에 맞춰서 이동·생존 계열을 곁들이는 순서로 가시는 걸 추천드립니다. 저도 오늘은 일단 이 순서로 찍어두고, 앞으로 공대 도는 유저들 반응 보면서 자리 잡히는 걸 지켜보고 있어요.</p>
+      <p class="ph">✍️ 〔직접 조사·입력 필요〕 스킬별 구체적인 트라이포드 이름·추천 옵션은 게임 내 스킬 정보 창에서 직접 확인 후 채워 넣으시면 좋아요(출시 직후라 스킬명 자체가 아직 커뮤니티에 완전히 정리되지 않았어요).</p>
+
+      <h3>아크 패시브랑 각인, 초보는 뭘 봐야 하나요?</h3>
+      <p>로스트아크는 스킬트리 말고도 <b>아크 패시브</b>라는 성장 시스템이 하나 더 있죠. 진화·깨달음·도약, 이렇게 세 탭으로 나뉘어서 캐릭터 전투 레벨과 장비에서 얻는 포인트를 투자하는 구조인데요, 차원술사도 당연히 이 틀 안에 들어와요. 다만 <b>차원술사 전용 아크 패시브 옵션 이름이나 각인 조합은 지금 시점엔 저도 확답을 드리기가 조심스러워요.</b> 출시 당일이라 아크 그리드 코어(질서·혼돈) 쪽 세팅도 유저들이 이제 막 만져보기 시작한 단계거든요.</p>
+      <p>그래서 초보 기준으로 드릴 수 있는 현실적인 팁은, <b>일단 게임 내 '추천 스킬' 기능을 켜보시라는 것</b>이에요. 공식적으로 7월 15일부터 스킬 통계 기반 추천 기능이 제공된다고 안내됐으니, 그때부터는 실제로 많이 쓰는 세팅을 참고하기가 훨씬 수월해질 거예요. 그전까지는 <b>딜 계열 각인·질서 코어 위주로 무난하게 맞춰두고</b>, 통계가 열리면 그때 한 번 더 다듬는 식으로 접근하시는 걸 권해드려요. 확정 정보인 척 티어를 단정하는 것보단, 지금은 다 같이 맞춰가는 시기라고 보시는 게 마음 편하실 거예요.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 아크 그리드/각인 세팅 화면 캡처 — 네이버에서 직접 업로드</p>
+      <p class="tnote-line">└ 캡션 추천: "질서·혼돈 코어는 기존 클래스랑 틀은 같으니 아예 낯설진 않으실 거예요"</p>
+
+      <h3>출시 첫날, 초보 세팅은 이렇게 접근하면 돼요</h3>
+      <p>정리해 보면 오늘 시점에서 차원술사 초보 세팅은 <b>완성형을 만드는 게 아니라 방향만 잡아두는 개념</b>으로 접근하시는 게 맞아요. 우선 <b>시간 관리자와 공간 검사 중 어느 쪽이 내 플레이 스타일에 편한지</b>부터 골라보시고, 스킬은 시침·분침·결합 구조를 이해한 다음 딜 사이클이 나오는 스킬 위주로 트라이포드를 채워나가시면 됩니다. 각인·아크 패시브는 일단 무난한 방향으로 맞춰두시고, <b>7월 15일 추천 스킬 통계가 열리면 그때 세팅을 한 번 더 다듬는 흐름</b>으로 가시는 게 지금은 가장 현실적이지 싶어요.</p>
+      <p>참고로 지금 성장 지원 이벤트로 아이템 레벨 1,720까지 받쳐주는 상황이라, 세팅을 완벽하게 못 맞췄다고 너무 조급해하실 필요는 없어요. 어차피 초반엔 다 같이 시행착오 겪는 시기니까요. 저도 오늘 하루 만져본 소감 위주로 적었는데, 이번 주말 지나면서 정립되는 세팅들 있으면 그때 한 번 더 다뤄볼게요.</p>
+
+      <p><b>✔ 로스트아크 차원술사 같이 보기 좋은 내용</b><br>
+      · 〔내부링크 자리〕 로스트아크 차원술사 사전예약, 복귀·신규 혜택 총정리 — 기존 글 URL 연결</p>
+
+      <p>오늘은 딱 스킬트리랑 트라이포드, 초보 세팅 흐름만 정리해봤어요. 신규 클래스 첫날이라 다들 감 잡아가는 중일 텐데, 위 순서대로만 잡아두셔도 초반 진행엔 크게 무리 없을 것 같아요.</p>
+
+      <p class="tags-line">#로스트아크 #차원술사 #차원술사스킬트리 #차원술사트라이포드 #차원술사초보세팅 #로아차원술사 #로스트아크신규클래스 #로아공략</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
