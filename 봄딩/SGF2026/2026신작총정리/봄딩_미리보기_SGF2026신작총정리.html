@@ -1,0 +1,273 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SGF 2026 신작 총정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  .gcard{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:6px 0 22px;background:linear-gradient(135deg,#fafbfc,#f3f5f7);}
+  .gcard .gtag{display:inline-block;font-size:11.5px;font-weight:800;color:#fff;background:#5c6bc0;border-radius:4px;padding:2px 8px;margin-bottom:8px;}
+  .gcard .gtag.kr{background:#e15b64;}
+  .gcard .gname{font-size:17px;font-weight:800;margin-bottom:4px;}
+  .gcard .gdev{font-size:12.5px;color:var(--sub);}
+  /* ===== 네이버 붙여넣기 위젯 ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">SGF2026 서머게임페스트 신작 총정리, 이번엔 진짜 볼 게 많더라고요</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.10</span><span>· 게임</span></div>
+
+    <p>매년 6월 초만 되면 게임 좀 하는 사람들 타임라인이 난리가 나잖아요. <b>서머 게임 페스트, 줄여서 SGF</b> 얘기예요. 저도 6월 초에 밤새 트레일러 챙겨보느라 잠을 좀 설쳤는데요, 벌써 한 달이 넘게 지났는데도 그때 나온 신작들 얘기가 아직도 커뮤니티에 도는 거 보면 이번 SGF2026은 확실히 알맹이가 있었던 것 같아요.</p>
+
+    <p>정리하는 김에 저도 나온 것들 다시 쭉 훑어봤는데, 그냥 이름만 나열하기보다 <b>실제로 공개된 게 확인되는 것들</b> 위주로만 골랐어요. 소문만 무성하고 확인이 안 되는 것들은 이번 글엔 아예 안 넣었으니 그 점은 참고해 주세요. 개발사·퍼블리셔도 헷갈리기 쉬운 부분이라 이번엔 하나하나 구분해서 짚어볼게요.</p>
+
+    <h2 class="sub">스텔라 블레이드: 블러드 레인 — 한국 게이머라면 이거부터죠</h2>
+    <div class="gcard">
+      <span class="gtag kr">한국 개발</span>
+      <div class="gname">스텔라 블레이드: 블러드 레인</div>
+      <div class="gdev">개발·퍼블리싱 시프트업</div>
+    </div>
+    <p>이번 SGF에서 국내 반응이 제일 뜨거웠던 건 역시 <b>개발·퍼블리싱을 모두 맡은 시프트업</b>의 '스텔라 블레이드' 후속작, '블러드 레인'이었어요. 전작이 2024년에 나와서 누적 판매량 600만 장을 찍었으니 후속작 소식이 안 궁금할 수가 없죠.</p>
+    <p>공개된 트레일러는 3분 30초 분량의 실제 인게임 플레이 영상이었는데요, 비 내리는 도시 거리에 증기 기관차가 지나가고 시민들이 갑자기 괴물로 변이하면서 전투가 시작되는 흐름이었어요. <b>새로운 주인공 '이비'</b>가 등장하는데, 전작 이브가 검 위주였다면 이비는 건틀릿을 활용한 격투 액션에 역수검까지 섞어 쓰는 모습이라 확실히 결이 다르더라고요. 발매 플랫폼과 시기는 아직 추후 공개 예정이에요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 블러드 레인 트레일러 중 이비의 건틀릿 격투 장면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 참고할 곳: <a href="https://www.youtube.com/watch?v=4aVoaSixc0E" target="_blank">공식 리빌 트레일러(유튜브)</a></div>
+    <p class="cap">비 오는 도심에서 시작되는 전투 연출, 확실히 시프트업답다 싶었어요.</p>
+
+    <h2 class="sub">파이널 판타지 7 레벨레이션 — 리메이크 3부작 완결편</h2>
+    <div class="gcard">
+      <span class="gtag">대작 IP</span>
+      <div class="gname">파이널 판타지 7 레벨레이션</div>
+      <div class="gdev">개발·퍼블리싱 스퀘어에닉스</div>
+    </div>
+    <p>파판7 리메이크 시리즈를 따라온 분들이라면 이번 SGF 최대 이벤트가 이거였을 거예요. <b>개발·퍼블리싱을 맡은 스퀘어에닉스</b>가 파이널 판타지 7 리메이크 3부작의 마지막 챕터 '레벨레이션'을 정식으로 공개했거든요. 트레일러에서는 비행선 하이윈드를 타고 광활한 오픈월드를 누비는 장면이 나왔고, 빈센트 발렌타인과 시드 하이윈드가 파티 캐릭터로 함께한다는 것도 확인됐어요.</p>
+    <p>전투는 실시간 액션과 메뉴 조작을 오가면서 캐릭터를 자유롭게 바꿔 쓰는 방식이라고 하고, 발매는 <b>2027년 봄으로 예정</b>돼 있어요. 이번엔 PC·PS5·엑스박스 시리즈·닌텐도 스위치2까지 전 플랫폼 동시 발매라는 점도 눈에 띄었습니다.</p>
+
+    <h2 class="sub">바이오하자드 RE: 베로니카, 그 명작이 돌아온다고요?</h2>
+    <div class="gcard">
+      <span class="gtag">대작 IP</span>
+      <div class="gname">바이오하자드 RE: 베로니카</div>
+      <div class="gdev">개발·퍼블리싱 캡콤</div>
+    </div>
+    <p>2000년에 나온 '바이오하자드 코드: 베로니카'를 <b>개발·퍼블리싱을 맡은 캡콤</b>이 RE 엔진으로 다시 만든다는 소식도 이번 SGF의 큰 화제였어요. 클레어와 크리스 레드필드 중심의 원작 스토리는 그대로 가져가되, <b>그래픽과 게임 시스템은 완전히 새로 짠다</b>고 하더라고요. 플랫폼은 PS5·엑스박스 시리즈X·스위치2·PC로, 출시는 2027년으로 확인됐어요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: RE:베로니카 리메이크 트레일러 캡처</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 참고할 곳: <a href="https://www.gamespot.com/articles/final-fantasy-7-revelation-gets-its-first-trailer-at-summer-game-fest/" target="_blank">GameSpot SGF 특집 기사</a></div>
+    <p class="cap">원작 팬이면 이 소식 하나로 트위터 타임라인 뒤집혔을 각이에요.</p>
+
+    <h2 class="sub">길드워 3 — 엔씨소프트 아레나넷이 13년 만에</h2>
+    <div class="gcard">
+      <span class="gtag kr">한국 개발사</span>
+      <div class="gname">길드워 3</div>
+      <div class="gdev">개발 아레나넷(엔씨소프트 산하)</div>
+    </div>
+    <p><b>엔씨소프트 산하 개발사인 아레나넷</b>이 2012년 길드워2 이후 처음으로 정식 후속작 '길드워 3'를 공개했어요. 이번 작품은 오리지널 길드워보다 천 년도 더 전, '오르'라는 지역을 배경으로 하는데요. 우리가 알던 폐허가 된 오르가 아니라 신비로운 '바엘 정령'들이 사는 야생 그대로의 오르라는 설정이 신선하더라고요.</p>
+    <p>가장 눈에 띈 건 <b>플랫폼</b>이죠. 시리즈 최초로 콘솔, 그것도 PS5로 발매된다고 확인됐고 PC 발매도 동시에 진행돼요. 첫 베타 테스트는 2027년 가을로 예정돼 있고, 가격이나 정확한 출시일 같은 세부 정보는 앞으로 더 공개된다고 하니 관심 있으신 분들은 길드워3 공식 사이트나 스팀 위시리스트를 걸어두시면 좋을 것 같아요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 길드워3 신규 지역 '오르' 트레일러 캡처</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 참고할 곳: 길드워3 공식 사이트 트레일러 페이지</div>
+    <p class="cap">13년 만의 후속작이라니, 시리즈 팬이면 그 자체로 감격이겠더라고요.</p>
+
+    <h2 class="sub">아이온 2, 9월 글로벌 출시 확정</h2>
+    <div class="gcard">
+      <span class="gtag kr">한국 개발사</span>
+      <div class="gname">아이온 2</div>
+      <div class="gdev">개발·퍼블리싱 엔씨소프트</div>
+    </div>
+    <p><b>개발·퍼블리싱을 맡은 엔씨소프트</b>의 또 다른 신작 '아이온 2'도 이번 SGF에서 신규 트레일러를 선보였어요. 가장 중요한 소식은 <b>2026년 9월 글로벌 출시가 정식으로 확정</b>됐다는 건데요, 정확한 날짜는 아직 안 나왔지만 북미·남미·유럽·아시아 주요 지역에 동시 출시된다는 게 이번에 확인됐어요. 서비스는 스팀과 엔씨 자체 플랫폼인 퍼플을 통한 PC 버전으로 진행되고요.</p>
+    <p>새로 공개된 영상에서는 원작 아이온의 뼈대였던 <b>천족과 마족의 대립 구도, 비행 전투</b>가 현대적인 MMORPG 문법으로 확장된 모습이 담겼는데, 진영 간 경쟁 구조를 그대로 계승하면서도 전투 연출이 훨씬 화려해졌더라고요. 엔씨는 SGF 기간 중 별도 비공개 시연 행사도 열어서 해외 매체·크리에이터 대상으로 실제 플레이를 보여줬다고 하니 조만간 플레이 영상 후기들도 더 풀릴 것 같습니다.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 아이온2 신규 트레일러 중 비행 전투 장면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 참고할 곳: <a href="https://www.inven.co.kr/webzine/news/?news=317153" target="_blank">인벤 SGF 2026 아이온2 기사</a></div>
+    <p class="cap">천족·마족 대립이 그대로인 채로 스케일만 커진 느낌이었어요.</p>
+
+    <h2 class="sub">크로스파이어 신작, 개발은 댓츠노문·콘솔은 스마일게이트</h2>
+    <div class="gcard">
+      <span class="gtag kr">한국 투자·퍼블리싱</span>
+      <div class="gname">크로스파이어 신작(AAA 액션 어드벤처)</div>
+      <div class="gdev">개발 That's No Moon(댓츠노문) · 퍼블리싱 스마일게이트(콘솔)</div>
+    </div>
+    <p>온라인 FPS로 익숙한 '크로스파이어' IP가 이번엔 완전히 다른 장르로 온다는 소식도 있었어요. 여기서 역할을 정확히 구분하는 게 중요한데요, <b>실제 개발은 북미 스튜디오 That's No Moon(댓츠노문)</b>이 맡고 있고, 스마일게이트는 2021년 댓츠노문에 대규모 투자를 하면서 인연을 맺은 <b>투자자이자 콘솔판 퍼블리셔</b> 역할이에요. 스마일게이트가 직접 만드는 게 아니라는 점이 은근 헷갈리기 쉬운 포인트더라고요.</p>
+    <p>장르는 3인칭 시점의 <b>서사 중심 액션 어드벤처</b>로, 대립하는 두 진영 출신 주인공 레일라와 크로스가 불안정한 동맹을 맺고 생존하는 이야기라고 해요. 기존 멀티플레이 FPS와 달리 싱글 플레이 스토리 중심으로 완전히 재해석한 게 핵심이고, 언리얼 엔진5 기반에 적응형 엄폐 시스템도 들어간다고 하네요. 발매 플랫폼은 PS5·엑스박스 시리즈X·PC로 확인됐고, 정확한 발매 시기는 이후 발표를 기다려봐야 할 것 같아요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 크로스파이어 신작 엄폐 액션 장면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 참고할 곳: <a href="https://www.newspim.com/news/view/20260529000833" target="_blank">뉴스핌 스마일게이트·댓츠노문 발표 기사</a></div>
+    <p class="cap">FPS 이미지가 강했던 IP라 서사 중심 싱글 액션으로 간다는 게 의외였어요.</p>
+
+    <h2 class="sub">페르소나 6, 어디서 공개됐을까요?</h2>
+    <div class="gcard">
+      <span class="gtag">대작 IP</span>
+      <div class="gname">페르소나 6</div>
+      <div class="gdev">개발·퍼블리싱 아틀러스(세가)</div>
+    </div>
+    <p>정확히는 SGF 라이브쇼 자체보다는, SGF 기간 중 진행된 <b>엑스박스 게임스 쇼케이스(6월 7일)</b>에서 <b>개발·퍼블리싱을 맡은 아틀러스</b>가 '페르소나 6'을 처음 공개했답니다. 게임플레이는 전혀 없이 묘지 이미지와 초록빛 색감으로 채워진 짧은 티저였는데, 그것만으로도 커뮤니티가 뒤집혔죠. 확인된 건 <b>Xbox 시리즈·PS5·PC로 출시되고, Xbox 게임패스에 출시 당일 합류</b>한다는 것 정도예요. 주인공 모습이나 구체적인 발매 시기는 아직 안 나왔으니 이 부분은 앞으로 나올 정보를 좀 더 지켜봐야 할 것 같아요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 6: 페르소나6 첫 티저 중 묘지 이미지</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 참고할 곳: 엑스박스 게임스 쇼케이스(6월 7일) 공식 다시보기 영상</div>
+    <p class="cap">정보량은 적어도 색감 하나로 분위기를 다 보여준 티저였네요.</p>
+
+    <h2 class="sub">젠 아틀라스, ICO·완다 만든 그 사람 신작이랍니다</h2>
+    <div class="gcard">
+      <span class="gtag">대작 IP</span>
+      <div class="gname">젠 아틀라스</div>
+      <div class="gdev">개발 genDesign · 퍼블리싱 Epic Games Publishing</div>
+    </div>
+    <p>'이코', '완다와 거상' 만든 걸로 유명한 우에다 후미토와 <b>개발을 맡은 genDesign</b> 스튜디오가 준비 중인 신작 '젠 아틀라스'도 공개됐어요. <b>퍼블리싱은 Epic Games Publishing</b>이 맡고, PS5·엑스박스 시리즈·PC(에픽게임즈 스토어)로 동시 출시된다고 하니 우에다 후미토 작품 중에서는 처음으로 멀티플랫폼을 노리는 셈이죠. 예전엔 '프로젝트 로봇'이라는 이름으로 알려졌던 작품인데, 거대한 로봇의 머리 부분을 조종해서 또 다른 거대 로봇과 대치하는 컨셉이라고 해요. 우에다 후미토 특유의 몽환적이고 거대한 스케일 느낌이 이번에도 그대로 살아있는 인상이었습니다.</p>
+
+    <h2 class="sub">SGF2026 정리</h2>
+    <p>이렇게 쭉 훑어보니 이번 SGF2026은 <b>스텔라 블레이드: 블러드 레인·파이널 판타지 7 레벨레이션·바이오하자드 RE: 베로니카·길드워 3·아이온 2·크로스파이어 신작·페르소나 6·젠 아틀라스</b>, 이렇게 총 8개가 특히 화제였던 것 같습니다. 그중에서도 시프트업·엔씨소프트가 직접 만들고, 스마일게이트는 투자·콘솔 퍼블리싱으로 힘을 보탠 크로스파이어까지 한국 게임사가 얽힌 신작이 여러 개 동시에 나온 게 이번 행사의 진짜 관전 포인트가 아니었나 싶네요.</p>
+    <p>대부분 정확한 발매일까지는 아직 안 나온 상태라 앞으로 나올 후속 소식들도 계속 챙겨봐야 할 것 같아요. 여러분은 이 중에 어떤 게 제일 기대되세요? 저는 개인적으로 블러드 레인 출시일 소식부터 목 빠지게 기다리고 있습니다.</p>
+
+    <p><b>✔ SGF2026·신작 정보 같이 보기 좋은 내용</b><br>
+    (같은 주제의 후속 소식은 발행 시 여기에 링크로 연결할게요 — 발매일 확정 등 업데이트되는 대로 후속 글로 이어드릴 예정입니다.)</p>
+
+    <div class="tags">#SGF2026 #서머게임페스트 #스텔라블레이드블러드레인 #파이널판타지7레벨레이션 #길드워3 #신작게임추천 #2026신작게임 #시프트업 #바이오하자드RE베로니카 #아이온2 #크로스파이어신작 #페르소나6</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·소제목은 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 소제목이 깨져 보이면 네이버 에디터에서 소제목 스타일을 다시 지정해 주세요.
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 5분):</b> 📷 <b>사진 6곳</b> 업로드. 나머지 본문·볼드·소제목은 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: SGF2026 서머게임페스트 신작 총정리, 이번엔 진짜 볼 게 많더라고요</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>매년 6월 초만 되면 게임 좀 하는 사람들 타임라인이 난리가 나잖아요. <b>서머 게임 페스트, 줄여서 SGF</b> 얘기예요. 저도 6월 초에 밤새 트레일러 챙겨보느라 잠을 좀 설쳤는데요, 벌써 한 달이 넘게 지났는데도 그때 나온 신작들 얘기가 아직도 커뮤니티에 도는 거 보면 이번 SGF2026은 확실히 알맹이가 있었던 것 같아요.</p>
+      <p>정리하는 김에 저도 나온 것들 다시 쭉 훑어봤는데, 그냥 이름만 나열하기보다 <b>실제로 공개된 게 확인되는 것들</b> 위주로만 골랐어요. 소문만 무성하고 확인이 안 되는 것들은 이번 글엔 아예 안 넣었으니 그 점은 참고해 주세요. 개발사·퍼블리셔도 헷갈리기 쉬운 부분이라 이번엔 하나하나 구분해서 짚어볼게요.</p>
+
+      <h3>스텔라 블레이드: 블러드 레인 — 한국 게이머라면 이거부터죠</h3>
+      <p>이번 SGF에서 국내 반응이 제일 뜨거웠던 건 역시 <b>개발·퍼블리싱을 모두 맡은 시프트업</b>의 '스텔라 블레이드' 후속작, '블러드 레인'이었어요. 전작이 2024년에 나와서 누적 판매량 600만 장을 찍었으니 후속작 소식이 안 궁금할 수가 없죠.</p>
+      <p>공개된 트레일러는 3분 30초 분량의 실제 인게임 플레이 영상이었는데요, 비 내리는 도시 거리에 증기 기관차가 지나가고 시민들이 갑자기 괴물로 변이하면서 전투가 시작되는 흐름이었어요. <b>새로운 주인공 '이비'</b>가 등장하는데, 전작 이브가 검 위주였다면 이비는 건틀릿을 활용한 격투 액션에 역수검까지 섞어 쓰는 모습이라 확실히 결이 다르더라고요. 발매 플랫폼과 시기는 아직 추후 공개 예정이에요.</p>
+      <p>📷 〔사진 자리 1〕 블러드 레인 트레일러 중 이비의 건틀릿 격투 장면 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "비 오는 도심에서 시작되는 전투 연출, 확실히 시프트업답다 싶었어요."</p>
+
+      <h3>파이널 판타지 7 레벨레이션 — 리메이크 3부작 완결편</h3>
+      <p>파판7 리메이크 시리즈를 따라온 분들이라면 이번 SGF 최대 이벤트가 이거였을 거예요. <b>개발·퍼블리싱을 맡은 스퀘어에닉스</b>가 파이널 판타지 7 리메이크 3부작의 마지막 챕터 '레벨레이션'을 정식으로 공개했거든요. 트레일러에서는 비행선 하이윈드를 타고 광활한 오픈월드를 누비는 장면이 나왔고, 빈센트 발렌타인과 시드 하이윈드가 파티 캐릭터로 함께한다는 것도 확인됐어요.</p>
+      <p>전투는 실시간 액션과 메뉴 조작을 오가면서 캐릭터를 자유롭게 바꿔 쓰는 방식이라고 하고, 발매는 <b>2027년 봄으로 예정</b>돼 있어요. 이번엔 PC·PS5·엑스박스 시리즈·닌텐도 스위치2까지 전 플랫폼 동시 발매라는 점도 눈에 띄었습니다.</p>
+
+      <h3>바이오하자드 RE: 베로니카, 그 명작이 돌아온다고요?</h3>
+      <p>2000년에 나온 '바이오하자드 코드: 베로니카'를 <b>개발·퍼블리싱을 맡은 캡콤</b>이 RE 엔진으로 다시 만든다는 소식도 이번 SGF의 큰 화제였어요. 클레어와 크리스 레드필드 중심의 원작 스토리는 그대로 가져가되, <b>그래픽과 게임 시스템은 완전히 새로 짠다</b>고 하더라고요. 플랫폼은 PS5·엑스박스 시리즈X·스위치2·PC로, 출시는 2027년으로 확인됐어요.</p>
+      <p>📷 〔사진 자리 2〕 RE:베로니카 리메이크 트레일러 캡처 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "원작 팬이면 이 소식 하나로 타임라인 뒤집혔을 각이에요."</p>
+
+      <h3>길드워 3 — 엔씨소프트 아레나넷이 13년 만에</h3>
+      <p><b>엔씨소프트 산하 개발사인 아레나넷</b>이 2012년 길드워2 이후 처음으로 정식 후속작 '길드워 3'를 공개했어요. 이번 작품은 오리지널 길드워보다 천 년도 더 전, '오르'라는 지역을 배경으로 하는데요. 우리가 알던 폐허가 된 오르가 아니라 신비로운 '바엘 정령'들이 사는 야생 그대로의 오르라는 설정이 신선하더라고요.</p>
+      <p>가장 눈에 띈 건 <b>플랫폼</b>이죠. 시리즈 최초로 콘솔, 그것도 PS5로 발매된다고 확인됐고 PC 발매도 동시에 진행돼요. 첫 베타 테스트는 2027년 가을로 예정돼 있고, 가격이나 정확한 출시일 같은 세부 정보는 앞으로 더 공개된다고 하니 관심 있으신 분들은 길드워3 공식 사이트나 스팀 위시리스트를 걸어두시면 좋을 것 같아요.</p>
+      <p>📷 〔사진 자리 3〕 길드워3 신규 지역 '오르' 트레일러 캡처 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "13년 만의 후속작이라니, 시리즈 팬이면 그 자체로 감격이겠더라고요."</p>
+
+      <h3>아이온 2, 9월 글로벌 출시 확정</h3>
+      <p><b>개발·퍼블리싱을 맡은 엔씨소프트</b>의 또 다른 신작 '아이온 2'도 이번 SGF에서 신규 트레일러를 선보였어요. 가장 중요한 소식은 <b>2026년 9월 글로벌 출시가 정식으로 확정</b>됐다는 건데요, 정확한 날짜는 아직 안 나왔지만 북미·남미·유럽·아시아 주요 지역에 동시 출시된다는 게 이번에 확인됐어요. 서비스는 스팀과 엔씨 자체 플랫폼인 퍼플을 통한 PC 버전으로 진행되고요.</p>
+      <p>새로 공개된 영상에서는 원작 아이온의 뼈대였던 <b>천족과 마족의 대립 구도, 비행 전투</b>가 현대적인 MMORPG 문법으로 확장된 모습이 담겼는데, 진영 간 경쟁 구조를 그대로 계승하면서도 전투 연출이 훨씬 화려해졌더라고요. 엔씨는 SGF 기간 중 별도 비공개 시연 행사도 열어서 해외 매체·크리에이터 대상으로 실제 플레이를 보여줬다고 하니 조만간 플레이 영상 후기들도 더 풀릴 것 같습니다.</p>
+      <p>📷 〔사진 자리 4〕 아이온2 신규 트레일러 중 비행 전투 장면 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "천족·마족 대립이 그대로인 채로 스케일만 커진 느낌이었어요."</p>
+
+      <h3>크로스파이어 신작, 개발은 댓츠노문·콘솔은 스마일게이트</h3>
+      <p>온라인 FPS로 익숙한 '크로스파이어' IP가 이번엔 완전히 다른 장르로 온다는 소식도 있었어요. 여기서 역할을 정확히 구분하는 게 중요한데요, <b>실제 개발은 북미 스튜디오 That's No Moon(댓츠노문)</b>이 맡고 있고, 스마일게이트는 2021년 댓츠노문에 대규모 투자를 하면서 인연을 맺은 <b>투자자이자 콘솔판 퍼블리셔</b> 역할이에요. 스마일게이트가 직접 만드는 게 아니라는 점이 은근 헷갈리기 쉬운 포인트더라고요.</p>
+      <p>장르는 3인칭 시점의 <b>서사 중심 액션 어드벤처</b>로, 대립하는 두 진영 출신 주인공 레일라와 크로스가 불안정한 동맹을 맺고 생존하는 이야기라고 해요. 기존 멀티플레이 FPS와 달리 싱글 플레이 스토리 중심으로 완전히 재해석한 게 핵심이고, 언리얼 엔진5 기반에 적응형 엄폐 시스템도 들어간다고 하네요. 발매 플랫폼은 PS5·엑스박스 시리즈X·PC로 확인됐고, 정확한 발매 시기는 이후 발표를 기다려봐야 할 것 같아요.</p>
+      <p>📷 〔사진 자리 5〕 크로스파이어 신작 엄폐 액션 장면 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "FPS 이미지가 강했던 IP라 서사 중심 싱글 액션으로 간다는 게 의외였어요."</p>
+
+      <h3>페르소나 6, 어디서 공개됐을까요?</h3>
+      <p>정확히는 SGF 라이브쇼 자체보다는, SGF 기간 중 진행된 <b>엑스박스 게임스 쇼케이스(6월 7일)</b>에서 <b>개발·퍼블리싱을 맡은 아틀러스</b>가 '페르소나 6'을 처음 공개했답니다. 게임플레이는 전혀 없이 묘지 이미지와 초록빛 색감으로 채워진 짧은 티저였는데, 그것만으로도 커뮤니티가 뒤집혔죠. 확인된 건 <b>Xbox 시리즈·PS5·PC로 출시되고, Xbox 게임패스에 출시 당일 합류</b>한다는 것 정도예요. 주인공 모습이나 구체적인 발매 시기는 아직 안 나왔으니 이 부분은 앞으로 나올 정보를 좀 더 지켜봐야 할 것 같아요.</p>
+      <p>📷 〔사진 자리 6〕 페르소나6 첫 티저 중 묘지 이미지 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "정보량은 적어도 색감 하나로 분위기를 다 보여준 티저였네요."</p>
+
+      <h3>젠 아틀라스, ICO·완다 만든 그 사람 신작이랍니다</h3>
+      <p>'이코', '완다와 거상' 만든 걸로 유명한 우에다 후미토와 <b>개발을 맡은 genDesign</b> 스튜디오가 준비 중인 신작 '젠 아틀라스'도 공개됐어요. <b>퍼블리싱은 Epic Games Publishing</b>이 맡고, PS5·엑스박스 시리즈·PC(에픽게임즈 스토어)로 동시 출시된다고 하니 우에다 후미토 작품 중에서는 처음으로 멀티플랫폼을 노리는 셈이죠. 예전엔 '프로젝트 로봇'이라는 이름으로 알려졌던 작품인데, 거대한 로봇의 머리 부분을 조종해서 또 다른 거대 로봇과 대치하는 컨셉이라고 해요. 우에다 후미토 특유의 몽환적이고 거대한 스케일 느낌이 이번에도 그대로 살아있는 인상이었습니다.</p>
+
+      <h3>SGF2026 정리</h3>
+      <p>이렇게 쭉 훑어보니 이번 SGF2026은 <b>스텔라 블레이드: 블러드 레인·파이널 판타지 7 레벨레이션·바이오하자드 RE: 베로니카·길드워 3·아이온 2·크로스파이어 신작·페르소나 6·젠 아틀라스</b>, 이렇게 총 8개가 특히 화제였던 것 같습니다. 그중에서도 시프트업·엔씨소프트가 직접 만들고, 스마일게이트는 투자·콘솔 퍼블리싱으로 힘을 보탠 크로스파이어까지 한국 게임사가 얽힌 신작이 여러 개 동시에 나온 게 이번 행사의 진짜 관전 포인트가 아니었나 싶네요.</p>
+      <p>대부분 정확한 발매일까지는 아직 안 나온 상태라 앞으로 나올 후속 소식들도 계속 챙겨봐야 할 것 같아요. 여러분은 이 중에 어떤 게 제일 기대되세요? 저는 개인적으로 블러드 레인 출시일 소식부터 목 빠지게 기다리고 있습니다.</p>
+      <p class="tags-line">#SGF2026 #서머게임페스트 #스텔라블레이드블러드레인 #파이널판타지7레벨레이션 #길드워3 #신작게임추천 #2026신작게임 #시프트업 #바이오하자드RE베로니카 #아이온2 #크로스파이어신작 #페르소나6</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
