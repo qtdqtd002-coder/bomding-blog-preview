@@ -1,0 +1,407 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 겜더쿠 진단 &amp; 오늘 쓸 글 · 2026-07-13</title>
+<style>
+ :root{
+   --bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--inset2:#f2f4f7;
+   --ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--line2:#d8dbe2;
+   --brand:#5a4fe6;--warm:#ff6f52;--warm-weak:#ffeee9;
+   --ac:#7c5cd1;--ac-d:#5f3fb8;--ac-weak:#f0ebfa;
+   --good:#1f9d6b;--good-weak:#e7f6ef;--warn:#e0890b;--warn-weak:#fbf1de;--bad:#dc2626;--bad-weak:#fdecec;
+   --r-sm:9px;--r:13px;--r-lg:18px;
+   --sh-sm:0 1px 2px rgba(16,24,40,.05);--sh-md:0 6px 18px rgba(95,63,184,.08);
+   --tnum:"tnum" 1;
+ }
+ *{box-sizing:border-box;} html,body{margin:0;}
+ body{background:var(--bg);color:var(--ink);
+   font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+   line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;}
+ .wrap{max-width:840px;margin:0 auto;padding:20px 18px 64px;}
+ .back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;}
+ .back:hover{color:var(--ink);}
+ .num{font-feature-settings:var(--tnum);}
+ h2.sec{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:34px 0 2px;display:flex;align-items:center;gap:9px;}
+ h2.sec .ic{font-size:18px;}
+ h2.sec .tag{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:0;}
+ .sub{color:var(--sub);font-size:12.5px;margin:4px 0 12px;line-height:1.55;}
+ .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:18px 20px;margin-top:12px;}
+ .mast{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+   background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:20px 22px;}
+ .mast .l{flex:1;min-width:240px;}
+ .who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ac-d);
+   background:var(--ac-weak);border-radius:999px;padding:4px 11px;}
+ .who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac);}
+ .mast h1{font-size:clamp(18px,3.4vw,21px);font-weight:800;letter-spacing:-.02em;margin:11px 0 7px;line-height:1.4;text-wrap:balance;}
+ .mast .meta{font-size:12px;color:var(--muted);font-weight:500;} .mast .meta b{color:var(--sub);font-weight:700;}
+ .score{flex:none;text-align:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:108px;background:var(--inset);}
+ .score .sl{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--muted);}
+ .score .sv{font-size:38px;font-weight:800;line-height:1.02;margin-top:3px;font-feature-settings:var(--tnum);} .score .sv small{font-size:15px;color:var(--faint);font-weight:700;}
+ .score .sg{font-size:13px;font-weight:800;margin-top:1px;}
+ .g-a{color:var(--good);} .g-b{color:var(--ac-d);} .g-c{color:var(--warn);}
+ .glance{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden;}
+ .glance .gh{display:flex;align-items:center;gap:8px;padding:14px 20px 12px;border-bottom:1px solid var(--line);}
+ .glance .gh b{font-size:14px;font-weight:800;letter-spacing:-.01em;} .glance .gh .gt{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .lens{display:flex;gap:13px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:flex-start;}
+ .lens:last-of-type{border-bottom:none;}
+ .lens .li{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--inset2);}
+ .lens .lc{flex:1;min-width:0;}
+ .lens .lk{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
+ .lens .lx{font-size:13.5px;font-weight:600;line-height:1.5;margin-top:2px;color:var(--ink);}
+ .lens .lx b{font-weight:800;color:var(--ac-d);}
+ .lens .lm{flex:none;text-align:right;min-width:74px;}
+ .lens .lmv{font-size:19px;font-weight:800;font-feature-settings:var(--tnum);line-height:1.1;} .lens .lmv small{font-size:11px;color:var(--faint);font-weight:700;}
+ .lens .lml{font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+ @media(max-width:540px){.lens .lm{display:none;}}
+ .todo{background:var(--inset);padding:14px 20px;}
+ .todo .th{font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:.02em;margin-bottom:9px;}
+ .trow{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line2);align-items:flex-start;} .trow:first-of-type{border-top:none;}
+ .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:2px 8px;margin-top:1px;font-feature-settings:var(--tnum);}
+ .pp.p2{background:#9b7fe0;} .pp.p3{background:#b9a4e8;}
+ .tc{font-size:13px;line-height:1.5;} .tc b{font-weight:800;} .tc .tw{color:var(--muted);}
+ .kind{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+ .k-write{background:var(--ac-weak);color:var(--ac-d);} .k-seo{background:#e6ebff;color:#3b43b8;} .k-keep{background:var(--warn-weak);color:#9a6207;}
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;} @media(max-width:560px){.kgrid{grid-template-columns:repeat(2,1fr);}}
+ .k{background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 13px;}
+ .k .kv{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-feature-settings:var(--tnum);} .k .kv small{font-size:11px;font-weight:700;color:var(--faint);}
+ .k .kl{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:600;} .k .kd{font-size:10px;font-weight:800;margin-top:4px;}
+ .up{color:var(--good);} .down{color:var(--bad);} .flat{color:var(--warn);}
+ .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;} @media(max-width:600px){.charts{grid-template-columns:1fr;}}
+ .ch h5{margin:0 0 9px;font-size:11.5px;font-weight:800;color:var(--sub);}
+ .bars{display:flex;flex-direction:column;gap:7px;}
+ .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:62px;font-size:10.5px;font-weight:700;color:var(--sub);}
+ .bar .bt{flex:1;height:11px;background:var(--inset2);border-radius:6px;overflow:hidden;}
+ .bar .bt i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#c3b0ec,var(--ac));}
+ .bar .bv{flex:none;width:52px;text-align:right;font-size:10.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .bar.hi .bt i{background:linear-gradient(90deg,#9b7fe0,var(--ac-d));}
+ .bar.lo .bt i{background:linear-gradient(90deg,#f6c074,var(--warn));} .bar.lo .bl,.bar.lo .bv{color:#9a6207;}
+ .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+ .chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid;}
+ .c-good{background:var(--good-weak);color:#157a52;border-color:#c2e8d6;} .c-warn{background:var(--warn-weak);color:#9a6207;border-color:#f0d9a8;} .c-bad{background:var(--bad-weak);color:#b91c1c;border-color:#f3c2c2;}
+ .note{margin-top:13px;font-size:12px;line-height:1.55;color:var(--sub);background:var(--inset);border-radius:var(--r-sm);padding:11px 13px;} .note b{color:var(--ink);}
+ table{width:100%;border-collapse:collapse;font-size:12px;} th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:center;}
+ thead th{background:transparent;border-bottom:1.5px solid var(--line2);font-weight:800;font-size:10.5px;color:var(--muted);letter-spacing:.02em;}
+ td.gl{text-align:left;font-weight:700;} td.vd{text-align:left;font-size:11.5px;color:var(--sub);line-height:1.45;}
+ .gpmain{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:9px;}
+ .gpmain .ml{font-size:11px;font-weight:800;color:var(--muted);margin-right:3px;}
+ .gpchip{font-size:11px;font-weight:700;padding:4px 11px;border-radius:999px;background:var(--ac-weak);color:var(--ac-d);}
+ .st{font-weight:800;white-space:nowrap;} .st-keep{color:var(--good);} .st-watch{color:var(--warn);} .st-drop{color:var(--bad);}
+ .banner{margin-top:12px;border-radius:var(--r-sm);padding:11px 14px;font-size:12.5px;line-height:1.5;font-weight:600;}
+ .banner.ok{background:var(--good-weak);color:#157a52;} .banner.cand{background:var(--ac-weak);color:var(--ac-d);} .banner.cand b{color:#4a2e96;}
+ .banner.drop{background:var(--bad-weak);color:#b91c1c;}
+ .seoq td{text-align:left;vertical-align:top;} .seoq .stitle{font-weight:700;}
+ .sc{font-weight:800;text-align:center;white-space:nowrap;font-feature-settings:var(--tnum);} .sc-hi{color:var(--good);} .sc-mid{color:var(--warn);} .sc-lo{color:var(--bad);}
+ .pf{font-weight:800;font-size:10px;border-radius:5px;padding:1px 6px;background:var(--ac-weak);color:var(--ac-d);white-space:nowrap;}
+ .swot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;} @media(max-width:540px){.swot{grid-template-columns:1fr;}}
+ .sw{border-radius:var(--r);padding:14px 16px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:13px;font-weight:800;}
+ .sw ul{margin:0;padding-left:17px;font-size:12.5px;line-height:1.6;} .sw li{margin:6px 0;} .sw li b{font-weight:800;} .sw small{color:var(--muted);font-weight:600;}
+ .sw-good{background:var(--good-weak);border-color:#cfeadd;} .sw-good h4{color:#157a52;}
+ .sw-bad{background:#fbf5f5;border-color:#f0d6d6;} .sw-bad h4{color:#b91c1c;}
+ .tabs{margin-top:12px;} .tabs>input{position:absolute;opacity:0;pointer-events:none;}
+ .tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px;}
+ .tablab{font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:var(--r-sm);background:var(--inset2);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s;}
+ .tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px;font-feature-settings:var(--tnum);}
+ .tpanel{display:none;}
+ #t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3],#t4:checked~.tabbar label[for=t4],#t5:checked~.tabbar label[for=t5],#t6:checked~.tabbar label[for=t6],#t7:checked~.tabbar label[for=t7]{background:var(--ac);color:#fff;border-color:var(--ac);}
+ #t7:checked~.tabbar label[for=t7]{background:var(--warm);border-color:var(--warm);}
+ #t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt,#t4:checked~.tabbar label[for=t4] .cnt,#t5:checked~.tabbar label[for=t5] .cnt,#t6:checked~.tabbar label[for=t6] .cnt,#t7:checked~.tabbar label[for=t7] .cnt{color:rgba(255,255,255,.75);}
+ #t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3,#t4:checked~#p4,#t5:checked~#p5,#t6:checked~#p6,#t7:checked~#p7{display:block;}
+ .dist{display:flex;align-items:center;gap:9px;margin-bottom:12px;background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;flex-wrap:wrap;}
+ .dist .dl{font-size:10.5px;font-weight:800;color:var(--muted);}
+ .distbar{flex:1;min-width:160px;display:flex;height:9px;border-radius:5px;overflow:hidden;background:var(--inset2);}
+ .distbar span{height:100%;}
+ .distleg{display:flex;gap:9px;flex-wrap:wrap;} .distleg b{font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:4px;color:var(--sub);}
+ .distleg b i{width:8px;height:8px;border-radius:2px;display:inline-block;}
+ .pick{border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;margin-bottom:9px;background:var(--panel);transition:border-color .12s;}
+ .pick:hover{border-color:var(--line2);}
+ .pick-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+ .gtag{font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 7px;}
+ .k--g{background:#e6f3ee;color:#157a52;} .k--n{background:#e6ebff;color:#3b43b8;} .k--r{background:#fbede6;color:#b8502f;} .k--h{background:#fdf0e1;color:#9a6207;} .k--d{background:#f0ebfa;color:#5f3fb8;}
+ .purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset2);border-radius:5px;padding:2px 7px;}
+ .pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--warm-weak);color:#c2451f;}
+ .ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:160px;line-height:1.4;}
+ .pwhy{font-size:12px;line-height:1.5;color:var(--sub);} .pwhy b{color:var(--ink);font-weight:700;} .pwhy a{color:var(--brand);text-decoration:none;border-bottom:1px solid #c7c2f5;}
+ .ecpmnote{margin:2px 0 10px;font-size:11px;color:var(--muted);background:var(--inset2);border-radius:var(--r-sm);padding:7px 11px;line-height:1.5;} .ecpmnote b{color:var(--sub);}
+ .ixreq h4{margin:0 0 5px;font-size:13px;font-weight:800;color:#157a52;} .ixreq .ixsub{font-size:11.5px;color:var(--sub);margin-bottom:9px;line-height:1.5;} .ixreq .ixsub b{color:var(--ink);}
+ .maint{margin-top:10px;font-size:12px;line-height:1.5;background:var(--ac-weak);border-radius:var(--r-sm);padding:10px 13px;color:var(--ac-d);} .maint b{color:#4a2e96;}
+ .verdict{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:20px 22px;}
+ .verdict .lb{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--ac-d);}
+ .verdict h3{margin:8px 0 10px;font-size:15.5px;font-weight:800;letter-spacing:-.01em;line-height:1.45;text-wrap:balance;}
+ .verdict p{margin:0 0 16px;font-size:13px;line-height:1.75;color:var(--sub);} .verdict p b{color:var(--ink);font-weight:700;}
+ .gauge{border-top:1px solid var(--line);padding-top:15px;}
+ .gtop{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap;}
+ .gtop .gv{font-size:30px;font-weight:800;font-feature-settings:var(--tnum);} .gtop .gv small{font-size:14px;color:var(--faint);font-weight:700;}
+ .gtop .gg{font-size:15px;font-weight:800;} .gtop .gn{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .grow{display:flex;align-items:center;gap:10px;margin:8px 0;}
+ .grow .gl{flex:none;width:88px;font-size:11.5px;font-weight:700;color:var(--sub);}
+ .grow .gt{flex:1;height:9px;background:var(--inset2);border-radius:5px;overflow:hidden;} .grow .gt i{display:block;height:100%;border-radius:5px;}
+ .grow .gs{flex:none;width:30px;text-align:right;font-size:11.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .b-hi i{background:linear-gradient(90deg,#9b7fe0,var(--ac-d));} .b-mid i{background:linear-gradient(90deg,#f6c074,var(--warn));} .b-lo i{background:linear-gradient(90deg,#f08e8e,var(--bad));}
+ .foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center;}
+ @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+ @media(max-width:540px){.wrap{padding:14px 12px 44px;}.score{padding:10px 14px;min-width:92px;}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+
+ <div class="mast">
+   <div class="l">
+     <span class="who">데이터 분석실 · 겜더쿠 편</span>
+     <h1>주간 클릭 39,222(+5.8%)·평균순위 5.41로 완만한 성장 지속. <b>포켓몬 챔피언스가 정식 sub 편입</b>(1,836클릭)하고 <b>로스트아크·팰월드가 폭발적 급증</b>(+609%·+4,893%)해 신규 기둥이 됐어요. <b>명조는 폐기 보류</b>(콜라보 종료 후 오리지널 콘텐츠 피벗·클릭 반등), 메이플 발행비중이 40%→20%로 개선돼 애드센스 재신청(8월초) 리스크가 완화됐어요. 종합지수 84(B+).</h1>
+     <div class="meta">발행일 <b>2026-07-13</b> · 대상 <b>겜더쿠</b>(티스토리 quetermoney · 빌드·티어·덕후) · GSC 실측창 <b>7/5~7/11</b>(7일 final · report 풀번들 + fresh ~7/12 + inspect 4건 전수 PASS)</div>
+   </div>
+   <div class="score"><div class="sl">오늘 지수</div><div class="sv num">84<small>/100</small></div><div class="sg g-b">B+</div></div>
+ </div>
+
+ <div class="glance">
+   <div class="gh">🎯 <b>오늘 한눈에</b><span class="gt">데이터 · 트렌드 · 크리에이터 세 시각</span></div>
+   <div class="lens">
+     <div class="li">📊</div>
+     <div class="lc">
+       <div class="lk">데이터 분석가가 보는 것</div>
+       <div class="lx">주간 검색 클릭 <b>39,222(+5.8% WoW)</b>·노출 448,283·평균순위 <b>5.41로 개선</b>. 레테(/109 5,507) + 메이플플래닛(/58 3,081) + 포챔스(/142 1,823) + 팰월드(/108 1,481) + 로스트아크(/137 1,467)가 5대 기둥이에요. CTR은 8.75%로 소폭 하락(팰월드·MSI 브랜드 검색이 저CTR로 평균 희석).</div>
+     </div>
+     <div class="lm"><div class="lmv num">39,222<small>클릭</small></div><div class="lml">주간(+5.8% WoW)</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">📈</div>
+     <div class="lc">
+       <div class="lk">트렌드 분석가가 보는 것</div>
+       <div class="lx"><b>MSI 2026 결승(7/12) 한화생명 창단 첫 우승</b>이 오늘자 최고 시의성이에요(결과 검증 완료·e스포츠 결과형 규칙대로 수동 발주). 이어 <b>로스트아크 차원술사(+609%)·팰월드 1.0(+4,893%)</b>이 신규 기둥, 메이플랜드 2.0 점검이 7/14(D+1) 재개해요. 발굴로는 넥서스 아니마 2차 CBT·교토 재너두(7/16)가 있어요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">D+1</div><div class="lml">MSI 우승 총정리(7/12)</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">🎨</div>
+     <div class="lc">
+       <div class="lk">크리에이터 컨설턴트가 보는 것</div>
+       <div class="lx">최근 5편(메랜 미니던전·팰월드 1.0·명조 딜사이클·몬헌·젠존제)을 열어 채점한 결과 평균 <b>82점</b>. 내부링크(90)·제목(88)은 최강인데, <b>이미지(68)가 최약축</b>이에요 — 특히 명조(/167)는 자체호스팅 이미지 1장뿐(다른 글 4~9장 대비). 분량·깊이(71)도 구조적 약점이에요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">68<small>점</small></div><div class="lml">이미지(최약축)</div></div>
+   </div>
+   <div class="todo">
+     <div class="th">🩺 그래서 오늘 할 일 (우선순위 순)</div>
+     <div class="trow"><span class="pp">P1</span><div class="tc"><span class="kind k-write">글쓰기</span><b>레테 헥사스탯/스탯 단독 스포크 분리</b> — '레테 헥사스텟' 계열 700+클릭이 단독글 없어 /133에 흡수 누출 중. 단독 분리로 회수 최대(메이플스토리탭 1순위). <span class="tw">(→ 메이플스토리 탭)</span></div></div>
+     <div class="trow"><span class="pp p2">P2</span><div class="tc"><span class="kind k-write">글쓰기</span><b>MSI 2026 한화생명 우승 총정리</b> — 7/12 결승 확정(창단 첫 우승·웹서치 검증), 오늘자 최고 시의성. e스포츠 결과형 규칙대로 실결과 검증 완료·수동 발주. <span class="tw">(→ ①확장)</span></div></div>
+     <div class="trow"><span class="pp p3">P3</span><div class="tc"><span class="kind k-keep">유지보수</span><b>포트폴리오 원장 데이터 정합성 정정</b> — MAD(메이크드라마) pages(/63·57·60·84)가 메이플플래닛 main pages와 중복 등재된 걸 순수 MAD(/55·61·115)만으로 재계산. 팀장 확인 필요(중복 페이지ID 규명). <span class="tw">(→ 포트폴리오)</span></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📊</span>핵심 지표 <span class="tag">— 구글 서치콘솔 실측(7/5~7/11 · report 풀번들 + inspect 4건)</span></h2>
+ <div class="panel">
+   <div class="kgrid">
+     <div class="k"><div class="kv num up">39,222 <small>클릭</small></div><div class="kl">주간 검색 클릭</div><div class="kd up num">+5.8%(37,073→39,222)</div></div>
+     <div class="k"><div class="kv up num">5.41<small>위</small></div><div class="kl">평균 검색순위</div><div class="kd up">5.64→5.41 개선</div></div>
+     <div class="k"><div class="kv num flat">8.75<small>%</small></div><div class="kl">클릭률(노출 대비)</div><div class="kd flat num">노출 448,283</div></div>
+     <div class="k"><div class="kv num up">48,723</div><div class="kl">fresh 주간(~7/12)</div><div class="kd up">잠정·노출 560,118</div></div>
+   </div>
+   <div class="charts">
+     <div class="ch"><h5>상위 게시글 클릭 (많은 순 · 7일)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">/109 레테</span><span class="bt"><i style="width:100%"></i></span><span class="bv num">5,507</span></div>
+         <div class="bar hi"><span class="bl">/58 플래닛</span><span class="bt"><i style="width:56%"></i></span><span class="bv num">3,081</span></div>
+         <div class="bar hi"><span class="bl">/142 포챔스</span><span class="bt"><i style="width:33%"></i></span><span class="bv num">1,823</span></div>
+         <div class="bar hi"><span class="bl">/108 팰월드</span><span class="bt"><i style="width:27%"></i></span><span class="bv num">1,481</span></div>
+         <div class="bar hi"><span class="bl">/137 로아</span><span class="bt"><i style="width:27%"></i></span><span class="bv num">1,467</span></div>
+       </div>
+       <div style="font-size:10px;color:var(--faint);margin-top:6px">/159 6차코어예고 1,528·/133 레테빌드 1,511 · 팰월드·로아가 신규 기둥으로 편입</div>
+     </div>
+     <div class="ch"><h5>급성장 서브게임 (WoW 증감)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">팰월드</span><span class="bt"><i style="width:100%"></i></span><span class="bv num">+4893%</span></div>
+         <div class="bar hi"><span class="bl">MSI</span><span class="bt"><i style="width:72%"></i></span><span class="bv num">+1994%</span></div>
+         <div class="bar hi"><span class="bl">로스트아크</span><span class="bt"><i style="width:45%"></i></span><span class="bv num">+609%</span></div>
+         <div class="bar hi"><span class="bl">젠존제</span><span class="bt"><i style="width:26%"></i></span><span class="bv num">+100%</span></div>
+         <div class="bar hi"><span class="bl">메이플랜드</span><span class="bt"><i style="width:22%"></i></span><span class="bv num">+56%</span></div>
+       </div>
+     </div>
+   </div>
+   <div style="margin-top:12px"><h5 style="margin:0 0 8px;font-size:11.5px;font-weight:800;color:var(--sub)">상위 쿼리 (7/5~7/11 클릭순)</h5>
+     <div style="display:flex;gap:8px;flex-wrap:wrap">
+       <div style="flex:1;background:var(--inset);border-radius:var(--r-sm);padding:8px 12px;min-width:140px"><div style="font-size:11px;color:var(--muted);font-weight:700">메이플 직업 티어</div><div style="font-size:18px;font-weight:800;color:var(--good)" class="num">1,400+</div><div style="font-size:10px;color:var(--faint)">CTR40%대·순위 1~3위 석권</div></div>
+       <div style="flex:1;background:var(--inset);border-radius:var(--r-sm);padding:8px 12px;min-width:140px"><div style="font-size:11px;color:var(--muted);font-weight:700">팰월드 정식출시</div><div style="font-size:18px;font-weight:800;color:var(--good)" class="num">1,300+</div><div style="font-size:10px;color:var(--faint)">1.0 출시 7/10 직접효과</div></div>
+       <div style="flex:1;background:var(--inset);border-radius:var(--r-sm);padding:8px 12px;min-width:140px"><div style="font-size:11px;color:var(--muted);font-weight:700">포챔스 티어(계열)</div><div style="font-size:18px;font-weight:800;color:var(--good)" class="num">800+</div><div style="font-size:10px;color:var(--faint)">/142 편입 확정·pos3.3~4.1</div></div>
+       <div style="flex:1;background:var(--inset);border-radius:var(--r-sm);padding:8px 12px;min-width:140px"><div style="font-size:11px;color:var(--muted);font-weight:700">레테 헥사스텟(계열)</div><div style="font-size:18px;font-weight:800;color:var(--warn)" class="num">700+</div><div style="font-size:10px;color:var(--faint)">단독글 없어 /133 흡수 누출</div></div>
+     </div>
+   </div>
+   <div class="chips">
+     <span class="chip c-good">주간 +5.8%·평균순위 5.41 개선</span>
+     <span class="chip c-good">레테 /109 1위(5,507클릭·CTR21.5%)</span>
+     <span class="chip c-good">색인 4/4 PASS(위생 최상)</span>
+     <span class="chip c-good">발행비중 메이플 20%(40%→개선)</span>
+   </div>
+   <div class="chips" style="margin-top:6px">
+     <span class="chip c-good">포챔스·로아·팰월드 3축 동시 급성장</span>
+     <span class="chip c-warn">CTR 8.75%로 소폭↓(브랜드검색 희석)</span>
+     <span class="chip c-warn">레테 헥사스텟 700+ /133 흡수 누출</span>
+   </div>
+   <div class="note">쉽게 말하면 — <b>클릭이 +5.8% 오르고 평균순위가 5.41로 개선</b>됐어요. <b>팰월드 1.0(+4,893%)·로스트아크(+609%)·포켓몬 챔피언스가 새 기둥</b>으로 자리잡아 메인 4종 의존도가 자연 분산되고 있어요(프랜차이즈 합산 72%→66%). 약점은 <b>레테 헥사스텟 700+클릭이 단독글 없어 /133에 흡수 누출</b>되는 것(→P1)이에요. ★같은 07-05~07-11 구간 수치가 측정 시점에 따라 크게 달라져(GSC 파이널라이즈 지연) WoW는 report API의 같은 시점 prev_period로만 비교했어요.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🎮</span>게임 포트폴리오 <span class="tag">— 메인은 고정, 서브는 GSC 실측 판정</span></h2>
+ <div class="panel">
+   <div class="gpmain"><span class="ml">메인(항상 운영):</span><span class="gpchip">메이플스토리</span><span class="gpchip">메이플랜드</span><span class="gpchip">메이플플래닛</span><span class="gpchip">메이플월드</span></div>
+   <p class="sub" style="margin:4px 0 12px">메인 4종 클릭 = 메이플플래닛 11,404(+62.3%) + 메이플스토리 10,245 + 메이플랜드 2,430(+55.7%) + 메이플월드 5 = 24,084(61.4%). 포챔스 포함 프랜차이즈 합산 66.1%(전주 72.1%에서 하락 — 팰월드·로아 급증이 분산). <b>최근 20편 중 메이플 4편(20.0%)로 하드임계(40%) 미도달 — 🟢 정상, 억제 불필요(전회 40%→개선).</b> 서브는 7일 실측(07-05~07-11)으로 재계산.</p>
+   <table>
+     <thead><tr><th style="text-align:left">서브 게임</th><th>상태</th><th>7일 클릭</th><th>노출</th><th>순위</th><th>WoW</th><th style="text-align:left">판정</th></tr></thead>
+     <tbody>
+       <tr><td class="gl">팰월드</td><td class="st st-keep">🟢 유지 최우선</td><td class="num">2,896</td><td class="num">54,719</td><td class="num">4.65위</td><td class="up">+4,893%</td><td class="vd">1.0 정식출시(7/10) 직후 스팀 동접 48만대 반등. 신규팰 72종 도감·거점 최적화 스포크 여지.</td></tr>
+       <tr><td class="gl">젠존제 ZZZ</td><td class="st st-keep">🟢 keep</td><td class="num">2,772</td><td class="num">41,755</td><td class="num">5.57위</td><td class="up">+100%</td><td class="vd">노르마·벨리나+레미엘·시그리드 사전정보 동반 견인. 3.1 출시 7/29 확정 — 신규모드·2주년 확장 추천.</td></tr>
+       <tr><td class="gl">포켓몬 챔피언스</td><td class="st st-keep">🟢 신규 편입</td><td class="num">1,836</td><td class="num">22,012</td><td class="num">5.56위</td><td class="up">편입 확정</td><td class="vd">명조 폐기 슬롯 대체로 정식 편입(데이터 자격 충분). /142 허브 중심 1페이지 장악. 파티조합 스포크 확장 추천.</td></tr>
+       <tr><td class="gl">로스트아크(차원술사)</td><td class="st st-keep">🟢 유지·확장최우선</td><td class="num">1,467</td><td class="num">23,489</td><td class="num">6.02위</td><td class="up">+609%</td><td class="vd">/137 선점글 207→1,467 폭증, 젠존제급 신규 기둥. 각인·세팅 심화 스포크 시급.</td></tr>
+       <tr><td class="gl">템빨용사</td><td class="st st-watch">🟡 주의</td><td class="num">720</td><td class="num">7,349</td><td class="num">6.09위</td><td class="up">+22.7%</td><td class="vd">절대 클릭 개선(587→720)이나 헤드쿼리 CTR 낮음(/16 8.91%) — 제목 리프레시 필요.</td></tr>
+       <tr><td class="gl">롤 e스포츠(MSI)</td><td class="st st-keep">🟢 확장최우선</td><td class="num">398</td><td class="num">19,323</td><td class="num">6.47위</td><td class="up">+1,994%</td><td class="vd">MSI 결승 7/12 한화생명 우승 확정(창단 첫 우승·검증). 우승 총정리 후속 시급(오늘 최고 시의성·P2).</td></tr>
+       <tr><td class="gl">메이크드라마 MAD</td><td class="st st-keep">🟢 keep</td><td class="num">155*</td><td class="num">975</td><td class="num">3.29위</td><td class="flat">재계산</td><td class="vd">★*데이터 정합성 정정: 기존 pages(/63·57·60·84)가 메이플플래닛과 중복 등재 — 순수 MAD(/55·61·115)로 재계산. 팀장 확인 필요(→P3).</td></tr>
+       <tr><td class="gl">솔:인챈트</td><td class="st st-keep">🟢 keep</td><td class="num">124</td><td class="num">4,135</td><td class="num">5.87위</td><td class="down">▼(189→124)</td><td class="vd">소폭 하락이나 절대치 양호. 월드거래소 다이아가치(/160) 반영은 다음 회.</td></tr>
+       <tr><td class="gl">패스 오브 엑자일 2</td><td class="st st-watch">🟡 주의(고착)</td><td class="num">30</td><td class="num">784</td><td class="num">8.27위</td><td class="down">▼(58→30)</td><td class="vd">저순위 고착 심화. 신규발행 자제·기존글 순위개선 집중.</td></tr>
+       <tr><td class="gl">데드오어얼라이브6</td><td class="st st-watch">🟡 신규 관찰</td><td class="num">15</td><td class="num">120</td><td class="num">5.94위</td><td class="flat">→</td><td class="vd">저볼륨 지속. 콤보 심화 2편째 발행 시 클러스터 성립 재검토.</td></tr>
+       <tr><td class="gl">일랜시아 리마스터</td><td class="st st-watch">🟡 신규 관찰</td><td class="num">5</td><td class="num">85</td><td class="num">11.4위</td><td class="down">▼(9→5)</td><td class="vd">저볼륨+순위 추가 하락(10.67→11.4). 2차 심화(다른 각도)로 재활성 시도, 9월 CBT 전 재검토.</td></tr>
+       <tr><td class="gl">명조(WutheringWaves)</td><td class="st st-watch">🟡 폐기 보류</td><td class="num">51</td><td class="num">1,144</td><td class="num">5.0위</td><td class="up">+104%</td><td class="vd">지난 회 🔴폐기 권고였으나 콜라보 종료(7/9) 후 오리지널 콘텐츠(/164·167) 피벗+클릭 반등(25→51)으로 '2회 연속' 조건 미충족 → 폐기 보류. 다음 회 재확인.</td></tr>
+     </tbody>
+   </table>
+   <div class="banner ok">✅ <b>🔴 폐기 권고 없음(전 서브 유지)</b> — 지난 회 drop-proposed였던 <b>명조</b>가 콜라보 종료 후에도 오리지널 콘텐츠 2편(/164 몽주 신지역 파밍·/167 양양현령 딜사이클)으로 피벗하고 클릭이 25→51로 반등해, '2회 연속 같은 신호만 폐기' 조건을 충족하지 못해 이번 회 <b>폐기 확정을 보류</b>합니다. 오리지널 전략 전환이 실제였는지가 다음 회 판정의 핵심(/164·167은 발행 직후라 GSC 반영 지연 중).</div>
+   <div class="banner cand">🆕 <b>신규 후보 — 몬스터 헌터 와일즈</b>: 최근 2편 연속 발행(라기아크루스·셀레기오스 공략)으로 클러스터 형성 시작. 발행 직후라 GSC 미반영 — 다음 회 클릭 실측 후 sub 편입 여부 판정. <b>확장 대상</b>: 로스트아크(각인 심화)·포켓몬 챔피언스(파티조합)·젠존제(3.1 2주년 7/29)가 최우선.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔍</span>최근 글 품질 검수 <span class="tag">— 최근 5편을 8가지 기준으로 채점</span></h2>
+ <p class="sub">최근 5편(/169 메랜 미니던전·/168 팰월드 1.0·/167 명조 딜사이클·/166 몬헌·/165 젠존제)을 본문으로 직접 열어 8축 + 결(G/N/R/H/D) + 색인으로 채점했어요(og:description 라이브 확인). /168 팰월드가 88.5점 최고, 색인 위생은 4/4 PASS예요. <b>내부링크(90)가 최강</b>인 대신 <b>이미지(68)가 최약축</b>(특히 명조 자체호스팅 이미지 1장뿐)이에요.</p>
+ <div class="panel" style="padding-top:8px">
+   <table class="seoq">
+     <thead><tr><th style="text-align:left">최근 글</th><th style="width:7%">점수</th><th style="width:7%">결</th><th style="width:7%">색인</th><th style="text-align:left">한 줄 평</th></tr></thead>
+     <tbody>
+       <tr><td class="stitle">팰월드 1.0 신규 콘텐츠 (/168)</td><td class="sc sc-hi">89</td><td><span class="pf">N</span></td><td class="st st-keep">PASS</td><td>1.0 정식출시 당일 시의성 최상. 제목·구조·시의성 고르게 강함.</td></tr>
+       <tr><td class="stitle">메이플랜드 미니던전 12곳 (/169)</td><td class="sc sc-hi">86</td><td><span class="pf">G</span></td><td class="st st-keep">PASS</td><td>내부링크·구조 탄탄. 2.0 재개 대비 선점 스포크.</td></tr>
+       <tr><td class="stitle">젠존제 레미엘 시그리드 (/165)</td><td class="sc sc-mid">80</td><td><span class="pf">N</span></td><td class="st st-keep">PASS</td><td>3.1 사전정보 시의성. 발행 직후라 GSC 반영 지연.</td></tr>
+       <tr><td class="stitle">몬헌 와일즈 라기아크루스·셀레기오스 (/166)</td><td class="sc sc-mid">80</td><td><span class="pf">G</span></td><td class="st st-keep">정황상 정상</td><td>신규 클러스터 형성 첫 2편째. 클러스터 결속 진행 중.</td></tr>
+       <tr><td class="stitle">명조 양양현령 딜사이클 (/167)</td><td class="sc sc-mid">78</td><td><span class="pf">G</span></td><td class="st st-keep">PASS</td><td>★자체호스팅 이미지 1장뿐(최약축 원인). 오리지널 피벗 신호(폐기 보류 근거).</td></tr>
+     </tbody>
+   </table>
+   <div class="charts" style="grid-template-columns:1fr;margin-top:16px">
+     <div class="ch"><h5>🧬 블로그 체질 — 8가지 기준 평균 (최근 5편)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">내부링크</span><span class="bt"><i style="width:90%"></i></span><span class="bv num">90</span></div>
+         <div class="bar hi"><span class="bl">제목·검색어</span><span class="bt"><i style="width:88%"></i></span><span class="bv num">88</span></div>
+         <div class="bar hi"><span class="bl">시의성</span><span class="bt"><i style="width:87%"></i></span><span class="bv num">87</span></div>
+         <div class="bar hi"><span class="bl">가독·메타</span><span class="bt"><i style="width:87%"></i></span><span class="bv num">87</span></div>
+         <div class="bar hi"><span class="bl">구조(표·소제목)</span><span class="bt"><i style="width:86%"></i></span><span class="bv num">86</span></div>
+         <div class="bar hi"><span class="bl">검색의도·EEAT</span><span class="bt"><i style="width:83%"></i></span><span class="bv num">83</span></div>
+         <div class="bar lo"><span class="bl">분량·깊이</span><span class="bt"><i style="width:71%"></i></span><span class="bv num">71</span></div>
+         <div class="bar lo"><span class="bl">이미지</span><span class="bt"><i style="width:68%"></i></span><span class="bv num">68</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="note">🧭 겜더쿠는 <b>내부링크(90)·제목(88)이 최강 체질</b>이에요 — 스포크↔허브 결속이 견고하고 클러스터 15개 안팎이 상호 참조해요. 최약축은 <b>이미지(68)·분량(71)</b>인데, 특히 유출/선점형 글(명조 등)에서 이미지가 1~2장으로 얇아요. 자체호스팅 이미지를 편당 4~6장으로만 늘려도 이 축이 올라와요. 두 번째 처방은 <b>레테 헥사스텟 단독 스포크 분리</b>(700+클릭 누출 회수·P1)예요.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🧭</span>강점 · 보강 포인트</h2>
+ <div class="swot">
+   <div class="sw sw-good"><h4>잘하고 있는 것</h4><ul>
+     <li><b>내부링크 90(최강축)</b> — 스포크↔허브 결속 견고, 클러스터 15개 안팎 상호 참조.</li>
+     <li><b>3축 동시 급성장</b> — 팰월드·로스트아크·포켓몬 챔피언스가 신규 기둥으로 편입.</li>
+     <li><b>발행비중 개선</b> — 메이플 40%→20%로 애드센스 재신청(8월초) 리스크 완화.</li>
+     <li><b>색인 위생 최상</b> — 최근 4편 전수 PASS, 티스토리 색인 지연 없음.</li>
+   </ul></div>
+   <div class="sw sw-bad"><h4>보강하면 좋은 것</h4><ul>
+     <li><b>이미지 68(최약축)</b> — 유출/선점형 글에서 자체호스팅 이미지 부족(명조 1장) <small>(콘텐츠 마감)</small></li>
+     <li><b>레테 헥사스텟 700+ 누출</b> — 단독 스포크 미분리로 /133에 흡수 <small>(→P1)</small></li>
+     <li><b>CTR 8.75%로 소폭↓</b> — 브랜드 검색(팰월드·MSI) 저CTR 유입으로 평균 희석</li>
+     <li><b>포트폴리오 원장 정합성</b> — MAD/메이플플래닛 페이지ID 중복 등재 정리 필요 <small>(→P3)</small></li>
+   </ul></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 추천 <span class="tag">— 확장·발굴·단편·티어표(메이플 제외) + 메이플 3게임 탭 (각 3개)</span></h2>
+ <p class="sub"><b>겜더쿠 7탭 구조</b> — ①확장·②발굴·③단편·📊티어표는 <b>메이플 계열 전면 제외</b>(젠존제·포켓몬·이터널리턴 등 메이플 밖으로만)이고, 메이플은 전용 3탭(메이플스토리·메이플랜드·메이플플래닛)이 전담해요. 각 픽에 <b>결 칩</b>(G공략·N뉴스·R리뷰·H허브·D단편)을 달아 다양성을 표시했어요. dedup은 라이브 20편+published.json 수동 대조(classify-picks는 동시 세션 경합으로 미실행). 각 카드 <b>발행 요청</b> 버튼으로 기획팀에 바로 발주돼요.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3"><input type="radio" name="rec" id="t4"><input type="radio" name="rec" id="t5"><input type="radio" name="rec" id="t6"><input type="radio" name="rec" id="t7">
+   <div class="tabbar">
+     <label class="tablab" for="t1">① 확장 <span class="cnt">3</span></label>
+     <label class="tablab" for="t2">② 발굴 <span class="cnt">3</span></label>
+     <label class="tablab" for="t3">③ 단편 <span class="cnt">3</span></label>
+     <label class="tablab" for="t7">📊 티어표 <span class="cnt">3</span></label>
+     <label class="tablab" for="t4">메이플스토리 <span class="cnt">3</span></label>
+     <label class="tablab" for="t5">메이플랜드 <span class="cnt">3</span></label>
+     <label class="tablab" for="t6">메이플플래닛 <span class="cnt">3</span></label>
+   </div>
+
+   <div class="tpanel" id="p1">
+     <div class="dist"><span class="dl">다룬 게임(전부 비메이플·서로 다름)</span>
+       <div class="distbar"><span style="width:34%;background:#7c5cd1"></span><span style="width:33%;background:#9b7fe0"></span><span style="width:33%;background:#5f3fb8"></span></div>
+       <div class="distleg"><b><i style="background:#7c5cd1"></i>롤MSI 1</b><b><i style="background:#9b7fe0"></i>로스트아크 1</b><b><i style="background:#5f3fb8"></i>포챔스 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">롤(MSI)</span><span class="pf k--n">N</span><span class="purp">대회 결산</span><span class="pwhen">D+1(7/12 결승)</span><span class="ptitle">MSI 2026 결승 한화생명 우승 총정리 — BLG전 리버스, 창단 첫 우승</span></div><div class="pwhy"><b>P2</b>. 7/12 결승 확정(한화생명 창단 첫 우승·BLG 상대 리버스, 웹서치 검증). /152·155 대진표글 후속. 오늘자 최고 시의성. ★e스포츠 결과형 규칙대로 실결과 검증 완료·수동 발주. <a href="https://namu.wiki/w/2026%20Mid-Season%20Invitational" target="_blank">나무위키</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">로스트아크</span><span class="pf k--g">G</span><span class="purp">빌드 심화</span><span class="pwhen">1,467 폭증</span><span class="ptitle">로스트아크 차원술사 각인 조합 추천 — 세팅·트라이포드 완전판</span></div><div class="pwhy">/137 클릭 207→1,467 폭증(신규 기둥). '각인' 관련 쿼리(51클릭) 미커버 — 각인 조합·세팅 심화로 클러스터 확장(확장 최우선). <a href="https://www.gamemeca.com/en/view.php?gid=1776780" target="_blank">게임메카</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="pf k--g">G</span><span class="purp">편입 확장</span><span class="pwhen">1,836 편입</span><span class="ptitle">포켓몬 챔피언스 파티 조합·시너지 가이드</span></div><div class="pwhy">1,836클릭으로 정식 sub 편입. 기존 3편(메가진화·상성표·티어)에 '파티 조합' 앵글 부재 — "포챔스 파티 티어" 수요 흡수. /142 허브 결속. <a href="https://namu.wiki/w/Pok%C3%A9mon%20Champions" target="_blank">나무위키</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="dist"><span class="dl">다룬 게임(전부 비메이플·신작)</span>
+       <div class="distbar"><span style="width:34%;background:#7c5cd1"></span><span style="width:33%;background:#9b7fe0"></span><span style="width:33%;background:#5f3fb8"></span></div>
+       <div class="distleg"><b><i style="background:#7c5cd1"></i>넥서스아니마 1</b><b><i style="background:#9b7fe0"></i>어크블플래그 1</b><b><i style="background:#5f3fb8"></i>교토재너두 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">붕괴: 넥서스 아니마</span><span class="pf k--h">H</span><span class="purp">CBT·사전예약</span><span class="pwhen">7/9 CBT중</span><span class="ptitle">붕괴: 넥서스 아니마 2차 CBT(진화 테스트)·사전예약 총정리</span></div><div class="pwhy">호요버스 신작, 2차 CBT 7/9 시작+사전예약 진행 중. 겜더쿠 미등재 신작 — 발굴 1순위 후보. 파일럿 1편 후 클러스터 형성 여부 재검토. ★정식 출시일 미확정. <a href="https://www.inven.co.kr/webzine/news/?news=317670" target="_blank">인벤</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">어쌔신크리드</span><span class="pf k--r">R</span><span class="purp">출시·첫인상</span><span class="pwhen">D+4(7/9)</span><span class="ptitle">어쌔신크리드 블랙플래그 리싱크드 출시 첫인상·개선점</span></div><div class="pwhy">7/9 출시 신작 리메이크. 원작 대비 개선점·그래픽·게임플레이 첫인상 검색 수요. 콘솔 덕후층. ★리메이크 세부는 공식 재확인. <a href="https://www.inven.co.kr" target="_blank">인벤 확인</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">교토 재너두</span><span class="pf k--n">N</span><span class="purp">한국어판 출시</span><span class="pwhen">D+3(7/16)</span><span class="ptitle">교토 재너두 -앵화환무- 한국어판 출시 정보 총정리</span></div><div class="pwhy">니혼팔콤 신작 7/16 한국어판 정식발매(D+3). '어떤 게임인가' 첫인상·듀얼 디멘셔널 ARPG 시스템. JRPG 매니아층(비메이플 다양성). <a href="https://www.cloudedleopardent.com/game/kyoxana/kr/" target="_blank">공식</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <div class="dist"><span class="dl">다룬 게임(전부 비메이플·서로 다름)</span>
+       <div class="distbar"><span style="width:34%;background:#7c5cd1"></span><span style="width:33%;background:#9b7fe0"></span><span style="width:33%;background:#5f3fb8"></span></div>
+       <div class="distleg"><b><i style="background:#7c5cd1"></i>일랜시아 1</b><b><i style="background:#9b7fe0"></i>니케 1</b><b><i style="background:#5f3fb8"></i>삼국지클래식 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">일랜시아</span><span class="pf k--g">G</span><span class="purp">클래스 심화</span><span class="pwhen">9월 CBT 전</span><span class="ptitle">일랜시아 리마스터 전투 직업 비교 심화 (2편째)</span></div><div class="pwhy">순위 변동폭(1.66→11.4) 재확인 필요+9월 1차 비공개 테스트 예고. /135 클래스 심층과 다른 각도(전투 직업 비교)로 재활성 시도 후 keep 등재 재검토. <a href="https://namu.wiki/w/%EC%9D%BC%EB%9E%9C%EC%8B%9C%EC%95%84" target="_blank">나무위키</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">니케</span><span class="pf k--d">D</span><span class="purp">신캐 성능</span><span class="pwhen">7/2 픽업</span><span class="ptitle">니케 신데렐라: 크리스탈 웨이브 성능 분석 — 뽑을 가치 있나</span></div><div class="pwhy">7/2 신규 한정 픽업, 전용 성능글 부재. 뽑기 판단 검색 수요(단발 D). ★성능·스킬은 공식/커뮤니티 재확인. <a href="https://www.gametoc.co.kr/news/articleView.html?idxno=109617" target="_blank">게임톡</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">삼국지 클래식</span><span class="pf k--g">G</span><span class="purp">신작 시작</span><span class="pwhen">7/3 출시</span><span class="ptitle">삼국지 클래식 무과금 시작 가이드 (★천하결전과 다른 게임)</span></div><div class="pwhy">7/3 출시 신작(1인 개발 인디 턴제 대전략). ★<b>주의: 기존 '삼국지 천하결전'과 다른 게임</b>(웹서치 확인) — 제목에 명확히 구분 표기 필요. 무과금 초반 성장 각도. <a href="https://www.inven.co.kr/webzine/news/?news=318356" target="_blank">인벤</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p7">
+     <div class="ecpmnote">📊 <b>티어표 탭</b> — 화제·신작 게임 티어리스트("게임명+티어표" 롱테일). 메이플 제외·같은게임≤1(3게임)·기존 티어글 재추천 아님.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">명일방주 엔드필드</span><span class="pf k--d">D</span><span class="purp">티어표</span><span class="pwhen">1.2 메타 안정</span><span class="ptitle">명일방주 엔드필드 티어표 — 1.2 기준 오퍼레이터 등급</span></div><div class="pwhy">1.2 업데이트 후 메타 안정화(레바테인 등 실제 티어 데이터 확인). 겜더쿠 미커버 신규 티어 자산. ★조합·수치는 작성 직전 커뮤니티/공식 재확인. <a href="https://endfield.gryphline.com/ko-kr" target="_blank">공식</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">젠존제</span><span class="pf k--d">D</span><span class="purp">티어표</span><span class="pwhen">강력 sub</span><span class="ptitle">젠존제 에이전트 티어표 (2026년 7월)</span></div><div class="pwhy">강력 sub(2,772클릭)인데 정작 "티어표" 단독글 부재. 3.1 신캐(레미엘·시그리드) 반영 티어 재편. 노르마 클러스터와 결속. <a href="https://www.hoyolab.com" target="_blank">hoyolab</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">이터널리턴</span><span class="pf k--d">D</span><span class="purp">티어표</span><span class="pwhen">미등재 진입</span><span class="ptitle">이터널리턴 티어표 — 현 시즌 실험체 등급</span></div><div class="pwhy">겜더쿠 완전 미등재 신규 진입, 국내 인기 MOBA/배틀로얄. "이터널리턴 티어표" 롱테일 수요. ★현 시즌·실험체는 작성 직전 재확인. <a href="https://namu.wiki/w/%EC%9D%B4%ED%84%B0%EB%84%90%20%EB%A6%AC%ED%84%B4" target="_blank">나무위키</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p4">
+     <div class="ecpmnote">🔔 <b>업데이트</b>: 7/23 <b>6차 스킬코어 3번째+신규보스 벨로나+매주 보스미션</b>(~8/20 D+10) 예고 — 임박 콘텐츠를 최상단, 누출 회수를 최우선.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플스토리</span><span class="pf k--g">G</span><span class="purp">누출 회수</span><span class="pwhen">P1·700+클릭</span><span class="ptitle">레테 헥사스탯 완전정리 (단독 스포크)</span></div><div class="pwhy"><b>P1</b>. '레테 헥사스텟/스탯' 표기변형 합 700+클릭이 단독글 없어 /133에 흡수 누출 중(pos2.4~4.2). 단독 분리해 헥사스탯 단일축으로 흡수·/133 허브에 묶기(에버그린). <a href="https://maplestory.nexon.com" target="_blank">넥슨 공식</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플스토리</span><span class="pf k--n">N</span><span class="purp">임박 콘텐츠</span><span class="pwhen">D+10(7/23)</span><span class="ptitle">메이플 6차 스킬코어 3번째+신규보스 벨로나 활용 예고</span></div><div class="pwhy">7/23 6차 스킬코어 3번째+신규보스 벨로나+매주 보스미션(~8/20). /159(6차코어 예고, 1,528클릭)에 이은 임박 콘텐츠 선점. ★세부는 공식 패치노트 재확인. <a href="https://maplestory.nexon.com/news/update" target="_blank">넥슨</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플스토리</span><span class="pf k--n">N</span><span class="purp">고CTR 공백</span><span class="pwhen">CTR 62.9%</span><span class="ptitle">메이플 유니온 개편 완전정리</span></div><div class="pwhy">'유니온' 관련 고CTR(62.9%)인데 전용 글 부재. 유니온 배치·공격대원 효율 총정리로 고전환 롱테일 흡수. ★개편 세부는 공식 재확인. <a href="https://maplestory.nexon.com" target="_blank">넥슨</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p5">
+     <div class="ecpmnote">🔔 <b>업데이트</b>: 2.0 점검 6/30→<b>7/14 재개(D+1)</b>(웹서치 확정, 지난 회 서비스상태 상충 해소) + 7/16 신보스·7/24 무릉도장 임박.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플랜드</span><span class="pf k--n">N</span><span class="purp">점검 재개</span><span class="pwhen">D+1(7/14)</span><span class="ptitle">메이플랜드 2.0 점검 종료 후 달라지는 점 총정리</span></div><div class="pwhy">2.0 점검 6/30→7/14 재개 확정(D+1). 재개 직후 '뭐가 바뀌나' 검색 급증 예상. /169 미니던전(+55.7% WoW)과 클러스터 결속. ★변경점 세부는 공식 공지 재확인. <a href="https://maple.land/board/events" target="_blank">공식</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플랜드</span><span class="pf k--g">G</span><span class="purp">신규 보스</span><span class="pwhen">D+3(7/16)</span><span class="ptitle">메이플랜드 핑크빈·마왕발록 신규보스 공략</span></div><div class="pwhy">7/16 신규보스(핑크빈·마왕발록) 오픈. 보스 패턴·공략 검색 수요. 2.0 재개 클러스터 확장. ★패턴 세부는 오픈 후 갱신 전제. <a href="https://maple.land/board/events" target="_blank">공식</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플랜드</span><span class="pf k--h">H</span><span class="purp">신규 콘텐츠 예고</span><span class="pwhen">D+11(7/24)</span><span class="ptitle">메이플랜드 무릉도장 완전정복 예고</span></div><div class="pwhy">7/24 무릉도장 신규 도전 콘텐츠(웹서치 신규 확보 정보). 층별 공략·보상 허브. 임박 예고 선점. ★일정·구성은 공식 재확인. <a href="https://maple.land/board/events" target="_blank">공식</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p6">
+     <div class="ecpmnote">🔔 <b>업데이트</b>: 아란 신규직업 안착+경매장 개편 진행 중(클릭 +62.3% WoW) — 아란 육성 단독 가이드·4차 전직 허브가 공백.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="pf k--g">G</span><span class="purp">직업 육성</span><span class="pwhen">신규직업</span><span class="ptitle">메이플플래닛 아란 육성 가이드</span></div><div class="pwhy">아란 신규직업인데 단독 가이드 부재(에버그린). 클릭 +62.3% WoW로 성장 중. 콤보·육성 루트 실전형. ★스킬 수치는 공식 재확인. <a href="https://mapleplanet.co.kr" target="_blank">공식</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="pf k--n">N</span><span class="purp">경매장 개편</span><span class="pwhen">개편 진행중</span><span class="ptitle">메이플플래닛 경매장 개편 완전정리</span></div><div class="pwhy">경매장 개편 진행 중(거래·시세 직결). 등록 상한·재등록·시세 표기 변경점. 거래 검색 수요. ★세부는 공식 패치노트 재확인. <a href="https://mapleplanet.co.kr/board/update" target="_blank">패치노트</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="pf k--g">G</span><span class="purp">고CTR 허브</span><span class="pwhen">CTR 70~86%</span><span class="ptitle">메이플플래닛 4차 전직 조건·순서 총정리 (허브)</span></div><div class="pwhy">4차 전직 고CTR(70~86%) 롱테일 다수인데 전용 허브 부재. 직업별 4차 전직 조건·순서 허브로 고전환 롱테일 결속. ★조건은 공식 재확인. <a href="https://mapleplanet.co.kr" target="_blank">공식</a></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔎</span>색인 요청 · 허브 정비 <span class="tag">— 최근 4편 전수 색인 완료</span></h2>
+ <div class="panel ixreq">
+   <h4>미색인 URL 0건 — 색인 위생 최상</h4>
+   <div class="ixsub">최근 4편(/169·168·167·164)을 GSC inspect로 확인한 결과 <b>전부 PASS</b>(Submitted and indexed). 겜더쿠는 티스토리 색인 지연이 없어 <b>별도 색인요청이 필요한 건이 없어요.</b> 신규 발행글도 요청 없이 자동 색인 전망이에요.</div>
+   <div class="maint">🔧 <b>허브 정비 권고</b> — ① <b>레테 헥사스탯 단독 스포크</b>를 분리 발행한 뒤 /133·/113 레테 허브에 상호 내부링크로 결속(700+클릭 누출 회수·P1). ② <b>MSI 우승 총정리</b>를 /152·155 대진표글 후속으로 발행(오늘 최고 시의성·P2). ③ <b>포트폴리오 원장 정합성</b> — MAD/메이플플래닛 페이지ID 중복 등재(/63·57·60·84) 정리(P3). ④ <b>포켓몬 챔피언스</b> 파티조합 스포크로 티어 허브 강화(정식 편입 확정).</div>
+ </div>
+
+ <div class="verdict">
+   <div class="lb">오늘자 총평 · 데이터 분석실</div>
+   <h3>주간 +5.8%·평균순위 5.41 개선으로 성장세가 이어지고, 팰월드·로스트아크·포켓몬 챔피언스 3축이 동시에 급성장해 메이플 의존도가 자연 분산됐어요 — 오늘은 레테 헥사스텟 누출 회수와 MSI 우승 선점, 콘텐츠 마감(이미지)이 승부처예요.</h3>
+   <p>겜더쿠는 주간 클릭 <b>39,222(+5.8%)</b>·노출 448,283·평균순위 <b>5.41</b>로 완만한 성장을 이어갔고, <b>팰월드 1.0(+4,893%)·로스트아크 차원술사(+609%)·포켓몬 챔피언스(정식 편입 1,836클릭)</b> 3축이 동시에 급성장해 신규 기둥이 됐어요. 그 덕에 메이플 프랜차이즈 합산이 72%→66%로 내려가고 <b>발행비중도 40%→20%로 개선</b>돼 애드센스 재신청(8월초) 리스크가 크게 완화됐어요. 포트폴리오 판정에서 <b>명조는 폐기를 보류</b>했어요 — 콜라보 종료(7/9) 후에도 오리지널 콘텐츠 2편으로 피벗하고 클릭이 25→51로 반등해 '2회 연속' 조건을 충족하지 못했어요(다음 회 재확인). 이 과정에서 <b>MAD/메이플플래닛 페이지ID가 원장에 중복 등재</b>된 정합성 이슈도 잡아 순수 페이지로 재계산했어요(팀장 확인 필요·P3). 가장 시급한 실질 처방은 신규 발굴이 아니라 <b>콘텐츠 마감</b>이에요 — 레테 헥사스텟 700+클릭 누출을 단독 스포크로 회수하고(P1), 유출/선점형 글의 이미지(최약축 68)를 편당 4~6장으로 늘리는 거예요. 트렌드는 <b>MSI 2026 한화생명 우승 총정리(7/12 결승·오늘 최고 시의성)</b>를 확장 선두에 세웠어요.</p>
+   <div class="gauge">
+     <div class="gtop"><span class="gv num">84<small>/100</small></span><span class="gg g-b">B+</span><span class="gn">헥사스텟 누출 회수 + 이미지 보강 정착 시 A 진입</span></div>
+     <div class="grow"><span class="gl">발행 동력</span><span class="gt b-hi"><i style="width:92%"></i></span><span class="gs num">92</span></div>
+     <div class="grow"><span class="gl">콘텐츠 품질</span><span class="gt b-hi"><i style="width:82%"></i></span><span class="gs num">82</span></div>
+     <div class="grow"><span class="gl">검색 건강</span><span class="gt b-hi"><i style="width:84%"></i></span><span class="gs num">84</span></div>
+     <div class="grow"><span class="gl">기회·다양성</span><span class="gt b-hi"><i style="width:80%"></i></span><span class="gs num">80</span></div>
+   </div>
+ </div>
+
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(겜더쿠) · 발행 페이스는 티스토리 RSS 실측(일 2.2편) · 검색 데이터는 GSC API report 풀번들 실측(7/5~7/11 · fresh ~7/12 · 미색인 0건) · 서브게임은 7일 실측 재계산 · 글 품질은 티스토리 본문 직접 확인 · 명조 폐기 보류·포챔스 편입은 데이터 근거 · MAD 페이지ID 정합성은 팀장 확인 필요 · MSI 결과·추천 일정(젠존제 3.1·메랜 신보스 등)은 작성 직전 공식 재확인 권장 · ★GSC 파이널라이즈 지연으로 WoW는 report API 같은 시점 prev_period 기준.</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>

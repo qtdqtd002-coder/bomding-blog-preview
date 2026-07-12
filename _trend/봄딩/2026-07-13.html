@@ -1,0 +1,363 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 봄딩 진단 &amp; 오늘 쓸 글 · 2026-07-13</title>
+<style>
+ :root{
+   --bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--inset2:#f2f4f7;
+   --ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--line2:#d8dbe2;
+   --brand:#5a4fe6;--warm:#ff6f52;--warm-weak:#ffeee9;
+   --ac:#e06c49;--ac-d:#b8502f;--ac-weak:#fbe9e3;
+   --good:#1f9d6b;--good-weak:#e7f6ef;--warn:#e0890b;--warn-weak:#fbf1de;--bad:#dc2626;--bad-weak:#fdecec;
+   --r-sm:9px;--r:13px;--r-lg:18px;
+   --sh-sm:0 1px 2px rgba(16,24,40,.05);--sh-md:0 6px 18px rgba(90,50,32,.07);
+   --tnum:"tnum" 1;
+ }
+ *{box-sizing:border-box;} html,body{margin:0;}
+ body{background:var(--bg);color:var(--ink);
+   font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+   line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;}
+ .wrap{max-width:840px;margin:0 auto;padding:20px 18px 64px;}
+ .back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;}
+ .back:hover{color:var(--ink);}
+ .num{font-feature-settings:var(--tnum);}
+ h2.sec{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:34px 0 2px;display:flex;align-items:center;gap:9px;}
+ h2.sec .ic{font-size:18px;}
+ h2.sec .tag{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:0;}
+ .sub{color:var(--sub);font-size:12.5px;margin:4px 0 12px;line-height:1.55;}
+ .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:18px 20px;margin-top:12px;}
+ .mast{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+   background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:20px 22px;}
+ .mast .l{flex:1;min-width:240px;}
+ .who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ac-d);
+   background:var(--ac-weak);border-radius:999px;padding:4px 11px;}
+ .who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac);}
+ .mast h1{font-size:clamp(18px,3.4vw,21px);font-weight:800;letter-spacing:-.02em;margin:11px 0 7px;line-height:1.4;text-wrap:balance;}
+ .mast .meta{font-size:12px;color:var(--muted);font-weight:500;} .mast .meta b{color:var(--sub);font-weight:700;}
+ .score{flex:none;text-align:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:108px;background:var(--inset);}
+ .score .sl{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--muted);}
+ .score .sv{font-size:38px;font-weight:800;line-height:1.02;margin-top:3px;font-feature-settings:var(--tnum);} .score .sv small{font-size:15px;color:var(--faint);font-weight:700;}
+ .score .sg{font-size:13px;font-weight:800;margin-top:1px;}
+ .g-a{color:var(--good);} .g-b{color:var(--ac-d);} .g-c{color:var(--warn);}
+ .glance{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden;}
+ .glance .gh{display:flex;align-items:center;gap:8px;padding:14px 20px 12px;border-bottom:1px solid var(--line);}
+ .glance .gh b{font-size:14px;font-weight:800;letter-spacing:-.01em;} .glance .gh .gt{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .lens{display:flex;gap:13px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:flex-start;}
+ .lens:last-of-type{border-bottom:none;}
+ .lens .li{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--inset2);}
+ .lens .lc{flex:1;min-width:0;}
+ .lens .lk{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
+ .lens .lx{font-size:13.5px;font-weight:600;line-height:1.5;margin-top:2px;color:var(--ink);}
+ .lens .lx b{font-weight:800;color:var(--ac-d);}
+ .lens .lm{flex:none;text-align:right;min-width:74px;}
+ .lens .lmv{font-size:19px;font-weight:800;font-feature-settings:var(--tnum);line-height:1.1;} .lens .lmv small{font-size:11px;color:var(--faint);font-weight:700;}
+ .lens .lml{font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+ @media(max-width:540px){.lens .lm{display:none;}}
+ .todo{background:var(--inset);padding:14px 20px;}
+ .todo .th{font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:.02em;margin-bottom:9px;}
+ .trow{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line2);align-items:flex-start;} .trow:first-of-type{border-top:none;}
+ .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:2px 8px;margin-top:1px;font-feature-settings:var(--tnum);}
+ .pp.p2{background:#e8825f;} .pp.p3{background:#f0a892;}
+ .tc{font-size:13px;line-height:1.5;} .tc b{font-weight:800;} .tc .tw{color:var(--muted);}
+ .kind{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+ .k-write{background:var(--ac-weak);color:var(--ac-d);} .k-seo{background:#e6ebff;color:#3b43b8;} .k-keep{background:var(--warn-weak);color:#9a6207;}
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;} @media(max-width:560px){.kgrid{grid-template-columns:repeat(2,1fr);}}
+ .k{background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 13px;}
+ .k .kv{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-feature-settings:var(--tnum);} .k .kv small{font-size:11px;font-weight:700;color:var(--faint);}
+ .k .kl{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:600;} .k .kd{font-size:10px;font-weight:800;margin-top:4px;}
+ .up{color:var(--good);} .down{color:var(--bad);} .flat{color:var(--warn);}
+ .bars{display:flex;flex-direction:column;gap:7px;}
+ .ch h5{margin:0 0 9px;font-size:11.5px;font-weight:800;color:var(--sub);}
+ .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;} @media(max-width:600px){.charts{grid-template-columns:1fr;}}
+ .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:62px;font-size:10.5px;font-weight:700;color:var(--sub);}
+ .bar .bt{flex:1;height:11px;background:var(--inset2);border-radius:6px;overflow:hidden;}
+ .bar .bt i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#f3b6a3,var(--ac));}
+ .bar .bv{flex:none;width:52px;text-align:right;font-size:10.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .bar.hi .bt i{background:linear-gradient(90deg,#e8825f,var(--ac-d));}
+ .bar.lo .bt i{background:linear-gradient(90deg,#f6c074,var(--warn));} .bar.lo .bl,.bar.lo .bv{color:#9a6207;}
+ .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+ .chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid;}
+ .c-good{background:var(--good-weak);color:#157a52;border-color:#c2e8d6;} .c-warn{background:var(--warn-weak);color:#9a6207;border-color:#f0d9a8;} .c-bad{background:var(--bad-weak);color:#b91c1c;border-color:#f3c2c2;}
+ .note{margin-top:13px;font-size:12px;line-height:1.55;color:var(--sub);background:var(--inset);border-radius:var(--r-sm);padding:11px 13px;} .note b{color:var(--ink);}
+ .lagline{margin-top:11px;font-size:11.5px;line-height:1.55;color:var(--muted);background:var(--inset2);border-radius:var(--r-sm);padding:9px 12px;} .lagline b{color:var(--sub);}
+ table{width:100%;border-collapse:collapse;font-size:12px;} th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:center;}
+ thead th{background:transparent;border-bottom:1.5px solid var(--line2);font-weight:800;font-size:10.5px;color:var(--muted);letter-spacing:.02em;}
+ td.gl{text-align:left;font-weight:700;} td.vd{text-align:left;font-size:11.5px;color:var(--sub);line-height:1.45;}
+ .seoq td{text-align:left;vertical-align:top;} .seoq .stitle{font-weight:700;}
+ .sc{font-weight:800;text-align:center;white-space:nowrap;font-feature-settings:var(--tnum);} .sc-hi{color:var(--good);} .sc-mid{color:var(--warn);} .sc-lo{color:var(--bad);}
+ .pf{font-weight:800;font-size:10px;border-radius:5px;padding:1px 6px;background:var(--ac-weak);color:var(--ac-d);white-space:nowrap;}
+ .swot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;} @media(max-width:540px){.swot{grid-template-columns:1fr;}}
+ .sw{border-radius:var(--r);padding:14px 16px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:13px;font-weight:800;}
+ .sw ul{margin:0;padding-left:17px;font-size:12.5px;line-height:1.6;} .sw li{margin:6px 0;} .sw li b{font-weight:800;} .sw small{color:var(--muted);font-weight:600;}
+ .sw-good{background:var(--good-weak);border-color:#cfeadd;} .sw-good h4{color:#157a52;}
+ .sw-bad{background:#fbf5f5;border-color:#f0d6d6;} .sw-bad h4{color:#b91c1c;}
+ details.trend{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:4px 16px;}
+ details.trend summary{cursor:pointer;font-size:13px;font-weight:800;padding:11px 0;list-style:none;color:var(--sub);}
+ details.trend summary::-webkit-details-marker{display:none;}
+ details.trend summary::before{content:"\25B8 ";color:var(--ac);} details.trend[open] summary::before{content:"\25BE ";}
+ .chg{margin-top:12px;}
+ .chgrow{display:flex;gap:10px;padding:9px 0;border-top:1px dashed var(--line2);align-items:flex-start;font-size:12.5px;line-height:1.5;} .chgrow:first-of-type{border-top:none;}
+ .chgk{flex:none;font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 8px;margin-top:1px;white-space:nowrap;}
+ .tabs{margin-top:12px;} .tabs>input{position:absolute;opacity:0;pointer-events:none;}
+ .tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px;}
+ .tablab{font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:var(--r-sm);background:var(--inset2);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s;}
+ .tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px;font-feature-settings:var(--tnum);}
+ .tpanel{display:none;}
+ #t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3],#t4:checked~.tabbar label[for=t4],#t5:checked~.tabbar label[for=t5],#t6:checked~.tabbar label[for=t6],#t7:checked~.tabbar label[for=t7]{background:var(--ac);color:#fff;border-color:var(--ac);}
+ #t7:checked~.tabbar label[for=t7]{background:var(--warm);border-color:var(--warm);}
+ #t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt,#t4:checked~.tabbar label[for=t4] .cnt,#t5:checked~.tabbar label[for=t5] .cnt,#t6:checked~.tabbar label[for=t6] .cnt,#t7:checked~.tabbar label[for=t7] .cnt{color:rgba(255,255,255,.75);}
+ #t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3,#t4:checked~#p4,#t5:checked~#p5,#t6:checked~#p6,#t7:checked~#p7{display:block;}
+ .dist{display:flex;align-items:center;gap:9px;margin-bottom:12px;background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;flex-wrap:wrap;}
+ .dist .dl{font-size:10.5px;font-weight:800;color:var(--muted);}
+ .distbar{flex:1;min-width:160px;display:flex;height:9px;border-radius:5px;overflow:hidden;background:var(--inset2);}
+ .distbar span{height:100%;}
+ .distleg{display:flex;gap:9px;flex-wrap:wrap;} .distleg b{font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:4px;color:var(--sub);}
+ .distleg b i{width:8px;height:8px;border-radius:2px;display:inline-block;}
+ .pick{border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;margin-bottom:9px;background:var(--panel);transition:border-color .12s;}
+ .pick:hover{border-color:var(--line2);}
+ .pick-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+ .gtag{font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 7px;}
+ .gtag.baby{color:#c2451f;background:var(--warm-weak);}
+ .pecpm{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;white-space:nowrap;letter-spacing:-.01em;}
+ .pecpm.hi{background:var(--good-weak);color:#157a52;} .pecpm.mid{background:var(--warn-weak);color:#9a6207;} .pecpm.lo{background:var(--inset2);color:var(--muted);}
+ .ecpmnote{margin:2px 0 10px;font-size:11px;color:var(--muted);background:var(--inset2);border-radius:var(--r-sm);padding:7px 11px;line-height:1.5;} .ecpmnote b{color:var(--sub);}
+ .purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset2);border-radius:5px;padding:2px 7px;}
+ .pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--warm-weak);color:#c2451f;}
+ .ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:160px;line-height:1.4;}
+ .pwhy{font-size:12px;line-height:1.5;color:var(--sub);} .pwhy b{color:var(--ink);font-weight:700;} .pwhy a{color:var(--brand);text-decoration:none;border-bottom:1px solid #c7c2f5;}
+ .verdict{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:20px 22px;}
+ .verdict .lb{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--ac-d);}
+ .verdict h3{margin:8px 0 10px;font-size:15.5px;font-weight:800;letter-spacing:-.01em;line-height:1.45;text-wrap:balance;}
+ .verdict p{margin:0 0 16px;font-size:13px;line-height:1.75;color:var(--sub);} .verdict p b{color:var(--ink);font-weight:700;}
+ .gauge{border-top:1px solid var(--line);padding-top:15px;}
+ .gtop{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap;}
+ .gtop .gv{font-size:30px;font-weight:800;font-feature-settings:var(--tnum);} .gtop .gv small{font-size:14px;color:var(--faint);font-weight:700;}
+ .gtop .gg{font-size:15px;font-weight:800;} .gtop .gn{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .grow{display:flex;align-items:center;gap:10px;margin:8px 0;}
+ .grow .gl{flex:none;width:88px;font-size:11.5px;font-weight:700;color:var(--sub);}
+ .grow .gt{flex:1;height:9px;background:var(--inset2);border-radius:5px;overflow:hidden;} .grow .gt i{display:block;height:100%;border-radius:5px;}
+ .grow .gs{flex:none;width:30px;text-align:right;font-size:11.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .b-hi i{background:linear-gradient(90deg,#e8825f,var(--ac-d));} .b-mid i{background:linear-gradient(90deg,#f6c074,var(--warn));} .b-lo i{background:linear-gradient(90deg,#f08e8e,var(--bad));}
+ .foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center;}
+ @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+ @media(max-width:540px){.wrap{padding:14px 12px 44px;}.score{padding:10px 14px;min-width:92px;}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+
+ <div class="mast">
+   <div class="l">
+     <span class="who">데이터 분석실 · 봄딩 편</span>
+     <h1>발행 페이스는 3.3편/일로 최상위권을 지키고 시의성(85)도 강해요 — 다만 뉴스·이벤트형 단문 글이 내부링크 0건으로 나가 8축 최저(내부링크 68)를 만들고, 주축 4게임 반복소재는 이번 주 두근두근타운 2건이 dedup·실측불가로 발행 실패했어요. 오늘은 라그M 클래식(D-3)·아스달 뉴월드(D-1) 선점과 발굴 신선주제로 소재 고갈을 깨는 게 축이에요. 종합지수 77(B).</h1>
+     <div class="meta">발행일 <b>2026-07-13</b> · 대상 <b>봄딩</b>(네이버 bomding · 게임+육아) · 선행지표 매일 실측 · 후행지표 <b>2026.06 확정</b>(7/3 캡처 · 월 조회 185K·+40% 반등이나 구글 -36% · 다음 캡처 8/1)</div>
+   </div>
+   <div class="score"><div class="sl">오늘 지수</div><div class="sv num">77<small>/100</small></div><div class="sg g-b">B</div></div>
+ </div>
+
+ <div class="glance">
+   <div class="gh">🎯 <b>오늘 한눈에</b><span class="gt">데이터 · 트렌드 · 크리에이터 세 시각</span></div>
+   <div class="lens">
+     <div class="li">📊</div>
+     <div class="lc">
+       <div class="lk">데이터 분석가가 보는 것</div>
+       <div class="lx">네이버 글목록 5페이지 실측 결과 7/1~7/13 <b>43편</b> 발행 — <b>3.3편/일</b>로 6월 평균(3.2편/일)과 거의 같은 안정 페이스예요(게임+육아 투트랙). 후행은 <b>6월 확정 185K(+40.2%)</b> 반등이 유효하지만 <b>구글 검색은 -36%·재방문율 5.4%</b>라 '질'은 얕아요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">3.3<small>편/일</small></div><div class="lml">7월 발행 페이스(D+13 실측)</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">📈</div>
+     <div class="lc">
+       <div class="lk">트렌드 분석가가 보는 것</div>
+       <div class="lx">4게임 밖 확장·발굴에 임박 신작이 몰렸어요 — <b>라그나로크M 클래식 정식출시(7/16 D-3)·아스달 뉴월드 서버(7/14 D-1)</b>가 선점 최대 기회. 주축 게임은 <b>두근두근타운 반주년+고래탐사 시즌·포켓몬GO 모으령(~7/31)</b>이 진행 중이에요. 게임 픽은 <b>구매·기기·과금 각도(eCPM 🟢고)를 상단</b>에 배치했어요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">D-3</div><div class="lml">라그M 클래식(7/16)</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">🎨</div>
+     <div class="lc">
+       <div class="lk">크리에이터 컨설턴트가 보는 것</div>
+       <div class="lx">최근 5편(아기 서큘레이터·두근두근타운 고래탐사·PC 스팀법·우마무스메 4주년·블러드레인)을 직접 열어 채점한 결과 평균 <b>79점</b>. 제목·시의성(85)은 강한데 <b>뉴스형 단문 2편이 내부링크 0건</b>이라 내부링크(68)가 최약축이에요. 구조(72)도 짧은 속보에 표·리스트가 없어 낮아요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">68<small>점</small></div><div class="lml">내부링크(최약축)</div></div>
+   </div>
+   <div class="todo">
+     <div class="th">🩺 그래서 오늘 할 일 (우선순위 순)</div>
+     <div class="trow"><span class="pp">P1</span><div class="tc"><span class="kind k-seo">SEO</span><b>뉴스·이벤트형 단문 글 하단 "같이 보기" 2~3링크 슬롯 고정</b> — 최근 5편 중 2편(우마무스메·블러드레인)이 내부링크 0건. 슬롯을 발행 템플릿에 강제하면 68→75+로 즉시 올라와요. <span class="tw">(→ 아래 SEO 검수)</span></div></div>
+     <div class="trow"><span class="pp p2">P2</span><div class="tc"><span class="kind k-write">글쓰기</span><b>결이 다른 발굴 신선주제를 주 1~2회 고정 편성</b> — 두근두근타운 소재가 07-11~12 2건(시즌패스 비교·심해 도감) dedup·실측불가로 발행 실패. 아스달·디아4·붉은사막처럼 4게임 밖 주제로 유입 채널 다변화. <span class="tw">(→ ②발굴)</span></div></div>
+     <div class="trow"><span class="pp p3">P3</span><div class="tc"><span class="kind k-write">글쓰기</span><b>500자 미만 속보에도 "핵심 요약표"(마감일·보상·참여법) 고정 삽입</b> — 짧은 뉴스형 글이 표·리스트 부재로 구조점수(72) 낮음. 요약표만 넣어도 체류·구조 동반 상승. <span class="tw">(→ 각 게임 탭)</span></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📊</span>진단 대시보드 <span class="tag">— 선행지표는 매일 실측(네이버 글목록)</span></h2>
+ <div class="panel">
+   <div class="kgrid">
+     <div class="k"><div class="kv num flat">3.3 <small>편/일</small></div><div class="kl">7월 발행 페이스(D+13)</div><div class="kd flat num">6월 3.2편/일 대비 +3%(안정)</div></div>
+     <div class="k"><div class="kv num">5 <small>개</small></div><div class="kl">활성 클러스터</div><div class="kd flat">두근두근타운·포켓몬GO·포챔스·메플플래닛·육아</div></div>
+     <div class="k"><div class="kv num">79</div><div class="kl">최근글 SEO 평균</div><div class="kd flat">5편 8축 평균(제목·시의성 강점)</div></div>
+     <div class="k"><div class="kv num down">68 <small>/100</small></div><div class="kl">내부링크(약점 축)</div><div class="kd flat">5편 중 2편 링크 0건</div></div>
+   </div>
+   <div class="lagline">📌 후행지표(<b>2026.06 월간 확정</b> · 7/3 캡처 수신) — 월 조회수 <b>185,081(+40.2%)</b>·순방문 <b>126,667(+56.5%)</b>로 5개월 연속 급락을 처음 반전시켰어요. <b>단 반등의 질 경고</b>: 검색유입이 구글 59.8%→<b>네이버 통합검색 59.3%로 역전</b>(구글 27.5%로 반토막·절대값 -36%) = 반등은 전량 신작 뉴스 견인이라 식기 빠르고, 재방문율 9.6→<b>5.4%</b>(역대 최저) 동반 하락. <b>결론 — 양은 회복, 구글 에버그린 체력은 오히려 더 약해졌어요.</b> (월간 지표라 일 단위 변동 없음 · 다음 캡처는 8/1.)</div>
+   <div class="chips">
+     <span class="chip c-good">7월 D+13 실측 3.3편/일(6월 3.2편/일과 거의 동일·안정)</span>
+     <span class="chip c-good">최근 5편 SEO 평균 79(제목·시의성 85 강점)</span>
+     <span class="chip c-warn">내부링크 68 재확인(5편 중 2편 링크 0건)</span>
+     <span class="chip c-bad">두근두근타운 소재 2건 07-11~12 발행 실패(소재 고갈 신호)</span>
+   </div>
+ </div>
+
+ <details class="trend"><summary>📈 월별 조회수 추세 (2026.06 확정 — 5개월 급락 첫 반전)</summary>
+   <p class="sub" style="margin-top:6px">2026.06 월간 확정. 97편 발행이 우하향 그래프를 <b>+40% 반등</b>으로 꺾었어요(132K→185K). 단 이 반등은 네이버 뉴스 검색이 만든 것이라 구글 에버그린은 오히려 -36% — 지속성은 7월 효자 리프레시로 검증돼요. (월 1회 갱신 · 다음 캡처 8/1.)</p>
+   <div class="ch"><h5>월 조회수 추세 (최근 6개월 · 2026.06 확정)</h5>
+     <div class="bars">
+       <div class="bar"><span class="bl">1월</span><span class="bt"><i style="width:100%"></i></span><span class="bv num">292K</span></div>
+       <div class="bar"><span class="bl">2월</span><span class="bt"><i style="width:80%"></i></span><span class="bv num">235K</span></div>
+       <div class="bar"><span class="bl">3월</span><span class="bt"><i style="width:65%"></i></span><span class="bv num">190K</span></div>
+       <div class="bar lo"><span class="bl">4월</span><span class="bt"><i style="width:47%"></i></span><span class="bv num">136K</span></div>
+       <div class="bar lo"><span class="bl">5월</span><span class="bt"><i style="width:45%"></i></span><span class="bv num">132K</span></div>
+       <div class="bar hi"><span class="bl">6월</span><span class="bt"><i style="width:63%"></i></span><span class="bv num">185K</span></div>
+     </div>
+   </div>
+   <div class="note">6월 97편 발행이 우하향 그래프를 <b>+40% 반등</b>으로 꺾었어요 — 양→유입 전환은 성공. <b>단 반등은 네이버 통합검색(신작 뉴스)이 만든 것이고 구글 에버그린은 오히려 -36%</b>라, 뉴스가 식는 8월에도 유지되려면 효자 리프레시로 구글 자산을 되살려야 해요. 재방문율도 9.6→5.4%로 떨어져 <b>'새 방문자는 왔는데 안 돌아온다'</b>가 숫자로 확인됐어요.</div>
+ </details>
+
+ <h2 class="sec"><span class="ic">🔍</span>최근 글 품질 검수 <span class="tag">— 최근 5편을 8가지 기준으로 채점</span></h2>
+ <p class="sub">최근 5편(아기 서큘레이터 추천·두근두근타운 고래탐사 정리·두근두근타운 PC 스팀법·우마무스메 4주년·블러드레인 SGF2026, 7/11~7/13 발행) 기준. 네이버 본문(PostView PC)을 직접 열어 이미지·링크·표를 채점했어요. 5편 중 2편이 내부링크 0건으로 baseline 취약점(내부링크 68)이 그대로 재현됐어요.</p>
+ <div class="panel" style="padding-top:8px">
+   <table class="seoq">
+     <thead><tr><th style="text-align:left">최근 글</th><th style="width:8%">점수</th><th style="text-align:left">한 줄 평</th></tr></thead>
+     <tbody>
+       <tr><td class="stitle">아기 서큘레이터 추천 (7/13)</td><td class="sc sc-hi">85</td><td>표6·이미지25·내부링크12로 5편 중 최고 구조. 여름 시즌 정확 타이밍(쿠팡 파트너스).</td></tr>
+       <tr><td class="stitle">두근두근타운 고래탐사 정리 (7/13)</td><td class="sc sc-hi">84</td><td>공식 공지 당일 정리로 시의성 최고. 리스트5·표2 구조 탄탄.</td></tr>
+       <tr><td class="stitle">두근두근타운 PC 스팀법 (7/11)</td><td class="sc sc-mid">76</td><td>실용 가이드형이나 내부링크 4건·표1개로 구조 아쉬움.</td></tr>
+       <tr><td class="stitle">우마무스메 4주년 쥬얼선물 (7/13)</td><td class="sc sc-mid">76</td><td>D-day 마감일 명시로 시의성 강하나 내부링크 0·표1개.</td></tr>
+       <tr><td class="stitle">블러드레인 SGF2026 (7/11)</td><td class="sc sc-lo">73</td><td>뉴스 단신형, 내부링크 0·이미지9개로 5편 중 최저 구조.</td></tr>
+     </tbody>
+   </table>
+   <div class="charts" style="grid-template-columns:1fr;margin-top:16px">
+     <div class="ch"><h5>🧬 블로그 체질 — 8가지 기준 평균 (최근 5편)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">제목·검색어</span><span class="bt"><i style="width:85%"></i></span><span class="bv num">85</span></div>
+         <div class="bar hi"><span class="bl">시의성</span><span class="bt"><i style="width:85%"></i></span><span class="bv num">85</span></div>
+         <div class="bar hi"><span class="bl">가독·메타</span><span class="bt"><i style="width:82%"></i></span><span class="bv num">82</span></div>
+         <div class="bar hi"><span class="bl">검색의도·EEAT</span><span class="bt"><i style="width:80%"></i></span><span class="bv num">80</span></div>
+         <div class="bar hi"><span class="bl">이미지</span><span class="bt"><i style="width:80%"></i></span><span class="bv num">80</span></div>
+         <div class="bar lo"><span class="bl">분량·깊이</span><span class="bt"><i style="width:76%"></i></span><span class="bv num">76</span></div>
+         <div class="bar lo"><span class="bl">구조(표·소제목)</span><span class="bt"><i style="width:72%"></i></span><span class="bv num">72</span></div>
+         <div class="bar lo"><span class="bl">내부링크</span><span class="bt"><i style="width:68%"></i></span><span class="bv num">68</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="note">봄딩은 <b>제목·시의성(85)이 최강 체질</b>이에요 — 공식 발표 3시간 내 당일 반영이 반복돼요. 약점은 <b>내부링크(68)·구조(72)</b>인데, 둘 다 <b>짧은 뉴스형 단문</b>에서 나와요(관련 글 링크 0건·요약표 부재). 매 글 하단 "같이 보기" 슬롯과 속보용 핵심 요약표를 고정하면 두 축이 함께 올라와요<small>(→P1·P3)</small>.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🧭</span>강점 · 보강 포인트</h2>
+ <div class="swot">
+   <div class="sw sw-good"><h4>잘하고 있는 것</h4><ul>
+     <li><b>발행 페이스 최상위권</b> — 7월도 3.3편/일로 30일 이상 흔들림 없이 지속(게임+육아 투트랙).</li>
+     <li><b>시의성·제목 85</b> — 고래탐사 시즌을 공식 발표 3시간 내 정리하는 등 당일 반영 반복.</li>
+     <li><b>★6월 조회수 +40% 반등</b> — 132K→185K로 5개월 연속 급락을 처음 꺾었어요(순방문 +56.5%).</li>
+     <li><b>육아 사실검증 탄탄</b> — KC인증·성분·가격 비교 상시로 E-E-A-T·가독 80대 안정.</li>
+   </ul></div>
+   <div class="sw sw-bad"><h4>보강하면 좋은 것</h4><ul>
+     <li><b>내부링크 68(5편 중 2편 0건)</b> — 뉴스·이벤트형 단문 하단 "같이 보기" 슬롯 고정 <small>(→P1)</small></li>
+     <li><b>4게임 반복소재 고갈</b> — 두근두근타운 2건 발행 실패. 결이 다른 발굴 신선주제 정기 편성 <small>(→P2)</small></li>
+     <li><b>구조 72(속보 표·리스트 부재)</b> — 500자 미만 속보에도 핵심 요약표 고정 <small>(→P3)</small></li>
+     <li><b>반등의 질</b> — 6월 +40%가 네이버 신작 뉴스 견인(구글 -36%·재방문 5.4%). 효자 리프레시로 구글 에버그린 회복 필요</li>
+   </ul></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 추천 <span class="tag">— ①확장·②발굴 + 주축 4게임 탭 + 🍼 육아 (각 3개 · eCPM 순)</span></h2>
+ <p class="sub"><b>봄딩 7탭 구조</b> — <b>①확장·②발굴</b>(4게임 밖 일반 트렌드) 뒤에 <b>두근두근타운·포켓몬 GO·포켓몬 챔피언스·메이플플래닛</b> 4개 주축 게임 탭 + <b>🍼육아</b>를 둬요(각 3개). 게임 탭은 <b>업데이트가 있으면 최상단 우선</b>으로, 픽마다 <b>광고 단가(eCPM) 기대등급</b>을 달아 높은 순으로 정렬했어요 — <span class="pecpm hi">🟢고</span> 구매·과금·기기 등 상업 검색의도 / <span class="pecpm mid">🟡중</span> 공략·티어·정보 정리 / <span class="pecpm lo">⚪저</span> 쿠폰·속보(트래픽 크나 단가·체류 낮음). ★게임은 구조적으로 단가가 낮아 <b>등급은 게임 픽들 사이의 상대 비교</b>예요(절대 단가 보장 아님). ★포켓몬 GO·챔피언스는 <b>대중 공략·기기·과금 각도</b>로 잡아 연봄(포켓몬 덕질)과 검색어 정면충돌을 피했어요. 🍼육아는 <b>쿠팡 파트너스 제휴 수익</b>이라 eCPM 대신 쿠팡 전환 기준을 유지해요. 각 카드 <b>발행 요청</b> 버튼으로 기획팀에 바로 발주돼요.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3"><input type="radio" name="rec" id="t4"><input type="radio" name="rec" id="t5"><input type="radio" name="rec" id="t6"><input type="radio" name="rec" id="t7">
+   <div class="tabbar">
+     <label class="tablab" for="t1">① 확장 <span class="cnt">3</span></label>
+     <label class="tablab" for="t2">② 발굴 <span class="cnt">3</span></label>
+     <label class="tablab" for="t3">두근두근타운 <span class="cnt">3</span></label>
+     <label class="tablab" for="t4">포켓몬 GO <span class="cnt">3</span></label>
+     <label class="tablab" for="t5">포켓몬 챔피언스 <span class="cnt">3</span></label>
+     <label class="tablab" for="t6">메이플플래닛 <span class="cnt">3</span></label>
+     <label class="tablab" for="t7">🍼 육아 <span class="cnt">3</span></label>
+   </div>
+
+   <div class="tpanel" id="p1">
+     <div class="dist"><span class="dl">다룬 게임(4게임 밖 트렌드·게임당 1)</span>
+       <div class="distbar"><span style="width:34%;background:#e06c49"></span><span style="width:33%;background:#e8825f"></span><span style="width:33%;background:#f0a892"></span></div>
+       <div class="distleg"><b><i style="background:#e06c49"></i>라그나로크M 1</b><b><i style="background:#e8825f"></i>로스트아크 1</b><b><i style="background:#f0a892"></i>GTA6 1</b></div>
+     </div>
+     <div class="ecpmnote">💰 <b>eCPM 순 정렬</b> — GTA6 에디션 비교(구매 결정)를 상단, 이어 로아·라그M 업데이트 각도.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">GTA6</span><span class="purp">제품 비교·추천</span><span class="pecpm hi">🟢고</span><span class="pwhen">사전예약 중</span><span class="ptitle">GTA6 얼티밋 vs 스탠다드 에디션 — 사전예약 특전·가격 뭐가 다를까</span></div><div class="pwhy"><b>P?</b> 6/25 사전예약 시작, 스탠다드 79.99$·얼티밋 99.99$ 가격·특전 공개. 7/1 봄딩 'GTA6 사전예약' 글의 후속(에디션별 구매결정 각도로 안 겹치게). <b>eCPM 각도</b>: 결제·에디션 비교 = 최고 단가 상업 검색. <a href="https://www.inven.co.kr/webzine/news/?news=317776" target="_blank">인벤</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">라그나로크M</span><span class="purp">사전예약·출시</span><span class="pecpm mid">🟡중</span><span class="pwhen">D-3(7/16)</span><span class="ptitle">라그나로크M 클래식 정식출시 D-3 총정리 — 직업·서버 뭘 챙길까</span></div><div class="pwhy">7/16 정식 출시 확정, 7/12 유저 간담회 개최. 6/15 봄딩 CBT 사전예약 글의 후속(출시 시점 직업·서버 선점 각도로 안 겹치게). <a href="http://www.gamey.kr/news/articleView.html?idxno=3017761" target="_blank">게이미</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">로스트아크</span><span class="purp">업데이트·패치</span><span class="pecpm mid">🟡중</span><span class="pwhen">진행중(7/8~)</span><span class="ptitle">로스트아크 신규 클래스 업데이트 — PC방 사용시간 70%↑ 2주 연속 급상승 이유</span></div><div class="pwhy">7/8 신규 클래스(차원술사) 업데이트 이후 전주 대비 사용시간 +70%, 2주 연속 오름세. 봄딩 6월 사전예약 글 후속(신규 클래스 대중 육성 각도, 겜더쿠 빌드 심화와 분리). <a href="https://www.gamevu.co.kr/news/articleView.html?idxno=59171" target="_blank">게임뷰</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="dist"><span class="dl">다룬 게임(4게임 밖·봄딩 미발행 확인)</span>
+       <div class="distbar"><span style="width:34%;background:#e06c49"></span><span style="width:33%;background:#e8825f"></span><span style="width:33%;background:#f0a892"></span></div>
+       <div class="distleg"><b><i style="background:#e06c49"></i>아스달연대기 1</b><b><i style="background:#e8825f"></i>디아블로4 1</b><b><i style="background:#f0a892"></i>붉은사막 1</b></div>
+     </div>
+     <div class="ecpmnote">💰 <b>P2 핵심 트랙</b> — 4게임 반복소재 고갈 대응, 결이 다른 신선주제로 유입 채널 다변화.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">아스달연대기</span><span class="purp">업데이트·패치</span><span class="pecpm lo">⚪저</span><span class="pwhen">D-1(7/14)</span><span class="ptitle">아스달연대기 신규서버 '뉴 월드' 7/14 오픈 D-1 — 지금 시작해야 하는 이유</span></div><div class="pwhy"><b>P2</b>. 7/14(내일) 신규 서버 오픈. 봄딩 미발행 신선 게임(published·live-titles 대조 확인). 서버 오픈 D-1은 신규 시작 검색 골든타임. <a href="https://www.betanews.net/article/view/beta202607070003" target="_blank">베타뉴스</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">디아블로4</span><span class="purp">게임 정보</span><span class="pecpm mid">🟡중</span><span class="pwhen">진행중(7월 1주)</span><span class="ptitle">디아블로4 PC방 사용시간 143% 폭증 — 지금 복귀하면 뭐가 달라졌나</span></div><div class="pwhy">7월 1주차 PC방 사용시간 143%↑ '부활 신호' 보도. 봄딩은 디아블로 이모탈만 다뤘고 디아블로4는 미발행(겹치지 않는 신규 소재). 복귀 유저 각도. <a href="https://www.gamevu.co.kr/news/articleView.html?idxno=59171" target="_blank">게임뷰</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">붉은사막</span><span class="purp">업데이트·패치</span><span class="pecpm mid">🟡중</span><span class="pwhen">여름 성수기</span><span class="ptitle">붉은사막 '어비스' 신규 콘텐츠 — 진입 조건과 첫 공략 포인트</span></div><div class="pwhy">여름 성수기 겨냥 어비스 진입 업데이트 진행. 붉은사막은 영도가 다뤄왔으나 봄딩은 미발행(작성자 단위 dedup·교차 허용) — 대중 초보 각도로 차별화. ★진입 조건 세부는 공식 공지 재확인. <a href="https://www.betanews.net/article/view/beta202607070003" target="_blank">베타뉴스</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <div class="ecpmnote">🔔 <b>업데이트</b>: 7/11 <b>고래탐사 시즌</b>(신맵 고래낙하 협곡·해양 도감) + <b>반주년 이벤트</b> 동시 진행 중 — 무료 보상 정리를 상단에. ⚠도감류는 07-11~12 '심해 도감'이 실측불가로 발행 실패한 전례 있어 확정 정보만.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="purp">쿠폰·이벤트</span><span class="pecpm mid">🟡중</span><span class="pwhen">진행중</span><span class="ptitle">두근두근타운 반주년 기념 이벤트 보상 총정리 — 달빛크리스탈·소원별·전시입장권</span></div><div class="pwhy">고래탐사 시즌과 동시 진행 중인 반주년 이벤트, 지금이 참여 적기. 07-06 '과금가이드'와 다른 각도(무료 보상 미션형). <a href="https://www.inven.co.kr/webzine/news/?news=318152" target="_blank">인벤</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="purp">게임 공략</span><span class="pecpm mid">🟡중</span><span class="pwhen">7/11 신맵</span><span class="ptitle">두근두근타운 신규 해저맵 '고래낙하 협곡' 탐험 공략</span></div><div class="pwhy">7/11 고래탐사 시즌과 함께 오픈된 신맵, 정리글 미존재. 07-13 '시즌 라이브 정리' 글은 개요만 다뤘고 신맵 탐험 루트는 미작성(후속 심화). ★신맵 세부는 공식 공지 재확인. <a href="https://www.betanews.net/article/view/beta202607060016" target="_blank">베타뉴스</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="purp">게임 정보</span><span class="pecpm lo">⚪저</span><span class="pwhen">여름 의상</span><span class="ptitle">두근두근타운 여름 바다 콘셉트 신규 의상 컬렉션 획득법</span></div><div class="pwhy">고래탐사 시즌과 함께 스노클링·바캉스룩 신규 의상 업데이트. 07-13 시즌 글에서 "의상은 따로 정리 예정"이라 예고된 미착수 소재. ★확정 정보만(도감류 실측불가 실패 전례). <a href="https://www.inven.co.kr/webzine/news/?news=318152" target="_blank">인벤</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p4">
+     <div class="ecpmnote">🔔 <b>시즌</b>: 7월 <b>모으령 이벤트</b>(~7/31 D-18) 진행 중 + GO Fest 서울 현장 종료 직후 — 과금 가성비 각도를 상단. 연봄 포켓몬 덕질과 분리 = 대중 공략·기기·과금.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">게임 공략</span><span class="pecpm hi">🟢고</span><span class="pwhen">모으령 진행중</span><span class="ptitle">포켓몬GO 리모트 레이드패스 vs 무료 패스 — 여름 레이드 언제 사야 이득</span></div><div class="pwhy">7월 모으령 이벤트(~7/31) 기간 레이드 활동 급증. <b>eCPM 각도</b>: 유료 패스 구매 판단 = 결제 검색의도 최고 단가. 07-12 큐 '기기 가이드'와 다른 과금 각도. <a href="https://poketory.com/pokemongo-calendar-july2026/" target="_blank">포케토리</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">쿠폰·이벤트</span><span class="pecpm mid">🟡중</span><span class="pwhen">~7/31 마감(D-18)</span><span class="ptitle">포켓몬GO 모으령 이벤트 챌린지 무료 보상 총정리 (~7/31 마감)</span></div><div class="pwhy">7/31 마감 임박, 아직 안 챙긴 유저 다수. 07-09 '이로치 우선순위'와 다른 소재(챌린지 미션형). <a href="https://poketory.com/pokemongo-calendar-july2026/" target="_blank">포케토리</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">사용 후기·리뷰</span><span class="pecpm lo">⚪저</span><span class="pwhen">GO Fest 종료 직후</span><span class="ptitle">GO Fest 2026 서울 다녀온 후기 — 못 간 사람 원격 보상 챙기는 법</span></div><div class="pwhy">GO Fest 서울 현장 종료 직후, 후기+미참가자 구제 각도. 07-11 '팀세팅'과 다른 소재. 연봄 덕질 후기와 각도 분리(대중 실용 정보). <a href="https://poketory.com/pokemongo-calendar-july2026/" target="_blank">포케토리</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p5">
+     <div class="ecpmnote">🔔 <b>시즌</b>: 레귤레이션 <b>M-B 진행 중</b> + 6/17 도구 15종 신규 추가. <b>이미 출시된 라이브 게임</b>이라 '신작' 프레이밍 금지. 대중 공략·기기·과금 각도(연봄과 분리).</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="purp">제품 비교·추천</span><span class="pecpm hi">🟢고</span><span class="pwhen">크로스플레이 확산</span><span class="ptitle">포켓몬챔피언스 모바일 편의 기기템 추천 — 블루투스 컨트롤러·거치대</span></div><div class="pwhy">크로스플레이 확산으로 모바일 조작 편의 수요 상승. <b>실물 제품 각도(게임 내 재화 아님)</b> = 하드웨어 광고 매칭 고단가. 대중 기기 결(연봄 포켓몬 덕질과 정면충돌 회피). <a href="https://namu.wiki/w/Pok%C3%A9mon%20Champions" target="_blank">나무위키</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="purp">게임 공략</span><span class="pecpm mid">🟡중</span><span class="pwhen">6/17 도구 15종</span><span class="ptitle">포켓몬챔피언스 신규 도구 15종 완전정복 — 최강 조합은?</span></div><div class="pwhy">6/17 레귤레이션 M-B로 힘의머리띠 등 도구 15종 신규 추가, 미작성 소재. 07-06 '7월 업데이트 총정리'에서 개요만 언급, 도구별 심화는 미착수. <a href="https://namu.wiki/w/Pok%C3%A9mon%20Champions" target="_blank">나무위키</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="purp">게임 정보</span><span class="pecpm lo">⚪저</span><span class="pwhen">시즌 전환</span><span class="ptitle">포켓몬챔피언스 M-B 시즌 복귀 유저 적응 가이드 — 뭐가 달라졌나</span></div><div class="pwhy">시즌 M-3 마감 후 새 시즌 진입, 복귀 유저 검색 증가. 07-06 글은 신규 유저向, 이번엔 복귀 유저向으로 분리. ★시즌 일정은 공식 재확인. <a href="https://namu.wiki/w/Pok%C3%A9mon%20Champions" target="_blank">나무위키</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p6">
+     <div class="ecpmnote">🔔 <b>이벤트</b>: 7월 '모험의 시작' 뉴비 패키지 + 아란 쾌속성장 스텝업 진행 중 — 구매 결정 패키지 분석을 상단. 겜더쿠 메이플 심화와 분리 = 대중 초보·공략.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="purp">제품 비교·추천</span><span class="pecpm hi">🟢고</span><span class="pwhen">7월 진행중</span><span class="ptitle">메이플플래닛 '모험의 시작' 지원 패키지 가성비 분석</span></div><div class="pwhy">7월 진행 중인 뉴비 서포트 패키지 실제 구매 결정 콘텐츠. 07-09 '캐시템'과 다른 소재(뉴비 전용 패키지). <b>eCPM 각도</b>: 패키지 가격 비교 = 구매의도 단가↑. ★가격·구성은 공식 공지 재확인. <a href="https://mapleplanet.co.kr/board/notice" target="_blank">공식</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="purp">게임 공략</span><span class="pecpm mid">🟡중</span><span class="pwhen">7월 진행중</span><span class="ptitle">메이플플래닛 아란 쾌속성장 스텝업 이벤트 초고속 육성 루트</span></div><div class="pwhy">7월 진행 중인 이벤트 실시간 정보. 07-06 '경매장 개편'과 다른 소재(직업 육성 이벤트). ★스텝업 세부는 공식 공지 재확인. <a href="https://mapleplanet.co.kr/board/notice" target="_blank">공식</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="purp">쿠폰·이벤트</span><span class="pecpm lo">⚪저</span><span class="pwhen">7월 4종 동시</span><span class="ptitle">메이플플래닛 7월 이벤트 총정리 — 핫타임·플래닛의 여름을 부탁해·데일리기프트</span></div><div class="pwhy">7월 진행 중인 4종 이벤트 동시 정리 미존재. 기존 스킬트리 시리즈와 다른 이벤트 종합형. ★이벤트 목록·기간은 공식 공지 재확인. <a href="https://mapleplanet.co.kr/board/notice" target="_blank">공식</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p7">
+     <p class="sub" style="margin-top:0">🍼 <b>쿠팡 파트너스 수익형</b> — 단일 아이템 비교/순위형(제품 4~5종). 스펙·가격·제3자 객관지표(KC인증·UPF·냉각원리)를 사실로 검증 가능한 제품군만. ★기존 물놀이튜브·구명조끼·쿨매트·모기패치와 다른 새 제품군으로 잡았어요. <b>3편 모두 쿠팡 파트너스 활동 고지 필수.</b></p>
+     <div class="pick"><div class="pick-top"><span class="gtag baby">육아</span><span class="purp">제품 비교·추천</span><span class="pwhen">여름 물놀이 시즌</span><span class="ptitle">아기 아쿠아슈즈(물놀이 신발) 추천 — 브랜드별 배수구조·미끄럼방지 비교</span></div><div class="pwhy">여름 물놀이 시즌, 검증 가능한 순위 존재(페이퍼플레인키즈 등). 아웃솔 재질·배수구조·KC 확인 가능 제품만. 기존 물놀이튜브·쿨매트와 다른 제품군. 쿠팡 파트너스 고지 필수. <a href="https://search.11st.co.kr/pc/total-search?kwd=%EC%95%84%EC%BF%A0%EC%95%84%EC%8B%A0%EB%B0%9C" target="_blank">11번가</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag baby">육아</span><span class="purp">제품 비교·추천</span><span class="pwhen">여름 물놀이 시즌</span><span class="ptitle">아기 래쉬가드 수영복 추천 — UV 차단·소재별 비교</span></div><div class="pwhy">여름 물놀이 시즌, 자외선차단지수 등 스펙 검증 가능. 스플래쉬어바웃·해피프린스 등 가격·기능 비교. 기존 물놀이튜브·모기패치와 다른 제품군. 쿠팡 파트너스 고지 필수. <a href="https://namu.wiki/w/%EB%9E%98%EC%8B%9C%EA%B0%80%EB%93%9C" target="_blank">참고</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag baby">육아</span><span class="purp">제품 비교·추천</span><span class="pwhen">폭염 시즌</span><span class="ptitle">아기 넥쿨러(쿨링조끼) 추천 — PCM 냉각 원리·지속시간 비교</span></div><div class="pwhy">폭염 시즌, PCM 냉각기술 스펙(냉각시작 시간·유지시간) 검증 가능. 해피블루(18도 이하 자동냉각) 등 원리별 비교. 기존 쿨매트·휴대용선풍기와 다른 제품군. 쿠팡 파트너스 고지 필수. <a href="https://choisense.com/post/%EB%84%A5%EC%BF%A8%EB%9F%AC" target="_blank">참고</a></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔄</span>전일 대비 변화</h2>
+ <div class="panel chg">
+   <div class="chgrow"><span class="chgk">발행 실적</span><div>07-12 큐 처리 지속 — '아기 차 햇빛가리개' 발행 완료, '포켓몬GO 플러스+ 기기 가이드'·'배그 나루토 콜라보' 대기. 7월 누적 43편(3.3편/일)으로 6월(3.2편/일)과 거의 동일. <b>그래서</b> — 페이스는 안정, 화두는 내부링크 슬롯 고정과 발굴 신선주제 편성.</div></div>
+   <div class="chgrow"><span class="chgk">외부 신호</span><div>4게임 밖 임박 신작이 몰렸어요 — <b>라그나로크M 클래식(7/16 D-3)·아스달 뉴월드(7/14 D-1)</b>. 주축은 두근두근타운 반주년+고래탐사·포켓몬GO 모으령(~7/31)이 진행 중. <b>그래서</b> — 확장·발굴은 임박 신작·PC방 급상승 게임 선점으로, 게임탭은 진행 이벤트를 eCPM 순으로 채웠어요.</div></div>
+   <div class="chgrow"><span class="chgk">짧게</span><div>두근두근타운 소재 2건(시즌패스 비교·심해 도감)이 07-11~12 dedup·실측불가로 <b>발행 실패</b>했어요 — 4게임 반복소재 고갈이 실제 로그로 확인됐어요(오늘 신맵·의상 확정 각도로 대체). 오늘 실측은 발행 안정(3.3편/일)·시의성 강함(85)인데 <b>내부링크(68)가 유일 약점</b>이에요 — <b>"같이 보기" 슬롯 고정 P1·발굴 신선주제 정기 편성 P2·속보 요약표 P3</b>.</div></div>
+ </div>
+
+ <div class="verdict">
+   <div class="lb">오늘자 총평 · 데이터 분석실</div>
+   <h3>발행 페이스(3.3편/일)와 시의성(85)은 여전히 최상위권이지만, 그 속도가 내부링크·구조 정비를 앞질러 8축 최저(68)를 만들고 4게임 반복소재는 이미 발행 실패가 나기 시작했어요 — 오늘은 링크 슬롯 고정과 발굴 신선주제가 승부처예요.</h3>
+   <p>봄딩은 6월을 97편(3.2편/일)으로 마감하며 조회수 132K→185K(+40.2%)·순방문 +56.5%로 <b>5개월 급락을 처음 꺾었어요.</b> 다만 그 반등은 전량 네이버 통합검색 신작 뉴스 견인이고 <b>구글 에버그린은 오히려 -36%, 재방문율 5.4%(역대 최저)</b>로 '질'이 얕다는 게 baseline 확정 진단이에요. 오늘 5페이지 재집계로 확인한 7월 발행 페이스는 <b>3.3편/일로 6월과 거의 같아</b> 동력은 안정적이에요. 최근 5편 실측에서 <b>제목·시의성(85)이 최상위</b>인데 뉴스형 단문 2편이 내부링크 0건이라 <b>내부링크(68)가 최약축</b>, 구조(72)도 속보 표·리스트 부재로 낮아요. 그래서 P1은 <b>뉴스·이벤트형 단문 하단 "같이 보기" 2~3링크 슬롯 고정</b>이에요. 더 중요한 신호는 <b>4게임 반복소재 고갈</b> — 두근두근타운 2건이 이번 주 실제로 발행 실패했어요. P2로 <b>아스달·디아블로4·붉은사막 같은 결이 다른 발굴 신선주제를 주 1~2회 고정 편성</b>해 소재 고갈과 조회수 우하향을 동시에 완화해야 해요. 트렌드는 라그M 클래식(7/16 D-3)·아스달 뉴월드(7/14 D-1)를 확장·발굴 선두에, 주축 게임은 진행 이벤트를 eCPM 순으로 배치했어요.</p>
+   <div class="gauge">
+     <div class="gtop"><span class="gv num">77<small>/100</small></span><span class="gg g-b">B</span><span class="gn">내부링크 슬롯 고정 + 발굴 신선주제 정착 시 B+ 진입</span></div>
+     <div class="grow"><span class="gl">발행 동력</span><span class="gt b-hi"><i style="width:85%"></i></span><span class="gs num">85</span></div>
+     <div class="grow"><span class="gl">글 품질</span><span class="gt b-hi"><i style="width:79%"></i></span><span class="gs num">79</span></div>
+     <div class="grow"><span class="gl">검색 건강</span><span class="gt b-mid"><i style="width:68%"></i></span><span class="gs num">68</span></div>
+     <div class="grow"><span class="gl">기회·다양성</span><span class="gt b-mid"><i style="width:76%"></i></span><span class="gs num">76</span></div>
+   </div>
+ </div>
+
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(봄딩) · 선행지표는 네이버 글목록 실측(PostTitleListAsync 5페이지·7월 D+13 3.3편/일 확인) · 후행지표는 2026.06 월간 통계 확정(7/3 수신 · 다음 캡처 8/1) · 글 품질은 네이버 본문 직접 확인 · 추천 수치·일정·제품 스펙(라그M 클래식·두근두근타운 신맵·메플플래닛 패키지 등)은 작성 직전 공식 재확인 권장 · eCPM 등급은 게임 픽 간 상대 비교(절대 단가 아님) · 육아는 쿠팡 파트너스 고지 필수.</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
