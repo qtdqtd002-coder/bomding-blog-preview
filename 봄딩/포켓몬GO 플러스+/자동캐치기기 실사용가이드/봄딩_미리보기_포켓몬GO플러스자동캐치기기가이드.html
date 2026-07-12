@@ -1,0 +1,252 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬GO 플러스+ 뭐가 좋길래 — 자동 캐치 기기 실사용 가이드</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .spec{color:#333;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .minus-line{color:#9a4a3a;}
+  #copy .warn-line{color:#b5651d;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 취미</div>
+  <div class="post">
+    <div class="cat">취미</div>
+    <h1 class="title">포켓몬GO 플러스+ 뭐가 좋길래 — 자동 캐치 기기 실사용 가이드</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.12</span><span>· 취미</span></div>
+
+    <p>여름휴가 앞두고 포켓몬고 자동 캐치 기기 알아보시는 분들 많으실 텐데요. 저도 GO Fest 시즌 되면서 손목이 남아나질 않아서 이것저것 찾아보다가, 아예 작정하고 <b>포켓몬GO 플러스+</b>랑 예전 포켓몬GO 플러스, 포켓볼 플러스까지 셋 다 놓고 비교해봤어요. 미리 말씀드리면 이번 글은 제가 세 개를 다 사서 직접 써보고 쓴 후기는 아니고, 공식 홈페이지랑 여러 자료를 꼼꼼히 찾아본 리서치 비교글이에요. 그래서 좋다 나쁘다보다는 <b>뭐가 어떻게 다른지</b>를 있는 그대로 정리하는 데 집중했습니다.</p>
+
+    <h2 class="sub">포켓몬GO 플러스+가 뭔데요?</h2>
+    <p>이름 그대로 포켓몬GO 플러스의 후속 기기인데요, 손목이나 가방에 걸어두면 몬스터볼·슈퍼볼(그레이트볼)·하이퍼볼(울트라볼)을 알아서 던져주고 포켓스탑도 자동으로 스핀해주는 게 핵심이에요. 예전 오리지널 GO 플러스는 몬스터볼만 던질 줄 알았는데, 이번 GO 플러스+는 슈퍼볼·하이퍼볼까지 알아서 골라 던진다는 점이 확실한 업그레이드네요. 크기는 지름 약 64.5mm(돌출부 제외)·두께 약 18.3mm에 무게는 50g 정도로 가볍고, 충전은 USB-C로 하는 리튬이온 배터리라 완충까지 약 3시간 30분 걸린답니다.</p>
+    <p>호환 기기는 <b>iOS 14 이상(아이폰 7 이상)</b>, <b>Android 7 이상</b>인데요, 여기서 헷갈리면 안 되는 게 하나 있어요. <b>닌텐도 스위치와는 호환이 안 됩니다.</b> 스위치 조이콘 대용으로도 쓸 수 있던 건 뒤에서 볼 포켓볼 플러스 얘기고, GO 플러스+는 순전히 스마트폰용 기기예요. 처음 알아보시는 분들이 여기서 자주 헷갈리시더라고요.</p>
+
+    <!-- 이미지 이유: 포켓몬GO 플러스+ 실물 외형(클립·크기감)을 보여주는 공식 제품 사진 / 출처: https://www.pokemongoplusplus.com/en/ / 분류: A형 -->
+    <div class="imgwrap"><img src="https://www.pokemongoplusplus.com/img/img-goplus.jpg" alt="포켓몬GO 플러스+ 공식 제품 이미지" width="640" height="640"></div>
+    <p class="cap">공식 홈페이지에 올라온 포켓몬GO 플러스+ 실물 사진이에요. 클립이 달려 있어서 가방이나 손목에 걸고 다니기 좋게 생겼어요.</p>
+    <p class="src">이미지 출처: <a href="https://www.pokemongoplusplus.com/en/" target="_blank">Pokémon GO Plus + 공식 홈페이지</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">포켓몬 슬립이랑도 연동돼요</h2>
+    <p>이건 오리지널 GO 플러스에는 없던 기능인데, GO 플러스+는 <b>포켓몬 슬립</b>이랑도 연동이 돼요. 자기 전에 버튼을 눌러 취침을 기록하고, 일어나서 다시 버튼을 누르면 기상 기록이 남는 식이에요. 그 사이사이 피카츄 음성으로 안내가 나온다고 하니, 매번 폰을 꺼내서 앱을 켜지 않아도 되는 게 포인트고요. 공식 홈페이지를 보니 수면을 기록해두면 나이트캡을 쓴 피카츄를 얻을 수 있고, 트래킹한 수면 데이터량에 따라 다이아몬드도 최대 500개까지 받을 수 있다고 안내돼 있더라고요. 포켓몬고랑 포켓몬 슬립을 같이 하시는 분이라면 이 부분이 꽤 크게 다가올 것 같아요.</p>
+
+    <!-- 이미지 이유: 포켓몬 슬립 나이트캡 피카츄 화면으로 방금 설명한 슬립 연동 기능을 바로 보여주는 스크린샷 자리 / 출처: 포켓몬 슬립 앱 화면 캡처(공식 홈페이지 참고 https://www.pokemongoplusplus.com/en/) / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 포켓몬 슬립 앱에서 나이트캡 피카츄 프로필 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 참고할 곳: <a href="https://www.pokemongoplusplus.com/en/" target="_blank">공식 홈페이지</a> · 포켓몬 슬립 앱 설정 화면 캡처</div>
+    <p class="cap">기기 없이도 앱만 켜면 나이트캡 피카츄가 어떻게 생겼는지 보이니, 실물 캡처는 앱 화면으로 대체해도 좋을 것 같아요.</p>
+
+    <h2 class="sub">오리지널 GO 플러스·포켓볼 플러스랑은 뭐가 다르길래</h2>
+    <p>여기서 궁금하신 분들 많을 텐데요, 셋을 한 번에 놓고 보면 성격이 뚜렷이 갈리죠. 우선 <b>2016년에 나온 오리지널 포켓몬GO 플러스</b>는 몬스터볼만 자동으로 던져주고, 버튼을 눌러 포켓스탑 아이템을 수집하는 정도였어요. 국내에서는 2017년에 포켓몬코리아가 39,000원에 정식 발매한 이력이 있어서, 그때 사두신 분들도 꽤 계실 거예요. 다만 슈퍼볼·하이퍼볼 자동 투척이나 포켓몬 슬립 연동은 애초에 없는 기능이라, 지금 기준으로 보면 기본기 위주 모델이에요.</p>
+    <p><b>2018년에 닌텐도가 낸 포켓볼 플러스</b>는 결이 좀 달라요. 포켓몬을 안에 넣고 다니면 걸음수가 카운트되고, 알 부화나 버디 캔디 획득에도 도움이 되는 방식이었고, 닌텐도 스위치에 연결하면 조이콘 대용으로도 쓸 수 있었어요. 원조 GO 플러스보다 반응속도가 빠르다는 평가도 종종 나왔던 기기고요. 다만 슈퍼볼·하이퍼볼을 자동으로 던지는 기능은 없어서, 이번 GO 플러스+만의 신기능이라고 보시면 됩니다.</p>
+
+    <table class="tbl">
+      <tr><th>항목</th><th>포켓몬GO 플러스+</th><th>오리지널 GO 플러스</th><th>포켓볼 플러스</th></tr>
+      <tr><td>출시</td><td>2023년(북미 7월)</td><td>2016년</td><td>2018년(닌텐도)</td></tr>
+      <tr><td>자동 투척 볼</td><td>몬스터볼·슈퍼볼·하이퍼볼</td><td>몬스터볼만</td><td>자동 투척 없음</td></tr>
+      <tr><td>포켓스탑</td><td>자동 스핀</td><td>버튼으로 아이템 수집</td><td>-</td></tr>
+      <tr><td>포켓몬 슬립 연동</td><td>지원</td><td>미지원</td><td>미지원</td></tr>
+      <tr><td>스위치 연동</td><td>불가</td><td>불가</td><td>조이콘 대용 가능</td></tr>
+      <tr><td>걸음수·부화·버디캔디</td><td>-</td><td>-</td><td>지원</td></tr>
+      <tr><td>반응속도</td><td>준수한 편</td><td>기본</td><td>빠른 편이라는 평</td></tr>
+    </table>
+
+    <h2 class="sub">국내에서는 어떻게 사요?</h2>
+    <p>이 부분이 사실 제일 애매해요. 2017년 오리지널 GO 플러스는 포켓몬코리아가 정식으로 들여왔던 이력이 있는데, 이번 GO 플러스+는 국내 정식 발매 여부가 확인 시점 기준으로는 명확하지 않더라고요<span class="chk">🔍 정발 여부 확인 필요</span>. 그래서 지금으로선 해외직구나 구매대행이 그나마 현실적인 경로로 보여요. 국내 유통가도 <b>6만원대</b>부터 보이는 곳이 있긴 한데, 구매처마다 편차가 커서 11번가 같은 오픈마켓에는 20만 원대까지 올라간 매물도 있었어요<span class="chk">🔍 가격 최신 확인 필요</span>. 사려고 마음먹으셨다면 여기저기 최저가를 꼭 다시 확인해보시는 걸 추천드려요. 시점에 따라 가격이 정말 크게 달라지는 물건이라서요.</p>
+    <p style="margin:0 0 6px;"><b>구매 전 체크리스트</b></p>
+    <ul style="margin:0 0 20px;padding-left:22px;font-size:15.5px;line-height:1.95;">
+      <li>국내 정식 발매 여부 — 확인 시점 기준 명확하지 않음</li>
+      <li>구매 경로 — 해외직구·구매대행이 그나마 현실적</li>
+      <li>가격대 편차 — 국내 유통가 6만원대~20만원대까지 구매처마다 차이 큼</li>
+      <li>구매 직전 최저가 재확인 — 시점 따라 가격이 크게 달라짐</li>
+    </ul>
+
+    <h2 class="sub">비공식 오토캐처는 조심하세요</h2>
+    <p>오픈마켓 찾아보면 정품이 아닌 서드파티 오토캐치 기기들도 같이 뜨는데요, 이런 제품들은 Niantic의 공식 승인 제품이 아니고 이용약관과 충돌할 수 있다는 얘기가 여러 커뮤니티에서 꾸준히 나와요. 어느 정도 수준까지 제재를 받는지 딱 잘라 말하긴 어렵지만, <b>계정 제한 리스크가 있다는 점</b>은 분명히 있으니 가격만 보고 덜컥 사기보다는 이 부분을 한 번 더 생각해보시는 게 좋을 것 같아요.</p>
+
+    <h2 class="sub">여름 성수기엔 왜 자동 캐치가 필요할까</h2>
+    <p>여름엔 장기 외출도 많고, GO Fest처럼 야외에서 몇 시간씩 돌아다니는 이벤트도 있잖아요. 이럴 때 폰을 계속 붙잡고 볼 던지는 것보다는, 손목에 걸어두고 걷기만 해도 알아서 잡아주는 기기가 확실히 손목과 배터리 둘 다 아껴줘요. 다만 기기 자체도 완충에도 시간이 꽤 걸리는 만큼, 하루 종일 돌아다닐 계획이면 보조배터리든 예비 충전이든 미리 챙겨두시는 게 좋습니다.</p>
+
+    <h2 class="sub">장단점 정리</h2>
+    <table class="tbl">
+      <tr><th>구분</th><th>내용</th></tr>
+      <tr><td>좋은 점</td><td>슈퍼볼·하이퍼볼까지 자동 투척 · 포켓스탑 자동 스핀 · 포켓몬 슬립 연동 · 가볍고 USB-C 충전</td></tr>
+      <tr><td>아쉬운 점</td><td>국내 정식 발매 여부 불확실 · 구매처마다 가격 편차 큼 · 닌텐도 스위치와는 호환 안 됨</td></tr>
+    </table>
+
+    <h2 class="sub">포켓몬GO 플러스+ 정리</h2>
+    <p>정리하면, <b>포켓몬고랑 포켓몬 슬립을 같이 하면서 여름 성수기에 손목 부담을 확 줄이고 싶은 분</b>이라면 GO 플러스+가 가장 잘 맞는 선택이에요. 슈퍼볼·하이퍼볼까지 자동으로 던져주는 건 지금 이 기기만 가진 장점이니까요. 반대로 <b>닌텐도 스위치로 다른 게임도 같이 즐기면서 걸음수·부화·버디캔디까지 챙기고 싶다면</b> 포켓볼 플러스 쪽이 더 맞을 수 있고, <b>예산이 빠듯하고 몬스터볼 자동 투척 정도면 충분하다면</b> 오리지널 GO 플러스도 여전히 나쁘지 않은 선택이에요. 다만 국내 구매는 아직 애매한 부분이 많으니, 사시기 전에 정발 여부랑 최신 가격은 꼭 한 번 더 확인해보시길 바라요.</p>
+
+    <p><b>✔ 포켓몬 같이 보기 좋은 내용</b><br>
+    같은 포켓몬 소재로 예전에 써둔 글들도 있어요 — <b>포켓몬 챔피언스 모바일 출시 첫인상</b>, <b>포켓몬런 온라인 챌린지</b>, <b>포켓몬 포코피아 확장패스</b> 글에서 더 자세히 다뤘으니 관심 있으시면 같이 봐주세요. (네이버 post ID 확인 후 링크 연결 예정)</p>
+    <!-- 내부링크: 포켓몬 챔피언스 모바일 출시 첫인상 / 포켓몬런 온라인 챌린지 / 포켓몬 포코피아 확장패스 — post ID 확인 후 <a href="https://blog.naver.com/bomding/POST_ID"> 연결 -->
+
+    <div class="tags">#포켓몬GO플러스+ #포켓몬고자동캐치 #포켓몬슬립연동 #포켓볼플러스비교 #포켓몬GO플러스</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>, 내부링크는 post ID 확인 후 연결.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 5분):</b> 📷 <b>사진 2곳</b> 업로드 · 🔗 <b>내부링크 3곳</b> post ID 확인 후 연결 · 국내가격/정발 여부는 최신으로 다시 확인.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬GO 플러스+ 뭐가 좋길래 — 자동 캐치 기기 실사용 가이드</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>여름휴가 앞두고 포켓몬고 자동 캐치 기기 알아보시는 분들 많으실 텐데요. 저도 GO Fest 시즌 되면서 손목이 남아나질 않아서 이것저것 찾아보다가, 아예 작정하고 <b>포켓몬GO 플러스+</b>랑 예전 포켓몬GO 플러스, 포켓볼 플러스까지 셋 다 놓고 비교해봤어요. 미리 말씀드리면 이번 글은 제가 세 개를 다 사서 직접 써보고 쓴 후기는 아니고, 공식 홈페이지랑 여러 자료를 꼼꼼히 찾아본 리서치 비교글이에요. 그래서 좋다 나쁘다보다는 <b>뭐가 어떻게 다른지</b>를 있는 그대로 정리하는 데 집중했습니다.</p>
+
+      <h3>포켓몬GO 플러스+가 뭔데요?</h3>
+      <p>이름 그대로 포켓몬GO 플러스의 후속 기기인데요, 손목이나 가방에 걸어두면 몬스터볼·슈퍼볼(그레이트볼)·하이퍼볼(울트라볼)을 알아서 던져주고 포켓스탑도 자동으로 스핀해주는 게 핵심이에요. 예전 오리지널 GO 플러스는 몬스터볼만 던질 줄 알았는데, 이번 GO 플러스+는 슈퍼볼·하이퍼볼까지 알아서 골라 던진다는 점이 확실한 업그레이드네요. 크기는 지름 약 64.5mm(돌출부 제외)·두께 약 18.3mm에 무게는 50g 정도로 가볍고, 충전은 USB-C로 하는 리튬이온 배터리라 완충까지 약 3시간 30분 걸린답니다.</p>
+      <p>호환 기기는 <b>iOS 14 이상(아이폰 7 이상)</b>, <b>Android 7 이상</b>인데요, 여기서 헷갈리면 안 되는 게 하나 있어요. <b>닌텐도 스위치와는 호환이 안 됩니다.</b> 스위치 조이콘 대용으로도 쓸 수 있던 건 뒤에서 볼 포켓볼 플러스 얘기고, GO 플러스+는 순전히 스마트폰용 기기예요. 처음 알아보시는 분들이 여기서 자주 헷갈리시더라고요.</p>
+      <p>📷 〔사진 자리 1〕 포켓몬GO 플러스+ 실물 사진 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "공식 홈페이지에 올라온 실물 사진이에요. 클립이 달려 있어서 가방이나 손목에 걸고 다니기 좋게 생겼어요."</p>
+
+      <h3>포켓몬 슬립이랑도 연동돼요</h3>
+      <p>이건 오리지널 GO 플러스에는 없던 기능인데, GO 플러스+는 <b>포켓몬 슬립</b>이랑도 연동이 돼요. 자기 전에 버튼을 눌러 취침을 기록하고, 일어나서 다시 버튼을 누르면 기상 기록이 남는 식이에요. 그 사이사이 피카츄 음성으로 안내가 나온다고 하니, 매번 폰을 꺼내서 앱을 켜지 않아도 되는 게 포인트고요. 공식 홈페이지를 보니 수면을 기록해두면 나이트캡을 쓴 피카츄를 얻을 수 있고, 트래킹한 수면 데이터량에 따라 다이아몬드도 최대 500개까지 받을 수 있다고 안내돼 있더라고요. 포켓몬고랑 포켓몬 슬립을 같이 하시는 분이라면 이 부분이 꽤 크게 다가올 것 같아요.</p>
+      <p>📷 〔사진 자리 2〕 포켓몬 슬립 앱 나이트캡 피카츄 화면 캡처 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "기기 없이도 앱만 켜면 나이트캡 피카츄가 어떻게 생겼는지 보여요."</p>
+
+      <h3>오리지널 GO 플러스·포켓볼 플러스랑은 뭐가 다르길래</h3>
+      <p>여기서 궁금하신 분들 많을 텐데요, 셋을 한 번에 놓고 보면 성격이 뚜렷이 갈리죠. 우선 <b>2016년에 나온 오리지널 포켓몬GO 플러스</b>는 몬스터볼만 자동으로 던져주고, 버튼을 눌러 포켓스탑 아이템을 수집하는 정도였어요. 국내에서는 2017년에 포켓몬코리아가 39,000원에 정식 발매한 이력이 있어서, 그때 사두신 분들도 꽤 계실 거예요. 다만 슈퍼볼·하이퍼볼 자동 투척이나 포켓몬 슬립 연동은 애초에 없는 기능이라, 지금 기준으로 보면 기본기 위주 모델이에요.</p>
+      <p><b>2018년에 닌텐도가 낸 포켓볼 플러스</b>는 결이 좀 달라요. 포켓몬을 안에 넣고 다니면 걸음수가 카운트되고, 알 부화나 버디 캔디 획득에도 도움이 되는 방식이었고, 닌텐도 스위치에 연결하면 조이콘 대용으로도 쓸 수 있었어요. 원조 GO 플러스보다 반응속도가 빠르다는 평가도 종종 나왔던 기기고요. 다만 슈퍼볼·하이퍼볼을 자동으로 던지는 기능은 없어서, 이번 GO 플러스+만의 신기능이라고 보시면 됩니다.</p>
+      <table>
+        <tr><th>항목</th><th>포켓몬GO 플러스+</th><th>오리지널 GO 플러스</th><th>포켓볼 플러스</th></tr>
+        <tr><td class="l">출시</td><td>2023년(북미 7월)</td><td>2016년</td><td>2018년(닌텐도)</td></tr>
+        <tr><td class="l">자동 투척 볼</td><td>몬스터볼·슈퍼볼·하이퍼볼</td><td>몬스터볼만</td><td>자동 투척 없음</td></tr>
+        <tr><td class="l">포켓스탑</td><td>자동 스핀</td><td>버튼으로 아이템 수집</td><td>-</td></tr>
+        <tr><td class="l">포켓몬 슬립 연동</td><td>지원</td><td>미지원</td><td>미지원</td></tr>
+        <tr><td class="l">스위치 연동</td><td>불가</td><td>불가</td><td>조이콘 대용 가능</td></tr>
+        <tr><td class="l">걸음수·부화·버디캔디</td><td>-</td><td>-</td><td>지원</td></tr>
+        <tr><td class="l">반응속도</td><td>준수한 편</td><td>기본</td><td>빠른 편이라는 평</td></tr>
+      </table>
+
+      <h3>국내에서는 어떻게 사요?</h3>
+      <p>이 부분이 사실 제일 애매해요. 2017년 오리지널 GO 플러스는 포켓몬코리아가 정식으로 들여왔던 이력이 있는데, 이번 GO 플러스+는 국내 정식 발매 여부가 확인 시점 기준으로는 명확하지 않더라고요. 그래서 지금으로선 해외직구나 구매대행이 그나마 현실적인 경로로 보여요. 국내 유통가도 <b>6만원대</b>부터 보이는 곳이 있긴 한데, 구매처마다 편차가 커서 11번가 같은 오픈마켓에는 20만 원대까지 올라간 매물도 있었어요. 사려고 마음먹으셨다면 여기저기 최저가를 꼭 다시 확인해보시는 걸 추천드려요. 시점에 따라 가격이 정말 크게 달라지는 물건이라서요.</p>
+      <p><b>구매 전 체크리스트</b></p>
+      <ul>
+        <li>국내 정식 발매 여부 — 확인 시점 기준 명확하지 않음</li>
+        <li>구매 경로 — 해외직구·구매대행이 그나마 현실적</li>
+        <li>가격대 편차 — 국내 유통가 6만원대~20만원대까지 구매처마다 차이 큼</li>
+        <li>구매 직전 최저가 재확인 — 시점 따라 가격이 크게 달라짐</li>
+      </ul>
+
+      <h3>비공식 오토캐처는 조심하세요</h3>
+      <p>오픈마켓 찾아보면 정품이 아닌 서드파티 오토캐치 기기들도 같이 뜨는데요, 이런 제품들은 Niantic의 공식 승인 제품이 아니고 이용약관과 충돌할 수 있다는 얘기가 여러 커뮤니티에서 꾸준히 나와요. 어느 정도 수준까지 제재를 받는지 딱 잘라 말하긴 어렵지만, <b>계정 제한 리스크가 있다는 점</b>은 분명히 있으니 가격만 보고 덜컥 사기보다는 이 부분을 한 번 더 생각해보시는 게 좋을 것 같아요.</p>
+
+      <h3>여름 성수기엔 왜 자동 캐치가 필요할까</h3>
+      <p>여름엔 장기 외출도 많고, GO Fest처럼 야외에서 몇 시간씩 돌아다니는 이벤트도 있잖아요. 이럴 때 폰을 계속 붙잡고 볼 던지는 것보다는, 손목에 걸어두고 걷기만 해도 알아서 잡아주는 기기가 확실히 손목과 배터리 둘 다 아껴줘요. 다만 기기 자체도 완충에도 시간이 꽤 걸리는 만큼, 하루 종일 돌아다닐 계획이면 보조배터리든 예비 충전이든 미리 챙겨두시는 게 좋습니다.</p>
+
+      <h3>장단점 정리</h3>
+      <table>
+        <tr><th>구분</th><th>내용</th></tr>
+        <tr><td class="l">좋은 점</td><td>슈퍼볼·하이퍼볼까지 자동 투척 · 포켓스탑 자동 스핀 · 포켓몬 슬립 연동 · 가볍고 USB-C 충전</td></tr>
+        <tr><td class="l">아쉬운 점</td><td>국내 정식 발매 여부 불확실 · 구매처마다 가격 편차 큼 · 닌텐도 스위치와는 호환 안 됨</td></tr>
+      </table>
+
+      <h3>포켓몬GO 플러스+ 정리</h3>
+      <p>정리하면, <b>포켓몬고랑 포켓몬 슬립을 같이 하면서 여름 성수기에 손목 부담을 확 줄이고 싶은 분</b>이라면 GO 플러스+가 가장 잘 맞는 선택이에요. 슈퍼볼·하이퍼볼까지 자동으로 던져주는 건 지금 이 기기만 가진 장점이니까요. 반대로 <b>닌텐도 스위치로 다른 게임도 같이 즐기면서 걸음수·부화·버디캔디까지 챙기고 싶다면</b> 포켓볼 플러스 쪽이 더 맞을 수 있고, <b>예산이 빠듯하고 몬스터볼 자동 투척 정도면 충분하다면</b> 오리지널 GO 플러스도 여전히 나쁘지 않은 선택이에요. 다만 국내 구매는 아직 애매한 부분이 많으니, 사시기 전에 정발 여부랑 최신 가격은 꼭 한 번 더 확인해보시길 바라요.</p>
+
+      <p><b>✔ 포켓몬 같이 보기 좋은 내용</b><br>
+      같은 포켓몬 소재로 예전에 써둔 글들도 있어요 — <span class="ph">〔포켓몬 챔피언스 모바일 출시 첫인상 링크〕</span>, <span class="ph">〔포켓몬런 온라인 챌린지 링크〕</span>, <span class="ph">〔포켓몬 포코피아 확장패스 링크〕</span> 글에서 더 자세히 다뤘으니 관심 있으시면 같이 봐주세요.</p>
+
+      <p class="tags-line">#포켓몬GO플러스+ #포켓몬고자동캐치 #포켓몬슬립연동 #포켓볼플러스비교 #포켓몬GO플러스</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
