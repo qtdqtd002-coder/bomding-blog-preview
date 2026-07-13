@@ -1,0 +1,249 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬고 리모트레이드패스 무료레이드패스 차이 언제 사야 이득일까</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">포켓몬고 리모트레이드패스 무료레이드패스 차이 언제 사야 이득일까</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 7. 13.</span><span>· 게임</span></div>
+
+    <p>레이드 로테이션이 매주 바뀌는 걸 보다 보면, 저도 모르게 리모트 레이드패스를 살까 말까 고민하게 되는 순간이 오는데요. 특히 이번 여름은 포켓몬GO 10주년 기념 이벤트로 모으령이 다시 등장하는 기간이 7월 31일까지 이어지는 데다, 전설 5성 레이드까지 매주 로테이션되는 시기라 더 그런 것 같아요. 그래서 오늘은 <b>무료 레이드패스랑 리모트 레이드패스, 이 둘 중 뭘 언제 사야 손해 안 보는지</b> 확인한 내용으로 정리해볼게요.</p>
+
+    <h2 class="sub">무료 레이드패스랑 리모트 레이드패스, 기본부터 짚고 갈게요</h2>
+    <p>우선 헷갈리기 쉬운 기본 구조부터 봐야 하는데요. 무료 레이드패스는 체육관 포토디스크를 회전하면 하루 최대 1개 받을 수 있고, 한 번에 딱 1장만 들고 있을 수 있습니다. 이미 갖고 있으면 새로 못 받으니까 일단 써야 다음 걸 받는 구조고요, 매일 정해진 시간에 리셋된다고 해요. 다만 <b>무료 패스는 오프라인 전용</b>이라 체육관에 직접 가야만 쓸 수 있다는 게 핵심이에요.</p>
+    <p>반면 리모트 레이드패스는 유료지만 <b>원격으로 어디서든 참여할 수 있다는 게 가장 큰 차이</b>예요. 체육관까지 갈 시간이 안 되거나, 집에서 여러 판을 연달아 돌리고 싶을 때 진가를 발휘하는 아이템이죠.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 체육관 포토디스크 회전 화면</span></div>
+    <div class="shoot">📸 촬영 가이드: 체육관 화면에서 포토디스크를 돌려 무료 레이드패스가 채워지는 순간을 캡처. 포토디스크 아이콘과 하단에 뜨는 획득 알림이 함께 보이게 찍어주세요.</div>
+    <p class="cap">포토디스크 한 번 돌리면 하루치 무료 레이드패스가 이렇게 채워지는데요, 이미 한 장 있으면 안 채워지니 참고하세요.</p>
+
+    <!-- 이미지 이유: 리모트 레이드패스 공식 아이템 아이콘으로 실제 구매 대상을 시각 확인시킴 / 분류: A형(공식 출처 이미지) -->
+
+    <h2 class="sub">프리미엄 배틀패스랑 헷갈리면 절대 안 돼요</h2>
+    <p>여기서 하나 꼭 짚고 넘어가야 할 게 있는데요, 이름 때문에 헷갈리기 쉬운 아이템이 바로 <b>'프리미엄 배틀패스'</b>예요. 사실 이건 예전 '프리미엄 레이드패스'에서 이름만 바뀐 아이템이라, 지금도 별1~별5 레이드에 <b>대면으로(직접 체육관에 가서) 입장할 때</b> 쓸 수 있는 유료 아이템이 맞습니다. 동시에 GO배틀리그 세트에서 프리미엄 리워드를 잠금 해제하는 용도로도 쓰이는, 말하자면 겸용 아이템이네요. 인게임 가격은 3개 세트 250 포켓코인이에요.</p>
+    <p>그러니까 프리미엄 배틀패스가 레이드랑 아예 무관한 건 아니고, 오히려 <b>'대면 레이드에 한 판 더 들어갈 때 쓰는 유료 입장권'</b>에 가까워요. 다만 이 글은 원격이냐 대면이냐가 핵심 비교축이니, 프리미엄 배틀패스는 딱 '대면용 유료 옵션' 정도로만 기억해두시고 리모트 레이드패스랑 헷갈리지만 않으시면 됩니다.</p>
+
+    <h2 class="sub">리모트 레이드패스 가격, 사는 곳마다 다르게 표시돼요</h2>
+    <p>리모트 레이드패스는 인게임 포켓코인으로 사는 방법이랑 실제화폐로 사는 웹스토어(store.pokemongo.com), 이렇게 두 채널이 있는데 이 둘을 혼동하면 안 됩니다.</p>
+
+    <div class="imgwrap"><img src="https://storage.googleapis.com/platform-webstore-rel-assets/pgo/sku_assets/item_remote_raid_ticket.png" alt="리모트 레이드패스 아이템 아이콘" width="360" height="360"></div>
+    <p class="cap">이렇게 생긴 리모트 레이드패스, 상점에서 낱개랑 세트로 나눠서 팝니다.</p>
+    <p class="src">이미지 출처: <a href="https://store.pokemongo.com/purchase/item/web-remote-raidpass-bundle" target="_blank">Pokémon GO 공식 웹스토어(store.pokemongo.com)</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <p>인게임 포켓코인 기준으로는 <b>1개에 195코인, 3개 세트면 525코인</b>이에요. 세트로 사면 525를 3으로 나눠서 개당 175코인 꼴이 되니까, <b>낱개보다는 세트 쪽이 코인 단가상 확실히 유리</b>합니다.</p>
+    <p>실제화폐 웹스토어는 채널 자체가 다른데, 오늘(7월 13일) 기준으로는 2개 묶음이 3,300원으로 표시되고 있었어요. 인게임 코인 구매가랑 웹스토어 실화폐 구매가는 완전히 별개 채널이니까 헷갈리지 마시고요.</p>
+    <p>하루에 리모트 레이드에 참여할 수 있는 횟수 상한도 있는데요, 2025년 5월부터 <b>하루 최대 10회</b>로 늘어났습니다. 원래는 5회였다가 두 배로 상향된 거라, 특별 이벤트가 겹치는 기간엔 이보다 더 늘어나는 경우도 있다고 해요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 포켓코인 상점에서 리모트 레이드패스 195/525코인 표시 화면</span></div>
+    <div class="shoot">📸 촬영 가이드: 포켓코인 상점 화면에서 리모트 레이드패스 낱개(195코인)와 3개 세트(525코인) 가격이 한 화면에 같이 보이도록 캡처해주세요.</div>
+    <p class="cap">상점에서 낱개랑 3개 세트 가격을 나란히 비교해보면 세트 쪽 단가가 눈에 확 들어오네요.</p>
+
+    <h2 class="sub">이번 여름 레이드 로테이션, 뭐가 도나 볼까요</h2>
+    <p>7월 레이드 로테이션을 보면 왜 다들 리모트 패스를 고민하는지 좀 이해가 되는데요. <b>7월 1일부터 6일, 그리고 13일부터 14일까지는 프리져·썬더·파이어 전설 5성 레이드에 메가 루카리오</b>까지 함께 돌고 있고요, <b>15일부터 21일은 가이오가 이로치와 메가 나무킹, 22일부터 28일은 큐레무 이로치와 메가 보만다, 29일부터 8월 4일까지는 솔가레오 이로치와 메가 보스로라</b>로 매주 바뀝니다. 여기에 그림자 펄기아 레이드도 진행 중이고요.</p>
+    <p>포켓몬GO 10주년 기념 이벤트는 메인 행사가 7월 4일 10시부터 6일 20시까지였고, 이 이벤트에서 기간 한정으로 재등장한 모으령은 7월 31일 23시 59분까지 만날 수 있다고 해요. 다만 아무 데서나 돌아다닌다고 나오는 건 아니고, <b>황금 유혹의 모듈이나 코인 가방, 유료 타임리서치</b>로 만나는 방식이더라고요. 이벤트 보너스 자체는 <b>포획 경험치·별의모래 4배·이로치 확률 상승이 핵심</b>이지, 레이드 전용 보너스가 딸려 있는 건 아니고요. 그러니까 '모으령 이벤트라서 레이드가 싸진다' 같은 얘기는 아니고, 그냥 이 기간 동안 전설 레이드가 유독 많이 도는 여름 시즌이라고 보시면 될 것 같아요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 이번 주 로테이션 보스 레이드 배틀 화면</span></div>
+    <div class="shoot">📸 촬영 가이드: 레이드 배틀 참여 화면에서 이번 주 보스(프리져·썬더·파이어 등)와 참여 인원, 남은 시간이 함께 보이게 캡처해주세요.</div>
+    <p class="cap">이번 주는 프리져·썬더·파이어 라인업이라 최애가 껴 있으면 리모트 패스 쓸 명분이 확실해지네요.</p>
+
+    <h2 class="sub">그래서 결론, 언제 사야 손해 안 볼까요</h2>
+    <p>평소처럼 체육관 방문이 어렵지 않고 딱히 급한 게 없는 상황이면, 사실 <b>리모트 레이드패스는 안 사도 충분</b>합니다. 무료 패스 하나로도 하루 한 판은 커버가 되니까요.</p>
+    <p>반대로 리모트 패스가 진짜 필요한 순간은 따로 있는데요, <b>이번 주 로테이션 보스가 최애거나 이로치를 꼭 잡아야 하는 경우, 체육관 갈 시간이 도저히 안 나는 경우, 하루에 여러 판을 몰아서 돌리고 싶은 경우</b>, 이럴 때 사는 게 합리적이에요.</p>
+    <p>살 때는 앞서 말씀드린 것처럼 <b>낱개(195코인)보다 3개 세트(525코인, 개당 175코인)</b>가 코인 단가상 유리하니까, 어차피 살 거면 세트로 챙기시는 걸 추천드려요.</p>
+    <p>그리고 GO Fest 2026 서울처럼 대형 무료 이벤트가 열릴 땐 리모트 패스를 미리 사재기하지 않는 게 이득이에요. 이번 GO Fest는 7월 11일부터 12일까지 반포한강공원에서 역대 최초로 무료 개최됐는데, 행사 기간엔 무료 레이드패스가 <b>하루 최대 9개</b>까지 지급됐거든요. 이런 대형 무료 이벤트가 예고돼 있다면 리모트 패스는 잠깐 아껴뒀다가 그 뒤에 필요한 만큼만 사는 게 나아요.</p>
+    <p>정확한 코인 가격이나 웹스토어 실화폐 가격은 시점에 따라 바뀔 수 있으니, 구매 직전에는 앱 내 상점에서 한 번 더 확인하시는 걸 권해드립니다.</p>
+
+    <h2 class="sub">무료 vs 리모트, 표로 한눈에 정리해봤어요</h2>
+    <table class="tbl">
+      <tr><th>구분</th><th>무료 레이드패스</th><th>리모트 레이드패스</th></tr>
+      <tr><td>얻는 법</td><td>체육관 포토디스크 회전</td><td>포켓코인 구매 또는 웹스토어 실화폐 구매</td></tr>
+      <tr><td>가격</td><td>무료</td><td>195코인(낱개) / 525코인(3개 세트, 개당 175코인) / 웹스토어 3,300원(2개)</td></tr>
+      <tr><td>보유 한도</td><td>1장(써야 다음 획득)</td><td>구매한 만큼 보유 가능</td></tr>
+      <tr><td>참여 방식</td><td>오프라인 전용(체육관 직접 방문)</td><td>원격 참여 가능(어디서든)</td></tr>
+      <tr><td>하루 참여 횟수</td><td>사실상 1회(패스 1장)</td><td>하루 최대 10회(2025년 5월 상향, 특별 이벤트 땐 더 늘기도)</td></tr>
+    </table>
+
+    <h2 class="sub">포켓몬고 레이드패스 정리</h2>
+    <p>결론만 놓고 보면, 평소엔 무료 패스로 충분하고 리모트 패스는 정말 필요한 순간에만 세트로 챙기는 게 제일 손해 안 보는 방법인 것 같아요. 프리미엄 배틀패스는 대면 레이드용 유료 옵션이라는 것만 헷갈리지 않으시면, 이번 여름 레이드 시즌 알차게 즐기실 수 있을 거예요.</p>
+
+    <p><b>✔ 포켓몬고 레이드 같이 보기 좋은 내용</b><br>
+    · <a href="#" target="_blank">포켓몬고 여름 이벤트 캘린더 커뮤니티데이 총정리</a><br>
+    · <a href="#" target="_blank">포켓몬고 GO페스트 2026 이로치 우선순위 뭘 노려야 이득일까</a></p>
+    <!-- 내부링크: 위 두 건은 같은 봄딩 폴더 내 기존 발행글, 네이버 post ID 확인 후 실제 URL로 교체 필요 -->
+
+    <div class="tags">#포켓몬고 #포켓몬고레이드패스 #리모트레이드패스 #무료레이드패스 #포켓몬고레이드 #포켓몬고구매가이드 #포켓몬고2026</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>, 내부링크는 실제 post ID로 연결.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 것:</b> 📷 <b>사진 4곳</b> 업로드 · 내부링크 2곳 실제 post ID 연결. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬고 리모트레이드패스 무료레이드패스 차이 언제 사야 이득일까</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>레이드 로테이션이 매주 바뀌는 걸 보다 보면, 저도 모르게 리모트 레이드패스를 살까 말까 고민하게 되는 순간이 오는데요. 특히 이번 여름은 포켓몬GO 10주년 기념 이벤트로 모으령이 다시 등장하는 기간이 7월 31일까지 이어지는 데다, 전설 5성 레이드까지 매주 로테이션되는 시기라 더 그런 것 같아요. 그래서 오늘은 <b>무료 레이드패스랑 리모트 레이드패스, 이 둘 중 뭘 언제 사야 손해 안 보는지</b> 확인한 내용으로 정리해볼게요.</p>
+
+      <h3>무료 레이드패스랑 리모트 레이드패스, 기본부터 짚고 갈게요</h3>
+      <p>우선 헷갈리기 쉬운 기본 구조부터 봐야 하는데요. 무료 레이드패스는 체육관 포토디스크를 회전하면 하루 최대 1개 받을 수 있고, 한 번에 딱 1장만 들고 있을 수 있습니다. 이미 갖고 있으면 새로 못 받으니까 일단 써야 다음 걸 받는 구조고요, 매일 정해진 시간에 리셋된다고 해요. 다만 <b>무료 패스는 오프라인 전용</b>이라 체육관에 직접 가야만 쓸 수 있다는 게 핵심이에요.</p>
+      <p>반면 리모트 레이드패스는 유료지만 <b>원격으로 어디서든 참여할 수 있다는 게 가장 큰 차이</b>예요. 체육관까지 갈 시간이 안 되거나, 집에서 여러 판을 연달아 돌리고 싶을 때 진가를 발휘하는 아이템이죠.</p>
+
+      <p>📷 〔사진 자리 1〕 체육관 포토디스크 회전 화면 — 네이버에서 직접 업로드<br>
+      └ 촬영 가이드: 체육관 화면에서 포토디스크를 돌려 무료 레이드패스가 채워지는 순간을 캡처, 포토디스크 아이콘과 하단 획득 알림이 함께 보이게<br>
+      └ 캡션 추천: "포토디스크 한 번 돌리면 하루치 무료 레이드패스가 이렇게 채워지는데요, 이미 한 장 있으면 안 채워지니 참고하세요."</p>
+
+      <h3>프리미엄 배틀패스랑 헷갈리면 절대 안 돼요</h3>
+      <p>여기서 하나 꼭 짚고 넘어가야 할 게 있는데요, 이름 때문에 헷갈리기 쉬운 아이템이 바로 <b>'프리미엄 배틀패스'</b>예요. 사실 이건 예전 '프리미엄 레이드패스'에서 이름만 바뀐 아이템이라, 지금도 별1~별5 레이드에 <b>대면으로(직접 체육관에 가서) 입장할 때</b> 쓸 수 있는 유료 아이템이 맞습니다. 동시에 GO배틀리그 세트에서 프리미엄 리워드를 잠금 해제하는 용도로도 쓰이는, 말하자면 겸용 아이템이네요. 인게임 가격은 3개 세트 250 포켓코인이에요.</p>
+      <p>그러니까 프리미엄 배틀패스가 레이드랑 아예 무관한 건 아니고, 오히려 <b>'대면 레이드에 한 판 더 들어갈 때 쓰는 유료 입장권'</b>에 가까워요. 다만 이 글은 원격이냐 대면이냐가 핵심 비교축이니, 프리미엄 배틀패스는 딱 '대면용 유료 옵션' 정도로만 기억해두시고 리모트 레이드패스랑 헷갈리지만 않으시면 됩니다.</p>
+
+      <h3>리모트 레이드패스 가격, 사는 곳마다 다르게 표시돼요</h3>
+      <p>리모트 레이드패스는 인게임 포켓코인으로 사는 방법이랑 실제화폐로 사는 웹스토어(store.pokemongo.com), 이렇게 두 채널이 있는데 이 둘을 혼동하면 안 됩니다.</p>
+
+      <p>📷 〔사진 자리 2〕 리모트 레이드패스 아이템 아이콘 — 공식 웹스토어(store.pokemongo.com)에서 다운로드 후 업로드<br>
+      └ 캡션 추천: "이렇게 생긴 리모트 레이드패스, 상점에서 낱개랑 세트로 나눠서 팝니다."</p>
+
+      <p>인게임 포켓코인 기준으로는 <b>1개에 195코인, 3개 세트면 525코인</b>이에요. 세트로 사면 525를 3으로 나눠서 개당 175코인 꼴이 되니까, <b>낱개보다는 세트 쪽이 코인 단가상 확실히 유리</b>합니다.</p>
+      <p>실제화폐 웹스토어는 채널 자체가 다른데, 오늘(7월 13일) 기준으로는 2개 묶음이 3,300원으로 표시되고 있었어요. 인게임 코인 구매가랑 웹스토어 실화폐 구매가는 완전히 별개 채널이니까 헷갈리지 마시고요.</p>
+      <p>하루에 리모트 레이드에 참여할 수 있는 횟수 상한도 있는데요, 2025년 5월부터 <b>하루 최대 10회</b>로 늘어났습니다. 원래는 5회였다가 두 배로 상향된 거라, 특별 이벤트가 겹치는 기간엔 이보다 더 늘어나는 경우도 있다고 해요.</p>
+
+      <p>📷 〔사진 자리 3〕 포켓코인 상점에서 리모트 레이드패스 195/525코인 표시 화면 — 네이버에서 직접 업로드<br>
+      └ 촬영 가이드: 포켓코인 상점 화면에서 리모트 레이드패스 낱개(195코인)와 3개 세트(525코인) 가격이 한 화면에 같이 보이도록 촬영<br>
+      └ 캡션 추천: "상점에서 낱개랑 3개 세트 가격을 나란히 비교해보면 세트 쪽 단가가 눈에 확 들어오네요."</p>
+
+      <h3>이번 여름 레이드 로테이션, 뭐가 도나 볼까요</h3>
+      <p>7월 레이드 로테이션을 보면 왜 다들 리모트 패스를 고민하는지 좀 이해가 되는데요. <b>7월 1일부터 6일, 그리고 13일부터 14일까지는 프리져·썬더·파이어 전설 5성 레이드에 메가 루카리오</b>까지 함께 돌고 있고요, <b>15일부터 21일은 가이오가 이로치와 메가 나무킹, 22일부터 28일은 큐레무 이로치와 메가 보만다, 29일부터 8월 4일까지는 솔가레오 이로치와 메가 보스로라</b>로 매주 바뀝니다. 여기에 그림자 펄기아 레이드도 진행 중이고요.</p>
+      <p>포켓몬GO 10주년 기념 이벤트는 메인 행사가 7월 4일 10시부터 6일 20시까지였고, 이 이벤트에서 기간 한정으로 재등장한 모으령은 7월 31일 23시 59분까지 만날 수 있다고 해요. 다만 아무 데서나 돌아다닌다고 나오는 건 아니고, <b>황금 유혹의 모듈이나 코인 가방, 유료 타임리서치</b>로 만나는 방식이더라고요. 이벤트 보너스 자체는 <b>포획 경험치·별의모래 4배·이로치 확률 상승이 핵심</b>이지, 레이드 전용 보너스가 딸려 있는 건 아니고요. 그러니까 '모으령 이벤트라서 레이드가 싸진다' 같은 얘기는 아니고, 그냥 이 기간 동안 전설 레이드가 유독 많이 도는 여름 시즌이라고 보시면 될 것 같아요.</p>
+
+      <p>📷 〔사진 자리 4〕 이번 주 로테이션 보스 레이드 배틀 화면 — 네이버에서 직접 업로드<br>
+      └ 촬영 가이드: 레이드 배틀 참여 화면에서 이번 주 보스(프리져·썬더·파이어 등)와 참여 인원, 남은 시간이 함께 보이게 촬영<br>
+      └ 캡션 추천: "이번 주는 프리져·썬더·파이어 라인업이라 최애가 껴 있으면 리모트 패스 쓸 명분이 확실해지네요."</p>
+
+      <h3>그래서 결론, 언제 사야 손해 안 볼까요</h3>
+      <p>평소처럼 체육관 방문이 어렵지 않고 딱히 급한 게 없는 상황이면, 사실 <b>리모트 레이드패스는 안 사도 충분</b>합니다. 무료 패스 하나로도 하루 한 판은 커버가 되니까요.</p>
+      <p>반대로 리모트 패스가 진짜 필요한 순간은 따로 있는데요, <b>이번 주 로테이션 보스가 최애거나 이로치를 꼭 잡아야 하는 경우, 체육관 갈 시간이 도저히 안 나는 경우, 하루에 여러 판을 몰아서 돌리고 싶은 경우</b>, 이럴 때 사는 게 합리적이에요.</p>
+      <p>살 때는 앞서 말씀드린 것처럼 <b>낱개(195코인)보다 3개 세트(525코인, 개당 175코인)</b>가 코인 단가상 유리하니까, 어차피 살 거면 세트로 챙기시는 걸 추천드려요.</p>
+      <p>그리고 GO Fest 2026 서울처럼 대형 무료 이벤트가 열릴 땐 리모트 패스를 미리 사재기하지 않는 게 이득이에요. 이번 GO Fest는 7월 11일부터 12일까지 반포한강공원에서 역대 최초로 무료 개최됐는데, 행사 기간엔 무료 레이드패스가 <b>하루 최대 9개</b>까지 지급됐거든요. 이런 대형 무료 이벤트가 예고돼 있다면 리모트 패스는 잠깐 아껴뒀다가 그 뒤에 필요한 만큼만 사는 게 나아요.</p>
+      <p>정확한 코인 가격이나 웹스토어 실화폐 가격은 시점에 따라 바뀔 수 있으니, 구매 직전에는 앱 내 상점에서 한 번 더 확인하시는 걸 권해드립니다.</p>
+
+      <h3>무료 vs 리모트, 표로 한눈에 정리해봤어요</h3>
+      <table>
+        <tr><th>구분</th><th>무료 레이드패스</th><th>리모트 레이드패스</th></tr>
+        <tr><td class="l">얻는 법</td><td>체육관 포토디스크 회전</td><td>포켓코인 구매 또는 웹스토어 실화폐 구매</td></tr>
+        <tr><td class="l">가격</td><td>무료</td><td>195코인(낱개) / 525코인(3개 세트, 개당 175코인) / 웹스토어 3,300원(2개)</td></tr>
+        <tr><td class="l">보유 한도</td><td>1장(써야 다음 획득)</td><td>구매한 만큼 보유 가능</td></tr>
+        <tr><td class="l">참여 방식</td><td>오프라인 전용(체육관 직접 방문)</td><td>원격 참여 가능(어디서든)</td></tr>
+        <tr><td class="l">하루 참여 횟수</td><td>사실상 1회(패스 1장)</td><td>하루 최대 10회(2025년 5월 상향, 특별 이벤트 땐 더 늘기도)</td></tr>
+      </table>
+
+      <h3>포켓몬고 레이드패스 정리</h3>
+      <p>결론만 놓고 보면, 평소엔 무료 패스로 충분하고 리모트 패스는 정말 필요한 순간에만 세트로 챙기는 게 제일 손해 안 보는 방법인 것 같아요. 프리미엄 배틀패스는 대면 레이드용 유료 옵션이라는 것만 헷갈리지 않으시면, 이번 여름 레이드 시즌 알차게 즐기실 수 있을 거예요.</p>
+
+      <p><b>✔ 포켓몬고 레이드 같이 보기 좋은 내용</b><br>
+      · <span class="ph">〔내부링크 자리 1〕</span> 포켓몬고 여름 이벤트 캘린더 커뮤니티데이 총정리 — 네이버에서 기존 글 링크 연결<br>
+      · <span class="ph">〔내부링크 자리 2〕</span> 포켓몬고 GO페스트 2026 이로치 우선순위 뭘 노려야 이득일까 — 네이버에서 기존 글 링크 연결</p>
+
+      <p class="tags-line">#포켓몬고 #포켓몬고레이드패스 #리모트레이드패스 #무료레이드패스 #포켓몬고레이드 #포켓몬고구매가이드 #포켓몬고2026</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
