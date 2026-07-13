@@ -1,0 +1,270 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>붉은사막 어비스 진입방법 총정리, 초보 공략부터 웅카 데미안 업데이트까지</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 출처 재서술 사이드노트 (미리보기 전용) ===== */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">붉은사막 어비스 진입방법 총정리, 초보 공략부터 웅카 데미안 업데이트까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.13</span><span>· 게임</span></div>
+
+    <p>붉은사막에 7월 들어 1.13.00 패치가 적용되면서 <b>'어비스'</b> 콘텐츠가 꽤 크게 달라졌습니다. 사실 저는 이번에 붉은사막을 처음 다뤄보는 건데요, 마침 초보자 진입장벽을 낮춰주는 방향으로 업데이트가 들어와서 이 타이밍에 소개해보면 딱 좋겠다 싶었어요. '어비스'가 뭔지 하나도 모르는 상태에서 시작하는 분들 기준으로 최대한 쉽게 풀어볼게요.</p>
+
+    <h2 class="sub">붉은사막이 어떤 게임인지부터 살짝</h2>
+    <p>붉은사막은 펄어비스가 만든 오픈월드 액션 어드벤처 게임인데요, 이미 출시돼서 서비스되고 있는 게임이고 주인공 클리프를 조작해 대륙 곳곳을 누비는 게 기본 골자입니다. 오늘은 게임 전체를 다 훑기보다, 요즘 업데이트로 화제인 '어비스' 콘텐츠 하나에 집중해서 풀어볼게요.</p>
+
+    <!-- 이미지 이유: 게임 소개 직후 대표 키비주얼로 첫인상 전달 / 출처: 붉은사막 스팀 스토어 공식 헤더 이미지 / 분류: A형(자동수집·self-host 재업로드 전제) -->
+    <div class="imgwrap"><img src="https://cdn.akamai.steamstatic.com/steam/apps/3321460/header.jpg" alt="붉은사막 스팀 대표 이미지" width="460" height="215"></div>
+    <p class="cap">이미 출시돼 서비스 중인 붉은사막, 오픈월드 액션 어드벤처예요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/3321460/Crimson_Desert/" target="_blank">붉은사막 스팀 스토어</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">'어비스'가 대체 뭔가요? 레벨업이 아니라 아티팩트예요</h2>
+    <p>붉은사막에는 사실 흔히 아는 '몇 레벨' 같은 전통적인 레벨업 시스템이 없습니다. 대신 <b>'어비스 아티팩트'</b>라는 재화를 모아서 스킬 포인트로 찍고, 그걸로 스킬을 하나씩 키우는 구조인데요. 그러니까 숫자 레벨을 올리는 게 아니라 아티팩트를 얼마나 모았느냐로 캐릭터가 강해지는 셈입니다. 처음 듣는 분들은 여기서부터 살짝 헷갈릴 수 있는데, <b>'아티팩트 = 성장 재화'</b>라고만 기억해두면 편해요. 흔한 RPG처럼 몇 레벨부터 어디 입장 가능, 이런 식으로 생각하고 찾아보면 오히려 헷갈리니 이 구조부터 짚고 가는 게 맞다고 봐요.</p>
+
+    <h2 class="sub">어비스는 어떻게 들어가나요? 워프 포인트 두 종류</h2>
+    <p>어비스에 들어가려면 맵에 있는 워프 포인트를 찾아야 하는데요, 종류가 두 가지예요. 하나는 <b>'어비스의 흔적'</b>인데 그냥 밟기만 해도 바로 활성화되고요, 다른 하나는 <b>'어비스 표석'</b>인데 이건 주변 기믹을 먼저 풀어야 열립니다. 이 포인트들이 어디 있는지 맨눈으로 찾기 힘들 땐 <b>'빛 반사'</b>라는 능력을 켜두면 위치를 짚어주는데요, 맵에 숨겨진 봉인된 아티팩트 자리도 같이 잡아줘서 초반엔 자주 켜두시는 걸 추천드려요. 덤으로 빛을 모아서 나무나 음식을 태우는 데도 쓸 수 있어서, 탐험 중 잔불이 필요할 때도 은근히 요긴하네요.</p>
+
+    <!-- 이미지 이유: 워프 포인트 탐색 방법(빛 반사) 문단 직후 조작 장면으로 이해 보조 / 출처: 직접 촬영(플레이 화면) / 분류: B형(촬영 가이드) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: '빛 반사'로 어비스의 흔적·표석 위치를 찾는 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — <b>어디서</b>: 필드에서 빛 반사 능력 발동 직후(조준 UI가 뜬 상태) · <b>무엇이 보이게</b>: 화면에 표시되는 어비스의 흔적/표석 아이콘이 잘 보이는 각도로. 비슷한 화면 참고: <a href="https://crimsondesert.pearlabyss.com/ko-KR" target="_blank">붉은사막 공식 사이트</a></div>
+    <p class="cap">빛 반사를 켜두면 흔적이랑 표석 위치가 화면에 바로 표시돼요.</p>
+
+    <h2 class="sub">이번 7월 업데이트로 뭐가 바뀌었나 (1.13.00)</h2>
+    <p>이번 패치 버전은 <b>1.13.00</b>이고, 7월 초부터 순차 배포를 거쳐 지금은 스팀·PS·Xbox·Epic 스토어까지 전 플랫폼에 적용이 끝난 상태예요. 펄어비스는 <b>7월 6일</b>에 이 내용을 공식 발표했고요. 마침 여름 성수기 게임업계 소식과 함께 알려진 업데이트라, 지금 들어가 보기엔 타이밍도 나쁘지 않습니다.</p>
+
+    <div class="para-wrap">
+      <p>여기서 헷갈리면 안 되는 게 하나 있는데요, <b>'어비스' 자체가 이번에 새로 생긴 콘텐츠는 아니라는 점</b>이에요. 어비스는 원래 있던 콘텐츠고, 이번에 바뀐 건 '누가 들어갈 수 있느냐'입니다. <span class="rev-hl">원래는 주인공 클리프만 어비스에 들어갈 수 있었는데, 이제 동료 캐릭터인 웅카와 데미안도 함께 진입할 수 있게 됐어요.</span></p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 웅카·데미안 진입 가능</span>
+        <span class="sn-src"><b>펄어비스 공식 보도자료</b>가 "웅카와 데미안도 어비스에 진입할 수 있게 됐다"고 밝혔어요. (<a href="https://www.pearlabyss.com/en-US/Board/Detail?_boardNo=15071" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 원문 그대로 옮기지 않고 제 말투로 풀어썼어요.</span>
+      </div>
+    </div>
+
+    <div class="para-wrap">
+      <p><span class="rev-hl">거기 맞춰서 클리프·웅카·데미안이 쓸 수 있는 신규 장비 47종이 추가됐는데, 보스 장비도 포함돼 있고 일반 갑옷·헬멧류도 꽤 늘었습니다.</span> 데미안이랑 웅카는 <b>'쿠쿠새'</b> 관련 장비도 새로 착용할 수 있게 됐고요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 신규 장비 47종</span>
+        <span class="sn-src"><b>붉은사막 공식 패치노트 1.13.00</b>에 클리프·웅카 39종 + 데미안 8종, 보스 장비 포함 총 47종으로 명시돼 있어요. (<a href="https://crimsondesert.pearlabyss.com/en-US/News/Notice/Detail?_boardNo=105" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 개별 아이템명은 나열하지 않고 종 수·카테고리만 정리해서 옮겼어요.</span>
+      </div>
+    </div>
+
+    <p>그 외 편의성 쪽으로는, 원래 염색이 안 됐던 일부 위장복·무기의 염색이 풀렸고, 미니맵 테두리엔 지금 추적 중인 의뢰만 뜨도록 정리됐고, 채집할 때 반딧불이를 최대 3개까지 얻을 수 있게 됐습니다. 재도전 가능한 보스 몇몇의 <b>'기억의 파편'</b> 위치도 이번 패치로 살짝 바뀌었다고 하니, 예전 기억만 믿고 찾아가면 조금 헷갈릴 수 있어요.</p>
+
+    <!-- 이미지 이유: 신규 장비 47종·쿠쿠새 장비 문단 직후 실제 UI로 변화 체감 / 출처: 직접 촬영(플레이 화면) / 분류: B형(촬영 가이드) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 신규 장비 47종·쿠쿠새 장비가 추가된 장비창 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — <b>어디서</b>: 장비 메뉴 &gt; 어비스 기어 탭 · <b>무엇이 보이게</b>: 신규 갑옷·헬멧류와 쿠쿠새 장비 아이콘이 함께 보이게. 비슷한 화면 참고: <a href="https://crimsondesert.pearlabyss.com/en-US/News/Notice/Detail?_boardNo=105" target="_blank">공식 패치노트 1.13.00</a></div>
+    <p class="cap">장비창을 열어보면 새로 생긴 항목이 꽤 눈에 띄어요.</p>
+
+    <h2 class="sub">처음 어비스 들어갈 때 뭐부터 챙겨야 하나요?</h2>
+    <p>저처럼 이제 막 들어가 보려는 분들이면 딱 세 가지만 알아두면 충분해요.</p>
+
+    <p>우선 <b>'어비스 아티팩트'</b>는 생각보다 얻는 방법이 다양합니다. 전투 중엔 적을 처치할 때마다 미니맵 게이지가 차오르다가 가득 차면 1개를 챙길 수 있고, 보스를 잡으면 추가로 더 얻을 수 있고요. 메인·서브 퀘스트를 깨거나 고대 유적의 퍼즐을 풀어도 받을 수 있고, 맵 곳곳에 숨겨진 '봉인된 아티팩트' 챌린지나 팔씨름·궁술대회 같은 도전과제로도 모을 수 있어요. 방법이 이렇게 여러 갈래라 굳이 한 가지 콘텐츠만 파지 않아도 자연스럽게 쌓이는 편입니다.</p>
+
+    <!-- 이미지 이유: 아티팩트 획득처 설명·표 직전 실제 게이지 UI로 이해 보조 / 출처: 직접 촬영(플레이 화면) / 분류: B형(촬영 가이드) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 적 처치 후 미니맵 아티팩트 게이지가 차오르는 순간</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — <b>어디서</b>: 필드 전투 중 미니맵 좌측 게이지 부근 · <b>무엇이 보이게</b>: 노란 게이지가 가득 차는 순간(아티팩트 획득 알림과 함께)을 캡처. 비슷한 화면 참고: <a href="https://crimson.inven.co.kr/dataninfo/tips/?comeidx=6511&boardidx=97" target="_blank">인벤 어비스 아티팩트 팁 게시판</a></div>
+    <p class="cap">게이지가 가득 차는 순간 아티팩트 1개가 딱 들어와요.</p>
+
+    <table class="tbl">
+      <tr><th>얻는 방법</th><th>어떻게</th></tr>
+      <tr><td>전투</td><td>적 처치 시 미니맵 게이지 충전, 게이지가 차면 1개 획득(보스 처치 시 추가 획득)</td></tr>
+      <tr><td>퀘스트</td><td>메인·서브 퀘스트 완료 보상</td></tr>
+      <tr><td>유적 퍼즐</td><td>고대 유적 퍼즐을 풀면 어비스 표석에서 획득</td></tr>
+      <tr><td>봉인된 아티팩트</td><td>맵에 숨겨진 챌린지 완료</td></tr>
+      <tr><td>도전과제</td><td>팔씨름·궁술대회 등 각종 도전과제 완료</td></tr>
+    </table>
+
+    <p>그다음은 장비 얘긴데요, 어비스 기어는 <b>'마녀'</b>라는 NPC를 통해서만 착용·해제가 가능합니다. 스토리 초반이라 아직 마녀를 못 만났다면, 아티팩트로 얻은 어비스 기어를 억지로 바로 쓰려 하지 말고 일단 창고에 넣어두시는 게 좋아요. 나중에 마녀를 만나고 나서 한 번에 정리해도 늦지 않습니다.</p>
+
+    <p>마지막으로 이번 업데이트의 진짜 핵심인데요, 이제 클리프만 고집할 필요 없이 웅카나 데미안으로도 어비스에 들어갈 수 있으니 평소 좋아하던 캐릭터, 또는 그냥 손에 익은 캐릭터로 편하게 진입하시면 됩니다. 취향껏 골라도 되는 게 이번 패치의 가장 큰 변화죠.</p>
+
+    <h2 class="sub">붉은사막 어비스 정리</h2>
+    <p>한마디로 정리하면, 붉은사막 '어비스'는 이번에 새로 생긴 콘텐츠가 아니라 원래 있던 걸 웅카·데미안까지 들어갈 수 있게 넓힌 업데이트예요. 아티팩트를 모아 스킬 포인트로 쓰는 구조만 이해해두면 레벨 걱정 없이 접근할 수 있고, 신규 장비 47종에 미니맵·염색 같은 편의 개선까지 한꺼번에 들어왔어요. 아직 어비스 근처도 안 가보신 분들이라면, 이번 기회에 한 번 들어가 보시면 좋을 것 같아요. 처음부터 아티팩트를 욕심껏 다 모으려 하지 말고, 퀘스트 진행하면서 자연스럽게 쌓이는 대로 천천히 접근하셔도 충분해요.</p>
+
+    <p style="font-size:13px;color:#9aa;">붉은사막 이야기는 오늘 첫 편이었는데, 앞으로 하나씩 더 풀어볼게요.</p>
+
+    <div class="tags">#붉은사막 #어비스 #크림슨데저트 #붉은사막공략 #웅카데미안</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>하시면 됩니다.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 5분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 붉은사막 어비스 진입방법 총정리, 초보 공략부터 웅카 데미안 업데이트까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>붉은사막에 7월 들어 1.13.00 패치가 적용되면서 <b>'어비스'</b> 콘텐츠가 꽤 크게 달라졌습니다. 사실 저는 이번에 붉은사막을 처음 다뤄보는 건데요, 마침 초보자 진입장벽을 낮춰주는 방향으로 업데이트가 들어와서 이 타이밍에 소개해보면 딱 좋겠다 싶었어요. '어비스'가 뭔지 하나도 모르는 상태에서 시작하는 분들 기준으로 최대한 쉽게 풀어볼게요.</p>
+
+      <h3>붉은사막이 어떤 게임인지부터 살짝</h3>
+      <p>붉은사막은 펄어비스가 만든 오픈월드 액션 어드벤처 게임인데요, 이미 출시돼서 서비스되고 있는 게임이고 주인공 클리프를 조작해 대륙 곳곳을 누비는 게 기본 골자입니다. 오늘은 게임 전체를 다 훑기보다, 요즘 업데이트로 화제인 '어비스' 콘텐츠 하나에 집중해서 풀어볼게요.</p>
+
+      <p>📷 〔사진 자리 1〕 붉은사막 대표 이미지 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: <span class="ph">"이미 출시돼 서비스 중인 붉은사막, 오픈월드 액션 어드벤처예요."</span></p>
+
+      <h3>'어비스'가 대체 뭔가요? 레벨업이 아니라 아티팩트예요</h3>
+      <p>붉은사막에는 사실 흔히 아는 '몇 레벨' 같은 전통적인 레벨업 시스템이 없습니다. 대신 <b>'어비스 아티팩트'</b>라는 재화를 모아서 스킬 포인트로 찍고, 그걸로 스킬을 하나씩 키우는 구조인데요. 그러니까 숫자 레벨을 올리는 게 아니라 아티팩트를 얼마나 모았느냐로 캐릭터가 강해지는 셈입니다. 처음 듣는 분들은 여기서부터 살짝 헷갈릴 수 있는데, <b>'아티팩트 = 성장 재화'</b>라고만 기억해두면 편해요. 흔한 RPG처럼 몇 레벨부터 어디 입장 가능, 이런 식으로 생각하고 찾아보면 오히려 헷갈리니 이 구조부터 짚고 가는 게 맞다고 봐요.</p>
+
+      <h3>어비스는 어떻게 들어가나요? 워프 포인트 두 종류</h3>
+      <p>어비스에 들어가려면 맵에 있는 워프 포인트를 찾아야 하는데요, 종류가 두 가지예요. 하나는 <b>'어비스의 흔적'</b>인데 그냥 밟기만 해도 바로 활성화되고요, 다른 하나는 <b>'어비스 표석'</b>인데 이건 주변 기믹을 먼저 풀어야 열립니다. 이 포인트들이 어디 있는지 맨눈으로 찾기 힘들 땐 <b>'빛 반사'</b>라는 능력을 켜두면 위치를 짚어주는데요, 맵에 숨겨진 봉인된 아티팩트 자리도 같이 잡아줘서 초반엔 자주 켜두시는 걸 추천드려요. 덤으로 빛을 모아서 나무나 음식을 태우는 데도 쓸 수 있어서, 탐험 중 잔불이 필요할 때도 은근히 요긴하네요.</p>
+
+      <p>📷 〔사진 자리 2〕 '빛 반사'로 어비스의 흔적·표석 위치를 찾는 화면 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: <span class="ph">"빛 반사를 켜두면 흔적이랑 표석 위치가 화면에 바로 표시돼요."</span></p>
+
+      <h3>이번 7월 업데이트로 뭐가 바뀌었나 (1.13.00)</h3>
+      <p>이번 패치 버전은 <b>1.13.00</b>이고, 7월 초부터 순차 배포를 거쳐 지금은 스팀·PS·Xbox·Epic 스토어까지 전 플랫폼에 적용이 끝난 상태예요. 펄어비스는 <b>7월 6일</b>에 이 내용을 공식 발표했고요. 마침 여름 성수기 게임업계 소식과 함께 알려진 업데이트라, 지금 들어가 보기엔 타이밍도 나쁘지 않습니다.</p>
+
+      <p>여기서 헷갈리면 안 되는 게 하나 있는데요, <b>'어비스' 자체가 이번에 새로 생긴 콘텐츠는 아니라는 점</b>이에요. 어비스는 원래 있던 콘텐츠고, 이번에 바뀐 건 '누가 들어갈 수 있느냐'입니다. 원래는 주인공 클리프만 어비스에 들어갈 수 있었는데, 이제 동료 캐릭터인 웅카와 데미안도 함께 진입할 수 있게 됐어요.</p>
+
+      <p>거기 맞춰서 클리프·웅카·데미안이 쓸 수 있는 신규 장비 47종이 추가됐는데, 보스 장비도 포함돼 있고 일반 갑옷·헬멧류도 꽤 늘었습니다. 데미안이랑 웅카는 <b>'쿠쿠새'</b> 관련 장비도 새로 착용할 수 있게 됐고요.</p>
+
+      <p>그 외 편의성 쪽으로는, 원래 염색이 안 됐던 일부 위장복·무기의 염색이 풀렸고, 미니맵 테두리엔 지금 추적 중인 의뢰만 뜨도록 정리됐고, 채집할 때 반딧불이를 최대 3개까지 얻을 수 있게 됐습니다. 재도전 가능한 보스 몇몇의 <b>'기억의 파편'</b> 위치도 이번 패치로 살짝 바뀌었다고 하니, 예전 기억만 믿고 찾아가면 조금 헷갈릴 수 있어요.</p>
+
+      <p>📷 〔사진 자리 3〕 신규 장비 47종·쿠쿠새 장비가 추가된 장비창 화면 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: <span class="ph">"장비창을 열어보면 새로 생긴 항목이 꽤 눈에 띄어요."</span></p>
+
+      <h3>처음 어비스 들어갈 때 뭐부터 챙겨야 하나요?</h3>
+      <p>저처럼 이제 막 들어가 보려는 분들이면 딱 세 가지만 알아두면 충분해요.</p>
+
+      <p>우선 <b>'어비스 아티팩트'</b>는 생각보다 얻는 방법이 다양합니다. 전투 중엔 적을 처치할 때마다 미니맵 게이지가 차오르다가 가득 차면 1개를 챙길 수 있고, 보스를 잡으면 추가로 더 얻을 수 있고요. 메인·서브 퀘스트를 깨거나 고대 유적의 퍼즐을 풀어도 받을 수 있고, 맵 곳곳에 숨겨진 '봉인된 아티팩트' 챌린지나 팔씨름·궁술대회 같은 도전과제로도 모을 수 있어요. 방법이 이렇게 여러 갈래라 굳이 한 가지 콘텐츠만 파지 않아도 자연스럽게 쌓이는 편입니다.</p>
+
+      <p>📷 〔사진 자리 4〕 적 처치 후 미니맵 아티팩트 게이지가 차오르는 순간 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: <span class="ph">"게이지가 가득 차는 순간 아티팩트 1개가 딱 들어와요."</span></p>
+
+      <table>
+        <tr><th>얻는 방법</th><th>어떻게</th></tr>
+        <tr><td class="l">전투</td><td>적 처치 시 미니맵 게이지 충전, 게이지가 차면 1개 획득(보스 처치 시 추가 획득)</td></tr>
+        <tr><td class="l">퀘스트</td><td>메인·서브 퀘스트 완료 보상</td></tr>
+        <tr><td class="l">유적 퍼즐</td><td>고대 유적 퍼즐을 풀면 어비스 표석에서 획득</td></tr>
+        <tr><td class="l">봉인된 아티팩트</td><td>맵에 숨겨진 챌린지 완료</td></tr>
+        <tr><td class="l">도전과제</td><td>팔씨름·궁술대회 등 각종 도전과제 완료</td></tr>
+      </table>
+
+      <p>그다음은 장비 얘긴데요, 어비스 기어는 <b>'마녀'</b>라는 NPC를 통해서만 착용·해제가 가능합니다. 스토리 초반이라 아직 마녀를 못 만났다면, 아티팩트로 얻은 어비스 기어를 억지로 바로 쓰려 하지 말고 일단 창고에 넣어두시는 게 좋아요. 나중에 마녀를 만나고 나서 한 번에 정리해도 늦지 않습니다.</p>
+
+      <p>마지막으로 이번 업데이트의 진짜 핵심인데요, 이제 클리프만 고집할 필요 없이 웅카나 데미안으로도 어비스에 들어갈 수 있으니 평소 좋아하던 캐릭터, 또는 그냥 손에 익은 캐릭터로 편하게 진입하시면 됩니다. 취향껏 골라도 되는 게 이번 패치의 가장 큰 변화죠.</p>
+
+      <h3>붉은사막 어비스 정리</h3>
+      <p>한마디로 정리하면, 붉은사막 '어비스'는 이번에 새로 생긴 콘텐츠가 아니라 원래 있던 걸 웅카·데미안까지 들어갈 수 있게 넓힌 업데이트예요. 아티팩트를 모아 스킬 포인트로 쓰는 구조만 이해해두면 레벨 걱정 없이 접근할 수 있고, 신규 장비 47종에 미니맵·염색 같은 편의 개선까지 한꺼번에 들어왔어요. 아직 어비스 근처도 안 가보신 분들이라면, 이번 기회에 한 번 들어가 보시면 좋을 것 같아요. 처음부터 아티팩트를 욕심껏 다 모으려 하지 말고, 퀘스트 진행하면서 자연스럽게 쌓이는 대로 천천히 접근하셔도 충분해요.</p>
+
+      <p>붉은사막 이야기는 오늘 첫 편이었는데, 앞으로 하나씩 더 풀어볼게요.</p>
+
+      <p class="tags-line">#붉은사막 #어비스 #크림슨데저트 #붉은사막공략 #웅카데미안</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
