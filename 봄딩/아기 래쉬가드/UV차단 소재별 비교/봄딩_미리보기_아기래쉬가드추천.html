@@ -101,6 +101,26 @@
   }
   .tags{margin-top:26px;color:#b3a89a;font-size:13px;line-height:1.9;}
 
+  /* ===== 이미지 자리 (예시 슬롯) — 어디에 뭘 넣을지 표시 ===== */
+  /* A형: 온라인(공식몰·쿠팡·무료스톡) 이미지를 저장해 넣는 자리 */
+  .imgslot{border:1.6px solid var(--blue-line);border-bottom:none;
+    background:repeating-linear-gradient(-45deg,#fbfcfe 0 11px,#f2f6fd 11px 22px);
+    border-radius:12px 12px 0 0;margin:14px 0 0;padding:30px 18px;text-align:center;color:#5f7fa6;}
+  .imgslot .frame{font-size:30px;line-height:1;margin-bottom:9px;}
+  .imgslot .what{font-size:14.3px;font-weight:800;color:#3f6191;letter-spacing:-.2px;line-height:1.5;}
+  .imgslot .num{display:inline-block;background:var(--blue);color:#fff;border-radius:6px;font-size:11.5px;font-weight:800;padding:1px 7px;margin-right:6px;vertical-align:1px;}
+  .imgsrc{background:#f4f8fd;border:1.6px solid var(--blue-line);border-top:1px dashed #c7d9f0;
+    border-radius:0 0 12px 12px;margin:0 0 22px;padding:9px 14px;font-size:12px;color:#5f7fa6;line-height:1.65;text-align:center;}
+  .imgsrc b{color:#3f6191;}
+  .imgsrc a{color:#1a73e8;text-decoration:none;font-weight:700;}
+  /* A형 mini: 제품 카드 안 대표컷 자리 */
+  .imgslot.mini{display:flex;align-items:center;gap:13px;min-height:92px;padding:14px 16px;margin:0 0 14px;
+    text-align:left;border:1.6px solid var(--blue-line);border-radius:11px;}
+  .imgslot.mini .frame{font-size:26px;margin:0;flex:0 0 auto;}
+  .imgslot.mini .mtxt{font-size:12.8px;line-height:1.55;color:#5f7fa6;}
+  .imgslot.mini .mtxt b{color:#3f6191;font-weight:800;display:block;font-size:13.3px;margin-bottom:2px;}
+  .imgslot.mini .mtxt a{color:#1a73e8;text-decoration:none;font-weight:700;}
+
   /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
   #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:var(--naver);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:Pretendard,"맑은 고딕",sans-serif;}
   #npBtn:active{transform:translateY(1px);}
@@ -174,8 +194,8 @@
     </table>
     <p class="tnote">* 유형/제품 이름을 누르면 해당 섹션으로 이동해요. 추천도는 공개된 스펙·구성·가성비를 종합해 매긴 참고용 점수예요(공식 순위 아님). 가격·스펙은 작성 시점(2026.07) 기준이라 변동될 수 있어요.</p>
 
-    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 아기가 래쉬가드 입고 물놀이하는 모습</span></div>
-    <div class="shoot">📸 직접 촬영 권장 — 비슷한 분위기 찾을 곳: <a href="https://splashabout.co.kr/" target="_blank">스플래쉬어바웃 공식몰</a></div>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">사진 1: 아기가 래쉬가드 입고 물놀이하는 모습 (직접 촬영 — 핵심컷)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 우리 아이 착용 완성컷이 가장 좋아요. 비슷한 분위기 참고: <a href="https://splashabout.co.kr/" target="_blank">스플래쉬어바웃 공식몰</a></div>
     <p class="cap">래쉬가드 하나로 자외선도 막고 물놀이도 편하게, 이게 여름 필수템이더라고요.</p>
 
     <h2 class="sub">아기한테 왜 래쉬가드가 필요할까요?</h2>
@@ -190,19 +210,23 @@
     </ul>
     <p><b>UPF 50+</b>가 표기돼 있으면 자외선의 50분의 1 이하만 통과시킨다는 뜻이라, 지금 나와 있는 아기 래쉬가드는 거의 다 이 UPF 50+ 표기를 목표로 만들어진다고 보시면 되겠네요. 국제적으로는 미국(ASTM D6603)이나 유럽(EN 13758) 기준으로 검사한 원단이 이 수치를 받는데, <span class="chk">🔍 개별 제품이 어느 기준으로 검사받았는지는 상세페이지 확인</span> 필요해요. UVA·UVB 둘 다 막아준다는 것도 알아두시면 좋아요.</p>
 
+    <div class="imgslot"><div class="frame">🖼️</div><div class="what"><span class="num">사진 2</span>UPF 등급별 자외선 차단율 도식, 또는 래쉬가드 착용 / 미착용 팔 자외선 비교컷</div></div>
+    <div class="imgsrc">📎 <b>받을 곳</b> — 무료 스톡('UPF swimwear', 'sun protection kids')이나 UPF 개념 인포그래픽. <a href="https://unsplash.com/s/photos/kids-swimwear" target="_blank">무료 이미지 검색 →</a> · 네이버엔 저장해 재업로드</div>
+
     <h2 class="sub">소재별로 뭐가 다른가요? (폴리에스터 vs 나일론+스판덱스 vs 네오프렌)</h2>
     <p>아기 래쉬가드에 실제로 쓰이는 소재는 크게 세 갈래예요.</p>
     <p><b>① 폴리에스터 + 스판덱스</b> - 가성비 라인에서 특히 많이 쓰이는 조합이거든요. 신축성은 나일론 조합보다 살짝 덜하지만 <b>가격이 저렴하고 발색·프린트가 잘 나오는 편</b>이라 캐릭터 패턴 제품에 많이 쓰여요.</p>
     <p><b>② 나일론 + 스판덱스(라이크라)</b> - 물에 젖었을 때 <b>더 가볍고 신축성이 좋아서</b> 아기가 움직이기 편하고, 젖은 뒤 마르는 속도도 빠른 편이에요. 프리미엄 라인·수입 브랜드에서 자주 보이는 조합이에요.</p>
     <p><b>③ 네오프렌(고무 소재)</b> - 서핑 웻슈트에 쓰이는 그 소재예요. <b>원단 자체가 빛을 거의 통과시키지 않아서 자외선 차단은 확실</b>하지만, 두껍고 무거워서 더운 날엔 답답할 수 있어요. 대신 수온이 낮은 이른 여름·바다에서는 보온까지 같이 잡아준다는 장점이 있어요.</p>
 
-    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 폴리에스터/나일론/네오프렌 원단 클로즈업 비교컷</span></div>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">사진 3: 폴리에스터 / 나일론 / 네오프렌 원단 클로즈업 비교컷</span></div>
     <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://splashabout.co.kr/goods/goods_list.php?cateCd=030002" target="_blank">스플래쉬어바웃 상품 목록</a></div>
     <p class="cap">얇고 가벼운 나일론 vs 두툼한 네오프렌, 촉감부터 확실히 다르더라고요.</p>
 
     <!-- ===== 제품별 상세 ===== -->
     <h2 class="sub" id="p1">스플래쉬어바웃 - 네오프렌 체온보호 라인 <span class="uvtag">UPF 50+</span></h2>
     <div class="card hero">
+      <div class="imgslot mini"><span class="frame">🖼️</span><span class="mtxt"><b>제품컷 자리 · 스플래쉬어바웃</b>공식몰/쿠팡 상세의 대표 이미지를 저장해 넣어주세요 · <a href="https://splashabout.co.kr/" target="_blank">공식몰 →</a></span></div>
       <p class="idline">영국 아기수영 브랜드로 국내에도 공식몰(splashabout.co.kr)이 있는 <b>실존 브랜드</b>예요. 이 브랜드가 <b>내세우는 특징</b>은 "UV 썬앤씨" 라인 전체에 UPF 50+ 인증 원단만 쓴다는 점, 그리고 주력 제품이 얇은 래쉬가드가 아니라 <b>1mm 네오프렌 소재의 체온보호 슈트</b>라는 점이에요. 원단 자체가 고무 계열이라 자외선을 거의 통과시키지 않고, 여기에 물놀이할 때 체온이 떨어지는 것까지 같이 막아준다는 게 큰 장점이에요.</p>
       <ul class="feat">
         <li>네오프렌이라 UV 차단력이 확실하고, 이른 여름·서늘한 물에서도 체온 유지가 됨</li>
@@ -217,6 +241,7 @@
 
     <h2 class="sub" id="p2">베이비앙 - 기저귀 내장 올인원 래쉬가드</h2>
     <div class="card">
+      <div class="imgslot mini"><span class="frame">🖼️</span><span class="mtxt"><b>제품컷 자리 · 베이비앙</b>공식몰/쿠팡 상세의 대표 이미지를 저장해 넣어주세요 · <a href="https://www.babyan.co.kr/" target="_blank">공식몰 →</a></span></div>
       <p class="idline">국내 유아 언더웨어·출산육아용품 브랜드(babyan.co.kr)예요. <b>애니멀프렌즈 올인원 래쉬가드</b>가 대표 라인인데, 상하 일체형인 데다 <b>수영장 기저귀가 안에 내장돼 있어</b> 물놀이팬티를 따로 안 챙겨도 되는 게 가장 큰 매력이에요. 다이빙바니(핑크)·고래(옐로우)·쉘파티(민트) 같은 패턴으로 나와서 캐릭터 디자인도 다양한 편이에요.</p>
       <ul class="feat">
         <li>올인원이라 입히기 편하고, 기저귀 내장형이라 짐이 하나 줄어듦</li>
@@ -231,6 +256,7 @@
 
     <h2 class="sub" id="p3">스몰리 - 가성비 UPF50+ 세트 <span class="uvtag">UPF 50+</span></h2>
     <div class="card">
+      <div class="imgslot mini"><span class="frame">🖼️</span><span class="mtxt"><b>제품컷 자리 · 스몰리</b>GS SHOP/쿠팡 상세의 대표 이미지를 저장해 넣어주세요 · <a href="https://www.gsshop.com/" target="_blank">GS SHOP →</a></span></div>
       <p class="idline">GS SHOP에서 판매 중인 유아·아동 수영복 브랜드로, 상품명에 <b>"UPF50+ 차단"이 직접 표기</b>돼 있는 세트예요. 상하의에 챙 넓은 플랩캡까지 세트로 묶여 있어서 <b>따로따로 안 사도 한 번에 자외선 차단 준비가 끝나는 게</b> 포인트예요.</p>
       <ul class="feat">
         <li>세트 구성인데도 <b>가격이 가장 저렴한 편</b>이라 첫 래쉬가드로 부담 없이 시작하기 좋음</li>
@@ -245,6 +271,7 @@
 
     <h2 class="sub" id="p4">홀릭메이드 - 보넷 포함 폴리에스터 라인</h2>
     <div class="card">
+      <div class="imgslot mini"><span class="frame">🖼️</span><span class="mtxt"><b>제품컷 자리 · 홀릭메이드</b>쿠팡·네이버쇼핑 상세의 대표 이미지를 저장해 넣어주세요 · <a href="https://search.shopping.naver.com/search/all?query=홀릭메이드 래쉬가드" target="_blank">네이버쇼핑 검색 →</a></span></div>
       <p class="idline">2만원대 가격에 <b>보넷(모자)까지 같이 들어오는</b> 구성으로 알려진 브랜드예요. 다만 이번 조사에서는 공식몰 상세페이지를 직접 확인하지 못했고, 브랜드 비교 블로그(베이비클로젯)에서 정리한 스펙을 참고했어요. 이 라인이 <b>강조하는 포인트</b>는 폴리에스터+스판덱스 조합에 UPF 50+ 차단이라는 점이에요.</p>
       <ul class="feat">
         <li>2만원대로 <b>세트(슈트+보넷) 가성비가 좋은 편</b>이라고 소개됨</li>
@@ -259,6 +286,7 @@
 
     <h2 class="sub" id="p5">아이플레이(i play) - 나일론+라이크라 수입 브랜드 <span class="uvtag">UPF 50+</span></h2>
     <div class="card hero">
+      <div class="imgslot mini"><span class="frame">🖼️</span><span class="mtxt"><b>제품컷 자리 · 아이플레이(i play)</b>쿠팡·네이버쇼핑 상세의 대표 이미지를 저장해 넣어주세요 · <a href="https://search.shopping.naver.com/search/all?query=아이플레이 래쉬가드" target="_blank">네이버쇼핑 검색 →</a></span></div>
       <p class="idline">미국의 유아용품 브랜드로, 국내에서는 병행수입·구매대행 형태로 유통되는 걸 볼 수 있었어요. <b>강조하는 포인트</b>는 나일론 82%+라이크라 18% 조합으로 만든 UPF 50+ 원단인데, 젖었을 때도 가볍고 신축성이 좋다는 점이 장점이에요. 미국에서는 피부과 자외선 차단 인증을 받은 브랜드로도 알려져 있어요.</p>
       <ul class="feat">
         <li>나일론+라이크라 조합이라 <b>물에 젖어도 가볍고</b> 아기가 움직이기 편함</li>
@@ -271,7 +299,7 @@
       <a class="buy hero" href="#" data-coupang="아이플레이 UPF50 래쉬가드">👉 [아이플레이] 쿠팡 최저가 보기</a>
     </div>
 
-    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 다섯 브랜드 래쉬가드 나란히 펼쳐놓은 컷</span></div>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">사진 4: 다섯 브랜드 래쉬가드 나란히 펼쳐놓은 컷 (선택)</span></div>
     <div class="shoot">📸 직접 촬영 권장 — 구매 후 실물 비교 사진 추천</div>
     <p class="cap">다섯 개를 한 줄로 놓으니 두께 차이가 한눈에 들어오더라고요.</p>
 
@@ -305,7 +333,7 @@
       <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
       <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 - 📷 사진은 <b>직접 업로드</b>, 👉 쿠팡 링크는 본인 파트너스 URL 연결.<br>
       <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
-      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 10분):</b> 📷 <b>사진 3곳</b> 업로드 · 👉 <b>쿠팡 링크 5곳</b> 본인 파트너스 URL. ★새 구조는 <b>맨 위 '바쁘면 이것만' + 비교표</b>가 링크 허브 역할을 하니, 표의 제품 이름에도 쿠팡 링크를 걸면 자연스러워요.</div>
+      <div class="qbox">⏱ <b>직접 채울 것</b><br>📷 <b>착용컷 1곳</b>(직접 촬영 — 핵심) + <b>자료·비교컷 3곳</b>(UPF 도식·원단·다섯 나란히) + <b>제품컷 5곳</b>(각 제품 공식몰/쿠팡 대표 이미지 저장→업로드 · <b>권장</b>, 급하면 생략 가능) · 👉 <b>쿠팡 링크 5곳</b> 본인 파트너스 URL.<br>★<b>제품컷 5곳</b>이 이번 개선의 핵심 — 제품 소제목 바로 아래에 넣으면 글이 훨씬 풍성해져요. ★표의 제품 이름에도 쿠팡 링크를 걸면 링크 허브가 됩니다.</div>
       <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 아기 래쉬가드 추천 5종 비교 - UV차단(UPF)·소재별로 정리해봤어요</span></div>
     </div>
     <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
@@ -353,16 +381,19 @@
       </ul>
       <p><b>UPF 50+</b>가 표기돼 있으면 자외선의 50분의 1 이하만 통과시킨다는 뜻이라, 지금 나와 있는 아기 래쉬가드는 거의 다 이 UPF 50+ 표기를 목표로 만들어진다고 보시면 되겠네요. 국제적으로는 미국(ASTM D6603)이나 유럽(EN 13758) 기준으로 검사한 원단이 이 수치를 받는데, 개별 제품이 어느 기준으로 검사받았는지는 상세페이지 확인이 필요해요. UVA·UVB 둘 다 막아준다는 것도 알아두시면 좋아요.</p>
 
+      <p class="ph">📷 〔사진 자리 2〕 UPF 등급별 자외선 차단율 도식(또는 착용/미착용 팔 비교컷) - 무료 스톡·인포그래픽 저장 후 업로드</p>
+
       <h3>소재별로 뭐가 다른가요? (폴리에스터 vs 나일론+스판덱스 vs 네오프렌)</h3>
       <p>아기 래쉬가드에 실제로 쓰이는 소재는 크게 세 갈래예요.</p>
       <p><b>① 폴리에스터 + 스판덱스</b> - 가성비 라인에서 특히 많이 쓰이는 조합이거든요. 신축성은 나일론 조합보다 살짝 덜하지만 <b>가격이 저렴하고 발색·프린트가 잘 나오는 편</b>이라 캐릭터 패턴 제품에 많이 쓰여요.</p>
       <p><b>② 나일론 + 스판덱스(라이크라)</b> - 물에 젖었을 때 <b>더 가볍고 신축성이 좋아서</b> 아기가 움직이기 편하고, 젖은 뒤 마르는 속도도 빠른 편이에요. 프리미엄 라인·수입 브랜드에서 자주 보이는 조합이에요.</p>
       <p><b>③ 네오프렌(고무 소재)</b> - 서핑 웻슈트에 쓰이는 그 소재예요. <b>원단 자체가 빛을 거의 통과시키지 않아서 자외선 차단은 확실</b>하지만, 두껍고 무거워서 더운 날엔 답답할 수 있어요. 대신 수온이 낮은 이른 여름·바다에서는 보온까지 같이 잡아준다는 장점이 있어요.</p>
 
-      <p class="ph">📷 〔사진 자리 2〕 폴리에스터/나일론/네오프렌 원단 클로즈업 비교컷 - 네이버에서 직접 업로드</p>
+      <p class="ph">📷 〔사진 자리 3〕 폴리에스터/나일론/네오프렌 원단 클로즈업 비교컷 - 네이버에서 직접 업로드</p>
       <p class="ph">└ 캡션 추천: "얇고 가벼운 나일론 vs 두툼한 네오프렌, 촉감부터 확실히 다르더라고요."</p>
 
       <h3>스플래쉬어바웃 - 네오프렌 체온보호 라인</h3>
+      <p class="ph">📷 〔제품컷 · 스플래쉬어바웃〕 공식몰(splashabout.co.kr)/쿠팡 상세 대표 이미지 저장 후 업로드(권장)</p>
       <p>영국 아기수영 브랜드로 국내에도 공식몰(splashabout.co.kr)이 있는 <b>실존 브랜드</b>예요. 이 브랜드가 <b>내세우는 특징</b>은 "UV 썬앤씨" 라인 전체에 UPF 50+ 인증 원단만 쓴다는 점, 그리고 주력 제품이 얇은 래쉬가드가 아니라 <b>1mm 네오프렌 소재의 체온보호 슈트</b>라는 점이에요.</p>
       <ul>
         <li>👍 네오프렌이라 UV 차단력이 확실하고, 이른 여름·서늘한 물에서도 체온 유지가 됨</li>
@@ -375,6 +406,7 @@
       <p class="ph">👉 〔쿠팡 링크 자리 ①〕 스플래쉬어바웃 UV 체온보호 수영복 - 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
 
       <h3>베이비앙 - 기저귀 내장 올인원 래쉬가드</h3>
+      <p class="ph">📷 〔제품컷 · 베이비앙〕 공식몰(babyan.co.kr)/쿠팡 상세 대표 이미지 저장 후 업로드(권장)</p>
       <p>국내 유아 언더웨어·출산육아용품 브랜드(babyan.co.kr)예요. <b>애니멀프렌즈 올인원 래쉬가드</b>가 대표 라인인데, 상하 일체형인 데다 <b>수영장 기저귀가 안에 내장돼 있어</b> 물놀이팬티를 따로 안 챙겨도 되는 게 가장 큰 매력이에요.</p>
       <ul>
         <li>👍 올인원이라 입히기 편하고, 기저귀 내장형이라 짐이 하나 줄어듦</li>
@@ -387,6 +419,7 @@
       <p class="ph">👉 〔쿠팡 링크 자리 ②〕 베이비앙 애니멀프렌즈 올인원 래쉬가드 - 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
 
       <h3>스몰리 - 가성비 UPF50+ 세트</h3>
+      <p class="ph">📷 〔제품컷 · 스몰리〕 GS SHOP/쿠팡 상세 대표 이미지 저장 후 업로드(권장)</p>
       <p>GS SHOP에서 판매 중인 유아·아동 수영복 브랜드로, 상품명에 <b>"UPF50+ 차단"이 직접 표기</b>돼 있는 세트예요. 상하의에 챙 넓은 플랩캡까지 세트로 묶여 있어서 따로따로 안 사도 한 번에 자외선 차단 준비가 끝나는 게 포인트예요.</p>
       <ul>
         <li>👍 세트 구성인데도 가격이 가장 저렴한 편이라 첫 래쉬가드로 부담 없이 시작하기 좋음</li>
@@ -399,6 +432,7 @@
       <p class="ph">👉 〔쿠팡 링크 자리 ③〕 스몰리 UPF50 래쉬가드 세트 - 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
 
       <h3>홀릭메이드 - 보넷 포함 폴리에스터 라인</h3>
+      <p class="ph">📷 〔제품컷 · 홀릭메이드〕 쿠팡·네이버쇼핑 상세 대표 이미지 저장 후 업로드(권장)</p>
       <p>2만원대 가격에 보넷(모자)까지 같이 들어오는 구성으로 알려진 브랜드예요. 다만 이번 조사에서는 공식몰 상세페이지를 직접 확인하지 못했고, 브랜드 비교 블로그(베이비클로젯)에서 정리한 스펙을 참고했어요.</p>
       <ul>
         <li>👍 2만원대로 세트(슈트+보넷) 가성비가 좋은 편이라고 소개됨</li>
@@ -411,6 +445,7 @@
       <p class="ph">👉 〔쿠팡 링크 자리 ④〕 홀릭메이드 래쉬가드 세트 - 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
 
       <h3>아이플레이(i play) - 나일론+라이크라 수입 브랜드</h3>
+      <p class="ph">📷 〔제품컷 · 아이플레이〕 쿠팡·네이버쇼핑 상세 대표 이미지 저장 후 업로드(권장)</p>
       <p>미국의 유아용품 브랜드로, 국내에서는 병행수입·구매대행 형태로 유통되는 걸 볼 수 있었어요. 강조하는 포인트는 나일론 82%+라이크라 18% 조합으로 만든 UPF 50+ 원단인데, 젖었을 때도 가볍고 신축성이 좋다는 점이 장점이에요.</p>
       <ul>
         <li>👍 나일론+라이크라 조합이라 물에 젖어도 가볍고 아기가 움직이기 편함</li>
@@ -422,7 +457,7 @@
       <p><b>가격</b>: 옥션(비타트라) 기준 정가 약 26,000원선 - 쿠팡 판매가는 확인 필요 (작성 시점 기준, 변동 가능)</p>
       <p class="ph">👉 〔쿠팡 링크 자리 ⑤〕 아이플레이 UPF50 래쉬가드 - 네이버에서 이 줄에 본인 쿠팡 파트너스 URL 연결</p>
 
-      <p class="ph">📷 〔사진 자리 3〕 다섯 브랜드 래쉬가드 나란히 펼쳐놓은 컷 - 네이버에서 직접 업로드</p>
+      <p class="ph">📷 〔사진 자리 4〕 다섯 브랜드 래쉬가드 나란히 펼쳐놓은 컷(선택) - 네이버에서 직접 업로드</p>
       <p class="ph">└ 캡션 추천: "다섯 개를 한 줄로 놓으니 두께 차이가 한눈에 들어오더라고요."</p>
 
       <h3>전신 vs 상하분리, 지퍼·기저귀 겸용까지 - 기능으로 비교하면</h3>
