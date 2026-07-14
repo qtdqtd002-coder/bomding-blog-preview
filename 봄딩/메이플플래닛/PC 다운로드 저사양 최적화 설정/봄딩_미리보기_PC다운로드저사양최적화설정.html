@@ -1,0 +1,223 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메이플플래닛 PC 다운로드 및 저사양 최적화 설정 총정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">메이플플래닛 PC 다운로드 및 저사양 최적화 설정 총정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.14</span><span>· 게임</span></div>
+
+    <p>저는 집에 있는 데스크탑 대신 요즘 회사 노트북으로 게임을 켜보고 있는데요, 인텔 내장그래픽에 램 8기가짜리라 웬만한 신작은 실행도 잘 안 되는 편이에요. 그런데 여름 되면서 메이플플래닛에 신규 유입이 몰린다는 얘기가 들리고, '모험의 시작 지원 이벤트'도 아직 진행 중이라길래 이참에 이 저사양 노트북으로도 게임이 제대로 돌아가는지 직접 깔아봤습니다. <b>협찬이나 원고료 받고 쓰는 글이 아니라, 순수하게 제가 직접 설치하고 설정까지 만져본 후기</b>니까 참고 삼아 편하게 봐주세요.</p>
+
+    <p>그런데 막상 다운로드 페이지를 찾으려고 하면 살짝 헷갈리는 부분이 있는데요, 메이플플래닛은 사실 <b>독립된 설치 파일이 따로 없습니다.</b> 공식 사이트(mapleplanet.co.kr)에서 '플레이하기' 버튼을 누르면 넥슨의 메이플스토리 월드(MapleStory Worlds)라는 플랫폼 페이지로 연결되거든요. 그러니까 실제로 컴퓨터에 설치하는 건 메이플플래닛 자체가 아니라 메이플스토리 월드 PC 클라이언트고, 그 클라이언트를 깐 다음 안에서 메이플플래닛을 검색해 들어가는 구조인 거죠. 참고로 넥슨의 오리지널 메이플스토리(본섭)와는 완전히 다른 별개의 프로그램이라, 본섭용 최적화 팁을 그대로 가져다 쓰면 안 맞을 수 있다는 것도 미리 알아두시면 좋을 것 같아요.</p>
+
+    <h2 class="sub">다운로드 방법 — 사무용 노트북으로 직접 이렇게 깔아봤어요</h2>
+    <p>설치 순서는 어렵지 않았는데요, 먼저 공식 사이트에서 '플레이하기'를 눌러 메이플스토리 월드 페이지로 넘어간 다음, 다운로드 페이지(maplestoryworlds.nexon.com/en/download)에서 PC 클라이언트를 받았습니다. 제가 직접 확인한 건 영문 페이지였는데, 한국어 페이지도 같은 구조로 있을 걸로 보여요. 설치 파일을 실행하고 안내에 따라 쭉 진행하니 생각보다 오래 걸리지 않고 끝나더라고요. 저사양 노트북치고는 설치가 참 수월하네요.</p>
+
+    <p>설치가 끝나면 컴퓨터를 한 번 재부팅해주는 게 좋다고 안내가 뜨는데요, 실제로 재부팅하고 나서 클라이언트를 실행하니 훨씬 안정적으로 켜졌습니다. 클라이언트에 로그인한 다음엔 월드 목록이나 검색창에서 '메이플플래닛'을 검색해서 들어가면 되고요, 혹시 설치나 실행 중에 문제가 생기면 플레이어 서포트로 문의하라는 안내도 함께 있었어요.</p>
+
+    <!-- 이미지 이유: 클라이언트 다운로드·설치 진행 화면 확인용 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 메이플스토리 월드 다운로드 페이지 및 설치 진행 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 다운로드 버튼과 설치 진행 바가 함께 보이는 화면으로 캡처하세요. 참고: <a href="https://maplestoryworlds.nexon.com/en/download" target="_blank">메이플스토리 월드 다운로드 페이지</a></div>
+    <p class="cap">여기서 받는 건 메이플플래닛이 아니라 메이플스토리 월드 클라이언트예요.</p>
+
+    <h2 class="sub">공식 시스템 요구사양부터 체크하세요</h2>
+    <p>저사양 노트북이다 보니 설치 전에 공식 시스템 요구사양부터 확인했는데요, 메이플스토리 월드 PC 클라이언트 기준으로 최소 사양과 권장 사양이 아래처럼 안내돼 있습니다.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>최소 사양</th><th>권장 사양</th></tr>
+      <tr><td>운영체제</td><td>Windows 10 64bit</td><td>Windows 11 64bit</td></tr>
+      <tr><td>CPU</td><td>Intel Core i3</td><td>Intel Core i5</td></tr>
+      <tr><td>RAM</td><td>4GB</td><td>8GB</td></tr>
+      <tr><td>그래픽카드</td><td>GeForce 8600 GT 또는 Radeon HD2400 이상</td><td>GeForce GTX 650 또는 Radeon HD6770 이상</td></tr>
+      <tr><td>저장공간</td><td>5GB 이상</td><td>20GB 이상</td></tr>
+      <tr><td>DirectX</td><td>10 이상</td><td>12 이상</td></tr>
+    </table>
+    <p>표만 보면 사실 최소 사양이 그렇게 높은 편은 아니에요. 그래픽카드도 지포스 8600GT나 라데온 HD2400 정도면 된다고 나와 있어서, 요즘 나오는 사무용 노트북 내장그래픽으로도 최소 사양은 대부분 넘어가는 편이거든요. 다만 권장 사양은 조금 다른 얘기라, 쾌적하게 즐기고 싶으면 램 8기가에 지포스 GTX650급 이상은 맞춰주는 게 좋습니다.</p>
+
+    <h2 class="sub">저사양 노트북으로 실제로 돌려보니 — 좋은 점과 아쉬운 점</h2>
+    <p>직접 써본 소감부터 말씀드리면, 좋았던 점은 <b>설치 자체가 크게 부담스럽지 않았다</b>는 거예요. 용량도 최소 5기가 정도만 확보하면 된다고 안내돼 있어서 저장공간이 넉넉하지 않은 노트북에도 큰 무리가 없었고, 최소 사양 자체가 관대하게 잡혀 있어서 오래된 내장그래픽에서도 일단 켜지고 플레이는 되더라고요.</p>
+    <p>아쉬운 점도 솔직히 말씀드리면, 그래픽 옵션을 손대지 않고 기본값 그대로 뒀을 땐 확실히 버벅이는 게 체감됐습니다. 사양이 낮은 만큼 뭔가 하나라도 켜져 있으면 부담이 되는 느낌이라, 결국 아래 설정들을 하나씩 만져보고 나서야 좀 더 매끄러워졌어요.</p>
+
+    <h2 class="sub">저사양 최적화 설정 3가지 — 클라이언트 안에서 이렇게 만졌어요</h2>
+    <p>클라이언트 설정을 뒤져보니 저사양 환경에서 만져볼 만한 옵션이 크게 세 가지 있었는데요, 제가 하나씩 눌러보니까 이렇더라고요.</p>
+    <p>먼저 <b>리소스 무손실 압축</b>인데요, 저장공간이 부족하면 켜두는 게 유리하지만 반대로 CPU가 약하면 끄는 편이 낫습니다. 압축을 풀어내는 과정에서 CPU에 부담이 걸리는 방식이라, 제 노트북처럼 CPU가 약한 편이면 꺼두니까 확실히 좀 가벼워지는 느낌이었어요.</p>
+    <p>다음은 <b>수직 동기화(V-Sync)</b>인데요, 화면 찢김을 막아주는 옵션이긴 하지만 입력 지연이 생길 수 있다고 하더라고요. 저사양이라 프레임 하나가 아쉬운 상황이면 꺼두는 걸 권장한다고 해서 저도 꺼봤는데, 확실히 반응이 좀 더 즉각적으로 느껴졌습니다.</p>
+    <p>마지막은 <b>로컬 캐시 사용</b>인데요, 자주 쓰는 데이터를 컴퓨터에 저장해뒀다가 불러오는 방식이라 로딩이 빨라지는 대신 저장공간을 차지합니다. 인터넷이 자주 끊기거나 불안정한 환경이면 켜두는 게 낫고, 저장공간이 빠듯하면 꺼두는 식으로 상황에 맞게 고르시면 될 것 같아요. 정답이 딱 정해진 건 아니고 상황 따라 갈리는 부분이죠.</p>
+
+    <!-- 이미지 이유: 클라이언트 저사양 설정 메뉴(리소스압축·수직동기화·로컬캐시) 확인용 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 클라이언트 설정 메뉴 — 리소스 무손실 압축·수직 동기화·로컬 캐시 사용 옵션</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 클라이언트 설정창에서 위 세 옵션이 함께 보이는 화면으로 캡처하세요.</div>
+    <p class="cap">이 세 개만 상황에 맞게 켜고 끄는 것만으로도 체감이 확 달라져요.</p>
+
+    <h2 class="sub">여기에 윈도우 최적화까지 더하면</h2>
+    <p>게임 자체 설정 말고 윈도우 쪽에서 만질 수 있는 일반적인 최적화 방법들도 같이 적용해봤는데요, 전원 옵션을 고성능으로 바꾸고 게임 모드를 꺼둔 다음 그래픽 드라이버를 최신 버전으로 업데이트하고, 실행 중인 백그라운드 프로그램을 정리하는 정도예요. 이건 메이플플래닛 전용으로 검증된 값이라기보다 저사양 PC에서 게임 돌릴 때 흔히 쓰는 일반적인 방법들이라 특별한 건 아니지만, 그래도 체감상 확실히 도움이 된답니다.</p>
+<ul style="margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;"><li>전원 옵션 고성능으로 변경</li><li>게임 모드 끄기</li><li>그래픽 드라이버 최신화</li><li>백그라운드 프로그램 정리</li></ul>
+    <p>해상도나 그림자, 안티앨리어싱 같은 세부 그래픽 옵션도 같이 정리해드리고 싶어서 설정창을 이것저것 눌러봤는데요, 제가 뒤져본 선에서는 위 세 가지(리소스 압축·수직 동기화·로컬 캐시) 말고 다른 세부 옵션은 못 봤어요. 클라이언트가 계속 업데이트되면서 옵션이 늘어날 수도 있으니, 이 부분은 그때 가서 다시 살펴봐야 할 것 같고 지금은 하나씩 직접 켜보시면서 체감으로 맞춰가시는 게 더 정확할 것 같습니다.</p>
+
+    <h2 class="sub">이런 분들께 추천드려요</h2>
+    <p>정리해보면, <b>사무용 노트북급 저사양 PC를 쓰고 계신 분들도 최소 사양 자체가 관대한 편이라 설치하고 플레이하는 것 자체는 크게 부담 없다</b>고 느꼈어요. 다만 쾌적하게 즐기고 싶으시면 권장 사양에 최대한 맞추시는 게 좋고요, 진짜 최소 사양 라인이시라면 위에서 말씀드린 클라이언트 설정 세 가지부터 하나씩 꺼보시는 걸 추천드립니다.</p>
+
+    <!-- 이미지 이유: 저사양 노트북에서 실제 실행 성공 화면 확인용 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 저사양 노트북에서 메이플플래닛 접속 후 첫 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 로그인 후 메이플플래닛 캐릭터 화면이 뜬 모습으로 캡처하세요.</div>
+    <p class="cap">이 정도 사양으로도 일단 접속은 무리 없이 되더라고요.</p>
+
+    <h2 class="sub">메이플플래닛 PC 다운로드·저사양 최적화 정리</h2>
+    <p>핵심만 추리면, 메이플플래닛은 따로 설치 파일이 없고 메이플스토리 월드 클라이언트를 깐 다음 그 안에서 검색해 들어가는 구조라는 것, 최소·권장 사양은 생각보다 부담스럽지 않다는 것, 그리고 저사양이라면 리소스 압축·수직 동기화·로컬 캐시 세 가지 설정부터 만져보시면 된다는 거예요. 여름 신규 유입 시즌에 맞춰 새로 시작하시는 분들이라면 참고하셔서 편하게 설치해보시면 좋을 것 같습니다.</p>
+
+    <p><b>✔ 메이플플래닛 같이 보기 좋은 내용</b><br>
+    · <a href="https://m.blog.naver.com/bomding/224308709656" target="_blank">메이플플래닛 레벨별 추천 사냥터 1~200 총정리</a><br>
+    · <a href="https://m.blog.naver.com/bomding/224309917141" target="_blank">메이플플래닛 나이트로드 스킬트리·템세팅</a><br>
+    · <a href="https://m.blog.naver.com/bomding/224308398606" target="_blank">메이플플래닛 썬콜(아크메이지 썬,콜) 스킬트리·템세팅</a></p>
+
+    <div class="tags">#메이플플래닛 #메이플플래닛다운로드 #메이플스토리월드 #메이플플래닛최적화 #메이플플래닛저사양</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 3분):</b> 📷 <b>사진 3곳</b> 업로드. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플플래닛 PC 다운로드 및 저사양 최적화 설정 총정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>저는 집에 있는 데스크탑 대신 요즘 회사 노트북으로 게임을 켜보고 있는데요, 인텔 내장그래픽에 램 8기가짜리라 웬만한 신작은 실행도 잘 안 되는 편이에요. 그런데 여름 되면서 메이플플래닛에 신규 유입이 몰린다는 얘기가 들리고, '모험의 시작 지원 이벤트'도 아직 진행 중이라길래 이참에 이 저사양 노트북으로도 게임이 제대로 돌아가는지 직접 깔아봤습니다. <b>협찬이나 원고료 받고 쓰는 글이 아니라, 순수하게 제가 직접 설치하고 설정까지 만져본 후기</b>니까 참고 삼아 편하게 봐주세요.</p>
+      <p>그런데 막상 다운로드 페이지를 찾으려고 하면 살짝 헷갈리는 부분이 있는데요, 메이플플래닛은 사실 <b>독립된 설치 파일이 따로 없습니다.</b> 공식 사이트(mapleplanet.co.kr)에서 '플레이하기' 버튼을 누르면 넥슨의 메이플스토리 월드(MapleStory Worlds)라는 플랫폼 페이지로 연결되거든요. 그러니까 실제로 컴퓨터에 설치하는 건 메이플플래닛 자체가 아니라 메이플스토리 월드 PC 클라이언트고, 그 클라이언트를 깐 다음 안에서 메이플플래닛을 검색해 들어가는 구조인 거죠. 참고로 넥슨의 오리지널 메이플스토리(본섭)와는 완전히 다른 별개의 프로그램이라, 본섭용 최적화 팁을 그대로 가져다 쓰면 안 맞을 수 있다는 것도 미리 알아두시면 좋을 것 같아요.</p>
+      <h3>다운로드 방법 — 사무용 노트북으로 직접 이렇게 깔아봤어요</h3>
+      <p>설치 순서는 어렵지 않았는데요, 먼저 공식 사이트에서 '플레이하기'를 눌러 메이플스토리 월드 페이지로 넘어간 다음, 다운로드 페이지(maplestoryworlds.nexon.com/en/download)에서 PC 클라이언트를 받았습니다. 제가 직접 확인한 건 영문 페이지였는데, 한국어 페이지도 같은 구조로 있을 걸로 보여요. 설치 파일을 실행하고 안내에 따라 쭉 진행하니 생각보다 오래 걸리지 않고 끝나더라고요. 저사양 노트북치고는 설치가 참 수월하네요.</p>
+      <p>설치가 끝나면 컴퓨터를 한 번 재부팅해주는 게 좋다고 안내가 뜨는데요, 실제로 재부팅하고 나서 클라이언트를 실행하니 훨씬 안정적으로 켜졌습니다. 클라이언트에 로그인한 다음엔 월드 목록이나 검색창에서 '메이플플래닛'을 검색해서 들어가면 되고요, 혹시 설치나 실행 중에 문제가 생기면 플레이어 서포트로 문의하라는 안내도 함께 있었어요.</p>
+      <p>📷 〔사진 자리 1〕 메이플스토리 월드 다운로드 페이지 및 설치 진행 화면 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "여기서 받는 건 메이플플래닛이 아니라 메이플스토리 월드 클라이언트예요."</p>
+      <h3>공식 시스템 요구사양부터 체크하세요</h3>
+      <p>저사양 노트북이다 보니 설치 전에 공식 시스템 요구사양부터 확인했는데요, 메이플스토리 월드 PC 클라이언트 기준으로 최소 사양과 권장 사양이 아래처럼 안내돼 있습니다.</p>
+      <table>
+        <tr><th>구분</th><th>최소 사양</th><th>권장 사양</th></tr>
+        <tr><td class="l">운영체제</td><td>Windows 10 64bit</td><td>Windows 11 64bit</td></tr>
+        <tr><td class="l">CPU</td><td>Intel Core i3</td><td>Intel Core i5</td></tr>
+        <tr><td class="l">RAM</td><td>4GB</td><td>8GB</td></tr>
+        <tr><td class="l">그래픽카드</td><td>GeForce 8600 GT 또는 Radeon HD2400 이상</td><td>GeForce GTX 650 또는 Radeon HD6770 이상</td></tr>
+        <tr><td class="l">저장공간</td><td>5GB 이상</td><td>20GB 이상</td></tr>
+        <tr><td class="l">DirectX</td><td>10 이상</td><td>12 이상</td></tr>
+      </table>
+      <p>표만 보면 사실 최소 사양이 그렇게 높은 편은 아니에요. 그래픽카드도 지포스 8600GT나 라데온 HD2400 정도면 된다고 나와 있어서, 요즘 나오는 사무용 노트북 내장그래픽으로도 최소 사양은 대부분 넘어가는 편이거든요. 다만 권장 사양은 조금 다른 얘기라, 쾌적하게 즐기고 싶으면 램 8기가에 지포스 GTX650급 이상은 맞춰주는 게 좋습니다.</p>
+      <h3>저사양 노트북으로 실제로 돌려보니 — 좋은 점과 아쉬운 점</h3>
+      <p>직접 써본 소감부터 말씀드리면, 좋았던 점은 <b>설치 자체가 크게 부담스럽지 않았다</b>는 거예요. 용량도 최소 5기가 정도만 확보하면 된다고 안내돼 있어서 저장공간이 넉넉하지 않은 노트북에도 큰 무리가 없었고, 최소 사양 자체가 관대하게 잡혀 있어서 오래된 내장그래픽에서도 일단 켜지고 플레이는 되더라고요.</p>
+      <p>아쉬운 점도 솔직히 말씀드리면, 그래픽 옵션을 손대지 않고 기본값 그대로 뒀을 땐 확실히 버벅이는 게 체감됐습니다. 사양이 낮은 만큼 뭔가 하나라도 켜져 있으면 부담이 되는 느낌이라, 결국 아래 설정들을 하나씩 만져보고 나서야 좀 더 매끄러워졌어요.</p>
+      <h3>저사양 최적화 설정 3가지 — 클라이언트 안에서 이렇게 만졌어요</h3>
+      <p>클라이언트 설정을 뒤져보니 저사양 환경에서 만져볼 만한 옵션이 크게 세 가지 있었는데요, 제가 하나씩 눌러보니까 이렇더라고요.</p>
+      <p>먼저 <b>리소스 무손실 압축</b>인데요, 저장공간이 부족하면 켜두는 게 유리하지만 반대로 CPU가 약하면 끄는 편이 낫습니다. 압축을 풀어내는 과정에서 CPU에 부담이 걸리는 방식이라, 제 노트북처럼 CPU가 약한 편이면 꺼두니까 확실히 좀 가벼워지는 느낌이었어요.</p>
+      <p>다음은 <b>수직 동기화(V-Sync)</b>인데요, 화면 찢김을 막아주는 옵션이긴 하지만 입력 지연이 생길 수 있다고 하더라고요. 저사양이라 프레임 하나가 아쉬운 상황이면 꺼두는 걸 권장한다고 해서 저도 꺼봤는데, 확실히 반응이 좀 더 즉각적으로 느껴졌습니다.</p>
+      <p>마지막은 <b>로컬 캐시 사용</b>인데요, 자주 쓰는 데이터를 컴퓨터에 저장해뒀다가 불러오는 방식이라 로딩이 빨라지는 대신 저장공간을 차지합니다. 인터넷이 자주 끊기거나 불안정한 환경이면 켜두는 게 낫고, 저장공간이 빠듯하면 꺼두는 식으로 상황에 맞게 고르시면 될 것 같아요. 정답이 딱 정해진 건 아니고 상황 따라 갈리는 부분이죠.</p>
+      <p>📷 〔사진 자리 2〕 클라이언트 설정 메뉴 — 리소스 무손실 압축·수직 동기화·로컬 캐시 사용 옵션 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "이 세 개만 상황에 맞게 켜고 끄는 것만으로도 체감이 확 달라져요."</p>
+      <h3>여기에 윈도우 최적화까지 더하면</h3>
+      <p>게임 자체 설정 말고 윈도우 쪽에서 만질 수 있는 일반적인 최적화 방법들도 같이 적용해봤는데요, 전원 옵션을 고성능으로 바꾸고 게임 모드를 꺼둔 다음 그래픽 드라이버를 최신 버전으로 업데이트하고, 실행 중인 백그라운드 프로그램을 정리하는 정도예요. 이건 메이플플래닛 전용으로 검증된 값이라기보다 저사양 PC에서 게임 돌릴 때 흔히 쓰는 일반적인 방법들이라 특별한 건 아니지만, 그래도 체감상 확실히 도움이 된답니다.</p>
+<ul style="margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;"><li>전원 옵션 고성능으로 변경</li><li>게임 모드 끄기</li><li>그래픽 드라이버 최신화</li><li>백그라운드 프로그램 정리</li></ul>
+      <p>해상도나 그림자, 안티앨리어싱 같은 세부 그래픽 옵션도 같이 정리해드리고 싶어서 설정창을 이것저것 눌러봤는데요, 제가 뒤져본 선에서는 위 세 가지(리소스 압축·수직 동기화·로컬 캐시) 말고 다른 세부 옵션은 못 봤어요. 클라이언트가 계속 업데이트되면서 옵션이 늘어날 수도 있으니, 이 부분은 그때 가서 다시 살펴봐야 할 것 같고 지금은 하나씩 직접 켜보시면서 체감으로 맞춰가시는 게 더 정확할 것 같습니다.</p>
+      <h3>이런 분들께 추천드려요</h3>
+      <p>정리해보면, <b>사무용 노트북급 저사양 PC를 쓰고 계신 분들도 최소 사양 자체가 관대한 편이라 설치하고 플레이하는 것 자체는 크게 부담 없다</b>고 느꼈어요. 다만 쾌적하게 즐기고 싶으시면 권장 사양에 최대한 맞추시는 게 좋고요, 진짜 최소 사양 라인이시라면 위에서 말씀드린 클라이언트 설정 세 가지부터 하나씩 꺼보시는 걸 추천드립니다.</p>
+      <p>📷 〔사진 자리 3〕 저사양 노트북에서 메이플플래닛 접속 후 첫 화면 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "이 정도 사양으로도 일단 접속은 무리 없이 되더라고요."</p>
+      <h3>메이플플래닛 PC 다운로드·저사양 최적화 정리</h3>
+      <p>핵심만 추리면, 메이플플래닛은 따로 설치 파일이 없고 메이플스토리 월드 클라이언트를 깐 다음 그 안에서 검색해 들어가는 구조라는 것, 최소·권장 사양은 생각보다 부담스럽지 않다는 것, 그리고 저사양이라면 리소스 압축·수직 동기화·로컬 캐시 세 가지 설정부터 만져보시면 된다는 거예요. 여름 신규 유입 시즌에 맞춰 새로 시작하시는 분들이라면 참고하셔서 편하게 설치해보시면 좋을 것 같습니다.</p>
+      <p><b>✔ 메이플플래닛 같이 보기 좋은 내용</b><br>
+      · <a href="https://m.blog.naver.com/bomding/224308709656" target="_blank">메이플플래닛 레벨별 추천 사냥터 1~200 총정리</a><br>
+      · <a href="https://m.blog.naver.com/bomding/224309917141" target="_blank">메이플플래닛 나이트로드 스킬트리·템세팅</a><br>
+      · <a href="https://m.blog.naver.com/bomding/224308398606" target="_blank">메이플플래닛 썬콜(아크메이지 썬,콜) 스킬트리·템세팅</a></p>
+      <p class="tags-line">#메이플플래닛 #메이플플래닛다운로드 #메이플스토리월드 #메이플플래닛최적화 #메이플플래닛저사양</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
