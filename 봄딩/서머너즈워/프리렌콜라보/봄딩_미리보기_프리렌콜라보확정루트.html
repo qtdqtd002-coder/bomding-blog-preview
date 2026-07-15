@@ -1,0 +1,231 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>서머너즈워 프리렌 콜라보 소환 확률·이벤트 총정리 뭐부터 챙겨야 할까</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">서머너즈워 프리렌 콜라보 소환 확률·이벤트 총정리 뭐부터 챙겨야 할까</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.16</span><span>· 게임</span></div>
+
+    <p>2026년 6월 30일부터 서머너즈워: 천공의 아레나에 '장송의 프리렌' 콜라보가 시작됐는데요, 8월 31일까지 이벤트가 이것저것 겹쳐서 돌아가고 있고, 상점은 그보다 좀 더 일찍 닫는다길래 저도 오랜만에 소환사명 로그인해서 하나씩 눌러봤어요. 콜라보 상점에 행운의 보물상자에 의뢰 미션까지 한꺼번에 떠 있으니까 뭐부터 손대야 하나 살짝 헷갈리긴 했습니다.</p>
+
+    <p>그래서 이번 글은 <b>'소환 확률에 기대지 않아도 되는 확정 지급'을 기준</b>으로 순서를 정해서 정리해봤어요. 결론부터 말씀드리면, <b>뽑기 돌리기 전에 콜라보 의뢰 미션 10회 달성이랑 소환 포인트 3,000점부터 채우시는 게 가장 확실합니다.</b></p>
+
+    <!-- 이미지 이유: 콜라보 공식 오픈 예고 배너로 시작 시점(6/30) 근거 제시 / 출처: khgames 기사 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EB%B4%84%EB%94%A9/%EC%84%9C%EB%A8%B8%EB%84%88%EC%A6%88%EC%9B%8C/%ED%94%84%EB%A6%AC%EB%A0%8C%EC%BD%9C%EB%9D%BC%EB%B3%B4/img/kh1.jpg" width="600" height="338" alt="서머너즈워 장송의 프리렌 콜라보 공식 오픈 예고 이미지, 2026년 6월 30일"></div>
+    <p class="cap">이렇게 예고 이미지가 뜨더니 진짜 예고한 날짜에 딱 맞춰 콜라보가 열렸어요.</p>
+    <p class="src">이미지: <a href="https://www.khgames.co.kr/news/articleView.html?idxno=305608" target="_blank">경향게임스 보도자료</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">프리렌 콜라보, 아직 메타가 없는 신규 콘텐츠예요</h2>
+    <p>이번 콜라보는 나온 지 얼마 안 된 신규 콘텐츠라서, 어떤 캐릭터가 더 세다더라 하는 메타가 아직 딱 잡혀있진 않은데요. 그래서 이 글에서 말씀드리는 '추천'은 성능 줄세우기 티어표가 아니라, <b>확정으로 주는 보상부터 챙기고 나머지는 천천히 판단해도 된다는 획득 우선순위</b>에 가깝다는 점 미리 말씀드릴게요.</p>
+
+    <!-- 이미지 이유: 콜라보 전체 분위기·다섯 캐릭터 등장을 보여주는 공식 개발자 인터뷰 키비주얼 / 출처: gamevu 기사 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EB%B4%84%EB%94%A9/%EC%84%9C%EB%A8%B8%EB%84%88%EC%A6%88%EC%9B%8C/%ED%94%84%EB%A6%AC%EB%A0%8C%EC%BD%9C%EB%9D%BC%EB%B3%B4/img/kv1.jpg" width="600" height="338" alt="서머너즈워 x 장송의 프리렌 콜라보 개발자 인터뷰 공식 이미지"></div>
+    <p class="cap">개발자가 직접 콜라보 비하인드를 풀어주는 코너도 있던데, 다섯 캐릭터가 한 화면에 다 모인 것부터 기대감이 확 오르죠.</p>
+    <p class="src">이미지: <a href="https://www.gamevu.co.kr/news/articleView.html?idxno=59025" target="_blank">게임뷰 보도자료</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">등장 캐릭터 5명 — 프리렌·페른·슈타르크·위벨·힘멜</h2>
+    <p>이번에 합류하는 캐릭터는 프리렌, 페른, 슈타르크, 위벨, 힘멜 이렇게 다섯 명인데요, 다들 서머너즈워 특유의 그림체로 다시 그려져서 원작 팬이면 반가운 얼굴들일 것 같아요.</p>
+    <p>확인된 정보 중 확실히 밝혀진 건 힘멜이에요. 힘멜은 태생 5성에 물 속성이고, 무료로 배포되는 캐릭터라 PvE 콘텐츠 공략에 특화된 딜러라고 합니다. 보스 몬스터한테 추가 피해를 주는 전용 패시브까지 갖고 있어서, 던전이나 레이드 같은 PvE 콘텐츠에서 특히 쓸모가 있을 것 같아요. 페른은 마족을 처치하는 마법인 '저격'을 쓰는 게 특징이고요, 슈타르크는 위협(도발) 강화 효과를 지닌 탱커 겸 공격수 역할을 맡습니다. 프리렌은 '쥬드라질룸'이랑 '보르잔베르' 같은 강력한 마법을 다루는 캐릭터고, 위벨은 근접전을 포함해 다양한 전투 스타일을 구사한다고 하네요.</p>
+    <p>나머지 네 명의 정확한 속성이랑 등급까지는 아직 다 안 풀린 것 같아요<span class="chk">🔍 도감 확인</span>, 이 부분은 게임 내 몬스터 도감에서 직접 확인하시는 게 확실해요.</p>
+    <p>참고로 협업 보상 중에는 힘멜 동상도 따로 있는데, 그 동상 옆에 프리렌을 같이 배치하면 특별한 상호작용 연출이 나온다고 하니 이것도 놓치지 말고 챙겨두시면 소소한 재미가 있을 것 같아요.</p>
+
+    <!-- 이미지 이유: 콜라보 캐릭터 5종 명단·표기를 한눈에 보여주는 공식 캐릭터 카드 / 출처: gamevu 기사 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EB%B4%84%EB%94%A9/%EC%84%9C%EB%A8%B8%EB%84%88%EC%A6%88%EC%9B%8C/%ED%94%84%EB%A6%AC%EB%A0%8C%EC%BD%9C%EB%9D%BC%EB%B3%B4/img/kv2.png" width="600" height="338" alt="서머너즈워 프리렌 콜라보 캐릭터 5종 카드 이미지, 위벨 페른 프리렌 슈타르크 힘멜"></div>
+    <p class="cap">왼쪽부터 위벨, 페른, 프리렌, 슈타르크, 힘멜 순인데요, 이 다섯 명이 이번 콜라보의 전부예요.</p>
+    <p class="src">이미지: <a href="https://www.gamevu.co.kr/news/articleView.html?idxno=59025" target="_blank">게임뷰 보도자료</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">확정으로 챙길 수 있는 것부터 — 확률 안 믿어도 되는 루트</h2>
+    <p>여기가 이번 글에서 정말 하고 싶은 얘기인데요, 뽑기 확률보다 먼저 챙겨야 할 게 두 가지 있습니다.</p>
+    <p>첫 번째는 콜라보 의뢰 미션을 10회 달성하는 거예요. 이걸 채우면 6성 40레벨에 전 스킬 레벨업이랑 각성까지 끝난 힘멜을, 바로 실전에 넣을 수 있는 룬 세트까지 같이 무료로 챙길 수 있거든요. 뽑기 한 번 없이 완성형 딜러 한 명이 통째로 들어오는 거라 가성비가 확실합니다.</p>
+    <p>두 번째는 소환 포인트 3,000점 누적인데요, 이걸 채우면 물·불·바람 속성 태생 5성 콜라보 캐릭터 중 하나를 무작위로 받을 수 있습니다. 어떤 속성이 나올진 랜덤이지만, 최소한 콜라보 캐릭터 한 명은 확정으로 얻는 구조라 뽑기 실패 걱정 없이 목표를 세울 수 있어요.</p>
+    <p>그리고 신비의 소환서 10장을 쓰거나 콜라보 캐릭터를 1회 소환할 때마다 신비의 소환서를 1장씩 돌려주는 순환 보너스도 있어서, 소환서가 아예 순삭되진 않는 구조더라고요.</p>
+    <p><b>뽑기 확률에 기대는 것보다, 의뢰 미션 10회랑 소환 포인트 3,000점부터 채우는 게 훨씬 확실한 루트예요.</b></p>
+
+    <h2 class="sub">콜라보 상점이랑 행운의 보물상자, 마감부터 체크하세요</h2>
+    <p>콜라보 상점은 8월 2일까지만 운영되는데요, 방문만 해도 매일 신비의 소환서 1장을 주기 때문에 접속할 때마다 한 번씩 들러보시는 게 좋습니다. 크리스탈로 전설 등급 룬이나 각종 소환서를 살 수 있는 특가 상점인데, 판매 품목이 매주 바뀐다고 하니 이번 주에 놓치면 다음 주엔 다른 품목이 나올 수 있어요.</p>
+    <p>'컬래버 기념 행운의 보물상자' 이벤트는 7월 26일까지인데, 상점보다 마감이 더 빠르니까 이걸 먼저 챙기시는 게 좋을 것 같아요. 아메리아의 행운을 쓰거나 탐색 전투 같은 미션을 완료하면 포인트가 쌓이고, 그 포인트로 상자를 열면 전설의 전속성 소환서 같은 보상을 받을 수 있습니다. 상자를 누적으로 많이 열면 '행운의 마법 상자 이용권' 2장도 추가로 챙길 수 있다고 하네요.</p>
+    <p>이 외에도 '프리렌의 여정', '마도서 수집 출석', '페른의 특별 선물', '상급 소환사 달성 경험치 획득 미션' 같은 이벤트들이 같이 돌아가고 있는데요, 세부 보상까지는 확인이 어려웠지만 접속하면 다 떠 있으니 하나씩 눌러보시면 됩니다.</p>
+
+    <!-- 이미지 이유: 콜라보 상점 오픈 공지·기간 근거 제시 / 출처: betanews 기사 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EB%B4%84%EB%94%A9/%EC%84%9C%EB%A8%B8%EB%84%88%EC%A6%88%EC%9B%8C/%ED%94%84%EB%A6%AC%EB%A0%8C%EC%BD%9C%EB%9D%BC%EB%B3%B4/img/beta1.jpg" width="800" height="340" alt="서머너즈워 프리렌 콜라보 기념 상점 오픈 안내 공식 이미지"></div>
+    <p class="cap">상점은 8월 2일까지만 열려 있으니 로그인할 때마다 한 번씩 들러보시는 걸 추천드려요.</p>
+    <p class="src">이미지: <a href="https://www.betanews.net/article/view/beta202607150075" target="_blank">베타뉴스 보도자료</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">정확한 소환 확률은 어디서 확인해야 하나요?</h2>
+    <p>신비의 소환서나 콜라보 캐릭터 뽑기의 정확한 등급별 확률은 공식 수치가 따로 나와 있지 않은데요<span class="chk">🔍 확률 정보 확인</span>, 이런 확률형 정보는 짐작으로 말씀드리기보다 <b>게임 내 소환 화면에 있는 '확률 정보' 버튼이나 서머너즈워 공식 카페·공지에서 직접 확인하시는 게</b> 확실합니다. 정확한 수치는 게임 안에서 직접 확인하시고, 그 사이에 위에서 말씀드린 확정 루트부터 채워두시면 마음은 편하실 거예요.</p>
+
+    <!-- 이미지 이유: 인게임 확률 정보 팝업은 검색으로 못 구하는 실시간 UI라 직접 캡처 필요 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 소환 화면 '확률 정보' 버튼을 누른 팝업</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — <b>어디서</b>: 소환 화면 우측 상단 '확률 정보' 아이콘 클릭 · <b>무엇이 보이게</b>: 등급별 확률 표 전체가 한 화면에 담기게.</div>
+    <p class="cap">이 버튼 하나만 눌러보면 등급별 확률이 표로 다 나와요.</p>
+
+    <h2 class="sub">프리렌 콜라보 정리</h2>
+    <table class="tbl">
+      <tr><th>순위</th><th>챙길 것</th><th>마감·조건</th><th>왜 먼저인가</th></tr>
+      <tr><td>1순위</td><td>콜라보 의뢰 미션 10회</td><td>콜라보 기간 내 상시</td><td>확정 힘멜(6성 40레벨·각성·룬세트) 지급</td></tr>
+      <tr><td>2순위</td><td>소환 포인트 3,000점</td><td>콜라보 기간 내 상시</td><td>콜라보 캐릭터 1종 확정 지급(속성 랜덤)</td></tr>
+      <tr><td>3순위</td><td>행운의 보물상자 이벤트</td><td>7월 26일까지</td><td>상점보다 마감 빠름, 전설 전속성 소환서 등</td></tr>
+      <tr><td>4순위</td><td>콜라보 상점</td><td>8월 2일까지</td><td>출석만 해도 소환서 지급 + 특가 구매 가능</td></tr>
+    </table>
+    <p>결국 챙겨야 할 건 뽑기 확률이 아니라 확정 지급 루트예요. 의뢰 미션 10회로 완성형 힘멜 먼저 챙기고, 소환 포인트 3,000점으로 콜라보 캐릭터 한 명 더 확보한 다음, 마감이 빠른 행운의 보물상자(7/26)랑 상점(8/2)을 순서대로 도는 게 가장 깔끔한 동선이에요. 아직 신규 콘텐츠라 메타랄 게 딱히 없으니 너무 조급해하지 마시고, 8월 31일까지 여유 있게 하나씩 채워보시면 좋을 것 같아요.</p>
+
+    <!-- 내부링크: 봄딩 블로그에 서머너즈워 관련 기존 발행글 없음(이번 글이 첫 포스팅) — 추후 발행 시 연결 -->
+    <p><b>✔ 서머너즈워 같이 보기 좋은 내용</b><br>
+    아직 서머너즈워 관련 다른 글이 없어서, 이번 콜라보를 계기로 다음 글에서 다른 콘텐츠도 하나씩 다뤄볼게요.</p>
+
+    <div class="tags">#서머너즈워 #서머너즈워프리렌콜라보 #장송의프리렌 #서머너즈워천공의아레나 #소환확률 #컴투스</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 5곳</b> 업로드(그중 1곳은 직접 촬영). 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 서머너즈워 프리렌 콜라보 소환 확률·이벤트 총정리 뭐부터 챙겨야 할까</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>2026년 6월 30일부터 서머너즈워: 천공의 아레나에 '장송의 프리렌' 콜라보가 시작됐는데요, 8월 31일까지 이벤트가 이것저것 겹쳐서 돌아가고 있고, 상점은 그보다 좀 더 일찍 닫는다길래 저도 오랜만에 소환사명 로그인해서 하나씩 눌러봤어요. 콜라보 상점에 행운의 보물상자에 의뢰 미션까지 한꺼번에 떠 있으니까 뭐부터 손대야 하나 살짝 헷갈리긴 했습니다.</p>
+      <p>그래서 이번 글은 <b>'소환 확률에 기대지 않아도 되는 확정 지급'을 기준</b>으로 순서를 정해서 정리해봤어요. 결론부터 말씀드리면, <b>뽑기 돌리기 전에 콜라보 의뢰 미션 10회 달성이랑 소환 포인트 3,000점부터 채우시는 게 가장 확실합니다.</b></p>
+      <p>📷 〔사진 자리 1〕 콜라보 공식 오픈 예고 배너(2026년 6월 30일) — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "이렇게 예고 이미지가 뜨더니 진짜 예고한 날짜에 딱 맞춰 콜라보가 열렸어요."</p>
+      <h3>프리렌 콜라보, 아직 메타가 없는 신규 콘텐츠예요</h3>
+      <p>이번 콜라보는 나온 지 얼마 안 된 신규 콘텐츠라서, 어떤 캐릭터가 더 세다더라 하는 메타가 아직 딱 잡혀있진 않은데요. 그래서 이 글에서 말씀드리는 '추천'은 성능 줄세우기 티어표가 아니라, <b>확정으로 주는 보상부터 챙기고 나머지는 천천히 판단해도 된다는 획득 우선순위</b>에 가깝다는 점 미리 말씀드릴게요.</p>
+      <p>📷 〔사진 자리 2〕 콜라보 개발자 인터뷰·다섯 캐릭터 등장 키비주얼 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "개발자가 직접 콜라보 비하인드를 풀어주는 코너도 있던데, 다섯 캐릭터가 한 화면에 다 모인 것부터 기대감이 확 오르죠."</p>
+      <h3>등장 캐릭터 5명 — 프리렌·페른·슈타르크·위벨·힘멜</h3>
+      <p>이번에 합류하는 캐릭터는 프리렌, 페른, 슈타르크, 위벨, 힘멜 이렇게 다섯 명인데요, 다들 서머너즈워 특유의 그림체로 다시 그려져서 원작 팬이면 반가운 얼굴들일 것 같아요.</p>
+      <p>확인된 정보 중 확실히 밝혀진 건 힘멜이에요. 힘멜은 태생 5성에 물 속성이고, 무료로 배포되는 캐릭터라 PvE 콘텐츠 공략에 특화된 딜러라고 합니다. 보스 몬스터한테 추가 피해를 주는 전용 패시브까지 갖고 있어서, 던전이나 레이드 같은 PvE 콘텐츠에서 특히 쓸모가 있을 것 같아요. 페른은 마족을 처치하는 마법인 '저격'을 쓰는 게 특징이고요, 슈타르크는 위협(도발) 강화 효과를 지닌 탱커 겸 공격수 역할을 맡습니다. 프리렌은 '쥬드라질룸'이랑 '보르잔베르' 같은 강력한 마법을 다루는 캐릭터고, 위벨은 근접전을 포함해 다양한 전투 스타일을 구사한다고 하네요.</p>
+      <p>나머지 네 명의 정확한 속성이랑 등급까지는 아직 다 안 풀린 것 같아요, 이 부분은 게임 내 몬스터 도감에서 직접 확인하시는 게 확실해요.</p>
+      <p>참고로 협업 보상 중에는 힘멜 동상도 따로 있는데, 그 동상 옆에 프리렌을 같이 배치하면 특별한 상호작용 연출이 나온다고 하니 이것도 놓치지 말고 챙겨두시면 소소한 재미가 있을 것 같아요.</p>
+      <p>📷 〔사진 자리 3〕 콜라보 캐릭터 5종 공식 카드(위벨·페른·프리렌·슈타르크·힘멜) — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "왼쪽부터 위벨, 페른, 프리렌, 슈타르크, 힘멜 순인데요, 이 다섯 명이 이번 콜라보의 전부예요."</p>
+      <h3>확정으로 챙길 수 있는 것부터 — 확률 안 믿어도 되는 루트</h3>
+      <p>여기가 이번 글에서 정말 하고 싶은 얘기인데요, 뽑기 확률보다 먼저 챙겨야 할 게 두 가지 있습니다.</p>
+      <p>첫 번째는 콜라보 의뢰 미션을 10회 달성하는 거예요. 이걸 채우면 6성 40레벨에 전 스킬 레벨업이랑 각성까지 끝난 힘멜을, 바로 실전에 넣을 수 있는 룬 세트까지 같이 무료로 챙길 수 있거든요. 뽑기 한 번 없이 완성형 딜러 한 명이 통째로 들어오는 거라 가성비가 확실합니다.</p>
+      <p>두 번째는 소환 포인트 3,000점 누적인데요, 이걸 채우면 물·불·바람 속성 태생 5성 콜라보 캐릭터 중 하나를 무작위로 받을 수 있습니다. 어떤 속성이 나올진 랜덤이지만, 최소한 콜라보 캐릭터 한 명은 확정으로 얻는 구조라 뽑기 실패 걱정 없이 목표를 세울 수 있어요.</p>
+      <p>그리고 신비의 소환서 10장을 쓰거나 콜라보 캐릭터를 1회 소환할 때마다 신비의 소환서를 1장씩 돌려주는 순환 보너스도 있어서, 소환서가 아예 순삭되진 않는 구조더라고요.</p>
+      <p><b>뽑기 확률에 기대는 것보다, 의뢰 미션 10회랑 소환 포인트 3,000점부터 채우는 게 훨씬 확실한 루트예요.</b></p>
+      <h3>콜라보 상점이랑 행운의 보물상자, 마감부터 체크하세요</h3>
+      <p>콜라보 상점은 8월 2일까지만 운영되는데요, 방문만 해도 매일 신비의 소환서 1장을 주기 때문에 접속할 때마다 한 번씩 들러보시는 게 좋습니다. 크리스탈로 전설 등급 룬이나 각종 소환서를 살 수 있는 특가 상점인데, 판매 품목이 매주 바뀐다고 하니 이번 주에 놓치면 다음 주엔 다른 품목이 나올 수 있어요.</p>
+      <p>'컬래버 기념 행운의 보물상자' 이벤트는 7월 26일까지인데, 상점보다 마감이 더 빠르니까 이걸 먼저 챙기시는 게 좋을 것 같아요. 아메리아의 행운을 쓰거나 탐색 전투 같은 미션을 완료하면 포인트가 쌓이고, 그 포인트로 상자를 열면 전설의 전속성 소환서 같은 보상을 받을 수 있습니다. 상자를 누적으로 많이 열면 '행운의 마법 상자 이용권' 2장도 추가로 챙길 수 있다고 하네요.</p>
+      <p>이 외에도 '프리렌의 여정', '마도서 수집 출석', '페른의 특별 선물', '상급 소환사 달성 경험치 획득 미션' 같은 이벤트들이 같이 돌아가고 있는데요, 세부 보상까지는 확인이 어려웠지만 접속하면 다 떠 있으니 하나씩 눌러보시면 됩니다.</p>
+      <p>📷 〔사진 자리 4〕 콜라보 상점 오픈 공식 안내 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "상점은 8월 2일까지만 열려 있으니 로그인할 때마다 한 번씩 들러보시는 걸 추천드려요."</p>
+      <h3>정확한 소환 확률은 어디서 확인해야 하나요?</h3>
+      <p>신비의 소환서나 콜라보 캐릭터 뽑기의 정확한 등급별 확률은 공식 수치가 따로 나와 있지 않은데요, 이런 확률형 정보는 짐작으로 말씀드리기보다 <b>게임 내 소환 화면에 있는 '확률 정보' 버튼이나 서머너즈워 공식 카페·공지에서 직접 확인하시는 게</b> 확실합니다. 정확한 수치는 게임 안에서 직접 확인하시고, 그 사이에 위에서 말씀드린 확정 루트부터 채워두시면 마음은 편하실 거예요.</p>
+      <p>📷 〔사진 자리 5〕 소환 화면 '확률 정보' 팝업(등급별 확률 표) — 네이버에서 직접 촬영 후 업로드<br>
+      └ 캡션 추천: "이 버튼 하나만 눌러보면 등급별 확률이 표로 다 나와요."</p>
+      <h3>프리렌 콜라보 정리</h3>
+      <table>
+        <tr><th>순위</th><th>챙길 것</th><th>마감·조건</th><th>왜 먼저인가</th></tr>
+        <tr><td class="l">1순위</td><td>콜라보 의뢰 미션 10회</td><td>콜라보 기간 내 상시</td><td>확정 힘멜(6성 40레벨·각성·룬세트) 지급</td></tr>
+        <tr><td class="l">2순위</td><td>소환 포인트 3,000점</td><td>콜라보 기간 내 상시</td><td>콜라보 캐릭터 1종 확정 지급(속성 랜덤)</td></tr>
+        <tr><td class="l">3순위</td><td>행운의 보물상자 이벤트</td><td>7월 26일까지</td><td>상점보다 마감 빠름, 전설 전속성 소환서 등</td></tr>
+        <tr><td class="l">4순위</td><td>콜라보 상점</td><td>8월 2일까지</td><td>출석만 해도 소환서 지급 + 특가 구매 가능</td></tr>
+      </table>
+      <p>결국 챙겨야 할 건 뽑기 확률이 아니라 확정 지급 루트예요. 의뢰 미션 10회로 완성형 힘멜 먼저 챙기고, 소환 포인트 3,000점으로 콜라보 캐릭터 한 명 더 확보한 다음, 마감이 빠른 행운의 보물상자(7/26)랑 상점(8/2)을 순서대로 도는 게 가장 깔끔한 동선이에요. 아직 신규 콘텐츠라 메타랄 게 딱히 없으니 너무 조급해하지 마시고, 8월 31일까지 여유 있게 하나씩 채워보시면 좋을 것 같아요.</p>
+      <p><b>✔ 서머너즈워 같이 보기 좋은 내용</b><br>
+      아직 서머너즈워 관련 다른 글이 없어서, 이번 콜라보를 계기로 다음 글에서 다른 콘텐츠도 하나씩 다뤄볼게요.</p>
+      <p class="tags-line">#서머너즈워 #서머너즈워프리렌콜라보 #장송의프리렌 #서머너즈워천공의아레나 #소환확률 #컴투스</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
