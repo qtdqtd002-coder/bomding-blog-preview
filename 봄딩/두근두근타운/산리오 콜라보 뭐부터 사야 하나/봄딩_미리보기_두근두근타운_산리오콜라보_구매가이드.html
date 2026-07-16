@@ -1,0 +1,296 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>두근두근타운 산리오콜라보 마이멜로디 쿠로미 시나모롤 뭐부터 사야 할까</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .gap{border:1px dashed #d3b27a;background:#fffaf0;border-radius:8px;margin:6px 0 24px;padding:14px 16px;font-size:13.5px;color:#8a6d3b;line-height:1.7;}
+  .gap b{color:#7a5a1e;}
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다) · 🔍 표시는 게임 내/공식 채널에서 한 번 더 확인을 권하는 항목이에요.</div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">두근두근타운 산리오콜라보 마이멜로디 쿠로미 시나모롤 뭐부터 사야 할까</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 7. 16.</span><span>· 게임</span></div>
+
+    <p>두근두근타운에 산리오 캐릭터즈 콜라보가 내일, <b>7월 17일부터 8월 23일까지</b> 열립니다. 벌써 지난 10일부터 사전이벤트로 로그인 퍼즐을 풀고 있었는데, PV까지 공개되고 나니 마이멜로디·쿠로미·시나모롤 중에 뭐부터 지갑을 열어야 하나 슬슬 고민되더라고요. 다만 오픈을 하루 앞둔 지금은 아직 <b>개별 아이템 가격이나 구성</b>이 공식적으로 안 풀린 상태라서, 없는 걸 있는 것처럼 적기보다는 확정된 것과 아직 안 된 것부터 정리하고, 그 위에서 실제로 쓸 수 있는 구매 우선순위 판단법을 잡아보려고 합니다.</p>
+
+    <div class="imgwrap"><img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4025700/2228fe487077813485fe804a4f8311c289d69901/header_alt_assets_0.jpg?t=1783671810" alt="두근두근타운 키비주얼"></div>
+    <p class="cap">마을 꾸미고 옷 갈아입는 재미가 진짜 쏠쏠한 두근두근타운, 요즘 분위기가 딱 이래요</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/4025700/" target="_blank">Steam 공식 스토어</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 도입 분위기용 공식 키비주얼 / 출처: Steam 공식 / 분류: A형 -->
+
+    <h2 class="sub">이번 콜라보에 나오는 캐릭터, 세 명 맞아요?</h2>
+    <div class="para-wrap">
+      <p>두근두근타운 <b>스팀 커뮤니티 공식 공지</b>와 지난 7월 11일 공개된 PV로 확인해보면, 이번 <b>'Heartopia × SANRIO CHARACTERS'</b> 콜라보에는 <span class="rev-hl">마이멜로디, 쿠로미, 시나모롤 세 캐릭터가 참여</span>해요<span class="chk">🔍 상점 오픈 후 최종 구성 재확인 권장</span>. 산리오 라인업 중에서도 인지도가 확실한 쪽으로 골랐다는 느낌이라, 아마 취향에 따라 호불호가 꽤 뚜렷하게 갈릴 것 같더라고요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 참여 캐릭터</span>
+        <span class="sn-src"><b>Steam 공식 이벤트 공지</b>가 이번 콜라보명과 참여 캐릭터 3종을 밝혔어요. (<a href="https://steamcommunity.com/app/4025700?l=koreana" target="_blank">Steam 커뮤니티 공지</a>)</span>
+        <span class="sn-mine">→ 공지 원문 나열식 표현을 풀어, 취향 얘기로 자연스럽게 이어지도록 다시 썼어요.</span>
+      </div>
+    </div>
+
+    <h2 class="sub">마이멜로디 — 상냥함이 취향이라면</h2>
+    <p>마이멜로디는 핑크색 후드를 쓴 토끼 캐릭터로, 산리오 라인업 중에서도 다정하고 따뜻한 이미지가 가장 먼저 떠오르는 쪽이죠. 두근두근타운처럼 마을을 꾸미고 이웃과 어울리는 게임 결이랑 원래도 잘 맞는 캐릭터잖아요. 그러니 하우징을 아기자기하고 사랑스럽게 꾸미고 싶은 분들한테는 <b>마이멜로디 쪽이 1순위</b>가 될 확률이 높아요.</p>
+
+    <h2 class="sub">쿠로미 — 개성파라면</h2>
+    <p>쿠로미는 마이멜로디의 라이벌 포지션으로, 검은 고딕펑크 스타일에 짓궂고 개성 강한 매력을 가진 캐릭터네요. 밝고 파스텔한 꾸미기보다는 살짝 힙하고 튀는 스타일을 더 좋아하시는 분이라면, 이번 콜라보에서 <b>쿠로미 쪽</b> 아이템에 자연스럽게 눈이 더 갈 것 같습니다.</p>
+
+    <h2 class="sub">시나모롤 — 힐링 취향이라면</h2>
+    <p>시나모롤은 하늘색 눈에 큰 귀로 하늘을 날 수 있는, 하얗고 몽실몽실한 강아지 캐릭터인데요. 몽환적이고 힐링되는 이미지가 강해서, 원래도 힐링 라이프 시뮬레이션인 두근두근타운 하우징 콘셉트랑 <b>색감·분위기</b>가 가장 자연스럽게 붙는 쪽이 아닐까 싶어요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 콜라보 사전 예고 배너·상점 진입 화면 — 지금(오픈 전)도 촬영 가능한 컷</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 지금 이벤트 탭이나 상점 입구에 떠 있는 산리오 콜라보 사전 예고 배너를 캡처해주세요.</div>
+    <!-- 이미지 이유: 콜라보 사전 예고 배너 인증용 직접 촬영 컷 / 분류: B형 -->
+    <p class="cap">세 캐릭터 다 매력이 다르니까, 여기서부터 취향을 한 번 정해보시는 것도 좋아요</p>
+
+    <h2 class="sub">취향으로 고르는 산리오 3인방 비교</h2>
+    <p>가격이나 구성표는 아직 안 나왔으니, 우선 <b>브랜드 이미지와 취향 매칭</b> 기준으로만 정리해볼게요.</p>
+    <table class="tbl">
+      <tr><th>캐릭터</th><th>브랜드 이미지</th><th>이런 분께 추천</th></tr>
+      <tr><td>마이멜로디</td><td>핑크·상냥·다정</td><td>사랑스럽고 아기자기한 하우징 원하는 분</td></tr>
+      <tr><td>쿠로미</td><td>블랙·고딕펑크·개성</td><td>튀는 포인트, 힙한 꾸미기 원하는 분</td></tr>
+      <tr><td>시나모롤</td><td>파스텔 블루·몽환·힐링</td><td>은은하고 몽환적인 힐링 분위기 원하는 분</td></tr>
+    </table>
+
+    <h2 class="sub">지금까지 확정된 사실부터 짚고 갈게요</h2>
+    <p>본격적인 구매 얘기 전에, <b>공식으로 확정된 부분</b>부터 정리해둘게요. 콜라보 기간은 <b>2026년 7월 17일부터 8월 23일까지</b>고요, 오늘(16일)이 바로 오픈 전날이랍니다. 이미 <b>7월 10일부터</b> 사전이벤트로 로그인 퍼즐 이벤트가 진행 중인데, 여기 참여하면 <b>전시 입장권과 콜라보 전용 벽지</b>를 챙길 수 있으니 아직 안 하셨으면 콜라보 시작 전에 미리 들러서 챙겨두시는 게 좋아요.</p>
+
+    <div class="para-wrap">
+      <p>보상 구성에 대해서는 공식이 지난 12일 이벤트 소개 공지에서 <span class="rev-hl">콜라보 한정 레시피, 가구, 액세서리, 펫 의상까지 여러 갈래로 보상을 준비했다고 예고</span>했어요. 다만 캐릭터별 <b>개별 아이템명이나 구성</b>은 아직 공식 공개 전이에요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 보상 카테고리</span>
+        <span class="sn-src"><b>Steam 공식 이벤트 소개 공지</b>(7월 12일)가 "콜라보 한정 레시피, 가구, 액세서리, 펫 의상까지 다양한 깜짝 보상"이라고 안내했어요.</span>
+        <span class="sn-mine">→ 원문의 나열형 문구를 그대로 옮기지 않고, "확정 vs 미확정"을 나누는 흐름 안에서 다시 풀어 썼어요.</span>
+      </div>
+    </div>
+
+    <h2 class="sub">아직 안 풀린 것 — 개별 가격·구성은 오픈 후에</h2>
+    <p><b>캐릭터별 개별 아이템명, 몇 개짜리 세트인지, 가격</b>은 아직 공식에 안 풀려서, 이 부분은 내일 상점 열리면 직접 보는 게 제일 정확해요.</p>
+    <p>다만 유저들 사이에서는 탈것류 아이템으로 <b>'산리오 자동차'</b>가 나오지 않을까 기대하는 이야기도 오가고 있어요. 이건 공식 확정이 아니라 순전히 <b>기대·추측</b>인 부분이라, "그럴 수도 있겠다" 정도로만 알아두시고 너무 믿고 계획 세우진 않으시는 게 좋아요.</p>
+
+    <h2 class="sub">과거 콜라보로 보는 구매 전략 — 찔끔찔끔이 제일 손해</h2>
+    <p>개별 가격은 몰라도, 이 게임의 <b>콜라보·서브 뽑기가 굴러가는 방식</b>은 참고할 수 있어요. 두근두근타운의 서브·콜라보 계열 가챠는 보통 미획득 보장(천장)까지 채우는 기준으로 전시 입장권 <b>280~340장</b> 안팎, 현금으로는 <b>7만 6천~15만 원</b> 정도가 드는 편이라는 계산이 커뮤니티에 자주 올라와요. 이건 산리오 콜라보만의 수치는 아니고, 이 게임 콜라보 뽑기가 대체로 이 정도 든다는 참고용으로만 봐주세요.</p>
+
+    <p>그래서 결론은 하나예요. <b>여러 캐릭터에 조금씩 찔러보지 말고, 취향 하나를 먼저 정해서 그쪽에 몰아 쓰는 게 결과적으로 더 아낍니다.</b> 확률이 낮다 보니 몇 번 돌리다 아쉬워서 다른 캐릭터까지 추가하는 식으로 늘어나기가 제일 쉽거든요. 오픈 전인 지금은 재화부터 챙겨두는 게 좋은데, 아래 상품들을 같이 쓰면 콜라보 기간 동안 재화를 꾸준히 모아둘 수 있어요. 이 조합도 산리오 콜라보 전용은 아니고 이 게임의 일반적인 소과금 루틴이라는 점은 참고해주시고요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 상점 오픈 후 콜라보 뽑기 화면 — 캐릭터별 확률·가격 안내가 보이게</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 7월 17일 이후 상점에서 산리오 콜라보 뽑기 배너를 열어 캡처해주세요.</div>
+    <!-- 이미지 이유: 오픈 후 실제 뽑기 화면(확률·가격) 인증용 직접 촬영 컷 / 분류: B형 -->
+    <p class="cap">여기 나오는 실제 확률표·가격이 진짜 기준이니, 결제 전엔 꼭 한 번 확인하시고 가세요</p>
+
+    <table class="tbl">
+      <tr><th>지금(D-1) 할 일</th><th>내일(오픈) 할 일</th></tr>
+      <tr><td>사전이벤트 로그인 퍼즐 완료해 전시 입장권·벽지 챙기기</td><td>상점 열어 3캐릭터 실제 아이템·가격 확인</td></tr>
+      <tr><td>마이멜로디·쿠로미·시나모롤 중 취향 하나 미리 정해두기</td><td>정한 취향 하나에만 몰아서 결제, 여러 캐릭터 찔끔찔끔 금지</td></tr>
+      <tr><td>시즌패스·회원권으로 재화 미리 적립</td><td>모아둔 재화부터 먼저 쓰고 부족분만 추가 결제</td></tr>
+    </table>
+
+    <table class="tbl">
+      <tr><th>상품</th><th>가격</th></tr>
+      <tr><td>시즌패스(일반)</td><td>7,500원</td></tr>
+      <tr><td>시즌패스(업그레이드)</td><td>13,500원</td></tr>
+      <tr><td>정회원권(30일)</td><td>4,500원</td></tr>
+      <tr><td>준회원권(7일)</td><td>770원</td></tr>
+    </table>
+
+    <div class="gap"><b>✍️ 가격·구성은 오픈 후 상점에서 확인하세요</b><br>이 글은 콜라보 오픈 하루 전(D-1) 시점에 공식으로 나온 사실만 정리했어요. 캐릭터별 개별 아이템명·가격·확률은 <b>7월 17일</b> 상점이 열린 뒤 직접 보시는 게 가장 정확합니다.</div>
+
+    <h2 class="sub">두근두근타운 산리오콜라보 구매 우선순위 정리</h2>
+    <p>정리하면 지금은 확정된 게 기간·사전이벤트·보상 카테고리 정도뿐이고, 캐릭터별 실제 구성·가격은 내일 상점이 열려야 알 수 있어요. 그러니 오늘 할 수 있는 건 사전이벤트 챙기고, 마이멜로디·쿠로미·시나모롤 중 내 취향에 가장 가까운 쪽을 미리 정해두는 정도까지예요. 실제 구매는 상점 열리고 실물 가격·구성을 보고 나서, <b>정한 취향 하나에 몰아 쓰는 것</b>을 추천드려요. 저도 내일 상점 열리면 제일 먼저 들어가서 셋 다 구경하고 결정하려고 합니다.</p>
+
+    <p><b>✔ 두근두근타운 같이 보기 좋은 내용</b><br>
+    · <a href="#" target="_blank">두근두근타운 과금 가이드 — 입장권·뽑기 최소 비용으로 효율 뽑는 법</a><br>
+    · <a href="#" target="_blank">두근두근타운 쿠폰·이벤트 정리</a></p>
+    <!-- 내부링크: 위 2건은 봄딩 기존 발행글(과금가이드·쿠폰이벤트정리) 제목 기준, 실제 네이버 post ID 확인 후 URL 연결 필요 -->
+
+    <div class="tags">#두근두근타운 #두근두근타운산리오콜라보 #두근두근타운마이멜로디 #두근두근타운쿠로미 #두근두근타운시나모롤 #Heartopia산리오 #두근두근타운콜라보 #산리오콜라보게임 #힐링게임 #두근두근타운과금</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 5분):</b> 📷 <b>사진 3곳</b> 업로드 · 🔗 <b>내부링크 2곳</b> 실제 post ID 연결. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 두근두근타운 산리오콜라보 마이멜로디 쿠로미 시나모롤 뭐부터 사야 할까</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>두근두근타운에 산리오 캐릭터즈 콜라보가 내일, <b>7월 17일부터 8월 23일까지</b> 열립니다. 벌써 지난 10일부터 사전이벤트로 로그인 퍼즐을 풀고 있었는데, PV까지 공개되고 나니 마이멜로디·쿠로미·시나모롤 중에 뭐부터 지갑을 열어야 하나 슬슬 고민되더라고요. 다만 오픈을 하루 앞둔 지금은 아직 <b>개별 아이템 가격이나 구성</b>이 공식적으로 안 풀린 상태라서, 없는 걸 있는 것처럼 적기보다는 확정된 것과 아직 안 된 것부터 정리하고, 그 위에서 실제로 쓸 수 있는 구매 우선순위 판단법을 잡아보려고 합니다.</p>
+
+      <p>📷 〔사진 자리 1〕 두근두근타운 키비주얼 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "마을 꾸미고 옷 갈아입는 재미가 진짜 쏠쏠한 두근두근타운, 요즘 분위기가 딱 이래요"</p>
+
+      <h3>이번 콜라보에 나오는 캐릭터, 세 명 맞아요?</h3>
+      <p>두근두근타운 <b>스팀 커뮤니티 공식 공지</b>와 지난 7월 11일 공개된 PV로 확인해보면, 이번 <b>'Heartopia × SANRIO CHARACTERS'</b> 콜라보에는 마이멜로디, 쿠로미, 시나모롤 세 캐릭터가 참여해요. 산리오 라인업 중에서도 인지도가 확실한 쪽으로 골랐다는 느낌이라, 아마 취향에 따라 호불호가 꽤 뚜렷하게 갈릴 것 같더라고요.</p>
+
+      <h3>마이멜로디 — 상냥함이 취향이라면</h3>
+      <p>마이멜로디는 핑크색 후드를 쓴 토끼 캐릭터로, 산리오 라인업 중에서도 다정하고 따뜻한 이미지가 가장 먼저 떠오르는 쪽이죠. 두근두근타운처럼 마을을 꾸미고 이웃과 어울리는 게임 결이랑 원래도 잘 맞는 캐릭터잖아요. 그러니 하우징을 아기자기하고 사랑스럽게 꾸미고 싶은 분들한테는 <b>마이멜로디 쪽이 1순위</b>가 될 확률이 높아요.</p>
+
+      <h3>쿠로미 — 개성파라면</h3>
+      <p>쿠로미는 마이멜로디의 라이벌 포지션으로, 검은 고딕펑크 스타일에 짓궂고 개성 강한 매력을 가진 캐릭터네요. 밝고 파스텔한 꾸미기보다는 살짝 힙하고 튀는 스타일을 더 좋아하시는 분이라면, 이번 콜라보에서 <b>쿠로미 쪽</b> 아이템에 자연스럽게 눈이 더 갈 것 같습니다.</p>
+
+      <h3>시나모롤 — 힐링 취향이라면</h3>
+      <p>시나모롤은 하늘색 눈에 큰 귀로 하늘을 날 수 있는, 하얗고 몽실몽실한 강아지 캐릭터인데요. 몽환적이고 힐링되는 이미지가 강해서, 원래도 힐링 라이프 시뮬레이션인 두근두근타운 하우징 콘셉트랑 <b>색감·분위기</b>가 가장 자연스럽게 붙는 쪽이 아닐까 싶어요.</p>
+
+      <p>📷 〔사진 자리 2〕 콜라보 사전 예고 배너·상점 진입 화면(3캐릭터 함께) — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "세 캐릭터 다 매력이 다르니까, 여기서부터 취향을 한 번 정해보시는 것도 좋아요"</p>
+
+      <h3>취향으로 고르는 산리오 3인방 비교</h3>
+      <p>가격이나 구성표는 아직 안 나왔으니, 우선 <b>브랜드 이미지와 취향 매칭</b> 기준으로만 정리해볼게요.</p>
+      <table>
+        <tr><th>캐릭터</th><th>브랜드 이미지</th><th>이런 분께 추천</th></tr>
+        <tr><td class="l">마이멜로디</td><td>핑크·상냥·다정</td><td class="l">사랑스럽고 아기자기한 하우징 원하는 분</td></tr>
+        <tr><td class="l">쿠로미</td><td>블랙·고딕펑크·개성</td><td class="l">튀는 포인트, 힙한 꾸미기 원하는 분</td></tr>
+        <tr><td class="l">시나모롤</td><td>파스텔 블루·몽환·힐링</td><td class="l">은은하고 몽환적인 힐링 분위기 원하는 분</td></tr>
+      </table>
+
+      <h3>지금까지 확정된 사실부터 짚고 갈게요</h3>
+      <p>본격적인 구매 얘기 전에, <b>공식으로 확정된 부분</b>부터 정리해둘게요. 콜라보 기간은 <b>2026년 7월 17일부터 8월 23일까지</b>고요, 오늘(16일)이 바로 오픈 전날이랍니다. 이미 <b>7월 10일부터</b> 사전이벤트로 로그인 퍼즐 이벤트가 진행 중인데, 여기 참여하면 <b>전시 입장권과 콜라보 전용 벽지</b>를 챙길 수 있으니 아직 안 하셨으면 콜라보 시작 전에 미리 들러서 챙겨두시는 게 좋아요.</p>
+
+      <p>보상 구성에 대해서는 공식이 지난 12일 이벤트 소개 공지에서 콜라보 한정 레시피, 가구, 액세서리, 펫 의상까지 여러 갈래로 보상을 준비했다고 예고했어요. 다만 캐릭터별 <b>개별 아이템명이나 구성</b>은 아직 공식 공개 전이에요.</p>
+
+      <h3>아직 안 풀린 것 — 개별 가격·구성은 오픈 후에</h3>
+      <p><b>캐릭터별 개별 아이템명, 몇 개짜리 세트인지, 가격</b>은 아직 공식에 안 풀려서, 이 부분은 내일 상점 열리면 직접 보는 게 제일 정확해요.</p>
+      <p>다만 유저들 사이에서는 탈것류 아이템으로 <b>'산리오 자동차'</b>가 나오지 않을까 기대하는 이야기도 오가고 있어요. 이건 공식 확정이 아니라 순전히 <b>기대·추측</b>인 부분이라, "그럴 수도 있겠다" 정도로만 알아두시고 너무 믿고 계획 세우진 않으시는 게 좋아요.</p>
+
+      <h3>과거 콜라보로 보는 구매 전략 — 찔끔찔끔이 제일 손해</h3>
+      <p>개별 가격은 몰라도, 이 게임의 <b>콜라보·서브 뽑기가 굴러가는 방식</b>은 참고할 수 있어요. 두근두근타운의 서브·콜라보 계열 가챠는 보통 미획득 보장(천장)까지 채우는 기준으로 전시 입장권 <b>280~340장</b> 안팎, 현금으로는 <b>7만 6천~15만 원</b> 정도가 드는 편이라는 계산이 커뮤니티에 자주 올라와요. 이건 산리오 콜라보만의 수치는 아니고, 이 게임 콜라보 뽑기가 대체로 이 정도 든다는 참고용으로만 봐주세요.</p>
+
+      <p>그래서 결론은 하나예요. <b>여러 캐릭터에 조금씩 찔러보지 말고, 취향 하나를 먼저 정해서 그쪽에 몰아 쓰는 게 결과적으로 더 아낍니다.</b> 확률이 낮다 보니 몇 번 돌리다 아쉬워서 다른 캐릭터까지 추가하는 식으로 늘어나기가 제일 쉽거든요. 오픈 전인 지금은 재화부터 챙겨두는 게 좋은데, 아래 상품들을 같이 쓰면 콜라보 기간 동안 재화를 꾸준히 모아둘 수 있어요. 이 조합도 산리오 콜라보 전용은 아니고 이 게임의 일반적인 소과금 루틴이라는 점은 참고해주시고요.</p>
+
+      <p>📷 〔사진 자리 3〕 상점 오픈 후 콜라보 뽑기 화면(캐릭터별 확률·가격) — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "여기 나오는 실제 확률표·가격이 진짜 기준이니, 결제 전엔 꼭 한 번 확인하시고 가세요"</p>
+
+      <table>
+        <tr><th>지금(D-1) 할 일</th><th>내일(오픈) 할 일</th></tr>
+        <tr><td class="l">사전이벤트 로그인 퍼즐 완료해 전시 입장권·벽지 챙기기</td><td class="l">상점 열어 3캐릭터 실제 아이템·가격 확인</td></tr>
+        <tr><td class="l">마이멜로디·쿠로미·시나모롤 중 취향 하나 미리 정해두기</td><td class="l">정한 취향 하나에만 몰아서 결제, 여러 캐릭터 찔끔찔끔 금지</td></tr>
+        <tr><td class="l">시즌패스·회원권으로 재화 미리 적립</td><td class="l">모아둔 재화부터 먼저 쓰고 부족분만 추가 결제</td></tr>
+      </table>
+
+      <table>
+        <tr><th>상품</th><th>가격</th></tr>
+        <tr><td class="l">시즌패스(일반)</td><td>7,500원</td></tr>
+        <tr><td class="l">시즌패스(업그레이드)</td><td>13,500원</td></tr>
+        <tr><td class="l">정회원권(30일)</td><td>4,500원</td></tr>
+        <tr><td class="l">준회원권(7일)</td><td>770원</td></tr>
+      </table>
+
+      <p>이 글은 콜라보 오픈 하루 전(D-1) 시점에 공식으로 나온 사실만 정리했어요. 캐릭터별 개별 아이템명·가격·확률은 7월 17일 상점이 열린 뒤 직접 보시는 게 가장 정확합니다.</p>
+
+      <h3>두근두근타운 산리오콜라보 구매 우선순위 정리</h3>
+      <p>정리하면 지금은 확정된 게 기간·사전이벤트·보상 카테고리 정도뿐이고, 캐릭터별 실제 구성·가격은 내일 상점이 열려야 알 수 있어요. 그러니 오늘 할 수 있는 건 사전이벤트 챙기고, 마이멜로디·쿠로미·시나모롤 중 내 취향에 가장 가까운 쪽을 미리 정해두는 정도까지예요. 실제 구매는 상점 열리고 실물 가격·구성을 보고 나서, <b>정한 취향 하나에 몰아 쓰는 것</b>을 추천드려요. 저도 내일 상점 열리면 제일 먼저 들어가서 셋 다 구경하고 결정하려고 합니다.</p>
+
+      <p><b>✔ 두근두근타운 같이 보기 좋은 내용</b><br>
+      🔗 〔내부링크 자리 ①〕 두근두근타운 과금 가이드 — 입장권·뽑기 최소 비용으로 효율 뽑는 법 — 네이버에서 기존글 링크 연결<br>
+      🔗 〔내부링크 자리 ②〕 두근두근타운 쿠폰·이벤트 정리 — 네이버에서 기존글 링크 연결</p>
+
+      <p class="tags-line">#두근두근타운 #두근두근타운산리오콜라보 #두근두근타운마이멜로디 #두근두근타운쿠로미 #두근두근타운시나모롤 #Heartopia산리오 #두근두근타운콜라보 #산리오콜라보게임 #힐링게임 #두근두근타운과금</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
