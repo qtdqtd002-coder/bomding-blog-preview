@@ -1,0 +1,99 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 김복리 오늘 쓸 글 · 2026-07-19</title>
+<style>
+:root{--ac:#c2952e;--acd:#8f6d1c;--acw:#f7efd6;--ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--good-w:#e7f6ef;--warn-w:#fbf1de}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;line-height:1.6;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.wrap{max-width:840px;margin:0 auto;padding:20px 18px 60px}
+.back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+.mast{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 1px 2px rgba(16,24,40,.05);padding:20px 22px}
+.who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--acd);background:var(--acw);border-radius:999px;padding:4px 11px}
+.who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac)}
+.mast h1{font-size:clamp(16px,3vw,19px);font-weight:800;letter-spacing:-.02em;margin:11px 0 6px;line-height:1.5;text-wrap:balance}
+.mast .meta{font-size:12px;color:var(--muted);font-weight:500}.mast .meta b{color:var(--sub);font-weight:700}
+.rx{margin-top:14px;background:var(--acw);border:1px solid var(--line);border-radius:13px;padding:13px 16px;display:flex;gap:11px;align-items:flex-start}
+.rx .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:3px 9px;margin-top:1px}
+.rx .rc{font-size:13px;line-height:1.6;color:var(--ink)}.rx .rc b{font-weight:800;color:var(--acd)}
+h2.sec{font-size:16px;font-weight:800;letter-spacing:-.02em;margin:30px 0 4px;display:flex;align-items:center;gap:8px}
+.sub{color:var(--sub);font-size:12px;margin:4px 0 12px;line-height:1.55}
+.tabs>input{position:absolute;opacity:0;pointer-events:none}
+.tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+.tablab{font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:9px;background:var(--inset);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s}
+.tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px}
+.tpanel{display:none}
+#t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3],#t4:checked~.tabbar label[for=t4],#t5:checked~.tabbar label[for=t5],#t6:checked~.tabbar label[for=t6]{background:var(--ac);color:#fff;border-color:var(--ac)}
+#t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt,#t4:checked~.tabbar label[for=t4] .cnt,#t5:checked~.tabbar label[for=t5] .cnt,#t6:checked~.tabbar label[for=t6] .cnt{color:rgba(255,255,255,.8)}
+#t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3,#t4:checked~#p4,#t5:checked~#p5,#t6:checked~#p6{display:block}
+.pick{border:1px solid var(--line);border-radius:13px;padding:12px 15px;margin-bottom:9px;background:var(--panel)}
+.pick-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px}
+.gtag{font-size:10px;font-weight:800;color:var(--acd);background:var(--acw);border-radius:5px;padding:2px 7px}
+.purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset);border-radius:5px;padding:2px 7px}
+.gyeol{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:#eef0f5;color:#4a4f58}
+.pecpm{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;white-space:nowrap}
+.pecpm.hi{background:var(--good-w);color:#157a52}.pecpm.mid{background:var(--warn-w);color:#9a6207}
+.pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--acw);color:var(--acd);white-space:nowrap}
+.ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:170px;line-height:1.4}
+.pwhy{font-size:12px;line-height:1.55;color:var(--sub)}.pwhy b{color:var(--ink);font-weight:700}
+.pwhy a{color:var(--ac);text-decoration:none;font-weight:700;border-bottom:1px solid var(--acw)}
+.foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center}
+@media(max-width:540px){.wrap{padding:14px 12px 44px}.mast{padding:16px 16px}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+ <div class="mast">
+   <span class="who">데이터 분석실 · 김복리 편</span>
+   <h1>오늘 김복리가 쓸 글을 6개 분야 각 3편씩 골랐어요. 신생 블로그라 큰 키워드 대신 '검색하는 사람이 정확히 치는 좁은 질문'으로 좁혔어요.</h1>
+   <div class="meta">발행일 <b>2026-07-19</b> · 대상 <b>김복리</b>(티스토리 bokriking · 생활금융·정책·세금) · 오늘 쓸 글 전용(PICKS) — 분석·GSC·색인은 월요일 리포트 참조</div>
+   <div class="rx"><span class="pp">P1</span><div class="rc"><b>오늘 가장 먼저 쓸 1편</b> — <b>"개인사업자 부가세 확정신고, 7월 25일이 아니라 27일까지인 이유"</b>예요. 원래 마감이 7월 25일인데 그날이 토요일이라 <b>다음 평일인 27일 월요일로 자동 연장</b>돼요. 딱 8일 남은 확실한 마감이고, 프리랜서·1인 쇼핑몰까지 대상이 넓은데 "왜 27일이지?"를 정확히 짚은 글은 아직 드물어요.</div></div>
+ </div>
+
+ <h2 class="sec">✍️ 오늘 쓸 글 추천</h2>
+ <p class="sub">6개 분야 각 <b>3편</b>(총 18편) · 픽마다 <b>경쟁도</b>(<span class="pecpm hi">🟢 저</span> 개인 블로그도 올라갈 만함 <span class="pecpm mid">🟡 중</span> 경쟁 있지만 각도로 뚫림)를 달고 <b>낮은 순으로</b> 정렬했어요. ★김복리는 아직 신생이라 <b>경쟁도가 검색량·시급성보다 위</b>예요 — "재산세"·"연말정산"·"청년도약계좌" 같은 큰 키워드는 정부·홈택스·대형 매체가 다 차지해서 신생 블로그는 노출이 안 잡혀요. 그래서 <b>대상·상황·조건을 한정한 좁은 질문</b>으로 제목을 좁혔고, 급한 일정이 없어도 <b>검색이 늘 있는 주제</b>면 골랐어요(가짜 시급성은 안 붙였어요). ★수치·자격·기간은 <b>공식 출처로 확인된 것만</b> 실었고, 확인 안 되는 주제는 뺐어요. 카드의 <b>✈ 발행 요청</b> 버튼으로 기획팀에 바로 발주돼요.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3"><input type="radio" name="rec" id="t4"><input type="radio" name="rec" id="t5"><input type="radio" name="rec" id="t6">
+   <div class="tabbar"><label class="tablab" for="t1">정부지원금·정책 <span class="cnt">3</span></label><label class="tablab" for="t2">세금·연말정산 <span class="cnt">3</span></label><label class="tablab" for="t3">재테크·저축 <span class="cnt">3</span></label><label class="tablab" for="t4">대출·신용 <span class="cnt">3</span></label><label class="tablab" for="t5">보험 <span class="cnt">3</span></label><label class="tablab" for="t6">부동산·주거 <span class="cnt">3</span></label></div>
+
+   <div class="tpanel" id="p1">
+     <div class="pick"><div class="pick-top"><span class="gtag">전기요금</span><span class="pecpm mid">🟡 중</span><span class="purp">정책 안내</span><span class="pwhen">7~8월 한시 적용 중</span><span class="ptitle">여름 전기요금 누진제 완화, 우리집은 얼마나 덜 내나 — 구간별 정리</span></div><div class="pwhy"><b>7월 1일부터 8월 31일까지 한시적으로</b> 누진 구간이 넓어졌어요 — 1단계가 200kWh에서 <b>300kWh</b>로, 2단계가 400kWh에서 <b>450kWh</b>로요. 4인 가구 기준 대략 1만~1만8천 원 정도 덜 내는 효과로 알려져 있어요. 여기에 전기요금 복지할인이 7~8월 한시로 30% 추가 확대되고, 출산 가구 할인 기간도 1년에서 3년으로 늘었어요. ★대부분의 글이 "완화됐대요"에서 끝나는데, <b>구간별 kWh가 정확히 얼마나 바뀌었는지 표로 보여주고 복지할인까지 묶으면</b> 차별화돼요. 김복리 강점인 자가진단 표로 "우리집은 몇 단계인지" 짚어 주세요. <a href="https://www.korea.kr/multi/visualNewsView.do?newsId=148967143" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">고유가 지원금</span><span class="pecpm mid">🟡 중</span><span class="purp">정책 안내</span><span class="pwhen">사용기한 8/31 소멸</span><span class="ptitle">고유가 피해지원금 8월 31일에 사라져요 — 잔액 조회하고 쓸 곳 찾는 법</span></div><div class="pwhy">사용기한이 <b>8월 31일 자정</b>이고, 그때까지 안 쓴 잔액은 <b>자동 소멸</b>돼요(환급도 이월도 안 돼요). 쓸 수 있는 곳은 연매출 30억 원 이하 소상공인 가맹점이고 <b>대형마트·백화점·온라인 쇼핑몰·유흥업소·대기업 프랜차이즈는 안 돼요.</b> 잔액은 카드사 앱이나 지역화폐 앱에서 확인해요(문의 1670-2626). ★"신청 방법" 글은 이미 많지만, <b>이미 받았는데 아직 못 쓴 사람</b>을 겨냥한 잔액 조회·사용처 각도는 상대적으로 비어 있어요. 신청 기간(5/18~7/3)은 이미 끝났으니 <b>신청 안내로 쓰면 안 돼요.</b> <a href="https://www.mois.go.kr/frt/sub/a06/b07/highOilPriceSupport/screen.do" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">청년월세</span><span class="pecpm mid">🟡 중</span><span class="purp">정책 안내</span><span class="pwhen">2026년 상시제도 전환</span><span class="ptitle">청년월세 특별지원이 상시제도로 — 신청기한도 청약통장 조건도 없어졌어요</span></div><div class="pwhy">2026년부터 한시 사업에서 <b>상시 사업으로 바뀌면서 신청기한이 없어졌고</b>, 예전에 있던 <b>청약통장 가입 요건도 삭제</b>됐어요. 지원은 월 최대 20만 원씩 최대 24개월(합계 480만 원)이고, 소득평가액 기준은 중위소득 60% 이하예요. 신청은 복지로에서 상시로 해요. ★제도 자체를 다룬 글은 많지만 <b>"2026년에 뭐가 바뀌었나"</b>를 정확히 짚은 글은 적어서, 변경 전후 비교표로 가면 뚫려요. 바뀐 시점을 특정할 땐 공식 시행 연도를 먼저 확인하고 쓰세요. <a href="https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00004661" target="_blank" rel="noopener">출처↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="pick"><div class="pick-top"><span class="gtag">프리랜서 경비</span><span class="pecpm hi">🟢 저</span><span class="purp">세금 가이드</span><span class="pwhen">검색 수요 상존</span><span class="ptitle">재택하는 프리랜서, 집 월세랑 전기세는 경비로 얼마나 인정될까</span></div><div class="pwhy">"프리랜서 경비" 같은 넓은 말은 삼쩜삼·토스 같은 대형 서비스가 다 차지하고 있지만, <b>재택근무일 때 주거비를 업무 공간 비율로 어떻게 나누는지</b>는 개인 콘텐츠가 드물어요. 그래서 신생 블로그가 뚫고 들어갈 자리가 있어요. ★<b>급한 일정이 있어서가 아니라 검색이 늘 있는 주제</b>예요 — 1인 사업자·프리랜서가 상시로 궁금해하고, 5월 종합소득세 신고 전에 미리 알아두는 수요가 계속 있어요. 필요경비는 장부 기장 또는 추계신고(업종별 경비율)로 갈리고, 업무 관련 통신비·고정자산은 인정되지만 순수 생활비는 안 되며 증빙이 필수예요. 업종별 경비율은 홈택스에서 조회해 정확한 수치로 쓰세요. <a href="https://www.nts.go.kr" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">부가가치세</span><span class="pecpm mid">🟡 중</span><span class="purp">세금 가이드</span><span class="pwhen">신고 마감 D-8(7/27)</span><span class="ptitle">개인사업자 부가세 확정신고, 25일 아니라 27일까지인 이유</span></div><div class="pwhy"><b>P1</b>. 1기 확정신고 마감이 원래 7월 25일인데 <b>그날이 토요일이라 다음 평일인 7월 27일 월요일로 자동 연장</b>돼요. 이 "왜 27일이지?"를 정확히 짚는 글이 의외로 적어서, 국세청 안내와 세무 블로그 사이의 빈틈이에요. 일반과세자는 매출세액 10%에서 매입세액 10%를 빼고, 간이과세자는 업종별 1.5~4%로 계산해요. 신고는 홈택스에서 해요. ★날짜가 핵심인 글이니 <b>마감일을 국세청 공지로 한 번 더 확인하고</b> 쓰세요(날짜 틀리면 글 전체가 무너져요). <a href="https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?mi=2273&cntntsId=7694" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">간이과세</span><span class="pecpm mid">🟡 중</span><span class="purp">세금 가이드</span><span class="pwhen">검색 수요 상존</span><span class="ptitle">간이과세자 기준, 매출만 보는 게 아니에요 — 일반과세로 넘어가는 선</span></div><div class="pwhy">매출 1억 400만 원을 넘으면 일반과세로 넘어가고, 매출 4,800만 원 미만이면 부가세 납부가 면제돼요. 그 사이 구간은 납부도 하고 세금계산서 발급도 할 수 있어요. ★세무 전문 블로그가 다루긴 하지만 <b>생활 눈높이로 "나는 어디에 해당하나"를 자가진단표로 풀어준 글은 적어요</b> — 김복리 강점이 그대로 먹히는 자리예요. ★큐레이터 조사에서 "2026년부터 사업장 위치 기준이 신설된다"는 이야기가 나왔는데 <b>이건 공식 확인이 안 됐어요</b> — 국세청 공지로 확정되기 전에는 본문에 넣지 마세요(확인된 매출 기준만 쓰세요). <a href="https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?mi=2273&cntntsId=7694" target="_blank" rel="noopener">출처↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <div class="pick"><div class="pick-top"><span class="gtag">청년내일저축계좌</span><span class="pecpm hi">🟢 저</span><span class="purp">재테크 가이드</span><span class="pwhen">2026년 자격 강화 직후</span><span class="ptitle">청년내일저축계좌 떨어졌다면 — 중위소득 50~100% 청년이 대신 할 수 있는 것</span></div><div class="pwhy">2026년부터 신규 모집 기준이 <b>중위소득 100% 이하에서 50% 이하로 강화</b>되면서, 예전 같으면 됐을 50~100% 구간 청년이 통째로 대상에서 빠졌어요. <b>"떨어진 사람은 그럼 뭘 해야 하나"를 다룬 콘텐츠가 거의 없어서</b> 정보 공백이 크고, 그래서 경쟁이 낮아요. 대안으로 청년미래적금(정부기여금·비과세)과 일반 적금·ISA·파킹통장을 비교해 주면 실용적이에요. ★청년미래적금은 <b>이번 회차 신규 가입이 7월 3일에 마감</b>됐으니 "지금 가입하세요"가 아니라 <b>다음 모집을 기다리는 대안</b>으로 소개해 주세요. <a href="https://hope.welfareinfo.or.kr/bsns/bsnsIntrcnAcc.do" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">저축은행 특판</span><span class="pecpm mid">🟡 중</span><span class="purp">재테크 가이드</span><span class="pwhen">분기 초(7월) · 검색 상존</span><span class="ptitle">저축은행 특판적금은 왜 분기 초에 잘 뜰까 — 놓치지 않고 잡는 법</span></div><div class="pwhy">금리 비교 글은 널렸지만 <b>"특판이 언제 왜 풀리는지"라는 타이밍 로직을 설명한 글은 드물어요.</b> 저축은행 특판은 분기가 시작되는 1·4·7·10월과 월말에 자주 나오고 한도가 차면 조기 마감돼요. 지금이 3분기 초입이라 자연스럽게 맞물려요. 확인은 저축은행중앙회 소비자포털과 금감원 '금융상품한눈에'에서 해요. ★<b>금리는 매일 바뀌니 특정 숫자를 못 박지 말고</b> "가입 직전 공식 비교 사이트에서 다시 확인하세요"를 반드시 넣어 주세요. <a href="https://finlife.fss.or.kr" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">파킹통장·CMA</span><span class="pecpm mid">🟡 중</span><span class="purp">재테크 가이드</span><span class="pwhen">여름휴가철 · 검색 상존</span><span class="ptitle">여름휴가 쓰려고 모은 돈, 적금 말고 파킹통장이나 CMA에 두는 이유</span></div><div class="pwhy">파킹통장 비교 글은 많지만 <b>"몇 주만 굴릴 돈"이라는 목적으로 좁힌 각도는 적어요.</b> 곧 쓸 돈을 적금에 넣으면 중도해지로 이자를 날리니, 하루만 맡겨도 이자가 붙는 상품이 맞는다는 이야기예요. 파킹통장은 수시입출금에 일할 이자, CMA는 증권사 단기금융상품인데 <b>예금자보호 여부가 상품마다 달라요</b>(이 차이를 꼭 짚어 주세요 — 안전 관련이라 중요해요). ★금리는 매일 변하니 숫자를 고정하지 말고 공식 비교 사이트 재확인 문구를 넣으세요. <a href="https://finlife.fss.or.kr" target="_blank" rel="noopener">출처↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p4">
+     <div class="pick"><div class="pick-top"><span class="gtag">채무조정</span><span class="pecpm mid">🟡 중</span><span class="purp">대출 가이드</span><span class="pwhen">검색 수요 상존</span><span class="ptitle">개인워크아웃 신청 자격 — 연체 90일부터, 단계별로 정리</span></div><div class="pwhy">신용회복위원회 채무조정(개인워크아웃)은 <b>연체 90일 이상</b>이고 총 채무가 15억 원 이하(무담보 5억·담보 10억), 최근 6개월 신규 채무 원금이 30% 미만이어야 신청할 수 있어요. 신청은 상담센터(1600-5500)나 서민금융통합지원센터에서 해요. 공식 안내와 법률 블로그는 있지만 <b>절차를 단계별로 쉽게 푼 콘텐츠엔 여지가 있어요.</b> ★돈 문제로 절박한 사람이 읽는 글이라 <b>과장이나 단정 없이</b>, 자격 요건은 공식 안내 그대로 정확히 쓰세요. <a href="https://www.ccrs.or.kr" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">리볼빙</span><span class="pecpm mid">🟡 중</span><span class="purp">대출 가이드</span><span class="pwhen">검색 수요 상존</span><span class="ptitle">리볼빙 해지하려는데 안 된다면 — 잔액부터 0원으로 만드는 순서</span></div><div class="pwhy">리볼빙 소개 글은 많지만 <b>"해지하려면 잔액을 어떻게 정리해야 하는지" 순서를 짚은 글은 상대적으로 적어요.</b> 잔액이 남은 채로 해지하면 다음 결제일에 전액이 청구될 수 있어서, 약정 결제 비율을 100%로 바꾸고 건별 선결제로 잔액을 0원으로 만든 뒤 해지하는 흐름을 알려줘야 해요. 신용점수는 단기 사용이면 영향이 작지만 장기 이월은 부정적으로 평가돼요. ★카드사마다 절차가 조금씩 달라서 <b>"본인 카드사 앱·고객센터에서 확인"</b>을 반드시 병기하세요. <a href="https://www.card-gorilla.com" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">미소금융</span><span class="pecpm mid">🟡 중</span><span class="purp">대출 가이드</span><span class="pwhen">검색 수요 상존</span><span class="ptitle">미소금융 생계자금·창업자금 — 신용점수가 낮아도 되는 이유</span></div><div class="pwhy">기초수급자·차상위계층이거나 신용평점 하위 20%면 신청할 수 있어요. 창업자금은 최대 7,000만 원, 긴급 생계자금은 최대 500만 원이고 금리는 연 4.5% 고정이에요(문의 1397). 서민금융 정보 사이트들이 다루긴 하지만 <b>"신용이 낮아서 어디서도 안 될 것 같은 사람"</b>을 정면으로 겨냥한 각도는 여지가 있어요. ★이것도 절박한 독자가 읽는 글이라 <b>한도·금리·자격을 공식 안내 그대로</b> 쓰고, 승인을 보장하는 듯한 표현은 절대 쓰지 마세요. <a href="https://www.kinfa.or.kr/financialProduct/smileFinanceFunds.do" target="_blank" rel="noopener">출처↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p5">
+     <div class="pick"><div class="pick-top"><span class="gtag">실손보험</span><span class="pecpm hi">🟢 저</span><span class="purp">보험 가이드</span><span class="pwhen">연계 확대 진행 중</span><span class="ptitle">실손24로 자동청구 하려는데 우리 동네 병원이 안 뜬다면</span></div><div class="pwhy">실손24 앱 사용법 글은 있어도 <b>"연계 안 된 병원일 때 어떻게 하나"를 다룬 글은 드물어요.</b> 그런데 연계율이 아직 30% 안팎이라 실제로 이 상황을 겪는 사람이 훨씬 많아서, 검색 수요 대비 콘텐츠가 비어 있는 전형적인 자리예요. 5월 초 기준 연계 의료기관이 3만 614개(연계율 29%, 병원 827·의원 12,875·약국 13,339 등)이고 정부는 하반기 80~90%를 목표로 확대 중이에요. 연계 안 된 곳은 <b>기존처럼 서류를 내는 방식</b>을 병행해야 해요. ★연계율은 계속 오르는 수치라 <b>"○월 기준"을 반드시 명시</b>하고 쓰세요. <a href="https://www.korea.kr/news/policyNewsView.do?newsId=148935501" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">펫보험</span><span class="pecpm mid">🟡 중</span><span class="purp">보험 가이드</span><span class="pwhen">검색 수요 상존</span><span class="ptitle">펫보험 갈아타면 손해일 수 있어요 — 예전에 가입한 분이 확인할 것</span></div><div class="pwhy">"펫보험 비교·추천"은 이미 포화지만, <b>기존 가입자가 갈아탈 때 뭘 잃는지</b>를 따진 각도는 드물어요. 예전 조건으로 가입한 계약은 보장 비율과 자기부담금이 지금보다 유리한 경우가 있어서, 해지하고 새로 들면 오히려 손해가 날 수 있다는 이야기예요. ★★<b>여기서 특히 조심할 것</b> — 보장 비율·자기부담금·기준 시점 같은 숫자는 <b>보험사와 상품마다 달라요.</b> 큐레이터가 가져온 수치는 공식 확인이 안 된 상태라 <b>그대로 옮기지 말고</b>, 본인 약관과 보험사 공식 자료로 확인한 것만 쓰거나 숫자 없이 "확인해야 할 항목" 체크리스트로 구성하세요. 돈이 걸린 주제라 추측은 금물이에요.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">자동차보험</span><span class="pecpm mid">🟡 중</span><span class="purp">보험 가이드</span><span class="pwhen">검색 수요 상존</span><span class="ptitle">블랙박스 할인 받으려면 사진을 올려야 해요 — 인증 안 하면 취소돼요</span></div><div class="pwhy">특약 소개 글은 흔하지만 <b>"인증 사진을 안 내면 할인이 적용 안 된다"</b>는 실무 함정을 짚은 글은 적어요. 보통 차량 번호판 사진과 블랙박스가 실제로 달린 실내 사진 2장을 등록해야 해요. 할인율은 보험사·차량 연식에 따라 다르게 적용돼요. ★<b>할인율 수치는 보험사마다 달라서</b> 특정 숫자를 단정하지 말고 "보험사별로 다르니 다이렉트 공식 페이지에서 확인"으로 안내하세요. 여름철 블랙박스 과열·오작동 점검과 엮으면 계절 수요도 같이 잡혀요.</div></div>
+   </div>
+
+   <div class="tpanel" id="p6">
+     <div class="pick"><div class="pick-top"><span class="gtag">전세보증금</span><span class="pecpm mid">🟡 중</span><span class="purp">부동산 가이드</span><span class="pwhen">여름 이사철 · 검색 상존</span><span class="ptitle">보증금 안 돌려줄 때, 이사부터 하면 안 되는 이유 — 임차권등기명령</span></div><div class="pwhy">임대차가 끝났는데 보증금을 못 받으면 관할 법원에 임차권등기명령을 신청하는데, <b>등기가 끝나기 전에 이사부터 나가면 대항력과 우선변제권을 잃을 수 있어요.</b> 이 순서 하나가 보증금 전체를 좌우해요. 법무법인 블로그는 많지만 <b>본인이 직접 신청하는 절차를 정리한 개인 콘텐츠는 상대적으로 적어요.</b> ★처리 기간은 사건마다 달라서 "며칠 걸린다"고 단정하지 마세요. 법령 안내는 '찾기쉬운 생활법령정보'가 1차 출처예요. <a href="https://easylaw.go.kr/CSP/CnpClsMain.laf?popMenu=ov&csmSeq=629&ccfNo=5&cciNo=2&cnpClsNo=1" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">계약갱신</span><span class="pecpm mid">🟡 중</span><span class="purp">부동산 가이드</span><span class="pwhen">검색 수요 상존</span><span class="ptitle">집주인이 실거주한다며 갱신을 거절했는데 거짓이었다면</span></div><div class="pwhy">갱신 요구는 만기 6개월 전부터 2개월 전 사이에 해야 하고, 임대인 본인이나 직계존비속이 2년 이상 실거주하는 건 정당한 거절 사유예요. 그런데 <b>정당한 사유 없이 제3자에게 세를 놓으면 손해배상 책임</b>이 생겨요(주택임대차보호법 제6조의3 제5항). 배상액은 정해진 산정 방식 중 가장 큰 금액으로 계산돼요. ★<b>배상액 계산 방식까지 정리한 글은 드물어서</b> 여기가 차별점이에요. 법 조항과 산정 방식은 국토부 정책 안내로 정확히 확인하고 쓰세요. <a href="https://www.molit.go.kr/policy/rent/rent_c_02.jsp" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">전입신고</span><span class="pecpm mid">🟡 중</span><span class="purp">부동산 가이드</span><span class="pwhen">이사철 · 검색 상존</span><span class="ptitle">이사 당일에 전입신고 안 하면 생기는 일 — 하루 차이가 위험한 이유</span></div><div class="pwhy">대항력은 <b>주택 인도와 전입신고를 마친 다음 날 0시</b>에 생겨요. 그 사이에 집주인이 근저당을 설정하면 그 근저당이 앞순위가 돼서, 나중에 경매로 넘어갔을 때 세입자가 뒤로 밀려요. 그래서 이사 당일에 전입신고와 확정일자를 함께 받으라고 하는 거예요. ★김복리가 이미 쓴 「전입신고 온라인 확정일자 자동부여」는 <b>온라인 신청 방법</b>이 초점이니, 이 글은 <b>"안 하면 무슨 일이 생기나"라는 위험 설명</b>으로 각도를 갈라 주세요(두 글을 서로 링크하면 좋아요). <a href="https://www.easylaw.go.kr/CSP/CnpClsMain.laf?csmSeq=666&ccfNo=4&cciNo=1&cnpClsNo=1" target="_blank" rel="noopener">출처↗</a></div></div>
+   </div>
+
+ </div>
+
+ <p class="foot">데이터 분석실(트렌드 분석팀) · 실제 작성은 작성팀(김복리) · PICKS 모드(화~일)는 오늘 쓸 글만 갱신 — 분석·GSC·색인은 월요일 FULL 리포트에서 · 총 18픽(6분야×3) · 경쟁도 🟢저 3 · 🟡중 15 · 신생기라 경쟁도를 검색량·시급성보다 우선 적용 · <b>연도 혼입 드롭</b>: '민생회복 소비쿠폰 7/21 지급'은 원문 게재일 확인 결과 <b>2025년 정책</b>이라 폐기 · <b>기간 종료 드롭</b>: 고유가 지원금 '신청'(7/3 마감)·청년미래적금 가입(7/3 마감)은 신청 안내로 쓰지 않고 다른 각도로 전환 · <b>중복 제외</b>: 기발행 32편 + 최근 추천 33건 전수 대조 · YMYL이라 수치·자격·기간은 공식 출처 확인분만, 펫보험·자동차보험 할인율 등 미확인 수치는 본문에 넣지 말 것</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
