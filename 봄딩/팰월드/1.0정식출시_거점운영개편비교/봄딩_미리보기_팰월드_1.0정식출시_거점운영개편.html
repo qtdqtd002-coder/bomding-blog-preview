@@ -1,0 +1,321 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>팰월드 1.0 정식출시 거점운영 개편, 복귀 유저가 다시 배워야 할 것들 (작업적성·팰배치)</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">팰월드 1.0 정식출시 거점운영 개편, 복귀 유저가 다시 배워야 할 것들 (작업적성·팰배치)</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 7. 18.</span><span>· 게임</span></div>
+
+    <p>1.0 정식 출시된 지도 벌써 일주일 넘게 지났는데, <b>앞서 해보기 시절 한창 달리다가 손 놓았던 분</b>들 중엔 이제서야 다시 켜보려는 분들 많으실 거예요. 근데 막상 접속해서 거점 팰 배치판을 열어보면 뭔가 낯설죠 — 분명 그때 그 게임인데, 손에 익었던 거점 운영 방식이 은근 많이 달라져 있거든요.</p>
+
+    <p>세이브가 유지되는지, 새 월드로 시작해야 하는지 같은 얘기는 <b>지난 글에서 이미 정리</b>해뒀으니 오늘은 그쪽 말고, <b>실제로 거점 운영 실무에서 뭐가 어떻게 바뀌었는지</b>만 콕 집어서 풀어볼게요. 작업 적성부터 팰 배치, 자동화까지 복귀하면 다시 배워야 할 것들이에요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 팰월드 1.0 거점 관리 화면 대표 컷</span></div>
+    <div class="shoot">📸 공식 자료 참고 — <a href="https://store.steampowered.com/app/1623730/Palworld/" target="_blank">스팀 상점 페이지</a> 스크린샷이나 <a href="https://www.gameple.co.kr/news/articleView.html?idxno=216054" target="_blank">게임플 거점 일꾼 세대교체 기사</a> 대표 컷을 받아 재업로드하시면 됩니다.</div>
+    <p class="cap">거점 배치판을 열어보면 예전 감각이랑 뭔가 다르다는 걸 바로 느끼실 거예요.</p>
+
+    <h2 class="sub">작업 적성, 왜 갑자기 10레벨까지 늘었대요?</h2>
+    <p>가장 먼저 체감되는 건 <b>작업 적성 시스템</b>이에요. 공식 패치노트를 정리한 기사에 따르면 <b>1.0에서 작업 적성이 최대 10레벨까지 확장</b>됐고, 여기에 맞춰 <b>모든 팰의 작업 적성 수치가 통째로 재조정</b>됐어요.</p>
+    <p>앞서 해보기 후반엔 <b>4~5레벨쯤이면 거점 관리 종결급 대접</b>을 받던 걸로 기억하는데요, 공식적으로 못 박힌 상한이 있던 건 아니라 대략 그쯤이 최상급이었다 정도로 봐주시면 돼요. 이제는 그 위로 두 배 가까운 구간이 새로 생긴 셈이라 예전에 짜둔 '이 정도면 만렙'이라는 감각 자체를 한 번 리셋해야 한다는 얘기예요.</p>
+    <p>표로 짧게 정리해볼게요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>앞서 해보기</th><th>1.0</th></tr>
+      <tr><td>적성 최상급 체감</td><td>4~5레벨쯤</td><td><b>최대 10레벨</b></td></tr>
+    </table>
+
+    <h2 class="sub">등급 올릴 때마다 적성이 하나씩 오른다는 게 무슨 말이냐면</h2>
+    <p>1.0에서는 <b>팰 등급을 올릴 때마다 작업 적성 하나가 같이 오르는 구조</b>로 바뀌었어요. 그리고 <b>최고 등급에 도달하면 모든 적성이 한꺼번에 상향</b>되거든요. 예전처럼 "적성 좋은 팰을 새로 잡아온다"보다 <b>기존 팰을 등급업 시켜서 키우는 쪽</b>이 훨씬 남는 장사가 된 거예요.</p>
+    <p>그러니까 복귀하시면 창고에 재워두셨던 애매한 팰들도 등급업 여지가 있는지 한 번씩 다시 훑어보시는 게 좋아요. 예전 기준으로 '애매해서 방생'했던 팰이 지금은 등급업만 시키면 쓸만해질 수도 있거든요.</p>
+    <p>표로 정리하면 이렇게 되네요.</p>
+    <table class="tbl">
+      <tr><th>상황</th><th>예전 방식</th><th>1.0 방식</th></tr>
+      <tr><td>적성 올리려면</td><td>적성 좋은 팰 새로 포획</td><td>기존 팰 등급업</td></tr>
+      <tr><td>최고 등급 시</td><td>-</td><td>모든 적성 상향</td></tr>
+    </table>
+
+    <h2 class="sub">내가 알던 그 팰이 하는 일도 달라졌어요</h2>
+    <p>재조정이 수치만 바뀐 게 아니라 <b>일부 팰은 적성 종류 자체가 바뀌었다</b>는 것도 알아두셔야 해요. 대표적으로 <b>비올레타</b>는 목장에 배치했을 때 이제 <b>씨앗을 생산하는 쪽으로 역할이 바뀌었다</b>던데요. 예전 감각으로 "얘는 이 일 하는 애"라고 자동배치 해뒀다가, 막상 가보면 다른 일을 하고 있어서 당황하실 수 있어요.</p>
+    <p>거점에 이미 팰들을 쭉 배치해두신 상태라면, <b>한 번은 팰 하나하나 적성 목록을 다시 눌러보시는 걸 추천드려요.</b> 예전 자료나 예전 기억으로 배치를 그대로 밀고 가면 비효율이 생길 수 있어서요.</p>
+    <p>표로 보면 더 명확해요.</p>
+    <table class="tbl">
+      <tr><th>팰</th><th>예전</th><th>1.0</th></tr>
+      <tr><td>비올레타</td><td>예전과 다른 일</td><td>목장에서 씨앗 생산</td></tr>
+    </table>
+
+    <h2 class="sub">여러 마리 안 겹쳐도 되는 신규 '작업반장' 개념</h2>
+    <p>이번 1.0에서 개인적으로 제일 반가웠던 건 <b>'작업반장' 개념</b>이에요. 특정 팰을 거점에 배치해두면 <b>같은 작업군에 속한 다른 팰들의 적성이 전부 +1씩 오르는 효과</b>가 생기는 건데요. 여기서 중요한 게, 이 작업반장을 여러 마리 겹쳐 배치해도 <b>+1로 고정</b>이라는 점이에요. 스택(농축)이 안 되니까 딱 한 마리만 데려다 놓으면 끝이라 자리 낭비를 안 해도 돼요.</p>
+    <p>지금까지 확인된 작업반장 조합을 표로 정리해봤어요.</p>
+
+    <table class="tbl">
+      <tr><th>작업군</th><th>작업반장 팰</th></tr>
+      <tr><td>수작업</td><td>핑토</td></tr>
+      <tr><td>파종</td><td>플로리나</td></tr>
+      <tr><td>채굴</td><td>누름북</td></tr>
+      <tr><td>발전</td><td>짜리링</td></tr>
+      <tr><td>운반</td><td>움포</td></tr>
+      <tr><td>벌목</td><td>산령사슴</td></tr>
+    </table>
+
+    <p>제작 거점이나 채굴 거점처럼 <b>한 작업에 특화된 거점</b>을 굴리고 계시다면 특히 효과가 커요. 예를 들어 채굴 전용 거점이면 누름북 한 마리만 배치해도 나머지 채굴 담당 팰들 적성이 전부 한 칸씩 오르는 거니까요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 작업반장 팰 배치·적성 +1 효과가 보이는 거점 UI 화면</span></div>
+    <div class="shoot">📸 공식 자료 참고 — <a href="https://www.gameple.co.kr/news/articleView.html?idxno=216055" target="_blank">게임플 작업반장 팰 총정리 기사</a> 스크린샷이나 <a href="https://www.xmodhub.com/info/ko/blog/palworld-1-0-patch-notes-breakdown/" target="_blank">xmodhub 1.0 패치노트 정리</a> 이미지를 받아 재업로드하면 좋아요.</div>
+    <p class="cap">적성 옆에 붙는 +1 표시, 직접 보면 은근 뿌듯하더라고요.</p>
+
+    <h2 class="sub">거점 관리 콘솔로 이제 랜덤 배정 걱정 끝</h2>
+    <p>앞서 해보기 시절 거점 운영에서 은근 스트레스였던 게, <b>팰들이 자기 적성 기준으로 알아서(사실상 랜덤에 가깝게) 일감을 골라잡는 것</b>이었죠. 최고 채광 적성 팰이 정작 벌목을 하고 있고, 벌목 담당이 채굴하고 있는 그런 비효율이 흔했잖아요.</p>
+    <p>1.0에는 <b>'거점 관리 콘솔'이라는 신규 아이템</b>이 생겨서 <b>특정 작업을 특정 팰에게 직접 지정</b>해줄 수 있게 됐어요. 랜덤성을 완전히 배제할 수 있다는 뜻이라, 거점 운영 효율을 사람이 직접 통제하고 싶으셨던 분들한텐 이게 가장 체감되는 변화일 거예요.</p>
+    <p>표로 보니 한눈에 들어오네요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>앞서 해보기</th><th>1.0</th></tr>
+      <tr><td>작업 배정</td><td>팰이 알아서(랜덤성)</td><td>거점 관리 콘솔로 직접 지정</td></tr>
+    </table>
+
+    <h2 class="sub">팰 AI도 통째로 다시 짰대요</h2>
+    <p>거점 팰 AI도 전면 재작성됐다던데요. 예전엔 <b>덩치 큰 팰이 좁은 출입구에 끼어서 못 움직이는</b> 상황이 흔했는데 이 부분이 개선됐고, <b>충돌 감지</b>도 다듬어져서 팰들끼리 서로 걸리적거리며 멈춰서는 일이 줄었어요. 무엇보다 <b>팰이 자기 작업 공간에 제대로 접근</b>하는 것도 손봤네요, 거점을 복잡하게 지어두신 분들이라면 눈에 띄게 체감될 부분이에요.</p>
+    <p>표로 정리하면 이런 느낌이에요.</p>
+    <table class="tbl">
+      <tr><th>개선 항목</th><th>내용</th></tr>
+      <tr><td>끼임 문제</td><td>대형 팰 좁은 출입구 끼임 해결</td></tr>
+      <tr><td>충돌 감지</td><td>개선</td></tr>
+      <tr><td>작업 공간 접근</td><td>정상화</td></tr>
+    </table>
+
+    <h2 class="sub">건축도 손봤어요, 다층 자동화 공장이 이제 진짜 가능해요</h2>
+    <p>건축 시스템도 개편됐어요. <b>지붕이 훨씬 직관적으로 스냅</b>되고 <b>삼각형 토대</b>가 새로 추가돼서, 예전보다 <b>다층 구조의 자동화 공장을 짓는 게 실질적으로 가능</b>해졌어요. 앞서 해보기 시절엔 층을 여러 개 올려 라인 자동화를 짜는 게 까다롭다는 얘기가 많았던 걸 생각하면, 복귀해서 예전에 포기했던 설계를 다시 시도해볼 만한 타이밍이에요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 삼각형 토대로 지은 다층 자동화 공장 예시 화면</span></div>
+    <div class="shoot">📸 공식 자료 참고 — <a href="https://www.xmodhub.com/info/ko/blog/palworld-1-0-patch-notes-breakdown/" target="_blank">xmodhub 1.0 패치노트 정리</a>나 <a href="https://www.gameple.co.kr/news/articleView.html?idxno=216026" target="_blank">게임플 1.0 패치노트 27장 요약</a>에서 건축 관련 컷을 받아 재업로드하면 됩니다.</div>
+    <p class="cap">층을 쌓아 라인을 만드는 재미, 이제 훨씬 덜 까다로워졌어요.</p>
+
+    <h2 class="sub">채굴 자동화·수리까지 한결 편해졌어요</h2>
+    <p>자동화 쪽에선 <b>'상급 광석 채굴기'</b>가 새로 생겼는데, 거점 안에서 수동으로 채굴을 안 나가도 광석을 자동으로 생성해주는 설비예요. 여기에 <b>수리 키트가 아예 삭제</b>되고, 대신 <b>수작업 적성을 가진 팰이 별도 재료 없이 건축물을 자동으로 수리</b>해주는 방식으로 바뀌었어요. 예전엔 수리하려면 꼬박꼬박 수리 키트를 만들어 챙겨야 했는데, 그 번거로움이 통째로 사라진 셈이죠.</p>
+    <p>표로 한 번 더 정리해볼게요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>앞서 해보기</th><th>1.0</th></tr>
+      <tr><td>채굴</td><td>직접 채굴 위주</td><td>상급 광석 채굴기로 자동 생성</td></tr>
+      <tr><td>수리</td><td>수리 키트 필요</td><td>수작업 팰이 재료 없이 자동 수리</td></tr>
+    </table>
+
+    <h2 class="sub">작업 적성 종류, 한눈에 다시 정리해볼게요</h2>
+    <p>이참에 <b>작업 적성 12종</b>도 한 번 쭉 짚고 갈게요. 벌목·채굴·<b>불 피우기</b>·관개·파종·발전·수작업·채집·운반·목장·냉각·제약, 이렇게 12종이에요. '불 피우기'는 이름 그대로 화로 계열 작업이라 다른 말로 헷갈리지 않게 그대로 기억해두시면 됩니다.</p>
+
+    <p>지금까지 짚어드린 변화를 앞서 해보기 때와 비교해서 표로 한 번 더 정리해볼게요.</p>
+
+    <table class="tbl">
+      <tr><th>구분</th><th>앞서 해보기(EA)</th><th>1.0 정식출시</th></tr>
+      <tr><td>작업 적성 최대치</td><td>4~5레벨쯤이 최상급 대접(당시 체감)</td><td><b>최대 10레벨</b>로 확장, 전 팰 수치 재조정</td></tr>
+      <tr><td>등급업 보너스</td><td>등급업이 곧 적성 상승으로 이어지진 않음</td><td>등급업마다 적성 +1, 최고 등급에서 전체 상향</td></tr>
+      <tr><td>작업 배정</td><td>팰이 알아서 고름(사실상 랜덤성 있음)</td><td>거점 관리 콘솔로 직접 지정 가능</td></tr>
+      <tr><td>작업군 보정</td><td>없음</td><td>작업반장 배치로 같은 작업군 +1</td></tr>
+      <tr><td>거점 수리</td><td>수리 키트 필요</td><td>수리 키트 삭제, 수작업 팰이 자동 수리</td></tr>
+      <tr><td>채굴 자동화</td><td>직접 채굴 위주</td><td>상급 광석 채굴기로 자동 생성</td></tr>
+    </table>
+
+    <h2 class="sub">팰월드 1.0 거점운영 정리</h2>
+    <p>표로 정리한 다섯 가지 변화 중에서도, <b>복귀하셨다면 딱 이것부터 하세요</b> — 창고에 재워둔 팰들 등급업 여지부터 훑어보고, 거점 관리 콘솔로 헷갈리던 작업 배정을 직접 잡아주는 거예요. 그 두 가지만 손봐도 복귀 첫날 체감 효율이 확 달라져요.</p>
+    <p>예전에 짜둔 거점 배치도를 그대로 믿지 마시고, 한 번은 처음부터 다시 훑어본다는 마음으로 팰마다 적성을 확인해보시면 좋을 것 같아요. 그것만 해도 복귀 첫날 체감 효율이 꽤 달라질 거예요.</p>
+
+    <p><b>✔ 팰월드 같이 보기 좋은 글</b><br>
+    · 1.0 정식출시로 뭐가 달라지는지, 세이브 유지·새 월드 시작 여부는 지난 글에서 이미 정리해뒀어요(같은 게임 기존 글에서 더 자세히 다뤘어요 — 발행 시 링크 연결).</p>
+    <!-- 내부링크: 팰월드 1.0 세이브·새월드/기존유저 핵심 3가지/PC사양 체크리스트 글 post ID 확인 후 연결 -->
+
+    <div class="tags">#팰월드 #팰월드1.0 #팰월드거점운영 #팰월드작업적성 #팰월드팰배치 #팰월드작업반장 #Palworld #팰월드복귀</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>, 내부링크는 기존 팰월드 글 post ID를 확인해 연결하세요.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 5분):</b> 📷 <b>사진 3곳</b> 업로드 · 🔗 내부링크 1곳 post ID 연결. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 팰월드 1.0 정식출시 거점운영 개편, 복귀 유저가 다시 배워야 할 것들 (작업적성·팰배치)</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>1.0 정식 출시된 지도 벌써 일주일 넘게 지났는데, 앞서 해보기 시절 한창 달리다가 손 놓았던 분들 중엔 이제서야 다시 켜보려는 분들 많으실 거예요. 근데 막상 접속해서 거점 팰 배치판을 열어보면 뭔가 낯설죠 — 분명 그때 그 게임인데, 손에 익었던 거점 운영 방식이 은근 많이 달라져 있거든요.</p>
+      <p>세이브가 유지되는지, 새 월드로 시작해야 하는지 같은 얘기는 지난 글에서 이미 정리해뒀으니 오늘은 그쪽 말고, 실제로 거점 운영 실무에서 뭐가 어떻게 바뀌었는지만 콕 집어서 풀어볼게요. 작업 적성부터 팰 배치, 자동화까지 복귀하면 다시 배워야 할 것들이에요.</p>
+      <p>📷 〔사진 자리 1〕 팰월드 1.0 거점 관리 화면 대표 컷 — 네이버에서 직접 업로드<br>└ 캡션 추천: "거점 배치판을 열어보면 예전 감각이랑 뭔가 다르다는 걸 바로 느끼실 거예요."</p>
+      <h3>작업 적성, 왜 갑자기 10레벨까지 늘었대요?</h3>
+      <p>가장 먼저 체감되는 건 작업 적성 시스템이에요. 공식 패치노트를 정리한 기사에 따르면 1.0에서 작업 적성이 최대 10레벨까지 확장됐고, 여기에 맞춰 모든 팰의 작업 적성 수치가 통째로 재조정됐어요.</p>
+      <p>앞서 해보기 후반엔 4~5레벨쯤이면 거점 관리 종결급 대접을 받던 걸로 기억하는데요, 공식적으로 못 박힌 상한이 있던 건 아니라 대략 그쯤이 최상급이었다 정도로 봐주시면 돼요. 이제는 그 위로 두 배 가까운 구간이 새로 생긴 셈이라 예전에 짜둔 '이 정도면 만렙'이라는 감각 자체를 한 번 리셋해야 한다는 얘기예요.</p>
+      <p>표로 짧게 정리해볼게요.</p>
+      <table>
+        <tr><th>구분</th><th>앞서 해보기</th><th>1.0</th></tr>
+        <tr><td class="l">적성 최상급 체감</td><td>4~5레벨쯤</td><td>최대 10레벨</td></tr>
+      </table>
+      <h3>등급 올릴 때마다 적성이 하나씩 오른다는 게 무슨 말이냐면</h3>
+      <p>1.0에서는 팰 등급을 올릴 때마다 작업 적성 하나가 같이 오르는 구조로 바뀌었어요. 그리고 최고 등급에 도달하면 모든 적성이 한꺼번에 상향되거든요. 예전처럼 "적성 좋은 팰을 새로 잡아온다"보다 기존 팰을 등급업 시켜서 키우는 쪽이 훨씬 남는 장사가 된 거예요.</p>
+      <p>그러니까 복귀하시면 창고에 재워두셨던 애매한 팰들도 등급업 여지가 있는지 한 번씩 다시 훑어보시는 게 좋아요. 예전 기준으로 '애매해서 방생'했던 팰이 지금은 등급업만 시키면 쓸만해질 수도 있거든요.</p>
+      <p>표로 정리하면 이렇게 되네요.</p>
+      <table>
+        <tr><th>상황</th><th>예전 방식</th><th>1.0 방식</th></tr>
+        <tr><td class="l">적성 올리려면</td><td>적성 좋은 팰 새로 포획</td><td>기존 팰 등급업</td></tr>
+        <tr><td class="l">최고 등급 시</td><td>-</td><td>모든 적성 상향</td></tr>
+      </table>
+      <h3>내가 알던 그 팰이 하는 일도 달라졌어요</h3>
+      <p>재조정이 수치만 바뀐 게 아니라 일부 팰은 적성 종류 자체가 바뀌었다는 것도 알아두셔야 해요. 대표적으로 비올레타는 목장에 배치했을 때 이제 씨앗을 생산하는 쪽으로 역할이 바뀌었다던데요. 예전 감각으로 "얘는 이 일 하는 애"라고 자동배치 해뒀다가, 막상 가보면 다른 일을 하고 있어서 당황하실 수 있어요.</p>
+      <p>거점에 이미 팰들을 쭉 배치해두신 상태라면, 한 번은 팰 하나하나 적성 목록을 다시 눌러보시는 걸 추천드려요. 예전 자료나 예전 기억으로 배치를 그대로 밀고 가면 비효율이 생길 수 있어서요.</p>
+      <p>표로 보면 더 명확해요.</p>
+      <table>
+        <tr><th>팰</th><th>예전</th><th>1.0</th></tr>
+        <tr><td class="l">비올레타</td><td>예전과 다른 일</td><td>목장에서 씨앗 생산</td></tr>
+      </table>
+      <h3>여러 마리 안 겹쳐도 되는 신규 '작업반장' 개념</h3>
+      <p>이번 1.0에서 개인적으로 제일 반가웠던 건 '작업반장' 개념이에요. 특정 팰을 거점에 배치해두면 같은 작업군에 속한 다른 팰들의 적성이 전부 +1씩 오르는 효과가 생기는 건데요. 여기서 중요한 게, 이 작업반장을 여러 마리 겹쳐 배치해도 +1로 고정이라는 점이에요. 스택(농축)이 안 되니까 딱 한 마리만 데려다 놓으면 끝이라 자리 낭비를 안 해도 돼요.</p>
+      <p>지금까지 확인된 작업반장 조합을 표로 정리해봤어요.</p>
+      <table>
+        <tr><th>작업군</th><th>작업반장 팰</th></tr>
+        <tr><td class="l">수작업</td><td>핑토</td></tr>
+        <tr><td class="l">파종</td><td>플로리나</td></tr>
+        <tr><td class="l">채굴</td><td>누름북</td></tr>
+        <tr><td class="l">발전</td><td>짜리링</td></tr>
+        <tr><td class="l">운반</td><td>움포</td></tr>
+        <tr><td class="l">벌목</td><td>산령사슴</td></tr>
+      </table>
+      <p>제작 거점이나 채굴 거점처럼 한 작업에 특화된 거점을 굴리고 계시다면 특히 효과가 커요. 예를 들어 채굴 전용 거점이면 누름북 한 마리만 배치해도 나머지 채굴 담당 팰들 적성이 전부 한 칸씩 오르는 거니까요.</p>
+      <p>📷 〔사진 자리 2〕 작업반장 팰 배치·적성 +1 효과가 보이는 거점 UI 화면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "적성 옆에 붙는 +1 표시, 직접 보면 은근 뿌듯하더라고요."</p>
+      <h3>거점 관리 콘솔로 이제 랜덤 배정 걱정 끝</h3>
+      <p>앞서 해보기 시절 거점 운영에서 은근 스트레스였던 게, 팰들이 자기 적성 기준으로 알아서(사실상 랜덤에 가깝게) 일감을 골라잡는 것이었죠. 최고 채광 적성 팰이 정작 벌목을 하고 있고, 벌목 담당이 채굴하고 있는 그런 비효율이 흔했잖아요.</p>
+      <p>1.0에는 '거점 관리 콘솔'이라는 신규 아이템이 생겨서 특정 작업을 특정 팰에게 직접 지정해줄 수 있게 됐어요. 랜덤성을 완전히 배제할 수 있다는 뜻이라, 거점 운영 효율을 사람이 직접 통제하고 싶으셨던 분들한텐 이게 가장 체감되는 변화일 거예요.</p>
+      <p>표로 보니 한눈에 들어오네요.</p>
+      <table>
+        <tr><th>구분</th><th>앞서 해보기</th><th>1.0</th></tr>
+        <tr><td class="l">작업 배정</td><td>팰이 알아서(랜덤성)</td><td>거점 관리 콘솔로 직접 지정</td></tr>
+      </table>
+      <h3>팰 AI도 통째로 다시 짰대요</h3>
+      <p>거점 팰 AI도 전면 재작성됐다던데요. 예전엔 덩치 큰 팰이 좁은 출입구에 끼어서 못 움직이는 상황이 흔했는데 이 부분이 개선됐고, 충돌 감지도 다듬어져서 팰들끼리 서로 걸리적거리며 멈춰서는 일이 줄었어요. 무엇보다 팰이 자기 작업 공간에 제대로 접근하는 것도 손봤네요, 거점을 복잡하게 지어두신 분들이라면 눈에 띄게 체감될 부분이에요.</p>
+      <p>표로 정리하면 이런 느낌이에요.</p>
+      <table>
+        <tr><th>개선 항목</th><th>내용</th></tr>
+        <tr><td class="l">끼임 문제</td><td>대형 팰 좁은 출입구 끼임 해결</td></tr>
+        <tr><td class="l">충돌 감지</td><td>개선</td></tr>
+        <tr><td class="l">작업 공간 접근</td><td>정상화</td></tr>
+      </table>
+      <h3>건축도 손봤어요, 다층 자동화 공장이 이제 진짜 가능해요</h3>
+      <p>건축 시스템도 개편됐어요. 지붕이 훨씬 직관적으로 스냅되고 삼각형 토대가 새로 추가돼서, 예전보다 다층 구조의 자동화 공장을 짓는 게 실질적으로 가능해졌어요. 앞서 해보기 시절엔 층을 여러 개 올려 라인 자동화를 짜는 게 까다롭다는 얘기가 많았던 걸 생각하면, 복귀해서 예전에 포기했던 설계를 다시 시도해볼 만한 타이밍이에요.</p>
+      <p>📷 〔사진 자리 3〕 삼각형 토대로 지은 다층 자동화 공장 예시 화면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "층을 쌓아 라인을 만드는 재미, 이제 훨씬 덜 까다로워졌어요."</p>
+      <h3>채굴 자동화·수리까지 한결 편해졌어요</h3>
+      <p>자동화 쪽에선 '상급 광석 채굴기'가 새로 생겼는데, 거점 안에서 수동으로 채굴을 안 나가도 광석을 자동으로 생성해주는 설비예요. 여기에 수리 키트가 아예 삭제되고, 대신 수작업 적성을 가진 팰이 별도 재료 없이 건축물을 자동으로 수리해주는 방식으로 바뀌었어요. 예전엔 수리하려면 꼬박꼬박 수리 키트를 만들어 챙겨야 했는데, 그 번거로움이 통째로 사라진 셈이죠.</p>
+      <p>표로 한 번 더 정리해볼게요.</p>
+      <table>
+        <tr><th>구분</th><th>앞서 해보기</th><th>1.0</th></tr>
+        <tr><td class="l">채굴</td><td>직접 채굴 위주</td><td>상급 광석 채굴기로 자동 생성</td></tr>
+        <tr><td class="l">수리</td><td>수리 키트 필요</td><td>수작업 팰이 재료 없이 자동 수리</td></tr>
+      </table>
+      <h3>작업 적성 종류, 한눈에 다시 정리해볼게요</h3>
+      <p>이참에 작업 적성 12종도 한 번 쭉 짚고 갈게요. 벌목·채굴·불 피우기·관개·파종·발전·수작업·채집·운반·목장·냉각·제약, 이렇게 12종이에요. '불 피우기'는 이름 그대로 화로 계열 작업이라 다른 말로 헷갈리지 않게 그대로 기억해두시면 됩니다.</p>
+      <p>지금까지 짚어드린 변화를 앞서 해보기 때와 비교해서 표로 한 번 더 정리해볼게요.</p>
+      <table>
+        <tr><th>구분</th><th>앞서 해보기(EA)</th><th>1.0 정식출시</th></tr>
+        <tr><td class="l">작업 적성 최대치</td><td>4~5레벨쯤이 최상급 대접(당시 체감)</td><td>최대 10레벨로 확장, 전 팰 수치 재조정</td></tr>
+        <tr><td class="l">등급업 보너스</td><td>등급업이 곧 적성 상승으로 이어지진 않음</td><td>등급업마다 적성 +1, 최고 등급에서 전체 상향</td></tr>
+        <tr><td class="l">작업 배정</td><td>팰이 알아서 고름(사실상 랜덤성 있음)</td><td>거점 관리 콘솔로 직접 지정 가능</td></tr>
+        <tr><td class="l">작업군 보정</td><td>없음</td><td>작업반장 배치로 같은 작업군 +1</td></tr>
+        <tr><td class="l">거점 수리</td><td>수리 키트 필요</td><td>수리 키트 삭제, 수작업 팰이 자동 수리</td></tr>
+        <tr><td class="l">채굴 자동화</td><td>직접 채굴 위주</td><td>상급 광석 채굴기로 자동 생성</td></tr>
+      </table>
+      <h3>팰월드 1.0 거점운영 정리</h3>
+      <p>표로 정리한 다섯 가지 변화 중에서도, 복귀하셨다면 딱 이것부터 하세요 — 창고에 재워둔 팰들 등급업 여지부터 훑어보고, 거점 관리 콘솔로 헷갈리던 작업 배정을 직접 잡아주는 거예요. 그 두 가지만 손봐도 복귀 첫날 체감 효율이 확 달라져요.</p>
+      <p>예전에 짜둔 거점 배치도를 그대로 믿지 마시고, 한 번은 처음부터 다시 훑어본다는 마음으로 팰마다 적성을 확인해보시면 좋을 것 같아요. 그것만 해도 복귀 첫날 체감 효율이 꽤 달라질 거예요.</p>
+      <p><b>✔ 팰월드 같이 보기 좋은 글</b><br>
+      · 1.0 정식출시로 뭐가 달라지는지, 세이브 유지·새 월드 시작 여부는 지난 글에서 이미 정리해뒀어요(<span class="ph">〔같은 게임 기존 글 링크 연결〕</span>).</p>
+      <p class="tags-line">#팰월드 #팰월드1.0 #팰월드거점운영 #팰월드작업적성 #팰월드팰배치 #팰월드작업반장 #Palworld #팰월드복귀</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
