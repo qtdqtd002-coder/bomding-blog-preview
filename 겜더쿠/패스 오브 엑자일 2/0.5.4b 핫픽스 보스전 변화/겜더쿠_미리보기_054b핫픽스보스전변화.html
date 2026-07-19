@@ -1,0 +1,161 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>POE2 0.5.4b 핫픽스 — 토르굴·타스굴 보스전 정리</title>
+<style>
+  :root{--ink:#23232b;--sub:#8b8b96;--line:#e8e8ee;--accent:#7048E8;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f3f1f9;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--accent);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--accent);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:var(--accent);}
+  .notice{background:#f6f4fd;border:1px solid #e3dcfb;border-radius:6px;padding:12px 14px;font-size:12.5px;color:#7a72a0;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .h2{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid #0E8A6D;}
+  .kicker{display:inline-block;background:#0E8A6D;color:#fff;font-size:12px;font-weight:800;letter-spacing:.04em;border-radius:5px;padding:3px 10px;}
+  .dateline{font-size:12.5px;color:var(--sub);margin-left:6px;}
+  .lead{font-size:17px;line-height:1.9;color:#2b2b30;font-weight:600;padding:2px 0 2px 14px;border-left:3px solid #0E8A6D;word-break:keep-all;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .factbox{border:1px solid #d3ede4;border-radius:10px;overflow:hidden;margin:0 0 26px;}
+  .factbox .fhead{background:#f0faf7;color:#0a6b54;padding:9px 14px;font-size:12.5px;font-weight:800;border-bottom:1px solid #d3ede4;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;word-break:keep-all;}
+  .tbl th{background:#0a6b54;color:#fff;font-weight:700;}
+  .quote{text-align:center;font-size:18px;font-weight:800;color:#23232b;line-height:1.6;margin:26px 0;padding:0 10px;}
+  .callout{background:#fbfaff;border:1px solid #ece7fb;border-left:4px solid #7048E8;border-radius:8px;padding:13px 16px;margin:0 0 22px;font-size:15px;line-height:1.85;color:#4a4458;}
+  .warn{background:#faf6ec;border:1px solid #eee0c2;border-left:4px solid #9A6A00;border-radius:8px;padding:13px 16px;margin:0 0 22px;font-size:15px;line-height:1.8;color:#6b5316;}
+  .timeline .step{border-left:2px solid #0E8A6D;padding:0 0 16px 16px;margin-left:5px;}
+  .timeline .step.future{border-left:2px solid #d3ede4;}
+  .timeline .d{font-size:12.5px;color:#0E8A6D;font-weight:800;letter-spacing:.04em;}
+  .timeline .step.future .d{color:#8a8a96;}
+  .timeline .t{font-size:15px;color:#2f2f37;line-height:1.7;word-break:keep-all;}
+  .divider{text-align:center;color:#cfc9e6;font-size:13px;letter-spacing:.5em;margin:30px 0;}
+  .tags{margin-top:22px;color:#a59fc0;font-size:13px;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">🎮 blog</span> 겜더쿠 · 게임 덕질 (티스토리 발행용 미리보기)</div>
+  <div class="post">
+    <div class="cat">게임 정보 · 업데이트</div>
+    <h1 class="title">POE2 0.5.4b 핫픽스 — 토르굴·타스굴 보스전 정리</h1>
+    <div class="meta"><span class="author">겜더쿠</span><span>2026.07.19</span><span>· 게임</span></div>
+
+    <p><span class="kicker">업데이트 정리</span><span class="dateline">2026.07.19 · 겜더쿠</span></p>
+
+    <p class="lead">카카오게임즈가 서비스하는 '패스 오브 엑자일 2'(POE2)에 지난 <b>7월 3일 0.5.4b 핫픽스</b>가 적용됐는데요. 그동안 스턴·동결 면역 구간 탓에 딜 타이밍을 못 잡던 '모독자 토르굴'과 '빛을 삼키는 자 타스굴' 보스전이 손질됐고, 지도·탐험 버그 수정에 게임스컴 2026 참가 소식까지 함께 나왔습니다.</p>
+
+    <!-- 이미지 이유: 기사 headline 보스인 모독자 토르굴을 리드 직후 상단 대표컷으로 배치(G-7 상단 필수 + 토픽 인게임 스샷 1순위 겸용) / 출처: https://pathofexile2.wiki.fextralife.com/Tor+Gul+the+Defiler / 분류: A형(위키 재게시 보스 스크린샷) -->
+    <!-- 게임이미지 면제: h2 5개 중 1장만 확보(공식 이미지 소재 갭 실재) — GGG 공식 포럼(패치노트 원문), poe2wiki.net, game8.co(Tasgul 페이지), 스팀 스토어(지역 차단 확인), 인벤·게임메카 검색까지 확인했으나 추가로 다운로드 가능한 공식 이미지를 못 찾음. Fextralife 위키의 Tor Gul the Defiler 보스 항목은 있으나 Tasgul 개별 페이지는 부재(404) — 표·팩트박스·타임라인으로 h2별 시각 앵커는 별도 충족. -->
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EA%B2%9C%EB%8D%94%EC%BF%A0/%ED%8C%A8%EC%8A%A4%20%EC%98%A4%EB%B8%8C%20%EC%97%91%EC%9E%90%EC%9D%BC%202/0.5.4b%20%ED%95%AB%ED%94%BD%EC%8A%A4%20%EB%B3%B4%EC%8A%A4%EC%A0%84%20%EB%B3%80%ED%99%94/img/torgul.png" alt="패스 오브 엑자일 2 모독자 토르굴 보스전 스크린샷" width="300" height="169" style="height:auto;"></div>
+    <p class="cap">스턴·동결 면역 구간이 대부분 사라진 '모독자 토르굴'입니다.</p>
+    <p class="src">이미지: <a href="https://pathofexile2.wiki.fextralife.com/Tor+Gul+the+Defiler" style="color:inherit;">Path of Exile 2 Wiki (Fextralife)</a></p>
+
+    <div class="factbox">
+      <div class="fhead">한눈에 팩트</div>
+      <table class="tbl" style="margin:0;">
+        <tr><td style="font-weight:700;color:#0a6b54;white-space:nowrap;">무엇</td><td>0.5.4b 핫픽스 — 보스전 변경 + 지도·탐험 버그 수정</td></tr>
+        <tr><td style="font-weight:700;color:#0a6b54;white-space:nowrap;">언제</td><td>2026.07.03 (GGG 공식 발표 기준, 정확한 시각은 별도 공지 없음)</td></tr>
+        <tr><td style="font-weight:700;color:#0a6b54;white-space:nowrap;">보스</td><td>모독자 토르굴(Tor Gul, the Defiler) · 빛을 삼키는 자 타스굴(Tasgul, Swallower of Light)</td></tr>
+        <tr><td style="font-weight:700;color:#0a6b54;white-space:nowrap;">버전</td><td>0.5.0 '고대의 귀환' 시즌 내 0.5.4b</td></tr>
+      </table>
+    </div>
+
+    <div class="h2">모독자 토르굴·빛을 삼키는 자 타스굴, 보스전이 달라졌다</div>
+    <p>0.5.4b의 핵심은 두 보스전 수정입니다. <b>'모독자 토르굴'(Tor Gul, the Defiler)</b>은 모든 버전에서 스턴·동결(프리즈) 면역 구간이 대부분 제거됐는데요. 그동안 이 보스는 면역 구간 때문에 CC기 위주 빌드가 딜 타이밍을 아예 못 잡는 경우가 많았거든요. 이제 그 구간에 안 막혀도 되니, CC와 궁합이 좋은 빌드라면 체감이 꽤 클 겁니다. <b>'빛을 삼키는 자 타스굴'(Tasgul, Swallower of Light)</b>은 소환수(미니언) 페이즈가 개선됐습니다.</p>
+
+    <table class="tbl">
+      <tr><th>보스</th><th>핵심 변경</th></tr>
+      <tr><td>모독자 토르굴</td><td>전 버전 스턴·동결 면역 구간 대부분 제거</td></tr>
+      <tr><td>빛을 삼키는 자 타스굴</td><td>소환수(미니언) 페이즈 개선</td></tr>
+    </table>
+
+    <p class="quote">"CC기 위주 빌드라면, 토르굴전 체감 난이도가 눈에 띄게 낮아졌을 겁니다."</p>
+
+    <div class="callout"><b style="color:#7048E8;">🔗 이어서 보면 좋은 글</b><br>토르굴전 진입 장벽이 낮아진 만큼, CC와 궁합 좋은 빌드로 도전해보기 딱 좋은 타이밍인데요. 리그스타터로 자주 추천되는 빌드는 이 글에서 따로 다뤘습니다 → <a href="https://quetermoney.tistory.com/26" style="color:#7048E8;">POE2 트위스터 헌트리스 빌드 (리그스타터 1순위)</a></div>
+
+    <p class="divider">• • •</p>
+
+    <div class="h2">그 외 핀나클 보스 5종도 함께 손봤다</div>
+    <p>토르굴·타스굴만큼 크진 않지만, 다른 핀나클급 보스 5종도 이 패치로 다듬어졌습니다. 대부분 편의성·난이도 조정 수준이라 가볍게 훑고 넘어가면 되는데요, 그래도 하나씩 짚어보면 이렇습니다.</p>
+
+    <p><b>재의 중재자</b>(Arbiter of Ash)는 화염 씨앗에 접근할 수 있는 시간이 늘어나 페이즈 압박이 조금 줄었고요, <b>쿨레막의 그릇</b>(Vessel of Kulemak)은 순간이동 강타 버그가 잡히고 최종 단계 폭발체 생성 간격이 넓어져 근접 빌드가 숨 돌릴 틈이 생겼습니다. <b>신성의 중재자</b>(Arbiter of Divinity)는 복제체 피격판정이 넓어지고 회피 난이도가 조정됐고, <b>요람의 파수꾼 피아</b>(Phya, Sentinel of the Cradle)는 공격 예고(텔레그래프)가 더 명확해졌습니다. <b>에쉬였던 그것</b>(It That Was Esh)은 페이즈가 가끔 안 넘어가던 버그가 수정됐습니다.</p>
+
+    <div class="h2">지도·아틀라스·탐험 버그도 정리됐다</div>
+    <p>엔드게임을 자주 도는 분들이라면 더 반가울 수정도 함께 들어갔습니다. 특히 그랜드 대탐험 스폰 순서 문제는 아틀라스를 돌리다 보면 꽤 자주 걸리던 불편이었는데요, 우선순위가 정리되면서 동선이 꼬이는 일이 줄었을 것으로 보입니다.</p>
+
+    <table class="tbl">
+      <tr><th>항목</th><th>수정 내용</th></tr>
+      <tr><td>대탐험 스폰 순서</td><td>보스 탐험이 대탐험보다 일반 지도 우선 대체하도록 수정</td></tr>
+      <tr><td>잔류물 컨트롤러</td><td>리롤 문제 수정</td></tr>
+      <tr><td>지하 지역 루팅</td><td>리다이렉트 문제 수정</td></tr>
+      <tr><td>특정 탐험 구역</td><td>무한 시도 방지 처리</td></tr>
+    </table>
+
+    <p>지도·아틀라스 진행 자체가 처음이라 낯선 분들은, 경로석부터 요새·핀나클 보스까지 큰 그림을 따로 짚어둔 글을 먼저 보고 오시는 걸 추천합니다.</p>
+
+    <div class="callout"><b style="color:#7048E8;">🔗 이어서 보면 좋은 글</b><br>아틀라스 구조와 지도 순환이 처음이라면 이 글부터 → <a href="https://quetermoney.tistory.com/34" style="color:#7048E8;">POE2 엔드게임 아틀라스·맵핑 입문 (0.5.0 개편)</a></div>
+
+    <p class="divider">• • •</p>
+
+    <div class="h2">핫픽스1~3 — 자잘한 버그도 같이 잡혔다</div>
+    <p>0.5.4b 본패치 이후 같은 날 핫픽스가 세 차례 더 나갔습니다. 큰 변경은 아니지만 실제 플레이에 걸리적거리던 버그들이라 챙겨둘 만합니다.</p>
+
+    <p>핫픽스1에서는 <b>험악한 주얼 슬롯</b>(Sinister Jewel Socket)에 장착한 주얼 효과가 적용되지 않던 버그가 잡혔고, 핫픽스2에서는 <b>서약 룬</b>(Oath Rune)이 죽지 않는 무적 몬스터를 만들어내던 버그가 수정됐습니다. 이어진 핫픽스3에서는 액체 베리시움(Liquid Verisium)을 적용한 뒤 잔류물과 다시 상호작용할 수 있도록 조정됐고, 0.5.4b 적용 이후 일부 구역에서 포탈이 안 열리던 버그도 함께 잡혔습니다.</p>
+
+    <div class="h2">게임스컴 2026, 패스 오브 엑자일 2도 참가한다</div>
+    <p>패치 소식과 별개로, 카카오게임즈 공식 포럼에는 GGG가 <b>게임스컴 2026</b>(독일 쾰른, 8월 26일~30일) 참가를 예고하는 공지가 올라왔습니다. 현장 전용 데모 체험, 한정판 굿즈 제공, 기념 사진 촬영 같은 오프라인 이벤트가 예정돼 있다고 밝혔는데요. 다만 구체적인 부스 위치나 시간표는 아직 나오지 않았습니다.</p>
+
+    <div class="timeline">
+      <div class="step"><div class="d">07.03</div><div class="t">게임스컴 2026 참가 공지</div></div>
+      <div class="step future"><div class="d">08.26~08.30</div><div class="t">게임스컴 2026 현장 진행(독일 쾰른) — 세부 일정 미공개</div></div>
+    </div>
+
+    <div class="warn"><b style="color:#9A6A00;">⚠️ 주의</b> &nbsp;세부 일정은 아직 공개되지 않았고, 행사가 가까워지면 추가로 공유하겠다고만 안내됐습니다. 부스 위치·시간표가 뜨는 대로 갱신하겠습니다.</div>
+
+    <p>정리하면 0.5.4b는 토르굴·타스굴 보스전 손질이 메인이고, 지도·탐험 버그 수정과 핫픽스 세 차례가 뒤따랐습니다. 다음 큰 소식은 8월 말 게임스컴 무대에서 나올 가능성이 커 보이는데요, 부스 세부 일정이 공개되면 이어서 다뤄보겠습니다.</p>
+
+    <div class="tags">#패스오브엑자일2 #POE2 #POE2업데이트 #모독자토르굴 #빛을삼키는자타스굴 #핵앤슬래시 #게임스컴2026</div>
+  </div>
+</div>
+<!-- ▶ 티스토리 복사 버튼 = 정본 스니펫(게임/주제 무관 그대로 붙인다). ★body()/pick() JS 로직은 절대 수정 금지 — verify-copy 게이트가 검증한다. -->
+<div id="tcopy" style="position:fixed;top:14px;right:14px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;max-width:92vw;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;">
+  <button id="tcopyBtn" type="button" style="background:#7048E8;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(112,72,232,.35);">📋 티스토리용 HTML 복사</button>
+  <div id="tcopyPanel" style="display:none;width:min(92vw,580px);background:#fff;border:1px solid #d9d2f5;border-radius:10px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);">
+    <div style="font-size:12px;color:#7a72a0;margin-bottom:8px;line-height:1.6;">티스토리 글쓰기 → <b>HTML 모드</b>로 바꾼 뒤 아래 본문을 붙여넣기. 제목·태그는 각 칸에 따로 입력하세요.</div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0;"><b style="color:#7048E8;">제목</b> <span id="tcopyTitle" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0 8px;"><b style="color:#7048E8;">태그</b> <span id="tcopyTags" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <textarea id="tcopyArea" readonly style="width:100%;height:180px;font-size:11.5px;line-height:1.5;border:1px solid #e3dcfb;border-radius:8px;padding:9px;background:#faf9ff;box-sizing:border-box;"></textarea>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('tcopyBtn'),panel=document.getElementById('tcopyPanel'),
+      area=document.getElementById('tcopyArea'),tEl=document.getElementById('tcopyTitle'),gEl=document.getElementById('tcopyTags');
+  function pick(html,label){ var m=html.match(new RegExp('<!--\\s*'+label+':([\\s\\S]*?)-->')); return m?m[1].trim():''; }
+  function body(html){
+    var a=html.indexOf('↓↓↓ 여기부터'); if(a>=0){a=html.indexOf('-->',a); a=a>=0?a+3:0;} else a=0;
+    var z=html.indexOf('↑↑↑ 여기까지'); var end=z>=0?html.lastIndexOf('<!--',z):html.length; if(end<0)end=html.length;
+    return html.slice(a,end).replace(/<!--[\s\S]*?-->/g,'').replace(/\n{3,}/g,'\n\n').trim();
+  }
+  btn.addEventListener('click',function(){
+    var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
+    btn.textContent='불러오는 중…';
+    fetch(url).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
+      var b=body(t); area.value=b; tEl.textContent=pick(t,'제목'); gEl.textContent=pick(t,'태그');
+      panel.style.display='block'; area.focus(); area.select();
+      function ok(){ btn.textContent='✅ 본문 복사됨! HTML 모드에 붙여넣기'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(b).then(ok,function(){try{document.execCommand("copy");}catch(e){} ok();}); }
+      else { try{document.execCommand("copy");}catch(e){} ok(); }
+    }).catch(function(){ btn.textContent='⚠ 복사 실패 — 같은 폴더 _티스토리_ 파일 확인'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); });
+  });
+})();
+</script>
+</body></html>
