@@ -1,0 +1,345 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 김복리 진단 &amp; 오늘 쓸 글 · 2026-07-20</title>
+<style>
+ :root{
+   --bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--inset2:#f2f4f7;
+   --ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--line2:#d8dbe2;
+   --brand:#5a4fe6;--warm:#ff6f52;--warm-weak:#ffeee9;
+   --ac:#c8912a;--ac-d:#9a6d12;--ac-weak:#faf1dd;
+   --good:#1f9d6b;--good-weak:#e7f6ef;--warn:#e0890b;--warn-weak:#fbf1de;--bad:#dc2626;--bad-weak:#fdecec;
+   --r-sm:9px;--r:13px;--r-lg:18px;
+   --sh-sm:0 1px 2px rgba(16,24,40,.05);--sh-md:0 6px 18px rgba(154,109,18,.08);
+   --tnum:"tnum" 1;
+ }
+ *{box-sizing:border-box;} html,body{margin:0;}
+ body{background:var(--bg);color:var(--ink);
+   font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+   line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;}
+ .wrap{max-width:840px;margin:0 auto;padding:20px 18px 64px;}
+ .back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;}
+ .back:hover{color:var(--ink);}
+ .num{font-feature-settings:var(--tnum);}
+ h2.sec{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:34px 0 2px;display:flex;align-items:center;gap:9px;}
+ h2.sec .ic{font-size:18px;}
+ h2.sec .tag{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:0;}
+ .sub{color:var(--sub);font-size:12.5px;margin:4px 0 12px;line-height:1.55;}
+ .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:18px 20px;margin-top:12px;}
+ .mast{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+   background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:20px 22px;}
+ .mast .l{flex:1;min-width:240px;}
+ .who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ac-d);
+   background:var(--ac-weak);border-radius:999px;padding:4px 11px;}
+ .who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac);}
+ .mast h1{font-size:clamp(18px,3.4vw,21px);font-weight:800;letter-spacing:-.02em;margin:11px 0 7px;line-height:1.4;text-wrap:balance;}
+ .mast .meta{font-size:12px;color:var(--muted);font-weight:500;} .mast .meta b{color:var(--sub);font-weight:700;}
+ .score{flex:none;text-align:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:108px;background:var(--inset);}
+ .score .sl{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--muted);}
+ .score .sv{font-size:38px;font-weight:800;line-height:1.02;margin-top:3px;font-feature-settings:var(--tnum);} .score .sv small{font-size:15px;color:var(--faint);font-weight:700;}
+ .score .sg{font-size:13px;font-weight:800;margin-top:1px;}
+ .g-a{color:var(--good);} .g-b{color:var(--ac-d);} .g-c{color:var(--warn);}
+ .glance{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden;}
+ .glance .gh{display:flex;align-items:center;gap:8px;padding:14px 20px 12px;border-bottom:1px solid var(--line);}
+ .glance .gh b{font-size:14px;font-weight:800;letter-spacing:-.01em;} .glance .gh .gt{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .lens{display:flex;gap:13px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:flex-start;}
+ .lens:last-of-type{border-bottom:none;}
+ .lens .li{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--inset2);}
+ .lens .lc{flex:1;min-width:0;}
+ .lens .lk{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
+ .lens .lx{font-size:13.5px;font-weight:600;line-height:1.5;margin-top:2px;color:var(--ink);}
+ .lens .lx b{font-weight:800;color:var(--ac-d);}
+ .lens .lm{flex:none;text-align:right;min-width:74px;}
+ .lens .lmv{font-size:19px;font-weight:800;font-feature-settings:var(--tnum);line-height:1.1;} .lens .lmv small{font-size:11px;color:var(--faint);font-weight:700;}
+ .lens .lml{font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+ @media(max-width:540px){.lens .lm{display:none;}}
+ .todo{background:var(--inset);padding:14px 20px;}
+ .todo .th{font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:.02em;margin-bottom:9px;}
+ .trow{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line2);align-items:flex-start;} .trow:first-of-type{border-top:none;}
+ .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:2px 8px;margin-top:1px;font-feature-settings:var(--tnum);}
+ .pp.p2{background:#dbb264;} .pp.p3{background:#ecd6a6;}
+ .tc{font-size:13px;line-height:1.5;} .tc b{font-weight:800;} .tc .tw{color:var(--muted);}
+ .kind{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+ .k-write{background:var(--ac-weak);color:var(--ac-d);} .k-seo{background:#e6ebff;color:#3b43b8;} .k-keep{background:var(--warn-weak);color:#9a6207;}
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;} @media(max-width:560px){.kgrid{grid-template-columns:repeat(2,1fr);}}
+ .k{background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 13px;}
+ .k .kv{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-feature-settings:var(--tnum);} .k .kv small{font-size:11px;font-weight:700;color:var(--faint);}
+ .k .kl{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:600;} .k .kd{font-size:10px;font-weight:800;margin-top:4px;}
+ .up{color:var(--good);} .down{color:var(--bad);} .flat{color:var(--warn);}
+ .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;} @media(max-width:600px){.charts{grid-template-columns:1fr;}}
+ .ch h5{margin:0 0 9px;font-size:11.5px;font-weight:800;color:var(--sub);}
+ .bars{display:flex;flex-direction:column;gap:7px;}
+ .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:74px;font-size:10.5px;font-weight:700;color:var(--sub);}
+ .bar .bt{flex:1;height:11px;background:var(--inset2);border-radius:6px;overflow:hidden;}
+ .bar .bt i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--ac-weak),var(--ac));}
+ .bar .bv{flex:none;width:52px;text-align:right;font-size:10.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .bar.hi .bt i{background:linear-gradient(90deg,var(--ac),var(--ac-d));}
+ .bar.lo .bt i{background:linear-gradient(90deg,#f6c074,var(--warn));} .bar.lo .bl,.bar.lo .bv{color:#9a6207;}
+ .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+ .chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid;}
+ .c-good{background:var(--good-weak);color:#157a52;border-color:#c2e8d6;} .c-warn{background:var(--warn-weak);color:#9a6207;border-color:#f0d9a8;} .c-bad{background:var(--bad-weak);color:#b91c1c;border-color:#f3c2c2;}
+ .note{margin-top:13px;font-size:12px;line-height:1.55;color:var(--sub);background:var(--inset);border-radius:var(--r-sm);padding:11px 13px;} .note b{color:var(--ink);}
+ table{width:100%;border-collapse:collapse;font-size:12px;} th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:center;}
+ thead th{background:transparent;border-bottom:1.5px solid var(--line2);font-weight:800;font-size:10.5px;color:var(--muted);letter-spacing:.02em;}
+ td.gl{text-align:left;font-weight:700;} td.vd{text-align:left;font-size:11.5px;color:var(--sub);line-height:1.45;}
+ .st{font-weight:800;white-space:nowrap;} .st-keep{color:var(--good);} .st-watch{color:var(--warn);} .st-drop{color:var(--bad);}
+ .seoq td{text-align:left;vertical-align:top;} .seoq .stitle{font-weight:700;}
+ .sc{font-weight:800;text-align:center;white-space:nowrap;font-feature-settings:var(--tnum);} .sc-hi{color:var(--good);} .sc-mid{color:var(--warn);} .sc-lo{color:var(--bad);}
+ .pf{font-weight:800;font-size:10px;border-radius:5px;padding:1px 6px;background:var(--ac-weak);color:var(--ac-d);white-space:nowrap;}
+ .swot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;} @media(max-width:540px){.swot{grid-template-columns:1fr;}}
+ .sw{border-radius:var(--r);padding:14px 16px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:13px;font-weight:800;}
+ .sw ul{margin:0;padding-left:17px;font-size:12.5px;line-height:1.6;} .sw li{margin:6px 0;} .sw li b{font-weight:800;} .sw small{color:var(--muted);font-weight:600;}
+ .sw-good{background:var(--good-weak);border-color:#cfeadd;} .sw-good h4{color:#157a52;}
+ .sw-bad{background:#fbf5f5;border-color:#f0d6d6;} .sw-bad h4{color:#b91c1c;}
+ .tabs{margin-top:12px;} .tabs>input{position:absolute;opacity:0;pointer-events:none;}
+ .tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px;}
+ .tablab{font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:var(--r-sm);background:var(--inset2);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s;}
+ .tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px;font-feature-settings:var(--tnum);}
+ .tpanel{display:none;}
+ #t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3],
+ #t4:checked~.tabbar label[for=t4],#t5:checked~.tabbar label[for=t5],#t6:checked~.tabbar label[for=t6]{background:var(--ac);color:#fff;border-color:var(--ac);}
+ #t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt,
+ #t4:checked~.tabbar label[for=t4] .cnt,#t5:checked~.tabbar label[for=t5] .cnt,#t6:checked~.tabbar label[for=t6] .cnt{color:rgba(255,255,255,.75);}
+ #t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3,#t4:checked~#p4,#t5:checked~#p5,#t6:checked~#p6{display:block;}
+ .tabnote{font-size:11.5px;line-height:1.55;color:#9a6207;background:var(--warn-weak);border:1px solid #f0d9a8;border-radius:var(--r-sm);padding:9px 12px;margin-bottom:11px;}
+ .pick{border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;margin-bottom:9px;background:var(--panel);transition:border-color .12s;}
+ .pick:hover{border-color:var(--line2);}
+ .pick-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+ .gtag{font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 7px;}
+ .cat{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:#fbf3e3;color:#9a6d12;}
+ .purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset2);border-radius:5px;padding:2px 7px;}
+ .pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--warm-weak);color:#c2451f;}
+ .pecpm{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;}
+ .pecpm.hi{background:var(--good-weak);color:#157a52;} .pecpm.mid{background:var(--warn-weak);color:#9a6207;} .pecpm.lo{background:var(--bad-weak);color:#b91c1c;}
+ .ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:160px;line-height:1.4;}
+ .pwhy{font-size:12px;line-height:1.5;color:var(--sub);} .pwhy b{color:var(--ink);font-weight:700;} .pwhy a{color:var(--brand);text-decoration:none;border-bottom:1px solid #c7c2f5;}
+ .ixreq h4{margin:0 0 5px;font-size:13px;font-weight:800;color:#9a6207;} .ixreq .ixsub{font-size:11.5px;color:var(--sub);margin-bottom:9px;line-height:1.5;} .ixreq .ixsub b{color:var(--ink);}
+ .verdict{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:20px 22px;}
+ .verdict .lb{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--ac-d);}
+ .verdict h3{margin:8px 0 10px;font-size:15.5px;font-weight:800;letter-spacing:-.01em;line-height:1.45;text-wrap:balance;}
+ .verdict p{margin:0 0 16px;font-size:13px;line-height:1.75;color:var(--sub);} .verdict p b{color:var(--ink);font-weight:700;}
+ .gauge{border-top:1px solid var(--line);padding-top:15px;}
+ .gtop{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap;}
+ .gtop .gv{font-size:30px;font-weight:800;font-feature-settings:var(--tnum);} .gtop .gv small{font-size:14px;color:var(--faint);font-weight:700;}
+ .gtop .gg{font-size:15px;font-weight:800;} .gtop .gn{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .grow{display:flex;align-items:center;gap:10px;margin:8px 0;}
+ .grow .gl{flex:none;width:88px;font-size:11.5px;font-weight:700;color:var(--sub);}
+ .grow .gt{flex:1;height:9px;background:var(--inset2);border-radius:5px;overflow:hidden;} .grow .gt i{display:block;height:100%;border-radius:5px;}
+ .grow .gs{flex:none;width:30px;text-align:right;font-size:11.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .b-hi i{background:linear-gradient(90deg,var(--ac),var(--ac-d));} .b-mid i{background:linear-gradient(90deg,#f6c074,var(--warn));} .b-lo i{background:linear-gradient(90deg,#f08e8e,var(--bad));}
+ .foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center;}
+ @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+ @media(max-width:540px){.wrap{padding:14px 12px 44px;}.score{padding:10px 14px;min-width:92px;}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+
+ <div class="mast">
+   <div class="l">
+     <span class="who">데이터 분석실 · 김복리 편</span>
+     <h1>어제 넣은 수동 색인 요청이 하루 만에 먹혔어요 — <b>구글 등록이 42% → 74%(23/31편)</b>로 뛰었어요. 다만 등록이 곧 방문은 아니라 노출·클릭은 아직 정체고, 남은 8편 중 "중도퇴사자 연말정산"은 구글이 주소조차 모르는 상태예요. 종합지수 74(B).</h1>
+     <div class="meta">발행일 <b>2026-07-20</b> · 대상 <b>김복리</b>(티스토리 bokriking · 생활금융·정책·세금) · 검색 실측창 <b>7/12~7/18</b>(구글 서치콘솔 + 31편 등록상태 개별 조회) · 개설 <b>16일차</b></div>
+   </div>
+   <div class="score"><div class="sl">오늘 지수</div><div class="sv num">74<small>/100</small></div><div class="sg g-b">B</div></div>
+ </div>
+
+ <div class="glance">
+   <div class="gh">🎯 <b>오늘 한눈에</b><span class="gt">데이터 · 트렌드 · 크리에이터 세 시각</span></div>
+   <div class="lens">
+     <div class="li">📊</div>
+     <div class="lc">
+       <div class="lk">데이터 분석가가 보는 것</div>
+       <div class="lx">어제 요청한 10편 중 <b>7편이 당일 크롤·등록</b>됐어요 — 구글 등록률이 <b>42% → 74%</b>로 뛰었어요. 다만 노출은 87건(-17%)이라 <b>등록이 아직 방문으로 이어지진 않은 시차 구간</b>이에요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">74<small>%</small></div><div class="lml">구글 등록(23/31편)</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">📈</div>
+     <div class="lc">
+       <div class="lk">트렌드 분석가가 보는 것</div>
+       <div class="lx">시급한 건 <b>부가가치세 1기 확정신고 마감(7/27, D-7)</b> 하나예요. 나머지는 시급성보다 <b>경쟁이 낮은 주제</b>를 우선했어요 — 신생 도메인은 큰 키워드에서 이길 수 없거든요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">D-7</div><div class="lml">부가세 확정신고</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">🎨</div>
+     <div class="lc">
+       <div class="lk">크리에이터 컨설턴트가 보는 것</div>
+       <div class="lx">최근 5편 평균 <b>83점</b>으로 품질은 이미 좋아요. 특히 <b>"확정 아님"을 밝히는 정직함</b>이 돈 이야기에서 큰 강점이에요. 약점은 <b>내부링크 62</b> — 5편에 실제 링크가 <b>0개</b>였어요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">62<small>점</small></div><div class="lml">내부링크(최약축)</div></div>
+   </div>
+   <div class="todo">
+     <div class="th">🩺 그래서 오늘 할 일 (우선순위 순)</div>
+     <div class="trow"><span class="pp">P1</span><div class="tc"><span class="kind k-keep">유지보수</span><b>남은 미등록 글 색인 요청(중도퇴사자 연말정산 우선)</b> — 어제 성공률이 70%였으니 같은 방법을 이어가면 돼요. 특히 이 글은 구글이 <b>주소 자체를 모르는</b> 최악 상태라 6일째예요. <span class="tw">(→ 색인 요청)</span></div></div>
+     <div class="trow"><span class="pp p2">P2</span><div class="tc"><span class="kind k-seo">SEO</span><b>시리즈 글끼리 실제 링크 걸기</b> — 재산세 글이 둘이나 있는데 서로 링크가 없어요. 본문에서 "관련 글"을 말로만 언급하지 말고 눌러지는 링크로 바꾸세요. <span class="tw">(→ 아래 품질 검수)</span></div></div>
+     <div class="trow"><span class="pp p3">P3</span><div class="tc"><span class="kind k-write">글쓰기</span><b>부동산·주거 칸 채우기(현재 2편으로 최약)</b> — 6개 분야 중 이 칸만 유독 얇아요. 오늘 추천에 3개를 배치했어요. <span class="tw">(→ ⑥부동산·주거)</span></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📊</span>핵심 지표 <span class="tag">— 구글 서치콘솔 실측(7/12~7/18 + 31편 등록상태 개별 조회)</span></h2>
+ <div class="panel">
+   <div class="kgrid">
+     <div class="k"><div class="kv num up">23 / 31</div><div class="kl">구글 등록 편수</div><div class="kd up">어제 13/31(42%) → 74%</div></div>
+     <div class="k"><div class="kv num down">87</div><div class="kl">주간 검색 노출</div><div class="kd down num">-17.1%(105→87)</div></div>
+     <div class="k"><div class="kv num flat">8.68<small>위</small></div><div class="kl">평균 검색순위</div><div class="kd flat">7.87 → 8.68</div></div>
+     <div class="k"><div class="kv num up">2.07 <small>편/일</small></div><div class="kl">발행 페이스</div><div class="kd up">31편/15일(극초기 치고 공격적)</div></div>
+   </div>
+   <div class="charts">
+     <div class="ch"><h5>어제 색인 요청의 효과</h5>
+       <div class="bars">
+         <div class="bar lo"><span class="bl">어제(7/19)</span><span class="bt"><i style="width:42%"></i></span><span class="bv num">42%</span></div>
+         <div class="bar hi"><span class="bl">오늘(7/20)</span><span class="bt"><i style="width:74%"></i></span><span class="bv num">74%</span></div>
+       </div>
+       <div style="font-size:10px;color:var(--faint);margin-top:6px">요청 10편 중 7편이 당일 크롤 완료 — 성공률 70%</div>
+     </div>
+     <div class="ch"><h5>노출이 어디서 나오나(표본 주의)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">해외</span><span class="bt"><i style="width:64%"></i></span><span class="bv num">56</span></div>
+         <div class="bar lo"><span class="bl">한국</span><span class="bt"><i style="width:36%"></i></span><span class="bv num">31</span></div>
+         <div class="bar hi"><span class="bl">데스크톱</span><span class="bt"><i style="width:91%"></i></span><span class="bv num">79</span></div>
+         <div class="bar lo"><span class="bl">모바일</span><span class="bt"><i style="width:9%"></i></span><span class="bv num">8</span></div>
+       </div>
+       <div style="font-size:10px;color:var(--faint);margin-top:6px">한국 노출이 주 31건 = 하루 4~5건이라 클릭률을 논하기엔 표본이 너무 작아요</div>
+     </div>
+   </div>
+   <div class="chips">
+     <span class="chip c-good">색인 요청 효과 입증(42%→74%, 성공률 70%)</span>
+     <span class="chip c-good">발행 페이스 2.07편/일</span>
+     <span class="chip c-good">평균순위 8.68 — 노출되면 1페이지권</span>
+   </div>
+   <div class="chips" style="margin-top:6px">
+     <span class="chip c-warn">노출 -17% · 클릭 0(전환은 아직)</span>
+     <span class="chip c-warn">한국 노출 하루 4~5건(표본 부족)</span>
+     <span class="chip c-bad">미등록 8편 중 1편은 주소 미인지</span>
+   </div>
+   <div class="note">쉽게 말하면 — <b>막혀 있던 게 뚫리기 시작했어요.</b> 어제 손으로 넣은 색인 요청이 하루 만에 7편을 통과시켰거든요. 다만 <b>등록됐다고 바로 방문이 생기진 않아요</b> — 순위가 붙고 노출이 쌓이는 데 시간이 걸려서 이번 주 수치는 아직 정체예요. 그리고 지금 노출의 상당수가 해외·데스크톱이라 <b>클릭률로 잘잘못을 따지기엔 표본이 너무 작아요</b>(한국 기준 하루 4~5건). 지금은 숫자에 일희일비하기보다 <b>등록률을 끝까지 올리는 게</b> 맞는 구간이에요.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔍</span>최근 글 품질 검수 <span class="tag">— 최근 5편을 8가지 기준으로 채점(본문 직접 열람)</span></h2>
+ <div class="panel" style="padding-top:8px">
+   <table class="seoq">
+     <thead><tr><th style="text-align:left">최근 글</th><th style="width:7%">점수</th><th style="width:8%">등록</th><th style="text-align:left">한 줄 평</th></tr></thead>
+     <tbody>
+       <tr><td class="stitle">ISA 비과세 한도 확대안 (7/18)</td><td class="sc sc-hi">86</td><td class="st st-keep">✅ 어제 등록</td><td>국회 자료를 인용하고 <b>"아직 확정 아님"을 분명히 밝힌</b> 게 이 배치 최고. 돈 글에서 가장 중요한 태도예요.</td></tr>
+       <tr><td class="stitle">재산세 대상별 납부기한 총정리 (7/15)</td><td class="sc sc-hi">85</td><td class="st st-keep">✅</td><td>"이틀 뒤인 7월 16일" 같은 날짜 프레이밍이 강점. 다만 관련 글을 <b>말로만 언급</b>하고 링크는 없어요.</td></tr>
+       <tr><td class="stitle">2026 에너지바우처 여름 냉방비 (7/15)</td><td class="sc sc-hi">83</td><td class="st st-keep">✅</td><td>공식 카드뉴스 이미지 활용이 좋아요. <b>"2026년부터 폐지" 표현은 시행 연도 재확인 대기</b> 항목이에요.</td></tr>
+       <tr><td class="stitle">여행자보험 출국 전 가입 필수 (7/19)</td><td class="sc sc-hi">83</td><td class="st st-watch">크롤 대기</td><td>타임라인+표+자주 묻는 질문 구성이 탄탄한데 내부링크가 하나도 없어요.</td></tr>
+       <tr><td class="stitle">국민연금 보험료 상한액 인상 (7/18)</td><td class="sc sc-mid">81</td><td class="st st-keep">✅ 어제 등록</td><td>속보형이라 깊이와 이미지가 상대적으로 얇아요. 데이터 그림 한 장이면 달라져요.</td></tr>
+     </tbody>
+   </table>
+   <div class="charts" style="grid-template-columns:1fr;margin-top:16px">
+     <div class="ch"><h5>🧬 블로그 체질 — 8가지 기준 평균 (최근 5편)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">시의성</span><span class="bt"><i style="width:89%"></i></span><span class="bv num">89</span></div>
+         <div class="bar hi"><span class="bl">구조(표·소제목)</span><span class="bt"><i style="width:89%"></i></span><span class="bv num">89</span></div>
+         <div class="bar hi"><span class="bl">분량·깊이</span><span class="bt"><i style="width:87%"></i></span><span class="bv num">87</span></div>
+         <div class="bar hi"><span class="bl">가독·요약</span><span class="bt"><i style="width:86%"></i></span><span class="bv num">86</span></div>
+         <div class="bar hi"><span class="bl">제목·검색어</span><span class="bt"><i style="width:86%"></i></span><span class="bv num">86</span></div>
+         <div class="bar hi"><span class="bl">검색의도·전문성</span><span class="bt"><i style="width:86%"></i></span><span class="bv num">86</span></div>
+         <div class="bar hi"><span class="bl">이미지</span><span class="bt"><i style="width:82%"></i></span><span class="bv num">82</span></div>
+         <div class="bar lo"><span class="bl">내부링크</span><span class="bt"><i style="width:62%"></i></span><span class="bv num">62</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="note">개설 16일차 블로그로는 <b>대단히 잘 만들고 있어요</b> — 시의성·구조·분량이 모두 86~89점대이고, 특히 <b>확정되지 않은 정책을 "확정 아님"으로 표시하는 습관</b>은 돈 이야기에서 가장 중요한 신뢰 자산이에요. 유일하게 뒤처진 건 <b>내부링크(62)</b>인데, 최근 5편에서 실제로 눌러지는 링크가 <b>0개</b>였어요. 재산세 글이 둘이나 있는데 서로를 안 가리키는 게 대표적이에요 — 여기만 고치면 체류와 크롤 유도가 함께 좋아져요<small>(→P2)</small>.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🧭</span>강점 · 보강 포인트</h2>
+ <div class="swot">
+   <div class="sw sw-good"><h4>잘하고 있는 것</h4><ul>
+     <li><b>정직한 표기</b> — "확정 아님/지자체마다 다름"을 일관되게 밝혀요(돈 글의 핵심 신뢰).</li>
+     <li><b>날짜 감각</b> — "이틀 뒤인 7월 16일"처럼 마감을 체감하게 써요(시의성 89).</li>
+     <li><b>색인 요청 루틴 확립</b> — 어제 요청 성공률 70%로 효과가 데이터로 증명됐어요.</li>
+     <li><b>발행 실행력</b> — 2.07편/일로 초기 자산을 빠르게 쌓고 있어요.</li>
+   </ul></div>
+   <div class="sw sw-bad"><h4>보강하면 좋은 것</h4><ul>
+     <li><b>내부링크 62</b> — 최근 5편 실제 링크 0개 <small>(→P2)</small></li>
+     <li><b>미등록 8편</b> — 특히 1편은 주소 미인지 상태 <small>(→P1)</small></li>
+     <li><b>분야 불균형</b> — 부동산·주거 2편·소득 1편으로 얇아요 <small>(→P3)</small></li>
+     <li><b>발행 속도 &gt; 크롤 예산</b> — 신생 도메인이 감당할 속도를 넘고 있어요</li>
+   </ul></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 추천 <span class="tag">— 6개 분야 × 각 3개(18개) · 경쟁 낮은 순</span></h2>
+ <p class="sub"><b>신생기 원칙</b> — 지금은 "검색량 큰 주제"보다 <b>경쟁이 낮은 주제</b>가 먼저예요. 정부·홈택스·대형 매체가 점령한 큰 키워드(재산세·연말정산·청년도약계좌 단독)는 신생 도메인이 이길 수 없어서, <b>대상·상황·조건을 좁힌 주제</b>로 잡았어요. 각 픽에 <b>경쟁도 배지</b>(🟢낮음/🟡보통/🔴높음)를 달고 낮은 순으로 정렬했어요 — 오늘은 🟢 12개·🟡 6개·🔴 0개예요. <b>돈·세금·보험 글이라 수치·자격·기간은 공식 출처로 확인되는 것만</b> 넣었어요. 각 카드 <b>발행 요청</b> 버튼으로 기획팀에 바로 발주돼요.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3"><input type="radio" name="rec" id="t4"><input type="radio" name="rec" id="t5"><input type="radio" name="rec" id="t6">
+   <div class="tabbar">
+     <label class="tablab" for="t1">① 정부지원금·정책 <span class="cnt">3</span></label>
+     <label class="tablab" for="t2">② 세금·연말정산 <span class="cnt">3</span></label>
+     <label class="tablab" for="t3">③ 재테크·저축 <span class="cnt">3</span></label>
+     <label class="tablab" for="t4">④ 대출·신용 <span class="cnt">3</span></label>
+     <label class="tablab" for="t5">⑤ 보험 <span class="cnt">3</span></label>
+     <label class="tablab" for="t6">⑥ 부동산·주거 <span class="cnt">3</span></label>
+   </div>
+
+   <div class="tpanel" id="p1">
+     <div class="pick"><div class="pick-top"><span class="gtag">정부지원금·정책</span><span class="pf">F</span><span class="cat">정책</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">실업급여 받는 동안 국민연금도 챙기는 법 — 실업크레딧 신청</span></div><div class="pwhy">상위 노출이 공공기관 독점이 아니라 개인 블로그도 보이는 자리예요. 이미 쓴 "출산·군복무 크레딧"과는 <b>별개 제도</b>라 시리즈 확장이 되고요. 핵심 = 보험료의 75%를 지원하고 생애 최대 12개월. <b>★인정소득·부담 비율은 공식 안내 기준으로만</b> 적으세요. <a href="https://www.gov.kr/portal/service/serviceInfo/B55201500004" target="_blank">정부24</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">정부지원금·정책</span><span class="pf">F</span><span class="cat">정책</span><span class="purp">정보·가이드</span><span class="pwhen">상시 신청</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">청년 채용하면 최대 1,200만원 — 사장님을 위한 청년일자리도약장려금</span></div><div class="pwhy">지금까지 김복리 글은 전부 <b>소비자 대상</b>이었는데, 이건 <b>사장님·자영업자 대상</b>이라 경쟁이 거의 없는 새 레인이에요. 신청은 고용24에서 하고, 6개월 이상 고용 유지가 조건이에요. <b>★지원금 상한·기간은 고용노동부 공고 기준으로 확인 후</b> 쓰세요(해마다 바뀌어요). <a href="https://www.moel.go.kr" target="_blank">고용노동부</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">정부지원금·정책</span><span class="pf">F</span><span class="cat">정책</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">K-패스 환급이 안 들어왔을 때 — 어디부터 확인하면 되나</span></div><div class="pwhy">카드사 콘텐츠가 많지만 <b>"안 될 때 해결하는 법"</b> 각도는 개인 블로그도 상위에 보여요. 특히 카드 재발급 후 앱 재등록을 놓쳐 누락되는 사례가 흔해요. 확인 순서(앱 → 고객센터 → 카드사 → 지자체)를 표로 정리하면 좋아요. <a href="https://main.kotsa.or.kr/portal/contents.do?menuCode=01080300" target="_blank">공식</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="pick"><div class="pick-top"><span class="gtag">세금·연말정산</span><span class="pf">F</span><span class="cat">세금</span><span class="purp">정보·가이드</span><span class="pwhen">9월 신청 대비</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">9월 자동차세 연납, 지금 알아두면 얼마 아끼나</span></div><div class="pwhy">9월 신청 기간을 앞두고 미리 찾아보는 수요가 있고, 개인 블로그가 상위에 다수 보이는 저경쟁 주제예요. 이미 쓴 재산세 글과 함께 <b>"지방세 시리즈"</b>로 묶을 수 있어요(P2 내부링크 실천 예시). <b>★할인율은 1월과 9월이 다르고 지자체별 차이가 있으니 위택스 기준으로 확인</b> 후 표에 넣으세요.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">세금·연말정산</span><span class="pf">F</span><span class="cat">세금</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">프리랜서 3.3% 떼인 세금 돌려받기 — 경정청구로 환급받는 절차</span></div><div class="pwhy">5월 신고 기간이 아니어도 <b>경정청구는 상시 가능</b>해서 검색이 끊이지 않는데, 절차형이라 경쟁이 낮아요. 소멸시효는 5년이에요. <b>★개인 상황에 따라 결과가 달라지니 "일반적인 절차" 임을 명시하고 홈택스·세무 상담 안내</b>를 넣으세요(돈 관련 단정 금지).</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">세금·연말정산</span><span class="pf">F</span><span class="cat">세금</span><span class="purp">정보·가이드</span><span class="pwhen">D-7(7/27)</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">부가가치세 1기 확정신고 7월 27일 마감 — 예정고지와 뭐가 다른가</span></div><div class="pwhy"><b>이번 주 유일한 진짜 마감</b>이에요(7/27). 세무·핀테크 콘텐츠가 있어 경쟁은 보통이지만, "예정고지와 확정신고를 헷갈리는" 각도로 좁히면 들어갈 자리가 있어요. <b>★정확한 세액 계산은 사람마다 달라 단정하지 말고 홈택스·세무사 확인 안내</b>를 반드시 넣으세요. <a href="https://www.nts.go.kr" target="_blank">국세청</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <div class="pick"><div class="pick-top"><span class="gtag">재테크·저축</span><span class="pf">F</span><span class="cat">재테크</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">청년도약계좌 중간에 깨면 세금 혜택은 어떻게 되나</span></div><div class="pwhy">"청년도약계좌" 단독은 <b>기관·핀테크가 점령한 큰 키워드</b>라 신생 도메인이 못 이겨요 — 그래서 <b>"중도해지"로 좁혔어요</b>. 특별 해지 사유(퇴직·혼인·출산 등)와 일반 해지의 차이가 핵심이에요. <b>★"○○년 개정으로 바뀌었다"는 표현은 공식 시행 연도를 확인한 뒤에만</b> 쓰세요(김복리 전용 규칙). <a href="https://ylaccount.kinfa.or.kr/main" target="_blank">서민금융진흥원</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">재테크·저축</span><span class="pf">F</span><span class="cat">재테크</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">저축은행 특판 예·적금, 어디서 어떻게 찾나</span></div><div class="pwhy">"어디서 확인하는가"라는 방법형이라 경쟁이 낮고, 이미 쓴 <b>예금자보호 글의 자연스러운 후속</b>이에요. 확인 채널(저축은행중앙회·금감원 비교공시)을 안내하는 게 뼈대예요. <b>★금리는 수시로 바뀌니 특정 상품 금리를 본문에 못 박지 말고 "확인 방법"</b> 중심으로 쓰세요.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">재테크·저축</span><span class="pf">F</span><span class="cat">재테크</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">CMA와 파킹통장, 뭐가 다른가 — 예금자보호 여부부터</span></div><div class="pwhy">이미 쓴 "예적금·파킹통장 차이"의 <b>네 번째 상품 확장</b>이라 중복이 아니에요(CMA는 별개 상품). 핵심 차이는 <b>CMA는 예금자보호 대상이 아니라는 점</b>이에요. <b>★이율은 시점마다 달라지니 "현재 시점 확인 권장"을 병기</b>하세요.</div></div>
+   </div>
+
+   <div class="tpanel" id="p4">
+     <div class="pick"><div class="pick-top"><span class="gtag">대출·신용</span><span class="pf">F</span><span class="cat">대출</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">빚 갚기 벅찰 때 — 개인워크아웃 신청 조건과 개인회생과의 차이</span></div><div class="pwhy">절차형·니치 주제라 경쟁이 낮아요. 핵심은 <b>개인회생(법원)과 개인워크아웃(신용회복위원회)의 역할 구분</b>이에요. <b>★가장 민감한 주제라 반드시 "개인 상황별로 다르니 신용회복위원회 상담을 권한다"는 안내를 넣고, 승인 여부를 단정하지 마세요.</b> 광고성 대부 정보는 절대 넣지 않기. <a href="https://www.ccrs.or.kr" target="_blank">신용회복위원회</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">대출·신용</span><span class="pf">F</span><span class="cat">대출</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">새 차 살 때 강제로 사는 채권, 손해를 줄이는 법</span></div><div class="pwhy">아주 좁은 주제라 경쟁이 거의 없고, 이미 쓴 <b>첫차 자동차보험 글과 "신차 구입 비용" 시리즈</b>로 묶여요. 핵심 교정 포인트 = <b>매입액 전체를 손해로 오해하는 사람이 많은데 실제 손실은 즉시 매도 시 할인분</b>이에요. <b>★매입 기준·할인율은 지자체 고시와 금리에 따라 달라지니 범위로</b> 쓰세요.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">대출·신용</span><span class="pf">F</span><span class="cat">신용</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">카드값 며칠 늦으면 신용점수가 떨어지나 — 회복까지 걸리는 시간</span></div><div class="pwhy">핀테크 앱 콘텐츠와 경쟁하지만 <b>"며칠부터"라는 구체 질문형</b>은 들어갈 자리가 있어요. <b>★연체 반영 기준은 금융사마다 달라 "일반적 관행"으로만 서술하고 단정하지 마세요</b> — 신용평가사 공식 안내를 근거로 인용하세요.</div></div>
+   </div>
+
+   <div class="tpanel" id="p5">
+     <div class="pick"><div class="pick-top"><span class="gtag">보험</span><span class="pf">F</span><span class="cat">보험</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">실손보험 청구, 이제 서류 없이 되나 — 되는 병원 확인하는 법</span></div><div class="pwhy">이미 쓴 세대별 실손 비교글과 달리 <b>청구 절차 자체</b>라 각도가 완전히 달라요. 아직 모르는 사람이 많아 검색이 꾸준하고 경쟁이 낮아요. <b>★참여 병원 범위는 계속 확대되는 중이라 "확인 방법"을 안내하고 특정 병원 목록을 못 박지 마세요.</b> 청구권 소멸시효(3년)도 함께. <a href="https://www.silson24.or.kr/" target="_blank">공식</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">보험</span><span class="pf">F</span><span class="cat">보험</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">실비 자기부담금은 어떻게 계산되나 — 급여·비급여 구조부터</span></div><div class="pwhy">기존 세대별 비교글과 달리 <b>자기부담금 구조 자체</b>를 푸는 글이라 겹치지 않아요. 김복리의 강점(어려운 걸 그림으로 풀기)이 가장 잘 먹히는 주제고요. <b>★부담률은 세대·상품마다 달라서 "내 가입 상품 약관 확인"을 반드시 안내</b>하고, 특정 수치를 일반화하지 마세요.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">보험</span><span class="pf">F</span><span class="cat">보험</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">자동차보험 있는데 운전자보험도 필요한가</span></div><div class="pwhy">이미 쓴 첫차 자동차보험 글의 <b>자연스러운 후속</b>이고 별개 상품 비교라 중복이 아니에요. 핵심은 <b>자동차보험=배상 / 운전자보험=형사합의금·벌금 등</b> 역할 구분이에요. <b>★보험사 마케팅 콘텐츠와 경쟁하는 자리라 "가입 권유"가 아니라 "역할 설명"</b>으로 중립을 지키세요.</div></div>
+   </div>
+
+   <div class="tpanel" id="p6">
+     <div class="tabnote">🏠 <b>이 칸을 오늘 채우는 이유</b> — 6개 분야 중 부동산·주거가 <b>2편</b>으로 가장 얇아요(다른 분야는 5~9편). 8~9월 이사철 검색이 붙기 전에 미리 자산을 쌓아두는 게 좋아요<small>(→P3)</small>.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">부동산·주거</span><span class="pf">F</span><span class="cat">주거</span><span class="purp">정보·가이드</span><span class="pwhen">이사철 대비</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">전세보증금 반환보증, 언제까지 가입해야 하나 — 보증료 계산까지</span></div><div class="pwhy">8~9월 이사철을 앞두고 미리 알아보는 수요가 있어요. <b>가입 기한(계약 기간 절반이 지나기 전)을 놓쳐 못 드는 사례</b>가 많아 실용적이에요. 청년·신혼부부 보증료 지원도 함께. <b>★보증료율·지원 한도는 공사 공식 안내 기준으로만</b> 쓰고 소득 요건은 "조건별 상이"로 표기하세요. <a href="https://www.khug.or.kr" target="_blank">주택도시보증공사</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">부동산·주거</span><span class="pf">F</span><span class="cat">주거</span><span class="purp">정보·가이드</span><span class="pwhen">2026 개편 반영</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">주택연금, 올해 얼마나 늘었나 — 가입 조건과 예상 수령액 보는 법</span></div><div class="pwhy">2026년 개편으로 월지급금과 초기 보증료가 바뀌어 <b>최신 기준 글의 값어치가 큰 시점</b>이에요. <b>★수령액은 나이·주택가격마다 완전히 달라서 구체 금액을 단정하지 말고, 공사의 예상연금 조회 화면으로 안내</b>하세요(YMYL 주의). <a href="https://www.hf.go.kr" target="_blank">한국주택금융공사</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">부동산·주거</span><span class="pf">F</span><span class="cat">주거</span><span class="purp">정보·가이드</span><span class="pwhen">이사철 대비</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">중개수수료 얼마가 맞나 — 매매·전세 구간별 계산법</span></div><div class="pwhy">이사철마다 반복 검색되는 주제인데, <b>계산 예시형</b>은 개인 블로그도 상위에 보여요. <b>★구간별 상한요율은 지자체 조례로 일부 다르니 "관할 지자체 고시 확인"을 명시</b>하고, 상한과 실제 협의 금액이 다를 수 있다는 점도 짚어주세요.</div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔎</span>색인 요청 <span class="tag">— 등록 상태 실측(미등록만 · 시급한 순)</span></h2>
+ <div class="panel ixreq">
+   <h4>남은 미등록 8편 중 오늘 요청할 3건</h4>
+   <div class="ixsub">색인 요청은 API로 안 되고 <b>서치콘솔 화면에서 직접</b> 눌러야 해요(하루 약 10건). 어제 요청분의 성공률이 <b>70%</b>였으니 같은 방식으로 이어가면 돼요. ★조작 팁: 화면 배율이 바뀌면 클릭 위치가 어긋나니 누르기 직전 화면을 확인하세요.</div>
+   <table>
+     <thead><tr><th style="text-align:left">글</th><th>상태</th><th style="text-align:left">우선 이유</th></tr></thead>
+     <tbody>
+       <tr><td class="gl">중도퇴사자 연말정산(이직·무직 비교)</td><td class="st st-drop">주소 미인지</td><td class="vd">6일째 구글이 주소 자체를 모르는 최악 상태 — 최우선</td></tr>
+       <tr><td class="gl">부모급여·육아휴직급여 동시수급 자가진단</td><td class="st st-watch">발견·크롤 대기</td><td class="vd">11일째 대기 · 검색 수요가 큰 정책 주제</td></tr>
+       <tr><td class="gl">평균 연봉 vs 중위 연봉 2026</td><td class="st st-watch">발견·크롤 대기</td><td class="vd">13일째로 가장 오래 방치 · 검색량 꾸준한 주제</td></tr>
+     </tbody>
+   </table>
+   <div class="note">나머지 5편(4세대 실손·1·2세대 실손·첫차 자동차보험·어린이 치아보험·여행자보험)은 다음 배치로 넘기면 돼요. 여행자보험은 어제 발행분이라 <b>아직 정상 지연</b>이에요.</div>
+ </div>
+
+ <div class="verdict">
+   <div class="lb">오늘자 총평 · 데이터 분석실</div>
+   <h3>막혀 있던 문이 하루 만에 열렸어요 — 등록률 42%에서 74%로. 이제 남은 8편을 마저 밀어 넣고, 글끼리 링크로 이어주면 돼요.</h3>
+   <p>이번 회차의 가장 큰 성과는 <b>어제 손으로 넣은 색인 요청이 실제로 통했다</b>는 거예요 — 10편 중 7편이 당일 크롤돼 등록률이 42%에서 74%로 뛰었어요. 진단(문제는 콘텐츠가 아니라 크롤이 안 되는 것)이 맞았다는 뜻이고, <b>반복 가능한 운영 루틴</b>이 하나 확보된 셈이에요. 다만 <b>등록이 곧 방문은 아니에요</b> — 노출·클릭은 아직 정체고, 지금 노출의 다수가 해외·데스크톱이라 클릭률로 잘잘못을 따지기엔 표본이 너무 작아요. 콘텐츠는 개설 16일차 치고 이미 잘 만들고 있고(특히 확정 안 된 정책을 "확정 아님"으로 밝히는 태도), 유일하게 뒤처진 <b>내부링크(실제 링크 0개)</b>가 다음 단계 과제예요. 오늘 추천 18개는 전부 <b>큰 키워드를 피하고 좁힌 주제</b>로 잡았고, 가장 얇은 부동산·주거 칸을 3개로 채웠어요.</p>
+   <div class="gauge">
+     <div class="gtop"><span class="gv num">74<small>/100</small></span><span class="gg g-b">B</span><span class="gn">등록률 90%+ 도달 시 검색 건강 축이 크게 올라요</span></div>
+     <div class="grow"><span class="gl">발행 동력</span><span class="gt b-hi"><i style="width:90%"></i></span><span class="gs num">90</span></div>
+     <div class="grow"><span class="gl">콘텐츠 품질</span><span class="gt b-hi"><i style="width:83%"></i></span><span class="gs num">83</span></div>
+     <div class="grow"><span class="gl">검색 건강</span><span class="gt b-lo"><i style="width:46%"></i></span><span class="gs num">46</span></div>
+     <div class="grow"><span class="gl">기회·다양성</span><span class="gt b-hi"><i style="width:78%"></i></span><span class="gs num">78</span></div>
+   </div>
+ </div>
+
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(김복리) · 검색 데이터는 구글 서치콘솔 API 실측(7/12~7/18) + 발행 31편 등록상태 개별 조회 · 발행 페이스는 RSS 실측(개설 16일차) · 글 품질은 티스토리 본문 직접 열람 채점 · 중복 확인은 글 폴더 전수 + RSS 라이브 제목 대조(라이브 제목 캐시에 김복리 항목이 아직 없어 RSS로 갈음) · <b>돈·세금·보험 주제라 수치·자격·기간은 반드시 공식 출처로 재확인하고, 개인별 차이가 있는 사안은 단정하지 말 것</b> · 정책의 "○○년부터" 시점은 공식 시행 연도를 확인한 뒤에만 특정할 것.</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
