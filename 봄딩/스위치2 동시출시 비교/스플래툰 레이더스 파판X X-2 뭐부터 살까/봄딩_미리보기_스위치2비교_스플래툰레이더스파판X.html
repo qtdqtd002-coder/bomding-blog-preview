@@ -1,0 +1,246 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>스위치2 스플래툰레이더스 파판XX2 비교 뭐부터살까</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 6px;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.7px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 9px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">스위치2 스플래툰레이더스 파판XX2 비교 뭐부터살까</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.20</span><span>· 게임</span></div>
+
+    <p>제 위시리스트에 나란히 올라 있던 두 게임이 있는데요, 공교롭게도 둘 다 7월 23일 같은 날 나옵니다. 스플래툰 레이더스랑 파이널판타지 X·X-2 HD 리마스터예요. 성격이 워낙 달라서 저는 뭐부터 손댈지 고민이 되더라고요. 오늘은 가격부터 세이브 이관 조건까지, 구매 결정에 필요한 것만 표로 딱 정리해서 나란히 비교해볼게요.</p>
+
+    <h2 class="sub">한눈에 비교표부터 볼까요</h2>
+    <p>말로 풀면 길어지니까 표부터 정리해둘게요. 오늘(7/20) 기준 공식 확인된 내용이고, 아직 답이 안 나온 항목만 '확인 필요'로 남겨뒀어요.</p>
+
+    <table class="tbl">
+      <tr><th>구분</th><th>스플래툰 레이더스</th><th>파판 X·X-2 HD 리마스터</th></tr>
+      <tr><td>출시일</td><td>7월 23일(목)</td><td>7월 23일(목)</td></tr>
+      <tr><td>다운로드판 가격</td><td>64,800원</td><td>54,400원</td></tr>
+      <tr><td>패키지판 가격</td><td>73,000원</td><td>54,400원(유통사 예약가)</td></tr>
+      <tr><td>장르</td><td>액션·슈팅(스토리 중심 스핀오프)</td><td>RPG(X+X-2 합본)</td></tr>
+      <tr><td>플레이 인원</td><td>1인(협동 최대 4인)</td><td>1인</td></tr>
+      <tr><td>용량</td><td>20GB</td><td>27.8GB</td></tr>
+      <tr><td>한국어 지원</td><td>지원</td><td>지원</td></tr>
+      <tr><td>패키지 형태</td><td>카트리지에 데이터 내장(다운로드 불필요)</td><td>게임 키 카드(첫 실행 시 다운로드 필요)</td></tr>
+      <tr><td>세이브 이관</td><td>시리즈 첫 작품 · 연동 대상 없음</td><td>스위치1판과 호환 불가(공식 확인)</td></tr>
+    </table>
+
+    <p>표를 보시면 아시겠지만 예약가 기준으로는 파판 쪽이 더 저렴해요. 게다가 닌텐도 공식 소개 기준으로 파판은 본편과 X-2를 합쳐 100시간 넘게 즐길 수 있는 볼륨이라 시간당 가격으로 따지면 꽤 알찬 편이더라고요. 대신 세이브 이관 조건은 정반대죠 — 스플래툰은 첫 작품이라 신경 쓸 게 없는데, 파판은 스위치1에서 열심히 키운 세이브가 그대로 안 넘어온다는 게 확정됐거든요.</p>
+
+    <h2 class="sub">표를 보셨으니, 결론부터 말씀드릴게요</h2>
+    <p>취향별로 나눠보면 이렇습니다.</p>
+    <table class="tbl">
+      <tr><th>이런 분이라면</th><th>추천</th></tr>
+      <tr><td>협동 플레이·새 캐릭터가 궁금하다</td><td>스플래툰 레이더스</td></tr>
+      <tr><td>RPG 스토리·오랜 볼륨을 원한다</td><td>파판 X·X-2</td></tr>
+      <tr><td>둘 다 사고 싶은데 예산이 걱정</td><td>파판을 먼저, 스플래툰은 다운로드판으로</td></tr>
+      <tr><td>스위치1로 파판X·X-2를 이미 진행했다</td><td>세이브는 안 넘어오니 새로 시작할 마음의 준비</td></tr>
+    </table>
+
+    <h2 class="sub">스플래툰 레이더스, 짧게 정리하면</h2>
+    <p>시리즈 첫 스토리 중심 스핀오프고, 새 주인공 '메카닉'이 사나운 연어 무리를 정리하며 보물을 모으는 게 뼈대예요. 짚어둘 포인트만 추릴게요.</p>
+    <p>· 싱글 플레이가 중심이지만 최대 4명까지 협동 가능해요(온라인 협동은 Nintendo Switch Online 유료 가입 필요)<br>
+    · 이전 세대 스위치에서는 실행이 안 되는 스위치2 전용작이에요<br>
+    · 패키지판은 20GB 게임 데이터가 카트리지 안에 통째로 들어 있어서, 실행할 때 스위치2 저장공간을 따로 안 써도 되는 게 은근 장점이더라고요</p>
+    <p>가격이랑 예약 특전처럼 더 자세한 내용은 어제 따로 정리해둔 글이 있으니 궁금하신 분은 참고하세요.</p>
+
+    <div class="imgwrap"><img src="https://www.nintendo.com/kr/games/switch2/aadla/assets/img/top/getting-mecha.webp" alt="스플래툰 레이더스 조사 메카 지원 게임플레이 장면"></div>
+    <p class="cap">메카닉이 조사 메카의 지원을 받는 장면이에요.</p>
+    <p class="src">이미지 출처: <a href="https://www.nintendo.com/kr/games/switch2/aadla/" target="_blank">닌텐도 공식 홈페이지</a> · 네이버 본문엔 직접 업로드</p>
+
+    <h2 class="sub">파판 X·X-2 HD 리마스터, 뭐가 다를까요</h2>
+    <p>파판 쪽은 확정된 정보가 많아서 하나씩 짚어볼게요.</p>
+    <p>· 예약판매는 7월 8일(수)부터 시작됐어요<br>
+    · 초회 생산분 한정으로 'FF X 25주년 기념 로고' 슬리브 케이스를 줘요<br>
+    · 다운로드판 정가는 닌텐도 공식 기준 54,400원이에요<br>
+    · 패키지판도 유통사 예약가는 동일하게 54,400원으로 안내되고 있어요(정식 e숍 고시가는 출시일에 다시 보시는 게 안전해요)<br>
+    · 참고로 미국은 $49.99로 안내됐어요</p>
+    <p>다운로드 용량은 27.8GB로 공식 확인됐어요. 패키지판은 스플래툰과 달리 게임 키 카드 방식이라, 카트리지 안에는 다운로드 코드만 담겨 있어요. 그래서 실물을 사도 첫 실행 때는 27.8GB를 통째로 받아야 한다는 점, 구매 전에 기억해두시면 좋겠어요.</p>
+    <p>그리고 세이브 데이터는 확실히 짚고 가야 해요. 닌텐도 공식 상품 페이지에 "Nintendo Switch™ 버전과 Nintendo Switch™ 2 버전 간에 저장 데이터가 호환되지 않습니다"라고 명시돼 있습니다. 스위치1로 파판X·X-2를 이미 클리어하셨거나 한참 진행 중이셨던 분이라면, 스위치2판에서는 처음부터 다시 시작해야 한다는 뜻이에요.</p>
+
+    <div class="imgwrap"><img src="https://store.nintendo.co.kr/media/catalog/product/cache/69fca11704444074de0ecc4f2e43f422/1/d/1d64f4ba11f085404d1b255a1686683fa65a26117bee7b0d4d60d31985d25f2c_1.jpeg" alt="파이널판타지 X X-2 HD 리마스터 닌텐도 스위치2판 공식 상품 이미지"></div>
+    <p class="cap">파이널판타지 X·X-2 HD 리마스터, 닌텐도 스위치2판 커버 이미지예요.</p>
+    <p class="src">이미지 출처: <a href="https://store.nintendo.co.kr/70010000113869" target="_blank">닌텐도 코리아 스토어</a> · 네이버 본문엔 직접 업로드</p>
+
+    <h2 class="sub">정리 — 저장공간까지 따져보면</h2>
+    <table class="tbl">
+      <tr><th>구분</th><th>필요 용량</th><th>구매 후 다운로드</th></tr>
+      <tr><td>스플래툰 레이더스</td><td>20GB</td><td>패키지판은 불필요</td></tr>
+      <tr><td>파판 X·X-2</td><td>27.8GB</td><td>패키지판도 필요(게임 키 카드)</td></tr>
+      <tr><td>둘 다 산다면</td><td>합계 47.8GB</td><td>스플래툰만 카트리지에서 절약 가능</td></tr>
+    </table>
+    <p>둘 다 사신다면 다운로드 용량만 47.8GB(20GB+27.8GB)가 필요한 셈이에요. 그런데 이 중 20GB는 스플래툰 패키지판을 사면 스위치2 저장공간에서 아예 안 써도 돼요. 반면 파판은 패키지판을 사도 게임 키 카드라 27.8GB를 그대로 받아야 하고요. 스위치2 저장공간이 넉넉하지 않은 분이라면 이 차이가 꽤 체감되실 거예요.</p>
+    <p>가격은 예약가 기준 파판 쪽이 저렴하고, 닌텐도 공식 기준으로 두 편 합쳐 100시간 넘는 볼륨이라 시간당 가격으로도 알찬 편이에요. 저도 둘 다 오래 기다린 게임이라 지갑 사정이 좀 걱정이긴 한데, 성격이 이렇게 다르니 취향대로 고르면 후회는 없을 것 같아요.</p>
+    <p>사고 싶은 쪽을 정하셨다면 발매일 전에 예약만 마쳐두시는 것도 잊지 마세요. 다운로드가 필요한 쪽은 발매 당일 접속이 몰리면 시간이 걸릴 수 있으니, 스토어에 사전 다운로드 안내가 떠 있는지 미리 확인해두시면 목요일 저녁을 조금 더 여유롭게 맞이하실 수 있을 거예요. 즐거운 스위치2 라이프 되세요!</p>
+
+    <p><b>✔ 스플래툰 레이더스 같이 보기 좋은 글</b><br>
+    · 스플래툰레이더스 출시일 가격 다운로드판 패키지판 차이 정리 (같은 게임의 가격·플레이 방식을 더 자세히 다룬 글이에요 — 발행 시 링크 연결)</p>
+    <!-- 내부링크: 「스플래툰레이더스 출시일 가격 다운로드판 패키지판 차이 정리」 글 post ID 확인 후 연결 -->
+
+    <div class="tags">#스플래툰레이더스 #파이널판타지XX2 #닌텐도스위치2 #스위치2동시출시 #신작게임비교</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 2분):</b> 📷 <b>사진 2곳</b> 업로드. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 스위치2 스플래툰레이더스 파판XX2 비교 뭐부터살까</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>제 위시리스트에 나란히 올라 있던 두 게임이 있는데요, 공교롭게도 둘 다 7월 23일 같은 날 나옵니다. 스플래툰 레이더스랑 파이널판타지 X·X-2 HD 리마스터예요. 성격이 워낙 달라서 저는 뭐부터 손댈지 고민이 되더라고요. 오늘은 가격부터 세이브 이관 조건까지, 구매 결정에 필요한 것만 표로 딱 정리해서 나란히 비교해볼게요.</p>
+
+      <h3>한눈에 비교표부터 볼까요</h3>
+      <p>말로 풀면 길어지니까 표부터 정리해둘게요. 오늘(7/20) 기준 공식 확인된 내용이고, 아직 답이 안 나온 항목만 '확인 필요'로 남겨뒀어요.</p>
+      <table>
+        <tr><th>구분</th><th>스플래툰 레이더스</th><th>파판 X·X-2 HD 리마스터</th></tr>
+        <tr><td class="l">출시일</td><td>7월 23일(목)</td><td>7월 23일(목)</td></tr>
+        <tr><td class="l">다운로드판 가격</td><td>64,800원</td><td>54,400원</td></tr>
+        <tr><td class="l">패키지판 가격</td><td>73,000원</td><td>54,400원(유통사 예약가)</td></tr>
+        <tr><td class="l">장르</td><td>액션·슈팅(스토리 중심 스핀오프)</td><td>RPG(X+X-2 합본)</td></tr>
+        <tr><td class="l">플레이 인원</td><td>1인(협동 최대 4인)</td><td>1인</td></tr>
+        <tr><td class="l">용량</td><td>20GB</td><td>27.8GB</td></tr>
+        <tr><td class="l">한국어 지원</td><td>지원</td><td>지원</td></tr>
+        <tr><td class="l">패키지 형태</td><td>카트리지에 데이터 내장(다운로드 불필요)</td><td>게임 키 카드(첫 실행 시 다운로드 필요)</td></tr>
+        <tr><td class="l">세이브 이관</td><td>시리즈 첫 작품 · 연동 대상 없음</td><td>스위치1판과 호환 불가(공식 확인)</td></tr>
+      </table>
+      <p>표를 보시면 아시겠지만 예약가 기준으로는 파판 쪽이 더 저렴해요. 게다가 닌텐도 공식 소개 기준으로 파판은 본편과 X-2를 합쳐 100시간 넘게 즐길 수 있는 볼륨이라 시간당 가격으로 따지면 꽤 알찬 편이더라고요. 대신 세이브 이관 조건은 정반대죠 — 스플래툰은 첫 작품이라 신경 쓸 게 없는데, 파판은 스위치1에서 열심히 키운 세이브가 그대로 안 넘어온다는 게 확정됐거든요.</p>
+
+      <h3>표를 보셨으니, 결론부터 말씀드릴게요</h3>
+      <p>취향별로 나눠보면 이렇습니다.</p>
+      <table>
+        <tr><th>이런 분이라면</th><th>추천</th></tr>
+        <tr><td class="l">협동 플레이·새 캐릭터가 궁금하다</td><td>스플래툰 레이더스</td></tr>
+        <tr><td class="l">RPG 스토리·오랜 볼륨을 원한다</td><td>파판 X·X-2</td></tr>
+        <tr><td class="l">둘 다 사고 싶은데 예산이 걱정</td><td>파판을 먼저, 스플래툰은 다운로드판으로</td></tr>
+        <tr><td class="l">스위치1로 파판X·X-2를 이미 진행했다</td><td>세이브는 안 넘어오니 새로 시작할 마음의 준비</td></tr>
+      </table>
+
+      <h3>스플래툰 레이더스, 짧게 정리하면</h3>
+      <p>시리즈 첫 스토리 중심 스핀오프고, 새 주인공 '메카닉'이 사나운 연어 무리를 정리하며 보물을 모으는 게 뼈대예요. 짚어둘 포인트만 추릴게요.</p>
+      <p>· 싱글 플레이가 중심이지만 최대 4명까지 협동 가능해요(온라인 협동은 Nintendo Switch Online 유료 가입 필요)<br>
+      · 이전 세대 스위치에서는 실행이 안 되는 스위치2 전용작이에요<br>
+      · 패키지판은 20GB 게임 데이터가 카트리지 안에 통째로 들어 있어서, 실행할 때 스위치2 저장공간을 따로 안 써도 되는 게 은근 장점이더라고요</p>
+      <p>가격이랑 예약 특전처럼 더 자세한 내용은 어제 따로 정리해둔 글이 있으니 궁금하신 분은 참고하세요.</p>
+      <p class="ph">📷 〔사진 자리 1〕 스플래툰 레이더스 조사 메카 지원 게임플레이 장면 — 닌텐도 공식 홈페이지에서 이미지 복사 후 붙여넣기</p>
+
+      <h3>파판 X·X-2 HD 리마스터, 뭐가 다를까요</h3>
+      <p>파판 쪽은 확정된 정보가 많아서 하나씩 짚어볼게요.</p>
+      <p>· 예약판매는 7월 8일(수)부터 시작됐어요<br>
+      · 초회 생산분 한정으로 'FF X 25주년 기념 로고' 슬리브 케이스를 줘요<br>
+      · 다운로드판 정가는 닌텐도 공식 기준 54,400원이에요<br>
+      · 패키지판도 유통사 예약가는 동일하게 54,400원으로 안내되고 있어요(정식 e숍 고시가는 출시일에 다시 보시는 게 안전해요)<br>
+      · 참고로 미국은 $49.99로 안내됐어요</p>
+      <p>다운로드 용량은 27.8GB로 공식 확인됐어요. 패키지판은 스플래툰과 달리 게임 키 카드 방식이라, 카트리지 안에는 다운로드 코드만 담겨 있어요. 그래서 실물을 사도 첫 실행 때는 27.8GB를 통째로 받아야 한다는 점, 구매 전에 기억해두시면 좋겠어요.</p>
+      <p>그리고 세이브 데이터는 확실히 짚고 가야 해요. 닌텐도 공식 상품 페이지에 "Nintendo Switch™ 버전과 Nintendo Switch™ 2 버전 간에 저장 데이터가 호환되지 않습니다"라고 명시돼 있습니다. 스위치1로 파판X·X-2를 이미 클리어하셨거나 한참 진행 중이셨던 분이라면, 스위치2판에서는 처음부터 다시 시작해야 한다는 뜻이에요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 파이널판타지 X·X-2 HD 리마스터 닌텐도 스위치2판 공식 상품 이미지 — 닌텐도 코리아 스토어에서 이미지 복사 후 붙여넣기</p>
+
+      <h3>정리 — 저장공간까지 따져보면</h3>
+      <table>
+        <tr><th>구분</th><th>필요 용량</th><th>구매 후 다운로드</th></tr>
+        <tr><td class="l">스플래툰 레이더스</td><td>20GB</td><td>패키지판은 불필요</td></tr>
+        <tr><td class="l">파판 X·X-2</td><td>27.8GB</td><td>패키지판도 필요(게임 키 카드)</td></tr>
+        <tr><td class="l">둘 다 산다면</td><td>합계 47.8GB</td><td>스플래툰만 카트리지에서 절약 가능</td></tr>
+      </table>
+      <p>둘 다 사신다면 다운로드 용량만 47.8GB(20GB+27.8GB)가 필요한 셈이에요. 그런데 이 중 20GB는 스플래툰 패키지판을 사면 스위치2 저장공간에서 아예 안 써도 돼요. 반면 파판은 패키지판을 사도 게임 키 카드라 27.8GB를 그대로 받아야 하고요. 스위치2 저장공간이 넉넉하지 않은 분이라면 이 차이가 꽤 체감되실 거예요.</p>
+      <p>가격은 예약가 기준 파판 쪽이 저렴하고, 닌텐도 공식 기준으로 두 편 합쳐 100시간 넘는 볼륨이라 시간당 가격으로도 알찬 편이에요. 저도 둘 다 오래 기다린 게임이라 지갑 사정이 좀 걱정이긴 한데, 성격이 이렇게 다르니 취향대로 고르면 후회는 없을 것 같아요.</p>
+      <p>사고 싶은 쪽을 정하셨다면 발매일 전에 예약만 마쳐두시는 것도 잊지 마세요. 다운로드가 필요한 쪽은 발매 당일 접속이 몰리면 시간이 걸릴 수 있으니, 스토어에 사전 다운로드 안내가 떠 있는지 미리 확인해두시면 목요일 저녁을 조금 더 여유롭게 맞이하실 수 있을 거예요. 즐거운 스위치2 라이프 되세요!</p>
+      <p><b>✔ 스플래툰 레이더스 같이 보기 좋은 글</b><br>
+      · 스플래툰레이더스 출시일 가격 다운로드판 패키지판 차이 정리 (같은 게임의 가격·플레이 방식을 더 자세히 다룬 글이에요)</p>
+
+      <p class="tags-line">#스플래툰레이더스 #파이널판타지XX2 #닌텐도스위치2 #스위치2동시출시 #신작게임비교</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
