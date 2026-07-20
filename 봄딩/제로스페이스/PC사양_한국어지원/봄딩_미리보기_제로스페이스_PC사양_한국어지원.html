@@ -1,0 +1,287 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>제로스페이스 스팀 얼리액세스 시작, 내 PC 사양이랑 한국어 지원 되나요</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:15.5px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">제로스페이스 스팀 얼리액세스 시작, 내 PC 사양이랑 한국어 지원 되나요</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 7. 20.</span><span>· 게임</span></div>
+
+    <p>2026년 7월 20일인 오늘, SF 세계관을 다루는 대형 실시간전략(RTS) 게임 <b>'제로스페이스'</b>가 스팀 얼리 액세스(앞서 해보기)로 문을 열어요. 스팀 공식 공지 기준으로 미국 태평양시간 오전 10시(동부시간 오후 1시)에 열린다고 하니, 한국 시간으로는 오늘 밤이 아니라 <b>내일(7/21) 새벽 2시쯤</b>이 될 것 같아요. 은하계 곳곳에서 성간 세력들이 부딪히는 하드코어 RTS인데 여기에 RPG식 서사까지 얹었다고 해서 출시 전부터 눈여겨보고 있었거든요. 스팀 공식 공지 기준으로 지난달(6/23) 넥스트 페스트 데모에 4만 명 넘게 몰렸고, 이틀 뒤(6/25)엔 게임 매체들이 위시리스트 25만 돌파 소식을 전했어요. 오늘은 신작 소개보다는 다들 제일 궁금해하실 <b>'내 컴퓨터로 돌아가나'</b>랑 <b>'한국어는 얼마나 되나'</b>만 콕 집어서 정리해볼게요.</p>
+
+    <div class="imgwrap"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1605850/88b4d42b10bd4f8a4fa30012def3957ecaef95b3/header.jpg?t=1784427695" alt="제로스페이스 스팀 상점 대표 이미지"></div>
+    <p class="cap">곧 스팀 얼리 액세스로 만날 수 있는 제로스페이스예요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/1605850/ZeroSpace/?l=koreana" target="_blank">제로스페이스 스팀 상점 페이지</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 도입부 첫인상용 대표컷 / 출처: 스팀 공식 header.jpg / 분류: A형 -->
+
+    <h2 class="sub">제로스페이스, 어떤 게임이냐면요</h2>
+    <p>그냥 유닛 뽑아서 싸우는 RTS가 아니라 RPG식 서사 요소까지 결합했다는 게 이 게임 특징인데, 정리하면 이래요.</p>
+    <ul>
+      <li><b>장르</b> — SF 실시간전략(RTS) + RPG 서사 요소</li>
+      <li><b>콘텐츠</b> — 서사 중심 캠페인, 협동 PvE '갤럭틱 워', 친구·AI 상대 자유 대전 '스커미시'(랭크전은 별도)</li>
+      <li><b>개발</b> — Starlance Studios · Ironward</li>
+      <li><b>퍼블리싱</b> — Starlance Studios · Gamersky Games</li>
+    </ul>
+    <p>캠페인은 혼자 이야기를 따라가는 구조고, 갤럭틱 워는 여럿이 협동으로 밀어붙이는 PvE, 스커미시는 친구나 AI를 상대로 자유롭게 붙는 모드라 여러 갈래로 즐길 거리가 나뉘어 있는 셈이에요.</p>
+    <p>이 게임, 원래 2022년 설립된 개발사 Starlance Studios가 킥스타터로 시작한 프로젝트인데요, 목표였던 10만 달러의 537%인 53만 6,583달러를 6,296명한테서 모았대요. 스타크래프트 프로게이머·유명 크리에이터들이 힘을 보탰다고 하니, 스타크래프트 종주국인 한국 유저들한테는 특히 반가운 포인트일 것 같아요.</p>
+
+    <div class="imgwrap"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1605850/a0a3312c34c114afccf5ffd327dc7ddd88794cf4/ss_a0a3312c34c114afccf5ffd327dc7ddd88794cf4.1920x1080.jpg?t=1784427695" alt="제로스페이스 인게임 전투 스크린샷"></div>
+    <p class="cap">유닛이 대규모로 붙는 장면을 보면 왜 사양이 높은지 감이 오실 거예요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/1605850/ZeroSpace/?l=koreana" target="_blank">제로스페이스 스팀 상점 스크린샷</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 게임 소개 섹션 직후 실제 플레이 규모 보여주기 / 출처: 스팀 공식 스크린샷 / 분류: A형 -->
+
+    <h2 class="sub">얼리 액세스, 이것부터 정확히 알아두세요</h2>
+    <p>제목에도 썼듯이 오늘 열리는 건 <b>정식 출시가 아니라 얼리 액세스</b>예요. 스팀 페이지에 적힌 설명을 보면 개발진은 앞서 해보기 단계를 대략 1년 정도 유지할 계획이라고 밝혀뒀더라고요. 즉 지금 보이는 콘텐츠·밸런스·가격이 앞으로 얼마든지 바뀔 수 있다는 뜻이니, <b>'지금 이대로가 정식 버전'이라고 생각하고 들어가면 안 돼요.</b> 유저 피드백을 반영해서 콘텐츠를 계속 늘려가겠다는 게 개발진 방침이라, 오히려 지금부터 의견을 남기면 게임에 반영될 여지가 큰 시기이기도 하고요.</p>
+    <p>가격은 달러 기준으로 스팀 공식 공지에 나와 있어요. 정가 39.99달러에서 출시 기념 10% 할인된 <b>35.99달러</b>(8월 3일까지)로 열린다고 하고요, 원화 가격은 상점이 실제로 열려야 정확히 뜨니 정확한 원화가는 <a href="https://store.steampowered.com/app/1605850/ZeroSpace/?l=koreana" target="_blank">제로스페이스 스팀 상점 페이지</a>에서 직접 확인하시는 걸 추천드려요.</p>
+    <p>얼리 액세스 첫날 콘텐츠도 스팀 공식 공지 기준으로 정리하면 이래요.</p>
+    <ul>
+      <li><b>캠페인(Act 1)</b> — 12개 미션</li>
+      <li><b>협동(갤럭틱 워)</b> — 10개 미션</li>
+      <li><b>주요 진영</b> — 4개(프로텍토레이트(Protectorate)·공생체 그렐(Grell)·광신 군단 레기온(Legion of Truth)·이번에 처음 공개되는 졸(Xol))</li>
+      <li><b>용병 진영</b> — 6개(스팀 공식 공지 기준 — 상점 소개문 숫자와 다를 수 있어요)</li>
+    </ul>
+    <p>개발진은 이 진영·용병 밸런스를 얼리 액세스 기간 동안 커뮤니티 피드백을 받아가며 계속 다듬어갈 계획이라고 밝혔어요. 처음부터 콘텐츠가 꽉 찬 완제품은 아니지만, 손볼 게 있으면 의견을 남기기 좋은 시점인 셈이죠.</p>
+
+    <div class="imgwrap"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1605850/6aae2852b4bf9de2a1770202d17a249be8c61ea3/ss_6aae2852b4bf9de2a1770202d17a249be8c61ea3.1920x1080.jpg?t=1784427695" alt="제로스페이스 얼리 액세스 콘텐츠 스크린샷"></div>
+    <p class="cap">앞으로 1년 가까이 이런 콘텐츠가 계속 추가·조정될 예정이에요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/1605850/ZeroSpace/?l=koreana" target="_blank">제로스페이스 스팀 상점 스크린샷</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 얼리 액세스=변동 콘텐츠 섹션 시각 보강 / 출처: 스팀 공식 스크린샷 / 분류: A형 -->
+
+    <h2 class="sub">내 PC 사양, 스팀 기준으로 표로 정리했어요</h2>
+    <p>사양은 사람마다 다르게 옮겨 적는 경우가 많아서, 저는 스팀 상점 페이지에 적힌 내용을 그대로 표로 옮겨왔어요.</p>
+    <table class="tbl">
+      <tr><th>항목</th><th>최소 사양</th><th>권장 사양</th></tr>
+      <tr><td>운영체제</td><td>Windows 10 (64비트)</td><td>Windows 10 (64비트)</td></tr>
+      <tr><td>프로세서</td><td>AMD/Intel CPU · 4코어 3GHz</td><td>AMD/Intel CPU · 8코어 3GHz</td></tr>
+      <tr><td>메모리</td><td>16GB RAM</td><td>표기 없음</td></tr>
+      <tr><td>그래픽</td><td>Nvidia 1080 Ti 또는 RX 5700</td><td>RTX 3060Ti 또는 RX 6800</td></tr>
+      <tr><td>DirectX</td><td>버전 11</td><td>버전 11</td></tr>
+      <tr><td>네트워크</td><td>초고속 인터넷 연결</td><td>초고속 인터넷 연결</td></tr>
+      <tr><td>저장공간</td><td>50GB 여유 공간</td><td>50GB 여유 공간</td></tr>
+      <tr><td>사운드카드</td><td>NVIDIA High Definition Audio</td><td>NVIDIA High Definition Audio</td></tr>
+    </table>
+    <p>권장 사양 쪽 메모리 칸엔 '표기 없음'이라고만 돼 있는 거 보이시죠. 스팀 페이지에 실제로 그렇게만 나와 있어서 그렇게만 남겨뒀어요.</p>
+
+    <h2 class="sub">그래서 내 컴퓨터로 돌아갈까요</h2>
+    <p>사양표만 보면 감이 잘 안 오실 수 있어서, 대표적인 그래픽카드 몇 개로 어느 정도인지 짚어볼게요.</p>
+    <table class="tbl">
+      <tr><th>보유 그래픽카드 예시</th><th>결과</th></tr>
+      <tr><td>GTX 1060(6GB)급</td><td>최소 사양(1080Ti·RX5700)에도 못 미쳐요 — 구동 자체가 불안정하거나 최저 옵션에서도 버거울 수 있어요</td></tr>
+      <tr><td>Nvidia 1080 Ti · RX 5700급</td><td>최소 사양은 넘겼어요 — 다만 쾌적함까지는 장담 못 해요</td></tr>
+      <tr><td>RTX 3060Ti · RX 6800 이상</td><td>권장 사양을 맞췄어요 — 이 정도부터 쾌적하게 즐길 수 있어요</td></tr>
+    </table>
+    <p>권장 사양인 RTX 3060Ti·RX 6800은 2020년 말 카드지만 지금도 미드하이~하이엔드급이라, 결코 낮은 기준이 아니에요. CPU도 최소가 4코어 3GHz, 권장이 8코어 3GHz라 실시간전략 게임답게 CPU 요구치도 꽤 높은 편이고요. 유닛을 대량으로 굴리는 RTS 특성상 그래픽카드 못지않게 CPU 코어 수도 챙겨봐야 할 부분이에요.</p>
+
+    <h2 class="sub">한국어는 얼마나 지원되나요</h2>
+    <p>한국어 지원은 스팀 표기 기준으로 정리할게요.</p>
+    <ul>
+      <li><b>인터페이스(메뉴·UI)</b> — 한국어 지원 O</li>
+      <li><b>자막</b> — 한국어 지원 O</li>
+      <li><b>음성(풀보이스)</b> — 영어만 지원, 한국어 더빙은 지원 목록에 없어요</li>
+    </ul>
+    <p>스팀 표기에서 음성은 영어에만 별도 표시(*)가 붙어 있고, 한국어를 포함한 나머지 언어는 전부 인터페이스·자막까지만이에요. '한국어 음성이 없다'는 게 아쉽게 들릴 순 있는데, 인터페이스랑 자막은 확실히 되니까 플레이 자체엔 큰 무리 없을 것 같아요.</p>
+    <p>스팀 상점 페이지 소개 글에는 실제로 이런 문구도 있더라고요 — <b>"한국어 버전 지속적으로 최적화 중"</b>. 스팀에 적힌 원문 그대로인데, 이 문구가 음성 더빙까지 지원한다는 뜻은 아니니 그 부분만 오해 없으시면 될 것 같아요.</p>
+
+    <div class="imgwrap"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1605850/ss_335184edadea9bae5b8ac1af9fbf322526c1d1f1.1920x1080.jpg?t=1784427695" alt="제로스페이스 인게임 스크린샷"></div>
+    <p class="cap">인터페이스·자막은 한국어로 볼 수 있으니 진행에는 크게 불편함이 없을 거예요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/1605850/ZeroSpace/?l=koreana" target="_blank">제로스페이스 스팀 상점 스크린샷</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 한국어 지원 설명 직후 실제 화면 예시 / 출처: 스팀 공식 스크린샷 / 분류: A형 -->
+
+    <h2 class="sub">제로스페이스 정리</h2>
+    <p>오늘 나온 내용만 다시 챙겨보면, <b>① 오늘(7/20)은 정식 출시가 아니라 얼리 액세스가 열리는 날이라(한국 시간으로는 내일 7/21 새벽 2시쯤) 콘텐츠·가격이 계속 바뀔 수 있고 ② PC 사양은 최소가 Nvidia 1080 Ti·RX 5700급, 권장이 RTX 3060Ti·RX 6800급이라 결코 만만한 기준이 아니고 ③ 한국어는 인터페이스·자막까지는 되는데 음성은 영어만 된다</b>는 거예요.</p>
+    <p>위시리스트 25만을 넘길 만큼 기대를 모은 신작이니 저도 얼리 액세스가 열리면 한 번 들어가서 살펴볼 생각이에요. 사양이 낮은 편이 아니니 위 표로 미리 체크해보시고, 한국어는 인터페이스·자막까지는 편하게 즐기실 수 있을 것 같아요.</p>
+    <!-- 내부링크: 제로스페이스 신규 소재라 봄딩 기존 발행글 0건 — 후속 글 나오면 ✔ 텍스트줄로 연결 예정 -->
+    <!-- 무앵커 h2: 1/6 (마무리 "제로스페이스 정리" 헤더는 요약 문단이라 시각앵커 면제) -->
+
+    <div class="tags">#제로스페이스 #ZeroSpace #제로스페이스얼리액세스 #제로스페이스사양 #제로스페이스한국어지원 #제로스페이스스팀 #SF게임추천 #실시간전략게임</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 3분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 제로스페이스 스팀 얼리액세스 시작, 내 PC 사양이랑 한국어 지원 되나요</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>2026년 7월 20일인 오늘, SF 세계관을 다루는 대형 실시간전략(RTS) 게임 <b>'제로스페이스'</b>가 스팀 얼리 액세스(앞서 해보기)로 문을 열어요. 스팀 공식 공지 기준으로 미국 태평양시간 오전 10시(동부시간 오후 1시)에 열린다고 하니, 한국 시간으로는 오늘 밤이 아니라 <b>내일(7/21) 새벽 2시쯤</b>이 될 것 같아요. 은하계 곳곳에서 성간 세력들이 부딪히는 하드코어 RTS인데 여기에 RPG식 서사까지 얹었다고 해서 출시 전부터 눈여겨보고 있었거든요. 스팀 공식 공지 기준으로 지난달(6/23) 넥스트 페스트 데모에 4만 명 넘게 몰렸고, 이틀 뒤(6/25)엔 게임 매체들이 위시리스트 25만 돌파 소식을 전했어요. 오늘은 신작 소개보다는 다들 제일 궁금해하실 <b>'내 컴퓨터로 돌아가나'</b>랑 <b>'한국어는 얼마나 되나'</b>만 콕 집어서 정리해볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 제로스페이스 스팀 상점 대표 이미지 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "곧 스팀 얼리 액세스로 만날 수 있는 제로스페이스예요."</p>
+
+      <h3>제로스페이스, 어떤 게임이냐면요</h3>
+      <p>그냥 유닛 뽑아서 싸우는 RTS가 아니라 RPG식 서사 요소까지 결합했다는 게 이 게임 특징인데, 정리하면 이래요.</p>
+      <ul>
+        <li><b>장르</b> — SF 실시간전략(RTS) + RPG 서사 요소</li>
+        <li><b>콘텐츠</b> — 서사 중심 캠페인, 협동 PvE '갤럭틱 워', 친구·AI 상대 자유 대전 '스커미시'(랭크전은 별도)</li>
+        <li><b>개발</b> — Starlance Studios · Ironward</li>
+        <li><b>퍼블리싱</b> — Starlance Studios · Gamersky Games</li>
+      </ul>
+      <p>캠페인은 혼자 이야기를 따라가는 구조고, 갤럭틱 워는 여럿이 협동으로 밀어붙이는 PvE, 스커미시는 친구나 AI를 상대로 자유롭게 붙는 모드라 여러 갈래로 즐길 거리가 나뉘어 있는 셈이에요.</p>
+      <p>이 게임, 원래 2022년 설립된 개발사 Starlance Studios가 킥스타터로 시작한 프로젝트인데요, 목표였던 10만 달러의 537%인 53만 6,583달러를 6,296명한테서 모았대요. 스타크래프트 프로게이머·유명 크리에이터들이 힘을 보탰다고 하니, 스타크래프트 종주국인 한국 유저들한테는 특히 반가운 포인트일 것 같아요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 인게임 전투 장면(성단 전쟁 규모 확인용) — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "유닛이 대규모로 붙는 장면을 보면 왜 사양이 높은지 감이 오실 거예요."</p>
+
+      <h3>얼리 액세스, 이것부터 정확히 알아두세요</h3>
+      <p>제목에도 썼듯이 오늘 열리는 건 <b>정식 출시가 아니라 얼리 액세스</b>예요. 스팀 페이지에 적힌 설명을 보면 개발진은 앞서 해보기 단계를 대략 1년 정도 유지할 계획이라고 밝혀뒀더라고요. 즉 지금 보이는 콘텐츠·밸런스·가격이 앞으로 얼마든지 바뀔 수 있다는 뜻이니, <b>'지금 이대로가 정식 버전'이라고 생각하고 들어가면 안 돼요.</b> 유저 피드백을 반영해서 콘텐츠를 계속 늘려가겠다는 게 개발진 방침이라, 오히려 지금부터 의견을 남기면 게임에 반영될 여지가 큰 시기이기도 하고요.</p>
+      <p>가격은 달러 기준으로 스팀 공식 공지에 나와 있어요. 정가 39.99달러에서 출시 기념 10% 할인된 <b>35.99달러</b>(8월 3일까지)로 열린다고 하고요, 원화 가격은 상점이 실제로 열려야 정확히 뜨니 정확한 원화가는 <a href="https://store.steampowered.com/app/1605850/ZeroSpace/?l=koreana" target="_blank">제로스페이스 스팀 상점 페이지</a>에서 직접 확인하시는 걸 추천드려요.</p>
+      <p>얼리 액세스 첫날 콘텐츠도 스팀 공식 공지 기준으로 정리하면 이래요.</p>
+      <ul>
+        <li><b>캠페인(Act 1)</b> — 12개 미션</li>
+        <li><b>협동(갤럭틱 워)</b> — 10개 미션</li>
+        <li><b>주요 진영</b> — 4개(프로텍토레이트(Protectorate)·공생체 그렐(Grell)·광신 군단 레기온(Legion of Truth)·이번에 처음 공개되는 졸(Xol))</li>
+        <li><b>용병 진영</b> — 6개(스팀 공식 공지 기준 — 상점 소개문 숫자와 다를 수 있어요)</li>
+      </ul>
+      <p>개발진은 이 진영·용병 밸런스를 얼리 액세스 기간 동안 커뮤니티 피드백을 받아가며 계속 다듬어갈 계획이라고 밝혔어요. 처음부터 콘텐츠가 꽉 찬 완제품은 아니지만, 손볼 게 있으면 의견을 남기기 좋은 시점인 셈이죠.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 얼리 액세스 콘텐츠 스크린샷 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "앞으로 1년 가까이 이런 콘텐츠가 계속 추가·조정될 예정이에요."</p>
+
+      <h3>내 PC 사양, 스팀 기준으로 표로 정리했어요</h3>
+      <p>사양은 사람마다 다르게 옮겨 적는 경우가 많아서, 저는 스팀 상점 페이지에 적힌 내용을 그대로 표로 옮겨왔어요.</p>
+      <table>
+        <tr><th>항목</th><th>최소 사양</th><th>권장 사양</th></tr>
+        <tr><td class="l">운영체제</td><td>Windows 10 (64비트)</td><td>Windows 10 (64비트)</td></tr>
+        <tr><td class="l">프로세서</td><td>AMD/Intel CPU · 4코어 3GHz</td><td>AMD/Intel CPU · 8코어 3GHz</td></tr>
+        <tr><td class="l">메모리</td><td>16GB RAM</td><td>표기 없음</td></tr>
+        <tr><td class="l">그래픽</td><td>Nvidia 1080 Ti 또는 RX 5700</td><td>RTX 3060Ti 또는 RX 6800</td></tr>
+        <tr><td class="l">DirectX</td><td>버전 11</td><td>버전 11</td></tr>
+        <tr><td class="l">네트워크</td><td>초고속 인터넷 연결</td><td>초고속 인터넷 연결</td></tr>
+        <tr><td class="l">저장공간</td><td>50GB 여유 공간</td><td>50GB 여유 공간</td></tr>
+        <tr><td class="l">사운드카드</td><td>NVIDIA High Definition Audio</td><td>NVIDIA High Definition Audio</td></tr>
+      </table>
+      <p>권장 사양 쪽 메모리 칸엔 '표기 없음'이라고만 돼 있는 거 보이시죠. 스팀 페이지에 실제로 그렇게만 나와 있어서 그렇게만 남겨뒀어요.</p>
+
+      <h3>그래서 내 컴퓨터로 돌아갈까요</h3>
+      <p>사양표만 보면 감이 잘 안 오실 수 있어서, 대표적인 그래픽카드 몇 개로 어느 정도인지 짚어볼게요.</p>
+      <table>
+        <tr><th>보유 그래픽카드 예시</th><th>결과</th></tr>
+        <tr><td class="l">GTX 1060(6GB)급</td><td>최소 사양(1080Ti·RX5700)에도 못 미쳐요 — 구동 자체가 불안정하거나 최저 옵션에서도 버거울 수 있어요</td></tr>
+        <tr><td class="l">Nvidia 1080 Ti · RX 5700급</td><td>최소 사양은 넘겼어요 — 다만 쾌적함까지는 장담 못 해요</td></tr>
+        <tr><td class="l">RTX 3060Ti · RX 6800 이상</td><td>권장 사양을 맞췄어요 — 이 정도부터 쾌적하게 즐길 수 있어요</td></tr>
+      </table>
+      <p>권장 사양인 RTX 3060Ti·RX 6800은 2020년 말 카드지만 지금도 미드하이~하이엔드급이라, 결코 낮은 기준이 아니에요. CPU도 최소가 4코어 3GHz, 권장이 8코어 3GHz라 실시간전략 게임답게 CPU 요구치도 꽤 높은 편이고요. 유닛을 대량으로 굴리는 RTS 특성상 그래픽카드 못지않게 CPU 코어 수도 챙겨봐야 할 부분이에요.</p>
+
+      <h3>한국어는 얼마나 지원되나요</h3>
+      <p>한국어 지원은 스팀 표기 기준으로 정리할게요.</p>
+      <ul>
+        <li><b>인터페이스(메뉴·UI)</b> — 한국어 지원 O</li>
+        <li><b>자막</b> — 한국어 지원 O</li>
+        <li><b>음성(풀보이스)</b> — 영어만 지원, 한국어 더빙은 지원 목록에 없어요</li>
+      </ul>
+      <p>스팀 표기에서 음성은 영어에만 별도 표시(*)가 붙어 있고, 한국어를 포함한 나머지 언어는 전부 인터페이스·자막까지만이에요. '한국어 음성이 없다'는 게 아쉽게 들릴 순 있는데, 인터페이스랑 자막은 확실히 되니까 플레이 자체엔 큰 무리 없을 것 같아요.</p>
+      <p>스팀 상점 페이지 소개 글에는 실제로 이런 문구도 있더라고요 — <b>"한국어 버전 지속적으로 최적화 중"</b>. 스팀에 적힌 원문 그대로인데, 이 문구가 음성 더빙까지 지원한다는 뜻은 아니니 그 부분만 오해 없으시면 될 것 같아요.</p>
+
+      <p class="ph">📷 〔사진 자리 4〕 인게임 스크린샷(한국어 인터페이스 예시) — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "인터페이스·자막은 한국어로 볼 수 있으니 진행에는 크게 불편함이 없을 거예요."</p>
+
+      <h3>제로스페이스 정리</h3>
+      <p>오늘 나온 내용만 다시 챙겨보면, <b>① 오늘(7/20)은 정식 출시가 아니라 얼리 액세스가 열리는 날이라(한국 시간으로는 내일 7/21 새벽 2시쯤) 콘텐츠·가격이 계속 바뀔 수 있고 ② PC 사양은 최소가 Nvidia 1080 Ti·RX 5700급, 권장이 RTX 3060Ti·RX 6800급이라 결코 만만한 기준이 아니고 ③ 한국어는 인터페이스·자막까지는 되는데 음성은 영어만 된다</b>는 거예요.</p>
+      <p>위시리스트 25만을 넘길 만큼 기대를 모은 신작이니 저도 얼리 액세스가 열리면 한 번 들어가서 살펴볼 생각이에요. 사양이 낮은 편이 아니니 위 표로 미리 체크해보시고, 한국어는 인터페이스·자막까지는 편하게 즐기실 수 있을 것 같아요.</p>
+
+      <p class="tags-line">#제로스페이스 #ZeroSpace #제로스페이스얼리액세스 #제로스페이스사양 #제로스페이스한국어지원 #제로스페이스스팀 #SF게임추천 #실시간전략게임</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
