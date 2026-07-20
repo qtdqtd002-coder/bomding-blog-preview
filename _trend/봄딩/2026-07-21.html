@@ -1,0 +1,105 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 봄딩 오늘 쓸 글 · 2026-07-21</title>
+<style>
+:root{--ac:#e06c49;--acd:#b8502f;--acw:#fbe9e3;--ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--good-w:#e7f6ef;--warn-w:#fbf1de}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;line-height:1.6;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.wrap{max-width:840px;margin:0 auto;padding:20px 18px 60px}
+.back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+.mast{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 1px 2px rgba(16,24,40,.05);padding:20px 22px}
+.who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--acd);background:var(--acw);border-radius:999px;padding:4px 11px}
+.who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac)}
+.mast h1{font-size:clamp(16px,3vw,19px);font-weight:800;letter-spacing:-.02em;margin:11px 0 6px;line-height:1.5;text-wrap:balance}
+.mast .meta{font-size:12px;color:var(--muted);font-weight:500}.mast .meta b{color:var(--sub);font-weight:700}
+.rx{margin-top:14px;background:var(--acw);border:1px solid var(--line);border-radius:13px;padding:13px 16px;display:flex;gap:11px;align-items:flex-start}
+.rx .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:3px 9px;margin-top:1px}
+.rx .rc{font-size:13px;line-height:1.6;color:var(--ink)}.rx .rc b{font-weight:800;color:var(--acd)}
+h2.sec{font-size:16px;font-weight:800;letter-spacing:-.02em;margin:30px 0 4px;display:flex;align-items:center;gap:8px}
+.sub{color:var(--sub);font-size:12px;margin:4px 0 12px;line-height:1.55}
+.tabs>input{position:absolute;opacity:0;pointer-events:none}
+.tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+.tablab{font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:9px;background:var(--inset);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s}
+.tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px}
+.tpanel{display:none}
+#t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3],#t4:checked~.tabbar label[for=t4],#t5:checked~.tabbar label[for=t5],#t6:checked~.tabbar label[for=t6],#t7:checked~.tabbar label[for=t7]{background:var(--ac);color:#fff;border-color:var(--ac)}
+#t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt,#t4:checked~.tabbar label[for=t4] .cnt,#t5:checked~.tabbar label[for=t5] .cnt,#t6:checked~.tabbar label[for=t6] .cnt,#t7:checked~.tabbar label[for=t7] .cnt{color:rgba(255,255,255,.8)}
+#t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3,#t4:checked~#p4,#t5:checked~#p5,#t6:checked~#p6,#t7:checked~#p7{display:block}
+.pick{border:1px solid var(--line);border-radius:13px;padding:12px 15px;margin-bottom:9px;background:var(--panel)}
+.pick-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px}
+.gtag{font-size:10px;font-weight:800;color:var(--acd);background:var(--acw);border-radius:5px;padding:2px 7px}
+.gtag.gm{color:#8a5a1f;background:#f7efd6}.gtag.bb{color:#a03060;background:#fbe4ef}
+.purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset);border-radius:5px;padding:2px 7px}
+.ecpm{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:#eef0f5;color:#4a4f58}
+.ecpm.hi{background:#e7f6ef;color:#157a52}.ecpm.mid{background:#fbf1de;color:#9a6207}
+.pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--acw);color:var(--acd);white-space:nowrap}
+.ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:170px;line-height:1.4}
+.pwhy{font-size:12px;line-height:1.55;color:var(--sub)}.pwhy b{color:var(--ink);font-weight:700}
+.pwhy a{color:var(--ac);text-decoration:none;font-weight:700;border-bottom:1px solid var(--acw)}
+.foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center}
+@media(max-width:540px){.wrap{padding:14px 12px 44px}.mast{padding:16px 16px}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+ <div class="mast">
+   <span class="who">데이터 분석실 · 봄딩 편</span>
+   <h1>오늘 봄딩이 쓰면 유입이 잘 될 글을 7탭(확장·발굴 + 주축 4게임 + 육아)으로 골랐습니다. 7월 23일 대형 업데이트 두 건이 코앞이라 선점형 글에 무게를 뒀어요.</h1>
+   <div class="meta">발행일 <b>2026-07-21</b> · 대상 <b>봄딩</b>(네이버 bomding · 게임 + 육아 쿠팡 파트너스) · 오늘 쓸 글 전용(PICKS) — 분석·SEO 점수는 월요일 리포트 참조</div>
+   <div class="rx"><span class="pp">P1</span><div class="rc"><b>오늘 가장 먼저 쓸 1편</b> — <b>메이플스토리 챌린저스 월드리프 1차(7/23 점검 후 시작)</b>입니다. 리프 기간이 7/23~8/19로 확정돼 있어 <b>D-2</b>이고, 같은 날 제네시스 패스 PLUS(7/23~8/20)까지 함께 열려 검색이 몰리는 창구예요. 봄딩엔 「챌린저스월드 시즌4 리프 체크리스트」가 이미 있지만 그건 <b>리프 전 준비물</b> 각도라, 이번 글은 <b>헤네시스 NPC 이사가를 통한 실제 이전 절차·캐릭터 5개 제한·2차 리프(8/20~9/16)와의 차이</b>로 검색의도를 갈라 주세요.</div></div>
+ </div>
+
+ <h2 class="sec">✍️ 오늘 쓸 글 추천</h2>
+ <p class="sub">7탭(확장·발굴 + 두근두근타운·포켓몬 GO·포켓몬 챔피언스·메이플플래닛 + 🍼육아) 각 <b>3개</b>. 각 픽에 <b>왜 지금</b>(정확한 날짜·D-day)을 달았고, 시의성이 없는 건 가짜 시급성 대신 <b>“검색수요 상존”</b>으로 정직하게 표기했어요. 포켓몬 GO·챔피언스는 연봄(덕질·정보·굿즈)과 겹치지 않게 <b>대중 공략·과금·기기 효율</b> 각도로 잡았습니다. 육아 픽은 <b>상세페이지 스펙으로 검증 가능한 제품군만</b> 골랐고 eCPM 기대등급을 함께 달았어요. 카드의 <b>✈ 발행 요청</b> 버튼으로 기획팀에 바로 발주됩니다.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3"><input type="radio" name="rec" id="t4"><input type="radio" name="rec" id="t5"><input type="radio" name="rec" id="t6"><input type="radio" name="rec" id="t7">
+   <div class="tabbar"><label class="tablab" for="t1">🔼 확장 <span class="cnt">3</span></label><label class="tablab" for="t2">🆕 발굴 <span class="cnt">3</span></label><label class="tablab" for="t3">두근두근타운 <span class="cnt">3</span></label><label class="tablab" for="t4">포켓몬 GO <span class="cnt">3</span></label><label class="tablab" for="t5">포켓몬 챔피언스 <span class="cnt">3</span></label><label class="tablab" for="t6">메이플플래닛 <span class="cnt">3</span></label><label class="tablab" for="t7">🍼 육아 <span class="cnt">3</span></label></div>
+
+   <div class="tpanel" id="p1">
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플스토리</span><span class="purp">업데이트 가이드</span><span class="pwhen">1차 리프 D-2(7/23~8/19)</span><span class="ptitle">메이플스토리 챌린저스 월드리프 1차 — 이사가로 일반 서버에 캐릭터 옮기는 법</span></div><div class="pwhy"><b>P1</b>. 챌린저스 월드리프 1차 사전 신청이 <b>7월 23일(목) 점검 후~8월 19일(수) 23:59</b>로 확정됐어요. 같은 날 제네시스 패스 PLUS(7/23~8/20, 주간 보스미션)도 함께 열립니다. ★기존 「챌린저스월드 시즌4 리프 체크리스트」와 자기잠식되지 않도록 <b>헤네시스 NPC 이사가 이용 절차·리프 가능 캐릭터 5개 제한·2차 리프(8/20~9/16)와의 차이</b>만 다뤄 주세요. ★<b>본섭 메이플스토리</b> 이야기이니 메이플플래닛·메이플랜드와 절대 섞지 마세요. <a href="https://maplestory.nexon.com/News/Event/Ongoing/1236" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">붕괴: 스타레일</span><span class="purp">쿠폰·이벤트</span><span class="pwhen">콜라보 시작 D-3(7/24)</span><span class="ptitle">스타레일 Fate/stay night UBW 2차 콜라보 — 토오사카 린·길가메시 언제 뽑을까</span></div><div class="pwhy">4.4버전 Fate/stay night [UBW] 2차 콜라보가 <b>7월 24일 시작</b>이에요. ★검색 요약이 “진행 중”처럼 보이지만 <b>아직 시작 전</b>이니 반드시 “7/24 시작 예정”으로 적어 주세요. 봄딩엔 붕괴3rd 피규어·스타레일 전시 후기만 있고 본편 픽업 글은 없어 자기잠식이 없어요. 각도는 <b>“지금 별을 얼마나 모아둬야 하는지”</b> 판단형으로 — 유료 픽업(토오사카 린)과 무료 획득분을 갈라서 정리하면 신규·복귀 유저 유입이 좋습니다. <a href="https://www.inven.co.kr/webzine/news/?news=318116" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">팰월드</span><span class="purp">게임 공략</span><span class="pwhen">1.0 정식출시 D+11(7/10)</span><span class="ptitle">팰월드 1.0 특성(패시브) 조합 추천 — 어떤 조합이 진짜 이득인가</span></div><div class="pwhy">7월 10일 1.0 정식 출시로 교배·특성 체계가 재편돼 커뮤니티가 지금 실측을 쌓는 구간이에요(스팀 최고 동접 85만). 봄딩엔 거점·서식지·사양 글 3편이 있지만 <b>특성/교배 조합은 미발행</b>이라 클러스터를 그대로 키울 수 있어요. ★반드시 <b>“1.0 이후 기존 교배 공식이 달라졌다”</b>는 점을 명시하고, 조합표 수치는 단정 대신 “커뮤니티 보고 다수” 표현으로 여지를 남겨 주세요. <a href="https://www.gameple.co.kr/news/articleView.html?idxno=216055" target="_blank" rel="noopener">출처↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="pick"><div class="pick-top"><span class="gtag">헤일로: 캠페인 이볼브드</span><span class="purp">출시·첫인상</span><span class="pwhen">출시 D-7(7/28)</span><span class="ptitle">헤일로 캠페인 이볼브드, 시리즈 최초 PS5 동시발매 — 살 만한가</span></div><div class="pwhy">7월 28일 정식 출시이고, 프리미엄 에디션 구매자는 <b>7월 23일부터 5일 얼리액세스</b>가 열려요. 마스터 치프가 <b>시리즈 최초로 PS5에 온다</b>는 상징성이 커서 콘솔 커뮤니티 화제성이 최상급입니다. 봄딩 완전 신규 소재예요. 각도는 PS5 유저 눈높이로 “왜 이번엔 플스로 나오나 + 신규 미션 3개·4인 협동 크로스플레이”. ★<b>국내 정발가·한글화 여부는 확인 필요</b> — 발행 직전 국내 유통사 공지로 재확인해 주세요. <a href="https://www.digitalfocus.news/news/articleView.html?idxno=16043" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">프리스타일 리부트</span><span class="purp">사전예약</span><span class="pwhen">사전예약 시작 D-1(7/22)</span><span class="ptitle">프리스타일 리부트 사전예약 시작 — 그 3대3 농구게임이 돌아옵니다</span></div><div class="pwhy">조이시티가 <b>7월 22일 국내 사전예약을 시작</b>해요(대만·홍콩·마카오는 앞서 서비스 중). 2000년대 인기 IP 리부트라 향수 검색 유입이 기대되는 완전 신규 소재입니다. “그때 그 프리스타일 맞다”는 프레이밍 + 새 엔진 기반 변화점 + 사전예약 참여 방법을 초보 눈높이로. ★<b>정식 출시일은 아직 미정</b>이니 “사전예약만 먼저 열린다”고 정직하게 적고, 플랫폼(모바일/PC) 표기도 공식 공지로 재확인해 주세요. <a href="https://news.nate.com/view/20260701n32655" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">열혈강호: 넥스트</span><span class="purp">사전예약</span><span class="pwhen">사전예약 진행 중 · 출시일 미공개</span><span class="ptitle">열혈강호: 넥스트 5직업 중 뭘 고를까 — 도무사·검무사·창무사·궁무사·의원 비교</span></div><div class="pwhy">6월 29일 사전예약이 시작돼 지금도 진행 중이고, 사전예약 목표 달성 시 실물 굿즈(한비광·진풍백 쿠션 등)를 주는 캠페인이 돌아가요. ★<b>중요</b> — 오늘 교차검증에서 “7월 29일 출시”라는 정보가 <b>1차 출처(공식 사이트·주요 매체)에서 확인되지 않았습니다</b>. 사전예약일(6/29)과 뒤섞인 것으로 보이니 <b>출시일을 단정하지 말고 “출시일 미공개”</b>로 쓰세요. 봄딩엔 창무사·도무사 소개 글이 있으니 이번 글은 <b>5직업 비교·초보 추천</b>으로 각도를 갈라 주세요. <a href="https://www.inven.co.kr/webzine/news/?news=317948" target="_blank" rel="noopener">출처↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="purp">쿠폰·이벤트</span><span class="pwhen">콜라보 업데이트 D+1(7/20)</span><span class="ptitle">두근두근타운 산리오 콜라보 가챠머신 — 한정 스티커·탈것 컬렉션 완성 순서</span></div><div class="pwhy">7월 20일 산리오캐릭터즈 콜라보 업데이트가 들어와 지금 네이버 블로그에 글이 2시간 단위로 올라오는 <b>초신선 구간</b>이에요. ★단 <b>「산리오콜라보 마이멜로디·쿠로미·시나모롤 뭐부터 사야 할까」는 이미 발행됐습니다</b> — 이 글은 그 “구매 우선순위”와 겹치지 않게 <b>가챠머신·스티커·탈것 수집 효율</b>로 검색의도를 갈라 주세요. 확률 수치는 공식 미공개라 단정 대신 “공식 확인 권장”으로. <a href="https://www.betanews.net/article/view/beta202607200099" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="purp">게임 공략</span><span class="pwhen">신규 가구 출시 D+1 · 가이드는 검색수요 상존</span><span class="ptitle">두근두근타운 인테리어 기초 — 산리오 가구로 방 꾸미는 배치 팁</span></div><div class="pwhy">봄딩 두근두근타운 글 14편이 전부 시즌 이벤트 위주라 <b>인테리어·집 꾸미기 자체 가이드는 아직 없어요</b>. 신상 산리오 가구가 어제 들어온 김에 “새 가구를 어디에 놓을까” 수요와 자연스럽게 붙습니다. ★이건 이벤트가 아니라 <b>에버그린</b>이라 시급성 문구를 붙이지 말고, 공간 활용·테마 통일 같은 배치 규칙에 신상 가구를 예시로 얹는 구성이 오래 갑니다. <a href="https://www.betanews.net/article/view/beta202607200099" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="purp">게임 공략</span><span class="pwhen">콜라보 진행 중(마감일 확인 필요)</span><span class="ptitle">두근두근타운 산리오 콜라보 무과금 하루 루틴 — 어디까지 모을 수 있나</span></div><div class="pwhy">같은 콜라보지만 <b>“무과금으로 하루에 뭘 얼마나 모으나”</b>는 앞의 두 글(구매 우선순위·가챠 효율)과 검색의도가 또 달라요. 일일 재화 수급 → 우선 교환 순서 → 현실적으로 도달 가능한 컬렉션 범위로 정리하면 무과금 독자층이 오래 머뭅니다. ★<b>콜라보 종료일이 공식 기사에 명시돼 있지 않으니</b> “마감일은 인게임 공지 확인”이라고 적고 임의 날짜를 쓰지 마세요. <a href="https://www.betanews.net/article/view/beta202607200099" target="_blank" rel="noopener">출처↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p4">
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">게임 공략</span><span class="pwhen">로테이션 전환 D-1(7/22)</span><span class="ptitle">포켓몬고 가이오가 막차 → 내일부터 솔가레오·메가보만다, 카운터 한 번에</span></div><div class="pwhy">가이오가✨·메가나무킹✨ 레이드 로테이션이 <b>오늘(7/21)로 마감</b>되고 <b>내일(7/22)부터 솔가레오✨·메가보만다✨</b>로 넘어가요. “오늘 막차로 뭘 잡고, 내일부터 뭘 준비할지”를 한 글에 담으면 이틀치 검색을 동시에 먹습니다. ★레이드 로테이션은 변경될 수 있으니 <b>발행 직전 재확인 문구</b>를 본문에 넣어 주세요. 연봄도 같은 로테이션을 다루지만 연봄은 도감·수집 각도라, 봄딩은 <b>카운터·효율</b>로 확실히 갈라 주세요. <a href="https://poketory.com/pokemongo_current_raid/" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">게임 공략</span><span class="pwhen">이벤트 마감 D-10(~7/31)</span><span class="ptitle">포켓몬고 10주년 모으령 이로치, 어디서 나오고 어떻게 알아보나</span></div><div class="pwhy">10주년 기념 코인 모으령 이벤트가 <b>7월 31일까지</b> 진행돼요. ★<b>GO패스 가성비 각도는 연봄이 이미 발행했고 봄딩 재시도가 2회 실패한 이력이 있어 그쪽으로 가면 안 됩니다</b> — 대신 <b>스폰 지역·이로치 체감 확률·눈으로 구분하는 법</b>이라는 전혀 다른 검색의도로 잡으세요. 정확한 이로치 확률은 공식 미공개라 “체감·커뮤니티 보고” 선에서 단정을 피해 주세요. <a href="https://www.inven.co.kr/board/pokemongo/4989/4608" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="purp">기기·액세서리</span><span class="pwhen">폭염 시즌 · 검색수요 상존</span><span class="ptitle">포켓몬고 여름 야외플레이 필수템 — 보조배터리·목걸이형 폰케이스 고르는 법</span></div><div class="pwhy">GPS와 화면 상시 점등으로 배터리 소모가 큰 게임 특성상, 폭염 시즌에는 보조배터리·거치 액세서리 검색이 함께 올라와요. 봄딩 미발행이고 기존 GO플러스+ 글(자동캐치 기기)과도 각도가 달라 중복이 아닙니다. ★<b>가짜 D-day를 붙이지 말고</b> 계절 수요로 정직하게 쓰고, 용량(mAh)·방수등급처럼 <b>상세페이지에서 확인 가능한 스펙만</b> 비교하세요. 육아 탭과 달리 여긴 게임 액세서리 각도로 유지합니다.</div></div>
+   </div>
+
+   <div class="tpanel" id="p5">
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="purp">대회·행사</span><span class="pwhen">개최 D-8(7/29 런던)</span><span class="ptitle">챔피언 오브 챔피언스 7월 29일 런던 — MCS랑은 완전히 다른 이벤트입니다</span></div><div class="pwhy"><b>7월 29일 14:00 BST(런던)</b> 개최로, 3회 세계챔피언 Ray Rizzo가 코칭하고 휘파람 챔피언·피자 아크로바틱 챔피언 같은 이색 참가자 8인이 겨루는 쇼매치예요. 봄딩엔 MCS·랭크전·티어표 글이 많지만 이 이벤트는 미발행입니다. ★제목과 본문에 <b>“MCS(월간 챌린저 시리즈)와 다른 별개 이벤트”</b>임을 분명히 박아 혼동을 막아 주세요. 한국시간 환산은 발행 직전 재확인. <a href="https://pokemon.gamespress.com/The-Pokemon-Company-International-Announces-Champion-of-Champions-Tour" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="purp">게임 공략</span><span class="pwhen">레귤레이션 상시 · 검색수요 상존</span><span class="ptitle">포켓몬 챔피언스 메가라이츄 X vs Y — 실전에선 뭘 키워야 하나</span></div><div class="pwhy">6월 17일 업데이트로 두 폼이 모두 들어왔는데, 봄딩 기존 글은 「메가스톤 총정리」·「우선순위 정리」뿐이라 <b>폼별 1:1 비교는 아직 없어요</b>. 특성·스탯 배분·물리형 vs 특수형 차이를 실전 조합 관점에서 갈라주면 “둘 중 뭐?”라는 단일 검색의도를 정확히 받습니다. ★수치는 작성 직전 공식/op.gg로 재확인하고, 티어 단정 대신 “상황별 우위”로 서술해 주세요. <a href="https://op.gg/pokemon-champions" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="purp">게임 공략</span><span class="pwhen">검색수요 상존(미개척 의도)</span><span class="ptitle">포켓몬 챔피언스 더블배틀 입문 조합 3선 — 싱글이랑 뭐가 다른가</span></div><div class="pwhy">봄딩의 랭크전 글이 12편 넘게 쌓였는데 <b>전부 싱글배틀 기준</b>이라 더블배틀은 완전 미개척이에요. 범위기·타겟팅처럼 룰 자체가 달라 “싱글만 하던 사람이 처음 더블 갈 때” 수요를 통째로 받을 수 있습니다. ★조합 3개는 op.gg·커뮤니티 교차 확인 후 확정하고, 확인 안 된 조합은 넣지 마세요. 원자료에서도 개별 포켓몬 공략은 포화, <b>조합형이 빈틈</b>이라고 나왔습니다. <a href="https://op.gg/pokemon-champions" target="_blank" rel="noopener">출처↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p6">
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="purp">게임 공략</span><span class="pwhen">시리즈 확장 · 검색수요 상존</span><span class="ptitle">메이플플래닛 팔라딘 스킬트리 1~4차 템세팅 총정리</span></div><div class="pwhy">아란·불독·비숍·나이트로드·보우마스터·썬콜까지 <b>6개 직업이 같은 포맷으로 발행돼 검증된 고효율 템플릿</b>인데 팔라딘만 비어 있어요. ★dedup 도구가 나이트로드 편과 유사도로 ‘발행완료’를 띄웠지만, <b>직업이 다른 시리즈물이라 오탐</b>으로 판단해 채택했습니다(라이브 421편 대조에서도 팔라딘 편은 없음). ★표기는 반드시 <b>“메이플플래닛 팔라딘”</b>으로 — 본섭 팔라딘과 섞이면 안 됩니다. 스킬 수치는 인게임 재확인 필수. <a href="https://namu.wiki/w/%EB%A9%94%EC%9D%B4%ED%94%8C%20%ED%94%8C%EB%9E%98%EB%8B%9B/%EC%A7%81%EC%97%85" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="purp">쿠폰·이벤트</span><span class="pwhen">이벤트 진행 중(7/3~9/3)</span><span class="ptitle">메이플플래닛 아란 쾌속성장 스텝업 — 레벨별 보상 파밍 순서</span></div><div class="pwhy">쾌속성장 스텝업 이벤트가 <b>7월 3일~9월 3일</b>로 아직 6주 이상 남아 있어 급하게 소모되지 않는 소재예요. Lv10/30/60/100/120 단계별 보상을 “어느 구간부터 뭘 먼저 챙기나” 순서로 정리하면 신규·복귀 유저가 오래 봅니다. ★기존 「모험의시작 지원이벤트」 글과 겹치지 않게 <b>아란 전용 스텝업</b>이라는 점을 제목·소제목에 박아 주세요. 아란 정확 출시일은 미확인이라 “7월 초 패치” 정도로 넓게 표기. <a href="https://mapleplanet.co.kr/board/event/637" target="_blank" rel="noopener">출처↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="purp">쿠폰·이벤트</span><span class="pwhen">마감 D-12(~8/2)</span><span class="ptitle">메이플플래닛 핫타임 쿠폰 참여법 — 시간대 놓치지 않는 법</span></div><div class="pwhy">핫타임 이벤트가 <b>7월 4일~8월 2일</b>로 마감 D-12예요. ★쿠폰 코드는 매일 바뀌기 때문에 <b>“코드 나열형”으로 쓰면 며칠 만에 낡습니다</b> — 참여 시간대·알림 설정·입력 경로 중심으로 써야 색인 자산으로 오래 살아남아요. 봄딩 메이플플래닛 클러스터에서 이벤트 축을 담당하는 글이 됩니다. <a href="https://mapleplanet.co.kr/board/event/638" target="_blank" rel="noopener">출처↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p7">
+     <div class="pick"><div class="pick-top"><span class="gtag bb">유아 클립 선풍기</span><span class="ecpm hi">eCPM 상</span><span class="purp">제품 비교·추천</span><span class="pwhen">폭염 성수기 · 검색수요 상존</span><span class="ptitle">아기 휴대용 클립 선풍기 추천 — 소음·배터리 지속시간·안전날개 비교</span></div><div class="pwhy">전국 폭염 시기라 유모차·아기띠 부착형 수요가 몰리고, <b>구매 결정형 검색</b>이라 전환 의도가 뚜렷해요. 봄딩엔 실내 거치형 서큘레이터 글은 있지만 <b>휴대용 클립 선풍기는 미발행</b>이라 제품군이 겹치지 않습니다. ★비교표에는 <b>dB(소음)·mAh(배터리)·KC 안전인증·날개 보호커버 유무</b>처럼 상세페이지에서 확인되는 지표만 넣고, 확인 안 되는 제품은 아예 빼 주세요. 쿠팡 파트너스 고지문 필수.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag bb">유아 에어풀</span><span class="ecpm hi">eCPM 상</span><span class="purp">제품 비교·추천</span><span class="pwhen">여름 휴가 성수기 · 검색수요 상존</span><span class="ptitle">아기 물놀이 에어풀(가정용 풀장) 추천 — 사이즈·재질·배수 편의 비교</span></div><div class="pwhy">워터파크 대체 수요가 몰리는 시기이고 사이즈·인원수별 판단이 뚜렷해 전환이 잘 붙는 제품군이에요. ★dedup 도구가 기존 「아기 물놀이 튜브/KC인증 PVC·EVA 비교추천」과 같은 앵커로 묶었지만, <b>몸에 끼우는 튜브·암링과 바닥에 놓는 풀장은 구매 결정이 다른 별개 제품군</b>이라 판단해 채택했습니다 — 대신 본문에서 <b>“튜브 글과 다른 제품”임을 명시하고 기존 튜브 글로 내부링크</b>를 걸어 주세요. 프탈레이트 프리 표기·배수 마개 유무를 스펙 기준으로 비교하고, 안전사고 과장 문구는 금지.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag bb">유아 아쿠아슈즈</span><span class="ecpm mid">eCPM 중</span><span class="purp">제품 비교·추천</span><span class="pwhen">물놀이 시즌 · 검색수요 상존</span><span class="ptitle">아기 아쿠아슈즈 추천 — 사이즈 고르는 법·논슬립 밑창·배수구멍 비교</span></div><div class="pwhy">계곡·워터파크·가정용 풀 어디서든 함께 사는 품목인데 봄딩엔 미발행이라 물놀이 클러스터의 빈칸이에요. 단가가 낮아 eCPM은 중간이지만, <b>사이즈 실패가 잦은 품목</b>이라 “한 사이즈 크게 사야 하나” 같은 롱테일 질문을 통째로 받을 수 있습니다. ★밑창 재질·배수구멍 유무·사이즈 표기(mm)처럼 상세페이지에 있는 정보만 비교하고, 미끄럼 방지 성능을 수치로 단정하지 마세요.</div></div>
+   </div>
+
+ </div>
+
+ <p class="foot">데이터 분석실(트렌드 분석팀) · 실제 작성은 작성팀(봄딩) · PICKS 모드(화~일)는 오늘 쓸 글만 갱신 — 진단·SEO 점수는 월요일 FULL 리포트에서 · dedup: classify-picks(-RefreshFailed·-RefreshPublished) 실행, ✅발행완료 2건(두근두근타운 산리오 구매 우선순위·아기 모기패치) 제외 후 대체 투입 · 오탐 판단으로 채택한 2건(메이플플래닛 팔라딘·아기 에어풀)은 카드 본문에 근거 명시 · ★열혈강호: 넥스트 “7/29 출시”는 1차 출처 미확인이라 D-day로 쓰지 말 것 · 확인 필요: 헤일로 국내 정발가·한글화, 두근두근타운 콜라보 종료일·획득방식, 팰월드 1.0 교배값, 챔피언 오브 챔피언스 한국시간 · 포켓몬은 연봄(덕질·굿즈)과 각도 분리(대중 공략·과금·기기)</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
