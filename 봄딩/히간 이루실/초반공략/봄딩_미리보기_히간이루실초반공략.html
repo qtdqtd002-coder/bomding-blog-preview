@@ -1,0 +1,301 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>히간이루실 출시 첫날 뭐부터, 초반 스타터·캐릭터 고르는 법 정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .spec{color:#333;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .minus-line{color:#9a4a3a;}
+  #copy .warn-line{color:#b5651d;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">히간이루실 출시 첫날 뭐부터, 초반 스타터·캐릭터 고르는 법 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.20</span><span>· 게임</span></div>
+
+    <p>히간: 이루실 사전등록해두신 분들 많으실 텐데요, 막상 출시하고 나면 뭐부터 눌러야 할지 감이 잘 안 오실 수도 있잖아요. 아직 국내 정식 출시 전이긴 하지만, 이미 해외에서 여러 번 서비스돼온 버전이 그대로 들어오는 거라 미리 알아두면 도움이 될 것들이 꽤 있더라고요. 사전등록 보상 구성은 지난 글에서 이미 다뤘으니, 오늘은 <b>출시 첫날 뭐부터 해야 하는지</b>하고 <b>스타터로 어떤 캐릭터를 눈여겨봐야 하는지</b>를 중심으로 정리해볼게요.</p>
+
+    <!-- 이미지 이유: 도입부 게임 인지 앵커 / 출처: 넥슨 공식 사전등록 페이지 / 분류: B형(공식 배포 에셋 재사용) -->
+    <div class="imgwrap"><img src="img/visual-logo.png" alt="히간 이루실 공식 타이틀 로고"></div>
+    <p class="cap">히간: 이루실 공식 타이틀 로고예요.</p>
+    <p class="src">이미지 출처: <a href="https://higaneruthyll.nexon.com/pre-registration" target="_blank">히간: 이루실 공식 사전등록 페이지</a></p>
+
+    <h2 class="sub">히간이루실 출시일 언제예요?</h2>
+    <p>정식 출시는 <b>2026년 7월 23일(목) 오전 11시(KST)</b>로 확정됐어요. 오늘이 20일이니까 딱 D-3, 이번 주 목요일이면 바로 만나볼 수 있는 거죠. 넥슨이 새로 만든 퍼블리싱 브랜드 <b>'select all'</b>의 첫 번째 타이틀인데, 데이터 기반 검토 과정을 거쳐 선보이는 라인업이라 넥슨이 이 게임에 거는 기대치도 꽤 높은 편이라고 해요. 개발은 중국 빌리빌리(Bilibili Inc.)가 맡았고요. 국내에 들어오는 건 완전 신작이 아니라 <b>2023년 4월 글로벌 출시 이후 2024년 12월 중국, 2025년 12월 대만·홍콩·마카오에 순차 적용된 '2.0 리메이크' 버전</b>이에요. 그만큼 다른 지역에서 이미 다듬어진 밸런스와 콘텐츠 양으로 만나볼 수 있다는 뜻이에요. 참고로 이 게임은 <b>청소년 이용불가</b> 등급이라 스토어에서 성인 인증을 미리 마쳐두면 첫날 진입이 더 매끄러울 거예요.</p>
+
+    <table class="tbl">
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>출시일</td><td>2026.07.23(목) 11:00 KST</td></tr>
+      <tr><td>플랫폼</td><td>모바일 · PC</td></tr>
+      <tr><td>장르</td><td>서브컬처 수집형 3D RPG</td></tr>
+      <tr><td>등급</td><td>청소년 이용불가</td></tr>
+    </table>
+
+    <p>참고로 사전등록 보상은 등록자 전원에게 별하늘 모집권 20장을 비롯해 여러 개가 지급되는데, 이 모집권은 가챠가 열리자마자 바로 쓸 수 있는 재화라 초반 챕터를 서두를수록 그만큼 빨리 써먹을 수 있어요. 자세한 보상 구성은 사전등록 정리 글에서 이미 다뤘으니 궁금하신 분은 그쪽을 참고해주세요.</p>
+
+    <h2 class="sub">캐릭터는 누구부터 봐야 할까</h2>
+    <p>사전등록 페이지 기준으로 이름을 올린 대표 캐릭터는 <b>유페리아, 클로아, 리사, 이루야, 시스레트</b> 다섯 명인데요, 다섯 명 <b>전원 일러스트와 대사가 이미 공개</b>된 상태예요. 사전등록 초반엔 유페리아 말고는 실루엣만 있었는데, 지금은 그때 잠겨 있던 넷도 다 열려서 다들 표정까지 또렷하게 보이네요.</p>
+
+    <!-- 이미지 이유: 캐릭터 파트 대표컷(유페리아) / 출처: 넥슨 공식 사전등록 페이지 / 분류: B형(공식 배포 에셋 재사용) -->
+    <div class="imgwrap"><img src="img/yupheria.png" alt="히간 이루실 대표 캐릭터 유페리아 일러스트"></div>
+    <p class="cap">유페리아예요 — 해외판 기준으로는 호플라이트 계열이었어요.</p>
+    <p class="src">이미지 출처: <a href="https://higaneruthyll.nexon.com/pre-registration" target="_blank">히간: 이루실 공식 사전등록 페이지</a></p>
+
+    <table class="tbl">
+      <tr><th>캐릭터</th><th>공개된 대표 대사</th></tr>
+      <tr><td>유페리아</td><td>"저는 당신의 검이자 방패입니다…"</td></tr>
+      <tr><td>클로아</td><td>"미래는 운명이 선택하는 걸까요, 아니면 당신이 선택하는 걸까요?"</td></tr>
+      <tr><td>리사</td><td>"얼어붙은 녀석들이야말로 최고의 관객이지, 히히… 이제 리사가 진리를 전해줄 시간이야."</td></tr>
+      <tr><td>이루야</td><td>"성급한 나쁜 아이에게는 조금 벌이 필요하지…"</td></tr>
+      <tr><td>시스레트</td><td>"나는 갈망해... 더 미친 듯이 피어나기를! 하하하하!"</td></tr>
+    </table>
+
+    <h2 class="sub">전투는 어떤 방식이에요</h2>
+    <p>전투는 <b>실시간 3D 액션과 카드 전술을 결합한 하이브리드 방식</b>으로 진행돼요. 해외 버전 기준으로는 캐릭터를 <b>어쌔신·캐스터·호플라이트·가디언·레인저·아디우트릭스, 이렇게 클래스 6종</b>과 <b>파이로·아이스·움브라·아네모·루미노, 속성 5가지</b>로 조합해서 덱을 짜는 구조로 알려져 있는데요, 국내 버전도 같은 2.0 리메이크를 기반으로 하는 만큼 큰 틀은 비슷하게 갈 가능성이 높아요. 이 클래스·속성 조합이 다음에 이야기할 <b>스타터 선택 기준</b>과도 바로 이어지는 부분이에요.</p>
+
+    <table class="tbl">
+      <tr><th>항목</th><th>내용 (해외 버전 기준)</th></tr>
+      <tr><td>전투 방식</td><td>실시간 3D 액션 + 카드 전술 하이브리드</td></tr>
+      <tr><td>클래스</td><td>어쌔신·캐스터·호플라이트·가디언·레인저·아디우트릭스 (6종)</td></tr>
+      <tr><td>속성</td><td>파이로·아이스·움브라·아네모·루미노 (5가지)</td></tr>
+    </table>
+
+    <h2 class="sub">스타터로는 어떤 캐릭터를 노려볼까</h2>
+    <p>그럼 스타터로는 누굴 눈여겨봐야 할까요? 해외에서 오래 서비스되다 보니 커뮤니티에서 꾸준히 상위권으로 꼽히는 캐릭터들이 있는데요, 국내 사전등록 5인 중 <b>이루야·시스레트·유페리아·클로아 넷은 해외판에 이미 있던 캐릭터</b>라는 게 확인됐어요(리사는 이번엔 매칭을 확인하지 못했어요). 특히 <b>이루야는 해외판 이름이 Eluya인 어쌔신 계열 딜러</b>로 상위권에 자주 꼽히고, <b>시스레트는 Sirslet이라는 이름의 파이로 속성 호플라이트 계열(대형 무기를 쓰는 타입)</b>이에요. 유페리아는 Eupheria라는 이름의 호플라이트 계열, 클로아는 Kloar라는 이름의 캐스터 계열로 알려져 있어요. 다만 이 평가는 대부분 2.0 리메이크 이전 정보라, 국내에 들어오는 2.0 기준으로 그대로일지는 다시 봐야 해요. 그래도 스타터를 고를 때 참고할 만한 힌트는 되는 셈이에요.</p>
+
+    <table class="tbl">
+      <tr><th>캐릭터(국내)</th><th>해외판 동일 캐릭터</th><th>계열(해외 기준)</th></tr>
+      <tr><td>이루야</td><td>Eluya</td><td>어쌔신 · 딜러</td></tr>
+      <tr><td>시스레트</td><td>Sirslet</td><td>파이로 호플라이트(창병)</td></tr>
+      <tr><td>유페리아</td><td>Eupheria</td><td>호플라이트</td></tr>
+      <tr><td>클로아</td><td>Kloar</td><td>캐스터</td></tr>
+      <tr><td>리사</td><td>매칭 미확인</td><td>-</td></tr>
+    </table>
+
+    <h2 class="sub">출시 첫날 뭐부터 하면 될까</h2>
+    <p>여기서부터는 해외 버전 흐름과 공식 발표 내용을 바탕으로 미리 정리해보는 순서예요. 국내에서 그대로 갈지는 출시 후 다시 봐야 하지만, 큰 틀은 참고가 될 거예요.</p>
+
+    <p><b>1순위 — 메인 스토리 초반 챕터부터 진행하기.</b> 해외 버전에서는 메인 스토리 초반 몇 챕터를 클리어해야 가챠(소환) 시스템이 열리는 구조였다고 해요. 캐릭터부터 뽑고 싶어도 스토리를 어느 정도는 밀어야 한다는 뜻이죠.</p>
+
+    <p><b>2순위 — 우편함부터 열어보기.</b> 해외 버전에서는 보상이 자동 지급이 아니라 인게임 우편함에서 직접 받아가는 방식이었어요. 국내 사전등록 보상도 똑같이 우편함 수령일 가능성이 높으니, 첫 접속하면 우편함부터 확인하시는 걸 추천드립니다.</p>
+
+    <p><b>3순위 — 초보자 전용 배너 있는지 확인하기.</b> 해외 버전엔 <b>20회를 뽑으면 3성 캐릭터 하나가 확정으로 나오는</b> 신규 유저 전용 배너가 따로 있었다고 하는데요, <b>다만 이건 해외 버전 기준이라 국내에서 배너 구성이나 확률이 그대로 갈지는 출시 후 직접 확인이 필요해요.</b></p>
+
+    <p><b>4순위 — 방치형 보상도 챙기기.</b> 넥슨이 밝힌 2.0 리메이크의 특징 중 하나가 반복 사냥 피로도를 덜어주는 방치형 시스템인데요, 보통 이런 시스템은 접속하지 않아도 어느 정도 보상이 쌓이는 경우가 많으니 첫날부터 켜두면 손해 볼 게 없거든요.</p>
+
+    <table class="tbl">
+      <tr><th>순위</th><th>할 일 (해외 버전 기준)</th></tr>
+      <tr><td>1순위</td><td>메인 스토리 초반 챕터 클리어 (가챠 해금)</td></tr>
+      <tr><td>2순위</td><td>우편함에서 사전등록·튜토리얼 보상 수령</td></tr>
+      <tr><td>3순위</td><td>초보자 전용 배너 20연 뽑기 (3성 확정)</td></tr>
+      <tr><td>4순위</td><td>방치형 보상 켜두기</td></tr>
+    </table>
+
+    <h2 class="sub">히간이루실 초반공략 정리</h2>
+    <p>정리해보면 출시일은 <b>7월 23일(목) 11시</b>, 대표 캐릭터 5인은 이미 전원 공개됐고 이 중 이루야·시스레트·유페리아·클로아는 해외판에도 있던 얼굴이에요. 첫날 동선은 위 표대로 움직이시면 크게 헤매실 일은 없을 거예요.</p>
+
+    <table class="tbl">
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>출시일</td><td>2026.07.23(목) 11:00</td></tr>
+      <tr><td>공개된 캐릭터</td><td>5인 전원 (이 중 4인 해외판 매칭 확인)</td></tr>
+      <tr><td>첫날 최우선(해외 기준)</td><td>메인 스토리 초반 챕터 클리어</td></tr>
+    </table>
+
+    <p><b>✔ 히간이루실 같이 보기 좋은 내용</b><br>
+    · 사전등록 보상·게임 소개는 이전 글에서 더 자세히 다뤘어요 (발행 시 링크 연결)</p>
+    <!-- 내부링크: 히간이루실 사전등록 글 post ID 확인 후 연결 -->
+
+    <p>아직 다 나온 정보는 아니지만, 미리 감을 잡아두면 출시 당일 훨씬 여유 있게 즐기실 수 있을 거예요. 실제로 붙어보고 달라지는 부분은 다음에 또 짚어볼게요.</p>
+
+    <div class="tags">#히간이루실 #히간이루실출시 #히간이루실캐릭터 #히간이루실공략 #넥슨신작게임 #서브컬처수집형RPG</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 3분):</b> 📷 <b>사진 2곳</b> 업로드, <b>내부링크 1곳</b> 발행된 사전등록 글 URL 연결. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 히간이루실 출시 첫날 뭐부터, 초반 스타터·캐릭터 고르는 법 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>히간: 이루실 사전등록해두신 분들 많으실 텐데요, 막상 출시하고 나면 뭐부터 눌러야 할지 감이 잘 안 오실 수도 있잖아요. 아직 국내 정식 출시 전이긴 하지만, 이미 해외에서 여러 번 서비스돼온 버전이 그대로 들어오는 거라 미리 알아두면 도움이 될 것들이 꽤 있더라고요. 사전등록 보상 구성은 지난 글에서 이미 다뤘으니, 오늘은 <b>출시 첫날 뭐부터 해야 하는지</b>하고 <b>스타터로 어떤 캐릭터를 눈여겨봐야 하는지</b>를 중심으로 정리해볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 히간: 이루실 공식 타이틀 로고 — 공식 사전등록 페이지에서 저장 후 업로드</p>
+
+      <h3>히간이루실 출시일 언제예요?</h3>
+      <p>정식 출시는 <b>2026년 7월 23일(목) 오전 11시(KST)</b>로 확정됐어요. 오늘이 20일이니까 딱 D-3, 이번 주 목요일이면 바로 만나볼 수 있는 거죠. 넥슨이 새로 만든 퍼블리싱 브랜드 <b>'select all'</b>의 첫 번째 타이틀인데, 데이터 기반 검토 과정을 거쳐 선보이는 라인업이라 넥슨이 이 게임에 거는 기대치도 꽤 높은 편이라고 해요. 개발은 중국 빌리빌리(Bilibili Inc.)가 맡았고요. 국내에 들어오는 건 완전 신작이 아니라 <b>2023년 4월 글로벌 출시 이후 2024년 12월 중국, 2025년 12월 대만·홍콩·마카오에 순차 적용된 '2.0 리메이크' 버전</b>이에요. 그만큼 다른 지역에서 이미 다듬어진 밸런스와 콘텐츠 양으로 만나볼 수 있다는 뜻이에요. 참고로 이 게임은 <b>청소년 이용불가</b> 등급이라 스토어에서 성인 인증을 미리 마쳐두면 첫날 진입이 더 매끄러울 거예요.</p>
+      <table>
+        <tr><th>항목</th><th>내용</th></tr>
+        <tr><td class="l">출시일</td><td>2026.07.23(목) 11:00 KST</td></tr>
+        <tr><td class="l">플랫폼</td><td>모바일 · PC</td></tr>
+        <tr><td class="l">장르</td><td>서브컬처 수집형 3D RPG</td></tr>
+        <tr><td class="l">등급</td><td>청소년 이용불가</td></tr>
+      </table>
+      <p>참고로 사전등록 보상은 등록자 전원에게 별하늘 모집권 20장을 비롯해 여러 개가 지급되는데, 이 모집권은 가챠가 열리자마자 바로 쓸 수 있는 재화라 초반 챕터를 서두를수록 그만큼 빨리 써먹을 수 있어요. 자세한 보상 구성은 사전등록 정리 글에서 이미 다뤘으니 궁금하신 분은 그쪽을 참고해주세요.</p>
+
+      <h3>캐릭터는 누구부터 봐야 할까</h3>
+      <p>사전등록 페이지 기준으로 이름을 올린 대표 캐릭터는 <b>유페리아, 클로아, 리사, 이루야, 시스레트</b> 다섯 명인데요, 다섯 명 <b>전원 일러스트와 대사가 이미 공개</b>된 상태예요. 사전등록 초반엔 유페리아 말고는 실루엣만 있었는데, 지금은 그때 잠겨 있던 넷도 다 열려서 다들 표정까지 또렷하게 보이네요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 대표 캐릭터 유페리아 일러스트 — 공식 사전등록 페이지에서 저장 후 업로드</p>
+      <table>
+        <tr><th>캐릭터</th><th>공개된 대표 대사</th></tr>
+        <tr><td class="l">유페리아</td><td>"저는 당신의 검이자 방패입니다…"</td></tr>
+        <tr><td class="l">클로아</td><td>"미래는 운명이 선택하는 걸까요, 아니면 당신이 선택하는 걸까요?"</td></tr>
+        <tr><td class="l">리사</td><td>"얼어붙은 녀석들이야말로 최고의 관객이지, 히히… 이제 리사가 진리를 전해줄 시간이야."</td></tr>
+        <tr><td class="l">이루야</td><td>"성급한 나쁜 아이에게는 조금 벌이 필요하지…"</td></tr>
+        <tr><td class="l">시스레트</td><td>"나는 갈망해... 더 미친 듯이 피어나기를! 하하하하!"</td></tr>
+      </table>
+
+      <h3>전투는 어떤 방식이에요</h3>
+      <p>전투는 <b>실시간 3D 액션과 카드 전술을 결합한 하이브리드 방식</b>으로 진행돼요. 해외 버전 기준으로는 캐릭터를 <b>어쌔신·캐스터·호플라이트·가디언·레인저·아디우트릭스, 이렇게 클래스 6종</b>과 <b>파이로·아이스·움브라·아네모·루미노, 속성 5가지</b>로 조합해서 덱을 짜는 구조로 알려져 있는데요, 국내 버전도 같은 2.0 리메이크를 기반으로 하는 만큼 큰 틀은 비슷하게 갈 가능성이 높아요. 이 클래스·속성 조합이 다음에 이야기할 <b>스타터 선택 기준</b>과도 바로 이어지는 부분이에요.</p>
+      <table>
+        <tr><th>항목</th><th>내용 (해외 버전 기준)</th></tr>
+        <tr><td class="l">전투 방식</td><td>실시간 3D 액션 + 카드 전술 하이브리드</td></tr>
+        <tr><td class="l">클래스</td><td>어쌔신·캐스터·호플라이트·가디언·레인저·아디우트릭스 (6종)</td></tr>
+        <tr><td class="l">속성</td><td>파이로·아이스·움브라·아네모·루미노 (5가지)</td></tr>
+      </table>
+
+      <h3>스타터로는 어떤 캐릭터를 노려볼까</h3>
+      <p>그럼 스타터로는 누굴 눈여겨봐야 할까요? 해외에서 오래 서비스되다 보니 커뮤니티에서 꾸준히 상위권으로 꼽히는 캐릭터들이 있는데요, 국내 사전등록 5인 중 <b>이루야·시스레트·유페리아·클로아 넷은 해외판에 이미 있던 캐릭터</b>라는 게 확인됐어요(리사는 이번엔 매칭을 확인하지 못했어요). 특히 <b>이루야는 해외판 이름이 Eluya인 어쌔신 계열 딜러</b>로 상위권에 자주 꼽히고, <b>시스레트는 Sirslet이라는 이름의 파이로 속성 호플라이트 계열(대형 무기를 쓰는 타입)</b>이에요. 유페리아는 Eupheria라는 이름의 호플라이트 계열, 클로아는 Kloar라는 이름의 캐스터 계열로 알려져 있어요. 다만 이 평가는 대부분 2.0 리메이크 이전 정보라, 국내에 들어오는 2.0 기준으로 그대로일지는 다시 봐야 해요. 그래도 스타터를 고를 때 참고할 만한 힌트는 되는 셈이에요.</p>
+      <table>
+        <tr><th>캐릭터(국내)</th><th>해외판 동일 캐릭터</th><th>계열(해외 기준)</th></tr>
+        <tr><td class="l">이루야</td><td>Eluya</td><td>어쌔신 · 딜러</td></tr>
+        <tr><td class="l">시스레트</td><td>Sirslet</td><td>파이로 호플라이트(창병)</td></tr>
+        <tr><td class="l">유페리아</td><td>Eupheria</td><td>호플라이트</td></tr>
+        <tr><td class="l">클로아</td><td>Kloar</td><td>캐스터</td></tr>
+        <tr><td class="l">리사</td><td>매칭 미확인</td><td>-</td></tr>
+      </table>
+
+      <h3>출시 첫날 뭐부터 하면 될까</h3>
+      <p>여기서부터는 해외 버전 흐름과 공식 발표 내용을 바탕으로 미리 정리해보는 순서예요. 국내에서 그대로 갈지는 출시 후 다시 봐야 하지만, 큰 틀은 참고가 될 거예요.</p>
+      <p><b>1순위 — 메인 스토리 초반 챕터부터 진행하기.</b> 해외 버전에서는 메인 스토리 초반 몇 챕터를 클리어해야 가챠(소환) 시스템이 열리는 구조였다고 해요. 캐릭터부터 뽑고 싶어도 스토리를 어느 정도는 밀어야 한다는 뜻이죠.</p>
+      <p><b>2순위 — 우편함부터 열어보기.</b> 해외 버전에서는 보상이 자동 지급이 아니라 인게임 우편함에서 직접 받아가는 방식이었어요. 국내 사전등록 보상도 똑같이 우편함 수령일 가능성이 높으니, 첫 접속하면 우편함부터 확인하시는 걸 추천드립니다.</p>
+      <p><b>3순위 — 초보자 전용 배너 있는지 확인하기.</b> 해외 버전엔 <b>20회를 뽑으면 3성 캐릭터 하나가 확정으로 나오는</b> 신규 유저 전용 배너가 따로 있었다고 하는데요, <b>다만 이건 해외 버전 기준이라 국내에서 배너 구성이나 확률이 그대로 갈지는 출시 후 직접 확인이 필요해요.</b></p>
+      <p><b>4순위 — 방치형 보상도 챙기기.</b> 넥슨이 밝힌 2.0 리메이크의 특징 중 하나가 반복 사냥 피로도를 덜어주는 방치형 시스템인데요, 보통 이런 시스템은 접속하지 않아도 어느 정도 보상이 쌓이는 경우가 많으니 첫날부터 켜두면 손해 볼 게 없거든요.</p>
+      <table>
+        <tr><th>순위</th><th>할 일 (해외 버전 기준)</th></tr>
+        <tr><td class="l">1순위</td><td>메인 스토리 초반 챕터 클리어 (가챠 해금)</td></tr>
+        <tr><td class="l">2순위</td><td>우편함에서 사전등록·튜토리얼 보상 수령</td></tr>
+        <tr><td class="l">3순위</td><td>초보자 전용 배너 20연 뽑기 (3성 확정)</td></tr>
+        <tr><td class="l">4순위</td><td>방치형 보상 켜두기</td></tr>
+      </table>
+
+      <h3>히간이루실 초반공략 정리</h3>
+      <p>정리해보면 출시일은 <b>7월 23일(목) 11시</b>, 대표 캐릭터 5인은 이미 전원 공개됐고 이 중 이루야·시스레트·유페리아·클로아는 해외판에도 있던 얼굴이에요. 첫날 동선은 위 표대로 움직이시면 크게 헤매실 일은 없을 거예요.</p>
+      <table>
+        <tr><th>항목</th><th>내용</th></tr>
+        <tr><td class="l">출시일</td><td>2026.07.23(목) 11:00</td></tr>
+        <tr><td class="l">공개된 캐릭터</td><td>5인 전원 (이 중 4인 해외판 매칭 확인)</td></tr>
+        <tr><td class="l">첫날 최우선(해외 기준)</td><td>메인 스토리 초반 챕터 클리어</td></tr>
+      </table>
+
+      <p><b>✔ 히간이루실 같이 보기 좋은 내용</b><br>
+      · 사전등록 보상·게임 소개는 이전 글에서 더 자세히 다뤘어요 — <span class="ph">〔내부링크 자리〕 URL 연결</span></p>
+
+      <p>아직 다 나온 정보는 아니지만, 미리 감을 잡아두면 출시 당일 훨씬 여유 있게 즐기실 수 있을 거예요. 실제로 붙어보고 달라지는 부분은 다음에 또 짚어볼게요.</p>
+
+      <p class="tags-line">#히간이루실 #히간이루실출시 #히간이루실캐릭터 #히간이루실공략 #넥슨신작게임 #서브컬처수집형RPG</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
