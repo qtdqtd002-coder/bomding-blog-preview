@@ -1,0 +1,333 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>팰월드1.0 패시브스킬 특성 조합 추천, 교배 공식부터 달라졌어요</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 출처 재서술 표시 (봄딩·영도 전용, 미리보기 전용) */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+  /* ===== 네이버 붙여넣기 위젯 ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">팰월드1.0 패시브스킬 특성 조합 추천, 교배 공식부터 달라졌어요</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.21</span><span>· 게임</span></div>
+
+    <p>팰월드 1.0 정식 출시(7월 10일)하고 벌써 열하루가 지났는데요, 그동안 거점 옮기고 신규 팰 사냥하러 다니다 보니 자연스럽게 교배 목장까지 손이 가더라고요. 그런데 예전에 어렴풋이 기억하던 조합을 그대로 넣어봤더니 결과가 좀 다르게 나오는 느낌이라 이상하다 싶어서 한번 제대로 찾아봤어요.</p>
+    <div class="para-wrap">
+    <p>찾아보니 <span class="rev-hl"><b>1.0에서 신규 팰 72종이 새로 들어오면서 기존 교배값 사이에 신규 팰들이 끼어들었고, 1.0 패치노트에도 "팰 교배 조합 전반을 재검토했다"고 공식적으로 안내가 돼 있더라고요</b></span>. 그러니까 얼리 액세스 시절에 외워둔 조합을 지금 그대로 넣으면 다른 결과가 나올 수 있다는 거예요. 교배 계산기를 쓰신다면 1.0 대응 버전이 맞는지부터 확인하시는 게 먼저고요. 그래서 오늘은 완성된 조합표를 그냥 던지기보다, <b>지금 시점에서 패시브 스킬(다들 편하게 '특성'이라고도 부르는 그거예요)을 어떻게 골라야 손해가 없는지</b>를 정리해볼게요. 다만 아래 나오는 목적별 조합·수치는 아직 게임 안 정식 티어표가 아니라 1.0 출시 이후 커뮤니티가 실측하며 쌓아가는 보고 단계라는 점만 먼저 말씀드릴게요 — 그런 걸 감안하고 참고하시면 좋겠네요.</p>
+    <div class="sidenote">
+      <span class="sn-h">✍️ 재서술 ① · 교배 공식 변경</span>
+      <span class="sn-src"><b>기어노트랩</b> 공략 글이 "신규 팰이 교배값 사이에 삽입돼 구버전 계산기가 다른 결과를 낼 수 있다"고 안내했고, 1.0 공식 패치노트도 교배 조합을 전반적으로 재검토했다고 밝혔어요.</span>
+      <span class="sn-mine">→ 제 경험(예전 조합이 안 맞아떨어진 느낌)과 엮어서 도입부에 1인칭으로 풀어 썼어요.</span>
+    </div>
+    </div>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 팰 상세창 패시브 스킬 4칸 화면</span></div>
+    <div class="shoot">📸 게임 안 팰 상세창에서 패시브 스킬 4칸이 보이는 화면을 직접 캡처해서 올려주세요.</div>
+    <p class="cap">패시브 스킬은 이 4칸 안에 뭐가 들어가느냐로 팰의 쓰임새가 완전히 갈려요.</p>
+    <p>사실 저도 예전에 "이 종 + 저 종 = 그 종"이라고 외워뒀던 조합이 있었는데, 이번에 똑같은 조합으로 교배를 돌렸다가 전혀 다른 신규 팰이 나와서 한참 어리둥절했어요. 알고 보니 그 신규 팰이 딱 그 교배값 사이에 끼어든 케이스였더라고요.</p>
+
+    <h2 class="sub">팰월드1.0, 교배 공식이 진짜 달라졌다는 거 알고 계세요?</h2>
+    <table class="tbl">
+      <tr><th>구분</th><th>얼리 액세스(1.0 이전)</th><th>1.0 정식출시 이후</th></tr>
+      <tr><td>팰 종류</td><td>215종 안팎</td><td>신규 72종 추가로 287종 안팎(1.0 패치노트 기준)</td></tr>
+      <tr><td>교배 결과값</td><td>기존에 정리해둔 조합표가 그대로 통용</td><td>신규 팰이 값 사이에 끼어들어 같은 조합도 다른 결과가 나올 수 있음(공식 "전반 재검토" 안내)</td></tr>
+      <tr><td>강화 루트</td><td>교배가 사실상 유일한 팰 강화 수단</td><td>교배(돌연변이 포함) + 세계수 각성(휘석·성수로 만든 각성 결정), 2단 구조로 확장</td></tr>
+      <tr><td>케이크</td><td>기본 케이크 위주</td><td>버섯·야채·호화 야채·스페셜 케이크 4종 신규(효과 각각 다름)</td></tr>
+    </table>
+    <p>그러니까 예전에 통용되던 "이 종 곱하기 저 종은 그 종" 하던 조합을 그대로 믿고 교배 목장을 돌리면, 원하던 종 대신 엉뚱한 신규 팰이 나올 수도 있다는 거예요. 각성·돌연변이는 아래에서 하나씩 짚어드릴게요.</p>
+
+    <h2 class="sub">패시브 스킬이 정확히 뭔가요 — '특성'이라고 부르는 그거 맞아요</h2>
+    <p>정보 찾아보다 보면 '특성'이라는 말이 많이 보이실 텐데요, 도감이나 팰 상세창에서 실제로 뜨는 이름은 <b>'패시브 스킬'</b>이에요. '특성'은 유저들이 편하게 부르는 말에 가깝다고 보시면 될 것 같고요, 이 글에서도 정식 명칭인 패시브 스킬로 쓰되 편하게 특성이라고도 섞어 쓸게요. 패시브 스킬은 등급별로 효과 폭이 다르게 매겨지는데, 좋은 효과일수록 높은 등급, 오히려 손해가 되는 효과는 마이너스 등급으로 분류된다고 해요.</p>
+    <table class="tbl">
+      <tr><th>등급대</th><th>대표 패시브 예시</th><th>대략적인 성격</th></tr>
+      <tr><td>+5(1.0 신규 최상위)</td><td>양날의 성검(공격력 대폭 상승), 차원 도약(이동속도 대폭 상승)</td><td>세계수 관련해서 1.0에 새로 생긴 최상위 등급이에요</td></tr>
+      <tr><td>+4</td><td>전설(공격·방어·이동속도 동시 상승형), 신속(이동속도 상승형)</td><td>여러 효과를 한 번에 주거나, 한 스탯을 크게 올려주는 급</td></tr>
+      <tr><td>+3~+2</td><td>사나움(공격력 계열), 장인 기질(작업속도 계열), 힐링 코치(플레이어 체력 자연회복 보정 계열)</td><td>조합에 자주 들어가는 실전형</td></tr>
+      <tr><td>+1</td><td>소소한 보조효과 계열</td><td>있으면 좋은 자잘한 보조 효과</td></tr>
+      <tr><td>-1~-3(역효과)</td><td>능력치를 오히려 깎는 계열</td><td>교배 중 섞여 들어오면 걸러내야 할 대상</td></tr>
+    </table>
+    <p>등급별 정확한 수치는 패치마다 조금씩 손보는 편인데요, 그중 '희귀' 개체는 이름과 달리 작업 속도를 20%p나 올려주는 걸로 알려져 있어서 일꾼 조합에 하나만 껴 있어도 체감이 꽤 크다고 하더라고요.</p>
+    <p>등급 차이가 이렇게 크다 보니 같은 슬롯이어도 어떤 패시브를 넣느냐에 따라 체감이 확 달라지는 거고, 그래서 무작정 아무 패시브나 채우기보다 등급대를 먼저 확인하고 조합을 짜는 습관을 들이면 훨씬 효율적이에요.</p>
+
+    <h2 class="sub">패시브 스킬은 자식한테 어떻게 넘어가나요 — 교배 계승 규칙</h2>
+    <p>교배로 원하는 조합을 완성하려면 이 계승 규칙부터 이해해야 하는데요, 크게 세 가지로 나뉘어요.</p>
+    <ul>
+      <li><b>패시브 계승</b> — 부모 둘이 가진 패시브를 합쳐서 최대 4개까지 자식에게 넘어간다는 계승 상한이 있어요.</li>
+      <li><b>돌연변이</b> — 낮은 확률로 부모에게 없던 전용 패시브가 새로 붙고 능력치도 더 높게 태어나는 경우가 있대요. 공식 확률은 따로 공개돼 있지 않거든요, 커뮤니티 추정으로는 기본 교배 시 1%대, 호화 야채 케이크를 쓰면 3%대까지 오른다는 얘기가 있는데 이건 어디까지나 추정치예요.</li>
+      <li><b>액티브 스킬</b> — 부모 팰의 액티브 슬롯 3개 중 하나가 무작위로 자식에게 넘어간다고 1.0 패치노트에 명시돼 있어요.</li>
+    </ul>
+    <table class="tbl">
+      <tr><th>케이크 종류</th><th>효과</th></tr>
+      <tr><td>버섯 케이크</td><td>능력치 향상 확률 상승</td></tr>
+      <tr><td>야채 케이크</td><td>알 2개 동시 생성</td></tr>
+      <tr><td>호화 야채 케이크</td><td>돌연변이 확률 상승</td></tr>
+      <tr><td>스페셜 케이크</td><td>패시브 계승 확률 상승</td></tr>
+    </table>
+    <p>1.0에서 새로 생긴 케이크 4종인데요, 목표로 하는 결과에 따라 골라 먹이면 된다고 보시면 될 것 같아요. 계승 확률을 높이고 싶으면 스페셜 케이크, 특수 개체를 노리고 싶으면 호화 야채 케이크 쪽이 유리해요.</p>
+
+    <h2 class="sub">그래서 어떤 조합이 진짜 이득일까요 — 목적별 추천 패시브 조합</h2>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 교배 목장 알 부화·부모 편성 화면</span></div>
+    <div class="shoot">📸 거점 교배 목장에서 부모 팰 편성하는 화면을 직접 캡처해서 올려주세요.</div>
+    <p class="cap">목표 패시브를 먼저 정하고 부모를 편성하는 게 순서예요.</p>
+    <p>조합을 정할 때는 이 팰을 어디에 쓸지부터 정하고 그에 맞는 패시브 4개를 채운다고 생각하시면 쉬운데요, 아래 표에 목적별로 많이 쓰이는 조합을 정리해봤어요.</p>
+    <div class="para-wrap">
+    <table class="tbl">
+      <tr><th>목적</th><th>추천 조합</th><th>핵심 효과</th><th>참고</th></tr>
+      <tr><td class="l">이동·기동용</td><td>전설 + 신속 + 달리기 왕 + 재빠름</td><td>이동속도를 크게 끌어올리는 조합이에요(효과가 합산되는 방식이라 여러 개 겹칠수록 체감이 커진다고 하더라고요)</td><td>'전설'은 특정 팰 한정 패시브라 여러 번 교배해서 옮겨 심어야 한다는 얘기가 많아요</td></tr>
+      <tr><td class="l">전투 딜러용</td><td>사나움 + 운동 바보 + 속성 피해 계열(예: 용의 혈족·불놀이 선호 등)</td><td>공격력 계열 하나에 속성 피해 계열을 더하면, 공격력만 두 개 겹치는 것보다 총딜이 더 잘 나온다는 계산이 유저들 사이에서 많이 돌아요</td><td>공격력 증가 2개보다 공격력+속성피해 조합이 낫다는 쪽이 대세인 것 같아요(효과가 합산되는 구조라서요)</td></tr>
+      <tr><td class="l">거점 일꾼용</td><td>장인 기질 + 일 노예 + 성실함 + 희귀</td><td>작업 적성별 속도 향상, 채집·가공 효율 상승</td><td>초반 거점 안정화용으로 자주 추천되는 조합이더라고요</td></tr>
+      <tr><td class="l">생산·목장용</td><td>호쾌한 대접 + 목장 주인 + 배합목장 알생산·부화속도 상승 계열</td><td>드랍량 증가, 목장·교배 생산 효율 상승</td><td>알 파밍용 목장 팰로 많이들 챙기시는 조합이에요</td></tr>
+    </table>
+    <div class="sidenote">
+      <span class="sn-h">✍️ 재서술 ② · 조합 사례</span>
+      <span class="sn-src"><b>팰월드 인벤 배합 가이드</b>가 전투용은 "공격력 65%+속성피해 10%가 공격력 15% 두 개보다 총딜이 높다", 이동용은 "생각 안 해도 되는 4종", 거점용은 "작업 속도 위주 4종"으로 안내했어요.</span>
+      <span class="sn-mine">→ 수치를 그대로 옮기지 않고 각 줄마다 다른 말투로 풀어, 목적별 표로 재구성했어요.</span>
+    </div>
+    </div>
+    <p class="cap" style="text-align:left;">표에서 '~계열'이라고 적은 자리는 팰 속성에 따라 정확한 패시브명이 달라지는 유동 슬롯이에요 — 이름이 박힌 자리부터 채우고 마지막 한 자리는 취향껏 채우시면 됩니다. 밸런스가 아직 완전히 안 굳어서, 큰 자원을 몰아넣기 전에 비슷한 개체 두세 마리로 먼저 테스트해보고 제일 잘 맞는 쪽을 키우는 것도 방법이에요.</p>
+
+    <h2 class="sub">교배로 실제 만들 때는 부모 팰부터 정리하고 시작하세요</h2>
+    <table class="tbl">
+      <tr><th>순서</th><th>할 일</th></tr>
+      <tr><td>1</td><td>목표로 할 패시브 4개를 먼저 정하고, 그 패시브를 가진 팰부터 모은다</td></tr>
+      <tr><td>2</td><td>부모 팰은 잡패시브가 적은 '깨끗한 개체'로 먼저 만들어둔다(교배 여러 번 돌려서 정리)</td></tr>
+      <tr><td>3</td><td>2개+2개, 혹은 3개+1개 식으로 나눠 계승시키면 실패 확률이 줄어든답니다</td></tr>
+      <tr><td>4</td><td>최종 목표가 4개 패시브면 부모 두 마리가 역할을 나눠 갖는 편이 효율적이에요</td></tr>
+      <tr><td>5</td><td>돌연변이 개체가 나왔다고 무조건 투자하지 말고, 목표 패시브·능력치가 맞는지 확인 후 결정</td></tr>
+      <tr><td>6</td><td>진짜 오래 쓸 팰이라는 확신이 서면 그때 세계수에서 만든 각성 결정으로 각성</td></tr>
+    </table>
+    <p>저는 이 순서를 모르고 그냥 마음에 드는 팰끼리 막 교배부터 돌렸다가 상자만 잡패시브 팰로 가득 찬 적이 있는데요, 목표부터 정하고 부모를 깨끗하게 만들어두는 게 훨씬 덜 돌아가는 길이더라고요. 참고로 부모 팰의 개체값(능력치 랜덤 요소)이 좋으면 자식도 그 영향을 받는 편이라, 패시브뿐 아니라 개체값 좋은 부모를 우선 확보해두시는 것도 도움이 돼요.</p>
+
+    <h2 class="sub">이것만은 헷갈리지 마세요 — 자주 나오는 오해</h2>
+    <table class="tbl">
+      <tr><th>흔한 오해</th><th>실제로는</th></tr>
+      <tr><td>돌연변이 팰만 나오면 무조건 좋은 거다</td><td>목표 패시브·능력치와 안 맞으면 활용도가 낮을 수 있어요</td></tr>
+      <tr><td>예전 교배 계산기 그대로 써도 된다</td><td>1.0 대응 버전인지 먼저 확인해야 해요(신규 팰 삽입으로 값이 달라져서)</td></tr>
+      <tr><td>패시브는 무조건 많이 붙일수록 좋다</td><td>계승 상한(4개)과 목적(전투·이동·작업)에 안 맞으면 오히려 활용도가 떨어져요</td></tr>
+      <tr><td>각성하면 패시브도 같이 늘어난다</td><td>각성은 능력치 강화 위주고, 패시브는 교배로 만드는 게 정석이랍니다</td></tr>
+    </table>
+    <p>참고로 필드에서 바로 잡은 야생 팰도 패시브를 이미 갖고 있는 경우가 많아서, 운이 좋으면 교배 없이도 원하는 조합에 가까운 개체를 바로 얻을 수 있어요. 다만 야생 개체는 패시브 구성이 완전히 랜덤이라 운에 기대는 부분이 크고, 확실하게 목표한 4개를 노리실 거면 역시 교배 쪽이 더 안정적이에요.</p>
+
+    <h2 class="sub">팰월드1.0 패시브 스킬 목적별 선택 가이드</h2>
+    <table class="tbl">
+      <tr><th>목적</th><th>이럴 때 고르세요</th><th>조합</th></tr>
+      <tr><td>이동·기동</td><td>맵 넓은 초반, 빠르게 돌아다니고 싶을 때</td><td>전설 + 신속 + 달리기 왕 + 재빠름</td></tr>
+      <tr><td>전투 딜러</td><td>보스전·강한 개체 사냥 위주로 굴릴 때</td><td>사나움 + 운동 바보 + 속성 피해 계열</td></tr>
+      <tr><td>거점 일꾼</td><td>거점 짓고 자원 채집·가공 돌릴 때</td><td>장인 기질 + 일 노예 + 성실함 + 희귀</td></tr>
+      <tr><td>생산·목장</td><td>교배·알 파밍 자체가 목적일 때</td><td>호쾌한 대접 + 목장 주인 + 배합목장 알생산·부화속도 상승 계열</td></tr>
+    </table>
+    <p>결국 중요한 건 어디서 유명하다는 조합을 그대로 베끼기보다, <b>이 팰을 전투에 쓸지 이동에 쓸지 거점에 박아둘지부터 정하고 그에 맞게 최대 넷을 채우는 것</b>더라고요. 신규 팰들이 어디 사는지는 지난 「팰월드 1.0 신규 팰 72종 서식지 정리」에 정리해뒀고요, 각성 재료(휘석·세계수의 성수)를 구하러 가실 거면 「팰월드 선리치·세계수 탐사 준비물 체크리스트」도 같이 보시면 도움이 되실 거예요. 저도 이번 기회에 조합표를 다시 짜보려고 하는데, 다들 목장 돌리시기 전에 목표부터 한 번 정리해보시면 좋겠네요.</p>
+    <!-- 내부링크: 위 2개 글(신규팰72종 서식지·선리치세계수 탐사준비물)은 발행됨(published.json 기준) — 저장소 내 post ID 미보유라 제목 텍스트로만 안내, 발행 시 실제 post ID 확인 후 <a href> 연결 필요. 「거점운영 개편」 글은 미발행 초안이라 이번 글에서 링크 대상으로 언급하지 않음 -->
+
+    <div class="tags">#팰월드 #팰월드1.0 #팰월드패시브스킬 #팰월드특성 #팰월드교배 #팰월드조합추천 #Palworld</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> 내부링크는 기존 팰월드 글들의 post ID를 확인해서 직접 연결해주세요.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 4분):</b> 📷 <b>스샷 2곳</b> 업로드(패시브 4칸 화면·교배 목장 화면) + 🔗 내부링크 2곳 post ID 연결.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 팰월드1.0 패시브스킬 특성 조합 추천, 교배 공식부터 달라졌어요</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>팰월드 1.0 정식 출시(7월 10일)하고 벌써 열하루가 지났는데요, 그동안 거점 옮기고 신규 팰 사냥하러 다니다 보니 자연스럽게 교배 목장까지 손이 가더라고요. 그런데 예전에 어렴풋이 기억하던 조합을 그대로 넣어봤더니 결과가 좀 다르게 나오는 느낌이라 이상하다 싶어서 한번 제대로 찾아봤어요.</p>
+      <p>찾아보니 <b>1.0에서 신규 팰 72종이 새로 들어오면서 기존 교배값 사이에 신규 팰들이 끼어들었고, 1.0 패치노트에도 "팰 교배 조합 전반을 재검토했다"고 공식적으로 안내가 돼 있더라고요</b>. 그러니까 얼리 액세스 시절에 외워둔 조합을 지금 그대로 넣으면 다른 결과가 나올 수 있다는 거예요. 교배 계산기를 쓰신다면 1.0 대응 버전이 맞는지부터 확인하시는 게 먼저고요. 그래서 오늘은 완성된 조합표를 그냥 던지기보다, 지금 시점에서 패시브 스킬(다들 편하게 '특성'이라고도 부르는 그거예요)을 어떻게 골라야 손해가 없는지를 정리해볼게요. 다만 아래 나오는 목적별 조합·수치는 아직 게임 안 정식 티어표가 아니라 1.0 출시 이후 커뮤니티가 실측하며 쌓아가는 보고 단계라는 점만 먼저 말씀드릴게요 — 그런 걸 감안하고 참고하시면 좋겠네요.</p>
+      <p class="ph">📷 〔사진 자리 1〕 팰 상세창 패시브 스킬 4칸 화면 — 직접 업로드<br>└ 캡션 추천: "패시브 스킬은 이 4칸 안에 뭐가 들어가느냐로 팰의 쓰임새가 완전히 갈려요."</p>
+      <p>사실 저도 예전에 "이 종 + 저 종 = 그 종"이라고 외워뒀던 조합이 있었는데, 이번에 똑같은 조합으로 교배를 돌렸다가 전혀 다른 신규 팰이 나와서 한참 어리둥절했어요. 알고 보니 그 신규 팰이 딱 그 교배값 사이에 끼어든 케이스였더라고요.</p>
+
+      <h3>팰월드1.0, 교배 공식이 진짜 달라졌다는 거 알고 계세요?</h3>
+      <table>
+        <tr><th>구분</th><th>얼리 액세스(1.0 이전)</th><th>1.0 정식출시 이후</th></tr>
+        <tr><td class="l">팰 종류</td><td>215종 안팎</td><td>신규 72종 추가로 287종 안팎(1.0 패치노트 기준)</td></tr>
+        <tr><td class="l">교배 결과값</td><td>기존 조합표가 그대로 통용</td><td>신규 팰이 값 사이에 끼어들어 결과가 달라질 수 있음(공식 "전반 재검토" 안내)</td></tr>
+        <tr><td class="l">강화 루트</td><td>교배가 사실상 유일한 강화 수단</td><td>교배(돌연변이 포함)+세계수 각성(휘석·성수로 만든 각성 결정) 2단 구조</td></tr>
+        <tr><td class="l">케이크</td><td>기본 케이크 위주</td><td>버섯·야채·호화 야채·스페셜 케이크 4종 신규</td></tr>
+      </table>
+      <p>그러니까 예전에 통용되던 "이 종 곱하기 저 종은 그 종" 하던 조합을 그대로 믿고 교배 목장을 돌리면, 원하던 종 대신 엉뚱한 신규 팰이 나올 수도 있다는 거예요.</p>
+
+      <h3>패시브 스킬이 정확히 뭔가요 — '특성'이라고 부르는 그거 맞아요</h3>
+      <p>정보 찾아보다 보면 '특성'이라는 말이 많이 보이실 텐데요, 도감이나 팰 상세창에서 실제로 뜨는 이름은 <b>'패시브 스킬'</b>이에요. '특성'은 유저들이 편하게 부르는 말에 가깝다고 보시면 될 것 같고요, 이 글에서도 정식 명칭인 패시브 스킬로 쓰되 편하게 특성이라고도 섞어 쓸게요.</p>
+      <table>
+        <tr><th>등급대</th><th>대표 패시브 예시</th><th>대략적인 성격</th></tr>
+        <tr><td class="l">+5(1.0 신규 최상위)</td><td>양날의 성검(공격력 대폭 상승), 차원 도약(이동속도 대폭 상승)</td><td>세계수 관련해서 1.0에 새로 생긴 최상위 등급</td></tr>
+        <tr><td class="l">+4</td><td>전설(공격·방어·이동속도 동시 상승형), 신속(이동속도 상승형)</td><td>여러 효과를 한 번에 주거나 한 스탯을 크게 올려주는 급</td></tr>
+        <tr><td class="l">+3~+2</td><td>사나움(공격력 계열), 장인 기질(작업속도 계열), 힐링 코치(플레이어 체력 자연회복 보정 계열)</td><td>조합에 자주 들어가는 실전형</td></tr>
+        <tr><td class="l">+1</td><td>소소한 보조효과 계열</td><td>있으면 좋은 자잘한 보조 효과</td></tr>
+        <tr><td class="l">-1~-3(역효과)</td><td>능력치를 오히려 깎는 계열</td><td>교배 중 섞여 들어오면 걸러내야 할 대상</td></tr>
+      </table>
+      <p>등급별 정확한 수치는 패치마다 조금씩 손보는 편인데요, 그중 '희귀' 개체는 이름과 달리 작업 속도를 20%p나 올려주는 걸로 알려져 있어서 일꾼 조합에 하나만 껴 있어도 체감이 꽤 크다고 하더라고요.</p>
+    <p>등급 차이가 이렇게 크다 보니 같은 슬롯이어도 어떤 패시브를 넣느냐에 따라 체감이 확 달라지는 거고, 그래서 무작정 아무 패시브나 채우기보다 등급대를 먼저 확인하고 조합을 짜는 습관을 들이면 훨씬 효율적이에요.</p>
+
+      <h3>패시브 스킬은 자식한테 어떻게 넘어가나요 — 교배 계승 규칙</h3>
+      <p>교배로 원하는 조합을 완성하려면 이 계승 규칙부터 이해해야 하는데요, 크게 세 가지로 나뉘어요.</p>
+      <ul>
+        <li><b>패시브 계승</b> — 부모 둘이 가진 패시브를 합쳐서 최대 4개까지 자식에게 넘어간다는 계승 상한이 있어요.</li>
+        <li><b>돌연변이</b> — 낮은 확률로 부모에게 없던 전용 패시브가 새로 붙고 능력치도 더 높게 태어나는 경우가 있대요. 공식 확률은 따로 공개돼 있지 않거든요, 커뮤니티 추정으로는 기본 교배 시 1%대, 호화 야채 케이크를 쓰면 3%대까지 오른다는 얘기가 있는데 이건 어디까지나 추정치예요.</li>
+        <li><b>액티브 스킬</b> — 부모 팰의 액티브 슬롯 3개 중 하나가 무작위로 자식에게 넘어간다고 1.0 패치노트에 명시돼 있어요.</li>
+      </ul>
+      <table>
+        <tr><th>케이크 종류</th><th>효과</th></tr>
+        <tr><td class="l">버섯 케이크</td><td>능력치 향상 확률 상승</td></tr>
+        <tr><td class="l">야채 케이크</td><td>알 2개 동시 생성</td></tr>
+        <tr><td class="l">호화 야채 케이크</td><td>돌연변이 확률 상승</td></tr>
+        <tr><td class="l">스페셜 케이크</td><td>패시브 계승 확률 상승</td></tr>
+      </table>
+      <p>1.0에서 새로 생긴 케이크 4종인데요, 목표로 하는 결과에 따라 골라 먹이면 된다고 보시면 될 것 같아요. 계승 확률을 높이고 싶으면 스페셜 케이크, 특수 개체를 노리고 싶으면 호화 야채 케이크 쪽이 유리해요.</p>
+
+      <h3>그래서 어떤 조합이 진짜 이득일까요 — 목적별 추천 패시브 조합</h3>
+      <p class="ph">📷 〔사진 자리 2〕 교배 목장 알 부화·부모 편성 화면 — 직접 업로드<br>└ 캡션 추천: "목표 패시브를 먼저 정하고 부모를 편성하는 게 순서예요."</p>
+      <p>조합을 정할 때는 이 팰을 어디에 쓸지부터 정하고 그에 맞는 패시브 4개를 채운다고 생각하시면 쉬운데요, 아래 표에 목적별로 많이 쓰이는 조합을 정리해봤어요.</p>
+      <table>
+        <tr><th>목적</th><th>추천 조합</th><th>핵심 효과</th><th>참고</th></tr>
+        <tr><td class="l">이동·기동용</td><td>전설+신속+달리기 왕+재빠름</td><td>이동속도를 크게 끌어올리는 조합이에요(효과가 합산되는 방식이라 여러 개 겹칠수록 체감이 커진다고 하더라고요)</td><td>'전설'은 특정 팰 한정이라 여러 번 교배해 계승시켜야 한다는 얘기가 많아요</td></tr>
+        <tr><td class="l">전투 딜러용</td><td>사나움+운동 바보+속성 피해 계열(용의 혈족·불놀이 선호 등)</td><td>공격력 계열 하나에 속성 피해 계열을 더하면 공격력만 두 개 겹치는 것보다 총딜이 더 잘 나온다는 계산이 유저들 사이에서 많이 돌아요</td><td>공격력 증가 2개보다 공격력+속성피해 조합이 낫다는 쪽이 대세인 것 같아요(합산 구조라서요)</td></tr>
+        <tr><td class="l">거점 일꾼용</td><td>장인 기질+일 노예+성실함+희귀</td><td>작업 적성별 속도 향상, 채집·가공 효율 상승</td><td>초반 거점 안정화용으로 자주 추천되는 조합이더라고요</td></tr>
+        <tr><td class="l">생산·목장용</td><td>호쾌한 대접+목장 주인+배합목장 알생산·부화속도 상승 계열</td><td>드랍량 증가, 목장·교배 생산 효율 상승</td><td>알 파밍용 목장 팰로 많이들 챙기시는 조합이에요</td></tr>
+      </table>
+      <p>표에서 '~계열'이라고 적은 자리는 팰 속성에 따라 정확한 패시브명이 달라지는 유동 슬롯이에요 — 이름이 박힌 자리부터 채우고 마지막 한 자리는 취향껏 채우시면 됩니다. 밸런스가 아직 완전히 안 굳어서, 큰 자원을 몰아넣기 전에 비슷한 개체 두세 마리로 먼저 테스트해보고 제일 잘 맞는 쪽을 키우는 것도 방법이에요.</p>
+
+      <h3>교배로 실제 만들 때는 부모 팰부터 정리하고 시작하세요</h3>
+      <table>
+        <tr><th>순서</th><th>할 일</th></tr>
+        <tr><td>1</td><td class="l">목표로 할 패시브 4개를 먼저 정하고, 그 패시브를 가진 팰부터 모은다</td></tr>
+        <tr><td>2</td><td class="l">부모 팰은 잡패시브가 적은 '깨끗한 개체'로 먼저 만들어둔다(교배 여러 번 돌려서 정리)</td></tr>
+        <tr><td>3</td><td class="l">2개+2개, 혹은 3개+1개 식으로 나눠 계승시키면 실패 확률이 줄어든답니다</td></tr>
+        <tr><td>4</td><td class="l">최종 목표가 4개 패시브면 부모 두 마리가 역할을 나눠 갖는 편이 효율적이에요</td></tr>
+        <tr><td>5</td><td class="l">돌연변이 개체가 나왔다고 무조건 투자하지 말고, 목표 패시브·능력치가 맞는지 확인 후 결정</td></tr>
+        <tr><td>6</td><td class="l">진짜 오래 쓸 팰이라는 확신이 서면 그때 세계수에서 만든 각성 결정으로 각성</td></tr>
+      </table>
+      <p>저는 이 순서를 모르고 그냥 마음에 드는 팰끼리 막 교배부터 돌렸다가 상자만 잡패시브 팰로 가득 찬 적이 있는데요, 목표부터 정하고 부모를 깨끗하게 만들어두는 게 훨씬 덜 돌아가는 길이더라고요. 참고로 부모 팰의 개체값(능력치 랜덤 요소)이 좋으면 자식도 그 영향을 받는 편이라, 패시브뿐 아니라 개체값 좋은 부모를 우선 확보해두시는 것도 도움이 돼요.</p>
+
+      <h3>이것만은 헷갈리지 마세요 — 자주 나오는 오해</h3>
+      <table>
+        <tr><th>흔한 오해</th><th>실제로는</th></tr>
+        <tr><td class="l">돌연변이 팰만 나오면 무조건 좋은 거다</td><td>목표 패시브·능력치와 안 맞으면 활용도가 낮을 수 있어요</td></tr>
+        <tr><td class="l">예전 교배 계산기 그대로 써도 된다</td><td>1.0 대응 버전인지 먼저 확인해야 해요(신규 팰 삽입으로 값이 달라져서)</td></tr>
+        <tr><td class="l">패시브는 무조건 많이 붙일수록 좋다</td><td>계승 상한(4개)과 목적(전투·이동·작업)에 안 맞으면 오히려 활용도가 떨어져요</td></tr>
+        <tr><td class="l">각성하면 패시브도 같이 늘어난다</td><td>각성은 능력치 강화 위주고, 패시브는 교배로 만드는 게 정석이랍니다</td></tr>
+      </table>
+      <p>참고로 필드에서 바로 잡은 야생 팰도 패시브를 이미 갖고 있는 경우가 많아서, 운이 좋으면 교배 없이도 원하는 조합에 가까운 개체를 바로 얻을 수 있어요. 다만 야생 개체는 패시브 구성이 완전히 랜덤이라 운에 기대는 부분이 크고, 확실하게 목표한 4개를 노리실 거면 역시 교배 쪽이 더 안정적이에요.</p>
+
+      <h3>팰월드1.0 패시브 스킬 목적별 선택 가이드</h3>
+      <table>
+        <tr><th>목적</th><th>이럴 때 고르세요</th><th>조합</th></tr>
+        <tr><td class="l">이동·기동</td><td>맵 넓은 초반, 빠르게 돌아다니고 싶을 때</td><td>전설+신속+달리기 왕+재빠름</td></tr>
+        <tr><td class="l">전투 딜러</td><td>보스전·강한 개체 사냥 위주로 굴릴 때</td><td>사나움+운동 바보+속성 피해 계열</td></tr>
+        <tr><td class="l">거점 일꾼</td><td>거점 짓고 자원 채집·가공 돌릴 때</td><td>장인 기질+일 노예+성실함+희귀</td></tr>
+        <tr><td class="l">생산·목장</td><td>교배·알 파밍 자체가 목적일 때</td><td>호쾌한 대접+목장 주인+배합목장 알생산·부화속도 상승 계열</td></tr>
+      </table>
+      <p>결국 중요한 건 어디서 유명하다는 조합을 그대로 베끼기보다, <b>이 팰을 전투에 쓸지 이동에 쓸지 거점에 박아둘지부터 정하고 그에 맞게 최대 넷을 채우는 것</b>더라고요. 신규 팰들이 어디 사는지는 지난 <span class="ph">〔내부링크 자리〕</span> 팰월드 1.0 신규 팰 72종 서식지 정리 글에 정리해뒀고요, 각성 재료(휘석·세계수의 성수)를 구하러 가실 거면 <span class="ph">〔내부링크 자리〕</span> 팰월드 선리치·세계수 탐사 준비물 체크리스트도 같이 보시면 도움이 되실 거예요. 저도 이번 기회에 조합표를 다시 짜보려고 하는데, 다들 목장 돌리시기 전에 목표부터 한 번 정리해보시면 좋겠네요.</p>
+
+      <p class="tags-line">#팰월드 #팰월드1.0 #팰월드패시브스킬 #팰월드특성 #팰월드교배 #팰월드조합추천 #Palworld</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
