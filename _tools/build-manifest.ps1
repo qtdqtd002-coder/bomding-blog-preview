@@ -55,8 +55,8 @@ function GitDate([string]$fmtArgs, [string]$file){
   return $out
 }
 
-# 1) 글 파일 수집 — 봄딩/영도/겜더쿠/연봄/김복리 하위의 커밋된 *.html 만 (index, _접두 폴더 제외)
-$files = git -C $base ls-files "봄딩/*.html" "영도/*.html" "겜더쿠/*.html" "연봄/*.html" "김복리/*.html"
+# 1) 글 파일 수집 — 봄딩/영도/겜더쿠/연봄/김복리/하루살이 하위의 커밋된 *.html 만 (index, _접두 폴더 제외)
+$files = git -C $base ls-files "봄딩/*.html" "영도/*.html" "겜더쿠/*.html" "연봄/*.html" "김복리/*.html" "하루살이/*.html"
 $map = [ordered]@{}
 $missing = @()
 
@@ -102,7 +102,7 @@ foreach($f in $files){
 }
 
 # 2) 검증 — 디스크의 모든 글이 manifest에 들어갔는지 (누락=사고)
-$onDisk = (Get-ChildItem -Path (Join-Path $base "봄딩"),(Join-Path $base "영도"),(Join-Path $base "겜더쿠"),(Join-Path $base "연봄"),(Join-Path $base "김복리") -Recurse -Filter *.html -ErrorAction SilentlyContinue |
+$onDisk = (Get-ChildItem -Path (Join-Path $base "봄딩"),(Join-Path $base "영도"),(Join-Path $base "겜더쿠"),(Join-Path $base "연봄"),(Join-Path $base "김복리"),(Join-Path $base "하루살이") -Recurse -Filter *.html -ErrorAction SilentlyContinue |
            ForEach-Object { $_.FullName.Substring($base.Length).TrimStart('\','/') -replace '\\','/' })
 foreach($d in $onDisk){
   if($d -match '_티스토리_' -or $d -match '_워드프레스_'){ continue }   # 붙여넣기·발행 소스는 목록 비대상 → 누락 검증에서 제외

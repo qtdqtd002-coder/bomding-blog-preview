@@ -41,6 +41,7 @@
   --a-gemdeokku:#7C5CD1; --a-gemdeokku-weak:#F0EBFB;
   --a-yeonbom:#4A86C5; --a-yeonbom-weak:#E7F0F9;
   --a-kimbokri:#C0892E; --a-kimbokri-weak:#F7EFDD;
+  --a-harusari:#C2477B; --a-harusari-weak:#FBEBF2;
   --a-trend:#C2410C; --a-news:#B45309; --a-about:#4C6FFF; --a-queue:#0E7490; --a-ops:#0F766E;
   /* 상태색 */
   --ok:#1FAA6C; --ok-weak:#E4F6ED; --warn:#C2810C; --warn-weak:#FBF1DC; --bad:#DC2626; --bad-weak:#FCEAEA;
@@ -77,6 +78,7 @@
   --a-gemdeokku:#A78BE8; --a-gemdeokku-weak:#1F1A2E;
   --a-yeonbom:#6FA6DD; --a-yeonbom-weak:#14202E;
   --a-kimbokri:#E0B24E; --a-kimbokri-weak:#2A2213;
+  --a-harusari:#EC87B0; --a-harusari-weak:#2A161F;
   --a-trend:#FB923C; --a-news:#FBBF24; --a-about:#8FA0FF; --a-queue:#22D3EE; --a-ops:#2DD4BF;
   --ok:#34D399; --ok-weak:#10241D; --warn:#FBBF24; --warn-weak:#2A2210; --bad:#F87171; --bad-weak:#2A1414;
   /* 다크: accent 채움면은 밝은 accent 그대로(--ac) + 어두운 글자 → AA 통과(6.86~11.5) */
@@ -790,9 +792,10 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    "영도":{tag:"영원한도시 · 게임", ac:"var(--a-yeongdo)"},
    "겜더쿠":{tag:"게임 · 덕질", ac:"var(--a-gemdeokku)"},
    "연봄":{tag:"게임 · IT · 육아 · 생활", ac:"var(--a-yeonbom)"},
-   "김복리":{tag:"금융 · 정책 · 세금", ac:"var(--a-kimbokri)"}
+   "김복리":{tag:"금융 · 정책 · 세금", ac:"var(--a-kimbokri)"},
+   "하루살이":{tag:"IT 제품 · AI · 활용팁", ac:"var(--a-harusari)"}
  };
- const PREF=["봄딩","영도","겜더쿠","연봄","김복리"];
+ const PREF=["봄딩","영도","겜더쿠","연봄","김복리","하루살이"];
  const FALLBACK_AC="var(--brand)";
 
  /* ---------- 작성자 아바타 (각 실제 블로그 프로필 참고 · 한 화풍 통일) ---------- */
@@ -802,7 +805,7 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
    "김복리":"pwa-assets/av-kimbokri.png"
  };
  const MASCOT="pwa-assets/mascot.png";
- const WPLAT={ "봄딩":"네이버", "영도":"네이버", "겜더쿠":"티스토리", "연봄":"티스토리", "김복리":"티스토리" };
+ const WPLAT={ "봄딩":"네이버", "영도":"네이버", "겜더쿠":"티스토리", "연봄":"티스토리", "김복리":"티스토리", "하루살이":"네이버" };
  const EMPTY_IL={ search:"pwa-assets/empty-search.png", archive:"pwa-assets/empty-archive.png",
                   request:"pwa-assets/empty-request.png", base:"pwa-assets/mascot.png" };
  /* 아바타 조각 — 이미지 있으면 원형 사진, 없으면 작성자 색 이니셜 폴백 */
@@ -1431,7 +1434,8 @@ body{background-image:radial-gradient(var(--body-dot) 1px,transparent 1px);backg
      "영도":{plat:"네이버",ac:"--a-yeongdo",desc:"게임·게이밍기어 · 서브컬처"},
      "겜더쿠":{plat:"티스토리",ac:"--a-gemdeokku",desc:"게임 덕후 · 빌드·공략·티어"},
      "연봄":{plat:"티스토리",ac:"--a-yeonbom",desc:"포켓몬 전문 · 담백한 정보"},
-     "김복리":{plat:"티스토리",ac:"--a-kimbokri",desc:"금융·정책·세금 · 쉽게 풀어주는 금융 멘토"}
+     "김복리":{plat:"티스토리",ac:"--a-kimbokri",desc:"금융·정책·세금 · 쉽게 풀어주는 금융 멘토"},
+     "하루살이":{plat:"네이버",ac:"--a-harusari",desc:"IT 제품·AI 소식·활용팁 · 가볍고 정중한 IT 안내"}
    };
    const writerChips=`<button type="button" class="rf-chip rf-wchip on" data-w="">자동 배정</button>`+
      writers.map(w=>{const i=WRITER_INFO[w]||{};return `<button type="button" class="rf-chip rf-wchip" data-w="${esc(w)}" style="--ac:var(${i.ac||'--brand'})">${avatar(w,"s")}${esc(w)}<span class="rf-chip-plat">${esc(i.plat||'')}</span></button>`;}).join("");
