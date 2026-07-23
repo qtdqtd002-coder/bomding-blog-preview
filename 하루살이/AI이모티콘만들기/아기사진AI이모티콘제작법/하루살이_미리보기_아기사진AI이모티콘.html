@@ -1,0 +1,401 @@
+<!-- AEO 타깃 질문: ①아기 사진으로 이모티콘 만드는 방법 알려주세요 ②AI로 만든 이모티콘 카카오톡에 팔 수 있나요 ③ChatGPT·Gemini 요금제별로 뭐가 다른가요 / 인용 후크: ⓐ카카오 이모티콘 스튜디오 운영 원칙 생성형 AI 제한 조항 원문 ⓑ자체 비교표 3종(경로/요금제/마켓정책) ⓒ카카오·Google·OGQ 공식 직접 인용 다수 ⓓ정의 한 줄(생성형 AI 이모티콘) / 기준 시점: 2026.07.24 -->
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>아기 사진 AI 이모티콘 만들기 — 2026년 7월 기준 되는 방법 정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .tnote{font-size:12.5px;color:#888;margin:-6px 0 20px;line-height:1.7;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">IT 팁·활용법</div>
+    <h1 class="title">아기 사진 AI 이모티콘 만들기 — 2026년 7월 기준 되는 방법 정리</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.07.24</span><span>· IT</span></div>
+
+    <p>아기 사진을 이모티콘이나 스티커로 만들어 보고 싶다는 분들이 많더라고요. 생성형 AI 이모티콘은 사진이나 문장을 AI 모델에 넣어 그려낸 그림을 이모티콘·스티커로 쓰는 걸 말해요. 2026년 7월 24일 기준으로 되는 경로는 카카오톡 안 기능과 ChatGPT, Gemini 앱이에요. 다만 카카오 이모티콘 스튜디오와 네이버 OGQ는 생성형 AI로 만든 제안을 제한해요. 파는 것까지 생각하신다면 아래 '팔거나 배포하려면' 부분을 먼저 봐 주세요.</p>
+
+    <h2 class="sub">결론 먼저 — 지금 되는 경로, 뭐가 다른가요</h2>
+    <p>2026년 7월 24일 기준으로, 아기 사진을 AI 이모티콘으로 바꾸는 경로 중 많이 쓰이는 건 크게 세 가지예요 — 카카오톡 'AI로 만들기', ChatGPT, Gemini 앱. 무료 범위는 경로마다 다르고, 투명 배경은 세 경로 다 공식 안내가 없어요.</p>
+    <table class="tbl">
+      <tr><th>경로</th><th>무료 여부</th><th>사진 업로드</th></tr>
+      <tr><td class="l">카카오톡 'AI로 만들기'</td><td>공식 확인 안 됨</td><td>가능(채팅방 사진)</td></tr>
+      <tr><td class="l">ChatGPT</td><td>Free(₩0)부터 이용 가능</td><td>가능(무료 등급도 지원)</td></tr>
+      <tr><td class="l">Gemini 앱</td><td>미가입도 표준 한도로 이용 가능</td><td>가능(업로드해 재구성)</td></tr>
+    </table>
+    <p class="cap">투명 배경 지원 여부는 세 경로 모두 공식 안내 없음(2026.07.24 확인)</p>
+
+    <h2 class="sub">카카오톡 'AI로 만들기'로 사진 변환하기</h2>
+    <p>카카오톡 안에서 바로 해 보고 싶다면 채팅방 사진을 'AI로 만들기'로 변환하면 돼요. 카카오톡 6차 정기 업데이트(v26.6.0, 2026.07.15)로 공식 도입된 기능이에요. 카카오 뉴스룸은 채팅방에서 주고받은 사진을 ChatGPT 이미지 2.0을 이용해 재생성하는 기능이라고 설명해요. 고를 수 있는 템플릿은 '애니 스타일', '색연필 드로잉' 등이에요(카카오 뉴스룸, 2026.07.24 확인).</p>
+    <ol>
+      <li>카카오톡 채팅방에서 변환하고 싶은 사진을 열어 주세요</li>
+      <li>사진 우측 상단의 'AI로 만들기'를 눌러 주세요</li>
+      <li>'애니 스타일', '색연필 드로잉' 등 템플릿 중 하나를 골라 주세요</li>
+      <li>변환된 이미지를 저장해 주세요</li>
+    </ol>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">화면 1: 카카오톡 채팅방에서 인형 사진을 탭해 전체화면으로 연 상태 — 우측 상단 'AI로 만들기' 버튼과 하단 템플릿이 한 화면에</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://www.kakaocorp.com/page/detail/12082" target="_blank">카카오 뉴스룸 공지</a></div>
+    <p class="cap">카카오톡 채팅방 사진에서 'AI로 만들기' 버튼 위치(아이 얼굴 대신 인형으로 시연했어요)</p>
+    <!-- 이미지 이유: 'AI로 만들기' 버튼의 실제 위치를 보여줘 절차를 그대로 따라 하기 쉽게 하기 위함 / 분류: B형(직접 촬영 필요) -->
+    
+    <h2 class="sub">ChatGPT vs Gemini — 요금제별로 뭐가 다른가요</h2>
+    <p>ChatGPT와 Gemini는 둘 다 무료로 시작할 수 있고, 유료 등급으로 갈수록 이미지 생성 한도와 처리 속도가 올라가요. 다만 카카오톡·ChatGPT·Gemini 모두 하루에 정확히 몇 장까지 되는지는 공식 수치를 공개하지 않았어요.</p>
+    <table class="tbl">
+      <tr><th>서비스</th><th>요금(월)</th><th>공식 설명</th></tr>
+      <tr><td class="l">ChatGPT Free</td><td>₩0</td><td>제한적이고 느린 이미지 생성</td></tr>
+      <tr><td class="l">ChatGPT Go</td><td>₩13,000</td><td>더 높은 이미지 생성 한도</td></tr>
+      <tr><td class="l">ChatGPT Plus</td><td>공식 페이지 확인</td><td>더 복잡하고 정확한 이미지 생성</td></tr>
+      <tr><td class="l">ChatGPT Pro</td><td>공식 페이지 확인</td><td>무제한 이미지 생성 및 더 빠른 처리 속도</td></tr>
+      <tr><td class="l">Google AI 미가입</td><td>₩0</td><td>표준 한도</td></tr>
+      <tr><td class="l">Google AI Plus</td><td>₩7,500(400GB 기준)</td><td>표준 한도보다 2배 높음</td></tr>
+      <tr><td class="l">Google AI Pro</td><td>₩29,000(5TB 기준)</td><td>표준 한도보다 4배 높음</td></tr>
+    </table>
+    <p class="cap">요금·설명은 2026.07.24 확인 기준(ChatGPT 한국 요금 페이지 · Gemini 지원 문서) · ChatGPT Plus·Pro 금액은 <a href="https://chatgpt.com/ko-KR/pricing/" target="_blank">공식 요금제 페이지</a>에서 확인해 주세요.</p>
+    <p>ChatGPT 무료 등급도 사진 업로드와 이미지 생성 자체는 공식적으로 지원하고, 이미지 생성엔 채팅과 별도 한도가 있다고만 안내돼요.</p>
+
+    <h2 class="sub">스티커로 쓰려면 투명 배경이 필요해요</h2>
+    <p>스티커는 배경이 투명해야 자연스러운데, 앱에서 나온 결과물은 배경이 남는 경우가 많아 후처리로 지우는 편이 안전해요.</p>
+    <p class="tnote">참고로 OpenAI API(개발자가 프로그램으로 직접 호출하는 인터페이스) 문서에는 gpt-image-2 기준으로 투명 배경 요청을 지원하지 않는다고 나와 있어요(2026.07.24 확인). 투명 배경처럼 모델별로 갈리는 사양은 앱 화면과 다를 수 있어요.</p>
+    <p>배경을 확실히 지우고 싶으면 iPhone 사진 앱의 스티커 기능을 함께 써 보세요. Apple 공식 가이드는 절차를 이렇게 안내해요.</p>
+    <ol>
+      <li>iPhone의 사진 앱으로 이동해 주세요</li>
+      <li>사진을 탭해 전체 화면으로 열어 주세요</li>
+      <li>피사체를 길게 터치했다가 놓아 주세요</li>
+      <li>'스티커 추가'를 탭해 주세요</li>
+    </ol>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">화면 2: 사진 앱에서 피사체를 길게 터치한 직후 '스티커 추가' 팝오버가 뜬 상태</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://support.apple.com/ko-kr/guide/iphone/iph9b4106303/ios" target="_blank">Apple 공식 지원 문서</a></div>
+    <p class="cap">iPhone 사진 앱의 '스티커 추가' 메뉴(아이 얼굴 대신 인형으로 시연했어요)</p>
+    <!-- 이미지 이유: 스티커 추가 메뉴의 실제 모양과 위치를 보여주기 위함 / 분류: B형(직접 촬영 필요) -->
+    <p>윤곽·만화·젤리 같은 효과는 '효과 추가'로 입힐 수 있고, 이렇게 만든 스티커는 iCloud와 동기화돼요(Apple 공식 지원 문서, 2026.07.24 확인).</p>
+
+    <h2 class="sub">구글이 권장하는 프롬프트 6원칙</h2>
+    <p>구글은 프롬프트 원칙 여섯 가지를 공식으로 권장해요.</p>
+    <ul>
+      <li>매우 구체적으로 작성하기</li>
+      <li>컨텍스트와 의도 제공하기 — 이미지의 목적을 설명해요</li>
+      <li>반복 및 개선하기 — 첫 시도에서 완벽한 이미지를 기대하지 않아요</li>
+      <li>단계별로 안내하기</li>
+      <li>시맨틱 네거티브 프롬프트 쓰기 — '~가 없다'고 하는 대신 원하는 장면을 긍정적으로 묘사해요</li>
+      <li>카메라를 제어하기</li>
+    </ul>
+    <p>스티커·삽화는 예술적 스타일과 주제를 구체적으로 설명할 때 결과가 더 일관된다고 안내돼요(Google 공식 문서, 2026.07.24 확인). 굵은 선·색상 같은 시각적 디테일을 명시하면 더 도움이 돼요. 아래는 그대로 복사해서 쓸 수 있는 프롬프트예요.</p>
+    <table class="tbl">
+      <tr><th>용도</th><th>프롬프트</th></tr>
+      <tr><td class="l">스티커용</td><td>업로드한 사진 속 인물의 얼굴 특징은 유지하면서, 굵은 외곽선과 선명한 색상의 심플한 스티커 일러스트로 그려주세요. 배경 없이 웃는 표정 하나만요.<br>Keep the facial features from the uploaded photo, redraw as a simple sticker illustration with bold outlines and vivid flat colors, one smiling expression, no background.</td></tr>
+      <tr><td class="l">표정 세트용</td><td>같은 인물 얼굴로, 이번엔 활짝 웃는 표정 하나만 다시 그려주세요. 이전 그림과 같은 화풍·선 굵기를 유지해 주세요.<br>Using the same character face, redraw only a big-smile expression this time, keeping the same art style and line weight as before.</td></tr>
+    </table>
+
+    <h2 class="sub">자주 실패하는 지점 4가지와 교정법</h2>
+    <p>AI 이모티콘 작업에서 자주 걸리는 문제는 크게 네 가지예요. 공식 문서에 나온 제한과, 그럴 때 해볼 수 있는 것을 정리해 볼게요.</p>
+    <table class="tbl">
+      <tr><th>증상</th><th>원인</th><th>교정법</th></tr>
+      <tr><td class="l">표정 12개를 한 번에 요청하면 개수가 안 맞아요</td><td>요청한 개수가 그대로 나온다는 보장은 없어요</td><td>한 컷씩 나눠 요청해 보세요</td></tr>
+      <tr><td class="l">요청할 때마다 얼굴이 달라져요</td><td>참조 이미지 한 장으론 흔들려요</td><td>얼굴 참조용 사진을 여러 장 올려 보세요</td></tr>
+      <tr><td class="l">배경이 안 지워져요</td><td>위에서 본 것처럼 배경이 그대로 남는 경우가 많아요</td><td>iPhone 스티커 기능 같은 후처리를 함께 써 보세요</td></tr>
+      <tr><td class="l">한국어로 써도 되나 싶어요</td><td>구글이 권장 언어 목록에 한국어(ko-KR)를 포함하고 있어요</td><td>언어 자체는 원인이 아니니, 결과가 이상하면 묘사를 더 구체적으로 적어 주세요</td></tr>
+    </table>
+    <p>구글 공식 제한사항에는 <b>"모델이 사용자가 명시적으로 요청한 정확한 수의 이미지 출력을 따르지 않을 수 있습니다"</b>라고 나와 있어요(Google 공식 문서, 2026.07.24 확인). 구글은 최상의 성능을 위해 사용하길 권장하는 언어 목록에 한국어(ko-KR)도 포함하고 있어요.</p>
+
+    <h2 class="sub">올리기 전 점검할 것</h2>
+    <p>사진을 올리기 전에 확인할 건 크게 세 가지예요. 학습 데이터 활용 끄기, 사람이 검토할 수 있다는 공식 고지, 타인 얼굴 사용 시 허락이에요. 학습 데이터 끄기부터 살펴볼게요.</p>
+    <ul>
+      <li>ChatGPT: 프로필 아이콘 → Settings → Data Controls → <b>"Improve the model for everyone"</b> 끄기(학습 미사용)</li>
+      <li>Gemini 앱: <b>"Gemini 앱 활동"</b>에서 데이터 활용 여부 관리(임시 채팅은 72시간 보관·학습 미사용)</li>
+    </ul>
+    <p>사람이 사진을 검토할 수도 있다는 고지도 있어요. Gemini 앱 개인정보처리방침에는 입력하면 안 되는 내용에 대한 안내가 있어요. 공개되면 안 되는 정보나 서비스 개선에 쓰이면 안 되는 민감한 내용은 넣지 말라는 거예요(2026.06.29 업데이트 · 2026.07.24 확인).</p>
+    <p>다른 사람 얼굴이 나온 사진이면 허락도 필요해요. 구글은 타인의 얼굴이나 음성을 Gemini에서 사용하려면 먼저 허락을 구해야 한다고 안내해요. 이름·생년월일·주소와 마찬가지로 사진도 개인정보에 포함돼요(개인정보보호위원회, 2026.07.24 확인).</p>
+
+    <h2 class="sub">팔거나 배포하려면? 여기서 나뉘어요</h2>
+    <p>카카오와 OGQ 둘 다 생성형 AI로 만든 제안은 받지 않아요. 지금까지 나온 제한은 카카오·OGQ 같은 마켓에 등록해 파는 단계에 대한 거예요. 카카오는 운영 원칙에서 이렇게 밝히고 있어요.</p>
+    <p><b>"카카오 이모티콘은 창작자의 권리를 보호하고 공정한 창작 생태계를 유지하기 위해, 현재 생성형 AI를 활용해 제작된 이모티콘 제안은 제한하고 있습니다. 생성형 AI가 타인의 저작물을 학습해 생성한 결과물은 원저작자의 권리를 침해할 가능성이 있으며, 이에 따라 법적 분쟁 및 책임이 발생할 수 있는 위험이 존재합니다. 카카오 이모티콘은 이러한 위험으로부터 창작자를 보호하기 위해 생성형 AI 관련 법적 기준과 사회적 논의가 마련될 때까지 신중하고 유연한 기조를 유지하고 있습니다."</b>(카카오 이모티콘 스튜디오 운영 원칙, 2026.07.24 확인)</p>
+    <table class="tbl">
+      <tr><th>마켓</th><th>이미지 구성</th><th>공통 규격</th></tr>
+      <tr><td class="l">카카오(멈춰있는 이모티콘)</td><td>이모티콘 32개·아이콘 1개·공유이미지 1개</td><td>PNG · 360×360px(150KB↓) / 78×78px(16KB↓) / 600×166px(500KB↓) · 72dpi·RGB·배경 투명</td></tr>
+      <tr><td class="l">네이버 OGQ(스티커)</td><td>메인 1개·스티커 24개·탭 1개</td><td>240×240px / 740×640px / 96×74px · 72dpi 이상·RGB·각 1MB 이하·배경 투명</td></tr>
+    </table>
+    <p class="cap">규격은 각 공식 가이드 기준, 2026.07.24 확인 · 심사 기간은 카카오 약 2~4주, OGQ 약 2주</p>
+    <p>규격만큼 중요한 건 AI 제작물 정책이에요.</p>
+    <table class="tbl">
+      <tr><th>마켓</th><th>AI 제작물 관련 정책</th></tr>
+      <tr><td class="l">카카오 이모티콘 스튜디오</td><td>생성형 AI 활용 제안 제한(위 원문 인용)</td></tr>
+      <tr><td class="l">네이버 OGQ 크리에이터 스튜디오</td><td>생성형 AI 제작 스티커·이미지 심사 반려 사유로 명시</td></tr>
+      <tr><td class="l">LINE Creators</td><td>AI 생성 의심 시 LINE이 자체 판단해 표시 부착</td></tr>
+    </table>
+    <p>네이버 OGQ 크리에이터 스튜디오도 생성형 AI로 만든 스티커·이미지를 심사 반려 사유로 명시하고 있어요. 공식 고객센터는 스티커·애니메이션 스티커·이미지 반려 사유를 각각 적어 뒀어요. 스티커는 <b>"생성형 AI를 통해 제작된 스티커일 경우"</b>, 이미지는 "…이미지일 경우"라고 돼 있어요(OGQ 고객센터, 2026.07.24 확인). LINE Creators는 결이 달라요. 창작자가 알리지 않아도 AI 생성이 의심되면 LINE이 판단해 'AI 사용' 표시를 구매 화면에 자동으로 붙일 수 있다고 안내해요(2026.07.24 확인). 파실 계획이면 세 곳 다 등록 전에 최신 가이드를 직접 확인하시길 추천드려요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 이미 만들어 둔 이모티콘을 가족 단톡방에서만 쓰는 건 괜찮나요?</b><br>카카오·OGQ 정책은 마켓 등록·판매를 다루는 내용이에요. 가족 단톡방이나 개인적으로 나눠 쓰는 것까지 막는 공식 조항은 확인되지 않았어요.</p>
+    <p><b>Q. Gemini로 만든 이미지에 워터마크가 남나요?</b><br>네, 구글 공식 문서에 <b>"생성된 모든 이미지에는 SynthID 워터마크가 포함됩니다"</b>라고 적혀 있어요. Gemini 무료·Google AI Pro 이용자가 만든 이미지에는 눈에 보이는 Gemini 로고도 함께 붙어요(Google AI Ultra 구독자·Google AI Studio 이용자는 예외).</p>
+    
+    <p><b>참고한 곳</b><br>
+    · <a href="https://emoticonstudio.kakao.com/guideline/2026" target="_blank">카카오 이모티콘 스튜디오 운영 원칙</a><br>
+    · <a href="https://www.kakaocorp.com/page/detail/12082" target="_blank">카카오 뉴스룸 — 카카오톡 6차 정기 업데이트</a><br>
+    · <a href="https://chatgpt.com/ko-KR/pricing/" target="_blank">ChatGPT 요금 안내(한국)</a><br>
+    · <a href="https://support.google.com/gemini/answer/16275805?hl=ko" target="_blank">Gemini 앱 기능 안내</a><br>
+    · <a href="https://ai.google.dev/gemini-api/docs/image-generation" target="_blank">Google AI for Developers — Gemini 이미지 생성 프롬프트 가이드</a><br>
+    · <a href="https://support.apple.com/ko-kr/guide/iphone/iph9b4106303/ios" target="_blank">Apple 공식 지원 — iPhone에서 사진으로 스티커 만들기</a><br>
+    · <a href="https://help.openai.com/en/articles/8983099-does-the-improve-the-model-for-everyone-setting-sync-between-web-and-mobile-devices" target="_blank">OpenAI 고객센터 — Data Controls 설정 안내</a><br>
+    · <a href="https://support.google.com/gemini/answer/13594961?hl=ko" target="_blank">Gemini 앱 개인정보처리방침</a><br>
+    · <a href="https://supportogq.zendesk.com/hc/ko-kr/articles/51412205586713" target="_blank">OGQ 크리에이터 고객센터 — 반려 사유 안내</a><br>
+    · <a href="https://gemini.google/kr/overview/image-generation/?hl=ko-KR" target="_blank">Gemini 이미지 생성 개요</a><br>
+    · <a href="https://blog.google/intl/ko-kr/company-news/technology/nano-banana-pro/" target="_blank">Google 블로그 — Nano Banana Pro 소개</a><br>
+    · <a href="https://www.privacy.go.kr/delete.do" target="_blank">개인정보보호위원회 — 개인정보 포함 게시물 안내</a></p>
+
+    <p><b>✔ 같이 보면 좋아요</b><br>
+    · GPT-5.6 Sol·Terra·Luna 차이 정리 — GPT-5.5랑 뭐가 다른가요</p>
+
+    <p><b>하루 정리</b><br>
+    · 2026년 7월 기준 아기 사진 이모티콘은 카카오톡·ChatGPT·Gemini 앱에서 많이들 만들어요.<br>
+    · 스티커로 쓰려면 투명 배경이 관건이라, iPhone 스티커 기능 같은 후처리를 같이 쓰는 게 현실적이에요.<br>
+    · 카카오와 OGQ 둘 다 생성형 AI로 만든 제작물의 등록을 제한하고 있으니, 파시기 전에 마켓별 정책부터 짚어 보시는 게 좋아요.<br>
+    · 아이 사진을 다루는 만큼 학습 데이터 끄기 같은 안전장치부터 챙겨두면 좋겠어요.</p>
+
+    <div class="tags">#아기사진AI이모티콘만들기 #카카오톡AI로만들기 #사진이모티콘변환 #챗GPT이모티콘프롬프트 #투명배경스티커만들기 #카카오이모티콘제안규격 #AI이모티콘판매정책 #아이사진AI업로드안전</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 이 글은 사진 2곳이 <b>직접 촬영 화면(점선 박스)</b>이라 네이버에서 직접 스크린샷을 올려야 해요.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>5.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 3분):</b> 📷 카카오톡 'AI로 만들기' 버튼 화면 캡처 1장, iPhone '스티커 추가' 메뉴 화면 캡처 1장(둘 다 인형·장난감 사진으로 시연 — 아기 실사진 사용 금지). 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 아기 사진 AI 이모티콘 만들기 — 2026년 7월 기준 되는 방법 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>아기 사진을 이모티콘이나 스티커로 만들어 보고 싶다는 분들이 많더라고요. 생성형 AI 이모티콘은 사진이나 문장을 AI 모델에 넣어 그려낸 그림을 이모티콘·스티커로 쓰는 걸 말해요. 2026년 7월 24일 기준으로 되는 경로는 카카오톡 안 기능과 ChatGPT, Gemini 앱이에요. 다만 카카오 이모티콘 스튜디오와 네이버 OGQ는 생성형 AI로 만든 제안을 제한해요. 파는 것까지 생각하신다면 아래 '팔거나 배포하려면' 부분을 먼저 봐 주세요.</p>
+
+      <h3>결론 먼저 — 지금 되는 경로, 뭐가 다른가요</h3>
+      <p>2026년 7월 24일 기준으로, 아기 사진을 AI 이모티콘으로 바꾸는 경로 중 많이 쓰이는 건 크게 세 가지예요 — 카카오톡 'AI로 만들기', ChatGPT, Gemini 앱. 무료 범위는 경로마다 다르고, 투명 배경은 세 경로 다 공식 안내가 없어요.</p>
+      <table>
+        <tr><th>경로</th><th>무료 여부</th><th>사진 업로드</th></tr>
+        <tr><td class="l">카카오톡 'AI로 만들기'</td><td>공식 확인 안 됨</td><td>가능(채팅방 사진)</td></tr>
+        <tr><td class="l">ChatGPT</td><td>Free(₩0)부터 이용 가능</td><td>가능(무료 등급도 지원)</td></tr>
+        <tr><td class="l">Gemini 앱</td><td>미가입도 표준 한도로 이용 가능</td><td>가능(업로드해 재구성)</td></tr>
+      </table>
+      <p class="tnote-line">투명 배경 지원 여부는 세 경로 모두 공식 안내 없음(2026.07.24 확인)</p>
+
+      <h3>카카오톡 'AI로 만들기'로 사진 변환하기</h3>
+      <p>카카오톡 안에서 바로 해 보고 싶다면 채팅방 사진을 'AI로 만들기'로 변환하면 돼요. 카카오톡 6차 정기 업데이트(v26.6.0, 2026.07.15)로 공식 도입된 기능이에요. 카카오 뉴스룸은 채팅방에서 주고받은 사진을 ChatGPT 이미지 2.0을 이용해 재생성하는 기능이라고 설명해요. 고를 수 있는 템플릿은 '애니 스타일', '색연필 드로잉' 등이에요(카카오 뉴스룸, 2026.07.24 확인).</p>
+      <ol>
+        <li>카카오톡 채팅방에서 변환하고 싶은 사진을 열어 주세요</li>
+        <li>사진 우측 상단의 'AI로 만들기'를 눌러 주세요</li>
+        <li>'애니 스타일', '색연필 드로잉' 등 템플릿 중 하나를 골라 주세요</li>
+        <li>변환된 이미지를 저장해 주세요</li>
+      </ol>
+      <p class="ph">📷 〔사진 자리 1〕 카카오톡 채팅방에서 인형 사진을 탭해 전체화면으로 연 상태(우측 상단 'AI로 만들기' 버튼과 하단 템플릿이 한 화면에) — 네이버에서 직접 업로드<br>└ 캡션 추천: "카카오톡 채팅방 사진에서 'AI로 만들기' 버튼 위치(아이 얼굴 대신 인형으로 시연했어요)"</p>
+      
+      <h3>ChatGPT vs Gemini — 요금제별로 뭐가 다른가요</h3>
+      <p>ChatGPT와 Gemini는 둘 다 무료로 시작할 수 있고, 유료 등급으로 갈수록 이미지 생성 한도와 처리 속도가 올라가요. 다만 카카오톡·ChatGPT·Gemini 모두 하루에 정확히 몇 장까지 되는지는 공식 수치를 공개하지 않았어요.</p>
+      <table>
+        <tr><th>서비스</th><th>요금(월)</th><th>공식 설명</th></tr>
+        <tr><td class="l">ChatGPT Free</td><td>₩0</td><td>제한적이고 느린 이미지 생성</td></tr>
+        <tr><td class="l">ChatGPT Go</td><td>₩13,000</td><td>더 높은 이미지 생성 한도</td></tr>
+        <tr><td class="l">ChatGPT Plus</td><td>공식 페이지 확인</td><td>더 복잡하고 정확한 이미지 생성</td></tr>
+        <tr><td class="l">ChatGPT Pro</td><td>공식 페이지 확인</td><td>무제한 이미지 생성 및 더 빠른 처리 속도</td></tr>
+        <tr><td class="l">Google AI 미가입</td><td>₩0</td><td>표준 한도</td></tr>
+        <tr><td class="l">Google AI Plus</td><td>₩7,500(400GB 기준)</td><td>표준 한도보다 2배 높음</td></tr>
+        <tr><td class="l">Google AI Pro</td><td>₩29,000(5TB 기준)</td><td>표준 한도보다 4배 높음</td></tr>
+      </table>
+      <p class="tnote-line">요금·설명은 2026.07.24 확인 기준(ChatGPT 한국 요금 페이지 · Gemini 지원 문서) · ChatGPT Plus·Pro 금액은 공식 요금제 페이지에서 확인해 주세요.</p>
+      <p>ChatGPT 무료 등급도 사진 업로드와 이미지 생성 자체는 공식적으로 지원하고, 이미지 생성엔 채팅과 별도 한도가 있다고만 안내돼요.</p>
+
+      <h3>스티커로 쓰려면 투명 배경이 필요해요</h3>
+      <p>스티커는 배경이 투명해야 자연스러운데, 앱에서 나온 결과물은 배경이 남는 경우가 많아 후처리로 지우는 편이 안전해요.</p>
+      <p class="tnote-line">참고로 OpenAI API(개발자가 프로그램으로 직접 호출하는 인터페이스) 문서에는 gpt-image-2 기준으로 투명 배경 요청을 지원하지 않는다고 나와 있어요(2026.07.24 확인). 투명 배경처럼 모델별로 갈리는 사양은 앱 화면과 다를 수 있어요.</p>
+      <p>배경을 확실히 지우고 싶으면 iPhone 사진 앱의 스티커 기능을 함께 써 보세요. Apple 공식 가이드는 절차를 이렇게 안내해요.</p>
+      <ol>
+        <li>iPhone의 사진 앱으로 이동해 주세요</li>
+        <li>사진을 탭해 전체 화면으로 열어 주세요</li>
+        <li>피사체를 길게 터치했다가 놓아 주세요</li>
+        <li>'스티커 추가'를 탭해 주세요</li>
+      </ol>
+      <p class="ph">📷 〔사진 자리 2〕 사진 앱에서 피사체를 길게 터치한 직후 '스티커 추가' 팝오버가 뜬 상태 — 네이버에서 직접 업로드<br>└ 캡션 추천: "iPhone 사진 앱의 '스티커 추가' 메뉴(아이 얼굴 대신 인형으로 시연했어요)"</p>
+      <p>윤곽·만화·젤리 같은 효과는 '효과 추가'로 입힐 수 있고, 이렇게 만든 스티커는 iCloud와 동기화돼요(Apple 공식 지원 문서, 2026.07.24 확인).</p>
+
+      <h3>구글이 권장하는 프롬프트 6원칙</h3>
+      <p>구글은 프롬프트 원칙 여섯 가지를 공식으로 권장해요.</p>
+      <ul>
+        <li>매우 구체적으로 작성하기</li>
+        <li>컨텍스트와 의도 제공하기 — 이미지의 목적을 설명해요</li>
+        <li>반복 및 개선하기 — 첫 시도에서 완벽한 이미지를 기대하지 않아요</li>
+        <li>단계별로 안내하기</li>
+        <li>시맨틱 네거티브 프롬프트 쓰기 — '~가 없다'고 하는 대신 원하는 장면을 긍정적으로 묘사해요</li>
+        <li>카메라를 제어하기</li>
+      </ul>
+      <p>스티커·삽화는 예술적 스타일과 주제를 구체적으로 설명할 때 결과가 더 일관된다고 안내돼요(Google 공식 문서, 2026.07.24 확인). 굵은 선·색상 같은 시각적 디테일을 명시하면 더 도움이 돼요. 아래는 그대로 복사해서 쓸 수 있는 프롬프트예요.</p>
+      <table>
+        <tr><th>용도</th><th>프롬프트</th></tr>
+        <tr><td class="l">스티커용</td><td>업로드한 사진 속 인물의 얼굴 특징은 유지하면서, 굵은 외곽선과 선명한 색상의 심플한 스티커 일러스트로 그려주세요. 배경 없이 웃는 표정 하나만요.<br>Keep the facial features from the uploaded photo, redraw as a simple sticker illustration with bold outlines and vivid flat colors, one smiling expression, no background.</td></tr>
+        <tr><td class="l">표정 세트용</td><td>같은 인물 얼굴로, 이번엔 활짝 웃는 표정 하나만 다시 그려주세요. 이전 그림과 같은 화풍·선 굵기를 유지해 주세요.<br>Using the same character face, redraw only a big-smile expression this time, keeping the same art style and line weight as before.</td></tr>
+      </table>
+
+      <h3>자주 실패하는 지점 4가지와 교정법</h3>
+      <p>AI 이모티콘 작업에서 자주 걸리는 문제는 크게 네 가지예요. 공식 문서에 나온 제한과, 그럴 때 해볼 수 있는 것을 정리해 볼게요.</p>
+      <table>
+        <tr><th>증상</th><th>원인</th><th>교정법</th></tr>
+        <tr><td class="l">표정 12개를 한 번에 요청하면 개수가 안 맞아요</td><td>요청한 개수가 그대로 나온다는 보장은 없어요</td><td>한 컷씩 나눠 요청해 보세요</td></tr>
+        <tr><td class="l">요청할 때마다 얼굴이 달라져요</td><td>참조 이미지 한 장으론 흔들려요</td><td>얼굴 참조용 사진을 여러 장 올려 보세요</td></tr>
+        <tr><td class="l">배경이 안 지워져요</td><td>위에서 본 것처럼 배경이 그대로 남는 경우가 많아요</td><td>iPhone 스티커 기능 같은 후처리를 함께 써 보세요</td></tr>
+        <tr><td class="l">한국어로 써도 되나 싶어요</td><td>구글이 권장 언어 목록에 한국어(ko-KR)를 포함하고 있어요</td><td>언어 자체는 원인이 아니니, 결과가 이상하면 묘사를 더 구체적으로 적어 주세요</td></tr>
+      </table>
+      <p>구글 공식 제한사항에는 <b>"모델이 사용자가 명시적으로 요청한 정확한 수의 이미지 출력을 따르지 않을 수 있습니다"</b>라고 나와 있어요(Google 공식 문서, 2026.07.24 확인). 구글은 최상의 성능을 위해 사용하길 권장하는 언어 목록에 한국어(ko-KR)도 포함하고 있어요.</p>
+
+      <h3>올리기 전 점검할 것</h3>
+      <p>사진을 올리기 전에 확인할 건 크게 세 가지예요. 학습 데이터 활용 끄기, 사람이 검토할 수 있다는 공식 고지, 타인 얼굴 사용 시 허락이에요. 학습 데이터 끄기부터 살펴볼게요.</p>
+      <ul>
+        <li>ChatGPT: 프로필 아이콘 → Settings → Data Controls → <b>"Improve the model for everyone"</b> 끄기(학습 미사용)</li>
+        <li>Gemini 앱: <b>"Gemini 앱 활동"</b>에서 데이터 활용 여부 관리(임시 채팅은 72시간 보관·학습 미사용)</li>
+      </ul>
+      <p>사람이 사진을 검토할 수도 있다는 고지도 있어요. Gemini 앱 개인정보처리방침에는 입력하면 안 되는 내용에 대한 안내가 있어요. 공개되면 안 되는 정보나 서비스 개선에 쓰이면 안 되는 민감한 내용은 넣지 말라는 거예요(2026.06.29 업데이트 · 2026.07.24 확인).</p>
+      <p>다른 사람 얼굴이 나온 사진이면 허락도 필요해요. 구글은 타인의 얼굴이나 음성을 Gemini에서 사용하려면 먼저 허락을 구해야 한다고 안내해요. 이름·생년월일·주소와 마찬가지로 사진도 개인정보에 포함돼요(개인정보보호위원회, 2026.07.24 확인).</p>
+
+      <h3>팔거나 배포하려면? 여기서 나뉘어요</h3>
+      <p>카카오와 OGQ 둘 다 생성형 AI로 만든 제안은 받지 않아요. 지금까지 나온 제한은 카카오·OGQ 같은 마켓에 등록해 파는 단계에 대한 거예요. 카카오는 운영 원칙에서 이렇게 밝히고 있어요.</p>
+      <p><b>"카카오 이모티콘은 창작자의 권리를 보호하고 공정한 창작 생태계를 유지하기 위해, 현재 생성형 AI를 활용해 제작된 이모티콘 제안은 제한하고 있습니다. 생성형 AI가 타인의 저작물을 학습해 생성한 결과물은 원저작자의 권리를 침해할 가능성이 있으며, 이에 따라 법적 분쟁 및 책임이 발생할 수 있는 위험이 존재합니다. 카카오 이모티콘은 이러한 위험으로부터 창작자를 보호하기 위해 생성형 AI 관련 법적 기준과 사회적 논의가 마련될 때까지 신중하고 유연한 기조를 유지하고 있습니다."</b>(카카오 이모티콘 스튜디오 운영 원칙, 2026.07.24 확인)</p>
+      <table>
+        <tr><th>마켓</th><th>이미지 구성</th><th>공통 규격</th></tr>
+        <tr><td class="l">카카오(멈춰있는 이모티콘)</td><td>이모티콘 32개·아이콘 1개·공유이미지 1개</td><td>PNG · 360×360px(150KB↓) / 78×78px(16KB↓) / 600×166px(500KB↓) · 72dpi·RGB·배경 투명</td></tr>
+        <tr><td class="l">네이버 OGQ(스티커)</td><td>메인 1개·스티커 24개·탭 1개</td><td>240×240px / 740×640px / 96×74px · 72dpi 이상·RGB·각 1MB 이하·배경 투명</td></tr>
+      </table>
+      <p class="tnote-line">(규격은 각 공식 가이드 기준, 2026.07.24 확인 · 심사 기간은 카카오 약 2~4주, OGQ 약 2주)</p>
+      <p>규격만큼 중요한 건 AI 제작물 정책이에요.</p>
+      <table>
+        <tr><th>마켓</th><th>AI 제작물 관련 정책</th></tr>
+        <tr><td class="l">카카오 이모티콘 스튜디오</td><td>생성형 AI 활용 제안 제한(위 원문 인용)</td></tr>
+        <tr><td class="l">네이버 OGQ 크리에이터 스튜디오</td><td>생성형 AI 제작 스티커·이미지 심사 반려 사유로 명시</td></tr>
+        <tr><td class="l">LINE Creators</td><td>AI 생성 의심 시 LINE이 자체 판단해 표시 부착</td></tr>
+      </table>
+      <p>네이버 OGQ 크리에이터 스튜디오도 생성형 AI로 만든 스티커·이미지를 심사 반려 사유로 명시하고 있어요. 공식 고객센터는 스티커·애니메이션 스티커·이미지 반려 사유를 각각 적어 뒀어요. 스티커는 <b>"생성형 AI를 통해 제작된 스티커일 경우"</b>, 이미지는 "…이미지일 경우"라고 돼 있어요(OGQ 고객센터, 2026.07.24 확인). LINE Creators는 결이 달라요. 창작자가 알리지 않아도 AI 생성이 의심되면 LINE이 판단해 'AI 사용' 표시를 구매 화면에 자동으로 붙일 수 있다고 안내해요(2026.07.24 확인). 파실 계획이면 세 곳 다 등록 전에 최신 가이드를 직접 확인하시길 추천드려요.</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 이미 만들어 둔 이모티콘을 가족 단톡방에서만 쓰는 건 괜찮나요?</b><br>카카오·OGQ 정책은 마켓 등록·판매를 다루는 내용이에요. 가족 단톡방이나 개인적으로 나눠 쓰는 것까지 막는 공식 조항은 확인되지 않았어요.</p>
+      <p><b>Q. Gemini로 만든 이미지에 워터마크가 남나요?</b><br>네, 구글 공식 문서에 <b>"생성된 모든 이미지에는 SynthID 워터마크가 포함됩니다"</b>라고 적혀 있어요. Gemini 무료·Google AI Pro 이용자가 만든 이미지에는 눈에 보이는 Gemini 로고도 함께 붙어요(Google AI Ultra 구독자·Google AI Studio 이용자는 예외).</p>
+      
+      <p><b>참고한 곳</b><br>
+      · <a href="https://emoticonstudio.kakao.com/guideline/2026" target="_blank">카카오 이모티콘 스튜디오 운영 원칙</a><br>
+      · <a href="https://www.kakaocorp.com/page/detail/12082" target="_blank">카카오 뉴스룸 — 카카오톡 6차 정기 업데이트</a><br>
+      · <a href="https://chatgpt.com/ko-KR/pricing/" target="_blank">ChatGPT 요금 안내(한국)</a><br>
+      · <a href="https://support.google.com/gemini/answer/16275805?hl=ko" target="_blank">Gemini 앱 기능 안내</a><br>
+      · <a href="https://ai.google.dev/gemini-api/docs/image-generation" target="_blank">Google AI for Developers — Gemini 이미지 생성 프롬프트 가이드</a><br>
+      · <a href="https://support.apple.com/ko-kr/guide/iphone/iph9b4106303/ios" target="_blank">Apple 공식 지원 — iPhone에서 사진으로 스티커 만들기</a><br>
+      · <a href="https://help.openai.com/en/articles/8983099-does-the-improve-the-model-for-everyone-setting-sync-between-web-and-mobile-devices" target="_blank">OpenAI 고객센터 — Data Controls 설정 안내</a><br>
+      · <a href="https://support.google.com/gemini/answer/13594961?hl=ko" target="_blank">Gemini 앱 개인정보처리방침</a><br>
+    · <a href="https://supportogq.zendesk.com/hc/ko-kr/articles/51412205586713" target="_blank">OGQ 크리에이터 고객센터 — 반려 사유 안내</a><br>
+    · <a href="https://gemini.google/kr/overview/image-generation/?hl=ko-KR" target="_blank">Gemini 이미지 생성 개요</a><br>
+    · <a href="https://blog.google/intl/ko-kr/company-news/technology/nano-banana-pro/" target="_blank">Google 블로그 — Nano Banana Pro 소개</a><br>
+    · <a href="https://www.privacy.go.kr/delete.do" target="_blank">개인정보보호위원회 — 개인정보 포함 게시물 안내</a></p>
+
+      <p><b>✔ 같이 보면 좋아요</b><br>
+      · GPT-5.6 Sol·Terra·Luna 차이 정리 — GPT-5.5랑 뭐가 다른가요</p>
+
+      <p><b>하루 정리</b><br>
+      · 2026년 7월 기준 아기 사진 이모티콘은 카카오톡·ChatGPT·Gemini 앱에서 많이들 만들어요.<br>
+      · 스티커로 쓰려면 투명 배경이 관건이라, iPhone 스티커 기능 같은 후처리를 같이 쓰는 게 현실적이에요.<br>
+      · 카카오와 OGQ 둘 다 생성형 AI로 만든 제작물의 등록을 제한하고 있으니, 파시기 전에 마켓별 정책부터 짚어 보시는 게 좋아요.<br>
+      · 아이 사진을 다루는 만큼 학습 데이터 끄기 같은 안전장치부터 챙겨두면 좋겠어요.</p>
+
+      <p class="tags-line">#아기사진AI이모티콘만들기 #카카오톡AI로만들기 #사진이모티콘변환 #챗GPT이모티콘프롬프트 #투명배경스티커만들기 #카카오이모티콘제안규격 #AI이모티콘판매정책 #아이사진AI업로드안전</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
