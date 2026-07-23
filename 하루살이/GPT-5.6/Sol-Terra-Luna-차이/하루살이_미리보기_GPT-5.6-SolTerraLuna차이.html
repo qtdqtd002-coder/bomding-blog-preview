@@ -79,7 +79,7 @@
     <!-- 인용 후크: 공식 발표문 네이밍 규칙 직접 인용 + 3모델 스펙표 + "앱 기본모델은 그대로" 정정 -->
     <!-- 기준 시점: 2026.07.23 (발표일 2026.07.09) -->
 
-    <p>OpenAI가 2026년 7월 9일 GPT-5.6을 공개했어요. GPT-5.6은 Sol·Terra·Luna 세 모델로 나뉘어요. 예전 버전이랑 뭐가 다른지, ChatGPT 앱에서 바로 쓸 수 있는지만 짧게 정리해 볼게요.</p>
+    <p>OpenAI가 2026년 7월 9일 GPT-5.6을 공개했어요. GPT-5.6은 Sol·Terra·Luna 세 모델로 나뉘어요. 지식 컷오프가 앞당겨졌고, Sol 가격은 GPT-5.5와 같아요. ChatGPT 앱 기본 모델은 그대로예요. 달라진 점을 정리해 볼게요.</p>
 
     <h2 class="sub">GPT-5.6, 이름이 무슨 뜻인가요</h2>
     <p>GPT-5.6은 <b>숫자가 세대를, Sol·Terra·Luna가 성능 등급을 가리키는 모델 패밀리</b>예요. 공식 발표문은 이렇게 설명해요.</p>
@@ -97,17 +97,17 @@
       <li>Luna — 가장 빠르고 저렴한 등급이에요.</li>
     </ul>
     <table class="tbl">
-      <tr><th>모델</th><th>모델 ID</th><th>컨텍스트(토큰)</th><th>최대 출력(토큰)</th><th>지식 컷오프</th></tr>
-      <tr><td>Sol</td><td>gpt-5.6-sol</td><td>1.05M</td><td>128K</td><td>2026-02-16</td></tr>
-      <tr><td>Terra</td><td>gpt-5.6-terra</td><td>1.05M</td><td>128K</td><td>2026-02-16</td></tr>
-      <tr><td>Luna</td><td>gpt-5.6-luna</td><td>1.05M</td><td>128K</td><td>2026-02-16</td></tr>
+      <tr><th>모델</th><th>모델 ID</th><th>입력 $/100만 토큰</th><th>출력 $/100만 토큰</th></tr>
+      <tr><td>Sol</td><td>gpt-5.6-sol</td><td>$5</td><td>$30</td></tr>
+      <tr><td>Terra</td><td>gpt-5.6-terra</td><td>$2.50</td><td>$15</td></tr>
+      <tr><td>Luna</td><td>gpt-5.6-luna</td><td>$1</td><td>$6</td></tr>
     </table>
-    <p>표: GPT-5.6 3개 모델 스펙 비교 (2026.07.23 기준, 공식 모델 카탈로그)</p>
+    <p>표: Sol·Terra·Luna 가격 차이 (2026.07.23 기준, 공식 모델 카탈로그·가격 페이지 · 컨텍스트·최대 출력·지식 컷오프는 세 모델 모두 동일)</p>
     <p><b>컨텍스트</b>(한 번에 다룰 수 있는 글자 범위예요)는 세 모델 모두 1.05M로 같아요. 토큰은 AI가 텍스트를 처리하는 최소 단위예요. GPT-5.5·GPT-5.4도 1.05M라 여러 세대째 그대로예요. 대신 <b>지식 컷오프</b>(학습한 정보의 마지막 시점이에요)는 바뀌었어요. GPT-5.5는 2025-12-01, GPT-5.6은 2026-02-16이에요.</p>
 
     <h2 class="sub">가격이 얼마나 바뀌었나요</h2>
     <p>GPT-5.6 Sol은 GPT-5.5와 가격이 같아요. 100만 토큰 기준으로 Sol은 입력 $5·출력 $30이에요.</p>
-    <p>Terra 가격은 GPT-5.4와 같아요. Luna는 입력 $1·출력 $6이고, GPT-5.4-mini(입력 $0.75·출력 $4.50)보다는 비싸지만 GPT-5.4보다는 저렴해요.</p>
+    <p>Terra 가격은 GPT-5.4와 같아요. Luna는 입력 $1·출력 $6이에요. GPT-5.4-mini(입력 $0.75·출력 $4.50)보다는 비싸요. GPT-5.4보다는 저렴해요.</p>
     <table class="tbl">
       <tr><th>모델</th><th>입력 $/100만 토큰</th><th>출력 $/100만 토큰</th><th>컨텍스트(토큰)</th></tr>
       <tr><td>GPT-5.6 Sol</td><td>$5</td><td>$30</td><td>1.05M</td></tr>
@@ -121,6 +121,15 @@
     </table>
     <p>표: GPT-5.6과 이전 세대 API 가격 비교 (100만 토큰 입력/출력, 2026.07.23 기준 · 컨텍스트가 1.05M인 모델은 입력이 272K 토큰을 넘으면 입력 2배·출력 1.5배로 계산돼요)</p>
     <p>OpenAI는 가격은 그대로 두고 성능을 올렸다는 쪽을 강조해요. 지식노동 평가에서는 Terra가 GPT-5.5보다 낮은 비용으로 앞섰다고 밝혔어요. Luna는 GPT-5.5 최고 성능에 근접하고 비용은 절반 이하라고 밝혀요(자체 평가 기준).</p>
+    <table class="tbl">
+      <tr><th>항목</th><th>GPT-5.5</th><th>GPT-5.6</th></tr>
+      <tr><td>지식 컷오프</td><td>2025-12-01</td><td>2026-02-16</td></tr>
+      <tr><td>컨텍스트</td><td>1.05M</td><td>1.05M(그대로)</td></tr>
+      <tr><td>최상위 모델 가격(100만 토큰)</td><td>$5 / $30</td><td>$5 / $30(그대로, Sol 기준)</td></tr>
+      <tr><td>Agents' Last Exam</td><td>46.9%</td><td>52.7%</td></tr>
+      <tr><td>ChatGPT 앱 기본 모델</td><td>GPT-5.5 Instant</td><td>GPT-5.5 Instant(그대로)</td></tr>
+    </table>
+    <p>표: GPT-5.5 → GPT-5.6 달라진 것 (2026.07.23 기준 · Agents' Last Exam은 OpenAI 자체 비교)</p>
 
     <h2 class="sub">ChatGPT 앱에서는 뭐가 달라지나요</h2>
     <p>ChatGPT 앱 기본 모델은 지금도 GPT-5.5 Instant예요. GPT-5.6이 나왔다고 앱 기본값이 바뀌지 않았어요.</p>
@@ -134,9 +143,9 @@
       <tr><td>Plus</td><td>○</td><td>○</td><td>✕</td><td>✕</td></tr>
       <tr><td>Pro / Business / Enterprise</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
     </table>
-    <p>표: ChatGPT 플랜별 GPT-5.6 추론 옵션 이용 가능 여부 (2026.07.23 기준)</p>
+    <p>표: ChatGPT 표준 대화창 기준 GPT-5.6 추론 옵션 이용 가능 여부 (2026.07.23 기준 · Codex에서는 Free·Go도 Terra 이용 가능)</p>
     <p>표의 <b>Pro 옵션</b> 열은 GPT-5.6 Sol Pro가 구동해요.</p>
-    <p>순차 배포 중이라 아직 선택기에 안 보일 수 있어요. Free·Go 플랜은 표준 대화창 기준으로 GPT-5.6 추론 옵션이 열리지 않아요. Go의 Thinking은 GPT-5.6 Sol이 아니에요. 대신 Codex에서는 Free·Go도 <b>GPT-5.6 Terra</b>를 쓸 수 있어요.</p>
+    <p>순차 배포 중이라 아직 선택기에 안 보일 수 있어요. Free·Go 플랜은 표준 대화창 기준으로 GPT-5.6 추론 옵션이 열리지 않아요. Go의 Thinking은 GPT-5.6 Sol이 아니에요. 대신 Codex에서는 Free·Go도 <b>GPT-5.6 Terra</b>를 쓸 수 있어요. Codex는 코딩 작업을 맡기는 도구예요.</p>
 
     <h2 class="sub">새로 생긴 기능들</h2>
     <p>GPT-5.6은 공식 체인지로그 기준으로 개발자용 신기능이 여러 개 추가됐어요.</p>
@@ -144,13 +153,15 @@
       <li><b>Programmatic Tool Calling</b> — 모델이 직접 코드를 짜서 도구를 엮어 호출하는 방식이에요.</li>
       <li><b>명시적 프롬프트 캐시 컨트롤</b> — 반복 프롬프트의 캐시 여부를 개발자가 직접 정해요.</li>
       <li><b>Persisted Reasoning</b> — 이전 추론 과정을 이어서 쓸 수 있는 기능이에요.</li>
-      <li><b>Max 추론 강도</b>(모델이 얼마나 깊게 생각할지의 단계예요) — 기존보다 한 단계 더 깊게 추론하는 옵션이에요. 이 위에 <b>ultra</b> 단계도 있는데, ChatGPT Work·Codex 쪽 설정이에요. API에서는 Responses API 멀티에이전트 베타로 비슷하게 구성해요.</li>
+      <li><b>Max 추론 강도</b> — 기존보다 한 단계 더 깊게 추론하는 옵션이에요. 모델이 얼마나 깊게 생각할지 정하는 단계라는 뜻이에요.</li>
+      <li>이 위에 <b>ultra</b> 단계도 있는데, ChatGPT Work·Codex 쪽 설정이에요. ChatGPT Work는 더 길고 복잡한 작업을 맡기는 에이전트예요.</li>
+      <li>API에서는 Responses API 멀티에이전트 베타로 비슷하게 구성해요.</li>
       <li><b>Pro mode</b> — 답 하나를 내놓기 전에 모델이 더 연산을 돌리는 API 실행 모드로, 추론 강도와는 별개예요.</li>
       <li><b>멀티에이전트 오케스트레이션(베타)</b> — 여러 에이전트가 작업을 나눠 처리해요. Responses API(대화형 응답 API)에 베타로 열렸어요.</li>
     </ul>
 
     <h2 class="sub">벤치마크 성적은 어떤가요</h2>
-    <p>Agents' Last Exam(UC Berkeley RDI 제작)에서 Sol이 GPT-5.5·Claude Fable 5보다 앞섰다고 OpenAI가 밝혔어요.</p>
+    <p>Agents' Last Exam에서 Sol이 GPT-5.5·Claude Fable 5보다 앞섰다고 OpenAI가 밝혔어요. Agents' Last Exam은 UC Berkeley RDI가 만든 평가예요.</p>
     <table class="tbl">
       <tr><th>모델</th><th>Agents' Last Exam</th></tr>
       <tr><td>GPT-5.6 Sol</td><td>52.7%</td></tr>
@@ -208,7 +219,7 @@
     </div>
     <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다</p>
     <div id="copy">
-      <p>OpenAI가 2026년 7월 9일 GPT-5.6을 공개했어요. GPT-5.6은 Sol·Terra·Luna 세 모델로 나뉘어요. 예전 버전이랑 뭐가 다른지, ChatGPT 앱에서 바로 쓸 수 있는지만 짧게 정리해 볼게요.</p>
+      <p>OpenAI가 2026년 7월 9일 GPT-5.6을 공개했어요. GPT-5.6은 Sol·Terra·Luna 세 모델로 나뉘어요. 지식 컷오프가 앞당겨졌고, Sol 가격은 GPT-5.5와 같아요. ChatGPT 앱 기본 모델은 그대로예요. 달라진 점을 정리해 볼게요.</p>
 
       <h3>GPT-5.6, 이름이 무슨 뜻인가요</h3>
       <p>GPT-5.6은 <b>숫자가 세대를, Sol·Terra·Luna가 성능 등급을 가리키는 모델 패밀리</b>예요. 공식 발표문은 이렇게 설명해요.</p>
@@ -226,17 +237,17 @@
         <li>Luna — 가장 빠르고 저렴한 등급이에요.</li>
       </ul>
       <table>
-        <tr><th>모델</th><th>모델 ID</th><th>컨텍스트(토큰)</th><th>최대 출력(토큰)</th><th>지식 컷오프</th></tr>
-        <tr><td class="l">Sol</td><td>gpt-5.6-sol</td><td>1.05M</td><td>128K</td><td>2026-02-16</td></tr>
-        <tr><td class="l">Terra</td><td>gpt-5.6-terra</td><td>1.05M</td><td>128K</td><td>2026-02-16</td></tr>
-        <tr><td class="l">Luna</td><td>gpt-5.6-luna</td><td>1.05M</td><td>128K</td><td>2026-02-16</td></tr>
+        <tr><th>모델</th><th>모델 ID</th><th>입력 $/100만 토큰</th><th>출력 $/100만 토큰</th></tr>
+        <tr><td class="l">Sol</td><td>gpt-5.6-sol</td><td>$5</td><td>$30</td></tr>
+        <tr><td class="l">Terra</td><td>gpt-5.6-terra</td><td>$2.50</td><td>$15</td></tr>
+        <tr><td class="l">Luna</td><td>gpt-5.6-luna</td><td>$1</td><td>$6</td></tr>
       </table>
-      <p>표: GPT-5.6 3개 모델 스펙 비교 (2026.07.23 기준, 공식 모델 카탈로그)</p>
+      <p>표: Sol·Terra·Luna 가격 차이 (2026.07.23 기준, 공식 모델 카탈로그·가격 페이지 · 컨텍스트·최대 출력·지식 컷오프는 세 모델 모두 동일)</p>
       <p><b>컨텍스트</b>(한 번에 다룰 수 있는 글자 범위예요)는 세 모델 모두 1.05M로 같아요. 토큰은 AI가 텍스트를 처리하는 최소 단위예요. GPT-5.5·GPT-5.4도 1.05M라 여러 세대째 그대로예요. 대신 <b>지식 컷오프</b>(학습한 정보의 마지막 시점이에요)는 바뀌었어요. GPT-5.5는 2025-12-01, GPT-5.6은 2026-02-16이에요.</p>
 
       <h3>가격이 얼마나 바뀌었나요</h3>
       <p>GPT-5.6 Sol은 GPT-5.5와 가격이 같아요. 100만 토큰 기준으로 Sol은 입력 $5·출력 $30이에요.</p>
-      <p>Terra 가격은 GPT-5.4와 같아요. Luna는 입력 $1·출력 $6이고, GPT-5.4-mini(입력 $0.75·출력 $4.50)보다는 비싸지만 GPT-5.4보다는 저렴해요.</p>
+      <p>Terra 가격은 GPT-5.4와 같아요. Luna는 입력 $1·출력 $6이에요. GPT-5.4-mini(입력 $0.75·출력 $4.50)보다는 비싸요. GPT-5.4보다는 저렴해요.</p>
       <table>
         <tr><th>모델</th><th>입력 $/100만 토큰</th><th>출력 $/100만 토큰</th><th>컨텍스트(토큰)</th></tr>
         <tr><td class="l">GPT-5.6 Sol</td><td>$5</td><td>$30</td><td>1.05M</td></tr>
@@ -250,6 +261,15 @@
       </table>
       <p>표: GPT-5.6과 이전 세대 API 가격 비교 (100만 토큰 입력/출력, 2026.07.23 기준 · 컨텍스트가 1.05M인 모델은 입력이 272K 토큰을 넘으면 입력 2배·출력 1.5배로 계산돼요)</p>
       <p>OpenAI는 가격은 그대로 두고 성능을 올렸다는 쪽을 강조해요. 지식노동 평가에서는 Terra가 GPT-5.5보다 낮은 비용으로 앞섰다고 밝혔어요. Luna는 GPT-5.5 최고 성능에 근접하고 비용은 절반 이하라고 밝혀요(자체 평가 기준).</p>
+      <table>
+        <tr><th>항목</th><th>GPT-5.5</th><th>GPT-5.6</th></tr>
+        <tr><td class="l">지식 컷오프</td><td>2025-12-01</td><td>2026-02-16</td></tr>
+        <tr><td class="l">컨텍스트</td><td>1.05M</td><td>1.05M(그대로)</td></tr>
+        <tr><td class="l">최상위 모델 가격(100만 토큰)</td><td>$5 / $30</td><td>$5 / $30(그대로, Sol 기준)</td></tr>
+        <tr><td class="l">Agents' Last Exam</td><td>46.9%</td><td>52.7%</td></tr>
+        <tr><td class="l">ChatGPT 앱 기본 모델</td><td>GPT-5.5 Instant</td><td>GPT-5.5 Instant(그대로)</td></tr>
+      </table>
+      <p>표: GPT-5.5 → GPT-5.6 달라진 것 (2026.07.23 기준 · Agents' Last Exam은 OpenAI 자체 비교)</p>
 
       <h3>ChatGPT 앱에서는 뭐가 달라지나요</h3>
       <p>ChatGPT 앱 기본 모델은 지금도 GPT-5.5 Instant예요. GPT-5.6이 나왔다고 앱 기본값이 바뀌지 않았어요.</p>
@@ -263,9 +283,9 @@
         <tr><td class="l">Plus</td><td>○</td><td>○</td><td>✕</td><td>✕</td></tr>
         <tr><td class="l">Pro / Business / Enterprise</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
       </table>
-      <p>표: ChatGPT 플랜별 GPT-5.6 추론 옵션 이용 가능 여부 (2026.07.23 기준)</p>
+      <p>표: ChatGPT 표준 대화창 기준 GPT-5.6 추론 옵션 이용 가능 여부 (2026.07.23 기준 · Codex에서는 Free·Go도 Terra 이용 가능)</p>
       <p>표의 <b>Pro 옵션</b> 열은 GPT-5.6 Sol Pro가 구동해요.</p>
-      <p>순차 배포 중이라 아직 선택기에 안 보일 수 있어요. Free·Go 플랜은 표준 대화창 기준으로 GPT-5.6 추론 옵션이 열리지 않아요. Go의 Thinking은 GPT-5.6 Sol이 아니에요. 대신 Codex에서는 Free·Go도 <b>GPT-5.6 Terra</b>를 쓸 수 있어요.</p>
+      <p>순차 배포 중이라 아직 선택기에 안 보일 수 있어요. Free·Go 플랜은 표준 대화창 기준으로 GPT-5.6 추론 옵션이 열리지 않아요. Go의 Thinking은 GPT-5.6 Sol이 아니에요. 대신 Codex에서는 Free·Go도 <b>GPT-5.6 Terra</b>를 쓸 수 있어요. Codex는 코딩 작업을 맡기는 도구예요.</p>
 
       <h3>새로 생긴 기능들</h3>
       <p>GPT-5.6은 공식 체인지로그 기준으로 개발자용 신기능이 여러 개 추가됐어요.</p>
@@ -273,13 +293,15 @@
         <li><b>Programmatic Tool Calling</b> — 모델이 직접 코드를 짜서 도구를 엮어 호출하는 방식이에요.</li>
         <li><b>명시적 프롬프트 캐시 컨트롤</b> — 반복 프롬프트의 캐시 여부를 개발자가 직접 정해요.</li>
         <li><b>Persisted Reasoning</b> — 이전 추론 과정을 이어서 쓸 수 있는 기능이에요.</li>
-        <li><b>Max 추론 강도</b>(모델이 얼마나 깊게 생각할지의 단계예요) — 기존보다 한 단계 더 깊게 추론하는 옵션이에요. 이 위에 <b>ultra</b> 단계도 있는데, ChatGPT Work·Codex 쪽 설정이에요. API에서는 Responses API 멀티에이전트 베타로 비슷하게 구성해요.</li>
+        <li><b>Max 추론 강도</b> — 기존보다 한 단계 더 깊게 추론하는 옵션이에요. 모델이 얼마나 깊게 생각할지 정하는 단계라는 뜻이에요.</li>
+        <li>이 위에 <b>ultra</b> 단계도 있는데, ChatGPT Work·Codex 쪽 설정이에요. ChatGPT Work는 더 길고 복잡한 작업을 맡기는 에이전트예요.</li>
+        <li>API에서는 Responses API 멀티에이전트 베타로 비슷하게 구성해요.</li>
         <li><b>Pro mode</b> — 답 하나를 내놓기 전에 모델이 더 연산을 돌리는 API 실행 모드로, 추론 강도와는 별개예요.</li>
         <li><b>멀티에이전트 오케스트레이션(베타)</b> — 여러 에이전트가 작업을 나눠 처리해요. Responses API(대화형 응답 API)에 베타로 열렸어요.</li>
       </ul>
 
       <h3>벤치마크 성적은 어떤가요</h3>
-      <p>Agents' Last Exam(UC Berkeley RDI 제작)에서 Sol이 GPT-5.5·Claude Fable 5보다 앞섰다고 OpenAI가 밝혔어요.</p>
+      <p>Agents' Last Exam에서 Sol이 GPT-5.5·Claude Fable 5보다 앞섰다고 OpenAI가 밝혔어요. Agents' Last Exam은 UC Berkeley RDI가 만든 평가예요.</p>
       <table>
         <tr><th>모델</th><th>Agents' Last Exam</th></tr>
         <tr><td class="l">GPT-5.6 Sol</td><td>52.7%</td></tr>
