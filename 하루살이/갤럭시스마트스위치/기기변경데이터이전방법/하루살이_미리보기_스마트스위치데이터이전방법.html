@@ -1,0 +1,355 @@
+<!-- AEO 타깃 질문: ①갤럭시 스마트 스위치로 데이터 옮기는 방법이 뭔가요? ②스마트 스위치로 뭘 옮길 수 있나요? ③케이블 연결과 무선 연결 중 뭐가 나은가요? / 인용 후크: (a) 삼성 공식 지원 페이지 절차를 그대로 번호 리스트화 (b) "유선 연결 권장" 삼성전자 공식 문구 직접 인용 (c) 지원 기기·최소 OS 버전 표(안드로이드·iOS·Windows·Mac) / 기준 시점: 2026.07.24 -->
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>갤럭시 스마트 스위치로 데이터 옮기는 법 — 기기변경 시 사진·연락처 이전 방법</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tnote{color:var(--sub);font-size:12.5px;margin:-14px 0 22px;line-height:1.6;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}  /* 네이버 빈 문단(개행) */
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">IT 팁·활용법 · 하우투·팁</div>
+    <h1 class="title">갤럭시 스마트 스위치로 데이터 옮기는 법 — 기기변경 시 사진·연락처 이전 방법</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.07.24</span><span>· IT</span></div>
+
+    <p>새 휴대전화를 개통하고 나면 제일 먼저 막히는 게 데이터 옮기기예요. 새 휴대전화에서 앱을 실행해 몇 단계만 거치면 사진·연락처 같은 자료가 통째로 옮겨져요.</p>
+    <p>삼성전자가 이달 22일(현지시간) 갤럭시 언팩 2026에서 갤럭시 Z 폴드8과 갤럭시 워치9를 공개했어요. 두 제품 다 국내 사전판매가 7월 28일부터 시작돼요.</p>
+    <p>기기변경을 앞둔 분들을 위해 스마트 스위치 사용법만 정리해 볼게요. 스마트 스위치는 삼성전자의 공식 데이터 이전 앱이에요. 기기를 바꿀 때 사진이나 연락처 같은 자료를 새 휴대전화로 옮겨주는 도구예요.</p>
+
+    <!-- 이미지 이유: 도입부에서 스마트 스위치 공식 소개 페이지를 보여주려 / 출처: https://www.samsung.com/sec/apps/smart-switch/ / 분류: A형(헤드리스 캡처·비로그인) -->
+    <div class="imgwrap"><img src="img/01-smartswitch-official.png" width="1400" height="620" alt="삼성전자 스마트 스위치 공식 소개 페이지 화면"></div>
+    <p class="cap">삼성전자가 운영하는 스마트 스위치 공식 소개 페이지 화면이에요</p>
+    <p class="src">이미지 출처: <a href="https://www.samsung.com/sec/apps/smart-switch/" target="_blank">삼성닷컴 — 스마트 스위치</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">스마트 스위치로 데이터 옮기는 방법</h2>
+    <p>새 갤럭시에서 스마트 스위치 앱을 켜고 '이 휴대전화로 받기'를 누르면 시작돼요. 절차는 이렇게 진행돼요.</p>
+    <ol>
+      <li>새로 산 갤럭시에서 스마트 스위치 앱을 실행합니다.</li>
+      <li>'이 휴대전화로 받기'를 선택하고, 쓰던 기기 종류를 고릅니다.</li>
+      <li>연결 방법으로 무선 또는 케이블 중 하나를 선택합니다.</li>
+      <li>이전 기기에서도 스마트 스위치 앱을 켜고, 새 기기에 뜨는 QR 코드를 스캔하거나 케이블로 연결합니다.</li>
+      <li>가져올 데이터 항목을 고른 뒤 다음을 누릅니다.</li>
+      <li>전송이 진행되고 데이터 정리까지 끝나면 전송 결과를 눌러 마무리합니다.</li>
+    </ol>
+
+    <!-- 이미지 이유: 방금 설명한 QR 스캔·케이블 연결 단계를 실제 화면으로 보여주려 / 출처: https://www.samsung.com/sec/apps/smart-switch/ / 분류: A형(헤드리스 캡처·비로그인) -->
+    <div class="imgwrap"><img src="img/02-smartswitch-qrscreen.png" width="1400" height="700" alt="스마트 스위치 앱에서 QR 코드를 스캔해 기기를 연결하는 화면"></div>
+    <p class="cap">새 기기 화면에 뜨는 QR 코드를 이전 기기 카메라로 스캔해 연결해요</p>
+    <p class="src">이미지 출처: <a href="https://www.samsung.com/sec/apps/smart-switch/" target="_blank">삼성닷컴 — 스마트 스위치</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <p>이전 기기 종류에는 갤럭시뿐 아니라 타사 안드로이드, 아이폰·아이패드도 고를 수 있어요. 자세한 지원 범위는 아래에서 다시 짚을게요.</p>
+    <p>스마트 스위치는 최신 갤럭시라면 대부분 <b>'설정 → 계정 및 백업 → 스마트 스위치'</b>에 이미 설치돼 있어요. 안 보이면 갤럭시 스토어나 구글 플레이 스토어에서 받으면 돼요. 아이폰에서 무선으로 옮길 땐 앱스토어에서 따로 설치해야 해요.</p>
+
+    <h2 class="sub">스마트 스위치로 옮길 수 있는 데이터 항목</h2>
+    <p>스마트 스위치는 사진·동영상부터 연락처, 캘린더 일정까지 폭넓게 옮길 수 있어요. 아래 목록은 갤럭시 → 갤럭시 기준이에요.</p>
+    <ul>
+      <li>연락처(사진 포함)</li>
+      <li>사진·동영상</li>
+      <li>메시지(문자)</li>
+      <li>캘린더 일정</li>
+      <li>메모</li>
+      <li>기기 설정(키보드·벨소리·접근성·언어 등)</li>
+      <li>통화 기록</li>
+      <li>음악·문서 파일</li>
+      <li>알람·시계, 북마크, 배경화면(기본 설치·갤럭시 테마 제외)</li>
+    </ul>
+    <p>문서는 PPT·XLS·DOC·PDF 같은 형식이 옮겨지고, 음악은 재생목록까지 함께 이동해요.</p>
+    <p class="tnote">전송 가능한 항목은 기기 OS와 버전, 연결 방식에 따라 달라질 수 있어요(삼성전자 공식 안내 기준, 2026.07.24 확인). 타사 안드로이드에서 옮길 땐 메모·알람과 시계·기기 설정·배경화면 같은 항목이 일부 빠질 수 있어요.</p>
+
+    <h2 class="sub">케이블 연결과 무선 연결, 뭐가 더 나은가요</h2>
+    <p>데이터 용량이 크다면 케이블(유선) 연결이 나아요. 삼성전자는 <b>"전송할 데이터 용량이 크다면 한 번에 더 많은 데이터를 전송할 수 있는 유선 연결을 권장합니다"</b>라고 공식 안내해요(삼성닷컴 스마트 스위치 페이지, 2026.07.24 확인).</p>
+    <p>사진·동영상이 많이 쌓인 경우엔 케이블 쪽이 속도에서 유리해요. 무선(Wi-Fi) 연결은 데이터가 많으면 시간이 오래 걸릴 수 있어요.</p>
+
+    <h2 class="sub">타사 안드로이드·아이폰에서도 되나요</h2>
+    <p>네, 갤럭시가 아니어도 타사 안드로이드나 아이폰·아이패드에서 스마트 스위치로 옮길 수 있어요. 삼성전자 공식 페이지엔 <b>"iOS 기기나 다른 안드로이드 기기에서 전환하는 경우에도 별도의 앱 없이 더 많은 iOS 데이터를 전송할 수 있죠"</b>라고 안내해요(삼성닷컴 스마트 스위치 페이지, 2026.07.24 확인).</p>
+    <p>PC용 프로그램도 따로 있어서 Windows나 Mac에서도 백업·복원이 가능해요. 기기별 최소 요구사항은 아래 표로 정리했어요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>최소 요구사항</th></tr>
+      <tr><td>갤럭시·타사 안드로이드</td><td>안드로이드 OS 6.0 이상</td></tr>
+      <tr><td>아이폰·아이패드</td><td>iOS 12 이상</td></tr>
+      <tr><td>Windows PC</td><td>윈도우 OS 10 이상</td></tr>
+      <tr><td>Mac</td><td>macOS 10.13 이상</td></tr>
+    </table>
+    <p class="tnote">위 수치는 2026.07.24 확인한 삼성전자 공식 페이지 기준이에요. 정책은 이후 바뀔 수 있어요.</p>
+    <p>아이폰에서 갤럭시로 옮길 때는 <b>옮길 수 있는 항목이 더 많은 업그레이드된 전송 방식</b>도 쓸 수 있어요. 이 방식을 쓰려면 갤럭시는 One UI 9.0 이상과 안드로이드 17 이상을 갖춰야 해요. 아이폰은 iOS 26.6 이상이어야 하고요. 조건에 못 미치면 기존 방식으로 옮겨져요.</p>
+
+    <h2 class="sub">갤럭시 워치·버즈도 스마트 스위치로 옮기나요</h2>
+    <p>네, 워치 데이터도 스마트 스위치로 옮길 수 있어요. 다만 새 기기에 연결하는 절차 자체는 워치 본체에서 시작해요.</p>
+    <p>삼성전자는 스마트 스위치로 갤럭시 북·워치·버즈·링에서도 데이터를 전송할 수 있다고 안내해요. 다만 조건이 있어요. Wear OS는 안드로이드 13 이상이어야 하고, 기존·새 휴대전화는 모두 구글 모바일 서비스(GMS) v23.15.17 이상이어야 해요. 두 기기가 같은 삼성 계정·구글 계정으로 로그인돼 있어야 하고, 워치가 기존 스마트폰에 연결된 상태여야 해요.</p>
+    <p>새 휴대전화에 연결할 땐 워치 쪽에서 먼저 시작해요. 워치의 <b>설정 → 일반 → 새 폰에 워치 연결</b>을 선택하세요. 정확한 메뉴 이름은 워치 모델·소프트웨어 버전에 따라 다를 수 있으니 화면 안내를 따라 주시고요. 안내대로 진행하면 새 휴대전화의 갤럭시 웨어러블 앱이 실행되면서 이어져요.</p>
+    <p>연결 과정에서 워치가 초기화돼 데이터가 지워질 수 있어요. 초기화 여부는 워치 모델과 소프트웨어 버전에 따라 달라요. 그래서 연결 전에 갤럭시 웨어러블 앱에서 <b>'워치 설정 → 계정 및 백업 → 데이터 백업'</b>을 먼저 해두는 게 좋아요.</p>
+    <p>백업해 두면 연결 과정에서 복원할 항목이 다시 표시될 수 있어요.</p>
+    <p>갤럭시 버즈는 절차가 따로 있어요. 새 휴대전화의 <b>'설정 → 연결 → 블루투스'</b>에서 다시 등록하면 돼요. 이 과정에서 갤럭시 웨어러블 앱이 함께 열릴 수 있어요. 기존 폰과 연결을 해제해도 되고, 기존 폰에서도 계속 쓸 거면 해제하지 않고 건너뛰어도 돼요.</p>
+
+    <h2 class="sub">스마트 스위치 전송, 시작 전에 확인하면 좋은 것</h2>
+    <p>가장 먼저 확인할 건 배터리예요. 전송 중에는 충전기를 연결할 수 없어서, 시작 전에 두 기기 모두 배터리를 넉넉히 채워 두는 게 좋아요.</p>
+    <ul>
+      <li>두 기기 모두 배터리를 충분히 충전해 둡니다(전송 중엔 충전 불가).</li>
+      <li>무선으로 아이폰·아이패드에서 갤럭시로 옮길 땐, 전송이 끝날 때까지 화면을 끄거나 홈 화면으로 이동하지 않습니다.</li>
+      <li>옮길 데이터가 많다면 무선 대신 케이블 연결로 바꿔서 시도해 봅니다.</li>
+      <li>기기 간 케이블 연결이 잘 안 잡히면 다른 USB 포트나 케이블로 바꿔 봅니다.</li>
+      <li>PC로 옮길 때 인식이 안 되면 삼성 USB 드라이버를 다시 설치해 봅니다.</li>
+    </ul>
+    <p>QR 코드를 스캔하기 어려운 상황도 있어요. 그럴 땐 화면의 <b>'스캔이 안되나요?'</b>를 눌러 새 기기에 뜨는 숫자 코드를 입력하면 돼요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 스마트 스위치로 옮긴 뒤 이전 기기 데이터는 지워지나요?</b><br>아니요. 스마트 스위치는 어느 기기의 콘텐츠도 지우지 않아요. 전송이 끝나도 원본 데이터는 이전 기기에 그대로 남아요.</p>
+    <p><b>Q. 아이폰에서 무선으로 옮기는 중에 다른 앱을 써도 되나요?</b><br>아이폰에서 무선으로 옮길 때는 전송이 끝날 때까지 화면을 켜 둔 채 머물러야 해요. 다른 앱으로 전환하면 전송이 끊길 수 있어요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.samsungsvc.co.kr/solution/38683" target="_blank">삼성전자 서비스 — 스마트 스위치로 데이터 백업/복원·이동 방법</a><br>
+    · <a href="https://www.samsung.com/sec/apps/smart-switch/" target="_blank">삼성닷컴 — 스마트 스위치</a><br>
+    · <a href="https://news.samsung.com/kr/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90-%EA%B0%A4%EB%9F%AD%EC%8B%9C-z-%ED%8F%B4%EB%93%9C8-%EC%9A%B8%ED%8A%B8%EB%9D%BC%C2%B7%ED%8F%B4%EB%93%9C8%C2%B7%ED%94%8C%EB%A6%BD8-%EB%93%B1-%ED%8F%B4%EB%8D%94" target="_blank">삼성전자 뉴스룸 — 갤럭시 Z 폴드8 울트라·폴드8·플립8 등 폴더블 3종 공개</a><br>
+    · <a href="https://news.samsung.com/kr/%ec%82%bc%ec%84%b1%ec%a0%84%ec%9e%90-%ea%b0%a4%eb%9f%ad%ec%8b%9c-%ec%9b%8c%ec%b9%98-%ec%9a%b8%ed%8a%b8%eb%9d%bc2%c2%b7%ec%9b%8c%ec%b9%989-%ea%b3%b5%ea%b0%9c" target="_blank">삼성전자 뉴스룸 — '갤럭시 워치 울트라2·워치9' 공개</a><br>
+    · <a href="https://www.samsungsvc.co.kr/solution/1372900" target="_blank">삼성전자 서비스 — 새로운 휴대전화에 갤럭시 워치 및 버즈 연결하기</a><br>
+    · <a href="https://www.samsungsvc.co.kr/solution/25071" target="_blank">삼성전자 서비스 — 갤럭시, 스마트 스위치 앱으로 휴대전화 데이터를 이동하고 싶어요</a></p>
+
+    <p><b>✔ 같이 보면 좋아요</b><br>
+    · <b>갤럭시 워치9·워치 울트라2 변경점 총정리 — 배터리·다이빙·가격 비교</b><br>
+    · <b>갤럭시 Z 폴드8 전작 비교 — 울트라·플립8 스펙까지 한눈에</b><br>
+    새 기기로 갈아타실 분들은 이 두 글도 참고해 보세요.</p>
+
+    <p><b>하루 정리</b><br>
+    · 새 갤럭시에서 스마트 스위치 앱을 켜고 '이 휴대전화로 받기'를 선택하면 이전이 시작돼요.<br>
+    · 사진·연락처·캘린더·메모·기기 설정 같은 자료를 통째로 옮길 수 있어요.<br>
+    · 데이터가 많다면 무선보다 케이블 연결이 더 빨라요.<br>
+    · 갤럭시뿐 아니라 타사 안드로이드, 아이폰·아이패드에서도 옮길 수 있어요.<br>
+    전송 전엔 두 기기 배터리를 넉넉히 채워 두시고, 아이폰에서 무선으로 옮길 땐 끝날 때까지 화면을 켜 둔 채로 기다리시면 돼요.</p>
+
+    <div class="tags">#갤럭시스마트스위치 #스마트스위치사용법 #기기변경데이터이전 #갤럭시데이터이전 #스마트스위치케이블 #갤럭시워치9 #갤럭시Z폴드8</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> <b>"✔ 같이 보면 좋아요"</b> 속 볼드 글 제목 2개는 네이버에서 해당 글 주소로 하이퍼링크를 직접 걸어주세요.<br>
+      <b>5.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>6.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 3분):</b> 📷 <b>사진 2곳</b> 업로드 + 🔗 <b>같이 보면 좋아요 링크 2건</b> 연결. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 갤럭시 스마트 스위치로 데이터 옮기는 법 — 기기변경 시 사진·연락처 이전 방법</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>새 휴대전화를 개통하고 나면 제일 먼저 막히는 게 데이터 옮기기예요. 새 휴대전화에서 앱을 실행해 몇 단계만 거치면 사진·연락처 같은 자료가 통째로 옮겨져요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>삼성전자가 이달 22일(현지시간) 갤럭시 언팩 2026에서 갤럭시 Z 폴드8과 갤럭시 워치9를 공개했어요. 두 제품 다 국내 사전판매가 7월 28일부터 시작돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>기기변경을 앞둔 분들을 위해 스마트 스위치 사용법만 정리해 볼게요. 스마트 스위치는 삼성전자의 공식 데이터 이전 앱이에요. 기기를 바꿀 때 사진이나 연락처 같은 자료를 새 휴대전화로 옮겨주는 도구예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 1〕 삼성전자가 운영하는 스마트 스위치 공식 소개 페이지 화면 — 삼성닷컴에서 받아 업로드</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>스마트 스위치로 데이터 옮기는 방법</h3>
+      <p>새 갤럭시에서 스마트 스위치 앱을 켜고 '이 휴대전화로 받기'를 누르면 시작돼요. 절차는 이렇게 진행돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>새로 산 갤럭시에서 스마트 스위치 앱을 실행합니다.</li>
+        <li>'이 휴대전화로 받기'를 선택하고, 쓰던 기기 종류를 고릅니다.</li>
+        <li>연결 방법으로 무선 또는 케이블 중 하나를 선택합니다.</li>
+        <li>이전 기기에서도 스마트 스위치 앱을 켜고, 새 기기에 뜨는 QR 코드를 스캔하거나 케이블로 연결합니다.</li>
+        <li>가져올 데이터 항목을 고른 뒤 다음을 누릅니다.</li>
+        <li>전송이 진행되고 데이터 정리까지 끝나면 전송 결과를 눌러 마무리합니다.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 2〕 스마트 스위치 앱에서 QR 코드를 스캔해 기기를 연결하는 화면 — 삼성닷컴에서 받아 업로드</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p>이전 기기 종류에는 갤럭시뿐 아니라 타사 안드로이드, 아이폰·아이패드도 고를 수 있어요. 자세한 지원 범위는 아래에서 다시 짚을게요.</p>
+      <p>스마트 스위치는 최신 갤럭시라면 대부분 <b>'설정 → 계정 및 백업 → 스마트 스위치'</b>에 이미 설치돼 있어요. 안 보이면 갤럭시 스토어나 구글 플레이 스토어에서 받으면 돼요. 아이폰에서 무선으로 옮길 땐 앱스토어에서 따로 설치해야 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>스마트 스위치로 옮길 수 있는 데이터 항목</h3>
+      <p>스마트 스위치는 사진·동영상부터 연락처, 캘린더 일정까지 폭넓게 옮길 수 있어요. 아래 목록은 갤럭시 → 갤럭시 기준이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>연락처(사진 포함)</li>
+        <li>사진·동영상</li>
+        <li>메시지(문자)</li>
+        <li>캘린더 일정</li>
+        <li>메모</li>
+        <li>기기 설정(키보드·벨소리·접근성·언어 등)</li>
+        <li>통화 기록</li>
+        <li>음악·문서 파일</li>
+        <li>알람·시계, 북마크, 배경화면(기본 설치·갤럭시 테마 제외)</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>문서는 PPT·XLS·DOC·PDF 같은 형식이 옮겨지고, 음악은 재생목록까지 함께 이동해요.</p>
+      <p class="tnote-line">전송 가능한 항목은 기기 OS와 버전, 연결 방식에 따라 달라질 수 있어요(삼성전자 공식 안내 기준, 2026.07.24 확인). 타사 안드로이드에서 옮길 땐 메모·알람과 시계·기기 설정·배경화면 같은 항목이 일부 빠질 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>케이블 연결과 무선 연결, 뭐가 더 나은가요</h3>
+      <p>데이터 용량이 크다면 케이블(유선) 연결이 나아요. 삼성전자는 <b>"전송할 데이터 용량이 크다면 한 번에 더 많은 데이터를 전송할 수 있는 유선 연결을 권장합니다"</b>라고 공식 안내해요(삼성닷컴 스마트 스위치 페이지, 2026.07.24 확인).</p>
+      <p>사진·동영상이 많이 쌓인 경우엔 케이블 쪽이 속도에서 유리해요. 무선(Wi-Fi) 연결은 데이터가 많으면 시간이 오래 걸릴 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>타사 안드로이드·아이폰에서도 되나요</h3>
+      <p>네, 갤럭시가 아니어도 타사 안드로이드나 아이폰·아이패드에서 스마트 스위치로 옮길 수 있어요. 삼성전자 공식 페이지엔 <b>"iOS 기기나 다른 안드로이드 기기에서 전환하는 경우에도 별도의 앱 없이 더 많은 iOS 데이터를 전송할 수 있죠"</b>라고 안내해요(삼성닷컴 스마트 스위치 페이지, 2026.07.24 확인).</p>
+      <p>PC용 프로그램도 따로 있어서 Windows나 Mac에서도 백업·복원이 가능해요. 기기별 최소 요구사항은 아래 표로 정리했어요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>구분</th><th>최소 요구사항</th></tr>
+        <tr><td class="l">갤럭시·타사 안드로이드</td><td>안드로이드 OS 6.0 이상</td></tr>
+        <tr><td class="l">아이폰·아이패드</td><td>iOS 12 이상</td></tr>
+        <tr><td class="l">Windows PC</td><td>윈도우 OS 10 이상</td></tr>
+        <tr><td class="l">Mac</td><td>macOS 10.13 이상</td></tr>
+      </table>
+      <p class="tnote-line">위 수치는 2026.07.24 확인한 삼성전자 공식 페이지 기준이에요. 정책은 이후 바뀔 수 있어요.</p>
+      <p>아이폰에서 갤럭시로 옮길 때는 <b>옮길 수 있는 항목이 더 많은 업그레이드된 전송 방식</b>도 쓸 수 있어요. 이 방식을 쓰려면 갤럭시는 One UI 9.0 이상과 안드로이드 17 이상을 갖춰야 해요. 아이폰은 iOS 26.6 이상이어야 하고요. 조건에 못 미치면 기존 방식으로 옮겨져요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>갤럭시 워치·버즈도 스마트 스위치로 옮기나요</h3>
+      <p>네, 워치 데이터도 스마트 스위치로 옮길 수 있어요. 다만 새 기기에 연결하는 절차 자체는 워치 본체에서 시작해요.</p>
+      <p>삼성전자는 스마트 스위치로 갤럭시 북·워치·버즈·링에서도 데이터를 전송할 수 있다고 안내해요. 다만 조건이 있어요. Wear OS는 안드로이드 13 이상이어야 하고, 기존·새 휴대전화는 모두 구글 모바일 서비스(GMS) v23.15.17 이상이어야 해요. 두 기기가 같은 삼성 계정·구글 계정으로 로그인돼 있어야 하고, 워치가 기존 스마트폰에 연결된 상태여야 해요.</p>
+      <p>새 휴대전화에 연결할 땐 워치 쪽에서 먼저 시작해요. 워치의 <b>설정 → 일반 → 새 폰에 워치 연결</b>을 선택하세요. 정확한 메뉴 이름은 워치 모델·소프트웨어 버전에 따라 다를 수 있으니 화면 안내를 따라 주시고요. 안내대로 진행하면 새 휴대전화의 갤럭시 웨어러블 앱이 실행되면서 이어져요.</p>
+      <p>연결 과정에서 워치가 초기화돼 데이터가 지워질 수 있어요. 초기화 여부는 워치 모델과 소프트웨어 버전에 따라 달라요. 그래서 연결 전에 갤럭시 웨어러블 앱에서 <b>'워치 설정 → 계정 및 백업 → 데이터 백업'</b>을 먼저 해두는 게 좋아요.</p>
+      <p>백업해 두면 연결 과정에서 복원할 항목이 다시 표시될 수 있어요.</p>
+      <p>갤럭시 버즈는 절차가 따로 있어요. 새 휴대전화의 <b>'설정 → 연결 → 블루투스'</b>에서 다시 등록하면 돼요. 이 과정에서 갤럭시 웨어러블 앱이 함께 열릴 수 있어요. 기존 폰과 연결을 해제해도 되고, 기존 폰에서도 계속 쓸 거면 해제하지 않고 건너뛰어도 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>스마트 스위치 전송, 시작 전에 확인하면 좋은 것</h3>
+      <p>가장 먼저 확인할 건 배터리예요. 전송 중에는 충전기를 연결할 수 없어서, 시작 전에 두 기기 모두 배터리를 넉넉히 채워 두는 게 좋아요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>두 기기 모두 배터리를 충분히 충전해 둡니다(전송 중엔 충전 불가).</li>
+        <li>무선으로 아이폰·아이패드에서 갤럭시로 옮길 땐, 전송이 끝날 때까지 화면을 끄거나 홈 화면으로 이동하지 않습니다.</li>
+        <li>옮길 데이터가 많다면 무선 대신 케이블 연결로 바꿔서 시도해 봅니다.</li>
+        <li>기기 간 케이블 연결이 잘 안 잡히면 다른 USB 포트나 케이블로 바꿔 봅니다.</li>
+        <li>PC로 옮길 때 인식이 안 되면 삼성 USB 드라이버를 다시 설치해 봅니다.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>QR 코드를 스캔하기 어려운 상황도 있어요. 그럴 땐 화면의 <b>'스캔이 안되나요?'</b>를 눌러 새 기기에 뜨는 숫자 코드를 입력하면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 스마트 스위치로 옮긴 뒤 이전 기기 데이터는 지워지나요?</b><br>아니요. 스마트 스위치는 어느 기기의 콘텐츠도 지우지 않아요. 전송이 끝나도 원본 데이터는 이전 기기에 그대로 남아요.</p>
+      <p><b>Q. 아이폰에서 무선으로 옮기는 중에 다른 앱을 써도 되나요?</b><br>아이폰에서 무선으로 옮길 때는 전송이 끝날 때까지 화면을 켜 둔 채 머물러야 해요. 다른 앱으로 전환하면 전송이 끊길 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b class="notice-line">참고한 곳</b><br>
+      · <a href="https://www.samsungsvc.co.kr/solution/38683" target="_blank">삼성전자 서비스 — 스마트 스위치로 데이터 백업/복원·이동 방법</a><br>
+      · <a href="https://www.samsung.com/sec/apps/smart-switch/" target="_blank">삼성닷컴 — 스마트 스위치</a><br>
+      · <a href="https://news.samsung.com/kr/%EC%82%BC%EC%84%B1%EC%A0%84%EC%9E%90-%EA%B0%A4%EB%9F%AD%EC%8B%9C-z-%ED%8F%B4%EB%93%9C8-%EC%9A%B8%ED%8A%B8%EB%9D%BC%C2%B7%ED%8F%B4%EB%93%9C8%C2%B7%ED%94%8C%EB%A6%BD8-%EB%93%B1-%ED%8F%B4%EB%8D%94" target="_blank">삼성전자 뉴스룸 — 갤럭시 Z 폴드8 울트라·폴드8·플립8 등 폴더블 3종 공개</a><br>
+      · <a href="https://news.samsung.com/kr/%ec%82%bc%ec%84%b1%ec%a0%84%ec%9e%90-%ea%b0%a4%eb%9f%ad%ec%8b%9c-%ec%9b%8c%ec%b9%98-%ec%9a%b8%ed%8a%b8%eb%9d%bc2%c2%b7%ec%9b%8c%ec%b9%989-%ea%b3%b5%ea%b0%9c" target="_blank">삼성전자 뉴스룸 — '갤럭시 워치 울트라2·워치9' 공개</a><br>
+      · <a href="https://www.samsungsvc.co.kr/solution/1372900" target="_blank">삼성전자 서비스 — 새로운 휴대전화에 갤럭시 워치 및 버즈 연결하기</a><br>
+      · <a href="https://www.samsungsvc.co.kr/solution/25071" target="_blank">삼성전자 서비스 — 갤럭시, 스마트 스위치 앱으로 휴대전화 데이터를 이동하고 싶어요</a></p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>✔ 같이 보면 좋아요</b><br>
+      · <b>갤럭시 워치9·워치 울트라2 변경점 총정리 — 배터리·다이빙·가격 비교</b><br>
+      · <b>갤럭시 Z 폴드8 전작 비교 — 울트라·플립8 스펙까지 한눈에</b><br>
+      새 기기로 갈아타실 분들은 이 두 글도 참고해 보세요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 새 갤럭시에서 스마트 스위치 앱을 켜고 '이 휴대전화로 받기'를 선택하면 이전이 시작돼요.<br>
+      · 사진·연락처·캘린더·메모·기기 설정 같은 자료를 통째로 옮길 수 있어요.<br>
+      · 데이터가 많다면 무선보다 케이블 연결이 더 빨라요.<br>
+      · 갤럭시뿐 아니라 타사 안드로이드, 아이폰·아이패드에서도 옮길 수 있어요.<br>
+      전송 전엔 두 기기 배터리를 넉넉히 채워 두시고, 아이폰에서 무선으로 옮길 땐 끝날 때까지 화면을 켜 둔 채로 기다리시면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#갤럭시스마트스위치 #스마트스위치사용법 #기기변경데이터이전 #갤럭시데이터이전 #스마트스위치케이블 #갤럭시워치9 #갤럭시Z폴드8</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
