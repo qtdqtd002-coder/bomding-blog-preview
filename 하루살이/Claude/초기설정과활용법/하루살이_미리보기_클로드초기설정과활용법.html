@@ -1,0 +1,442 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>클로드 사용법 총정리 — 접속부터 초기 설정, 무료·프로 차이까지 (Claude)</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tnote{font-size:12.5px;color:#888;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}  /* 네이버 빈 문단(개행) — output-format §4-2-b */
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- 이미지 조달(2026-07-24, 수정 라운드): claude.com/pricing(한국 접속·VAT 포함 표시본, 헤드리스 크롬 실브라우저 UA)은 유지. support.claude.com Memory 문서(11817273)·Appearance 문서(8887527)를 curl+브라우저 UA로 받아 downloads.intercomcdn.com 직링크에서 'Generate memory from chats' 토글·Color mode(Light/Match system/Dark)·Chat font(Default/Match system/Dyslexic friendly) 선택 UI 3장을 신규 A형으로 확보(파일: img/04,05,06). Pause/Reset 버튼 전용 컷은 같은 방식으로 찾지 못함(문서 안에 로고·툴팁 이미지만 더 있었음) — B형 전환 없이 텍스트로만 서술. Settings 전체 메뉴 화면·Settings > Usage 화면 2곳은 계정정보 노출 우려로 B형(직접 촬영) 유지. R3 라운드(2026-07-24): Settings 전체 메뉴(스샷1)를 04·05 앞으로 재배치, 02~06 캡션을 "공식 도움말 설명 화면"으로 통일(01만 실캡처), 표 셀 Match System 표기를 공식 순서·표기(Light/Match system/Dark)로 정정. -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">AI 소식</div>
+    <h1 class="title">클로드 사용법 총정리 — 접속부터 초기 설정, 무료·프로 차이까지 (Claude)</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.07.24</span><span>· IT</span></div>
+    <!-- AEO 타깃 질문: 클로드 처음 쓸 때 뭘 설정해야 하나요? / 클로드 무료랑 프로 차이가 뭔가요? / 클로드 메모리(기억) 끄는 법 -->
+    <!-- 인용 후크: 공식 도움말 기준 직접 정리한 Free/Pro/Max 비교표 + Settings 하위 메뉴별 표(한국어권에 정리본이 드문 구간) -->
+    <!-- 기준 시점: 2026.07.24 -->
+
+    <p>클로드 사용법을 한 줄로 정리하면, 접속 방법을 고르고 무료·프로·맥스 중 하나를 정한 뒤 설정 몇 가지만 만지면 바로 쓸 수 있어요. 기준 시점은 2026년 7월 24일이에요.</p>
+    <p>클로드는 앤스로픽(Anthropic)이 만든 AI 챗봇이에요. 이 글은 일반 사용자용 웹·데스크톱·모바일 앱 기준으로 정리했어요. 개발자용 명령줄 도구인 클로드 코드(Claude Code)는 따로 있어요.</p>
+
+    <h2 class="sub">클로드, 어디서 시작하나요</h2>
+    <p>클로드는 웹, 데스크톱 앱, 모바일 앱 세 곳에서 시작할 수 있어요. 처음 열면 로그인이나 가입부터 해야 하고, 만 18세 이상만 이용할 수 있어요.</p>
+    <p>웹은 claude.ai, 데스크톱은 Mac·Windows용, 모바일은 iOS·Android 앱이에요. 접속 가능한 국가인지는 <a href="https://support.claude.com/en/articles/8461763-where-can-i-access-claude" target="_blank">공식 도움말의 국가·지역 목록</a>에서 확인할 수 있어요.</p>
+    <p>어디서든 화면 아래 입력창에 메시지를 쓰고 보내면 대화가 시작돼요. 입력창 왼쪽 아래 <b>'+' 버튼</b>을 누르면 파일 첨부 같은 추가 기능이 열려요. <b>'/'</b>를 입력하면 명령어 목록이 떠요.</p>
+
+    <h2 class="sub">무료·프로·맥스, 뭐가 다른가요</h2>
+    <p>무료는 기본 기능을 거의 다 쓸 수 있고, 프로는 사용량과 기능이 늘고, 맥스는 사용량이 훨씬 커요. 무료도 5시간마다 쓸 수 있는 양이 초기화돼요.</p>
+    <table class="tbl">
+      <tr><th>플랜</th><th>가격</th><th>핵심 포함</th></tr>
+      <tr><td>Free(무료)</td><td>$0</td><td>웹·iOS·Android·데스크톱 채팅, 코드 생성·데이터 시각화, 웹 검색, 대화 간 메모리, 파일 생성·코드 실행, 커넥터</td></tr>
+      <tr><td>Pro</td><td>한국 표시 월 $22<br>(연간 결제 시 월 $18·연 $220)</td><td>Free 전체 + 사용량 증가, Claude Code·Cowork·Design·Science 포함, 프로젝트 무제한, Research, 더 많은 모델, Claude for Microsoft 365</td></tr>
+      <tr><td>Max</td><td>한국 표시 월 $110부터</td><td>Pro 전체 + 5배 또는 20배 사용량 선택, 모든 작업 출력 한도 상향, 신기능 조기 접근, 트래픽 많을 때 우선 접속</td></tr>
+    </table>
+    <p>가격은 2026.07.24 claude.com/pricing 확인 기준이에요. 표시가는 접속한 나라에 따라 달라지고, 한국에서 열면 부가세 10%가 포함된 금액으로 보여요. 세전 미국 기준가는 프로 월 $20·연 결제 시 월 $17·연 $200, 맥스는 월 $100부터예요.</p>
+    <p>이 글은 개인용 3가지만 다뤄요. Team·Enterprise·API 요금은 따로 있어요.</p>
+    <div class="imgwrap"><img src="img/01-claude-pricing-plans.png" width="1500" height="1500" alt="클로드 공식 요금 페이지 플랜 비교 화면(한국 접속본)"></div>
+    <p class="cap">클로드 공식 요금 페이지의 무료·프로·맥스 카드 — 한국에서 접속한 화면(부가세 10% 포함 표시, 2026.07.24 캡처)</p>
+    <p class="src">이미지 출처: <a href="https://claude.com/pricing" target="_blank">claude.com/pricing</a>(한국에서 접속한 화면 — 부가세 10% 포함 표시) · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 무료·프로·맥스 비교표 문단을 공식 화면으로 뒷받침(한국 IP 캡처 · VAT 포함 표시본) / 출처: https://claude.com/pricing / 분류: A형 -->
+    <p>이번엔 표에 없는 것 중에서 유료 전용이라고 오해하기 쉬운 두 가지를 짚어 볼게요.</p>
+    <ul>
+      <li>슬랙·구글 워크스페이스(Google Workspace) 연결</li>
+      <li>데스크톱 확장 기능</li>
+    </ul>
+    <p>이 두 가지도 무료에서 다 돼요.</p>
+
+    <h2 class="sub">꼭 확인할 설정 5가지</h2>
+    <p>화면의 프로필 이니셜을 누르고 Settings로 들어가면 아래 5가지를 바로 확인할 수 있어요. 웹·데스크톱은 왼쪽 아래, 모바일은 오른쪽 위 이니셜을 누르면 돼요.</p>
+    <table class="tbl">
+      <tr><th>메뉴</th><th>무엇을 하나</th></tr>
+      <tr><td>Instructions for Claude</td><td>계정 전체에 적용될 선호 방식·말투를 적어 둬요</td></tr>
+      <tr><td>Memory</td><td>대화 기억을 켜고 끄고, 항목을 확인·수정·삭제해요</td></tr>
+      <tr><td>Appearance</td><td>화면 모드(Light/Match system/Dark)와 채팅 글꼴을 바꿔요</td></tr>
+      <tr><td>Usage</td><td>5시간 세션과 주간 사용량 진행바를 확인해요(유료 플랜 기준)</td></tr>
+      <tr><td>Time and focus</td><td>휴식 알림과 방해 금지 시간을 설정해요</td></tr>
+    </table>
+    <p>설정 메뉴 구성은 2026.07.24 공식 도움말 기준이에요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: Settings 전체 메뉴 화면</span></div>
+    <div class="shoot">📸 직접 촬영 필요 — 본인 계정 화면이라 자동 캡처가 안 돼요. 좌하단 이니셜을 눌러 Settings로 들어간 목록 화면을 캡처해 주세요(이메일 등 개인정보 제외). 참고: <a href="https://support.claude.com/en/articles/8887527-customizing-your-appearance-settings" target="_blank">공식 도움말 — Appearance 설정</a></div>
+    <p class="cap">Settings 메뉴 화면(계정마다 노출 항목이 조금 다를 수 있어요)</p>
+    <p>다크 모드가 필요하면 Appearance에서 바꿔 보세요.</p>
+    <div class="imgwrap"><img src="img/04-claude-appearance-colormode.png" width="1600" height="424" alt="클로드 Appearance 설정의 Color mode 선택 화면(Light·Match system·Dark)"></div>
+    <p class="cap">공식 도움말 설명 화면 — Appearance의 Color mode 선택(2026.07.24 확인 기준)</p>
+    <p class="src">이미지 출처: <a href="https://support.claude.com/en/articles/8887527-customizing-your-appearance-settings" target="_blank">공식 도움말 — Appearance 설정</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 다크 모드 안내 문장을 공식 화면으로 뒷받침 / 출처: https://support.claude.com/en/articles/8887527-customizing-your-appearance-settings / 분류: A형 -->
+    <p>난독증 친화 글꼴도 Appearance에서 바꿀 수 있어요.</p>
+    <div class="imgwrap"><img src="img/05-claude-appearance-chatfont.png" width="1600" height="298" alt="클로드 Appearance 설정의 Chat font 선택 화면(Default·Match system·Dyslexic friendly)"></div>
+    <p class="cap">공식 도움말 설명 화면 — Appearance의 Chat font 선택 — 난독증 친화 글꼴 포함(2026.07.24 확인 기준)</p>
+    <p class="src">이미지 출처: <a href="https://support.claude.com/en/articles/8887527-customizing-your-appearance-settings" target="_blank">공식 도움말 — Appearance 설정</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 난독증 친화 글꼴 문장을 공식 화면으로 뒷받침 / 출처: https://support.claude.com/en/articles/8887527-customizing-your-appearance-settings / 분류: A형 -->
+
+    <h2 class="sub">메모리(기억), 이렇게 관리해요</h2>
+    <p>메모리는 Settings > Memory에서 켜고 끌 수 있어요. 토글 이름은 <b>'Generate memory from chats'</b>예요. 토글을 누르면 Pause memory와 Reset memory 중 하나를 고르는 창이 떠요.</p>
+    <div class="imgwrap"><img src="img/06-claude-memory-toggle.png" width="1520" height="168" alt="클로드 Settings > Memory의 Generate memory from chats 토글"></div>
+    <p class="cap">공식 도움말 설명 화면 — Settings > Memory의 'Generate memory from chats' 토글(2026.07.24 확인 기준)</p>
+    <p class="src">이미지 출처: <a href="https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context" target="_blank">공식 도움말 — 채팅 검색과 메모리</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 메모리 토글 공식 명칭 문장을 공식 화면으로 뒷받침 / 출처: https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context / 분류: A형 -->
+    <p>메모리는 채팅 검색(공식 명칭 'Search and reference chats')과 다른 기능이에요. 같은 Memory 화면 안에 별도 토글로 있어요. 채팅 검색은 프로·맥스 같은 유료 플랜에서만 되고, 메모리는 무료를 포함한 전 플랜에서 써요.</p>
+    <p>메모리는 2026년 3월 2일부터 무료 사용자까지 전 플랜에 열렸어요. 예전엔 유료 전용이었던 기능이에요.</p>
+    <p>2026년 7월 10일부터는 하루 단위 요약 대신, 카테고리별로 나뉜 개별 항목으로 바뀌었어요. 항목은 Settings > Memory에서 하나씩 확인하고 고치거나 지울 수 있어요. 메모리 항목은 실시간으로 쌓여요. 정해진 시간에 한 번에 만들어지지 않아요.</p>
+    <div class="imgwrap"><img src="img/02-claude-memory-settings.png" width="1500" height="520" alt="클로드 메모리 저장 방식 설명 화면"></div>
+    <p class="cap">공식 도움말 설명 화면 — 메모리 저장 방식(2026.07.24 확인 기준)</p>
+    <p class="src">이미지 출처: <a href="https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context" target="_blank">공식 도움말 — 채팅 검색과 메모리</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 메모리가 카테고리별 개별 항목으로 실시간 쌓인다는 문단을 공식 화면으로 뒷받침 / 출처: https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context / 분류: A형 -->
+    <p>멈추거나 지우는 방법은 두 가지예요. 둘 다 Settings > Memory 안에서 눌러요.</p>
+    <ol>
+      <li><b>Pause memory</b> — 이미 쌓인 기억은 남아요. 멈춘 동안엔 그 기억을 쓰지도, 새로 만들지도 않아요.</li>
+      <li><b>Reset memory</b> — 지금까지 쌓인 기억을 전부 영구 삭제해요. <b>되돌릴 수 없어요.</b></li>
+    </ol>
+    <p>시크릿 대화(유령 아이콘)는 기억도 검색도 되지 않아요. 프로젝트 밖에서 새 대화를 시작할 때만 떠요. 남기고 싶지 않은 대화라면 여기서 해 보세요.</p>
+    <p>Team·Enterprise 플랜은 아직 하루 단위 요약 방식을 쓰고, 새 방식으로 순차 전환 중이에요.</p>
+
+    <h2 class="sub">모델·노력(effort)·Thinking, 뭘 고르나요</h2>
+    <p>노력은 모델이 답을 준비할 때 얼마나 깊게 생각할지를 정해요. 메뉴에서 <b>Default</b>로 표시된 값이 모델별 권장값이에요.</p>
+    <p>모델 이름은 입력창 아래나 화면 위쪽에 뜨고, 눌러서 바꿔요. 웹·데스크톱은 입력창 아래, 모바일은 화면 위쪽이에요.</p>
+    <p>노력 단계는 Low·Medium·High·Extra high·Max 다섯 가지예요(요금제 맥스와 이름만 같고 다른 설정이에요). 이 선택기는 Opus 4.8·Opus 4.7·Opus 4.6·Sonnet 4.6에서만 나타나요.</p>
+    <p>공식 도움말은 High를 두고 <b>"품질과 속도의 균형이 가장 좋다"</b>고 설명해요. Extra high는 Opus 4.7 이상 모델에서만 골라요. (원문: "High offers the best overall balance of quality and speed." — <a href="https://support.claude.com/en/articles/8664678-change-the-model-effort-and-thinking-settings" target="_blank">공식 도움말</a>)</p>
+    <p>확장 사고(Thinking)는 노력과 별개 설정이에요. Thinking을 켜면 답하기 전에 문제를 잘게 쪼개 계획부터 세워요. 노력 단계와 함께 쓸 수 있어요.</p>
+    <p>모델 목록은 자주 바뀌니 <a href="https://support.claude.com/en/articles/12138966-release-notes" target="_blank">공식 릴리스 노트</a>에서 확인하는 게 정확해요. 가장 최근에 나온 건 클로드 소네트 5(2026년 6월 30일)예요.</p>
+
+    <h2 class="sub">프로젝트(Projects)로 반복 작업 정리하기</h2>
+    <p>프로젝트는 같은 주제의 대화와 자료를 한곳에 묶어 두는 기능이에요.</p>
+    <ol>
+      <li>사이드바에서 Projects를 열거나 claude.ai/projects로 들어가요.</li>
+      <li>오른쪽 위 <b>'+ New Project'</b>를 눌러요.</li>
+      <li>이름과 설명을 입력해요.</li>
+      <li>오른쪽 지식 영역에서 <b>'+'</b>를 눌러 문서를 추가해요.</li>
+      <li><b>'Set project instructions'</b>를 누르고 지침을 적은 뒤 <b>'Save instructions'</b>로 저장해요.</li>
+    </ol>
+    <p>이미 하던 대화도 프로젝트로 옮길 수 있어요. 채팅 이름 옆 드롭다운에서 <b>Add to project</b>를 누르면 옮길 프로젝트를 고르는 창이 떠요.</p>
+    <div class="imgwrap"><img src="img/03-claude-projects-move-chat.png" width="1500" height="550" alt="클로드 프로젝트로 채팅 옮기기 안내 화면"></div>
+    <p class="cap">공식 도움말 설명 화면 — 채팅을 프로젝트로 옮기는 방법(2026.07.24 확인 기준)</p>
+    <p class="src">이미지 출처: <a href="https://support.claude.com/en/articles/9519177-how-can-i-create-and-manage-projects" target="_blank">공식 도움말 — 프로젝트 만들고 관리하기</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 채팅을 프로젝트로 옮기는 절차(Add to project 드롭다운)를 공식 화면으로 뒷받침 / 출처: https://support.claude.com/en/articles/9519177-how-can-i-create-and-manage-projects / 분류: A형 -->
+    <p>가장 많이 오해하는 부분이 있어요. <b>같은 프로젝트 안이라도 채팅끼리 내용이 자동으로 공유되지 않아요.</b> 지식 영역에 넣은 자료만 전 채팅에서 같이 쓰여요.</p>
+    <p>무료 계정도 프로젝트를 만들 수 있고, 지식 영역도 함께 써요. 무료는 프로젝트를 5개까지 만들 수 있어요. 프로부터는 개수 제한이 없어요.</p>
+    <p>프로젝트 공유 기능은 Team·Enterprise 플랜에서만 열려요. 공유할 때는 Can view·Can edit 두 권한 중 하나를 정해요.</p>
+
+    <h2 class="sub">사용량 아껴 쓰는 법</h2>
+    <p>질문을 한 번에 몰아서 보내고, 필요한 내용을 구체적으로 적으면 메시지를 아낄 수 있어요.</p>
+    <p>관련된 질문은 나눠 보내지 말고 한 메시지에 합쳐요. 프로젝트에 자료를 올려 두면 캐시로 남아 다음에 또 쓸 수 있어요.</p>
+    <p>프로·맥스는 채팅 검색으로 예전 대화를 찾아 이어 쓸 수 있어요. 같은 맥락을 다시 설명하지 않아도 돼요.</p>
+    <p>코딩은 코드와 맥락을 처음부터 다 주고, 글쓰기는 전체 글을 한 번에 보내는 식이 효율적이에요.</p>
+    <p>유료 플랜은 <b>Settings > Usage</b>에서 5시간 세션과 주간 사용량 진행바로 확인해요. 공식 도움말의 진행바 안내는 유료 플랜 기준으로 적혀 있어요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: Settings > Usage 진행바 화면(유료 플랜 기준)</span></div>
+    <div class="shoot">📸 직접 촬영 필요 — 본인 사용량 화면이라 자동 캡처가 안 돼요. Settings > Usage에서 5시간 세션·주간 사용량 진행바를 캡처해 주세요(이메일·플랜명 등 계정정보 제외). 참고: <a href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work" target="_blank">공식 도움말 — 사용량·길이 제한</a></div>
+    <p class="cap">Settings > Usage 진행바 화면(유료 플랜 기준·예시)</p>
+    <p>정확한 무료 메시지 개수는 공식 문서에 나와 있지 않아요. 대화 길이·복잡도, 사용 기능, 모델, 노력 수준에 따라 달라진다고만 안내해요.</p>
+
+    <h2 class="sub">프롬프트 잘 쓰는 법</h2>
+    <p>프롬프트는 구체적으로, 원하는 결과를 명확히 적을수록 좋아요.</p>
+    <p>간단한 질문부터 복잡한 다단계 작업까지 자연스럽게 대화하듯 쓰면 돼요.</p>
+    <p>예를 들면 이래요.</p>
+    <ul>
+      <li><b>나쁜 예</b> — "이거 요약해 줘"</li>
+      <li><b>좋은 예</b> — "이 회의록을 다섯 줄로 요약하고, 다음 할 일만 따로 뽑아 줘"</li>
+    </ul>
+    <p>한 번에 안 되면 답을 보고 요청을 다듬어 다시 물어보는 반복이 정상이에요. 쉬운 질문으로 시작해서 점점 구체적으로 좁혀가는 방식이 잘 맞아요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 가입에 나이 제한이 있나요?</b><br>
+    네, 만 18세 이상만 이용할 수 있어요. 공식 도움말에 명시돼 있어요.</p>
+    <p><b>Q. 시크릿 대화는 어떻게 여나요?</b><br>
+    프로젝트 밖에서 새 대화를 시작하면 화면 오른쪽 위에 유령 아이콘이 떠요. 누르면 시크릿 대화가 열리고, 대화 목록에 남지 않아요.</p>
+    <p><b>Q. 노력(effort) 단계 메뉴는 왜 안 보이나요?</b><br>
+    노력 선택기는 Opus 4.8·Opus 4.7·Opus 4.6·Sonnet 4.6에서만 나와요. 다른 모델을 쓰고 있으면 메뉴가 표시되지 않아요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://claude.com/pricing" target="_blank">Claude 공식 요금 페이지</a><br>
+    · <a href="https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context" target="_blank">공식 도움말 — 채팅 검색과 메모리</a><br>
+    · <a href="https://support.claude.com/en/articles/9519177-how-can-i-create-and-manage-projects" target="_blank">공식 도움말 — 프로젝트 만들고 관리하기</a><br>
+    · <a href="https://support.claude.com/en/articles/8887527-customizing-your-appearance-settings" target="_blank">공식 도움말 — 화면 설정</a><br>
+    · <a href="https://support.claude.com/en/articles/9797557-usage-limit-best-practices" target="_blank">공식 도움말 — 사용량 아껴 쓰기</a><br>
+    · <a href="https://support.claude.com/en/articles/8114491-get-started-with-claude" target="_blank">공식 도움말 — 클로드 시작하기</a></p>
+
+    <p><b>✔ 같이 보면 좋아요</b><br>
+    · GPT-5.6 Sol·Terra·Luna 차이 정리 — GPT-5.5랑 뭐가 다른가요<br>
+    · 챗GPT 워크(ChatGPT Work)란 — 챗GPT·코덱스와 다른 점, 플랜별 이용 범위</p>
+
+    <p><b>하루 정리</b><br>
+    · 클로드는 웹·데스크톱·모바일 어디서든 시작할 수 있고, 무료로도 웹 검색과 파일 생성이 다 돼요<br>
+    · 처음엔 Settings에서 5가지 메뉴만 확인하면 돼요(Usage 진행바는 유료 플랜 기준)<br>
+    · 메모리와 채팅 검색은 다른 기능이라, 무료도 메모리는 쓰지만 채팅 검색은 유료부터예요<br>
+    · 프로젝트는 채팅끼리 내용이 공유되지 않아요. 같이 쓰려면 자료를 지식 영역에 올려 둬야 해요</p>
+    <p>처음이라면 무료로 설정 몇 개만 만져보고, 필요할 때 플랜을 올려도 늦지 않아요.</p>
+
+    <div class="tags">#클로드사용법 #Claude사용법 #클로드초기설정 #클로드무료프로차이 #클로드프로젝트 #클로드메모리끄기</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 채우세요 — 요금·설정(색상모드·글꼴)·메모리(토글·저장방식)·프로젝트 화면 6곳은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버에 Ctrl+V</b>, Settings·Usage 화면 2곳은 <b>본인 화면을 직접 촬영</b>해 올려 주세요.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>5.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 8곳(약 12분):</b> 📷 <b>사진 8곳</b>(요금·설정·메모리·프로젝트 화면 6곳은 다운로드해 올리고, Settings·Usage 화면 2곳은 직접 촬영)만 하면 돼요. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 클로드 사용법 총정리 — 접속부터 초기 설정, 무료·프로 차이까지 (Claude)</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>클로드 사용법을 한 줄로 정리하면, 접속 방법을 고르고 무료·프로·맥스 중 하나를 정한 뒤 설정 몇 가지만 만지면 바로 쓸 수 있어요. 기준 시점은 2026년 7월 24일이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>클로드는 앤스로픽(Anthropic)이 만든 AI 챗봇이에요. 이 글은 일반 사용자용 웹·데스크톱·모바일 앱 기준으로 정리했어요. 개발자용 명령줄 도구인 클로드 코드(Claude Code)는 따로 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>클로드, 어디서 시작하나요</h3>
+      <p>클로드는 웹, 데스크톱 앱, 모바일 앱 세 곳에서 시작할 수 있어요. 처음 열면 로그인이나 가입부터 해야 하고, 만 18세 이상만 이용할 수 있어요.</p>
+      <p>웹은 claude.ai, 데스크톱은 Mac·Windows용, 모바일은 iOS·Android 앱이에요. 접속 가능한 국가인지는 <a href="https://support.claude.com/en/articles/8461763-where-can-i-access-claude" target="_blank">공식 도움말의 국가·지역 목록</a>에서 확인할 수 있어요.</p>
+      <p>어디서든 화면 아래 입력창에 메시지를 쓰고 보내면 대화가 시작돼요. 입력창 왼쪽 아래 <b>'+' 버튼</b>을 누르면 파일 첨부 같은 추가 기능이 열려요. <b>'/'</b>를 입력하면 명령어 목록이 떠요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>무료·프로·맥스, 뭐가 다른가요</h3>
+      <p>무료는 기본 기능을 거의 다 쓸 수 있고, 프로는 사용량과 기능이 늘고, 맥스는 사용량이 훨씬 커요. 무료도 5시간마다 쓸 수 있는 양이 초기화돼요.</p>
+      <table>
+        <tr><th>플랜</th><th>가격</th><th>핵심 포함</th></tr>
+        <tr><td class="l">Free(무료)</td><td>$0</td><td>웹·iOS·Android·데스크톱 채팅, 코드 생성·데이터 시각화, 웹 검색, 대화 간 메모리, 파일 생성·코드 실행, 커넥터</td></tr>
+        <tr><td class="l">Pro</td><td>한국 표시 월 $22(연간 결제 시 월 $18·연 $220)</td><td>Free 전체 + 사용량 증가, Claude Code·Cowork·Design·Science 포함, 프로젝트 무제한, Research, 더 많은 모델, Claude for Microsoft 365</td></tr>
+        <tr><td class="l">Max</td><td>한국 표시 월 $110부터</td><td>Pro 전체 + 5배 또는 20배 사용량 선택, 모든 작업 출력 한도 상향, 신기능 조기 접근, 트래픽 많을 때 우선 접속</td></tr>
+      </table>
+      <p>가격은 2026.07.24 claude.com/pricing 확인 기준이에요. 표시가는 접속한 나라에 따라 달라지고, 한국에서 열면 부가세 10%가 포함된 금액으로 보여요. 세전 미국 기준가는 프로 월 $20·연 결제 시 월 $17·연 $200, 맥스는 월 $100부터예요.</p>
+      <p>이 글은 개인용 3가지만 다뤄요. Team·Enterprise·API 요금은 따로 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 1〕 클로드 공식 요금 페이지 플랜 비교 화면(한국에서 접속한 화면 — 부가세 10% 포함 표시) — claude.com/pricing 화면을 저장해 올려 주세요 · 캡션 추천: "클로드 공식 요금 페이지의 무료·프로·맥스 카드 — 한국에서 접속한 화면(부가세 10% 포함 표시, 2026.07.24 캡처)"</p>
+      <p>이번엔 표에 없는 것 중에서 유료 전용이라고 오해하기 쉬운 두 가지를 짚어 볼게요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>슬랙·구글 워크스페이스(Google Workspace) 연결</li>
+        <li>데스크톱 확장 기능</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>이 두 가지도 무료에서 다 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>꼭 확인할 설정 5가지</h3>
+      <p>화면의 프로필 이니셜을 누르고 Settings로 들어가면 아래 5가지를 바로 확인할 수 있어요. 웹·데스크톱은 왼쪽 아래, 모바일은 오른쪽 위 이니셜을 누르면 돼요.</p>
+      <table>
+        <tr><th>메뉴</th><th>무엇을 하나</th></tr>
+        <tr><td class="l">Instructions for Claude</td><td>계정 전체에 적용될 선호 방식·말투를 적어 둬요</td></tr>
+        <tr><td class="l">Memory</td><td>대화 기억을 켜고 끄고, 항목을 확인·수정·삭제해요</td></tr>
+        <tr><td class="l">Appearance</td><td>화면 모드(Light/Match system/Dark)와 채팅 글꼴을 바꿔요</td></tr>
+        <tr><td class="l">Usage</td><td>5시간 세션과 주간 사용량 진행바를 확인해요(유료 플랜 기준)</td></tr>
+        <tr><td class="l">Time and focus</td><td>휴식 알림과 방해 금지 시간을 설정해요</td></tr>
+      </table>
+      <p>설정 메뉴 구성은 2026.07.24 공식 도움말 기준이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 2〕 Settings 전체 메뉴 화면 — 좌하단 이니셜을 눌러 Settings로 들어간 목록 화면을 직접 촬영해 올려 주세요(이메일 등 개인정보 제외) · 캡션 추천: "Settings 메뉴 화면(계정마다 노출 항목이 조금 다를 수 있어요)"</p>
+      <p>다크 모드가 필요하면 Appearance에서 바꿔 보세요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 3〕 Appearance의 Color mode 선택 화면 — 공식 도움말 화면을 저장해 올려 주세요 · 캡션 추천: "공식 도움말 설명 화면 — Appearance의 Color mode 선택(2026.07.24 확인 기준)"</p>
+      <p>난독증 친화 글꼴도 Appearance에서 바꿀 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 4〕 Appearance의 Chat font 선택 화면(난독증 친화 글꼴 포함) — 공식 도움말 화면을 저장해 올려 주세요 · 캡션 추천: "공식 도움말 설명 화면 — Appearance의 Chat font 선택 — 난독증 친화 글꼴 포함(2026.07.24 확인 기준)"</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>메모리(기억), 이렇게 관리해요</h3>
+      <p>메모리는 Settings > Memory에서 켜고 끌 수 있어요. 토글 이름은 <b>'Generate memory from chats'</b>예요. 토글을 누르면 Pause memory와 Reset memory 중 하나를 고르는 창이 떠요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 5〕 Settings > Memory의 'Generate memory from chats' 토글 화면 — 공식 도움말 화면을 저장해 올려 주세요 · 캡션 추천: "공식 도움말 설명 화면 — Settings > Memory의 'Generate memory from chats' 토글(2026.07.24 확인 기준)"</p>
+      <p>메모리는 채팅 검색(공식 명칭 'Search and reference chats')과 다른 기능이에요. 같은 Memory 화면 안에 별도 토글로 있어요. 채팅 검색은 프로·맥스 같은 유료 플랜에서만 되고, 메모리는 무료를 포함한 전 플랜에서 써요.</p>
+      <p>메모리는 2026년 3월 2일부터 무료 사용자까지 전 플랜에 열렸어요. 예전엔 유료 전용이었던 기능이에요.</p>
+      <p>2026년 7월 10일부터는 하루 단위 요약 대신, 카테고리별로 나뉜 개별 항목으로 바뀌었어요. 항목은 Settings > Memory에서 하나씩 확인하고 고치거나 지울 수 있어요. 메모리 항목은 실시간으로 쌓여요. 정해진 시간에 한 번에 만들어지지 않아요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 6〕 클로드 메모리 저장 방식 설명 화면 — 공식 도움말 화면을 저장해 올려 주세요 · 캡션 추천: "공식 도움말 설명 화면 — 메모리 저장 방식(2026.07.24 확인 기준)"</p>
+      <p>멈추거나 지우는 방법은 두 가지예요. 둘 다 Settings > Memory 안에서 눌러요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li><b>Pause memory</b> — 이미 쌓인 기억은 남아요. 멈춘 동안엔 그 기억을 쓰지도, 새로 만들지도 않아요.</li>
+        <li><b>Reset memory</b> — 지금까지 쌓인 기억을 전부 영구 삭제해요. <b>되돌릴 수 없어요.</b></li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p>시크릿 대화(유령 아이콘)는 기억도 검색도 되지 않아요. 프로젝트 밖에서 새 대화를 시작할 때만 떠요. 남기고 싶지 않은 대화라면 여기서 해 보세요.</p>
+      <p>Team·Enterprise 플랜은 아직 하루 단위 요약 방식을 쓰고, 새 방식으로 순차 전환 중이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>모델·노력(effort)·Thinking, 뭘 고르나요</h3>
+      <p>노력은 모델이 답을 준비할 때 얼마나 깊게 생각할지를 정해요. 메뉴에서 <b>Default</b>로 표시된 값이 모델별 권장값이에요.</p>
+      <p>모델 이름은 입력창 아래나 화면 위쪽에 뜨고, 눌러서 바꿔요. 웹·데스크톱은 입력창 아래, 모바일은 화면 위쪽이에요.</p>
+      <p>노력 단계는 Low·Medium·High·Extra high·Max 다섯 가지예요(요금제 맥스와 이름만 같고 다른 설정이에요). 이 선택기는 Opus 4.8·Opus 4.7·Opus 4.6·Sonnet 4.6에서만 나타나요.</p>
+      <p>공식 도움말은 High를 두고 <b>"품질과 속도의 균형이 가장 좋다"</b>고 설명해요. Extra high는 Opus 4.7 이상 모델에서만 골라요. (원문: "High offers the best overall balance of quality and speed." — <a href="https://support.claude.com/en/articles/8664678-change-the-model-effort-and-thinking-settings" target="_blank">공식 도움말</a>)</p>
+      <p>확장 사고(Thinking)는 노력과 별개 설정이에요. Thinking을 켜면 답하기 전에 문제를 잘게 쪼개 계획부터 세워요. 노력 단계와 함께 쓸 수 있어요.</p>
+      <p>모델 목록은 자주 바뀌니 <a href="https://support.claude.com/en/articles/12138966-release-notes" target="_blank">공식 릴리스 노트</a>에서 확인하는 게 정확해요. 가장 최근에 나온 건 클로드 소네트 5(2026년 6월 30일)예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>프로젝트(Projects)로 반복 작업 정리하기</h3>
+      <p>프로젝트는 같은 주제의 대화와 자료를 한곳에 묶어 두는 기능이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>사이드바에서 Projects를 열거나 claude.ai/projects로 들어가요.</li>
+        <li>오른쪽 위 <b>'+ New Project'</b>를 눌러요.</li>
+        <li>이름과 설명을 입력해요.</li>
+        <li>오른쪽 지식 영역에서 <b>'+'</b>를 눌러 문서를 추가해요.</li>
+        <li><b>'Set project instructions'</b>를 누르고 지침을 적은 뒤 <b>'Save instructions'</b>로 저장해요.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p>이미 하던 대화도 프로젝트로 옮길 수 있어요. 채팅 이름 옆 드롭다운에서 <b>Add to project</b>를 누르면 옮길 프로젝트를 고르는 창이 떠요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 7〕 클로드 프로젝트로 채팅 옮기기 안내 화면 — 공식 도움말 화면을 저장해 올려 주세요 · 캡션 추천: "공식 도움말 설명 화면 — 채팅을 프로젝트로 옮기는 방법(2026.07.24 확인 기준)"</p>
+      <p>가장 많이 오해하는 부분이 있어요. <b>같은 프로젝트 안이라도 채팅끼리 내용이 자동으로 공유되지 않아요.</b> 지식 영역에 넣은 자료만 전 채팅에서 같이 쓰여요.</p>
+      <p>무료 계정도 프로젝트를 만들 수 있고, 지식 영역도 함께 써요. 무료는 프로젝트를 5개까지 만들 수 있어요. 프로부터는 개수 제한이 없어요.</p>
+      <p>프로젝트 공유 기능은 Team·Enterprise 플랜에서만 열려요. 공유할 때는 Can view·Can edit 두 권한 중 하나를 정해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>사용량 아껴 쓰는 법</h3>
+      <p>질문을 한 번에 몰아서 보내고, 필요한 내용을 구체적으로 적으면 메시지를 아낄 수 있어요.</p>
+      <p>관련된 질문은 나눠 보내지 말고 한 메시지에 합쳐요. 프로젝트에 자료를 올려 두면 캐시로 남아 다음에 또 쓸 수 있어요.</p>
+      <p>프로·맥스는 채팅 검색으로 예전 대화를 찾아 이어 쓸 수 있어요. 같은 맥락을 다시 설명하지 않아도 돼요.</p>
+      <p>코딩은 코드와 맥락을 처음부터 다 주고, 글쓰기는 전체 글을 한 번에 보내는 식이 효율적이에요.</p>
+      <p>유료 플랜은 <b>Settings > Usage</b>에서 5시간 세션과 주간 사용량 진행바로 확인해요. 공식 도움말의 진행바 안내는 유료 플랜 기준으로 적혀 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 8〕 Settings > Usage 진행바 화면 — 본인 사용량 화면을 직접 촬영해 올려 주세요(이메일·플랜명 등 계정정보 제외) · 캡션 추천: "Settings > Usage 진행바 화면(유료 플랜 기준·예시)"</p>
+      <p>정확한 무료 메시지 개수는 공식 문서에 나와 있지 않아요. 대화 길이·복잡도, 사용 기능, 모델, 노력 수준에 따라 달라진다고만 안내해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>프롬프트 잘 쓰는 법</h3>
+      <p>프롬프트는 구체적으로, 원하는 결과를 명확히 적을수록 좋아요.</p>
+      <p>간단한 질문부터 복잡한 다단계 작업까지 자연스럽게 대화하듯 쓰면 돼요.</p>
+      <p>예를 들면 이래요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li><b>나쁜 예</b> — "이거 요약해 줘"</li>
+        <li><b>좋은 예</b> — "이 회의록을 다섯 줄로 요약하고, 다음 할 일만 따로 뽑아 줘"</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>한 번에 안 되면 답을 보고 요청을 다듬어 다시 물어보는 반복이 정상이에요. 쉬운 질문으로 시작해서 점점 구체적으로 좁혀가는 방식이 잘 맞아요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 가입에 나이 제한이 있나요?</b><br>
+      네, 만 18세 이상만 이용할 수 있어요. 공식 도움말에 명시돼 있어요.</p>
+      <p><b>Q. 시크릿 대화는 어떻게 여나요?</b><br>
+      프로젝트 밖에서 새 대화를 시작하면 화면 오른쪽 위에 유령 아이콘이 떠요. 누르면 시크릿 대화가 열리고, 대화 목록에 남지 않아요.</p>
+      <p><b>Q. 노력(effort) 단계 메뉴는 왜 안 보이나요?</b><br>
+      노력 선택기는 Opus 4.8·Opus 4.7·Opus 4.6·Sonnet 4.6에서만 나와요. 다른 모델을 쓰고 있으면 메뉴가 표시되지 않아요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://claude.com/pricing" target="_blank">Claude 공식 요금 페이지</a><br>
+      · <a href="https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context" target="_blank">공식 도움말 — 채팅 검색과 메모리</a><br>
+      · <a href="https://support.claude.com/en/articles/9519177-how-can-i-create-and-manage-projects" target="_blank">공식 도움말 — 프로젝트 만들고 관리하기</a><br>
+      · <a href="https://support.claude.com/en/articles/8887527-customizing-your-appearance-settings" target="_blank">공식 도움말 — 화면 설정</a><br>
+      · <a href="https://support.claude.com/en/articles/9797557-usage-limit-best-practices" target="_blank">공식 도움말 — 사용량 아껴 쓰기</a><br>
+      · <a href="https://support.claude.com/en/articles/8114491-get-started-with-claude" target="_blank">공식 도움말 — 클로드 시작하기</a></p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>✔ 같이 보면 좋아요</b><br>
+      · GPT-5.6 Sol·Terra·Luna 차이 정리 — GPT-5.5랑 뭐가 다른가요<br>
+      · 챗GPT 워크(ChatGPT Work)란 — 챗GPT·코덱스와 다른 점, 플랜별 이용 범위</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 클로드는 웹·데스크톱·모바일 어디서든 시작할 수 있고, 무료로도 웹 검색과 파일 생성이 다 돼요<br>
+      · 처음엔 Settings에서 5가지 메뉴만 확인하면 돼요(Usage 진행바는 유료 플랜 기준)<br>
+      · 메모리와 채팅 검색은 다른 기능이라, 무료도 메모리는 쓰지만 채팅 검색은 유료부터예요<br>
+      · 프로젝트는 채팅끼리 내용이 공유되지 않아요. 같이 쓰려면 자료를 지식 영역에 올려 둬야 해요</p>
+      <p>처음이라면 무료로 설정 몇 개만 만져보고, 필요할 때 플랜을 올려도 늦지 않아요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#클로드사용법 #Claude사용법 #클로드초기설정 #클로드무료프로차이 #클로드프로젝트 #클로드메모리끄기</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
