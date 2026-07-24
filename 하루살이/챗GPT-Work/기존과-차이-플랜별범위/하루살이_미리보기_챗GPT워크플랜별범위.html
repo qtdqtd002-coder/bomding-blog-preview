@@ -1,0 +1,289 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>챗GPT 워크(ChatGPT Work)란 — 챗GPT·코덱스와 다른 점, 플랜별 이용 범위</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tnote{font-size:12.5px;color:#888;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}  /* 네이버 빈 문단(개행) — 실발행본 구조 반영 */
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- 이미지 조달: developers.openai.com 체인지로그(Work 미언급)·openai.com/index(자동수집 차단)·help.openai.com/neowin(403, 헤드리스 재시도 필요) 확인 — A형 확보 못 해 B형 2곳으로 대체 -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">AI 소식</div>
+    <h1 class="title">챗GPT 워크(ChatGPT Work)란 — 챗GPT·코덱스와 다른 점, 플랜별 이용 범위</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.07.24</span><span>· IT</span></div>
+    <!-- AEO 타깃 질문: 챗GPT 워크가 정확히 뭔가요? / 챗GPT 워크는 플랜마다 접근 범위가 어떻게 다른가요? -->
+    <!-- 인용 후크: readkernel 챗GPT 클래식 직접 인용 + 플랜별 접근범위 표 + 예약작업 슬랙·팀즈 자동정리 설명 -->
+    <!-- 기준 시점: 2026.07.24 (발표일 2026.07.09) -->
+
+    <p>OpenAI가 2026년 7월 9일 ChatGPT Work를 새로 선보였어요. ChatGPT Work는 기존 채팅 모드인 Chat, 개발자용 Codex와 나란히 있는 새로운 에이전트 모드예요. GPT-5.6이 이 모드를 구동하고, 여러 앱과 파일에 흩어진 맥락을 모아 문서·스프레드시트·프레젠테이션 같은 완성된 결과물을 만들어 줘요.</p>
+    <p>GPT-5.6의 세 성능 등급(Sol·Terra·Luna)은 이전 글에서 짚었어요. 이 글은 ChatGPT Work 자체와 데스크톱 앱 변화, 플랜별 이용 범위에 집중해 볼게요.</p>
+    <p><b>ChatGPT·Codex와 갈리는 지점은 얼마나 폭넓은 작업을 얼마나 오래 스스로 맡기느냐</b>예요.</p>
+
+    <h2 class="sub">ChatGPT Work가 정확히 뭔가요</h2>
+    <p>ChatGPT Work는 한 번의 대화형 답변이 아니라, <b>여러 단계로 나뉜 프로젝트를 끝까지 진행해 완성된 산출물을 내놓는 모드</b>예요. 일반 Chat은 질문 하나에 답 하나를 주는 방식이에요. ChatGPT Work는 작업을 여러 단계로 쪼개고, 필요하면 몇 시간이고 계속 진행해요.</p>
+    <p>그 결과물도 답변 텍스트가 아니라 완성본이에요. 문서·스프레드시트·슬라이드·프레젠테이션·보고서, 간단한 웹앱까지 만들어 내요.</p>
+    <p>Codex와는 역할이 갈려요. Codex는 코드 작성·디버깅 같은 개발 작업 전용 모드예요. ChatGPT Work는 개발 업무에 한정되지 않고, 사무·기획·분석처럼 더 폭넓은 업무를 맡아요.</p>
+    <p>연동 범위도 넓어요. ChatGPT Work는 아래 도구들에 연결할 수 있어요.</p>
+    <ul>
+      <li>슬랙(Slack)·마이크로소프트 팀즈(Microsoft Teams)</li>
+      <li>구글 드라이브(Google Drive)·셰어포인트(SharePoint)</li>
+      <li>이메일·캘린더</li>
+      <li>CRM(고객관계관리 도구)·프로젝트 관리 도구</li>
+    </ul>
+
+    <h2 class="sub">데스크톱 앱에서 챗·워크·코덱스가 어떻게 합쳐졌나요</h2>
+    <p>새로 통합된 <b>챗GPT 데스크톱 앱은 Chat·ChatGPT Work·Codex를 하나의 창 안에 탭으로 묶었어요.</b> macOS·윈도우용으로 전 세계에 동시 배포됐어요.</p>
+    <p>기존 Codex 앱을 쓰던 사용자는 평소처럼 업데이트만 하면 이 통합 앱으로 넘어가요. 프로젝트·설정·작업 이력은 그대로 유지되고요. 새 앱 안에서 Codex는 Chat·Work 옆의 <b>독립된 코딩 전용 탭</b>으로 남아요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">화면 1: 통합 데스크톱 앱 상단의 Chat·Work·Codex 탭 전환 화면</span></div>
+    <div class="shoot">📸 직접 촬영 필요 — 앱 업데이트 후 통합 데스크톱 앱을 실행해 상단 탭바(Chat·Work·Codex 3개가 모두 보이는 상태)를 캡처해 주세요. 좌측 대화 목록·계정 이메일이 안 나오게 상단 탭바 부분만 잘라 주세요. 3개가 다 안 보이면 이 사진은 건너뛰어도 됩니다. 참고: <a href="https://help.openai.com/en/articles/20001276-moving-to-the-new-chatgpt-desktop-app" target="_blank">OpenAI 공식 도움말 — 새 데스크톱 앱 안내</a></div>
+    <p class="cap">통합 챗GPT 데스크톱 앱의 탭 구성 화면(계정·플랜에 따라 보이는 탭이 다를 수 있어요)</p>
+
+    <p>이름이 바뀐 건 통합 앱이 아니라, 예전부터 쓰던 <b>챗 전용 데스크톱 앱</b>이에요. OpenAI 공식 발표는 이렇게 밝혀요.</p>
+    <p>"The existing version of the ChatGPT desktop app will be renamed ChatGPT Classic." (OpenAI 공식 발표, 2026.07.09)</p>
+    <p>예전 챗 전용 앱이 <b>챗GPT 클래식(ChatGPT Classic)</b>이라는 이름으로 남는다는 뜻이에요. 새 통합 앱으로 옮기고 싶지 않은 사용자를 위한 선택지고, 모델 업데이트·버그 수정·보안 패치·기존 Enterprise 기능 지원은 챗GPT 클래식에서도 계속돼요.</p>
+
+    <h2 class="sub">플랜별로 접근 범위가 어떻게 다른가요</h2>
+    <p>ChatGPT Work의 웹·모바일 이용 시작 시점과, 데스크톱 앱에서 탭 자체가 보이는 범위는 플랜마다 달라요. 2026년 7월 9일 기준으로 웹·모바일은 <b>Pro·Enterprise·Edu 플랜부터 먼저 열렸고</b>, Plus·Business는 며칠에 걸쳐 순차로 확대됐어요.</p>
+    <table class="tbl">
+      <tr><th>플랜</th><th>웹·모바일 ChatGPT Work</th><th>데스크톱 앱 Chat·Work·Codex 탭</th><th>추가 구독료</th></tr>
+      <tr><td>Free / Go</td><td>2026.07.09 발표 대상 아님</td><td>탭은 열림(사용량 제한 적용)</td><td>-</td></tr>
+      <tr><td>Plus</td><td>며칠 내 순차 확대</td><td>탭 열림</td><td>없음(기존 구독에 포함)</td></tr>
+      <tr><td>Pro</td><td>2026.07.09 즉시 오픈</td><td>탭 열림</td><td>없음</td></tr>
+      <tr><td>Business</td><td>며칠 내 순차 확대</td><td>탭 열림</td><td>없음</td></tr>
+      <tr><td>Enterprise</td><td>2026.07.09 즉시 오픈</td><td>탭 열림</td><td>없음</td></tr>
+      <tr><td>Edu</td><td>2026.07.09 즉시 오픈</td><td>탭 열림</td><td>없음</td></tr>
+    </table>
+    <p>표: 플랜별 ChatGPT Work 웹·모바일 오픈 시점과 데스크톱 앱 탭 노출 범위 (OpenAI 공식 발표 기준, 2026.07.09 발표 당시 안내 · 데스크톱 앱 탭 노출은 접속 가능 여부일 뿐 실사용량 제한은 별개)</p>
+    <p>ChatGPT Work는 별도 신규 구독 등급이 아니에요. 기존 Plus·Pro·Business·Enterprise 플랜에 <b>추가 요금 없이</b> 포함돼요. 다만 Work 사용량은 Codex와 같은 풀에서 차감되고, Business·Enterprise·Edu 플랜은 한도를 넘기면 크레딧을 추가로 구매해야 할 수 있어요.</p>
+    <p>데스크톱 앱은 Free 플랜을 포함한 모든 플랜에서 Chat·Work·Codex 탭 자체는 열려 있어요. 정확한 무료 사용량 수치는 공식적으로 공개돼 있지 않지만, ChatGPT Work도 Codex와 같은 사용량 구조를 따르기 때문에 무거운 작업일수록 더 많은 사용량을 쓴다는 점은 공식적으로 안내돼 있어요. 그래서 실제로 쓸 수 있는 양은 플랜마다 달라요.</p>
+
+    <h2 class="sub">예약작업으로 슬랙·팀즈 메시지를 자동 정리해 주나요</h2>
+    <p>네. ChatGPT Work의 <b>예약작업(Scheduled Tasks)</b>은 사용자가 자리를 비운 사이에도 계속 작업을 진행해요.</p>
+    <p>슬랙·팀즈에 새로 들어온 메시지를 감지하면, 그 내용을 최신 문서나 슬라이드로 자동 정리해서 팀원들과 공유해요. 한 번 설정해 두면 이 정리 작업이 계속 순환돼요.</p>
+    <p>복잡한 프로젝트도 이 방식으로 여러 단계에 걸쳐 몇 시간이고 이어서 진행할 수 있어요. 사람이 매번 다시 지시하지 않아도 되는 셈이에요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">화면 2: ChatGPT Work의 예약작업(Scheduled Tasks) 설정 화면</span></div>
+    <div class="shoot">📸 직접 촬영 필요 — ChatGPT Work에서 예약작업을 만드는 화면을 캡처해 주세요(개인 일정·메시지 내용이 안 보이게 제목·설명란만 나오게 잘라 주세요). 참고: <a href="https://help.openai.com/" target="_blank">OpenAI 공식 도움말</a></div>
+    <p class="cap">ChatGPT Work 예약작업 설정 화면(예시)</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. ChatGPT Work를 쓰려면 별도로 새로 구독해야 하나요?</b><br>
+    아니요. 기존 Plus·Pro·Business·Enterprise 플랜에 포함돼 있어서 새 구독은 필요 없어요. 다만 Business·Enterprise·Edu는 사용량 한도를 넘기면 크레딧을 추가로 구매해야 할 수 있으니, 팀 단위로 쓴다면 이 부분만 미리 챙기면 돼요.</p>
+    <p><b>Q. 한국어로도 ChatGPT Work를 쓸 수 있나요?</b><br>
+    공식 안내에 한국어 UI 지원 여부는 별도로 명시돼 있지 않아요. 다만 ChatGPT 인터페이스 자체가 한국어를 지원하고, 데스크톱 앱은 전 세계 동시 배포라 국내에서도 받아 볼 수 있어요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://openai.com/index/chatgpt-for-your-most-ambitious-work/" target="_blank">OpenAI 공식 발표문 — ChatGPT Work</a><br>
+    · <a href="https://thenextweb.com/news/openai-chatgpt-work-agent-launch" target="_blank">TheNextWeb — OpenAI ChatGPT Work 에이전트 출시 보도</a><br>
+    · <a href="https://neowin.net/news/openai-launches-chatgpt-work-and-unveils-unified-desktop-app-with-codex-built-in" target="_blank">Neowin — 통합 데스크톱 앱 보도</a><br>
+    · <a href="https://readkernel.com/long-reads/openai-chatgpt-classic-desktop-app-rollout" target="_blank">readkernel — 챗GPT 클래식 데스크톱 앱 보도</a></p>
+
+    <p><b>✔ 같이 보면 좋아요</b><br>
+    · GPT-5.6 Sol·Terra·Luna 차이 정리 — GPT-5.5랑 뭐가 다른가요</p>
+
+    <p><b>하루 정리</b><br>
+    · ChatGPT Work는 Chat·Codex와 나란한 새 에이전트 모드, GPT-5.6이 구동해요<br>
+    · 데스크톱 앱은 Chat·Work·Codex를 한 앱에 담고, 예전 챗 전용 앱은 챗GPT 클래식으로 남아요<br>
+    · 플랜별 웹·모바일 오픈 시점은 다르지만 추가 구독료는 없어요<br>
+    · 예약작업이 슬랙·팀즈 메시지를 자동으로 문서·슬라이드로 정리해 줘요</p>
+    <p>이미 데스크톱 앱을 쓰고 계신다면, 업데이트부터 해 보시면 돼요.</p>
+
+    <div class="tags">#챗GPT워크 #ChatGPTWork #챗GPT워크란 #챗GPT데스크톱앱 #예약작업 #GPT5.6</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 촬영해 올려 주세요(자동 수집 불가한 로그인·앱 화면이에요).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>5.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 2곳(약 5분):</b> 📷 <b>사진 2곳</b>(데스크톱 앱 탭 화면, 예약작업 설정 화면)만 직접 캡처하면 돼요. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 챗GPT 워크(ChatGPT Work)란 — 챗GPT·코덱스와 다른 점, 플랜별 이용 범위</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>OpenAI가 2026년 7월 9일 ChatGPT Work를 새로 선보였어요. ChatGPT Work는 기존 채팅 모드인 Chat, 개발자용 Codex와 나란히 있는 새로운 에이전트 모드예요. GPT-5.6이 이 모드를 구동하고, 여러 앱과 파일에 흩어진 맥락을 모아 문서·스프레드시트·프레젠테이션 같은 완성된 결과물을 만들어 줘요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>GPT-5.6의 세 성능 등급(Sol·Terra·Luna)은 이전 글에서 짚었어요. 이 글은 ChatGPT Work 자체와 데스크톱 앱 변화, 플랜별 이용 범위에 집중해 볼게요.</p>
+      <p><b>ChatGPT·Codex와 갈리는 지점은 얼마나 폭넓은 작업을 얼마나 오래 스스로 맡기느냐</b>예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>ChatGPT Work가 정확히 뭔가요</h3>
+      <p>ChatGPT Work는 한 번의 대화형 답변이 아니라, <b>여러 단계로 나뉜 프로젝트를 끝까지 진행해 완성된 산출물을 내놓는 모드</b>예요. 일반 Chat은 질문 하나에 답 하나를 주는 방식이에요. ChatGPT Work는 작업을 여러 단계로 쪼개고, 필요하면 몇 시간이고 계속 진행해요.</p>
+      <p>그 결과물도 답변 텍스트가 아니라 완성본이에요. 문서·스프레드시트·슬라이드·프레젠테이션·보고서, 간단한 웹앱까지 만들어 내요.</p>
+      <p>Codex와는 역할이 갈려요. Codex는 코드 작성·디버깅 같은 개발 작업 전용 모드예요. ChatGPT Work는 개발 업무에 한정되지 않고, 사무·기획·분석처럼 더 폭넓은 업무를 맡아요.</p>
+      <p>연동 범위도 넓어요. ChatGPT Work는 아래 도구들에 연결할 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>슬랙(Slack)·마이크로소프트 팀즈(Microsoft Teams)</li>
+        <li>구글 드라이브(Google Drive)·셰어포인트(SharePoint)</li>
+        <li>이메일·캘린더</li>
+        <li>CRM(고객관계관리 도구)·프로젝트 관리 도구</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>데스크톱 앱에서 챗·워크·코덱스가 어떻게 합쳐졌나요</h3>
+      <p>새로 통합된 <b>챗GPT 데스크톱 앱은 Chat·ChatGPT Work·Codex를 하나의 창 안에 탭으로 묶었어요.</b> macOS·윈도우용으로 전 세계에 동시 배포됐어요.</p>
+      <p>기존 Codex 앱을 쓰던 사용자는 평소처럼 업데이트만 하면 이 통합 앱으로 넘어가요. 프로젝트·설정·작업 이력은 그대로 유지되고요. 새 앱 안에서 Codex는 Chat·Work 옆의 <b>독립된 코딩 전용 탭</b>으로 남아요.</p>
+      <p class="ph">📷 〔사진 자리 1〕 통합 데스크톱 앱 상단의 Chat·Work·Codex 탭 전환 화면 — 앱 업데이트 후 상단 탭바(Chat·Work·Codex 3개가 모두 보이는 상태)를 캡처해 올려 주세요(좌측 대화 목록·계정 이메일 제외, 3개가 다 안 보이면 이 사진은 생략 가능) · 캡션: "통합 챗GPT 데스크톱 앱의 탭 구성 화면(계정·플랜에 따라 보이는 탭이 다를 수 있어요)"</p>
+      <p class="sp">&nbsp;</p>
+      <p>이름이 바뀐 건 통합 앱이 아니라, 예전부터 쓰던 <b>챗 전용 데스크톱 앱</b>이에요. OpenAI 공식 발표는 이렇게 밝혀요.</p>
+      <p>"The existing version of the ChatGPT desktop app will be renamed ChatGPT Classic." (OpenAI 공식 발표, 2026.07.09)</p>
+      <p>예전 챗 전용 앱이 <b>챗GPT 클래식(ChatGPT Classic)</b>이라는 이름으로 남는다는 뜻이에요. 새 통합 앱으로 옮기고 싶지 않은 사용자를 위한 선택지고, 모델 업데이트·버그 수정·보안 패치·기존 Enterprise 기능 지원은 챗GPT 클래식에서도 계속돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>플랜별로 접근 범위가 어떻게 다른가요</h3>
+      <p>ChatGPT Work의 웹·모바일 이용 시작 시점과, 데스크톱 앱에서 탭 자체가 보이는 범위는 플랜마다 달라요. 2026년 7월 9일 기준으로 웹·모바일은 <b>Pro·Enterprise·Edu 플랜부터 먼저 열렸고</b>, Plus·Business는 며칠에 걸쳐 순차로 확대됐어요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>플랜</th><th>웹·모바일 ChatGPT Work</th><th>데스크톱 앱 Chat·Work·Codex 탭</th><th>추가 구독료</th></tr>
+        <tr><td class="l">Free / Go</td><td>2026.07.09 발표 대상 아님</td><td>탭은 열림(사용량 제한 적용)</td><td>-</td></tr>
+        <tr><td class="l">Plus</td><td>며칠 내 순차 확대</td><td>탭 열림</td><td>없음(기존 구독에 포함)</td></tr>
+        <tr><td class="l">Pro</td><td>2026.07.09 즉시 오픈</td><td>탭 열림</td><td>없음</td></tr>
+        <tr><td class="l">Business</td><td>며칠 내 순차 확대</td><td>탭 열림</td><td>없음</td></tr>
+        <tr><td class="l">Enterprise</td><td>2026.07.09 즉시 오픈</td><td>탭 열림</td><td>없음</td></tr>
+        <tr><td class="l">Edu</td><td>2026.07.09 즉시 오픈</td><td>탭 열림</td><td>없음</td></tr>
+      </table>
+      <p>표: 플랜별 ChatGPT Work 웹·모바일 오픈 시점과 데스크톱 앱 탭 노출 범위 (OpenAI 공식 발표 기준, 2026.07.09 발표 당시 안내 · 데스크톱 앱 탭 노출은 접속 가능 여부일 뿐 실사용량 제한은 별개)</p>
+      <p>ChatGPT Work는 별도 신규 구독 등급이 아니에요. 기존 Plus·Pro·Business·Enterprise 플랜에 <b>추가 요금 없이</b> 포함돼요. 다만 Work 사용량은 Codex와 같은 풀에서 차감되고, Business·Enterprise·Edu 플랜은 한도를 넘기면 크레딧을 추가로 구매해야 할 수 있어요.</p>
+      <p>데스크톱 앱은 Free 플랜을 포함한 모든 플랜에서 Chat·Work·Codex 탭 자체는 열려 있어요. 정확한 무료 사용량 수치는 공식적으로 공개돼 있지 않지만, ChatGPT Work도 Codex와 같은 사용량 구조를 따르기 때문에 무거운 작업일수록 더 많은 사용량을 쓴다는 점은 공식적으로 안내돼 있어요. 그래서 실제로 쓸 수 있는 양은 플랜마다 달라요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>예약작업으로 슬랙·팀즈 메시지를 자동 정리해 주나요</h3>
+      <p>네. ChatGPT Work의 <b>예약작업(Scheduled Tasks)</b>은 사용자가 자리를 비운 사이에도 계속 작업을 진행해요.</p>
+      <p>슬랙·팀즈에 새로 들어온 메시지를 감지하면, 그 내용을 최신 문서나 슬라이드로 자동 정리해서 팀원들과 공유해요. 한 번 설정해 두면 이 정리 작업이 계속 순환돼요.</p>
+      <p>복잡한 프로젝트도 이 방식으로 여러 단계에 걸쳐 몇 시간이고 이어서 진행할 수 있어요. 사람이 매번 다시 지시하지 않아도 되는 셈이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 2〕 ChatGPT Work의 예약작업(Scheduled Tasks) 설정 화면 — 예약작업을 만드는 화면을 캡처해 올려 주세요(개인 일정·메시지 내용 제외, 제목·설명란만 나오게) · 캡션: "ChatGPT Work 예약작업 설정 화면(예시)"</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. ChatGPT Work를 쓰려면 별도로 새로 구독해야 하나요?</b><br>
+      아니요. 기존 Plus·Pro·Business·Enterprise 플랜에 포함돼 있어서 새 구독은 필요 없어요. 다만 Business·Enterprise·Edu는 사용량 한도를 넘기면 크레딧을 추가로 구매해야 할 수 있으니, 팀 단위로 쓴다면 이 부분만 미리 챙기면 돼요.</p>
+      <p><b>Q. 한국어로도 ChatGPT Work를 쓸 수 있나요?</b><br>
+      공식 안내에 한국어 UI 지원 여부는 별도로 명시돼 있지 않아요. 다만 ChatGPT 인터페이스 자체가 한국어를 지원하고, 데스크톱 앱은 전 세계 동시 배포라 국내에서도 받아 볼 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://openai.com/index/chatgpt-for-your-most-ambitious-work/" target="_blank">OpenAI 공식 발표문 — ChatGPT Work</a><br>
+      · <a href="https://thenextweb.com/news/openai-chatgpt-work-agent-launch" target="_blank">TheNextWeb — OpenAI ChatGPT Work 에이전트 출시 보도</a><br>
+      · <a href="https://neowin.net/news/openai-launches-chatgpt-work-and-unveils-unified-desktop-app-with-codex-built-in" target="_blank">Neowin — 통합 데스크톱 앱 보도</a><br>
+      · <a href="https://readkernel.com/long-reads/openai-chatgpt-classic-desktop-app-rollout" target="_blank">readkernel — 챗GPT 클래식 데스크톱 앱 보도</a></p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>✔ 같이 보면 좋아요</b><br>
+      · GPT-5.6 Sol·Terra·Luna 차이 정리 — GPT-5.5랑 뭐가 다른가요</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · ChatGPT Work는 Chat·Codex와 나란한 새 에이전트 모드, GPT-5.6이 구동해요<br>
+      · 데스크톱 앱은 Chat·Work·Codex를 한 앱에 담고, 예전 챗 전용 앱은 챗GPT 클래식으로 남아요<br>
+      · 플랜별 웹·모바일 오픈 시점은 다르지만 추가 구독료는 없어요<br>
+      · 예약작업이 슬랙·팀즈 메시지를 자동으로 문서·슬라이드로 정리해 줘요</p>
+      <p>이미 데스크톱 앱을 쓰고 계신다면, 업데이트부터 해 보시면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#챗GPT워크 #ChatGPTWork #챗GPT워크란 #챗GPT데스크톱앱 #예약작업 #GPT5.6</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
