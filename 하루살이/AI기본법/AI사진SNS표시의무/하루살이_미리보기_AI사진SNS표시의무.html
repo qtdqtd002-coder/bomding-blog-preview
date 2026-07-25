@@ -1,0 +1,419 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI로 만든 사진, SNS에 표시해야 하나요 — 2026 AI 기본법 정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- AEO 타깃 질문: AI로 만든 사진을 SNS에 올릴 때 표시해야 하나요 / AI 사진 표시 의무는 누구에게 있나요 / 플랫폼은 AI 콘텐츠를 어떻게 표시하나요 -->
+<!-- 인용 후크: 과기정통부 보도자료 "도구로 활용하는 이용자는 의무 대상 아님" / 공정위 문구 "AI를 기반으로 생성된 가상 인물이 포함된 게시물입니다" -->
+<!-- 기준 시점: 2026.07.25 -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">AI 소식</div>
+    <h1 class="title">AI로 만든 사진, SNS에 표시해야 하나요 — 2026 AI 기본법 정리</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.07.25</span><span>· IT</span></div>
+
+    <p><b>AI 사진에 'AI로 만들었다'고 표시할 의무는 원칙적으로 여러분이 아니라 AI 서비스 쪽에 있어요.</b> 2026년 7월 25일 기준, 인공지능 기본법과 시행령, 관련 지침이 근거예요.</p>
+    <p>이 의무를 <b>인공지능 투명성 확보 의무</b>라고 불러요. AI로 만든 결과물임을 밝히도록 정한 규정이에요. 다만 광고·협찬으로 가상 인물을 쓴 게시물은 얘기가 달라져요. 아래에서 따로 다룰게요.</p>
+
+    <!-- 이미지 이유: 리드의 핵심 주장(표시 의무는 서비스 쪽)을 바로 시각화 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/msit-scope.png" alt="AI 투명성 확보 의무 적용 대상 도해" width="1130" height="798"></div>
+    <p class="cap">이행 대상은 AI개발사업자·AI이용사업자예요. 개인 크리에이터는 '이용자'예요.</p>
+    <p class="src">이미지 출처: <a href="https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3186787" target="_blank">과학기술정보통신부 보도자료(2026.1.21.)</a> 참고자료</p>
+
+    <h2 class="sub">표시 의무, 누구에게 있나요</h2>
+    <p>인공지능 투명성 확보 의무의 대상은 <b>AI 서비스를 제공하는 사업자</b>예요. 근거는 「인공지능 발전과 신뢰 기반 조성 등에 관한 기본법」이에요. 법률 제20676호로 제정돼 2026년 1월 22일 시행됐고, 지금은 제21311호예요. 시행령은 대통령령 제36053호로 같은 날 시행됐고, 지금은 제36506호예요.</p>
+    <p>법 제31조는 4개 항이고, 의무를 정한 1~3항은 주체가 모두 '인공지능사업자'예요. 2항은 결과물이 AI로 생성됐다는 사실을 표시하도록 정해요. 3항은 딥페이크성 생성물을 이용자가 명확히 인식할 수 있는 방식으로 고지·표시하도록 해요. 예술·창의적 표현물은 완화된 방식을 쓸 수 있어요.</p>
+    <p>법 제2조는 인공지능사업자를 법인·단체·개인·국가기관등 인공지능산업 관련 사업자로 정의해요. 이용자는 반대로 제품·서비스를 제공받는 자예요. 국내 이용자를 대상으로 하는 해외 사업자도 포함돼요.</p>
+
+    <p>과기정통부가 2026년 1월 21일 배포한 보도자료 기준이에요. 이행 주체를 'AI 제품·서비스를 직접 제공하는 인공지능사업자'로 규정했다고 밝혀요. 같은 보도자료는 이렇게 밝혀요. <b>"인공지능 기술이나 서비스를 단순히 업무나 창작의 '도구'로 활용하는 이용자는 의무 대상에 해당하지 않는다."</b></p>
+    <p>보도자료는 영화 제작사도 '이용자'라 의무 대상이 아니라고 예시를 들어요. 개인 SNS 게시는 이보다 더 도구 활용에 가까워요. 법 조문에 'SNS 게시자'가 따로 적혀 있진 않아요. 정의 조항과 보도자료 기준으로는 이용자 쪽이에요.</p>
+    <p>협찬을 받는지 여부가 기준은 아니에요. AI 서비스를 제공하는 쪽인지, 제공받는 쪽인지로 갈려요.</p>
+
+    <h2 class="sub">계도기간은 AI 서비스 쪽 이야기예요</h2>
+    <p>AI 서비스 사업자가 표시를 빠뜨려도 사실조사·과태료 부과가 유예돼 곧바로 처벌받지 않아요.</p>
+    <p>과기정통부 보도자료는 1년 이상 계도기간 방침에 따라 투명성 조항도 사실조사·과태료 부과가 유예된다고 밝혀요. 계도기간 종료 시점은 확인된 공식 발표가 없어요. 최소 1년 이상이라는 방침만 확인돼요.</p>
+
+    <table class="tbl">
+      <tr><th>조문</th><th>어떻게 되나요</th></tr>
+      <tr><td>제43조(과태료)</td><td>최대 3천만원까지 매길 수 있어요(제31조 중 1항만 해당)</td></tr>
+      <tr><td>제40조</td><td>2항·3항 위반은 사실조사·시정명령이 먼저고, 안 고치면 그때 과태료예요</td></tr>
+    </table>
+    <p class="src">계도기간이 끝난 뒤 사업자에게 적용되는 경로예요.</p>
+
+    <h2 class="sub">AI 서비스는 이미 뭘 붙이고 있나요</h2>
+    <p>여러분이 많이 쓰는 생성형 AI에는 이미 표시 기술이 들어가 있어요. 시행령 제23조제2항은 사람이 인식하는 방법과 기계가 판독하는 방법, 두 갈래로 표시 방식을 정해요. 기계 판독이면 안내 문구·음성도 1회 이상 함께 제공해요.</p>
+
+    <table class="tbl">
+      <tr><th>상황</th><th>표시 방법</th></tr>
+      <tr><td>서비스 화면 안에서만 보일 때</td><td>UI·로고 표출 등 유연하게 적용</td></tr>
+      <tr><td>외부로 내보낼 때(일반 생성물)</td><td>가시적 워터마크, 또는 문구·음성 안내 후 메타데이터 적용</td></tr>
+      <tr><td>외부로 내보낼 때(딥페이크성 생성물)</td><td>이미지=가시적 워터마크, 영상=전체 재생구간 표시, 음성=재생 초기 안내 음성</td></tr>
+    </table>
+    <p class="src">표시 방법 표 출처: 과학기술정보통신부 보도자료(2026.1.21.) 참고자료</p>
+    <!-- 이미지 이유: 표시 방식이 서비스 내/외부·일반/딥페이크로 갈리는 흐름을 시각화 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/msit-flow.png" alt="AI 투명성 확보 의무 적용 흐름도" width="1130" height="691"></div>
+    <p class="cap">서비스 환경 내 제공과 외부 반출, 일반 생성물과 딥페이크 생성물별로 표시 방법이 갈려요.</p>
+    <p class="src">이미지 출처: <a href="https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3186787" target="_blank">과학기술정보통신부 보도자료(2026.1.21.)</a> 참고자료</p>
+
+    <p>OpenAI 도움말에 따르면 ChatGPT·Codex·API로 만든 이미지엔 C2PA 메타데이터가 들어가요. SynthID 워터마크도 함께 들어가요. C2PA는 콘텐츠 자격 증명(Content Credentials)이라는 표시 규격이에요. openai.com/verify에서 확인돼요. 메타데이터가 지워져도 워터마크로 감지될 수 있어요. 다만 편집 정도에 따라 안 잡히기도 해요.</p>
+    <p>구글 딥마인드는 SynthID를 미디어에 신호를 직접 삽입하는 보이지 않는 워터마킹 기술이라고 설명해요. 한국 시행령 때문이라기보다, 각 회사가 자체적으로 적용해 온 기술이에요.</p>
+    <h2 class="sub">광고·협찬이면 얘기가 달라져요</h2>
+    <p>광고·협찬 게시물이라면, 여기서부터는 여러분이 표시하는 쪽이에요. AI로 만든 가상 인물이 등장해 상품·서비스를 추천·보증하면 따로 표시해야 해요.</p>
+    <p>공정거래위원회는 「추천·보증 등에 관한 표시·광고 심사지침」을 개정해 2026년 6월 1일 시행했어요. 보도자료는 2026년 5월 29일 배포됐어요. 개정 골자는 AI로 생성한 가상 인물을 새로운 추천·보증 주체로 추가한 거예요. 적절한 표시 문구와 표시 방법도 함께 안내했어요.</p>
+
+    <table class="tbl">
+      <tr><th>매체</th><th>표시 위치·방법</th></tr>
+      <tr><td>블로그·인터넷카페 등 문자 중심 매체</td><td>게시물 제목 또는 첫 부분에 "가상 인물 포함" 등</td></tr>
+      <tr><td>사진·동영상 등 영상 매체</td><td>가상 인물 등장 구간에 근접한 위치, 배경과 구분되는 색상으로 "가상 인물" 등</td></tr>
+    </table>
+    <p>문자 매체용 예시 문구는 이래요. <b>"AI를 기반으로 생성된 가상 인물이 포함된 게시물입니다."</b> 또는 짧게 "가상 인물 포함"으로 표시할 수 있어요.</p>
+
+    <!-- 이미지 이유: 문자 매체 표시 예시를 실제 화면으로 보여줌 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/ftc-label-text.png" alt="공정위 문자 중심 매체 표시 방법 예시" width="1125" height="532"></div>
+    <p class="cap">블로그 게시물에 [가상 인물 포함]을 표시한 예시 화면이에요.</p>
+    <p class="src">이미지 출처: <a href="https://www.ftc.go.kr/www/selectBbsNttView.do?key=12&bordCd=3&nttSn=47547" target="_blank">공정거래위원회 보도자료(2026.5.29.)</a></p>
+
+    <p>표시 문구는 매체가 뭐든 놓치기 어려운 자리에 있어야 해요.</p>
+
+    <!-- 이미지 이유: 영상 매체 표시 예시를 실제 화면으로 보여줌 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/ftc-label-video.png" alt="공정위 영상 매체 표시 방법 예시" width="1125" height="392"></div>
+    <p class="cap">영상 속 가상 인물 등장 구간에 [가상 인물]을 표시한 예시 화면이에요.</p>
+    <p class="src">이미지 출처: <a href="https://www.ftc.go.kr/www/selectBbsNttView.do?key=12&bordCd=3&nttSn=47547" target="_blank">공정거래위원회 보도자료(2026.5.29.)</a></p>
+
+    <p>가상 인물임을 표시해도 추천·보증 내용이 실제 경험처럼 표현됐는데 사실과 안 맞으면 부당한 표시·광고가 될 수 있어요. 공정위는 표시가 빠진 광고를 살펴보고 고치도록 안내할 계획이에요.</p>
+    <p>여기서 다루는 건 가상 인물이 추천·보증하는 광고성 게시물이에요. 협찬 없는 일상 게시물은 대상이 아니에요.</p>
+
+    <h2 class="sub">플랫폼은 어떻게 처리하나요</h2>
+    <p>법·지침과 별개로 각 플랫폼도 자체 AI 라벨 기능을 운영해요.</p>
+    <p><b>유튜브</b>는 아래 중 하나에 해당하면 공개하도록 안내해요.</p>
+    <ul>
+      <li>실제 인물이 하지 않은 말·행동처럼 보이게 만들었을 때</li>
+      <li>실제 사건·장소를 바꿨을 때</li>
+      <li>없던 장면을 진짜처럼 만들었을 때</li>
+    </ul>
+    <p>절차는 이래요.</p>
+    <ol>
+      <li>YouTube 스튜디오에서 영상을 업로드해요.</li>
+      <li>업로드 중 '속성' 섹션에서 'AI 사용' 항목의 '예'를 선택해요.</li>
+      <li>시청자에게는 동영상 플레이어나 설명란에 표시돼요.</li>
+    </ol>
+    <p>공개를 계속 거부하면 유튜브가 직접 라벨을 붙이거나, 콘텐츠 삭제·파트너 프로그램 참여 정지 같은 불이익이 있을 수 있어요.</p>
+    <p><b>네이버 블로그</b>는 뉴스1 보도 기준으로 'AI 활용' 표시 기능을 지원해요.</p>
+    <ul>
+      <li>블로그·카페·네이버TV·클립에 적용돼요.</li>
+      <li>자율 표기라 강제력은 없어요.</li>
+    </ul>
+    <p><b>틱톡</b>은 다른 플랫폼에서 만든 AI 콘텐츠에도 자동으로 'AI 생성' 라벨을 붙여요.</p>
+    <p><b>인스타그램·페이스북</b>을 운영하는 Meta는 업계 표준 표시가 감지되면 AI 라벨을 자동으로 붙여요. 게시물 작성 화면에서 AI 라벨을 직접 지정할 수도 있는데, 정확한 메뉴 위치는 앱에서 직접 확인해 보세요.</p>
+
+    <table class="tbl">
+      <tr><th>플랫폼</th><th>표시 방식</th><th>이용자가 할 일</th></tr>
+      <tr><td>유튜브</td><td>업로드 시 'AI 사용' 항목 직접 선택</td><td>직접 공개 설정</td></tr>
+      <tr><td>네이버 블로그</td><td>사용자가 자율로 'AI 활용' 표기</td><td>자율(강제력 없음)</td></tr>
+      <tr><td>틱톡</td><td>C2PA 감지 시 자동 라벨</td><td>사실적 AI 콘텐츠는 직접 라벨</td></tr>
+      <tr><td>인스타그램·페이스북</td><td>업계 표준 표시 감지 시 자동 라벨</td><td>자동 부착(별도 조작 없음)</td></tr>
+    </table>
+    <p class="src">유튜브·틱톡은 이용자가 직접 켜야 할 때가 있고, 나머지는 조건이 맞으면 자동으로 붙어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 워터마크를 지우면 불법인가요?</b><br>저작권법 제104조의3은 권리관리정보를 지우거나 바꾸는 걸 금지해요. 권리관리정보는 저작물·권리자 식별과 이용조건 정보예요.</p>
+    <p>다만 침해를 유발·은닉한다는 사실을 알았거나 과실로 몰랐을 때만 적용돼요. 벌칙(제136조)은 업으로·영리 목적으로 위반한 사람만 대상이에요.</p>
+    <p>다만 C2PA에 권리정보가 실려 있으면 권리관리정보와 겹칠 수 있어요. 그래서 마음 놓고 지워도 되는 건 아니에요.</p>
+    <p><b>Q. 선거 때 AI 이미지를 올려도 되나요?</b><br>공직선거법 제82조의8은 선거일 전 90일부터 선거일까지 선거운동을 위해 딥페이크영상등을 제작·편집·유포·상영·게시하는 걸 금지해요.</p>
+    <p>그 기간이 아니어도 선거운동을 위한 딥페이크라면 AI로 만든 가상정보라는 사실을 표시해야 해요. 핵심 요건은 '선거운동을 위하여'예요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.law.go.kr/법령/인공지능발전과신뢰기반조성등에관한기본법" target="_blank">국가법령정보센터 — 인공지능 기본법·같은 법 시행령, 저작권법, 공직선거법</a><br>
+    · <a href="https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3186787" target="_blank">과학기술정보통신부 보도자료(2026.1.21.) — 「인공지능 투명성 확보 안내 지침(가이드라인)」 공개</a><br>
+    · <a href="https://www.ftc.go.kr/www/selectBbsNttView.do?key=12&bordCd=3&nttSn=47547" target="_blank">공정거래위원회 보도자료(2026.5.29.) — 「추천·보증 등에 관한 표시·광고 심사지침」 개정·시행</a><br>
+    · <a href="https://support.google.com/youtube/answer/14328491?hl=ko" target="_blank">YouTube 고객센터 — 변경되거나 합성된 콘텐츠 공개</a><br>
+    · <a href="https://help.openai.com/en/articles/8912793-c2pa-in-openai-s-generative-ai-products" target="_blank">OpenAI 도움말 — C2PA in OpenAI's generative AI products</a><br>
+    · <a href="https://deepmind.google/science/synthid/" target="_blank">Google DeepMind — SynthID</a></p>
+
+    <p><b>✔ 같이 보면 좋아요</b><br>
+    · 아기 사진 AI 이모티콘 만들기 — 2026년 7월 기준 되는 방법 정리<br>
+    · 클로드 사용법 총정리 — 접속부터 초기 설정, 무료·프로 차이까지 (Claude)</p>
+
+    <p><b>하루 정리</b><br>
+    · AI 기본법 기준 — AI 사진 표시 의무는 원칙적으로 AI 서비스 사업자 쪽에 있어요.<br>
+    · 계도기간(최소 1년) 동안은 그 사업자에 대한 과태료 부과가 유예돼요.<br>
+    · 공정위 지침 기준 — 광고·협찬에 AI 가상 인물을 쓰면 여러분이 직접 표시해야 해요.<br>
+    · 플랫폼 정책 기준 — 실제 인물·사건처럼 보이는 AI 영상을 유튜브에 올릴 땐 'AI 사용'에서 '예'를 선택하면 돼요.<br>
+    · 협찬 없는 일상 게시물은 공정위 지침 대상이 아니에요.</p>
+
+    <div class="tags">#AI기본법 #인공지능투명성확보의무 #AI사진표시 #딥페이크표시 #가상인물표시 #AI라벨 #SNSAI표시 #공정거래위원회표시광고심사지침</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>5.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 3분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: AI로 만든 사진, SNS에 표시해야 하나요 — 2026 AI 기본법 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p><b>AI 사진에 'AI로 만들었다'고 표시할 의무는 원칙적으로 여러분이 아니라 AI 서비스 쪽에 있어요.</b> 2026년 7월 25일 기준, 인공지능 기본법과 시행령, 관련 지침이 근거예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>이 의무를 <b>인공지능 투명성 확보 의무</b>라고 불러요. AI로 만든 결과물임을 밝히도록 정한 규정이에요. 다만 광고·협찬으로 가상 인물을 쓴 게시물은 얘기가 달라져요. 아래에서 따로 다룰게요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 1〕 AI 투명성 확보 의무 적용 대상 도해 — 미리보기에서 이미지 복사해 여기 붙이기</p>
+      <p style="font-size:12.5px;color:#888;">└ 캡션 추천: "이행 대상은 AI개발사업자·AI이용사업자예요. 개인 크리에이터는 '이용자'예요. (출처: 과학기술정보통신부 보도자료 2026.1.21.)"</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>표시 의무, 누구에게 있나요</h3>
+      <p>인공지능 투명성 확보 의무의 대상은 <b>AI 서비스를 제공하는 사업자</b>예요. 근거는 「인공지능 발전과 신뢰 기반 조성 등에 관한 기본법」이에요. 법률 제20676호로 제정돼 2026년 1월 22일 시행됐고, 지금은 제21311호예요. 시행령은 대통령령 제36053호로 같은 날 시행됐고, 지금은 제36506호예요.</p>
+      <p>법 제31조는 4개 항이고, 의무를 정한 1~3항은 주체가 모두 '인공지능사업자'예요. 2항은 결과물이 AI로 생성됐다는 사실을 표시하도록 정해요. 3항은 딥페이크성 생성물을 이용자가 명확히 인식할 수 있는 방식으로 고지·표시하도록 해요. 예술·창의적 표현물은 완화된 방식을 쓸 수 있어요.</p>
+      <p>법 제2조는 인공지능사업자를 법인·단체·개인·국가기관등 인공지능산업 관련 사업자로 정의해요. 이용자는 반대로 제품·서비스를 제공받는 자예요. 국내 이용자를 대상으로 하는 해외 사업자도 포함돼요.</p>
+
+      <p>과기정통부가 2026년 1월 21일 배포한 보도자료 기준이에요. 이행 주체를 'AI 제품·서비스를 직접 제공하는 인공지능사업자'로 규정했다고 밝혀요. 같은 보도자료는 이렇게 밝혀요. <b>"인공지능 기술이나 서비스를 단순히 업무나 창작의 '도구'로 활용하는 이용자는 의무 대상에 해당하지 않는다."</b></p>
+      <p>보도자료는 영화 제작사도 '이용자'라 의무 대상이 아니라고 예시를 들어요. 개인 SNS 게시는 이보다 더 도구 활용에 가까워요. 법 조문에 'SNS 게시자'가 따로 적혀 있진 않아요. 정의 조항과 보도자료 기준으로는 이용자 쪽이에요.</p>
+      <p>협찬을 받는지 여부가 기준은 아니에요. AI 서비스를 제공하는 쪽인지, 제공받는 쪽인지로 갈려요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>계도기간은 AI 서비스 쪽 이야기예요</h3>
+      <p>AI 서비스 사업자가 표시를 빠뜨려도 사실조사·과태료 부과가 유예돼 곧바로 처벌받지 않아요.</p>
+      <p>과기정통부 보도자료는 1년 이상 계도기간 방침에 따라 투명성 조항도 사실조사·과태료 부과가 유예된다고 밝혀요. 계도기간 종료 시점은 확인된 공식 발표가 없어요. 최소 1년 이상이라는 방침만 확인돼요.</p>
+
+      <table>
+        <tr><th>조문</th><th>어떻게 되나요</th></tr>
+        <tr><td class="l">제43조(과태료)</td><td>최대 3천만원까지 매길 수 있어요(제31조 중 1항만 해당)</td></tr>
+        <tr><td class="l">제40조</td><td>2항·3항 위반은 사실조사·시정명령이 먼저고, 안 고치면 그때 과태료예요</td></tr>
+      </table>
+      <p class="tnote-line">계도기간이 끝난 뒤 사업자에게 적용되는 경로예요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>AI 서비스는 이미 뭘 붙이고 있나요</h3>
+      <p>여러분이 많이 쓰는 생성형 AI에는 이미 표시 기술이 들어가 있어요. 시행령 제23조제2항은 사람이 인식하는 방법과 기계가 판독하는 방법, 두 갈래로 표시 방식을 정해요. 기계 판독이면 안내 문구·음성도 1회 이상 함께 제공해요.</p>
+
+      <table>
+        <tr><th>상황</th><th>표시 방법</th></tr>
+        <tr><td class="l">서비스 화면 안에서만 보일 때</td><td>UI·로고 표출 등 유연하게 적용</td></tr>
+        <tr><td class="l">외부로 내보낼 때(일반 생성물)</td><td>가시적 워터마크, 또는 문구·음성 안내 후 메타데이터 적용</td></tr>
+        <tr><td class="l">외부로 내보낼 때(딥페이크성 생성물)</td><td>이미지=가시적 워터마크, 영상=전체 재생구간 표시, 음성=재생 초기 안내 음성</td></tr>
+      </table>
+      <p class="tnote-line">표시 방법 표 출처: 과학기술정보통신부 보도자료(2026.1.21.) 참고자료</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 2〕 AI 투명성 확보 의무 적용 흐름도 — 미리보기에서 이미지 복사해 여기 붙이기</p>
+      <p style="font-size:12.5px;color:#888;">└ 캡션 추천: "서비스 환경 내 제공과 외부 반출, 일반 생성물과 딥페이크 생성물별로 표시 방법이 갈려요. (출처: 과학기술정보통신부 보도자료 2026.1.21.)"</p>
+
+      <p>OpenAI 도움말에 따르면 ChatGPT·Codex·API로 만든 이미지엔 C2PA 메타데이터가 들어가요. SynthID 워터마크도 함께 들어가요. C2PA는 콘텐츠 자격 증명(Content Credentials)이라는 표시 규격이에요. openai.com/verify에서 확인돼요. 메타데이터가 지워져도 워터마크로 감지될 수 있어요. 다만 편집 정도에 따라 안 잡히기도 해요.</p>
+      <p>구글 딥마인드는 SynthID를 미디어에 신호를 직접 삽입하는 보이지 않는 워터마킹 기술이라고 설명해요. 한국 시행령 때문이라기보다, 각 회사가 자체적으로 적용해 온 기술이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>광고·협찬이면 얘기가 달라져요</h3>
+      <p>광고·협찬 게시물이라면, 여기서부터는 여러분이 표시하는 쪽이에요. AI로 만든 가상 인물이 등장해 상품·서비스를 추천·보증하면 따로 표시해야 해요.</p>
+      <p>공정거래위원회는 「추천·보증 등에 관한 표시·광고 심사지침」을 개정해 2026년 6월 1일 시행했어요. 보도자료는 2026년 5월 29일 배포됐어요. 개정 골자는 AI로 생성한 가상 인물을 새로운 추천·보증 주체로 추가한 거예요. 적절한 표시 문구와 표시 방법도 함께 안내했어요.</p>
+
+      <table>
+        <tr><th>매체</th><th>표시 위치·방법</th></tr>
+        <tr><td class="l">블로그·인터넷카페 등 문자 중심 매체</td><td>게시물 제목 또는 첫 부분에 "가상 인물 포함" 등</td></tr>
+        <tr><td class="l">사진·동영상 등 영상 매체</td><td>가상 인물 등장 구간에 근접한 위치, 배경과 구분되는 색상으로 "가상 인물" 등</td></tr>
+      </table>
+      <p>문자 매체용 예시 문구는 이래요. <b>"AI를 기반으로 생성된 가상 인물이 포함된 게시물입니다."</b> 또는 짧게 "가상 인물 포함"으로 표시할 수 있어요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 3〕 공정위 문자 중심 매체 표시 방법 예시 — 미리보기에서 이미지 복사해 여기 붙이기</p>
+      <p style="font-size:12.5px;color:#888;">└ 캡션 추천: "블로그 게시물에 [가상 인물 포함]을 표시한 예시 화면이에요. (출처: 공정거래위원회 보도자료 2026.5.29.)"</p>
+
+      <p>표시 문구는 매체가 뭐든 놓치기 어려운 자리에 있어야 해요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 4〕 공정위 영상 매체 표시 방법 예시 — 미리보기에서 이미지 복사해 여기 붙이기</p>
+      <p style="font-size:12.5px;color:#888;">└ 캡션 추천: "영상 속 가상 인물 등장 구간에 [가상 인물]을 표시한 예시 화면이에요. (출처: 공정거래위원회 보도자료 2026.5.29.)"</p>
+
+      <p>가상 인물임을 표시해도 추천·보증 내용이 실제 경험처럼 표현됐는데 사실과 안 맞으면 부당한 표시·광고가 될 수 있어요. 공정위는 표시가 빠진 광고를 살펴보고 고치도록 안내할 계획이에요.</p>
+      <p>여기서 다루는 건 가상 인물이 추천·보증하는 광고성 게시물이에요. 협찬 없는 일상 게시물은 대상이 아니에요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>플랫폼은 어떻게 처리하나요</h3>
+      <p>법·지침과 별개로 각 플랫폼도 자체 AI 라벨 기능을 운영해요.</p>
+      <p><b>유튜브</b>는 아래 중 하나에 해당하면 공개하도록 안내해요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>실제 인물이 하지 않은 말·행동처럼 보이게 만들었을 때</li>
+        <li>실제 사건·장소를 바꿨을 때</li>
+        <li>없던 장면을 진짜처럼 만들었을 때</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+
+      <p>절차는 이래요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>YouTube 스튜디오에서 영상을 업로드해요.</li>
+        <li>업로드 중 '속성' 섹션에서 'AI 사용' 항목의 '예'를 선택해요.</li>
+        <li>시청자에게는 동영상 플레이어나 설명란에 표시돼요.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+
+      <p>공개를 계속 거부하면 유튜브가 직접 라벨을 붙이거나, 콘텐츠 삭제·파트너 프로그램 참여 정지 같은 불이익이 있을 수 있어요.</p>
+      <p><b>네이버 블로그</b>는 뉴스1 보도 기준으로 'AI 활용' 표시 기능을 지원해요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>블로그·카페·네이버TV·클립에 적용돼요.</li>
+        <li>자율 표기라 강제력은 없어요.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p><b>틱톡</b>은 다른 플랫폼에서 만든 AI 콘텐츠에도 자동으로 'AI 생성' 라벨을 붙여요.</p>
+      <p><b>인스타그램·페이스북</b>을 운영하는 Meta는 업계 표준 표시가 감지되면 AI 라벨을 자동으로 붙여요. 게시물 작성 화면에서 AI 라벨을 직접 지정할 수도 있는데, 정확한 메뉴 위치는 앱에서 직접 확인해 보세요.</p>
+
+      <table>
+        <tr><th>플랫폼</th><th>표시 방식</th><th>이용자가 할 일</th></tr>
+        <tr><td class="l">유튜브</td><td>업로드 시 'AI 사용' 항목 직접 선택</td><td>직접 공개 설정</td></tr>
+        <tr><td class="l">네이버 블로그</td><td>사용자가 자율로 'AI 활용' 표기</td><td>자율(강제력 없음)</td></tr>
+        <tr><td class="l">틱톡</td><td>C2PA 감지 시 자동 라벨</td><td>사실적 AI 콘텐츠는 직접 라벨</td></tr>
+        <tr><td class="l">인스타그램·페이스북</td><td>업계 표준 표시 감지 시 자동 라벨</td><td>자동 부착(별도 조작 없음)</td></tr>
+      </table>
+      <p class="tnote-line">유튜브·틱톡은 이용자가 직접 켜야 할 때가 있고, 나머지는 조건이 맞으면 자동으로 붙어요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 워터마크를 지우면 불법인가요?</b><br>저작권법 제104조의3은 권리관리정보를 지우거나 바꾸는 걸 금지해요. 권리관리정보는 저작물·권리자 식별과 이용조건 정보예요.</p>
+      <p>다만 침해를 유발·은닉한다는 사실을 알았거나 과실로 몰랐을 때만 적용돼요. 벌칙(제136조)은 업으로·영리 목적으로 위반한 사람만 대상이에요.</p>
+      <p>다만 C2PA에 권리정보가 실려 있으면 권리관리정보와 겹칠 수 있어요. 그래서 마음 놓고 지워도 되는 건 아니에요.</p>
+      <p><b>Q. 선거 때 AI 이미지를 올려도 되나요?</b><br>공직선거법 제82조의8은 선거일 전 90일부터 선거일까지 선거운동을 위해 딥페이크영상등을 제작·편집·유포·상영·게시하는 걸 금지해요.</p>
+      <p>그 기간이 아니어도 선거운동을 위한 딥페이크라면 AI로 만든 가상정보라는 사실을 표시해야 해요. 핵심 요건은 '선거운동을 위하여'예요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://www.law.go.kr/법령/인공지능발전과신뢰기반조성등에관한기본법" target="_blank">국가법령정보센터 — 인공지능 기본법·같은 법 시행령, 저작권법, 공직선거법</a><br>
+      · <a href="https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3186787" target="_blank">과학기술정보통신부 보도자료(2026.1.21.) — 「인공지능 투명성 확보 안내 지침(가이드라인)」 공개</a><br>
+      · <a href="https://www.ftc.go.kr/www/selectBbsNttView.do?key=12&bordCd=3&nttSn=47547" target="_blank">공정거래위원회 보도자료(2026.5.29.) — 「추천·보증 등에 관한 표시·광고 심사지침」 개정·시행</a><br>
+      · <a href="https://support.google.com/youtube/answer/14328491?hl=ko" target="_blank">YouTube 고객센터 — 변경되거나 합성된 콘텐츠 공개</a><br>
+      · <a href="https://help.openai.com/en/articles/8912793-c2pa-in-openai-s-generative-ai-products" target="_blank">OpenAI 도움말 — C2PA in OpenAI's generative AI products</a><br>
+      · <a href="https://deepmind.google/science/synthid/" target="_blank">Google DeepMind — SynthID</a></p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>✔ 같이 보면 좋아요</b><br>
+      · 아기 사진 AI 이모티콘 만들기 — 2026년 7월 기준 되는 방법 정리<br>
+      · 클로드 사용법 총정리 — 접속부터 초기 설정, 무료·프로 차이까지 (Claude)</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · AI 기본법 기준 — AI 사진 표시 의무는 원칙적으로 AI 서비스 사업자 쪽에 있어요.<br>
+      · 계도기간(최소 1년) 동안은 그 사업자에 대한 과태료 부과가 유예돼요.<br>
+      · 공정위 지침 기준 — 광고·협찬에 AI 가상 인물을 쓰면 여러분이 직접 표시해야 해요.<br>
+      · 플랫폼 정책 기준 — 실제 인물·사건처럼 보이는 AI 영상을 유튜브에 올릴 땐 'AI 사용'에서 '예'를 선택하면 돼요.<br>
+      · 협찬 없는 일상 게시물은 공정위 지침 대상이 아니에요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#AI기본법 #인공지능투명성확보의무 #AI사진표시 #딥페이크표시 #가상인물표시 #AI라벨 #SNSAI표시 #공정거래위원회표시광고심사지침</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
