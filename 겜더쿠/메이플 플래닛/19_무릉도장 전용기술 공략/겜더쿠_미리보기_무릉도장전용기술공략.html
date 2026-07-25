@@ -1,0 +1,229 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>메이플 플래닛 무릉도장 전용기술 공략 (죽간천격 하향)</title>
+<style>
+  :root{--ink:#23232b;--sub:#8b8b96;--line:#e8e8ee;--accent:#7048E8;--sk:#2C5F8A;--skbg:#f2f7fb;--skbd:#d7e5f0;--sktx:#234b6e;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f3f1f9;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--accent);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--accent);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:var(--accent);}
+  .upd{font-size:13px;color:#8a8a96;margin:0 0 20px;}
+  .lead{font-size:17px;line-height:1.9;color:#33333a;font-weight:500;margin:0 0 22px;word-break:keep-all;}
+  .box{border:1px solid var(--skbd);border-radius:10px;overflow:hidden;margin:0 0 26px;}
+  .box .bt{background:var(--sk);color:#fff;padding:10px 16px;font-size:13px;font-weight:800;letter-spacing:.02em;}
+  .box table{width:100%;border-collapse:collapse;font-size:14.5px;color:#33333a;}
+  .box td{padding:9px 14px;border-bottom:1px solid var(--skbd);word-break:keep-all;}
+  .box td:first-child{background:var(--skbg);font-weight:700;color:var(--sktx);width:30%;white-space:nowrap;}
+  .box tr:last-child td{border-bottom:none;}
+  .link{background:#fbfaff;border:1px solid var(--skbd);border-left:4px solid var(--sk);border-radius:8px;padding:13px 16px;margin:0 0 26px;font-size:15px;line-height:1.85;color:#4a4458;}
+  .link b{color:var(--sk);}
+  .link a{color:var(--sk);text-decoration:none;font-weight:700;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 18px;word-break:keep-all;color:#2f2f37;}
+  .post b{font-weight:800;}
+  .h2{font-size:20px;font-weight:800;color:var(--ink);margin:34px 0 14px;padding:0 0 9px 12px;border-left:5px solid var(--sk);border-bottom:1px solid #ececf3;}
+  .h2 .chip{font-size:13px;color:var(--sk);font-weight:800;margin-right:6px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .imgwrap.small img{max-width:280px;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 2px;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:0 0 22px;}
+  .callout{background:#fbfaff;border:1px solid var(--skbd);border-radius:8px;padding:13px 16px;margin:0 0 22px;font-size:15px;line-height:1.8;color:#4a4458;}
+  .callout b{color:var(--sk);}
+  .warn{background:#faf6ec;border:1px solid #eee0c2;border-left:4px solid #9A6A00;border-radius:8px;padding:13px 16px;margin:0 0 22px;font-size:15px;line-height:1.8;color:#6b5316;}
+  .warn b{color:#9A6A00;}
+  .hr{text-align:center;color:#cfc9e6;font-size:13px;letter-spacing:.5em;margin:30px 0;}
+  .quote{text-align:center;margin:28px 0;}
+  .quote .mark{font-family:Georgia,serif;font-size:44px;line-height:.6;color:var(--sk);}
+  .quote p{font-size:18px;font-weight:800;color:#23232b;line-height:1.55;margin:8px 0 12px;padding:0 10px;word-break:keep-all;}
+  .quote .bar{width:46px;height:3px;background:var(--sk);margin:0 auto;border-radius:2px;}
+  .tbl{width:100%;border-collapse:collapse;margin:6px 0 16px;font-size:14.5px;}
+  .tbl th{background:var(--sk);color:#fff;padding:9px 10px;text-align:left;font-weight:700;word-break:keep-all;}
+  .tbl td{padding:8px 10px;border-bottom:1px solid var(--skbd);word-break:keep-all;}
+  .tbl tr:nth-child(even) td{background:var(--skbg);}
+  .nowrap{white-space:nowrap;}
+  .faqh2{font-size:20px;font-weight:800;color:var(--ink);margin:34px 0 14px;padding:0 0 9px 12px;border-left:5px solid var(--sk);border-bottom:1px solid #ececf3;}
+  .faq q{display:block;font-size:16px;font-weight:800;color:#33333a;margin:0 0 6px;}
+  .faq a2{display:block;font-size:16px;line-height:1.9;color:#2f2f37;margin:0 0 16px;word-break:keep-all;}
+  .endbox{background:var(--skbg);border:1px solid var(--skbd);border-radius:8px;padding:16px 18px;margin:30px 0 18px;}
+  .endbox .bt{font-size:13px;font-weight:800;color:var(--sktx);margin-bottom:8px;}
+  .endbox p{margin:0;font-size:15.5px;line-height:1.85;color:#33333a;}
+  .tags{margin-top:22px;line-height:2.4;}
+  .tags span{background:#f1eefc;color:var(--accent);font-size:13px;border-radius:9999px;padding:4px 12px;margin:0 4px 4px 0;display:inline-block;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">🎮 blog</span> 겜더쿠 · 게임 덕질 (티스토리 발행용 미리보기)</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">메이플 플래닛 무릉도장 전용기술 공략 (죽간천격 하향)</h1>
+    <div class="meta"><span class="author">겜더쿠</span><span>2026.07.25</span><span>· 게임</span></div>
+
+    <p class="lead">무릉도장이 어제(7월 24일) 새벽에 처음 열리고서, 채 다섯 시간도 안 돼 곧바로 밸런스 패치가 하나 더 따라붙었습니다. 그것도 하필 <b>'죽간천격'</b> 하나가 눈에 띄게 깎였다는 소식이라, 어제 도는 법과 오늘 도는 법이 살짝 달라진 상황인데요. 그래서 이 글에서는 <b>전용기술 3종을 언제 어떻게 쓰나 · 죽간천격 하향 이후 층 공략이 어떻게 바뀌었나 · 랭킹은 뭘 먼저 챙겨야 하나</b>를 기준으로 정리해봤습니다.</p>
+
+    <p class="upd">최종 업데이트: 2026.07.25</p>
+
+    <div class="box">
+      <div class="bt">핵심 요약</div>
+      <table>
+        <tr><td>패치 흐름</td><td>7/24 04:30 무릉도장 시스템 추가 → 같은 날 08:40 죽간천격 등 밸런스 패치</td></tr>
+        <tr><td>죽간천격</td><td>현재 층 몬스터 최대 HP <b>30%</b> 피해 → <b>10%</b>로 하향</td></tr>
+        <tr><td>전용기술 사용</td><td>도전 1회당 기술당 <b>1회</b>만 사용 가능(신설)</td></tr>
+        <tr><td>도전모드 입장료</td><td><b>100만 메소</b>(신설)</td></tr>
+        <tr><td>랭킹 우선순위</td><td>최고 클리어 층수 → 동층이면 누적 클리어시간(ms) 짧은 순</td></tr>
+      </table>
+    </div>
+
+    <div class="link">🔗 <b>이어서 보면 좋은 글</b><br>메이플 플래닛 전체 공략은 따로 모아뒀습니다 → <a href="https://quetermoney.tistory.com/73">메이플 플래닛 공략 총정리</a></div>
+
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EA%B2%9C%EB%8D%94%EC%BF%A0/%EB%A9%94%EC%9D%B4%ED%94%8C%20%ED%94%8C%EB%9E%98%EB%8B%9B/19_%EB%AC%B4%EB%A6%89%EB%8F%84%EC%9E%A5%20%EC%A0%84%EC%9A%A9%EA%B8%B0%EC%88%A0%20%EA%B3%B5%EB%9E%B5/img/mp_dojang_keyvisual.webp" alt="무릉도장 업데이트 공식 키비주얼 — 판다 캐릭터와 동양풍 누각, 정상의 영광을 차지하라 문구"></div>
+    <p class="cap">판다 캐릭터와 동양풍 누각을 내세운 무릉도장 업데이트 공식 키비주얼입니다.</p>
+    <p class="src">이미지: 메이플플래닛 공식 패치노트</p>
+
+    <div class="h2"><span class="chip">01</span> 무릉도장, 하루 만에 무엇이 바뀌었나</div>
+
+    <p>무릉도장은 2026년 7월 24일 새벽 4시 30분에 처음 추가됐고, 같은 날 오전 8시 40분에 죽간천격 하향을 포함한 밸런스 패치가 곧바로 이어졌습니다.</p>
+
+    <p>그러니까 지금(7월 25일) 기준으로 도는 무릉도장은 이미 8시 40분 패치가 적용된 버전인 셈인데요. 캐릭터의 전투력을 시험하고 층별 기록을 겨루는 콘텐츠로, <b>70레벨 이상</b>만 입장할 수 있고 <b>파티에 가입하지 않은 상태</b>에서만 이용됩니다. 채널당 도전모드·연습모드 각 1명만 이용 가능해서 다른 유저가 먼저 돌고 있으면 채널을 옮겨야 하고요. 입장하는 순간 경험치 관련 버프를 뺀 나머지 버프가 전부 초기화되고, 몬스터를 잡아도 경험치는 들어오지 않습니다.</p>
+
+    <p>8시 40분 패치에서 같이 들어온 변경도 짚고 갈 만합니다. 무릉도장 안에서는 <b>길드 액티브 스킬을 아예 쓸 수 없고</b>, 입장하는 순간 이미 걸려 있던 길드 스킬 버프도 풀립니다. 수련 점수를 얻을 수 있는 횟수는 <b>하루 20번</b>(층 이동 기준)으로 제한이 걸렸습니다. 도전 자체를 막는 제한은 아니지만, 그 이상 올라가도 수련 점수는 더 안 쌓이니 하루 계획을 세워 도는 게 낫습니다. 랭킹은 1~5위가 리스트에서 빠지던 표시 오류가 고쳐지면서 <b>최대 300명</b>까지 보이도록 넓어졌습니다.</p>
+
+    <p>여기에 소비 제한까지 정리하면 이렇습니다.</p>
+
+    <table class="tbl">
+      <tr><th class="nowrap">항목</th><th>제한</th></tr>
+      <tr><td class="nowrap">도전모드 입장료</td><td>100만 메소</td></tr>
+      <tr><td class="nowrap">전용기술 사용</td><td>도전당 기술당 1회</td></tr>
+      <tr><td class="nowrap">드롭 소비 아이템</td><td>사용 15회(획득 즉시 사용은 예외)</td></tr>
+      <tr><td class="nowrap">운명의 수레바퀴</td><td>사용 10회</td></tr>
+    </table>
+
+    <p>펫의 자동 HP·MP 물약도 직접 사용과 같은 횟수를 공유하고, 자동줍기는 아예 꺼진다는 것도 알아두시고요.</p>
+
+    <div class="hr">• • •</div>
+
+    <div class="h2"><span class="chip">02</span> 전용기술 3종, 이제 어떻게 아껴 써야 하나</div>
+
+    <p>무릉도장 전용기술은 '죽간천격'·'금강불괴'·'지화천폭' 3종이며, 8시 40분 패치 이후로는 한 번의 도전에서 기술당 딱 1번만 사용됩니다.</p>
+
+    <p>전용기술은 <b>수련 에너지</b>가 100을 채워야 발동되는데요. 몬스터에게 맞을 때마다 조금씩 차오르고, 1층에 들어가는 순간 0부터 시작합니다. 대기실이나 휴게층에서는 충전되지 않고, 층을 넘어가도 그대로 유지되다가 도전을 나가면 초기화됩니다. 100을 채우면 방향키에 <b>Ctrl+Alt</b>를 같이 눌러(모바일은 터치) 세 기술 중 하나를 씁니다.</p>
+
+    <div class="callout"><b>💡 포인트</b> &nbsp;8시 40분 패치 전에는 수련 에너지가 다시 찰 때마다 같은 기술을 반복해서 쓸 수 있었는데, 이제는 도전 1회당 죽간천격·금강불괴·지화천폭 각각 <b>딱 한 번씩</b>만 쓰게 됩니다. 언제 터뜨릴지가 이 콘텐츠의 핵심 판단이 됩니다.</div>
+
+    <table class="tbl">
+      <tr><th class="nowrap">조작키</th><th class="nowrap">기술명</th><th>효과</th></tr>
+      <tr><td class="nowrap">↑ + Ctrl + Alt</td><td class="nowrap"><b>죽간천격</b></td><td>현재 층 몬스터의 최대 HP 10%에 해당하는 피해</td></tr>
+      <tr><td class="nowrap">← + Ctrl + Alt</td><td class="nowrap"><b>금강불괴</b></td><td>30초 동안 무적</td></tr>
+      <tr><td class="nowrap">→ + Ctrl + Alt</td><td class="nowrap"><b>지화천폭</b></td><td>30초 동안 총 데미지 100% 증가</td></tr>
+    </table>
+
+    <p>표에서 보시는 것처럼 죽간천격은 원래 <b>현재 층 몬스터의 최대 HP 30%에 해당하는 피해</b>였는데, 이번 패치로 <b>10%에 해당하는 피해</b>로 낮아졌습니다. 단순 계산으로는 3분의 1 수준으로 줄어든 셈인데, 여기에 1회 제한까지 겹치면서 예전처럼 여러 층을 연달아 순삭하는 용도로는 확실히 약해졌습니다. 패치노트를 뜯어보면서 제가 느낀 건, '그 층 몬스터 최대 HP에 비례하는 피해'라는 성격 자체는 그대로라는 점입니다. 신작이라 아직 정립된 공략은 아니지만, <b>제한시간이 빠듯하거나 몬스터 체력이 두꺼운, 정말 막히는 층 하나</b>를 위해 아껴 뒀다가 한 방에 크게 깎는 용도로 쓰는 게 합리적으로 보입니다.</p>
+
+    <p>금강불괴는 30초 무적이라 위험한 패턴에서 버티는 보험인데요. 딱 한 번뿐이다 보니 아무 데서나 켜버리면 정작 필요한 순간, 그러니까 시간에 쫓기면서 무리하게 밀어붙이다 위험해지는 고층 구간에서 못 쓰는 상황이 생기기 쉽습니다. 지화천폭은 30초 동안 총 데미지가 100% 늘어나는 순수 딜 버프라 클리어 속도, 즉 랭킹 동층 순위를 가르는 누적 클리어시간에 직결됩니다. 기록을 노린다면 제한시간이 특히 빠듯한 구간이나 마지막 스퍼트에 쓰는 편이 랭킹 최적화 관점에서는 유리합니다.</p>
+
+    <div class="quote"><div class="mark">&#10077;</div><p>이제 판단은 '언제 터뜨리나' 하나로 좁혀집니다.</p><div class="bar"></div></div>
+
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EA%B2%9C%EB%8D%94%EC%BF%A0/%EB%A9%94%EC%9D%B4%ED%94%8C%20%ED%94%8C%EB%9E%98%EB%8B%9B/19_%EB%AC%B4%EB%A6%89%EB%8F%84%EC%9E%A5%20%EC%A0%84%EC%9A%A9%EA%B8%B0%EC%88%A0%20%EA%B3%B5%EB%9E%B5/img/mp_dojang_ingame_ui.webp" alt="무릉도장 대기실 인게임 화면 — 가운데 위 제한시간 타이머와 플레이어·몬스터 HP바, 오른쪽의 스킬 DPS 미터 창" width="2596" height="1456"></div>
+    <p class="cap">무릉도장 대기실 화면입니다. 가운데 위 타이머가 대기 제한시간을, 오른쪽 창이 스킬 DPS 미터를 보여줍니다.</p>
+    <p class="src">이미지: 메이플플래닛 공식 패치노트</p>
+
+    <div class="h2"><span class="chip">03</span> 층별 제한시간과 죽간천격 하향이 만든 공략 변화</div>
+
+    <p>층별 제한시간은 1~5층 3분에서 37~38층 8분까지 늘어나며, 31층부터는 몬스터의 명중률이 오르고 캐릭터에게 기본회피가 적용돼 후반 층일수록 부담이 커집니다.</p>
+
+    <table class="tbl">
+      <tr><th class="nowrap">구간</th><th class="nowrap">제한시간</th></tr>
+      <tr><td class="nowrap">입장 대기 맵 / 각 휴게층</td><td class="nowrap">5분</td></tr>
+      <tr><td class="nowrap">1~5층</td><td class="nowrap">3분</td></tr>
+      <tr><td class="nowrap">7~11층</td><td class="nowrap">3분 30초</td></tr>
+      <tr><td class="nowrap">13~17층</td><td class="nowrap">4분</td></tr>
+      <tr><td class="nowrap">19~23층</td><td class="nowrap">4분 30초</td></tr>
+      <tr><td class="nowrap">25~29층</td><td class="nowrap">5분</td></tr>
+      <tr><td class="nowrap">31~35층</td><td class="nowrap">5분 30초</td></tr>
+      <tr><td class="nowrap">37~38층</td><td class="nowrap">8분</td></tr>
+    </table>
+
+    <p>제한시간을 넘기면 입구로 강제 퇴장당하고, 대기맵이나 휴게층에서 5분 넘게 가만히 있어도 마찬가지로 퇴장됩니다. 보스를 잡은 뒤 다음 층으로 넘어갈 여유 시간은 30초뿐이라, 정리하고 이동하는 것까지 계산해야 합니다. 다만 <b>휴게층에서 쉬는 시간은 랭킹에 들어가는 누적 클리어시간에 포함되지 않으니</b>, 위험하다 싶으면 휴게층에서 숨을 고르는 것도 손해가 아닙니다.</p>
+
+    <p>31층부터는 몬스터의 명중률이 올라가고 캐릭터에게 기본회피 수치가 붙는데, 이 기본회피를 포함한 총 회피수치는 999를 넘지 못합니다. 후반 층으로 갈수록 그냥 밀어붙이기보다 회피·방어 세팅이 같이 받쳐줘야 하는 구간이라는 뜻인데요. 제 눈엔, 죽간천격 하향 전에는 이런 후반 층도 죽간천격으로 한 번에 깎아내며 넘어갈 여지가 있었지만, 이제는 일반 전투력만으로 층을 하나하나 뚫고 전용기술은 위험하거나 확실히 막히는 순간의 카드로 아끼는 편이 낫다고 봅니다. 결국 잠재능력·큐브로 다진 기본 공격력이 예전보다 더 중요해졌습니다.</p>
+
+    <div class="link">🔗 <b>이어서 보면 좋은 글</b><br>전용기술이 1회뿐인 이상 기본 공격력이 층 클리어의 밑바탕입니다 → <a href="https://quetermoney.tistory.com/63">메이플 플래닛 잠재능력·큐브 스펙업</a></div>
+
+    <div class="warn"><b>⚠️ 주의</b> &nbsp;도전모드는 입장할 때마다 <b>100만 메소</b>가 빠져나갑니다. 준비 없이 들어갔다가 제한시간에 쫓겨 강제 퇴장당하면 그만큼 고스란히 손해라, 실전 감각은 연습모드로 먼저 잡고 도전모드는 준비가 된 다음에 들어가는 편을 추천합니다.</div>
+
+    <div class="hr">• • •</div>
+
+    <div class="h2"><span class="chip">04</span> 랭킹 최적화 — 층수가 먼저, 시간은 그다음</div>
+
+    <p>무릉도장 랭킹은 최고 클리어 층수를 먼저 비교하고, 층수가 같으면 누적 클리어시간(밀리초 단위)이 짧은 쪽이 앞섭니다.</p>
+
+    <p>제가 보기엔 순위를 올리는 1순위는 시간 단축이 아니라 <b>일단 층수를 최대한 밀어붙이는 것</b>이고, 같은 층수 안에서만 시간이 갈립니다. 랭킹은 전체·직업별·주간·월간으로 나눠 확인할 수 있고, 최고 클리어 층수에 따라 표시색도 다른데요. <b>30층 이상은 빨강, 20~29층은 갈색, 10~19층은 검정, 10층 미만은 회색</b>으로 구분됩니다. 다만 주간 집계는 매주 일요일 23시 40분부터 월요일 0시까지, 월간 집계는 매월 말일 23시 40분부터 다음 달 1일 0시까지 무릉도장 입장과 층 진행 자체가 제한되니, 마감 직전에 기록을 노린다면 이 시간대는 피해야 합니다.</p>
+
+    <p>어제 마이그레이션으로 무릉도장 기록이 한 번 초기화된 상태입니다. 다들 다시 밑바닥부터 시작하는 상황이라, 지금 진입하면 오히려 상위권을 노려볼 만한 타이밍입니다.</p>
+
+    <p>주간 랭킹 보상도 챙길 만합니다. 이 보상은 <b>기간제</b>라 매 다음 주 월요일 0시에 만료되는데요(툴팁 기준 2026년 7월 27일 0시까지 사용 가능). <b>전체 랭킹 1위</b>는 '영웅의 장갑'과 칭호 '무릉의 정점에 도달한 자'를, <b>직업별 랭킹 1위</b>는 '무공의 장갑'과 칭호 '무릉의 경지에 선 자'를, <b>직업별 2·3위</b>는 '소공의 장갑'을 받습니다. 전체 1위와 직업별 1위를 같은 캐릭터가 동시에 달성하면 상위 보상만 지급됩니다.</p>
+
+    <div class="imgwrap small"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EA%B2%9C%EB%8D%94%EC%BF%A0/%EB%A9%94%EC%9D%B4%ED%94%8C%20%ED%94%8C%EB%9E%98%EB%8B%9B/19_%EB%AC%B4%EB%A6%89%EB%8F%84%EC%9E%A5%20%EC%A0%84%EC%9A%A9%EA%B8%B0%EC%88%A0%20%EA%B3%B5%EB%9E%B5/img/mp_dojang_glove_hero.webp" alt="영웅의 장갑 아이템 툴팁 — 주간 전체 랭킹 1위 보상, 총 데미지 +9%·올스탯 +6%"></div>
+    <p class="cap">주간 전체 랭킹 1위에게 주어지는 '영웅의 장갑'입니다.</p>
+    <p class="src">이미지: 메이플플래닛 공식 패치노트</p>
+
+    <div class="imgwrap small"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EA%B2%9C%EB%8D%94%EC%BF%A0/%EB%A9%94%EC%9D%B4%ED%94%8C%20%ED%94%8C%EB%9E%98%EB%8B%9B/19_%EB%AC%B4%EB%A6%89%EB%8F%84%EC%9E%A5%20%EC%A0%84%EC%9A%A9%EA%B8%B0%EC%88%A0%20%EA%B3%B5%EB%9E%B5/img/mp_dojang_glove_mugong.webp" alt="무공의 장갑 아이템 툴팁 — 직업별 주간 랭킹 1위 보상"></div>
+    <p class="cap">직업별 주간 랭킹 1위 보상 '무공의 장갑'입니다.</p>
+    <p class="src">이미지: 메이플플래닛 공식 패치노트</p>
+
+    <div class="imgwrap small"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EA%B2%9C%EB%8D%94%EC%BF%A0/%EB%A9%94%EC%9D%B4%ED%94%8C%20%ED%94%8C%EB%9E%98%EB%8B%9B/19_%EB%AC%B4%EB%A6%89%EB%8F%84%EC%9E%A5%20%EC%A0%84%EC%9A%A9%EA%B8%B0%EC%88%A0%20%EA%B3%B5%EB%9E%B5/img/mp_dojang_title_top.webp" alt="무릉의 정점에 도달한 자 칭호 툴팁 — 주간 전체 1위 전용 칭호"></div>
+    <p class="cap">주간 전체 1위에게만 주어지는 칭호 '무릉의 정점에 도달한 자'입니다.</p>
+    <p class="src">이미지: 메이플플래닛 공식 패치노트</p>
+
+    <p>참고로 이 보상 장갑은 무릉도장(연습모드 포함)이나 허수아비 측정에서는 착용해도 사용이 안 됩니다. 다만 스펙 자체는 가볍지 않은데요, 영웅의 장갑 기준 총 데미지 +9%·올스탯 +6%·보스 몬스터 공격 시 데미지 +30%라 무릉도장·허수아비에선 못 쓰지만 일반 사냥이나 보스전에선 체감되는 성능입니다. 다만 기간제라 매 다음 주 월요일 0시면 사라진다는 점은 기억해두세요. 연습모드는 랭킹과 수련점수에 반영되지 않는 대신 다른 유저가 쓴 장비 기록이 있어도 바로 이용할 수 있어서, 처음이라면 연습모드로 층 구조부터 익히고 도전모드로 넘어가는 흐름을 권할 만합니다.</p>
+
+    <div class="endbox">
+      <div class="bt">한 줄 정리</div>
+      <p>핵심만 짚으면, 무릉도장 전용기술은 도전당 1번뿐인 조커 카드입니다. 죽간천격은 정말 막히는 층에서 한 방 크게 깎는 용도로, 금강불괴는 위험한 순간의 보험으로, 지화천폭은 기록을 노리는 마지막 스퍼트에 아껴두는 편이 좋습니다. 랭킹은 층수부터 최대한 밀고, 그다음에 시간을 줄이는 순서로 접근하시면 되겠습니다.</p>
+    </div>
+
+    <p>무릉도장은 나온 지 이틀도 안 된 콘텐츠라, 여기 정리한 운용법도 정답이라기보다는 지금까지 나온 패치노트를 기준으로 정리한 운용안에 가깝습니다. 층수를 밀다 막히는 지점은 캐릭터마다 다를 수 있으니, 참고하셔서 본인 세팅에 맞게 조정해보시면 좋겠습니다.</p>
+
+    <div class="tags">
+      <span>#메이플플래닛</span><span>#무릉도장</span><span>#죽간천격</span><span>#메이플플래닛무릉도장</span><span>#클래식메이플</span><span>#메이플스토리월드</span>
+    </div>
+  </div>
+</div>
+<div id="tcopy" style="position:fixed;top:14px;right:14px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;max-width:92vw;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;">
+  <button id="tcopyBtn" type="button" style="background:#7048E8;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px rgba(112,72,232,.35);">📋 티스토리용 HTML 복사</button>
+  <div id="tcopyPanel" style="display:none;width:min(92vw,580px);background:#fff;border:1px solid #d9d2f5;border-radius:10px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,.12);">
+    <div style="font-size:12px;color:#7a72a0;margin-bottom:8px;line-height:1.6;">티스토리 글쓰기 → <b>HTML 모드</b>로 바꾼 뒤 아래 본문을 붙여넣기. 제목·태그는 각 칸에 따로 입력하세요.</div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0;"><b style="color:#7048E8;">제목</b> <span id="tcopyTitle" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <div style="font-size:12.5px;color:#333;margin:6px 0 8px;"><b style="color:#7048E8;">태그</b> <span id="tcopyTags" style="user-select:all;-webkit-user-select:all;"></span></div>
+    <textarea id="tcopyArea" readonly style="width:100%;height:180px;font-size:11.5px;line-height:1.5;border:1px solid #e3dcfb;border-radius:8px;padding:9px;background:#faf9ff;box-sizing:border-box;"></textarea>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('tcopyBtn'),panel=document.getElementById('tcopyPanel'),
+      area=document.getElementById('tcopyArea'),tEl=document.getElementById('tcopyTitle'),gEl=document.getElementById('tcopyTags');
+  function pick(html,label){ var m=html.match(new RegExp('<!--\\s*'+label+':([\\s\\S]*?)-->')); return m?m[1].trim():''; }
+  function body(html){
+    var a=html.indexOf('↓↓↓ 여기부터'); if(a>=0){a=html.indexOf('-->',a); a=a>=0?a+3:0;} else a=0;
+    var z=html.indexOf('↑↑↑ 여기까지'); var end=z>=0?html.lastIndexOf('<!--',z):html.length; if(end<0)end=html.length;
+    return html.slice(a,end).replace(/<!--[\s\S]*?-->/g,'').replace(/\n{3,}/g,'\n\n').trim();
+  }
+  btn.addEventListener('click',function(){
+    var url=decodeURIComponent(location.pathname).replace('_미리보기_','_티스토리_');
+    btn.textContent='불러오는 중…';
+    fetch(url).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
+      var b=body(t); area.value=b; tEl.textContent=pick(t,'제목'); gEl.textContent=pick(t,'태그');
+      panel.style.display='block'; area.focus(); area.select();
+      function ok(){ btn.textContent='✅ 본문 복사됨! HTML 모드에 붙여넣기'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(b).then(ok,function(){try{document.execCommand("copy");}catch(e){} ok();}); }
+      else { try{document.execCommand("copy");}catch(e){} ok(); }
+    }).catch(function(){ btn.textContent='⚠ 복사 실패 — 같은 폴더 _티스토리_ 파일 확인'; setTimeout(function(){btn.textContent='📋 티스토리용 HTML 복사';},3500); });
+  });
+})();
+</script>
+</body></html>
