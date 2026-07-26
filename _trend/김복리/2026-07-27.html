@@ -1,0 +1,341 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 김복리 진단 &amp; 오늘 쓸 글 · 2026-07-27</title>
+<style>
+ :root{
+   --bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--inset2:#f2f4f7;
+   --ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--line2:#d8dbe2;
+   --brand:#5a4fe6;--warm:#ff6f52;--warm-weak:#ffeee9;
+   --ac:#c8912a;--ac-d:#9a6d12;--ac-weak:#faf1dd;
+   --good:#1f9d6b;--good-weak:#e7f6ef;--warn:#e0890b;--warn-weak:#fbf1de;--bad:#dc2626;--bad-weak:#fdecec;
+   --r-sm:9px;--r:13px;--r-lg:18px;
+   --sh-sm:0 1px 2px rgba(16,24,40,.05);--sh-md:0 6px 18px rgba(154,109,18,.08);
+   --tnum:"tnum" 1;
+ }
+ *{box-sizing:border-box;} html,body{margin:0;}
+ body{background:var(--bg);color:var(--ink);
+   font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+   line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;}
+ .wrap{max-width:840px;margin:0 auto;padding:20px 18px 64px;}
+ .back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;}
+ .back:hover{color:var(--ink);}
+ .num{font-feature-settings:var(--tnum);}
+ h2.sec{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:34px 0 2px;display:flex;align-items:center;gap:9px;}
+ h2.sec .ic{font-size:18px;}
+ h2.sec .tag{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:0;}
+ .sub{color:var(--sub);font-size:12.5px;margin:4px 0 12px;line-height:1.55;}
+ .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:18px 20px;margin-top:12px;}
+ .mast{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+   background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:20px 22px;}
+ .mast .l{flex:1;min-width:240px;}
+ .who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ac-d);
+   background:var(--ac-weak);border-radius:999px;padding:4px 11px;}
+ .who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac);}
+ .mast h1{font-size:clamp(18px,3.4vw,21px);font-weight:800;letter-spacing:-.02em;margin:11px 0 7px;line-height:1.4;text-wrap:balance;}
+ .mast .meta{font-size:12px;color:var(--muted);font-weight:500;} .mast .meta b{color:var(--sub);font-weight:700;}
+ .score{flex:none;text-align:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:108px;background:var(--inset);}
+ .score .sl{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--muted);}
+ .score .sv{font-size:38px;font-weight:800;line-height:1.02;margin-top:3px;font-feature-settings:var(--tnum);} .score .sv small{font-size:15px;color:var(--faint);font-weight:700;}
+ .score .sg{font-size:13px;font-weight:800;margin-top:1px;}
+ .g-a{color:var(--good);} .g-b{color:var(--ac-d);} .g-c{color:var(--warn);}
+ .glance{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden;}
+ .glance .gh{display:flex;align-items:center;gap:8px;padding:14px 20px 12px;border-bottom:1px solid var(--line);}
+ .glance .gh b{font-size:14px;font-weight:800;letter-spacing:-.01em;} .glance .gh .gt{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .lens{display:flex;gap:13px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:flex-start;}
+ .lens:last-of-type{border-bottom:none;}
+ .lens .li{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--inset2);}
+ .lens .lc{flex:1;min-width:0;}
+ .lens .lk{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
+ .lens .lx{font-size:13.5px;font-weight:600;line-height:1.5;margin-top:2px;color:var(--ink);}
+ .lens .lx b{font-weight:800;color:var(--ac-d);}
+ .lens .lm{flex:none;text-align:right;min-width:74px;}
+ .lens .lmv{font-size:19px;font-weight:800;font-feature-settings:var(--tnum);line-height:1.1;} .lens .lmv small{font-size:11px;color:var(--faint);font-weight:700;}
+ .lens .lml{font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+ @media(max-width:540px){.lens .lm{display:none;}}
+ .todo{background:var(--inset);padding:14px 20px;}
+ .todo .th{font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:.02em;margin-bottom:9px;}
+ .trow{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line2);align-items:flex-start;} .trow:first-of-type{border-top:none;}
+ .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:2px 8px;margin-top:1px;font-feature-settings:var(--tnum);}
+ .pp.p2{background:#dbb264;} .pp.p3{background:#ecd6a6;}
+ .tc{font-size:13px;line-height:1.5;} .tc b{font-weight:800;} .tc .tw{color:var(--muted);}
+ .kind{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+ .k-write{background:var(--ac-weak);color:var(--ac-d);} .k-seo{background:#e6ebff;color:#3b43b8;} .k-keep{background:var(--warn-weak);color:#9a6207;}
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;} @media(max-width:560px){.kgrid{grid-template-columns:repeat(2,1fr);}}
+ .k{background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 13px;}
+ .k .kv{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-feature-settings:var(--tnum);} .k .kv small{font-size:11px;font-weight:700;color:var(--faint);}
+ .k .kl{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:600;} .k .kd{font-size:10px;font-weight:800;margin-top:4px;}
+ .up{color:var(--good);} .down{color:var(--bad);} .flat{color:var(--warn);}
+ .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;} @media(max-width:600px){.charts{grid-template-columns:1fr;}}
+ .ch h5{margin:0 0 9px;font-size:11.5px;font-weight:800;color:var(--sub);}
+ .bars{display:flex;flex-direction:column;gap:7px;}
+ .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:74px;font-size:10.5px;font-weight:700;color:var(--sub);}
+ .bar .bt{flex:1;height:11px;background:var(--inset2);border-radius:6px;overflow:hidden;}
+ .bar .bt i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--ac-weak),var(--ac));}
+ .bar .bv{flex:none;width:52px;text-align:right;font-size:10.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .bar.hi .bt i{background:linear-gradient(90deg,var(--ac),var(--ac-d));}
+ .bar.lo .bt i{background:linear-gradient(90deg,#f6c074,var(--warn));} .bar.lo .bl,.bar.lo .bv{color:#9a6207;}
+ .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+ .chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid;}
+ .c-good{background:var(--good-weak);color:#157a52;border-color:#c2e8d6;} .c-warn{background:var(--warn-weak);color:#9a6207;border-color:#f0d9a8;} .c-bad{background:var(--bad-weak);color:#b91c1c;border-color:#f3c2c2;}
+ .note{margin-top:13px;font-size:12px;line-height:1.55;color:var(--sub);background:var(--inset);border-radius:var(--r-sm);padding:11px 13px;} .note b{color:var(--ink);}
+ table{width:100%;border-collapse:collapse;font-size:12px;} th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:center;}
+ thead th{background:transparent;border-bottom:1.5px solid var(--line2);font-weight:800;font-size:10.5px;color:var(--muted);letter-spacing:.02em;}
+ td.gl{text-align:left;font-weight:700;} td.vd{text-align:left;font-size:11.5px;color:var(--sub);line-height:1.45;}
+ .st{font-weight:800;white-space:nowrap;} .st-keep{color:var(--good);} .st-watch{color:var(--warn);} .st-drop{color:var(--bad);}
+ .seoq td{text-align:left;vertical-align:top;} .seoq .stitle{font-weight:700;}
+ .sc{font-weight:800;text-align:center;white-space:nowrap;font-feature-settings:var(--tnum);} .sc-hi{color:var(--good);} .sc-mid{color:var(--warn);} .sc-lo{color:var(--bad);}
+ .pf{font-weight:800;font-size:10px;border-radius:5px;padding:1px 6px;background:var(--ac-weak);color:var(--ac-d);white-space:nowrap;}
+ .swot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;} @media(max-width:540px){.swot{grid-template-columns:1fr;}}
+ .sw{border-radius:var(--r);padding:14px 16px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:13px;font-weight:800;}
+ .sw ul{margin:0;padding-left:17px;font-size:12.5px;line-height:1.6;} .sw li{margin:6px 0;} .sw li b{font-weight:800;} .sw small{color:var(--muted);font-weight:600;}
+ .sw-good{background:var(--good-weak);border-color:#cfeadd;} .sw-good h4{color:#157a52;}
+ .sw-bad{background:#fbf5f5;border-color:#f0d6d6;} .sw-bad h4{color:#b91c1c;}
+ .tabs{margin-top:12px;} .tabs>input{position:absolute;opacity:0;pointer-events:none;}
+ .tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px;}
+ .tablab{font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:var(--r-sm);background:var(--inset2);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s;}
+ .tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px;font-feature-settings:var(--tnum);}
+ .tpanel{display:none;}
+ #t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3],
+ #t4:checked~.tabbar label[for=t4],#t5:checked~.tabbar label[for=t5],#t6:checked~.tabbar label[for=t6]{background:var(--ac);color:#fff;border-color:var(--ac);}
+ #t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt,
+ #t4:checked~.tabbar label[for=t4] .cnt,#t5:checked~.tabbar label[for=t5] .cnt,#t6:checked~.tabbar label[for=t6] .cnt{color:rgba(255,255,255,.75);}
+ #t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3,#t4:checked~#p4,#t5:checked~#p5,#t6:checked~#p6{display:block;}
+ .tabnote{font-size:11.5px;line-height:1.55;color:#9a6207;background:var(--warn-weak);border:1px solid #f0d9a8;border-radius:var(--r-sm);padding:9px 12px;margin-bottom:11px;}
+ .pick{border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;margin-bottom:9px;background:var(--panel);transition:border-color .12s;}
+ .pick:hover{border-color:var(--line2);}
+ .pick-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+ .gtag{font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 7px;}
+ .cat{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:#fbf3e3;color:#9a6d12;}
+ .purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset2);border-radius:5px;padding:2px 7px;}
+ .pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--warm-weak);color:#c2451f;}
+ .pecpm{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;}
+ .pecpm.hi{background:var(--good-weak);color:#157a52;} .pecpm.mid{background:var(--warn-weak);color:#9a6207;} .pecpm.lo{background:var(--bad-weak);color:#b91c1c;}
+ .ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:160px;line-height:1.4;}
+ .pwhy{font-size:12px;line-height:1.5;color:var(--sub);} .pwhy b{color:var(--ink);font-weight:700;} .pwhy a{color:var(--brand);text-decoration:none;border-bottom:1px solid #c7c2f5;}
+ .ixreq h4{margin:0 0 5px;font-size:13px;font-weight:800;color:#9a6207;} .ixreq .ixsub{font-size:11.5px;color:var(--sub);margin-bottom:9px;line-height:1.5;} .ixreq .ixsub b{color:var(--ink);}
+ .verdict{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:20px 22px;}
+ .verdict .lb{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--ac-d);}
+ .verdict h3{margin:8px 0 10px;font-size:15.5px;font-weight:800;letter-spacing:-.01em;line-height:1.45;text-wrap:balance;}
+ .verdict p{margin:0 0 16px;font-size:13px;line-height:1.75;color:var(--sub);} .verdict p b{color:var(--ink);font-weight:700;}
+ .gauge{border-top:1px solid var(--line);padding-top:15px;}
+ .gtop{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap;}
+ .gtop .gv{font-size:30px;font-weight:800;font-feature-settings:var(--tnum);} .gtop .gv small{font-size:14px;color:var(--faint);font-weight:700;}
+ .gtop .gg{font-size:15px;font-weight:800;} .gtop .gn{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .grow{display:flex;align-items:center;gap:10px;margin:8px 0;}
+ .grow .gl{flex:none;width:88px;font-size:11.5px;font-weight:700;color:var(--sub);}
+ .grow .gt{flex:1;height:9px;background:var(--inset2);border-radius:5px;overflow:hidden;} .grow .gt i{display:block;height:100%;border-radius:5px;}
+ .grow .gs{flex:none;width:30px;text-align:right;font-size:11.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .b-hi i{background:linear-gradient(90deg,var(--ac),var(--ac-d));} .b-mid i{background:linear-gradient(90deg,#f6c074,var(--warn));} .b-lo i{background:linear-gradient(90deg,#f08e8e,var(--bad));}
+ .foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center;}
+ @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+ @media(max-width:540px){.wrap{padding:14px 12px 44px;}.score{padding:10px 14px;min-width:92px;}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+
+ <div class="mast">
+   <div class="l">
+     <span class="who">데이터 분석실 · 김복리 편</span>
+     <h1>지난주 처음으로 두 자릿수 클릭이 붙었어요 — 노출 <b>2,913건(+1,594%)</b>·클릭 <b>142건</b>(전주 0). 다만 이 중 <b>92%가 "청년미래적금 결과발표" 한 편</b>에서 나왔고, sitemap 자체보고는 색인 0인데 실측 클릭은 142건이라 <b>색인 상태가 상충</b>해요. 종합지수 80(A-).</h1>
+     <div class="meta">발행일 <b>2026-07-27</b> · 대상 <b>김복리</b>(티스토리 bokriking · 생활금융·정책·세금) · 검색 실측창 <b>7/19~7/25</b>(구글 서치콘솔) · 개설 <b>22일차</b></div>
+   </div>
+   <div class="score"><div class="sl">오늘 지수</div><div class="sv num">80<small>/100</small></div><div class="sg g-a">A-</div></div>
+ </div>
+
+ <div class="glance">
+   <div class="gh">🎯 <b>오늘 한눈에</b><span class="gt">데이터 · 트렌드 · 크리에이터 세 시각</span></div>
+   <div class="lens">
+     <div class="li">📊</div>
+     <div class="lc">
+       <div class="lk">데이터 분석가가 보는 것</div>
+       <div class="lx">22일 47편(<b>2.14편/일</b>) 페이스로 초기 볼륨이 상당해요. 지난주 클릭이 <b>0 → 142건</b>으로 급증했지만 <b>92%가 단일 포스트</b>에서 나온 집중 구조예요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">142<small>클릭</small></div><div class="lml">주간 클릭(전주 0)</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">📈</div>
+     <div class="lc">
+       <div class="lk">트렌드 분석가가 보는 것</div>
+       <div class="lx">오늘 최우선은 <b>청년도약계좌 특별중도해지 → 청년미래적금 갈아타기 순서</b>예요 — 이미 검증된 수요(단일 히트)를 잇는 후속 스포크라 신생 도메인에도 유리해요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">P1</div><div class="lml">갈아타기 순서</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">🎨</div>
+     <div class="lc">
+       <div class="lk">크리에이터 컨설턴트가 보는 것</div>
+       <div class="lx">최근 5편 평균 <b>82.7점</b>으로 품질은 여전히 좋아요. 약점은 <b>이미지 66(최약축)</b>과 <b>내부링크 73</b> — 두 축만 끌어올리면 체질이 확 달라져요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">66<small>점</small></div><div class="lml">이미지(최약축)</div></div>
+   </div>
+   <div class="todo">
+     <div class="th">🩺 그래서 오늘 할 일 (우선순위 순)</div>
+     <div class="trow"><span class="pp">P1</span><div class="tc"><span class="kind k-write">글쓰기</span><b>청년도약계좌 특별중도해지 → 청년미래적금 갈아타기 순서</b> — 검증된 히트 클러스터(청년미래적금 결과발표, 클릭의 92%)의 후속 스포크라 최저 리스크·최고 수익 픽이에요. 순서를 뒤바꾸면 혜택이 사라지니 절차를 정확히. <span class="tw">(→ ③재테크·저축)</span></div></div>
+     <div class="trow"><span class="pp p2">P2</span><div class="tc"><span class="kind k-write">글쓰기</span><b>프리랜서 3.3% 지급명세서, 홈택스에 안 뜰 때 확인 순서</b> — 저경쟁 롱테일이에요. <span class="tw">(→ ②세금·연말정산)</span></div></div>
+     <div class="trow"><span class="pp p3">P3</span><div class="tc"><span class="kind k-write">글쓰기</span><b>전세 계약갱신 5%·반전세 계산</b> — 부동산·주거 카테고리가 4편으로 최약이라 오늘 3개를 배치했어요. <span class="tw">(→ ⑥부동산·주거)</span></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📊</span>핵심 지표 <span class="tag">— 구글 서치콘솔 실측(7/19~7/25)</span></h2>
+ <div class="panel">
+   <div class="kgrid">
+     <div class="k"><div class="kv num up">142</div><div class="kl">주간 클릭</div><div class="kd up">전주 0 → 142</div></div>
+     <div class="k"><div class="kv num up">2,913</div><div class="kl">주간 검색 노출</div><div class="kd up num">+1,594%</div></div>
+     <div class="k"><div class="kv num up">5.84<small>위</small></div><div class="kl">평균 검색순위</div><div class="kd up">8.58 → 5.84 개선</div></div>
+     <div class="k"><div class="kv num up">2.14 <small>편/일</small></div><div class="kl">발행 페이스</div><div class="kd up">22일 47편(초기 볼륨 상당)</div></div>
+   </div>
+   <div class="charts">
+     <div class="ch"><h5>클릭 어디서 나오나</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">청년미래적금</span><span class="bt"><i style="width:92%"></i></span><span class="bv num">92%</span></div>
+         <div class="bar lo"><span class="bl">나머지 46편</span><span class="bt"><i style="width:8%"></i></span><span class="bv num">8%</span></div>
+       </div>
+       <div style="font-size:10px;color:var(--faint);margin-top:6px">"청년미래적금 결과발표" 한 편이 142클릭 중 131클릭 — 단일 히트 의존</div>
+     </div>
+     <div class="ch"><h5>디바이스</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">모바일 CTR</span><span class="bt"><i style="width:80%"></i></span><span class="bv num">8.09%</span></div>
+         <div class="bar lo"><span class="bl">데스크톱 CTR</span><span class="bt"><i style="width:34%"></i></span><span class="bv num">3.44%</span></div>
+       </div>
+       <div style="font-size:10px;color:var(--faint);margin-top:6px">전체 CTR 4.87% · 모바일이 데스크톱보다 뚜렷하게 높아요</div>
+     </div>
+   </div>
+   <div class="chips">
+     <span class="chip c-good">클릭 0→142, 노출 +1,594%</span>
+     <span class="chip c-good">평균순위 8.58 → 5.84 개선</span>
+     <span class="chip c-good">발행 페이스 2.14편/일(22일 47편)</span>
+   </div>
+   <div class="chips" style="margin-top:6px">
+     <span class="chip c-warn">클릭의 92%가 단일 포스트 집중</span>
+     <span class="chip c-warn">sitemap 색인 0 vs 실측 클릭 142(상충)</span>
+   </div>
+   <div class="note">쉽게 말하면 — <b>지난주 처음으로 검색이라는 무대에 올라섰어요.</b> 클릭이 0에서 142건으로 붙었고 평균순위도 8.58위에서 5.84위로 개선됐어요. 다만 이 열기의 <b>92%가 "청년미래적금 결과발표" 한 편</b>에서 나온 거라, 그 글의 인기가 식으면 전체 수치가 함께 꺾일 위험이 있어요. 색인은 sitemap 자체보고가 0인데 실측 클릭이 존재해 <b>상충 상태</b>예요 — "미색인"이라고 단정하지 말고 URL 검사로 개별 확인이 필요해요. 지금은 <b>단일 히트를 허브-스포크로 분산하는 게</b> 최우선 과제예요.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔍</span>최근 글 품질 검수 <span class="tag">— 최근 5편을 8가지 기준으로 채점(본문 직접 열람)</span></h2>
+ <div class="panel" style="padding-top:8px">
+   <table class="seoq">
+     <thead><tr><th style="text-align:left">최근 글</th><th style="width:7%">점수</th><th style="width:12%">등록</th><th style="text-align:left">한 줄 평</th></tr></thead>
+     <tbody>
+       <tr><td class="stitle">원천징수영수증 홈택스 발급법</td><td class="sc sc-hi">85</td><td class="st st-keep">노출 실측</td><td>절차를 순서대로 짚어주는 구성이 탄탄해요. 홈택스 화면 캡처가 있으면 더 좋아져요.</td></tr>
+       <tr><td class="stitle">오피스텔청약, 무주택 인정되나</td><td class="sc sc-hi">84</td><td class="st st-keep">노출 실측</td><td>무주택 판정 기준을 사례로 풀어 검색의도에 잘 맞아요. 다만 관련 청약 글과 <b>링크로 안 이어져요</b>.</td></tr>
+       <tr><td class="stitle">실손보험금 미청구, 소멸시효 전 확인법</td><td class="sc sc-hi">82</td><td class="st st-keep">노출 실측</td><td>소멸시효(3년)를 명확히 밝히고 확인 채널을 안내한 점이 좋아요. 이미지가 1~2장으로 적어요.</td></tr>
+       <tr><td class="stitle">월세 세액공제 경정청구, 놓친 연도 환급</td><td class="sc sc-hi">82</td><td class="st st-keep">노출 실측</td><td>"놓쳐도 5년 내 환급 가능"이라는 각도가 좋아요. <b>내부링크가 하단 카드 하나</b>뿐이에요.</td></tr>
+       <tr><td class="stitle">2026 장애인연금 인상, 대상·신청법</td><td class="sc sc-mid">81</td><td class="st st-keep">노출 실측</td><td>공식 수치를 인용했지만 "확정 아님" 표기가 다소 약해요. 이미지 보강이 필요해요.</td></tr>
+     </tbody>
+   </table>
+   <div class="charts" style="grid-template-columns:1fr;margin-top:16px">
+     <div class="ch"><h5>🧬 블로그 체질 — 8가지 기준 평균 (최근 5편, 평균 82.7점)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">제목·검색어</span><span class="bt"><i style="width:89.6%"></i></span><span class="bv num">89.6</span></div>
+         <div class="bar hi"><span class="bl">시의성</span><span class="bt"><i style="width:89.6%"></i></span><span class="bv num">89.6</span></div>
+         <div class="bar hi"><span class="bl">검색의도·E-E-A-T</span><span class="bt"><i style="width:89.2%"></i></span><span class="bv num">89.2</span></div>
+         <div class="bar hi"><span class="bl">구조(표·소제목)</span><span class="bt"><i style="width:87.6%"></i></span><span class="bv num">87.6</span></div>
+         <div class="bar hi"><span class="bl">가독·요약</span><span class="bt"><i style="width:84.2%"></i></span><span class="bv num">84.2</span></div>
+         <div class="bar hi"><span class="bl">분량·깊이</span><span class="bt"><i style="width:82.6%"></i></span><span class="bv num">82.6</span></div>
+         <div class="bar lo"><span class="bl">내부링크</span><span class="bt"><i style="width:73%"></i></span><span class="bv num">73</span></div>
+         <div class="bar lo"><span class="bl">이미지</span><span class="bt"><i style="width:66%"></i></span><span class="bv num">66</span></div>
+       </div>
+     </div>
+   </div>
+   <div class="note">개설 22일차 47편 치고 <b>매우 잘 만들고 있어요</b> — 제목·시의성·검색의도(E-E-A-T)가 모두 89점대이고, 공식 출처 인용과 YMYL 디스클레이머가 강점이에요. 약점은 <b>이미지(66, 최저축)</b>와 <b>내부링크(73)</b>예요. 이미지는 글당 2장 수준에 alt 텍스트가 미흡하고, 내부링크는 본문 직접 링크가 2~4개에 그쳐 하단 관련글 카드에 의존하는 구조예요 — 여기만 고치면 체류와 크롤 유도가 함께 좋아져요.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🧭</span>강점 · 보강 포인트</h2>
+ <div class="swot">
+   <div class="sw sw-good"><h4>잘하고 있는 것</h4><ul>
+     <li><b>정직한 표기</b> — "확정 아님/개인별 상이"를 YMYL 기준으로 일관되게 밝혀요.</li>
+     <li><b>시의성 89.6</b> — 마감·개편 시점을 붙여 검색 타이밍을 잘 맞춰요.</li>
+     <li><b>출처 각주 일관</b> — 국세청·홈택스·공사 등 공식 링크를 꾸준히 병기해요.</li>
+     <li><b>발행 실행력</b> — 2.14편/일로 22일 만에 47편을 쌓았어요.</li>
+   </ul></div>
+   <div class="sw sw-bad"><h4>보강하면 좋은 것</h4><ul>
+     <li><b>이미지 66(최저축)</b> — 글당 2장·alt 텍스트 미흡 <small>(→처방 예정)</small></li>
+     <li><b>내부링크 73</b> — 본문 직접 링크 2~4개·하단 카드 의존</li>
+     <li><b>단일 히트 92% 집중 리스크</b> — 청년미래적금 결과발표 1편이 클릭 대부분 차지</li>
+     <li><b>카테고리 편중</b> — 세금 10편·정부지원금 12편 vs 소득 1편·부동산 4편 <small>(→P3)</small></li>
+   </ul></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 추천 <span class="tag">— 6개 분야 × 각 3개(18개) · 경쟁 낮은 순</span></h2>
+ <p class="sub"><b>발행 22일차 원칙</b> — 지난주 첫 히트(청년미래적금 결과발표)가 증명한 수요를 잇는 <b>후속 스포크</b>를 최우선으로, 나머지는 여전히 <b>경쟁이 낮은 좁힌 주제</b> 위주로 잡았어요. 각 픽에 <b>경쟁도 배지</b>(🟢낮음/🟡보통/🔴높음)를 달았어요 — 오늘은 🟢 9개·🟡 9개·🔴 0개예요. <b>돈·세금·보험 글이라 수치·자격·기간은 공식 출처로 확인되는 것만</b> 넣었어요. 각 카드 <b>발행 요청</b> 버튼으로 기획팀에 바로 발주돼요.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3"><input type="radio" name="rec" id="t4"><input type="radio" name="rec" id="t5"><input type="radio" name="rec" id="t6">
+   <div class="tabbar">
+     <label class="tablab" for="t1">① 정부지원금·정책 <span class="cnt">3</span></label>
+     <label class="tablab" for="t2">② 세금·연말정산 <span class="cnt">3</span></label>
+     <label class="tablab" for="t3">③ 재테크·저축 <span class="cnt">3</span></label>
+     <label class="tablab" for="t4">④ 대출·신용 <span class="cnt">3</span></label>
+     <label class="tablab" for="t5">⑤ 보험 <span class="cnt">3</span></label>
+     <label class="tablab" for="t6">⑥ 부동산·주거 <span class="cnt">3</span></label>
+   </div>
+
+   <div class="tpanel" id="p1">
+     <div class="pick"><div class="pick-top"><span class="gtag">정부지원금·정책</span><span class="pf">F</span><span class="cat">정책</span><span class="purp">정보·가이드</span><span class="pwhen">2026-07 인상발표</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">구직촉진수당 월60만 인상 · 쉬는청년 확대</span></div><div class="pwhy">2026-07에 인상안이 발표됐어요. 핵심은 <b>중위소득 120% 이하·재산 5억 이하 요건에 월60만원×6개월</b> 지급이에요. <b>★요건 완화 부분은 확정 전 사안이라 "확정 아님"을 명시</b>하세요. <a href="https://www.work24.go.kr" target="_blank">work24·고용노동부</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">정부지원금·정책</span><span class="pf">F</span><span class="cat">정책</span><span class="purp">정보·가이드</span><span class="pwhen">9월 선정자 발표</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">청년월세 특별지원 상시전환, 9월 선정자 발표 확인법</span></div><div class="pwhy">상시전환 이후 9월 선정자 발표를 앞두고 확인 방법을 찾는 수요가 있어요. <b>★통보 채널은 콜센터(1599-0001)·복지로 알림으로 재확인</b>하고 개인별 결과를 단정하지 마세요. <a href="https://www.bokjiro.go.kr" target="_blank">국토부·복지로·마이홈</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">정부지원금·정책</span><span class="pf">F</span><span class="cat">정책</span><span class="purp">정보·가이드</span><span class="pwhen">2026-07 피해 발생</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">장마철 집중호우 피해 개인 재난지원금 신청경로</span></div><div class="pwhy">2026-07 6개 시도에서 피해가 발생해 시의성이 높아요. 개인 신청 경로를 안내하는 각도라 경쟁이 낮아요. <b>★개인 신청 지원금의 요건·금액은 관할 지자체·행안부 공지 기준으로 반드시 재검증</b>하세요(YMYL). <a href="https://www.mois.go.kr" target="_blank">행안부</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="pick"><div class="pick-top"><span class="gtag">세금·연말정산</span><span class="pf">F</span><span class="cat">세금</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">미성년 자녀 증여세 10년주기 공제 리셋 신고법</span></div><div class="pwhy">미성년 자녀 증여공제 한도(2,000만원/10년)를 <b>"리셋 주기"</b> 관점으로 풀면 검색의도에 맞아요. <b>★공제 한도·주기는 국세청 기준으로만</b> 서술하세요. <a href="https://www.nts.go.kr" target="_blank">국세청·홈택스</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">세금·연말정산</span><span class="pf">F</span><span class="cat">세금</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">프리랜서 3.3% 지급명세서, 홈택스에 안 뜰 때 확인 순서</span></div><div class="pwhy">환급 시즌이 아니어도 <b>"안 뜰 때 확인하는 법"</b>은 저경쟁 롱테일이에요. 지급명세서 제출기한(익년 2월말·3월10일)을 놓친 원천징수의무자 사례가 흔해요. <b>★개인별 상황이 달라 "일반적 확인 순서"임을 명시</b>하고 단정하지 마세요(P2). <a href="https://www.hometax.go.kr" target="_blank">홈택스</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">세금·연말정산</span><span class="pf">F</span><span class="cat">세금</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">종소세 기한후신고 vs 수정신고, 가산세 감면율 차이</span></div><div class="pwhy"><b>기한후 1개월 내 50% 감면 / 수정 1개월 내 90% 감면</b>이라는 구체 수치 비교가 핵심이에요. <b>★감면율은 경과 기간별로 달라지니 국세청 고시 표를 그대로 인용</b>하세요. <a href="https://www.nts.go.kr" target="_blank">국세청</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <div class="pick"><div class="pick-top"><span class="gtag">재테크·저축</span><span class="pf">F</span><span class="cat">재테크</span><span class="purp">정보·가이드</span><span class="pwhen">검증된 히트 후속</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">청년도약계좌 특별중도해지 → 청년미래적금 갈아타기 순서</span></div><div class="pwhy"><b>지난주 클릭 92%(131클릭)를 차지한 "청년미래적금 결과발표"의 후속 스포크</b>예요 — 이미 검증된 수요를 잇는 최저 리스크·최고 수익 픽이에요. <b>★특별중도해지 사유 인정 후 갈아타기 순서가 뒤바뀌면 혜택이 사라지니 절차를 정확히 확인</b>하세요(P1). <a href="https://ylaccount.kinfa.or.kr/main" target="_blank">서민금융진흥원·금융위</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">재테크·저축</span><span class="pf">F</span><span class="cat">재테크</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">채권형 ETF 매매차익·분배금 세금, 15.4% 구조 이해하기</span></div><div class="pwhy">예금자보호 한도상향 픽은 이미 발행돼 <b>이 주제로 교체</b>했어요. 배당소득세 15.4%, 2천만원 초과 시 종합과세 전환이 핵심 구조예요. <b>★과세 기준 금액은 개인 종합소득에 따라 달라지니 일반 원칙만 서술</b>하세요. <a href="https://www.fss.or.kr" target="_blank">금감원·거래소</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">재테크·저축</span><span class="pf">F</span><span class="cat">재테크</span><span class="purp">정보·가이드</span><span class="pwhen">연말 전 선점</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">연금저축+IRP 900만 세액공제, 하반기 분할납입이 유리한 이유</span></div><div class="pwhy">연말 전 선점 수요가 있는 주제예요. <b>최대 148.5만원 세액공제(총급여 5,500만원 이하 기준)</b>가 핵심 수치예요. <b>★공제율은 총급여 구간별로 다르니 국세청 기준 구간표를 그대로</b> 인용하세요. <a href="https://www.nts.go.kr" target="_blank">국세청</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p4">
+     <div class="pick"><div class="pick-top"><span class="gtag">대출·신용</span><span class="pf">F</span><span class="cat">대출</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">만34세 초과 무주택, 일반 버팀목전세대출 소득요건</span></div><div class="pwhy">청년 전용에서 밀려난 <b>만34세 초과 무주택자</b> 대상 각도라 경쟁이 낮아요. <b>부부합산 소득 5천만원 이하</b>가 핵심 요건이에요. <b>★소득요건·한도는 주택도시기금 공고 기준으로만</b> 쓰세요. <a href="https://nhuf.molit.go.kr" target="_blank">주택도시기금</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">대출·신용</span><span class="pf">F</span><span class="cat">대출</span><span class="purp">정보·가이드</span><span class="pwhen">2026 개편</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">소상공인 정책자금 대환대출, 2026 개편으로 얼마나 완화됐나</span></div><div class="pwhy">2026 개편으로 <b>금리 7%대 이상 → 4.5% 고정, 10년 분할상환</b>으로 바뀌었어요. <b>★금리·한도는 sbiz24 공고 기준으로 확인 후</b> 쓰세요(수시 변동). <a href="https://www.sbiz24.kr" target="_blank">sbiz24·중기부</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">대출·신용</span><span class="pf">F</span><span class="cat">대출</span><span class="purp">정보·가이드</span><span class="pwhen">2026 소득요건 유지</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">신생아특례대출 갈아타기 시 소득요건 재심사</span></div><div class="pwhy">2026년 소득요건이 유지 확정된 시점이라, <b>갈아타기 시 재심사 여부</b>를 궁금해하는 좁은 수요가 있어요. 전세 기준 1.3억원(맞벌이 2억원)이 핵심 수치예요. <b>★재심사 결과는 개인별로 다르니 단정하지 말고 국토부 안내로 확인</b>을 권하세요. <a href="https://nhuf.molit.go.kr" target="_blank">국토부·주택도시기금</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p5">
+     <div class="pick"><div class="pick-top"><span class="gtag">보험</span><span class="pf">F</span><span class="cat">보험</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">실손 비급여 특약 쓰면 보험료 얼마 오르나 — 할증 300% 계산법</span></div><div class="pwhy">4세대 실손 비급여 특약을 많이 쓸수록 <b>익년 보험료가 최대 300%까지 할증</b>되는 구조를 계산 예시로 풀면 검색의도에 맞아요. <b>★할증률 구간은 상품·시점마다 달라 금감원 공식 기준으로만</b> 쓰세요. <a href="https://www.fss.or.kr" target="_blank">금감원</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">보험</span><span class="pf">F</span><span class="cat">보험</span><span class="purp">정보·가이드</span><span class="pwhen">2026-01 개정</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">운전자보험 2026 개정, 변호사선임비 50% 자기부담 후 필수특약 재점검</span></div><div class="pwhy">2026-01 개정으로 변호사선임비 특약에 자기부담률(50%)이 생겼어요. <b>3대 필수특약</b>을 재점검하는 각도가 핵심이에요. <b>★개정 내용은 손보협회 공식 안내로 재확인</b>하세요. <a href="https://www.knia.or.kr" target="_blank">금감원·손보협회</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">보험</span><span class="pf">F</span><span class="cat">보험</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">신생아 실손 골든타임(분만예정 280일 전) vs 태아보험 특약 차이</span></div><div class="pwhy"><b>실손=실제 의료비 보장 / 태아보험=정액 보장</b>이라는 역할 구분이 핵심이라 경쟁이 낮은 좁은 각도예요. 신생아 실손 가입 골든타임(분만예정일 280일 전)을 놓치는 사례가 흔해요. <b>★보장 범위·가입 조건은 생보협회 공식 기준으로만</b> 쓰세요. <a href="https://www.klia.or.kr" target="_blank">금감원·생보협회</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p6">
+     <div class="tabnote">🏠 <b>이 칸을 오늘 채우는 이유</b> — 6개 분야 중 부동산·주거가 <b>4편</b>으로 가장 얇아요. 오늘 3개를 배치해 보강해요<small>(→P3)</small>.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">부동산·주거</span><span class="pf">F</span><span class="cat">주거</span><span class="purp">정보·가이드</span><span class="pwhen">부동산·주거 최약 보강</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">전세 계약갱신 5% 상한, 반전세 계산법</span></div><div class="pwhy">계약갱신청구권의 임대료 증액 상한(5%)과, <b>반전세 전환 시 환산보증금 = 보증금 + 월세×12÷4.75%</b> 계산법이 핵심이에요. <b>★전환 이율(4.75%)은 시행령 기준으로 재확인</b>하세요(P3). <a href="https://www.renthome.go.kr" target="_blank">국토부·렌트홈</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">부동산·주거</span><span class="pf">F</span><span class="cat">주거</span><span class="purp">정보·가이드</span><span class="pwhen">2026-04 개정</span><span class="pecpm hi">🟢 경쟁 낮음</span><span class="ptitle">다가구 소액임차인 최우선변제, 2026 지역별(서울 5,500만원)</span></div><div class="pwhy">2026-04 개정된 지역별 최우선변제 기준(서울 5,500만원 등)을 정리하는 각도예요. <b>낙찰가의 1/2를 초과할 수 없다</b>는 예외도 핵심이에요. <b>★지역별 금액은 법제처 개정 공고 기준으로만</b> 쓰세요. <a href="https://www.moleg.go.kr" target="_blank">법제처·HUG</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">부동산·주거</span><span class="pf">F</span><span class="cat">주거</span><span class="purp">정보·가이드</span><span class="pwhen">검색수요 상존</span><span class="pecpm mid">🟡 경쟁 보통</span><span class="ptitle">일시적 2주택, 3년 내 종전주택 팔아야 비과세 — 1-2-3법칙</span></div><div class="pwhy">일시적 2주택 비과세 요건(1주택 보유 1년 후 취득, 신규주택 취득 후 3년 내 종전주택 처분)을 <b>1-2-3법칙</b>으로 정리하면 검색이 잘 붙어요. 12억원 공제·상속주택 예외도 함께. <b>★처분기한·공제액은 국세청·기재부 최신 고시 기준으로만</b> 쓰세요. <a href="https://www.nts.go.kr" target="_blank">국세청·기재부</a></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔎</span>색인 요청 <span class="tag">— sitemap 자체보고 vs 실측 클릭이 상충 · 단정 보류</span></h2>
+ <div class="panel ixreq">
+   <h4>색인 상태가 상충해요 — "미색인" 단정을 보류합니다</h4>
+   <div class="ixsub">sitemap 자체보고는 <b>indexed: 0</b>인데, 같은 기간 구글 서치콘솔 실측 클릭은 <b>142건</b>이에요. 두 신호가 서로 어긋나서 <b>"이 블로그가 색인이 안 됐다"고 단정할 수 없어요</b> — sitemap 카운트가 실제 색인 상태를 시차 없이 반영한다는 보장이 없기 때문이에요. 개별 URL은 <b>URL 검사(URL Inspection)로 하나씩 확인</b>해야 확정할 수 있어요. 아래는 확인된 사실만 정리했어요(미확인 URL 목록은 나열하지 않습니다).</div>
+   <table>
+     <thead><tr><th style="text-align:left">항목</th><th>판정</th><th style="text-align:left">근거</th></tr></thead>
+     <tbody>
+       <tr><td class="gl">청년미래적금 결과발표</td><td class="st st-keep">색인 정상 추정</td><td class="vd">검색 유입이 실재해요(클릭 131건) — sitemap 카운트와 무관하게 구글이 이 URL을 색인·노출하고 있다는 뜻이에요.</td></tr>
+       <tr><td class="gl">sitemap indexed 카운트</td><td class="st st-watch">시차 가능성</td><td class="vd">자체보고 0은 sitemap 재수집 주기의 시차일 수 있어요 — 실측 클릭 142건과 상충되므로 그대로 신뢰하지 않아요.</td></tr>
+     </tbody>
+   </table>
+   <div class="note">다음 회차 과제는 <b>URL 검사로 최근 발행 글 몇 편을 개별 확인</b>해 sitemap 상충의 원인(재수집 지연 vs 실제 미색인)을 좁히는 거예요. 지금 단계에서 특정 URL을 "미색인"으로 단정하고 나열하지 않아요.</div>
+ </div>
+
+ <div class="verdict">
+   <div class="lb">오늘자 총평 · 데이터 분석실</div>
+   <h3>지난주 처음으로 두 자릿수 클릭이 붙었어요 — 다만 92%가 한 글에 쏠려 있어요. 이제 그 열기를 허브-스포크로 분산할 차례예요.</h3>
+   <p>지난주 클릭이 0에서 142건으로 붙고 평균순위가 8.58위에서 5.84위로 개선된 건 <b>검색이라는 무대에 처음 올라선 신호</b>예요. 다만 <b>이 열기의 92%가 "청년미래적금 결과발표" 한 편</b>에 쏠려 있어서, 그 글의 인기가 식으면 전체 지표가 함께 급락할 위험이 있어요 — <b>허브-스포크로 분산하는 게 최우선 과제</b>예요. 콘텐츠는 개설 22일차 47편 치고 견고해요(YMYL 디스클레이머·시의성·공식 출처 인용이 강점). 약점은 <b>이미지(66)</b>와 <b>내부링크(73)</b>예요. 오늘 추천 18개 중 P1은 검증된 히트의 후속 스포크(청년도약계좌 갈아타기), 신생기라 여전히 경쟁 낮은 롱테일을 우선했어요.</p>
+   <div class="gauge">
+     <div class="gtop"><span class="gv num">80<small>/100</small></span><span class="gg g-a">A-</span><span class="gn">단일 히트 분산 + 색인 상충 해소 시 검색 건강 축이 더 오를 수 있어요</span></div>
+     <div class="grow"><span class="gl">발행 동력</span><span class="gt b-hi"><i style="width:95%"></i></span><span class="gs num">95</span></div>
+     <div class="grow"><span class="gl">콘텐츠 품질</span><span class="gt b-hi"><i style="width:83%"></i></span><span class="gs num">83</span></div>
+     <div class="grow"><span class="gl">검색 건강</span><span class="gt b-mid"><i style="width:62%"></i></span><span class="gs num">62</span></div>
+     <div class="grow"><span class="gl">기회·다양성</span><span class="gt b-hi"><i style="width:80%"></i></span><span class="gs num">80</span></div>
+   </div>
+ </div>
+
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(김복리) · 검색 데이터는 구글 서치콘솔 API 실측(7/19~7/25) · 발행 페이스는 RSS 실측(개설 22일차 47편) · 글 품질은 티스토리 본문 직접 열람 채점 · 중복 확인은 글 폴더 전수 + RSS 라이브 제목 대조 · <b>돈·세금·보험 주제라 수치·자격·기간은 반드시 공식 출처로 재확인하고, 개인별 차이가 있는 사안은 단정하지 말 것</b> · 정책의 "○○년부터" 시점은 공식 시행 연도를 확인한 뒤에만 특정할 것.</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
