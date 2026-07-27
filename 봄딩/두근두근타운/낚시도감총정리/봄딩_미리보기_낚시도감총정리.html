@@ -1,0 +1,549 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>두근두근타운 낚시 도감 레벨1~10 위치 날씨 시간대 총정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:7px 8px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .gap{border:1px dashed #cbb;background:#fbf7f2;border-radius:6px;padding:10px 14px;font-size:13.5px;color:#7a6a5a;margin:6px 0 20px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:6px 7px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">두근두근타운 낚시 도감 레벨1~10 위치 날씨 시간대 총정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.27.</span><span>· 게임</span></div>
+
+    <p>두근두근타운에서 곤충 채집 도감까지 다 채워보신 분들, 다음 목표는 자연스럽게 낚시 도감이시죠? 낚시는 바냐한테 배우고 나면 언제든 시작할 수 있는데, 막상 도감을 채우려고 보면 물고기마다 위치·날씨·시간대가 제각각이라 초반엔 저도 좀 헤맸거든요. 그래서 오늘은 <b>레벨 1부터 10까지</b> 나오는 물고기를 위치·날씨·시간대별로 표로 쭉 정리해봤답니다.</p>
+
+    <p>참고로 이 표들은 여기저기 흩어진 플레이어들 정보를 제가 직접 찾아 모아 정리한 거예요. 자료마다 조금씩 다르게 적힌 부분도 있고, 시즌 업데이트나 패치로 조건이 바뀔 수도 있으니 헷갈리는 부분은 인게임에서 한 번 더 확인해보시는 게 제일 정확해요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 바냐 집에서 낚시 배우는 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 바냐 NPC와 낚싯대 지급 UI가 같이 보이게. 비슷한 화면 찾을 곳: <a href="https://heartopia.xd.com/us/" target="_blank">두근두근타운 공식 사이트</a></div>
+    <p class="cap">낚시도 곤충 채집처럼 취미확장티켓으로 배워야 시작할 수 있어요.</p>
+
+    <h2 class="sub">두근두근타운 낚시, 바냐한테 어떻게 배우나요?</h2>
+    <p>낚시는 <b>'세계 제일의 낚시 가문 출신'이라고 소개되는 NPC 바냐(이반 이바노비치 루어)</b>한테 배울 수 있어요. 물고기 그림자가 보이는 자리에서 낚싯대 부표를 던지면 되는데, 물고기가 찌를 물면 <b>힘겨루기 미니게임</b>이 시작돼요. 낚싯줄이 흰색에서 붉은색으로 바뀌면서 내구도를 보여주는데요, 붉게 깜빡이는 상태에서 계속 잡아당기면 줄이 끊어져서 놓치고, 잠깐 손을 놓으면 내구도가 다시 회복돼요. 힘 센 물고기일수록 버튼을 눌렀다 뗐다 하면서 내구도를 조절해줘야 하거든요.</p>
+    <p><b>집어기를 쓰면 일정 개수를 채집했을 때 파란색(집어기 전용) 물고기도 낚을 수 있어요.</b> 미끼랑 집어기만 넉넉히 챙겨두면 자리 이동 없이 계속 찌만 던지면 되니까, 채집형 취미 중에서는 손이 제일 덜 가는 편이더라고요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 힘겨루기 미니게임 진행 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 낚싯줄이 흰색에서 붉은색으로 바뀌는 순간, 내구도 게이지가 같이 보이게 직접 촬영</div>
+    <p class="cap">붉게 깜빡일 때 무리하게 당기면 줄이 끊어지니까, 잠깐씩 힘을 빼주는 게 요령이에요.</p>
+
+    <h2 class="sub">낚시 1레벨, 뭐부터 잡을 수 있어요?</h2>
+    <p>1레벨은 <b>스무 종의 물고기가 전부 날씨·시간대 상관없이</b> 나와서 위치만 알면 바로 잡을 수 있어요.</p>
+
+    <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 1레벨</p>
+    <table class="tbl">
+      <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+      <tr><td>민물배스</td><td>강</td><td>무관</td><td>종일</td></tr>
+      <tr><td>하늘종개</td><td>거목강</td><td>무관</td><td>종일</td></tr>
+      <tr><td>바벨</td><td>얕은 강</td><td>무관</td><td>종일</td></tr>
+      <tr><td>큰얼룩배스</td><td>노을강</td><td>무관</td><td>종일</td></tr>
+      <tr><td>미노우</td><td>고요한 강</td><td>무관</td><td>종일</td></tr>
+      <tr><td>왕새우</td><td>강</td><td>무관</td><td>종일</td></tr>
+      <tr><td>틸라피아</td><td>강(집어기 전용)</td><td>무관</td><td>종일</td></tr>
+      <tr><td>유럽처브</td><td>호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>텐치</td><td>숲속 호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>극지연어</td><td>온천산 호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>붕어</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>유럽백조어</td><td>호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>백조어</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>유럽참개구리</td><td>호수(집어기 전용)</td><td>무관</td><td>종일</td></tr>
+      <tr><td>정어리</td><td>바다</td><td>무관</td><td>종일</td></tr>
+      <tr><td>배스</td><td>바다</td><td>무관</td><td>종일</td></tr>
+      <tr><td>가다랑어</td><td>바다</td><td>무관</td><td>종일</td></tr>
+      <tr><td>갈치</td><td>잔잔한 바다</td><td>무관</td><td>종일</td></tr>
+      <tr><td>바다새우</td><td>동해</td><td>무관</td><td>종일</td></tr>
+      <tr><td>전갱이</td><td>고래바다</td><td>무관</td><td>종일</td></tr>
+    </table>
+
+    <p>위치만 맞으면 언제 가도 잡히는 구간이라 도감 채우기엔 제일 편한 시작점이에요. 강·호수·바다 세 권역에 골고루 퍼져 있어서 동선 짜기도 크게 어렵지 않더라고요.</p>
+
+    <h2 class="sub">2~3레벨, 슬슬 시간이랑 날씨를 가리기 시작해요</h2>
+    <p>2레벨부턴 시간대 조건이 하나둘 붙고, 3레벨부턴 <b>날씨까지 같이 봐야 하는 물고기</b>가 나오기 시작해요.</p>
+
+    <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 2레벨</p>
+    <table class="tbl">
+      <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+      <tr><td>바다가시고기</td><td>구해</td><td>무관</td><td>종일</td></tr>
+      <tr><td>노랑촉수</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+      <tr><td>대서양은상어</td><td>바다(집어기 전용)</td><td>무관</td><td>종일</td></tr>
+      <tr><td>돌마자</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>머드개복치</td><td>숲속 호수</td><td>무관</td><td>6~24시</td></tr>
+      <tr><td>바다빙어</td><td>초원 호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>매화농어</td><td>온천산 호수</td><td>무관</td><td>12~24시</td></tr>
+    </table>
+
+    <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 3레벨</p>
+    <table class="tbl">
+      <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+      <tr><td>노란전갱이</td><td>잔잔한 바다</td><td>무관</td><td>종일</td></tr>
+      <tr><td>해마</td><td>고래바다</td><td>무관</td><td>0~18시</td></tr>
+      <tr><td>아귀</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+      <tr><td>민물잰더</td><td>거목강</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>종일</td></tr>
+      <tr><td>홍합</td><td>근교 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>종일</td></tr>
+      <tr><td>올챙이</td><td>온천산 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>종일</td></tr>
+      <tr><td>유럽민물가재</td><td>숲속 호수</td><td>무관</td><td>0~12시, 18~24시</td></tr>
+      <tr><td>소라게</td><td>동해</td><td>무관</td><td>종일</td></tr>
+      <tr><td>흰동가리</td><td>구해</td><td>무관</td><td>종일</td></tr>
+    </table>
+
+    <p>이때부터 위치 칸에 <b>'바다낚시 전용'</b>이라고 적힌 물고기가 하나씩 보이는데요, 이 반짝이는 그림자는 일반 필드에선 아예 안 나오고 NPC 빌이 여는 바다낚시 사건에서만 낚을 수 있어요. 이 사건 이야기는 아래에서 따로 자세히 정리해드릴게요. 참고로 낚시도 곤충 채집이랑 똑같이 맑음·흐림·비·눈·무지개 다섯 날씨가 세 묶음(날씨 무관 / 맑음·흐림·무지개 / 비·눈·무지개)으로 갈리는 방식이더라고요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 거목강에서 민물잰더 낚는 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 맑은 날 거목강에서 민물잰더가 화면에 잡히게 직접 촬영</div>
+    <p class="cap">비 오는 날엔 안 보이는 물고기라, 날씨부터 확인하고 가야 해요.</p>
+
+    <h2 class="sub">4~5레벨, 물고기 종류가 확 늘어나요</h2>
+    <p>4레벨부터는 한 레벨에 뜨는 물고기가 <b>열두 종으로</b> 늘어나면서, 위치·날씨·시간대가 한꺼번에 겹치는 애들이 많아져요.</p>
+
+    <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 4레벨</p>
+    <table class="tbl">
+      <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+      <tr><td>참문어</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+      <tr><td>대서양연어</td><td>고래바다</td><td>무관</td><td>0~6시, 12~24시</td></tr>
+      <tr><td>대서양난쟁이문어</td><td>잔잔한 바다</td><td>무관</td><td>종일</td></tr>
+      <tr><td>유럽잉어</td><td>노을강</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>12~24시</td></tr>
+      <tr><td>민물대구</td><td>고요한 강</td><td>무관</td><td>12~24시</td></tr>
+      <tr><td>큰입배스</td><td>숲속 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>종일</td></tr>
+      <tr><td>민물게</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>망둥어</td><td>동해</td><td>무관</td><td>6~18시</td></tr>
+      <tr><td>대문짝넙치</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+      <tr><td>유럽가자미</td><td>구해</td><td>무관</td><td>0~6시, 18~24시</td></tr>
+      <tr><td>레드벨리피라냐</td><td>거목강</td><td>무관</td><td>종일</td></tr>
+      <tr><td>나비잉어</td><td>초원 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>종일</td></tr>
+    </table>
+
+    <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 5레벨</p>
+    <table class="tbl">
+      <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+      <tr><td>민물베도라치</td><td>노을강</td><td>무관</td><td>종일</td></tr>
+      <tr><td>송어</td><td>초원 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~6시, 18~24시</td></tr>
+      <tr><td>루드</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>대서양고등어</td><td>고래바다</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>12~24시</td></tr>
+      <tr><td>유럽가재</td><td>잔잔한 바다</td><td>무관</td><td>0~6시, 18~24시</td></tr>
+      <tr><td>유럽날오징어</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+    </table>
+
+    <p>표만 옆에 켜두고 다니면 크게 헤맬 일은 없는데, 유럽잉어·큰입배스처럼 시간대는 안 가리고 날씨만 맞으면 되는 애들도 섞여 있어서 물고기마다 조건이 조금씩 다르다는 걸 알 수 있어요.</p>
+
+    <h2 class="sub">6~7레벨, 조건이 점점 까다로워져요</h2>
+    <p>6레벨부터는 <b>무지개가 떠야만 나오는 물고기</b>가 늘고, 7레벨은 위치·날씨에 시간대까지 세밀하게 갈리는 물고기가 많아져요.</p>
+
+    <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 6레벨</p>
+    <table class="tbl">
+      <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+      <tr><td>큰진주조개</td><td>숲속 호수</td><td>무지개만</td><td>종일</td></tr>
+      <tr><td>복어</td><td>구해</td><td>무관</td><td>12~24시</td></tr>
+      <tr><td>첨연어</td><td>고요한 강</td><td>무지개만</td><td>종일</td></tr>
+      <tr><td>사루기</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+      <tr><td>등불성대</td><td>동해</td><td>무지개만</td><td>종일</td></tr>
+      <tr><td>두툽상어</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+    </table>
+
+    <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 7레벨</p>
+    <table class="tbl">
+      <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+      <tr><td>큰가시고기</td><td>얕은 강</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>종일</td></tr>
+      <tr><td>줄무늬송사리</td><td>근교 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~6시, 12~24시</td></tr>
+      <tr><td>독중개</td><td>온천산 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>6~24시</td></tr>
+      <tr><td>산갈치</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>6~18시</td></tr>
+      <tr><td>검은점돔</td><td>잔잔한 바다</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>0~6시, 18~24시</td></tr>
+      <tr><td>유럽장어</td><td>구해</td><td>무지개만</td><td>6~24시</td></tr>
+    </table>
+
+    <p>이 구간부터는 무지개 날씨를 기다렸다가 한 번에 몰아서 잡는 게 훨씬 효율적이더라고요.</p>
+
+    <h2 class="sub">8~10레벨, 오늘 정리는 여기까지예요</h2>
+    <p>8레벨부터 10레벨까지는 대부분 <b>비나 무지개가 껴야 나오는 고난도 구간</b>이라, 필드에 나가기 전에 날씨창부터 한 번 보고 움직이시는 걸 추천해요.</p>
+
+    <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 8레벨</p>
+    <table class="tbl">
+      <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+      <tr><td>황금 킹크랩</td><td>바다낚시 전용(반짝)</td><td>무지개만</td><td>종일</td></tr>
+      <tr><td>펄고기</td><td>근교 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~12시</td></tr>
+      <tr><td>북유럽파란가재</td><td>숲속 호수</td><td>무관</td><td>0~6시, 18~24시</td></tr>
+      <tr><td>금붕어</td><td>초원 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>6~24시</td></tr>
+      <tr><td>킹크랩</td><td>고래바다</td><td>무지개만</td><td>6~24시</td></tr>
+      <tr><td>해덕대구</td><td>동해</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~6시, 12~24시</td></tr>
+    </table>
+
+    <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 9레벨</p>
+    <table class="tbl">
+      <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+      <tr><td>후첸</td><td>거목강</td><td>무지개만</td><td>0~6시, 12~24시</td></tr>
+      <tr><td>강꼬치고기</td><td>근교 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>0~6시, 18~24시</td></tr>
+      <tr><td>펌프킨시드</td><td>온천산 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>6~24시</td></tr>
+      <tr><td>개복치</td><td>동해</td><td>무관</td><td>0~12시</td></tr>
+      <tr><td>참다랑어</td><td>잔잔한 바다</td><td>무지개만</td><td>6~18시</td></tr>
+      <tr><td>붉은개복치</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>0~6시, 18~24시</td></tr>
+    </table>
+
+    <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 10레벨</p>
+    <table class="tbl">
+      <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+      <tr><td>유럽메기</td><td>초원 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~6시, 18~24시</td></tr>
+      <tr><td>북극곤들매기</td><td>숲속 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>12~24시</td></tr>
+      <tr><td>블루길</td><td>온천산 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~6시, 18~24시</td></tr>
+      <tr><td>귀상어</td><td>구해</td><td>무지개만</td><td>0~6시, 18~24시</td></tr>
+      <tr><td>황새치</td><td>고래바다</td><td>무지개만</td><td>6~18시</td></tr>
+      <tr><td>청상아리</td><td>바다낚시 전용(반짝)</td><td>무지개만</td><td>6~18시</td></tr>
+    </table>
+
+    <p>8레벨 이후로는 바다낚시 전용 물고기 비중도 눈에 띄게 늘어서, 필드 낚시랑 빌의 사건을 번갈아 챙기는 게 요령이었어요.</p>
+
+    <h2 class="sub">낚시하다 보면 알아두면 좋은 것들</h2>
+    <p>레벨 조건표만큼 알아두면 좋은 것들이 몇 가지 더 있어요.</p>
+    <ul>
+      <li>힘겨루기는 <b>붉게 깜빡일 때 무리해서 당기지 않는 게</b> 핵심이에요. 잠깐 손을 놓아 내구도를 회복시키고, 힘 센 물고기는 버튼을 눌렀다 뗐다 하면서 조절해주세요.</li>
+      <li>집어기를 쓰면 <b>일정 개수 채집 시 파란색 보너스 물고기</b>가 나오니까, 미끼랑 집어기를 넉넉히 챙겨두고 자리 한 곳에서 계속 낚아도 괜찮아요.</li>
+      <li>채집형 아이템은 전부 <b>1성부터 5성까지</b> 등급이 나뉘는데, 판매가로 보면 1성 기준 2성은 1.5배, 3성은 2배, 4성은 4배, 5성은 8배까지 뛰어요. 이 등급 체계는 곤충 채집 도감에서도 이미 말씀드렸던 것처럼 낚시에도 똑같이 적용돼요.</li>
+      <li>'바다낚시 전용' 물고기는 일반 필드를 아무리 돌아다녀도 안 나오니까, 도감에 그 항목만 빈칸으로 남아 있다면 NPC 빌의 사건부터 노려보세요.</li>
+    </ul>
+
+    <h2 class="sub">NPC 빌이 여는 바다낚시 사건, 제대로 알아봤어요</h2>
+    <p>바다낚시 사건은 <b>NPC 빌이 매일 낮 12시·밤 9시에 주최</b>하는데, 이때만 나오는 황금 그림자 물고기를 노리는 게 핵심이에요. 어선을 타고 바다로 나가 물고기를 잡는 방식이고, 사건이 진행되는 동안엔 배 주위로 물고기가 아주 높은 빈도로 나온다고 하더라고요. <b>개인 목표는 물고기 5마리 이상</b>이고, <b>단체 목표는 다 같이 20마리</b>(가끔 30마리로 나오기도 해요)를 잡는 거예요. 보상으로 받는 <b>푸른 캡슐 토이</b>에는 어류 도감 채우기에 필수인 미끼가 괜찮은 확률로 들어 있어요. 채집형 사건 중에서는 이동이 제일 적어서 인기도 많은 편이에요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 빌이 여는 바다낚시 사건 진행 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 낮 12시 또는 밤 9시 바다낚시 사건 시작 시, 어선과 주변에 몰린 물고기 그림자가 같이 보이게 직접 촬영. 비슷한 화면 찾을 곳: <a href="https://game.naver.com/lounge/Heartopia/home" target="_blank">두근두근타운 공식 라운지</a></div>
+    <p class="cap">배 주위로 물고기가 잔뜩 몰리는 시간이라, 이때 황금 그림자를 노려야 해요.</p>
+
+    <p>두근두근타운엔 낚시 말고도 곤충 채집으로 채우는 도감이 따로 있는데요, 나니와한테 배우는 것도 바냐한테 배우는 거랑 비슷하고요, 심지어 곤충 쪽에도 낚시의 바다낚시 사건처럼 <b>'곤충 유인 사건'</b>이라는 이벤트가 있어요. 나니와가 주최하고 매일 오전 11시·오후 8시에 열린다더라고요. 그래도 낚시 쪽엔 곤충 도감엔 없는 '바다낚시 전용' 황금 그림자 물고기가 따로 있다는 게, 이 취미만의 특별한 재미 포인트더라고요.</p>
+    <!-- 내부링크: 두근두근타운 곤충 채집 도감 글 post ID 확인 후 연결 -->
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 바다낚시 사건 도중에 중간 참여할 수 있나요?</b><br>
+    아니요, 어선을 타고 나가는 연출이라 사건이 시작되면 중간 난입이 안 돼요. 다른 채집형 사건은 진행 중에도 끼어들 수 있는데 바다낚시만 그렇더라고요. 낮 12시·밤 9시 시작 시간에 맞춰 미리 도착해두시길 추천해요.</p>
+    <p><b>Q. 노리던 황금 물고기를 다른 사람이 먼저 잡아도 되나요?</b><br>
+    네, 그림자 상태는 사건에 참여한 유저 전원이 공유하는 거라서 제가 찜해둔 반짝이는 그림자를 다른 사람이 먼저 낚아채 가는 것도 가능해요. 매너 있게 자리를 좀 양보하면서 즐기시면 좋아요.</p>
+
+    <h2 class="sub">두근두근타운 낚시 도감 정리</h2>
+    <p>정리하자면 1레벨 구간은 위치만 맞으면 되고, 2~3레벨부터 시간·날씨 조건이 붙기 시작해서 4레벨을 넘기면 종류가 한꺼번에 늘어나요. 6레벨 이후로는 무지개가 떠야 나오는 물고기 비중이 커지면서 난이도가 올라가는 흐름이었어요. 낮은 레벨 표부터 차례로 채워나가면 훨씬 수월할 거예요. 11레벨부터는 고급 취미 티켓이 있어야 열리는 구간이라, 그 이야기는 다음에 따로 정리해드릴게요. NPC 빌의 바다낚시 사건 시간(낮 12시·밤 9시)도 잊지 마시고, 오늘도 즐겁게 낚시하세요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://heartopia.xd.com/us/" target="_blank">두근두근타운 공식 사이트</a><br>
+    · <a href="https://game.naver.com/lounge/Heartopia/home" target="_blank">두근두근타운 공식 라운지</a></p>
+
+    <p><b>✔ 두근두근타운 같이 보기 좋은 내용</b><br>
+    두근두근타운 곤충 채집 도감 레벨1~4 위치 날씨 시간대 총정리<br>
+    (참고로 여름 고래 탐사 시즌 해양생물 도감은 이 낚시 도감이랑은 또 다른 별도 콘텐츠예요.)</p>
+    <!-- 내부링크: 두근두근타운 곤충 채집 도감 글 post ID 확인 후 연결 -->
+
+    <div class="tags">#두근두근타운 #Heartopia #두근두근타운낚시도감 #두근두근타운낚시 #낚시도감 #두근두근타운공략 #라이프시뮬레이션게임</div>
+  </div>
+</div>
+
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 3분):</b> 📷 <b>사진 4곳</b> 업로드 · 내부링크 post ID 2곳(곤충 채집 도감 글, 본문 중간·같이보기 2곳 모두 같은 글) 연결. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 두근두근타운 낚시 도감 레벨1~10 위치 날씨 시간대 총정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>두근두근타운에서 곤충 채집 도감까지 다 채워보신 분들, 다음 목표는 자연스럽게 낚시 도감이시죠? 낚시는 바냐한테 배우고 나면 언제든 시작할 수 있는데, 막상 도감을 채우려고 보면 물고기마다 위치·날씨·시간대가 제각각이라 초반엔 저도 좀 헤맸거든요. 그래서 오늘은 <b>레벨 1부터 10까지</b> 나오는 물고기를 위치·날씨·시간대별로 표로 쭉 정리해봤답니다.</p>
+
+      <p>참고로 이 표들은 여기저기 흩어진 플레이어들 정보를 제가 직접 찾아 모아 정리한 거예요. 자료마다 조금씩 다르게 적힌 부분도 있고, 시즌 업데이트나 패치로 조건이 바뀔 수도 있으니 헷갈리는 부분은 인게임에서 한 번 더 확인해보시는 게 제일 정확해요.</p>
+
+      <p class="ph">📷 〔사진 1〕 바냐 집에서 낚시 배우는 화면 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "낚시도 곤충 채집처럼 취미확장티켓으로 배워야 시작할 수 있어요."</p>
+
+      <h3>두근두근타운 낚시, 바냐한테 어떻게 배우나요?</h3>
+      <p>낚시는 <b>'세계 제일의 낚시 가문 출신'이라고 소개되는 NPC 바냐(이반 이바노비치 루어)</b>한테 배울 수 있어요. 물고기 그림자가 보이는 자리에서 낚싯대 부표를 던지면 되는데, 물고기가 찌를 물면 <b>힘겨루기 미니게임</b>이 시작돼요. 낚싯줄이 흰색에서 붉은색으로 바뀌면서 내구도를 보여주는데요, 붉게 깜빡이는 상태에서 계속 잡아당기면 줄이 끊어져서 놓치고, 잠깐 손을 놓으면 내구도가 다시 회복돼요. 힘 센 물고기일수록 버튼을 눌렀다 뗐다 하면서 내구도를 조절해줘야 하거든요.</p>
+      <p><b>집어기를 쓰면 일정 개수를 채집했을 때 파란색(집어기 전용) 물고기도 낚을 수 있어요.</b> 미끼랑 집어기만 넉넉히 챙겨두면 자리 이동 없이 계속 찌만 던지면 되니까, 채집형 취미 중에서는 손이 제일 덜 가는 편이더라고요.</p>
+
+      <p class="ph">📷 〔사진 2〕 힘겨루기 미니게임 진행 화면 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "붉게 깜빡일 때 무리하게 당기면 줄이 끊어지니까, 잠깐씩 힘을 빼주는 게 요령이에요."</p>
+
+      <h3>낚시 1레벨, 뭐부터 잡을 수 있어요?</h3>
+      <p>1레벨은 <b>스무 종의 물고기가 전부 날씨·시간대 상관없이</b> 나와서 위치만 알면 바로 잡을 수 있어요.</p>
+
+      <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 1레벨</p>
+      <table>
+        <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+        <tr><td class="l">민물배스</td><td>강</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">하늘종개</td><td>거목강</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">바벨</td><td>얕은 강</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">큰얼룩배스</td><td>노을강</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">미노우</td><td>고요한 강</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">왕새우</td><td>강</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">틸라피아</td><td>강(집어기 전용)</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">유럽처브</td><td>호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">텐치</td><td>숲속 호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">극지연어</td><td>온천산 호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">붕어</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">유럽백조어</td><td>호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">백조어</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">유럽참개구리</td><td>호수(집어기 전용)</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">정어리</td><td>바다</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">배스</td><td>바다</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">가다랑어</td><td>바다</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">갈치</td><td>잔잔한 바다</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">바다새우</td><td>동해</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">전갱이</td><td>고래바다</td><td>무관</td><td>종일</td></tr>
+      </table>
+
+      <p>위치만 맞으면 언제 가도 잡히는 구간이라 도감 채우기엔 제일 편한 시작점이에요. 강·호수·바다 세 권역에 골고루 퍼져 있어서 동선 짜기도 크게 어렵지 않더라고요.</p>
+
+      <h3>2~3레벨, 슬슬 시간이랑 날씨를 가리기 시작해요</h3>
+      <p>2레벨부턴 시간대 조건이 하나둘 붙고, 3레벨부턴 <b>날씨까지 같이 봐야 하는 물고기</b>가 나오기 시작해요.</p>
+
+      <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 2레벨</p>
+      <table>
+        <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+        <tr><td class="l">바다가시고기</td><td>구해</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">노랑촉수</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">대서양은상어</td><td>바다(집어기 전용)</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">돌마자</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">머드개복치</td><td>숲속 호수</td><td>무관</td><td>6~24시</td></tr>
+        <tr><td class="l">바다빙어</td><td>초원 호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">매화농어</td><td>온천산 호수</td><td>무관</td><td>12~24시</td></tr>
+      </table>
+
+      <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 3레벨</p>
+      <table>
+        <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+        <tr><td class="l">노란전갱이</td><td>잔잔한 바다</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">해마</td><td>고래바다</td><td>무관</td><td>0~18시</td></tr>
+        <tr><td class="l">아귀</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">민물잰더</td><td>거목강</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>종일</td></tr>
+        <tr><td class="l">홍합</td><td>근교 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>종일</td></tr>
+        <tr><td class="l">올챙이</td><td>온천산 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>종일</td></tr>
+        <tr><td class="l">유럽민물가재</td><td>숲속 호수</td><td>무관</td><td>0~12시, 18~24시</td></tr>
+        <tr><td class="l">소라게</td><td>동해</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">흰동가리</td><td>구해</td><td>무관</td><td>종일</td></tr>
+      </table>
+
+      <p>이때부터 위치 칸에 <b>'바다낚시 전용'</b>이라고 적힌 물고기가 하나씩 보이는데요, 이 반짝이는 그림자는 일반 필드에선 아예 안 나오고 NPC 빌이 여는 바다낚시 사건에서만 낚을 수 있어요. 이 사건 이야기는 아래에서 따로 자세히 정리해드릴게요. 참고로 낚시도 곤충 채집이랑 똑같이 맑음·흐림·비·눈·무지개 다섯 날씨가 세 묶음(날씨 무관 / 맑음·흐림·무지개 / 비·눈·무지개)으로 갈리는 방식이더라고요.</p>
+
+      <p class="ph">📷 〔사진 3〕 거목강에서 민물잰더 낚는 화면 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "비 오는 날엔 안 보이는 물고기라, 날씨부터 확인하고 가야 해요."</p>
+
+      <h3>4~5레벨, 물고기 종류가 확 늘어나요</h3>
+      <p>4레벨부터는 한 레벨에 뜨는 물고기가 <b>열두 종으로</b> 늘어나면서, 위치·날씨·시간대가 한꺼번에 겹치는 애들이 많아져요.</p>
+
+      <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 4레벨</p>
+      <table>
+        <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+        <tr><td class="l">참문어</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">대서양연어</td><td>고래바다</td><td>무관</td><td>0~6시, 12~24시</td></tr>
+        <tr><td class="l">대서양난쟁이문어</td><td>잔잔한 바다</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">유럽잉어</td><td>노을강</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>12~24시</td></tr>
+        <tr><td class="l">민물대구</td><td>고요한 강</td><td>무관</td><td>12~24시</td></tr>
+        <tr><td class="l">큰입배스</td><td>숲속 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>종일</td></tr>
+        <tr><td class="l">민물게</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">망둥어</td><td>동해</td><td>무관</td><td>6~18시</td></tr>
+        <tr><td class="l">대문짝넙치</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">유럽가자미</td><td>구해</td><td>무관</td><td>0~6시, 18~24시</td></tr>
+        <tr><td class="l">레드벨리피라냐</td><td>거목강</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">나비잉어</td><td>초원 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>종일</td></tr>
+      </table>
+
+      <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 5레벨</p>
+      <table>
+        <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+        <tr><td class="l">민물베도라치</td><td>노을강</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">송어</td><td>초원 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~6시, 18~24시</td></tr>
+        <tr><td class="l">루드</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">대서양고등어</td><td>고래바다</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>12~24시</td></tr>
+        <tr><td class="l">유럽가재</td><td>잔잔한 바다</td><td>무관</td><td>0~6시, 18~24시</td></tr>
+        <tr><td class="l">유럽날오징어</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+      </table>
+
+      <p>표만 옆에 켜두고 다니면 크게 헤맬 일은 없는데, 유럽잉어·큰입배스처럼 시간대는 안 가리고 날씨만 맞으면 되는 애들도 섞여 있어서 물고기마다 조건이 조금씩 다르다는 걸 알 수 있어요.</p>
+
+      <h3>6~7레벨, 조건이 점점 까다로워져요</h3>
+      <p>6레벨부터는 <b>무지개가 떠야만 나오는 물고기</b>가 늘고, 7레벨은 위치·날씨에 시간대까지 세밀하게 갈리는 물고기가 많아져요.</p>
+
+      <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 6레벨</p>
+      <table>
+        <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+        <tr><td class="l">큰진주조개</td><td>숲속 호수</td><td>무지개만</td><td>종일</td></tr>
+        <tr><td class="l">복어</td><td>구해</td><td>무관</td><td>12~24시</td></tr>
+        <tr><td class="l">첨연어</td><td>고요한 강</td><td>무지개만</td><td>종일</td></tr>
+        <tr><td class="l">사루기</td><td>근교 호수</td><td>무관</td><td>종일</td></tr>
+        <tr><td class="l">등불성대</td><td>동해</td><td>무지개만</td><td>종일</td></tr>
+        <tr><td class="l">두툽상어</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>종일</td></tr>
+      </table>
+
+      <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 7레벨</p>
+      <table>
+        <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+        <tr><td class="l">큰가시고기</td><td>얕은 강</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>종일</td></tr>
+        <tr><td class="l">줄무늬송사리</td><td>근교 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~6시, 12~24시</td></tr>
+        <tr><td class="l">독중개</td><td>온천산 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>6~24시</td></tr>
+        <tr><td class="l">산갈치</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>6~18시</td></tr>
+        <tr><td class="l">검은점돔</td><td>잔잔한 바다</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>0~6시, 18~24시</td></tr>
+        <tr><td class="l">유럽장어</td><td>구해</td><td>무지개만</td><td>6~24시</td></tr>
+      </table>
+
+      <p>이 구간부터는 무지개 날씨를 기다렸다가 한 번에 몰아서 잡는 게 훨씬 효율적이더라고요.</p>
+
+      <h3>8~10레벨, 오늘 정리는 여기까지예요</h3>
+      <p>8레벨부터 10레벨까지는 대부분 <b>비나 무지개가 껴야 나오는 고난도 구간</b>이라, 필드에 나가기 전에 날씨창부터 한 번 보고 움직이시는 걸 추천해요.</p>
+
+      <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 8레벨</p>
+      <table>
+        <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+        <tr><td class="l">황금 킹크랩</td><td>바다낚시 전용(반짝)</td><td>무지개만</td><td>종일</td></tr>
+        <tr><td class="l">펄고기</td><td>근교 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~12시</td></tr>
+        <tr><td class="l">북유럽파란가재</td><td>숲속 호수</td><td>무관</td><td>0~6시, 18~24시</td></tr>
+        <tr><td class="l">금붕어</td><td>초원 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>6~24시</td></tr>
+        <tr><td class="l">킹크랩</td><td>고래바다</td><td>무지개만</td><td>6~24시</td></tr>
+        <tr><td class="l">해덕대구</td><td>동해</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~6시, 12~24시</td></tr>
+      </table>
+
+      <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 9레벨</p>
+      <table>
+        <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+        <tr><td class="l">후첸</td><td>거목강</td><td>무지개만</td><td>0~6시, 12~24시</td></tr>
+        <tr><td class="l">강꼬치고기</td><td>근교 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>0~6시, 18~24시</td></tr>
+        <tr><td class="l">펌프킨시드</td><td>온천산 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>6~24시</td></tr>
+        <tr><td class="l">개복치</td><td>동해</td><td>무관</td><td>0~12시</td></tr>
+        <tr><td class="l">참다랑어</td><td>잔잔한 바다</td><td>무지개만</td><td>6~18시</td></tr>
+        <tr><td class="l">붉은개복치</td><td>바다낚시 전용(반짝)</td><td>무관</td><td>0~6시, 18~24시</td></tr>
+      </table>
+
+      <p style="font-weight:700;color:#03c75a;margin:0 0 6px;font-size:13.5px;">● 10레벨</p>
+      <table>
+        <tr><th>물고기명</th><th>위치</th><th>날씨</th><th>시간대</th></tr>
+        <tr><td class="l">유럽메기</td><td>초원 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~6시, 18~24시</td></tr>
+        <tr><td class="l">북극곤들매기</td><td>숲속 호수</td><td>비·눈·무지개(맑음·흐림 제외)</td><td>12~24시</td></tr>
+        <tr><td class="l">블루길</td><td>온천산 호수</td><td>맑음·흐림·무지개(비·눈 제외)</td><td>0~6시, 18~24시</td></tr>
+        <tr><td class="l">귀상어</td><td>구해</td><td>무지개만</td><td>0~6시, 18~24시</td></tr>
+        <tr><td class="l">황새치</td><td>고래바다</td><td>무지개만</td><td>6~18시</td></tr>
+        <tr><td class="l">청상아리</td><td>바다낚시 전용(반짝)</td><td>무지개만</td><td>6~18시</td></tr>
+      </table>
+
+      <p>8레벨 이후로는 바다낚시 전용 물고기 비중도 눈에 띄게 늘어서, 필드 낚시랑 빌의 사건을 번갈아 챙기는 게 요령이었어요.</p>
+
+      <h3>낚시하다 보면 알아두면 좋은 것들</h3>
+      <p>레벨 조건표만큼 알아두면 좋은 것들이 몇 가지 더 있어요.</p>
+      <ul>
+        <li>힘겨루기는 <b>붉게 깜빡일 때 무리해서 당기지 않는 게</b> 핵심이에요. 잠깐 손을 놓아 내구도를 회복시키고, 힘 센 물고기는 버튼을 눌렀다 뗐다 하면서 조절해주세요.</li>
+        <li>집어기를 쓰면 <b>일정 개수 채집 시 파란색 보너스 물고기</b>가 나오니까, 미끼랑 집어기를 넉넉히 챙겨두고 자리 한 곳에서 계속 낚아도 괜찮아요.</li>
+        <li>채집형 아이템은 전부 <b>1성부터 5성까지</b> 등급이 나뉘는데, 판매가로 보면 1성 기준 2성은 1.5배, 3성은 2배, 4성은 4배, 5성은 8배까지 뛰어요. 이 등급 체계는 곤충 채집 도감에서도 이미 말씀드렸던 것처럼 낚시에도 똑같이 적용돼요.</li>
+        <li>'바다낚시 전용' 물고기는 일반 필드를 아무리 돌아다녀도 안 나오니까, 도감에 그 항목만 빈칸으로 남아 있다면 NPC 빌의 사건부터 노려보세요.</li>
+      </ul>
+
+      <h3>NPC 빌이 여는 바다낚시 사건, 제대로 알아봤어요</h3>
+      <p>바다낚시 사건은 <b>NPC 빌이 매일 낮 12시·밤 9시에 주최</b>하는데, 이때만 나오는 황금 그림자 물고기를 노리는 게 핵심이에요. 어선을 타고 바다로 나가 물고기를 잡는 방식이고, 사건이 진행되는 동안엔 배 주위로 물고기가 아주 높은 빈도로 나온다고 하더라고요. <b>개인 목표는 물고기 5마리 이상</b>이고, <b>단체 목표는 다 같이 20마리</b>(가끔 30마리로 나오기도 해요)를 잡는 거예요. 보상으로 받는 <b>푸른 캡슐 토이</b>에는 어류 도감 채우기에 필수인 미끼가 괜찮은 확률로 들어 있어요. 채집형 사건 중에서는 이동이 제일 적어서 인기도 많은 편이에요.</p>
+
+      <p class="ph">📷 〔사진 4〕 빌이 여는 바다낚시 사건 진행 화면 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "배 주위로 물고기가 잔뜩 몰리는 시간이라, 이때 황금 그림자를 노려야 해요."</p>
+
+      <p>두근두근타운엔 낚시 말고도 곤충 채집으로 채우는 도감이 따로 있는데요, 나니와한테 배우는 것도 바냐한테 배우는 거랑 비슷하고요, 심지어 곤충 쪽에도 낚시의 바다낚시 사건처럼 <b>'곤충 유인 사건'</b>이라는 이벤트가 있어요. 나니와가 주최하고 매일 오전 11시·오후 8시에 열린다더라고요. 그래도 낚시 쪽엔 곤충 도감엔 없는 '바다낚시 전용' 황금 그림자 물고기가 따로 있다는 게, 이 취미만의 특별한 재미 포인트더라고요. 〔곤충 채집 도감 글 링크 — 네이버에서 연결〕</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 바다낚시 사건 도중에 중간 참여할 수 있나요?</b><br>
+      아니요, 어선을 타고 나가는 연출이라 사건이 시작되면 중간 난입이 안 돼요. 다른 채집형 사건은 진행 중에도 끼어들 수 있는데 바다낚시만 그렇더라고요. 낮 12시·밤 9시 시작 시간에 맞춰 미리 도착해두시길 추천해요.</p>
+      <p><b>Q. 노리던 황금 물고기를 다른 사람이 먼저 잡아도 되나요?</b><br>
+      네, 그림자 상태는 사건에 참여한 유저 전원이 공유하는 거라서 제가 찜해둔 반짝이는 그림자를 다른 사람이 먼저 낚아채 가는 것도 가능해요. 매너 있게 자리를 좀 양보하면서 즐기시면 좋아요.</p>
+
+      <h3>두근두근타운 낚시 도감 정리</h3>
+      <p>정리하자면 1레벨 구간은 위치만 맞으면 되고, 2~3레벨부터 시간·날씨 조건이 붙기 시작해서 4레벨을 넘기면 종류가 한꺼번에 늘어나요. 6레벨 이후로는 무지개가 떠야 나오는 물고기 비중이 커지면서 난이도가 올라가는 흐름이었어요. 낮은 레벨 표부터 차례로 채워나가면 훨씬 수월할 거예요. 11레벨부터는 고급 취미 티켓이 있어야 열리는 구간이라, 그 이야기는 다음에 따로 정리해드릴게요. NPC 빌의 바다낚시 사건 시간(낮 12시·밤 9시)도 잊지 마시고, 오늘도 즐겁게 낚시하세요.</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://heartopia.xd.com/us/" target="_blank">두근두근타운 공식 사이트</a><br>
+      · <a href="https://game.naver.com/lounge/Heartopia/home" target="_blank">두근두근타운 공식 라운지</a></p>
+
+      <p><b>✔ 두근두근타운 같이 보기 좋은 내용</b><br>
+      〔두근두근타운 곤충 채집 도감 레벨1~4 위치 날씨 시간대 총정리 글 링크 — 네이버에서 연결〕<br>
+      (참고로 여름 고래 탐사 시즌 해양생물 도감은 이 낚시 도감이랑은 또 다른 별도 콘텐츠예요.)</p>
+
+      <p class="tags-line">#두근두근타운 #Heartopia #두근두근타운낚시도감 #두근두근타운낚시 #낚시도감 #두근두근타운공략 #라이프시뮬레이션게임</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
