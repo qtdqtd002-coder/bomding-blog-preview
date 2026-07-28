@@ -1,0 +1,282 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>카카오톡 대화 요약 기능 쓰는 법 - 밀린 메시지 정리하기</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">IT 팁·활용법</div>
+    <h1 class="title">카카오톡 대화 요약 기능 쓰는 법 - 밀린 메시지 정리하기</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.07.28</span><span>· IT</span></div>
+
+    <p>카카오톡에서 밀린 메시지를 정리하고 싶다면, 채팅방 안에 있는 <b>'대화 요약'</b> 버튼을 누르면 돼요. 카카오톡 6차 정기 업데이트(v26.6.0, 2026.07.15)로 추가된 기능이에요.</p>
+    <p>'대화 요약'은 채팅방에 쌓인 메시지의 핵심 내용을 정리해 보여주는 카카오톡 기능이에요. 오랜만에 들어간 채팅방에서도 대화 흐름을 빠르게 따라잡을 수 있어요.</p>
+
+    <div class="imgwrap"><img src="img/01-notice-thumb.png" alt="카카오톡 6차 정기 업데이트 공식 발표 이미지"></div>
+    <p class="cap">카카오톡 6차 정기 업데이트(v26.6.0) 공식 발표</p>
+    <p class="src">이미지 출처: <a href="https://www.kakaocorp.com/page/detail/12082" target="_blank">카카오 뉴스룸</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 공식 발표 신뢰도 확보용 리드 이미지 / 출처: kakaocorp.com 뉴스룸(og:image) / 분류: A형 -->
+    <!-- 이미지 조달 메모(A형 하한 미달 사유): ①카카오 뉴스룸 원문(kakaocorp.com/page/detail/12082)을 curl+UA로 직접 확인 — 본문 이미지는 og:image 로고 썸네일 1장뿐, 실제 기능 화면 이미지는 없음(2026-07-28 실측). ②같은 발표를 재인용한 매체(아이타임스 aitimes.com/news/articleView.html?idxno=212780)도 동일한 로고 이미지만 "(사진=카카오)"로 사용 — 별도 스크린샷 없음. ③이 기능은 배포 13일차 신규 기능이라 공식 스토어 리스팅·CC·무료스톡에도 실제 버튼·결과 화면이 존재하지 않음. 버튼 화면·요약 결과 화면은 카카오톡 실행이 필요해 B형(직접 촬영)으로 남김. -->
+
+    <h2 class="sub">언제, 어떤 업데이트로 생겼나요</h2>
+    <p>카카오(대표이사 정신아)는 2026년 7월 15일 카카오톡 6차 정기 업데이트(v26.6.0)를 진행했다고 밝혔어요. 이용자 편의를 위한 기능들을 담았다고 설명했어요.</p>
+    <p>공식 뉴스룸에는 <b>"이용자가 밀린 메시지를 빠르게 파악할 수 있도록 채팅방 내 메시지 요약 기능을 추가했다"</b>라고 적혀 있어요. (카카오 뉴스룸, 2026.07.15 기준) 이번 업데이트에 포함된 신규 기능은 전부 <b>v26.6.0 이상 버전부터 적용</b>된다고 공식 발표에 나와 있어요. 이번 6차 업데이트에는 '대화 요약' 말고도 이런 기능이 함께 담겼어요.</p>
+    <ul>
+      <li>ChatGPT for Kakao를 카카오톡 PC 버전에서도 이어 쓰는 기능 — 채팅탭 상단 'ChatGPT' 칩으로 실행하면 모바일에서 쓰던 흐름이 그대로 이어져요.</li>
+      <li>채팅방 사진을 ChatGPT 이미지 2.0으로 다시 그리는 기능 — 이미지 우측 상단 'AI로 만들기'를 눌러 '애니 스타일', '색연필 드로잉' 같은 템플릿을 바로 적용해요.</li>
+      <li>오픈채팅방장이 챗봇을 초대해 쓰는 오픈채팅 챗봇(베타) — 채팅방을 벗어나지 않고도 날씨·주식 시세 같은 정보를 바로 물어볼 수 있어요.</li>
+      <li>카카오톡 채널 메시지를 발송 24시간 안에 지울 수 있는 기능</li>
+    </ul>
+    <p>카카오는 이번 업데이트로 이용자들이 다양한 대화 환경에서 AI를 더 쉽고 편리하게 쓸 수 있게 하려는 것이라고 설명했어요. 이용자 의견을 반영해 서비스를 계속 다듬어 갈 계획이라는 말도 덧붙였어요. 앞서 5월 15일에는 4차 정기 업데이트(v26.4.0)로 말풍선 리액션을 6종에서 114종으로 늘리기도 했어요.</p>
+    <p>이번 발표는 전체적으로 일상 속 AI 경험 확대라는 주제 아래 소개됐어요. 다만 '대화 요약'이 구체적으로 어떤 AI 기술을 쓰는지는 공식 발표에 따로 나와 있지 않아요.<span class="chk">🔍 확인 필요</span></p>
+
+    <h2 class="sub">'대화 요약' 버튼, 어떻게 쓰나요</h2>
+    <p>설정에서 따로 켜는 기능이 아니라, 채팅방에 들어가면 나오는 <b>'대화 요약' 버튼을 누르면 바로 실행</b>되는 기능이에요.</p>
+    <p>그래서 "설정에서 어떻게 켜나요"라고 검색해도 정답은 없어요. 채팅방 안에서 버튼을 찾아 누르는 것 자체가 이 기능을 쓰는 전부예요.</p>
+    <ol>
+      <li>카카오톡을 v26.6.0 이상 최신 버전으로 업데이트해요. 스토어(플레이스토어·앱스토어)에서 먼저 확인하시면 돼요.</li>
+      <li>밀린 메시지가 쌓인 채팅방에 들어가요.</li>
+      <li>채팅방 안에 뜨는 <b>'대화 요약'</b> 버튼을 눌러요.<span class="chk">🔍 확인 필요</span>(정확한 버튼 위치는 공식 발표문에 따로 나와 있지 않아요)</li>
+      <li>버튼을 누르면 나오는 요약 결과로 핵심만 훑어보고, 바로 채팅에 참여하면 돼요.</li>
+    </ol>
+    <p>공식 발표 문구를 그대로 옮기면, <b>"개별 채팅방 안에서 '대화 요약' 버튼을 누르면 쌓인 메시지의 핵심 내용을 한눈에 정리해 보여준다"</b>라고 해요. (카카오 뉴스룸, 2026.07.15 기준)</p>
+    <p>공식 발표에는 이 기능 덕분에 오랜만에 들어간 채팅방에서도 주요 내용을 훑어보고 바로 채팅에 참여할 수 있다고 설명돼 있어요. 메시지를 한 줄씩 올려보지 않아도 대화 흐름을 따라잡을 수 있다는 의미예요. 예를 들어 며칠 만에 들어간 단체 채팅방을 생각해 볼게요. 쌓인 메시지를 하나하나 읽는 대신 '대화 요약' 버튼만 누르면 핵심 내용부터 파악할 수 있어요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">화면 1: 채팅방 안 '대화 요약' 버튼</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 공식 뉴스룸 발표문(<a href="https://www.kakaocorp.com/page/detail/12082" target="_blank">kakaocorp.com</a>)엔 버튼 화면 이미지가 없어요(본문엔 로고 썸네일 1장뿐). 밀린 메시지가 있는 채팅방에서 '대화 요약' 버튼이 화면에 선명히 보이도록 캡처해 주세요.</div>
+    <p class="cap">채팅방 화면 예시(직접 촬영 필요)</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">화면 2: '대화 요약' 결과 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — '대화 요약' 버튼을 누른 뒤 나오는 요약 카드 전체 텍스트와 채팅방 이름이 함께 보이도록 캡처해 주세요.</div>
+    <p class="cap">요약 결과 화면 예시(직접 촬영 필요)</p>
+
+    <h2 class="sub">'대화 요약', 누가 쓸 수 있나요</h2>
+    <p>공식 발표에서 분명히 확인된 조건은 <b>최소 버전(v26.6.0 이상)</b> 하나뿐이고, 나머지는 아직 확인되지 않았어요.</p>
+    <p>보도자료 한 건 외에 이 기능만 따로 다룬 공식 자료는 아직 따로 찾지 못했어요. 그래서 아래 표는 "확인된 것"과 "확인 안 된 것"을 구분해 두고, 새 정보가 나오면 이 글에 반영할게요.</p>
+    <table class="tbl">
+      <tr><th>조건</th><th>내용</th></tr>
+      <tr><td>최소 버전</td><td>v26.6.0 이상 (공식 확인)</td></tr>
+      <tr><td>지원 OS(아이폰/안드로이드)</td><td>확인 필요 🔍</td></tr>
+      <tr><td>PC(윈도우/맥) 버전 지원</td><td>확인 필요 🔍 · 같은 업데이트의 'ChatGPT for Kakao PC 확대'와는 별개 기능이에요</td></tr>
+      <tr><td>채팅방 종류(1:1/단체/오픈채팅)</td><td>확인 필요 🔍 · 발표문엔 "개별 채팅방"이라고만 나와요</td></tr>
+      <tr><td>하루 사용 횟수 제한</td><td>확인 필요 🔍</td></tr>
+      <tr><td>유료/무료 여부</td><td>확인 필요 🔍</td></tr>
+      <tr><td>연령·계정 조건</td><td>확인 필요 🔍</td></tr>
+      <tr><td>전체 이용자 동시 적용 여부</td><td>확인 필요 🔍</td></tr>
+    </table>
+    <p>예를 들어 메시지가 한두 개만 쌓였을 때도 버튼이 뜨는지, 최소 몇 건부터 요약되는지는 공식 발표에 나와 있지 않아요.</p>
+    <p>업데이트를 했는데도 '대화 요약' 버튼이 안 보인다면, 카카오톡이 v26.6.0 이상인지부터 다시 확인해 보시는 걸 추천드려요.</p>
+    <p>이 글은 <b>2026.07.28 기준</b>으로 확인한 내용이고, 확인 필요로 남긴 조건은 공식 정보가 나오는 대로 다시 정리할게요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 예전에도 비슷한 요약 기능이 있지 않았나요?</b><br>2023년쯤부터 '안 읽은 대화 요약하기'라는 비슷한 이름의 기능이 있었다는 이야기가 있어요. 다만 이번 v26.6.0 '대화 요약'과 이름·시기가 다르고, 같은 기능인지는 공식적으로는 아직 밝혀지지 않았어요. 이번 업데이트 발표에는 "기능을 추가했다"라고만 나와 있어서, 헷갈린다면 이번 글 기준으로 새로 확인하는 게 안전해요.</p>
+    <p><b>Q. 아이폰이랑 안드로이드 둘 다 되나요?</b><br>공식 발표에서는 운영체제별로 구분해 설명하지 않았어요. 최소 버전(v26.6.0 이상)만 명시돼 있고, OS별 지원 여부는 확인되는 대로 이 글에 반영할게요.</p>
+    <p><b>Q. 유료 기능인가요?</b><br>공식 발표에서 유료·무료 여부는 따로 밝히지 않았어요. 보도자료에 별도 과금 안내 문구는 없었지만, 그것만으로 무료라고 단정하기는 어려워서 지금은 확인이 필요해요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.kakaocorp.com/page/detail/12082" target="_blank">카카오 - PC에서도 이어지는 일상 AI 경험…카카오톡, 6차 정기 업데이트</a></p>
+
+    <p><b>하루 정리</b><br>
+    · '대화 요약'은 채팅방 안 버튼 하나로 바로 실행하는 기능이에요(설정에서 켜는 게 아니에요)<br>
+    · v26.6.0 이상 버전부터 적용돼요(2026.07.15 발표)<br>
+    · 지원 OS·PC 지원·채팅방 종류·유료 여부, 2023년경 있었다는 비슷한 이름의 기능과 같은지도 아직 확인 필요예요<br>
+    · 밀린 채팅방이 많다면 먼저 카카오톡을 최신 버전으로 업데이트했는지 확인해 보세요</p>
+
+    <div class="tags">#카카오톡 #대화요약 #카카오톡대화요약기능 #카카오톡업데이트 #v26.6.0</div>
+  </div>
+</div>
+
+<!-- AEO 타깃 질문: 카카오톡 대화 요약 기능 어떻게 켜나요? / 카카오톡에서 밀린 메시지 어떻게 정리하나요? / 인용 후크: '대화 요약' 버튼 쓰는 법·지원 조건 정리 / 기준 시점: 2026.07.28 -->
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인). 화면 1·2는 카카오톡에서 직접 캡처한 뒤 같은 방식으로 붙여넣으세요.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>5.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 3분):</b> 📷 <b>사진 3곳</b>(공식 발표 이미지·채팅방 버튼 화면·요약 결과 화면) 업로드. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 카카오톡 대화 요약 기능 쓰는 법 - 밀린 메시지 정리하기</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>카카오톡에서 밀린 메시지를 정리하고 싶다면, 채팅방 안에 있는 <b>'대화 요약'</b> 버튼을 누르면 돼요. 카카오톡 6차 정기 업데이트(v26.6.0, 2026.07.15)로 추가된 기능이에요.</p>
+      <p>'대화 요약'은 채팅방에 쌓인 메시지의 핵심 내용을 정리해 보여주는 카카오톡 기능이에요. 오랜만에 들어간 채팅방에서도 대화 흐름을 빠르게 따라잡을 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 1〕 카카오톡 6차 정기 업데이트(v26.6.0) 공식 발표 이미지 — 카카오 뉴스룸에서 받아 업로드</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>언제, 어떤 업데이트로 생겼나요</h3>
+      <p>카카오(대표이사 정신아)는 2026년 7월 15일 카카오톡 6차 정기 업데이트(v26.6.0)를 진행했다고 밝혔어요. 이용자 편의를 위한 기능들을 담았다고 설명했어요.</p>
+      <p>공식 뉴스룸에는 <b>"이용자가 밀린 메시지를 빠르게 파악할 수 있도록 채팅방 내 메시지 요약 기능을 추가했다"</b>라고 적혀 있어요. (카카오 뉴스룸, 2026.07.15 기준) 이번 업데이트에 포함된 신규 기능은 전부 <b>v26.6.0 이상 버전부터 적용</b>된다고 공식 발표에 나와 있어요. 이번 6차 업데이트에는 '대화 요약' 말고도 이런 기능이 함께 담겼어요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>ChatGPT for Kakao를 카카오톡 PC 버전에서도 이어 쓰는 기능 — 채팅탭 상단 'ChatGPT' 칩으로 실행하면 모바일에서 쓰던 흐름이 그대로 이어져요.</li>
+        <li>채팅방 사진을 ChatGPT 이미지 2.0으로 다시 그리는 기능 — 이미지 우측 상단 'AI로 만들기'를 눌러 '애니 스타일', '색연필 드로잉' 같은 템플릿을 바로 적용해요.</li>
+        <li>오픈채팅방장이 챗봇을 초대해 쓰는 오픈채팅 챗봇(베타) — 채팅방을 벗어나지 않고도 날씨·주식 시세 같은 정보를 바로 물어볼 수 있어요.</li>
+        <li>카카오톡 채널 메시지를 발송 24시간 안에 지울 수 있는 기능</li>
+      </ul>
+      <p>카카오는 이번 업데이트로 이용자들이 다양한 대화 환경에서 AI를 더 쉽고 편리하게 쓸 수 있게 하려는 것이라고 설명했어요. 이용자 의견을 반영해 서비스를 계속 다듬어 갈 계획이라는 말도 덧붙였어요. 앞서 5월 15일에는 4차 정기 업데이트(v26.4.0)로 말풍선 리액션을 6종에서 114종으로 늘리기도 했어요.</p>
+      <p>이번 발표는 전체적으로 일상 속 AI 경험 확대라는 주제 아래 소개됐어요. 다만 '대화 요약'이 구체적으로 어떤 AI 기술을 쓰는지는 공식 발표에 따로 나와 있지 않아요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>'대화 요약' 버튼, 어떻게 쓰나요</h3>
+      <p>설정에서 따로 켜는 기능이 아니라, 채팅방에 들어가면 나오는 <b>'대화 요약' 버튼을 누르면 바로 실행</b>되는 기능이에요.</p>
+      <p>그래서 "설정에서 어떻게 켜나요"라고 검색해도 정답은 없어요. 채팅방 안에서 버튼을 찾아 누르는 것 자체가 이 기능을 쓰는 전부예요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>카카오톡을 v26.6.0 이상 최신 버전으로 업데이트해요. 스토어(플레이스토어·앱스토어)에서 먼저 확인하시면 돼요.</li>
+        <li>밀린 메시지가 쌓인 채팅방에 들어가요.</li>
+        <li>채팅방 안에 뜨는 '대화 요약' 버튼을 눌러요(정확한 버튼 위치는 공식 발표문에 따로 나와 있지 않아요).</li>
+        <li>버튼을 누르면 나오는 요약 결과로 핵심만 훑어보고, 바로 채팅에 참여하면 돼요.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p>공식 발표 문구를 그대로 옮기면, <b>"개별 채팅방 안에서 '대화 요약' 버튼을 누르면 쌓인 메시지의 핵심 내용을 한눈에 정리해 보여준다"</b>라고 해요. (카카오 뉴스룸, 2026.07.15 기준)</p>
+      <p>공식 발표에는 이 기능 덕분에 오랜만에 들어간 채팅방에서도 주요 내용을 훑어보고 바로 채팅에 참여할 수 있다고 설명돼 있어요. 메시지를 한 줄씩 올려보지 않아도 대화 흐름을 따라잡을 수 있다는 의미예요. 예를 들어 며칠 만에 들어간 단체 채팅방을 생각해 볼게요. 쌓인 메시지를 하나하나 읽는 대신 '대화 요약' 버튼만 누르면 핵심 내용부터 파악할 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 2〕 채팅방 안 '대화 요약' 버튼 화면 — 네이버에서 직접 업로드</p>
+      <p class="ph">└ 캡션 추천: "채팅방 안 '대화 요약' 버튼 위치"</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 3〕 '대화 요약' 결과 화면 — 네이버에서 직접 업로드</p>
+      <p class="ph">└ 캡션 추천: "'대화 요약' 버튼을 눌렀을 때 나오는 결과 화면"</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>'대화 요약', 누가 쓸 수 있나요</h3>
+      <p>공식 발표에서 분명히 확인된 조건은 <b>최소 버전(v26.6.0 이상)</b> 하나뿐이고, 나머지는 아직 확인되지 않았어요.</p>
+      <p>보도자료 한 건 외에 이 기능만 따로 다룬 공식 자료는 아직 따로 찾지 못했어요. 그래서 아래 표는 "확인된 것"과 "확인 안 된 것"을 구분해 두고, 새 정보가 나오면 이 글에 반영할게요.</p>
+      <table>
+        <tr><th>조건</th><th>내용</th></tr>
+        <tr><td class="l">최소 버전</td><td>v26.6.0 이상 (공식 확인)</td></tr>
+        <tr><td class="l">지원 OS(아이폰/안드로이드)</td><td>확인 필요</td></tr>
+        <tr><td class="l">PC(윈도우/맥) 버전 지원</td><td>확인 필요 · ChatGPT for Kakao PC 확대와는 별개</td></tr>
+        <tr><td class="l">채팅방 종류(1:1/단체/오픈채팅)</td><td>확인 필요 · "개별 채팅방"이라고만 발표됨</td></tr>
+        <tr><td class="l">하루 사용 횟수 제한</td><td>확인 필요</td></tr>
+        <tr><td class="l">유료/무료 여부</td><td>확인 필요</td></tr>
+        <tr><td class="l">연령·계정 조건</td><td>확인 필요</td></tr>
+        <tr><td class="l">전체 이용자 동시 적용 여부</td><td>확인 필요</td></tr>
+      </table>
+      <p>예를 들어 메시지가 한두 개만 쌓였을 때도 버튼이 뜨는지, 최소 몇 건부터 요약되는지는 공식 발표에 나와 있지 않아요.</p>
+      <p>업데이트를 했는데도 '대화 요약' 버튼이 안 보인다면, 카카오톡이 v26.6.0 이상인지부터 다시 확인해 보시는 걸 추천드려요.</p>
+      <p>이 글은 <b>2026.07.28 기준</b>으로 확인한 내용이고, 확인 필요로 남긴 조건은 공식 정보가 나오는 대로 다시 정리할게요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 예전에도 비슷한 요약 기능이 있지 않았나요?</b><br>2023년쯤부터 '안 읽은 대화 요약하기'라는 비슷한 이름의 기능이 있었다는 이야기가 있어요. 다만 이번 v26.6.0 '대화 요약'과 이름·시기가 다르고, 같은 기능인지는 공식적으로는 아직 밝혀지지 않았어요. 이번 업데이트 발표에는 "기능을 추가했다"라고만 나와 있어서, 헷갈린다면 이번 글 기준으로 새로 확인하는 게 안전해요.</p>
+      <p><b>Q. 아이폰이랑 안드로이드 둘 다 되나요?</b><br>공식 발표에서는 운영체제별로 구분해 설명하지 않았어요. 최소 버전(v26.6.0 이상)만 명시돼 있고, OS별 지원 여부는 확인되는 대로 이 글에 반영할게요.</p>
+      <p><b>Q. 유료 기능인가요?</b><br>공식 발표에서 유료·무료 여부는 따로 밝히지 않았어요. 보도자료에 별도 과금 안내 문구는 없었지만, 그것만으로 무료라고 단정하기는 어려워서 지금은 확인이 필요해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://www.kakaocorp.com/page/detail/12082" target="_blank">카카오 - PC에서도 이어지는 일상 AI 경험…카카오톡, 6차 정기 업데이트</a></p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · '대화 요약'은 채팅방 안 버튼 하나로 바로 실행하는 기능이에요(설정에서 켜는 게 아니에요)<br>
+      · v26.6.0 이상 버전부터 적용돼요(2026.07.15 발표)<br>
+      · 지원 OS·PC 지원·채팅방 종류·유료 여부, 2023년경 있었다는 비슷한 이름의 기능과 같은지도 아직 확인 필요예요<br>
+      · 밀린 채팅방이 많다면 먼저 카카오톡을 최신 버전으로 업데이트했는지 확인해 보세요</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#카카오톡 #대화요약 #카카오톡대화요약기능 #카카오톡업데이트 #v26.6.0</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
