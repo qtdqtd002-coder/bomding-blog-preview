@@ -1,0 +1,265 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>네이버 AI 브리핑 광고 도입 정리 — 애드부스트 파워링크만 노출되는 이유</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- AEO 타깃 질문: 네이버 AI 브리핑에 광고가 왜, 어떻게 붙나요 / 인용 후크: 애드부스트 파워링크만·쇼핑 제외 / 기준 시점: 2026.07.28 -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">AI 소식</div>
+    <h1 class="title">네이버 AI 브리핑 광고 도입 정리 — 애드부스트 파워링크만 노출되는 이유</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.07.28</span><span>· IT</span></div>
+
+    <p>네이버 AI 브리핑에 광고가 왜, 어떻게 붙는지 궁금해하시는 분들이 많더라고요. 결론부터 정리하면, <b>애드부스트(ADVoost) 파워링크만 노출</b>돼요. 네이버 쇼핑 상품과 연동된 광고는 빠졌고요.</p>
+    <p>AI 브리핑은 검색어에 대한 답을 요약해서 보여주는 네이버의 생성형 AI 검색 기능이에요. 이 지면에 광고가 붙기 시작했다는 소식이라, 광고주와 콘텐츠 제작자 모두에게 실질적인 변화예요.</p>
+
+    <div class="imgwrap"><img src="img/01-navercorp-ad-event.jpg" alt="2025년 네이버 광고사업 컨퍼런스에서 애드부스트를 소개하는 발표 장면" width="700" height="365"></div>
+    <p class="cap">2025년 5월 네이버 광고 컨퍼런스에서 소개된 AI 광고 솔루션 라인업. 왼쪽이 애드부스트예요.</p>
+    <p class="src">이미지 출처: <a href="https://navercorp.com/media/pressReleasesDetail?seq=32534" target="_blank">NAVER Corp. 보도자료</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 애드부스트가 어떤 자리에서 나온 개념인지 시각적으로 보여줌 / 출처: navercorp.com 공식 보도자료(2025-05-28) / 분류: A형 -->
+
+    <h2 class="sub">언제부터 광고가 붙었나요</h2>
+    <p>네이버 AI 브리핑에는 2026년 7월 21일부터 광고가 노출되기 시작했다고 보도됐어요. <a href="https://www.etnews.com/20260618000242" target="_blank">전자신문</a>이 2026년 6월 18일 이 계획을 먼저 전했어요. 이후 <a href="https://www.news1.kr/it-science/internet-platform/6204583" target="_blank">news1</a> 등 다른 매체도 같은 시행일로 확인했고요.</p>
+    <p>이번 노출은 정식 시행이라는 점에서 이전과 달라요. 지난 5월부터는 <b>비공개 베타테스트(CBT)</b> 형태로만 광고가 붙어 있었다고 해요.</p>
+
+    <h2 class="sub">어떤 광고만 뜨나요 — 파워링크만, 쇼핑은 제외</h2>
+    <p>AI 브리핑에 뜨는 광고는 애드부스트 검색광고, 그중에서도 <b>파워링크</b>뿐이에요. 같은 애드부스트 계열이라도 네이버 쇼핑 상품과 연동되는 광고는 이번 대상에서 빠졌어요.</p>
+    <p>전자신문은 이 부분을 이렇게 전했어요. <b>"네이버 쇼핑 상품을 연동하는 광고는 제외했다"</b>고요. (전자신문, 2026.06.18)</p>
+    <p>그러니까 지금은 파워링크 광고주만 AI 브리핑 노출 대상이에요. 쇼핑 검색광고를 돌리는 광고주는 아직 해당하지 않아요.</p>
+
+    <h2 class="sub">노출 위치와 단가는 어떻게 정해지나요</h2>
+    <p>노출 위치는 네이버 광고 에이전트가 자동으로 정해요. 광고주가 직접 자리를 고르는 구조가 아니에요.</p>
+    <p>보도에 따르면 네이버 광고 에이전트가 문맥과 탐색 흐름을 분석해요. 그렇게 가장 알맞은 노출 지점을 자동으로 골라요. 반면 단가, 즉 CPC(Cost Per Click, 클릭당 광고비)를 정확히 어떻게 산정하는지는 확인되지 않았어요. 광고주가 별도로 입찰할 수 있는지도 언론 보도만으로는 확인되지 않았어요. 이 부분은 네이버 광고주센터의 공식 공지로 별도 확인이 필요해요.</p>
+
+    <table class="tbl">
+      <tr><th>항목</th><th>내용(보도 기준)</th></tr>
+      <tr><td>노출 개시</td><td>2026년 7월 21일</td></tr>
+      <tr><td>노출 대상</td><td>애드부스트 파워링크</td></tr>
+      <tr><td>제외 대상</td><td>애드부스트 쇼핑(쇼핑 상품 연동 광고)</td></tr>
+      <tr><td>노출 지점 선정</td><td>네이버 광고 에이전트 자동 선정</td></tr>
+      <tr><td>단가(CPC) 산정</td><td>확인 필요(언론 미확인 · 공식 공지 참고)</td></tr>
+    </table>
+
+    <h2 class="sub">네이버는 왜 이 광고를 붙였을까요</h2>
+    <p>네이버가 AI 브리핑을 새로운 수익원으로 키우려는 것으로 보여요. 관련 발언들을 보면 그 방향이 뚜렷해요.</p>
+    <p>네이버 관계자는 전자신문 인터뷰에서 이렇게 말했어요. <b>"이용자는 자신이 필요로 하는 정보와 관련성이 높은 상품 또는 장소에 대한 추가 정보를 확인할 수 있고, 광고주는 잠재적 고객층과 접점 확대와 매출 증대를 기대할 수 있을 것"</b>이라고요.</p>
+    <p>최수연 대표도 관련 발언에서 <b>"AI 검색이 플랫폼 내 구매와 예약으로 이어지는 선순환 구조를 구축하고, 연말까지 유의미한 신규 수익원이 될 수 있게 하겠다"</b>고 밝힌 것으로 전자신문이 전했어요.</p>
+    <p>그 이름에도 방향이 담겨 있어요. 애드부스트는 'AD(광고) + Value(가치) + Boost(증대)'를 합친 이름이에요.</p>
+
+    <div class="imgwrap"><img src="img/02-navercorp-ad-event.jpg" alt="애드부스트 로고와 AD Value Boost 풀이가 담긴 발표 슬라이드" width="700" height="467"></div>
+    <p class="cap">애드부스트는 'AD(광고) + Value(가치) + Boost(증대)'를 합친 이름이에요.</p>
+    <p class="src">이미지 출처: <a href="https://navercorp.com/media/pressReleasesDetail?seq=32534" target="_blank">NAVER Corp. 보도자료</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 애드부스트 명칭 유래를 보여줘 정의를 뒷받침 / 출처: navercorp.com 공식 보도자료(2025-05-28) / 분류: A형 -->
+
+    <p>이 배경에는 네이버가 2025년부터 순차적으로 공개해 온 AI 광고 솔루션 애드부스트가 있어요. 애드부스트 쇼핑도 이미 별도로 먼저 출시돼 있었고요. 다만 이때 발표는 "AI 기반 통합 비즈니스 플랫폼"이라는 큰 방향만 밝혔어요. 이번 AI 브리핑 광고의 시행일이나 범위까지 확정해 준 문서는 아니었어요.</p>
+    <p>규모를 보면 왜 이 지면에 공을 들이는지 짐작이 가요. 뉴스1 보도에 따르면 목표가 있어요. AI 브리핑이 뜨는 화면 비중, 즉 커버리지를 <b>27%에서 연내 40%까지</b> 넓히는 거예요. 검색 화면에서 AI 브리핑 자리가 커질수록 광고 지면도 함께 커지는 구조예요.</p>
+    <p>참고로 애드부스트 계열이 실제로 성과를 내고 있다는 이야기도 있어요. <a href="https://www.sedaily.com/NewsView/2H1L52MU6H" target="_blank">서울경제</a> 보도에 따르면, 애드부스트 쇼핑을 활용한 사업자가 활용하지 않은 곳 대비 신규 구매자·주문 건수가 약 60% 더 많았다는 조사 결과도 있어요(성균관대 연구팀과의 비교연구 기준). 다만 이 수치는 애드부스트 쇼핑 쪽 성과고, 이번에 살펴본 AI 브리핑 파워링크 노출과는 별개의 이야기라 헷갈리지 않으셔도 돼요.</p>
+
+    <h2 class="sub">블로거·마케터라면 뭘 알아두면 좋을까요</h2>
+    <ul>
+      <li>파워링크 광고주 — AI 브리핑 지면에 자동으로 노출될 수 있어요. 노출 자리는 신청이 아니라 시스템이 골라 줘요.</li>
+      <li>쇼핑 검색광고 광고주 — 이번 대상에서는 빠져 있어요. 다만 애드부스트 쇼핑은 이미 따로 출시돼 성장 중인 갈래라, 확장 여부는 계속 지켜볼 만해요.</li>
+      <li>콘텐츠·블로그 제작자 — 내 글이 AI 브리핑에 인용되는 것과, 그 화면에 광고가 뜨는 것은 서로 별개의 일이에요.</li>
+    </ul>
+    <p>특히 세 번째가 헷갈리기 쉬워요. 인용은 콘텐츠 품질과 관련성으로 정해져요. 광고는 애드부스트 파워링크 쪽 이야기라 두 갈래가 겹치지 않아요. 내 글이 자주 인용된다고 광고비를 내야 하는 것도 아니고, 광고를 한다고 인용이 잘 되는 것도 아니에요.</p>
+
+    <p>여기까지 정리한 시행일·노출 범위·과금 방식은 전자신문·news1 같은 언론 보도를 기준으로 확인한 내용이에요. 이 글을 쓰는 시점 기준으로는 네이버 광고주센터의 공식 공지 원문까지는 직접 확인하지 못했어요. 정확한 시행 여부가 궁금하시면 네이버 광고주센터에서 한 번 더 확인해 보시는 걸 추천드려요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 이미 파워링크 광고를 하고 있으면 AI 브리핑 노출을 따로 신청해야 하나요?</b><br>아니에요. 신청은 필요 없어요. 보도 기준으로 네이버 시스템이 자동으로 노출 여부와 자리를 정하는 구조라, 광고주가 별도로 요청할 부분은 없어요.</p>
+    <p><b>Q. 애드부스트 쇼핑도 나중에 AI 브리핑에 붙을 수 있나요?</b><br>이번 발표에서는 확인되지 않았어요. 애드부스트 쇼핑은 별도 갈래로 계속 운영되고 있을 뿐, AI 브리핑 쪽에 합류할지는 아직 언론에 나온 바가 없어요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://navercorp.com/media/pressReleasesDetail?seq=32534" target="_blank">NAVER Corp. 보도자료</a> (공식, 2025.05.28 — 애드부스트 일반 전략 발표, 이번 AI 브리핑 광고의 구체 시행 범위까지 확인해 주는 문서는 아니에요)</p>
+
+    <p><b>하루 정리</b><br>
+    · 네이버 AI 브리핑에 2026.07.21부터 광고가 붙었다고 보도됐어요.<br>
+    · 노출 대상은 애드부스트 파워링크뿐, 쇼핑 광고는 빠졌어요.<br>
+    · 노출 위치는 네이버가 자동으로 정하고, 단가 산정 방식은 공식 공지로 별도 확인이 필요해요.<br>
+    · 블로거라면 인용과 광고는 별개라는 것만 기억해 두면 돼요.</p>
+
+    <div class="tags">#네이버AI브리핑 #애드부스트 #ADVoost #파워링크 #네이버검색광고 #AI브리핑광고 #네이버광고</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>5.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 2분):</b> 📷 <b>사진 2곳</b> 업로드. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 네이버 AI 브리핑 광고 도입 정리 — 애드부스트 파워링크만 노출되는 이유</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>네이버 AI 브리핑에 광고가 왜, 어떻게 붙는지 궁금해하시는 분들이 많더라고요. 결론부터 정리하면, <b>애드부스트(ADVoost) 파워링크만 노출</b>돼요. 네이버 쇼핑 상품과 연동된 광고는 빠졌고요.</p>
+      <p>AI 브리핑은 검색어에 대한 답을 요약해서 보여주는 네이버의 생성형 AI 검색 기능이에요. 이 지면에 광고가 붙기 시작했다는 소식이라, 광고주와 콘텐츠 제작자 모두에게 실질적인 변화예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 1〕 애드부스트 소개 슬라이드 — 미리보기에서 이미지 복사 후 업로드</p>
+      <p>2025년 5월 네이버 광고 컨퍼런스에서 소개된 AI 광고 솔루션 라인업. 왼쪽이 애드부스트예요. (이미지 출처: NAVER Corp. 보도자료)</p>
+      <p class="sp">&nbsp;</p>
+      <h3>언제부터 광고가 붙었나요</h3>
+      <p>네이버 AI 브리핑에는 2026년 7월 21일부터 광고가 노출되기 시작했다고 보도됐어요. <a href="https://www.etnews.com/20260618000242" target="_blank">전자신문</a>이 2026년 6월 18일 이 계획을 먼저 전했어요. 이후 <a href="https://www.news1.kr/it-science/internet-platform/6204583" target="_blank">news1</a> 등 다른 매체도 같은 시행일로 확인했고요.</p>
+      <p>이번 노출은 정식 시행이라는 점에서 이전과 달라요. 지난 5월부터는 <b>비공개 베타테스트(CBT)</b> 형태로만 광고가 붙어 있었다고 해요.</p>
+      <h3>어떤 광고만 뜨나요 — 파워링크만, 쇼핑은 제외</h3>
+      <p>AI 브리핑에 뜨는 광고는 애드부스트 검색광고, 그중에서도 <b>파워링크</b>뿐이에요. 같은 애드부스트 계열이라도 네이버 쇼핑 상품과 연동되는 광고는 이번 대상에서 빠졌어요.</p>
+      <p>전자신문은 이 부분을 이렇게 전했어요. <b>"네이버 쇼핑 상품을 연동하는 광고는 제외했다"</b>고요. (전자신문, 2026.06.18)</p>
+      <p>그러니까 지금은 파워링크 광고주만 AI 브리핑 노출 대상이에요. 쇼핑 검색광고를 돌리는 광고주는 아직 해당하지 않아요.</p>
+      <h3>노출 위치와 단가는 어떻게 정해지나요</h3>
+      <p>노출 위치는 네이버 광고 에이전트가 자동으로 정해요. 광고주가 직접 자리를 고르는 구조가 아니에요.</p>
+      <p>보도에 따르면 네이버 광고 에이전트가 문맥과 탐색 흐름을 분석해요. 그렇게 가장 알맞은 노출 지점을 자동으로 골라요. 반면 단가, 즉 CPC(Cost Per Click, 클릭당 광고비)를 정확히 어떻게 산정하는지는 확인되지 않았어요. 광고주가 별도로 입찰할 수 있는지도 언론 보도만으로는 확인되지 않았어요. 이 부분은 네이버 광고주센터의 공식 공지로 별도 확인이 필요해요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>항목</th><th>내용(보도 기준)</th></tr>
+        <tr><td class="l">노출 개시</td><td>2026년 7월 21일</td></tr>
+        <tr><td class="l">노출 대상</td><td>애드부스트 파워링크</td></tr>
+        <tr><td class="l">제외 대상</td><td>애드부스트 쇼핑(쇼핑 상품 연동 광고)</td></tr>
+        <tr><td class="l">노출 지점 선정</td><td>네이버 광고 에이전트 자동 선정</td></tr>
+        <tr><td class="l">단가(CPC) 산정</td><td>확인 필요(언론 미확인 · 공식 공지 참고)</td></tr>
+      </table>
+      <p class="sp">&nbsp;</p>
+      <h3>네이버는 왜 이 광고를 붙였을까요</h3>
+      <p>네이버가 AI 브리핑을 새로운 수익원으로 키우려는 것으로 보여요. 관련 발언들을 보면 그 방향이 뚜렷해요.</p>
+      <p>네이버 관계자는 전자신문 인터뷰에서 이렇게 말했어요. <b>"이용자는 자신이 필요로 하는 정보와 관련성이 높은 상품 또는 장소에 대한 추가 정보를 확인할 수 있고, 광고주는 잠재적 고객층과 접점 확대와 매출 증대를 기대할 수 있을 것"</b>이라고요.</p>
+      <p>최수연 대표도 관련 발언에서 <b>"AI 검색이 플랫폼 내 구매와 예약으로 이어지는 선순환 구조를 구축하고, 연말까지 유의미한 신규 수익원이 될 수 있게 하겠다"</b>고 밝힌 것으로 전자신문이 전했어요.</p>
+      <p>그 이름에도 방향이 담겨 있어요. 애드부스트는 'AD(광고) + Value(가치) + Boost(증대)'를 합친 이름이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 2〕 애드부스트 로고·명칭 유래 슬라이드 — 미리보기에서 이미지 복사 후 업로드</p>
+      <p>애드부스트는 'AD(광고) + Value(가치) + Boost(증대)'를 합친 이름이에요. (이미지 출처: NAVER Corp. 보도자료)</p>
+      <p class="sp">&nbsp;</p>
+      <p>이 배경에는 네이버가 2025년부터 순차적으로 공개해 온 AI 광고 솔루션 애드부스트가 있어요. 애드부스트 쇼핑도 이미 별도로 먼저 출시돼 있었고요. 다만 이때 발표는 "AI 기반 통합 비즈니스 플랫폼"이라는 큰 방향만 밝혔어요. 이번 AI 브리핑 광고의 시행일이나 범위까지 확정해 준 문서는 아니었어요.</p>
+      <p>규모를 보면 왜 이 지면에 공을 들이는지 짐작이 가요. 뉴스1 보도에 따르면 목표가 있어요. AI 브리핑이 뜨는 화면 비중, 즉 커버리지를 <b>27%에서 연내 40%까지</b> 넓히는 거예요. 검색 화면에서 AI 브리핑 자리가 커질수록 광고 지면도 함께 커지는 구조예요.</p>
+      <p>참고로 애드부스트 계열이 실제로 성과를 내고 있다는 이야기도 있어요. <a href="https://www.sedaily.com/NewsView/2H1L52MU6H" target="_blank">서울경제</a> 보도에 따르면, 애드부스트 쇼핑을 활용한 사업자가 활용하지 않은 곳 대비 신규 구매자·주문 건수가 약 60% 더 많았다는 조사 결과도 있어요(성균관대 연구팀과의 비교연구 기준). 다만 이 수치는 애드부스트 쇼핑 쪽 성과고, 이번에 살펴본 AI 브리핑 파워링크 노출과는 별개의 이야기라 헷갈리지 않으셔도 돼요.</p>
+      <h3>블로거·마케터라면 뭘 알아두면 좋을까요</h3>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>파워링크 광고주 — AI 브리핑 지면에 자동으로 노출될 수 있어요. 노출 자리는 신청이 아니라 시스템이 골라 줘요.</li>
+        <li>쇼핑 검색광고 광고주 — 이번 대상에서는 빠져 있어요. 다만 애드부스트 쇼핑은 이미 따로 출시돼 성장 중인 갈래라, 확장 여부는 계속 지켜볼 만해요.</li>
+        <li>콘텐츠·블로그 제작자 — 내 글이 AI 브리핑에 인용되는 것과, 그 화면에 광고가 뜨는 것은 서로 별개의 일이에요.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>특히 세 번째가 헷갈리기 쉬워요. 인용은 콘텐츠 품질과 관련성으로 정해져요. 광고는 애드부스트 파워링크 쪽 이야기라 두 갈래가 겹치지 않아요. 내 글이 자주 인용된다고 광고비를 내야 하는 것도 아니고, 광고를 한다고 인용이 잘 되는 것도 아니에요.</p>
+      <p>여기까지 정리한 시행일·노출 범위·과금 방식은 전자신문·news1 같은 언론 보도를 기준으로 확인한 내용이에요. 이 글을 쓰는 시점 기준으로는 네이버 광고주센터의 공식 공지 원문까지는 직접 확인하지 못했어요. 정확한 시행 여부가 궁금하시면 네이버 광고주센터에서 한 번 더 확인해 보시는 걸 추천드려요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 이미 파워링크 광고를 하고 있으면 AI 브리핑 노출을 따로 신청해야 하나요?</b><br>아니에요. 신청은 필요 없어요. 보도 기준으로 네이버 시스템이 자동으로 노출 여부와 자리를 정하는 구조라, 광고주가 별도로 요청할 부분은 없어요.</p>
+      <p><b>Q. 애드부스트 쇼핑도 나중에 AI 브리핑에 붙을 수 있나요?</b><br>이번 발표에서는 확인되지 않았어요. 애드부스트 쇼핑은 별도 갈래로 계속 운영되고 있을 뿐, AI 브리핑 쪽에 합류할지는 아직 언론에 나온 바가 없어요.</p>
+        <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://navercorp.com/media/pressReleasesDetail?seq=32534" target="_blank">NAVER Corp. 보도자료</a> (공식, 2025.05.28 — 이번 AI 브리핑 광고의 구체 시행 범위까지 확인해 주는 문서는 아니에요)</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 네이버 AI 브리핑에 2026.07.21부터 광고가 붙었다고 보도됐어요.<br>
+      · 노출 대상은 애드부스트 파워링크뿐, 쇼핑 광고는 빠졌어요.<br>
+      · 노출 위치는 네이버가 자동으로 정하고, 단가 산정 방식은 공식 공지로 별도 확인이 필요해요.<br>
+      · 블로거라면 인용과 광고는 별개라는 것만 기억해 두면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#네이버AI브리핑 #애드부스트 #ADVoost #파워링크 #네이버검색광고 #AI브리핑광고 #네이버광고</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
