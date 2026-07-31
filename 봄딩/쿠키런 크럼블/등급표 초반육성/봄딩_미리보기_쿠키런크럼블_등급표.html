@@ -1,0 +1,279 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>쿠키런 크럼블 등급표 총정리! 초반엔 뭐부터 키워야 할까</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:15.5px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">쿠키런 크럼블 등급표 총정리! 초반엔 뭐부터 키워야 할까</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.07.31</span><span>· 게임</span></div>
+
+    <p>쿠키런: 크럼블이 어제(7월 30일) 정식으로 문을 열었죠. 등급표부터 찾아보시는 분들이 많을 것 같아서, 저도 아직 계정만 만들어둔 참이지만 공식 발표랑 매체 프리뷰 기준으로 등급 체계랑 초반 육성 순서부터 먼저 정리해볼게요. 게임 소개랑 출시 소식은 이전 글에서 이미 다뤘으니, 이번엔 등급표랑 초반에 뭘 먼저 키워야 할지에만 집중해볼게요.</p>
+
+    <h2 class="sub">쿠키런 크럼블 등급, 몇 단계로 나뉘나요?</h2>
+    <p>쿠키런: 크럼블의 쿠키 등급은 <b>커먼(C)부터 트랜센던트 슈퍼 스페셜 레어(TSSR)까지, 총 6단계</b>로 나뉘어요. 펫도 비슷한 등급 체계로 알려져 있어요.</p>
+    <table class="tbl">
+      <tr><th>등급</th><th>풀네임</th></tr>
+      <tr><td>C</td><td>커먼</td></tr>
+      <tr><td>U</td><td>언커먼</td></tr>
+      <tr><td>R</td><td>레어</td></tr>
+      <tr><td>SR</td><td>슈퍼레어</td></tr>
+      <tr><td>SSR</td><td>슈퍼 스페셜 레어</td></tr>
+      <tr><td>TSSR</td><td>트랜센던트 슈퍼 스페셜 레어</td></tr>
+    </table>
+    <p>등급이 하나씩 올라갈수록 손에 넣기가 까다로워지는 구조라고 보시면 되는데, 조금 특이한 부분이 하나 더 있어서 이어서 짚어볼게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 인게임 쿠키 도감·등급 표기 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 첫 접속 후 도감 메뉴에서 등급별 정렬 화면을 캡처해두면 좋아요</div>
+    <p class="cap">등급 태그가 실제로 어떻게 표시되는지 보여주는 자리예요</p>
+
+    <h2 class="sub">얼터너티브·레전더리는 좀 다르더라고요</h2>
+    <p>표로 보면 C-U-R-SR-SSR-TSSR 여섯 단계가 기본 줄기고, 그중에서도 <b>TSSR 쪽에 얼터너티브(Alternative)·레전더리(Legendary)</b>라는 특별한 계열이 하나 더 붙어 있어요.</p>
+    <ul>
+      <li><b>얼터너티브</b> — 기존 쿠키런 시리즈에서 크게 활약 못 했던 낮은 등급 쿠키를 TSSR급으로 재해석한 계열이에요. 오븐방랑자 쿠키(원래 C등급이었던 용감한 쿠키의 얼터너티브 버전)가 출시 시점에 실제로 만날 수 있는 얼터너티브 예시예요. 브라이트시커 쿠키·레디베리 쿠키는 나중에 업데이트로 추가될 예정이라고 해요.</li>
+      <li><b>레전더리</b> — 바람궁수 쿠키가 해당하는 최상위 특수 등급이에요.</li>
+    </ul>
+    <p>오래전부터 쿠키런을 봐온 분들이라면, 예전엔 존재감 없던 쿠키가 얼터너티브로 화려하게 부활하는 걸 보는 재미도 있을 것 같더라고요.</p>
+
+    <h2 class="sub">대표 쿠키로 감을 잡아볼게요</h2>
+    <p>등급을 글자로만 보면 잘 안 와닿으니까, 실제 쿠키 이름으로 짚어볼게요.</p>
+    <ul>
+      <li><b>C등급</b> — 용감한 쿠키·딸기맛 쿠키·마법사맛 쿠키. 시리즈 초창기부터 함께해 온 원년 멤버들이에요.</li>
+      <li><b>SSR등급</b> — 뱀파이어맛 쿠키·다크초코 쿠키·슈크림맛 쿠키·크림소다맛 쿠키.</li>
+    </ul>
+    <p>이 중 <b>크림소다맛 쿠키는 출시 후 7일 연속 출석만 하면 확정으로 지급되는 쿠키</b>더라고요. SSR인데 뽑기 운 없이 그냥 받을 수 있는 거라, 초반 전력에 은근히 큰 도움이 될 것 같아요.</p>
+
+    <div class="imgwrap"><img src="img/keyvisual.jpg" alt="쿠키런 크럼블 출시 기념 쿠키 로스터 이미지" width="1000" height="1000"></div>
+    <p class="cap">출시 기념으로 공개된 쿠키 로스터 이미지예요. 다양한 쿠키가 한눈에 보여요</p>
+    <p class="src">이미지 출처: <a href="https://www.gametoc.co.kr/news/articleView.html?idxno=110318" target="_blank">게임톡 - 쿠키런: 크럼블 정식 출시 기사</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">이 등급표, 성능 순위는 아니에요</h2>
+    <p>여기서 헷갈리기 쉬운 게 하나 있는데, <b>이 등급표는 얼마나 희귀하게 얻는 쿠키인지를 나눈 분류일 뿐이지, 어떤 쿠키가 전투에서 더 센지를 매긴 성능 순위가 아니에요.</b></p>
+    <p>실제로 SSR 등급인 크림소다맛 쿠키가 출석 7일이면 누구나 확정으로 받을 수 있는 것만 봐도, 등급이 곧 '희귀함=무조건 강함'을 뜻하진 않는다는 걸 알 수 있어요. 국내 매체에는 아직 S·A·B 같은 성능 기준 순위가 따로 안 나왔더라고요. 해외에는 이미 나온 곳도 있다지만, 국내 서버 밸런스·업데이트 속도가 다를 수 있어서 이 글에서는 공식 등급(레어도) 기준으로만 정리해볼게요.</p>
+
+    <h2 class="sub">스킬 말고 시너지도 있다는 거, 알고 계셨어요?</h2>
+    <p>쿠키런: 크럼블은 등급·스킬 말고도 <b>쿠키마다 '시너지'라는 요소를 따로 갖고 있어요.</b></p>
+    <p>매체 프리뷰에 따르면 시너지는 조합 상대에 따라 방향이 나뉘어 있어서, 전투력 높은 쿠키만 잔뜩 모은다고 능사가 아니라 조합을 같이 고려해야 한다고 해요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>역할</th></tr>
+      <tr><td>주는 쿠키</td><td>시너지 효과를 다른 쿠키에게 건네주는 쪽</td></tr>
+      <tr><td>받는 쿠키</td><td>그 시너지 효과를 넘겨받아 쓰는 쪽</td></tr>
+    </table>
+    <p>메인으로 밀 쿠키를 하나 정하고 그 주변을 시너지로 채우는 식으로도, 반대로 시너지 연결 자체를 촘촘하게 짜는 식으로도 파티를 구성할 수 있다고 하더라고요.</p>
+
+    <h2 class="sub">그래서 초반엔 뭐부터 키워야 할까요?</h2>
+    <p>등급이 높다고 무작정 먼저 키우기보다, <b>아래 세 가지 기준</b>으로 순서를 잡으면 헷갈리지 않아요.</p>
+    <ul>
+      <li><b>1순위 — 확정으로 주는 쿠키부터.</b> SSR 크림소다맛 쿠키처럼 등급과 상관없이 뽑기 운 없이 100% 받는 쿠키는 무조건 먼저 키우는 게 맞아요. 이미 손에 들어온 자원이라 투자 대비 손해 볼 일이 없거든요.</li>
+      <li><b>2순위 — 시너지가 걸리는 쿠키.</b> 위에서 짚은 시너지 구조상, 내가 가진 쿠키랑 주고받는 관계에 있는 쿠키는 등급이 낮아도 파티 전체 화력에 보탬이 될 수 있어요.</li>
+      <li><b>3순위 — 얻기 쉬운 등급부터.</b> C·U처럼 상대적으로 손에 넣기 쉬운 등급을 기본 라인업으로 먼저 채워두면, 나중에 SSR·TSSR을 뽑아도 자연스럽게 교체·보강하는 흐름으로 갈 수 있어요.</li>
+    </ul>
+    <p>성능 티어가 아직 정립되지 않은 지금은, <b>확정 지급·시너지·획득 난이도</b> 이 세 가지가 초반 육성 순서를 잡는 가장 현실적인 기준인 것 같아요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 얼터너티브·레전더리 쿠키는 뽑기로 나오나요?</b><br>네, 둘 다 TSSR 라인에 속한 특수 계열이라 기본적으로 TSSR 등급 뽑기 범주 안에서 만나게 되는 구조예요. 오븐방랑자 쿠키가 그 실제 예시고요.</p>
+    <p><b>Q. 쿠키 시너지는 어디서 확인할 수 있나요?</b><br>인게임 쿠키 상세 정보 화면에서 쿠키별로 '주는 쿠키·받는 쿠키' 관계를 확인할 수 있어요. 메인으로 밀 쿠키 하나를 정해두고, 그 쿠키와 시너지가 걸리는 쿠키들을 같이 육성하면 감 잡기가 한결 쉬워요.</p>
+
+    <h2 class="sub">쿠키런 크럼블 등급표 정리</h2>
+    <p>확실한 건 하나예요. 쿠키런: 크럼블 등급은 <b>C-U-R-SR-SSR-TSSR 6단계에, 얼터너티브·레전더리라는 특별 계열이 더해진 구조</b>고요. 이 등급표는 성능 순위가 아니라 희귀도 분류라는 것만 기억해두시면 헷갈릴 일이 없을 것 같아요. 초반에는 확정 지급 쿠키부터, 그다음 시너지·획득 난이도 순으로 육성 순서를 잡아보시면 좋을 것 같습니다. 저도 직접 접속해서 키워보고, 성능 순위까지 포함한 실제 후기로 다시 찾아올게요.</p>
+
+    <p><b>✔ 쿠키런 크럼블 같이 보기 좋은 내용</b><br>
+    사전예약 소식을 다룬 '쿠키런 크럼블 사전예약 시작! 방치형 쿠키런 키우기 첫인상 정리'랑, 출시일이 확정됐을 때 정리한 '쿠키런 크럼블 7월 30일 출시 확정! 사전등록 180만 보상 총정리' 글도 참고하시면 좋아요.</p>
+    <!-- 내부링크: 쿠키런 크럼블 사전예약 첫인상 · 출시확정 글 post ID 확인 후 연결 -->
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://pre.cookieruncrumble.com/ko" target="_blank">쿠키런: 크럼블 공식 페이지</a><br>
+    · <a href="https://play.google.com/store/apps/details?id=com.devsisters.cc&hl=ko" target="_blank">쿠키런 키우기 - 쿠키런: 크럼블 (Google Play)</a></p>
+    <p style="font-size:12px;color:#8c8c8c;margin:-14px 0 20px;">2026.07.31 기준</p>
+
+    <div class="tags">#쿠키런크럼블 #쿠키런크럼블등급표 #쿠키런크럼블초반육성 #쿠키런크럼블쿠키등급 #방치형게임추천</div>
+  </div>
+</div>
+</body>
+<!-- AI브리핑 타깃 질문: 쿠키런 크럼블 등급(레어도)은 어떻게 나뉘나요 / 초반에는 어떤 쿠키부터 키워야 하나요 / SSR 쿠키는 어떻게 얻나요 -->
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 오른쪽 라이브러리에 뜨는지 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 3분):</b> 📷 <b>사진 2곳</b> 업로드(로스터 이미지 재업로드 + 도감 화면 직접 촬영). 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 쿠키런 크럼블 등급표 총정리! 초반엔 뭐부터 키워야 할까</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>쿠키런: 크럼블이 어제(7월 30일) 정식으로 문을 열었죠. 등급표부터 찾아보시는 분들이 많을 것 같아서, 저도 아직 계정만 만들어둔 참이지만 공식 발표랑 매체 프리뷰 기준으로 등급 체계랑 초반 육성 순서부터 먼저 정리해볼게요. 게임 소개랑 출시 소식은 이전 글에서 이미 다뤘으니, 이번엔 등급표랑 초반에 뭘 먼저 키워야 할지에만 집중해볼게요.</p>
+
+      <h3>쿠키런 크럼블 등급, 몇 단계로 나뉘나요?</h3>
+      <p>쿠키런: 크럼블의 쿠키 등급은 <b>커먼(C)부터 트랜센던트 슈퍼 스페셜 레어(TSSR)까지, 총 6단계</b>로 나뉘어요. 펫도 비슷한 등급 체계로 알려져 있어요.</p>
+      <table>
+        <tr><th>등급</th><th>풀네임</th></tr>
+        <tr><td class="l">C</td><td>커먼</td></tr>
+        <tr><td class="l">U</td><td>언커먼</td></tr>
+        <tr><td class="l">R</td><td>레어</td></tr>
+        <tr><td class="l">SR</td><td>슈퍼레어</td></tr>
+        <tr><td class="l">SSR</td><td>슈퍼 스페셜 레어</td></tr>
+        <tr><td class="l">TSSR</td><td>트랜센던트 슈퍼 스페셜 레어</td></tr>
+      </table>
+      <p>등급이 하나씩 올라갈수록 손에 넣기가 까다로워지는 구조라고 보시면 되는데, 조금 특이한 부분이 하나 더 있어서 이어서 짚어볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 인게임 쿠키 도감·등급 표기 화면 — 첫 접속 후 직접 촬영해 업로드</p>
+      <p>└ 캡션 추천: "등급 태그가 실제로 어떻게 표시되는지 보여주는 자리예요"</p>
+
+      <h3>얼터너티브·레전더리는 좀 다르더라고요</h3>
+      <p>표로 보면 C-U-R-SR-SSR-TSSR 여섯 단계가 기본 줄기고, 그중에서도 <b>TSSR 쪽에 얼터너티브(Alternative)·레전더리(Legendary)</b>라는 특별한 계열이 하나 더 붙어 있어요.</p>
+      <ul>
+        <li><b>얼터너티브</b> — 기존 쿠키런 시리즈에서 크게 활약 못 했던 낮은 등급 쿠키를 TSSR급으로 재해석한 계열이에요. 오븐방랑자 쿠키(원래 C등급이었던 용감한 쿠키의 얼터너티브 버전)가 출시 시점에 실제로 만날 수 있는 얼터너티브 예시예요. 브라이트시커 쿠키·레디베리 쿠키는 나중에 업데이트로 추가될 예정이라고 해요.</li>
+        <li><b>레전더리</b> — 바람궁수 쿠키가 해당하는 최상위 특수 등급이에요.</li>
+      </ul>
+      <p>오래전부터 쿠키런을 봐온 분들이라면, 예전엔 존재감 없던 쿠키가 얼터너티브로 화려하게 부활하는 걸 보는 재미도 있을 것 같더라고요.</p>
+
+      <h3>대표 쿠키로 감을 잡아볼게요</h3>
+      <p>등급을 글자로만 보면 잘 안 와닿으니까, 실제 쿠키 이름으로 짚어볼게요.</p>
+      <ul>
+        <li><b>C등급</b> — 용감한 쿠키·딸기맛 쿠키·마법사맛 쿠키. 시리즈 초창기부터 함께해 온 원년 멤버들이에요.</li>
+        <li><b>SSR등급</b> — 뱀파이어맛 쿠키·다크초코 쿠키·슈크림맛 쿠키·크림소다맛 쿠키.</li>
+      </ul>
+      <p>이 중 <b>크림소다맛 쿠키는 출시 후 7일 연속 출석만 하면 확정으로 지급되는 쿠키</b>더라고요. SSR인데 뽑기 운 없이 그냥 받을 수 있는 거라, 초반 전력에 은근히 큰 도움이 될 것 같아요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 출시 기념 쿠키 로스터 이미지 — 게임톡 기사에서 받아 업로드</p>
+      <p>└ 캡션 추천: "출시 기념으로 공개된 쿠키 로스터 이미지예요. 다양한 쿠키가 한눈에 보여요"</p>
+
+      <h3>이 등급표, 성능 순위는 아니에요</h3>
+      <p>여기서 헷갈리기 쉬운 게 하나 있는데, <b>이 등급표는 얼마나 희귀하게 얻는 쿠키인지를 나눈 분류일 뿐이지, 어떤 쿠키가 전투에서 더 센지를 매긴 성능 순위가 아니에요.</b></p>
+      <p>실제로 SSR 등급인 크림소다맛 쿠키가 출석 7일이면 누구나 확정으로 받을 수 있는 것만 봐도, 등급이 곧 '희귀함=무조건 강함'을 뜻하진 않는다는 걸 알 수 있어요. 국내 매체에는 아직 S·A·B 같은 성능 기준 순위가 따로 안 나왔더라고요. 해외에는 이미 나온 곳도 있다지만, 국내 서버 밸런스·업데이트 속도가 다를 수 있어서 이 글에서는 공식 등급(레어도) 기준으로만 정리해볼게요.</p>
+
+      <h3>스킬 말고 시너지도 있다는 거, 알고 계셨어요?</h3>
+      <p>쿠키런: 크럼블은 등급·스킬 말고도 <b>쿠키마다 '시너지'라는 요소를 따로 갖고 있어요.</b></p>
+      <p>매체 프리뷰에 따르면 시너지는 조합 상대에 따라 방향이 나뉘어 있어서, 전투력 높은 쿠키만 잔뜩 모은다고 능사가 아니라 조합을 같이 고려해야 한다고 해요.</p>
+      <table>
+        <tr><th>구분</th><th>역할</th></tr>
+        <tr><td class="l">주는 쿠키</td><td>시너지 효과를 다른 쿠키에게 건네주는 쪽</td></tr>
+        <tr><td class="l">받는 쿠키</td><td>그 시너지 효과를 넘겨받아 쓰는 쪽</td></tr>
+      </table>
+      <p>메인으로 밀 쿠키를 하나 정하고 그 주변을 시너지로 채우는 식으로도, 반대로 시너지 연결 자체를 촘촘하게 짜는 식으로도 파티를 구성할 수 있다고 하더라고요.</p>
+
+      <h3>그래서 초반엔 뭐부터 키워야 할까요?</h3>
+      <p>등급이 높다고 무작정 먼저 키우기보다, <b>아래 세 가지 기준</b>으로 순서를 잡으면 헷갈리지 않아요.</p>
+      <ul>
+        <li><b>1순위 — 확정으로 주는 쿠키부터.</b> SSR 크림소다맛 쿠키처럼 등급과 상관없이 뽑기 운 없이 100% 받는 쿠키는 무조건 먼저 키우는 게 맞아요. 이미 손에 들어온 자원이라 투자 대비 손해 볼 일이 없거든요.</li>
+        <li><b>2순위 — 시너지가 걸리는 쿠키.</b> 위에서 짚은 시너지 구조상, 내가 가진 쿠키랑 주고받는 관계에 있는 쿠키는 등급이 낮아도 파티 전체 화력에 보탬이 될 수 있어요.</li>
+        <li><b>3순위 — 얻기 쉬운 등급부터.</b> C·U처럼 상대적으로 손에 넣기 쉬운 등급을 기본 라인업으로 먼저 채워두면, 나중에 SSR·TSSR을 뽑아도 자연스럽게 교체·보강하는 흐름으로 갈 수 있어요.</li>
+      </ul>
+      <p>성능 티어가 아직 정립되지 않은 지금은, <b>확정 지급·시너지·획득 난이도</b> 이 세 가지가 초반 육성 순서를 잡는 가장 현실적인 기준인 것 같아요.</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 얼터너티브·레전더리 쿠키는 뽑기로 나오나요?</b><br>네, 둘 다 TSSR 라인에 속한 특수 계열이라 기본적으로 TSSR 등급 뽑기 범주 안에서 만나게 되는 구조예요. 오븐방랑자 쿠키가 그 실제 예시고요.</p>
+      <p><b>Q. 쿠키 시너지는 어디서 확인할 수 있나요?</b><br>인게임 쿠키 상세 정보 화면에서 쿠키별로 '주는 쿠키·받는 쿠키' 관계를 확인할 수 있어요. 메인으로 밀 쿠키 하나를 정해두고, 그 쿠키와 시너지가 걸리는 쿠키들을 같이 육성하면 감 잡기가 한결 쉬워요.</p>
+
+      <h3>쿠키런 크럼블 등급표 정리</h3>
+      <p>확실한 건 하나예요. 쿠키런: 크럼블 등급은 <b>C-U-R-SR-SSR-TSSR 6단계에, 얼터너티브·레전더리라는 특별 계열이 더해진 구조</b>고요. 이 등급표는 성능 순위가 아니라 희귀도 분류라는 것만 기억해두시면 헷갈릴 일이 없을 것 같아요. 초반에는 확정 지급 쿠키부터, 그다음 시너지·획득 난이도 순으로 육성 순서를 잡아보시면 좋을 것 같습니다. 저도 직접 접속해서 키워보고, 성능 순위까지 포함한 실제 후기로 다시 찾아올게요.</p>
+
+      <p><b>✔ 쿠키런 크럼블 같이 보기 좋은 내용</b><br>
+      사전예약 소식을 다룬 '쿠키런 크럼블 사전예약 시작! 방치형 쿠키런 키우기 첫인상 정리'랑, 출시일이 확정됐을 때 정리한 '쿠키런 크럼블 7월 30일 출시 확정! 사전등록 180만 보상 총정리' 글도 참고하시면 좋아요.</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://pre.cookieruncrumble.com/ko" target="_blank">쿠키런: 크럼블 공식 페이지</a><br>
+      · <a href="https://play.google.com/store/apps/details?id=com.devsisters.cc&hl=ko" target="_blank">쿠키런 키우기 - 쿠키런: 크럼블 (Google Play)</a><br>
+      (2026.07.31 기준)</p>
+
+      <p class="tags-line">#쿠키런크럼블 #쿠키런크럼블등급표 #쿠키런크럼블초반육성 #쿠키런크럼블쿠키등급 #방치형게임추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</html>
