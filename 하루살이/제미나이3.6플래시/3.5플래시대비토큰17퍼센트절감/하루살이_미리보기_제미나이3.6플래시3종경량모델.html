@@ -1,0 +1,293 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>제미나이 3.6 플래시 등 경량 모델 3종 정리 — 3.5 플래시 대비 뭐가 달라졌나요</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}  /* 네이버 빈 문단(개행) — output-format §4-2-b */
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">AI 소식</div>
+    <h1 class="title">제미나이 3.6 플래시 등 경량 모델 3종 정리 — 3.5 플래시 대비 뭐가 달라졌나요</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.07.31</span><span>· IT</span></div>
+    <!-- AEO 타깃 질문: 제미나이 3.6 플래시는 3.5와 뭐가 달라졌나요? / 제미나이 경량 모델 3종 가격이 서로 얼마나 다른가요? -->
+    <!-- 인용 후크: 공식 발표문 "출력 토큰 17% 감소" 직접 인용 + 17%·65% 수치 구분 명시 + 3모델 스펙 비교표 -->
+    <!-- 기준 시점: 2026.07.31 (발표일 2026.07.21 미국 · 2026.07.22 구글코리아 게시) -->
+
+    <p>구글이 2026년 7월 21일(미국 기준) 제미나이 경량 모델 3종을 발표했어요. 3.6 플래시(Gemini 3.6 Flash)·3.5 플래시-라이트(Gemini 3.5 Flash-Lite)·3.5 플래시 사이버(Gemini 3.5 Flash Cyber), 이렇게 세 가지예요. 핵심은 3.6 플래시가 출력 토큰 사용량을 17% 줄인 점이에요(아티피셜 애널리시스 인덱스 기준).</p>
+      <p>이 글은 구글 공식 발표 기준으로 정리했어요. 궁금한 것만 보고 싶으면 아래 비교표부터 봐도 돼요.</p>
+
+    <!-- 이미지 이유: 리드 직후 상단 대표 이미지 — 이번 발표가 세 모델 동시 공개라는 것을 한 장으로 보여주려 / 출처: https://blog.google/intl/ko-kr/company-news/technology/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/ (공식 발표 대표 이미지) / 분류: A형(공식 발표문 CDN 직링크) -->
+    <div class="imgwrap"><img src="img/00-gemini-3models-keyart.webp" width="1600" height="900" alt="구글 제미나이 3.6 플래시, 3.5 플래시-라이트, 3.5 플래시 사이버 공식 발표 대표 이미지"></div>
+    <p class="cap">구글이 공식 발표문에 올린 세 모델 소개 대표 이미지예요.</p>
+    <p class="src">이미지 출처: <a href="https://blog.google/intl/ko-kr/company-news/technology/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/" target="_blank">구글코리아 공식 블로그 — 제미나이 3.6 플래시 등 발표문</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <p>제미나이 3.6 플래시는 제미나이 3.5 플래시를 잇는, 코딩·지식 작업·멀티모달 성능에 특화된 경량 모델이에요.</p>
+
+    <h2 class="sub">3.6 플래시, 3.5 플래시 대비 뭐가 달라졌나요</h2>
+    <p>제미나이 3.6 플래시는 3.5 플래시보다 출력 토큰 사용량을 17% 줄이면서 코딩·지식 작업·컴퓨터 사용 성능은 끌어올린 모델이에요(아티피셜 애널리시스 인덱스 기준).</p>
+    <p>공식 발표문에는 이렇게 적혀 있어요.</p>
+    <p>"3.6 플래시는 3.5 플래시보다 출력 토큰 사용량을 17% 줄였습니다." (구글 공식 발표문, 2026.07.22 구글코리아 게시)</p>
+      <p>여기서 말하는 17%는 코딩·지식 작업·멀티모달을 아우르는 범용 효율 지표예요. 특정 작업 하나만 골라 잰 수치가 아니에요.</p>
+    <p>데이터커브(Datacurve)의 DeepSWE 벤치마크(장기 엔지니어링 작업 한정)에서는 최대 65%까지 줄었다고도 밝혀요. 17%와는 다른 기준이라 섞어 쓰면 안 돼요.</p>
+
+    <!-- 이미지 이유: 바로 위 문단이 말하는 17%·65% 두 수치의 근거 그래프를 그대로 보여주려(각각 아티피셜 애널리시스 인덱스·DeepSWE v1.1 측정) / 출처: 위와 동일 공식 발표문 / 분류: A형(공식 발표문 CDN 직링크) -->
+    <div class="imgwrap"><img src="img/01-gemini36flash-token-efficiency-evals.webp" width="1600" height="900" alt="제미나이 3.6 플래시 출력 토큰 효율 그래프 — DeepSWE v1.1 276K에서 97K로, 아티피셜 애널리시스 인덱스 28K에서 23K로 감소"></div>
+    <p class="cap">DeepSWE v1.1 기준 276K→97K(약 65%↓), 아티피셜 애널리시스 인덱스 기준 28K→23K(약 17%↓)로 서로 다른 수치예요.</p>
+    <p class="src">이미지 출처: <a href="https://blog.google/intl/ko-kr/company-news/technology/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/" target="_blank">구글코리아 공식 블로그 — 제미나이 3.6 플래시 등 발표문</a></p>
+
+    <p>가격도 낮아졌어요. 3.6 플래시는 입력 토큰 100만 개당 1.50달러, 출력 토큰 100만 개당 7.50달러예요. 기존 3.5 플래시보다 출력 요금이 낮아진 가격이에요(정확한 이전 가격은 공식 발표에서 별도로 확인되지 않았어요, 2026.07.31 기준).</p>
+    <ul>
+      <li><b>코딩 정확도</b> — DeepSWE 벤치마크에서 49%(3.5 플래시는 37%)</li>
+      <li><b>컴퓨터 사용(Computer Use)</b> — OS월드 검증(OSWorld-Verified)에서 83.0%(3.5 플래시는 78.4%)</li>
+    </ul>
+
+    <h2 class="sub">3.5 플래시-라이트는 어떤 모델인가요</h2>
+    <p>제미나이 3.5 플래시-라이트는 3.5 시리즈 중 속도와 비용 효율이 가장 높은 모델로, 아티피셜 애널리시스 인덱스 기준 초당 350개 출력 토큰을 처리해요.</p>
+    <p>에이전틱 검색·문서 처리처럼 지연 시간이 짧고 처리량이 많아야 하는 워크플로우용이에요. 가격은 입력 100만 토큰당 0.30달러, 출력 100만 토큰당 2.50달러고요(2026.07.31 기준).</p>
+
+    <!-- 이미지 이유: 바로 아래 리스트가 말하는 3 플래시 대비 벤치마크 수치의 근거 그래프를 그대로 보여주려 / 출처: 위와 동일 공식 발표문 / 분류: A형(공식 발표문 CDN 직링크) -->
+    <div class="imgwrap"><img src="img/02-gemini35flashlite-evals.webp" width="1600" height="900" alt="제미나이 3.5 플래시-라이트 벤치마크 그래프 — SWE-벤치 프로 49.6%에서 54.2%로, OS월드 인증 65.1%에서 74.0%로 상승(3 플래시 대비)"></div>
+    <p class="cap">3 플래시 대비 SWE-벤치 프로·OS월드 인증 점수 비교예요.</p>
+    <p class="src">이미지 출처: <a href="https://blog.google/intl/ko-kr/company-news/technology/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/" target="_blank">구글코리아 공식 블로그 — 제미나이 3.6 플래시 등 발표문</a></p>
+
+    <ul>
+      <li><b>SWE-벤치 프로(SWE-Bench Pro)</b> — 54.2%(3 플래시는 49.6%)</li>
+      <li><b>OS월드 인증(OSWorld-Verified)</b> — 74.0%(3 플래시는 65.1%)</li>
+    </ul>
+    <p>3.5 플래시-라이트는 제미나이 API·제미나이 엔터프라이즈·제미나이 앱에서 쓸 수 있고, 구글 검색에도 순차적으로 적용되고 있어요.</p>
+
+    <h2 class="sub">3.5 플래시 사이버는 뭐가 다른가요</h2>
+    <p>제미나이 3.5 플래시 사이버는 3.5 플래시를 사이버 보안 취약점 탐지·수정에 특화하도록 미세 조정한 모델로, 아직 일반 공개 없이 파일럿 프로그램 단계예요.</p>
+    <p>구글의 코드 보안 에이전트 '코드멘더(CodeMender)' 안에서 여러 사이버 에이전트가 협력해 통합 보고서를 만들고, 사이버짐(CyberGym) 벤치마크에서 최상위권(Frontier) 모델에 필적하는 성능을 냈다고 밝혀요.</p>
+      <p>보안 취약점 탐지는 악용 가능성도 있는 이중 용도(dual-use) 기술이라, 구글은 코드멘더를 통해 정부 기관과 신뢰할 수 있는 파트너에게만 제한 제공해요.</p>
+    <p>가격은 공식 발표에서 확인되지 않았어요.</p>
+
+    <h2 class="sub">세 모델 스펙 한눈에 비교</h2>
+    <table class="tbl">
+      <tr><th>모델</th><th>입력 $/100만 토큰</th><th>출력 $/100만 토큰</th><th>제공 상태</th></tr>
+      <tr><td>3.6 플래시</td><td>$1.50</td><td>$7.50</td><td>정식 출시</td></tr>
+      <tr><td>3.5 플래시-라이트</td><td>$0.30</td><td>$2.50</td><td>정식 출시</td></tr>
+      <tr><td>3.5 플래시 사이버</td><td>비공개</td><td>비공개</td><td>파일럿(정부·신뢰 파트너 한정)</td></tr>
+    </table>
+    <p>표: 제미나이 경량 모델 3종 가격·제공 상태 비교 (2026.07.31 기준, 구글 공식 발표문)</p>
+    <p>3.6 플래시·3.5 플래시-라이트는 개발자·기업·일반 이용자 모두에게 열려 있어요. 3.5 플래시 사이버만 아직 코드멘더를 통한 제한 제공이에요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 제미나이 3.6 플래시는 어디서 쓸 수 있나요?</b><br>
+    제미나이 API(구글 AI 스튜디오·안드로이드 스튜디오)·구글 안티그래비티·제미나이 엔터프라이즈·제미나이 앱에서 쓸 수 있어요(2026.07.31 기준).</p>
+    <p><b>Q. 3.5 플래시 사이버는 지금 신청하면 쓸 수 있나요?</b><br>
+    아니요. 정부 기관·신뢰 파트너에게만 코드멘더를 통해 제한 제공되고, 일반 신청 경로는 공식 발표에 없어요.</p>
+    <p><b>Q. 17%와 65% 중 어느 쪽이 체감 절감률인가요?</b><br>
+    17%는 코딩·지식·멀티모달 범용 지표(아티피셜 애널리시스 인덱스)고, 65%는 DeepSWE 장기 엔지니어링 벤치마크 한정 수치예요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://blog.google/intl/ko-kr/company-news/technology/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/" target="_blank">구글코리아 공식 블로그 — 제미나이 3.6 플래시, 3.5 플래시-라이트, 3.5 플래시 사이버 소개</a><br>
+    · <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/" target="_blank">Google 공식 발표문(영문) — Gemini 3.6 Flash, 3.5 Flash-Lite, 3.5 Flash Cyber</a></p>
+
+    <p><b>✔ 같이 보면 좋아요</b><br>
+    · 제미나이 작업 자동화 쓰는 법 — 쇼핑·예약·여행·티켓까지 대신 시키기<br>
+    · 제미나이 쇼핑·예약·티켓 자동화, 카테고리별로 뭐가 되나요</p>
+
+    <p><b>하루 정리</b><br>
+    · 구글이 2026.07.21(미국 기준) 제미나이 경량 모델 3종을 발표했어요(3.6 플래시·3.5 플래시-라이트·3.5 플래시 사이버)<br>
+    · 3.6 플래시는 출력 토큰을 17% 줄이면서 가격도 내렸어요(100만 토큰당 입력 $1.50·출력 $7.50)<br>
+    · 3.5 플래시-라이트는 초당 350토큰 처리하는 속도·비용 특화 모델이에요(입력 $0.30·출력 $2.50)<br>
+    · 3.5 플래시 사이버는 파일럿 단계라 정부·신뢰 파트너에게만 제한 제공돼요</p>
+    <p>API 요금이나 속도가 궁금하면 표부터, 보안 쪽 소식이 궁금하면 사이버 부분부터 보시면 돼요.</p>
+
+    <div class="tags">#제미나이3.6플래시 #Gemini3.6Flash #제미나이3.5플래시라이트 #제미나이3.5플래시사이버 #구글AI모델</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b> 3곳은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(붙인 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>5.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 3곳(약 3분):</b> 📷 <b>사진 3곳</b>을 미리보기에서 복사해 붙이면 끝이에요. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 제미나이 3.6 플래시 등 경량 모델 3종 정리 — 3.5 플래시 대비 뭐가 달라졌나요</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>구글이 2026년 7월 21일(미국 기준) 제미나이 경량 모델 3종을 발표했어요. 3.6 플래시(Gemini 3.6 Flash)·3.5 플래시-라이트(Gemini 3.5 Flash-Lite)·3.5 플래시 사이버(Gemini 3.5 Flash Cyber), 이렇게 세 가지예요. 핵심은 3.6 플래시가 출력 토큰 사용량을 17% 줄인 점이에요(아티피셜 애널리시스 인덱스 기준).</p>
+      <p class="sp">&nbsp;</p>
+      <p>이 글은 구글 공식 발표 기준으로 정리했어요. 궁금한 것만 보고 싶으면 아래 비교표부터 봐도 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 1〕 미리보기의 <b>1번 이미지</b>(구글 제미나이 3종 공식 발표 대표 이미지)를 우클릭 → 이미지 복사 → 여기에 Ctrl+V · 캡션: "구글이 공식 발표문에 올린 세 모델 소개 대표 이미지예요." · 출처: 구글코리아 공식 블로그</p>
+      <p class="sp">&nbsp;</p>
+      <p>제미나이 3.6 플래시는 제미나이 3.5 플래시를 잇는, 코딩·지식 작업·멀티모달 성능에 특화된 경량 모델이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>3.6 플래시, 3.5 플래시 대비 뭐가 달라졌나요</h3>
+      <p>제미나이 3.6 플래시는 3.5 플래시보다 출력 토큰 사용량을 17% 줄이면서 코딩·지식 작업·컴퓨터 사용 성능은 끌어올린 모델이에요(아티피셜 애널리시스 인덱스 기준).</p>
+      <p>공식 발표문에는 이렇게 적혀 있어요.</p>
+      <p>"3.6 플래시는 3.5 플래시보다 출력 토큰 사용량을 17% 줄였습니다." (구글 공식 발표문, 2026.07.22 구글코리아 게시)</p>
+      <p>여기서 말하는 17%는 코딩·지식 작업·멀티모달을 아우르는 범용 효율 지표예요. 특정 작업 하나만 골라 잰 수치가 아니에요.</p>
+      <p>데이터커브(Datacurve)의 DeepSWE 벤치마크(장기 엔지니어링 작업 한정)에서는 최대 65%까지 줄었다고도 밝혀요. 17%와는 다른 기준이라 섞어 쓰면 안 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 2〕 미리보기의 <b>2번 이미지</b>(3.6 플래시 출력 토큰 효율 그래프)를 우클릭 → 이미지 복사 → 여기에 Ctrl+V · 캡션: "DeepSWE v1.1 기준 276K→97K(약 65%↓), 아티피셜 애널리시스 인덱스 기준 28K→23K(약 17%↓)로 서로 다른 수치예요." · 출처: 구글코리아 공식 블로그</p>
+      <p class="sp">&nbsp;</p>
+      <p>가격도 낮아졌어요. 3.6 플래시는 입력 토큰 100만 개당 1.50달러, 출력 토큰 100만 개당 7.50달러예요. 기존 3.5 플래시보다 출력 요금이 낮아진 가격이에요(정확한 이전 가격은 공식 발표에서 별도로 확인되지 않았어요, 2026.07.31 기준).</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li><b>코딩 정확도</b> — DeepSWE 벤치마크에서 49%(3.5 플래시는 37%)</li>
+        <li><b>컴퓨터 사용(Computer Use)</b> — OS월드 검증(OSWorld-Verified)에서 83.0%(3.5 플래시는 78.4%)</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>3.5 플래시-라이트는 어떤 모델인가요</h3>
+      <p>제미나이 3.5 플래시-라이트는 3.5 시리즈 중 속도와 비용 효율이 가장 높은 모델로, 아티피셜 애널리시스 인덱스 기준 초당 350개 출력 토큰을 처리해요.</p>
+      <p>에이전틱 검색·문서 처리처럼 지연 시간이 짧고 처리량이 많아야 하는 워크플로우용이에요. 가격은 입력 100만 토큰당 0.30달러, 출력 100만 토큰당 2.50달러고요(2026.07.31 기준).</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 3〕 미리보기의 <b>3번 이미지</b>(3.5 플래시-라이트 벤치마크 그래프)를 우클릭 → 이미지 복사 → 여기에 Ctrl+V · 캡션: "3 플래시 대비 SWE-벤치 프로·OS월드 인증 점수 비교예요." · 출처: 구글코리아 공식 블로그</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li><b>SWE-벤치 프로(SWE-Bench Pro)</b> — 54.2%(3 플래시는 49.6%)</li>
+        <li><b>OS월드 인증(OSWorld-Verified)</b> — 74.0%(3 플래시는 65.1%)</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>3.5 플래시-라이트는 제미나이 API·제미나이 엔터프라이즈·제미나이 앱에서 쓸 수 있고, 구글 검색에도 순차적으로 적용되고 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>3.5 플래시 사이버는 뭐가 다른가요</h3>
+      <p>제미나이 3.5 플래시 사이버는 3.5 플래시를 사이버 보안 취약점 탐지·수정에 특화하도록 미세 조정한 모델로, 아직 일반 공개 없이 파일럿 프로그램 단계예요.</p>
+      <p>구글의 코드 보안 에이전트 '코드멘더(CodeMender)' 안에서 여러 사이버 에이전트가 협력해 통합 보고서를 만들고, 사이버짐(CyberGym) 벤치마크에서 최상위권(Frontier) 모델에 필적하는 성능을 냈다고 밝혀요.</p>
+      <p>보안 취약점 탐지는 악용 가능성도 있는 이중 용도(dual-use) 기술이라, 구글은 코드멘더를 통해 정부 기관과 신뢰할 수 있는 파트너에게만 제한 제공해요.</p>
+      <p>가격은 공식 발표에서 확인되지 않았어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>세 모델 스펙 한눈에 비교</h3>
+      <table>
+        <tr><th>모델</th><th>입력 $/100만 토큰</th><th>출력 $/100만 토큰</th><th>제공 상태</th></tr>
+        <tr><td class="l">3.6 플래시</td><td>$1.50</td><td>$7.50</td><td>정식 출시</td></tr>
+        <tr><td class="l">3.5 플래시-라이트</td><td>$0.30</td><td>$2.50</td><td>정식 출시</td></tr>
+        <tr><td class="l">3.5 플래시 사이버</td><td>비공개</td><td>비공개</td><td>파일럿(정부·신뢰 파트너 한정)</td></tr>
+      </table>
+      <p>표: 제미나이 경량 모델 3종 가격·제공 상태 비교 (2026.07.31 기준, 구글 공식 발표문)</p>
+      <p>3.6 플래시·3.5 플래시-라이트는 개발자·기업·일반 이용자 모두에게 열려 있어요. 3.5 플래시 사이버만 아직 코드멘더를 통한 제한 제공이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 제미나이 3.6 플래시는 어디서 쓸 수 있나요?</b><br>
+      제미나이 API(구글 AI 스튜디오·안드로이드 스튜디오)·구글 안티그래비티·제미나이 엔터프라이즈·제미나이 앱에서 쓸 수 있어요(2026.07.31 기준).</p>
+      <p><b>Q. 3.5 플래시 사이버는 지금 신청하면 쓸 수 있나요?</b><br>
+      아니요. 정부 기관·신뢰 파트너에게만 코드멘더를 통해 제한 제공되고, 일반 신청 경로는 공식 발표에 없어요.</p>
+      <p><b>Q. 17%와 65% 중 어느 쪽이 체감 절감률인가요?</b><br>
+      17%는 코딩·지식·멀티모달 범용 지표(아티피셜 애널리시스 인덱스)고, 65%는 DeepSWE 장기 엔지니어링 벤치마크 한정 수치예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://blog.google/intl/ko-kr/company-news/technology/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/" target="_blank">구글코리아 공식 블로그 — 제미나이 3.6 플래시, 3.5 플래시-라이트, 3.5 플래시 사이버 소개</a><br>
+      · <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/" target="_blank">Google 공식 발표문(영문) — Gemini 3.6 Flash, 3.5 Flash-Lite, 3.5 Flash Cyber</a></p>
+      <p class="sp">&nbsp;</p>
+      <p><b>✔ 같이 보면 좋아요</b><br>
+      · 제미나이 작업 자동화 쓰는 법 — 쇼핑·예약·여행·티켓까지 대신 시키기<br>
+      · 제미나이 쇼핑·예약·티켓 자동화, 카테고리별로 뭐가 되나요</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 구글이 2026.07.21(미국 기준) 제미나이 경량 모델 3종을 발표했어요(3.6 플래시·3.5 플래시-라이트·3.5 플래시 사이버)<br>
+      · 3.6 플래시는 출력 토큰을 17% 줄이면서 가격도 내렸어요(100만 토큰당 입력 $1.50·출력 $7.50)<br>
+      · 3.5 플래시-라이트는 초당 350토큰 처리하는 속도·비용 특화 모델이에요(입력 $0.30·출력 $2.50)<br>
+      · 3.5 플래시 사이버는 파일럿 단계라 정부·신뢰 파트너에게만 제한 제공돼요</p>
+      <p>API 요금이나 속도가 궁금하면 표부터, 보안 쪽 소식이 궁금하면 사이버 부분부터 보시면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#제미나이3.6플래시 #Gemini3.6Flash #제미나이3.5플래시라이트 #제미나이3.5플래시사이버 #구글AI모델</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
