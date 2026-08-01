@@ -1,0 +1,240 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메이플플래닛 신궁 스킬트리 템세팅 1~4차 육성 총정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;line-height:1.45;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .post ul{margin:0 0 20px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;}
+  .tags{margin-top:24px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">메이플플래닛 신궁 스킬트리 템세팅 1~4차 육성 총정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 8. 1.</span><span>· 게임</span></div>
+
+    <p>지난번에 <b>보우마스터</b> 스킬트리를 풀었더니, 활 말고 석궁 드는 <b>신궁</b>은 뭐가 다르냐고 물어보시는 분들이 꽤 계셨어요. 사실 저는 신궁은 아직 직접 키워본 적이 없어서, 이번 글은 공식 사이트랑 실제 유저분들 정보를 꼼꼼히 찾아보고 조사한 내용으로 정리해봤다는 점 먼저 말씀드릴게요. 같은 궁수 계열이라도 무기부터 갈리는 직업이라, 검색만 해서는 은근히 헷갈리기 딱 좋더라고요.</p>
+    <p>오늘은 신궁 <b>1~4차 스킬 구성이랑 스탯, 석궁 세팅</b>까지 순서대로 짚어볼게요. 1차는 보우마스터랑 거의 겹치는 구간이라 거긴 가볍게 넘기고, 신궁만 따로 챙겨야 하는 부분 위주로 풀어드릴게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 메이플플래닛 신궁 키비주얼 / 석궁 든 궁수 캐릭터</span></div>
+    <div class="shoot">📸 참고 화면 찾을 곳(신궁 육성 후 직접 촬영 예정) — <a href="https://mapleplanet.co.kr/" target="_blank">메이플플래닛 공식</a> · <a href="https://maplestoryworlds.nexon.com/en/group/7ZYeC" target="_blank">메이플스토리 월드(넥슨 공식)</a></div>
+    <p class="cap">활 대신 석궁을 쥐면, 그때부터 신궁 루트예요.</p>
+
+    <h2 class="sub">신궁이랑 보우마스터, 뭐가 다른가요?</h2>
+    <p>가장 큰 차이는 딱 하나, <b>드는 무기</b>예요. 보우마스터가 활(bow) 전용이라면 신궁은 <b>석궁(crossbow) 전용</b> 직업인 셈이죠. 나머지 기본 정보는 이렇게 정리돼요.</p>
+    <ul>
+      <li><b>소속</b>: 모험가(궁수 계열)</li>
+      <li><b>출신</b>: 메이플 아일랜드</li>
+      <li><b>주무기</b>: 석궁</li>
+      <li><b>주스탯</b>: DEX(민첩) / <b>부스탯</b>: STR(힘)</li>
+      <li><b>전직 로드맵</b>: 1차 아처 → 2차 사수 → 3차 저격수 → 4차 신궁</li>
+    </ul>
+    <p>참고로 2차·3차 세부 스킬은 아직 자료가 얇아서 스킬창에서 직접 살펴보시는 걸 추천드려요.</p>
+    <p>전직 레벨컷은 보우마스터 라인이 <b>10 / 30 / 70 / 120</b>이었던 걸 보면 신궁도 같은 라인을 그대로 타는 것으로 보이고, 컷 자체는 전직 NPC 대화창에서 바로 뜨니까 거기서 보시면 됩니다. 하나 더 알아두시면 좋은 게, 신궁이 뛰는 <b>메이플플래닛 자체가 빅뱅 이전 버전 기반의 클래식 서버</b>라는 점이에요. 요즘 정식 메이플스토리 궁수 계열에 있는 '리트리트 샷'이나 '볼트 플로우' 같은 신상 스킬은 이 서버엔 애초에 존재하지 않으니, 검색 중에 그런 이름을 보시면 다른 버전 얘기라고 넘기시면 됩니다.</p>
+
+    <h2 class="sub">1차 아처는 보우마스터랑 완전히 똑같아요</h2>
+    <p>1차 스킬트리는 <b>신궁도 보우마스터와 100% 동일</b>합니다. 더블 샷·크리티컬 샷·아마존의 눈 같은 1차 스킬 구성이랑 선마 순서가 그대로 겹치거든요. 자세한 순서까지 다시 풀면 중복이라, <a href="../보우마스터 1-4차 육성 스킬트리 템세팅 사냥터/봄딩_미리보기_보우마스터육성.html" target="_blank">이전에 정리해둔 보우마스터 스킬트리 글</a>을 참고하시면 됩니다. 무기만 나중에 활 대신 석궁으로 갈아탄다고 생각하시면 딱 맞아요.</p>
+
+    <h2 class="sub">스탯이랑 석궁 세팅, 기본 원칙은 같아요</h2>
+    <p>스탯 찍는 원칙도 보우마스터랑 동일해요 — <b>주스탯은 DEX, 부스탯은 STR</b>인데, STR은 '착용할 석궁 레벨+5'만 딱 채우고 나머지는 전부 DEX에 몰아주시면 됩니다. 여기서 STR을 레벨만큼 막 올려버리면 DEX가 모자라서 딜이 안 나오는 함정은 보우마스터 때랑 똑같으니 조심하세요.</p>
+    <p>석궁도 활처럼 레벨대별로 부지런히 갈아타는 게 기본 방향이에요. 특정 모델명을 콕 집어 추천하기보다는, 경매장에서 '석궁'으로 필터링해서 그때그때 감당되는 선에서 좋은 매물을 골라 쓰시는 게 제일 실용적이에요. 활이랑 이름이 비슷한 아이템도 있으니 무기 종류를 꼭 한 번 더 살펴보고 사시는 게 좋겠네요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 스탯창(S) — DEX 위주 + 석궁 장착 화면</span></div>
+    <div class="shoot">📸 참고 화면 찾을 곳(신궁 육성 후 직접 촬영 예정) — 게임 내 스탯창(단축키 S)과 장비창에서 DEX·석궁 장착 상태가 보이게 캡처</div>
+    <p class="cap">석궁이라도 스탯 원칙은 활이랑 똑같아요.</p>
+
+    <h2 class="sub">4차 신궁의 핵심 스킬 5가지</h2>
+    <p>레벨 120에서 4차 신궁으로 전직하면 <b>피어싱, 프리져, 크로스보우 엑스퍼트(줄여서 크보엑), 샤프 아이즈, 스나이핑</b> 이렇게 다섯 개가 육성 정보 글에서 핵심으로 꼽히는 스킬이에요.</p>
+    <table class="tbl">
+      <tr><th>스킬</th><th>역할</th></tr>
+      <tr><td>피어싱</td><td>여러 마리를 한 번에 뚫는 관통형 화살 공격기</td></tr>
+      <tr><td>프리져</td><td>이름 그대로 얼음 속성이 실린 공격기</td></tr>
+      <tr><td>크로스보우 엑스퍼트(크보엑)</td><td>석궁 계열 무기의 숙련도와 공격력을 올려주는 패시브</td></tr>
+      <tr><td>샤프 아이즈</td><td>크리티컬 관련 버프</td></tr>
+      <tr><td>스나이핑</td><td>강력한 단일 대상 공격기</td></tr>
+    </table>
+    <p>이 다섯 개 스킬을 20이나 30까지 마스터하려면 <b>마스터리북</b>이 필요한 방식도 보우마스터랑 똑같아요. 보우마스터가 샤프 아이즈 마북 하나로 자본이 크게 흔들렸던 걸 생각하면, 신궁도 이 구간에서 자본이 꽤 들어갈 걸로 보입니다. 다만 스나이핑처럼 마스터레벨이나 드랍처 같은 세부 수치는 인게임·경매장에서 그때그때 살펴보시는 게 제일 정확해요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 4차 신궁 스킬창(K) — 핵심 스킬 5종 배치 화면</span></div>
+    <div class="shoot">📸 참고 화면 찾을 곳(신궁 육성 후 직접 촬영 예정) — 4차 전직 후 스킬창에서 위 5개 스킬 아이콘이 보이게 캡처</div>
+    <p class="cap">4차부터는 이 다섯 개 위주로 마북까지 챙기시면 돼요.</p>
+
+    <h2 class="sub">4차 전직, 지금 실제로 열려 있어요</h2>
+    <p>결론부터 말씀드리면 <b>4차 전직은 이미 열려 있고, 신궁도 예외 없이 진행할 수 있어요.</b> 공식 가이드 게시물에 "4차전직은 전 직업 동일합니다"라고 명시돼 있고, 진행 루트는 <b>3차전직관 → 사제의숲 → 마뇽 또는 그리프 처치 → 4차전직관</b> 순서예요. 실제로 이 루트로 4차 전직을 인증하는 유저분들 댓글이 최근까지도 꾸준히 이어지는 걸 보면, 지금도 계속 진행 중인 확실한 콘텐츠라고 보시면 됩니다.</p>
+    <p>재화나 추가 조건이 더 있는지는 자료로 명확히 안 잡혀서, 전직 시도 전에 인게임 안내를 한 번 더 살펴보시는 게 안전해요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 4차 전직관 앞 또는 4차 전직 완료 이펙트 화면</span></div>
+    <div class="shoot">📸 참고 화면 찾을 곳(신궁 육성 후 직접 촬영 예정) — 사제의숲에서 마뇽·그리프 처치 후 4차전직관 진입 장면 캡처</div>
+    <p class="cap">사제의숲 보스만 넘으면 4차 전직관이 바로 열려요.</p>
+
+    <h2 class="sub">신궁만의 차별점, 사냥은 다르게 가야 하나요?</h2>
+    <p>사냥터 동선 자체는 보우마스터와 크게 다르지 않아요. 레벨대별 사냥터는 궁수 계열 공용이라, 이전에 정리해둔 보우마스터 글의 헤네시스~망가진 용의 둥지 동선을 그대로 타시면 됩니다.</p>
+    <p>다만 신궁의 <b>피어싱</b>은 이름 그대로 여러 마리를 한 번에 뚫는 관통형 공격이라, 몹이 일렬로 몰리는 좁은 맵에서는 신궁이 유독 편하다는 얘기도 있어요. 어느 맵·어느 구간이 특히 좋은지 콕 집어 순위를 매기긴 이르지만, 이 부분은 조금 더 지켜보고 확실해지면 업데이트할게요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 신궁이랑 보우마스터 중에 뭐가 더 키우기 쉬운가요?</b><br>아직 신궁 쪽 육성 정보가 보우마스터만큼 풍부하게 쌓이지 않아서 단정하긴 어려워요. 다만 1차 트리랑 스탯 원칙이 완전히 같아서, 초반 난이도 자체는 비슷하다고 보시면 됩니다.</p>
+    <p><b>Q. 신궁이랑 보우마스터, 사냥할 때 체감 차이가 있나요?</b><br>사냥터 동선 자체는 크게 다르지 않아요. 다만 신궁의 피어싱은 관통형이라, 몹이 다닥다닥 붙어 있는 좁은 통로에서는 확실히 시원하게 정리가 되고요. 보우마스터는 활 특유의 손맛을 더 좋아하는 분들이 많더라고요. 결국은 무기 취향 차이가 제일 크다고 봐요.</p>
+    <p><b>Q. 무기(석궁)는 언제쯤 갈아타는 게 좋나요?</b><br>활이랑 똑같이 레벨대별로 부지런히 갈아타는 게 기본이에요. 무리해서 비싼 석궁을 미리 맞추기보다는, 그때그때 감당되는 선에서 좋은 매물로 자주 바꿔주시는 쪽이 사냥 속도에 훨씬 유리해요.</p>
+
+    <p>정리하자면 1차는 보우마스터 스킬트리를 그대로 따라가시면 되고, 스탯도 <b>DEX 몰빵 + STR은 석궁 레벨+5</b>만 채우는 원칙 그대로예요. 일단 감당되는 석궁부터 하나 맞춰두고 시작하시고, 4차 찍으면서 <b>크로스보우 엑스퍼트랑 샤프 아이즈</b> 마북 값을 미리 모아두는 순서로 가시면 자본 부담이 한결 덜합니다. 석궁 들고 신궁 시작하실 분들은 이 순서만 기억해두셔도 충분할 거예요.</p>
+
+    <p><b>✔ 메이플플래닛 같이 보기 좋은 내용</b><br>
+    · <a href="../보우마스터 1-4차 육성 스킬트리 템세팅 사냥터/봄딩_미리보기_보우마스터육성.html" target="_blank">메이플플래닛 보우마스터 스킬트리 템세팅 사냥터 1~4차 육성 총정리</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://mapleplanet.co.kr/" target="_blank">메이플플래닛 공식 사이트</a><br>
+    · <a href="https://mapleplanet.co.kr/board/guide/379" target="_blank">4차 전직 공식 가이드 게시물</a><br>
+    · <a href="https://maplestoryworlds.nexon.com/en/group/7ZYeC" target="_blank">메이플스토리 월드(넥슨 공식)</a></p>
+
+    <div class="tags">#메이플플래닛 #메이플플래닛신궁 #신궁스킬트리 #메이플플래닛궁수 #신궁템세팅 #메이플플래닛석궁 #신궁육성 #메이플플래닛공략</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 8분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플플래닛 신궁 스킬트리 템세팅 1~4차 육성 총정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>지난번에 <b>보우마스터</b> 스킬트리를 풀었더니, 활 말고 석궁 드는 <b>신궁</b>은 뭐가 다르냐고 물어보시는 분들이 꽤 계셨어요. 사실 저는 신궁은 아직 직접 키워본 적이 없어서, 이번 글은 공식 사이트랑 실제 유저분들 정보를 꼼꼼히 찾아보고 조사한 내용으로 정리해봤다는 점 먼저 말씀드릴게요. 같은 궁수 계열이라도 무기부터 갈리는 직업이라, 검색만 해서는 은근히 헷갈리기 딱 좋더라고요.</p>
+      <p>오늘은 신궁 <b>1~4차 스킬 구성이랑 스탯, 석궁 세팅</b>까지 순서대로 짚어볼게요. 1차는 보우마스터랑 거의 겹치는 구간이라 거긴 가볍게 넘기고, 신궁만 따로 챙겨야 하는 부분 위주로 풀어드릴게요.</p>
+      <p class="ph">📷 〔사진 1〕 메이플플래닛 신궁 키비주얼 / 석궁 든 궁수 캐릭터 (신궁 육성 후 촬영 예정) — 네이버에서 직접 업로드</p>
+      <h3>신궁이랑 보우마스터, 뭐가 다른가요?</h3>
+      <p>가장 큰 차이는 딱 하나, <b>드는 무기</b>예요. 보우마스터가 활(bow) 전용이라면 신궁은 <b>석궁(crossbow) 전용</b> 직업인 셈이죠. 나머지 기본 정보는 이렇게 정리돼요.</p>
+      <ul>
+        <li><b>소속</b>: 모험가(궁수 계열)</li>
+        <li><b>출신</b>: 메이플 아일랜드</li>
+        <li><b>주무기</b>: 석궁</li>
+        <li><b>주스탯</b>: DEX(민첩) / <b>부스탯</b>: STR(힘)</li>
+        <li><b>전직 로드맵</b>: 1차 아처 → 2차 사수 → 3차 저격수 → 4차 신궁</li>
+      </ul>
+      <p>참고로 2차·3차 세부 스킬은 아직 자료가 얇아서 스킬창에서 직접 살펴보시는 걸 추천드려요.</p>
+      <p>전직 레벨컷은 보우마스터 라인이 <b>10 / 30 / 70 / 120</b>이었던 걸 보면 신궁도 같은 라인을 그대로 타는 것으로 보이고, 컷 자체는 전직 NPC 대화창에서 바로 뜨니까 거기서 보시면 됩니다. 하나 더 알아두시면 좋은 게, 신궁이 뛰는 <b>메이플플래닛 자체가 빅뱅 이전 버전 기반의 클래식 서버</b>라는 점이에요. 요즘 정식 메이플스토리 궁수 계열에 있는 '리트리트 샷'이나 '볼트 플로우' 같은 신상 스킬은 이 서버엔 애초에 존재하지 않으니, 검색 중에 그런 이름을 보시면 다른 버전 얘기라고 넘기시면 됩니다.</p>
+      <h3>1차 아처는 보우마스터랑 완전히 똑같아요</h3>
+      <p>1차 스킬트리는 <b>신궁도 보우마스터와 100% 동일</b>합니다. 더블 샷·크리티컬 샷·아마존의 눈 같은 1차 스킬 구성이랑 선마 순서가 그대로 겹치거든요. 자세한 순서까지 다시 풀면 중복이라, 이전에 정리해둔 「메이플플래닛 보우마스터 스킬트리 템세팅 사냥터 1~4차 육성 총정리」 글을 참고하시면 됩니다. 무기만 나중에 활 대신 석궁으로 갈아탄다고 생각하시면 딱 맞아요.</p>
+      <h3>스탯이랑 석궁 세팅, 기본 원칙은 같아요</h3>
+      <p>스탯 찍는 원칙도 보우마스터랑 동일해요 — <b>주스탯은 DEX, 부스탯은 STR</b>인데, STR은 '착용할 석궁 레벨+5'만 딱 채우고 나머지는 전부 DEX에 몰아주시면 됩니다. 여기서 STR을 레벨만큼 막 올려버리면 DEX가 모자라서 딜이 안 나오는 함정은 보우마스터 때랑 똑같으니 조심하세요.</p>
+      <p>석궁도 활처럼 레벨대별로 부지런히 갈아타는 게 기본 방향이에요. 특정 모델명을 콕 집어 추천하기보다는, 경매장에서 '석궁'으로 필터링해서 그때그때 감당되는 선에서 좋은 매물을 골라 쓰시는 게 제일 실용적이에요. 활이랑 이름이 비슷한 아이템도 있으니 무기 종류를 꼭 한 번 더 살펴보고 사시는 게 좋겠네요.</p>
+      <p class="ph">📷 〔사진 2〕 스탯창(S) — DEX 위주 + 석궁 장착 화면 (신궁 육성 후 촬영 예정) — 네이버에서 직접 업로드</p>
+      <h3>4차 신궁의 핵심 스킬 5가지</h3>
+      <p>레벨 120에서 4차 신궁으로 전직하면 <b>피어싱, 프리져, 크로스보우 엑스퍼트(줄여서 크보엑), 샤프 아이즈, 스나이핑</b> 이렇게 다섯 개가 육성 정보 글에서 핵심으로 꼽히는 스킬이에요.</p>
+      <table>
+        <tr><th>스킬</th><th>역할</th></tr>
+        <tr><td class="l">피어싱</td><td>여러 마리를 한 번에 뚫는 관통형 화살 공격기</td></tr>
+        <tr><td class="l">프리져</td><td>이름 그대로 얼음 속성이 실린 공격기</td></tr>
+        <tr><td class="l">크로스보우 엑스퍼트(크보엑)</td><td>석궁 계열 무기의 숙련도와 공격력을 올려주는 패시브</td></tr>
+        <tr><td class="l">샤프 아이즈</td><td>크리티컬 관련 버프</td></tr>
+        <tr><td class="l">스나이핑</td><td>강력한 단일 대상 공격기</td></tr>
+      </table>
+      <p>이 다섯 개 스킬을 20이나 30까지 마스터하려면 <b>마스터리북</b>이 필요한 방식도 보우마스터랑 똑같아요. 보우마스터가 샤프 아이즈 마북 하나로 자본이 크게 흔들렸던 걸 생각하면, 신궁도 이 구간에서 자본이 꽤 들어갈 걸로 보입니다. 다만 스나이핑처럼 마스터레벨이나 드랍처 같은 세부 수치는 인게임·경매장에서 그때그때 살펴보시는 게 제일 정확해요.</p>
+      <p class="ph">📷 〔사진 3〕 4차 신궁 스킬창(K) — 핵심 스킬 5종 배치 화면 (신궁 육성 후 촬영 예정) — 네이버에서 직접 업로드</p>
+      <h3>4차 전직, 지금 실제로 열려 있어요</h3>
+      <p>결론부터 말씀드리면 <b>4차 전직은 이미 열려 있고, 신궁도 예외 없이 진행할 수 있어요.</b> 공식 가이드 게시물에 "4차전직은 전 직업 동일합니다"라고 명시돼 있고, 진행 루트는 <b>3차전직관 → 사제의숲 → 마뇽 또는 그리프 처치 → 4차전직관</b> 순서예요. 실제로 이 루트로 4차 전직을 인증하는 유저분들 댓글이 최근까지도 꾸준히 이어지는 걸 보면, 지금도 계속 진행 중인 확실한 콘텐츠라고 보시면 됩니다.</p>
+      <p>재화나 추가 조건이 더 있는지는 자료로 명확히 안 잡혀서, 전직 시도 전에 인게임 안내를 한 번 더 살펴보시는 게 안전해요.</p>
+      <p class="ph">📷 〔사진 4〕 4차 전직관 앞 또는 4차 전직 완료 이펙트 화면 (신궁 육성 후 촬영 예정) — 네이버에서 직접 업로드</p>
+      <h3>신궁만의 차별점, 사냥은 다르게 가야 하나요?</h3>
+      <p>사냥터 동선 자체는 보우마스터와 크게 다르지 않아요. 레벨대별 사냥터는 궁수 계열 공용이라, 이전에 정리해둔 보우마스터 글의 헤네시스~망가진 용의 둥지 동선을 그대로 타시면 됩니다.</p>
+      <p>다만 신궁의 <b>피어싱</b>은 이름 그대로 여러 마리를 한 번에 뚫는 관통형 공격이라, 몹이 일렬로 몰리는 좁은 맵에서는 신궁이 유독 편하다는 얘기도 있어요. 어느 맵·어느 구간이 특히 좋은지 콕 집어 순위를 매기긴 이르지만, 이 부분은 조금 더 지켜보고 확실해지면 업데이트할게요.</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 신궁이랑 보우마스터 중에 뭐가 더 키우기 쉬운가요?</b><br>아직 신궁 쪽 육성 정보가 보우마스터만큼 풍부하게 쌓이지 않아서 단정하긴 어려워요. 다만 1차 트리랑 스탯 원칙이 완전히 같아서, 초반 난이도 자체는 비슷하다고 보시면 됩니다.</p>
+      <p><b>Q. 신궁이랑 보우마스터, 사냥할 때 체감 차이가 있나요?</b><br>사냥터 동선 자체는 크게 다르지 않아요. 다만 신궁의 피어싱은 관통형이라, 몹이 다닥다닥 붙어 있는 좁은 통로에서는 확실히 시원하게 정리가 되고요. 보우마스터는 활 특유의 손맛을 더 좋아하는 분들이 많더라고요. 결국은 무기 취향 차이가 제일 크다고 봐요.</p>
+      <p><b>Q. 무기(석궁)는 언제쯤 갈아타는 게 좋나요?</b><br>활이랑 똑같이 레벨대별로 부지런히 갈아타는 게 기본이에요. 무리해서 비싼 석궁을 미리 맞추기보다는, 그때그때 감당되는 선에서 좋은 매물로 자주 바꿔주시는 쪽이 사냥 속도에 훨씬 유리해요.</p>
+      <p>정리하자면 1차는 보우마스터 스킬트리를 그대로 따라가시면 되고, 스탯도 <b>DEX 몰빵 + STR은 석궁 레벨+5</b>만 채우는 원칙 그대로예요. 일단 감당되는 석궁부터 하나 맞춰두고 시작하시고, 4차 찍으면서 <b>크로스보우 엑스퍼트랑 샤프 아이즈</b> 마북 값을 미리 모아두는 순서로 가시면 자본 부담이 한결 덜합니다. 석궁 들고 신궁 시작하실 분들은 이 순서만 기억해두셔도 충분할 거예요.</p>
+      <p><b>✔ 메이플플래닛 같이 보기 좋은 내용</b><br>· 메이플플래닛 보우마스터 스킬트리 템세팅 사냥터 1~4차 육성 총정리</p>
+      <p><b>참고한 곳</b><br>· 메이플플래닛 공식 사이트(mapleplanet.co.kr)<br>· 4차 전직 공식 가이드 게시물(mapleplanet.co.kr/board/guide/379)<br>· 메이플스토리 월드(넥슨 공식, maplestoryworlds.nexon.com)</p>
+      <p class="tags-line">#메이플플래닛 #메이플플래닛신궁 #신궁스킬트리 #메이플플래닛궁수 #신궁템세팅 #메이플플래닛석궁 #신궁육성 #메이플플래닛공략</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
