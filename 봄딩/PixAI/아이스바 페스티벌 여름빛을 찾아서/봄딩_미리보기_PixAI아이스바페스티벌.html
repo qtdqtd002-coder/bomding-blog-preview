@@ -1,0 +1,204 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PixAI 아이스바페스티벌 이벤트 총정리 무료AI이미지생성사이트 활용법</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:22px;}
+  .post li{font-size:15.5px;line-height:1.85;margin:0 0 8px;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post a{color:#1a73e8;text-decoration:none;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy a{color:#1a5fb4;}
+  #copy .btns{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 4px;}
+  #copy .btns a{flex:1;min-width:120px;text-align:center;border:1px solid #03c75a;color:#03c75a;
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 정보</div>
+  <div class="post">
+    <div class="cat">정보</div>
+    <h1 class="title">PixAI 아이스바페스티벌 이벤트 총정리 무료AI이미지생성사이트 활용법</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.08.02</span><span>· 정보</span></div>
+    <!-- AI브리핑 타깃 질문: PixAI 아이스바 페스티벌이 뭔가요 / PixAI 이벤트 기간·보상은 어떻게 되나요 / PixAI 무료로 쓸 수 있나요 -->
+
+    <p><b>본 포스팅은 해당 업체로부터 원고료를 지원받아 솔직하게 작성된 후기입니다.</b> 먼저 이 부분부터 밝히고 시작할게요. 요즘 무료 AI 이미지 생성 사이트를 찾아보시는 분들이 부쩍 많아졌는데요, PixAI(픽스AI)라는 곳이 2026년 7월 29일 오후 5시부터 8월 18일 정오까지(한국·일본시간 기준) 여름 시즌 캠페인 '아이스바 페스티벌'을 열고 있다고 해서 오늘 관련 소식을 정리해봤어요.</p>
+
+    <h2 class="sub">'아이스바 페스티벌', 무슨 이벤트인가요</h2>
+    <p>PixAI 아이스바 페스티벌은 스페셜 뮤직비디오 '여름빛을 찾아서' 공개를 중심으로 진행되는 여름 한정 캠페인이에요. 이 뮤직비디오는 PixAI의 오리지널 스토리 '한여름의 징조'와 함께 공개됐다고 하는데요, 캐릭터 Mio를 앞세운 여름 시즌 콘텐츠라고 보시면 될 것 같습니다. 그 기간이 지금(2026.08.02 기준)도 그대로 이어지고 있어서, 아직 참여할 시간이 남아 있는 상태예요.</p>
+
+    <h2 class="sub">이벤트 참여하면 뭘 받을 수 있나요</h2>
+    <p>보상은 크게 세 갈래로 나뉘는데, 글로벌 창작 챌린지랑 X 이벤트 두 개만 합쳐도 아마존 기프트카드가 총 1,300달러어치가 걸려 있어요.</p>
+    <ul>
+      <li>글로벌 창작 챌린지(X·유튜브·틱톡): 비주얼·스토리·창의성 3개 부문에서 각 5명씩, 총 15명에게 1,050달러 상당 아마존 기프트카드</li>
+      <li>X 이벤트: 팔로우·상호작용 기반 참여자 중 5명에게 250달러 상당 아마존 기프트카드</li>
+      <li>플랫폼 콘테스트: 아마존 기프트카드 + PixAI 크레딧 지급</li>
+    </ul>
+    <p>참여 방법은 이미지든 영상이든 만화든 직접 만든 작품을 "#PixAI" 해시태그를 달아 SNS에 올린 다음, 8월 18일 정오까지 공식 응모 양식에 작품 링크를 제출하면 되는 구조라고 해요. 자세한 조건은 pixai.art 콘테스트 페이지에서 직접 확인하는 게 제일 정확하겠더라고요.</p>
+    <p>이거 말고 플랫폼 자체 프로모션도 따로 있는데, 참여 방법은 훨씬 간단해요.</p>
+    <ul>
+      <li>아이스바 막대 뽑기(그리기)를 하면 크레딧 보상</li>
+      <li>매일 접속하면 럭키드로우 참여 가능</li>
+      <li>크레딧팩 구매 시 최대 90% 보너스 크레딧</li>
+      <li>3달러짜리 젬팩도 별도로 준비돼 있음</li>
+    </ul>
+
+    <h2 class="sub">PixAI는 다른 AI 이미지 생성 사이트랑 뭐가 다른가요</h2>
+    <p>가장 큰 특징은 별도 프로그램 설치 없이 웹사이트 안에서 바로 애니메이션풍 이미지·영상을 만들 수 있다는 점이더라고요. 애니메이션·서브컬처 특화 스타일을 내세우고 있고, 만든 이미지를 움직이는 영상으로 바꿔주는 기능도 있대요. 프롬프트를 몰라도 AI 채팅 Mio.2랑 대화하듯 요청하면 결과물이 나오는 방식이라 진입장벽이 낮은 편이고, 잡지·피규어·굿즈·대화창 꾸미기 같은 툴박스도 다양한가 봐요. 신규 클래스도 하나 소개됐는데, '불지옥 마법사'에 소환수가 늘 옆에 붙어 있는 콘셉트라 스킬로 따로 부르는 방식과는 다르더라고요. 유저가 직접 콘테스트를 열고 심사해서 크레딧 상금을 걸 수도 있다고 하니, 궁금하신 분들은 <a href="https://pixai.art/ko" target="_blank">PixAi 바로가기</a>로 들어가서 둘러보시면 좋을 것 같아요.</p>
+
+    <h2 class="sub">그림체나 구도는 얼마나 다양하게 뽑히나요</h2>
+    <p>LoRA라는 스타일 모델을 골라 적용하면 같은 캐릭터라도 화풍이나 구도를 완전히 다르게 뽑아낼 수 있다고 해요. 1인 캐릭터 중심 구도부터 여러 명이 함께 있는 다인 구도까지 폭넓게 시도할 수 있다고 하니, AI 캐릭터 만들기나 AI 일러스트 만들기에 관심 있으신 분들이라면 눈여겨볼 만한 부분이에요.</p>
+
+    <h2 class="sub">Mio.2에 새로 추가된 'Momoka v1'은 뭔가요</h2>
+    <p>PixAI의 AI 채팅 에이전트 Mio.2에 새 모델 'Momoka v1'이 정식으로 공개됐다는 소식도 들려왔어요. 관련 소식에 따르면 품질과 속도, 비용 효율을 함께 고려해 설계된 모델이라고 해요. 채팅으로 캐릭터를 만들고 대화하는 과정이 한층 매끄러워졌다는 뜻인 것 같습니다.</p>
+    <p>참고로 이맘때 한국 커뮤니티 쪽에서는 1주년을 맞았다는 이야기도 조용히 들리더라고요. 정확한 날짜까지는 확인이 어려웠지만, 그만큼 꾸준히 이어져 온 서비스라는 뜻인 것 같아요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. PixAI는 무료로 사용할 수 있나요?</b><br>별도 설치 없이 웹사이트에서 바로 시작할 수 있고, 기본 크레딧으로 체험이 가능해요. 더 쓰려면 크레딧팩이나 이번 캠페인 한정 3달러 젬팩으로 충전하면 되고, 크레딧팩 구매 시 최대 90%까지 보너스 크레딧도 붙는다고 해요.</p>
+    <p><b>Q. LoRA로 만드는 방식이랑 Mio.2 채팅으로 만드는 방식, 뭐가 다른가요?</b><br>LoRA는 원하는 화풍이나 구도를 직접 골라 세밀하게 조절하고 싶은 분한테 맞는 방식이고, Mio.2 채팅은 그런 설정 없이 대화하듯 요청만 하면 되는 방식이라 처음 써보는 분들한테 더 편한 입구에 가까운 것 같아요.</p>
+    <p><b>Q. '아이스바 페스티벌'의 글로벌 창작 챌린지랑 플랫폼 자체 프로모션(아이스바 막대뽑기 등), 둘 다 참여해야 하나요?</b><br>두 트랙이 서로 독립적으로 운영되는 구조라 원하는 쪽만 골라 참여해도 되고, 시간 여유가 되면 둘 다 참여해도 되는 것 같아요.</p>
+
+    <p>마감이 8월 18일 정오까지니까 관심 있으신 분들은 일정 여유 있게 잡아두는 게 좋을 것 같아요. 위에 남겨둔 <a href="https://pixai.art/ko" target="_blank">PixAi 바로가기</a> 링크로 가볍게 구경만 해봐도 재밌을 것 같네요. 저도 마감 전에 시간 내서 한번 구경은 가보려고요.</p>
+
+    <div class="btns"><a href="https://pixai.art/ko" target="_blank">PixAi 바로가기</a></div>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://pixai.art/ko/event/summer-promotion-2026" target="_blank">PixAI 공식 이벤트 페이지</a><br>
+    · <a href="https://pixai.art/ko" target="_blank">PixAI 공식 홈페이지</a><br>
+    · <a href="https://blog.pixai.art/ko/wait-mio-2-agent-can-do-that-fun-new-ways-to-play-from-visual-novels-to-character-cards-ko/" target="_blank">PixAI 공식 블로그 - Mio.2 소개</a></p>
+
+    <div class="tags">#PixAI #픽스AI #무료AI이미지생성사이트 #AI캐릭터만들기 #AI일러스트만들기 #PixAI사용법 #아이스바페스티벌 #Mio2</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트는 대체로 살아납니다.<br>
+      <b>3.</b> 이 글은 사진 없이 텍스트 중심으로 구성했어요 — 별도로 채울 이미지·쿠팡 링크 자리가 없습니다.
+      <div class="qbox">⏱ <b>직접 채울 건 딱 하나: 제목칸.</b> 나머지 본문·볼드·리스트는 복사로 그대로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: PixAI 아이스바페스티벌 이벤트 총정리 무료AI이미지생성사이트 활용법</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다</p>
+    <div id="copy">
+      <p><b>본 포스팅은 해당 업체로부터 원고료를 지원받아 솔직하게 작성된 후기입니다.</b> 먼저 이 부분부터 밝히고 시작할게요. 요즘 무료 AI 이미지 생성 사이트를 찾아보시는 분들이 부쩍 많아졌는데요, PixAI(픽스AI)라는 곳이 2026년 7월 29일 오후 5시부터 8월 18일 정오까지(한국·일본시간 기준) 여름 시즌 캠페인 '아이스바 페스티벌'을 열고 있다고 해서 오늘 관련 소식을 정리해봤어요.</p>
+
+      <h3>'아이스바 페스티벌', 무슨 이벤트인가요</h3>
+      <p>PixAI 아이스바 페스티벌은 스페셜 뮤직비디오 '여름빛을 찾아서' 공개를 중심으로 진행되는 여름 한정 캠페인이에요. 이 뮤직비디오는 PixAI의 오리지널 스토리 '한여름의 징조'와 함께 공개됐다고 하는데요, 캐릭터 Mio를 앞세운 여름 시즌 콘텐츠라고 보시면 될 것 같습니다. 그 기간이 지금(2026.08.02 기준)도 그대로 이어지고 있어서, 아직 참여할 시간이 남아 있는 상태예요.</p>
+
+      <h3>이벤트 참여하면 뭘 받을 수 있나요</h3>
+      <p>보상은 크게 세 갈래로 나뉘는데, 글로벌 창작 챌린지랑 X 이벤트 두 개만 합쳐도 아마존 기프트카드가 총 1,300달러어치가 걸려 있어요.</p>
+      <ul>
+        <li>글로벌 창작 챌린지(X·유튜브·틱톡): 비주얼·스토리·창의성 3개 부문에서 각 5명씩, 총 15명에게 1,050달러 상당 아마존 기프트카드</li>
+        <li>X 이벤트: 팔로우·상호작용 기반 참여자 중 5명에게 250달러 상당 아마존 기프트카드</li>
+        <li>플랫폼 콘테스트: 아마존 기프트카드 + PixAI 크레딧 지급</li>
+      </ul>
+      <p>참여 방법은 이미지든 영상이든 만화든 직접 만든 작품을 "#PixAI" 해시태그를 달아 SNS에 올린 다음, 8월 18일 정오까지 공식 응모 양식에 작품 링크를 제출하면 되는 구조라고 해요. 자세한 조건은 pixai.art 콘테스트 페이지에서 직접 확인하는 게 제일 정확하겠더라고요.</p>
+      <p>이거 말고 플랫폼 자체 프로모션도 따로 있는데, 참여 방법은 훨씬 간단해요.</p>
+      <ul>
+        <li>아이스바 막대 뽑기(그리기)를 하면 크레딧 보상</li>
+        <li>매일 접속하면 럭키드로우 참여 가능</li>
+        <li>크레딧팩 구매 시 최대 90% 보너스 크레딧</li>
+        <li>3달러짜리 젬팩도 별도로 준비돼 있음</li>
+      </ul>
+
+      <h3>PixAI는 다른 AI 이미지 생성 사이트랑 뭐가 다른가요</h3>
+      <p>가장 큰 특징은 별도 프로그램 설치 없이 웹사이트 안에서 바로 애니메이션풍 이미지·영상을 만들 수 있다는 점이더라고요. 애니메이션·서브컬처 특화 스타일을 내세우고 있고, 만든 이미지를 움직이는 영상으로 바꿔주는 기능도 있대요. 프롬프트를 몰라도 AI 채팅 Mio.2랑 대화하듯 요청하면 결과물이 나오는 방식이라 진입장벽이 낮은 편이고, 잡지·피규어·굿즈·대화창 꾸미기 같은 툴박스도 다양한가 봐요. 신규 클래스도 하나 소개됐는데, '불지옥 마법사'에 소환수가 늘 옆에 붙어 있는 콘셉트라 스킬로 따로 부르는 방식과는 다르더라고요. 유저가 직접 콘테스트를 열고 심사해서 크레딧 상금을 걸 수도 있다고 하니, 궁금하신 분들은 <a href="https://pixai.art/ko" target="_blank">PixAi 바로가기</a>로 들어가서 둘러보시면 좋을 것 같아요.</p>
+
+      <h3>그림체나 구도는 얼마나 다양하게 뽑히나요</h3>
+      <p>LoRA라는 스타일 모델을 골라 적용하면 같은 캐릭터라도 화풍이나 구도를 완전히 다르게 뽑아낼 수 있다고 해요. 1인 캐릭터 중심 구도부터 여러 명이 함께 있는 다인 구도까지 폭넓게 시도할 수 있다고 하니, AI 캐릭터 만들기나 AI 일러스트 만들기에 관심 있으신 분들이라면 눈여겨볼 만한 부분이에요.</p>
+
+      <h3>Mio.2에 새로 추가된 'Momoka v1'은 뭔가요</h3>
+      <p>PixAI의 AI 채팅 에이전트 Mio.2에 새 모델 'Momoka v1'이 정식으로 공개됐다는 소식도 들려왔어요. 관련 소식에 따르면 품질과 속도, 비용 효율을 함께 고려해 설계된 모델이라고 해요. 채팅으로 캐릭터를 만들고 대화하는 과정이 한층 매끄러워졌다는 뜻인 것 같습니다.</p>
+      <p>참고로 이맘때 한국 커뮤니티 쪽에서는 1주년을 맞았다는 이야기도 조용히 들리더라고요. 정확한 날짜까지는 확인이 어려웠지만, 그만큼 꾸준히 이어져 온 서비스라는 뜻인 것 같아요.</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. PixAI는 무료로 사용할 수 있나요?</b><br>별도 설치 없이 웹사이트에서 바로 시작할 수 있고, 기본 크레딧으로 체험이 가능해요. 더 쓰려면 크레딧팩이나 이번 캠페인 한정 3달러 젬팩으로 충전하면 되고, 크레딧팩 구매 시 최대 90%까지 보너스 크레딧도 붙는다고 해요.</p>
+      <p><b>Q. LoRA로 만드는 방식이랑 Mio.2 채팅으로 만드는 방식, 뭐가 다른가요?</b><br>LoRA는 원하는 화풍이나 구도를 직접 골라 세밀하게 조절하고 싶은 분한테 맞는 방식이고, Mio.2 채팅은 그런 설정 없이 대화하듯 요청만 하면 되는 방식이라 처음 써보는 분들한테 더 편한 입구에 가까운 것 같아요.</p>
+      <p><b>Q. '아이스바 페스티벌'의 글로벌 창작 챌린지랑 플랫폼 자체 프로모션(아이스바 막대뽑기 등), 둘 다 참여해야 하나요?</b><br>두 트랙이 서로 독립적으로 운영되는 구조라 원하는 쪽만 골라 참여해도 되고, 시간 여유가 되면 둘 다 참여해도 되는 것 같아요.</p>
+
+      <p>마감이 8월 18일 정오까지니까 관심 있으신 분들은 일정 여유 있게 잡아두는 게 좋을 것 같아요. 위에 남겨둔 <a href="https://pixai.art/ko" target="_blank">PixAi 바로가기</a> 링크로 가볍게 구경만 해봐도 재밌을 것 같네요. 저도 마감 전에 시간 내서 한번 구경은 가보려고요.</p>
+
+      <div class="btns"><a href="https://pixai.art/ko" target="_blank">PixAi 바로가기</a></div>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://pixai.art/ko/event/summer-promotion-2026" target="_blank">PixAI 공식 이벤트 페이지</a><br>
+      · <a href="https://pixai.art/ko" target="_blank">PixAI 공식 홈페이지</a><br>
+      · <a href="https://blog.pixai.art/ko/wait-mio-2-agent-can-do-that-fun-new-ways-to-play-from-visual-novels-to-character-cards-ko/" target="_blank">PixAI 공식 블로그 - Mio.2 소개</a></p>
+
+      <p class="tags-line">#PixAI #픽스AI #무료AI이미지생성사이트 #AI캐릭터만들기 #AI일러스트만들기 #PixAI사용법 #아이스바페스티벌 #Mio2</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
