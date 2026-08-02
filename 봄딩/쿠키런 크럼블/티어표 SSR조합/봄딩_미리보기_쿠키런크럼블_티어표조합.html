@@ -1,0 +1,310 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>쿠키런 크럼블 티어표 직접 매겨봤어요, SSR조합 짜는 법까지 정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 6px;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 4px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tnote{font-size:12px;color:var(--sub);margin:6px 0 24px;text-align:right;}
+  .post ol,.post ul{margin:-6px 0 22px;padding-left:22px;}
+  .post li{font-size:15.5px;line-height:1.85;margin:0 0 9px;word-break:keep-all;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ol,#copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 4px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;display:block;margin:0 0 16px;text-align:right;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">쿠키런 크럼블 티어표 직접 매겨봤어요, SSR조합 짜는 법까지 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.08.02</span><span>· 게임</span></div>
+
+    <!-- AI브리핑 타깃 질문: 쿠키런 크럼블 SSR 조합 어떻게 짜나요? / 쿠키런 크럼블 티어표? / 쿠키런 크럼블 초반 덱 뭐로 짜야 하나요? -->
+
+    <p>쿠키런: 크럼블 굴리다 보면 다들 한 번쯤 부딪히는 게 있어요. 등급표만 보고 SSR이라 자신 있게 편성에 넣었는데, 막상 전투에서는 기대만큼 안 나오는 경우요. 저도 처음엔 희귀도 순으로만 편성했다가 몇 번 갈아엎고 나서야 감을 잡았는데요, 그래서 이번엔 <b>제가 직접 플레이하며 매긴 성능 기준 티어표(S~D)</b>를 공개하고, 그 위에 조합을 실전으로 짜는 순서까지 정리해볼게요. 미리 말씀드리면 이건 공식 발표가 아니라 <b>제가 직접 해보고 매긴 제 기준 순위</b>예요.</p>
+
+    <h2 class="sub">제가 매긴 쿠키런 크럼블 티어표, 이렇게 보시면 돼요</h2>
+    <p>이 티어표는 희귀도가 아니라 실전에서 체감한 성능 순서대로 S부터 D까지 나눈 거예요. 위에서부터 S·A·B·C·D 순으로 내려가고, 같은 칸 안에서는 따로 순위를 매기지 않았어요 — 그 안에서는 다 고만고만하다고 보시면 돼요.</p>
+
+    <!-- 이미지 이유: 티어표 절 상단 필수 배치, 직접 제작한 성능 티어표 / 출처: 직접 제작(self-host) / 분류: 원본자료 -->
+    <div class="imgwrap"><img src="img/tierlist.png" width="932" height="559" alt="쿠키런: 크럼블 성능 티어표 S~D"></div>
+    <p class="cap">제가 직접 플레이하며 매긴 쿠키런: 크럼블 성능 티어표예요(S~D).</p>
+    <p class="tnote">공식 티어 랭킹이 아니라 제가 2026년 8월 초 기준으로 직접 플레이하며 매긴 개인 기준이에요. 표 이미지에는 쿠키 이름만 있어서, 희귀도(C~TSSR)는 본문에서 따로 적어뒀어요.</p>
+
+    <p>표를 보면서 바로 이상하다 싶은 지점이 몇 군데 보이실 텐데요, 그 얘기를 다음 섹션에서 풀어볼게요.</p>
+
+    <h2 class="sub">SSR인데 C, TSSR인데 B — 왜 이렇게 갈리나요</h2>
+    <p>등급이 높다고 티어도 높은 건 아니에요. 제가 직접 굴려보니 실제론 이 세 가지가 성능을 갈랐어요 — 스킬이 실전에서 얼마나 자주 제 몫을 하는지, 혼자서도 버티는 생존력, 그리고 팀에 시너지를 얼마나 잘 태워주는지요.</p>
+    <ul>
+      <li>트위즐젤리맛·슈크림맛·에스프레소맛·찰스는 전부 SSR인데 C예요. 등급은 높은데 제 기준으론 활용도가 그만큼 안 느껴지더라고요.</li>
+      <li>마카롱맛은 SR인데 A랍니다. 지원 포지션에서 제공하는 시너지가 실전에서 자주 맞물려서 체감 성능이 확 올라가요.</li>
+      <li>호밀맛은 SR인데 S고, 반대로 오븐방랑자는 최고 희귀도인 TSSR인데 B에 머무르네요. 희귀도가 성능을 보장하지 않는다는 걸 제일 잘 보여주는 두 사례예요.</li>
+    </ul>
+
+    <!-- 이미지 이유: 직전 문단의 오븐방랑자(TSSR인데 B) 사례를 바로 보여주는 공식 일러스트 / 출처: https://assets.devsisters.com/cc/world-intro/cookie-portrait-oven-wanderer-new.png / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/portrait-ovenwanderer.png" width="1400" height="1400" alt="쿠키런: 크럼블 오븐방랑자 공식 일러스트"></div>
+    <p class="cap">오븐방랑자 공식 일러스트예요. 최고 희귀도 TSSR인데 제 티어표에선 B에 머물러요.</p>
+    <p class="src">이미지 출처: <a href="https://assets.devsisters.com/cc/world-intro/cookie-portrait-oven-wanderer-new.png" target="_blank">쿠키런: 크럼블 공식 사이트</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <p>그러니 편성할 때는 본문에 적어둔 희귀도보다 이 티어표 위치를 먼저 보시는 게 맞아요.</p>
+
+    <h2 class="sub">조합은 포지션·속성·시너지 이 세 가지로 굴러가요</h2>
+    <p>쿠키런 크럼블 조합은 포지션·속성·시너지 이 세 가지 조합으로 굴러가요. 포지션은 방어·돌격·사격·지원, 속성은 불·물·풀·빛·어둠이에요.</p>
+    <table class="tbl">
+      <tr><th>포지션</th><th>하는 일</th><th>예시(속성)</th></tr>
+      <tr><td>사격</td><td>원거리에서 딜 담당, 체감상 딜 비중 제일 큼</td><td>전갈맛(불)·바람궁수(풀)</td></tr>
+      <tr><td>돌격</td><td>근접까지 파고들어 딜, 생존기도 겸함</td><td>피겨여왕맛(물)·오븐방랑자(불)</td></tr>
+      <tr><td>방어</td><td>어그로 끌고 앞에서 버팀</td><td>이온맛 쿠키로봇(물)·다크초코(어둠)</td></tr>
+      <tr><td>지원</td><td>버프·디버프·회복 담당</td><td>도넛행성 에일리언 도넛킹(빛)·마카롱맛(풀)</td></tr>
+    </table>
+    <p class="tnote">포지션·속성은 팬 소스 두 곳을 교차 확인한 내용이라 공식 발표는 아니에요. 정확히 4종으로 나뉘는지도 소스마다 조금씩 갈려서, 지금까지 확인된 선에서 정리한 거예요.</p>
+
+    <p>여기서 제일 많이들 착각하는 게 시너지예요. <b>같은 속성끼리 모은다고, 같은 시리즈끼리 모은다고 시너지가 터지는 게 아니에요.</b> 쿠키마다 "주는 시너지" 태그랑 "받는 시너지" 태그가 따로 고정돼 있고, 팀 안에서 이 둘이 맞물릴 때만 발동해요. 시너지 종류는 <b>관통·연쇄·다발·탄속·연타·범위·지속</b> 이렇게 일곱 가지고요. 각각 뭘 하는 태그인지 표로 정리해봤어요.</p>
+    <table class="tbl">
+      <tr><th>시너지</th><th>효과</th></tr>
+      <tr><td>관통</td><td>더 많은 적을 꿰뚫어요</td></tr>
+      <tr><td>연쇄</td><td>한 번 더 튀어서 발동해요</td></tr>
+      <tr><td>다발</td><td>동시에 나가는 탄 수가 늘어요</td></tr>
+      <tr><td>탄속</td><td>발사체 속도가 빨라져요</td></tr>
+      <tr><td>연타</td><td>더 자주 연속으로 발동해요</td></tr>
+      <tr><td>범위</td><td>공격 사거리가 늘어요</td></tr>
+      <tr><td>지속</td><td>효과 지속시간이 늘어요</td></tr>
+    </table>
+    <p>그래서 티어표 위쪽 쿠키만 모아도 태그가 하나도 안 맞물리면, 오히려 티어 낮은 조합보다 실전에서 부진할 수 있어요.</p>
+
+    <!-- 이미지 이유: 조합·시너지가 실제로 맞붙는 콘텐츠를 소개하는 공식 아트로 시스템 설명 뒷받침 / 출처: https://assets.devsisters.com/cc/world-intro/mode-arena.png / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/mode-arena.png" width="1560" height="860" alt="쿠키런: 크럼블 아레나 모드 공식 아트"></div>
+    <p class="cap">아레나 모드를 소개하는 공식 아트예요. 조합 시너지가 실제로 맞붙는 콘텐츠예요.</p>
+    <p class="src">이미지 출처: <a href="https://assets.devsisters.com/cc/world-intro/mode-arena.png" target="_blank">쿠키런: 크럼블 공식 사이트</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">SSR 조합, 실전에서는 이 순서로 짜요</h2>
+    <p>SSR 조합은 등급 높은 순서로 채우는 게 아니라, 정해진 네 단계 순서로 짜야 실전에서 제대로 굴러갑니다.</p>
+    <ol>
+      <li>포지션 균형부터 잡아주세요 — 방어·사격·지원 이 세 자리를 먼저 채워주시면 됩니다.</li>
+      <li>보유 쿠키가 주는 시너지 태그를 쭉 나열해보세요.</li>
+      <li>그 태그를 받는 쿠키를 포지션당 최소 한 명은 확보해주시면 됩니다.</li>
+      <li>남는 자리는 콘텐츠 성격에 맞춰 채워주세요 — 보스전 위주면 방어를 더 넣는 식으로요.</li>
+    </ol>
+
+    <!-- 이미지 이유: 4단계 편성 순서 직후 실제 편성해서 붙는 콘텐츠를 소개하는 공식 아트 / 출처: https://assets.devsisters.com/cc/world-intro/mode-crumble-dungeon.png / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/mode-dungeon.png" width="1560" height="860" alt="쿠키런: 크럼블 던전 모드 공식 아트"></div>
+    <p class="cap">크럼블 던전 모드를 소개하는 공식 아트예요. 보유 로스터로 직접 도전하는 콘텐츠예요.</p>
+    <p class="src">이미지 출처: <a href="https://assets.devsisters.com/cc/world-intro/mode-crumble-dungeon.png" target="_blank">쿠키런: 크럼블 공식 사이트</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <p>가끔 특수 기믹이 걸린 스테이지도 나오는데, 이럴 땐 늘 쓰던 조합 대신 그 기믹 조건에 맞는 쿠키들로 따로 챙겨서 편성해야 하더라고요.</p>
+
+    <!-- 이미지 이유: 특수 기믹 스테이지(콘텐츠별 편성 차이) 설명 직후 배치, 임플란트 타워 콘텐츠를 소개하는 공식 아트 / 출처: https://assets.devsisters.com/cc/world-intro/mode-implant-tower.png / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/mode-implant-tower.png" width="1560" height="860" alt="쿠키런: 크럼블 임플란트 타워 공식 아트"></div>
+    <p class="cap">임플란트 타워를 소개하는 공식 아트예요. 이런 특수 기믹 콘텐츠는 조합을 따로 챙겨야 해요.</p>
+    <p class="src">이미지 출처: <a href="https://assets.devsisters.com/cc/world-intro/mode-implant-tower.png" target="_blank">쿠키런: 크럼블 공식 사이트</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <p>등급 좋은 쿠키를 일단 다 넣고 보는 것보다, 이 순서를 한 번씩 짚고 넘어가는 게 훨씬 안정적이더라고요.</p>
+
+    <h2 class="sub">초보 때 저도 했던 편성 실수들</h2>
+    <p>초보 편성 실수는 크게 이 다섯 가지로 갈려요. 저도 이 실수들을 거의 다 겪어봤어요.</p>
+    <table class="tbl">
+      <tr><th>실수</th><th>왜 손해인가</th></tr>
+      <tr><td>방어 없이 사격 2명 이상 편성</td><td>버티는 역할이 없어서 순식간에 무너져요</td></tr>
+      <tr><td>시너지 무시하고 등급만 보고 편성</td><td>태그가 안 맞물리면 SSR을 넣어도 시너지가 안 터져요</td></tr>
+      <tr><td>뽑기를 여러 계열에 분산</td><td>어느 한 계열도 제대로 못 채워서 계속 애매해요</td></tr>
+      <tr><td>강화 재화를 로스터 전체에 흩뿌림</td><td>핵심 몇 명만 확실히 키우는 게 훨씬 나아요</td></tr>
+      <tr><td>전투력 숫자만 보고 시너지 설명 안 읽음</td><td>숫자가 높아도 태그가 안 맞으면 제 몫을 못해요</td></tr>
+    </table>
+
+    <p>이런 실수 피하고 싶으면 팬이 만든 <a href="https://crumblehelper.com" target="_blank">크럼블헬퍼</a>(crumblehelper.com, 비공식)에 보유 쿠키를 넣어보세요. 시너지 최다 조합을 계산해주고, 로스터 전체 69종 도감도 같이 볼 수 있어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 초반 덱은 뭐로 짜야 하나요?</b><br>초반엔 보유 폭이 좁으니까 등급보다 포지션 채우기가 먼저예요. 방어 하나, 사격이나 돌격 중 딜 담당 하나, 지원 하나만 채워도 훨씬 안정적이고요, 그 안에서 시너지 태그가 맞는 조합이 있으면 우선순위를 올리시면 돼요.</p>
+    <p><b>Q. 속성끼리 상성이 있나요?</b><br>공식 사이트랑 헬프센터, 주요 팬 데이터베이스까지 찾아봤는데 속성 상성표는 아직 확인되지 않았어요. 지금 기준으로 확실한 건 포지션 균형이랑 시너지 태그 매칭이니까, 조합은 이 두 가지 위주로 짜시는 걸 추천드려요.</p>
+
+    <h2 class="sub">쿠키런 크럼블 티어·조합 정리</h2>
+    <p>직접 해보고 내린 결론은 하나예요. 등급보다 포지션 균형 먼저 잡고, 그 안에서 태그 맞는 쿠키로 채우는 게 결과가 훨씬 좋았어요. 크럼블 이제 막 시작하셨거나 조합 갈아엎을 타이밍이시면, 이 순서 한 번 그대로 따라가면서 달려보시길 추천드려요.</p>
+
+    <p><b>✔ 쿠키런 크럼블 같이 보기 좋은 내용</b><br>
+    · 쿠키런 크럼블 등급표 총정리! 초반엔 뭐부터 키워야 할까 (발행 시 링크 연결)<br>
+    · 쿠키런크럼블 스텔라링크 뭔지 별조각 잠금 타이밍 계산기까지 정리 (발행 시 링크 연결)<br>
+    · 쿠키런 크럼블 7월 30일 출시 확정! 사전등록 180만 보상 총정리 (발행 시 링크 연결)</p>
+    <!-- 내부링크: 위 3개 글 네이버 post ID 확인 후 <a href="https://blog.naver.com/bomding/{POST_ID}"> 연결 -->
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://cookieruncrumble.com/ko" target="_blank">쿠키런: 크럼블 공식 사이트</a><br>
+    · <a href="https://www.inven.co.kr/webzine/news/?news=318970" target="_blank">인벤 프리뷰</a><br>
+    · <a href="https://www.pocketgamer.com/cookierun-crumble/best-teams/" target="_blank">Pocket Gamer</a><br>
+    · <a href="https://crumblehelper.com/" target="_blank">크럼블헬퍼</a>(비공식)</p>
+
+    <div class="tags">#쿠키런크럼블 #쿠키런크럼블티어표 #쿠키런크럼블SSR조합 #쿠키런크럼블조합 #방치형쿠키RPG #쿠키런크럼블공략</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 3분):</b> 📷 <b>사진 5곳</b> 업로드 + 내부링크 3곳 post ID 연결. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 쿠키런 크럼블 티어표 직접 매겨봤어요, SSR조합 짜는 법까지 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>쿠키런: 크럼블 굴리다 보면 다들 한 번쯤 부딪히는 게 있어요. 등급표만 보고 SSR이라 자신 있게 편성에 넣었는데, 막상 전투에서는 기대만큼 안 나오는 경우요. 저도 처음엔 희귀도 순으로만 편성했다가 몇 번 갈아엎고 나서야 감을 잡았는데요, 그래서 이번엔 <b>제가 직접 플레이하며 매긴 성능 기준 티어표(S~D)</b>를 공개하고, 그 위에 조합을 실전으로 짜는 순서까지 정리해볼게요. 미리 말씀드리면 이건 공식 발표가 아니라 <b>제가 직접 해보고 매긴 제 기준 순위</b>예요.</p>
+      <h3>제가 매긴 쿠키런 크럼블 티어표, 이렇게 보시면 돼요</h3>
+      <p>이 티어표는 희귀도가 아니라 실전에서 체감한 성능 순서대로 S부터 D까지 나눈 거예요. 위에서부터 S·A·B·C·D 순으로 내려가고, 같은 칸 안에서는 따로 순위를 매기지 않았어요 — 그 안에서는 다 고만고만하다고 보시면 돼요.</p>
+      <p class="ph">📷 〔사진 1〕 제가 직접 플레이하며 매긴 쿠키런: 크럼블 성능 티어표(S~D) — img/tierlist.png 저장 후 업로드</p>
+      <p class="tnote-line">공식 티어 랭킹이 아니라 제가 2026년 8월 초 기준으로 직접 플레이하며 매긴 개인 기준이에요. 표 이미지에는 쿠키 이름만 있어서, 희귀도(C~TSSR)는 본문에서 따로 적어뒀어요.</p>
+      <p>표를 보면서 바로 이상하다 싶은 지점이 몇 군데 보이실 텐데요, 그 얘기를 다음 섹션에서 풀어볼게요.</p>
+      <h3>SSR인데 C, TSSR인데 B — 왜 이렇게 갈리나요</h3>
+      <p>등급이 높다고 티어도 높은 건 아니에요. 제가 직접 굴려보니 실제론 이 세 가지가 성능을 갈랐어요 — 스킬이 실전에서 얼마나 자주 제 몫을 하는지, 혼자서도 버티는 생존력, 그리고 팀에 시너지를 얼마나 잘 태워주는지요.</p>
+      <ul>
+        <li>트위즐젤리맛·슈크림맛·에스프레소맛·찰스는 전부 SSR인데 C예요. 등급은 높은데 제 기준으론 활용도가 그만큼 안 느껴지더라고요.</li>
+        <li>마카롱맛은 SR인데 A랍니다. 지원 포지션에서 제공하는 시너지가 실전에서 자주 맞물려서 체감 성능이 확 올라가요.</li>
+        <li>호밀맛은 SR인데 S고, 반대로 오븐방랑자는 최고 희귀도인 TSSR인데 B에 머무르네요. 희귀도가 성능을 보장하지 않는다는 걸 제일 잘 보여주는 두 사례예요.</li>
+      </ul>
+      <p class="ph">📷 〔사진 2〕 오븐방랑자 공식 일러스트(TSSR인데 B인 사례) — 공식 사이트 저장 후 업로드</p>
+      <p>그러니 편성할 때는 본문에 적어둔 희귀도보다 이 티어표 위치를 먼저 보시는 게 맞아요.</p>
+      <h3>조합은 포지션·속성·시너지 이 세 가지로 굴러가요</h3>
+      <p>쿠키런 크럼블 조합은 포지션·속성·시너지 이 세 가지 조합으로 굴러가요. 포지션은 방어·돌격·사격·지원, 속성은 불·물·풀·빛·어둠이에요.</p>
+      <table>
+        <tr><th>포지션</th><th>하는 일</th><th>예시(속성)</th></tr>
+        <tr><td>사격</td><td>원거리에서 딜 담당, 체감상 딜 비중 제일 큼</td><td>전갈맛(불)·바람궁수(풀)</td></tr>
+        <tr><td>돌격</td><td>근접까지 파고들어 딜, 생존기도 겸함</td><td>피겨여왕맛(물)·오븐방랑자(불)</td></tr>
+        <tr><td>방어</td><td>어그로 끌고 앞에서 버팀</td><td>이온맛 쿠키로봇(물)·다크초코(어둠)</td></tr>
+        <tr><td>지원</td><td>버프·디버프·회복 담당</td><td>도넛행성 에일리언 도넛킹(빛)·마카롱맛(풀)</td></tr>
+      </table>
+      <p class="tnote-line">포지션·속성은 팬 소스 두 곳을 교차 확인한 내용이라 공식 발표는 아니에요. 정확히 4종으로 나뉘는지도 소스마다 조금씩 갈려서, 지금까지 확인된 선에서 정리한 거예요.</p>
+      <p>여기서 제일 많이들 착각하는 게 시너지예요. <b>같은 속성끼리 모은다고, 같은 시리즈끼리 모은다고 시너지가 터지는 게 아니에요.</b> 쿠키마다 "주는 시너지" 태그랑 "받는 시너지" 태그가 따로 고정돼 있고, 팀 안에서 이 둘이 맞물릴 때만 발동해요. 시너지 종류는 <b>관통·연쇄·다발·탄속·연타·범위·지속</b> 이렇게 일곱 가지고요. 각각 뭘 하는 태그인지 표로 정리해봤어요.</p>
+      <table>
+        <tr><th>시너지</th><th>효과</th></tr>
+        <tr><td>관통</td><td>더 많은 적을 꿰뚫어요</td></tr>
+        <tr><td>연쇄</td><td>한 번 더 튀어서 발동해요</td></tr>
+        <tr><td>다발</td><td>동시에 나가는 탄 수가 늘어요</td></tr>
+        <tr><td>탄속</td><td>발사체 속도가 빨라져요</td></tr>
+        <tr><td>연타</td><td>더 자주 연속으로 발동해요</td></tr>
+        <tr><td>범위</td><td>공격 사거리가 늘어요</td></tr>
+        <tr><td>지속</td><td>효과 지속시간이 늘어요</td></tr>
+      </table>
+      <p>그래서 티어표 위쪽 쿠키만 모아도 태그가 하나도 안 맞물리면, 오히려 티어 낮은 조합보다 실전에서 부진할 수 있어요.</p>
+      <p class="ph">📷 〔사진 3〕 아레나 모드 공식 아트(조합 시너지가 맞붙는 콘텐츠) — 공식 사이트 저장 후 업로드</p>
+      <h3>SSR 조합, 실전에서는 이 순서로 짜요</h3>
+      <p>SSR 조합은 등급 높은 순서로 채우는 게 아니라, 정해진 네 단계 순서로 짜야 실전에서 제대로 굴러갑니다.</p>
+      <ol>
+        <li>포지션 균형부터 잡아주세요 — 방어·사격·지원 이 세 자리를 먼저 채워주시면 됩니다.</li>
+        <li>보유 쿠키가 주는 시너지 태그를 쭉 나열해보세요.</li>
+        <li>그 태그를 받는 쿠키를 포지션당 최소 한 명은 확보해주시면 됩니다.</li>
+        <li>남는 자리는 콘텐츠 성격에 맞춰 채워주세요 — 보스전 위주면 방어를 더 넣는 식으로요.</li>
+      </ol>
+      <p class="ph">📷 〔사진 4〕 크럼블 던전 모드 공식 아트(보유 로스터로 도전하는 콘텐츠) — 공식 사이트 저장 후 업로드</p>
+      <p>가끔 특수 기믹이 걸린 스테이지도 나오는데, 이럴 땐 늘 쓰던 조합 대신 그 기믹 조건에 맞는 쿠키들로 따로 챙겨서 편성해야 하더라고요.</p>
+      <p class="ph">📷 〔사진 5〕 임플란트 타워 공식 아트(특수 기믹 콘텐츠) — 공식 사이트 저장 후 업로드</p>
+      <p>등급 좋은 쿠키를 일단 다 넣고 보는 것보다, 이 순서를 한 번씩 짚고 넘어가는 게 훨씬 안정적이더라고요.</p>
+      <h3>초보 때 저도 했던 편성 실수들</h3>
+      <p>초보 편성 실수는 크게 이 다섯 가지로 갈려요. 저도 이 실수들을 거의 다 겪어봤어요.</p>
+      <table>
+        <tr><th>실수</th><th>왜 손해인가</th></tr>
+        <tr><td>방어 없이 사격 2명 이상 편성</td><td>버티는 역할이 없어서 순식간에 무너져요</td></tr>
+        <tr><td>시너지 무시하고 등급만 보고 편성</td><td>태그가 안 맞물리면 SSR을 넣어도 시너지가 안 터져요</td></tr>
+        <tr><td>뽑기를 여러 계열에 분산</td><td>어느 한 계열도 제대로 못 채워서 계속 애매해요</td></tr>
+        <tr><td>강화 재화를 로스터 전체에 흩뿌림</td><td>핵심 몇 명만 확실히 키우는 게 훨씬 나아요</td></tr>
+        <tr><td>전투력 숫자만 보고 시너지 설명 안 읽음</td><td>숫자가 높아도 태그가 안 맞으면 제 몫을 못해요</td></tr>
+      </table>
+      <p>이런 실수 피하고 싶으면 팬이 만든 크럼블헬퍼(crumblehelper.com, 비공식)에 보유 쿠키를 넣어보세요. 시너지 최다 조합을 계산해주고, 로스터 전체 69종 도감도 같이 볼 수 있어요.</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 초반 덱은 뭐로 짜야 하나요?</b><br>초반엔 보유 폭이 좁으니까 등급보다 포지션 채우기가 먼저예요. 방어 하나, 사격이나 돌격 중 딜 담당 하나, 지원 하나만 채워도 훨씬 안정적이고요, 그 안에서 시너지 태그가 맞는 조합이 있으면 우선순위를 올리시면 돼요.</p>
+      <p><b>Q. 속성끼리 상성이 있나요?</b><br>공식 사이트랑 헬프센터, 주요 팬 데이터베이스까지 찾아봤는데 속성 상성표는 아직 확인되지 않았어요. 지금 기준으로 확실한 건 포지션 균형이랑 시너지 태그 매칭이니까, 조합은 이 두 가지 위주로 짜시는 걸 추천드려요.</p>
+      <h3>쿠키런 크럼블 티어·조합 정리</h3>
+      <p>직접 해보고 내린 결론은 하나예요. 등급보다 포지션 균형 먼저 잡고, 그 안에서 태그 맞는 쿠키로 채우는 게 결과가 훨씬 좋았어요. 크럼블 이제 막 시작하셨거나 조합 갈아엎을 타이밍이시면, 이 순서 한 번 그대로 따라가면서 달려보시길 추천드려요.</p>
+      <p><b>✔ 쿠키런 크럼블 같이 보기 좋은 내용</b><br>
+      · <span class="ph">〔쿠키런 크럼블 등급표 총정리! 초반엔 뭐부터 키워야 할까 — 링크 연결〕</span><br>
+      · <span class="ph">〔쿠키런크럼블 스텔라링크 뭔지 별조각 잠금 타이밍 계산기까지 정리 — 링크 연결〕</span><br>
+      · <span class="ph">〔쿠키런 크럼블 7월 30일 출시 확정! 사전등록 180만 보상 총정리 — 링크 연결〕</span></p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://cookieruncrumble.com/ko" target="_blank">쿠키런: 크럼블 공식 사이트</a><br>
+      · <a href="https://www.inven.co.kr/webzine/news/?news=318970" target="_blank">인벤 프리뷰</a><br>
+      · <a href="https://www.pocketgamer.com/cookierun-crumble/best-teams/" target="_blank">Pocket Gamer</a><br>
+      · <a href="https://crumblehelper.com/" target="_blank">크럼블헬퍼</a>(비공식)</p>
+      <p class="tags-line">#쿠키런크럼블 #쿠키런크럼블티어표 #쿠키런크럼블SSR조합 #쿠키런크럼블조합 #방치형쿠키RPG #쿠키런크럼블공략</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+
+<!-- 경량 변주 레지스터: [2026-08-02] 쿠키런 크럼블 티어표·SSR조합 짜는 법 | ⑴도입유형=A-2(상황 흐름형 — "굴리다 보면 다들 한 번쯤 부딪히는 게 있어요", 직전 07-23·08-01 A-1 연속 회피) | ⑵마무리유형=「○○ 정리」헤더+B-1 추천·첫어구="직접 해보고 내린 결론은"(직전 "정리하면" 2연속 재발 회피) | ⑶과용후보(다음 글 회피)=~더라고요, ~예요 다회 사용 -->
+</body></html>
