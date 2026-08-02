@@ -1,0 +1,370 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 봄딩 진단 &amp; 오늘 쓸 글 · 2026-08-03</title>
+<style>
+ :root{
+   --bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--inset2:#f2f4f7;
+   --ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--line2:#d8dbe2;
+   --brand:#5a4fe6;--warm:#ff6f52;--warm-weak:#ffeee9;
+   --ac:#e06c49;--ac-d:#b8502f;--ac-weak:#fbe9e3;
+   --good:#1f9d6b;--good-weak:#e7f6ef;--warn:#e0890b;--warn-weak:#fbf1de;--bad:#dc2626;--bad-weak:#fdecec;
+   --r-sm:9px;--r:13px;--r-lg:18px;
+   --sh-sm:0 1px 2px rgba(16,24,40,.05);--sh-md:0 6px 18px rgba(184,80,47,.08);
+   --tnum:"tnum" 1;
+ }
+ *{box-sizing:border-box;} html,body{margin:0;}
+ body{background:var(--bg);color:var(--ink);
+   font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+   line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;}
+ .wrap{max-width:840px;margin:0 auto;padding:20px 18px 64px;}
+ .back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;}
+ .back:hover{color:var(--ink);}
+ .num{font-feature-settings:var(--tnum);}
+ h2.sec{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:34px 0 2px;display:flex;align-items:center;gap:9px;}
+ h2.sec .ic{font-size:18px;}
+ h2.sec .tag{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:0;}
+ .sub{color:var(--sub);font-size:12.5px;margin:4px 0 12px;line-height:1.55;}
+ .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-sm);padding:18px 20px;margin-top:12px;}
+ .mast{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+   background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:20px 22px;}
+ .mast .l{flex:1;min-width:240px;}
+ .who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--ac-d);
+   background:var(--ac-weak);border-radius:999px;padding:4px 11px;}
+ .who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac);}
+ .mast h1{font-size:clamp(18px,3.4vw,21px);font-weight:800;letter-spacing:-.02em;margin:11px 0 7px;line-height:1.4;text-wrap:balance;}
+ .mast .meta{font-size:12px;color:var(--muted);font-weight:500;} .mast .meta b{color:var(--sub);font-weight:700;}
+ .score{flex:none;text-align:center;border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:108px;background:var(--inset);}
+ .score .sl{font-size:10px;font-weight:800;letter-spacing:.08em;color:var(--muted);}
+ .score .sv{font-size:38px;font-weight:800;line-height:1.02;margin-top:3px;font-feature-settings:var(--tnum);} .score .sv small{font-size:15px;color:var(--faint);font-weight:700;}
+ .score .sg{font-size:13px;font-weight:800;margin-top:1px;}
+ .g-a{color:var(--good);} .g-b{color:var(--ac-d);} .g-c{color:var(--warn);}
+ .glance{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden;}
+ .glance .gh{display:flex;align-items:center;gap:8px;padding:14px 20px 12px;border-bottom:1px solid var(--line);}
+ .glance .gh b{font-size:14px;font-weight:800;letter-spacing:-.01em;} .glance .gh .gt{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .lens{display:flex;gap:13px;padding:14px 20px;border-bottom:1px solid var(--line);align-items:flex-start;}
+ .lens:last-of-type{border-bottom:none;}
+ .lens .li{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--inset2);}
+ .lens .lc{flex:1;min-width:0;}
+ .lens .lk{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.02em;}
+ .lens .lx{font-size:13.5px;font-weight:600;line-height:1.5;margin-top:2px;color:var(--ink);}
+ .lens .lx b{font-weight:800;color:var(--ac-d);}
+ .lens .lm{flex:none;text-align:right;min-width:74px;}
+ .lens .lmv{font-size:19px;font-weight:800;font-feature-settings:var(--tnum);line-height:1.1;} .lens .lmv small{font-size:11px;color:var(--faint);font-weight:700;}
+ .lens .lml{font-size:10px;color:var(--muted);font-weight:600;margin-top:1px;}
+ @media(max-width:540px){.lens .lm{display:none;}}
+ .todo{background:var(--inset);padding:14px 20px;}
+ .todo .th{font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:.02em;margin-bottom:9px;}
+ .trow{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line2);align-items:flex-start;} .trow:first-of-type{border-top:none;}
+ .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:2px 8px;margin-top:1px;font-feature-settings:var(--tnum);}
+ .pp.p2{background:#e79375;} .pp.p3{background:#f0bba6;}
+ .tc{font-size:13px;line-height:1.5;} .tc b{font-weight:800;} .tc .tw{color:var(--muted);}
+ .kind{font-size:9.5px;font-weight:800;letter-spacing:.03em;border-radius:5px;padding:1px 6px;margin-right:6px;vertical-align:1px;}
+ .k-write{background:var(--ac-weak);color:var(--ac-d);} .k-seo{background:#e6ebff;color:#3b43b8;} .k-keep{background:var(--warn-weak);color:#9a6207;}
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;} @media(max-width:560px){.kgrid{grid-template-columns:repeat(2,1fr);}}
+ .k{background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 13px;}
+ .k .kv{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-feature-settings:var(--tnum);} .k .kv small{font-size:11px;font-weight:700;color:var(--faint);}
+ .k .kl{font-size:10.5px;color:var(--muted);margin-top:4px;font-weight:600;} .k .kd{font-size:10px;font-weight:800;margin-top:4px;}
+ .up{color:var(--good);} .down{color:var(--bad);} .flat{color:var(--warn);}
+ .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;} @media(max-width:600px){.charts{grid-template-columns:1fr;}}
+ .ch h5{margin:0 0 9px;font-size:11.5px;font-weight:800;color:var(--sub);}
+ .bars{display:flex;flex-direction:column;gap:7px;}
+ .bar{display:flex;align-items:center;gap:9px;} .bar .bl{flex:none;width:74px;font-size:10.5px;font-weight:700;color:var(--sub);}
+ .bar .bt{flex:1;height:11px;background:var(--inset2);border-radius:6px;overflow:hidden;}
+ .bar .bt i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--ac-weak),var(--ac));}
+ .bar .bv{flex:none;width:52px;text-align:right;font-size:10.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .bar.hi .bt i{background:linear-gradient(90deg,var(--ac),var(--ac-d));}
+ .bar.lo .bt i{background:linear-gradient(90deg,#f6c074,var(--warn));} .bar.lo .bl,.bar.lo .bv{color:#9a6207;}
+ .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+ .chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid;}
+ .c-good{background:var(--good-weak);color:#157a52;border-color:#c2e8d6;} .c-warn{background:var(--warn-weak);color:#9a6207;border-color:#f0d9a8;} .c-bad{background:var(--bad-weak);color:#b91c1c;border-color:#f3c2c2;}
+ .note{margin-top:13px;font-size:12px;line-height:1.55;color:var(--sub);background:var(--inset);border-radius:var(--r-sm);padding:11px 13px;} .note b{color:var(--ink);}
+ table{width:100%;border-collapse:collapse;font-size:12px;} th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:center;}
+ thead th{background:transparent;border-bottom:1.5px solid var(--line2);font-weight:800;font-size:10.5px;color:var(--muted);letter-spacing:.02em;}
+ td.gl{text-align:left;font-weight:700;} td.vd{text-align:left;font-size:11.5px;color:var(--sub);line-height:1.45;}
+ .st{font-weight:800;white-space:nowrap;} .st-keep{color:var(--good);} .st-watch{color:var(--warn);} .st-drop{color:var(--bad);}
+ .seoq td{text-align:left;vertical-align:top;} .seoq .stitle{font-weight:700;}
+ .sc{font-weight:800;text-align:center;white-space:nowrap;font-feature-settings:var(--tnum);} .sc-hi{color:var(--good);} .sc-mid{color:var(--warn);} .sc-lo{color:var(--bad);}
+ .pf{font-weight:800;font-size:10px;border-radius:5px;padding:1px 6px;background:var(--ac-weak);color:var(--ac-d);white-space:nowrap;}
+ .swot{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;} @media(max-width:540px){.swot{grid-template-columns:1fr;}}
+ .sw{border-radius:var(--r);padding:14px 16px;border:1px solid var(--line);} .sw h4{margin:0 0 8px;font-size:13px;font-weight:800;}
+ .sw ul{margin:0;padding-left:17px;font-size:12.5px;line-height:1.6;} .sw li{margin:6px 0;} .sw li b{font-weight:800;} .sw small{color:var(--muted);font-weight:600;}
+ .sw-good{background:var(--good-weak);border-color:#cfeadd;} .sw-good h4{color:#157a52;}
+ .sw-bad{background:#fbf5f5;border-color:#f0d6d6;} .sw-bad h4{color:#b91c1c;}
+ details.trend{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;}
+ details.trend summary{font-size:13px;font-weight:800;cursor:pointer;}
+ details.trend .tnote{font-size:12px;color:var(--sub);line-height:1.6;margin-top:9px;}
+ .tabs{margin-top:12px;} .tabs>input{position:absolute;opacity:0;pointer-events:none;}
+ .tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px;}
+ .tablab{font-size:12.5px;font-weight:700;padding:8px 15px;border-radius:var(--r-sm);background:var(--inset2);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s;}
+ .tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px;font-feature-settings:var(--tnum);}
+ .tpanel{display:none;}
+ #t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3],
+ #t4:checked~.tabbar label[for=t4],#t5:checked~.tabbar label[for=t5],#t6:checked~.tabbar label[for=t6],
+ #t7:checked~.tabbar label[for=t7]{background:var(--ac);color:#fff;border-color:var(--ac);}
+ #t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt,
+ #t4:checked~.tabbar label[for=t4] .cnt,#t5:checked~.tabbar label[for=t5] .cnt,#t6:checked~.tabbar label[for=t6] .cnt,
+ #t7:checked~.tabbar label[for=t7] .cnt{color:rgba(255,255,255,.75);}
+ #t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3,#t4:checked~#p4,#t5:checked~#p5,#t6:checked~#p6,#t7:checked~#p7{display:block;}
+ .dist{display:flex;align-items:center;gap:9px;margin-bottom:12px;background:var(--inset);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;flex-wrap:wrap;}
+ .dist .dl{font-size:10.5px;font-weight:800;color:var(--muted);}
+ .distbar{flex:1;min-width:160px;display:flex;height:9px;border-radius:5px;overflow:hidden;background:var(--inset2);}
+ .distbar span{height:100%;}
+ .distleg{display:flex;gap:9px;flex-wrap:wrap;} .distleg b{font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:4px;color:var(--sub);}
+ .distleg b i{width:8px;height:8px;border-radius:2px;display:inline-block;}
+ .tabnote{font-size:11.5px;line-height:1.55;color:#9a6207;background:var(--warn-weak);border:1px solid #f0d9a8;border-radius:var(--r-sm);padding:9px 12px;margin-bottom:11px;}
+ .pick{border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;margin-bottom:9px;background:var(--panel);transition:border-color .12s;}
+ .pick:hover{border-color:var(--line2);}
+ .pick-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px;}
+ .gtag{font-size:10px;font-weight:800;color:var(--ac-d);background:var(--ac-weak);border-radius:5px;padding:2px 7px;}
+ .cat{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:#fdf1ec;color:#b8502f;}
+ .purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset2);border-radius:5px;padding:2px 7px;}
+ .pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--warm-weak);color:#c2451f;}
+ .pecpm{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--inset2);color:var(--sub);}
+ .pecpm.hi{background:var(--good-weak);color:#157a52;} .pecpm.mid{background:var(--warn-weak);color:#9a6207;} .pecpm.lo{background:var(--inset2);color:var(--muted);}
+ .ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:160px;line-height:1.4;}
+ .pwhy{font-size:12px;line-height:1.5;color:var(--sub);} .pwhy b{color:var(--ink);font-weight:700;} .pwhy a{color:var(--brand);text-decoration:none;border-bottom:1px solid #c7c2f5;}
+ .chg{margin-top:12px;} .chg .crow{display:flex;gap:10px;padding:9px 0;border-top:1px dashed var(--line2);font-size:12.5px;line-height:1.5;} .chg .crow:first-child{border-top:none;}
+ .chg .ci{flex:none;font-weight:800;color:var(--ac-d);}
+ .verdict{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:20px 22px;}
+ .verdict .lb{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--ac-d);}
+ .verdict h3{margin:8px 0 10px;font-size:15.5px;font-weight:800;letter-spacing:-.01em;line-height:1.45;text-wrap:balance;}
+ .verdict p{margin:0 0 16px;font-size:13px;line-height:1.75;color:var(--sub);} .verdict p b{color:var(--ink);font-weight:700;}
+ .gauge{border-top:1px solid var(--line);padding-top:15px;}
+ .gtop{display:flex;align-items:baseline;gap:11px;margin-bottom:13px;flex-wrap:wrap;}
+ .gtop .gv{font-size:30px;font-weight:800;font-feature-settings:var(--tnum);} .gtop .gv small{font-size:14px;color:var(--faint);font-weight:700;}
+ .gtop .gg{font-size:15px;font-weight:800;} .gtop .gn{font-size:11.5px;color:var(--muted);font-weight:600;margin-left:auto;}
+ .grow{display:flex;align-items:center;gap:10px;margin:8px 0;}
+ .grow .gl{flex:none;width:88px;font-size:11.5px;font-weight:700;color:var(--sub);}
+ .grow .gt{flex:1;height:9px;background:var(--inset2);border-radius:5px;overflow:hidden;} .grow .gt i{display:block;height:100%;border-radius:5px;}
+ .grow .gs{flex:none;width:30px;text-align:right;font-size:11.5px;font-weight:800;font-feature-settings:var(--tnum);}
+ .b-hi i{background:linear-gradient(90deg,var(--ac),var(--ac-d));} .b-mid i{background:linear-gradient(90deg,#f6c074,var(--warn));} .b-lo i{background:linear-gradient(90deg,#f08e8e,var(--bad));}
+ .foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center;}
+ @media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+ @media(max-width:540px){.wrap{padding:14px 12px 44px;}.score{padding:10px 14px;min-width:92px;}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+
+ <div class="mast">
+   <div class="l">
+     <span class="who">데이터 분석실 · 봄딩 편</span>
+     <h1>발행 페이스가 8월 들어 <b>1.33편/일로 급감</b>(7월 3.42편/일 대비 -61%, 8/2 일요일 무발행)했는데 글 품질은 오히려 83.0점으로 소폭 올랐어요 — 두근두근타운·②발굴 탭은 소재 고갈이 더 넓어졌고, 오늘은 <b>포켓몬 챔피언스 M-5 시즌(D-2)</b>이 가장 확실한 유입 소재예요. 종합지수 67(C).</h1>
+     <div class="meta">발행일 <b>2026-08-03</b> · 대상 <b>봄딩</b>(네이버 bomding · 게임+육아 쿠팡) · 발행 페이스는 글목록 API <b>25페이지(750편)</b> 재집계 · 글 품질은 최근 <b>5편 본문 직접 확인</b></div>
+   </div>
+   <div class="score"><div class="sl">오늘 지수</div><div class="sv num">67<small>/100</small></div><div class="sg g-c">C</div></div>
+ </div>
+
+ <div class="glance">
+   <div class="gh">🎯 <b>오늘 한눈에</b><span class="gt">데이터 · 트렌드 · 크리에이터 세 시각</span></div>
+   <div class="lens">
+     <div class="li">📊</div>
+     <div class="lc">
+       <div class="lk">데이터 분석가가 보는 것</div>
+       <div class="lx">8월 <b>1.33편/일</b>(4편/3일, 7월 3.42편/일·106편)로 <b>-61% 급감</b>했어요. 특히 <b>8/2(일) 0편</b>이 걸리는데, 7월엔 일요일마다 평균 4.75편(5·19·26일 각 7·6·3편)을 냈던 것과 다른 패턴이라 요일 문제로 보기 어려워요.</div>
+     </div>
+     <div class="lm"><div class="lmv num down">1.33<small>편/일</small></div><div class="lml">7월 3.42편/일</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">📈</div>
+     <div class="lc">
+       <div class="lk">트렌드 분석가가 보는 것</div>
+       <div class="lx">오늘 가장 확실한 건 <b>포켓몬 챔피언스 M-5 시즌</b>이에요(8/5 시작, D-2, 신규 배틀패스 3종). 포켓몬GO 훔쳐우 커뮤니티데이(8/16)·워터페스티벌(8/18~24)도 다가와 있고, 게임 밖에선 <b>스타워즈: 제로 컴퍼니</b>(8/27)가 사전예약 중이에요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">D-2</div><div class="lml">챔피언스 M-5 시즌</div></div>
+   </div>
+   <div class="lens">
+     <div class="li">🎨</div>
+     <div class="lc">
+       <div class="lk">크리에이터 컨설턴트가 보는 것</div>
+       <div class="lx">최근 5편 평균 <b>83.0점</b>(직전 81.2에서 소폭 상승). 구조(86.4)·시의성(86.4)은 최상위권인데 <b>내부링크가 72.0으로 여전히 최약축</b>이에요 — 더 렐릭 첫인상 글은 관련 글 0건이었어요.</div>
+     </div>
+     <div class="lm"><div class="lmv num">72<small>점</small></div><div class="lml">내부링크(최약축)</div></div>
+   </div>
+   <div class="todo">
+     <div class="th">🩺 그래서 오늘 할 일 (우선순위 순)</div>
+     <div class="trow"><span class="pp">P1</span><div class="tc"><span class="kind k-keep">유지보수</span><b>8월 발행 페이스 급감(1.33편/일) 원인 점검</b> — 8/2(일) 무발행이 7월의 일요일 발행 패턴과 어긋나요. 예약발행·러너·큐 상태를 먼저 확인해주세요. 오늘(8/3) 1편은 이미 발행됐어요. <span class="tw">(→ 핵심 지표)</span></div></div>
+     <div class="trow"><span class="pp p2">P2</span><div class="tc"><span class="kind k-write">글쓰기</span><b>포켓몬 챔피언스 M-5 시즌 시작 총정리</b> — 8/5(D-2)에 새 시즌·배틀패스(엑스카이저·스크래기·샹델라)가 열려요. 신규 시즌 초반은 검색이 몰리는 구간이니 지금 준비해두면 좋아요. <span class="tw">(→ 추천 탭 챔피언스)</span></div></div>
+     <div class="trow"><span class="pp p3">P3</span><div class="tc"><span class="kind k-write">글쓰기</span><b>더 렐릭 퍼스트 가디언 글에 내부링크 보강 + 메이플플래닛 미커버 직업(캡틴·섀도어) 채우기</b> — 출시 첫인상 글이 관련 글 0건으로 발행됐어요. 기존 액션RPG·추천 글로 최소 1~2개 링크를 붙이고, 해적·도적 계열 중 안 다룬 두 직업도 채워보세요. <span class="tw">(→ 아래 품질 검수 · 추천 탭 메이플플래닛)</span></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">📊</span>핵심 지표 <span class="tag">— 네이버 글목록 API 25페이지(750편) 실측(오늘 재집계)</span></h2>
+ <div class="panel">
+   <div class="kgrid">
+     <div class="k"><div class="kv num down">1.33 <small>편/일</small></div><div class="kl">이번달 발행 페이스</div><div class="kd down num">7월 3.42편/일(-61%)</div></div>
+     <div class="k"><div class="kv num">7 <small>개</small></div><div class="kl">활성 클러스터</div><div class="kd up">메플플래닛·챔피언스·쿠크럼블 외</div></div>
+     <div class="k"><div class="kv num up">83.0<small>점</small></div><div class="kl">최근 5편 품질 평균</div><div class="kd up">80~85 분포</div></div>
+     <div class="k"><div class="kv num down">72<small>점</small></div><div class="kl">내부링크(최약축)</div><div class="kd down">더 렐릭 글 관련 글 0건</div></div>
+   </div>
+   <div class="charts">
+     <div class="ch"><h5>🧬 블로그 체질 — 8가지 기준 평균 (최근 5편)</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">구조(표·소제목)</span><span class="bt"><i style="width:86.4%"></i></span><span class="bv num">86.4</span></div>
+         <div class="bar hi"><span class="bl">시의성</span><span class="bt"><i style="width:86.4%"></i></span><span class="bv num">86.4</span></div>
+         <div class="bar hi"><span class="bl">검색의도·EEAT</span><span class="bt"><i style="width:86%"></i></span><span class="bv num">86.0</span></div>
+         <div class="bar hi"><span class="bl">분량·깊이</span><span class="bt"><i style="width:84.8%"></i></span><span class="bv num">84.8</span></div>
+         <div class="bar hi"><span class="bl">가독·메타</span><span class="bt"><i style="width:84%"></i></span><span class="bv num">84.0</span></div>
+         <div class="bar hi"><span class="bl">제목·키워드</span><span class="bt"><i style="width:83%"></i></span><span class="bv num">83.0</span></div>
+         <div class="bar lo"><span class="bl">이미지</span><span class="bt"><i style="width:81%"></i></span><span class="bv num">81.0</span></div>
+         <div class="bar lo"><span class="bl">내부링크</span><span class="bt"><i style="width:72%"></i></span><span class="bv num">72.0</span></div>
+       </div>
+     </div>
+     <div class="ch"><h5>최근 5편 점수 분포</h5>
+       <div class="bars">
+         <div class="bar hi"><span class="bl">쿠크럼블 스텔라링크</span><span class="bt"><i style="width:85%"></i></span><span class="bv num">85</span></div>
+         <div class="bar hi"><span class="bl">메플플래닛 바이퍼</span><span class="bt"><i style="width:84%"></i></span><span class="bv num">84</span></div>
+         <div class="bar hi"><span class="bl">포켓몬GO GO패스</span><span class="bt"><i style="width:84%"></i></span><span class="bv num">84</span></div>
+         <div class="bar lo"><span class="bl">더 렐릭 첫인상</span><span class="bt"><i style="width:81%"></i></span><span class="bv num">81</span></div>
+         <div class="bar lo"><span class="bl">쿠크럼블 초반티어</span><span class="bt"><i style="width:80%"></i></span><span class="bv num">80</span></div>
+       </div>
+       <div style="font-size:10px;color:var(--faint);margin-top:6px">하위 2편의 약점도 서로 달라요 — 더 렐릭은 내부링크 0개, 초반 티어는 5편 중 분량이 가장 짧고 내부링크 1개뿐</div>
+     </div>
+   </div>
+   <div class="chips">
+     <span class="chip c-good">글 품질 83.0점(직전 81.2에서 상승)</span>
+     <span class="chip c-good">구조·시의성 86점대 최상위권</span>
+     <span class="chip c-good">출시일·D-day 대응 신속(당일·익일 발행)</span>
+   </div>
+   <div class="chips" style="margin-top:6px">
+     <span class="chip c-bad">발행 페이스 -61%(8/2 무발행)</span>
+     <span class="chip c-warn">내부링크 72 · 이미지 81</span>
+     <span class="chip c-warn">두근두근타운·②발굴 소재 고갈 확대</span>
+   </div>
+   <div class="note">쉽게 말하면 — <b>쓰는 힘과 정직한 서술(EEAT)은 그대로거나 더 좋아졌는데, 쓰는 양 자체가 뚝 떨어졌어요</b>. 7월엔 일요일에도 꾸준히 냈던 페이스가 8/2엔 0편으로 끊겼고 요일 문제로 보기도 어려워서, <b>오늘의 1순위는 글감보다 "왜 안 나갔는가" 점검</b>이에요<small>(→P1)</small>. 소재 쪽에서는 두근두근타운에 이어 <b>②발굴 탭까지 신뢰도 있는 신규 소재가 부족</b>해져서, 오늘도 억지로 채우지 않고 각각 1개로 줄이고 사유를 그대로 적었어요.</div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔍</span>최근 글 품질 검수 <span class="tag">— 최근 5편을 8가지 기준으로 채점(본문 직접 열람)</span></h2>
+ <p class="sub">네이버 모바일 본문(PostView)으로 최근 5편을 직접 열어 채점했어요. 5편 모두 80점대로 안정적인데, <b>내부링크 개수가 0~2건으로 편마다 들쭉날쭉</b>했고 그게 그대로 하위 순위를 갈랐어요. 다만 공통적으로 <b>확정 정보와 미확인 정보를 명확히 구분해 쓰는 태도(EEAT)</b>는 5편 모두에서 확인됐어요.</p>
+ <div class="panel" style="padding-top:8px">
+   <table class="seoq">
+     <thead><tr><th style="text-align:left">최근 글</th><th style="width:8%">점수</th><th style="text-align:left">한 줄 평</th></tr></thead>
+     <tbody>
+       <tr><td class="stitle">쿠키런크럼블 스텔라 링크 정리</td><td class="sc sc-hi">85</td><td>공식 원문을 그대로 인용하고 팬 계산기의 가정까지 "검증 필요"로 구분한 <b>EEAT가 5편 중 가장 탄탄</b>해요.</td></tr>
+       <tr><td class="stitle">메이플플래닛 바이퍼 스킬트리 템세팅</td><td class="sc sc-hi">84</td><td>1~4차 스킬표·사냥터 동선까지 꽉 채운 <b>잡가이드 정석</b>이에요. 내부링크 2건도 무난해요.</td></tr>
+       <tr><td class="stitle">포켓몬고 GO패스 8월 라티아스</td><td class="sc sc-hi">84</td><td>무료·디럭스 비교표와 일정표가 깔끔해요. "몇 랭크에서 나오는지"는 공식 미공개라 <b>정직하게 비워뒀어요</b>.</td></tr>
+       <tr><td class="stitle">더 렐릭 퍼스트 가디언 출시 첫인상</td><td class="sc sc-mid">81</td><td>출시 당일 첫인상이라 <b>시의성은 최고</b>인데, 관련 글로 이어주는 <b>내부링크가 0건</b>이에요.</td></tr>
+       <tr><td class="stitle">쿠키런 크럼블 초반 티어</td><td class="sc sc-mid">80</td><td>확정지급→시너지→획득난도 순으로 육성 순서는 명확한데, <b>내부링크 1건뿐</b>이고 5편 중 분량이 가장 짧아요.</td></tr>
+     </tbody>
+   </table>
+   <div class="note">잘하는 것부터 말하면 — <b>구조·시의성·검색의도(EEAT)가 86점 내외</b>로 이번 5편 모두 탄탄해요. 반대로 <b>내부링크(0~2건 편차)</b>와 <b>이미지(81.0)</b>가 이번 5편의 공통 약점이에요. 각 글 끝 "같이 보기 좋은 내용" 자리에 최소 1~2줄만 채워도 최약축은 바로 회복되는 종류예요<small>(→P3)</small>.</div>
+ </div>
+
+ <details class="trend"><summary>📈 월별 추세 — 후행지표(조회수·체류·유입%)</summary>
+   <div class="tnote">후행지표는 전월이 끝나야 확정되므로 <b>월 1회(매월 1일) 캡처</b>로만 갱신해요. 현재 기준값은 <b>2026.05 실측</b>(조회수 132K·체류 7분54초·구글 유입 59.8%·재방문 9.6%)이고 <b>만료 상태</b>라 참고용이에요 — 다음 캡처의 날(2026-08-01)이 이미 지났지만 이 리포트 범위에서는 재캡처를 확인하지 못했어요. 오늘 리포트의 판단은 전부 선행지표(발행 페이스·글 품질·클러스터) 기준이에요.</div>
+ </details>
+
+ <h2 class="sec"><span class="ic">🧭</span>강점 · 보강 포인트</h2>
+ <div class="swot">
+   <div class="sw sw-good"><h4>잘하고 있는 것</h4><ul>
+     <li><b>글 품질 83.0점</b> — 직전(81.2)보다 소폭 상승했어요.</li>
+     <li><b>구조·시의성 86점대</b> — 표·소제목·출시 타이밍 대응이 최상위권이에요.</li>
+     <li><b>출시일 당일·익일 대응</b> — 더 렐릭(당일)·쿠키런크럼블(익일 3편)까지 신속했어요.</li>
+     <li><b>정직한 EEAT 서술</b> — 확정 정보와 미확인 정보를 5편 모두 명확히 구분했어요.</li>
+   </ul></div>
+   <div class="sw sw-bad"><h4>보강하면 좋은 것</h4><ul>
+     <li><b>발행 페이스 -61%</b> — 1.33편/일, 8/2 무발행이 요일 패턴과도 어긋나요 <small>(→P1)</small></li>
+     <li><b>내부링크 72</b> — 더 렐릭 글 등 0~2건 편차 <small>(→P3)</small></li>
+     <li><b>두근두근타운·②발굴 소재 고갈 확대</b> — 각 1개로 축소 <small>(→탭 축소)</small></li>
+     <li><b>이미지 81.0</b> — 두 번째로 낮은 축, 함께 챙기면 좋아요</li>
+   </ul></div>
+ </div>
+
+ <h2 class="sec"><span class="ic">✍️</span>오늘 쓸 글 추천 <span class="tag">— 7탭 · 소재 고갈 탭은 정직하게 축소</span></h2>
+ <p class="sub"><b>봄딩 7탭 구조</b> — ①확장·②발굴(주축 4게임 밖 트렌드)+주축 4게임 탭+🍼육아. 게임 픽에는 <b>광고 단가 기대등급</b>(🟢고=구매·과금·기기 / 🟡중=공략·티어 / ⚪저=쿠폰·속보)을 붙여 높은 순으로 정렬했어요. 등급은 <b>게임 픽들 사이의 상대 비교</b>일 뿐 절대 단가 보장은 아니에요. 각 카드 <b>발행 요청</b> 버튼으로 기획팀에 바로 발주돼요.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3"><input type="radio" name="rec" id="t4"><input type="radio" name="rec" id="t5"><input type="radio" name="rec" id="t6"><input type="radio" name="rec" id="t7">
+   <div class="tabbar">
+     <label class="tablab" for="t1">🔼 확장 <span class="cnt">3</span></label>
+     <label class="tablab" for="t2">🆕 발굴 <span class="cnt">1</span></label>
+     <label class="tablab" for="t3">두근두근타운 <span class="cnt">1</span></label>
+     <label class="tablab" for="t4">포켓몬 GO <span class="cnt">2</span></label>
+     <label class="tablab" for="t5">포켓몬 챔피언스 <span class="cnt">2</span></label>
+     <label class="tablab" for="t6">메이플플래닛 <span class="cnt">3</span></label>
+     <label class="tablab" for="t7">🍼 육아 <span class="cnt">3</span></label>
+   </div>
+
+   <div class="tpanel" id="p1">
+     <div class="dist"><span class="dl">다룬 게임 분포(3게임 · 쏠림 없음)</span>
+       <div class="distbar"><span style="width:34%;background:#e06c49"></span><span style="width:33%;background:#e79375"></span><span style="width:33%;background:#f0bba6"></span></div>
+       <div class="distleg"><b><i style="background:#e06c49"></i>명조 1</b><b><i style="background:#e79375"></i>젠레스 존 제로 1</b><b><i style="background:#f0bba6"></i>그라운디드2 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">명조: 워더링 웨이브</span><span class="cat">게임</span><span class="purp">게임 공략</span><span class="pwhen">배너 종료 D-17(8/20)</span><span class="pecpm hi">🟢 고</span><span class="ptitle">명조 3.5 후반부 수수·에이메스 뽑기 가치, 지금 당겨도 될까</span></div><div class="pwhy">3.5 후반부 배너(수수·에이메스·금주)가 8/20까지 진행 중이에요. "뽑을지 말지" 과금 판단형 검색이라 단가 기대가 높아요. 봄딩은 명조를 「3.4 사이버펑크 콜라보」 1편만 다뤘어서 겹치지 않는 신규 각도예요. <b>★캐릭터 성능·조합은 발행 직전 공식 채널·인게임으로 재확인하세요.</b> <a href="https://arca.live/b/wutheringwaves/175708925" target="_blank">명조 채널(공지)</a>·<a href="https://www.gamsgo.com/ko/blog/%EB%AA%85%EC%A1%B0-%ED%94%BD%EC%97%85-%EC%9C%A0%EC%B6%9C" target="_blank">gamsgo</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">젠레스 존 제로</span><span class="cat">게임</span><span class="purp">게임 공략</span><span class="pwhen">출시 D+5(7/29 출시)</span><span class="pecpm mid">🟡 중</span><span class="ptitle">젠레스 존 제로 3.1 레미엘 실전 육성 우선순위 — 사전정보 이후 실제 세팅</span></div><div class="pwhy">3.1 "기나긴 이별"이 7/29 실제 출시됐고 레미엘·시그리드가 등장했어요. 봄딩은 7/28에 출시 하루 전 「뽑기가치·2주년보상」 사전정보만 다뤘고, <b>출시 후 실전 빌드</b>는 아직 안 썼어요. 각도가 명확히 갈려 겹치지 않아요. <a href="https://www.inven.co.kr/webzine/news/?news=318654" target="_blank">인벤</a>·<a href="https://game8.co/games/Zenless-Zone-Zero/archives/606112" target="_blank">game8</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">그라운디드2</span><span class="cat">게임</span><span class="purp">출시·첫인상</span><span class="pwhen">얼리액세스 출시(7/29)</span><span class="pecpm mid">🟡 중</span><span class="ptitle">그라운디드2 얼리액세스 출시, 한국어 지원은 언제쯤</span></div><div class="pwhy">7/29 Xbox·PC 얼리액세스로 출시된 협동 서바이벌 신작이에요. 정식 한국어는 아직이라 "지원 언제"가 궁금한 유저가 많은 구간이라, 신작 첫인상형으로 선점하기 좋아요. <b>★정식 한국어 지원 일정은 공식 로드맵으로 발행 직전 재확인하세요.</b> <a href="https://coolenjoy.net/bbs/38/6572837" target="_blank">coolenjoy</a>·<a href="https://bbs.ruliweb.com/xbox/board/300003/read/2337348" target="_blank">루리웹</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="dist"><span class="dl">다룬 게임 분포(1게임 · 예산 부족으로 축소)</span>
+       <div class="distbar"><span style="width:100%;background:#e06c49"></span></div>
+       <div class="distleg"><b><i style="background:#e06c49"></i>스타워즈: 제로 컴퍼니 1</b></div>
+     </div>
+     <div class="tabnote">⚠️ <b>1개만 추천해요(2개 미채움 · 사유 공개)</b> — 오늘은 발행 페이스 급감 원인 점검(P1)과 확장·육아 탭 조사에 예산을 더 배분했어요. 신뢰도 있는 신규 소재를 1개까지만 확보했고, 억지로 2·3번째를 채우지 않았어요.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">스타워즈: 제로 컴퍼니</span><span class="cat">게임</span><span class="purp">사전예약</span><span class="pwhen">출시 D-24(8/27)</span><span class="pecpm lo">⚪ 저</span><span class="ptitle">스타워즈: 제로 컴퍼니 8/27 출시 확정, 클론전쟁 배경 턴제 택틱스</span></div><div class="pwhy">8/27 PC·PS5·Xbox 동시 출시가 공식 확정됐고 현재 사전예약(위시리스트) 진행 중이에요. 스타워즈 IP 인지도로 검색 유입은 있지만 코어 전략게임이라 단가 기대는 낮게 잡았어요. <a href="https://www.starwars.com/news/sdcc-star-wars-zero-company-cast-announce" target="_blank">starwars.com 공식</a>·<a href="https://gamerant.com/star-wars-zero-company-release-date-august-2026/" target="_blank">gamerant</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <div class="tabnote">⚠️ <b>1개만 추천해요(2개 미채움 · 사유 공개)</b> — 두근두근타운은 라이브에 이미 <b>20편+</b>가 있고(고래 탐사·산리오 콜라보·낚시·곤충도감·시즌패스·반주년까지 기커버), 데이브 더 다이버 콜라보만 "예고"만 다뤘을 뿐 실제 시작일이 공식 확인되지 않아 <b>확인 필요</b>로 남겨둬요.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="cat">게임</span><span class="purp">업데이트·패치</span><span class="pwhen">확인필요(콜라보 발표 7/16)</span><span class="pecpm lo">⚪ 저</span><span class="ptitle">데이브 더 다이버 콜라보, 실제 시작은 언제 — 예고 이후 진행 상황 체크</span></div><div class="pwhy">7/16 콜라보가 공식 발표됐고 넥슨 포럼에 업데이트 안내 글도 올라왔지만, <b>정확한 인게임 시작일은 검색으로 확인되지 않았어요</b>. 봄딩은 7/31에 "예고"만 다뤘으니, 실제 시작이 확인되는 시점에 후속으로 쓰는 게 안전해요. <b>★발행 전 공식 공지에서 시작일을 반드시 재확인하세요.</b> <a href="https://forum.nexon.com/davethediver-kr/board_view?board=4055&thread=2669041" target="_blank">넥슨 포럼</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p4">
+     <div class="dist"><span class="dl">다룬 게임 분포(1게임 · 이벤트 2건)</span>
+       <div class="distbar"><span style="width:100%;background:#e06c49"></span></div>
+       <div class="distleg"><b><i style="background:#e06c49"></i>포켓몬 GO 2</b></div>
+     </div>
+     <div class="tabnote">⚠️ <b>2개만 추천해요(1개 미채움 · 사유 공개)</b> — 포켓몬GO는 GO패스·GO Fest·리모트레이드 등을 이미 커버해서, 겹치지 않는 다가오는 이벤트 2건만 확보했어요.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="cat">게임</span><span class="purp">게임 공략</span><span class="pwhen">D-13(8/16 14~17시)</span><span class="pecpm mid">🟡 중</span><span class="ptitle">8/16 훔쳐우 커뮤니티데이 프리뷰 — 이로치·특별기술 미리 준비하기</span></div><div class="pwhy">8/16(일) 오후 2~5시 진행이 공식 확정됐어요. D-13 시점에 미리 써두면 검색 선점 효과가 커요. <b>보상·특별 기술 세부사항은 발행 직전 공식으로 재확인하세요.</b> <a href="https://poketory.com/en/pokemon-go-nickit-community-day-august-2026/" target="_blank">poketory</a>·<a href="https://buffhub.com/ko/blog/pokemon-go/pokemon-go-august-2026-events.html" target="_blank">buffhub</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="cat">게임</span><span class="purp">게임 정보</span><span class="pwhen">D-15(8/18~24)</span><span class="pecpm mid">🟡 중</span><span class="ptitle">포켓몬GO 워터 페스티벌 8/18~24, 거다이맥스 고릴타·메가아쿠스타 첫 해금</span></div><div class="pwhy">8/18~24 워터 페스티벌에서 거다이맥스 고릴타 레이드, 색이 다른 루나아라·훔쳐우, 메가아쿠스타 첫 해금이 예고됐어요. 여러 신규 요소가 몰려 정보형 수요가 클 구간이에요. <b>세부 레이드 로테이션은 발행 직전 공식으로 재확인하세요.</b> <a href="https://buffhub.com/ko/blog/pokemon-go/pokemon-go-august-2026-events.html" target="_blank">buffhub</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p5">
+     <div class="tabnote">⚠️ <b>2개만 추천해요(1개 미채움 · 사유 공개)</b> — 챔피언스는 상성표·티어표·랭크전 초보가이드·과금 비교까지 이미 폭넓게 다뤄서, 이번에 새로 열리는 M-5 시즌 관련 각도 2개만 겹치지 않게 확보했어요.</div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="cat">게임</span><span class="purp">업데이트·패치</span><span class="pwhen">D-2(8/5 시즌 시작)</span><span class="pecpm hi">🟢 고</span><span class="ptitle">포켓몬 챔피언스 M-5 시즌 시작 총정리 — 신규 배틀패스·랭크 초기화</span></div><div class="pwhy">M-5 시즌과 신규 배틀패스가 8/5에 함께 시작돼요. 새 시즌 초반은 배틀패스 구매 판단 검색이 몰리는 구간이라 단가 기대가 높고, 봄딩의 M-4 관련 글들과는 시즌이 갈려 겹치지 않아요. <a href="https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_Champions_Season_M-5_Battle_Pass" target="_blank">Bulbapedia</a>·<a href="https://www.onemorecatch.site/pokemon-champions-season-m-5-release-date/" target="_blank">onemorecatch</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="cat">게임</span><span class="purp">게임 공략</span><span class="pwhen">D-2 이후 활용</span><span class="pecpm mid">🟡 중</span><span class="ptitle">M-5 신규 배틀패스 캐릭터 3종(엑스카이저·스크래기·샹델라) 프리뷰</span></div><div class="pwhy">배틀패스 무료·유료 라인업에 포함된 세 캐릭터를 미리 짚어두는 캐릭터 스포트라이트예요. 시즌 개요(위 픽)와는 초점을 캐릭터 활용으로 분리해 자기잠식을 피했어요. <b>★정확한 스킨·능력치는 시즌 오픈 후 재확인하세요.</b></div></div>
+   </div>
+
+   <div class="tpanel" id="p6">
+     <div class="dist"><span class="dl">다룬 직업 분포(미커버 직업 2 + 로드맵 1)</span>
+       <div class="distbar"><span style="width:34%;background:#e06c49"></span><span style="width:33%;background:#e79375"></span><span style="width:33%;background:#f0bba6"></span></div>
+       <div class="distleg"><b><i style="background:#e06c49"></i>캡틴 1</b><b><i style="background:#e79375"></i>섀도어 1</b><b><i style="background:#f0bba6"></i>신규보스 예고 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="cat">게임</span><span class="purp">게임 공략</span><span class="pwhen">미커버 직업</span><span class="pecpm mid">🟡 중</span><span class="ptitle">메이플플래닛 캡틴 스킬트리 템세팅 1~4차 육성 총정리</span></div><div class="pwhy">해적 계열 중 바이퍼(8/1 발행)만 다뤘고, 원거리 딜러 캡틴은 아직 미발행이에요. 봄딩이 정착시킨 잡가이드 포맷(전직 로드맵·스탯·스킬표·사냥터 동선·FAQ)을 그대로 채우면 시리즈 완결성도 올라가요.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="cat">게임</span><span class="purp">게임 공략</span><span class="pwhen">미커버 직업</span><span class="pecpm mid">🟡 중</span><span class="ptitle">메이플플래닛 섀도어 스킬트리 템세팅 1~4차 육성 총정리</span></div><div class="pwhy">도적 계열 중 나이트로드만 다뤘고, 상위 은신형 딜러 섀도어는 아직 미발행이에요. 해적·도적 두 계열의 마지막 빈칸을 채우는 픽이라 캡틴과 함께 발행하면 클러스터 완결성이 좋아요.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="cat">게임</span><span class="purp">업데이트·패치</span><span class="pwhen">2·3분기 로드맵 예고</span><span class="pecpm lo">⚪ 저</span><span class="ptitle">메이플플래닛 2·3분기 로드맵 — 카오스 자쿰·카오스 혼테일 신규 보스 예고</span></div><div class="pwhy">공식 로드맵 공지에서 카오스 자쿰·카오스 혼테일 추가와 모바일 조작 UI 개선이 예고됐어요. 아직 구체적 일정이 없는 예고 단계라 정보형·속보성으로만 다루고, 공략은 실제 업데이트 이후로 미루세요. <a href="https://mapleplanet.co.kr/board/notice/520" target="_blank">메이플플래닛 공식 공지</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p7">
+     <div class="dist"><span class="dl">제품군 분포(3개 전부 다름 · 여름 시즌)</span>
+       <div class="distbar"><span style="width:34%;background:#e06c49"></span><span style="width:33%;background:#e79375"></span><span style="width:33%;background:#f0bba6"></span></div>
+       <div class="distleg"><b><i style="background:#e06c49"></i>물놀이 조끼 1</b><b><i style="background:#e79375"></i>콧물흡입기 1</b><b><i style="background:#f0bba6"></i>냉감기저귀 1</b></div>
+     </div>
+     <div class="pick"><div class="pick-top"><span class="gtag">육아</span><span class="cat">육아·쿠팡</span><span class="purp">제품 비교·추천</span><span class="pwhen">물놀이 성수기</span><span class="ptitle">아기 물놀이 조끼(구명조끼) 추천 — KC인증·소재·체중별 사이즈 비교</span></div><div class="pwhy">물놀이 성수기 수요가 이어지는 제품군이에요. 한국소비자원 조사에 따르면 구매자 상당수가 체중·용도에 안 맞는 제품을 고른다고 해서, <b>KC인증·네오프렌 소재·체중별 사이즈처럼 검증 가능한 스펙만</b> 비교표에 넣고 "부력보조복이지 구명용이 아니다"라는 안전 고지도 함께 넣으세요. 쿠팡 파트너스 고지 필수. <a href="https://www.safetykorea.kr/policy/targetsSafetyCert3" target="_blank">제품안전정보센터</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">육아</span><span class="cat">육아·쿠팡</span><span class="purp">제품 비교·추천</span><span class="pwhen">상시 수요</span><span class="ptitle">아기 콧물흡입기 추천 — 무선 전동식 단계조절·세척편의성 비교</span></div><div class="pwhy">기존 발행분과 겹치지 않는 신규 제품군이에요. 단계 조절 가능 여부·세척 편의성·소음(멜로디 재생 등 유아 친화 기능)처럼 <b>제조사 스펙으로 확인 가능한 항목만</b> 비교하고, 흡입력 수치는 공식 표기가 없으면 "표기 없음"으로 정직하게 적으세요. 쿠팡 파트너스 고지 필수.</div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">육아</span><span class="cat">육아·쿠팡</span><span class="purp">제품 비교·추천</span><span class="pwhen">여름 신제품</span><span class="ptitle">여름 냉감 기저귀 신제품 비교 — 하기스 네이처메이드 vs 보솜이 원더바이원더</span></div><div class="pwhy">유한킴벌리 하기스가 라이오셀 섬유로 기저귀 속 온도를 낮춘 신제품을, 깨끗한나라 보솜이가 모달 시트 냉감 제품을 각각 내놓은 게 확인돼요. <b>소재·공식 발표 수치만 인용하고, 체감 후기성 표현은 피하세요.</b> 쿠팡 파트너스 고지 필수. <a href="http://www.babytimes.co.kr/news/articleView.html?idxno=63493" target="_blank">베이비타임즈</a></div></div>
+   </div>
+ </div>
+
+ <h2 class="sec"><span class="ic">🔄</span>지난 리포트(07-27) 대비 변한 것</h2>
+ <div class="panel chg">
+   <div class="crow"><span class="ci">발행</span><div>발행 페이스가 7월 <b>3.42편/일</b>(월 마감·106편)에서 8월 <b>1.33편/일</b>(4편/3일)로 <b>-61% 급감</b>했어요. 8/2(일) 무발행은 7월 일요일 패턴과도 어긋나는 이례적 공백이에요.</div></div>
+   <div class="crow"><span class="ci">외부</span><div>새로 확인된 신호 — <b>포켓몬 챔피언스 M-5 시즌 D-2</b>(8/5), <b>포켓몬GO 훔쳐우 커뮤니티데이</b>(8/16)·<b>워터페스티벌</b>(8/18~24), <b>스타워즈: 제로 컴퍼니 8/27 출시 확정</b>. 지난 리포트의 P1(아기 목튜브)·P2(젠존제 3.1)는 이번에 확인해보니 아직 미발행 상태였어요.</div></div>
+   <div class="crow"><span class="ci">추천</span><div>육아 3픽을 <b>전부 새 제품군</b>(물놀이 조끼·콧물흡입기·냉감기저귀)으로 교체했고, 두근두근타운 1·②발굴 1로 <b>소재 고갈 범위가 넓어진 걸 정직하게 반영</b>했어요. 메이플플래닛은 미커버 직업 2개를 새로 찾아 3개를 다시 채웠어요.</div></div>
+ </div>
+
+ <div class="verdict">
+   <div class="lb">오늘자 총평 · 데이터 분석실</div>
+   <h3>글 품질은 오히려 올랐는데 발행량이 뚝 끊겼어요 — 오늘 1순위는 새 소재가 아니라 "8/2에 왜 못 나갔는지" 확인하는 일이고, 그다음이 포켓몬 챔피언스 M-5 시즌(D-2)이에요.</h3>
+   <p>봄딩은 8월 들어 <b>1.33편/일</b>로 발행 페이스가 7월(3.42편/일) 대비 <b>-61% 급감</b>했어요. 8/2(일) 무발행이 7월 일요일 평균 4.75편과 크게 어긋나는 이례적 공백이라, 요일 패턴보다는 발행 파이프라인(예약·러너·큐) 쪽을 먼저 점검해볼 필요가 있어요. 반대로 <b>최근 5편 품질은 83.0점</b>으로 직전(81.2)보다 올랐고, 구조(86.4)·시의성(86.4)·검색의도·EEAT(86.0)가 8축 중 최상위권이에요 — 더 렐릭 퍼스트 가디언은 출시 당일 첫인상을, 쿠키런크럼블은 출시 익일부터 사흘 연속 세 각도로 다뤘어요. 다만 <b>내부링크(72.0)</b>는 여전히 최약축이고, 더 렐릭 글은 관련 글이 0건이었어요. 소재 쪽에서는 <b>두근두근타운에 이어 ②발굴 탭까지 신뢰도 있는 신규 소재가 부족</b>해져서 각각 1개로 줄였고, 대신 <b>포켓몬 챔피언스 M-5 시즌(D-2)</b>과 메이플플래닛의 미커버 직업(캡틴·섀도어) 2개를 새로 찾아 채웠어요.</p>
+   <div class="gauge">
+     <div class="gtop"><span class="gv num">67<small>/100</small></span><span class="gg g-c">C</span><span class="gn">발행 페이스 정상화 + 내부링크 습관화 시 B 재진입</span></div>
+     <div class="grow"><span class="gl">발행 동력</span><span class="gt b-lo"><i style="width:50%"></i></span><span class="gs num">50</span></div>
+     <div class="grow"><span class="gl">콘텐츠 품질</span><span class="gt b-hi"><i style="width:83%"></i></span><span class="gs num">83</span></div>
+     <div class="grow"><span class="gl">검색 건강</span><span class="gt b-lo"><i style="width:68%"></i></span><span class="gs num">68</span></div>
+     <div class="grow"><span class="gl">기회·다양성</span><span class="gt b-mid"><i style="width:65%"></i></span><span class="gs num">65</span></div>
+   </div>
+ </div>
+
+ <p class="foot">데이터 분석실(블로그 분석팀 × 트렌드 분석팀) · 실제 작성은 작성팀(봄딩) · 발행 페이스는 네이버 글목록 API 25페이지(750편) 실측 · 글 품질은 네이버 모바일 본문 직접 열람 채점 · 중복 확인은 BlogPreview 봄딩 폴더 2단 전수 열람 + 라이브 제목 스냅샷 대조 · 후행지표(조회수·체류)는 2026.05 실측 기준이라 만료 상태(다음 캡처 2026-08-01, 이번 리포트에서는 재캡처 미확인) · 추천 일정·가격·제품 스펙은 작성 직전 공식 출처로 재확인 권장 · 광고 단가 등급은 게임 픽 간 상대 비교이며 절대 단가 보장이 아니에요.</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
