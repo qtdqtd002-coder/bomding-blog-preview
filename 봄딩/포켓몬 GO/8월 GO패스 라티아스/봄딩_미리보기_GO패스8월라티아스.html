@@ -1,0 +1,259 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬고 GO패스 8월 라티아스, 돈 안 쓰고 받을 수 있을까</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: GO패스 8월 라티아스 무료로 받을 수 있나요 / GO패스 디럭스 안 사도 되나요 / 반짝이 참은 뭔가요 (기획팀 미지정 — 작성팀이 정함) -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">포켓몬고 GO패스 8월 라티아스, 돈 안 쓰고 받을 수 있을까</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 8. 2.</span><span>· 게임</span></div>
+
+    <p>2026년 8월 4일 화요일부터 포켓몬고에 새 시즌 배틀패스, <b>GO패스: 8월</b>이 열리는데요, 아직 이틀 남은 시점이라 솔직히 저도 직접 열어본 건 아니고 공식 발표 내용으로 미리 정리해보는 글이에요. 그리고 이번 GO패스는 GO Fest 관련 팀 조합 얘기랑은 전혀 다른, 매달 한 번씩 돌아오는 정기 시즌 패스라는 것부터 짚고 갈게요. 핵심은 딱 하나인데요, <b>돈 한 푼 안 써도 무료 트랙만 채우면 라티아스와 만날 수 있다</b>는 점이라 미리 알아두면 여러모로 이득일 것 같더라고요.</p>
+
+    <div class="imgwrap"><img src="https://qtdqtd002-coder.github.io/bomding-blog-preview/%EB%B4%84%EB%94%A9/%ED%8F%AC%EC%BC%93%EB%AA%AC%20GO/8%EC%9B%94%20GO%ED%8C%A8%EC%8A%A4%20%EB%9D%BC%ED%8B%B0%EC%95%84%EC%8A%A4/img/kv1.jpg" width="1920" height="1080" alt="GO패스: 8월 공식 키비주얼"></div>
+    <p class="cap">'반짝이 참'이 돌아오고 '라티아스'가 날아오르는 GO패스: 8월, 8월 4일부터 시작이에요.</p>
+    <p class="src">이미지 출처: <a href="https://pokemongo.com/ko/news/go-pass-august-2026" target="_blank">Pokémon GO 공식 발표</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">GO패스: 8월, 대체 언제부터 언제까지인가요?</h2>
+    <p>한국시간 기준 <b>8월 4일 화요일 오전 10시에 시작해서 9월 8일 화요일 오전 10시까지, 딱 한 달</b>이 GO패스: 8월의 기간이에요. 시작 시각이 되면 무료 "GO패스"는 따로 신청할 필요 없이 <b>자동으로 지급</b>되고요, 그때부터 GO 포인트를 모아서 GO패스 랭크를 올리는 구조로 굴러가는데요, 랭크가 오를 때마다 랭크별 보상을 하나씩 받아가는 식이에요. 여기서 헷갈리기 쉬운 게 하나 있는데, 이건 GO Fest 관련 팀 조합 얘기랑은 완전히 별개예요. GO패스는 특정 행사가 아니라 <b>매달 갱신되는 정기 시즌 콘텐츠</b>라서, 이번엔 그냥 8월 판이 새로 열리는 거지 GO Fest랑 묶여 있는 게 아니거든요.</p>
+
+    <h2 class="sub">무료 트랙만으로 라티아스를 만날 수 있다고요?</h2>
+    <p>네, <b>라티아스는 GO패스 디럭스를 따로 사지 않아도 무료 트랙 리워드로 만날 수 있어요.</b> 패스 태스크를 완료해서 GO패스 랭크를 올리다 보면 그 과정에서 라티아스를 만나게 되는 구조인데요, 다만 정확히 몇 랭크에서 나오는지는 공식이 구체적인 숫자를 밝히지 않아서 "랭크를 올리다 보면 만날 수 있다" 정도로만 알아두시는 게 맞을 것 같아요. 괜히 몇 랭크라고 단정해서 말씀드리면 오히려 헷갈리실 수 있잖아요. 참고로 공식 페이지에는 운이 좋으면 색이 다른 포켓몬(이로치)로도 만날 수 있다고 적혀 있어서, 기왕이면 이로치까지 기대해볼 만하겠더라고요.</p>
+    <p>무료 트랙에서 챙길 수 있는 건 라티아스만이 아니에요.</p>
+    <ul>
+      <li>라티아스와의 만남</li>
+      <li>별의모래</li>
+      <li>XP(경험치)</li>
+      <li>맥스 파티클</li>
+    </ul>
+    <p>이 정도면 결제 한 번 안 하고도 알차게 채울 수 있는 구성이라, 라티아스가 목표라면 굳이 지갑을 열 필요는 없어 보여요.</p>
+
+    <h2 class="sub">그럼 GO패스 디럭스는 완전히 필요 없는 걸까요?</h2>
+    <p><b>라티아스만 노린다면 디럭스는 없어도 되지만, '반짝이 참'을 노린다면 얘기가 조금 달라져요.</b> 반짝이 참은 친구 목록에 있는 프렌드 1명을 즉시 반짝반짝 프렌드로 바꿔주는 1회용 도구인데요, 이건 <b>GO패스 디럭스의 최종 리워드로만</b> 받을 수 있는 아이템이라 무료 트랙에는 아예 없어요. 무료로 라티아스만 받고 끝낼지, 디럭스까지 진행해서 반짝이 참이랑 추가 포켓몬 만남까지 챙길지는 순전히 취향 차이인 셈이죠. 디럭스는 <b>7.99달러, 랭크 10개를 한 번에 올려주는 버전은 9.99달러</b>로 책정돼 있고, 실제 결제 화면에서는 원화로 표시되니까 그때 정확한 금액을 확인하시면 됩니다. 받아놓고 안 쓰면 <b>반짝이 참은 한국시간 9월 13일 23시 59분에 만료</b>되니 이 부분도 같이 기억해두시고요.</p>
+    <p>무료 트랙과 디럭스 트랙을 표로 정리하면 이래요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>무료 GO패스</th><th>GO패스 디럭스</th></tr>
+      <tr><td>라티아스와의 만남</td><td>O</td><td>O</td></tr>
+      <tr><td>별의모래·XP·맥스 파티클</td><td>O</td><td>O</td></tr>
+      <tr><td>반짝이 참(최종 리워드)</td><td>X</td><td>O</td></tr>
+      <tr><td>추가 포켓몬 만남</td><td>X</td><td>O</td></tr>
+      <tr><td>가격</td><td>무료</td><td>$7.99(+10랭크는 $9.99)</td></tr>
+    </table>
+
+    <h2 class="sub">혹시 Web Store에도 따로 살 수 있는 게 있을까요?</h2>
+    <p>그런데 찾아보다 보니 GO패스 디럭스 말고도 챙길 거리가 하나 더 있더라고요. 게임 안이 아니라 <b>Pokémon GO 공식 웹스토어(Web Store)</b>에서만 따로 살 수 있는 한정 상품인데요, 이름은 <b>'GO패스 디럭스: 8월 하이퍼 박스'</b>예요. 구성은 <b>하이퍼볼 20개·기력의 덩어리 10개·풀회복약 10개·프리미엄 배틀패스 5개</b>로, 볼·회복 아이템에 배틀패스까지 한 번에 챙길 수 있게 묶어놓은 상품 같더라고요. 다만 가격은 공식 발표에 따로 나와 있지 않아서, 이건 저도 정확한 금액을 못 밝히겠고 실제 웹스토어에 들어가 보셔야 확인이 될 것 같아요.</p>
+    <p>그리고 위에서 말씀드린 디럭스 트랙의 '추가 포켓몬 만남'도 짚고 넘어갈게요. 공식 페이지엔 그냥 <b>"더 많은 포켓몬과의 추가 만남!"</b>이라고만 적혀 있을 뿐, 구체적으로 어떤 포켓몬인지는 공식이 밝히지 않았어요. 그러니 특정 포켓몬을 미리 정해놓고 기대하시기보다는, 라티아스 말고도 보너스 만남이 하나 더 있다 정도로만 알아두시면 헷갈리지 않으실 것 같아요.</p>
+
+    <h2 class="sub">일정만 한눈에 정리하면 이래요</h2>
+    <p>GO패스: 8월은 <b>시작부터 종료까지 한 달, 그 안에 챙겨야 할 날짜가 다섯 개</b>로 나뉘어요.</p>
+    <table class="tbl">
+      <tr><th>시점</th><th>무슨 일이 있나요</th></tr>
+      <tr><td>8/4(화) 10:00</td><td>GO패스: 8월 시작, 무료 GO패스 자동 지급</td></tr>
+      <tr><td>9/5(토) 00:00~9/6(일) 23:59</td><td>GO 포인트 하루 획득 상한 해제</td></tr>
+      <tr><td>9/8(화) 10:00</td><td>GO패스: 8월 종료</td></tr>
+      <tr><td>9/10(목) 10:00</td><td>리워드 수령 만료</td></tr>
+      <tr><td>9/13(일) 23:59</td><td>반짝이 참 사용 만료</td></tr>
+    </table>
+
+    <h2 class="sub">한 달 여유 있으니 이렇게 굴리면 좋을 것 같아요</h2>
+    <p>시작부터 종료까지 딱 한 달이라 시간 여유는 있는 편인데요, 그래도 미리 계획을 세워두면 나중에 덜 급해지니까 이렇게 굴리는 게 좋을 것 같아요. 특히 눈여겨봐야 할 구간이 <b>9월 5일 0시부터 9월 6일 23시 59분까지</b>인데요, 이 이틀 동안은 하루 GO 포인트 획득 상한 자체가 사라지거든요. 평소엔 하루에 모을 수 있는 포인트가 정해져 있어서 몰아서 랭크를 올리기가 어려운데, 이 구간만큼은 그 제한이 풀리니까 <b>종료 직전 며칠을 이 상한 해제 구간에 맞춰서 몰아치는 전략</b>이 랭크 올리기엔 가장 효율적일 것 같더라고요. 매일 조금씩 꾸준히 채우다가 마지막 이틀에 화력을 집중하는 식으로 저도 이번엔 움직여볼까 해요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: GO패스 진행 화면(랭크 게이지)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — GO패스 메뉴에 들어가서 현재 랭크 숫자와 진행 게이지 바, 다음 보상 아이콘이 함께 보이게 캡처</div>
+    <p class="cap">발행 후 실제 GO패스 화면으로 교체할게요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 색이 다른 포켓몬(이로치)으로 나온 라티아스랑, 디럭스 최종 리워드인 '반짝이 참'은 서로 관련이 있는 건가요?</b><br>아니요, 서로 완전히 다른 거예요. 색이 다른 포켓몬은 라티아스를 만날 때 운이 좋으면 나오는 포켓몬 자체의 색 변형이고, 반짝이 참은 친구 한 명을 반짝반짝 프렌드로 즉시 바꿔주는 아이템이라 포켓몬 색이랑은 아무 상관이 없어요. 이름이 비슷해서 헷갈리기 쉬운데 완전히 별개로 생각하시면 됩니다.</p>
+
+    <h2 class="sub">GO패스: 8월 정리</h2>
+    <p>종합하면, GO패스: 8월은 <b>8월 4일부터 9월 8일까지 한 달간</b> 진행되고, <b>라티아스는 무료 트랙만으로도 챙길 수 있는 보상</b>이라 굳이 디럭스를 살 필요는 없어요. 다만 반짝이 참까지 노리신다면 디럭스 쪽으로, 그리고 랭크는 9월 5~6일 GO 포인트 상한 해제 구간을 활용해서 몰아 올리는 게 이득일 것 같아요. 저도 8월 4일 열리면 바로 들어가서 랭크부터 하나씩 올려볼 생각인데, 여러분도 미리 계획 세워두시면 라티아스는 부담 없이 챙기실 수 있을 것 같아요.</p>
+
+    <p><b>✔ 포켓몬고 GO패스 같이 보기 좋은 내용</b><br>
+    · <a href="#" target="_blank">포켓몬고 리모트레이드패스 무료레이드패스 차이 언제 사야 이득일까</a><br>
+    · <a href="#" target="_blank">포켓몬고 페스트 2026 글로벌 일정 서울 반포한강공원 현장 이벤트 총정리</a></p>
+    <!-- 내부링크: 위 두 건은 같은 봄딩 폴더 내 기존 발행글, 네이버 post ID 확인 후 실제 URL로 교체 필요 -->
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://pokemongo.com/ko/news/go-pass-august-2026" target="_blank">GO패스: 8월 공식 발표(Pokémon GO)</a></p>
+
+    <div class="tags">#포켓몬고 #GO패스 #포켓몬고GO패스 #라티아스 #포켓몬고이벤트 #포켓몬고8월 #반짝이참 #포켓몬고무료</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인), 내부링크는 실제 post ID로 연결.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 3분):</b> 📷 <b>사진 2곳</b> 업로드 · 내부링크 2곳 실제 post ID 연결. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬고 GO패스 8월 라티아스, 돈 안 쓰고 받을 수 있을까</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>2026년 8월 4일 화요일부터 포켓몬고에 새 시즌 배틀패스, <b>GO패스: 8월</b>이 열리는데요, 아직 이틀 남은 시점이라 솔직히 저도 직접 열어본 건 아니고 공식 발표 내용으로 미리 정리해보는 글이에요. 그리고 이번 GO패스는 GO Fest 관련 팀 조합 얘기랑은 전혀 다른, 매달 한 번씩 돌아오는 정기 시즌 패스라는 것부터 짚고 갈게요. 핵심은 딱 하나인데요, <b>돈 한 푼 안 써도 무료 트랙만 채우면 라티아스와 만날 수 있다</b>는 점이라 미리 알아두면 여러모로 이득일 것 같더라고요.</p>
+
+      <p>📷 〔사진 자리 1〕 GO패스: 8월 공식 키비주얼 — pokemongo.com 공식 발표 페이지에서 저장 후 업로드<br>
+      └ 캡션 추천: "'반짝이 참'이 돌아오고 '라티아스'가 날아오르는 GO패스: 8월, 8월 4일부터 시작이에요."</p>
+
+      <h3>GO패스: 8월, 대체 언제부터 언제까지인가요?</h3>
+      <p>한국시간 기준 <b>8월 4일 화요일 오전 10시에 시작해서 9월 8일 화요일 오전 10시까지, 딱 한 달</b>이 GO패스: 8월의 기간이에요. 시작 시각이 되면 무료 "GO패스"는 따로 신청할 필요 없이 <b>자동으로 지급</b>되고요, 그때부터 GO 포인트를 모아서 GO패스 랭크를 올리는 구조로 굴러가는데요, 랭크가 오를 때마다 랭크별 보상을 하나씩 받아가는 식이에요. 여기서 헷갈리기 쉬운 게 하나 있는데, 이건 GO Fest 관련 팀 조합 얘기랑은 완전히 별개예요. GO패스는 특정 행사가 아니라 <b>매달 갱신되는 정기 시즌 콘텐츠</b>라서, 이번엔 그냥 8월 판이 새로 열리는 거지 GO Fest랑 묶여 있는 게 아니거든요.</p>
+
+      <h3>무료 트랙만으로 라티아스를 만날 수 있다고요?</h3>
+      <p>네, <b>라티아스는 GO패스 디럭스를 따로 사지 않아도 무료 트랙 리워드로 만날 수 있어요.</b> 패스 태스크를 완료해서 GO패스 랭크를 올리다 보면 그 과정에서 라티아스를 만나게 되는 구조인데요, 다만 정확히 몇 랭크에서 나오는지는 공식이 구체적인 숫자를 밝히지 않아서 "랭크를 올리다 보면 만날 수 있다" 정도로만 알아두시는 게 맞을 것 같아요. 괜히 몇 랭크라고 단정해서 말씀드리면 오히려 헷갈리실 수 있잖아요. 참고로 공식 페이지에는 운이 좋으면 색이 다른 포켓몬(이로치)로도 만날 수 있다고 적혀 있어서, 기왕이면 이로치까지 기대해볼 만하겠더라고요.</p>
+      <p>무료 트랙에서 챙길 수 있는 건 라티아스만이 아니에요.</p>
+      <ul>
+        <li>라티아스와의 만남</li>
+        <li>별의모래</li>
+        <li>XP(경험치)</li>
+        <li>맥스 파티클</li>
+      </ul>
+      <p>이 정도면 결제 한 번 안 하고도 알차게 채울 수 있는 구성이라, 라티아스가 목표라면 굳이 지갑을 열 필요는 없어 보여요.</p>
+
+      <h3>그럼 GO패스 디럭스는 완전히 필요 없는 걸까요?</h3>
+      <p><b>라티아스만 노린다면 디럭스는 없어도 되지만, '반짝이 참'을 노린다면 얘기가 조금 달라져요.</b> 반짝이 참은 친구 목록에 있는 프렌드 1명을 즉시 반짝반짝 프렌드로 바꿔주는 1회용 도구인데요, 이건 <b>GO패스 디럭스의 최종 리워드로만</b> 받을 수 있는 아이템이라 무료 트랙에는 아예 없어요. 무료로 라티아스만 받고 끝낼지, 디럭스까지 진행해서 반짝이 참이랑 추가 포켓몬 만남까지 챙길지는 순전히 취향 차이인 셈이죠. 디럭스는 <b>7.99달러, 랭크 10개를 한 번에 올려주는 버전은 9.99달러</b>로 책정돼 있고, 실제 결제 화면에서는 원화로 표시되니까 그때 정확한 금액을 확인하시면 됩니다. 받아놓고 안 쓰면 <b>반짝이 참은 한국시간 9월 13일 23시 59분에 만료</b>되니 이 부분도 같이 기억해두시고요.</p>
+      <p>무료 트랙과 디럭스 트랙을 표로 정리하면 이래요.</p>
+      <table>
+        <tr><th>구분</th><th>무료 GO패스</th><th>GO패스 디럭스</th></tr>
+        <tr><td class="l">라티아스와의 만남</td><td>O</td><td>O</td></tr>
+        <tr><td class="l">별의모래·XP·맥스 파티클</td><td>O</td><td>O</td></tr>
+        <tr><td class="l">반짝이 참(최종 리워드)</td><td>X</td><td>O</td></tr>
+        <tr><td class="l">추가 포켓몬 만남</td><td>X</td><td>O</td></tr>
+        <tr><td class="l">가격</td><td>무료</td><td>$7.99(+10랭크는 $9.99)</td></tr>
+      </table>
+
+      <h3>혹시 Web Store에도 따로 살 수 있는 게 있을까요?</h3>
+      <p>그런데 찾아보다 보니 GO패스 디럭스 말고도 챙길 거리가 하나 더 있더라고요. 게임 안이 아니라 <b>Pokémon GO 공식 웹스토어(Web Store)</b>에서만 따로 살 수 있는 한정 상품인데요, 이름은 <b>'GO패스 디럭스: 8월 하이퍼 박스'</b>예요. 구성은 <b>하이퍼볼 20개·기력의 덩어리 10개·풀회복약 10개·프리미엄 배틀패스 5개</b>로, 볼·회복 아이템에 배틀패스까지 한 번에 챙길 수 있게 묶어놓은 상품 같더라고요. 다만 가격은 공식 발표에 따로 나와 있지 않아서, 이건 저도 정확한 금액을 못 밝히겠고 실제 웹스토어에 들어가 보셔야 확인이 될 것 같아요.</p>
+      <p>그리고 위에서 말씀드린 디럭스 트랙의 '추가 포켓몬 만남'도 짚고 넘어갈게요. 공식 페이지엔 그냥 <b>"더 많은 포켓몬과의 추가 만남!"</b>이라고만 적혀 있을 뿐, 구체적으로 어떤 포켓몬인지는 공식이 밝히지 않았어요. 그러니 특정 포켓몬을 미리 정해놓고 기대하시기보다는, 라티아스 말고도 보너스 만남이 하나 더 있다 정도로만 알아두시면 헷갈리지 않으실 것 같아요.</p>
+
+      <h3>일정만 한눈에 정리하면 이래요</h3>
+      <p>GO패스: 8월은 <b>시작부터 종료까지 한 달, 그 안에 챙겨야 할 날짜가 다섯 개</b>로 나뉘어요.</p>
+      <table>
+        <tr><th>시점</th><th>무슨 일이 있나요</th></tr>
+        <tr><td class="l">8/4(화) 10:00</td><td>GO패스: 8월 시작, 무료 GO패스 자동 지급</td></tr>
+        <tr><td class="l">9/5(토) 00:00~9/6(일) 23:59</td><td>GO 포인트 하루 획득 상한 해제</td></tr>
+        <tr><td class="l">9/8(화) 10:00</td><td>GO패스: 8월 종료</td></tr>
+        <tr><td class="l">9/10(목) 10:00</td><td>리워드 수령 만료</td></tr>
+        <tr><td class="l">9/13(일) 23:59</td><td>반짝이 참 사용 만료</td></tr>
+      </table>
+
+      <h3>한 달 여유 있으니 이렇게 굴리면 좋을 것 같아요</h3>
+      <p>시작부터 종료까지 딱 한 달이라 시간 여유는 있는 편인데요, 그래도 미리 계획을 세워두면 나중에 덜 급해지니까 이렇게 굴리는 게 좋을 것 같아요. 특히 눈여겨봐야 할 구간이 <b>9월 5일 0시부터 9월 6일 23시 59분까지</b>인데요, 이 이틀 동안은 하루 GO 포인트 획득 상한 자체가 사라지거든요. 평소엔 하루에 모을 수 있는 포인트가 정해져 있어서 몰아서 랭크를 올리기가 어려운데, 이 구간만큼은 그 제한이 풀리니까 <b>종료 직전 며칠을 이 상한 해제 구간에 맞춰서 몰아치는 전략</b>이 랭크 올리기엔 가장 효율적일 것 같더라고요. 매일 조금씩 꾸준히 채우다가 마지막 이틀에 화력을 집중하는 식으로 저도 이번엔 움직여볼까 해요.</p>
+
+      <p>📷 〔사진 자리 2〕 GO패스 진행 화면(랭크 게이지) — 네이버에서 직접 업로드(발행 후 캡처)<br>
+      └ 촬영 팁: GO패스 메뉴에서 현재 랭크 숫자·진행 게이지 바·다음 보상 아이콘이 함께 보이게 찍기</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 색이 다른 포켓몬(이로치)으로 나온 라티아스랑, 디럭스 최종 리워드인 '반짝이 참'은 서로 관련이 있는 건가요?</b><br>아니요, 서로 완전히 다른 거예요. 색이 다른 포켓몬은 라티아스를 만날 때 운이 좋으면 나오는 포켓몬 자체의 색 변형이고, 반짝이 참은 친구 한 명을 반짝반짝 프렌드로 즉시 바꿔주는 아이템이라 포켓몬 색이랑은 아무 상관이 없어요. 이름이 비슷해서 헷갈리기 쉬운데 완전히 별개로 생각하시면 됩니다.</p>
+
+      <h3>GO패스: 8월 정리</h3>
+      <p>종합하면, GO패스: 8월은 <b>8월 4일부터 9월 8일까지 한 달간</b> 진행되고, <b>라티아스는 무료 트랙만으로도 챙길 수 있는 보상</b>이라 굳이 디럭스를 살 필요는 없어요. 다만 반짝이 참까지 노리신다면 디럭스 쪽으로, 그리고 랭크는 9월 5~6일 GO 포인트 상한 해제 구간을 활용해서 몰아 올리는 게 이득일 것 같아요. 저도 8월 4일 열리면 바로 들어가서 랭크부터 하나씩 올려볼 생각인데, 여러분도 미리 계획 세워두시면 라티아스는 부담 없이 챙기실 수 있을 것 같아요.</p>
+
+      <p><b>✔ 포켓몬고 GO패스 같이 보기 좋은 내용</b><br>
+      · <span class="ph">〔내부링크 자리 1〕</span> 포켓몬고 리모트레이드패스 무료레이드패스 차이 언제 사야 이득일까 — 네이버에서 기존 글 링크 연결<br>
+      · <span class="ph">〔내부링크 자리 2〕</span> 포켓몬고 페스트 2026 글로벌 일정 서울 반포한강공원 현장 이벤트 총정리 — 네이버에서 기존 글 링크 연결</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://pokemongo.com/ko/news/go-pass-august-2026" target="_blank">GO패스: 8월 공식 발표(Pokémon GO)</a></p>
+
+      <p class="tags-line">#포켓몬고 #GO패스 #포켓몬고GO패스 #라티아스 #포켓몬고이벤트 #포켓몬고8월 #반짝이참 #포켓몬고무료</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
