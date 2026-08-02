@@ -1,0 +1,333 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>클로드 코워크, 웹·모바일에서 안 보일 때 확인법(Claude)</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tnote{font-size:12.5px;color:#888;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}  /* 네이버 빈 문단(개행) — output-format §4-2-b */
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- 이미지 조달(2026-08-03): claude.com/blog/cowork-web-mobile raw HTML을 curl+브라우저 UA(HTTP 200, 551,975B)로 받아 twitter:image 메타(cdn.prod.website-files.com 직링크, 공식 발표 이미지)를 확보해 self-host. 계정별 화면(요금제 노출·앱 업데이트 알림 등)은 정적 캡처가 공식 문서에 없어 추가 조달하지 않음 — 발주 카드가 이미지 0장도 허용한 사안이라 무리한 대체 캡처 없이 이 1장으로 발행. -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">AI 소식</div>
+    <h1 class="title">클로드 코워크, 웹·모바일에서 안 보일 때 확인법(Claude)</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.08.03</span><span>· IT</span></div>
+    <!-- AEO 타깃 질문: 클로드 코워크 메뉴가 안 보이는데 왜 그런가요 / 프로 요금제도 코워크가 되나요 / 웹이랑 모바일이랑 뭐가 다른가요 / 코워크는 언제 다 열리나요 -->
+    <!-- 인용 후크: 공식 블로그·도움말 원문 인용 + 화면별 지원 기능 표(요금제·업데이트 확인 순서형 정리) -->
+    <!-- 기준 시점: 2026.08.03 -->
+
+    <p>클로드(Claude) 코워크 메뉴가 웹이나 모바일 앱에서 안 보이나요? 클로드는 앤스로픽(Anthropic)이 만든 AI예요. 마이크로소프트(Microsoft)의 코파일럿(Copilot) 코워크와는 이름만 비슷할 뿐, 회사도 제품도 달라요.</p>
+    <p>잘못 설치한 게 아니에요. 클로드 코워크는 지금 베타로 순차 롤아웃 중이라, 계정마다 노출 시점이 달라요.</p>
+    <p>이 글은 2026년 8월 3일 기준으로 클로드 공식 블로그와 도움말 문서만 보고 정리했어요. 요금제, 앱 버전, 화면별 차이를 순서대로 확인해 볼게요.</p>
+
+    <div class="imgwrap"><img src="img/01-claude-cowork-web-mobile-og.jpg" width="2000" height="1000" alt="클로드 코워크 웹·모바일 확장 발표 공식 이미지(구름 아이콘)"></div>
+    <p class="cap">클로드 코워크 웹·모바일 확장 발표에 쓰인 공식 이미지</p>
+    <p class="src">이미지 출처: <a href="https://claude.com/blog/cowork-web-mobile" target="_blank">claude.com/blog/cowork-web-mobile</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 리드 직후 공식 발표 신뢰도 확보용 / 출처: https://claude.com/blog/cowork-web-mobile(twitter:image 메타) / 분류: A형 -->
+
+    <h2 class="sub">왜 코워크 메뉴가 안 보이나요</h2>
+    <p>클로드 코워크가 아직 전체 공개가 아니라, 베타로 순차 열리는 중이라서예요.</p>
+    <p>앤스로픽은 2026년 7월 7일 공식 블로그에서 코워크를 웹·모바일로 확장한다고 발표했어요. 발표문은 베타 접근이 몇 주에 걸쳐 순차로 열리고, 맥스(Max) 요금제부터 시작해 다른 요금제도 뒤따를 예정이라고 밝혔어요.</p>
+    <p>원문은 이렇게 적었어요. <b>"Beta access is rolling out over the next several weeks starting with Max users, with more plans to follow."</b></p>
+    <p>오늘(2026.08.03)은 발표 후 27일째예요. 아직 '전 요금제로 열렸다'는 후속 발표는 없어요.</p>
+    <p>공식 도움말 문서도 발표 당일(2026.07.07)에 마지막으로 갱신된 뒤 지금까지 그대로예요. 안내 내용도 여전히 맥스 요금제부터라고만 돼 있어요. 요금제 확장 발표가 아직 나오지 않았다는 뜻으로 볼 수 있어요.</p>
+
+    <h2 class="sub">확인할 것 1 — 요금제가 맥스인가요</h2>
+    <p>가장 먼저 확인할 건 지금 쓰는 요금제가 맥스인지예요.</p>
+    <p>공식 발표에서 확인된 건 맥스 요금제뿐이에요. 프로나 무료 요금제도 되는지는 아직 공식 문서 어디에도 나와 있지 않아요.</p>
+    <table class="tbl">
+      <tr><th>요금제</th><th>코워크 웹·모바일(2026.08.03 기준)</th></tr>
+      <tr><td>Max</td><td>베타 순차 노출 대상(공식 확인)</td></tr>
+      <tr><td>Pro</td><td>공식 발표에 없음</td></tr>
+      <tr><td>Free</td><td>공식 발표에 없음</td></tr>
+    </table>
+    <p>위 표는 2026.08.03 기준 공식 블로그·도움말 확인 내용이에요. "더 많은 요금제도 뒤따를 예정"이라는 예고는 있지만, 어떤 요금제가 언제 추가되는지는 아직 확정되지 않았어요.</p>
+    <p>참고로 '컴퓨터 사용(Computer use)' 기능은 프로·맥스 요금제의 리서치 프리뷰로 별도 안내돼 있어요. 이건 코워크 웹·모바일 롤아웃과는 다른 조건이라, '프로도 코워크가 된다'는 뜻으로 읽으면 안 돼요.</p>
+    <p>무료·프로·맥스 요금제 차이는 클로드 사용법 총정리 글에서 한 번 정리해 둔 적이 있어요. 코워크는 그중에서도 아직 맥스만 공식으로 확인된 상태예요.</p>
+
+    <h2 class="sub">확인할 것 2 — 앱이 최신 버전인가요</h2>
+    <p>두 번째로 확인할 건 웹이나 앱이 최신 상태인지예요.</p>
+    <p>공식 도움말은 화면별 확인 방법을 이렇게 안내해요.</p>
+    <ol>
+      <li>웹 — claude.ai에 접속해 홈(Home) 탭을 찾아요.</li>
+      <li>모바일 — iOS·Android용 클로드 앱을 최신 버전으로 열어요. 메시지 입력창에 코워크가 안 보이면 앱을 업데이트해요.</li>
+      <li>데스크톱 — 클로드 데스크톱 앱을 최신 버전으로 열어요. 마찬가지로 안 보이면 앱을 업데이트해요.</li>
+    </ol>
+    <p>요금제가 맞는데도 안 보인다면, 이 업데이트 확인이 공식이 제시하는 가장 먼저 해볼 일이에요.</p>
+
+    <h2 class="sub">웹·모바일·데스크톱, 뭐가 다른가요</h2>
+    <p>데스크톱만 로컬 파일과 브라우저까지 쓰는 완전한 코워크 경험이고, 웹·모바일은 그보다 범위가 좁아요.</p>
+    <p>공식 도움말이 정리한 화면별 지원 기능을 보면, 아래 항목은 데스크톱·웹·모바일 세 곳 모두에서 공통으로 지원돼요.</p>
+    <ul>
+      <li>작업 시작·조종·리뷰</li>
+      <li>다른 기기에서 세션 이어받기</li>
+      <li>커넥터</li>
+      <li>스킬·플러그인</li>
+      <li>파일 미리보기</li>
+      <li>예약 작업</li>
+      <li>프로젝트</li>
+    </ul>
+    <p>다른 두 항목은 화면마다 조건이 달라요.</p>
+    <table class="tbl">
+      <tr><th>항목</th><th>데스크톱</th><th>웹·모바일</th></tr>
+      <tr><td>라이브 아티팩트(Live artifacts)</td><td>지원</td><td>미지원</td></tr>
+      <tr><td>로컬 파일·브라우저·컴퓨터 사용</td><td>지원</td><td>데스크톱 앱이 켜져 있을 때만 지원</td></tr>
+    </table>
+    <p>원격 세션이 컴퓨터에 연결해 둔 폴더의 파일을 읽고 쓰려면, 그 컴퓨터에서 데스크톱 앱이 열려 있어야 해요. 앱을 꺼두면 세션은 계속 돌아가지만 로컬 파일에는 닿지 못해요.</p>
+    <p>공식 블로그는 이번 확장의 의미를 이렇게 설명해요. 데스크톱 앱을 설치할 수 없었던 사람도 이제 코워크를 쓸 수 있게 됐다는 거예요.</p>
+
+    <h2 class="sub">지금 확인해야 할 것</h2>
+    <p>정리하면 요금제와 앱 버전, 두 가지만 순서대로 보면 돼요.</p>
+    <ol>
+      <li>요금제가 맥스인지 확인해요.</li>
+      <li>웹은 새로고침 후 홈 탭을, 모바일·데스크톱은 앱을 최신 버전으로 업데이트해요.</li>
+      <li>로컬 파일이나 브라우저 제어가 필요한 작업이면 데스크톱 앱을 켜 둔 채로 진행해요.</li>
+    </ol>
+    <p>'모두에게 열렸다'는 공식 발표는 아직 없어요. 순차 롤아웃 중이라 계정별 노출 시점은 직접 확인하는 수밖에 없어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 코워크 메뉴가 안 보이는데 왜 그런가요?</b><br>
+    아직 베타로 순차 롤아웃 중이라 계정마다 노출 시점이 달라요. 요금제가 맥스인지, 앱이 최신 버전인지부터 확인해 보세요.</p>
+    <p><b>Q. 프로 요금제도 코워크가 되나요?</b><br>
+    공식 발표에서 확인된 건 맥스뿐이에요. "다른 요금제도 뒤따를 예정"이라는 예고만 있고, 프로 포함 여부와 시점은 아직 확정되지 않았어요.</p>
+    <p><b>Q. 웹이랑 모바일이랑 뭐가 다른가요?</b><br>
+    큰 차이는 없어요. 다만 로컬 파일 접근이나 브라우저 제어가 필요한 작업은 그 컴퓨터에서 데스크톱 앱이 켜져 있어야 해요.</p>
+    <p><b>Q. 언제 다 열리나요?</b><br>
+    확정된 시점은 공개되지 않았어요. "몇 주에 걸쳐 순차로 연다"는 발표만 있어요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://claude.com/blog/cowork-web-mobile" target="_blank">Claude 공식 블로그 — Claude Cowork is coming to mobile and web</a>(2026.07.07)<br>
+    · <a href="https://support.claude.com/en/articles/15520349-use-claude-cowork-on-web-desktop-and-mobile" target="_blank">공식 도움말 — Use Claude Cowork on web, desktop, and mobile</a></p>
+
+    <p><b>하루 정리</b><br>
+    · 코워크 메뉴가 안 보이면 먼저 요금제가 맥스인지 확인해요, 맥스가 아니면 아직 순차 롤아웃 대상이 아닐 수 있어요<br>
+    · 요금제가 맞다면 웹은 새로고침, 모바일·데스크톱은 최신 버전인지부터 봐요<br>
+    · 로컬 파일이나 브라우저 제어가 필요한 작업이면 데스크톱 앱을 켜 둔 상태로 진행해요, 그런 작업이 아니면 웹이나 모바일만으로도 충분해요<br>
+    · "다 열렸다"는 발표는 아직 없어요, 계정별로 노출 시점이 다를 수 있다는 점만 기억해 두면 돼요</p>
+    <p>급한 작업이 아니라면 앱부터 업데이트해 보고, 그래도 안 보이면 시간을 두고 다시 확인해 보세요.</p>
+
+    <div class="tags">#클로드코워크 #Claude코워크 #클로드베타 #코워크웹모바일 #클로드요금제 #앤스로픽</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 채우세요 — 코워크 공식 발표 이미지 1곳은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버에 Ctrl+V</b>하면 됩니다.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>5.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 1곳(약 2분):</b> 📷 <b>사진 1곳</b>(코워크 공식 발표 이미지를 다운로드해 올리기)만 하면 돼요. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 클로드 코워크, 웹·모바일에서 안 보일 때 확인법(Claude)</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>클로드(Claude) 코워크 메뉴가 웹이나 모바일 앱에서 안 보이나요? 클로드는 앤스로픽(Anthropic)이 만든 AI예요. 마이크로소프트(Microsoft)의 코파일럿(Copilot) 코워크와는 이름만 비슷할 뿐, 회사도 제품도 달라요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>잘못 설치한 게 아니에요. 클로드 코워크는 지금 베타로 순차 롤아웃 중이라, 계정마다 노출 시점이 달라요.</p>
+      <p>이 글은 2026년 8월 3일 기준으로 클로드 공식 블로그와 도움말 문서만 보고 정리했어요. 요금제, 앱 버전, 화면별 차이를 순서대로 확인해 볼게요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 1〕 클로드 코워크 웹·모바일 확장 발표 공식 이미지 — claude.com 공식 블로그 이미지를 저장해 올려 주세요 · 캡션 추천: "클로드 코워크 웹·모바일 확장 발표에 쓰인 공식 이미지"</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>왜 코워크 메뉴가 안 보이나요</h3>
+      <p>클로드 코워크가 아직 전체 공개가 아니라, 베타로 순차 열리는 중이라서예요.</p>
+      <p>앤스로픽은 2026년 7월 7일 공식 블로그에서 코워크를 웹·모바일로 확장한다고 발표했어요. 발표문은 베타 접근이 몇 주에 걸쳐 순차로 열리고, 맥스(Max) 요금제부터 시작해 다른 요금제도 뒤따를 예정이라고 밝혔어요.</p>
+      <p>원문은 이렇게 적었어요. <b>"Beta access is rolling out over the next several weeks starting with Max users, with more plans to follow."</b></p>
+      <p>오늘(2026.08.03)은 발표 후 27일째예요. 아직 '전 요금제로 열렸다'는 후속 발표는 없어요.</p>
+      <p>공식 도움말 문서도 발표 당일(2026.07.07)에 마지막으로 갱신된 뒤 지금까지 그대로예요. 안내 내용도 여전히 맥스 요금제부터라고만 돼 있어요. 요금제 확장 발표가 아직 나오지 않았다는 뜻으로 볼 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>확인할 것 1 — 요금제가 맥스인가요</h3>
+      <p>가장 먼저 확인할 건 지금 쓰는 요금제가 맥스인지예요.</p>
+      <p>공식 발표에서 확인된 건 맥스 요금제뿐이에요. 프로나 무료 요금제도 되는지는 아직 공식 문서 어디에도 나와 있지 않아요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>요금제</th><th>코워크 웹·모바일(2026.08.03 기준)</th></tr>
+        <tr><td class="l">Max</td><td>베타 순차 노출 대상(공식 확인)</td></tr>
+        <tr><td class="l">Pro</td><td>공식 발표에 없음</td></tr>
+        <tr><td class="l">Free</td><td>공식 발표에 없음</td></tr>
+      </table>
+      <p class="sp">&nbsp;</p>
+      <p>위 표는 2026.08.03 기준 공식 블로그·도움말 확인 내용이에요. "더 많은 요금제도 뒤따를 예정"이라는 예고는 있지만, 어떤 요금제가 언제 추가되는지는 아직 확정되지 않았어요.</p>
+      <p>참고로 '컴퓨터 사용(Computer use)' 기능은 프로·맥스 요금제의 리서치 프리뷰로 별도 안내돼 있어요. 이건 코워크 웹·모바일 롤아웃과는 다른 조건이라, '프로도 코워크가 된다'는 뜻으로 읽으면 안 돼요.</p>
+      <p>무료·프로·맥스 요금제 차이는 클로드 사용법 총정리 글에서 한 번 정리해 둔 적이 있어요. 코워크는 그중에서도 아직 맥스만 공식으로 확인된 상태예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>확인할 것 2 — 앱이 최신 버전인가요</h3>
+      <p>두 번째로 확인할 건 웹이나 앱이 최신 상태인지예요.</p>
+      <p>공식 도움말은 화면별 확인 방법을 이렇게 안내해요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>웹 — claude.ai에 접속해 홈(Home) 탭을 찾아요.</li>
+        <li>모바일 — iOS·Android용 클로드 앱을 최신 버전으로 열어요. 메시지 입력창에 코워크가 안 보이면 앱을 업데이트해요.</li>
+        <li>데스크톱 — 클로드 데스크톱 앱을 최신 버전으로 열어요. 마찬가지로 안 보이면 앱을 업데이트해요.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p>요금제가 맞는데도 안 보인다면, 이 업데이트 확인이 공식이 제시하는 가장 먼저 해볼 일이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>웹·모바일·데스크톱, 뭐가 다른가요</h3>
+      <p>데스크톱만 로컬 파일과 브라우저까지 쓰는 완전한 코워크 경험이고, 웹·모바일은 그보다 범위가 좁아요.</p>
+      <p>공식 도움말이 정리한 화면별 지원 기능을 보면, 아래 항목은 데스크톱·웹·모바일 세 곳 모두에서 공통으로 지원돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>작업 시작·조종·리뷰</li>
+        <li>다른 기기에서 세션 이어받기</li>
+        <li>커넥터</li>
+        <li>스킬·플러그인</li>
+        <li>파일 미리보기</li>
+        <li>예약 작업</li>
+        <li>프로젝트</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>다른 두 항목은 화면마다 조건이 달라요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>항목</th><th>데스크톱</th><th>웹·모바일</th></tr>
+        <tr><td class="l">라이브 아티팩트(Live artifacts)</td><td>지원</td><td>미지원</td></tr>
+        <tr><td class="l">로컬 파일·브라우저·컴퓨터 사용</td><td>지원</td><td>데스크톱 앱이 켜져 있을 때만 지원</td></tr>
+      </table>
+      <p class="sp">&nbsp;</p>
+      <p>원격 세션이 컴퓨터에 연결해 둔 폴더의 파일을 읽고 쓰려면, 그 컴퓨터에서 데스크톱 앱이 열려 있어야 해요. 앱을 꺼두면 세션은 계속 돌아가지만 로컬 파일에는 닿지 못해요.</p>
+      <p>공식 블로그는 이번 확장의 의미를 이렇게 설명해요. 데스크톱 앱을 설치할 수 없었던 사람도 이제 코워크를 쓸 수 있게 됐다는 거예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>지금 확인해야 할 것</h3>
+      <p>정리하면 요금제와 앱 버전, 두 가지만 순서대로 보면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>요금제가 맥스인지 확인해요.</li>
+        <li>웹은 새로고침 후 홈 탭을, 모바일·데스크톱은 앱을 최신 버전으로 업데이트해요.</li>
+        <li>로컬 파일이나 브라우저 제어가 필요한 작업이면 데스크톱 앱을 켜 둔 채로 진행해요.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p>'모두에게 열렸다'는 공식 발표는 아직 없어요. 순차 롤아웃 중이라 계정별 노출 시점은 직접 확인하는 수밖에 없어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 코워크 메뉴가 안 보이는데 왜 그런가요?</b><br>
+      아직 베타로 순차 롤아웃 중이라 계정마다 노출 시점이 달라요. 요금제가 맥스인지, 앱이 최신 버전인지부터 확인해 보세요.</p>
+      <p><b>Q. 프로 요금제도 코워크가 되나요?</b><br>
+      공식 발표에서 확인된 건 맥스뿐이에요. "다른 요금제도 뒤따를 예정"이라는 예고만 있고, 프로 포함 여부와 시점은 아직 확정되지 않았어요.</p>
+      <p><b>Q. 웹이랑 모바일이랑 뭐가 다른가요?</b><br>
+      큰 차이는 없어요. 다만 로컬 파일 접근이나 브라우저 제어가 필요한 작업은 그 컴퓨터에서 데스크톱 앱이 켜져 있어야 해요.</p>
+      <p><b>Q. 언제 다 열리나요?</b><br>
+      확정된 시점은 공개되지 않았어요. "몇 주에 걸쳐 순차로 연다"는 발표만 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://claude.com/blog/cowork-web-mobile" target="_blank">Claude 공식 블로그 — Claude Cowork is coming to mobile and web</a>(2026.07.07)<br>
+      · <a href="https://support.claude.com/en/articles/15520349-use-claude-cowork-on-web-desktop-and-mobile" target="_blank">공식 도움말 — Use Claude Cowork on web, desktop, and mobile</a></p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 코워크 메뉴가 안 보이면 먼저 요금제가 맥스인지 확인해요, 맥스가 아니면 아직 순차 롤아웃 대상이 아닐 수 있어요<br>
+      · 요금제가 맞다면 웹은 새로고침, 모바일·데스크톱은 최신 버전인지부터 봐요<br>
+      · 로컬 파일이나 브라우저 제어가 필요한 작업이면 데스크톱 앱을 켜 둔 상태로 진행해요, 그런 작업이 아니면 웹이나 모바일만으로도 충분해요<br>
+      · "다 열렸다"는 발표는 아직 없어요, 계정별로 노출 시점이 다를 수 있다는 점만 기억해 두면 돼요</p>
+      <p>급한 작업이 아니라면 앱부터 업데이트해 보고, 그래도 안 보이면 시간을 두고 다시 확인해 보세요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#클로드코워크 #Claude코워크 #클로드베타 #코워크웹모바일 #클로드요금제 #앤스로픽</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
