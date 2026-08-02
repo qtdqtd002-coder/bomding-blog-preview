@@ -1,0 +1,300 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬 챔피언스 메가라이츄X 팀 뭘로 짜야 하나요, 공식 가이드 조합 정리</title>
+<!-- AI브리핑 타깃 질문: ①포켓몬 챔피언스 메가라이츄X 팀은 뭘로 짜야 하나요 ②왜 메가라이츄X·패리퍼·브리두라스가 핵심 트리오인가요 ③6마리를 한 번에 못 갖추면 어떻게 시작하면 되나요 -->
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:15.5px;line-height:1.9;margin:0 0 6px;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 8px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tblnote{font-size:12.5px;color:var(--sub);margin:0 0 22px;line-height:1.6;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임공략</div>
+    <h1 class="title">포켓몬 챔피언스 메가라이츄X 팀 뭘로 짜야 하나요, 공식 가이드 조합 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.08.02</span><span>· 게임</span></div>
+
+    <p>포켓몬 챔피언스 레귤레이션 M-B가 열리고 나서, 이번 시즌 최초 공개 메가진화인 <b>메가라이츄X</b>를 팀에 어떻게 넣어야 할지 검색해보신 분들 꽤 많으실 것 같아요. 미리 말씀드리면 저도 여섯 마리를 다 갖춰서 직접 돌려본 건 아니고, 포켓몬 공식이 2026년 7월 14일 pokemon.com에 올린 팀빌드 가이드를 데이터 그대로 옮겨 정리한 글이에요. 그래도 이게 커뮤니티 추측이나 개인 사용률 통계가 아니라 <b>공식이 직접 낸 조합</b>이다 보니, 지금 시점엔 제일 믿고 시작할 만한 골격이라고 봐요. 결론부터 말씀드리면 축은 <b>메가라이츄X·패리퍼·브리두라스</b> 셋이고, 나머지 세 자리는 <b>타부자고·그우린차·파이어로</b>로 채우는 6마리 구성입니다.</p>
+
+    <h2 class="sub">포켓몬 챔피언스 메가라이츄X 팀, 뭘로 짜야 하나요</h2>
+    <p><b>메가라이츄X·브리두라스·패리퍼·타부자고·그우린차·파이어로</b>, 이 여섯 마리로 짜면 됩니다 — 포켓몬 공식 팀빌드 가이드에 나온 그대로예요.</p>
+    <ul>
+      <li>출처 — pokemon.com 공식 'Pokémon Champions: How to Build a Mega Raichu X Team' (2026.7.14 게재)</li>
+      <li>기준 시즌 — 레귤레이션 M-B, 더블배틀</li>
+      <li>M-B 진행 기간 — 2026년 6월 16일부터 9월 1일까지(현지시각 기준)</li>
+      <li>메가라이츄 — 포켓몬 챔피언스에서 처음 공개된 메가진화</li>
+    </ul>
+    <p>메가라이츄가 이 작품 첫 메가진화다 보니 사용률 통계는 아직 쌓이는 단계예요. 그래도 공식이 직접 낸 조합이라, 떠도는 추측형 티어보다는 훨씬 안심하고 시작할 수 있는 골격이라고 보시면 됩니다.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 메가라이츄X·브리두라스·패리퍼·타부자고·그우린차·파이어로 6마리가 함께 있는 엔트리 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 훈련 메뉴에서 6마리를 다 등록한 뒤 엔트리 화면 캡처. 참고할 곳: <a href="https://www.pokemon.com/us/features/pokemon-champions-how-to-build-a-mega-raichu-x-team" target="_blank">포켓몬 공식 팀빌드 가이드</a></div>
+    <p class="cap">여섯 마리 이름만 봐도 역할이 확실히 갈리는 구성이에요</p>
+
+    <h2 class="sub">6마리 스탯·기술을 표로 한눈에 정리했어요</h2>
+    <p>표부터 보여드릴게요. 참고로 포켓몬 챔피언스는 본가랑 다르게 <b>개체값이 아예 없고</b>, 노력치 대신 <b>마리당 최대 66 스탯 포인트(SP)를 스탯 하나에 최대 32까지</b> 자유롭게 배분하는 방식이에요. 그래서 아래 표에 있는 숫자는 '노력치'가 아니라 이 스탯 포인트라는 점만 기억해두시면 됩니다.</p>
+    <table class="tbl">
+      <tr><th>포켓몬</th><th>지닌 물건</th><th>특성</th><th>성격</th><th>스탯 포인트(SP)</th><th>기술 4개</th></tr>
+      <tr><td>메가라이츄X</td><td>라이츄나이트X</td><td>일렉트릭메이커</td><td>명랑</td><td>HP2·공격32·스피드32</td><td>속이기·볼트태클·볼트체인지·비바라기</td></tr>
+      <tr><td>브리두라스</td><td>먹다남은음식</td><td>지구력</td><td>조심</td><td>HP32·특방26·스피드8</td><td>방어·용의파동·러스터캐논·일렉트로빔</td></tr>
+      <tr><td>패리퍼</td><td>자뭉열매</td><td>잔비</td><td>대담</td><td>HP32·방어4·특방19·스피드11</td><td>웨더볼·순풍·폭풍·와이드가드</td></tr>
+      <tr><td>타부자고</td><td>생명의구슬</td><td>황금몸</td><td>조심</td><td>HP2·특공32·스피드32</td><td>골드러시·나쁜음모·섀도볼·방어</td></tr>
+      <tr><td>그우린차</td><td>마코열매</td><td>대접</td><td>차분</td><td>HP32·방어14·특방20</td><td>생명의물방울·분노가루·휘적휘적포·트릭룸</td></tr>
+      <tr><td>파이어로</td><td>예리한부리</td><td>질풍날개</td><td>명랑</td><td>HP2·공격32·스피드32</td><td>더블윙·도깨비불·순풍·방어</td></tr>
+    </table>
+    <p class="tblnote">지닌 물건·특성은 메가진화 후 기준이고, 스탯 포인트·기술 구성은 포켓몬 공식 가이드에 실린 배분 그대로예요.</p>
+    <p>참고로 스탯 포인트는 그냥 채운다고 공짜가 아니라, <b>1포인트 찍는 데 VP(재화)가 5씩</b> 들어가는 구조예요. 그래서 한 마리를 66 SP까지 완전히 맥스로 채우려면 최대 <b>330VP</b>가 필요하다는 것도 미리 알아두시면 나중에 재화 계획 세울 때 편해요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 메가라이츄X 훈련 화면 — 스탯 포인트 66 배분 UI</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 훈련 메뉴에서 HP2·공격32·스피드32로 배분하는 화면 캡처</div>
+    <p class="cap">노력치처럼 4배수를 안 따져도 되니 배분 자체는 금방 끝나요</p>
+
+    <p>특히 메가라이츄X는 메가진화하면 특성이 <b>일렉트릭메이커</b>로 바뀌는데요, 등장하자마자 5턴 동안 필드에 일렉트릭필드를 깔아서 자신을 포함한 지면 포켓몬의 전기 기술 위력이 30% 오르고, 그 5턴 동안은 잠듦 상태이상에도 안 걸려요.</p>
+
+    <h2 class="sub">핵심 콤보는 셋이서 만들어요 — 메가라이츄X·패리퍼·브리두라스</h2>
+    <p><b>메가라이츄X가 메가진화하며 일렉트릭필드를 깔고, 볼트체인지로 브리두라스에게 넘긴 다음, 브리두라스에서 다시 패리퍼로 넘어가면 일렉트릭필드랑 비가 동시에 깔리는 구조</b>가 이 팀의 핵심이에요.</p>
+    <ul>
+      <li>① 메가라이츄X 메가진화 → 등장과 동시에 일렉트릭필드 전개</li>
+      <li>② 볼트체인지로 브리두라스 교체 → 특성 지구력 발동, 방어 1단계 상승</li>
+      <li>③ 브리두라스에서 다시 패리퍼로 교체 → 특성 잔비 발동, 비까지 겹쳐 깔림</li>
+      <li>④ 일렉트릭필드+비가 함께 깔린 판에서 나머지 화력 포켓몬 투입</li>
+    </ul>
+    <p>여기에 속이기로 상대 한 마리 움직임을 한 턴 묶어두면서 이 세팅을 할 시간을 버는 것도 흔한 운영이고요, 와이드가드나 트릭룸 같은 서포트 기술은 상황 봐서 섞으면 응용 폭이 넓어져요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 일렉트릭필드+비가 동시에 깔린 상태에서 전기 기술로 몰아치는 더블배틀 장면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 필드 상단에 일렉트릭필드·비 아이콘이 같이 뜬 순간 캡처</div>
+    <p class="cap">아이콘 두 개가 동시에 떠 있으면 세팅이 제대로 들어간 거예요</p>
+
+    <h2 class="sub">운영 노선은 두 가지예요 — 지구전형 vs 속공형</h2>
+    <p>포켓몬 챔피언스 공식 가이드는 이 팀을 <b>브리두라스를 축으로 오래 버티는 지구전형</b>과 <b>파이어로 순풍으로 빠르게 끝내는 속공형</b>, 두 갈래로 굴릴 수 있다고 소개해요.</p>
+    <table class="tbl">
+      <tr><th>노선</th><th>중심</th><th>방식</th></tr>
+      <tr><td>지구전형</td><td>브리두라스(+메가라이츄X·패리퍼·그우린차 보조)</td><td>지구력으로 방어 쌓으며 버티는 장기전</td></tr>
+      <tr><td>속공형</td><td>파이어로 순풍 → 타부자고·메가라이츄X 선공</td><td>먼저 때려서 빠르게 마무리</td></tr>
+    </table>
+    <p class="tblnote">두 노선 다 같은 6마리 안에서 굴리는 방식이라, 팀을 두 벌 짤 필요는 없어요.</p>
+    <p>상대가 화력형이면 지구전형으로 버티는 쪽이 안전하고, 반대로 먼저 밀어붙여야 유리한 판이면 파이어로 순풍부터 깔아서 속공형으로 가는 식이에요. 그날 상대를 보고 노선을 고르면 되는 구조라, 미리 외워둘 것도 딱히 없어요. 파이어로가 순풍으로 속도만 보태주는 것도 아니에요 — 공식 가이드는 파이어로를 <b>위습퍼(Whimsicott)를 쓰는 상대 조합을 견제하는 카드</b>로도 따로 짚었거든요. 그러니 상대 팀에 위습퍼가 보이면 파이어로 자리를 더 든든하게 챙겨두시면 됩니다.</p>
+
+    <h2 class="sub">6마리 한 번에 다 갖추기 부담되면 — 셋만 먼저 챙기세요</h2>
+    <p>여섯 마리를 한꺼번에 다 맞추기 어려우면, <b>메가라이츄X·패리퍼·브리두라스</b> 이 세 마리만 먼저 갖추고 시작해도 돼요.</p>
+    <p>왜냐하면 이 팀의 핵심 콤보인 일렉트릭필드+비 세팅은 이 셋만으로 이미 완성되거든요. 나머지 세 자리는 스카우트나 훈련이 되는 대로, 손에 잡히는 순서대로 채워 넣으면 됩니다. 노가다가 없는 게임이라 나중에 갈아끼우는 부담도 크지 않고요.</p>
+    <table class="tbl">
+      <tr><th>순서</th><th>포켓몬</th><th>왜</th></tr>
+      <tr><td>1</td><td>타부자고</td><td>셋만으로는 부족한 화력을 채워줘요</td></tr>
+      <tr><td>2</td><td>그우린차</td><td>지구전형으로 갈 때 버티는 힘을 더해줘요</td></tr>
+      <tr><td>3</td><td>파이어로</td><td>속공형으로 굴릴 때 순풍을 깔아줘요</td></tr>
+    </table>
+    <p class="tblnote">굳이 순서를 매기자면 이런 흐름인데, 손에 먼저 들어오는 포켓몬을 채워도 상관없어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 메가진화, 한 배틀에 몇 번까지 쓸 수 있나요?</b><br>
+    포켓몬 챔피언스는 한 배틀에 딱 한 마리, 한 번만 메가진화할 수 있어요. 이 팀에도 메가스톤을 든 포켓몬이 메가라이츄X 하나뿐인 것도 그래서고요, 여러 마리가 메가스톤을 들고 있어도 실제로 메가진화하는 건 한 판에 한 마리뿐이라는 점은 꼭 기억해두세요.</p>
+    <p><b>Q. 메가라이츄X 말고 메가라이츄Y로 가면 안 되나요?</b><br>
+    메가라이츄Y는 특성이 노가드라 서로의 기술이 무조건 명중하는 대신, 필드를 까는 능력은 없어서 이 조합의 핵심인 일렉트릭필드+비 콤보 자체가 안 나와요. Y는 싱글배틀 쪽 특수 어태커로 강하다는 평가가 많다고 하니, 지금처럼 더블배틀(M-B) 팀을 짤 땐 X 쪽이 이 가이드하고 더 맞아떨어져요.</p>
+
+    <h2 class="sub">포켓몬 챔피언스 메가라이츄X 팀, 오늘은 이렇게 정리했어요</h2>
+    <p>짧게 추려보면, <b>메가라이츄X·패리퍼·브리두라스</b>가 만드는 일렉트릭필드+비 콤보를 축으로, <b>타부자고·그우린차·파이어로</b>로 화력과 운영 폭을 채우는 6마리 구성이에요. 처음부터 다 갖추기 부담되면 앞의 셋만 먼저 맞춰도 이 팀의 핵심은 이미 굴릴 수 있고요. 다만 메가라이츄가 처음 나온 메가진화라 메타는 아직 정립되는 중이니, 이번 가이드는 '정답'이 아니라 지금 가장 믿을 만한 출발점 정도로 봐주시면 좋겠어요. 나중에 사용률 데이터가 좀 더 쌓이면 다시 한번 짚어볼게요.</p>
+
+    <p><b>✔ 포켓몬 챔피언스 같이 보기 좋은 내용</b><br>
+    · 포켓몬 챔피언스 초보 파티 추천 — 메가리자몽Y·갸라도스로 짜는 랭크전 첫 조합 (발행 시 링크 연결)<br>
+    · 포켓몬 챔피언스 랭크전 첫 주 빠르게 등급 올리기 (발행 시 링크 연결)<br>
+    · 포켓몬 챔피언스 티어표 (발행 시 링크 연결)</p>
+    <!-- 내부링크: 위 3개 글 네이버 post ID 확인 후 <a href> 연결 -->
+
+    <p><b>참고한 곳</b> (2026.08.02 기준)<br>
+    · <a href="https://www.pokemon.com/us/features/pokemon-champions-how-to-build-a-mega-raichu-x-team" target="_blank">포켓몬 공식 — Mega Raichu X 팀빌드 가이드</a><br>
+    · <a href="https://www.pokemon.com/us/features/pokemon-champions-regulation-m-b-double-battles-overview" target="_blank">포켓몬 공식 — 레귤레이션 M-B 더블배틀 개요</a></p>
+
+    <div class="tags">#포켓몬챔피언스 #포켓몬챔피언스메가라이츄X #메가라이츄X #포켓몬챔피언스팀빌드 #포켓몬챔피언스초보 #포켓몬챔피언스MB #포켓몬대전</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 촬영해서 업로드</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 6가지(약 7분):</b> 📷 <b>직접 촬영 사진 3곳</b> 업로드, ✔ <b>내부링크 3곳</b> post ID 연결. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬 챔피언스 메가라이츄X 팀 뭘로 짜야 하나요, 공식 가이드 조합 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>포켓몬 챔피언스 레귤레이션 M-B가 열리고 나서, 이번 시즌 최초 공개 메가진화인 <b>메가라이츄X</b>를 팀에 어떻게 넣어야 할지 검색해보신 분들 꽤 많으실 것 같아요. 미리 말씀드리면 저도 여섯 마리를 다 갖춰서 직접 돌려본 건 아니고, 포켓몬 공식이 2026년 7월 14일 pokemon.com에 올린 팀빌드 가이드를 데이터 그대로 옮겨 정리한 글이에요. 그래도 이게 커뮤니티 추측이나 개인 사용률 통계가 아니라 <b>공식이 직접 낸 조합</b>이다 보니, 지금 시점엔 제일 믿고 시작할 만한 골격이라고 봐요. 결론부터 말씀드리면 축은 <b>메가라이츄X·패리퍼·브리두라스</b> 셋이고, 나머지 세 자리는 <b>타부자고·그우린차·파이어로</b>로 채우는 6마리 구성입니다.</p>
+
+      <h3>포켓몬 챔피언스 메가라이츄X 팀, 뭘로 짜야 하나요</h3>
+      <p><b>메가라이츄X·브리두라스·패리퍼·타부자고·그우린차·파이어로</b>, 이 여섯 마리로 짜면 됩니다 — 포켓몬 공식 팀빌드 가이드에 나온 그대로예요.</p>
+      <ul>
+        <li>출처 — pokemon.com 공식 'Pokémon Champions: How to Build a Mega Raichu X Team' (2026.7.14 게재)</li>
+        <li>기준 시즌 — 레귤레이션 M-B, 더블배틀</li>
+        <li>M-B 진행 기간 — 2026년 6월 16일부터 9월 1일까지(현지시각 기준)</li>
+        <li>메가라이츄 — 포켓몬 챔피언스에서 처음 공개된 메가진화</li>
+      </ul>
+      <p>메가라이츄가 이 작품 첫 메가진화다 보니 사용률 통계는 아직 쌓이는 단계예요. 그래도 공식이 직접 낸 조합이라, 떠도는 추측형 티어보다는 훨씬 안심하고 시작할 수 있는 골격이라고 보시면 됩니다.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 메가라이츄X·브리두라스·패리퍼·타부자고·그우린차·파이어로 6마리가 함께 있는 엔트리 화면 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "여섯 마리 이름만 봐도 역할이 확실히 갈리는 구성이에요"</p>
+
+      <h3>6마리 스탯·기술을 표로 한눈에 정리했어요</h3>
+      <p>표부터 보여드릴게요. 참고로 포켓몬 챔피언스는 본가랑 다르게 <b>개체값이 아예 없고</b>, 노력치 대신 <b>마리당 최대 66 스탯 포인트(SP)를 스탯 하나에 최대 32까지</b> 자유롭게 배분하는 방식이에요. 그래서 아래 표에 있는 숫자는 '노력치'가 아니라 이 스탯 포인트라는 점만 기억해두시면 됩니다.</p>
+      <table>
+        <tr><th>포켓몬</th><th>지닌 물건</th><th>특성</th><th>성격</th><th>스탯 포인트(SP)</th><th>기술 4개</th></tr>
+        <tr><td class="l">메가라이츄X</td><td>라이츄나이트X</td><td>일렉트릭메이커</td><td>명랑</td><td>HP2·공격32·스피드32</td><td>속이기·볼트태클·볼트체인지·비바라기</td></tr>
+        <tr><td class="l">브리두라스</td><td>먹다남은음식</td><td>지구력</td><td>조심</td><td>HP32·특방26·스피드8</td><td>방어·용의파동·러스터캐논·일렉트로빔</td></tr>
+        <tr><td class="l">패리퍼</td><td>자뭉열매</td><td>잔비</td><td>대담</td><td>HP32·방어4·특방19·스피드11</td><td>웨더볼·순풍·폭풍·와이드가드</td></tr>
+        <tr><td class="l">타부자고</td><td>생명의구슬</td><td>황금몸</td><td>조심</td><td>HP2·특공32·스피드32</td><td>골드러시·나쁜음모·섀도볼·방어</td></tr>
+        <tr><td class="l">그우린차</td><td>마코열매</td><td>대접</td><td>차분</td><td>HP32·방어14·특방20</td><td>생명의물방울·분노가루·휘적휘적포·트릭룸</td></tr>
+        <tr><td class="l">파이어로</td><td>예리한부리</td><td>질풍날개</td><td>명랑</td><td>HP2·공격32·스피드32</td><td>더블윙·도깨비불·순풍·방어</td></tr>
+      </table>
+      <p class="tnote-line">지닌 물건·특성은 메가진화 후 기준이고, 스탯 포인트·기술 구성은 포켓몬 공식 가이드에 실린 배분 그대로예요.</p>
+      <p>참고로 스탯 포인트는 그냥 채운다고 공짜가 아니라, <b>1포인트 찍는 데 VP(재화)가 5씩</b> 들어가는 구조예요. 그래서 한 마리를 66 SP까지 완전히 맥스로 채우려면 최대 <b>330VP</b>가 필요하다는 것도 미리 알아두시면 나중에 재화 계획 세울 때 편해요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 메가라이츄X 훈련 화면 — 스탯 포인트 66 배분 UI — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "노력치처럼 4배수를 안 따져도 되니 배분 자체는 금방 끝나요"</p>
+
+      <p>특히 메가라이츄X는 메가진화하면 특성이 <b>일렉트릭메이커</b>로 바뀌는데요, 등장하자마자 5턴 동안 필드에 일렉트릭필드를 깔아서 자신을 포함한 지면 포켓몬의 전기 기술 위력이 30% 오르고, 그 5턴 동안은 잠듦 상태이상에도 안 걸려요.</p>
+
+      <h3>핵심 콤보는 셋이서 만들어요 — 메가라이츄X·패리퍼·브리두라스</h3>
+      <p><b>메가라이츄X가 메가진화하며 일렉트릭필드를 깔고, 볼트체인지로 브리두라스에게 넘긴 다음, 브리두라스에서 다시 패리퍼로 넘어가면 일렉트릭필드랑 비가 동시에 깔리는 구조</b>가 이 팀의 핵심이에요.</p>
+      <ul>
+        <li>① 메가라이츄X 메가진화 → 등장과 동시에 일렉트릭필드 전개</li>
+        <li>② 볼트체인지로 브리두라스 교체 → 특성 지구력 발동, 방어 1단계 상승</li>
+        <li>③ 브리두라스에서 다시 패리퍼로 교체 → 특성 잔비 발동, 비까지 겹쳐 깔림</li>
+        <li>④ 일렉트릭필드+비가 함께 깔린 판에서 나머지 화력 포켓몬 투입</li>
+      </ul>
+      <p>여기에 속이기로 상대 한 마리 움직임을 한 턴 묶어두면서 이 세팅을 할 시간을 버는 것도 흔한 운영이고요, 와이드가드나 트릭룸 같은 서포트 기술은 상황 봐서 섞으면 응용 폭이 넓어져요.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 일렉트릭필드+비가 동시에 깔린 상태에서 전기 기술로 몰아치는 더블배틀 장면 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "아이콘 두 개가 동시에 떠 있으면 세팅이 제대로 들어간 거예요"</p>
+
+      <h3>운영 노선은 두 가지예요 — 지구전형 vs 속공형</h3>
+      <p>포켓몬 챔피언스 공식 가이드는 이 팀을 <b>브리두라스를 축으로 오래 버티는 지구전형</b>과 <b>파이어로 순풍으로 빠르게 끝내는 속공형</b>, 두 갈래로 굴릴 수 있다고 소개해요.</p>
+      <table>
+        <tr><th>노선</th><th>중심</th><th>방식</th></tr>
+        <tr><td class="l">지구전형</td><td>브리두라스(+메가라이츄X·패리퍼·그우린차 보조)</td><td>지구력으로 방어 쌓으며 버티는 장기전</td></tr>
+        <tr><td class="l">속공형</td><td>파이어로 순풍 → 타부자고·메가라이츄X 선공</td><td>먼저 때려서 빠르게 마무리</td></tr>
+      </table>
+      <p class="tnote-line">두 노선 다 같은 6마리 안에서 굴리는 방식이라, 팀을 두 벌 짤 필요는 없어요.</p>
+      <p>상대가 화력형이면 지구전형으로 버티는 쪽이 안전하고, 반대로 먼저 밀어붙여야 유리한 판이면 파이어로 순풍부터 깔아서 속공형으로 가는 식이에요. 그날 상대를 보고 노선을 고르면 되는 구조라, 미리 외워둘 것도 딱히 없어요. 파이어로가 순풍으로 속도만 보태주는 것도 아니에요 — 공식 가이드는 파이어로를 <b>위습퍼(Whimsicott)를 쓰는 상대 조합을 견제하는 카드</b>로도 따로 짚었거든요. 그러니 상대 팀에 위습퍼가 보이면 파이어로 자리를 더 든든하게 챙겨두시면 됩니다.</p>
+
+      <h3>6마리 한 번에 다 갖추기 부담되면 — 셋만 먼저 챙기세요</h3>
+      <p>여섯 마리를 한꺼번에 다 맞추기 어려우면, <b>메가라이츄X·패리퍼·브리두라스</b> 이 세 마리만 먼저 갖추고 시작해도 돼요.</p>
+      <p>왜냐하면 이 팀의 핵심 콤보인 일렉트릭필드+비 세팅은 이 셋만으로 이미 완성되거든요. 나머지 세 자리는 스카우트나 훈련이 되는 대로, 손에 잡히는 순서대로 채워 넣으면 됩니다. 노가다가 없는 게임이라 나중에 갈아끼우는 부담도 크지 않고요.</p>
+      <table>
+        <tr><th>순서</th><th>포켓몬</th><th>왜</th></tr>
+        <tr><td class="l">1</td><td>타부자고</td><td>셋만으로는 부족한 화력을 채워줘요</td></tr>
+        <tr><td class="l">2</td><td>그우린차</td><td>지구전형으로 갈 때 버티는 힘을 더해줘요</td></tr>
+        <tr><td class="l">3</td><td>파이어로</td><td>속공형으로 굴릴 때 순풍을 깔아줘요</td></tr>
+      </table>
+      <p class="tnote-line">굳이 순서를 매기자면 이런 흐름인데, 손에 먼저 들어오는 포켓몬을 채워도 상관없어요.</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 메가진화, 한 배틀에 몇 번까지 쓸 수 있나요?</b><br>
+      포켓몬 챔피언스는 한 배틀에 딱 한 마리, 한 번만 메가진화할 수 있어요. 이 팀에도 메가스톤을 든 포켓몬이 메가라이츄X 하나뿐인 것도 그래서고요, 여러 마리가 메가스톤을 들고 있어도 실제로 메가진화하는 건 한 판에 한 마리뿐이라는 점은 꼭 기억해두세요.</p>
+      <p><b>Q. 메가라이츄X 말고 메가라이츄Y로 가면 안 되나요?</b><br>
+      메가라이츄Y는 특성이 노가드라 서로의 기술이 무조건 명중하는 대신, 필드를 까는 능력은 없어서 이 조합의 핵심인 일렉트릭필드+비 콤보 자체가 안 나와요. Y는 싱글배틀 쪽 특수 어태커로 강하다는 평가가 많다고 하니, 지금처럼 더블배틀(M-B) 팀을 짤 땐 X 쪽이 이 가이드하고 더 맞아떨어져요.</p>
+
+      <h3>포켓몬 챔피언스 메가라이츄X 팀, 오늘은 이렇게 정리했어요</h3>
+      <p>짧게 추려보면, <b>메가라이츄X·패리퍼·브리두라스</b>가 만드는 일렉트릭필드+비 콤보를 축으로, <b>타부자고·그우린차·파이어로</b>로 화력과 운영 폭을 채우는 6마리 구성이에요. 처음부터 다 갖추기 부담되면 앞의 셋만 먼저 맞춰도 이 팀의 핵심은 이미 굴릴 수 있고요. 다만 메가라이츄가 처음 나온 메가진화라 메타는 아직 정립되는 중이니, 이번 가이드는 '정답'이 아니라 지금 가장 믿을 만한 출발점 정도로 봐주시면 좋겠어요. 나중에 사용률 데이터가 좀 더 쌓이면 다시 한번 짚어볼게요.</p>
+
+      <p><b>✔ 포켓몬 챔피언스 같이 보기 좋은 내용</b><br>
+      🔗 〔내부링크 자리 ①〕 포켓몬 챔피언스 초보 파티 추천 — 메가리자몽Y·갸라도스로 짜는 랭크전 첫 조합<br>
+      🔗 〔내부링크 자리 ②〕 포켓몬 챔피언스 랭크전 첫 주 빠르게 등급 올리기<br>
+      🔗 〔내부링크 자리 ③〕 포켓몬 챔피언스 티어표</p>
+
+      <p><b>참고한 곳</b> (2026.08.02 기준)<br>
+      · <a href="https://www.pokemon.com/us/features/pokemon-champions-how-to-build-a-mega-raichu-x-team" target="_blank">포켓몬 공식 — Mega Raichu X 팀빌드 가이드</a><br>
+      · <a href="https://www.pokemon.com/us/features/pokemon-champions-regulation-m-b-double-battles-overview" target="_blank">포켓몬 공식 — 레귤레이션 M-B 더블배틀 개요</a></p>
+
+      <p class="tags-line">#포켓몬챔피언스 #포켓몬챔피언스메가라이츄X #메가라이츄X #포켓몬챔피언스팀빌드 #포켓몬챔피언스초보 #포켓몬챔피언스MB #포켓몬대전</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
