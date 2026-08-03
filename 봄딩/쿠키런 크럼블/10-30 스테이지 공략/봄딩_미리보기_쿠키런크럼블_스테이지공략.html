@@ -1,0 +1,262 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>쿠키런크럼블 10-30 스테이지 뭔지부터 챕터10~11 막히는 구간 뚫는 법 정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 6px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 4px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tnote{font-size:12px;color:var(--sub);margin:6px 0 24px;text-align:right;}
+  .post ol,.post ul{margin:-6px 0 22px;padding-left:22px;}
+  .post li{font-size:15.5px;line-height:1.85;margin:0 0 9px;word-break:keep-all;}
+  .post a{color:#1a73e8;text-decoration:none;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ol,#copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy a{color:#1a73e8;text-decoration:none;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 4px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;display:block;margin:0 0 16px;text-align:right;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">쿠키런크럼블 10-30 스테이지 뭔지부터 챕터10~11 막히는 구간 뚫는 법 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.08.03</span><span>· 게임</span></div>
+
+    <!-- AI브리핑 타깃 질문: 쿠키런 크럼블 10-30 스테이지가 뭔가요? / 쿠키런 크럼블 어디서 많이 막히나요? / 쿠키런 크럼블 11-10 어떻게 깨나요? -->
+
+    <p>쿠키런: 크럼블 하다가 '10-30'이라고 검색해보신 분 많으시죠? 저도 처음엔 스테이지 10부터 30까지 가는 구간을 말하는 줄 알았는데, 알고 보니 전혀 다른 뜻이더라고요. 그래서 오늘은 이 표기법부터 확실히 짚고, 실제로 많이들 막힌다는 챕터 10~11 구간을 어떻게 넘기는지 정리해볼게요. 저는 아직 그 구간까지는 못 갔는데요, 미리 알아두면 도움 될 것 같아서 공식 발표가 아니라 유저들 사이에 도는 정보를 모아서 준비했어요.</p>
+
+    <h2 class="sub">쿠키런 크럼블 10-30, 정확히 뭘 뜻하는 걸까요</h2>
+    <p>10-30은 스테이지 10부터 30까지 가는 구간이 아니라, <b>챕터 10의 30번째 스테이지</b>를 가리키는 것 같아요. 저도 이걸 콕 집어 설명하는 공식 문장은 못 찾았는데, 10-30·11-10·11-30·16-30처럼 이 진행 벽들이 전부 같은 형식(숫자-숫자)으로 불리는 걸 보면, 아마 앞자리가 챕터, 뒷자리가 그 챕터 안 스테이지인 것 같아요. 그러니까 11-10은 챕터 11의 10번째, 11-30은 챕터 11의 30번째 스테이지인 셈이죠.</p>
+    <p>이 글도 10-30·11-10·11-30·16-30까지 같은 표기법 그대로 따라갈 건데요, '스테이지 10~30 구간 전체'로만 오해하지 않으시면 헷갈릴 일 없어요.</p>
+
+    <!-- 이미지 이유: 표기법 설명 직후, 챕터-스테이지 번호가 실제로 보이는 화면을 바로 확인시켜주는 자리 / 출처: 직접 캡처 필요(B형) / 분류: 스테이지 선택 화면 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 스테이지 선택 화면에서 '10-30' 같은 챕터-스테이지 번호가 보이는 화면</span></div>
+    <div class="shoot">📸 아직 그 구간 전이면 화면은 나중에 도착해서 채워 넣으시면 돼요 — 지금은 참고용으로 <a href="https://cookieruncrumble.com/ko" target="_blank">공식 사이트</a> · <a href="https://play.google.com/store/apps/details?id=com.devsisters.cc&amp;hl=ko" target="_blank">구글 플레이 스토어</a> 스샷을 임시로 넣어두셔도 됩니다. 단, 그 화면(챕터-스테이지 번호·전투 패턴·자동사냥 UI)이 실제로 보이는 스샷인지 확인 후 쓰시고, 아니면 비워두셔도 됩니다.</div>
+    <p class="cap">이렇게 챕터-스테이지 번호로 표기돼요.</p>
+
+    <h2 class="sub">10-30에서 유독 많이 막히는 이유는 뭘까요</h2>
+    <p>10-30이 어려운 이유는 이 시점에 필요한 <b>돌파 수치가 갑자기 확 뛰기 때문</b>이에요. 돌파 35 이상은 미리 맞춰두시는 게 좋은데, 혹시 재화가 부족하면 코인 던전 보상이나 코인 쿠폰으로 채워 넣을 수 있거든요.</p>
+    <p>조합은 <b>마카롱맛과 다크초코</b>를 기본으로 두고, 나머지 자리는 보유하신 쿠키 중 가장 강한 원거리·지원 쿠키들로 채우는 걸 많이들 추천해요. 의외로 <b>악마맛 쿠키</b>가 단일 대상 딜링에서는 GOAT급이라는 얘기도 있으니, 보스처럼 한 놈만 집중해서 때려야 할 때는 챙겨보실 만해요. 조합을 어떤 원칙으로 짜야 하는지는 '쿠키런 크럼블 티어표 직접 매겨봤어요, SSR조합 짜는 법까지 정리' 글에서 포지션·속성·시너지 기준으로 이미 자세히 다뤘으니, 이 글은 막힌 지점 넘기는 데만 집중할게요.</p>
+    <p>실전 요령 하나 더 있는데요, 스테이지 시작하자마자 마카롱 쿠키 치명타 버프를 전부 두른 다음 왼쪽으로 달려서 정해진 자리를 잡고 버티는 식으로 움직이면 넉백을 꽤 줄일 수 있대요. 넉백당할 때 사방으로 흩어지는 대신 위아래로 일자로만 퍼지게 만들어서, 밀려나면서도 계속 딜을 넣을 수 있는 구조라고 하네요.</p>
+    <p>10-30 근처에서 자꾸 막히신다면 새 쿠키를 계속 늘리기보다, 지금 쓰는 조합부터 확실히 키워두시는 게 먼저인 것 같아요.</p>
+
+    <!-- 이미지 이유: 돌파·조합 설명 직후, 실제 10-30 전투 화면으로 체감 난이도를 보여주는 자리 / 출처: 직접 캡처 필요(B형) / 분류: 전투 화면 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 10-30 전투 화면 또는 돌파 강화 메뉴</span></div>
+    <div class="shoot">📸 아직 그 구간 전이면 화면은 나중에 도착해서 채워 넣으시면 돼요 — 지금은 참고용으로 <a href="https://cookieruncrumble.com/ko" target="_blank">공식 사이트</a> · <a href="https://play.google.com/store/apps/details?id=com.devsisters.cc&amp;hl=ko" target="_blank">구글 플레이 스토어</a> 스샷을 임시로 넣어두셔도 됩니다. 단, 그 화면(챕터-스테이지 번호·전투 패턴·자동사냥 UI)이 실제로 보이는 스샷인지 확인 후 쓰시고, 아니면 비워두셔도 됩니다.</div>
+    <p class="cap">돌파 재화가 부족하면 코인 던전이나 코인 쿠폰으로 채우는 방법도 있어요.</p>
+
+    <h2 class="sub">11-10이 유독 까다로운 이유</h2>
+    <p>11-10이 어려운 이유는 <b>적 3마리가 바이크를 타고 사방으로 흩어져 도망치는 패턴</b> 때문이에요. 한자리에 뭉쳐서 싸워주지 않고 흩어져버리니까, 화력을 몰아붙이기가 애매해지는 거죠.</p>
+    <p>이건 조합보다는 <b>타이밍</b> 문제에 가깝다고 하네요. 22초, 17초쯤 되는 타이밍에 살짝 왼쪽으로 무빙을 쳐주면서 적들을 붙여주면, 그렇게 심하게 흩어지지 않는다는 요령이 있거든요. 처음부터 무리해서 쫓아다니기보다는, 이 타이밍 두 번만 미리 기억해뒀다가 살짝 방향을 틀어주는 걸로 연습해보시는 게 나을 것 같아요.</p>
+
+    <!-- 이미지 이유: 바이크 도주 패턴 설명 직후, 실제 전투 장면으로 이해를 돕는 자리 / 출처: 직접 캡처 필요(B형) / 분류: 전투 화면 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 11-10에서 적 3마리가 바이크를 타고 흩어지는 전투 장면</span></div>
+    <div class="shoot">📸 아직 그 구간 전이면 화면은 나중에 도착해서 채워 넣으시면 돼요 — 지금은 참고용으로 <a href="https://cookieruncrumble.com/ko" target="_blank">공식 사이트</a> · <a href="https://play.google.com/store/apps/details?id=com.devsisters.cc&amp;hl=ko" target="_blank">구글 플레이 스토어</a> 스샷을 임시로 넣어두셔도 됩니다. 단, 그 화면(챕터-스테이지 번호·전투 패턴·자동사냥 UI)이 실제로 보이는 스샷인지 확인 후 쓰시고, 아니면 비워두셔도 됩니다.</div>
+    <p class="cap">적들이 흩어지기 전에 타이밍 잘 맞춰 붙여주는 게 이 스테이지의 핵심이에요.</p>
+
+    <h2 class="sub">11-30은 그럼 얼마나 수월할까요</h2>
+    <p>11-30은 앞선 두 스테이지보다는 확실히 수월한 편이에요. 의외로 그냥 따라가는 무빙만 쳐줘도 무난하게 넘어가더라고요.</p>
+
+    <h2 class="sub">이 구간만 넘기면 그다음은 편해지나요</h2>
+    <p>11-30까지 넘기고 나면, <b>자동사냥만으로 1시간 정도면 16-30 직전까지는 쭉 밀린다</b>고 해요. 다만 <b>16-30 자체는 무빙을 조금 쳐줘야 수월하게 넘어간다</b>는 얘기가 있으니, '여기부터는 완전 방치'라고 오해하진 않으시는 게 좋을 것 같아요. 그러니까 10-30과 11-10, 이 두 스테이지만 넘기면 그다음부터는 진행이 훨씬 편해진다고 보시면 되고, 16-30에서만 살짝 손이 더 가는 정도예요.</p>
+
+    <!-- 이미지 이유: 자동사냥 안도 포인트 설명 직후, 이후 구간의 편안한 진행을 보여주는 자리 / 출처: 직접 캡처 필요(B형) / 분류: 자동사냥 화면 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 16-30 부근 자동사냥 진행 화면</span></div>
+    <div class="shoot">📸 아직 그 구간 전이면 화면은 나중에 도착해서 채워 넣으시면 돼요 — 지금은 참고용으로 <a href="https://cookieruncrumble.com/ko" target="_blank">공식 사이트</a> · <a href="https://play.google.com/store/apps/details?id=com.devsisters.cc&amp;hl=ko" target="_blank">구글 플레이 스토어</a> 스샷을 임시로 넣어두셔도 됩니다. 단, 그 화면(챕터-스테이지 번호·전투 패턴·자동사냥 UI)이 실제로 보이는 스샷인지 확인 후 쓰시고, 아니면 비워두셔도 됩니다.</div>
+    <p class="cap">16-30 직전까지는 자동사냥으로, 16-30 자체는 무빙을 살짝 더해서 넘기시면 돼요.</p>
+
+    <table class="tbl">
+      <tr><th>스테이지</th><th>막히는 포인트</th><th>넘기는 법</th></tr>
+      <tr><td>10-30</td><td>돌파 수치 요구가 갑자기 상승</td><td>돌파 35 이상 + 마카롱맛·다크초코 조합</td></tr>
+      <tr><td>11-10</td><td>적 3마리가 바이크로 흩어져 도망</td><td>22초·17초쯤 살짝 왼쪽 무빙으로 뭉치기</td></tr>
+      <tr><td>11-30</td><td>앞 두 스테이지보다 수월</td><td>그냥 따라가는 무빙</td></tr>
+      <tr><td>11-30~16-30 직전</td><td>(참고) 자동사냥 방치 구간</td><td>자동사냥으로 약 1시간</td></tr>
+      <tr><td>16-30</td><td>자동사냥만으론 애매함</td><td>무빙을 조금 더 쳐주기</td></tr>
+    </table>
+    <p class="tnote">2026.08 확인 기준으로 정리했어요.</p>
+
+    <h2 class="sub">스테이지 상관없이 두루 좋다는 쿠키들도 있답니다</h2>
+    <p>여기까진 특정 스테이지 얘기였고, 이번엔 챕터 상관없이 계속 잘 써먹을 수 있다는 쿠키들을 짧게 정리해볼게요.</p>
+    <ul>
+      <li><b>다크초코 쿠키</b> — 탱커인데 스킬로 상대 방어력까지 깎아준다고 해요.</li>
+      <li><b>우유맛 쿠키</b> — 원형 범위로 공격력 버프를 걸어주는 지원형이에요.</li>
+      <li><b>석류맛 쿠키</b> — 확정으로 들어가는 공격력 버프를 갖고 있어요.</li>
+      <li><b>라임맛 쿠키</b> — 원형 범위 치명타 버프를 주는데, 마카롱 쿠키 버프에 묻히기 쉬운 편이라고 하네요.</li>
+      <li><b>전갈맛 쿠키</b> — 무기에 독 지속딜을 걸어서 보스전에서 비벼볼 만해요.</li>
+      <li><b>밀웨 쿠키</b> — 픽업 쿠키라 무과금으로도 5성 만들기가 쉬운 편이고, 잡몹 정리용으로 잘 먹힌다고 해요.</li>
+    </ul>
+    <p>10-30 구간에서 언급한 <b>악마맛 쿠키</b>까지 포함하면, 단일 대상 딜러 하나는 확보해두는 셈이라 보스전 대비로도 나쁘지 않을 것 같아요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 공식 사이트에 10-30이나 11-10 같은 스테이지별 공략이 따로 있나요?</b><br>쿠키런: 크럼블 공식 사이트(cookieruncrumble.com/ko)를 직접 들어가봤는데, 스테이지별 세부 공략 문서는 따로 없더라고요. 대신 스테이지 선택 화면이나 이벤트 공지 정도만 확인할 수 있었어요.</p>
+    <p><b>Q. 돌파는 정확히 어디서, 뭘로 올리나요?</b><br>정확한 전용 재화명까지는 저도 다 확인 못 했지만, 돌파 수치가 부족할 때는 코인 던전 보상이나 코인 쿠폰으로도 채워 넣을 수 있는 걸로 보여요. 자세한 내용은 위 10-30 항목에서 같이 봐주세요.</p>
+    <p><b>Q. 10-30, 11-10 말고 그 뒤에도 비슷하게 막히는 구간이 있나요?</b><br>이번 글에서 다룬 진행 벽은 10-30과 11-10, 두 곳이에요. 11-30과 16-30까지는 위에서 정리해드린 것처럼 비교적 수월하게 넘어가는 구간이고, 그 이후 구간은 다음에 직접 도착하면 이어서 정리해드릴게요.</p>
+
+    <h2 class="sub">쿠키런 크럼블 10-30~11-30 정리</h2>
+    <p>고비는 결국 이 두 스테이지인데요, 10-30에서는 돌파 수치랑 조합을 챙기고, 11-10에서는 타이밍 맞춰 살짝 무빙쳐서 적을 뭉치게만 해주면, 11-30부터는 눈에 띄게 수월해져요. 저도 아직 그 구간까지는 못 가봤는데, 도착하는 대로 직접 겪은 후기로 다시 정리해볼게요. 미리 알아두시고 수월하게 넘기시길 바라요.</p>
+
+    <p><b>✔ 쿠키런 크럼블 같이 보기 좋은 내용</b><br>
+    · 쿠키런 크럼블 티어표 직접 매겨봤어요, SSR조합 짜는 법까지 정리 (발행 시 링크 연결)<br>
+    · 쿠키런 크럼블 등급표 총정리! 초반엔 뭐부터 키워야 할까 (발행 시 링크 연결)<br>
+    · 쿠키런 크럼블 사전예약 시작! 방치형 쿠키런 키우기 첫인상 정리 (발행 시 링크 연결)<br>
+    · 쿠키런 크럼블 7월 30일 출시 확정! 사전등록 180만 보상 총정리 (발행 시 링크 연결)</p>
+    <!-- 내부링크: 위 4개 글 네이버 post ID 확인 후 <a href="https://blog.naver.com/bomding/{POST_ID}"> 연결 -->
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://cookieruncrumble.com/ko" target="_blank">쿠키런: 크럼블 공식 사이트</a></p>
+
+    <div class="tags">#쿠키런크럼블 #쿠키런크럼블10-30 #쿠키런크럼블스테이지공략 #쿠키런크럼블챕터11 #쿠키런크럼블공략 #방치형쿠키RPG</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 직접 그 스테이지에서 캡처하거나 안내된 화면을 참고해 촬영 후 업로드하세요.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 3분):</b> 📷 <b>사진 4곳</b> 직접 촬영·업로드 + 내부링크 4곳 post ID 연결. 나머지 본문·볼드·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 쿠키런크럼블 10-30 스테이지 뭔지부터 챕터10~11 막히는 구간 뚫는 법 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>쿠키런: 크럼블 하다가 '10-30'이라고 검색해보신 분 많으시죠? 저도 처음엔 스테이지 10부터 30까지 가는 구간을 말하는 줄 알았는데, 알고 보니 전혀 다른 뜻이더라고요. 그래서 오늘은 이 표기법부터 확실히 짚고, 실제로 많이들 막힌다는 챕터 10~11 구간을 어떻게 넘기는지 정리해볼게요. 저는 아직 그 구간까지는 못 갔는데요, 미리 알아두면 도움 될 것 같아서 공식 발표가 아니라 유저들 사이에 도는 정보를 모아서 준비했어요.</p>
+      <h3>쿠키런 크럼블 10-30, 정확히 뭘 뜻하는 걸까요</h3>
+      <p>10-30은 스테이지 10부터 30까지 가는 구간이 아니라, <b>챕터 10의 30번째 스테이지</b>를 가리키는 것 같아요. 저도 이걸 콕 집어 설명하는 공식 문장은 못 찾았는데, 10-30·11-10·11-30·16-30처럼 이 진행 벽들이 전부 같은 형식(숫자-숫자)으로 불리는 걸 보면, 아마 앞자리가 챕터, 뒷자리가 그 챕터 안 스테이지인 것 같아요. 그러니까 11-10은 챕터 11의 10번째, 11-30은 챕터 11의 30번째 스테이지인 셈이죠.</p>
+      <p>이 글도 10-30·11-10·11-30·16-30까지 같은 표기법 그대로 따라갈 건데요, '스테이지 10~30 구간 전체'로만 오해하지 않으시면 헷갈릴 일 없어요.</p>
+      <p class="ph">📷 〔사진 자리 1〕 스테이지 선택 화면에서 '10-30' 같은 챕터-스테이지 번호가 보이는 화면 — 아직 그 구간 전이면 나중에 도착해서 채워 넣으세요(지금은 공식 사이트·스토어 스샷으로 임시 대체 가능, 단 그 화면이 실제로 보이는지 확인 후 사용)<br>└ 캡션 추천: "이렇게 챕터-스테이지 번호로 표기돼요"</p>
+      <h3>10-30에서 유독 많이 막히는 이유는 뭘까요</h3>
+      <p>10-30이 어려운 이유는 이 시점에 필요한 <b>돌파 수치가 갑자기 확 뛰기 때문</b>이에요. 돌파 35 이상은 미리 맞춰두시는 게 좋은데, 혹시 재화가 부족하면 코인 던전 보상이나 코인 쿠폰으로 채워 넣을 수 있거든요.</p>
+      <p>조합은 <b>마카롱맛과 다크초코</b>를 기본으로 두고, 나머지 자리는 보유하신 쿠키 중 가장 강한 원거리·지원 쿠키들로 채우는 걸 많이들 추천해요. 의외로 <b>악마맛 쿠키</b>가 단일 대상 딜링에서는 GOAT급이라는 얘기도 있으니, 보스처럼 한 놈만 집중해서 때려야 할 때는 챙겨보실 만해요. 조합을 어떤 원칙으로 짜야 하는지는 '쿠키런 크럼블 티어표 직접 매겨봤어요, SSR조합 짜는 법까지 정리' 글에서 포지션·속성·시너지 기준으로 이미 자세히 다뤘으니, 이 글은 막힌 지점 넘기는 데만 집중할게요.</p>
+      <p>실전 요령 하나 더 있는데요, 스테이지 시작하자마자 마카롱 쿠키 치명타 버프를 전부 두른 다음 왼쪽으로 달려서 정해진 자리를 잡고 버티는 식으로 움직이면 넉백을 꽤 줄일 수 있대요. 넉백당할 때 사방으로 흩어지는 대신 위아래로 일자로만 퍼지게 만들어서, 밀려나면서도 계속 딜을 넣을 수 있는 구조라고 하네요.</p>
+      <p>10-30 근처에서 자꾸 막히신다면 새 쿠키를 계속 늘리기보다, 지금 쓰는 조합부터 확실히 키워두시는 게 먼저인 것 같아요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 10-30 전투 화면 또는 돌파 강화 메뉴 — 아직 그 구간 전이면 나중에 도착해서 채워 넣으세요(지금은 공식 사이트·스토어 스샷으로 임시 대체 가능, 단 그 화면이 실제로 보이는지 확인 후 사용)<br>└ 캡션 추천: "돌파 재화가 부족하면 코인 던전이나 코인 쿠폰으로 채우는 방법도 있어요"</p>
+      <h3>11-10이 유독 까다로운 이유</h3>
+      <p>11-10이 어려운 이유는 <b>적 3마리가 바이크를 타고 사방으로 흩어져 도망치는 패턴</b> 때문이에요. 한자리에 뭉쳐서 싸워주지 않고 흩어져버리니까, 화력을 몰아붙이기가 애매해지는 거죠.</p>
+      <p>이건 조합보다는 <b>타이밍</b> 문제에 가깝다고 하네요. 22초, 17초쯤 되는 타이밍에 살짝 왼쪽으로 무빙을 쳐주면서 적들을 붙여주면, 그렇게 심하게 흩어지지 않는다는 요령이 있거든요. 처음부터 무리해서 쫓아다니기보다는, 이 타이밍 두 번만 미리 기억해뒀다가 살짝 방향을 틀어주는 걸로 연습해보시는 게 나을 것 같아요.</p>
+      <p class="ph">📷 〔사진 자리 3〕 11-10에서 적 3마리가 바이크를 타고 흩어지는 전투 장면 — 아직 그 구간 전이면 나중에 도착해서 채워 넣으세요(지금은 공식 사이트·스토어 스샷으로 임시 대체 가능, 단 그 화면이 실제로 보이는지 확인 후 사용)<br>└ 캡션 추천: "적들이 흩어지기 전에 타이밍 잘 맞춰 붙여주는 게 이 스테이지의 핵심이에요"</p>
+      <h3>11-30은 그럼 얼마나 수월할까요</h3>
+      <p>11-30은 앞선 두 스테이지보다는 확실히 수월한 편이에요. 의외로 그냥 따라가는 무빙만 쳐줘도 무난하게 넘어가더라고요.</p>
+      <h3>이 구간만 넘기면 그다음은 편해지나요</h3>
+      <p>11-30까지 넘기고 나면, <b>자동사냥만으로 1시간 정도면 16-30 직전까지는 쭉 밀린다</b>고 해요. 다만 <b>16-30 자체는 무빙을 조금 쳐줘야 수월하게 넘어간다</b>는 얘기가 있으니, '여기부터는 완전 방치'라고 오해하진 않으시는 게 좋을 것 같아요. 그러니까 10-30과 11-10, 이 두 스테이지만 넘기면 그다음부터는 진행이 훨씬 편해진다고 보시면 되고, 16-30에서만 살짝 손이 더 가는 정도예요.</p>
+      <p class="ph">📷 〔사진 자리 4〕 16-30 부근 자동사냥 진행 화면 — 아직 그 구간 전이면 나중에 도착해서 채워 넣으세요(지금은 공식 사이트·스토어 스샷으로 임시 대체 가능, 단 그 화면이 실제로 보이는지 확인 후 사용)<br>└ 캡션 추천: "16-30 직전까지는 자동사냥으로, 16-30 자체는 무빙을 살짝 더해서 넘기시면 돼요"</p>
+      <table>
+        <tr><th>스테이지</th><th>막히는 포인트</th><th>넘기는 법</th></tr>
+        <tr><td>10-30</td><td>돌파 수치 요구가 갑자기 상승</td><td>돌파 35 이상 + 마카롱맛·다크초코 조합</td></tr>
+        <tr><td>11-10</td><td>적 3마리가 바이크로 흩어져 도망</td><td>22초·17초쯤 살짝 왼쪽 무빙으로 뭉치기</td></tr>
+        <tr><td>11-30</td><td>앞 두 스테이지보다 수월</td><td>그냥 따라가는 무빙</td></tr>
+        <tr><td>11-30~16-30 직전</td><td>(참고) 자동사냥 방치 구간</td><td>자동사냥으로 약 1시간</td></tr>
+        <tr><td>16-30</td><td>자동사냥만으론 애매함</td><td>무빙을 조금 더 쳐주기</td></tr>
+      </table>
+      <p class="tnote-line">2026.08 확인 기준으로 정리했어요.</p>
+      <h3>스테이지 상관없이 두루 좋다는 쿠키들도 있답니다</h3>
+      <p>여기까진 특정 스테이지 얘기였고, 이번엔 챕터 상관없이 계속 잘 써먹을 수 있다는 쿠키들을 짧게 정리해볼게요.</p>
+      <ul>
+        <li><b>다크초코 쿠키</b> — 탱커인데 스킬로 상대 방어력까지 깎아준다고 해요.</li>
+        <li><b>우유맛 쿠키</b> — 원형 범위로 공격력 버프를 걸어주는 지원형이에요.</li>
+        <li><b>석류맛 쿠키</b> — 확정으로 들어가는 공격력 버프를 갖고 있어요.</li>
+        <li><b>라임맛 쿠키</b> — 원형 범위 치명타 버프를 주는데, 마카롱 쿠키 버프에 묻히기 쉬운 편이라고 하네요.</li>
+        <li><b>전갈맛 쿠키</b> — 무기에 독 지속딜을 걸어서 보스전에서 비벼볼 만해요.</li>
+        <li><b>밀웨 쿠키</b> — 픽업 쿠키라 무과금으로도 5성 만들기가 쉬운 편이고, 잡몹 정리용으로 잘 먹힌다고 해요.</li>
+      </ul>
+      <p>10-30 구간에서 언급한 <b>악마맛 쿠키</b>까지 포함하면, 단일 대상 딜러 하나는 확보해두는 셈이라 보스전 대비로도 나쁘지 않을 것 같아요.</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 공식 사이트에 10-30이나 11-10 같은 스테이지별 공략이 따로 있나요?</b><br>쿠키런: 크럼블 공식 사이트(cookieruncrumble.com/ko)를 직접 들어가봤는데, 스테이지별 세부 공략 문서는 따로 없더라고요. 대신 스테이지 선택 화면이나 이벤트 공지 정도만 확인할 수 있었어요.</p>
+      <p><b>Q. 돌파는 정확히 어디서, 뭘로 올리나요?</b><br>정확한 전용 재화명까지는 저도 다 확인 못 했지만, 돌파 수치가 부족할 때는 코인 던전 보상이나 코인 쿠폰으로도 채워 넣을 수 있는 걸로 보여요. 자세한 내용은 위 10-30 항목에서 같이 봐주세요.</p>
+      <p><b>Q. 10-30, 11-10 말고 그 뒤에도 비슷하게 막히는 구간이 있나요?</b><br>이번 글에서 다룬 진행 벽은 10-30과 11-10, 두 곳이에요. 11-30과 16-30까지는 위에서 정리해드린 것처럼 비교적 수월하게 넘어가는 구간이고, 그 이후 구간은 다음에 직접 도착하면 이어서 정리해드릴게요.</p>
+      <h3>쿠키런 크럼블 10-30~11-30 정리</h3>
+      <p>고비는 결국 이 두 스테이지인데요, 10-30에서는 돌파 수치랑 조합을 챙기고, 11-10에서는 타이밍 맞춰 살짝 무빙쳐서 적을 뭉치게만 해주면, 11-30부터는 눈에 띄게 수월해져요. 저도 아직 그 구간까지는 못 가봤는데, 도착하는 대로 직접 겪은 후기로 다시 정리해볼게요. 미리 알아두시고 수월하게 넘기시길 바라요.</p>
+      <p><b>✔ 쿠키런 크럼블 같이 보기 좋은 내용</b><br>
+      <span class="ph">〔쿠키런 크럼블 티어표 직접 매겨봤어요, SSR조합 짜는 법까지 정리 — 링크 연결〕</span><br>
+      <span class="ph">〔쿠키런 크럼블 등급표 총정리! 초반엔 뭐부터 키워야 할까 — 링크 연결〕</span><br>
+      <span class="ph">〔쿠키런 크럼블 사전예약 시작! 방치형 쿠키런 키우기 첫인상 정리 — 링크 연결〕</span><br>
+      <span class="ph">〔쿠키런 크럼블 7월 30일 출시 확정! 사전등록 180만 보상 총정리 — 링크 연결〕</span></p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://cookieruncrumble.com/ko" target="_blank">쿠키런: 크럼블 공식 사이트</a></p>
+      <p class="tags-line">#쿠키런크럼블 #쿠키런크럼블10-30 #쿠키런크럼블스테이지공략 #쿠키런크럼블챕터11 #쿠키런크럼블공략 #방치형쿠키RPG</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
