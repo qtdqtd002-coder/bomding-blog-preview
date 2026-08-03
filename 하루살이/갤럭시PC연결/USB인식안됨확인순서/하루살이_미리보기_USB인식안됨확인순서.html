@@ -1,0 +1,324 @@
+<!-- AEO 타깃 질문: ①갤럭시 USB 인식이 안 될 때 뭐부터 확인하나요? ②장치관리자에서 뭘 봐야 하나요? ③그래도 안 되면 어디로 문의하나요? / 인용 후크: (a) 삼성전자서비스 공식 문서의 원인 2가지를 그대로 정리 (b) 장치관리자 SAMSUNG Mobile USB 확인 절차 번호 리스트화 (c) Windows Media Player 재구성 절차 표 / 출처: samsungsvc.co.kr/solution/40302(등록일 2022-05-28) — Windows 7·8·10 기준 문서, Windows 11 언급 없음(범위 밖 단정 금지) -->
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>갤럭시 PC USB 인식 안 될 때 확인 순서</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tnote{color:var(--sub);font-size:12.5px;margin:-14px 0 22px;line-height:1.6;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}  /* 네이버 빈 문단(개행) */
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">IT 팁·활용법 · 하우투·팁</div>
+    <h1 class="title">갤럭시 PC USB 인식 안 될 때 확인 순서</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.08.03</span><span>· IT</span></div>
+
+    <p>케이블을 꽂았는데 PC가 휴대폰을 못 알아보면 답답하죠. 스마트 스위치를 켜기도 전에 갤럭시 USB 인식 자체가 안 되는 상황이라면, 원인을 하나씩 짚어보는 게 먼저예요.</p>
+    <p>이번 글은 삼성전자서비스 공식 문서를 기준으로, PC에서 갤럭시가 인식되지 않을 때 확인할 순서를 정리했어요.</p>
+    <p>확인 대상은 소프트웨어 설치 여부부터 케이블·포트까지예요. 하나씩 짚어가다 보면 원인이 어디에 있는지 좁혀질 거예요.</p>
+
+    <h2 class="sub">왜 갑자기 인식이 안 될까요</h2>
+    <p>삼성전자서비스 공식 문서는 원인을 크게 두 가지로 나눠요. 하나는 PC 쪽 문제고, 다른 하나는 휴대폰 쪽 문제예요.</p>
+    <p>PC 쪽 원인은 Windows Media Player나 스마트 스위치가 설치돼 있지 않거나, PC의 USB 단자 자체에 이상이 있을 때 나타나요. 휴대폰 쪽 원인은 휴대폰 연결 단자나 USB 케이블이 상해 있을 때 나타나요.</p>
+    <table class="tbl">
+      <tr><th>원인 구분</th><th>해당 상황</th></tr>
+      <tr><td>PC 쪽 원인</td><td>Windows Media Player·스마트 스위치 미설치, PC USB 단자 이상</td></tr>
+      <tr><td>휴대폰 쪽 원인</td><td>휴대폰 연결 단자·USB 케이블 이상</td></tr>
+    </table>
+    <p class="tnote">삼성전자서비스 공식 문서(등록일 2022-05-28)가 안내하는 두 가지 원인이에요.</p>
+    <p>지금부터는 삼성전자서비스가 공식 문서에서 안내하는 순서 그대로, PC 쪽 확인부터 짚어볼게요.</p>
+
+    <h2 class="sub">스마트 스위치부터 설치돼 있는지 확인해요</h2>
+    <p>가장 먼저 스마트 스위치가 PC에 설치돼 있는지부터 확인해요. 삼성전자서비스 홈페이지(samsungsvc.co.kr)에 접속해서 서비스 안내 → 다운로드 자료실 → 휴대폰/기어 메뉴로 들어가면 스마트 스위치를 내려받을 수 있어요.</p>
+    <ol>
+      <li>삼성전자서비스 홈페이지에 접속해 서비스 안내 → 다운로드 자료실로 들어갑니다.</li>
+      <li>휴대폰/기어 항목에서 스마트 스위치를 찾습니다.</li>
+      <li>PC(Windows) 또는 PC(Mac) 중 쓰는 PC에 맞는 버전을 내려받습니다.</li>
+      <li>내려받은 설치 파일을 실행합니다.</li>
+      <li>약관에 동의를 선택하고 확인을 누릅니다.</li>
+      <li>설치가 끝나면 완료를 누릅니다.</li>
+      <li>USB 케이블로 휴대폰을 PC에 연결해 봅니다.</li>
+    </ol>
+    <p>이렇게 스마트 스위치를 정상 설치한 뒤에도 인식이 안 되면, 삼성전자서비스는 원격 확인이 필요한 상황으로 안내해요.</p>
+    <p>스마트 스위치 말고도 PC와 연결하려면 Windows Media Player 11 버전 이상이 설치돼 있어야 해요. 11 미만이거나 아예 설치돼 있지 않다면, 설치부터 하고 다시 연결해야 해요.</p>
+    <p class="tnote">이 확인 절차는 Windows 7·8·10 운영체제를 기준으로 한 삼성전자서비스 공식 문서(등록일 2022-05-28)의 안내예요. 이 문서는 Windows 11에 대해서는 따로 언급하지 않았어요. Windows 7·8·10은 기본적으로 Windows Media Player 11 이상이 설치돼 있지만, 일부 KN 버전처럼 설치가 안 된 PC도 있어요. 이럴 땐 PC 제조사를 통해 설치해야 해요.</p>
+
+    <h2 class="sub">장치관리자에서 SAMSUNG Mobile USB 확인하기</h2>
+    <p>USB로 정상 연결되면 장치관리자에서 SAMSUNG Mobile USB를 확인할 수 있어요. 휴대폰이 PC에 MTP로 인식되는 상태라면 내 PC(또는 컴퓨터) 속성의 장치관리자에서 이 기기가 잡혀 있어야 해요.</p>
+    <table class="tbl">
+      <tr><th>확인 위치</th><th>확인 대상</th></tr>
+      <tr><td>모뎀</td><td>SAMSUNG Mobile USB 관련 항목</td></tr>
+      <tr><td>범용 직렬 버스 컨트롤러</td><td>SAMSUNG Mobile USB 관련 항목</td></tr>
+      <tr><td>휴대용 장치</td><td>연결된 휴대폰 항목</td></tr>
+    </table>
+    <p class="tnote">삼성전자서비스 공식 문서 기준, 장치관리자에서 연결이 확인되는 세 위치예요.</p>
+    <p>장치관리자는 이렇게 열면 돼요.</p>
+    <ol>
+      <li>윈도우 검색창을 누릅니다.</li>
+      <li>"장치관리"라고 입력합니다.</li>
+      <li>검색 결과에서 장치관리자를 엽니다.</li>
+      <li>모뎀과 범용 직렬 버스 컨트롤러 항목에서 SAMSUNG Mobile USB 설치 상태를 확인합니다.</li>
+    </ol>
+
+    <h2 class="sub">다른 USB 포트도 시도해 보세요</h2>
+    <p>SAMSUNG Mobile USB가 장치관리자에서 확인되지 않으면 PC의 USB 단자 자체에 문제가 있을 수 있어요. 다른 포트로 바꿔 연결해 보는 게 다음 순서예요.</p>
+    <p>데스크탑이라면 본체 앞쪽 단자나 USB 허브 대신, 본체 뒤쪽 단자에 케이블을 직접 꽂아 확인해 보는 게 좋아요. 앞쪽 단자나 허브를 거치면 인식률이 떨어질 수 있다고 삼성전자서비스는 안내해요.</p>
+    <div class="shoot">포트를 바꿔도 안 된다면 케이블 교체·드라이버 재설치까지 짚어봐야 해요. 관련 절차는 <a href="../../갤럭시스마트스위치/기기변경데이터이전방법/하루살이_미리보기_스마트스위치데이터이전방법.html" target="_blank">갤럭시 스마트 스위치로 데이터 옮기는 법</a> 글에서 확인해 보세요.</div>
+
+    <h2 class="sub">Windows Media Player 재구성하기</h2>
+    <p>휴대용 장치 표시가 정상적으로 뜨지 않으면 Windows Media Player를 재구성해야 해요. 재구성은 Windows 7·8·10 기준으로 안내되는 절차예요.</p>
+    <p>재구성은 프로그램을 지웠다가 다시 설치하는 것과 같은 효과를 내는 작업이에요. 반드시 재부팅까지 거쳐야 해요.</p>
+    <ol>
+      <li>작업표시줄 검색창에 "Windows 기능 켜기/끄기"를 입력해 엽니다.</li>
+      <li>미디어 기능 항목에서 Windows Media Player 체크를 해제합니다.</li>
+      <li>예를 선택하고 반드시 PC를 재부팅합니다.</li>
+      <li>재부팅 후 다시 "Windows 기능 켜기/끄기"를 입력해 엽니다.</li>
+      <li>Windows Media Player 항목을 다시 체크하고 확인을 누릅니다.</li>
+    </ol>
+
+    <h2 class="sub">그래도 안 되면 이렇게 확인해요</h2>
+    <p>통합 USB 드라이버·Windows Media Player 설치·포트 변경까지 다 해봤는데도 안 되면, 증상에 따라 문의할 곳이 갈려요.</p>
+    <table class="tbl">
+      <tr><th>증상</th><th>문의할 곳</th></tr>
+      <tr><td>다른 PC에서도 계속 인식이 안 됨</td><td>휴대폰 단자·USB 케이블 이상 가능성 — 서비스센터</td></tr>
+      <tr><td>이 PC에서만 인식이 안 됨</td><td>Windows 내부 충돌 가능성 — PC 제조사</td></tr>
+    </table>
+    <p class="tnote">삼성전자서비스 공식 문서 기준 안내예요.</p>
+    <p>다른 PC에서도 인식이 안 된다면 휴대폰 단자나 케이블 자체에 이상이 있을 수 있어서 서비스센터 점검이 필요해요. 반대로 이 PC에서만 계속 인식이 안 된다면 Windows 내부 충돌일 수 있어서 PC 제조사에 문의하는 편이 나아요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 휴대폰만 새 걸로 바꾸면 바로 인식되나요?</b><br>원인이 케이블이나 PC 포트 쪽에 있었다면 휴대폰을 바꿔도 같은 증상이 그대로 나타날 수 있어요. 원인이 휴대폰 단자 쪽에 있었을 때만 새 휴대폰에서 해결될 가능성이 있어요. 삼성전자서비스 문서는 이 구분을 따로 다루지 않으니, 위 확인 순서를 그대로 따라가는 편이 정확해요.</p>
+    <p><b>Q. 케이블 문제인지 PC 문제인지 어떻게 구분하나요?</b><br>다른 케이블로 바꿨을 때 인식되면 케이블 쪽 문제였다고 볼 수 있고, 다른 PC나 다른 포트에서 인식되면 원래 PC의 포트 쪽 문제였다고 볼 수 있어요. 두 방법을 모두 시도했는데도 안 된다면, 삼성전자서비스 문서는 서비스센터 점검을 안내해요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.samsungsvc.co.kr/solution/40302" target="_blank">삼성전자서비스 — [삼성 스마트폰] USB 케이블을 연결해도 인식이 안 돼요.</a></p>
+
+    <p><b>하루 정리</b><br>
+    · 원인은 크게 PC 쪽(소프트웨어 미설치·USB 단자)과 휴대폰 쪽(단자·케이블) 두 가지예요.<br>
+    · 스마트 스위치 설치, Windows Media Player 11 이상 설치를 먼저 확인해요.<br>
+    · 장치관리자에서 SAMSUNG Mobile USB가 잡히는지 확인해요.<br>
+    · 다른 PC에서도 안 잡히면 휴대폰·케이블 쪽을, 이 PC에서만 안 잡히면 PC 쪽을 먼저 의심해 보세요.</p>
+
+    <div class="tags">#갤럭시USB인식안됨 #갤럭시PC연결 #USB인식안됨 #장치관리자확인 #SAMSUNGMobileUSB #삼성전자서비스 #스마트스위치설치</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> 이번 글은 확보된 스크린샷이 없어서 사진 자리는 따로 없어요 — 표·목록만 채워 넣으면 돼요.<br>
+      <b>4.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — <b>'갤럭시 스마트 스위치로 데이터 옮기는 법'</b> 글 제목에는 네이버에서 해당 글 주소로 하이퍼링크를 직접 걸어주세요.<br>
+      <b>5.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>6.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 1분):</b> 🔗 <b>'스마트 스위치로 데이터 옮기는 법' 글 하이퍼링크</b> 연결. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 갤럭시 PC USB 인식 안 될 때 확인 순서</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>케이블을 꽂았는데 PC가 휴대폰을 못 알아보면 답답하죠. 스마트 스위치를 켜기도 전에 갤럭시 USB 인식 자체가 안 되는 상황이라면, 원인을 하나씩 짚어보는 게 먼저예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>이번 글은 삼성전자서비스 공식 문서를 기준으로, PC에서 갤럭시가 인식되지 않을 때 확인할 순서를 정리했어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>확인 대상은 소프트웨어 설치 여부부터 케이블·포트까지예요. 하나씩 짚어가다 보면 원인이 어디에 있는지 좁혀질 거예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>왜 갑자기 인식이 안 될까요</h3>
+      <p>삼성전자서비스 공식 문서는 원인을 크게 두 가지로 나눠요. 하나는 PC 쪽 문제고, 다른 하나는 휴대폰 쪽 문제예요.</p>
+      <p>PC 쪽 원인은 Windows Media Player나 스마트 스위치가 설치돼 있지 않거나, PC의 USB 단자 자체에 이상이 있을 때 나타나요. 휴대폰 쪽 원인은 휴대폰 연결 단자나 USB 케이블이 상해 있을 때 나타나요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>원인 구분</th><th>해당 상황</th></tr>
+        <tr><td class="l">PC 쪽 원인</td><td>Windows Media Player·스마트 스위치 미설치, PC USB 단자 이상</td></tr>
+        <tr><td class="l">휴대폰 쪽 원인</td><td>휴대폰 연결 단자·USB 케이블 이상</td></tr>
+      </table>
+      <p class="tnote-line">삼성전자서비스 공식 문서(등록일 2022-05-28)가 안내하는 두 가지 원인이에요.</p>
+      <p>지금부터는 삼성전자서비스가 공식 문서에서 안내하는 순서 그대로, PC 쪽 확인부터 짚어볼게요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>스마트 스위치부터 설치돼 있는지 확인해요</h3>
+      <p>가장 먼저 스마트 스위치가 PC에 설치돼 있는지부터 확인해요. 삼성전자서비스 홈페이지(samsungsvc.co.kr)에 접속해서 서비스 안내 → 다운로드 자료실 → 휴대폰/기어 메뉴로 들어가면 스마트 스위치를 내려받을 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>삼성전자서비스 홈페이지에 접속해 서비스 안내 → 다운로드 자료실로 들어갑니다.</li>
+        <li>휴대폰/기어 항목에서 스마트 스위치를 찾습니다.</li>
+        <li>PC(Windows) 또는 PC(Mac) 중 쓰는 PC에 맞는 버전을 내려받습니다.</li>
+        <li>내려받은 설치 파일을 실행합니다.</li>
+        <li>약관에 동의를 선택하고 확인을 누릅니다.</li>
+        <li>설치가 끝나면 완료를 누릅니다.</li>
+        <li>USB 케이블로 휴대폰을 PC에 연결해 봅니다.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p>이렇게 스마트 스위치를 정상 설치한 뒤에도 인식이 안 되면, 삼성전자서비스는 원격 확인이 필요한 상황으로 안내해요.</p>
+      <p>스마트 스위치 말고도 PC와 연결하려면 Windows Media Player 11 버전 이상이 설치돼 있어야 해요. 11 미만이거나 아예 설치돼 있지 않다면, 설치부터 하고 다시 연결해야 해요.</p>
+      <p class="tnote-line">이 확인 절차는 Windows 7·8·10 운영체제를 기준으로 한 삼성전자서비스 공식 문서(등록일 2022-05-28)의 안내예요. 이 문서는 Windows 11에 대해서는 따로 언급하지 않았어요. Windows 7·8·10은 기본적으로 Windows Media Player 11 이상이 설치돼 있지만, 일부 KN 버전처럼 설치가 안 된 PC도 있어요. 이럴 땐 PC 제조사를 통해 설치해야 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>장치관리자에서 SAMSUNG Mobile USB 확인하기</h3>
+      <p>USB로 정상 연결되면 장치관리자에서 SAMSUNG Mobile USB를 확인할 수 있어요. 휴대폰이 PC에 MTP로 인식되는 상태라면 내 PC(또는 컴퓨터) 속성의 장치관리자에서 이 기기가 잡혀 있어야 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>확인 위치</th><th>확인 대상</th></tr>
+        <tr><td class="l">모뎀</td><td>SAMSUNG Mobile USB 관련 항목</td></tr>
+        <tr><td class="l">범용 직렬 버스 컨트롤러</td><td>SAMSUNG Mobile USB 관련 항목</td></tr>
+        <tr><td class="l">휴대용 장치</td><td>연결된 휴대폰 항목</td></tr>
+      </table>
+      <p class="tnote-line">삼성전자서비스 공식 문서 기준, 장치관리자에서 연결이 확인되는 세 위치예요.</p>
+      <p>장치관리자는 이렇게 열면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>윈도우 검색창을 누릅니다.</li>
+        <li>"장치관리"라고 입력합니다.</li>
+        <li>검색 결과에서 장치관리자를 엽니다.</li>
+        <li>모뎀과 범용 직렬 버스 컨트롤러 항목에서 SAMSUNG Mobile USB 설치 상태를 확인합니다.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>다른 USB 포트도 시도해 보세요</h3>
+      <p>SAMSUNG Mobile USB가 장치관리자에서 확인되지 않으면 PC의 USB 단자 자체에 문제가 있을 수 있어요. 다른 포트로 바꿔 연결해 보는 게 다음 순서예요.</p>
+      <p>데스크탑이라면 본체 앞쪽 단자나 USB 허브 대신, 본체 뒤쪽 단자에 케이블을 직접 꽂아 확인해 보는 게 좋아요. 앞쪽 단자나 허브를 거치면 인식률이 떨어질 수 있다고 삼성전자서비스는 안내해요.</p>
+      <p>포트를 바꿔도 안 된다면 케이블 교체·드라이버 재설치까지 짚어봐야 해요. 관련 절차는 <b>〔'갤럭시 스마트 스위치로 데이터 옮기는 법' 글 링크〕</b>에서 확인해 보세요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>Windows Media Player 재구성하기</h3>
+      <p>휴대용 장치 표시가 정상적으로 뜨지 않으면 Windows Media Player를 재구성해야 해요. 재구성은 Windows 7·8·10 기준으로 안내되는 절차예요.</p>
+      <p>재구성은 프로그램을 지웠다가 다시 설치하는 것과 같은 효과를 내는 작업이에요. 반드시 재부팅까지 거쳐야 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>작업표시줄 검색창에 "Windows 기능 켜기/끄기"를 입력해 엽니다.</li>
+        <li>미디어 기능 항목에서 Windows Media Player 체크를 해제합니다.</li>
+        <li>예를 선택하고 반드시 PC를 재부팅합니다.</li>
+        <li>재부팅 후 다시 "Windows 기능 켜기/끄기"를 입력해 엽니다.</li>
+        <li>Windows Media Player 항목을 다시 체크하고 확인을 누릅니다.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>그래도 안 되면 이렇게 확인해요</h3>
+      <p>통합 USB 드라이버·Windows Media Player 설치·포트 변경까지 다 해봤는데도 안 되면, 증상에 따라 문의할 곳이 갈려요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>증상</th><th>문의할 곳</th></tr>
+        <tr><td class="l">다른 PC에서도 계속 인식이 안 됨</td><td>휴대폰 단자·USB 케이블 이상 가능성 — 서비스센터</td></tr>
+        <tr><td class="l">이 PC에서만 인식이 안 됨</td><td>Windows 내부 충돌 가능성 — PC 제조사</td></tr>
+      </table>
+      <p class="tnote-line">삼성전자서비스 공식 문서 기준 안내예요.</p>
+      <p>다른 PC에서도 인식이 안 된다면 휴대폰 단자나 케이블 자체에 이상이 있을 수 있어서 서비스센터 점검이 필요해요. 반대로 이 PC에서만 계속 인식이 안 된다면 Windows 내부 충돌일 수 있어서 PC 제조사에 문의하는 편이 나아요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 휴대폰만 새 걸로 바꾸면 바로 인식되나요?</b><br>원인이 케이블이나 PC 포트 쪽에 있었다면 휴대폰을 바꿔도 같은 증상이 그대로 나타날 수 있어요. 원인이 휴대폰 단자 쪽에 있었을 때만 새 휴대폰에서 해결될 가능성이 있어요. 삼성전자서비스 문서는 이 구분을 따로 다루지 않으니, 위 확인 순서를 그대로 따라가는 편이 정확해요.</p>
+      <p><b>Q. 케이블 문제인지 PC 문제인지 어떻게 구분하나요?</b><br>다른 케이블로 바꿨을 때 인식되면 케이블 쪽 문제였다고 볼 수 있고, 다른 PC나 다른 포트에서 인식되면 원래 PC의 포트 쪽 문제였다고 볼 수 있어요. 두 방법을 모두 시도했는데도 안 된다면, 삼성전자서비스 문서는 서비스센터 점검을 안내해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b class="notice-line">참고한 곳</b><br>
+      · <a href="https://www.samsungsvc.co.kr/solution/40302" target="_blank">삼성전자서비스 — [삼성 스마트폰] USB 케이블을 연결해도 인식이 안 돼요.</a></p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 원인은 크게 PC 쪽(소프트웨어 미설치·USB 단자)과 휴대폰 쪽(단자·케이블) 두 가지예요.<br>
+      · 스마트 스위치 설치, Windows Media Player 11 이상 설치를 먼저 확인해요.<br>
+      · 장치관리자에서 SAMSUNG Mobile USB가 잡히는지 확인해요.<br>
+      · 다른 PC에서도 안 잡히면 휴대폰·케이블 쪽을, 이 PC에서만 안 잡히면 PC 쪽을 먼저 의심해 보세요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#갤럭시USB인식안됨 #갤럭시PC연결 #USB인식안됨 #장치관리자확인 #SAMSUNGMobileUSB #삼성전자서비스 #스마트스위치설치</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
