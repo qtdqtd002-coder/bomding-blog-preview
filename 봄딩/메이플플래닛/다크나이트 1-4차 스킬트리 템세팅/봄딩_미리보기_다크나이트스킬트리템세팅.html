@@ -1,0 +1,296 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메이플플래닛 다크나이트 스킬트리 템세팅 근접딜러 1~4차 육성 총정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;line-height:1.45;letter-spacing:-.3px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:24px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:left;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">메이플플래닛 다크나이트 스킬트리 템세팅 근접딜러 1~4차 육성 총정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 8. 4.</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: 다크나이트 스탯은 뭘 찍나요 / 다크나이트가 왜 손이 많이 가나요 / 다크나이트 무기는 창이랑 폴암 중 뭐가 나은가요 -->
+
+    <p>메이플플래닛 직업 가이드를 나이트로드·바이퍼·보우마스터·비숍·섀도어·신궁·썬콜·아란·캡틴까지 벌써 아홉 개나 풀었는데, 정작 전사 계열 중에서 <b>다크나이트</b>만 빠졌다고 알려주신 분들이 있더라고요. 저도 목록을 다시 훑어보고서야 진짜 안 썼다는 걸 알았습니다.</p>
+    <p>미리 말씀드리면 저는 다크나이트를 4차까지 직접 밀어본 건 아니고, 공식 패치노트를 하나하나 뒤져가며 확인된 사실 위주로 묶어본 조사형 글이에요. 검사·스피어맨·용기사를 지나 다크나이트로 올라가기까지 각 차수마다 뭘 배우는지, 스탯은 어떻게 찍는지, 초반엔 뭘 맞춰야 하는지 순서를 따라가 볼게요. 예전에 「메이플플래닛 처음 직업 선택 가이드」에서 다크나이트가 <b>"초반엔 손이 좀 가지만 파티에서 귀한 대접을 받는 계열"</b>이라고 짚었었는데, 그 이유가 정확히 뭔지도 오늘 스킬명으로 풀어드릴게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 메이플플래닛 다크나이트 키비주얼 / 창 또는 폴암 든 전사 캐릭터</span></div>
+    <div class="shoot">📸 캡처 팁 — 아직 육성 전이라면 <a href="https://mapleplanet.co.kr/" target="_blank">메이플플래닛 공식</a> 캐릭터 생성 화면을, 이미 키우고 계시면 실제 사냥 중인 화면을 찍어 올려주세요</div>
+    <p class="cap">같은 전사라도 갑옷보다 무기를 먼저 보면 다크나이트인지 티가 나요.</p>
+
+    <h2 class="sub">다크나이트가 전사 계열에서 어떤 자리인지부터</h2>
+    <p>다크나이트는 <b>창이나 폴암을 쓰는 STR 기반 근접 딜러</b>예요. 전사 계열에는 히어로·팔라딘·다크나이트까지 4차 전직이 가능한 세 갈래가 있는데, 다크나이트는 그중 무기부터 창·폴암 계열로 갈라지는 쪽이에요. <b>검사(Lv10) → 스피어맨(Lv30) → 용기사(Lv70) → 다크나이트(Lv120)</b> 순으로 올라가는데, 다른 직업들도 대체로 같은 레벨대에서 전직 컷이 갈리더라고요.<span class="chk">🔍 게임 내 확인</span></p>
+    <p>같은 전사 계열인 히어로·팔라딘은 검이나 둔기를 쓰는 반면, 다크나이트는 무기부터 창·폴암으로 완전히 갈려요. 이전에 「처음 직업 선택 가이드」<a href="../처음 직업 선택 가이드/봄딩_미리보기_메이플플래닛_처음직업선택가이드.html" target="_blank">(링크)</a>에서 다크나이트를 "혼자 쭉쭉 크는 느낌보다는 같이 달릴 때 빛나는 계열"이라고 짚었었는데, 정확히는 다크나이트가 파티원 체력을 직접 늘려주는 게 아니라 <b>4차 스킬 '비홀더스 힐링'으로 체력을 채워주고 '비홀더스 버프'로 공격력·방어력·마법방어력을 얹어주는 쪽</b>이에요. 자세한 효과는 아래 4차 스킬 항목에서 다시 짚을게요.</p>
+
+    <h2 class="sub">스탯은 STR 위주, 창·폴암 요구 DEX만 채우면 돼요</h2>
+    <p>다크나이트 스탯은 <b>주스탯 STR, 부스탯 DEX</b>로 찍으면 됩니다. 다음에 낄 창·폴암이 요구하는 DEX 수치만 딱 맞춰두고, 그 뒤 포인트는 죄다 STR 쪽으로 밀어 넣으시면 돼요.<span class="chk">🔍 게임 내 확인</span></p>
+    <p>전사 계열 특유의 장점은 <b>STR을 올릴수록 최대 HP도 같이 크게 오른다</b>는 점이에요. 근접이라 몸으로 맞아가며 사냥하는 구간이 많은 만큼, DEX를 무기 요구치 이상으로 낭비하지 않고 STR에 몰아주는 게 화력이랑 생존력을 같이 챙기는 길이에요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 스탯창(S) — STR 수치가 가장 높고 DEX는 딱 필요한 만큼만 찍힌 상태</span></div>
+    <div class="shoot">📸 캡처 팁 — S키로 스탯창을 띄우고, 옆에 창이나 폴암을 장착한 모습이 같이 나오게 화면을 잡아주세요</div>
+    <p class="cap">DEX는 딱 무기 요구치까지만, 남는 포인트는 STR로 몰아주세요.</p>
+
+    <h2 class="sub">1~2차, 스피어맨에서 창이냐 폴암이냐부터 갈려요</h2>
+    <p>1차 검사는 파워 스트라이크·슬래쉬 블래스트 같은 전사 공용 스킬로 기초 대미지를 다지는 구간이라, 다른 전사 직업이랑 스킬 구성이 겹쳐요.<span class="chk">🔍 게임 내 확인</span> 2차 스피어맨부터가 다크나이트 전용 갈림길인데, <b>창을 낄지 폴암을 낄지</b>부터 정해야 해요. 스피어맨에는 창 전용 <b>'스피어 부스터'</b>와 폴암 전용 <b>'폴암 부스터'</b>가 따로 있어서(패치노트에 두 스킬이 각자 창·폴암을 장착해야만 쓸 수 있도록 수정된 이력이 있어요), 무기를 정하지 않으면 부스터 하나를 헛찍는 셈이 돼요. 이후 3차·4차 장비도 계속 같은 무기 계열로 맞춰가야 해서, 이 갈림길에서 방향을 확실히 잡고 가시는 걸 추천드려요.</p>
+
+    <h2 class="sub">3차 용기사, 새크리파이스로 방어력 무시를 배워요</h2>
+    <p>레벨 70에 용기사로 전직하면 <b>방어력을 무시하는 단일기 '새크리파이스'</b>가 생겨요 — 패치노트에 새크리파이스가 방어력 무시 적용 대상으로 명시돼 있어, 3차 구간 딜링의 핵심으로 보시면 됩니다.</p>
+    <table class="tbl">
+      <tr><th>스킬</th><th>쓰임</th></tr>
+      <tr><td>새크리파이스</td><td>방어력을 무시하는 단일 강타기 — 3차 주력기</td></tr>
+      <tr><td>파워 크래쉬</td><td>보스전에서도 쓰이는 공격기(자쿰·혼테일 등에서 사용 이력 확인)</td></tr>
+      <tr><td>드래곤 로어</td><td>광역 포효기 — 한 번에 맞는 몬스터 수가 10마리로 조정된 이력 있음</td></tr>
+      <tr><td>몬스터 마그넷</td><td>주변 몬스터를 끌어당겨 모으는 스킬</td></tr>
+      <tr><td>엘리먼트 레지스턴스</td><td>속성 피해 저항을 올려주는 패시브</td></tr>
+    </table>
+    <p class="cap">메이플플래닛 공식 패치노트 정리 기준(2026.8.4. 확인) — 정확한 마스터 레벨·계수는 게임 내 확인 권장</p>
+    <p>드래곤 로어랑 몬스터 마그넷은 둘 다 광역으로 몹을 정리·유인하는 스킬이라 사냥 동선을 짧게 만들어줘요. 참고로 몬스터 마그넷은 예전엔 판정 범위가 좁다는 얘기가 있었는데, 이후 패치로 개선됐다는 게 공식 패치노트에 남아있어요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 3차 용기사 스킬창(K) — 새크리파이스·드래곤 로어 위주로 찍힌 트리</span></div>
+    <div class="shoot">📸 캡처 팁 — K키로 스킬창을 띄운 다음, 3차 탭에 SP가 어떻게 분배됐는지 보이게 잡아주세요</div>
+    <p class="cap">새크리파이스 하나로 보스 방어력 걱정을 덜 수 있어요.</p>
+
+    <h2 class="sub">4차 다크나이트, 비홀더 소환수로 완전히 달라져요</h2>
+    <p>레벨 120에서 4차 다크나이트로 전직하면 <b>비홀더</b>라는 소환수를 부리기 시작하면서 전투 방식이 확 바뀌어요. 참고로 다크나이트는 최근 새로 생긴 직업이 아니라, 이미 예전부터 육성 가능했던 직업이고 요즘도 밸런스·버그 수정 패치가 꾸준히 이어지고 있는 쪽이에요.<span class="chk">🔍 게임 내 확인</span></p>
+    <table class="tbl">
+      <tr><th>스킬</th><th>쓰임</th></tr>
+      <tr><td>버서크</td><td>체력이 일정 수준 아래로 떨어지면 데미지가 크게 오르는 4차 대표 패시브</td></tr>
+      <tr><td>비홀더</td><td>4차부터 곁에 두고 싸우는 소환수 — 아래 두 스킬의 근원</td></tr>
+      <tr><td>비홀더스 힐링</td><td>비홀더가 체력을 채워주는 회복기(파티원까지 대상)</td></tr>
+      <tr><td>비홀더스 버프</td><td>공격력·방어력·마법 방어력을 올려주는 파티 버프</td></tr>
+      <tr><td>드래곤 블러드</td><td>공격력을 올려주는 자버프</td></tr>
+    </table>
+    <p class="cap">메이플플래닛 공식 패치노트 정리 기준(2026.8.4. 확인) — 정확한 마스터 레벨·수치는 게임 내 확인 권장</p>
+    <p>비홀더스 힐링·비홀더스 버프는 원래 자기 자신만이 아니라 <b>주변 파티원까지 함께 적용되는 구조</b>라, 다크나이트 한 명만 있어도 파티 생존력이 확 올라가요. 「처음 직업 선택 가이드」에서 짚었던 "친구랑 같이 달릴 때 다크나이트가 귀한 대접을 받는다"는 얘기가 바로 이 두 스킬 얘기였던 셈이에요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 4차 다크나이트 스킬창(K) — 비홀더 소환 + 버서크가 보이는 화면</span></div>
+    <div class="shoot">📸 캡처 팁 — 4차 전직 후 비홀더를 소환한 상태로 스킬창을 함께 찍어주세요</div>
+    <p class="cap">비홀더가 옆에 뜨는 순간부터 다크나이트는 완전히 다른 딜러가 돼요.</p>
+
+    <h2 class="sub">HP를 낮게 유지하는 게 딜사이클의 핵심이에요</h2>
+    <p>다크나이트 딜사이클에서 가장 신경 써야 하는 건 <b>체력을 일부러 낮게 유지하는 것</b>이에요. 버서크는 체력이 일정 기준 아래로 떨어져야 발동하는 패시브라서, 힐을 너무 많이 받아 체력이 그 기준을 넘어버리면 오히려 버프가 풀려버려요. 그래서 다크나이트의 회복기인 <b>비홀더스 힐링도 버서크가 꺼지지 않을 만큼만 체력을 채워주도록 설계</b>돼 있어요 — 실제로 이 부분이 잘못 작동해서 체력을 과하게 채워버리는 오류가 있었고, 이후 패치로 버서크 발동 기준 체력까지만 회복하도록 다듬어진 이력이 있습니다.</p>
+    <p>즉 무작정 힐을 많이 받는 게 좋은 게 아니라, <b>버서크 유지 구간 안에서 짧은 쿨타임 스킬을 몰아치는 식</b>으로 굴려야 딜이 최대로 나오는 구조예요. HP 관리가 익숙해지기 전까지는 손이 좀 가는 직업이라는 평가가 바로 이 지점에서 나오는 것 같아요.</p>
+
+    <h2 class="sub">장비는 창 또는 폴암, 잠재능력도 그대로 받아요</h2>
+    <p>다크나이트가 쓰는 창·폴암에도 잠재능력이 그대로 붙어요. 요구 스탯·공격력 위주로 훑어보면서 경매장 매물을 갈아타시면 되는데, 창·폴암 둘 다 취급하는 매물이 흔하지 않아서 시세는 미리 한 번씩 확인해두시는 걸 추천드려요.</p>
+    <p>방어구 잠재는 STR을 우선으로 노리되, 다크나이트는 몸으로 맞는 구간이 많은 근접이라 방어력이나 HP를 함께 올려주는 옵션도 은근히 체감이 커요. 상·하의를 나눠 입으면 잠재 슬롯이 하나 늘어나는 요령까지 챙기면 세팅이 한결 두꺼워집니다.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 장비창(E) — 창 또는 폴암 장착 + STR% 잠재능력 옵션 툴팁</span></div>
+    <div class="shoot">📸 캡처 팁 — 장비창을 열고 창이나 폴암에 붙은 STR%·공격력 잠재 옵션 위로 마우스를 올려 툴팁까지 찍히게 캡처해주세요</div>
+    <p class="cap">무기가 창이나 폴암이라고 잠재까지 별다르게 취급되진 않아요.</p>
+
+    <h2 class="sub">사냥터는 몸빵하며 도는 편이에요</h2>
+    <p>다크나이트 사냥터도 다른 직업이랑 공용이지만, 근접이다 보니 원거리·마법사 계열보다는 몸으로 부딪히며 도는 구간이 많아요.</p>
+    <p>레벨대별로 어디를 도는 게 좋은지는 <a href="../레벨별추천사냥터/봄딩_미리보기_레벨별추천사냥터.html" target="_blank">레벨별 추천 사냥터</a> 글에 따로 정리해뒀으니 그쪽을 봐주시고, 여기서는 다크나이트만의 요령만 짚을게요. 드래곤 로어나 몬스터 마그넷으로 몹부터 한데 모아놓고 새크리파이스나 4차 스킬로 끊어치는 순서가 잘 맞습니다.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 창이랑 폴암 중에 뭐로 시작하는 게 좋나요?</b><br>둘 다 스피어맨 때부터 전용 부스터가 갈리기 때문에, 초반엔 경매장에서 구하기 쉬운 쪽으로 시작해도 괜찮아요. 다만 한번 방향을 정하면 3차·4차까지 쭉 같은 계열로 가는 게 스킬포인트를 낭비하지 않는 길이에요.</p>
+    <p><b>Q. 다크나이트 육성에 돈이 많이 드나요?</b><br>몸으로 맞아가며 사냥하는 근접 특성상 방어구 투자가 어느 정도 필요한 편이라, 원거리·마법 계열보다는 초반에 손이 조금 더 가요. 다만 잠재능력·경매장 시스템은 다른 직업과 동일해서, 그때그때 감당되는 선에서 갈아타면 크게 부담스럽진 않아요.</p>
+    <p><b>Q. 다크나이트로 보스전(자쿰·혼테일 등)도 무난한가요?</b><br>3차에서 배우는 파워 크래쉬가 자쿰·혼테일 같은 보스전에서 쓰인 이력이 패치노트에 남아있어서, 보스 사냥에 아예 손을 못 대는 딜러는 아니에요. 다만 보스전에 특화된 딜러인지까지는 패치노트만으로 단정하기 어려운 부분이라, 실제 클리어 체감은 인게임에서 직접 확인해보시는 걸 추천드려요.</p>
+
+    <h2 class="sub">다크나이트, 이런 분께 맞아요</h2>
+    <p>다크나이트는 2차부터 창·폴암으로 무기가 갈리는 근접 딜러고, 4차 비홀더 소환으로 파티 지원까지 손에 넣는 직업이에요. 체력을 일부러 낮게 유지하며 버서크를 굴리는 재미가 있는 대신, 그 감을 잡기 전까지는 손이 좀 가는 편이라 첫 캐릭보다는 두 번째 캐릭으로도 잘 어울려요.</p>
+    <p>친구·지인이랑 같이 달릴 계획이 있으시다면 비홀더스 힐링·버프 하나만으로도 다크나이트를 고를 이유가 충분합니다. 체력 관리하며 몰아치는 근접 손맛, 다크나이트라면 한 번쯤 느껴볼 만해요.</p>
+
+    <p><b>✔ 메이플플래닛 같이 보기 좋은 내용</b><br>
+    · <a href="../처음 직업 선택 가이드/봄딩_미리보기_메이플플래닛_처음직업선택가이드.html" target="_blank">메이플플래닛 처음 직업 뭐로 시작해야 손해 안 볼까 초보 계열별 추천</a><br>
+    · <a href="../레벨별추천사냥터/봄딩_미리보기_레벨별추천사냥터.html" target="_blank">메이플플래닛 레벨별 추천 사냥터 1~200 총정리</a><br>
+    · <a href="../나이트로드 스킬트리 템세팅/봄딩_미리보기_메이플플래닛_나이트로드_스킬트리_템세팅.html" target="_blank">메이플플래닛 나이트로드 스킬트리·템세팅</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://mapleplanet.co.kr/" target="_blank">메이플플래닛 공식 홈페이지</a><br>
+    · <a href="https://mapleplanet.co.kr/board/update" target="_blank">메이플플래닛 공식 패치노트 게시판</a></p>
+
+    <div class="tags">#메이플플래닛 #메이플플래닛다크나이트 #다크나이트스킬트리 #메이플플래닛전사 #다크나이트템세팅 #메이플플래닛근접딜러 #다크나이트육성 #메이플플래닛공략</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 8분):</b> 📷 <b>사진 5곳</b> 업로드. 나머지 본문·볼드·표·링크는 복사로 그대로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플플래닛 다크나이트 스킬트리 템세팅 근접딜러 1~4차 육성 총정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (사진 자리는 파란 글씨로 표시)</p>
+    <div id="copy">
+      <p>메이플플래닛 직업 가이드를 나이트로드·바이퍼·보우마스터·비숍·섀도어·신궁·썬콜·아란·캡틴까지 벌써 아홉 개나 풀었는데, 정작 전사 계열 중에서 <b>다크나이트</b>만 빠졌다고 알려주신 분들이 있더라고요. 저도 목록을 다시 훑어보고서야 진짜 안 썼다는 걸 알았습니다.</p>
+      <p>미리 말씀드리면 저는 다크나이트를 4차까지 직접 밀어본 건 아니고, 공식 패치노트를 하나하나 뒤져가며 확인된 사실 위주로 묶어본 조사형 글이에요. 검사·스피어맨·용기사를 지나 다크나이트로 올라가기까지 각 차수마다 뭘 배우는지, 스탯은 어떻게 찍는지, 초반엔 뭘 맞춰야 하는지 순서를 따라가 볼게요. 예전에 「메이플플래닛 처음 직업 선택 가이드」에서 다크나이트가 <b>"초반엔 손이 좀 가지만 파티에서 귀한 대접을 받는 계열"</b>이라고 짚었었는데, 그 이유가 정확히 뭔지도 오늘 스킬명으로 풀어드릴게요.</p>
+
+      <p>📷 〔사진 자리 1〕 메이플플래닛 다크나이트 키비주얼 / 창 또는 폴암 든 전사 캐릭터 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "같은 전사라도 갑옷보다 무기를 먼저 보면 다크나이트인지 티가 나요."</p>
+
+      <h3>다크나이트가 전사 계열에서 어떤 자리인지부터</h3>
+      <p>다크나이트는 <b>창이나 폴암을 쓰는 STR 기반 근접 딜러</b>예요. 전사 계열에는 히어로·팔라딘·다크나이트까지 4차 전직이 가능한 세 갈래가 있는데, 다크나이트는 그중 무기부터 창·폴암 계열로 갈라지는 쪽이에요. <b>검사(Lv10) → 스피어맨(Lv30) → 용기사(Lv70) → 다크나이트(Lv120)</b> 순으로 올라가는데, 다른 직업들도 대체로 같은 레벨대에서 전직 컷이 갈리더라고요.</p>
+      <p>같은 전사 계열인 히어로·팔라딘은 검이나 둔기를 쓰는 반면, 다크나이트는 무기부터 창·폴암으로 완전히 갈려요. 이전에 「메이플플래닛 처음 직업 선택 가이드」에서 다크나이트를 "혼자 쭉쭉 크는 느낌보다는 같이 달릴 때 빛나는 계열"이라고 짚었었는데, 정확히는 다크나이트가 파티원 체력을 직접 늘려주는 게 아니라 <b>4차 스킬 '비홀더스 힐링'으로 체력을 채워주고 '비홀더스 버프'로 공격력·방어력·마법방어력을 얹어주는 쪽</b>이에요. 자세한 효과는 아래 4차 스킬 항목에서 다시 짚을게요.</p>
+
+      <h3>스탯은 STR 위주, 창·폴암 요구 DEX만 채우면 돼요</h3>
+      <p>다크나이트 스탯은 <b>주스탯 STR, 부스탯 DEX</b>로 찍으면 됩니다. 다음에 낄 창·폴암이 요구하는 DEX 수치만 딱 맞춰두고, 그 뒤 포인트는 죄다 STR 쪽으로 밀어 넣으시면 돼요.</p>
+      <p>전사 계열 특유의 장점은 <b>STR을 올릴수록 최대 HP도 같이 크게 오른다</b>는 점이에요. 근접이라 몸으로 맞아가며 사냥하는 구간이 많은 만큼, DEX를 무기 요구치 이상으로 낭비하지 않고 STR에 몰아주는 게 화력이랑 생존력을 같이 챙기는 길이에요.</p>
+
+      <p>📷 〔사진 자리 2〕 스탯창(S) — STR 수치가 가장 높고 DEX는 딱 필요한 만큼만 찍힌 상태 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "DEX는 딱 무기 요구치까지만, 남는 포인트는 STR로 몰아주세요."</p>
+
+      <h3>1~2차, 스피어맨에서 창이냐 폴암이냐부터 갈려요</h3>
+      <p>1차 검사는 파워 스트라이크·슬래쉬 블래스트 같은 전사 공용 스킬로 기초 대미지를 다지는 구간이라, 다른 전사 직업이랑 스킬 구성이 겹쳐요. 2차 스피어맨부터가 다크나이트 전용 갈림길인데, <b>창을 낄지 폴암을 낄지</b>부터 정해야 해요. 스피어맨에는 창 전용 <b>'스피어 부스터'</b>와 폴암 전용 <b>'폴암 부스터'</b>가 따로 있어서(패치노트에 두 스킬이 각자 창·폴암을 장착해야만 쓸 수 있도록 수정된 이력이 있어요), 무기를 정하지 않으면 부스터 하나를 헛찍는 셈이 돼요. 이후 3차·4차 장비도 계속 같은 무기 계열로 맞춰가야 해서, 이 갈림길에서 방향을 확실히 잡고 가시는 걸 추천드려요.</p>
+
+      <h3>3차 용기사, 새크리파이스로 방어력 무시를 배워요</h3>
+      <p>레벨 70에 용기사로 전직하면 <b>방어력을 무시하는 단일기 '새크리파이스'</b>가 생겨요 — 패치노트에 새크리파이스가 방어력 무시 적용 대상으로 명시돼 있어, 3차 구간 딜링의 핵심으로 보시면 됩니다.</p>
+      <table>
+        <tr><th>스킬</th><th>쓰임</th></tr>
+        <tr><td class="l">새크리파이스</td><td class="l">방어력을 무시하는 단일 강타기 — 3차 주력기</td></tr>
+        <tr><td class="l">파워 크래쉬</td><td class="l">보스전에서도 쓰이는 공격기(자쿰·혼테일 등에서 사용 이력 확인)</td></tr>
+        <tr><td class="l">드래곤 로어</td><td class="l">광역 포효기 — 한 번에 맞는 몬스터 수가 10마리로 조정된 이력 있음</td></tr>
+        <tr><td class="l">몬스터 마그넷</td><td class="l">주변 몬스터를 끌어당겨 모으는 스킬</td></tr>
+        <tr><td class="l">엘리먼트 레지스턴스</td><td class="l">속성 피해 저항을 올려주는 패시브</td></tr>
+      </table>
+      <p class="tnote-line">메이플플래닛 공식 패치노트 정리 기준(2026.8.4. 확인) — 정확한 마스터 레벨·계수는 게임 내 확인 권장</p>
+      <p>드래곤 로어랑 몬스터 마그넷은 둘 다 광역으로 몹을 정리·유인하는 스킬이라 사냥 동선을 짧게 만들어줘요. 참고로 몬스터 마그넷은 예전엔 판정 범위가 좁다는 얘기가 있었는데, 이후 패치로 개선됐다는 게 공식 패치노트에 남아있어요.</p>
+
+      <p>📷 〔사진 자리 3〕 3차 용기사 스킬창(K) — 새크리파이스·드래곤 로어 위주로 찍힌 트리 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "새크리파이스 하나로 보스 방어력 걱정을 덜 수 있어요."</p>
+
+      <h3>4차 다크나이트, 비홀더 소환수로 완전히 달라져요</h3>
+      <p>레벨 120에서 4차 다크나이트로 전직하면 <b>비홀더</b>라는 소환수를 부리기 시작하면서 전투 방식이 확 바뀌어요. 참고로 다크나이트는 최근 새로 생긴 직업이 아니라, 이미 예전부터 육성 가능했던 직업이고 요즘도 밸런스·버그 수정 패치가 꾸준히 이어지고 있는 쪽이에요.</p>
+      <table>
+        <tr><th>스킬</th><th>쓰임</th></tr>
+        <tr><td class="l">버서크</td><td class="l">체력이 일정 수준 아래로 떨어지면 데미지가 크게 오르는 4차 대표 패시브</td></tr>
+        <tr><td class="l">비홀더</td><td class="l">4차부터 곁에 두고 싸우는 소환수 — 아래 두 스킬의 근원</td></tr>
+        <tr><td class="l">비홀더스 힐링</td><td class="l">비홀더가 체력을 채워주는 회복기(파티원까지 대상)</td></tr>
+        <tr><td class="l">비홀더스 버프</td><td class="l">공격력·방어력·마법 방어력을 올려주는 파티 버프</td></tr>
+        <tr><td class="l">드래곤 블러드</td><td class="l">공격력을 올려주는 자버프</td></tr>
+      </table>
+      <p class="tnote-line">메이플플래닛 공식 패치노트 정리 기준(2026.8.4. 확인) — 정확한 마스터 레벨·수치는 게임 내 확인 권장</p>
+      <p>비홀더스 힐링·비홀더스 버프는 원래 자기 자신만이 아니라 <b>주변 파티원까지 함께 적용되는 구조</b>라, 다크나이트 한 명만 있어도 파티 생존력이 확 올라가요. 「메이플플래닛 처음 직업 선택 가이드」에서 짚었던 "친구랑 같이 달릴 때 다크나이트가 귀한 대접을 받는다"는 얘기가 바로 이 두 스킬 얘기였던 셈이에요.</p>
+
+      <p>📷 〔사진 자리 4〕 4차 다크나이트 스킬창(K) — 비홀더 소환 + 버서크가 보이는 화면 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "비홀더가 옆에 뜨는 순간부터 다크나이트는 완전히 다른 딜러가 돼요."</p>
+
+      <h3>HP를 낮게 유지하는 게 딜사이클의 핵심이에요</h3>
+      <p>다크나이트 딜사이클에서 가장 신경 써야 하는 건 <b>체력을 일부러 낮게 유지하는 것</b>이에요. 버서크는 체력이 일정 기준 아래로 떨어져야 발동하는 패시브라서, 힐을 너무 많이 받아 체력이 그 기준을 넘어버리면 오히려 버프가 풀려버려요. 그래서 다크나이트의 회복기인 <b>비홀더스 힐링도 버서크가 꺼지지 않을 만큼만 체력을 채워주도록 설계</b>돼 있어요 — 실제로 이 부분이 잘못 작동해서 체력을 과하게 채워버리는 오류가 있었고, 이후 패치로 버서크 발동 기준 체력까지만 회복하도록 다듬어진 이력이 있습니다.</p>
+      <p>즉 무작정 힐을 많이 받는 게 좋은 게 아니라, <b>버서크 유지 구간 안에서 짧은 쿨타임 스킬을 몰아치는 식</b>으로 굴려야 딜이 최대로 나오는 구조예요. HP 관리가 익숙해지기 전까지는 손이 좀 가는 직업이라는 평가가 바로 이 지점에서 나오는 것 같아요.</p>
+
+      <h3>장비는 창 또는 폴암, 잠재능력도 그대로 받아요</h3>
+      <p>다크나이트가 쓰는 창·폴암에도 잠재능력이 그대로 붙어요. 요구 스탯·공격력 위주로 훑어보면서 경매장 매물을 갈아타시면 되는데, 창·폴암 둘 다 취급하는 매물이 흔하지 않아서 시세는 미리 한 번씩 확인해두시는 걸 추천드려요.</p>
+      <p>방어구 잠재는 STR을 우선으로 노리되, 다크나이트는 몸으로 맞는 구간이 많은 근접이라 방어력이나 HP를 함께 올려주는 옵션도 은근히 체감이 커요. 상·하의를 나눠 입으면 잠재 슬롯이 하나 늘어나는 요령까지 챙기면 세팅이 한결 두꺼워집니다.</p>
+
+      <p>📷 〔사진 자리 5〕 장비창(E) — 창 또는 폴암 장착 + STR% 잠재능력 옵션 툴팁 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "무기가 창이나 폴암이라고 잠재까지 별다르게 취급되진 않아요."</p>
+
+      <h3>사냥터는 몸빵하며 도는 편이에요</h3>
+      <p>다크나이트 사냥터도 다른 직업이랑 공용이지만, 근접이다 보니 원거리·마법사 계열보다는 몸으로 부딪히며 도는 구간이 많아요.</p>
+      <p>레벨대별로 어디를 도는 게 좋은지는 「메이플플래닛 레벨별 추천 사냥터 1~200 총정리」 글에 따로 정리해뒀으니 그쪽을 봐주시고, 여기서는 다크나이트만의 요령만 짚을게요. 드래곤 로어나 몬스터 마그넷으로 몹부터 한데 모아놓고 새크리파이스나 4차 스킬로 끊어치는 순서가 잘 맞습니다.</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 창이랑 폴암 중에 뭐로 시작하는 게 좋나요?</b><br>둘 다 스피어맨 때부터 전용 부스터가 갈리기 때문에, 초반엔 경매장에서 구하기 쉬운 쪽으로 시작해도 괜찮아요. 다만 한번 방향을 정하면 3차·4차까지 쭉 같은 계열로 가는 게 스킬포인트를 낭비하지 않는 길이에요.</p>
+      <p><b>Q. 다크나이트 육성에 돈이 많이 드나요?</b><br>몸으로 맞아가며 사냥하는 근접 특성상 방어구 투자가 어느 정도 필요한 편이라, 원거리·마법 계열보다는 초반에 손이 조금 더 가요. 다만 잠재능력·경매장 시스템은 다른 직업과 동일해서, 그때그때 감당되는 선에서 갈아타면 크게 부담스럽진 않아요.</p>
+      <p><b>Q. 다크나이트로 보스전(자쿰·혼테일 등)도 무난한가요?</b><br>3차에서 배우는 파워 크래쉬가 자쿰·혼테일 같은 보스전에서 쓰인 이력이 패치노트에 남아있어서, 보스 사냥에 아예 손을 못 대는 딜러는 아니에요. 다만 보스전에 특화된 딜러인지까지는 패치노트만으로 단정하기 어려운 부분이라, 실제 클리어 체감은 인게임에서 직접 확인해보시는 걸 추천드려요.</p>
+
+      <h3>다크나이트, 이런 분께 맞아요</h3>
+      <p>다크나이트는 2차부터 창·폴암으로 무기가 갈리는 근접 딜러고, 4차 비홀더 소환으로 파티 지원까지 손에 넣는 직업이에요. 체력을 일부러 낮게 유지하며 버서크를 굴리는 재미가 있는 대신, 그 감을 잡기 전까지는 손이 좀 가는 편이라 첫 캐릭보다는 두 번째 캐릭으로도 잘 어울려요.</p>
+      <p>친구·지인이랑 같이 달릴 계획이 있으시다면 비홀더스 힐링·버프 하나만으로도 다크나이트를 고를 이유가 충분합니다. 체력 관리하며 몰아치는 근접 손맛, 다크나이트라면 한 번쯤 느껴볼 만해요.</p>
+
+      <p><b>✔ 메이플플래닛 같이 보기 좋은 내용</b><br>
+      · 메이플플래닛 처음 직업 뭐로 시작해야 손해 안 볼까 초보 계열별 추천<br>
+      · 메이플플래닛 레벨별 추천 사냥터 1~200 총정리<br>
+      · 메이플플래닛 나이트로드 스킬트리·템세팅</p>
+
+      <p class="tnote-line"><b>참고한 곳</b><br>
+      · 메이플플래닛 공식 홈페이지(mapleplanet.co.kr)<br>
+      · 메이플플래닛 공식 패치노트 게시판(mapleplanet.co.kr/board/update)</p>
+      <p class="tags-line">#메이플플래닛 #메이플플래닛다크나이트 #다크나이트스킬트리 #메이플플래닛전사 #다크나이트템세팅 #메이플플래닛근접딜러 #다크나이트육성 #메이플플래닛공략</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
