@@ -7,7 +7,7 @@
   const $$ = (s, r) => Array.prototype.slice.call((r || document).querySelectorAll(s));
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const enc = (rel) => rel.split('/').map(encodeURIComponent).join('/');
-  const ACCENT = { '봄딩': '#E06C49', '영도': '#2F8F7F', '겜더쿠': '#7C5CD1', '연봄': '#4A86C5', '김복리': '#C0892E' };
+  const ACCENT = { '봄딩': '#E06C49', '영도': '#2F8F7F', '겜더쿠': '#7C5CD1', '연봄': '#4A86C5' };
   const ac = (a) => ACCENT[a] || '#4C6FFF';
   const fmtDay = (d) => d ? String(d).split(' ')[0].replace(/-/g, '.') : '';
   const toTs = (d) => { if (!d) return 0; const t = Date.parse(String(d).replace(' ', 'T')); return isNaN(t) ? 0 : t; };
@@ -363,7 +363,7 @@
       <div class="seg" id="pSeg"></div><div class="chips" id="chips"></div><div class="p-toolbar" id="pToolbar"></div><div id="postList">${skeleton(5)}</div>`;
     const posts = await getPosts().catch(() => []);
     if (!posts.length) { $('#postList').innerHTML = '<div class="empty lg">글 목록을 불러오지 못했어요.<br>네트워크 확인 후 다시 시도해주세요.</div>'; $('#pSeg').innerHTML = ''; $('#chips').innerHTML = ''; $('#pToolbar').innerHTML = ''; return; }
-    const order = ['봄딩', '영도', '겜더쿠', '연봄', '김복리'];
+    const order = ['봄딩', '영도', '겜더쿠', '연봄'];
     const base = CFG('SITE_BASE', '..');
     const draw = () => {
       // 세그먼트(글 목록/아카이브)
@@ -469,7 +469,7 @@
        <div id="reqList"><div class="empty">아직 보낸 요청이 없어요.</div></div>`;
     // 작성자 옵션
     const posts = await getPosts().catch(() => []);
-    const known = ['봄딩', '영도', '겜더쿠', '연봄', '김복리'];
+    const known = ['봄딩', '영도', '겜더쿠', '연봄'];
     const authors = Array.from(new Set(known.concat(posts.map((p) => p.author).filter((a) => a && a !== '(기타)'))));
     $('#fWriter').innerHTML = '<option value="" disabled selected>작성자를 선택하세요</option>' + authors.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
     renderRequests();

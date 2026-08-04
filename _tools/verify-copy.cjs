@@ -33,7 +33,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const AUTHORS = ['겜더쿠', '연봄', '김복리']; // 티스토리 붙여넣기본을 쓰는 작성자만 (김복리 2026-07-05 추가 — 겜더쿠 방식 채택)
+const AUTHORS = ['겜더쿠', '연봄']; // 티스토리 붙여넣기본을 쓰는 작성자만 (김복리 2026-08-04 폐지로 제외)
 
 const START = '↓↓↓ 여기부터';
 const END = '↑↑↑ 여기까지';
@@ -96,13 +96,6 @@ const CONTENT_GATES = {
       { name: '팩트카드 한눈에 보기(②)', re: /한눈에 보기/, max: 6 },
       { name: 'FAQ(⑭)', re: /자주 묻는 질문/, max: 5 },
     ],
-  },
-  '김복리': {
-    // 딥그린 #0B7A4B + 골드 #C0892E 브랜드 2색 통일 → 겜더쿠 #7048E8 팔레트 이슈 없음(palette=null).
-    // 헤더바 시그니처 박스(핵심 브리핑/귀띔/조심하세요/한마디)는 표준 템플릿 상시 사용이라 쿼터 미적용.
-    // 활성 게이트 = 8골격메타 · 9분량밴드 · 10실사이미지≥2 · 11상단이미지(SVG 인포그래픽은 이미지에 안 셈, YMYL 실사/공식 이미지 강제 — 2026-07-05 사용자 지시).
-    palette: null,
-    quotas: [],
   },
 };
 const QUOTA_WINDOW = 10; // 이번 글 포함 최근 10편

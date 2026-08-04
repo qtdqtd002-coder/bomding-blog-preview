@@ -38,7 +38,6 @@ $AUTHORS = @{
   "영도"   = @{ kind = "naver";   id = "kkodug9"     }
   "겜더쿠" = @{ kind = "tistory"; id = "quetermoney" }
   "연봄"   = @{ kind = "tistory"; id = "bom-ding"    }   # 2026-06-11 주소 확정(bom-ding.tistory.com)
-  "김복리" = @{ kind = "tistory"; id = "bokriking" }   # 2026-07-05 주소 확정(bokriking.tistory.com)
   "하루살이" = @{ kind = "naver";   id = "harusale-"  }   # 2026-07-22 신설(blog.naver.com/harusale-)
 }
 
@@ -120,8 +119,8 @@ function Get-TistoryTitles([string]$blogId,[bool]$deep=$false){
 }
 
 # ── 1) 글 파일 수집(build-manifest 와 동일 규칙) ──
-# ★2026-07-22: 김복리가 AUTHORS 에는 있는데 이 수집 목록엔 빠져 있어 발행 확인이 아예 안 되던 갭을 함께 수정. 하루살이 신설 배선.
-$files = git -C $base ls-files "봄딩/*.html" "영도/*.html" "겜더쿠/*.html" "연봄/*.html" "김복리/*.html" "하루살이/*.html"
+# ★2026-08-04: 김복리 작성자 폐지 — AUTHORS·수집 목록에서 제거(2026-07-22에 메운 갭 자체가 소멸).
+$files = git -C $base ls-files "봄딩/*.html" "영도/*.html" "겜더쿠/*.html" "연봄/*.html" "하루살이/*.html"
 $posts = @()
 foreach($f in $files){
   $segs = $f -split '/'
