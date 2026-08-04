@@ -88,6 +88,12 @@ components:
 
 # Design System: 쓰담 운영 허브 (Sseudam Ops Hub)
 
+> ⛔ **이 문서는 낡았습니다 (2026-08-03).** 사이트는 같은 날 **v3 「편집국(The Newsroom)」**
+> — 종이 크림 `#FBF8F3` · 잉크 `#191614` · 브랜드 온기 `#C43F24` · 세리프 마스트헤드(Gowun Batang)
+> — 로 구현이 교체됐습니다. 아래 본문·프론트매터는 **v2(인디고 「따뜻한 관제탑」) 기준**이라 현재 코드와 다릅니다.
+> **지금의 토큰 정본 = `index.html`의 `:root` 블록.** 이 문서 전면 개정은 사용자 피드백 확정 후에 합니다.
+> (개편 근거·시안: `..\쓰담\docs\site-redesign-2026-08.html` · `site-redesign-prototype.html`)
+
 ## 1. Overview
 
 **Creative North Star: "곁을 지키는 관제탑 (The Warm Control Room)"**
