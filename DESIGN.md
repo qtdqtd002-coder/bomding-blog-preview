@@ -1,232 +1,300 @@
 ---
 name: 쓰담 운영 허브 (Sseudam Ops Hub)
-description: 게임 블로그 작성·검수·발행을 한눈에 관리하는 쓰담의 내부 운영 대시보드
+description: 게임·IT 블로그 작성·검수·발행을 한눈에 관리하는 쓰담의 내부 운영 대시보드
 colors:
-  brand: "#5A4FE6"
-  brand-hover: "#4A3FD4"
-  brand-weak: "#EDEBFC"
-  on-brand: "#FFFFFF"
-  warm: "#FF6F52"
-  warm-weak: "#FFEEE9"
-  bg: "#FFFFFF"
-  bg-subtle: "#F7F8FA"
+  paper: "#F2F0EC"
+  paper-2: "#E9E6E0"
   surface: "#FFFFFF"
-  surface-2: "#F2F4F7"
-  ink: "#16181D"
-  sub: "#4A4F58"
-  muted: "#6B7280"
-  line: "#E5E7EB"
-  line-strong: "#D1D5DB"
-  danger: "#DC2626"
-  author-bomding: "#E06C49"
-  author-yeongdo: "#2F8F7F"
-  author-gemdeokku: "#7C5CD1"
-  author-yeonbom: "#4A86C5"
+  surface-2: "#F6F4F1"
+  surface-3: "#EDEAE5"
+  ink: "#1A1815"
+  ink-2: "#514B44"
+  ink-3: "#6F6961"
+  line: "#E2DED7"
+  line-2: "#CFC9C0"
+  line-3: "#B6AFA4"
+  accent: "#C4482A"
+  accent-hover: "#A93A20"
+  accent-soft: "#FBEAE4"
+  on-accent: "#FFFFFF"
+  ok: "#15703C"
+  warn: "#8A5D08"
+  bad: "#B3261E"
+  info: "#1B5FA8"
+  author-bomding: "#D9603C"
+  author-yeongdo: "#2A8574"
+  author-gemdeokku: "#7355C9"
+  author-yeonbom: "#3F7EC0"
+  author-harusari: "#BC3D73"
 typography:
   display:
     fontFamily: "Pretendard Variable, Pretendard, -apple-system, system-ui, sans-serif"
-    fontSize: "clamp(22px, 5.2vw, 28px)"
-    fontWeight: 700
-    lineHeight: 1.3
-    letterSpacing: "-0.02em"
-  feature:
+    fontSize: "24px"
+    fontWeight: 800
+    lineHeight: 1.25
+    letterSpacing: "-0.03em"
+  panel:
     fontFamily: "Pretendard Variable, Pretendard, sans-serif"
-    fontSize: "clamp(20px, 4.6vw, 23px)"
+    fontSize: "16.5px"
     fontWeight: 700
-    lineHeight: 1.36
-    letterSpacing: "-0.015em"
-  title:
+    lineHeight: 1.35
+    letterSpacing: "-0.022em"
+  row:
     fontFamily: "Pretendard Variable, Pretendard, sans-serif"
-    fontSize: "18px"
+    fontSize: "15.5px"
     fontWeight: 600
-    lineHeight: 1.4
-    letterSpacing: "-0.01em"
+    lineHeight: 1.5
+    letterSpacing: "-0.018em"
   body:
     fontFamily: "Pretendard Variable, Pretendard, sans-serif"
-    fontSize: "16px"
+    fontSize: "15.5px"
     fontWeight: 400
-    lineHeight: 1.65
+    lineHeight: 1.72
     letterSpacing: "normal"
   label:
     fontFamily: "Pretendard Variable, Pretendard, sans-serif"
-    fontSize: "11px"
+    fontSize: "13px"
+    fontWeight: 600
+    lineHeight: 1.4
+    letterSpacing: "-0.01em"
+  metric:
+    fontFamily: "JetBrains Mono, ui-monospace, monospace"
+    fontSize: "30px"
     fontWeight: 700
-    lineHeight: 1.6
-    letterSpacing: "0.06em"
+    lineHeight: 1.1
+    letterSpacing: "-0.03em"
 rounded:
+  xs: "6px"
   sm: "8px"
   md: "12px"
   lg: "16px"
-  xl: "22px"
+  xl: "20px"
   pill: "999px"
 spacing:
-  xs: "6px"
+  xs: "4px"
   sm: "8px"
-  md: "14px"
+  md: "12px"
   lg: "20px"
   xl: "28px"
 components:
-  button-primary:
-    backgroundColor: "{colors.brand}"
-    textColor: "{colors.on-brand}"
-    rounded: "{rounded.sm}"
-    padding: "0 14px"
-  button-primary-hover:
-    backgroundColor: "{colors.brand-hover}"
-    textColor: "{colors.on-brand}"
-  card:
+  panel:
     backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
+    borderColor: "{colors.line}"
+    rounded: "{rounded.lg}"
+    padding: "16px 20px 18px"
+  button-default:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink-2}"
+    borderColor: "{colors.line-2}"
+    rounded: "{rounded.sm}"
+    height: "36px"
+    padding: "0 14px"
+  button-primary:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.sm}"
+    height: "38px"
+    padding: "0 15px"
+  button-primary-hover:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.on-accent}"
+  kpi-card:
+    backgroundColor: "{colors.surface}"
+    borderColor: "{colors.line}"
     rounded: "{rounded.md}"
-    padding: "18px 20px 18px 22px"
+    padding: "15px 18px 16px"
+  row:
+    backgroundColor: "{colors.surface}"
+    minHeight: "58px"
+    padding: "0 20px 0 0"
   chip:
     backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.sub}"
-    rounded: "{rounded.sm}"
-    padding: "3px 9px"
+    textColor: "{colors.ink-2}"
+    borderColor: "{colors.line}"
+    rounded: "{rounded.pill}"
+    padding: "3px 11px"
 ---
 
-# Design System: 쓰담 운영 허브 (Sseudam Ops Hub)
+# Design System: 쓰담 운영 허브 (Sseudam Ops Hub) — v4 「작업실 (The Studio)」
 
-> ⛔ **이 문서는 낡았습니다 (2026-08-03).** 사이트는 같은 날 **v3 「편집국(The Newsroom)」**
-> — 종이 크림 `#FBF8F3` · 잉크 `#191614` · 브랜드 온기 `#C43F24` · 세리프 마스트헤드(Gowun Batang)
-> — 로 구현이 교체됐습니다. 아래 본문·프론트매터는 **v2(인디고 「따뜻한 관제탑」) 기준**이라 현재 코드와 다릅니다.
-> **지금의 토큰 정본 = `index.html`의 `:root` 블록.** 이 문서 전면 개정은 사용자 피드백 확정 후에 합니다.
-> (개편 근거·시안: `..\쓰담\docs\site-redesign-2026-08.html` · `site-redesign-prototype.html`)
+> **버전 이력** — v2 「따뜻한 관제탑」(인디고) → v3 「편집국」(세리프·신문 조판, 2026-08-03) →
+> **v4 「작업실」(2026-08-04, 현행 확정)**. v3는 하루 만에 폐기됐다. 그 이유가 이 문서의 §1에 있다.
+> 토큰 실제값 정본은 `index.html`의 `:root` 블록이며, 이 문서는 그와 동기화된 설계 근거다.
 
 ## 1. Overview
 
-**Creative North Star: "곁을 지키는 관제탑 (The Warm Control Room)"**
+**Creative North Star: "잘 정돈된 작업실 (The Studio)"**
 
-쓰담 운영 허브는 차가운 관제 화면이 아니다. 봄딩·영도·겜더쿠·연봄 네 작성자의 글이 지금 어디쯤 있는지 — 발행됐는지, 검수 중인지, 대기 중인지 — 를 열자마자 한눈에 읽히게 하는 도구이되, '다정한 동료'라는 쓰담의 정체성대로 온기가 흐른다. 인디고-바이올렛(`#5A4FE6`)의 차분한 전문성이 골격을 잡고, 코랄(`#FF6F52`) 웜 액센트가 사람 냄새를 더한다. 밀도는 높지만 빽빽하지 않다. 흰 surface 위에 절제된 1px 보더와 옅은 그림자로 정보를 구획하고, 위계(무엇이 먼저 읽혀야 하는가)가 장식보다 항상 우선한다.
+쓰담 운영 허브는 봄딩·영도·겜더쿠·연봄·하루살이 다섯 작성자의 글이 지금 어디쯤 있는지 —
+확인 대기인지, 발행됐는지, 큐에 밀려 있는지 — 를 열자마자 파악하고 곧장 다음 행동으로 넘어가는 도구다.
+매일 여러 번 여는 화면이므로 **눈이 편하고, 경계가 분명하고, 누를 것이 눌러 보이는 것**이 미학보다 앞선다.
 
-이 시스템이 명시적으로 거부하는 것: **전형적 SaaS 템플릿**(보라→파랑 그라데이션, 히어로 메트릭 카드, 끝없이 반복되는 동일 아이콘 카드 그리드), **차갑고 기술적인 개발자 대시보드**(데이터만 빽빽하고 온기 없는 화면), **유치하고 장난스러운 톤**(이모지 범벅·캐주얼 과잉). 따뜻하되 가볍지 않고, 또렷하되 차갑지 않다.
+**v3에서 무엇이 틀렸나 (이 시스템의 존재 이유)**
 
-작성자 정체성은 색으로 흐른다. 각 작성자에게 고정 액센트 컬러(`--ac`)를 부여해, 카드·탭·라벨이 누구의 글인지 색만으로 구분되게 한다. 이것이 이 시스템의 시그니처다.
+v3는 "편집국"이라는 은유를 택해 세리프 헤드라인 + 1px 룰/점선 + 10px 모노 마이크로라벨로 신문 조판을 흉내 냈다.
+제안서와 시안 단계에서는 독창적이고 브랜드에 맞아 보였다. 그러나 실제로 매일 쓰자 세 가지가 무너졌다.
 
-**Key Characteristics:**
+1. **영역 경계가 안 보였다** — 얇은 선과 점선만으로 나누니 블록이 서로 흘러 붙었다.
+2. **버튼이 버튼으로 안 보였다** — 텍스트에 가까운 링크형 컨트롤이라 클릭 대상이 불분명했다.
+3. **글씨가 눈에 안 들어왔다** — 10~12px 모노 라벨과 세리프 본문이 한국어 UI에서 읽히지 않았다.
+
+사용자의 표현 그대로 **"지저분한 신문기사"** 였다. 교훈은 하나다 —
+**컨셉이 강할수록 "이 은유가 사용자의 실제 과업을 돕는가"를 따로 검증해야 한다. 시안 승인 ≠ 사용성 검증.**
+
+**v4의 다섯 원칙**
+
+1. **영역은 '선'이 아니라 '면'으로 나눈다** — 모든 블록이 패널(배경 + 테두리 + 여백 + 미세 그림자)을 갖는다.
+2. **읽히는 게 먼저다** — Pretendard 단일, 라벨은 12.5px 이상, 모노는 숫자 전용.
+3. **1920×1080이 기준 해상도다** — `--maxw:1560px`. 2컬럼을 장식이 아니라 실제로 쓴다.
+4. **버튼은 버튼처럼** — 높이 36~38px 고정, 면·테두리·상태 전환이 분명하게.
+5. **밀도는 낮추고 여백을 준다** — 정보를 줄이지 않되 숨 쉴 자리를 만든다.
+
+**Key Characteristics**
 - 라이트/다크 양면, WCAG AA 대비 보장
-- 단일 폰트(Pretendard) 다중 웨이트(400–800)로 위계 구성 — 폰트 페어링 없음
-- 흰 surface + 1px 보더 + 옅은 그림자, hover 시에만 살짝 떠오르는 flat-by-default 깊이
-- 작성자별 고정 액센트 컬러가 정보 구조를 관통
-- 코발트→바이올렛 + 코랄 웜 액센트의 쓰담 브랜드 팔레트
+- 따뜻한 뉴트럴 배경(`#F2F0EC`) 위에 **순백 패널**을 띄워 계층을 만든다
+- 작성자 색은 출처 표시 전용 — 행 좌측 4px 바, 아바타 링, 칩 채움
+- 테라코타 액센트(`#C4482A`) 하나로 브랜드 온기를 유지
+- 진입 스태거·KPI 카운트업 등 최소한의 동적 UI (전부 `prefers-reduced-motion` 대체 경로 보유)
 
 ## 2. Colors
 
-인디고-바이올렛 한 줄기가 브랜드를 짊어지고, 코랄 웜 액센트가 온기를, 회색 중립 램프가 정보 위계를 만든다. 채도는 절제돼 있고 따뜻함은 액센트와 타이포로 옮긴다.
+배경과 패널의 **밝기 차이**가 이 시스템의 첫 번째 도구다. 배경(`#F2F0EC`)이 패널(`#FFFFFF`)보다 어둡기 때문에
+패널이 떠 보이고, 그것만으로 영역이 나뉜다. 선은 보조일 뿐이다.
 
-### Primary
-- **쓰담 인디고 (Sseudam Indigo)** (`#5A4FE6`): 브랜드 골격. 주요 CTA(`.app-cta`·`.fab`), 활성 탭, 링크 hover 시 제목 색, 강조 라벨. 화면을 지배하지 않고 '동료의 손길'처럼 요소요소에 등장.
-- **인디고 호버 (Indigo Pressed)** (`#4A3FD4`): primary 버튼 hover/active의 더 깊은 톤.
-- **인디고 위크 (Indigo Wash)** (`#EDEBFC`): 활성 배경·옅은 강조 면. 텍스트가 아닌 면을 칠할 때.
+### Surface (면 램프)
+- **Paper** (`#F2F0EC`): 앱 배경. 패널보다 반드시 어둡다.
+- **Paper Deep** (`#E9E6E0`): 더 깊은 구분 띠.
+- **Surface** (`#FFFFFF`): 패널·행·카드.
+- **Surface Inset** (`#F6F4F1`) / **Inset Hover** (`#EDEAE5`): 칩·인셋·행 hover.
 
-### Secondary
-- **쓰담 코랄 (Sseudam Coral)** (`#FF6F52`): 따뜻함의 운반체. 신규·온기·인간적 강조. 차가운 툴이 되지 않게 막는 액센트로, 절제해서 쓴다.
-- **코랄 위크 (Coral Wash)** (`#FFEEE9`): 코랄 강조의 옅은 배경.
+### Ink (텍스트 램프)
+- **Ink** (`#1A1815`): 제목·행 제목·본문 기본.
+- **Ink 2** (`#514B44`): 보조 텍스트·칩 텍스트.
+- **Ink 3** (`#6F6961`): 메타·라벨·비활성. *종이 위 4.8:1로 AA 통과.*
 
-### Tertiary — 작성자 액센트 (Author Identity)
-- **봄딩 테라코타** (`#E06C49`): 봄딩(네이버) 글·탭·라벨.
-- **영도 틸-그린** (`#2F8F7F`): 영도(네이버) 글.
-- **겜더쿠 바이올렛** (`#7C5CD1`): 겜더쿠(티스토리) 글.
-- **연봄 블루** (`#4A86C5`): 연봄(티스토리) 글.
+### Line
+- **Line** (`#E2DED7`) 기본 구획 / **Line 2** (`#CFC9C0`) 버튼·입력 / **Line 3** (`#B6AFA4`) hover 강조.
 
-### Neutral
-- **잉크 (Ink)** (`#16181D`): 본문·제목 기본 텍스트.
-- **서브 (Sub)** (`#4A4F58`): 보조 텍스트·설명.
-- **뮤트 (Muted)** (`#6B7280`): 메타·카운트·비활성 라벨.
-- **배경 (Page BG)** (`#FFFFFF`) / **서브틀 (Subtle BG)** (`#F7F8FA`) / **서피스2 (Inset)** (`#F2F4F7`): 페이지·칩·인셋 면.
-- **라인 (Line)** (`#E5E7EB`) / **강한 라인 (Line Strong)** (`#D1D5DB`): 보더·디바이더.
+### Accent — 쓰담 테라코타
+- **Accent** (`#C4482A`): 브랜드 온기의 유일한 운반체. 종이 위 **4.9:1**, 흰 글자 위 **5.2:1** — 텍스트·채움 양쪽 AA.
+- **Accent Hover** (`#A93A20`) / **Accent Soft** (`#FBEAE4`): 눌림·옅은 강조면.
+
+### Status
+- **OK** (`#15703C`) 발행 완료 / **Warn** (`#8A5D08`) 검수·진행 / **Bad** (`#B3261E`) 실패·삭제 / **Info** (`#1B5FA8`) 신규·대기.
+
+### Author Identity (출처 전용)
+- 봄딩 **테라코타** `#D9603C` · 영도 **틸** `#2A8574` · 겜더쿠 **바이올렛** `#7355C9` ·
+  연봄 **블루** `#3F7EC0` · 하루살이 **마젠타** `#BC3D73`
 
 ### Named Rules
-**The Author-Color Rule.** 작성자 액센트 컬러는 작성자 정체성 전용이다. 봄딩=테라코타, 영도=틸, 겜더쿠=바이올렛, 연봄=블루를 절대 교차하거나 장식용으로 전용하지 않는다. 색이 곧 출처다.
 
-**The Warm-Restraint Rule.** 코랄은 온기의 마지막 한 방울이다. 면적이 아니라 포인트로 쓴다. 코랄이 화면을 덮으면 '다정함'이 아니라 '소란함'이 된다.
+**The Author-Color Rule.** 작성자 색은 출처 전용이다. 교차하거나 장식으로 전용하지 않는다. 색이 곧 출처다.
+단, **색만으로 정보를 전달하지 않는다** — 아바타 옆에 항상 이름 텍스트를 같이 둔다.
 
-> ⚠️ **리뷰 항목(현행 코드 기준):** 사이트 브랜드 primary가 `#5A4FE6`인데 브랜드 정본·앱(PWA)은 코발트 `#4C6FFF`를 쓴다. 사이트↔앱 브랜드색이 갈린 상태 — `/impeccable critique` 또는 별도 정렬에서 단일화 결정 필요.
+**The Theme-Pair Rule.** 면과 글자는 **반드시 같은 테마 쌍**으로 쓴다 —
+`background:var(--ink)`에는 `color:var(--paper)`, `background:var(--accent)`에는 `color:var(--on-brand)`.
+`color:#fff`처럼 한쪽을 고정값으로 박으면 다크에서 `--ink`가 밝아지는 순간 **흰 배경 위 흰 글자**가 된다.
+(v4 개발 중 실제로 처방 라벨이 이 방식으로 완전히 사라졌다.)
+
+**The Surface-Gap Rule.** 배경과 패널은 항상 다른 밝기여야 한다. 같아지면 영역 구분이 즉시 무너진다.
 
 ## 3. Typography
 
-**Display/Body Font:** Pretendard Variable (fallback: Pretendard, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", system-ui)
-
-**Character:** 한글에 최적화된 단일 휴머니스트 산세리프 하나를, 웨이트(400→800)와 크기로만 위계를 만든다. 서로 비슷한 두 산세리프를 섞는 흔한 실수를 피하고, 한 가족의 굵기 대비로 또렷함을 낸다. 한국어 본문은 `word-break: keep-all`로 어절 단위 줄바꿈.
+**단일 폰트: Pretendard Variable** (fallback: Pretendard, -apple-system, "Apple SD Gothic Neo", system-ui)
+**수치 전용: JetBrains Mono** — KPI·카운트·읽기 시간·날짜에만. 한글에는 절대 쓰지 않는다.
 
 ### Hierarchy
-- **Display** (700, `clamp(22px, 5.2vw, 28px)`, lh 1.3, ls -0.02em): 뷰 제목(`.viewhead h1`). 각 탭/화면의 머리.
-- **Feature** (700, `clamp(20px, 4.6vw, 23px)`, lh 1.36, ls -0.015em): 피처 카드 제목(`.f-title`). 상단 강조 글.
-- **Title** (600, 18px, lh 1.4, ls -0.01em): 일반 카드 제목(`.c-title`). 목록의 주력 텍스트.
-- **Body** (400, 16px, lh 1.65): 본문 기본. 설명·요약은 14.5–15.5px / sub 색.
-- **Label** (700, 11px, ls 0.06em): 키커·플래그(`.f-k`), 통계 라벨, 작성자 칩. 카운트는 `font-feature-settings:"tnum"`로 자릿수 정렬.
+- **Display** (800, 24px, ls -0.03em): 뷰 제목(`.viewhead h1`).
+- **Panel** (700, 16.5px, ls -0.022em): 패널 제목(`.panel-h h2`).
+- **Row** (600, 15.5px, ls -0.018em): 목록 행 제목(`.c-title`) — 이 화면에서 가장 많이 읽는 텍스트.
+- **Body** (400, 15.5px, lh 1.72): 본문·설명.
+- **Label** (600, 13px): 칩·버튼·메타 라벨.
+- **Metric** (Mono 700, 30px): KPI 숫자. 서고 카운트는 38px.
 
 ### Named Rules
-**The One-Family Rule.** 폰트는 Pretendard 하나뿐. 위계는 웨이트와 크기로만. 두 번째 폰트를 들이지 않는다.
 
-**The Tabular-Number Rule.** 카운트·통계 수치는 항상 `tnum`. 숫자가 흔들리면 관제탑이 아니다.
+**The Readable-Floor Rule.** UI 라벨의 하한은 **12.5px**이다. 그 아래로 내려가면 한국어에서 읽히지 않는다.
+v3는 10~11px 모노 라벨을 썼고 그게 "눈에 안 들어온다"의 직접 원인이었다.
+
+**The Mono-For-Numbers-Only Rule.** 모노스페이스는 숫자에만. JetBrains Mono에는 한글 글리프가 없어
+한글이 섞이면 시스템 폰트로 폴백해 굴림체처럼 깨진다. 숫자는 `font-feature-settings:"tnum"`으로 자릿수 정렬.
+
+**The One-Family Rule.** 폰트는 Pretendard 하나. 위계는 웨이트(400–800)와 크기로만. 세리프를 다시 들이지 않는다.
 
 ## 4. Elevation
 
-기본은 평평하다. surface는 흰 면 + 1px 보더로 구획되고, 깊이는 상태(state)에 대한 반응으로만 나타난다 — 카드 hover 시 `translateY(-2px)`로 살짝 떠오르며 중간 그림자가 붙는다. 어둡고 무거운 그림자는 없다. 그림자 색은 차가운 회색이 아니라 살짝 보랏빛이 도는 `rgba(40,32,90,...)`(큰 그림자)을 써서 브랜드 온도를 유지한다.
+깊이는 **면의 밝기 차 → 1px 테두리 → 미세 그림자** 순으로 만든다. 그림자는 마지막 보조 수단이다.
 
 ### Shadow Vocabulary
-- **sm** (`box-shadow: 0 1px 2px rgba(16,24,40,.05)`): 칩·작은 인셋의 미세한 분리.
-- **md** (`box-shadow: 0 6px 16px rgba(16,24,40,.07)`): 카드 hover 시 떠오름.
-- **lg** (`box-shadow: 0 14px 34px rgba(40,32,90,.14)`): FAB·플로팅 요소. 유일하게 보랏빛 그림자.
+- **xs** (`0 1px 2px rgba(52,42,30,.05)`): 패널·카드 기본. 거의 안 보이지만 종이가 떠 있다는 신호.
+- **sm** (`0 1px 3px + 0 1px 2px`): 세그먼트의 선택된 탭, hover한 행 카드.
+- **md** (`0 4px 14px + 0 2px 5px`): hover로 들어올려진 KPI·클러스터·갤러리 카드.
+- **lg** (`0 16px 40px rgba(40,30,18,.16)`): FAB·서고 블록 등 떠 있는 요소.
+- **ring** (`0 0 0 3px accent-soft`): 입력 포커스.
 
-### Named Rules
-**The Flat-By-Default Rule.** 면은 쉴 때 평평하다. 그림자는 hover·focus·플로팅 같은 상태의 응답으로만 등장한다. 정적 화면에 그림자를 깔지 않는다.
+그림자 색은 회색이 아니라 **따뜻한 갈색 계열**(`rgba(52,42,30,…)`)이다. 종이 온도를 유지하기 위해서다.
 
 ## 5. Components
 
+### Panel (시그니처)
+- 흰 면 + 1px `line` + 16px 라운드 + `sh-xs`. 헤더(`.panel-h`)·본문(`.panel-b`)·푸터(`.panel-f`) 3부 구조.
+- 헤더: 제목(16.5px/700) + 카운트 칩 + 우측 액션 버튼, 하단 1px 구분선.
+- 본문이 목록일 때는 `.panel-b.flush`로 패딩을 없애 행이 패널 가장자리까지 닿게 한다.
+
+### KPI Card
+- `flex:1 1 160px`으로 가로를 균등 분할. **`auto-fit` 그리드를 쓰지 않는다** — 숨긴 셀이 섞이면 폭을 못 채운다.
+- 숫자(Mono 30px) 위, 라벨(13px/600) 아래. hover 시 하단 3px 바가 좌→우로 자란다.
+- **실측값만 표시한다.** 백엔드가 주지 않는 수치는 셀을 숨기고 "미연결"이라 적는다. 0으로 위장하지 않는다.
+
 ### Buttons
-- **Shape:** 부드럽게 굴린 모서리(`--radius-sm` 8px). FAB·칩 라벨은 알약(999px).
-- **Primary (`.app-cta`):** 브랜드 인디고 면 + 흰 텍스트, 13.5px / 700, 높이 고정, 좌측 아이콘 슬롯.
-- **Hover / Focus:** 인디고 호버(`#4A3FD4`)로 깊어짐, 0.13s 전환. focus-visible은 브랜드 윤곽.
-- **FAB (`.fab`):** 우하단 고정 알약, 브랜드 면 + `sh-lg`(보랏빛 그림자). 모바일에서 축소.
-- **Ghost/탭 버튼:** 투명 배경 + sub 색, hover 시 `bg-subtle`. 활성(`.on`)은 해당 작성자 액센트 면 + 흰 텍스트.
+- **Default** (`.btn`/`.sbtn`): 높이 36px, 흰 면 + `line-2` 테두리. hover 시 `surface-2` + `line-3`.
+- **Primary** (`.app-cta`/`.rf-submit`/`.fab`): `ink` 면 + `paper` 글자. hover 시 **accent로 전환** + 1~3px 상승.
+- **Icon** (`.icon-btn`): 38×38 정사각, 테두리 유지.
+- **Segment** (`.nav-seg`): 인셋 트랙 안에서 선택된 탭만 흰 면 + `sh-sm`으로 떠오른다.
+- **Chip** (`.wchip`/`.rf-chip`): 알약, 선택 시 작성자색 채움(`--ac-fill`) + 흰 글자.
 
-### Chips
-- **Style:** `surface-2` 배경 + sub 텍스트, 11.5px / 600, 작은 라운드. 보더 없음.
-- **State:** 작성자 칩(`.who`)은 해당 `--ac` 색 텍스트로 출처 표시.
+섹션 이동은 **세그먼트**, 작성자 필터는 **칩** — 선택의 성격이 다르므로 형태를 다르게 한다.
 
-### Cards / Containers
-- **Corner Style:** 12px(`--radius`).
-- **Background:** 흰 `surface`, pub(발행완료) 상태는 opacity .5로 딤드(hover 시 .85).
-- **Shadow Strategy:** 평소 그림자 없음, hover 시 `sh-md` + `translateY(-2px)` (Elevation 참조).
-- **Border:** 1px `line`, hover 시 `line-strong`.
-- **Signature:** 좌측에 3px 작성자 액센트 바(`.card::before`, `width:3px;background:var(--ac)`) — 출처를 색으로 표시하는 시그니처. hover 시 제목이 브랜드 색으로.
-- **Internal Padding:** 18–22px.
+### Row (목록)
+- `grid-template-columns: 4px 132px 1fr 172px 66px 78px` — 색바·작성자·제목·분류·읽기·상태.
+- 높이 58px. **모든 셀에 `grid-row:1`을 명시한다** — 안 하면 메타가 2행으로 흘러 줄이 깨진다.
+- 좌측 4px 작성자 색 바는 평소 `opacity:.55`, hover 시 1.0.
+- 1100px 이하에서 분류 칩을 접고, 720px 이하에서 2줄 카드 행(`grid-template-areas`)으로 재배치한다.
 
-### Inputs / Fields
-- **Style:** `surface` 배경 + 1px 보더, `--radius-sm`, 좌측 아이콘 패딩(38px). 13.5px.
-- **Focus:** 0.13s 전환으로 보더/링 강조.
+### Inputs
+- 흰 면 + `line-2` 테두리 + 8px 라운드, 패딩 11×13. focus 시 accent 테두리 + `sh-ring`.
+- 검색 입력은 focus 시 250→290px로 넓어진다.
 
-### Navigation
-- **Style:** 상단 nav(`.topnav`) + 팀 메뉴(`.teammenu`). 버튼은 투명·sub 색·14px/600.
-- **States:** hover=`bg-subtle`; 활성(`.nav-corner.on`)=작성자/섹션 액센트 면 + 흰 텍스트·아이콘. 카운트는 `tnum` 뮤트.
-- **Mobile:** 560px 이하에서 패딩·폰트 축소, 핵심 탭 우선.
-
-### Badge (Signature)
-- **badge-new:** 신규 표시, 10.5px / 800 / ls .05em.
-- **badge-pub:** 발행됨 표시, 10.5px / 700, 발행 상태 카드에 부착.
+### Motion
+- **진입 스태거**: `.reveal` + `--i` 인덱스로 55ms 간격 fade-up.
+- **KPI 카운트업**: 0에서 실제값까지 ease-out cubic, 항목당 45ms 지연.
+- **hover 상승**: 카드 -2~3px + 그림자 승급.
+- 전부 `prefers-reduced-motion: reduce`에서 즉시 확정값·정지로 대체된다.
 
 ## 6. Do's and Don'ts
 
-### Do:
-- **Do** 단일 폰트 Pretendard에 웨이트(400–800)로만 위계를 만든다.
-- **Do** 작성자 액센트(봄딩 `#E06C49`·영도 `#2F8F7F`·겜더쿠 `#7C5CD1`·연봄 `#4A86C5`)를 출처 표시 전용으로만 쓴다.
-- **Do** 면은 평평하게 두고, 그림자는 hover·focus 같은 상태 응답으로만 붙인다.
-- **Do** 코랄(`#FF6F52`)을 면이 아니라 포인트로, 절제해서 온기 전달에만 쓴다.
-- **Do** 수치·카운트는 `tnum`으로 자릿수를 정렬한다.
-- **Do** 본문 대비 ≥4.5:1, 큰 텍스트 ≥3:1을 라이트/다크 양쪽에서 지킨다(WCAG AA).
-- **Do** 한국어 본문에 `word-break: keep-all`로 어절 줄바꿈을 유지한다.
-- **Do** `prefers-reduced-motion`에서 hover 떠오름·전환을 크로스페이드/즉시로 대체한다.
+### Do
+- **Do** 모든 블록을 패널로 감싸 배경·테두리·여백으로 영역을 나눈다.
+- **Do** 배경(`paper`)을 패널(`surface`)보다 어둡게 유지한다.
+- **Do** 면과 글자를 같은 테마 쌍(`--ink`/`--paper`, `--accent`/`--on-brand`)으로 지정한다.
+- **Do** UI 라벨을 12.5px 이상으로 둔다.
+- **Do** 모노스페이스를 숫자에만 쓰고 `tnum`으로 자릿수를 맞춘다.
+- **Do** 버튼 높이를 36~38px로 고정하고 hover/active/on 상태를 눈에 보이게 한다.
+- **Do** 작성자 색 옆에 항상 이름 텍스트를 같이 둔다(색만으로 정보 전달 금지).
+- **Do** 1920×1080에서 먼저 확인하고, 1366·720·390에서 되짚는다.
+- **Do** 본문 대비 ≥4.5:1을 라이트/다크 양쪽에서 지킨다.
+- **Do** 한국어 본문에 `word-break: keep-all`을 유지한다.
+- **Do** 모든 모션에 `prefers-reduced-motion` 대체 경로를 둔다.
 
-### Don't:
-- **Don't** 전형적 SaaS 템플릿을 답습한다 — 보라→파랑 그라데이션, 히어로 메트릭 카드, 끝없이 반복되는 동일 아이콘 카드 그리드 금지.
-- **Don't** 차갑고 기술적인 개발자 대시보드처럼 데이터만 빽빽이 깐다 — 쓰담은 온기 있는 동료다.
-- **Don't** 유치하거나 장난스럽게 간다 — 이모지 범벅·캐주얼 과잉 금지. 따뜻하되 전문성 유지.
-- **Don't** `background-clip:text` 그라데이션 텍스트를 쓴다 — 강조는 웨이트·크기·단색으로.
-- **Don't** 글래스모피즘(블러 유리 카드)을 기본값으로 깐다 — 드물고 목적이 분명할 때만.
-- **Don't** 작성자 액센트 색을 장식용으로 전용하거나 작성자끼리 교차한다 — 색이 곧 출처다.
-- **Don't** 999/9999 같은 임의 z-index를 쓴다 — 시맨틱 스케일을 따른다.
-
-> ⚠️ **리뷰 항목:** 현재 카드 좌측 3px 액센트 바(`.card::before`)는 impeccable의 "side-stripe border >1px" 금지와 충돌한다. 출처 표시라는 기능은 유효하므로, `/impeccable critique`/`polish`에서 (a) 전체 보더 틴트, (b) 선두 색 도트/칩, (c) 1px로 축소 중 하나로 재설계할지 결정한다. 지금은 시그니처로 문서화하되 검토 대상으로 표시.
+### Don't
+- **Don't** 은유를 위해 명료함을 희생한다 — v3가 정확히 그렇게 실패했다.
+- **Don't** 세리프를 본문·UI에 들인다. Pretendard 하나로 간다.
+- **Don't** 10~12px 마이크로 라벨을 쓴다.
+- **Don't** 얇은 선·점선만으로 영역을 나눈다.
+- **Don't** `color:#fff` 같은 고정 색을 테마 토큰 면 위에 올린다(다크에서 소실된다).
+- **Don't** hover에서만 나타나는 컨트롤을 만든다 — **터치 기기엔 hover가 없어 기능이 사라진다.**
+  꼭 흐리게 하려면 `@media (hover:hover) and (pointer:fine)`로 가둔다.
+- **Don't** 백엔드가 주지 않는 수치를 만들어 채운다. 모르면 모른다고 적는다.
+- **Don't** 작성자 색을 장식으로 전용하거나 서로 교차한다.
+- **Don't** 999/9999 같은 임의 z-index를 쓴다 — `--z-*` 시맨틱 스케일을 따른다.
+- **Don't** 자동검증 발행글(`data-autopub="1"`)에 관리 메뉴를 노출한다 — 보호 규칙이다.
