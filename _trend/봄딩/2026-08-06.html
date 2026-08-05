@@ -1,0 +1,107 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 봄딩 오늘 쓸 글 · 2026-08-06</title>
+<style>
+:root{--ac:#e06c49;--acd:#b8502f;--acw:#fbe9e3;--ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--good-w:#e7f6ef;--warn-w:#fbf1de}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;line-height:1.6;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.wrap{max-width:840px;margin:0 auto;padding:20px 18px 60px}
+.back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+.mast{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 1px 2px rgba(16,24,40,.05);padding:20px 22px}
+.who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--acd);background:var(--acw);border-radius:999px;padding:4px 11px}
+.who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac)}
+.mast h1{font-size:clamp(16px,3vw,19px);font-weight:800;letter-spacing:-.02em;margin:11px 0 6px;line-height:1.5;text-wrap:balance}
+.mast .meta{font-size:12px;color:var(--muted);font-weight:500}.mast .meta b{color:var(--sub);font-weight:700}
+.rx{margin-top:14px;background:var(--acw);border:1px solid var(--line);border-radius:13px;padding:13px 16px;display:flex;gap:11px;align-items:flex-start}
+.rx .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:3px 9px;margin-top:1px}
+.rx .rc{font-size:13px;line-height:1.6;color:var(--ink)}.rx .rc b{font-weight:800;color:var(--acd)}
+h2.sec{font-size:16px;font-weight:800;letter-spacing:-.02em;margin:30px 0 4px;display:flex;align-items:center;gap:8px}
+.sub{color:var(--sub);font-size:12px;margin:4px 0 12px;line-height:1.55}
+.tabs>input{position:absolute;opacity:0;pointer-events:none}
+.tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+.tablab{font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:9px;background:var(--inset);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s}
+.tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px}
+.tpanel{display:none}
+#t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3],#t4:checked~.tabbar label[for=t4],#t5:checked~.tabbar label[for=t5],#t6:checked~.tabbar label[for=t6],#t7:checked~.tabbar label[for=t7]{background:var(--ac);color:#fff;border-color:var(--ac)}
+#t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt,#t4:checked~.tabbar label[for=t4] .cnt,#t5:checked~.tabbar label[for=t5] .cnt,#t6:checked~.tabbar label[for=t6] .cnt,#t7:checked~.tabbar label[for=t7] .cnt{color:rgba(255,255,255,.8)}
+#t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3,#t4:checked~#p4,#t5:checked~#p5,#t6:checked~#p6,#t7:checked~#p7{display:block}
+.pick{border:1px solid var(--line);border-radius:13px;padding:12px 15px;margin-bottom:9px;background:var(--panel)}
+.pick-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px}
+.gtag{font-size:10px;font-weight:800;color:var(--acd);background:var(--acw);border-radius:5px;padding:2px 7px}
+.purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset);border-radius:5px;padding:2px 7px}
+.ecpm{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:#e7f6ef;color:#157a52}
+.ecpm.mid{background:#fbf1de;color:#9a6207}
+.ecpm.low{background:#eef0f5;color:#5b6270}
+.pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--acw);color:var(--acd);white-space:nowrap}
+.ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:170px;line-height:1.4}
+.pwhy{font-size:12px;line-height:1.55;color:var(--sub)}.pwhy b{color:var(--ink);font-weight:700}
+.pwhy a{color:var(--ac);text-decoration:none;font-weight:700;border-bottom:1px solid var(--acw)}
+.note{margin:0 0 10px;padding:10px 13px;background:var(--warn-w);border:1px solid #f0dfbc;border-radius:11px;font-size:11.5px;line-height:1.55;color:#7a5a12}
+.note b{color:#5d430b}
+.foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center}
+@media(max-width:540px){.wrap{padding:14px 12px 44px}.mast{padding:16px 16px}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+ <div class="mast">
+   <span class="who">데이터 분석실 · 봄딩 편</span>
+   <h1>오늘 봄딩 1순위는 <b>화이트아웃 서바이벌 x 킹샷 콜라보 '쌍둥이별 대모험' 마감 D-4(8/10)</b>예요 — 두 게임 마스코트 '백곰'이 서로의 세계관을 오가는 크로스오버라 신규 유입 여지가 크고, 봄딩 기존 글은 쿠폰·매출순위뿐이라 겹치지 않아요. 발굴은 봄딩이 한 번도 안 다룬 <b>마블 투혼: 파이팅 소울즈(내일 8/7 PS5·PC 출시)</b>와 <b>블루 아카이브(신규 IP)</b>로 신규 유입을 노려요.</h1>
+   <div class="meta">발행일 <b>2026-08-06(목)</b> · 대상 <b>봄딩</b>(네이버 bomding · 게임 + 🍼육아 쿠팡 파트너스) · 오늘 쓸 글 전용(PICKS)</div>
+   <div class="rx"><span class="pp">P1</span><div class="rc"><b>오늘 가장 먼저 쓸 1편</b> — <b>「화이트아웃 서바이벌 x 킹샷 콜라보 '쌍둥이별 대모험' — 참여법과 한정 보상 총정리(마감 D-4)」</b>예요. 이벤트는 8월 4일부터 10일까지 7일간만 진행되고, 두 게임의 백곰·몰리 캐릭터가 서로의 세계관을 오가며 한정 프레임·이모티콘·섬 장식(화이트아웃)과 폴라 베어 스타·한정 행군 스킨(킹샷)을 나눠 줘요. 봄딩 화이트아웃 포스팅은 "쿠폰코드·매출1위·초보가이드" 1건뿐이라 콜라보 각도는 완전히 새롭고, 마감이 코앞이라 검색이 몰려요. <a href="https://www.khgames.co.kr/news/articleView.html?idxno=306963" target="_blank" rel="noopener">경향게임스 콜라보 기사↗</a></div></div>
+ </div>
+
+ <h2 class="sec">✍️ 오늘 쓸 글 추천</h2>
+ <p class="sub">7탭 <b>총 19편</b>(확장 3 · 발굴 3 · 두근두근타운 2 · 포켓몬 GO 3 · 포켓몬 챔피언스 2 · 메이플플래닛 3 · 🍼육아 3) · 게임 픽엔 <b>eCPM 기대등급</b>(🟢고=구매·과금·기기 / 🟡중=공략·이벤트 / ⚪저=속보·정보)을 붙였어요. 포켓몬 GO 3건은 전부 연봄과 겹치지 않는 <b>초보 준비물·레이드 대비</b> 각도로 잡았고, 챔피언스는 어제와 동일하게 <b>배틀패스 각도 금지</b> 원칙을 지켜 연동 아이템·이스포츠 관전 각도 2건만 남겼어요. 두근두근타운은 소재 대부분이 기발행이라 새 각도 2건만 남겼고, 메이플플래닛은 dedup 재검토 결과 <b>새 직업(팔라딘)</b>이 순증으로 확인돼 포함했어요. 육아는 스펙·성분이 검증 가능한 제품군만 담았고, 그중 <b>이앓이 젤은 식약처 안전성 서한(벤조카인 24개월 미만 금지)</b>을 근거로 삼았어요(쿠팡 파트너스 고지 필수). 카드의 <b>✈ 발행 요청</b>으로 기획팀에 바로 발주돼요.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3"><input type="radio" name="rec" id="t4"><input type="radio" name="rec" id="t5"><input type="radio" name="rec" id="t6"><input type="radio" name="rec" id="t7">
+   <div class="tabbar"><label class="tablab" for="t1">🔼 확장 <span class="cnt">3</span></label><label class="tablab" for="t2">🆕 발굴 <span class="cnt">3</span></label><label class="tablab" for="t3">두근두근타운 <span class="cnt">2</span></label><label class="tablab" for="t4">포켓몬 GO <span class="cnt">3</span></label><label class="tablab" for="t5">포켓몬 챔피언스 <span class="cnt">2</span></label><label class="tablab" for="t6">메이플플래닛 <span class="cnt">3</span></label><label class="tablab" for="t7">🍼 육아 <span class="cnt">3</span></label></div>
+
+   <div class="tpanel" id="p1">
+     <div class="pick"><div class="pick-top"><span class="gtag">화이트아웃 서바이벌</span><span class="ecpm mid">🟡 중</span><span class="purp">콜라보 이벤트(P1)</span><span class="pwhen">킹샷 콜라보 '쌍둥이별 대모험' 8/4~8/10(7일) · D-4 마감임박</span><span class="ptitle">화이트아웃 서바이벌 킹샷 콜라보 쌍둥이별 대모험 — 참여법과 한정 보상 총정리</span></div><div class="pwhy">백곰 마스코트를 매개로 두 게임 세계관이 서로 오가는 크로스오버예요. 봄딩 화이트아웃 포스팅은 "쿠폰코드·매출1위·초보가이드" 1건뿐이라 콜라보 각도는 순증이고, 마감(8/10)이 임박해 시급성도 커요. <a href="https://www.khgames.co.kr/news/articleView.html?idxno=306963" target="_blank" rel="noopener">경향게임스 콜라보 기사↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">니케</span><span class="ecpm mid">🟡 중</span><span class="purp">메인스토리+가챠 마감</span><span class="pwhen">챕터 47·48 업데이트 · 라플라스 픽업 8/12 마감 D-6</span><span class="ptitle">니케 챕터 47·48 메인스토리 업데이트 — 라플라스 픽업 마감 전 체크리스트</span></div><div class="pwhy">dedup 재검토 결과 봄딩 니케 관련 글이 스토리·픽업 갱신 각도는 아직 없어 새 소재예요. 8월 챕터 47·48이 열리고 라플라스 픽업이 8/12에 끝나 시급성이 있어요. ★<b>확인 필요</b>: 챕터 정확 오픈 일자는 게임 내 공지로 재확인하세요. <a href="https://www.inven.co.kr/webzine/news/?news=318790&site=nikke" target="_blank" rel="noopener">니케 업데이트 기사↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">솔:인챈트</span><span class="ecpm mid">🟡 중</span><span class="purp">엔드콘텐츠 신규</span><span class="pwhen">인터서버·월드거래소 최초 등장 · 신의 탑 3층 업데이트 진행중</span><span class="ptitle">솔인챈트 인터서버·월드거래소 첫 등장 — 신의 탑 3층·별자리 신규 콘텐츠 총정리</span></div><div class="pwhy">어제 발행된 「룬 선택 상자·힐러 예고」와는 다른 축이에요 — 이번은 서버 간 거래를 처음 여는 <b>인터서버·월드거래소</b> 도입 + <b>신의 탑 3층</b>·별자리 콘텐츠로, 봄딩 기존 6건(사전다운로드·직업선택·쿠폰 등) 어디에도 없는 엔드콘텐츠 각도예요. <a href="https://www.khgames.co.kr/news/articleView.html?idxno=307020" target="_blank" rel="noopener">첫 대규모 업데이트 기사↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="pick"><div class="pick-top"><span class="gtag">원신</span><span class="ecpm">🟢 고</span><span class="purp">신버전 프리뷰(뽑기)</span><span class="pwhen">7.0 「신이 사랑하지 않은 설국」 업데이트 8/12 · D-6</span><span class="ptitle">원신 7.0 8월 12일 업데이트 — 스네즈나야 개방·신캐 오데트·알료샤 미리보기</span></div><div class="pwhy">봄딩은 원신을 <b>단 한 번도 다룬 적이 없어요</b>(폴더 스캔 0건, 어제도 발행되지 않아 오늘까지 순증 유지). 티바트 7번째 국가 스네즈나야 개방 + 신규 캐릭터 오데트·알료샤 합류로 뽑기 시즌 트래픽이 몰려요. ★신캐 성능 단정은 피하고 "미리보기"로 표기하세요. <a href="https://www.khgames.co.kr/news/articleView.html?idxno=306921" target="_blank" rel="noopener">경향게임스 7.0 업데이트 기사↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">블루 아카이브</span><span class="ecpm mid">🟡 중</span><span class="purp">신규IP 이벤트 프리뷰</span><span class="pwhen">마코토 의장 화려한 피서 이벤트 ~8/12(보상교환 8/19까지) · 5.5주년 시논 배틀패스</span><span class="ptitle">블루 아카이브 마코토 의장 화려한 피서 이벤트 — 5.5주년 기념 시논 배틀패스까지</span></div><div class="pwhy">봄딩이 <b>한 번도 다루지 않은 신규 IP</b>예요(폴더 스캔 0건). 국내 서브컬처 게임 최상위권 검색량 IP고, 마침 5.5주년 기념 이벤트·배틀패스가 겹쳐 있어 신규 유입 각도로 좋아요. ★배틀패스 세부 구성·가격은 공식 인게임 공지로 재확인하세요. <a href="https://bbs.ruliweb.com/mobile/board/320108/read/2292243" target="_blank" rel="noopener">블루 아카이브 8월 캠페인 로드맵↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">마블 투혼: 파이팅 소울즈</span><span class="ecpm mid">🟡 중</span><span class="purp">신작 출시임박</span><span class="pwhen">PS5·PC 정식 출시 8/7 · D-1</span><span class="ptitle">마블 투혼: 파이팅 소울즈 8월 7일 출시 — 4대4 태그팀 격투게임 사전예약 특전과 첫인상 준비</span></div><div class="pwhy">봄딩 미다룸 신규 게임이자 장르예요(격투게임은 봄딩 포트폴리오에 처음). PS스튜디오·아크시스템웍스·마블게임즈가 함께 만든 4대4 태그팀 격투게임으로 내일이 출시일이라 예약 마감 시급성이 가장 커요. ★<b>확인 필요</b>: 게임 상세 콘텐츠(로스터·과금모델)는 미체험이라 "공식 확인 권장"으로 표기하세요. <a href="https://blog.ko.playstation.com/2026/02/13/20260213-marvel/" target="_blank" rel="noopener">플레이스테이션 블로그 출시 공지↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <p class="note">★두근두근타운은 소재 대부분(고래탐사 콘텐츠·산리오콜라보·반주년·바다청소 등)이 이미 발행됐어요. 오늘은 <b>새 각도 2건</b>만 남겼어요 — 하나는 콘텐츠 공략이 아니라 <b>마감 임박 무료 이벤트</b>, 다른 하나는 기존 공략글들과 달리 <b>시즌 종료 체크리스트</b> 형태예요.</p>
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="ecpm low">⚪ 저</span><span class="purp">무료 재화 이벤트</span><span class="pwhen">틱톡 팔로우 룰렛 이벤트 7/17~8/30 · 진행중</span><span class="ptitle">두근두근타운 틱톡 팔로우 룰렛 이벤트 참여법 — 소원별 최대 2천개 받기</span></div><div class="pwhy">공식 SNS(틱톡) 팔로우+돌림판 프로모션으로, 기존 "쿠폰이벤트정리"(리딤코드 목록·6월 코드 만료)와는 <b>완전히 다른 프로모션</b>이라 겹치지 않아요. 마감(8/30)까지 아직 여유가 있어 "현재진행" 각도로 서술하세요. <a href="https://nte.r-e.kr/37" target="_blank" rel="noopener">룰렛 이벤트 공지↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="ecpm mid">🟡 중</span><span class="purp">시즌 마감 체크리스트</span><span class="pwhen">고래 탐사 트렌드 시즌 종료 8/22 05:59(SVT) · D-16</span><span class="ptitle">두근두근타운 고래 탐사 시즌, 8월 22일 종료 전에 꼭 챙길 것 체크리스트</span></div><div class="pwhy">봄딩 기존 4건(신맵 하우징·해저메사 체크·시즌패스 비교·도감)은 전부 <b>콘텐츠 공략형</b>인데, 이 픽은 <b>"곧 사라지는 것 정리"</b>라는 마감 임박 각도라 겹치지 않아요. 전시 입장권은 8/31까지 별도로 쓸 수 있어 시즌 종료와 헷갈리지 않게 구분해서 쓰세요. ★<b>확인 필요</b>: 정확한 종료 시각·전시권 사용기한은 게임 내 공지로 한 번 더 대조하세요. <a href="https://www.inven.co.kr/webzine/news/?news=318152" target="_blank" rel="noopener">고래 탐사 시즌 공개 기사↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p4">
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="ecpm mid">🟡 중</span><span class="purp">레이드 준비(초보)</span><span class="pwhen">울트라 언록 워터페스티벌 8/18~24 · D-12</span><span class="ptitle">포켓몬고 워터페스티벌 8월 18일 시작 — 초보 레이드 카운터 파티 미리 준비하기</span></div><div class="pwhy">봄딩 GO 클러스터에 워터페스티벌 단독 글이 없어요(기존 "포켓몬/상성표"는 일반 타입 상성 레퍼런스라 이벤트 각도와 무관). 연봄과 다른 <b>초보 레이드 준비</b> 각도예요. ★<b>확인 필요</b>: 정확한 등장 레이드보스 라인업은 니안틱 공식 발표가 아직이라 "공식 확인 권장"을 꼭 병기하세요. <a href="https://leekduck.com/events/water-festival-2026/" target="_blank" rel="noopener">워터페스티벌 공지↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="ecpm mid">🟡 중</span><span class="purp">이벤트 준비물(초보)</span><span class="pwhen">8월 커뮤니티데이 훔쳐우 8/16(일) 14~17시 · D-10</span><span class="ptitle">포켓몬고 8월 커뮤니티데이 훔쳐우 — 초보자 준비물 체크리스트(스타더스트 3배·아이시 윈드 습득법)</span></div><div class="pwhy">기존 "여름 이벤트 캘린더"(6/29 발행)는 당시 "8월 커뮤니티데이는 유저 투표로 미확정"이라고만 썼는데, 지금 훔쳐우로 확정됐으니 후속 각도로 여전히 유효해요(어제도 발행되지 않아 오늘까지 순증). 연봄과 겹치지 않는 <b>초보 준비물 체크리스트</b> 각도예요. <a href="https://leekduck.com/events/august-communityday2026/" target="_blank" rel="noopener">8월 커뮤니티데이 공지↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="ecpm low">⚪ 저</span><span class="purp">알까기 이벤트(초보)</span><span class="pwhen">파이어 앤 아이스 해치 데이 8/8(토) 11~17시 · D-2</span><span class="ptitle">포켓몬고 해치 데이 8월 8일 — 스무치·마그비 이로치 확률 오르는 날, 어떤 알 지금 까야 할까</span></div><div class="pwhy">봄딩 GO 클러스터에 해치 데이 단독 글이 없어요(순증). 2km 알 부화 거리 절반·부화 캔디 2배 보너스가 겹치는 짧은 이벤트라 시급성이 있고, 스무치·마그비·라르베스타 이로치 확률도 오르는 게 핵심이라 초보 대상 준비 각도로 좋아요. <a href="https://leekduck.com/events/fire-and-ice-hatch-day-2026/" target="_blank" rel="noopener">Fire and Ice Hatch Day 공지↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p5">
+     <p class="note">★챔피언스는 <b>배틀패스 각도 전면 금지</b> 원칙을 오늘도 지켜, 연동 아이템 공략 1건 + 이스포츠 관전 가이드 1건으로 남겼어요. M-5 시즌(8/5 시작)의 배틀패스 자체는 픽에서 제외했어요.</p>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="ecpm mid">🟡 중</span><span class="purp">연동 아이템 공략</span><span class="pwhen">M-B 레귤레이션 시즌(6/17~9/2) 진행중 · 연동 필수 아이템</span><span class="ptitle">포켓몬챔피언스 플라엣테 메가스톤, 레전즈 Z-A 연동으로만 얻는 법(포켓몬홈 활용)</span></div><div class="pwhy">기존 "PC 에뮬레이터로 하는 법"과는 완전히 다른 주제(<b>타 게임 연동 아이템 획득 공략</b>)예요. 영원의 꽃 플라엣테 메가스톤은 <b>Pokémon LEGENDS Z-A에서 포획한 개체를 포켓몬 홈으로 전송해야만</b> 선물함으로 받을 수 있다는 게 핵심 포인트예요. ★연동 절차·포켓몬홈 활용법은 공식으로 재확인하세요. <a href="https://namu.wiki/w/%ED%94%8C%EB%9D%BC%EC%97%A3%ED%85%8C(%EC%98%81%EC%9B%90%EC%9D%98%20%EA%BD%83)" target="_blank" rel="noopener">플라엣테 정보↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="ecpm low">⚪ 저</span><span class="purp">이스포츠 관전 가이드</span><span class="pwhen">포켓몬 월드챔피언십 2026 8/28~30 · 미국 샌프란시스코 · D-22</span><span class="ptitle">포켓몬 월드챔피언십 2026, 8월 28일 샌프란시스코 개최 — 한국에서 실시간으로 챙겨보는 법</span></div><div class="pwhy">배틀패스·과금 이벤트가 아니라 <b>대회 시청 가이드</b> 각도라 회사 금지 원칙에 안 걸리고, 봄딩이 챔피언스 이스포츠를 다룬 적이 없어 순증이에요. ★단체 티켓 추첨 판매는 이미 5/29에 마감됐으니 "직접 참가"가 아니라 "온라인 시청"으로 각도를 한정하세요. D-22로 다소 이르지만 예고성 콘텐츠로 적합해요. <a href="https://x.com/PokemonKoreaInc/status/2060324614841233686" target="_blank" rel="noopener">포켓몬코리아 공식 공지↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p6">
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="ecpm low">⚪ 저</span><span class="purp">신기능 사용법(에버그린)</span><span class="pwhen">DPS 측정기 미니창 추가 7/30 패치 · D+7</span><span class="ptitle">메이플플래닛 DPS 측정기 미니창 나왔다 — 일시정지·상위 5스킬 표기까지</span></div><div class="pwhy">봄딩 "허수아비 수련장 DPS 측정 랭킹" 글은 7/28 발행이라, 이틀 뒤(7/30) 추가된 <b>미니창·일시정지 기능</b>은 아직 그 글에 반영되지 않은 새 정보예요(어제도 미발행이라 오늘까지 순증). 기존 글의 업데이트 필요성을 알리는 각도로 쓰세요. <a href="https://mapleplanet.co.kr/board/update/672" target="_blank" rel="noopener">7/30 패치노트↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="ecpm mid">🟡 중</span><span class="purp">직업 육성 가이드(에버그린)</span><span class="pwhen">봄딩 미다룸 직업(전사 계열) · 에버그린</span><span class="ptitle">메이플플래닛 팔라딘 1~4차 스킬트리·템세팅 총정리</span></div><div class="pwhy">★dedup 1차 판정이 "메이플플래닛 바이퍼 스킬트리…" 발행글과 유사(jac=0.52)로 잡았으나, <b>직접 폴더 대조 결과 오탐</b>이었어요 — 봄딩 메이플플래닛 폴더엔 나이트로드·다크나이트·바이퍼·보우마스터·불독·비숍·섀도어·신궁·썬콜·캡틴 10직업만 있고 <b>팔라딘 글은 없어요</b>(전사 계열 형제 직업인 다크나이트만 있고 팔라딘은 미다룸). 판정이 겹친 건 "메이플플래닛 X 1~4차 스킬트리 템세팅 총정리"라는 공통 템플릿 문구 때문이에요. <a href="https://namu.wiki/w/%EB%A9%94%EC%9D%B4%ED%94%8C%20%ED%94%8C%EB%9E%98%EB%8B%9B/%EC%A7%81%EC%97%85/%ED%8C%94%EB%9D%BC%EB%94%98" target="_blank" rel="noopener">메이플 플래닛 팔라딘 정보↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="ecpm low">⚪ 저</span><span class="purp">경제 정보(저순위·보충픽)</span><span class="pwhen">택배 4%→8%·교환 3%→6% 수수료 인상 7/17 패치 · D+20(게이트 초과)</span><span class="ptitle">메이플플래닛 택배·교환 수수료 인상 이후, 손해 안 보고 거래하는 법</span></div><div class="pwhy">기존 "캐시아이템 과금 가성비"와는 다른 주제(현금 과금이 아니라 <b>인게임 거래 수수료</b>)예요. 아직 봄딩·경쟁 블로그 어디서도 안 다룬 정보지만, 7/17 패치라 <b>시급성 게이트(D+7)를 20일 넘겨</b> 우선순위가 낮아요. 3픽을 채우는 보충픽이니 <b>데스크 판단에 맡기고</b>, 급하면 위 두 픽을 먼저 쓰세요. <a href="https://mapleplanet.co.kr/board/update/653" target="_blank" rel="noopener">7/17 패치노트↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p7">
+     <p class="note">★기존 발행분(물놀이풀·스윔고글·목튜브·구명조끼·비치텐트·모기장·손소독제 등)과 겹치지 않는 3건이에요. 전부 스펙·인증(스테로이드 함량·식약처 안전성 서한·소재·사이즈)이 검증 가능한 카테고리만 담았고, 쿠팡 파트너스 고지가 필수예요. 카시트류는 제외했어요.</p>
+     <div class="pick"><div class="pick-top"><span class="gtag">아기 모기 물림 연고</span><span class="ecpm">🟢 고</span><span class="purp">성분 비교(구매 전환)</span><span class="pwhen">여름 모기 활동 절정기 · 에버그린</span><span class="ptitle">아기 모기 물린 데 바르는 연고 뭐가 맞을까 — 리도맥스·비판텐·버물리키드·에스로반 스테로이드 함량 비교</span></div><div class="pwhy">기존 "모기패치"(예방용 기피 스티커)와 달리 이건 <b>물린 후 치료제</b>라 제품군 자체가 달라요. 스테로이드 함량·사용연령 등 성분 스펙을 검증할 수 있어요. ★약물은 성분·사용연령을 사실로만 쓰고 효능 단정은 피하세요. 쿠팡 파트너스 고지 필수. <a href="https://doctornow.co.kr/content/qna/5967e680ac4f435bb209e8bb1fdf1b78" target="_blank" rel="noopener">모기 물림 연고 성분 안내↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">아기 이앓이 젤</span><span class="ecpm">🟢 고</span><span class="purp">안전 이슈+성분 확인(구매 전환)</span><span class="pwhen">식약처 안전성 서한(벤조카인 24개월 미만 사용금지) · 에버그린</span><span class="ptitle">아기 이앓이 젤 아무거나 바르면 안 되는 이유 — 벤조카인 성분 확인하는 법</span></div><div class="pwhy">봄딩 미다룸 신규 제품군이고, <b>식약처가 실제로 안전성 서한을 배포한 검증된 이슈</b>라 근거가 탄탄해요 — 벤조카인 함유 국소마취 젤은 메트헤모글로빈혈증 위험으로 24개월 미만 영아에 사용이 금지돼 있어요. ★모든 이앓이 젤이 위험하다는 게 아니라 "벤조카인 함유 여부를 성분표로 확인하라"는 방향으로 쓰고, 특정 제품을 위험하다고 단정하지 마세요. 쿠팡 파트너스 고지 필수. <a href="https://www.mfds.go.kr/brd/m_545/view.do?seq=270" target="_blank" rel="noopener">식약처 안전성 서한↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">아기 여름 실내화</span><span class="ecpm">🟢 고</span><span class="purp">소재·사이즈 비교(구매 전환)</span><span class="pwhen">장마 이후 실내놀이터·문화센터 활동 재개 · 에버그린</span><span class="ptitle">아기 여름 실내화 고르는 법 — EVA 미끄럼방지 밑창·사이즈표 총정리</span></div><div class="pwhy">봄딩 미다룸 신규 제품군이고 카시트류가 아니에요. 사이즈(120부터 10단위)·EVA 소재·미끄럼방지 밑창 스펙을 검증할 수 있어요. ★<b>확인 필요</b>: 개별 브랜드 KC·소재 상세는 조사 미착수라 집필 시 제품 3~4종 스펙 페이지를 추가 확인하세요. 쿠팡 파트너스 고지 필수. <a href="https://www.bebenelle.com/ko/%EC%96%B4%EB%A6%B0%EC%9D%B4-%EC%8B%A0%EB%B0%9C-%EC%82%AC%EC%9D%B4%EC%A6%88-%EC%B0%A8%ED%8A%B8/" target="_blank" rel="noopener">어린이 신발 사이즈 차트↗</a></div></div>
+   </div>
+
+ </div>
+ <p class="foot">데이터 분석실(트렌드 분석팀) · 실제 작성은 작성팀(봄딩) · PICKS 모드(화~일)는 오늘 쓸 글만 갱신 · <b>dedup</b>: `classify-picks.ps1 -RefreshFailed -RefreshPublished`(publishedCount 177·liveTitleCount 420) 결정론적 대조, 후보 19건 중 review 판정 9건은 전부 직접 폴더·본문 대조로 오탐 확인(공통 템플릿 문구·일반 레퍼런스 글과의 약한 겹침일 뿐 실제 주제는 상이) 후 채택·published 오탐 1건(팔라딘↔바이퍼, jac=0.52)은 직접 폴더 리스트 대조로 팔라딘 글 부재 확인 후 채택 · failedBlocklist 32건과 대조해 하드 드롭 0건(오늘 후보는 모두 blocklist 밖) · 08-05 추천 픽·근접 각도는 배제하되 아직 미발행인 워터페스티벌·훔쳐우 커뮤니티데이·원신 7.0·DPS미니창 4건은 어제 발행 안 됐음을 재확인 후 이월 · <b>하드 드롭</b>: 없음(오늘은 failedBlocklist 매치 0건) · <b>확인 필요</b>: 니케 챕터 47·48 정확 오픈일·워터페스티벌 등장 레이드보스 라인업(pokemongo.com/ko/events 1차 출처 재확인)·고래탐사 시즌 정확 종료 시각·아기 여름 실내화 개별 브랜드 KC·소재 상세(집필 시 재확인) · <b>표기 규칙</b>: 원신·블루아카이브·마블투혼 등 봄딩 미다룸 신규 IP는 정식명 확인 · 이앓이 젤은 특정 제품 위험 단정 금지, 벤조카인 성분표 확인법으로만 서술 · 챔피언스 배틀패스 각도 금지 유지, 월드챔피언십은 티켓 구매가 아닌 시청 가이드로 한정 · 근거 기사 원문 발행일 2026년 확인(연도혼입 게이트 통과).</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
