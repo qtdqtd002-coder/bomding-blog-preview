@@ -1,0 +1,310 @@
+<!-- 키워드: 그래픽카드 가성비 -->
+<!-- AEO 타깃 질문: ①RTX 5060·5060 Ti 16GB·5070 스펙은 뭐가 다른가요 ②다나와 가격은 지금 얼마나 차이 나나요 ③한 등급 위로 갈 가치가 있는 구간은 어디인가요 / 인용 후크: (a) NVIDIA 공식 스펙 표(CUDA 코어·메모리·TGP) (b) PassMark G3D Mark 직접계산 증가율(+9%·+27%·+39%) (c) 다나와 가격차(16만~28만 원대) + "이런 분들이라면" 미니표 / 기준 시점: 2026.08.05 -->
+<!-- 이미지 조달 메모(2026-08-05 실측): NVIDIA RTX 5060 시리즈 페이지는 curl+WebFetch로 이미지 태그를 확인했으나 og:image·히어로 이미지가 없고, 걸린 이미지들은 파일명이 전부 rtx-5080 계열(레이트레이싱·Reflex 비교컷)이라 이 글이 다루는 5060/5060 Ti 16GB/5070과 실물이 다름 — 오표기 위험으로 미채택. PassMark(videocardbenchmark.net) 페이지는 점수 차트가 정적 이미지가 아니라(로고·아이콘·아마존 부속품 썸네일만 존재) 쓸 자료가 없음. 다나와 상품 이미지는 특정 브랜드 1개 모델을 대표 이미지로 세우면 "이게 최적"이라는 암묵적 단정이 생겨 가격 서술의 중립성과 충돌 — 미채택. 이 주제는 비교표 자체가 핵심 시각자료라 카드 [이미지 키트]가 명시적으로 이미지 0장을 허용한 경우에 해당. -->
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>그래픽카드 가성비, 지금은 RTX 5060·5060 Ti 16GB·5070 중 어디일까요</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 6px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tnote{color:var(--sub);font-size:12.5px;margin:0 0 22px;line-height:1.6;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">⚖️ 뭘 살까 · PC 부품·주변기기</div>
+    <h1 class="title">그래픽카드 가성비, 지금은 RTX 5060·5060 Ti 16GB·5070 중 어디일까요</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.08.05</span><span>· PC 부품</span></div>
+
+    <p>그래픽카드를 새로 맞추려는데 50만 원대와 100만 원대 사이 어디를 골라야 할지 고민되실 수 있어요. 지포스 RTX 5060부터 RTX 5060 Ti 16GB, RTX 5070까지 놓고 보면 가격도 성능도 촘촘하게 갈려 있어서 결정이 쉽지 않아요.</p>
+    <p>다나와에서 관찰한 가격만 봐도 가장 낮은 등급과 가장 높은 등급 사이에 수십만 원 차이가 나요. PassMark 점수로는 세 등급 사이 격차가 최대 약 39%까지 벌어져요. 이 글은 그 격차를 스펙·가격·성능 순으로 비교해요.</p>
+    <p>이 글의 가격은 2026년 8월 5일 다나와 조회 시점을 기준으로 했어요. 스펙은 NVIDIA 공식 페이지, 성능 점수는 PassMark videocardbenchmark.net 기준으로 확인했어요.</p>
+
+    <h2 class="sub">지포스 RTX 5060·RTX 5060 Ti 16GB·RTX 5070, 스펙은 뭐가 다른가요?</h2>
+    <p>세 모델은 CUDA 코어 수와 메모리 용량, 소비 전력에서 차이가 나요.</p>
+    <p>가장 낮은 등급의 정식 명칭은 지포스 RTX 5060이에요. 영문 표기는 GeForce RTX 5060이에요.</p>
+    <p>VRAM은 그래픽 메모리를 뜻해요. 전력 항목에 쓰는 TGP는 정격 소비전력을 가리키는 말이에요.</p>
+
+    <table class="tbl">
+      <tr><th>항목</th><th>RTX 5060</th><th>RTX 5060 Ti 16GB</th><th>RTX 5070</th></tr>
+      <tr><td>CUDA 코어</td><td>3,840개</td><td>4,608개</td><td>6,144개</td></tr>
+      <tr><td>VRAM</td><td>8GB GDDR7</td><td>16GB GDDR7</td><td>12GB GDDR7</td></tr>
+      <tr><td>메모리 버스</td><td>128bit</td><td>128bit</td><td>192bit</td></tr>
+      <tr><td>TGP</td><td>145W</td><td>180W</td><td>250W</td></tr>
+      <tr><td>권장 시스템 전원</td><td>550W</td><td>600W</td><td>650W</td></tr>
+    </table>
+    <p class="tnote">TGP와 권장 시스템 전원은 NVIDIA가 낸 공식 정격·권장 수치예요. 실제로 측정한 소비전력 값은 아니에요.</p>
+
+    <p>세 등급 중 VRAM이 가장 적은 모델은 RTX 5060의 8GB예요. 메모리가 적으면 앞으로 나올 고사양 타이틀이나 고해상도 텍스처에서 병목이 생길 가능성을 배제할 수 없어요.</p>
+
+    <h2 class="sub">다나와에서 세 모델은 지금 얼마에 관찰되나요?</h2>
+    <p>다나와에서 관찰한 가격대는 RTX 5060이 가장 낮고 RTX 5070이 가장 높아요.</p>
+    <p>이 글의 가격은 2026년 8월 5일 다나와 조회 시점을 기준으로 관찰된 값이에요.</p>
+    <p>다나와 가격은 와우할인이나 프로모션, 재고 상황에 따라 실시간으로 바뀔 수 있어요. 그래서 아래 숫자를 '최저가'로 단정하지 않고 관찰된 범위로만 봐주세요.</p>
+
+    <table class="tbl">
+      <tr><th>등급</th><th>관찰 가격대</th></tr>
+      <tr><td>RTX 5060 8GB</td><td>56만 원대~</td></tr>
+      <tr><td>RTX 5060 Ti 16GB</td><td>90만~105만 원대 · 카드결제 기준</td></tr>
+      <tr><td>RTX 5070 12GB</td><td>106만~130만 원대</td></tr>
+    </table>
+    <p class="tnote">RTX 5060은 이번 조회에서 확인된 가격 데이터가 많지 않았어요. 실제 가격 폭은 더 넓을 수 있어요. RTX 5060 Ti 16GB는 현금결제 기준으로 보면 79만~89만 원대로 더 낮게 관찰됐어요. 정확한 실시간 가격은 다나와에서 직접 확인하는 게 정확해요.</p>
+
+    <h2 class="sub">PassMark 기준으로 성능 차이는 어느 정도인가요?</h2>
+    <p>PassMark G3D Mark를 기준으로 보면 RTX 5060에서 RTX 5070까지 점수 차이가 최대 약 39%까지 벌어져요.</p>
+    <p>이건 PassMark videocardbenchmark.net가 측정한 합성 벤치마크 점수예요. 실제 게임에서 체감하는 프레임과는 다를 수 있어요.</p>
+
+    <table class="tbl">
+      <tr><th>비교 구간</th><th>CUDA 코어 차이</th><th>G3D Mark 차이</th></tr>
+      <tr><td>5060 → 5060 Ti 16GB</td><td>3,840개 → 4,608개</td><td>20,663점 → 22,614점 · 약 +9%</td></tr>
+      <tr><td>5060 Ti 16GB → 5070</td><td>4,608개 → 6,144개</td><td>22,614점 → 28,654점 · 약 +27%</td></tr>
+      <tr><td>5060 → 5070 전체</td><td>3,840개 → 6,144개</td><td>20,663점 → 28,654점 · 약 +39%</td></tr>
+    </table>
+    <p class="tnote">이 증가율은 PassMark가 낸 수치가 아니라 직접 계산한 값이에요.</p>
+
+    <p>PassMark 점수는 실시간으로 수시 갱신돼요. 위 점수는 2026년 8월 5일 조회 시점 기준이에요.</p>
+
+    <h2 class="sub">한 등급 위로 갈 가치가 있는 구간은 어디인가요?</h2>
+    <p>RTX 5060 Ti 16GB에서 RTX 5070으로 갈 때는 가격 차이와 성능 차이를 같이 놓고 봐야 해요.</p>
+    <p>다나와 관찰가 기준으로 이 구간의 가격 차이는 16만 원에서 28만 원 안팎이에요. 비교하는 모델과 결제수단에 따라 편차가 있어요.</p>
+    <p>같은 구간의 PassMark G3D Mark 차이는 약 27%예요.</p>
+
+    <table class="tbl">
+      <tr><th>조건</th><th>모델</th><th>근거</th></tr>
+      <tr><td>예산을 최대한 아끼고 싶다면</td><td>RTX 5060</td><td>다나와 관찰가 56만 원대~로 세 등급 중 가장 낮음</td></tr>
+      <tr><td>VRAM 여유를 원한다면</td><td>RTX 5060 Ti 16GB</td><td>8GB보다 메모리가 두 배인 16GB, NVIDIA 공식 스펙 기준</td></tr>
+      <tr><td>성능 격차를 크게 벌리고 싶다면</td><td>RTX 5070</td><td>PassMark G3D Mark 기준 5060 Ti 16GB 대비 약 +27%</td></tr>
+    </table>
+
+    <p>예산을 최대한 아끼는 쪽에 무게를 두면 낮은 등급도 충분한 선택이 될 수 있어요. 성능 여유가 먼저라면 그 차이만큼 가격을 더 낼 가치가 있는지 살펴보면 돼요.</p>
+
+    <h2 class="sub">그래픽카드 가격에도 램(RAM) 가격 상승분이 반영됐나요?</h2>
+    <p>반영됐다는 근거는 이번 조사에서 찾지 못했어요.</p>
+    <p>오히려 다나와 자체 분석은 그래픽카드를 램·SSD 가격 이슈에서 비교적 자유로운 부품으로 봐요. 다른 부품과 독립적으로 장착되고 호환성 문제가 없다는 게 이유예요. 다나와 리뷰에 2026년 4월 30일자로 올라온 내용이에요.</p>
+    <p>이 분석은 이 글이 정리하는 8월보다 앞선 내용이라, 지금 시점 램 상승분이 반영됐다는 직접 증거는 없어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. RTX 5060 Ti에 8GB 모델도 있던데, 이 글에서 다루는 16GB 모델이랑 같은 카드인가요?</b><br>이름은 같은 RTX 5060 Ti지만 메모리 용량이 다른 별도 모델이에요. 이 글은 다나와에서 16GB 모델 기준으로 가격과 스펙을 확인했어요. 8GB 모델은 이 글의 가격·스펙 비교에 포함하지 않았어요.</p>
+    <p><b>Q. 지금 쓰는 파워서플라이를 그대로 써도 되나요?</b><br>RTX 5060은 550W, RTX 5060 Ti 16GB는 600W, RTX 5070은 650W가 NVIDIA 공식 권장 시스템 전원이에요. 지금 파워서플라이 용량이 이보다 낮다면 교체도 함께 고려하는 게 좋아요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.nvidia.com/ko-kr/geforce/graphics-cards/50-series/rtx-5060-family/" target="_blank">NVIDIA 공식 — RTX 5060 시리즈</a><br>
+    · <a href="https://www.nvidia.com/ko-kr/geforce/graphics-cards/50-series/rtx-5070-family/" target="_blank">NVIDIA 공식 — RTX 5070 시리즈</a><br>
+    · <a href="https://www.videocardbenchmark.net/gpu.php?gpu=GeForce+RTX+5060&id=5602" target="_blank">PassMark videocardbenchmark.net — GeForce RTX 5060</a><br>
+    · <a href="https://www.videocardbenchmark.net/gpu.php?gpu=GeForce+RTX+5060+Ti+16GB&id=6160" target="_blank">PassMark videocardbenchmark.net — GeForce RTX 5060 Ti 16GB</a><br>
+    · <a href="https://www.videocardbenchmark.net/gpu.php?gpu=GeForce+RTX+5070&id=5940" target="_blank">PassMark videocardbenchmark.net — GeForce RTX 5070</a><br>
+    · <a href="https://prod.danawa.com/list/?cate=11455506" target="_blank">다나와 — RTX 5060 그래픽카드 목록</a><br>
+    · <a href="https://search.danawa.com/dsearch.php?query=RTX+5060+Ti+16GB" target="_blank">다나와 — RTX 5060 Ti 16GB 검색 결과</a><br>
+    · <a href="https://search.danawa.com/dsearch.php?query=RTX+5070+12GB" target="_blank">다나와 — RTX 5070 12GB 검색 결과</a><br>
+    · <a href="https://review.danawa.com/graphic-card-price-trend/" target="_blank">다나와 리뷰 — 그래픽카드 가격 동향(2026-04-30)</a></p>
+
+    <p><b>하루 정리</b><br>
+    · 가격은 2026년 8월 5일 다나와 조회 기준으로, RTX 5060이 56만 원대~, RTX 5060 Ti 16GB가 90만~105만 원대(카드결제), RTX 5070이 106만~130만 원대에서 관찰됐어요.<br>
+    · 성능은 PassMark G3D Mark 기준으로 5060 Ti 16GB에서 5070으로 갈 때 약 27%, 전체로는 최대 약 39% 차이가 나요.<br>
+    · 예산을 아끼는 쪽이면 RTX 5060도 선택지가 되고, 성능 여유를 원하면 RTX 5070까지 볼 만해요.<br>
+    램 가격 상승이 그래픽카드에 반영됐다는 근거는 찾지 못했어요.</p>
+
+    <div class="tags">#RTX5060 #RTX5060Ti16GB #RTX5070 #그래픽카드가성비 #지포스RTX50시리즈 #PassMark #다나와그래픽카드 #그래픽카드추천</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>4.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 사진은 없어요.</b> 이 글은 비교표가 핵심 자료라 표 중심으로 구성했어요 — 복사만 하면 바로 붙여넣기 가능해요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 그래픽카드 가성비, 지금은 RTX 5060·5060 Ti 16GB·5070 중 어디일까요</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다</p>
+    <div id="copy">
+      <p>그래픽카드를 새로 맞추려는데 50만 원대와 100만 원대 사이 어디를 골라야 할지 고민되실 수 있어요. 지포스 RTX 5060부터 RTX 5060 Ti 16GB, RTX 5070까지 놓고 보면 가격도 성능도 촘촘하게 갈려 있어서 결정이 쉽지 않아요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>다나와에서 관찰한 가격만 봐도 가장 낮은 등급과 가장 높은 등급 사이에 수십만 원 차이가 나요. PassMark 점수로는 세 등급 사이 격차가 최대 약 39%까지 벌어져요. 이 글은 그 격차를 스펙·가격·성능 순으로 비교해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>이 글의 가격은 2026년 8월 5일 다나와 조회 시점을 기준으로 했어요. 스펙은 NVIDIA 공식 페이지, 성능 점수는 PassMark videocardbenchmark.net 기준으로 확인했어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>지포스 RTX 5060·RTX 5060 Ti 16GB·RTX 5070, 스펙은 뭐가 다른가요?</h3>
+      <p>세 모델은 CUDA 코어 수와 메모리 용량, 소비 전력에서 차이가 나요.</p>
+      <p>가장 낮은 등급의 정식 명칭은 지포스 RTX 5060이에요. 영문 표기는 GeForce RTX 5060이에요.</p>
+      <p>VRAM은 그래픽 메모리를 뜻해요. 전력 항목에 쓰는 TGP는 정격 소비전력을 가리키는 말이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>항목</th><th>RTX 5060</th><th>RTX 5060 Ti 16GB</th><th>RTX 5070</th></tr>
+        <tr><td class="l">CUDA 코어</td><td>3,840개</td><td>4,608개</td><td>6,144개</td></tr>
+        <tr><td class="l">VRAM</td><td>8GB GDDR7</td><td>16GB GDDR7</td><td>12GB GDDR7</td></tr>
+        <tr><td class="l">메모리 버스</td><td>128bit</td><td>128bit</td><td>192bit</td></tr>
+        <tr><td class="l">TGP</td><td>145W</td><td>180W</td><td>250W</td></tr>
+        <tr><td class="l">권장 시스템 전원</td><td>550W</td><td>600W</td><td>650W</td></tr>
+      </table>
+      <p class="tnote-line">TGP와 권장 시스템 전원은 NVIDIA가 낸 공식 정격·권장 수치예요. 실제로 측정한 소비전력 값은 아니에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>세 등급 중 VRAM이 가장 적은 모델은 RTX 5060의 8GB예요. 메모리가 적으면 앞으로 나올 고사양 타이틀이나 고해상도 텍스처에서 병목이 생길 가능성을 배제할 수 없어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>다나와에서 세 모델은 지금 얼마에 관찰되나요?</h3>
+      <p>다나와에서 관찰한 가격대는 RTX 5060이 가장 낮고 RTX 5070이 가장 높아요.</p>
+      <p>이 글의 가격은 2026년 8월 5일 다나와 조회 시점을 기준으로 관찰된 값이에요.</p>
+      <p>다나와 가격은 와우할인이나 프로모션, 재고 상황에 따라 실시간으로 바뀔 수 있어요. 그래서 아래 숫자를 '최저가'로 단정하지 않고 관찰된 범위로만 봐주세요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>등급</th><th>관찰 가격대</th></tr>
+        <tr><td class="l">RTX 5060 8GB</td><td>56만 원대~</td></tr>
+        <tr><td class="l">RTX 5060 Ti 16GB</td><td>90만~105만 원대 · 카드결제 기준</td></tr>
+        <tr><td class="l">RTX 5070 12GB</td><td>106만~130만 원대</td></tr>
+      </table>
+      <p class="tnote-line">RTX 5060은 이번 조회에서 확인된 가격 데이터가 많지 않았어요. 실제 가격 폭은 더 넓을 수 있어요. RTX 5060 Ti 16GB는 현금결제 기준으로 보면 79만~89만 원대로 더 낮게 관찰됐어요. 정확한 실시간 가격은 다나와에서 직접 확인하는 게 정확해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>PassMark 기준으로 성능 차이는 어느 정도인가요?</h3>
+      <p>PassMark G3D Mark를 기준으로 보면 RTX 5060에서 RTX 5070까지 점수 차이가 최대 약 39%까지 벌어져요.</p>
+      <p>이건 PassMark videocardbenchmark.net가 측정한 합성 벤치마크 점수예요. 실제 게임에서 체감하는 프레임과는 다를 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>비교 구간</th><th>CUDA 코어 차이</th><th>G3D Mark 차이</th></tr>
+        <tr><td class="l">5060 → 5060 Ti 16GB</td><td>3,840개 → 4,608개</td><td class="l">20,663점 → 22,614점 · 약 +9%</td></tr>
+        <tr><td class="l">5060 Ti 16GB → 5070</td><td>4,608개 → 6,144개</td><td class="l">22,614점 → 28,654점 · 약 +27%</td></tr>
+        <tr><td class="l">5060 → 5070 전체</td><td>3,840개 → 6,144개</td><td class="l">20,663점 → 28,654점 · 약 +39%</td></tr>
+      </table>
+      <p class="tnote-line">이 증가율은 PassMark가 낸 수치가 아니라 직접 계산한 값이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>PassMark 점수는 실시간으로 수시 갱신돼요. 위 점수는 2026년 8월 5일 조회 시점 기준이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>한 등급 위로 갈 가치가 있는 구간은 어디인가요?</h3>
+      <p>RTX 5060 Ti 16GB에서 RTX 5070으로 갈 때는 가격 차이와 성능 차이를 같이 놓고 봐야 해요.</p>
+      <p>다나와 관찰가 기준으로 이 구간의 가격 차이는 16만 원에서 28만 원 안팎이에요. 비교하는 모델과 결제수단에 따라 편차가 있어요.</p>
+      <p>같은 구간의 PassMark G3D Mark 차이는 약 27%예요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>조건</th><th>모델</th><th>근거</th></tr>
+        <tr><td class="l">예산을 최대한 아끼고 싶다면</td><td>RTX 5060</td><td class="l">다나와 관찰가 56만 원대~로 세 등급 중 가장 낮음</td></tr>
+        <tr><td class="l">VRAM 여유를 원한다면</td><td>RTX 5060 Ti 16GB</td><td class="l">8GB보다 메모리가 두 배인 16GB, NVIDIA 공식 스펙 기준</td></tr>
+        <tr><td class="l">성능 격차를 크게 벌리고 싶다면</td><td>RTX 5070</td><td class="l">PassMark G3D Mark 기준 5060 Ti 16GB 대비 약 +27%</td></tr>
+      </table>
+      <p class="sp">&nbsp;</p>
+      <p>예산을 최대한 아끼는 쪽에 무게를 두면 낮은 등급도 충분한 선택이 될 수 있어요. 성능 여유가 먼저라면 그 차이만큼 가격을 더 낼 가치가 있는지 살펴보면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>그래픽카드 가격에도 램(RAM) 가격 상승분이 반영됐나요?</h3>
+      <p>반영됐다는 근거는 이번 조사에서 찾지 못했어요.</p>
+      <p>오히려 다나와 자체 분석은 그래픽카드를 램·SSD 가격 이슈에서 비교적 자유로운 부품으로 봐요. 다른 부품과 독립적으로 장착되고 호환성 문제가 없다는 게 이유예요. 다나와 리뷰에 2026년 4월 30일자로 올라온 내용이에요.</p>
+      <p>이 분석은 이 글이 정리하는 8월보다 앞선 내용이라, 지금 시점 램 상승분이 반영됐다는 직접 증거는 없어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. RTX 5060 Ti에 8GB 모델도 있던데, 이 글에서 다루는 16GB 모델이랑 같은 카드인가요?</b><br>이름은 같은 RTX 5060 Ti지만 메모리 용량이 다른 별도 모델이에요. 이 글은 다나와에서 16GB 모델 기준으로 가격과 스펙을 확인했어요. 8GB 모델은 이 글의 가격·스펙 비교에 포함하지 않았어요.</p>
+      <p><b>Q. 지금 쓰는 파워서플라이를 그대로 써도 되나요?</b><br>RTX 5060은 550W, RTX 5060 Ti 16GB는 600W, RTX 5070은 650W가 NVIDIA 공식 권장 시스템 전원이에요. 지금 파워서플라이 용량이 이보다 낮다면 교체도 함께 고려하는 게 좋아요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b class="notice-line">참고한 곳</b><br>
+      · <a href="https://www.nvidia.com/ko-kr/geforce/graphics-cards/50-series/rtx-5060-family/" target="_blank">NVIDIA 공식 — RTX 5060 시리즈</a><br>
+      · <a href="https://www.nvidia.com/ko-kr/geforce/graphics-cards/50-series/rtx-5070-family/" target="_blank">NVIDIA 공식 — RTX 5070 시리즈</a><br>
+      · <a href="https://www.videocardbenchmark.net/gpu.php?gpu=GeForce+RTX+5060&id=5602" target="_blank">PassMark videocardbenchmark.net — GeForce RTX 5060</a><br>
+      · <a href="https://www.videocardbenchmark.net/gpu.php?gpu=GeForce+RTX+5060+Ti+16GB&id=6160" target="_blank">PassMark videocardbenchmark.net — GeForce RTX 5060 Ti 16GB</a><br>
+      · <a href="https://www.videocardbenchmark.net/gpu.php?gpu=GeForce+RTX+5070&id=5940" target="_blank">PassMark videocardbenchmark.net — GeForce RTX 5070</a><br>
+      · <a href="https://prod.danawa.com/list/?cate=11455506" target="_blank">다나와 — RTX 5060 그래픽카드 목록</a><br>
+      · <a href="https://search.danawa.com/dsearch.php?query=RTX+5060+Ti+16GB" target="_blank">다나와 — RTX 5060 Ti 16GB 검색 결과</a><br>
+      · <a href="https://search.danawa.com/dsearch.php?query=RTX+5070+12GB" target="_blank">다나와 — RTX 5070 12GB 검색 결과</a><br>
+      · <a href="https://review.danawa.com/graphic-card-price-trend/" target="_blank">다나와 리뷰 — 그래픽카드 가격 동향(2026-04-30)</a></p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 가격은 2026년 8월 5일 다나와 조회 기준으로, RTX 5060이 56만 원대~, RTX 5060 Ti 16GB가 90만~105만 원대(카드결제), RTX 5070이 106만~130만 원대에서 관찰됐어요.<br>
+      · 성능은 PassMark G3D Mark 기준으로 5060 Ti 16GB에서 5070으로 갈 때 약 27%, 전체로는 최대 약 39% 차이가 나요.<br>
+      · 예산을 아끼는 쪽이면 RTX 5060도 선택지가 되고, 성능 여유를 원하면 RTX 5070까지 볼 만해요.<br>
+      램 가격 상승이 그래픽카드에 반영됐다는 근거는 찾지 못했어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#RTX5060 #RTX5060Ti16GB #RTX5070 #그래픽카드가성비 #지포스RTX50시리즈 #PassMark #다나와그래픽카드 #그래픽카드추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
