@@ -1,0 +1,313 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>클로드 프로젝트 지식 영역 활용법 — 자료 다시 설명 안 해도 되게 (Claude Projects)</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tnote{font-size:12.5px;color:#888;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}  /* 네이버 빈 문단(개행) — output-format §4-2-b */
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- 이미지 조달 메모(2026-08-05): support.claude.com 5개 출처 중 "how-can-i-create-and-manage-projects"·"what-are-projects" 문서를 WebFetch로 확인. 임베드된 스크린샷은 "채팅을 프로젝트로 이동" 관련 3~4장뿐이고, 이 글의 핵심(지식 영역 업로드 화면·프로젝트 지침 설정 화면·RAG 동작)을 보여주는 이미지는 두 문서 어디에도 없음(what-are-projects는 로고 1장 외 이미지 0건). 확정 못 한 이미지라 서술·플레이스홀더 없이 텍스트+표로만 구성함. -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">AI 쓰는 법</div>
+    <h1 class="title">클로드 프로젝트 지식 영역 활용법 — 자료 다시 설명 안 해도 되게 (Claude Projects)</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.08.05</span><span>· IT</span></div>
+    <!-- AEO 타깃 질문: 클로드 프로젝트에 자료를 올려놨는데 매번 설명을 다시 써야 하나요? / 프로젝트 지식 영역 30MB 한도, 어떻게 넘기지 않고 쓰나요? -->
+    <!-- 인용 후크: support.claude.com 공식 문서 원문 5건 인용(RAG 자동 활성화·프로젝트 지침·메모리 격리·채팅 검색 범위) -->
+    <!-- 기준 시점: 2026.08.05 -->
+
+    <p>클로드 프로젝트(Projects) 지식 영역(project knowledge)에 자료를 이미 올려놨는데, 새 채팅을 열 때마다 같은 배경 설명을 처음부터 다시 치고 있나요. 자료를 올리는 방법은 알아도, 올린 자료를 실제로 계속 잘 써먹는 방법은 따로 있어요.</p>
+    <p>이 글은 지난번 다룬 「클로드 초기설정과 활용법」에서 프로젝트 만드는 법과 개수·용량 규정을 짚은 다음 칸이에요. 만드는 절차, Add to project, 무료·프로 개수, 파일 형식과 용량 한도는 그 글에서 다뤘으니 여기서는 다시 설명하지 않을게요. 이 글은 지식 영역에 자료를 올린 다음 그걸 굴리는 운영법만 다뤄요. 클로드 기능은 자주 바뀌는 영역이라 아래 내용은 2026년 8월 5일 기준이에요.</p>
+
+    <h2 class="sub">지식 영역엔 뭘 올려야 하나요</h2>
+    <p>자주 안 바뀌는 참조 자료를 올리는 게 맞아요.</p>
+    <p>공식 문서는 지식 영역에 문서·텍스트·코드를 올려 클로드가 맥락을 더 잘 이해하게 만든다고 설명해요. 매번 값이 바뀌는 정보는 지식 영역보다 그때그때 채팅에 직접 넣는 편이 안전해요.</p>
+    <ul>
+      <li>프로젝트에서 자주 참조하는 문서·텍스트·코드</li>
+      <li>스타일 가이드, 용어집처럼 웬만해선 안 바뀌는 자료</li>
+      <li>매번 값이 바뀌는 정보는 지식 영역 대신 채팅에 직접</li>
+    </ul>
+    <p>예전 파일을 그대로 두면 최신 파일과 함께 검색 대상이 될 수 있어요. 내용이 바뀐 자료는 새로 올리거나 예전 파일을 지워서 정리해 두는 편이 안전해요.</p>
+
+    <h2 class="sub">30MB 한도, 넘기지 않고 굴리는 법</h2>
+    <p>파일 하나는 30MB 밑으로 맞추고, 자료 전체가 늘어나는 부분은 RAG라는 자동 검색 기능에 맡기면 돼요.</p>
+    <p>RAG는 검색 증강 생성을 뜻해요. 공식 문서는 프로젝트가 컨텍스트 한도에 가까워지면 RAG가 자동으로 켜진다고 밝혀요.</p>
+    <p><b>"RAG automatically activates when your project approaches or exceeds the context window limits."</b></p>
+    <p>RAG가 켜지면 프로젝트에 담을 수 있는 자료 용량이 최대 10배 늘어나고, 응답 정확도는 그대로 유지된다고 공식 문서에 나와요. 사용자가 켜고 끄는 설정이 아니라 조건이 되면 자동으로 켜지는 방식이에요.</p>
+    <p>그래서 파일 하나가 30MB를 넘길 것 같으면 여러 파일로 쪼개서 올리는 편이 나아요. 자료가 많아지는 부분은 RAG가 알아서 관련 있는 조각만 찾아 쓰니까요.</p>
+    <table class="tbl">
+      <tr><th>상태</th><th>파일당 한도</th><th>프로젝트 전체 용량</th></tr>
+      <tr><td>RAG 켜지기 전</td><td>30MB</td><td>컨텍스트 한도까지</td></tr>
+      <tr><td>RAG 켜진 뒤(자동)</td><td>30MB(동일)</td><td>최대 10배로 확장</td></tr>
+    </table>
+
+    <h2 class="sub">매번 설명 반복 안 해도 되는 장치가 있나요</h2>
+    <p>네, 프로젝트 지침이라는 기능이 그 역할을 해요.</p>
+    <p>공식 버튼 이름은 Set project instructions예요.</p>
+    <p><b>"Click on 'Set project instructions.'"</b></p>
+    <p>이렇게 저장한 지침은 그 프로젝트 안의 모든 채팅에 적용된다고 공식 문서에 나와 있어요. 새 채팅마다 말투나 배경 설명을 반복해서 치는 대신, 지침에 한 번 적어두면 그다음 채팅부터는 따로 안 써도 돼요.</p>
+
+    <h2 class="sub">프로젝트, 몇 개로 나눠야 하나요</h2>
+    <p>성격이 다른 작업이면 프로젝트를 나누는 편이 나아요.</p>
+    <p>공식 문서는 이렇게 설명해요. <b>"Each project has its own separate memory space and dedicated project summary, so the context within each of your projects is focused, relevant, and separate from other projects or non-project chats."</b></p>
+    <p>프로젝트마다 메모리 공간과 요약이 따로 관리된다는 뜻이에요. 성격이 다른 작업을 한 프로젝트에 몰아넣으면 메모리와 지식 영역 검색 결과에 관계없는 내용이 섞일 수 있어요. 업무 자료와 개인 학습 자료처럼 결이 다르면 프로젝트를 나눠 관리하는 편이 검색 정확도에 유리해요.</p>
+    <table class="tbl">
+      <tr><th>상황</th><th>프로젝트 구성</th></tr>
+      <tr><td>성격 같은 작업만 있음</td><td>프로젝트 1개로 모아도 됨</td></tr>
+      <tr><td>업무·개인처럼 성격이 다름</td><td>프로젝트를 나눠서 관리(메모리·검색이 프로젝트별로 격리되기 때문)</td></tr>
+    </table>
+
+    <h2 class="sub">채팅 검색·메모리랑 지식 영역, 뭐가 다른가요</h2>
+    <p>지식 영역은 내가 직접 올린 자료를 찾고, 채팅 검색과 메모리는 예전 대화 내용을 찾는다는 점이 달라요.</p>
+    <p>역할을 표로 정리하면 이래요.</p>
+    <table class="tbl">
+      <tr><th>기능</th><th>무엇을 찾나</th><th>적용 범위·플랜</th></tr>
+      <tr><td>지식 영역</td><td>내가 올린 문서·텍스트·코드</td><td>프로젝트 안 모든 채팅, 전 플랜</td></tr>
+      <tr><td>메모리</td><td>예전 대화 맥락</td><td>프로젝트별로 분리(무료·Pro·Max 새 메모리 기준)</td></tr>
+      <tr><td>채팅 검색</td><td>예전 대화 자체</td><td>프로젝트 안으로 한정, 프로·맥스·팀·엔터프라이즈</td></tr>
+    </table>
+    <p>공식 문서는 채팅 검색 범위를 이렇게 적어요. <b>"Individual project conversations (searches are limited to within each specific project)"</b></p>
+    <p>메모리·채팅 검색 모두 지식 영역처럼 프로젝트 범위를 안 넘어가요. 다만 채팅 검색은 유료 플랜 전용이고, 메모리는 무료 플랜에도 포함돼요.</p>
+
+    <h2 class="sub">자료를 올렸는데 반영이 안 될 때, 뭘 먼저 봐야 하나요</h2>
+    <p>가장 흔한 원인은 대화창에 첨부한 파일과 지식 영역에 올린 파일을 헷갈리는 경우예요.</p>
+    <p>지난 글에서 다룬 것처럼, 같은 프로젝트 안이라도 채팅끼리 내용이 자동 공유되지 않고 지식 영역 자료만 모든 채팅에서 함께 쓰여요. 파일을 대화창에만 첨부하고 지식 영역엔 안 올렸다면, 그 채팅에서만 보이고 다른 채팅에서는 안 보여요.</p>
+    <p>자료를 다시 올리면 바로 반영되는지처럼 구체적 해결 절차는 위에서 참고한 다섯 개 공식 문서 어디에도 안 나와 있어요. 그러니 먼저 확인할 건 그 파일이 대화창 첨부 목록에만 있는 건 아닌지, 지식 영역에 실제로 올라가 있는지부터예요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 지식 영역에는 이미지도 올릴 수 있나요?</b><br>
+    네, 지난 글에서 다룬 파일 형식에 JPEG·PNG·GIF·WebP 이미지 형식도 포함돼 있다고 안내했어요.</p>
+    <p><b>Q. 지식 영역 자료를 다른 사람과 같이 볼 수 있나요?</b><br>
+    개인 무료·프로·맥스 플랜엔 그런 공유 기능이 없고, 여러 명이 자료를 보고 수정하는 기능은 팀·엔터프라이즈 전용이라고 지난 글에서 다뤘어요.</p>
+    <p><b>Q. 지식 영역 자료가 많아지면 클로드 응답이 느려지나요?</b><br>
+    공식 문서엔 속도 얘기는 따로 없고, RAG가 켜져도 응답 정확도는 그대로 유지된다고만 나와 있어요. 속도에 관한 확인된 내용은 없어서 단정하지 않을게요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://support.claude.com/en/articles/8241126-upload-files-to-claude" target="_blank">Upload files to Claude — 공식 지원 문서</a><br>
+    · <a href="https://support.claude.com/en/articles/9519177-how-can-i-create-and-manage-projects" target="_blank">How can I create and manage projects? — 공식 지원 문서</a><br>
+    · <a href="https://support.claude.com/en/articles/9517075-what-are-projects" target="_blank">What are projects? — 공식 지원 문서</a><br>
+    · <a href="https://support.claude.com/en/articles/11473015-retrieval-augmented-generation-rag-for-projects" target="_blank">Retrieval Augmented Generation (RAG) for projects — 공식 지원 문서</a><br>
+    · <a href="https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context" target="_blank">Use Claude's chat search and memory to build on previous context — 공식 지원 문서</a></p>
+
+    <p><b>✔ 같이 보면 좋아요</b><br>
+    · 클로드 초기설정과 활용법 — 프로젝트 만드는 법과 무료·프로 차이까지</p>
+
+    <p><b>하루 정리</b><br>
+    · 지식 영역엔 자주 안 바뀌는 문서·텍스트·코드를 올리는 게 맞아요<br>
+    · 자료가 늘어나는 부분은 RAG가 자동으로 처리하니, 파일 하나는 30MB 밑으로 쪼개 올리면 돼요<br>
+    · 프로젝트 지침을 한 번 저장해 두면 새 채팅마다 설명을 반복 안 해도 돼요<br>
+    · 메모리·검색·지식 영역 모두 프로젝트 범위 안에서만 움직이니, 성격 다른 작업은 프로젝트를 나눠 두는 게 나아요</p>
+    <p>지침 하나 저장해 두는 것만으로도 반복 설명이 확 줄어드니, 지금 쓰는 프로젝트에 먼저 적용해 보세요.</p>
+
+    <div class="tags">#클로드프로젝트 #클로드지식영역 #ClaudeProjects #프로젝트지침 #RAG #클로드사용법</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>4.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>이 글은 사진이 없어요.</b> 표만 네이버 표 기능으로 다시 만들면 끝나요 — 직접 채울 건 따로 없어요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 클로드 프로젝트 지식 영역 활용법 — 자료 다시 설명 안 해도 되게 (Claude Projects)</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다</p>
+    <div id="copy">
+      <p>클로드 프로젝트 지식 영역에 자료를 이미 올려놨는데, 새 채팅을 열 때마다 같은 배경 설명을 처음부터 다시 치고 있나요. 자료를 올리는 방법은 알아도, 올린 자료를 실제로 계속 잘 써먹는 방법은 따로 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>이 글은 지난번 다룬 「클로드 초기설정과 활용법」에서 프로젝트 만드는 법과 개수·용량 규정을 짚은 다음 칸이에요. 만드는 절차, Add to project, 무료·프로 개수, 파일 형식과 용량 한도는 그 글에서 다뤘으니 여기서는 다시 설명하지 않을게요. 이 글은 지식 영역에 자료를 올린 다음 그걸 굴리는 운영법만 다뤄요. 클로드 기능은 자주 바뀌는 영역이라 아래 내용은 2026년 8월 5일 기준이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>지식 영역엔 뭘 올려야 하나요</h3>
+      <p>자주 안 바뀌는 참조 자료를 올리는 게 맞아요.</p>
+      <p>공식 문서는 지식 영역에 문서·텍스트·코드를 올려 클로드가 맥락을 더 잘 이해하게 만든다고 설명해요. 매번 값이 바뀌는 정보는 지식 영역보다 그때그때 채팅에 직접 넣는 편이 안전해요.</p>
+      <ul>
+        <li>프로젝트에서 자주 참조하는 문서·텍스트·코드</li>
+        <li>스타일 가이드, 용어집처럼 웬만해선 안 바뀌는 자료</li>
+        <li>매번 값이 바뀌는 정보는 지식 영역 대신 채팅에 직접</li>
+      </ul>
+      <p>예전 파일을 그대로 두면 최신 파일과 함께 검색 대상이 될 수 있어요. 내용이 바뀐 자료는 새로 올리거나 예전 파일을 지워서 정리해 두는 편이 안전해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>30MB 한도, 넘기지 않고 굴리는 법</h3>
+      <p>파일 하나는 30MB 밑으로 맞추고, 자료 전체가 늘어나는 부분은 RAG라는 자동 검색 기능에 맡기면 돼요.</p>
+      <p>RAG는 검색 증강 생성을 뜻해요. 공식 문서는 프로젝트가 컨텍스트 한도에 가까워지면 RAG가 자동으로 켜진다고 밝혀요.</p>
+      <p><b>"RAG automatically activates when your project approaches or exceeds the context window limits."</b></p>
+      <p>RAG가 켜지면 프로젝트에 담을 수 있는 자료 용량이 최대 10배 늘어나고, 응답 정확도는 그대로 유지된다고 공식 문서에 나와요. 사용자가 켜고 끄는 설정이 아니라 조건이 되면 자동으로 켜지는 방식이에요.</p>
+      <p>그래서 파일 하나가 30MB를 넘길 것 같으면 여러 파일로 쪼개서 올리는 편이 나아요. 자료가 많아지는 부분은 RAG가 알아서 관련 있는 조각만 찾아 쓰니까요.</p>
+      <table>
+        <tr><th>상태</th><th>파일당 한도</th><th>프로젝트 전체 용량</th></tr>
+        <tr><td class="l">RAG 켜지기 전</td><td>30MB</td><td>컨텍스트 한도까지</td></tr>
+        <tr><td class="l">RAG 켜진 뒤(자동)</td><td>30MB(동일)</td><td>최대 10배로 확장</td></tr>
+      </table>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>매번 설명 반복 안 해도 되는 장치가 있나요</h3>
+      <p>네, 프로젝트 지침이라는 기능이 그 역할을 해요.</p>
+      <p>공식 버튼 이름은 Set project instructions예요.</p>
+      <p><b>"Click on 'Set project instructions.'"</b></p>
+      <p>이렇게 저장한 지침은 그 프로젝트 안의 모든 채팅에 적용된다고 공식 문서에 나와 있어요. 새 채팅마다 말투나 배경 설명을 반복해서 치는 대신, 지침에 한 번 적어두면 그다음 채팅부터는 따로 안 써도 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>프로젝트, 몇 개로 나눠야 하나요</h3>
+      <p>성격이 다른 작업이면 프로젝트를 나누는 편이 나아요.</p>
+      <p>공식 문서는 이렇게 설명해요. <b>"Each project has its own separate memory space and dedicated project summary, so the context within each of your projects is focused, relevant, and separate from other projects or non-project chats."</b></p>
+      <p>프로젝트마다 메모리 공간과 요약이 따로 관리된다는 뜻이에요. 성격이 다른 작업을 한 프로젝트에 몰아넣으면 메모리와 지식 영역 검색 결과에 관계없는 내용이 섞일 수 있어요. 업무 자료와 개인 학습 자료처럼 결이 다르면 프로젝트를 나눠 관리하는 편이 검색 정확도에 유리해요.</p>
+      <table>
+        <tr><th>상황</th><th>프로젝트 구성</th></tr>
+        <tr><td class="l">성격 같은 작업만 있음</td><td>프로젝트 1개로 모아도 됨</td></tr>
+        <tr><td class="l">업무·개인처럼 성격이 다름</td><td>프로젝트를 나눠서 관리(메모리·검색이 프로젝트별로 격리되기 때문)</td></tr>
+      </table>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>채팅 검색·메모리랑 지식 영역, 뭐가 다른가요</h3>
+      <p>지식 영역은 내가 직접 올린 자료를 찾고, 채팅 검색과 메모리는 예전 대화 내용을 찾는다는 점이 달라요.</p>
+      <p>역할을 표로 정리하면 이래요.</p>
+      <table>
+        <tr><th>기능</th><th>무엇을 찾나</th><th>적용 범위·플랜</th></tr>
+        <tr><td class="l">지식 영역</td><td>내가 올린 문서·텍스트·코드</td><td>프로젝트 안 모든 채팅, 전 플랜</td></tr>
+        <tr><td class="l">메모리</td><td>예전 대화 맥락</td><td>프로젝트별로 분리(무료·Pro·Max 새 메모리 기준)</td></tr>
+        <tr><td class="l">채팅 검색</td><td>예전 대화 자체</td><td>프로젝트 안으로 한정, 프로·맥스·팀·엔터프라이즈</td></tr>
+      </table>
+      <p>공식 문서는 채팅 검색 범위를 이렇게 적어요. <b>"Individual project conversations (searches are limited to within each specific project)"</b></p>
+      <p>메모리·채팅 검색 모두 지식 영역처럼 프로젝트 범위를 안 넘어가요. 다만 채팅 검색은 유료 플랜 전용이고, 메모리는 무료 플랜에도 포함돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자료를 올렸는데 반영이 안 될 때, 뭘 먼저 봐야 하나요</h3>
+      <p>가장 흔한 원인은 대화창에 첨부한 파일과 지식 영역에 올린 파일을 헷갈리는 경우예요.</p>
+      <p>지난 글에서 다룬 것처럼, 같은 프로젝트 안이라도 채팅끼리 내용이 자동 공유되지 않고 지식 영역 자료만 모든 채팅에서 함께 쓰여요. 파일을 대화창에만 첨부하고 지식 영역엔 안 올렸다면, 그 채팅에서만 보이고 다른 채팅에서는 안 보여요.</p>
+      <p>자료를 다시 올리면 바로 반영되는지처럼 구체적 해결 절차는 위에서 참고한 다섯 개 공식 문서 어디에도 안 나와 있어요. 그러니 먼저 확인할 건 그 파일이 대화창 첨부 목록에만 있는 건 아닌지, 지식 영역에 실제로 올라가 있는지부터예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 지식 영역에는 이미지도 올릴 수 있나요?</b><br>
+      네, 지난 글에서 다룬 파일 형식에 JPEG·PNG·GIF·WebP 이미지 형식도 포함돼 있다고 안내했어요.</p>
+      <p><b>Q. 지식 영역 자료를 다른 사람과 같이 볼 수 있나요?</b><br>
+      개인 무료·프로·맥스 플랜엔 그런 공유 기능이 없고, 여러 명이 자료를 보고 수정하는 기능은 팀·엔터프라이즈 전용이라고 지난 글에서 다뤘어요.</p>
+      <p><b>Q. 지식 영역 자료가 많아지면 클로드 응답이 느려지나요?</b><br>
+      공식 문서엔 속도 얘기는 따로 없고, RAG가 켜져도 응답 정확도는 그대로 유지된다고만 나와 있어요. 속도에 관한 확인된 내용은 없어서 단정하지 않을게요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://support.claude.com/en/articles/8241126-upload-files-to-claude" target="_blank">Upload files to Claude — 공식 지원 문서</a><br>
+      · <a href="https://support.claude.com/en/articles/9519177-how-can-i-create-and-manage-projects" target="_blank">How can I create and manage projects? — 공식 지원 문서</a><br>
+      · <a href="https://support.claude.com/en/articles/9517075-what-are-projects" target="_blank">What are projects? — 공식 지원 문서</a><br>
+      · <a href="https://support.claude.com/en/articles/11473015-retrieval-augmented-generation-rag-for-projects" target="_blank">Retrieval Augmented Generation (RAG) for projects — 공식 지원 문서</a><br>
+      · <a href="https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context" target="_blank">Use Claude's chat search and memory to build on previous context — 공식 지원 문서</a></p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>✔ 같이 보면 좋아요</b><br>
+      · 클로드 초기설정과 활용법 — 프로젝트 만드는 법과 무료·프로 차이까지</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 지식 영역엔 자주 안 바뀌는 문서·텍스트·코드를 올리는 게 맞아요<br>
+      · 자료가 늘어나는 부분은 RAG가 자동으로 처리하니, 파일 하나는 30MB 밑으로 쪼개 올리면 돼요<br>
+      · 프로젝트 지침을 한 번 저장해 두면 새 채팅마다 설명을 반복 안 해도 돼요<br>
+      · 메모리·검색·지식 영역 모두 프로젝트 범위 안에서만 움직이니, 성격 다른 작업은 프로젝트를 나눠 두는 게 나아요</p>
+      <p>지침 하나 저장해 두는 것만으로도 반복 설명이 확 줄어드니, 지금 쓰는 프로젝트에 먼저 적용해 보세요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#클로드프로젝트 #클로드지식영역 #ClaudeProjects #프로젝트지침 #RAG #클로드사용법</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
