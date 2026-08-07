@@ -1,0 +1,294 @@
+<!-- 쓰담v2 하루살이 미리보기. mode=live. 마크업 출처=personas/하루살이/skeleton.html.
+     ★디자인 정본은 하루살이 고유다 — 다른 작성자 스켈레톤을 복사해 오지 말 것(격리).
+     복사/붙여넣기 위젯·CSS·형제 fetch 로직을 바꾸지 말 것(G2가 검사). -->
+<!-- 키워드: 챗GPT 파일 업로드 -->
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>챗GPT 파일 업로드로 PDF 요약하는 법</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-copy:disabled{background:#b7b7b7;cursor:not-allowed;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+  #copy .sandbox-ban{background:#fdeceb;border:2px solid #e0362f;border-radius:8px;padding:12px 14px;color:#a3231d;font-weight:800;font-size:13.5px;margin:0 0 20px;line-height:1.6;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">🤖AI 쓰는 법</div>
+    <h1 class="title">챗GPT 파일 업로드로 PDF 요약하는 법</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.08.08</span><span>IT·AI 하우투</span></div>
+
+    <p>복잡한 논문이나 두꺼운 보고서 PDF를 처음부터 끝까지 읽으려면 시간이 꽤 걸려요.</p>
+    <p>그럴 때 <b>챗GPT 파일 업로드</b>를 쓰면 문서를 올리는 것만으로 핵심 내용을 정리받을 수 있어요.</p>
+    <p>혹시 무료 계정은 이 기능을 못 쓴다고 생각하셨다면, 결론부터 말하면 그렇지 않아요.</p>
+    <p>클로드(Claude)에도 비슷한 파일 업로드 기능이 있지만, 이 글은 챗GPT 파일 업로드에만 집중할게요. 무료·유료 차이, 실제 업로드 방법, 활용법 순서로 보여드릴게요.</p>
+
+    <div class="imgwrap"><img src="img/openai-logo.png" alt="챗GPT를 만든 오픈AI 로고" width="400" height="400"></div>
+    <p class="cap">챗GPT 파일 업로드 기능을 만든 오픈AI(OpenAI)의 공식 로고예요.</p>
+    <p class="src">이미지 출처: <a href="https://openai.com" target="_blank">openai.com</a> 공식 로고 이미지</p>
+    <!-- 이미지 이유: 공식 출처 신뢰도 확보용 리드 이미지 / 출처: help.openai.com (OpenAI 공식 로고, og-image.png, 400x400) / 분류: A형 -->
+    <!-- 이미지 조달 메모(2026-08-08 실측): help.openai.com 아티클 페이지(8555545, 20001052)는 curl+브라우저 UA로 200 OK 확보(WebFetch 도구는 403). 단 두 문서 모두 본문 내 실제 업로드 UI 스크린샷은 0건(순수 텍스트 아티클)이고 og-image.png(OpenAI 공식 로고)만 실물 확인됨. 업로드 화면은 React SPA 렌더링이라 curl로는 캡처 불가 — 섹션2는 이전 카카오톡 대화요약 글과 동일하게 ss/shoot 텍스트 설명으로 대체(B형). -->
+
+    <h2 class="sub">챗GPT 파일 업로드, 무료 계정도 되나요?</h2>
+    <p>네, 무료 플랜도 챗GPT 파일 업로드를 그대로 쓸 수 있어요.</p>
+    <p>다만 <b>무료와 유료의 차이는 파일이 되고 안 되고가 아니에요.</b> 하루에 몇 번, 얼마나 큰 저장공간으로 쓸 수 있는지가 달라요.</p>
+    <p>무료 플랜은 하루 3회로 업로드 횟수가 제한돼요. 그 외 플랜은 3시간마다 최대 80개까지 올릴 수 있어요.</p>
+    <ul>
+      <li>무료(Free) 플랜은 업로드한 파일이 쌓이는 Library 저장공간이 500MB예요.</li>
+      <li>고(Go) 플랜은 4GB까지 저장할 수 있어요.</li>
+      <li>플러스(Plus)·비즈니스(Business) 플랜은 20GB예요.</li>
+      <li>프로(Pro) 플랜은 100GB로 가장 넉넉해요.</li>
+    </ul>
+    <p>그래서 <b>무료 계정이라 안 되는 게 아니라, 쓸 수 있는 횟수와 저장공간이 다른 거예요.</b></p>
+
+    <h2 class="sub">챗GPT에 파일은 어떻게 올리나요?</h2>
+    <p>대화창 하단의 + 버튼을 누르고 사진 및 파일 추가를 선택하면 파일을 올릴 수 있어요.</p>
+    <ol>
+      <li>대화창 아래 + 버튼을 눌러요.</li>
+      <li>사진 및 파일 추가를 선택해요.</li>
+      <li>요약받고 싶은 PDF나 문서 파일을 선택해서 올려요.</li>
+      <li>업로드가 끝나면 파일 이름이 대화창에 표시돼요.</li>
+      <li>"핵심 내용만 정리해줘" 같은 요청을 입력해요.</li>
+      <li>필요하면 "표로 정리해줘"처럼 원하는 형식을 더 구체적으로 요청해요.</li>
+    </ol>
+    <p>웹(chatgpt.com)뿐 아니라 <b>iOS·Android 앱에서도 올릴 수 있어요.</b></p>
+    <p>지원되는 파일은 텍스트·스프레드시트·프레젠테이션·문서 같은 일반적인 확장자예요. PDF나 CSV, 파워포인트 파일을 올리는 것도 공식 도움말에 예시로 나와요.</p>
+
+    <div class="ss"><span class="ico">📎</span><span class="lbl">대화창 + 버튼 → 사진 및 파일 추가</span></div>
+    <div class="shoot">화면은 대화창 하단의 + 버튼을 누르면 뜨는 첨부 메뉴에서 <b>사진 및 파일 추가</b>를 고르는 방식이에요. 실제 업로드 화면은 <a href="https://help.openai.com/en/articles/8555545-file-uploads-faq" target="_blank">OpenAI 공식 도움말</a>에서도 안내하고 있어요.</div>
+    <p class="cap">챗GPT 파일 업로드는 이 순서로 진행돼요.</p>
+
+    <h2 class="sub">챗GPT 파일 업로드, 뭘 조심해야 하나요?</h2>
+    <p>파일 크기와 하루 업로드 횟수, 이 두 가지만 알아두면 대부분 문제없이 쓸 수 있어요.</p>
+    <p>파일 크기·형식별 제한은 아래 표로 정리했어요.</p>
+    <table class="tbl">
+      <tr><th>항목</th><th>제한</th></tr>
+      <tr><td>파일당 크기 하드리밋</td><td>512MB</td></tr>
+      <tr><td>텍스트·문서 파일(스프레드시트 제외)</td><td>2M 토큰</td></tr>
+      <tr><td>CSV·스프레드시트</td><td>약 50MB(행 크기에 따라 달라짐)</td></tr>
+      <tr><td>이미지 1장</td><td>20MB</td></tr>
+    </table>
+      <p>이 중에서 실제로 자주 걸리는 건 <b>텍스트·문서 파일의 2M 토큰 제한</b>이에요.</p>
+      <p>논문이나 보고서가 아주 길면 이 상한에 걸려서 뒷부분이 인식되지 않을 수 있어요.</p>
+      <p class="sp"></p>
+      <p class="ph">스프레드시트(CSV·엑셀)는 2M 토큰 제한이 적용되지 않아요. 대신 파일 크기가 약 50MB를 넘지 않아야 해요.</p>
+      <p class="ph">PDF 안에 있는 그림이나 스캔 이미지는 대부분 요약에서 빠져요. 챗GPT가 문서 안의 글자만 읽고 이미지는 읽지 않기 때문이에요.</p>
+      <p class="sp"></p>
+      <p class="sp"></p>
+      <h3>주의할 점</h3>
+      <p>파일 안에 있는 그림이나 스캔된 이미지는 기본적으로 요약 대상에서 빠져요.</p>
+      <p><b>챗GPT는 문서 안의 글자만 읽고 이미지는 그대로 지나치기 때문</b>이에요. 다만 챗GPT 엔터프라이즈는 PDF 이미지까지 읽는 기능을 따로 지원해요.</p>
+      <p>그래서 그림이나 그래프 위주인 문서는 일반 플랜에서 기대만큼 요약이 안 될 수 있어요.</p>
+      <ul>
+        <li>텍스트·문서 파일은 2M 토큰이 넘으면 뒷부분이 인식되지 않을 수 있어요.</li>
+        <li>무료 플랜은 하루 3회를 넘기면 다음 날까지 기다려야 해요.</li>
+      </ul>
+      <p>파일이 아주 크면 필요한 부분만 미리 잘라서 올리는 게 안전해요.</p>
+      <p>스캔한 PDF라면 글자가 잘 인식되는 파일인지 먼저 확인해 보는 게 좋아요.</p>
+      <p>표나 그래프가 많은 문서는 "표만 정리해줘"처럼 요청하면 결과가 더 정확해요.</p>
+      <p>업로드한 파일은 임시 채팅이 아니면 Library에 저장돼요. 나중에 다시 꺼내 쓸 수 있어요.</p>
+      <p class="sp"></p>
+      <p class="sp"></p>
+      <h3>이럴 때 유용해요</h3>
+      <p>챗GPT 파일 업로드는 복잡한 연구 논문을 간단하게 요약받을 때 가장 많이 쓰여요.</p>
+      <p>두 문서를 올려 비교하거나, 스프레드시트 데이터 분석을 요청할 수도 있어요.</p>
+      <p>문서 안에서 특정 주제와 관련된 부분만 찾아 달라고 할 수도 있어요. 원하는 스타일로 다시 써 달라고 요청하는 것도 가능해요.</p>
+      <p>결국 파일을 다 읽지 않아도, 필요한 정보만 골라 받을 수 있다는 게 핵심이에요.</p>
+      <p class="sp"></p>
+      <p class="sp"></p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 챗GPT 앱(모바일)에서도 파일을 업로드할 수 있나요?</b><br>A. 네, iOS·Android 앱에서도 웹과 같은 방식으로 파일을 올릴 수 있어요.</p>
+      <p><b>Q. 이미지 파일도 업로드해서 분석할 수 있나요?</b><br>A. 네, 이미지도 올릴 수 있고 장당 20MB까지 지원돼요.</p>
+      <p><b>Q. 임시 채팅에서 올린 파일도 나중에 다시 볼 수 있나요?</b><br>A. 아니요, 임시 채팅에서 올린 파일은 계정이나 Library에 저장되지 않아요.</p>
+      <p class="sp"></p>
+      <p class="sp"></p>
+      <p><b>참고한 곳</b><br>OpenAI 공식 도움말 — <a href="https://help.openai.com/en/articles/8555545-file-uploads-faq" target="_blank">File Uploads FAQ</a><br>OpenAI 공식 도움말 — <a href="https://help.openai.com/en/articles/20001052-file-storage-and-library-in-chatgpt" target="_blank">File storage and Library in ChatGPT</a></p>
+      <p class="sp"></p>
+      <p class="sp"></p>
+      <p><b>확인 시점 안내</b><br>이 글의 수치는 2026년 8월 8일 기준으로 OpenAI 공식 도움말을 직접 확인한 값이에요. 챗GPT 사양은 자주 바뀌니, 정확한 최신 수치는 위 공식 도움말에서 다시 확인해 보세요.</p>
+      <p class="sp"></p>
+      <p class="sp"></p>
+      <p><b>하루 정리</b><br>무료 계정도 챗GPT 파일 업로드를 쓸 수 있어요, 다만 하루 3회에 저장공간 500MB로 제한돼요.<br>파일 하나당 512MB, 텍스트·문서는 2M 토큰까지만 인식되니 너무 큰 파일은 나눠서 올리는 게 나아요.<br>논문·보고서처럼 글이 많으면 PDF를 그대로 올려 요약을 시키고, 수치 데이터가 많으면 CSV나 스프레드시트로 올리는 쪽이 더 정확해요.<br>저장공간이 걱정되면 Library에서 다 쓴 파일을 가끔 정리해 주는 것도 방법이에요.</p>
+      <p class="sp"></p>
+      <p class="sp"></p>
+      <p class="tags-line">#챗GPT파일업로드 #챗GPT사용법 #PDF요약 #챗GPT활용법 #무료챗GPT #AI문서요약 #챗GPT팁</p>
+  </div>
+</div>
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>4.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 이미지 1곳:</b> 리드 이미지(오픈AI 공식 로고)는 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버에 Ctrl+V</b>로 넣어 주세요. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 그대로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 챗GPT 파일 업로드로 PDF 요약하는 법</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다</p>
+    <div id="copy">
+      <h3>챗GPT 파일 업로드로 PDF 요약하는 법</h3>
+      <p>복잡한 논문이나 두꺼운 보고서 PDF를 처음부터 끝까지 읽으려면 시간이 꽤 걸려요.</p>
+      <p>그럴 때 <b>챗GPT 파일 업로드</b>를 쓰면 문서를 올리는 것만으로 핵심 내용을 정리받을 수 있어요.</p>
+      <p>혹시 무료 계정은 이 기능을 못 쓴다고 생각하셨다면, 결론부터 말하면 그렇지 않아요.</p>
+      <p>클로드(Claude)에도 비슷한 파일 업로드 기능이 있지만, 이 글은 챗GPT 파일 업로드에만 집중할게요. 무료·유료 차이, 실제 업로드 방법, 활용법 순서로 보여드릴게요.</p>
+      <img src="img/openai-logo.png" alt="챗GPT를 만든 오픈AI 로고" width="400" height="400">
+      <p class="tnote-line">이미지 출처: openai.com 공식 로고 이미지</p>
+      <h3>챗GPT 파일 업로드, 무료 계정도 되나요?</h3>
+      <p>네, 무료 플랜도 챗GPT 파일 업로드를 그대로 쓸 수 있어요.</p>
+      <p>다만 <b>무료와 유료의 차이는 파일이 되고 안 되고가 아니에요.</b> 하루에 몇 번, 얼마나 큰 저장공간으로 쓸 수 있는지가 달라요.</p>
+      <p>무료 플랜은 하루 3회로 업로드 횟수가 제한돼요. 그 외 플랜은 3시간마다 최대 80개까지 올릴 수 있어요.</p>
+      <ul>
+        <li>무료(Free) 플랜은 Library 저장공간이 500MB예요.</li>
+        <li>고(Go) 플랜은 4GB까지 저장할 수 있어요.</li>
+        <li>플러스(Plus)·비즈니스(Business) 플랜은 20GB예요.</li>
+        <li>프로(Pro) 플랜은 100GB로 가장 넉넉해요.</li>
+      </ul>
+      <p>그래서 <b>무료 계정이라 안 되는 게 아니라, 쓸 수 있는 횟수와 저장공간이 다른 거예요.</b></p>
+      <h3>챗GPT에 파일은 어떻게 올리나요?</h3>
+      <p>대화창 하단의 + 버튼을 누르고 사진 및 파일 추가를 선택하면 파일을 올릴 수 있어요.</p>
+      <ol>
+        <li>대화창 아래 + 버튼을 눌러요.</li>
+        <li>사진 및 파일 추가를 선택해요.</li>
+        <li>요약받고 싶은 PDF나 문서 파일을 선택해서 올려요.</li>
+        <li>업로드가 끝나면 파일 이름이 대화창에 표시돼요.</li>
+        <li>"핵심 내용만 정리해줘" 같은 요청을 입력해요.</li>
+        <li>필요하면 "표로 정리해줘"처럼 원하는 형식을 더 구체적으로 요청해요.</li>
+      </ol>
+      <p>웹(chatgpt.com)뿐 아니라 <b>iOS·Android 앱에서도 올릴 수 있어요.</b></p>
+      <p>지원되는 파일은 텍스트·스프레드시트·프레젠테이션·문서 같은 일반적인 확장자예요. PDF나 CSV, 파워포인트 파일을 올리는 것도 공식 도움말에 예시로 나와요.</p>
+      <h3>챗GPT 파일 업로드, 뭘 조심해야 하나요?</h3>
+      <p>파일 크기와 하루 업로드 횟수, 이 두 가지만 알아두면 대부분 문제없이 쓸 수 있어요.</p>
+      <p>파일 크기·형식별 제한은 아래 표로 정리했어요.</p>
+      <table>
+        <tr><th>항목</th><th>제한</th></tr>
+        <tr><td class="l">파일당 크기 하드리밋</td><td>512MB</td></tr>
+        <tr><td class="l">텍스트·문서 파일(스프레드시트 제외)</td><td>2M 토큰</td></tr>
+        <tr><td class="l">CSV·스프레드시트</td><td>약 50MB(행 크기에 따라 달라짐)</td></tr>
+        <tr><td class="l">이미지 1장</td><td>20MB</td></tr>
+      </table>
+      <p>이 중에서 실제로 자주 걸리는 건 <b>텍스트·문서 파일의 2M 토큰 제한</b>이에요.</p>
+      <p>논문이나 보고서가 아주 길면 이 상한에 걸려서 뒷부분이 인식되지 않을 수 있어요.</p>
+      <p class="ph">스프레드시트(CSV·엑셀)는 2M 토큰 제한이 적용되지 않아요. 대신 파일 크기가 약 50MB를 넘지 않아야 해요.</p>
+      <p class="ph">PDF 안에 있는 그림이나 스캔 이미지는 대부분 요약에서 빠져요. 챗GPT가 문서 안의 글자만 읽고 이미지는 읽지 않기 때문이에요.</p>
+      <h3>주의할 점</h3>
+      <p>파일 안에 있는 그림이나 스캔된 이미지는 기본적으로 요약 대상에서 빠져요.</p>
+      <p><b>챗GPT는 문서 안의 글자만 읽고 이미지는 그대로 지나치기 때문</b>이에요. 다만 챗GPT 엔터프라이즈는 PDF 이미지까지 읽는 기능을 따로 지원해요.</p>
+      <p>그래서 그림이나 그래프 위주인 문서는 일반 플랜에서 기대만큼 요약이 안 될 수 있어요.</p>
+      <ul>
+        <li>텍스트·문서 파일은 2M 토큰이 넘으면 뒷부분이 인식되지 않을 수 있어요.</li>
+        <li>무료 플랜은 하루 3회를 넘기면 다음 날까지 기다려야 해요.</li>
+      </ul>
+      <p>파일이 아주 크면 필요한 부분만 미리 잘라서 올리는 게 안전해요.</p>
+      <p>스캔한 PDF라면 글자가 잘 인식되는 파일인지 먼저 확인해 보는 게 좋아요.</p>
+      <p>표나 그래프가 많은 문서는 "표만 정리해줘"처럼 요청하면 결과가 더 정확해요.</p>
+      <p>업로드한 파일은 임시 채팅이 아니면 Library에 저장돼요. 나중에 다시 꺼내 쓸 수 있어요.</p>
+      <h3>이럴 때 유용해요</h3>
+      <p>챗GPT 파일 업로드는 복잡한 연구 논문을 간단하게 요약받을 때 가장 많이 쓰여요.</p>
+      <p>두 문서를 올려 비교하거나, 스프레드시트 데이터 분석을 요청할 수도 있어요.</p>
+      <p>문서 안에서 특정 주제와 관련된 부분만 찾아 달라고 할 수도 있어요. 원하는 스타일로 다시 써 달라고 요청하는 것도 가능해요.</p>
+      <p>결국 파일을 다 읽지 않아도, 필요한 정보만 골라 받을 수 있다는 게 핵심이에요.</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 챗GPT 앱(모바일)에서도 파일을 업로드할 수 있나요?</b><br>A. 네, iOS·Android 앱에서도 웹과 같은 방식으로 파일을 올릴 수 있어요.</p>
+      <p><b>Q. 이미지 파일도 업로드해서 분석할 수 있나요?</b><br>A. 네, 이미지도 올릴 수 있고 장당 20MB까지 지원돼요.</p>
+      <p><b>Q. 임시 채팅에서 올린 파일도 나중에 다시 볼 수 있나요?</b><br>A. 아니요, 임시 채팅에서 올린 파일은 계정이나 Library에 저장되지 않아요.</p>
+      <p><b>참고한 곳</b><br>OpenAI 공식 도움말 — File Uploads FAQ (help.openai.com/en/articles/8555545-file-uploads-faq)<br>OpenAI 공식 도움말 — File storage and Library in ChatGPT (help.openai.com/en/articles/20001052-file-storage-and-library-in-chatgpt)</p>
+      <p class="notice-line">확인 시점 안내<br>이 글의 수치는 2026년 8월 8일 기준으로 OpenAI 공식 도움말을 직접 확인한 값이에요. 챗GPT 사양은 자주 바뀌니, 정확한 최신 수치는 위 공식 도움말에서 다시 확인해 보세요.</p>
+      <p><b>하루 정리</b><br>무료 계정도 챗GPT 파일 업로드를 쓸 수 있어요, 다만 하루 3회에 저장공간 500MB로 제한돼요.<br>파일 하나당 512MB, 텍스트·문서는 2M 토큰까지만 인식되니 너무 큰 파일은 나눠서 올리는 게 나아요.<br>논문·보고서처럼 글이 많으면 PDF를 그대로 올려 요약을 시키고, 수치 데이터가 많으면 CSV나 스프레드시트로 올리는 쪽이 더 정확해요.<br>저장공간이 걱정되면 Library에서 다 쓴 파일을 가끔 정리해 주는 것도 방법이에요.</p>
+      <p class="tags-line">#챗GPT파일업로드 #챗GPT사용법 #PDF요약 #챗GPT활용법 #무료챗GPT #AI문서요약 #챗GPT팁</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
