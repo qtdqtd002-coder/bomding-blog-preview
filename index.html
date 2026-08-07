@@ -646,7 +646,166 @@ svg{display:block;}
   .feed.grid .card:hover,.vault:hover,.cl:hover,.fab:hover,.sc:hover,.tcard:hover,.wchip:hover,.app-cta:hover{transform:none;}
   html{scroll-behavior:auto;}
 }
-</style></head><body>
+
+/* ════════════════════════════════════════════════════════════
+   부팅 시퀀스 (v4.1 · 2026-08-04)
+   "프로그램이 켜지는 느낌" — 로고가 그려지고, 마음이 담기고, 화면이 열린다.
+   세션당 1회(sessionStorage). 재방문·새로고침은 0.3초 페이드만.
+   ★안전장치: 데이터 로드가 실패해도 타임아웃으로 반드시 걷힌다(§boot JS).
+   ════════════════════════════════════════════════════════════ */
+#boot{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;
+  background:var(--paper);overflow:hidden;
+  /* 종이 온기 — 중앙에서 은은하게 밝아지는 조명 */
+  background-image:
+    radial-gradient(120% 90% at 50% 42%, color-mix(in srgb,var(--accent) 7%,transparent), transparent 58%),
+    radial-gradient(80% 60% at 50% 108%, color-mix(in srgb,var(--ink) 6%,transparent), transparent 60%);}
+#boot[hidden]{display:none;}
+/* 미세 그레인 — 크림 종이 질감 */
+#boot::after{content:"";position:absolute;inset:-50%;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(currentColor .5px, transparent .5px);
+  background-size:3px 3px;color:color-mix(in srgb,var(--ink) 7%,transparent);
+  animation:bootGrain 6s steps(4) infinite;}
+@keyframes bootGrain{0%{transform:translate(0,0)}25%{transform:translate(-1px,1px)}
+  50%{transform:translate(1px,-1px)}75%{transform:translate(-1px,-1px)}100%{transform:translate(0,0)}}
+
+.boot-stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:26px;
+  transform:translateY(-8px);}
+
+/* ── 로고 마크: 노트 위에 두 줄이 그어지고, 하트가 얹힌다 ── */
+.boot-mark{width:118px;height:118px;overflow:visible;}
+.boot-mark .bm-plate{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linejoin:round;
+  stroke-dasharray:145;stroke-dashoffset:145;
+  animation:bmDraw .72s var(--ease) .12s forwards;}
+.boot-mark .bm-fill{fill:var(--ink);opacity:0;transform-origin:50% 62%;
+  animation:bmFill .5s var(--ease) .74s forwards;}
+.boot-mark .bm-line{stroke:var(--paper);stroke-width:2.2;stroke-linecap:round;
+  stroke-dasharray:18;stroke-dashoffset:18;}
+.boot-mark .bm-line.l1{animation:bmDraw2 .34s var(--ease) 1.0s forwards;}
+.boot-mark .bm-line.l2{stroke-dasharray:24;stroke-dashoffset:24;opacity:.5;
+  animation:bmDraw2 .34s var(--ease) 1.16s forwards;}
+.boot-mark .bm-heart{fill:var(--accent);opacity:0;transform-origin:75% 22%;
+  animation:bmHeart .62s cubic-bezier(.34,1.7,.5,1) 1.34s forwards;}
+@keyframes bmDraw{to{stroke-dashoffset:0}}
+@keyframes bmDraw2{from{stroke-dashoffset:var(--sd,20)}to{stroke-dashoffset:0}}
+@keyframes bmFill{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@keyframes bmHeart{0%{opacity:0;transform:scale(.2) translateY(6px)}
+  60%{opacity:1;transform:scale(1.14) translateY(-2px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+
+/* ── 워드마크: 글자가 한 자씩 올라온다 ── */
+.boot-wm{display:flex;align-items:baseline;gap:1px;font-size:44px;font-weight:800;
+  letter-spacing:-.045em;color:var(--ink);line-height:1;}
+.boot-wm span{display:inline-block;opacity:0;transform:translateY(14px);
+  animation:bootChar .54s var(--ease) forwards;}
+.boot-wm span:nth-child(1){animation-delay:1.52s}
+.boot-wm span:nth-child(2){animation-delay:1.62s}
+.boot-wm .dot{color:var(--accent);animation:bootDot .6s cubic-bezier(.34,1.8,.5,1) 1.78s forwards;}
+@keyframes bootChar{to{opacity:1;transform:none}}
+@keyframes bootDot{0%{opacity:0;transform:translateY(-16px) scale(.4)}
+  70%{opacity:1;transform:translateY(2px) scale(1.2)}100%{opacity:1;transform:none}}
+.boot-tag{font-size:13.5px;font-weight:500;color:var(--ink-3);letter-spacing:-.01em;
+  opacity:0;animation:bootChar .5s var(--ease) 1.98s forwards;margin-top:-14px;}
+
+/* ── 진행 바 ── */
+.boot-bar{width:186px;height:3px;border-radius:99px;background:color-mix(in srgb,var(--ink) 11%,transparent);
+  overflow:hidden;opacity:0;animation:bootChar .4s var(--ease) 2.1s forwards;}
+.boot-bar i{display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--ink)));
+  transition:width .34s var(--ease);}
+.boot-status{font-family:var(--mono);font-size:12px;color:var(--ink-3);letter-spacing:.02em;
+  opacity:0;animation:bootChar .4s var(--ease) 2.16s forwards;min-height:1.2em;
+  font-feature-settings:"tnum";}
+
+/* ── 사운드 토글 ── */
+.boot-snd{position:absolute;right:22px;top:22px;display:inline-flex;align-items:center;gap:7px;
+  height:34px;padding:0 13px;border:1px solid var(--line-2);background:var(--surface);
+  color:var(--ink-3);font-family:inherit;font-size:12.5px;font-weight:600;border-radius:99px;
+  cursor:pointer;transition:.15s var(--ease);opacity:0;animation:bootChar .4s var(--ease) 2.3s forwards;}
+.boot-snd:hover{color:var(--ink);border-color:var(--line-3);}
+.boot-snd .ic{width:14px;height:14px;}
+.boot-snd.on{color:var(--accent);border-color:var(--accent-line);background:var(--accent-soft);}
+
+/* ── 마무리: 화면이 열린다 ── */
+#boot.leaving{animation:bootOut .62s var(--ease) forwards;}
+@keyframes bootOut{
+  0%{opacity:1;clip-path:circle(140% at 50% 46%);}
+  100%{opacity:0;clip-path:circle(0% at 50% 46%);}
+}
+#boot.leaving .boot-stage{animation:bootStageOut .42s var(--ease) forwards;}
+@keyframes bootStageOut{to{opacity:0;transform:translateY(-8px) scale(1.06);}}
+/* 본문은 스플래시가 걷히며 살짝 다가온다 */
+body.booting>.site-head,body.booting>.main,body.booting>.site-foot,body.booting>.fab{
+  opacity:0;transform:scale(.988);}
+body.boot-done>.site-head,body.boot-done>.main,body.boot-done>.site-foot,body.boot-done>.fab{
+  opacity:1;transform:none;transition:opacity .5s var(--ease),transform .62s var(--ease);}
+
+/* 재방문(세션 내) — 연출 없이 짧은 페이드만 */
+#boot.quick{animation:bootQuick .3s var(--ease) forwards;}
+#boot.quick .boot-stage{display:none;}
+@keyframes bootQuick{to{opacity:0}}
+
+/* ════════ 뷰 전환 ════════ */
+#content.vt-out{animation:vtOut .16s var(--ease) forwards;}
+#content.vt-in{animation:vtIn .34s var(--ease);}
+@keyframes vtOut{to{opacity:0;transform:translateY(-6px)}}
+@keyframes vtIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* 네비 세그먼트 — 선택 표시가 미끄러진다 */
+.nav-seg{position:relative;}
+.nav-seg .seg-ind{position:absolute;top:3px;bottom:3px;left:0;width:0;border-radius:8px;
+  background:var(--surface);box-shadow:var(--sh-sm);z-index:0;opacity:0;
+  transition:transform .34s var(--ease),width .34s var(--ease),opacity .2s var(--ease);}
+.nav-seg button{position:relative;z-index:1;}
+.nav-seg button.on{background:transparent!important;box-shadow:none!important;}
+
+/* 페이지 이탈(글 열기) — 화면이 부드럽게 물러난다 */
+body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:none;}
+@keyframes pageOut{to{opacity:0;transform:scale(.992)}}
+
+/* 스켈레톤 */
+.skel{display:block;border-radius:7px;background:linear-gradient(90deg,
+  var(--surface-2) 25%, var(--surface-3) 37%, var(--surface-2) 63%);
+  background-size:400% 100%;animation:skelShimmer 1.3s ease-in-out infinite;}
+@keyframes skelShimmer{0%{background-position:100% 0}100%{background-position:0 0}}
+.skel-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);}
+.skel-row:last-child{border-bottom:0;}
+.skel-row .sk-av{width:26px;height:26px;border-radius:50%;flex:none;}
+.skel-row .sk-tx{flex:1;height:11px;}
+.skel-row .sk-tx.s{max-width:38%;}
+
+@media(prefers-reduced-motion: reduce){
+  /* 부팅 연출은 JS가 QUICK 모드로 통째 건너뛴다(스테이지 미표시) — 여기서 또 끄지 않는다.
+     단 ?boot=1 로 명시 요청하면 reduced 환경에서도 연출을 볼 수 있다. */
+  html:not([data-motion="force"]) #boot::after{animation:none;}
+  #content.vt-out,#content.vt-in{animation:none;}
+  body.leaving-page{animation:none;}
+  .skel{animation:none;}
+  .nav-seg .seg-ind{transition:none;}
+}
+</style></head><body class="booting">
+ <!-- ══ 부팅 스플래시 ══ 로고가 그려지고(쓴다) → 하트가 얹히고(마음을 담는다) → 화면이 열린다 -->
+ <div id="boot" role="status" aria-live="polite" aria-label="쓰담을 시작하는 중">
+   <button type="button" class="boot-snd" id="bootSnd" aria-pressed="false" title="시작음 켜기/끄기">
+     <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+     <span id="bootSndTx">사운드</span>
+   </button>
+   <div class="boot-stage">
+     <svg class="boot-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+       <!-- ① 노트가 그려진다 -->
+       <rect class="bm-plate" x="7" y="19" width="44" height="32" rx="9"/>
+       <!-- ② 면이 채워진다 -->
+       <rect class="bm-fill" x="7" y="19" width="44" height="32" rx="9"/>
+       <!-- ③ 두 줄이 그어진다 = 글을 쓴다 -->
+       <path class="bm-line l1" d="M17 29h18"/>
+       <path class="bm-line l2" d="M17 40h24"/>
+       <!-- ④ 하트가 얹힌다 = 마음을 담는다 -->
+       <path class="bm-heart" d="M48 21c-4.2-4.6-8.4-7.6-8.4-11.9 0-3.2 3-4.9 5.7-3.4 1.4.7 2.7 2.3 2.7 2.3s1.3-1.6 2.7-2.3c2.7-1.5 5.7.2 5.7 3.4 0 4.3-4.2 7.3-8.4 11.9Z"/>
+     </svg>
+     <div class="boot-wm" aria-hidden="true"><span>쓰</span><span>담</span><span class="dot">.</span></div>
+     <div class="boot-tag">당신의 글쓰기 동료</div>
+     <div class="boot-bar"><i id="bootBar"></i></div>
+     <div class="boot-status" id="bootStatus">준비하는 중</div>
+   </div>
+ </div>
  <header class="site-head">
    <div class="head-inner">
      <div class="head-row">
@@ -692,6 +851,164 @@ svg{display:block;}
    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
    <span class="fab-tx">새 글 요청</span>
  </button>
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   부팅 컨트롤러 + SFX (v4.1 · 2026-08-04)
+   · 세션당 1회 풀 연출(sessionStorage). 재방문은 0.3초 페이드.
+   · SFX는 Web Audio 합성 — 오디오 파일 0바이트, 볼륨 절제.
+   · ★자동재생 정책: 사용자 제스처 전에는 소리를 낼 수 없다.
+     resume() 을 시도하고, 막히면 첫 포인터/키 입력에 해제한다(조용히 실패).
+   · ★반드시 걷힌다: 데이터가 안 와도 MAX_WAIT 뒤 강제 종료.
+   ════════════════════════════════════════════════════════════ */
+(function(){
+  var boot=document.getElementById("boot");
+  if(!boot) return;
+  var body=document.body, barEl=document.getElementById("bootBar"),
+      stEl=document.getElementById("bootStatus"), sndBtn=document.getElementById("bootSnd"),
+      sndTx=document.getElementById("bootSndTx");
+  var REDUCED=false;
+  try{ REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+  var SEEN=false;
+  try{ SEEN=sessionStorage.getItem("sseudam_booted")==="1"; }catch(e){}
+  /* ?boot=1 — 연출을 다시 보고 싶을 때(세션 기록·모션 설정 무시). 디버그 겸 사용자 편의. */
+  var FORCE=false;
+  try{ FORCE=(location.search||"").indexOf("boot=1")>=0; }catch(e){}
+  /* 로컬스토리지 1회용 플래그 — 주소창을 못 쓰는 자동화·검증 환경용 */
+  try{ if(localStorage.getItem("sseudam_bootforce")==="1"){ FORCE=true; localStorage.removeItem("sseudam_bootforce"); } }catch(e){}
+  if(FORCE){ try{ document.documentElement.setAttribute("data-motion","force"); }catch(e){} }
+  var QUICK = FORCE ? false : (SEEN || REDUCED);
+  var MIN_SHOW = QUICK?260:2450;      /* 연출을 끝까지 보여주는 최소 시간 */
+  var MAX_WAIT = QUICK?1200:7000;     /* 데이터가 안 와도 여기서 강제 종료 */
+  var t0=Date.now(), done=false, ready=false;
+
+  /* ── SFX: 오실레이터 합성 ── */
+  var SFX=(function(){
+    var ctx=null, master=null, enabled=true, unlocked=false;
+    try{ enabled = (localStorage.getItem("sseudam_sfx")||"on")==="on"; }catch(e){}
+    function ensure(){
+      if(ctx) return ctx;
+      var AC=window.AudioContext||window.webkitAudioContext;
+      if(!AC) return null;
+      try{ ctx=new AC(); }catch(e){ return null; }
+      master=ctx.createGain(); master.gain.value=.14; master.connect(ctx.destination);
+      return ctx;
+    }
+    function live(){ return enabled && ensure() && ctx.state==="running"; }
+    function tone(freq,t,dur,vol,type,bendTo){
+      if(!live())return;
+      var o=ctx.createOscillator(), g=ctx.createGain();
+      o.type=type||"sine"; o.frequency.setValueAtTime(freq,t);
+      if(bendTo) o.frequency.exponentialRampToValueAtTime(bendTo,t+dur*.7);
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(vol,t+Math.min(.03,dur*.2));
+      g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t+dur+.02);
+    }
+    function sweep(t,dur,f0,f1,vol){          /* 획 긋는 소리 = 필터된 노이즈 */
+      if(!live())return;
+      var n=Math.floor(ctx.sampleRate*dur), buf=ctx.createBuffer(1,n,ctx.sampleRate), d=buf.getChannelData(0);
+      for(var i=0;i<n;i++) d[i]=(Math.random()*2-1)*(1-i/n);
+      var src=ctx.createBufferSource(); src.buffer=buf;
+      var bp=ctx.createBiquadFilter(); bp.type="bandpass"; bp.Q.value=1.4;
+      bp.frequency.setValueAtTime(f0,t); bp.frequency.exponentialRampToValueAtTime(f1,t+dur);
+      var g=ctx.createGain();
+      g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.02);
+      g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+      src.connect(bp); bp.connect(g); g.connect(master); src.start(t); src.stop(t+dur+.02);
+    }
+    return {
+      get enabled(){ return enabled; },
+      set(v){ enabled=!!v; try{ localStorage.setItem("sseudam_sfx",v?"on":"off"); }catch(e){} },
+      /* 제스처가 있을 때만 성공한다. 실패해도 조용히 넘어간다. */
+      unlock(){ var c=ensure(); if(!c) return Promise.resolve(false);
+        if(c.state==="running"){ unlocked=true; return Promise.resolve(true); }
+        return c.resume().then(function(){ unlocked=c.state==="running"; return unlocked; })
+                         .catch(function(){ return false; }); },
+      get unlocked(){ return unlocked; },
+      /* 부팅음 — 획 두 번, 하트 팝, 착지 화음 */
+      boot(){ if(!live())return; var t=ctx.currentTime+.02;
+        tone(174.6,t,1.5,.05,"sine");                    /* 낮은 패드 */
+        sweep(t+.14,.26,900,2400,.07);                   /* 획 1 */
+        sweep(t+.30,.26,800,2100,.06);                   /* 획 2 */
+        tone(880,t+.52,.20,.10,"sine",1320);             /* 하트 팝 */
+        [523.25,659.25,783.99].forEach(function(f,i){    /* 착지 화음 */
+          tone(f,t+.74+i*.045,1.15,.075,"sine"); });
+      },
+      land(){ if(!live())return; var t=ctx.currentTime+.01;
+        [523.25,783.99].forEach(function(f,i){ tone(f,t+i*.04,.7,.07,"sine"); }); },
+      tick(){ if(!live())return; tone(1180,ctx.currentTime+.005,.045,.028,"sine"); },
+      swish(){ if(!live())return; sweep(ctx.currentTime+.005,.14,600,1800,.03); }
+    };
+  })();
+  window.__sfx=SFX;
+
+  function paintSnd(){
+    if(!sndBtn)return;
+    var on=SFX.enabled;
+    sndBtn.classList.toggle("on",on);
+    sndBtn.setAttribute("aria-pressed",on?"true":"false");
+    if(sndTx) sndTx.textContent = on ? (SFX.unlocked?"사운드 켜짐":"탭하면 소리") : "사운드 꺼짐";
+  }
+  if(sndBtn){
+    sndBtn.addEventListener("click",function(e){
+      e.stopPropagation();
+      var next=!SFX.enabled; SFX.set(next);
+      if(next) SFX.unlock().then(function(ok){ if(ok) SFX.land(); paintSnd(); });
+      else paintSnd();
+    });
+  }
+  /* 자동재생 시도 → 막히면 첫 제스처에 해제 */
+  SFX.unlock().then(function(ok){
+    paintSnd();
+    if(ok && !QUICK) SFX.boot();
+    if(!ok){
+      var arm=function(){
+        SFX.unlock().then(function(k){ if(k && SFX.enabled && !done) SFX.boot(); paintSnd(); });
+        window.removeEventListener("pointerdown",arm,true);
+        window.removeEventListener("keydown",arm,true);
+      };
+      window.addEventListener("pointerdown",arm,true);
+      window.addEventListener("keydown",arm,true);
+    }
+  });
+
+  /* ── 진행 표시 — 실제 fetch 완료에 연동 ── */
+  var STEPS=5, hit=0;
+  function paintBar(){
+    var p=Math.min(1,hit/STEPS);
+    if(barEl) barEl.style.width=(QUICK?100:Math.round(p*100))+"%";
+  }
+  paintBar();
+
+  function finish(){
+    if(done) return; done=true;
+    try{ sessionStorage.setItem("sseudam_booted","1"); }catch(e){}
+    if(stEl) stEl.textContent="준비 완료";
+    if(SFX.enabled && !QUICK) SFX.land();
+    boot.classList.add(QUICK?"quick":"leaving");
+    body.classList.remove("booting"); body.classList.add("boot-done");
+    setTimeout(function(){ boot.hidden=true; }, QUICK?320:660);
+  }
+  function tryFinish(){
+    if(done) return;
+    var waited=Date.now()-t0;
+    if(ready && waited>=MIN_SHOW) finish();
+    else if(ready) setTimeout(tryFinish, MIN_SHOW-waited+20);
+  }
+
+  window.__boot={
+    step:function(label){
+      hit++; paintBar();
+      if(stEl && label && !ready) stEl.textContent=label;
+    },
+    ready:function(){ ready=true; hit=STEPS; paintBar(); tryFinish(); },
+    finish:finish
+  };
+  /* 백스톱 — 데이터가 영영 안 와도 화면은 열린다 */
+  setTimeout(function(){ if(!done){ if(stEl)stEl.textContent="계속 진행합니다"; finish(); } }, MAX_WAIT);
+})();
+</script>
 
 <style>
 /* ===== 관리자 모드(삭제) ===== */
@@ -1077,6 +1394,13 @@ svg{display:block;}
  const pubP=fetch("published.json?ts="+Date.now()).then(r=>r.ok?r.json():{publishedRels:[]}).catch(()=>({publishedRels:[]}));
  const hidP=HiddenSvc.load();   /* 백엔드 숨김 목록(GET /hidden) — 실패해도 조용히 통과(아무것도 안 숨김) */
  const mpubP=MpubSvc.load();    /* 백엔드 수동 발행완료 목록(GET /mpub) — 실패해도 조용히 통과 */
+ /* 부팅 진행바 — 실제 fetch 완료 시점에만 채운다(연출용 가짜 진행 아님) */
+ const bstep=n=>{ try{ window.__boot&&window.__boot.step(n); }catch(_){} };
+ postsP.finally(()=>bstep("글 목록을 불러왔어요"));
+ trendP.finally(()=>bstep("트렌드 브리핑 확인"));
+ pubP.finally(()=>bstep("발행 상태 대조"));
+ Promise.resolve(hidP).finally(()=>bstep("숨김 목록 동기화"));
+ Promise.resolve(mpubP).finally(()=>bstep("발행 완료 표시 동기화"));
 
  Promise.all([postsP,trendP,pubP,hidP,mpubP]).then(([posts,trend,pub])=>{
    const PUBSET=new Set(((pub&&pub.publishedRels)||[]));
@@ -1103,8 +1427,10 @@ svg{display:block;}
    paintStrip();          /* 상태 스트립(로컬 파생분 먼저) */
    searchBox.style.display="";
    render();
+   try{ window.__boot&&window.__boot.ready(); }catch(_){}   /* 화면 준비됨 → 스플래시 마무리 */
    refreshQueueBadge();   /* 큐 깊이 배지 + 스트립 큐 수치(백엔드 연결 시) */
  }).catch(e=>{
+   try{ window.__boot&&window.__boot.ready(); }catch(_){}   /* 실패해도 화면은 연다 */
    titleEl.textContent="글"; subEl.textContent="목록을 불러오지 못했어요.";
    contentEl.innerHTML='<div class="empty">목록을 불러오지 못했어요(잠시 후 새로고침).<br>'+esc(String(e&&e.message||e))+'</div>';
  });
@@ -1136,13 +1462,31 @@ svg{display:block;}
    function setActive(){
      navEl.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
      const nb=navEl.querySelector(sel(state.view)); if(nb)nb.classList.add("on");
+     syncSegInd();
    }
+   /* 세그먼트 선택 표시가 탭 사이를 미끄러진다 — 어디로 옮겨갔는지 눈이 따라간다 */
+   function syncSegInd(){
+     const seg=navEl.querySelector(".nav-seg"); if(!seg)return;
+     let ind=seg.querySelector(".seg-ind");
+     if(!ind){ ind=document.createElement("span"); ind.className="seg-ind"; ind.setAttribute("aria-hidden","true"); seg.prepend(ind); }
+     const on=seg.querySelector("button.on");
+     if(!on){ ind.style.opacity=0; return; }
+     ind.style.opacity=1;
+     ind.style.width=on.offsetWidth+"px";
+     ind.style.transform="translateX("+(on.offsetLeft-seg.clientLeft)+"px)";
+   }
+   window.__syncSeg=syncSegInd;
+   window.addEventListener("resize",()=>{ try{syncSegInd();}catch(_){} });
    window.__syncNav=setActive;   // 홈 로고 등 외부에서 활성 동기화
    setActive();
    const closeAll=()=>{};        // 드롭다운 폐기 — 호출부 호환용 no-op
 
-   const goView=k=>{ state.view=k; state.q=""; state.page=1; if(qEl)qEl.value=""; setActive(); render(); window.scrollTo({top:0,behavior:"smooth"}); };
+   const goView=k=>{ state.view=k; state.q=""; state.page=1; if(qEl)qEl.value="";
+     setActive();
+     withTransition(()=>{ render(); window.scrollTo({top:0,behavior:"smooth"}); });
+     try{ window.__sfx&&window.__sfx.tick(); }catch(_){} };
    navEl.querySelectorAll("button[data-k]").forEach(b=>b.addEventListener("click",()=>goView(b.dataset.k)));
+   syncSegInd();
 
    const fab=document.getElementById("fabReq");   /* 새 글 요청 FAB → 어느 탭에서든 요청 폼으로 */
    if(fab&&!fab.__bound){ fab.__bound=1; fab.addEventListener("click",()=>goView("__request__")); }
@@ -1321,7 +1665,7 @@ svg{display:block;}
            `<div class="panel-b">${rx}</div></section>`+
          `<section class="panel reveal" style="--i:3" id="todayQueue"><div class="panel-h"><h2>작업 큐</h2><span class="sp"></span>`+
            `<button type="button" class="btn sm" data-go="__queue__">전체</button></div>`+
-           `<div class="panel-b"><div class="srow-empty">불러오는 중…</div></div></section>`+
+           `<div class="panel-b">${skelRows(3)}</div></section>`+
          `<button type="button" class="vault reveal" style="--i:4" data-go="__archive__">`+
            `<span class="vk">서고 · 발행 완료된 자산</span><span class="vn" data-to="${archCnt}">0</span>`+
            `<span class="vl">클러스터와 내부링크의 원천이에요</span>`+
@@ -1426,6 +1770,47 @@ svg{display:block;}
    });
    paintStrip();
  }
+ /* 로딩 자리표시 — 빈 문구 대신 들어올 내용의 형태를 미리 보여준다 */
+ const skelRows=n=>Array.from({length:n},()=>
+   `<div class="skel-row"><span class="skel sk-av"></span><span style="flex:1;min-width:0">`+
+   `<span class="skel sk-tx" style="display:block;margin-bottom:6px"></span>`+
+   `<span class="skel sk-tx s" style="display:block"></span></span></div>`).join("");
+
+ /* 뷰 전환 — 나갈 땐 짧게 접히고, 들어올 땐 아래에서 올라온다.
+    render()는 여러 곳에서 불리므로 '이동'에 해당하는 호출에서만 감싼다. */
+ let VT_BUSY=false;
+ function withTransition(fn){
+   const el=contentEl;
+   let reduced=false; try{ reduced=matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(_){}
+   if(reduced||VT_BUSY||!el){ fn(); return; }
+   VT_BUSY=true;
+   el.classList.remove("vt-in"); el.classList.add("vt-out");
+   setTimeout(()=>{
+     el.classList.remove("vt-out");
+     fn();
+     el.classList.add("vt-in");
+     setTimeout(()=>{ el.classList.remove("vt-in"); VT_BUSY=false; },340);
+   },160);
+ }
+ /* 글로 나갈 때 — 화면이 툭 끊기지 않고 한 겹 물러난 뒤 이동한다 */
+ document.addEventListener("click",e=>{
+   const a=e.target.closest&&e.target.closest("a[href]");
+   if(!a)return;
+   if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+   if(a.target==="_blank"||a.hasAttribute("download"))return;
+   const href=a.getAttribute("href")||"";
+   if(!href||href[0]==="#"||/^(https?:)?\/\//i.test(href)||/^(mailto|tel):/i.test(href))return;
+   if(e.target.closest(".admin-menu"))return;          /* 관리 메뉴 클릭은 이동 아님 */
+   let reduced=false; try{ reduced=matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(_){}
+   if(reduced)return;
+   e.preventDefault();
+   try{ window.__sfx&&window.__sfx.swish(); }catch(_){}
+   document.body.classList.add("leaving-page");
+   setTimeout(()=>{ location.href=a.href; },210);
+ });
+ /* 뒤로가기로 돌아왔을 때 하얗게 굳어 있지 않도록 */
+ window.addEventListener("pageshow",()=>{ document.body.classList.remove("leaving-page"); });
+
  /* 콘텐츠 최상위 블록에 순차 등장 — 화면이 '조립되는' 느낌을 주고 영역 경계를 인지시킨다 */
  function stagger(root){ [...root.children].forEach((el,i)=>{ el.classList.add("reveal"); el.style.setProperty("--i",i); }); }
  function attachTools(){
@@ -1441,7 +1826,7 @@ svg{display:block;}
    if(vb)vb.addEventListener("click",()=>{ state.gridView=!state.gridView; lset("gridView",state.gridView?"1":"0"); render(); });
    contentEl.querySelectorAll(".pager button[data-page]").forEach(b=>b.addEventListener("click",()=>{
      if(b.disabled)return; const n=+b.dataset.page;
-     if(n&&n!==state.page){ state.page=n; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+     if(n&&n!==state.page){ state.page=n; withTransition(()=>{ render(); window.scrollTo({top:0,behavior:"smooth"}); }); try{window.__sfx&&window.__sfx.tick();}catch(_){} }
    }));
  }
 
