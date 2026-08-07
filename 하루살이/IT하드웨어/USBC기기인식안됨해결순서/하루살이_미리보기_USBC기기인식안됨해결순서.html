@@ -1,0 +1,375 @@
+<!-- AEO 타깃 질문: ①USB-C 인식 안 될 때 뭐부터 확인하나요? ②전원 부족 경고가 뜨면 어떻게 하나요? ③USB4·Thunderbolt 기능이 제한된다는 안내는 뭘 뜻하나요? / 인용 후크: (a) 마이크로소프트 공식 문서의 증상별 확인 순서를 표로 정리 (b) 오류 코드 확인 절차 번호 리스트화 (c) USB4/Thunderbolt/디스플레이 대체 모드 확인 항목 불릿화 / 출처: support.microsoft.com/ko-kr/windows/hardware/fix-usb-c-problems-in-windows(Windows 11 섹션 기준) -->
+<!-- 키워드: USB-C 인식 안 될 때 -->
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>USB-C 인식 안 될 때, 마이크로소프트 공식 해결 순서</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tnote{color:var(--sub);font-size:12.5px;margin:-14px 0 22px;line-height:1.6;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">🛠️안 될 때(문제해결)</div>
+    <h1 class="title">USB-C 인식 안 될 때, 마이크로소프트 공식 해결 순서</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.08.08</span><span>· IT</span></div>
+
+    <p>외장 SSD나 USB 허브를 USB-C 포트에 꽂았는데 PC가 반응이 없을 때가 있어요. USB-C 인식 안 될 때는 케이블 탓인지 포트 탓인지 감이 안 잡히는 경우가 많죠.</p>
+    <p>이번 글은 마이크로소프트 공식 지원 문서를 기준으로 정리했어요. 문서 제목은 <b>'Windows에서 USB-C 문제 해결'</b>이에요.</p>
+    <p>확인 대상은 외장 하드·SSD·허브·도크의 인식 문제예요. 전원 부족 경고나 USB4·Thunderbolt·디스플레이 연결 제한도 함께 다뤄요.</p>
+    <p>갤럭시 스마트폰을 USB로 연결할 때 인식이 안 되는 경우라면 원인이 달라요. 그 상황은 저희 블로그의 '갤럭시 PC USB 인식 안 될 때 확인 순서' 글에서 다루고 있어요.</p>
+
+    <div class="imgwrap"><img src="img/usb-c-port.png" alt="USB 유형-C 포트 모양을 보여주는 마이크로소프트 지원 문서 아이콘" width="800" height="400"></div>
+    <p class="cap">마이크로소프트 지원 문서에 쓰인 USB Type-C 포트 아이콘이에요.</p>
+    <p class="src">참고 · <a href="https://support.microsoft.com/ko-kr/windows/hardware/fix-usb-c-problems-in-windows" target="_blank">마이크로소프트 지원 — Windows에서 USB-C 문제 해결</a></p>
+    <!-- 이미지 이유: 공식 출처 신뢰도 확보용 리드 이미지 / 출처: support.microsoft.com/ko-kr/windows/media/usb-c-port.png (문서 상단 아이콘, 직링크 확인) / 분류: A형 -->
+
+    <h2 class="sub">증상부터 확인해요</h2>
+    <p>USB-C 문제는 증상마다 확인할 게 달라요. 지금 겪는 증상부터 먼저 짚어보는 게 순서예요.</p>
+    <p>아래 표는 마이크로소프트 공식 문서가 다루는 증상을 정리한 거예요. 해당하는 줄부터 읽고 아래 항목으로 넘어가면 돼요.</p>
+    <table class="tbl">
+      <tr><th>증상</th><th>확인할 것</th></tr>
+      <tr><td>장치가 아예 인식되지 않음</td><td>장치 관리자 오류 코드</td></tr>
+      <tr><td>충전이 느리거나 PC가 충전되지 않음</td><td>정품 충전기·케이블, 포트 청소</td></tr>
+      <tr><td>USB4·Thunderbolt 기능 제한 안내</td><td>인증된 케이블, PC 직접 연결</td></tr>
+      <tr><td>외부 디스플레이 연결 제한</td><td>케이블·PC·디스플레이의 대체 모드 지원 여부</td></tr>
+      <tr><td>전원 부족 경고</td><td>외부 전원 공급 장치 연결</td></tr>
+      <tr><td>오디오 어댑터 인식 안 됨</td><td>디지털 오디오 어댑터로 교체</td></tr>
+    </table>
+    <p class="tnote">마이크로소프트 공식 문서(Windows 11 섹션)가 안내하는 6가지 증상과 확인 항목이에요.</p>
+
+    <h2 class="sub">기기가 아예 인식되지 않을 때</h2>
+    <p>장치 관리자에서 오류 코드부터 확인하는 게 먼저예요.</p>
+    <p>마이크로소프트 공식 문서는 Windows 11 PC에서 오류 코드를 찾아 기록하라고 안내해요. 그다음 그 오류 코드에 맞는 장치 관리자 문제 해결 단계를 따르면 돼요.</p>
+    <p>다만 오류 코드가 28번이라면 이 절차가 아니라 별도 안내를 따라야 한다고 명시해요. 28번은 '디바이스용 드라이버가 설치되지 않음'을 뜻해요.</p>
+    <ol>
+      <li>장치 관리자를 열어 문제가 있는 기기 옆의 오류 코드를 확인해요.</li>
+      <li>오류 코드를 기록해요.</li>
+      <li>오류 코드 28번이 아니라면, 해당 오류 코드에 맞는 장치 관리자 문제 해결 단계를 따라요.</li>
+    </ol>
+    <table class="tbl">
+      <tr><th>오류 코드</th><th>조치</th></tr>
+      <tr><td>28번</td><td>이 절차 대신 별도 안내를 따라야 해요(드라이버가 설치되지 않음)</td></tr>
+      <tr><td>그 외 코드</td><td>해당 오류 코드에 맞는 장치 관리자 문제 해결 단계를 따라요</td></tr>
+    </table>
+    <p class="tnote">장치 관리자에서 확인한 오류 코드에 따라 다음 조치가 달라져요.</p>
+
+    <h2 class="sub">케이블·포트 스펙부터 맞춰보세요</h2>
+    <p>PC와 케이블, 연결 기기가 모두 같은 USB-C 기능을 지원하는지부터 확인해요.</p>
+    <p>외장 하드나 SSD, 허브를 연결했을 때 USB 디바이스 기능이 제한된다는 안내가 뜰 때가 있어요. 이럴 땐 마이크로소프트는 이렇게 확인하라고 해요.</p>
+    <ul>
+      <li>PC가 연결한 디바이스와 동일한 USB-C 기능을 지원하는지 확인해요.</li>
+      <li>케이블이 연결 기기와 같은 USB-C 기능을 지원하는지 확인해요.</li>
+      <li>장치나 동글을 허브를 거치지 않고 PC에 직접 연결했는지 확인해요.</li>
+    </ul>
+    <p>다른 USB 포트로 바꿔 꽂아보는 것도 공식 문서가 안내하는 방법이에요. 이때도 장치나 동글이 PC에 직접 연결돼 있는지만 다시 확인하면 돼요.</p>
+
+    <h2 class="sub">충전이 느리거나 PC가 충전되지 않을 때</h2>
+    <p>느린 충전과 충전 안 됨은 확인할 항목이 같아요.</p>
+    <p>마이크로소프트 공식 문서는 두 증상에 똑같은 해결 방법을 안내해요.</p>
+    <ul>
+      <li>PC에 포함된 충전기와 케이블을 사용해요.</li>
+      <li>충전기를 PC의 USB-C 충전 포트에 연결했는지 확인해요.</li>
+      <li>압축 공기 캔으로 PC의 USB-C 포트를 청소해요.</li>
+    </ul>
+    <table class="tbl">
+      <tr><th>확인 항목</th><th>방법</th></tr>
+      <tr><td>충전기·케이블</td><td>PC에 포함된 정품 제품 사용</td></tr>
+      <tr><td>연결 포트</td><td>PC의 USB-C 충전 포트에 연결됐는지 확인</td></tr>
+      <tr><td>포트 상태</td><td>압축 공기 캔으로 청소</td></tr>
+    </table>
+    <p class="tnote">느린 충전과 충전 안 됨 모두 같은 세 가지를 확인하면 돼요.</p>
+
+    <h2 class="sub">USB4·Thunderbolt 기능이 제한된다는 안내가 뜰 때</h2>
+    <p>PC와 케이블, 도크가 모두 해당 규격을 지원하는지부터 확인해요.</p>
+    <p>USB4 디바이스 기능이 제한된다는 안내가 뜨면 공식 문서는 이렇게 확인하라고 해요.</p>
+    <ul>
+      <li>PC가 USB4를 지원해서 연결된 장치·도크에서 최상의 환경을 얻는지 확인해요.</li>
+      <li>장치나 도크 제조업체가 제공하는 케이블, 또는 인증된 USB4 케이블을 사용해요.</li>
+      <li>USB4 디바이스나 도킹을 PC에 직접 연결하거나, USB4 도크에만 연결해요.</li>
+    </ul>
+    <p>Thunderbolt 디바이스 기능이 제한된다는 안내가 뜨면 확인할 건 하나예요. 그 디바이스가 Thunderbolt를 지원하는 USB-C 포트에 연결돼 있는지만 보면 돼요.</p>
+
+    <h2 class="sub">외부 디스플레이 연결이 끊기거나 제한될 때</h2>
+    <p>PC와 모니터, 케이블이 모두 같은 대체 모드를 지원하는지 확인해요.</p>
+    <p>디스플레이 연결이 제한된다는 안내와 MHL 디바이스 기능이 제한된다는 안내는 확인 방법이 같아요. 공식 문서는 확인 대상을 PC와 외부 디스플레이, 케이블 셋으로 짚어요. 셋 모두 DisplayPort 또는 MHL 대체 모드를 지원하는지 확인하라고 안내해요.</p>
+    <table class="tbl">
+      <tr><th>안내 문구</th><th>확인 대상</th></tr>
+      <tr><td>디스플레이 연결 제한</td><td>PC·외부 디스플레이·케이블 모두 DisplayPort 대체 모드 지원 여부</td></tr>
+      <tr><td>MHL 디바이스 기능 제한</td><td>PC·외부 디스플레이·케이블 모두 MHL 대체 모드 지원 여부</td></tr>
+    </table>
+
+    <h2 class="sub">전원 부족 경고가 뜰 때</h2>
+    <p>전원이 부족하다는 경고가 뜨면 배터리 대신 외부 전원을 써야 해요.</p>
+    <ul>
+      <li>USB 장치가 외부에서 전력을 공급받을 수 있다면, 외부 전원 공급 장치에 연결해요.</li>
+      <li>PC를 외부 전원에 연결하고, 배터리 전원으로 쓰지 않아요.</li>
+    </ul>
+
+    <h2 class="sub">오디오 어댑터가 인식되지 않을 때</h2>
+    <p>USB-C 아날로그 오디오 어댑터라면 디지털 오디오 어댑터로 바꿔야 해요.</p>
+    <p>마이크로소프트 공식 문서는 USB-C 아날로그 오디오 어댑터가 PC에 연결돼 있는지부터 확인하라고 해요. 연결돼 있다면 어댑터를 뽑고 USB-C 디지털 오디오 어댑터로 바꾸라고 안내해요. 대부분 PC는 디지털 오디오 어댑터만 지원한다고 밝혀요.</p>
+    <table class="tbl">
+      <tr><th>어댑터 종류</th><th>결과</th></tr>
+      <tr><td>USB-C 아날로그 오디오 어댑터</td><td>대부분 PC가 미지원 → 디지털 오디오 어댑터로 교체 필요</td></tr>
+    </table>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://support.microsoft.com/ko-kr/windows/hardware/fix-usb-c-problems-in-windows" target="_blank">마이크로소프트 지원 — Windows에서 USB-C 문제 해결</a></p>
+
+    <p><b>하루 정리</b><br>
+    · 장치가 아예 인식 안 되면 오류 코드부터 확인하는 게 먼저예요.<br>
+    · 충전·디스플레이·USB4 기능 제한은 대부분 케이블과 포트 스펙이 맞는지부터 봐요.<br>
+    · 전원 부족 경고가 뜨면 배터리 대신 외부 전원에 연결해요.<br>
+    · 갤럭시 스마트폰 연결 문제라면 이 글이 아니라 '갤럭시 PC 연결편' 글을 봐야 해요.</p>
+
+    <div class="tags">#USBC인식안됨 #USB포트문제 #USB4 #Thunderbolt #외장SSD인식안됨 #마이크로소프트공식문서 #USB전원부족</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> <b>'갤럭시 PC USB 인식 안 될 때 확인 순서'</b> 글은 실제 URL을 모르는 채로 제목 텍스트만 인용했어요 — 하이퍼링크는 걸지 않았으니 그대로 텍스트로 두거나, 네이버에서 해당 글 주소를 확인해 직접 링크를 걸어주세요.<br>
+      <b>5.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>6.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 1분):</b> 📷 <b>사진 1곳</b> 업로드. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: USB-C 인식 안 될 때, 마이크로소프트 공식 해결 순서</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>외장 SSD나 USB 허브를 USB-C 포트에 꽂았는데 PC가 반응이 없을 때가 있어요. USB-C 인식 안 될 때는 케이블 탓인지 포트 탓인지 감이 안 잡히는 경우가 많죠.</p>
+      <p class="sp">&nbsp;</p>
+      <p>이번 글은 마이크로소프트 공식 지원 문서를 기준으로 정리했어요. 문서 제목은 <b>'Windows에서 USB-C 문제 해결'</b>이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>확인 대상은 외장 하드·SSD·허브·도크의 인식 문제예요. 전원 부족 경고나 USB4·Thunderbolt·디스플레이 연결 제한도 함께 다뤄요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>갤럭시 스마트폰을 USB로 연결할 때 인식이 안 되는 경우라면 원인이 달라요. 그 상황은 저희 블로그의 '갤럭시 PC USB 인식 안 될 때 확인 순서' 글에서 다루고 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 1〕 마이크로소프트 지원 문서에 쓰인 USB Type-C 포트 아이콘 — 미리보기 이미지를 우클릭해 복사·붙여넣기</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>증상부터 확인해요</h3>
+      <p>USB-C 문제는 증상마다 확인할 게 달라요. 지금 겪는 증상부터 먼저 짚어보는 게 순서예요.</p>
+      <p>아래 표는 마이크로소프트 공식 문서가 다루는 증상을 정리한 거예요. 해당하는 줄부터 읽고 아래 항목으로 넘어가면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>증상</th><th>확인할 것</th></tr>
+        <tr><td class="l">장치가 아예 인식되지 않음</td><td>장치 관리자 오류 코드</td></tr>
+        <tr><td class="l">충전이 느리거나 PC가 충전되지 않음</td><td>정품 충전기·케이블, 포트 청소</td></tr>
+        <tr><td class="l">USB4·Thunderbolt 기능 제한 안내</td><td>인증된 케이블, PC 직접 연결</td></tr>
+        <tr><td class="l">외부 디스플레이 연결 제한</td><td>케이블·PC·디스플레이의 대체 모드 지원 여부</td></tr>
+        <tr><td class="l">전원 부족 경고</td><td>외부 전원 공급 장치 연결</td></tr>
+        <tr><td class="l">오디오 어댑터 인식 안 됨</td><td>디지털 오디오 어댑터로 교체</td></tr>
+      </table>
+      <p class="tnote-line">마이크로소프트 공식 문서(Windows 11 섹션)가 안내하는 6가지 증상과 확인 항목이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>기기가 아예 인식되지 않을 때</h3>
+      <p>장치 관리자에서 오류 코드부터 확인하는 게 먼저예요.</p>
+      <p>마이크로소프트 공식 문서는 Windows 11 PC에서 오류 코드를 찾아 기록하라고 안내해요. 그다음 그 오류 코드에 맞는 장치 관리자 문제 해결 단계를 따르면 돼요.</p>
+      <p>다만 오류 코드가 28번이라면 이 절차가 아니라 별도 안내를 따라야 한다고 명시해요. 28번은 '디바이스용 드라이버가 설치되지 않음'을 뜻해요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>장치 관리자를 열어 문제가 있는 기기 옆의 오류 코드를 확인해요.</li>
+        <li>오류 코드를 기록해요.</li>
+        <li>오류 코드 28번이 아니라면, 해당 오류 코드에 맞는 장치 관리자 문제 해결 단계를 따라요.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>오류 코드</th><th>조치</th></tr>
+        <tr><td class="l">28번</td><td>이 절차 대신 별도 안내를 따라야 해요(드라이버가 설치되지 않음)</td></tr>
+        <tr><td class="l">그 외 코드</td><td>해당 오류 코드에 맞는 장치 관리자 문제 해결 단계를 따라요</td></tr>
+      </table>
+      <p class="tnote-line">장치 관리자에서 확인한 오류 코드에 따라 다음 조치가 달라져요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>케이블·포트 스펙부터 맞춰보세요</h3>
+      <p>PC와 케이블, 연결 기기가 모두 같은 USB-C 기능을 지원하는지부터 확인해요.</p>
+      <p>외장 하드나 SSD, 허브를 연결했을 때 USB 디바이스 기능이 제한된다는 안내가 뜰 때가 있어요. 이럴 땐 마이크로소프트는 이렇게 확인하라고 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>PC가 연결한 디바이스와 동일한 USB-C 기능을 지원하는지 확인해요.</li>
+        <li>케이블이 연결 기기와 같은 USB-C 기능을 지원하는지 확인해요.</li>
+        <li>장치나 동글을 허브를 거치지 않고 PC에 직접 연결했는지 확인해요.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>다른 USB 포트로 바꿔 꽂아보는 것도 공식 문서가 안내하는 방법이에요. 이때도 장치나 동글이 PC에 직접 연결돼 있는지만 다시 확인하면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>충전이 느리거나 PC가 충전되지 않을 때</h3>
+      <p>느린 충전과 충전 안 됨은 확인할 항목이 같아요.</p>
+      <p>마이크로소프트 공식 문서는 두 증상에 똑같은 해결 방법을 안내해요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>PC에 포함된 충전기와 케이블을 사용해요.</li>
+        <li>충전기를 PC의 USB-C 충전 포트에 연결했는지 확인해요.</li>
+        <li>압축 공기 캔으로 PC의 USB-C 포트를 청소해요.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>확인 항목</th><th>방법</th></tr>
+        <tr><td class="l">충전기·케이블</td><td>PC에 포함된 정품 제품 사용</td></tr>
+        <tr><td class="l">연결 포트</td><td>PC의 USB-C 충전 포트에 연결됐는지 확인</td></tr>
+        <tr><td class="l">포트 상태</td><td>압축 공기 캔으로 청소</td></tr>
+      </table>
+      <p class="tnote-line">느린 충전과 충전 안 됨 모두 같은 세 가지를 확인하면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>USB4·Thunderbolt 기능이 제한된다는 안내가 뜰 때</h3>
+      <p>PC와 케이블, 도크가 모두 해당 규격을 지원하는지부터 확인해요.</p>
+      <p>USB4 디바이스 기능이 제한된다는 안내가 뜨면 공식 문서는 이렇게 확인하라고 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>PC가 USB4를 지원해서 연결된 장치·도크에서 최상의 환경을 얻는지 확인해요.</li>
+        <li>장치나 도크 제조업체가 제공하는 케이블, 또는 인증된 USB4 케이블을 사용해요.</li>
+        <li>USB4 디바이스나 도킹을 PC에 직접 연결하거나, USB4 도크에만 연결해요.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>Thunderbolt 디바이스 기능이 제한된다는 안내가 뜨면 확인할 건 하나예요. 그 디바이스가 Thunderbolt를 지원하는 USB-C 포트에 연결돼 있는지만 보면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>외부 디스플레이 연결이 끊기거나 제한될 때</h3>
+      <p>PC와 모니터, 케이블이 모두 같은 대체 모드를 지원하는지 확인해요.</p>
+      <p>디스플레이 연결이 제한된다는 안내와 MHL 디바이스 기능이 제한된다는 안내는 확인 방법이 같아요. 공식 문서는 확인 대상을 PC와 외부 디스플레이, 케이블 셋으로 짚어요. 셋 모두 DisplayPort 또는 MHL 대체 모드를 지원하는지 확인하라고 안내해요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>안내 문구</th><th>확인 대상</th></tr>
+        <tr><td class="l">디스플레이 연결 제한</td><td>PC·외부 디스플레이·케이블 모두 DisplayPort 대체 모드 지원 여부</td></tr>
+        <tr><td class="l">MHL 디바이스 기능 제한</td><td>PC·외부 디스플레이·케이블 모두 MHL 대체 모드 지원 여부</td></tr>
+      </table>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>전원 부족 경고가 뜰 때</h3>
+      <p>전원이 부족하다는 경고가 뜨면 배터리 대신 외부 전원을 써야 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>USB 장치가 외부에서 전력을 공급받을 수 있다면, 외부 전원 공급 장치에 연결해요.</li>
+        <li>PC를 외부 전원에 연결하고, 배터리 전원으로 쓰지 않아요.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>오디오 어댑터가 인식되지 않을 때</h3>
+      <p>USB-C 아날로그 오디오 어댑터라면 디지털 오디오 어댑터로 바꿔야 해요.</p>
+      <p>마이크로소프트 공식 문서는 USB-C 아날로그 오디오 어댑터가 PC에 연결돼 있는지부터 확인하라고 해요. 연결돼 있다면 어댑터를 뽑고 USB-C 디지털 오디오 어댑터로 바꾸라고 안내해요. 대부분 PC는 디지털 오디오 어댑터만 지원한다고 밝혀요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>어댑터 종류</th><th>결과</th></tr>
+        <tr><td class="l">USB-C 아날로그 오디오 어댑터</td><td>대부분 PC가 미지원 → 디지털 오디오 어댑터로 교체 필요</td></tr>
+      </table>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b class="notice-line">참고한 곳</b><br>
+      · <a href="https://support.microsoft.com/ko-kr/windows/hardware/fix-usb-c-problems-in-windows" target="_blank">마이크로소프트 지원 — Windows에서 USB-C 문제 해결</a></p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 장치가 아예 인식 안 되면 오류 코드부터 확인하는 게 먼저예요.<br>
+      · 충전·디스플레이·USB4 기능 제한은 대부분 케이블과 포트 스펙이 맞는지부터 봐요.<br>
+      · 전원 부족 경고가 뜨면 배터리 대신 외부 전원에 연결해요.<br>
+      · 갤럭시 스마트폰 연결 문제라면 이 글이 아니라 '갤럭시 PC 연결편' 글을 봐야 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#USBC인식안됨 #USB포트문제 #USB4 #Thunderbolt #외장SSD인식안됨 #마이크로소프트공식문서 #USB전원부족</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
