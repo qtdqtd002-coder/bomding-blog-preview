@@ -35,7 +35,10 @@ $pubFile = Join-Path $base "published.json"
 #   kind: naver = PostTitleListAsync 페이지네이션 / tistory = RSS
 $AUTHORS = @{
   "봄딩"   = @{ kind = "naver";   id = "bomding"     }
-  "영도"   = @{ kind = "naver";   id = "kkodug9"     }
+  # ★titleRewrite: 저자가 우리 제목을 그대로 쓰지 않고 새로 쓰는 작성자.
+  #   제목 유사도 판정이 구조적으로 무의미하므로 '미게시 추정'이 아니라 '판정 보류'로 뺀다(§6 진단 출력).
+  #   2026-08-08 사용자 확인: 영도는 제목·본문을 크게 고쳐서 게시한다.
+  "영도"   = @{ kind = "naver";   id = "kkodug9"; titleRewrite = $true }
   "겜더쿠" = @{ kind = "tistory"; id = "quetermoney" }
   "연봄"   = @{ kind = "tistory"; id = "bom-ding"    }   # 2026-06-11 주소 확정(bom-ding.tistory.com)
   "하루살이" = @{ kind = "naver";   id = "harusale-"  }   # 2026-07-22 신설(blog.naver.com/harusale-)
@@ -243,11 +246,27 @@ if($added.Count){   Write-Host "`n[새로 발행확인 추가]" -ForegroundColor
 if($kept.Count){    Write-Host "`n[기존 유지]" -ForegroundColor DarkGray; $kept    | ForEach-Object { Write-Host "  = $_" -ForegroundColor DarkGray } }
 if($dropped.Count){ Write-Host "`n[발행 해제]" -ForegroundColor Yellow; $dropped | ForEach-Object { Write-Host "  - $_" -ForegroundColor Yellow } }
 # 미발행(블로그 조회는 됐으나 매칭 안 된 글) — 참고용
-$unpub = @()
+# ★2026-08-08 — '미발행 추정'과 '판정 불가'를 분리한다.
+#   사고: 영도 66편 중 12편만 매칭돼 게재율 18%로 보고됐는데, 사용자 확인 결과 **미게재가 아니라
+#   저자가 제목·본문을 크게 고쳐서 게시**하고 있었다. 이 지표는 제목 유사도라 **제목을 새로 쓰는
+#   작성자에겐 구조적으로 0에 수렴**한다 — "미게시 추정"이라는 라벨 자체가 오진단이었다.
+#   ⇒ titleRewrite 작성자는 '판정 보류'로 분리해 표기한다. publishedRels 는 건드리지 않는다
+#      (근거 없이 발행으로 처리하면 반대 방향 거짓이 된다 — 우리는 '모른다'가 정답이다).
+$rewriteAuthors = @($AUTHORS.Keys | Where-Object { $AUTHORS[$_].titleRewrite })
+$unpub = @(); $undetermined = @()
 foreach($pst in $posts){
-  if($fetchOk[$pst.author] -and -not $newSet.Contains($pst.rel)){ $m=$matched[$pst.rel]; $unpub += ("{0}  (jac={1:0.00} ovl={2:0.00})" -f $pst.rel, $m.jac, $m.ovl) }
+  if($fetchOk[$pst.author] -and -not $newSet.Contains($pst.rel)){
+    $m=$matched[$pst.rel]
+    $line = ("{0}  (jac={1:0.00} ovl={2:0.00})" -f $pst.rel, $m.jac, $m.ovl)
+    if($rewriteAuthors -contains $pst.author){ $undetermined += $line } else { $unpub += $line }
+  }
 }
 if($unpub.Count){ Write-Host "`n[미발행(블로그 미게시 추정)]" -ForegroundColor DarkGray; $unpub | ForEach-Object { Write-Host "  · $_" -ForegroundColor DarkGray } }
+if($undetermined.Count){
+  Write-Host ("`n[판정 보류 — 제목 재작성형 작성자({0}). 이 지표로는 게재 여부를 알 수 없다]" -f ($rewriteAuthors -join ',')) -ForegroundColor Yellow
+  Write-Host "  ※ 게재율로 읽지 말 것. 낮은 매칭률은 '안 올렸다'가 아니라 '제목이 달라 못 잰다'는 뜻이다." -ForegroundColor Yellow
+  $undetermined | ForEach-Object { Write-Host "  ? $_" -ForegroundColor DarkYellow }
+}
 
 # ── 6.5) 라이브 제목 보존 → _trend\_live-titles.json (트렌드 dedup 가 실제 발행 제목과 직접 대조) ──
 #   왜: 트렌드 추천 dedup(classify-picks.ps1)이 '레포 폴더 경로'(published.json)뿐 아니라 '실제 라이브 블로그 제목'과도
