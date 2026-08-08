@@ -1,0 +1,109 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>데이터 분석실 · 봄딩 오늘 쓸 글 · 2026-08-08</title>
+<style>
+:root{--ac:#e06c49;--acd:#b8502f;--acw:#fbe9e3;--ink:#16181d;--sub:#4a4f58;--muted:#6b7280;--faint:#9aa1ad;--line:#e5e7eb;--bg:#f6f7f9;--panel:#fff;--inset:#f7f8fa;--good-w:#e7f6ef;--warn-w:#fbf1de}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;line-height:1.6;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.wrap{max-width:840px;margin:0 auto;padding:20px 18px 60px}
+.back{display:inline-block;margin:0 0 16px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+.mast{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 1px 2px rgba(16,24,40,.05);padding:20px 22px}
+.who{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--acd);background:var(--acw);border-radius:999px;padding:4px 11px}
+.who::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ac)}
+.mast h1{font-size:clamp(16px,3vw,19px);font-weight:800;letter-spacing:-.02em;margin:11px 0 6px;line-height:1.5;text-wrap:balance}
+.mast .meta{font-size:12px;color:var(--muted);font-weight:500}.mast .meta b{color:var(--sub);font-weight:700}
+.rx{margin-top:14px;background:var(--acw);border:1px solid var(--line);border-radius:13px;padding:13px 16px;display:flex;gap:11px;align-items:flex-start}
+.rx .pp{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ac);border-radius:6px;padding:3px 9px;margin-top:1px}
+.rx .rc{font-size:13px;line-height:1.6;color:var(--ink)}.rx .rc b{font-weight:800;color:var(--acd)}
+h2.sec{font-size:16px;font-weight:800;letter-spacing:-.02em;margin:30px 0 4px;display:flex;align-items:center;gap:8px}
+.sub{color:var(--sub);font-size:12px;margin:4px 0 12px;line-height:1.55}
+.tabs>input{position:absolute;opacity:0;pointer-events:none}
+.tabbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+.tablab{font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:9px;background:var(--inset);color:var(--sub);cursor:pointer;border:1px solid var(--line);user-select:none;transition:background .12s,color .12s}
+.tablab .cnt{font-size:10.5px;color:var(--faint);font-weight:800;margin-left:4px}
+.tpanel{display:none}
+#t1:checked~.tabbar label[for=t1],#t2:checked~.tabbar label[for=t2],#t3:checked~.tabbar label[for=t3],#t4:checked~.tabbar label[for=t4],#t5:checked~.tabbar label[for=t5],#t6:checked~.tabbar label[for=t6],#t7:checked~.tabbar label[for=t7]{background:var(--ac);color:#fff;border-color:var(--ac)}
+#t1:checked~.tabbar label[for=t1] .cnt,#t2:checked~.tabbar label[for=t2] .cnt,#t3:checked~.tabbar label[for=t3] .cnt,#t4:checked~.tabbar label[for=t4] .cnt,#t5:checked~.tabbar label[for=t5] .cnt,#t6:checked~.tabbar label[for=t6] .cnt,#t7:checked~.tabbar label[for=t7] .cnt{color:rgba(255,255,255,.8)}
+#t1:checked~#p1,#t2:checked~#p2,#t3:checked~#p3,#t4:checked~#p4,#t5:checked~#p5,#t6:checked~#p6,#t7:checked~#p7{display:block}
+.pick{border:1px solid var(--line);border-radius:13px;padding:12px 15px;margin-bottom:9px;background:var(--panel)}
+.pick-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px}
+.gtag{font-size:10px;font-weight:800;color:var(--acd);background:var(--acw);border-radius:5px;padding:2px 7px}
+.purp{font-size:9.5px;font-weight:800;color:var(--sub);background:var(--inset);border-radius:5px;padding:2px 7px}
+.ecpm{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:#e7f6ef;color:#157a52}
+.ecpm.mid{background:#fbf1de;color:#9a6207}
+.ecpm.low{background:#eef0f5;color:#5b6270}
+.pwhen{font-size:9.5px;font-weight:800;border-radius:5px;padding:2px 7px;background:var(--acw);color:var(--acd);white-space:nowrap}
+.ptitle{font-size:13.5px;font-weight:800;letter-spacing:-.01em;color:var(--ink);flex:1;min-width:170px;line-height:1.4}
+.pwhy{font-size:12px;line-height:1.55;color:var(--sub)}.pwhy b{color:var(--ink);font-weight:700}
+.pwhy a{color:var(--ac);text-decoration:none;font-weight:700;border-bottom:1px solid var(--acw)}
+.note{margin:0 0 10px;padding:10px 13px;background:var(--warn-w);border:1px solid #f0dfbc;border-radius:11px;font-size:11.5px;line-height:1.55;color:#7a5a12}
+.note b{color:#5d430b}
+.foot{margin-top:22px;color:var(--faint);font-size:11px;line-height:1.7;text-align:center}
+@media(max-width:540px){.wrap{padding:14px 12px 44px}.mast{padding:16px 16px}}
+</style></head><body>
+<div class="wrap">
+ <a class="back" href="../../index.html">← 쓰담 트렌드 탭</a>
+ <div class="mast">
+   <span class="who">데이터 분석실 · 봄딩 편</span>
+   <h1>오늘 봄딩 1순위는 <b>쿠키런: 크럼블 — 7/30 글로벌 정식 출시한 방치형 신작</b>이에요 — 사전등록 180만을 넘긴 신작이 출시 열흘째라 "초반에 뭐부터 키우나" 공략 검색이 지금 몰리는 창이고, 봄딩이 한 번도 다루지 않은 게임이라 순증이에요. 발굴 각도로는 여름방학 내내 부동의 1위인 <b>로블록스</b>(학부모 검색)를, 육아는 폭염이 이어지는 지금 <b>에어써큘레이터</b>를 함께 담았어요.</h1>
+   <div class="meta">발행일 <b>2026-08-08(토)</b> · 대상 <b>봄딩</b>(네이버 bomding · 게임 + 🍼육아 쿠팡 파트너스) · 오늘 쓸 글 전용(PICKS)</div>
+   <div class="rx"><span class="pp">P1</span><div class="rc"><b>오늘 가장 먼저 쓸 1편</b> — <b>「쿠키런: 크럼블 정식 출시, 방치형 신작 초반 공략 총정리」</b>예요. 데브시스터즈의 방치형 신작이 2026-07-30 글로벌 정식 출시됐고 사전등록 180만을 돌파했어요. 봄딩이 미다룬 신규 게임이라(폴더 스캔 0건) "이거 뭔데·초반 뭐부터 키워" 신작 초반 검색이 지금 몰려요. 방치형 초반 육성 루트·재화 우선순위는 공식 가이드로 확인하고, 미체험 콘텐츠는 "공식 확인 권장" 표기를 붙이세요. <a href="https://www.inven.co.kr/webzine/news/?news=318690" target="_blank" rel="noopener">인벤 쿠키런 크럼블 출시 소식↗</a></div></div>
+ </div>
+
+ <h2 class="sec">✍️ 오늘 쓸 글 추천</h2>
+ <p class="sub">7탭 <b>총 20편</b>(확장 3 · 발굴 3 · 두근두근타운 2 · 포켓몬 GO 3 · 포켓몬 챔피언스 3 · 메이플플래닛 3 · 🍼육아 3) · 게임 픽엔 <b>eCPM 기대등급</b>(🟢고=구매·과금·기기 / 🟡중=공략·이벤트 / ⚪저=속보·정보)을 붙였어요. 포켓몬 GO 3건(커뮤니티데이·워터페스티벌·그란돈)은 전부 봄딩 클러스터에 단독 글이 없는 신규였고, 챔피언스는 <b>배틀패스 각도 금지</b> 원칙을 지켜 공략·시청 각도(M-5 시즌 공략·월드챔피언십·MCS 관전)만 남겼어요. 두근두근타운은 오늘(8/8) 데이브 더 다이버 콜라보가 시작되지만 <b>이미 "콜라보 예고" 글을 발행</b>했고 dedup에서 published(ovl=0.67)로 잡혀 하드 드롭했어요(8월 업데이트·산리오 콜라보 2건만 남김). 육아는 스펙·성분·가격이 검증 가능한 제품군만 담았고 쿠팡 파트너스 고지가 필수예요. 카드의 <b>✈ 발행 요청</b>으로 기획팀에 바로 발주돼요.</p>
+ <div class="tabs">
+   <input type="radio" name="rec" id="t1" checked><input type="radio" name="rec" id="t2"><input type="radio" name="rec" id="t3"><input type="radio" name="rec" id="t4"><input type="radio" name="rec" id="t5"><input type="radio" name="rec" id="t6"><input type="radio" name="rec" id="t7">
+   <div class="tabbar"><label class="tablab" for="t1">🔼 확장 <span class="cnt">3</span></label><label class="tablab" for="t2">🆕 발굴 <span class="cnt">3</span></label><label class="tablab" for="t3">두근두근타운 <span class="cnt">2</span></label><label class="tablab" for="t4">포켓몬 GO <span class="cnt">3</span></label><label class="tablab" for="t5">포켓몬 챔피언스 <span class="cnt">3</span></label><label class="tablab" for="t6">메이플플래닛 <span class="cnt">3</span></label><label class="tablab" for="t7">🍼 육아 <span class="cnt">3</span></label></div>
+
+   <div class="tpanel" id="p1">
+     <div class="pick"><div class="pick-top"><span class="gtag">냥코 대전쟁</span><span class="ecpm mid">🟡 중</span><span class="purp">초보 뽑기 우선순위</span><span class="pwhen">8월 국내 모바일게임 순위 전월比 3계단↑ 7위 · 방학 캐주얼 강세</span><span class="ptitle">냥코 대전쟁 초보자 캐릭터 뽑기 우선순위 총정리</span></div><div class="pwhy">2026년 8월 국내 모바일게임 순위(igaworks)에서 냥코 대전쟁이 전월 대비 3계단 올라 7위(약 87만 MAU)에 올랐어요 — 여름방학 캐주얼게임 강세 구간이라 신규 유입 검색이 늘어요. <b>확인 필요</b>: 봄딩 기존 클러스터 편입 여부·순위 리포트 정확 게재일자는 발행 전 대조하세요. <a href="https://www.igaworksblog.com/post/mobilegame-chart-2608" target="_blank" rel="noopener">igaworks 8월 모바일게임 순위↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">쿠키런: 킹덤</span><span class="ecpm">🟢 고</span><span class="purp">신규 뽑기 업데이트</span><span class="pwhen">8월 정기업데이트 2026-07-29 반영 · D+10</span><span class="ptitle">쿠키런 킹덤 8월 업데이트 — 신규 레전더리 타르트·스페셜 선별뽑기 총정리</span></div><div class="pwhy">7월 로드맵에서 예고된 신규 뽑기 시스템이 7/29 정기업데이트로 실제 적용됐어요. 봄딩이 다뤄온 캐주얼·수집형 결과 맞고 가챠 업데이트라 eCPM이 높아요. <b>확인 필요</b>: 뽑기 확률·재화 구성은 공식 인게임 패치노트로 재확인하세요. <a href="https://x.com/CookieRun_World/status/2081634067259461953" target="_blank" rel="noopener">쿠키런 공식 로드맵 공지↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">브라운더스트2</span><span class="ecpm">🟢 고</span><span class="purp">한정 무료뽑기(마감임박)</span><span class="pwhen">3주년 이벤트 종료 8/26 예정 · D-18</span><span class="ptitle">브라운더스트2 3주년 무료뽑기 1300회+ 이벤트, 마감 전 총정리</span></div><div class="pwhy">3주년 기념 무료뽑기 1300회+ 이벤트가 6/4 시작돼 종료가 8/26로 다가오고 있어요. "지금 안 하면 손해" 마감 임박 각도로 신규·복귀 유입에 좋아요. <b>확인 필요</b>: 봄딩 기존 다룬 게임인지·정확 종료 시각은 공식 페이지로 재확인하세요. <a href="https://www.browndust2.com/3rd-anniversary/kr/" target="_blank" rel="noopener">브라운더스트2 3주년 공식 페이지↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p2">
+     <div class="pick"><div class="pick-top"><span class="gtag">로블록스</span><span class="ecpm mid">🟡 중</span><span class="purp">학부모 정보형(방학 특수)</span><span class="pwhen">8월 국내 모바일게임 부동의 1위(약 254만 MAU) · 방학 절정</span><span class="ptitle">로블록스 여름방학 인기 폭발 이유 + 아이와 함께 즐기는 인기 맵 총정리</span></div><div class="pwhy">2026년 8월 국내 모바일게임 순위 부동의 1위(약 254만 MAU)로, 방학 절정기라 "아이가 하는 로블록스 뭔가요·같이 할 만한 맵" 학부모 검색이 몰려요. 봄딩의 육아·게임 겸장 정체성과 정확히 맞는 정보형 각도예요. <a href="https://www.igaworksblog.com/post/mobilegame-chart-2608" target="_blank" rel="noopener">igaworks 8월 모바일게임 순위↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">쿠키런: 크럼블</span><span class="ecpm">🟢 고</span><span class="purp">신작 초반 공략(P1)</span><span class="pwhen">글로벌 정식 출시 2026-07-30 · D+9 · 사전등록 180만</span><span class="ptitle">쿠키런: 크럼블 정식 출시, 방치형 신작 초반 공략 총정리</span></div><div class="pwhy">데브시스터즈 방치형 신작이 7/30 글로벌 정식 출시됐고 사전등록 180만을 돌파했어요. 봄딩 미다룸 신규 게임이라 신작 초반 공략 검색에 딱 맞아요. <b>새 각도</b>: dedup에서 "쿠키런 크럼블/10-30 스테이지 공략" 발행글과 약하게 겹쳤지만(review), 이 픽은 <b>정식 출시 직후 초반 세팅·재화 우선순위 총정리</b>라 스테이지별 공략과 각도가 달라요. <a href="https://www.inven.co.kr/webzine/news/?news=318690" target="_blank" rel="noopener">인벤 쿠키런 크럼블 출시 소식↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">데이브 더 다이버 모바일</span><span class="ecpm">🟢 고</span><span class="purp">신작 사전예약(임박)</span><span class="pwhen">8월 중 글로벌 정식 출시 예정 · 사전예약 150만</span><span class="ptitle">데이브 더 다이버 모바일 출시임박, 사전예약 지금 받아야 하는 이유</span></div><div class="pwhy">사전예약 150만을 돌파하고 8월 중 글로벌 정식 출시가 예정돼 있어요. <b>새 각도</b>: dedup에서 "데이브 더 다이버/인 더 정글 DLC 출시 총정리"와 약하게 겹쳤지만(review), 이 픽은 <b>PC DLC가 아니라 모바일 신작 사전예약</b>이라 대상과 각도가 완전히 달라요. <b>확인 필요</b>: ★정확한 출시일(8월 며칠)이 미확정이라, 확정 전이면 "사전예약 마감 임박" 각도로만 서술하고 날짜 단정은 피하세요. <a href="https://www.khgames.co.kr/news/articleView.html?idxno=305293" target="_blank" rel="noopener">경향게임스 데이브 더 다이버 모바일 사전예약↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p3">
+     <p class="note">오늘 두근두근타운 x <b>데이브 더 다이버 콜라보가 실제로 시작(8/8)</b>됐지만, 봄딩이 이미 "콜라보 예고" 글을 발행했고 dedup에서 published(ovl=0.67)로 잡혀 <b>하드 드롭</b>했어요(예고글이 콜라보 개시·구성을 이미 커버). 8월 업데이트·산리오 콜라보 2건만 남겼어요.</p>
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="ecpm mid">🟡 중</span><span class="purp">시즌 업데이트 공략</span><span class="pwhen">시즌3 정기업데이트 2026-08-06 반영 · D+2</span><span class="ptitle">두근두근타운 8월 업데이트 — 시즌3 신규 에피소드·테마극장 스토리 총정리</span></div><div class="pwhy">8/6 정기업데이트로 시즌3 신규 에피소드·테마극장 콘텐츠가 반영됐어요. <b>새 각도</b>: dedup에서 "두근두근타운/교배입양총정리"와 약하게 겹쳤으나(review) 매칭 상대는 육성 콘텐츠, 이 픽은 시즌 업데이트 정리라 오탐이에요. <b>확인 필요</b>: 공식 카페 공지 원문으로 콘텐츠 목록을 교차확인하세요. <a href="https://www.youtube.com/watch?v=pklmBA2PHRk" target="_blank" rel="noopener">두근두근타운 8/6 업데이트 안내 영상↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">두근두근타운</span><span class="ecpm">🟢 고</span><span class="purp">한정 콜라보(마감임박)</span><span class="pwhen">산리오캐릭터즈 콜라보 7/17~8/23 · D-15</span><span class="ptitle">두근두근타운 산리오 콜라보, 8월 23일 마감 전 놓치면 안 되는 것들</span></div><div class="pwhy">산리오캐릭터즈 콜라보(7/17~8/23)의 한정 의상·가구 레시피·무료 보상을 마감 전에 챙기는 각도예요. <b>새 각도</b>: dedup에서 "산리오콜라보 무과금루틴"과 약하게 겹쳤으나(review) 이 픽은 <b>마감 임박 체크리스트</b>라 무과금 루틴 공략과 각도가 달라요. <a href="https://gamingonphone.com/news/heartopia-x-sanrio-characters-collaboration-brings-new-outfits-furniture-recipes-and-free-rewards" target="_blank" rel="noopener">Heartopia x 산리오 콜라보 소식↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p4">
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="ecpm mid">🟡 중</span><span class="purp">커뮤니티데이 준비(초보)</span><span class="pwhen">8월 커뮤니티데이 훔처우 8/16(일) 14~17시 · D+8</span><span class="ptitle">포켓몬고 8월 16일 커뮤니티데이 훔처우, 초보자 준비물·진화 타이밍 총정리</span></div><div class="pwhy">봄딩 GO 클러스터에 훔처우 단독 글이 없어요(순증). 연봄과 다른 <b>초보 준비물·진화 타이밍</b> 각도예요. <b>확인 필요</b>: 커뮤니티데이 전용기·보너스는 공식 공지로 재확인하세요. <a href="https://x.com/pokemongoappko/status/2067442215740158375" target="_blank" rel="noopener">포켓몬 GO 코리아 공식 공지↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="ecpm mid">🟡 중</span><span class="purp">이벤트 준비(초보)</span><span class="pwhen">워터 페스티벌 8/18~24 · D+10~16</span><span class="ptitle">포켓몬고 워터 페스티벌, 초보자가 미리 챙겨야 할 것</span></div><div class="pwhy">봄딩 GO 클러스터에 워터 페스티벌 단독 글이 없어요(순증). 그란돈 레이드(8/12~)와 기간이 겹쳐 함께 준비하기 좋은 타이밍이라 초보 대상 각도로 적합해요. <b>확인 필요</b>: 보너스 세부내용은 공식으로 재확인하세요. 연봄은 이로치 확률 딥다이브로 각도가 달라요. <a href="https://buffhub.com/ko/blog/pokemon-go/pokemon-go-august-2026-events.html" target="_blank" rel="noopener">포켓몬 GO 8월 이벤트 가이드↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 GO</span><span class="ecpm mid">🟡 중</span><span class="purp">레이드 준비(초보)</span><span class="pwhen">그란돈 5성 레이드 복귀 8/12~18 · D+4~10</span><span class="ptitle">포켓몬고 그란돈 레이드, 초보자 카운터 파티 짜는 법</span></div><div class="pwhy">봄딩 GO 클러스터에 그란돈 단독 글이 없어요(순증). 초보가 어떤 포켓몬으로 카운터 파티를 짜는지에 초점을 둔 준비물 각도예요. <b>확인 필요</b>: 로테이션 날짜·이로치 여부는 발행 전 리크덕으로 재확인하세요. <a href="https://leekduck.com/events/" target="_blank" rel="noopener">Leek Duck 8월 레이드 일정↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p5">
+     <p class="note">챔피언스는 <b>배틀패스·과금 각도 전면 금지</b> 원칙을 지켜, 시즌 공략 1건 + 이스포츠 관전 2건(월드챔피언십·MCS)만 남겼어요. 세 픽 모두 dedup에서 review(따라큐공략·6월출시첫인상·M4배틀패스회수율과 약한 겹침)로 나왔지만, 이 픽들은 각각 <b>M-5 시즌 신규 공략·정식종목 데뷔 시청·8월 대회 관전</b>이라 매칭 상대와 각도가 달라 채택했어요.</p>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="ecpm mid">🟡 중</span><span class="purp">시즌 공략</span><span class="pwhen">시즌 M-5(Regulation M-B) 8/5~9/9 진행중 · D+3</span><span class="ptitle">포켓몬 챔피언스 시즌 M-5(레귤레이션 M-B) 공략 총정리</span></div><div class="pwhy">8/5 개막한 랭크전 시즌 M-5(Regulation M-B) 진행 중이라 "이번 시즌 규정·추천 포켓몬" 검색이 늘어요. 배틀패스가 아니라 시즌 규정·운영 공략 각도예요. <b>확인 필요</b>: 시즌 종료일·규정 세부는 세레비/공식으로 재확인하세요. <a href="https://www.serebii.net/pokemonchampions/rankedbattle/seasonm-5.shtml" target="_blank" rel="noopener">Serebii 시즌 M-5 정보↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="ecpm mid">🟡 중</span><span class="purp">이스포츠 시청(이월)</span><span class="pwhen">포켓몬 월드챔피언십 2026 8/28~30 · 미국 · D+20</span><span class="ptitle">포켓몬 월드챔피언십 2026, 챔피언스 정식 종목 데뷔 시청 가이드</span></div><div class="pwhy">챔피언스가 스칼렛/바이올렛을 대체해 첫 정식 종목으로 편성되는 이슈라 "챔피언스가 월드에 나온다" 검색이 늘어요. 배틀패스가 아니라 대회 시청 가이드 각도예요. <b>확인 필요</b>: 한국 중계 채널·시간은 발행 전 확인하세요. <a href="https://x.com/PokemonKoreaInc/status/2060324614841233686" target="_blank" rel="noopener">포켓몬코리아 공식 공지↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">포켓몬 챔피언스</span><span class="ecpm low">⚪ 저</span><span class="purp">이스포츠 관전</span><span class="pwhen">8월 MCS 대회 8/20~23(PDT) · D+12~15</span><span class="ptitle">포켓몬 챔피언스 8월 MCS 대회 일정과 관전 방법</span></div><div class="pwhy">8월 MCS(월간 챔피언십 시리즈) 대회 일정과 관전 방법을 안내하는 각도예요. 배틀패스·과금이 아니라 대회 관전 정보라 회사 금지 원칙에 안 걸려요. <b>확인 필요</b>: PDT→KST 환산·참가vs관전 방식을 공식으로 재확인하세요. <a href="https://pokemon.com/us/news/pokemon-champions-august-2026-events-mcs-ranked-battles-season-and-battle-pass" target="_blank" rel="noopener">pokemon.com 공식 뉴스↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p6">
+     <p class="note">세 픽 모두 dedup에서 review(캐시아이템 가성비·처음직업선택 가이드와 약한 겹침)로 나왔지만, 각각 <b>특정 직업 템셋팅·8월 신규 패스·특정 여름 이벤트 파밍</b>이라 매칭 상대(과금 가성비/입문)와 각도가 달라 채택했어요.</p>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="ecpm mid">🟡 중</span><span class="purp">직업 템셋팅(마감임박)</span><span class="pwhen">아란 스텝업 폴암 무료 이벤트 7/3~9/3 · D-26</span><span class="ptitle">메이플플래닛 아란 템셋팅, 9월 3일 전 반드시 챙길 것</span></div><div class="pwhy">아란 스텝업 폴암 무료 이벤트(7/3~9/3)가 진행 중이라 "아란 지금 키우면 뭐 챙기나" 검색에 맞아요. 특정 직업 육성·이벤트 보상 각도예요. <a href="https://www.hiki-trivia.com/2026/07/9-3.html" target="_blank" rel="noopener">아란 스텝업 이벤트 정리↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="ecpm">🟢 고</span><span class="purp">신규 패스 활용</span><span class="pwhen">8월 트릭컬 패스 신설 7/30 정기업데이트 · D+9</span><span class="ptitle">메이플플래닛 8월 트릭컬 패스, 신규 시스템 효율적으로 쓰는 법</span></div><div class="pwhy">7/30 정기업데이트로 8월 전용 트릭컬 패스가 신설됐어요. 과금 상품 안내라 eCPM이 높고, "이 패스 사야 하나·효율" 검색에 맞아요. <b>확인 필요</b>: 정확 가격·보상 구성은 공식 공지로 재확인하세요. <a href="https://www.youtube.com/watch?v=NPTmOTGTLjY" target="_blank" rel="noopener">메이플플래닛 7/30 업데이트 안내 영상↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">메이플플래닛</span><span class="ecpm mid">🟡 중</span><span class="purp">시즌 이벤트 파밍</span><span class="pwhen">'플래닛의 여름을 부탁해' 7/3~9/3 · D-26</span><span class="ptitle">메이플플래닛 '플래닛의 여름을 부탁해' 이벤트 파밍 가이드</span></div><div class="pwhy">여름 시즌 이벤트(7/3~9/3)의 파밍 효율·보상 우선순위 각도예요. <b>확인 필요</b>: 공식 이벤트 페이지가 WebFetch 403이라 상세 보상표는 발행 전 공식 페이지를 직접 열어 확인하세요. <a href="https://mapleplanet.co.kr/board/event/636" target="_blank" rel="noopener">메이플플래닛 여름 이벤트 공지↗</a></div></div>
+   </div>
+
+   <div class="tpanel" id="p7">
+     <p class="note">기존 발행분(모기패치·물놀이풀·스윔고글·구명조끼 등)과 겹치지 않는 3건이에요. 전부 스펙·인증·가격이 검증 가능한 카테고리만 담았고, <b>쿠팡 파트너스 고지가 필수</b>예요. 카시트류는 제외했어요.</p>
+     <div class="pick"><div class="pick-top"><span class="gtag">아기방 에어써큘레이터</span><span class="ecpm">🟢 고</span><span class="purp">가전 스펙·가격 비교(구매 전환)</span><span class="pwhen">8월 폭염 지속(8/6 폭염중대경보 발효) · 늦더위</span><span class="ptitle">여름 늦더위 아기방 에어써큘레이터 스펙·가격 비교 추천</span></div><div class="pwhy">8/6 수도권·강원내륙 등 폭염중대경보가 발효됐고 8월 무더위 지속 전망이라, 에어컨과 함께 쓰는 아기방 공기순환 가전 구매 검색이 몰려요. <b>새 각도</b>: dedup에서 약하게 겹쳤으나(review) 스펙·가격 비교 구매형이라 순증이에요. 풍량·소음(dB)·회전·타이머 등 검증 가능한 스펙으로만 비교하고, 특정 제품 안전 단정은 피하세요. 쿠팡 파트너스 고지 필수. <a href="https://namu.wiki/w/2026%EB%85%84%20%ED%8F%AD%EC%97%BC" target="_blank" rel="noopener">2026년 폭염 경보 현황↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">2학기 개학 준비물</span><span class="ecpm">🟢 고</span><span class="purp">준비물 스펙 비교(구매 전환)</span><span class="pwhen">2학기 개학 학교별 8/17~27경 몰림</span><span class="ptitle">2학기 개학 준비물, 책가방·실내화 스펙 비교 추천</span></div><div class="pwhy">2학기 개학이 학교별로 8월 중순~하순에 몰려요(예: 서울 안화초 8/18 화). "개학 전 뭐 사지" 준비물 검색이 지금 늘어요. 책가방(무게·수납·허리벨트)·실내화(치수·미끄럼방지) 등 검증 가능한 스펙으로 비교하세요. <b>확인 필요</b>: 개학일은 학교마다 달라 "우리 학교 개학일 확인법"을 병기하세요. 쿠팡 파트너스 고지 필수. <a href="https://anhwa-e.goehs.kr/anhwa-e/cm/cntnts/cntntsView.do?mi=19273&cntntsId=2835" target="_blank" rel="noopener">학사일정 예시(안화초)↗</a></div></div>
+     <div class="pick"><div class="pick-top"><span class="gtag">물놀이 그늘막·구명조끼</span><span class="ecpm mid">🟡 중</span><span class="purp">시즌 막바지 비교(구매+시즌)</span><span class="pwhen">쿠팡 여행 메가위크 세일 8/9 마감 · D+1 · 폭염 물놀이 성수기</span><span class="ptitle">여름휴가 막바지 아기 동반 물놀이 필수템(그늘막·구명조끼) 비교</span></div><div class="pwhy">쿠팡 '쿠팡트래블 메가위크' 세일이 8/9 마감(D+1)이고 폭염으로 물놀이 성수기가 이어져 "막바지 물놀이 뭐 챙기지" 검색이 몰려요. 그늘막(UPF·설치)·구명조끼(부력·체중 적합)의 검증 가능한 스펙으로 비교하세요. <b>확인 필요</b>: 세일 정확 종료 시각·연장 여부를 재확인하세요. 쿠팡 파트너스 고지 필수. <a href="https://www.fnnews.com/news/202608041305197874" target="_blank" rel="noopener">파이낸셜뉴스 쿠팡 여행 세일 소식↗</a></div></div>
+   </div>
+
+ </div>
+ <p class="foot">데이터 분석실(트렌드 분석팀) · 실제 작성은 작성팀(봄딩) · PICKS 모드(화~일)는 오늘 쓸 글만 갱신 · <b>dedup</b>: classify-picks.ps1(-RefreshPublished, publishedCount 라이브 재조회) 결정론 대조 — 후보 20건 중 ✅발행완료 1건(두근두근타운 데이브더다이버 콜라보, ovl=0.67)은 하드 드롭, 🟡review 11건은 전부 매칭 상대 제목과 각도 대조로 오탐/새 각도 확인 후 채택 · <b>확인 필요</b>: 데이브 더 다이버 모바일 정확 출시일(미확정 시 날짜 단정 금지)·냥코 순위 리포트 게재일·포켓몬 GO 이벤트 로테이션 날짜(리크덕 재확인)·메이플플래닛 여름 이벤트 보상표(403 우회 필요)·쿠팡 세일 종료 시각·개학일(학교별 상이) · <b>표기 규칙</b>: 챔피언스 배틀패스 각도 금지 유지(공략·시청만), 육아는 특정 제품 안전 단정 금지·검증 가능 스펙으로만·쿠팡 파트너스 고지 필수 · 근거 기사 원문 발행일 2026년 확인(연도혼입 게이트 통과).</p>
+</div>
+<script src="../req-widget.js" defer></script>
+</body></html>
