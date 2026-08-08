@@ -152,6 +152,18 @@ function pickSkeletonMeta(tistory) {
 function contentGateChecks(previewPath, preview, tistory, body) {
   const fails = [];
   const author = authorOf(previewPath);
+  // ★2026-08-08 fail-open 차단 — 검사 루트 밖 대상이면 path.relative() 가 '..' 를 내고
+  //   CONTENT_GATES['..'] 는 undefined 라 **쿼터·팔레트·이미지 재사용 검사가 조용히 전부 스킵**됐다.
+  //   실증: --content-root 를 BlogPreview 로 준 채 sandbox 대상글을 검사하니 **지적 0건 종합 PASS**.
+  //   루트만 바꾸면 게이트가 더 눈이 머는 상태였다. '설정이 없는 작성자'(봄딩·영도 — 정상)와
+  //   '작성자를 못 정한 것'(설정 오류)은 다른 상태이며, 후자를 PASS 로 만들지 않는다.
+  //   (이 저장소의 다른 게이트도 같은 원칙을 이미 코드로 갖고 있다 — g3.py "0건 스캔은 미측정, PASS 아님")
+  if (!author || author.startsWith('..') || author.includes(path.sep)) {
+    fails.push(`작성자 판별 실패 — 대상이 검사 루트 밖이다(상대경로="${author}"). `
+      + `이 상태에서는 쿼터·팔레트·이미지 재사용 검사가 전부 스킵되므로 PASS 로 처리하지 않는다. `
+      + `대상 경로나 루트 설정을 맞춰 다시 실행하라.`);
+    return fails;
+  }
   const cfg = CONTENT_GATES[author];
   if (!cfg || !body) return fails;
 
@@ -218,17 +230,28 @@ function contentGateChecks(previewPath, preview, tistory, body) {
   if (!reuseExempt && srcs.length) {
     const allBodies = recentTistoryFiles(author, tistoryPath, 10000)
       .map(p => { try { return extractBody(fs.readFileSync(p, 'utf8')); } catch { return ''; } });
+    // ★2026-08-08 — basename 대조는 **자사 호스트·상대경로에만** 적용한다.
+    //   제3자 호스트는 파일명이 상수라 basename 대조가 구조적 오탐이 된다. 실측:
+    //   `img.youtube.com` 이미지 16장이 **전부 maxresdefault.jpg** — 겜더쿠 정본
+    //   (personas/겜더쿠/voice-rules.md §E)이 "공식 트레일러 유튜브 썸네일
+    //   img.youtube.com/vi/<ID>/maxresdefault.jpg" 를 지시하므로, 정본을 지키면
+    //   두 번째 글부터 무조건 '재사용'으로 걸렸다. 회피가 아니라 **정본끼리의 모순**이라
+    //   재발이 확정적이었고, 실제로 run card 5장 중 4장이 예외 주석으로 게이트를 통째로 껐다.
+    //   반대로 자사 호스트(실측 2,348장)는 같은 파일을 다른 글 폴더로 복사하면 URL 은 달라지고
+    //   basename 만 같으므로 **basename 대조가 유일한 탐지 수단**이다 — 그쪽은 그대로 둔다.
+    //   제3자는 전체 URL 일치로만 본다(같은 영상 ID = 같은 썸네일이라 진짜 재사용은 그대로 잡힌다).
+    const selfHosted = u => !/^https?:\/\//i.test(u) || /^https?:\/\/qtdqtd002-coder\.github\.io\//i.test(u);
     const usedSrcs = new Set(), usedNames = new Set();
     for (const b of allBodies) {
       for (const m of b.matchAll(/<img[^>]+src="([^"]+)"/gi)) {
         if (SIG_ASSET.test(m[1])) continue;
         usedSrcs.add(m[1]);
-        usedNames.add(decodeURIComponent(m[1]).split('/').pop().toLowerCase());
+        if (selfHosted(m[1])) usedNames.add(decodeURIComponent(m[1]).split('/').pop().toLowerCase());
       }
     }
     for (const s of new Set(srcs)) {
       const name = decodeURIComponent(s).split('/').pop().toLowerCase();
-      if (usedSrcs.has(s) || usedNames.has(name)) {
+      if (usedSrcs.has(s) || (selfHosted(s) && usedNames.has(name))) {
         fails.push(`이미지 재사용: ${name} — 이 작성자의 기존 발행글에서 이미 쓴 이미지. 같은 게임 연작이라도 다른 컷으로 교체(불가피하면 <!-- 이미지 재사용 허용: 사유 --> 주석으로 예외, 남발 금지)`);
       }
     }
