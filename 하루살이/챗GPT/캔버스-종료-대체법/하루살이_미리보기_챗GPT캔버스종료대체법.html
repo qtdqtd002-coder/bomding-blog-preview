@@ -1,0 +1,409 @@
+<!-- 쓰담v2 하루살이 미리보기. mode=live. 마크업 출처=personas/하루살이/skeleton.html.
+     ★디자인 정본은 하루살이 고유다 — 다른 작성자 스켈레톤을 복사해 오지 말 것(격리).
+     복사/붙여넣기 위젯·CSS·형제 fetch 로직을 바꾸지 말 것(G2가 검사). -->
+<!-- 키워드: 챗GPT 캔버스 -->
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>챗GPT 캔버스 사라진 이유와 대체 사용법</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">🛠️안 될 때</div>
+    <h1 class="title">챗GPT 캔버스 사라진 이유와 대체 사용법</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.08.08</span><span>IT·AI 하우투</span></div>
+
+    <p>챗GPT 캔버스가 안 보이는 이유와, 지금 글쓰기·코딩을 어디서 하면 되는지. 사실 이 두 질문은 한 사건에서 나왔어요.</p>
+    <p>2026년 5월 28일 GPT-5.5 업데이트로 캔버스가 빠졌어요. 그 자리는 라이팅 블록과 코드 블록이 대신하고 있어요.</p>
+    <p>혹시 모델을 다른 걸로 바꾸면 캔버스가 돌아온다는 이야기를 들으셨을 수 있어요. 2026년 8월 8일 기준으로는 완전히 막힌 건 아니지만, 곧 끝나는 임시 통로예요.</p>
+    <p>캔버스가 정말 없어진 게 맞는지부터 짚었어요. 라이팅 블록·코드 블록 쓰는 법, 예전 캔버스 문서 챙기는 법도 순서대로 담았어요.</p>
+
+    <h2 class="sub">챗GPT 캔버스, 정말 없어졌나요?</h2>
+    <p>네, 2026년 5월 28일 업데이트로 캔버스가 실제로 빠졌어요.</p>
+    <p>빠진 모델은 GPT-5.5 Instant와 GPT-5.5 Thinking이에요. 공식 영어 이름은 Canvas예요.</p>
+
+    <div class="imgwrap"><img src="img/openai-logo.png" alt="챗GPT 캔버스를 만든 오픈AI 공식 로고" width="400" height="400"></div>
+    <p class="cap">캔버스를 없애고 라이팅 블록·코드 블록을 넣은 오픈AI(OpenAI)의 공식 로고예요.</p>
+    <p class="src">이미지 출처: <a href="https://openai.com" target="_blank">openai.com</a> 공식 로고 이미지</p>
+    <!-- 이미지 이유: 공식 출처 신뢰도 확보용 리드 이미지 / 출처: openai.com 공식 로고(기존 챗GPT 파일업로드 글에서 검증한 동일 자산 재사용) / 분류: A형 -->
+    <!-- 이미지 조달 메모(2026-08-08 실측): help.openai.com 릴리스노트(6825453)·writing/code block 아티클(20001246)·데이터 내보내기 아티클(7260999)은 curl+브라우저 UA로 200 OK 확보(WebFetch 도구는 셋 다 403). 세 문서 모두 순수 텍스트 아티클이라 라이팅 블록·코드 블록 실제 화면 스크린샷은 0건(React SPA 렌더라 curl로 캡처 불가) — 섹션3·5는 ss/shoot 텍스트 설명으로 대체(B형). community.openai.com 스레드는 Discourse API(.json)로 원문 전체 확보. -->
+
+    <p>공식 릴리스 노트에는 이런 문장이 그대로 적혀 있어요.</p>
+    <p><b>"canvas will no longer be available in GPT-5.5 Instant or GPT-5.5 Thinking"</b></p>
+    <p>우리말로 옮기면 이런 뜻이에요. 캔버스는 이제 GPT-5.5 두 모델에서 쓸 수 없다는 말이에요. (OpenAI 공식 릴리스 노트, 2026.05.28 항목 기준)</p>
+    <ul>
+      <li>캔버스는 2026년 5월 28일부터 GPT-5.5에서 빠졌어요.</li>
+      <li>글쓰기·코딩 기능은 채팅 응답 안의 라이팅 블록·코드 블록으로 옮겨졌어요.</li>
+      <li>유료 사용자는 레거시 모델을 통해 한동안 캔버스를 계속 쓸 수 있었어요.</li>
+    </ul>
+    <p>이 마지막 항목 때문에 "모델을 바꾸면 되는 거 아니냐"는 말이 나왔어요. 그런데 그 레거시 통로도 이제 거의 다 닫혀가고 있어요.</p>
+
+    <h2 class="sub">모델을 바꾸면 캔버스가 다시 뜨나요?</h2>
+    <p>정확히는, "전혀 안 된다"가 아니라 "거의 다 끝나가는 임시 통로만 남았다"가 맞아요.</p>
+
+    <table class="tbl">
+      <tr><th>모델</th><th>캔버스 지원 종료(모델 은퇴일 기준)</th></tr>
+      <tr><td>GPT-4.5</td><td>2026.06.26(30일 유예 후 종료)</td></tr>
+      <tr><td>OpenAI o3</td><td>2026.08.26(90일 유예 후 종료 예정)</td></tr>
+    </table>
+
+    <p>공식 릴리스 노트에는 두 모델의 은퇴 예고일이 나와 있어요.</p>
+    <p>GPT-4.5는 2026년 6월 26일에 이미 은퇴해서, 이 경로는 완전히 끝났어요.</p>
+    <p>OpenAI o3는 2026년 8월 26일 은퇴 예정이에요. 오늘(2026년 8월 8일) 기준으로는 아직 지나지 않았어요.</p>
+    <p>공식 릴리스 노트 원문에는 이런 문장이 있어요.</p>
+    <p><b>"Paid users can continue using canvas for a limited time through legacy models until those models are sunset."</b></p>
+    <p>우리말로 옮기면 이런 뜻이에요. 유료 사용자는 레거시 모델이 은퇴하기 전까지 한동안 캔버스를 계속 쓸 수 있다는 말이에요. (OpenAI 공식 릴리스 노트, 2026.05.28 항목 기준)</p>
+    <p>그러니까 지금 OpenAI o3로 바꾸면 캔버스가 뜰 수도 있어요. 다만 이 통로도 2026년 8월 26일이면 완전히 닫혀요. 얼마 남지 않은 임시 통로일 뿐이에요.</p>
+    <p>그래서 "다른 모델로 바꾸면 캔버스가 된다"는 말은 반은 맞고 반은 틀려요. 곧 사라질 통로를 붙잡느니, 라이팅 블록과 코드 블록에 지금 익숙해지는 게 나아요.</p>
+
+    <h2 class="sub">라이팅 블록은 어떻게 쓰나요?</h2>
+    <p>라이팅 블록은 채팅 응답 안에서 바로 고쳐 쓸 수 있는 초안 영역이에요.</p>
+    <p>영어로는 writing block이라고 불러요.</p>
+    <p>챗GPT가 나중에 고치거나 다시 쓸 만한 글을 만들면 자동으로 라이팅 블록에 담아줘요. 다음처럼 직접 요청해서 만들 수도 있어요.</p>
+    <ul>
+      <li>"팀장님께 보낼 답장 이메일 초안 써줘"</li>
+      <li>"팀에 공유할 짧은 업무 공지 써줘"</li>
+      <li>"이 메모를 한 장짜리 문서로 정리해줘"</li>
+    </ul>
+
+    <div class="ss"><span class="ico">📝</span><span class="lbl">채팅 응답 안에 바로 뜨는 라이팅 블록</span></div>
+    <div class="shoot">라이팅 블록은 캔버스처럼 옆에 새 창이 뜨지 않아요. 챗GPT 응답 메시지 안에 편집 가능한 영역으로 바로 나타나요. 자세한 화면은 <a href="https://help.openai.com/en/articles/20001246-working-with-writing-blocks-and-code-blocks-in-chatgpt" target="_blank">OpenAI 공식 도움말</a>에서 확인할 수 있어요.</div>
+    <p class="cap">라이팅 블록은 이런 방식으로 채팅 안에 나타나요.</p>
+
+    <p>만들어진 블록에서는 이런 것들을 할 수 있어요.</p>
+    <ul>
+      <li>블록을 선택해서 텍스트를 직접 고칠 수 있어요.</li>
+      <li>텍스트를 그대로 복사할 수 있어요.</li>
+      <li>선택한 부분이나 전체 초안을 다시 써 달라고 챗GPT에 요청할 수 있어요.</li>
+      <li>블록을 전체 화면으로 열어서 편집할 수 있어요.</li>
+      <li>AI가 고친 내용을 실행 취소하거나 다시 실행할 수 있어요.</li>
+      <li>지원되는 이메일 초안은 챗GPT에서 곧바로 보내거나 이메일 앱으로 열 수 있어요.</li>
+    </ul>
+    <p>굵게·기울임, 제목, 링크, 글머리·번호 목록, 체크리스트 같은 서식도 그대로 지원돼요.</p>
+
+    <h2 class="sub">코드 블록으로는 뭘 할 수 있나요?</h2>
+    <p>코드 블록은 코드를 채팅 응답과 분리해서 보여주는 영역이에요.</p>
+    <p>캔버스처럼 별도 창을 열지 않아도 되고, 영어로는 code block이라고 불러요.</p>
+    <p>지원되는 코드 블록에서는 이런 조작이 가능해요.</p>
+    <ul>
+      <li>코드를 복사할 수 있어요.</li>
+      <li>파이썬·자바스크립트·HTML 같은 언어 이름이 라벨로 표시돼요.</li>
+      <li>코드를 직접 고치거나, 챗GPT에 고쳐 달라고 요청할 수 있어요.</li>
+      <li>코드 블록을 전체 화면으로 열 수 있어요.</li>
+      <li>지원되는 파이썬 코드는 그 자리에서 실행하고 콘솔 결과까지 볼 수 있어요.</li>
+      <li>지원되는 코드 블록은 읽기 전용 링크로 공유할 수 있어요.</li>
+    </ul>
+    <p>미리보기가 지원되는 형식은 이렇게 다양해요.</p>
+    <ul>
+      <li>HTML 페이지</li>
+      <li>React 컴포넌트</li>
+      <li>SVG 이미지</li>
+      <li>Mermaid 다이어그램</li>
+      <li>Vega·Vega-Lite 차트</li>
+    </ul>
+    <p>코드와 결과 화면은 바로 전환해서 볼 수 있어요.</p>
+    <p>수정한 내용은 잠깐의 지연 후 자동으로 저장돼요. 다음 질문을 할 때 챗GPT가 최신 버전을 참고해요.</p>
+
+    <h2 class="sub">예전 캔버스 문서, 지금 어떻게 챙기나요?</h2>
+    <p>예전 캔버스 문서는 챗GPT 설정의 전체 데이터 내보내기로 챙길 수 있어요.</p>
+    <p>낱개로 다시 여는 기능이 아니라, 대화 기록 전체를 내려받는 방식이에요.</p>
+
+    <div class="ss"><span class="ico">📦</span><span class="lbl">설정 → 데이터 관리 → 데이터 내보내기</span></div>
+    <div class="shoot">프로필 메뉴 → 설정 → 데이터 관리 → 데이터 내보내기에서 내보내기를 눌러요. 확인 화면에서 내보내기 확인을 다시 누르면 요청이 접수돼요. 자세한 절차는 <a href="https://help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpt-history-and-data" target="_blank">OpenAI 공식 도움말</a>에 나와 있어요.</div>
+    <p class="cap">전체 대화 기록 내보내기는 이 순서로 진행돼요.</p>
+
+    <ol>
+      <li>프로필 메뉴를 열어요.</li>
+      <li>설정을 선택해요.</li>
+      <li>데이터 관리를 선택해요.</li>
+      <li>데이터 내보내기 항목에서 내보내기를 눌러요.</li>
+      <li>확인 화면에서 내보내기 확인을 눌러요.</li>
+    </ol>
+    <p>요청이 접수되면 이메일이나 문자로 안내가 오는데, <b>최대 7일</b>까지 걸릴 수 있어요.</p>
+    <p>안내 메시지에서 데이터 내보내기 다운로드를 누르면 돼요. 이 다운로드 링크는 받은 지 24시간이 지나면 만료돼요.</p>
+    <p>내려받은 ZIP 파일 안에는 대화 기록을 비롯한 계정 관련 데이터가 들어 있어요.</p>
+    <p>예전에 캔버스에서 작업했던 글이나 코드도 그 대화 안에서 확인할 수 있어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 라이팅 블록·코드 블록은 어느 기기에서나 똑같이 다 되나요?</b><br>A. 아니요. 공식 도움말은 기기·요금제·설정에 따라 사용 가능한 동작이 다르다고 안내해요. 같은 대화에서도 매번 똑같은 기능이 다 뜨는 건 아니에요.</p>
+    <p><b>Q. 임시 채팅에서 만든 라이팅 블록도 나중에 다시 볼 수 있나요?</b><br>A. 아니요, 공식 도움말에는 임시 채팅 수정 내용이 대화 종료 후 사라질 수 있다고 나와요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes" target="_blank">OpenAI 공식 릴리스 노트</a><br>
+    · <a href="https://help.openai.com/en/articles/20001246-working-with-writing-blocks-and-code-blocks-in-chatgpt" target="_blank">OpenAI 공식 도움말 — Working with writing blocks and code blocks</a><br>
+    · <a href="https://help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpt-history-and-data" target="_blank">OpenAI 공식 도움말 — Exporting your ChatGPT history and data</a></p>
+
+    <p><b>확인 시점 안내</b><br>이 글은 2026년 8월 8일 기준으로 확인했어요. OpenAI 공식 도움말과 공식 릴리스 노트를 직접 봤어요. 챗GPT 기능은 자주 바뀌니, 정확한 최신 정보는 위 공식 도움말에서 다시 확인해 보세요.</p>
+
+    <p><b>하루 정리</b><br>
+    캔버스가 안 보이는 건 오류가 아니에요. 2026년 5월 28일 GPT-5.5 업데이트로 실제로 없어진 거예요.<br>
+    모델을 바꾸는 임시 통로도 2026년 8월 26일이면 끝나요. 그 시간에 라이팅 블록·코드 블록 쓰는 법을 익히는 게 나아요.<br>
+    짧은 초안·이메일이 필요하면 라이팅 블록을 쓰면 돼요. 코드를 실행하거나 미리보기까지 봐야 하면 코드 블록을 쓰면 돼요.<br>
+    예전 캔버스 문서가 걱정되면 설정 → 데이터 관리에서 전체 내보내기를 미리 요청해 두세요.</p>
+
+    <p class="tags-line">#챗GPT캔버스 #챗GPT캔버스사라짐 #라이팅블록 #코드블록 #챗GPT사용법 #GPT5.5업데이트 #챗GPT활용법</p>
+  </div>
+</div>
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>4.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 이미지 1곳:</b> 리드 이미지(오픈AI 공식 로고)는 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버에 Ctrl+V</b>로 넣어 주세요. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 그대로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 챗GPT 캔버스 사라진 이유와 대체 사용법</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다</p>
+    <div id="copy">
+      <h3>챗GPT 캔버스 사라진 이유와 대체 사용법</h3>
+      <p>챗GPT 캔버스가 안 보이는 이유와, 지금 글쓰기·코딩을 어디서 하면 되는지. 사실 이 두 질문은 한 사건에서 나왔어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>2026년 5월 28일 GPT-5.5 업데이트로 캔버스가 빠졌어요. 그 자리는 라이팅 블록과 코드 블록이 대신하고 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>혹시 모델을 다른 걸로 바꾸면 캔버스가 돌아온다는 이야기를 들으셨을 수 있어요. 2026년 8월 8일 기준으로는 완전히 막힌 건 아니지만, 곧 끝나는 임시 통로예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>캔버스가 정말 없어진 게 맞는지부터 짚었어요. 라이팅 블록·코드 블록 쓰는 법, 예전 캔버스 문서 챙기는 법도 순서대로 담았어요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>챗GPT 캔버스, 정말 없어졌나요?</h3>
+      <p>네, 2026년 5월 28일 업데이트로 캔버스가 실제로 빠졌어요.</p>
+      <p>빠진 모델은 GPT-5.5 Instant와 GPT-5.5 Thinking이에요. 공식 영어 이름은 Canvas예요.</p>
+      <p class="sp">&nbsp;</p>
+      <img src="img/openai-logo.png" alt="챗GPT 캔버스를 만든 오픈AI 공식 로고" width="400" height="400">
+      <p class="tnote-line">이미지 출처: openai.com 공식 로고 이미지</p>
+      <p>공식 릴리스 노트에는 이런 문장이 그대로 적혀 있어요.</p>
+      <p class="ph">"canvas will no longer be available in GPT-5.5 Instant or GPT-5.5 Thinking"</p>
+      <p>우리말로 옮기면 이런 뜻이에요. 캔버스는 이제 GPT-5.5 두 모델에서 쓸 수 없다는 말이에요. (OpenAI 공식 릴리스 노트, 2026.05.28 항목 기준)</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>캔버스는 2026년 5월 28일부터 GPT-5.5에서 빠졌어요.</li>
+        <li>글쓰기·코딩 기능은 채팅 응답 안의 라이팅 블록·코드 블록으로 옮겨졌어요.</li>
+        <li>유료 사용자는 레거시 모델을 통해 한동안 캔버스를 계속 쓸 수 있었어요.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>이 마지막 항목 때문에 "모델을 바꾸면 되는 거 아니냐"는 말이 나왔어요. 그런데 그 레거시 통로도 이제 거의 다 닫혀가고 있어요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>모델을 바꾸면 캔버스가 다시 뜨나요?</h3>
+      <p>정확히는, "전혀 안 된다"가 아니라 "거의 다 끝나가는 임시 통로만 남았다"가 맞아요.</p>
+      <table>
+        <tr><th>모델</th><th>캔버스 지원 종료(모델 은퇴일 기준)</th></tr>
+        <tr><td class="l">GPT-4.5</td><td>2026.06.26(30일 유예 후 종료)</td></tr>
+        <tr><td class="l">OpenAI o3</td><td>2026.08.26(90일 유예 후 종료 예정)</td></tr>
+      </table>
+      <p>공식 릴리스 노트에는 두 모델의 은퇴 예고일이 나와 있어요.</p>
+      <p>GPT-4.5는 2026년 6월 26일에 이미 은퇴해서, 이 경로는 완전히 끝났어요.</p>
+      <p>OpenAI o3는 2026년 8월 26일 은퇴 예정이에요. 오늘(2026년 8월 8일) 기준으로는 아직 지나지 않았어요.</p>
+      <p>공식 릴리스 노트 원문에는 이런 문장이 있어요.</p>
+      <p class="ph">"Paid users can continue using canvas for a limited time through legacy models until those models are sunset."</p>
+      <p>우리말로 옮기면 이런 뜻이에요. 유료 사용자는 레거시 모델이 은퇴하기 전까지 한동안 캔버스를 계속 쓸 수 있다는 말이에요. (OpenAI 공식 릴리스 노트, 2026.05.28 항목 기준)</p>
+      <p>그러니까 지금 OpenAI o3로 바꾸면 캔버스가 뜰 수도 있어요. 다만 이 통로도 2026년 8월 26일이면 완전히 닫혀요. 얼마 남지 않은 임시 통로일 뿐이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>그래서 "다른 모델로 바꾸면 캔버스가 된다"는 말은 반은 맞고 반은 틀려요. 곧 사라질 통로를 붙잡느니, 라이팅 블록과 코드 블록에 지금 익숙해지는 게 나아요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>라이팅 블록은 어떻게 쓰나요?</h3>
+      <p>라이팅 블록은 채팅 응답 안에서 바로 고쳐 쓸 수 있는 초안 영역이에요.</p>
+      <p>영어로는 writing block이라고 불러요.</p>
+      <p>챗GPT가 나중에 고치거나 다시 쓸 만한 글을 만들면 자동으로 라이팅 블록에 담아줘요. 다음처럼 직접 요청해서 만들 수도 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>"팀장님께 보낼 답장 이메일 초안 써줘"</li>
+        <li>"팀에 공유할 짧은 업무 공지 써줘"</li>
+        <li>"이 메모를 한 장짜리 문서로 정리해줘"</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">라이팅 블록은 캔버스처럼 옆에 새 창이 뜨지 않아요. 챗GPT 응답 메시지 안에 편집 가능한 영역으로 바로 나타나요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>만들어진 블록에서는 이런 것들을 할 수 있어요.</p>
+      <ul>
+        <li>블록을 선택해서 텍스트를 직접 고칠 수 있어요.</li>
+        <li>텍스트를 그대로 복사할 수 있어요.</li>
+        <li>선택한 부분이나 전체 초안을 다시 써 달라고 챗GPT에 요청할 수 있어요.</li>
+        <li>블록을 전체 화면으로 열어서 편집할 수 있어요.</li>
+        <li>AI가 고친 내용을 실행 취소하거나 다시 실행할 수 있어요.</li>
+        <li>지원되는 이메일 초안은 챗GPT에서 곧바로 보내거나 이메일 앱으로 열 수 있어요.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>굵게·기울임, 제목, 링크, 글머리·번호 목록, 체크리스트 같은 서식도 그대로 지원돼요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>코드 블록으로는 뭘 할 수 있나요?</h3>
+      <p>코드 블록은 코드를 채팅 응답과 분리해서 보여주는 영역이에요.</p>
+      <p>캔버스처럼 별도 창을 열지 않아도 되고, 영어로는 code block이라고 불러요.</p>
+      <p>지원되는 코드 블록에서는 이런 조작이 가능해요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>코드를 복사할 수 있어요.</li>
+        <li>파이썬·자바스크립트·HTML 같은 언어 이름이 라벨로 표시돼요.</li>
+        <li>코드를 직접 고치거나, 챗GPT에 고쳐 달라고 요청할 수 있어요.</li>
+        <li>코드 블록을 전체 화면으로 열 수 있어요.</li>
+        <li>지원되는 파이썬 코드는 그 자리에서 실행하고 콘솔 결과까지 볼 수 있어요.</li>
+        <li>지원되는 코드 블록은 읽기 전용 링크로 공유할 수 있어요.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <p>미리보기가 지원되는 형식은 이렇게 다양해요.</p>
+      <ul>
+        <li>HTML 페이지</li>
+        <li>React 컴포넌트</li>
+        <li>SVG 이미지</li>
+        <li>Mermaid 다이어그램</li>
+        <li>Vega·Vega-Lite 차트</li>
+      </ul>
+      <p>코드와 결과 화면은 바로 전환해서 볼 수 있어요.</p>
+      <p>수정한 내용은 잠깐의 지연 후 자동으로 저장돼요. 다음 질문을 할 때 챗GPT가 최신 버전을 참고해요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>예전 캔버스 문서, 지금 어떻게 챙기나요?</h3>
+      <p>예전 캔버스 문서는 챗GPT 설정의 전체 데이터 내보내기로 챙길 수 있어요.</p>
+      <p>낱개로 다시 여는 기능이 아니라, 대화 기록 전체를 내려받는 방식이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">프로필 메뉴 → 설정 → 데이터 관리 → 데이터 내보내기에서 내보내기를 눌러요. 확인 화면에서 내보내기 확인을 다시 누르면 요청이 접수돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>프로필 메뉴를 열어요.</li>
+        <li>설정을 선택해요.</li>
+        <li>데이터 관리를 선택해요.</li>
+        <li>데이터 내보내기 항목에서 내보내기를 눌러요.</li>
+        <li>확인 화면에서 내보내기 확인을 눌러요.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p>요청이 접수되면 이메일이나 문자로 안내가 오는데, <b>최대 7일</b>까지 걸릴 수 있어요.</p>
+      <p>안내 메시지에서 데이터 내보내기 다운로드를 누르면 돼요. 이 다운로드 링크는 받은 지 24시간이 지나면 만료돼요.</p>
+      <p>내려받은 ZIP 파일 안에는 대화 기록을 비롯한 계정 관련 데이터가 들어 있어요.</p>
+      <p>예전에 캔버스에서 작업했던 글이나 코드도 그 대화 안에서 확인할 수 있어요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 라이팅 블록·코드 블록은 어느 기기에서나 똑같이 다 되나요?</b><br>A. 아니요. 공식 도움말은 기기·요금제·설정에 따라 사용 가능한 동작이 다르다고 안내해요. 같은 대화에서도 매번 똑같은 기능이 다 뜨는 건 아니에요.</p>
+      <p><b>Q. 임시 채팅에서 만든 라이팅 블록도 나중에 다시 볼 수 있나요?</b><br>A. 아니요, 공식 도움말에는 임시 채팅 수정 내용이 대화 종료 후 사라질 수 있다고 나와요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      OpenAI 공식 릴리스 노트 (help.openai.com/en/articles/6825453-chatgpt-release-notes)<br>
+      OpenAI 공식 도움말 — Working with writing blocks and code blocks (help.openai.com/en/articles/20001246-working-with-writing-blocks-and-code-blocks-in-chatgpt)<br>
+      OpenAI 공식 도움말 — Exporting your ChatGPT history and data (help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpt-history-and-data)</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="notice-line">확인 시점 안내<br>이 글은 2026년 8월 8일 기준으로 확인했어요. OpenAI 공식 도움말과 공식 릴리스 노트를 직접 봤어요. 챗GPT 기능은 자주 바뀌니, 정확한 최신 정보는 위 공식 도움말에서 다시 확인해 보세요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      캔버스가 안 보이는 건 오류가 아니에요. 2026년 5월 28일 GPT-5.5 업데이트로 실제로 없어진 거예요.<br>
+      모델을 바꾸는 임시 통로도 2026년 8월 26일이면 끝나요. 그 시간에 라이팅 블록·코드 블록 쓰는 법을 익히는 게 나아요.<br>
+      짧은 초안·이메일이 필요하면 라이팅 블록을 쓰면 돼요. 코드를 실행하거나 미리보기까지 봐야 하면 코드 블록을 쓰면 돼요.<br>
+      예전 캔버스 문서가 걱정되면 설정 → 데이터 관리에서 전체 내보내기를 미리 요청해 두세요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#챗GPT캔버스 #챗GPT캔버스사라짐 #라이팅블록 #코드블록 #챗GPT사용법 #GPT5.5업데이트 #챗GPT활용법</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
