@@ -1,5 +1,5 @@
 <!-- AEO 타깃 질문: ①외장 SSD 살 때 USB4랑 USB 3.2 중 뭘 사야 하나요? ②USB4는 몇 Gbps예요, 버전마다 다른가요? ③내 PC 포트가 USB4인지 USB 3.2인지 어떻게 확인하나요? / 인용 후크: (a) USB-IF 공식 문서의 USB4 Version 1.0/2.0 속도 차이를 표로 정리 (b) USB-IF·인텔 공식 발표문 원문 직접 인용 2회 (c) 다나와 실측 가격 비교표(2026.08.08 조회) / 출처: usb.org/usb4, usb.org/usb-32-0, newsroom.intel.com(Thunderbolt 5), usb.org 공식 USB Data Performance Language Usage Guidelines(2024.01) -->
-<!-- 키워드: 외장 SSD USB4 USB 3.2 차이 -->
+<!-- 키워드: 외장 SSD -->
 <!-- 기준 시점: 2026.08.08 -->
 <!-- dedup 메모: 'USB-C 인식 안 될 때, 마이크로소프트 공식 해결 순서' 글과 h2·소재 겹침 없음. 이 글은 인식 실패 대응이 아니라 규격 자체의 속도·호환 원리·구매 판단만 다룸. -->
 <!doctype html><html lang="ko"><head><meta charset="utf-8">
@@ -85,25 +85,25 @@
     <p>USB-C 기기가 PC에서 인식이 안 되는 문제는 이 글에서 다루지 않아요. 그 내용은 저희 블로그의 다른 글에서 다뤘어요. 글 제목은 'USB-C 인식 안 될 때, 마이크로소프트 공식 해결 순서'예요.</p>
 
     <div class="imgwrap"><img src="img/usb-c-port-thunderbolt.jpg" alt="번개 모양 아이콘이 표시된 USB-C 포트 2개의 실물 사진" width="800" height="678"></div>
-    <p class="cap">포트 옆에 번개 모양 아이콘이 있으면 Thunderbolt를 지원한다는 뜻이에요.</p>
+    <p class="cap">번개 아이콘이 있는 포트는 Thunderbolt 기능을 함께 갖췄어요.</p>
     <p class="src">참고 · <a href="https://commons.wikimedia.org/wiki/File:Thunderbolt_3_interface_USB-C_ports.jpg" target="_blank">위키미디어 공용 — Thunderbolt 3 interface USB-C ports(Amin, CC BY-SA 4.0)</a></p>
     <!-- 이미지 이유: 도입부에 배치하는 리드 이미지(포트 규격을 한눈에 보여주는 예시 사진) / 출처: commons.wikimedia.org, 저작자 Amin, CC BY-SA 4.0 (직접 다운로드·눈으로 확인) / 분류: A형(쇼핑몰 배지·워터마크 없음) -->
 
     <h2 class="sub">USB4는 버전에 따라 최대 속도가 갈려요</h2>
     <p>USB4는 Version 1.0과 Version 2.0으로 나뉘어요. 최대 속도는 각각 40Gbps와 80Gbps예요.</p>
-    <p>USB-IF 공식 문서에는 이렇게 적혀 있어요.</p>
+    <p>usb.org 공식 USB4 페이지에는 이렇게 적혀 있어요.</p>
     <p><b>"Two-lane operation using existing USB Type-C cables and up to 80 Gbps operation over 80 Gbps certified cables"</b></p>
-    <p>기존 40Gbps USB Type-C 패시브 케이블로도 두 레인을 묶어 최대 80Gbps까지 동작해요. 신규로 정의된 80Gbps 액티브 케이블은 선택적으로 쓸 수 있어요.</p>
+    <p>usb.org USB4 페이지는 80Gbps 인증 케이블을 기준으로 적고 있어요. USB Promoter Group의 2022년 9월 발표문이 있어요. 기존 40Gbps 패시브 케이블에서도 80Gbps 동작이 된다고 밝혔어요. 신규로 정의된 80Gbps 액티브 케이블은 선택적으로 쓸 수 있어요.</p>
     <table class="tbl">
       <tr><th>구분</th><th>최대 속도</th><th>케이블 조건</th></tr>
       <tr><td>USB4 Version 1.0</td><td>40Gbps</td><td>기존 USB Type-C 케이블</td></tr>
-      <tr><td>USB4 Version 2.0</td><td>80Gbps</td><td>40Gbps 패시브 케이블도 가능(신규 80Gbps 액티브는 선택)</td></tr>
+      <tr><td>USB4 Version 2.0</td><td>80Gbps</td><td>80Gbps 인증 케이블 기준(40Gbps 패시브 케이블도 가능)</td></tr>
     </table>
-    <p class="tnote">USB-IF가 2022년 9월 1일 낸 공식 발표문(PDF, "USB 80Gbps Announcement_FINAL_v2")과 usb.org 공식 USB4 페이지를 기준으로 정리했어요. 케이블 조건은 발표문 원문을 따랐어요.</p>
-    <p>USB4 Version 2.0은 PAM3라는 새 신호 방식으로 대역폭을 넓혔어요. USB-IF는 이 업데이트가 이전 규격과 그대로 호환된다고 밝혔어요. 호환 대상은 USB4 Version 1.0, USB 3.2, USB 2.0, Thunderbolt 3예요.</p>
+    <p class="tnote">USB Promoter Group이 2022년 9월 1일 낸 <a href="https://www.usb.org/sites/default/files/2022-09/USB%20PG%20USB4%20Version%202.0%2080Gbps%20Announcement_FINAL.pdf" target="_blank" style="color:#1a73e8;">공식 발표문(PDF)</a>이 있어요. USB-IF도 2022년 10월 18일 낸 공식 발표문(PDF)을 냈어요. usb.org 공식 USB4 페이지와 두 발표문 원문을 기준으로 정리했어요.</p>
+    <p>USB4 Version 2.0은 PAM3라는 새 신호 방식으로 대역폭을 넓혔어요. USB Promoter Group은 이 업데이트가 이전 규격과 그대로 호환된다고 밝혔어요. 호환 대상은 USB4 Version 1.0, USB 3.2, USB 2.0, Thunderbolt 3예요.</p>
 
     <h2 class="sub">USB 3.2는 세 단계 전송률로 나뉘어요</h2>
-    <p>USB 3.2 규격은 세 가지 전송률로 나뉘어요. 20Gbps·10Gbps·5Gbps예요.</p>
+    <p>USB 3.2의 최상위 전송률은 20Gbps예요. 전송률은 20Gbps·10Gbps·5Gbps 세 단계로 나뉘어요.</p>
     <p>최상위 20Gbps 단계의 정식 기술 명칭은 USB 3.2 Gen 2x2예요. 10Gbps 레인 2개를 묶으면 20Gbps가 나와요. USB-IF 공식 문서가 설명하는 방식이에요.</p>
     <table class="tbl">
       <tr><th>전송률</th><th>방식</th></tr>
@@ -112,7 +112,7 @@
       <tr><td>5Gbps</td><td>단일 레인(구형)</td></tr>
     </table>
     <p class="tnote">USB-IF 공식 USB 3.2 문서(usb.org/usb-32-0) 기준이에요.</p>
-    <p>삼성전자 포터블 SSD T9는 이 USB 20Gbps 단계를 써요. 삼성전자는 공식 발표에서 이 제품의 속도를 밝혔어요. 순차 읽기 속도는 최대 2,000MB/s, 쓰기 속도는 최대 1,950MB/s예요(1TB·2TB 기준, 4TB는 쓰기도 2,000MB/s예요).</p>
+    <p>삼성전자 포터블 SSD T9는 이 USB 20Gbps 단계를 써요. 삼성전자는 공식 발표에서 이 제품의 속도를 밝혔어요. 1TB·2TB 기준으로 순차 읽기는 최대 2,000MB/s예요. 쓰기는 최대 1,950MB/s예요. 4TB는 쓰기 속도도 2,000MB/s예요.</p>
 
     <h2 class="sub">Thunderbolt는 세대마다 속도가 또 달라요</h2>
     <p>Thunderbolt는 3세대와 4세대가 최대 40Gbps예요. 5세대는 최대 80Gbps로 올라가요.</p>
@@ -130,7 +130,7 @@
 
     <h2 class="sub">그럼 실제 속도는 어떻게 정해지나요?</h2>
     <p>실제 전송 속도는 PC 포트와 SSD, 케이블 중에서 가장 낮은 규격에 맞춰져요.</p>
-    <p>USB-IF는 공식 문서에서 이 원리를 설명해요. USB4가 기존 USB 3.2·USB 2.0·Thunderbolt 3 기기와 연결되면, 두 기기 중 더 낮은 성능에 맞춰 동작해요. USB 3.2 공식 문서도 같은 원리를 가장 낮은 공통 속도로 동작한다고 밝혀요.</p>
+    <p>USB-IF는 공식 문서에서 이 원리를 설명해요. USB4는 기존 USB 3.2·USB 2.0·Thunderbolt 3 기기와도 연결돼요. 이때는 두 기기 중 더 낮은 성능에 맞춰 동작해요. USB 3.2 공식 문서도 같은 원리를 가장 낮은 공통 속도로 동작한다고 밝혀요.</p>
     <table class="tbl">
       <tr><th>PC 포트</th><th>SSD 규격</th><th>실제 속도</th></tr>
       <tr><td>USB4 Version 2.0 · 80Gbps</td><td>USB4 40Gbps</td><td>40Gbps</td></tr>
@@ -148,16 +148,30 @@
       <li>케이블도 SSD·포트와 같은 규격을 지원하는지 함께 확인해요.</li>
     </ol>
     <p>케이블이 낮은 규격이면 포트와 SSD가 모두 빨라도 속도가 케이블 수준으로 떨어져요.</p>
+    <p>USB4와 USB 3.2 차이를 표로 다시 정리했어요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>USB4</th><th>USB 3.2(최상위)</th></tr>
+      <tr><td>최대 속도</td><td>40Gbps(V1.0) · 80Gbps(V2.0)</td><td>20Gbps</td></tr>
+      <tr><td>케이블 조건</td><td>40Gbps 패시브 케이블도 가능, 80Gbps는 인증 케이블 기준</td><td>기존 USB Type-C 케이블</td></tr>
+      <tr><td>커넥터 형태</td><td>USB Type-C(공통)</td><td>USB Type-C(공통)</td></tr>
+      <tr><td>대표 제품 가격</td><td>CORSAIR EX400U 1TB · 462,980원</td><td>삼성전자 T9 1TB · 298,290원</td></tr>
+    </table>
+    <p class="tnote">가격은 다나와 기준, 2026.08.08 조회예요. 나머지 값은 앞선 절에서 정리한 내용을 다시 옮겼어요.</p>
 
     <h2 class="sub">그래서 뭘 사야 할까요? 용도별로 정리했어요</h2>
     <p>일반적인 백업·이동용이면 USB 20Gbps 제품으로 충분해요. 대용량 영상 편집이면 USB4 제품이 유리해요.</p>
+    <p>USB4 40Gbps 제품 중에는 CORSAIR EX400U가 있어요. CORSAIR 공식 스펙 기준으로 순차 읽기 속도는 최대 4,000MB/s예요. 다나와 기준 1TB 모델 가격은 462,980원이에요. 조회 시점은 2026.08.08이에요.</p>
     <table class="tbl">
       <tr><th>상황</th><th>추천 규격</th><th>근거</th></tr>
       <tr><td>사진·문서 백업, 이동 위주</td><td>USB 20Gbps</td><td>최대 2,000MB/s급, 일반 용도에 충분해요</td></tr>
-      <tr><td>4K·8K 영상 편집, 대용량 전송</td><td>USB4 40Gbps</td><td>순차 읽기 4,000MB/s급 제품이 있어요</td></tr>
+      <tr><td>4K·8K 영상 편집, 대용량 전송</td><td>USB4 40Gbps</td><td>CORSAIR EX400U 순차 읽기 최대 4,000MB/s</td></tr>
       <tr><td>PC에 Thunderbolt 5 포트가 있음</td><td>USB4·Thunderbolt 호환 제품</td><td>최대 80Gbps 대역폭까지 활용할 수 있어요</td></tr>
     </table>
     <p>다나와 가격은 2026년 8월 8일에 조회했어요. 가격은 시세에 따라 달라질 수 있어요.</p>
+    <div class="imgwrap"><img src="img/corsair-ex400u-danawa.jpg" alt="CORSAIR EX400U 외장 SSD 다나와 상품 이미지" width="500" height="500"></div>
+    <p class="cap">CORSAIR EX400U는 USB4 40Gbps 규격을 쓰는 외장 SSD예요.</p>
+    <p class="src">이미지 출처: <a href="https://prod.danawa.com/info/?pcode=75071702" target="_blank">다나와 — CORSAIR EX400U(1TB) 상품정보</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 조달 메모(2026-08-08 개선본): prod.danawa.com/info/?pcode=75071702 상세페이지는 JS 렌더링이라 curl 본문엔 이미지가 없고 og:image 메타태그(img.danuri.io 직링크)만 확인됨. 배지·워터마크 없이 제품 실물만 나와 채택 — 다운로드해 Read로 실물 확인 후 img/corsair-ex400u-danawa.jpg로 self-host(500x500). USB-IF 성능 로고(40Gbps/80Gbps)는 이번 라운드에 추가하지 않음 — 공식 로고는 컴플라이언스 인증을 받은 제품에만 쓰도록 제한돼 있어(usb.org/logo-license) 비인증 매체 게재가 상표 오용 소지가 있다고 판단, 다나와 실물 사진 1장으로 이미지 보강 요건을 충족. -->
     <table class="tbl">
       <tr><th>제품</th><th>규격</th><th>용량</th><th>가격</th></tr>
       <tr><td>삼성전자 포터블 SSD T9</td><td>USB 20Gbps · USB 3.2 Gen 2x2</td><td>1TB</td><td>298,290원</td></tr>
@@ -169,7 +183,10 @@
 
     <h2 class="sub">자주 묻는 질문</h2>
     <p><b>Q. 제품에 왜 'USB4 40Gbps'가 아니라 'USB 40Gbps'라고만 쓰여 있나요?</b><br>
-    A. USB-IF가 2024년 1월 낸 소비자용 표기 가이드라인에서 그렇게 정했어요. 기술 용어 대신 속도로만 표기하라고 권고했어요. 예를 들면 USB4 Version 1.0은 USB 40Gbps로, USB4 Version 2.0은 USB 80Gbps로 써요.</p>
+    A. USB-IF가 2024년 1월 낸 소비자용 표기 가이드라인이 있어요. 이 가이드라인은 USB4 Version 표기를 소비자용 콘텐츠에 쓰지 말라고 밝혀요. 대신 실제 신호 속도로 USB 80Gbps·USB 40Gbps처럼 쓰라고 권고했어요. 그래서 USB4 인증 제품도 실제 속도가 낮으면 USB 20Gbps로 적힐 수 있어요.</p>
+
+    <p><b>Q. 외장 SSD와 모니터를 한 포트에 같이 물리면 속도가 나뉘나요?</b><br>
+    A. usb.org 공식 USB4 페이지는 여러 데이터·디스플레이 프로토콜이 대역폭을 나눠 쓴다고 밝혀요. 원문은 이렇게 적어요. <b>"Multiple data and display protocols to efficiently share the maximum aggregate bandwidth over the bus"</b>. 그래서 SSD와 모니터를 함께 연결하면 SSD 혼자 쓸 때보다 실제 전송 속도가 낮아질 수 있어요.</p>
 
     <p><b>참고한 곳</b><br>
     · <a href="https://www.usb.org/usb4" target="_blank">USB-IF 공식 — USB4</a><br>
@@ -178,9 +195,9 @@
 
     <p><b>하루 정리</b><br>
     · USB4는 Version 1.0이 40Gbps, Version 2.0이 80Gbps로 최대 속도가 갈려요.<br>
-    · USB 3.2 최상위 단계는 20Gbps, Thunderbolt는 3·4세대가 40Gbps, 5세대가 80Gbps예요.<br>
-    · 실제 속도는 PC 포트와 SSD 중 더 낮은 규격에 맞춰지니 포트부터 확인하세요.<br>
-    · 일반 백업용이면 USB 20Gbps로 충분하고, 대용량 편집용이면 USB4가 유리해요.</p>
+    · USB 3.2 최상위 단계는 20Gbps예요.<br>
+    · Thunderbolt는 3·4세대가 40Gbps, 5세대가 80Gbps예요.<br>
+    · 실제 속도는 PC 포트와 SSD 중 더 낮은 규격에 맞춰지니 포트부터 확인하세요.</p>
 
     <div class="tags">#외장SSD #USB4 #USB3.2 #Thunderbolt #외장SSD추천 #USB규격차이 #외장SSD가격</div>
   </div>
@@ -220,22 +237,22 @@
       <p class="sp">&nbsp;</p>
       <h3>USB4는 버전에 따라 최대 속도가 갈려요</h3>
       <p>USB4는 Version 1.0과 Version 2.0으로 나뉘어요. 최대 속도는 각각 40Gbps와 80Gbps예요.</p>
-      <p>USB-IF 공식 문서에는 이렇게 적혀 있어요.</p>
+      <p>usb.org 공식 USB4 페이지에는 이렇게 적혀 있어요.</p>
       <p><b>"Two-lane operation using existing USB Type-C cables and up to 80 Gbps operation over 80 Gbps certified cables"</b></p>
-      <p>기존 40Gbps USB Type-C 패시브 케이블로도 두 레인을 묶어 최대 80Gbps까지 동작해요. 신규로 정의된 80Gbps 액티브 케이블은 선택적으로 쓸 수 있어요.</p>
+      <p>usb.org USB4 페이지는 80Gbps 인증 케이블을 기준으로 적고 있어요. USB Promoter Group의 2022년 9월 발표문이 있어요. 기존 40Gbps 패시브 케이블에서도 80Gbps 동작이 된다고 밝혔어요. 신규로 정의된 80Gbps 액티브 케이블은 선택적으로 쓸 수 있어요.</p>
       <p class="sp">&nbsp;</p>
       <table>
         <tr><th>구분</th><th>최대 속도</th><th>케이블 조건</th></tr>
         <tr><td class="l">USB4 Version 1.0</td><td>40Gbps</td><td>기존 USB Type-C 케이블</td></tr>
-        <tr><td class="l">USB4 Version 2.0</td><td>80Gbps</td><td>40Gbps 패시브 케이블도 가능(신규 80Gbps 액티브는 선택)</td></tr>
+        <tr><td class="l">USB4 Version 2.0</td><td>80Gbps</td><td>80Gbps 인증 케이블 기준(40Gbps 패시브 케이블도 가능)</td></tr>
       </table>
-      <p class="tnote-line">USB-IF가 2022년 9월 1일 낸 공식 발표문(PDF, "USB 80Gbps Announcement_FINAL_v2")과 usb.org 공식 USB4 페이지를 기준으로 정리했어요. 케이블 조건은 발표문 원문을 따랐어요.</p>
+      <p class="tnote-line">USB Promoter Group이 2022년 9월 1일 낸 <a href="https://www.usb.org/sites/default/files/2022-09/USB%20PG%20USB4%20Version%202.0%2080Gbps%20Announcement_FINAL.pdf" target="_blank" style="color:#1a73e8;">공식 발표문(PDF)</a>이 있어요. USB-IF도 2022년 10월 18일 낸 공식 발표문(PDF)을 냈어요. usb.org 공식 USB4 페이지와 두 발표문 원문을 기준으로 정리했어요.</p>
       <p class="sp">&nbsp;</p>
-      <p>USB4 Version 2.0은 PAM3라는 새 신호 방식으로 대역폭을 넓혔어요. USB-IF는 이 업데이트가 이전 규격과 그대로 호환된다고 밝혔어요. 호환 대상은 USB4 Version 1.0, USB 3.2, USB 2.0, Thunderbolt 3예요.</p>
+      <p>USB4 Version 2.0은 PAM3라는 새 신호 방식으로 대역폭을 넓혔어요. USB Promoter Group은 이 업데이트가 이전 규격과 그대로 호환된다고 밝혔어요. 호환 대상은 USB4 Version 1.0, USB 3.2, USB 2.0, Thunderbolt 3예요.</p>
       <p class="sp">&nbsp;</p>
       <p class="sp">&nbsp;</p>
       <h3>USB 3.2는 세 단계 전송률로 나뉘어요</h3>
-      <p>USB 3.2 규격은 세 가지 전송률로 나뉘어요. 20Gbps·10Gbps·5Gbps예요.</p>
+      <p>USB 3.2의 최상위 전송률은 20Gbps예요. 전송률은 20Gbps·10Gbps·5Gbps 세 단계로 나뉘어요.</p>
       <p>최상위 20Gbps 단계의 정식 기술 명칭은 USB 3.2 Gen 2x2예요. 10Gbps 레인 2개를 묶으면 20Gbps가 나와요. USB-IF 공식 문서가 설명하는 방식이에요.</p>
       <p class="sp">&nbsp;</p>
       <table>
@@ -246,7 +263,7 @@
       </table>
       <p class="tnote-line">USB-IF 공식 USB 3.2 문서(usb.org/usb-32-0) 기준이에요.</p>
       <p class="sp">&nbsp;</p>
-      <p>삼성전자 포터블 SSD T9는 이 USB 20Gbps 단계를 써요. 삼성전자는 공식 발표에서 이 제품의 속도를 밝혔어요. 순차 읽기 속도는 최대 2,000MB/s, 쓰기 속도는 최대 1,950MB/s예요(1TB·2TB 기준, 4TB는 쓰기도 2,000MB/s예요).</p>
+      <p>삼성전자 포터블 SSD T9는 이 USB 20Gbps 단계를 써요. 삼성전자는 공식 발표에서 이 제품의 속도를 밝혔어요. 1TB·2TB 기준으로 순차 읽기는 최대 2,000MB/s예요. 쓰기는 최대 1,950MB/s예요. 4TB는 쓰기 속도도 2,000MB/s예요.</p>
       <p class="sp">&nbsp;</p>
       <p class="sp">&nbsp;</p>
       <h3>Thunderbolt는 세대마다 속도가 또 달라요</h3>
@@ -267,7 +284,7 @@
       <p class="sp">&nbsp;</p>
       <h3>그럼 실제 속도는 어떻게 정해지나요?</h3>
       <p>실제 전송 속도는 PC 포트와 SSD, 케이블 중에서 가장 낮은 규격에 맞춰져요.</p>
-      <p>USB-IF는 공식 문서에서 이 원리를 설명해요. USB4가 기존 USB 3.2·USB 2.0·Thunderbolt 3 기기와 연결되면, 두 기기 중 더 낮은 성능에 맞춰 동작해요. USB 3.2 공식 문서도 같은 원리를 가장 낮은 공통 속도로 동작한다고 밝혀요.</p>
+      <p>USB-IF는 공식 문서에서 이 원리를 설명해요. USB4는 기존 USB 3.2·USB 2.0·Thunderbolt 3 기기와도 연결돼요. 이때는 두 기기 중 더 낮은 성능에 맞춰 동작해요. USB 3.2 공식 문서도 같은 원리를 가장 낮은 공통 속도로 동작한다고 밝혀요.</p>
       <p class="sp">&nbsp;</p>
       <table>
         <tr><th>PC 포트</th><th>SSD 규격</th><th>실제 속도</th></tr>
@@ -290,18 +307,32 @@
       <p class="sp">&nbsp;</p>
       <p>케이블이 낮은 규격이면 포트와 SSD가 모두 빨라도 속도가 케이블 수준으로 떨어져요.</p>
       <p class="sp">&nbsp;</p>
+      <p>USB4와 USB 3.2 차이를 표로 다시 정리했어요.</p>
+      <table>
+        <tr><th>구분</th><th>USB4</th><th>USB 3.2(최상위)</th></tr>
+        <tr><td class="l">최대 속도</td><td>40Gbps(V1.0) · 80Gbps(V2.0)</td><td>20Gbps</td></tr>
+        <tr><td class="l">케이블 조건</td><td>40Gbps 패시브 케이블도 가능, 80Gbps는 인증 케이블 기준</td><td>기존 USB Type-C 케이블</td></tr>
+        <tr><td class="l">커넥터 형태</td><td>USB Type-C(공통)</td><td>USB Type-C(공통)</td></tr>
+        <tr><td class="l">대표 제품 가격</td><td>CORSAIR EX400U 1TB · 462,980원</td><td>삼성전자 T9 1TB · 298,290원</td></tr>
+      </table>
+      <p class="tnote-line">가격은 다나와 기준, 2026.08.08 조회예요. 나머지 값은 앞선 절에서 정리한 내용을 다시 옮겼어요.</p>
+      <p class="sp">&nbsp;</p>
       <p class="sp">&nbsp;</p>
       <h3>그래서 뭘 사야 할까요? 용도별로 정리했어요</h3>
       <p>일반적인 백업·이동용이면 USB 20Gbps 제품으로 충분해요. 대용량 영상 편집이면 USB4 제품이 유리해요.</p>
       <p class="sp">&nbsp;</p>
+      <p>USB4 40Gbps 제품 중에는 CORSAIR EX400U가 있어요. CORSAIR 공식 스펙 기준으로 순차 읽기 속도는 최대 4,000MB/s예요. 다나와 기준 1TB 모델 가격은 462,980원이에요. 조회 시점은 2026.08.08이에요.</p>
+      <p class="sp">&nbsp;</p>
       <table>
         <tr><th>상황</th><th>추천 규격</th><th>근거</th></tr>
         <tr><td class="l">사진·문서 백업, 이동 위주</td><td>USB 20Gbps</td><td>최대 2,000MB/s급, 일반 용도에 충분해요</td></tr>
-        <tr><td class="l">4K·8K 영상 편집, 대용량 전송</td><td>USB4 40Gbps</td><td>순차 읽기 4,000MB/s급 제품이 있어요</td></tr>
+        <tr><td class="l">4K·8K 영상 편집, 대용량 전송</td><td>USB4 40Gbps</td><td>CORSAIR EX400U 순차 읽기 최대 4,000MB/s</td></tr>
         <tr><td class="l">PC에 Thunderbolt 5 포트가 있음</td><td>USB4·Thunderbolt 호환 제품</td><td>최대 80Gbps 대역폭까지 활용할 수 있어요</td></tr>
       </table>
       <p class="sp">&nbsp;</p>
       <p>다나와 가격은 2026년 8월 8일에 조회했어요. 가격은 시세에 따라 달라질 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">📷 〔사진 자리 2〕 CORSAIR EX400U 외장 SSD 다나와 상품 이미지 — 미리보기 이미지를 우클릭해 복사·붙여넣기(사진: 다나와 상품정보, prod.danawa.com/info/?pcode=75071702 — 게시 시 출처 표기를 사진 아래에 함께 남겨주세요)</p>
       <p class="sp">&nbsp;</p>
       <table>
         <tr><th>제품</th><th>규격</th><th>용량</th><th>가격</th></tr>
@@ -316,7 +347,10 @@
       <p class="sp">&nbsp;</p>
       <h3>자주 묻는 질문</h3>
       <p><b>Q. 제품에 왜 'USB4 40Gbps'가 아니라 'USB 40Gbps'라고만 쓰여 있나요?</b><br>
-      A. USB-IF가 2024년 1월 낸 소비자용 표기 가이드라인에서 그렇게 정했어요. 기술 용어 대신 속도로만 표기하라고 권고했어요. 예를 들면 USB4 Version 1.0은 USB 40Gbps로, USB4 Version 2.0은 USB 80Gbps로 써요.</p>
+      A. USB-IF가 2024년 1월 낸 소비자용 표기 가이드라인이 있어요. 이 가이드라인은 USB4 Version 표기를 소비자용 콘텐츠에 쓰지 말라고 밝혀요. 대신 실제 신호 속도로 USB 80Gbps·USB 40Gbps처럼 쓰라고 권고했어요. 그래서 USB4 인증 제품도 실제 속도가 낮으면 USB 20Gbps로 적힐 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>Q. 외장 SSD와 모니터를 한 포트에 같이 물리면 속도가 나뉘나요?</b><br>
+      A. usb.org 공식 USB4 페이지는 여러 데이터·디스플레이 프로토콜이 대역폭을 나눠 쓴다고 밝혀요. 원문은 이렇게 적어요. <b>"Multiple data and display protocols to efficiently share the maximum aggregate bandwidth over the bus"</b>. 그래서 SSD와 모니터를 함께 연결하면 SSD 혼자 쓸 때보다 실제 전송 속도가 낮아질 수 있어요.</p>
       <p class="sp">&nbsp;</p>
       <p class="sp">&nbsp;</p>
       <p><b class="notice-line">참고한 곳</b><br>
@@ -327,9 +361,9 @@
       <p class="sp">&nbsp;</p>
       <p><b>하루 정리</b><br>
       · USB4는 Version 1.0이 40Gbps, Version 2.0이 80Gbps로 최대 속도가 갈려요.<br>
-      · USB 3.2 최상위 단계는 20Gbps, Thunderbolt는 3·4세대가 40Gbps, 5세대가 80Gbps예요.<br>
-      · 실제 속도는 PC 포트와 SSD 중 더 낮은 규격에 맞춰지니 포트부터 확인하세요.<br>
-      · 일반 백업용이면 USB 20Gbps로 충분하고, 대용량 편집용이면 USB4가 유리해요.</p>
+      · USB 3.2 최상위 단계는 20Gbps예요.<br>
+      · Thunderbolt는 3·4세대가 40Gbps, 5세대가 80Gbps예요.<br>
+      · 실제 속도는 PC 포트와 SSD 중 더 낮은 규격에 맞춰지니 포트부터 확인하세요.</p>
       <p class="sp">&nbsp;</p>
       <p class="sp">&nbsp;</p>
       <p class="tags-line">#외장SSD #USB4 #USB3.2 #Thunderbolt #외장SSD추천 #USB규격차이 #외장SSD가격</p>
