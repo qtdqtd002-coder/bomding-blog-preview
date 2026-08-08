@@ -59,6 +59,25 @@ DENY = {
         ("게이머 슬랭 ㄱㄱ/ㄹㅇ/ㅇㅇ", r"(?:^|\s)(?:ㄱㄱ|ㄹㅇ|ㅇㅇ)(?:\s|[.!?]|$)"),
         ("강한 슬랭 갓겜/띵작/창렬/현타/지갑안녕", r"갓겜|띵작|창렬|현타|지갑\s*안녕"),
     ],
+    # ★2026-08-08 신설 — 하루살이(네이버, 2026-07-22 합류)가 이 명단에 없어서
+    #   author_of() 가 None 을 돌려주고 **모든 하루살이 글이 발행 게이트를 통째로 건너뛰고 있었다**
+    #   (교차오염·발행본 금지요소 검사 0건 상태로 34편 발행). 명단 하드코딩이 만든 사각지대다.
+    #   하루살이 = 가볍고 친근하되 **정중**, 한 문장 한 정보. 영도·겜더쿠 시그니처와 봄딩 마무리 금지.
+    "하루살이": [
+        ("영도식 가운뎃점 ㆍ(아래아)", re.escape(ARAEA)),
+        ("영도 자기지칭 '주인장'", r"주인장"),
+        ("영도/겜더 슬랭 (?) 너스레", r"\(\?\)"),
+        ("영도 마무리 이모티콘 ' :)'", r"\s:\)"),
+        ("영도 라벨 '오늘 내용 정리'/'한 줄 요약'", r"오늘 내용 정리|한 줄 요약"),
+        ("겜더쿠 잔재 '이상 겜더쿠'", r"이상 겜더쿠"),
+        ("봄딩 마무리 정형구 '포스팅 마치'", r"포스팅[을를]?\s*마치"),
+        ("게이머 슬랭 ㄱㄱ/ㄹㅇ/ㅇㅇ", r"(?:^|\s)(?:ㄱㄱ|ㄹㅇ|ㅇㅇ)(?:\s|[.!?]|$)"),
+        ("강한 슬랭 갓겜/띵작/창렬/현타", r"갓겜|띵작|창렬|현타"),
+        # 하루살이 정본 §3 금지(aeo-geo) — 홍보성 과장어는 네이버가 인용 제외 대상으로 명시.
+        # ★단정형만 잡는다: FAQ 질문·부정 맥락 오탐을 피하려고 '무조건/최저가' 는 뺐다
+        #   (2026-08-08 발행본 10편 실측에서 4편이 부정·인용 맥락 오탐).
+        ("홍보성 과장어 '역대급/모르면 손해'", r"역대급|모르면\s*손해"),
+    ],
 }
 
 # 맺음말(마지막 본문 단락) 한정 금지 패턴 (2026-06-13 신설).
@@ -135,11 +154,57 @@ def closing_paragraph(raw):
     body = [re.sub(r"<[^>]+>", " ", t) for attrs, t in blocks if "cap" not in attrs]
     return body[-1] if body else ""
 
-def check_file(author, p, problems, warnings):
+# ===== 사실성(출처) 게이트 — 2026-08-08 신설 =====
+# 배경: 2026-08-08 전반 감사에서 발행본 표본 결함이 나왔다.
+#   ⒜ 연봄 레지트리오/루나아라/그라우돈 = 팬 DB(pokemondb)를 링크 텍스트 「포켓몬 공식」으로 표기
+#   ⒝ 연봄·겜더쿠 = 출시일·배율·전투력 같은 확정형 수치를 쓰면서 외부 출처 링크 0
+# 규칙은 산문에만 있었고(qa-checklist D장·verification-playbook) 코드 게이트가 없었다.
+#
+# ★캘리브레이션(발행본 639편 실측)으로 심각도를 갈랐다 — 오탐이 나면 사람이 게이트를 끄기 때문이다:
+#   · SRC-1(공식 오표기) = **3편, 전부 진짜 결함, 오탐 0** → 두 모드 모두 DENY.
+#   · SRC-0(출처 링크 0)  = 122편(19.1%)인데 **8월 이후 신규는 3편뿐**. 전체 스캔에서 DENY 로 걸면
+#     과거 122편 때문에 **push 가 영구 차단**된다(= 게이트가 꺼지는 결말) → 신규 글이 오는
+#     **인자 모드에서만 DENY**, pre-push 전체 스캔은 **WARN**.
+# ★만들지 않은 것: '스토어 이미지 캡션의 1인칭 체험 표현' 검사. 639편에 1건 걸렸는데
+#   그마저 오탐이었다(「네이버 본문엔 직접 업로드」= 발행 절차 서술). 규칙은 정본 산문으로만 둔다.
+FAN_DB = ("pokemondb.net", "serebii.net", "bulbapedia", "namu.wiki", "fandom.com",
+          "leekduck.com", "buffhub", "gamewith", "game8.co", "wikipedia.org")
+
+def _body_html(raw):
+    """#copy(붙여넣기 생존본) 앞까지 = 본문. 같은 내용을 두 번 세지 않는다."""
+    m = re.search(r'id\s*=\s*["\']copy["\']', raw)
+    seg = raw[:m.start()] if m else raw
+    return re.sub(r"<script.*?</script>|<style.*?</style>|<!--.*?-->", " ", seg, flags=re.S)
+
+def check_sources(author, p, raw, problems, warnings, strict):
+    rel = os.path.relpath(p, BASE)
+    seg = _body_html(raw)
+
+    # SRC-1 — 링크 텍스트가 '공식'이라 주장하는데 실제 도메인이 팬 DB·위키.
+    bad = []
+    for m in re.finditer(r'<a[^>]*href\s*=\s*["\']([^"\']+)["\'][^>]*>(.*?)</a>', seg, re.S | re.I):
+        href, txt = m.group(1), re.sub(r"<[^>]+>", "", m.group(2))
+        if "공식" in txt and any(d in href.lower() for d in FAN_DB):
+            bad.append(href)
+    if bad:
+        problems.append((author, rel, "SRC-1 출처 오표기 — 팬 DB·위키를 '공식'으로 표기 (%s)" % bad[0][:60], len(bad)))
+
+    # SRC-0 — 확정형 수치·날짜가 있는데 외부 출처 링크가 0개.
+    text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", seg))
+    has_date = bool(re.search(r"20\d\d\s*[.\-/년]\s*\d{1,2}\s*[.\-/월]\s*\d{1,2}|(?<!\d)\d{1,2}월\s*\d{1,2}일", text))
+    has_num = bool(re.search(r"(?<![\d.])\d{3,}(?![\d.])", text))
+    ext = [u for u in re.findall(r'<a[^>]*href\s*=\s*["\'](https?://[^"\']+)', seg, re.I)
+           if "qtdqtd002-coder.github.io" not in u]
+    if (has_date or has_num) and not ext:
+        item = (author, rel, "SRC-0 수치·날짜가 있는데 외부 출처 링크 0 — 근거 없이 단정한 값이 없는지 확인", 1)
+        (problems if strict else warnings).append(item)
+
+def check_file(author, p, problems, warnings, strict=False):
     raw = open(p, encoding="utf-8").read()
     text = strip_html(raw)
     meta = strip_meta(raw)
     rel = os.path.relpath(p, BASE)
+    check_sources(author, p, raw, problems, warnings, strict)
     # 1) 작성자 간 교차오염(본문 텍스트)
     for label, pat in DENY[author]:
         hits = re.findall(pat, text)
@@ -192,8 +257,10 @@ def main():
                 continue
             author = author_of(p)
             if not author:
-                continue  # 봄딩/영도/겜더쿠/연봄 외(아이콘·트렌드 등)는 작성자 린트 대상 아님
-            check_file(author, p, problems, warnings)
+                continue  # 작성자 폴더 밖(아이콘·트렌드 등)은 작성자 린트 대상 아님
+            # ★인자 모드 = 드레이너가 **이번에 발행할 글**만 검사하는 경로 → strict.
+            #   SRC-0 을 여기서 차단해야 새 글이 무출처로 나가지 않는다(과거분은 아래 전체 스캔에서 WARN).
+            check_file(author, p, problems, warnings, strict=True)
     else:
         for author in DENY.keys():
             root = os.path.join(BASE, author)
