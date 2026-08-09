@@ -3,8 +3,19 @@
 # 배경: 2026-06-14 봄딩 우마무스메 글이 작성스킬·QA·린트를 통째로 건너뛰고 손수 커밋/푸시되어
 #       AI 일반 템플릿(.container/.disclaimer/🔍 본문노출)으로 발행된 사고. 이후 모든 push가 이 훅을 거친다.
 # 설치(재클론·새 PC 시): cp _tools/hooks/pre-push .git/hooks/pre-push   (Windows Git Bash에서도 동일)
-# 동작: style-lint.py exit 2(교차오염/발행본 금지요소)면 push 중단. WARN(비표준 템플릿)은 통과시키되 출력으로 알림.
+# 동작(2026-08-08 개정): **push 되는 커밋에 담긴 HTML**을 인자 모드로 린트해 exit≠0이면 push 중단.
+#       워킹트리 전수 스캔은 **비차단 경고**로 함께 돌려 존재를 알린다.
 #       문체 톤·사실 검증은 이 훅이 못 잡는다(파이프라인 QA/검수2 담당) — 이 훅은 '기계적 게이트가 항상 돌게' 하는 백스톱.
+#
+# ★2026-08-08 개정 사유 — 전엔 워킹트리 **전수 스캔**만으로 차단했다. 그래서
+#   **push 에 들어 있지도 않은 파일**(untracked 포함) 하나가 걸리면 전혀 무관한 커밋의 push 까지
+#   영구 차단됐다. 실증: 다른 프로세스가 만든 untracked 소식지 1개 때문에 게이트 수정 커밋 3건이
+#   push 불가가 됐다(그 소식지는 커밋도, 푸시 대상도 아니었다).
+#   이건 style-lint.py 자신이 이미 기록한 원칙과도 어긋난다 —
+#   「과거 122편 때문에 push 가 영구 차단된다(= 게이트가 꺼지는 결말) → 신규 글이 오는
+#     **인자 모드에서만 DENY**, pre-push 전체 스캔은 **WARN**」(style-lint.py SRC-0 주석).
+#   그 원칙을 훅에도 적용한다: **내가 push 하는 것 = 차단 / 그 밖 = 경고.**
+#   범위를 못 구하면(신규 브랜치 등) 종전대로 전수 스캔을 **차단 모드**로 돌린다(fail-closed).
 
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 
@@ -40,16 +51,72 @@ fi
 # python 실행기 탐색(py 런처 우선 → python → python3)
 if command -v py >/dev/null 2>&1; then PY="py"; elif command -v python >/dev/null 2>&1; then PY="python"; else PY="python3"; fi
 
-echo "[pre-push] 발행 게이트 실행: style-lint.py"
-PYTHONIOENCODING=utf-8 "$PY" "$LINT"
-RC=$?
+ZERO="0000000000000000000000000000000000000000"
+LIST=$(mktemp 2>/dev/null || echo "${TMPDIR:-/tmp}/prepush.$$")
+FULL_SCAN_DENY=0
+PUSHING=0
+
+# git 이 stdin 으로 "<local_ref> <local_sha> <remote_ref> <remote_sha>" 를 줄당 하나씩 준다.
+while read -r LOCAL_REF LOCAL_SHA REMOTE_REF REMOTE_SHA; do
+  [ -z "$LOCAL_SHA" ] && continue
+  if [ "$LOCAL_SHA" = "$ZERO" ]; then continue; fi        # 브랜치 삭제 push — 검사할 내용 없음
+  PUSHING=1
+  if [ "$REMOTE_SHA" = "$ZERO" ]; then
+    # 원격에 없는 새 브랜치 — 어디까지가 '새로 올라가는 것'인지 확실치 않다.
+    # 이미 원격에 있는 커밋을 기준으로 범위를 좁혀 보고, 못 구하면 전수 스캔을 차단 모드로.
+    BASE=$(git rev-list --max-count=1 "$LOCAL_SHA" --not --remotes --topo-order --reverse 2>/dev/null)
+    if [ -n "$BASE" ]; then
+      git diff --name-only --diff-filter=ACMR -z "${BASE}^" "$LOCAL_SHA" -- '*.html' >> "$LIST" 2>/dev/null \
+        || FULL_SCAN_DENY=1
+    else
+      FULL_SCAN_DENY=1
+    fi
+  else
+    git diff --name-only --diff-filter=ACMR -z "$REMOTE_SHA" "$LOCAL_SHA" -- '*.html' >> "$LIST" 2>/dev/null \
+      || FULL_SCAN_DENY=1
+  fi
+done
+
+if [ "$PUSHING" = "0" ]; then
+  rm -f "$LIST"
+  exit 0
+fi
+
+RC=0
+if [ "$FULL_SCAN_DENY" = "1" ]; then
+  echo "[pre-push] 발행 게이트: push 범위를 특정할 수 없어 **전수 스캔(차단 모드)** 으로 검사합니다."
+  PYTHONIOENCODING=utf-8 "$PY" "$LINT"
+  RC=$?
+elif [ -s "$LIST" ]; then
+  N=$(tr -cd '\0' < "$LIST" | wc -c | tr -d ' ')
+  echo "[pre-push] 발행 게이트: 이번 push 에 담긴 HTML ${N}개를 검사합니다(인자 모드 = 차단)."
+  # 존재하지 않는 경로는 style-lint 가 알아서 건너뛴다(main() 의 os.path.isfile 가드).
+  PYTHONIOENCODING=utf-8 xargs -0 "$PY" "$LINT" < "$LIST"
+  RC=$?
+else
+  echo "[pre-push] 발행 게이트: 이번 push 에 HTML 변경 없음 — 차단 검사 대상 0건."
+fi
+rm -f "$LIST"
 
 if [ "$RC" -ne 0 ]; then
   echo ""
-  echo "[pre-push] ✗ 발행 게이트 실패(exit $RC) — push 중단."
-  echo "           해당 글을 작성자 정본 스켈레톤/문체로 교정한 뒤 다시 push하세요."
+  # RC 는 xargs 경유일 때 123(= 하위 명령이 1~125로 종료) 이 나온다 — 숫자를 그대로 해석하지 말 것.
+  echo "[pre-push] ✗ 발행 게이트 실패 — push 중단. (게이트 종료 신호 $RC · xargs 경유면 123)"
+  echo "           **이번 push 에 담긴 글**에서 발견됐습니다. 작성자 정본 스켈레톤/문체로 교정한 뒤 다시 push하세요."
   echo "           (정말 우회가 필요하면 git push --no-verify 지만, 발행 사고 재발 방지를 위해 권장하지 않음)"
   exit 1
+fi
+
+# ---- 비차단 경고: 워킹트리 전수 스캔 ----
+# push 를 막지는 않지만 "리포 어딘가에 위반이 남아 있다"를 조용히 넘기지 않는다.
+if [ "$FULL_SCAN_DENY" != "1" ]; then
+  SWEEP=$(PYTHONIOENCODING=utf-8 "$PY" "$LINT" 2>&1)
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "[pre-push] ⚠ 비차단 경고 — 이번 push 밖(워킹트리)에 위반이 남아 있습니다. push 는 진행합니다."
+    echo "$SWEEP" | sed -n '/발행 차단/,$p' | sed -n '1,8p' | sed 's/^/           /'
+    echo "           ↑ 이 파일들을 push 하려 할 때는 차단됩니다. 별도 작업으로 교정하세요."
+  fi
 fi
 
 echo "[pre-push] ✓ 게이트 통과."
