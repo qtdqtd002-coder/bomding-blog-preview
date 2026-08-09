@@ -240,17 +240,31 @@ function contentGateChecks(previewPath, preview, tistory, body) {
     //   반대로 자사 호스트(실측 2,348장)는 같은 파일을 다른 글 폴더로 복사하면 URL 은 달라지고
     //   basename 만 같으므로 **basename 대조가 유일한 탐지 수단**이다 — 그쪽은 그대로 둔다.
     //   제3자는 전체 URL 일치로만 본다(같은 영상 ID = 같은 썸네일이라 진짜 재사용은 그대로 잡힌다).
-    const selfHosted = u => !/^https?:\/\//i.test(u) || /^https?:\/\/qtdqtd002-coder\.github\.io\//i.test(u);
+    // ★2026-08-08 — decodeURIComponent 는 리터럴 '%' 하나에도 URIError 로 죽는다.
+    //   그러면 게이트 8~14(골격·분량·실사이미지·공식이미지·팔레트·쿼터·재사용)가 통째로 중단되는데
+    //   러너는 그 크래시를 PASS 로 보고했다(실증). 더 위험한 건 usedNames 적립 쪽이다 —
+    //   **기존 발행글 한 편**에만 그런 src 가 있으면 그 작성자의 이후 모든 글이 여기서 죽는다.
+    const dec = u => { try { return decodeURIComponent(u); } catch (e) { return String(u); } };
+    //   ★2026-08-08(2차) — 스킴이 붙은 절대 URL 만 제3자로 보면 구멍이 남는다.
+    //   `//host/path`(프로토콜 상대)·`data:`·`blob:` 은 ^https?:// 에 안 걸려 '자사'로 분류돼
+    //   오늘 없앤 제3자 basename 오탐이 그대로 되살아난다(실측 재현). 스킴 유무가 아니라
+    //   **호스트가 우리 것인가**로 가른다.
+    const selfHosted = u => {
+      const s = String(u || '');
+      if (/^(data|blob|javascript):/i.test(s)) return false;   // 인라인 자원 — basename 개념이 없다
+      if (/^(https?:)?\/\//i.test(s)) return /^(https?:)?\/\/qtdqtd002-coder\.github\.io\//i.test(s);
+      return true;                                              // 상대경로 = 자사
+    };
     const usedSrcs = new Set(), usedNames = new Set();
     for (const b of allBodies) {
       for (const m of b.matchAll(/<img[^>]+src="([^"]+)"/gi)) {
         if (SIG_ASSET.test(m[1])) continue;
         usedSrcs.add(m[1]);
-        if (selfHosted(m[1])) usedNames.add(decodeURIComponent(m[1]).split('/').pop().toLowerCase());
+        if (selfHosted(m[1])) usedNames.add(dec(m[1]).split('/').pop().toLowerCase());
       }
     }
     for (const s of new Set(srcs)) {
-      const name = decodeURIComponent(s).split('/').pop().toLowerCase();
+      const name = dec(s).split('/').pop().toLowerCase();
       if (usedSrcs.has(s) || (selfHosted(s) && usedNames.has(name))) {
         fails.push(`이미지 재사용: ${name} — 이 작성자의 기존 발행글에서 이미 쓴 이미지. 같은 게임 연작이라도 다른 컷으로 교체(불가피하면 <!-- 이미지 재사용 허용: 사유 --> 주석으로 예외, 남발 금지)`);
       }
@@ -422,6 +436,31 @@ function main() {
     if (!targets.length) {
       console.error('[verify-copy] 검사 대상 없음: 인자에 _미리보기_/_티스토리_ HTML 경로를 주세요.');
       process.exit(2);
+    }
+    // ★2026-08-08(2차) — v2 포크에만 있던 두 블록을 v1 에도 이식한다(포크 판정 분기 제거).
+    //   같은 파일·같은 ROOT 인데 v1 은 exit 1(FAIL), v2 는 exit 0(PASS) 이 나오면
+    //   "어느 사본으로 돌렸느냐"가 판정을 가른다 — 08-04 사고(로컬↔드레인 판정 갈림)의 재현이다.
+    // ⑴ 검사 루트 밖 대상 = 작성자 판별 불가 = 미측정. PASS 로 만들지 않는다.
+    const outside = targets.filter(p => path.relative(ROOT, p).startsWith('..'));
+    if (outside.length) {
+      for (const s of outside) {
+        console.error(`[verify-copy] ✗ 검사 루트 밖 대상: ${s}`);
+        console.error(`    ROOT=${ROOT}. 루트 밖이면 작성자를 판별할 수 없어 쿼터·팔레트·이미지 재사용 검사가 통째로 스킵된다 — 미측정은 PASS 가 아니다.`);
+      }
+      process.exit(2);
+    }
+    // ⑵ 비대상 작성자(네이버 = 봄딩·영도·하루살이)는 FAIL 이 아니라 N/A 다.
+    //   티스토리 복사버튼이 없는 게 정상인데 「복사 버튼 누락」으로 FAIL 을 내면 사람이 게이트를 끈다.
+    const skipped = targets.filter(p => !isTargetAuthor(p));
+    if (skipped.length) {
+      for (const s of skipped) {
+        console.log(`[verify-copy] N/A — ${path.relative(ROOT, s)} : 티스토리 붙여넣기본을 쓰지 않는 작성자(대상=${AUTHORS.join('/')})`);
+      }
+      targets = targets.filter(p => isTargetAuthor(p));
+      if (!targets.length) {
+        console.log('[verify-copy] 검사 대상 작성자 없음 — PASS(비대상)');
+        process.exit(0);
+      }
     }
   } else {
     targets = [];
