@@ -1,0 +1,328 @@
+<!-- 쓰담v2 하루살이 미리보기. mode=live. 마크업 출처=personas/하루살이/skeleton.html.
+     ★디자인 정본은 하루살이 고유다 — 다른 작성자 스켈레톤을 복사해 오지 말 것(격리).
+     복사/붙여넣기 위젯·CSS·형제 fetch 로직을 바꾸지 말 것(G2가 검사). -->
+<!-- 키워드: 클로드 아티팩트 -->
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>클로드 아티팩트 공유하는 법 (Claude Artifacts)</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">AI 쓰는 법</div>
+    <h1 class="title">클로드 아티팩트 공유하는 법 (Claude Artifacts)</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.08.11</span><span>· IT</span></div>
+    <!-- AEO 타깃 질문: 클로드 아티팩트는 어떻게 발행하나요? / 발행한 아티팩트 링크를 받은 사람이 바로 고칠 수 있나요? / 게시 해제하면 다시 발행할 수 있나요? / 발행된 아티팩트는 로그인 없이도 볼 수 있나요? -->
+    <!-- 인용 후크: support.claude.com 공식 도움말 원문 2건 인용(Code execution and file creation 요건 / 게시 해제 후 재발행 불가) -->
+    <!-- 기준 시점: 2026.08.11 -->
+
+    <p>클로드 아티팩트로 만든 화면이나 문서를, 대화 밖에서 공유해 보신 적 있나요? 그런데 그 링크를 받은 사람이 바로 고쳐 쓸 수 있는지, 게시 해제 버튼을 눌러도 되는 버튼인지는 다들 헷갈려 하세요.</p>
+    <p>결과부터 말하면, 링크를 받은 사람이 그 자리에서 바로 고치는 remix(커스터마이즈) 기능은 폐지됐어요. 지금은 코드를 복사해서 새 대화에 붙여넣는 방식으로만 독립 버전을 만들 수 있어요.</p>
+    <p>발행 자체에도 조건이 있어요. Code execution and file creation 설정이 꺼져 있으면 아티팩트를 새로 발행할 수 없어요. 그리고 게시 해제는 한 번 누르면 되돌릴 수 없는 버튼이라, 누르기 전에 한 번 더 생각해야 해요.</p>
+    <p>이번 글에서는 발행 절차부터 remix 폐지, 임베드, 게시 해제까지 순서대로 정리했어요. 아티팩트가 데스크톱·웹에서 보이는지는 지난 글(코워크 확인법)에서 다뤘으니, 이번엔 발행 이후 단계만 다룰게요. 2026년 8월 11일 기준으로 확인했어요.</p>
+
+    <h2 class="sub">클로드 아티팩트, 어떻게 발행하나요?</h2>
+    <p>클로드 아티팩트는 아티팩트 화면에서 Publish를 눌러 공개 링크를 복사하면 발행돼요.</p>
+    <p>단, 그 전에 Settings의 Code execution and file creation이 켜져 있어야 해요.</p>
+
+    <div class="imgwrap"><img src="img/anthropic-logo.png" alt="클로드 아티팩트를 만든 앤스로픽 공식 로고" width="256" height="256"></div>
+    <p class="cap">아티팩트 발행 기능을 만든 앤스로픽(Anthropic)의 공식 로고예요.</p>
+    <p class="src">이미지 출처: <a href="https://www.anthropic.com" target="_blank">anthropic.com</a> 공식 로고 이미지</p>
+    <!-- 이미지 이유: 공식 출처 신뢰도 확보용 리드 이미지 / 출처: anthropic.com 공식 웹클립 로고(cdn.prod.website-files.com, 256x256, curl+브라우저 UA 200 확인) / 분류: A형 -->
+    <!-- 이미지 조달 메모(2026-08-11 실측): support.claude.com 아티팩트 도움말 문서는 Intercom 기반 SPA라 curl+UA로도 본문 스크린샷은 확인 불가(순수 텍스트 아티클). anthropic.com 홈은 curl+브라우저 UA로 200 확보, 공식 웹클립 로고(webclip.png)를 리드 이미지로 채택. Publish·Get embed code 등 실제 UI 화면은 두 공식 출처 어디서도 확인 못 해 ss/shoot 텍스트 설명으로 대체(B형). -->
+
+    <p>이 설정은 요금제에 따라 위치가 달라요. Free·Pro·Max는 개인 계정 설정에서 켜고, Team·Enterprise는 조직 설정에서 켜요.</p>
+    <p>공식 도움말에는 이렇게 적혀 있어요.</p>
+    <p><b>"We no longer support artifacts without Code execution and file creation enabled."</b></p>
+    <p>우리말로 옮기면, Code execution and file creation을 켜지 않은 아티팩트는 더 이상 지원하지 않는다는 뜻이에요. (Claude 공식 도움말 기준)</p>
+    <ol>
+      <li>아티팩트 화면으로 이동해요.</li>
+      <li>고치려는 아티팩트가 맞는 버전인지 확인해요.</li>
+      <li>화면에서 Publish를 클릭해요.</li>
+      <li>뜨는 공개 링크를 복사해요.</li>
+    </ol>
+    <p>절차 자체는 네 단계뿐이라 어렵지 않아요. 다만 Code execution and file creation이 꺼져 있으면 이 단계를 시작할 수조차 없어요.</p>
+
+    <h2 class="sub">발행한 아티팩트, 링크만 보내면 상대가 바로 고칠 수 있나요?</h2>
+    <p>아니요, 지금은 안 돼요.</p>
+    <p>예전에는 남이 발행한 아티팩트를 그 자리에서 커스터마이즈하는 remix 기능이 있었지만, 지금은 폐지됐어요.</p>
+    <p>대신 발행된 아티팩트의 코드를 복사해서 새 대화에 붙여넣는 방식으로 독립 버전을 만들어요.</p>
+
+    <div class="ss"><span class="ico">🔀</span><span class="lbl">코드 복사 → 새 대화에 붙여넣기</span></div>
+    <div class="shoot">발행된 아티팩트 화면에는 이제 그 자리에서 고치는 remix 버튼이 없어요. 코드를 복사해서 새 대화 창에 붙여넣어야 내 버전을 만들 수 있어요. 자세한 안내는 <a href="https://support.claude.com/en/articles/9547008-discovering-publishing-customizing-and-sharing-artifacts" target="_blank">클로드 공식 도움말</a>에서 볼 수 있어요.</div>
+    <p class="cap">지금은 이 방식으로만 독립 버전을 만들 수 있어요.</p>
+
+    <p>이렇게 만든 새 버전은 원본과 분리돼요. 원본 아티팩트가 나중에 바뀌어도 내가 복사해서 만든 버전은 그대로 남아요.</p>
+
+    <h2 class="sub">게시 해제하면 다시 발행할 수 있나요?</h2>
+    <p>아니요, 한 번 게시 해제한 아티팩트는 같은 아티팩트를 다시 발행할 수 없어요.</p>
+    <p>공식 도움말 원문은 이렇게 적혀 있어요.</p>
+    <p><b>"Once you unpublish an artifact, you cannot publish that same artifact again."</b></p>
+    <p>우리말로 옮기면, 아티팩트를 게시 해제하면 그 아티팩트는 다시 발행할 수 없다는 뜻이에요. (Claude 공식 도움말 기준)</p>
+
+    <table class="tbl">
+      <tr><th>선택</th><th>같은 아티팩트로 다시 발행</th></tr>
+      <tr><td>발행 상태 유지</td><td>별도 조치 없이 계속 가능</td></tr>
+      <tr><td>게시 해제(unpublish)</td><td>불가능해요</td></tr>
+      <tr><td>다시 공유하고 싶다면</td><td>처음부터 새 아티팩트를 만들어야 해요</td></tr>
+    </table>
+
+    <p><b>게시 해제 전에 한 번 더 생각하세요</b><br>버튼 하나 잘못 눌렀다가 되돌릴 수 없어요. 그 아티팩트로 다시 링크를 공유하고 싶다면, 처음부터 새로 만들어서 다시 발행해야 해요.</p>
+
+    <h2 class="sub">발행된 아티팩트, 계정 없는 사람도 볼 수 있나요?</h2>
+    <p>네, 회원가입하지 않은 사람도 발행된 아티팩트를 보고 사용할 수 있어요.</p>
+    <p>링크만 있으면 클로드 계정이 없어도 그 화면을 열어 볼 수 있어요.</p>
+    <p>따로 로그인 화면을 거치지 않는다는 뜻이에요. 이 점 때문에 발행 링크는 클로드를 안 쓰는 사람에게 결과물만 보여줄 때도 쓸 수 있어요.</p>
+
+    <h2 class="sub">다른 웹사이트에 아티팩트를 넣고 싶다면?</h2>
+    <p>발행 후 뜨는 Get embed code 버튼으로 임베드 코드를 받으면 다른 사이트에도 넣을 수 있어요.</p>
+    <p>이때 Allowed domains 필드에 아티팩트를 넣을 도메인을 지정해야 해요.</p>
+
+    <div class="ss"><span class="ico">🧩</span><span class="lbl">Get embed code → Allowed domains 지정</span></div>
+    <div class="shoot">발행된 아티팩트 화면에서 Get embed code를 누르면 임베드용 코드가 나와요. Allowed domains 필드에 아티팩트를 넣을 도메인을 입력해야 해요. 자세한 안내는 <a href="https://support.claude.com/en/articles/9547008-discovering-publishing-customizing-and-sharing-artifacts" target="_blank">클로드 공식 도움말</a>에서 볼 수 있어요.</div>
+    <p class="cap">임베드 코드를 받은 뒤 이 필드를 꼭 채워야 해요.</p>
+
+    <p>도메인을 지정하지 않으면 원하는 곳에 제대로 심어지지 않을 수 있어요. 임베드까지 계획하고 있다면 이 필드를 빈칸으로 두지 않는 게 안전해요.</p>
+
+    <h2 class="sub">회사(Team·Enterprise) 계정으로 만들면 다르게 동작하나요?</h2>
+    <p>네, Team·Enterprise 계정에서 만든 아티팩트는 공개 발행이 안 되고 조직 내부 공유만 가능해요.</p>
+    <p>이 아티팩트를 보려는 사람도 그 조직의 자격증명으로 로그인해야 볼 수 있어요.</p>
+    <p>그래서 회사 계정으로 작업 중이라면, 링크를 사내에서만 돌리는 용도로 써야 해요. 외부 사람에게 공개 링크로 보여주려는 목적이라면 개인 Free·Pro·Max 계정에서 발행하는 방식이 맞아요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 코드 복사 방식이 번거로운데, remix 기능을 다시 켤 수 있는 설정이 있나요?</b><br>A. 아니요. remix는 설정으로 되살릴 수 있는 기능이 아니라 아예 폐지된 기능이에요. 지금은 코드를 복사해서 새 대화에 붙여넣는 방법만 남아 있어요.</p>
+    <p><b>Q. 임베드한 아티팩트도 로그인 없이 볼 수 있나요?</b><br>A. 일반 발행 아티팩트라면 임베드해도 로그인 없이 볼 수 있어요. 다만 Team·Enterprise 조직 아티팩트는 애초에 공개 발행이 안 되니, 임베드해도 보는 사람이 조직 자격증명으로 로그인해야 해요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://support.claude.com/en/articles/9547008-discovering-publishing-customizing-and-sharing-artifacts" target="_blank">Claude 공식 도움말 — Discovering, publishing, customizing, and sharing artifacts</a></p>
+
+    <p><b>확인 시점 안내</b><br>이 글은 2026년 8월 11일 기준으로 확인했어요. 클로드 공식 도움말을 직접 봤어요. 클로드 기능은 자주 바뀌니, 정확한 최신 정보는 위 공식 도움말에서 다시 확인해 보세요.</p>
+
+    <p><b>하루 정리</b><br>
+    발행은 Code execution and file creation을 켜고, 아티팩트 화면에서 Publish 누르고, 링크만 복사하면 끝나요.<br>
+    링크만 보낸다고 상대가 바로 고칠 수 있는 건 아니에요. 코드를 복사해서 새 대화에 붙여넣어야 독립 버전이 나와요.<br>
+    게시 해제는 되돌릴 수 없어요. 그 아티팩트를 다시 공유하고 싶다면 처음부터 새로 만들어야 해요.<br>
+    개인 계정으로 외부에 공개하려면 발행을 쓰고, 회사 계정으로 사내에만 돌리려면 Team·Enterprise의 내부 공유를 쓰면 돼요.</p>
+
+    <p class="tags-line">#클로드아티팩트 #클로드아티팩트공유 #클로드아티팩트발행 #아티팩트임베드 #Claude아티팩트 #클로드사용법 #AI도구활용법</p>
+  </div>
+</div>
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>4.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div class="qbox">⏱ <b>직접 채울 건 이미지 1곳:</b> 리드 이미지(앤스로픽 공식 로고)는 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버에 Ctrl+V</b>로 넣어 주세요. 나머지 본문·볼드·리스트·표·출처 링크는 복사로 그대로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 클로드 아티팩트 공유하는 법 (Claude Artifacts)</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다</p>
+    <div id="copy">
+      <h3>클로드 아티팩트 공유하는 법 (Claude Artifacts)</h3>
+      <p>클로드 아티팩트로 만든 화면이나 문서를, 대화 밖에서 공유해 보신 적 있나요? 그런데 그 링크를 받은 사람이 바로 고쳐 쓸 수 있는지, 게시 해제 버튼을 눌러도 되는 버튼인지는 다들 헷갈려 하세요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>결과부터 말하면, 링크를 받은 사람이 그 자리에서 바로 고치는 remix(커스터마이즈) 기능은 폐지됐어요. 지금은 코드를 복사해서 새 대화에 붙여넣는 방식으로만 독립 버전을 만들 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>발행 자체에도 조건이 있어요. Code execution and file creation 설정이 꺼져 있으면 아티팩트를 새로 발행할 수 없어요. 그리고 게시 해제는 한 번 누르면 되돌릴 수 없는 버튼이라, 누르기 전에 한 번 더 생각해야 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>이번 글에서는 발행 절차부터 remix 폐지, 임베드, 게시 해제까지 순서대로 정리했어요. 아티팩트가 데스크톱·웹에서 보이는지는 지난 글(코워크 확인법)에서 다뤘으니, 이번엔 발행 이후 단계만 다룰게요. 2026년 8월 11일 기준으로 확인했어요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>클로드 아티팩트, 어떻게 발행하나요?</h3>
+      <p>클로드 아티팩트는 아티팩트 화면에서 Publish를 눌러 공개 링크를 복사하면 발행돼요.</p>
+      <p>단, 그 전에 Settings의 Code execution and file creation이 켜져 있어야 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <img src="img/anthropic-logo.png" alt="클로드 아티팩트를 만든 앤스로픽 공식 로고" width="256" height="256">
+      <p class="tnote-line">이미지 출처: anthropic.com 공식 로고 이미지</p>
+      <p>이 설정은 요금제에 따라 위치가 달라요. Free·Pro·Max는 개인 계정 설정에서 켜고, Team·Enterprise는 조직 설정에서 켜요.</p>
+      <p>공식 도움말에는 이렇게 적혀 있어요.</p>
+      <p class="ph">"We no longer support artifacts without Code execution and file creation enabled."</p>
+      <p>우리말로 옮기면, Code execution and file creation을 켜지 않은 아티팩트는 더 이상 지원하지 않는다는 뜻이에요. (Claude 공식 도움말 기준)</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>아티팩트 화면으로 이동해요.</li>
+        <li>고치려는 아티팩트가 맞는 버전인지 확인해요.</li>
+        <li>화면에서 Publish를 클릭해요.</li>
+        <li>뜨는 공개 링크를 복사해요.</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p>절차 자체는 네 단계뿐이라 어렵지 않아요. 다만 Code execution and file creation이 꺼져 있으면 이 단계를 시작할 수조차 없어요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>발행한 아티팩트, 링크만 보내면 상대가 바로 고칠 수 있나요?</h3>
+      <p>아니요, 지금은 안 돼요.</p>
+      <p>예전에는 남이 발행한 아티팩트를 그 자리에서 커스터마이즈하는 remix 기능이 있었지만, 지금은 폐지됐어요.</p>
+      <p>대신 발행된 아티팩트의 코드를 복사해서 새 대화에 붙여넣는 방식으로 독립 버전을 만들어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">발행된 아티팩트 화면에는 이제 그 자리에서 고치는 remix 버튼이 없어요. 코드를 복사해서 새 대화 창에 붙여넣어야 내 버전을 만들 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>이렇게 만든 새 버전은 원본과 분리돼요. 원본 아티팩트가 나중에 바뀌어도 내가 복사해서 만든 버전은 그대로 남아요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>게시 해제하면 다시 발행할 수 있나요?</h3>
+      <p>아니요, 한 번 게시 해제한 아티팩트는 같은 아티팩트를 다시 발행할 수 없어요.</p>
+      <p>공식 도움말 원문은 이렇게 적혀 있어요.</p>
+      <p class="ph">"Once you unpublish an artifact, you cannot publish that same artifact again."</p>
+      <p>우리말로 옮기면, 아티팩트를 게시 해제하면 그 아티팩트는 다시 발행할 수 없다는 뜻이에요. (Claude 공식 도움말 기준)</p>
+      <table>
+        <tr><th>선택</th><th>같은 아티팩트로 다시 발행</th></tr>
+        <tr><td class="l">발행 상태 유지</td><td>별도 조치 없이 계속 가능</td></tr>
+        <tr><td class="l">게시 해제(unpublish)</td><td>불가능해요</td></tr>
+        <tr><td class="l">다시 공유하고 싶다면</td><td>처음부터 새 아티팩트를 만들어야 해요</td></tr>
+      </table>
+      <p><b>게시 해제 전에 한 번 더 생각하세요</b><br>버튼 하나 잘못 눌렀다가 되돌릴 수 없어요. 그 아티팩트로 다시 링크를 공유하고 싶다면, 처음부터 새로 만들어서 다시 발행해야 해요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>발행된 아티팩트, 계정 없는 사람도 볼 수 있나요?</h3>
+      <p>네, 회원가입하지 않은 사람도 발행된 아티팩트를 보고 사용할 수 있어요.</p>
+      <p>링크만 있으면 클로드 계정이 없어도 그 화면을 열어 볼 수 있어요.</p>
+      <p>따로 로그인 화면을 거치지 않는다는 뜻이에요. 이 점 때문에 발행 링크는 클로드를 안 쓰는 사람에게 결과물만 보여줄 때도 쓸 수 있어요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>다른 웹사이트에 아티팩트를 넣고 싶다면?</h3>
+      <p>발행 후 뜨는 Get embed code 버튼으로 임베드 코드를 받으면 다른 사이트에도 넣을 수 있어요.</p>
+      <p>이때 Allowed domains 필드에 아티팩트를 넣을 도메인을 지정해야 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="ph">발행된 아티팩트 화면에서 Get embed code를 누르면 임베드용 코드가 나와요. Allowed domains 필드에 아티팩트를 넣을 도메인을 입력해야 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>도메인을 지정하지 않으면 원하는 곳에 제대로 심어지지 않을 수 있어요. 임베드까지 계획하고 있다면 이 필드를 빈칸으로 두지 않는 게 안전해요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>회사(Team·Enterprise) 계정으로 만들면 다르게 동작하나요?</h3>
+      <p>네, Team·Enterprise 계정에서 만든 아티팩트는 공개 발행이 안 되고 조직 내부 공유만 가능해요.</p>
+      <p>이 아티팩트를 보려는 사람도 그 조직의 자격증명으로 로그인해야 볼 수 있어요.</p>
+      <p>그래서 회사 계정으로 작업 중이라면, 링크를 사내에서만 돌리는 용도로 써야 해요. 외부 사람에게 공개 링크로 보여주려는 목적이라면 개인 Free·Pro·Max 계정에서 발행하는 방식이 맞아요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 코드 복사 방식이 번거로운데, remix 기능을 다시 켤 수 있는 설정이 있나요?</b><br>A. 아니요. remix는 설정으로 되살릴 수 있는 기능이 아니라 아예 폐지된 기능이에요. 지금은 코드를 복사해서 새 대화에 붙여넣는 방법만 남아 있어요.</p>
+      <p><b>Q. 임베드한 아티팩트도 로그인 없이 볼 수 있나요?</b><br>A. 일반 발행 아티팩트라면 임베드해도 로그인 없이 볼 수 있어요. 다만 Team·Enterprise 조직 아티팩트는 애초에 공개 발행이 안 되니, 임베드해도 보는 사람이 조직 자격증명으로 로그인해야 해요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      Claude 공식 도움말 — Discovering, publishing, customizing, and sharing artifacts (support.claude.com/en/articles/9547008-discovering-publishing-customizing-and-sharing-artifacts)</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="notice-line">확인 시점 안내<br>이 글은 2026년 8월 11일 기준으로 확인했어요. 클로드 공식 도움말을 직접 봤어요. 클로드 기능은 자주 바뀌니, 정확한 최신 정보는 위 공식 도움말에서 다시 확인해 보세요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      발행은 Code execution and file creation을 켜고, 아티팩트 화면에서 Publish 누르고, 링크만 복사하면 끝나요.<br>
+      링크만 보낸다고 상대가 바로 고칠 수 있는 건 아니에요. 코드를 복사해서 새 대화에 붙여넣어야 독립 버전이 나와요.<br>
+      게시 해제는 되돌릴 수 없어요. 그 아티팩트를 다시 공유하고 싶다면 처음부터 새로 만들어야 해요.<br>
+      개인 계정으로 외부에 공개하려면 발행을 쓰고, 회사 계정으로 사내에만 돌리려면 Team·Enterprise의 내부 공유를 쓰면 돼요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#클로드아티팩트 #클로드아티팩트공유 #클로드아티팩트발행 #아티팩트임베드 #Claude아티팩트 #클로드사용법 #AI도구활용법</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
