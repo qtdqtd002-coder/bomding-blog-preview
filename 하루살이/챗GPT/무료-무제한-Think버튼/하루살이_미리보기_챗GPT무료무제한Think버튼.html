@@ -1,0 +1,330 @@
+<!-- 쓰담v2 하루살이 미리보기. 마크업 출처=personas/하루살이/skeleton.html.
+     ★디자인 정본은 하루살이 고유다 — 다른 작성자 스켈레톤을 복사해 오지 말 것(격리).
+     복사/붙여넣기 위젯·CSS·형제 fetch 로직을 바꾸지 말 것(G2가 검사). -->
+<!-- 키워드: 챗GPT 무료 -->
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>챗GPT 무료 무제한 대화, Think 버튼 쓰는 법</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tnote{font-size:12.5px;color:#888;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-copy[disabled]{background:#c9ccd1;cursor:not-allowed;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- 이미지 조달(2026-08-13 실측): openai.com/index/improving-gpt-5-6-sol-in-chatgpt/ 는 WebFetch 403, curl+브라우저 UA로 HTTP 200(약 458KB) 확보. 페이지 내 인용문 7개 전수 grep 대조로 실재 확인(제목·게시일 "August 6, 2026" 포함). 본문 이미지 중 contentful 자산 free_hero.png(ID 7CNjjJaFXbtITTsvKTRh19, 원본 1920x1080)가 이 기사 전용 스크린샷으로 확인됨 — alt 텍스트가 "ChatGPT Free interface showing the Think button and a "Get smarter answers" dialog with options to upgrade to Plus or turn on deeper reasoning."로 이 기사와 1:1 매칭. img/free-think-hero.jpg 로 직접 내려받아 육안 확인(워터마크·합성 없음, Free 화면의 Think 토글 버튼과 안내창이 실제로 보임). 슬라이더(Plus·Pro) 쪽은 vimeo 동영상 임베드뿐이라 정지 이미지 확보 불가 — 이미지 없이 서술만 함. -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/harusale- · 하루살이</div>
+  <div class="post">
+    <div class="cat">🤖AI 쓰는 법</div>
+    <h1 class="title">챗GPT 무료 무제한 대화, Think 버튼 쓰는 법</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.08.13</span><span>· AI 하우투</span></div>
+    <!-- AEO 타깃 질문: 챗GPT 무료 요금제도 대화가 무제한이 됐나요? / Think 버튼은 무료에서도 쓸 수 있나요? / 지금 내 계정엔 왜 안 보이나요? -->
+    <!-- 기준 시점: 2026.08.13 (기본 모델 전환 2026.08.06이 속한 주, 무제한 대화·Think 버튼 2026.08.10이 속한 주부터 순차 적용) -->
+
+    <p>챗GPT 무료판 대화창에서 "오늘 대화 횟수를 다 썼습니다" 안내를 본 적 있나요? 아니면 챗GPT가 복잡한 질문일수록 더 깊이 생각해서 답해줬으면 싶었던 적은요?</p>
+    <p>결론부터 말하면 이 두 가지 다 챗GPT 무료·Go 요금제에서 이미 풀리는 중이에요. OpenAI는 텍스트 대화 무제한을 열고 있어요. 어려운 질문에 쓰는 Think 버튼도 함께 열고 있어요.</p>
+    <p>2026.08.13 기준으로는 계정마다 적용 시점이 달라요. 벌써 보이는 계정도 있고, 아직 안 보이는 계정도 있어요.</p>
+    <p>이 글은 지금 내 계정에서 뭐가 바뀌었는지 확인하는 법부터 정리했어요. Think 버튼 쓰는 법과 Plus·Pro 슬라이더 차이도 순서대로 담았어요.</p>
+
+    <h2 class="sub">챗GPT 무료 요금제, 뭐가 바뀌나요?</h2>
+    <p>챗GPT 무료 요금제는 기본 모델이 GPT-5.6 Luna로 바뀌어요. 텍스트 대화는 무제한으로 열리고, Think 버튼이라는 기능도 새로 생겨요.</p>
+    <p>이 변화는 무료 요금제만이 아니라 <b>Go 요금제에도 함께</b> 적용돼요.</p>
+    <p>일부에서는 Think 버튼을 Plus·Pro 전용 기능으로 오해하기도 해요. 하지만 공식 발표는 이 버튼을 무료 요금제 화면에서 직접 보여주며 소개해요.</p>
+    <table class="tbl">
+      <tr><th>요금제</th><th>이번 업데이트</th></tr>
+      <tr><td>Free</td><td>기본 모델 GPT-5.6 Luna + 텍스트 대화 무제한 + Think 버튼</td></tr>
+      <tr><td>Go</td><td>기본 모델 GPT-5.6 Luna + 텍스트 대화 무제한 + Think 버튼</td></tr>
+    </table>
+    <p class="cap">표: 이번 업데이트가 적용되는 요금제 (OpenAI 공식 발표 기준)</p>
+    <ul>
+      <li>기본 모델이 GPT-5.6 Luna로 바뀌어요.</li>
+      <li>텍스트 대화는 무제한으로 열려요.</li>
+      <li>어려운 질문엔 Think 버튼으로 더 깊이 생각한 답을 받을 수 있어요.</li>
+      <li>파일 업로드·이미지·다른 도구는 기존 한도가 그대로 적용돼요.</li>
+    </ul>
+    <p>OpenAI 공식 발표는 <b>"Limits will still apply for file uploads, images and other tools."</b>라고 밝혀요. 대화 자체는 무제한이어도 파일·이미지 도구 사용량은 예전 기준 그대로예요.</p>
+
+    <h2 class="sub">Think 버튼, 언제부터 보이나요?</h2>
+    <p>기본 모델 전환은 2026년 8월 6일이 속한 주에 시작됐어요. 무제한 대화와 Think 버튼은 8월 10일이 속한 주부터 순차로 열려요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>시점</th><th>내용</th></tr>
+      <tr><td>기본 모델 전환</td><td>2026년 8월 6일이 속한 주</td><td>무료·Go 요금제 기본 모델이 GPT-5.6 Luna로 바뀜</td></tr>
+      <tr><td>무제한 대화 + Think 버튼</td><td>2026년 8월 10일이 속한 주부터</td><td>순차 적용, 남용 방지 가드레일 적용</td></tr>
+      <tr><td>이 글 확인 시점</td><td>2026.08.13</td><td>순차 적용 중 — 계정별로 노출 여부가 다를 수 있음</td></tr>
+    </table>
+    <p class="cap">표: 챗GPT 무료·Go 업데이트 적용 시점 (OpenAI 공식 발표 기준)</p>
+    <p>오늘은 2026.08.13이고, 순차 적용 구간이에요. 이미 Think 버튼이 보이는 계정도 있고, 아직 안 보이는 계정도 있어요.</p>
+    <p>안 보인다고 문제가 있는 건 아니고, 적용 순서를 기다리는 상태일 수 있어요.</p>
+
+    <h2 class="sub">Think 버튼, 실제로 어떻게 쓰나요?</h2>
+    <p>Think 버튼은 입력창의 버튼을 탭하면 바로 켜져요. 답을 더 신중하게 받고 싶은 질문일 때 쓰면 돼요.</p>
+    <p>챗GPT 무료 화면의 입력창 오른쪽에 새로 생긴 알약 모양 버튼이 바로 이거예요.</p>
+    <p>OpenAI가 공개한 화면을 보면, 이 버튼을 처음 누를 때 안내창이 하나 떠요.</p>
+    <p>안내창 제목은 <b>"Get smarter answers"</b>예요. 여기엔 Plus로 업그레이드하는 링크와 Turn on 버튼이 함께 나와요.</p>
+
+    <div class="imgwrap"><img src="img/free-think-hero.jpg" alt="챗GPT 무료 화면에 새로 나타난 Think 버튼과 Get smarter answers 안내창 — Plus 업그레이드 또는 Turn on 버튼이 보인다" width="1600" height="900"></div>
+    <p class="cap">챗GPT 무료 버전 입력창에 새로 생긴 Think 버튼과, 처음 켤 때 뜨는 안내창이에요.</p>
+    <p class="src">이미지 출처: <a href="https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt/" target="_blank">OpenAI 공식 발표문 — Improving GPT-5.6 Sol in ChatGPT</a></p>
+
+    <ol>
+      <li>챗GPT 앱이나 웹에서 대화창을 열어요.</li>
+      <li>입력창 오른쪽에서 Think 버튼을 찾아요.</li>
+      <li>답을 더 신중하게 받고 싶은 질문일 때 Think 버튼을 탭해요.</li>
+      <li>처음 켤 때 뜨는 안내창에서 Turn on을 선택해요.</li>
+      <li>질문을 입력하면 평소보다 시간을 더 들여 답을 생각해요.</li>
+    </ol>
+    <p>공식 발표는 <b>"...Free users can tap the new Think button to give GPT-5.6 Luna more time to work through the answer."</b>라고 설명해요.</p>
+    <p>쉽게 말하면 Think 버튼을 켜면 Luna가 답을 더 오래 생각해요.</p>
+
+    <h2 class="sub">Think 버튼과 Plus·Pro 슬라이더, 같은 기능인가요?</h2>
+    <p>아니요, Think 버튼과 슬라이더는 서로 다른 기능이에요.</p>
+    <p>Think 버튼은 무료·Go 요금제에서 켜고 끄는 방식이에요. 슬라이더는 Plus·Pro 요금제에서 생각 정도를 단계별로 직접 조절하는 방식이에요.</p>
+    <p>Plus·Pro 요금제는 GPT-5.6 Sol 업데이트와 함께 슬라이더도 발표일인 2026년 8월 6일부터 써요. 웹·모바일·데스크톱 어디서나 된다고 공식 발표는 밝혀요.</p>
+    <p>Luna는 GPT-5.6의 성능 등급 중 하나로, 빠르고 가벼운 무료 티어용 모델이에요. Sol·Terra·Luna 각 등급 차이는 이전 글에서 이미 자세히 다뤘어요.</p>
+    <table class="tbl">
+      <tr><th>상황</th><th>방법</th><th>요금제</th></tr>
+      <tr><td>빠르게 여러 번 물어볼 때</td><td>기본 상태로 그대로 사용</td><td>Free·Go</td></tr>
+      <tr><td>질문이 복잡해서 신중한 답이 필요할 때</td><td>Think 버튼을 탭해서 켬</td><td>Free·Go</td></tr>
+      <tr><td>생각 강도를 단계별로 직접 조절하고 싶을 때</td><td>새 슬라이더 사용</td><td>Plus·Pro</td></tr>
+    </table>
+    <p class="cap">표: 상황별로 Think 버튼과 슬라이더 중 뭘 쓰면 되는지 (OpenAI 공식 발표 기준)</p>
+    <p>참고로 챗GPT 유료 Work 플랜별 이용 범위는 다른 글에서 이미 정리했어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. Think 버튼을 켜면 대화가 유료로 바뀌나요?</b><br>
+    A. 아니요, 대화가 유료로 바뀌지 않아요. Think 버튼은 무료·Go 요금제 안에서 제공되는 기능이에요. 텍스트 대화 자체는 계속 무제한이에요. 다만 남용을 막는 가드레일이 적용될 수 있다고 공식 발표는 밝혀요.</p>
+    <p><b>Q. 오늘 확인했는데 Think 버튼이 안 보여요, 계정에 문제가 있는 건가요?</b><br>
+    A. 아니요, 계정에 문제가 있는 게 아니에요. 무제한 대화와 Think 버튼은 8월 10일 주부터 계정별로 순차 적용 중이에요. 2026.08.13 기준에도 아직 못 받은 계정이 있을 수 있어요.</p>
+    <p><b>Q. Plus·Pro 요금제 사용자도 Think 버튼을 쓸 수 있나요?</b><br>
+    A. 아니요, Think 버튼 자체는 Free·Go 요금제 전용이에요. Plus·Pro는 Think 버튼이 아니라 별도 기능인 슬라이더로 생각 시간을 단계별로 조절해요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt/" target="_blank">OpenAI 공식 발표문 — Improving GPT-5.6 Sol in ChatGPT (2026.08.06)</a></p>
+
+    <p><b>확인 시점 안내</b><br>
+    이 글의 시점 정보는 2026년 8월 13일 기준이에요. OpenAI 공식 발표문을 직접 확인한 값이에요. 순차 적용 중인 기능이라 이후 계정별 적용 시점이나 세부 조건은 바뀔 수 있어요. 최신 내용은 위 공식 발표문에서 다시 확인해 보세요.</p>
+
+    <p><b>하루 정리</b><br>
+    · 챗GPT 무료·Go는 기본 모델이 Luna로 바뀌고 대화가 무제한이에요<br>
+    · 어려운 질문엔 Think 버튼을 눌러보세요, 파일·이미지 도구 한도는 그대로예요<br>
+    · 무제한 대화·Think 버튼은 8월 10일 주부터 순차 적용 중이에요<br>
+    · 빠르게 물어볼 땐 기본 상태로, 신중한 답이 필요할 때만 Think 버튼을 눌러보세요</p>
+
+    <div class="tags">#챗GPT무료 #Think버튼 #GPT56Luna #챗GPT무제한대화 #챗GPT업데이트 #챗GPT사용법 #AI활용법</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> 이미지 1곳(Think 버튼 화면)이 자동 복사에 포함되지만, 혹시 안 붙으면 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버에 Ctrl+V</b>로 채워 주세요.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>5.</b> <b>"참고한 곳" 링크는 지우지 마세요</b> — AI 브리핑 인용에 쓰이는 출처 줄이에요.
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 챗GPT 무료 무제한 대화, Think 버튼 쓰는 법</span></div>
+    </div>
+    <p class="np-lbl">↓ 점선 안쪽이 네이버로 들어갈 본문입니다</p>
+    <div id="copy">
+      <h3>챗GPT 무료 무제한 대화, Think 버튼 쓰는 법</h3>
+      <p>챗GPT 무료판 대화창에서 "오늘 대화 횟수를 다 썼습니다" 안내를 본 적 있나요? 아니면 챗GPT가 복잡한 질문일수록 더 깊이 생각해서 답해줬으면 싶었던 적은요?</p>
+      <p class="sp">&nbsp;</p>
+      <p>결론부터 말하면 이 두 가지 다 챗GPT 무료·Go 요금제에서 이미 풀리는 중이에요. OpenAI는 텍스트 대화 무제한을 열고 있어요. 어려운 질문에 쓰는 Think 버튼도 함께 열고 있어요.</p>
+      <p>2026.08.13 기준으로는 계정마다 적용 시점이 달라요. 벌써 보이는 계정도 있고, 아직 안 보이는 계정도 있어요.</p>
+      <p>이 글은 지금 내 계정에서 뭐가 바뀌었는지 확인하는 법부터 정리했어요. Think 버튼 쓰는 법과 Plus·Pro 슬라이더 차이도 순서대로 담았어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>챗GPT 무료 요금제, 뭐가 바뀌나요?</h3>
+      <p>챗GPT 무료 요금제는 기본 모델이 GPT-5.6 Luna로 바뀌어요. 텍스트 대화는 무제한으로 열리고, Think 버튼이라는 기능도 새로 생겨요.</p>
+      <p>이 변화는 무료 요금제만이 아니라 <b>Go 요금제에도 함께</b> 적용돼요.</p>
+      <p>일부에서는 Think 버튼을 Plus·Pro 전용 기능으로 오해하기도 해요. 하지만 공식 발표는 이 버튼을 무료 요금제 화면에서 직접 보여주며 소개해요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>요금제</th><th>이번 업데이트</th></tr>
+        <tr><td class="l">Free</td><td>기본 모델 GPT-5.6 Luna + 텍스트 대화 무제한 + Think 버튼</td></tr>
+        <tr><td class="l">Go</td><td>기본 모델 GPT-5.6 Luna + 텍스트 대화 무제한 + Think 버튼</td></tr>
+      </table>
+      <p class="tnote-line">표: 이번 업데이트가 적용되는 요금제 (OpenAI 공식 발표 기준)</p>
+      <ul>
+        <li>기본 모델이 GPT-5.6 Luna로 바뀌어요.</li>
+        <li>텍스트 대화는 무제한으로 열려요.</li>
+        <li>어려운 질문엔 Think 버튼으로 더 깊이 생각한 답을 받을 수 있어요.</li>
+        <li>파일 업로드·이미지·다른 도구는 기존 한도가 그대로 적용돼요.</li>
+      </ul>
+      <p>OpenAI 공식 발표는 <b>"Limits will still apply for file uploads, images and other tools."</b>라고 밝혀요. 대화 자체는 무제한이어도 파일·이미지 도구 사용량은 예전 기준 그대로예요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>Think 버튼, 언제부터 보이나요?</h3>
+      <p>기본 모델 전환은 2026년 8월 6일이 속한 주에 시작됐어요. 무제한 대화와 Think 버튼은 8월 10일이 속한 주부터 순차로 열려요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>구분</th><th>시점</th><th>내용</th></tr>
+        <tr><td class="l">기본 모델 전환</td><td>2026년 8월 6일이 속한 주</td><td>무료·Go 요금제 기본 모델이 GPT-5.6 Luna로 바뀜</td></tr>
+        <tr><td class="l">무제한 대화 + Think 버튼</td><td>2026년 8월 10일이 속한 주부터</td><td>순차 적용, 남용 방지 가드레일 적용</td></tr>
+        <tr><td class="l">이 글 확인 시점</td><td>2026.08.13</td><td>순차 적용 중 — 계정별로 노출 여부가 다를 수 있음</td></tr>
+      </table>
+      <p class="tnote-line">표: 챗GPT 무료·Go 업데이트 적용 시점 (OpenAI 공식 발표 기준)</p>
+      <p>오늘은 2026.08.13이고, 순차 적용 구간이에요. 이미 Think 버튼이 보이는 계정도 있고, 아직 안 보이는 계정도 있어요.</p>
+      <p>안 보인다고 문제가 있는 건 아니고, 적용 순서를 기다리는 상태일 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>Think 버튼, 실제로 어떻게 쓰나요?</h3>
+      <p>Think 버튼은 입력창의 버튼을 탭하면 바로 켜져요. 답을 더 신중하게 받고 싶은 질문일 때 쓰면 돼요.</p>
+      <p>챗GPT 무료 화면의 입력창 오른쪽에 새로 생긴 알약 모양 버튼이 바로 이거예요.</p>
+      <p>OpenAI가 공개한 화면을 보면, 이 버튼을 처음 누를 때 안내창이 하나 떠요.</p>
+      <p>안내창 제목은 <b>"Get smarter answers"</b>예요. 여기엔 Plus로 업그레이드하는 링크와 Turn on 버튼이 함께 나와요.</p>
+      <p class="sp">&nbsp;</p>
+      <img src="img/free-think-hero.jpg" alt="챗GPT 무료 화면에 새로 나타난 Think 버튼과 Get smarter answers 안내창" width="1600" height="900">
+      <p class="tnote-line">챗GPT 무료 버전 입력창에 새로 생긴 Think 버튼과, 처음 켤 때 뜨는 안내창이에요. 이미지 출처: OpenAI 공식 발표문 — Improving GPT-5.6 Sol in ChatGPT</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>챗GPT 앱이나 웹에서 대화창을 열어요.</li>
+        <li>입력창 오른쪽에서 Think 버튼을 찾아요.</li>
+        <li>답을 더 신중하게 받고 싶은 질문일 때 Think 버튼을 탭해요.</li>
+        <li>처음 켤 때 뜨는 안내창에서 Turn on을 선택해요.</li>
+        <li>질문을 입력하면 평소보다 시간을 더 들여 답을 생각해요.</li>
+      </ol>
+      <p>공식 발표는 <b>"...Free users can tap the new Think button to give GPT-5.6 Luna more time to work through the answer."</b>라고 설명해요.</p>
+      <p>쉽게 말하면 Think 버튼을 켜면 Luna가 답을 더 오래 생각해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>Think 버튼과 Plus·Pro 슬라이더, 같은 기능인가요?</h3>
+      <p>아니요, Think 버튼과 슬라이더는 서로 다른 기능이에요.</p>
+      <p>Think 버튼은 무료·Go 요금제에서 켜고 끄는 방식이에요. 슬라이더는 Plus·Pro 요금제에서 생각 정도를 단계별로 직접 조절하는 방식이에요.</p>
+      <p>Plus·Pro 요금제는 GPT-5.6 Sol 업데이트와 함께 슬라이더도 발표일인 2026년 8월 6일부터 써요. 웹·모바일·데스크톱 어디서나 된다고 공식 발표는 밝혀요.</p>
+      <p>Luna는 GPT-5.6의 성능 등급 중 하나로, 빠르고 가벼운 무료 티어용 모델이에요. Sol·Terra·Luna 각 등급 차이는 이전 글에서 이미 자세히 다뤘어요.</p>
+      <p class="sp">&nbsp;</p>
+      <table>
+        <tr><th>상황</th><th>방법</th><th>요금제</th></tr>
+        <tr><td class="l">빠르게 여러 번 물어볼 때</td><td>기본 상태로 그대로 사용</td><td>Free·Go</td></tr>
+        <tr><td class="l">질문이 복잡해서 신중한 답이 필요할 때</td><td>Think 버튼을 탭해서 켬</td><td>Free·Go</td></tr>
+        <tr><td class="l">생각 강도를 단계별로 직접 조절하고 싶을 때</td><td>새 슬라이더 사용</td><td>Plus·Pro</td></tr>
+      </table>
+      <p class="tnote-line">표: 상황별로 Think 버튼과 슬라이더 중 뭘 쓰면 되는지 (OpenAI 공식 발표 기준)</p>
+      <p>참고로 챗GPT 유료 Work 플랜별 이용 범위는 다른 글에서 이미 정리했어요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. Think 버튼을 켜면 대화가 유료로 바뀌나요?</b><br>
+      A. 아니요, 대화가 유료로 바뀌지 않아요. Think 버튼은 무료·Go 요금제 안에서 제공되는 기능이에요. 텍스트 대화 자체는 계속 무제한이에요. 다만 남용을 막는 가드레일이 적용될 수 있다고 공식 발표는 밝혀요.</p>
+      <p><b>Q. 오늘 확인했는데 Think 버튼이 안 보여요, 계정에 문제가 있는 건가요?</b><br>
+      A. 아니요, 계정에 문제가 있는 게 아니에요. 무제한 대화와 Think 버튼은 8월 10일 주부터 계정별로 순차 적용 중이에요. 2026.08.13 기준에도 아직 못 받은 계정이 있을 수 있어요.</p>
+      <p><b>Q. Plus·Pro 요금제 사용자도 Think 버튼을 쓸 수 있나요?</b><br>
+      A. 아니요, Think 버튼 자체는 Free·Go 요금제 전용이에요. Plus·Pro는 Think 버튼이 아니라 별도 기능인 슬라이더로 생각 시간을 단계별로 조절해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>
+      · OpenAI 공식 발표문 — Improving GPT-5.6 Sol in ChatGPT (openai.com/index/improving-gpt-5-6-sol-in-chatgpt, 2026.08.06)</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="notice-line">확인 시점 안내<br>
+      이 글의 시점 정보는 2026년 8월 13일 기준이에요. OpenAI 공식 발표문을 직접 확인한 값이에요. 순차 적용 중인 기능이라 이후 계정별 적용 시점이나 세부 조건은 바뀔 수 있어요. 최신 내용은 위 공식 발표문에서 다시 확인해 보세요.</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 챗GPT 무료·Go는 기본 모델이 Luna로 바뀌고 대화가 무제한이에요<br>
+      · 어려운 질문엔 Think 버튼을 눌러보세요, 파일·이미지 도구 한도는 그대로예요<br>
+      · 무제한 대화·Think 버튼은 8월 10일 주부터 순차 적용 중이에요<br>
+      · 빠르게 물어볼 땐 기본 상태로, 신중한 답이 필요할 때만 Think 버튼을 눌러보세요</p>
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#챗GPT무료 #Think버튼 #GPT56Luna #챗GPT무제한대화 #챗GPT업데이트 #챗GPT사용법 #AI활용법</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+  // ★샌드박스 가드(config.gates.sandboxCopyButtonDisabled): 복사 버튼이 disabled라 클릭해도 동작하지 않음
+})();
+</script>
+</body></html>
