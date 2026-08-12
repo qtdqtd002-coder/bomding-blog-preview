@@ -1,0 +1,329 @@
+<!-- 쓰담v2 하루살이 미리보기. skeleton.html 마크업 계승. -->
+<!-- 키워드: 삼성 노트북 와이파이 -->
+<!-- 이미지 조달 메모(2026-08-13 실측): 공식 출처 페이지(samsungsvc.co.kr/solution/39495)를 curl+브라우저UA로 원문 HTML 확보 후, 본문 안에 실제로 삽입된 단계별 스크린샷 5장을 api.samsungsvc.co.kr CDN에서 직접 다운로드(눈으로 확인 완료, 워터마크·합성 없음). 나머지 썸네일은 페이지 내 '관련 콘텐츠' 목록용이라 제외. -->
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>삼성 노트북 와이파이 연결 안 될 때, 공식 조치 순서</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--haru:#C2477B;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--haru);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.9;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post ul,.post ol{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;word-break:keep-all;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#8f2f5b;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-copy:disabled{background:#b9bcc0;cursor:not-allowed;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#fdeaf2;border:1px solid #f0bcd3;border-radius:6px;color:#8f2f5b;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #C2477B;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.9;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy .sp{margin:0;}
+  #copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+  #copy img{max-width:100%;height:auto;border-radius:6px;border:1px solid #e8e8e8;display:block;margin:0 auto;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">PREVIEW</span>하루살이 블로그 미리보기 · 네이버 발행용 카드</div>
+  <div class="post">
+    <div class="cat">🛠️ 안 될 때</div>
+    <h1 class="title">삼성 노트북 와이파이 연결 안 될 때, 공식 조치 순서</h1>
+    <div class="meta"><span class="author">하루살이</span><span>2026.08.13</span><span>읽는 데 4분</span></div>
+    <div class="notice">이 카드는 네이버 붙여넣기 전 확인용 미리보기예요. 실제 발행은 사용자가 직접 진행합니다.</div>
+
+    <p>노트북을 켰는데 와이파이 목록이 통째로 안 보일 때가 있어요. 분명 비밀번호를 맞게 넣었는데 연결이 자꾸 끊기기도 해요.</p>
+    <p>삼성 노트북 와이파이 연결이 안 될 때는 공식이 안내하는 여섯 단계가 있어요. 재부팅부터 드라이버 재설치까지, 순서대로 짚어보면 돼요. 순서를 건너뛰지 않고 하나씩 확인하는 게 핵심이에요.</p>
+    <p>이 글은 삼성 노트북, 윈도우 10과 11 기준으로 정리했어요. 윈도우 8.1 이하는 일부 단계에서 조작 방법이 달라서 해당 부분에 따로 적어뒀어요. 삼성서비스 공식 홈페이지 2026.08.13 기준으로 확인한 내용이에요.</p>
+
+    <h2 class="sub">여섯 단계, 순서가 있어요</h2>
+    <p>삼성서비스 공식 안내를 보면 확인 순서는 총 여섯 단계예요.</p>
+    <ol>
+      <li>Shutdown 명령어로 재부팅해서 확인하기</li>
+      <li>무선랜(Wi-Fi) 켜짐 상태 확인하기</li>
+      <li>무선 AP(SSID) 연결 정보 삭제 후 재연결하기</li>
+      <li>Windows 설정에서 네트워크 초기화하기</li>
+      <li>공유기(모뎀) 리셋 점검하기</li>
+      <li>무선랜 드라이버 재설치하기(Samsung Update)</li>
+    </ol>
+    <p>순서대로 하나씩 확인해볼게요.</p>
+
+    <h2 class="sub">재부팅부터, 와이파이 켜짐 상태까지</h2>
+    <p>가장 먼저 컴퓨터를 완전히 껐다가 다시 켜보는 게 첫 번째예요.</p>
+    <p>Windows 로고 키와 R 키를 같이 눌러 실행 창을 열어요. Shutdown -s -t 0을 입력한 뒤 엔터를 누르면 돼요. Shift 키를 누른 채로 전원 버튼을 길게 눌러도 같은 방식으로 완전히 꺼져요.</p>
+    <p>재부팅해도 그대로면 이번엔 와이파이 자체가 켜져 있는지부터 봐요.</p>
+    <p>윈도우 10과 11은 작업표시줄 오른쪽 트레이의 인터넷 아이콘을 눌러요. 와이파이가 꺼짐으로 돼 있는지 확인해요. 꺼져 있으면 켜짐으로 바꾼 뒤 공유기 연결이 되는지 확인하면 돼요. 윈도우 8.1 이하는 Fn 키를 누른 채로 F12나 F9를 눌러 무선랜을 켜고 끌 수 있어요.</p>
+    <div class="imgwrap"><img src="img/01-wifi-status.jpg" width="456" height="371" alt="윈도우 10, 11 작업표시줄에서 와이파이 켜짐 꺼짐 상태 확인 화면"></div>
+    <p class="cap">작업표시줄 트레이의 와이파이 켜짐·꺼짐 상태</p>
+    <p class="src">출처: 삼성서비스 공식 홈페이지</p>
+    <p>작업표시줄에 와이파이 아이콘 자체가 안 보이면 네트워크 연결 창을 직접 열어봐요. Windows 로고 키와 R 키로 ncpa.cpl을 입력하면 돼요. 여기서 와이파이가 사용 안 함이면, 마우스 오른쪽 버튼으로 눌러 사용으로 바꾸면 돼요.</p>
+    <p>무선 항목 자체가 안 보이면 장치관리자를 열어봐요. Windows 로고 키와 X 키를 누르면 바로 열려요. 네트워크 어댑터에 노란 느낌표가 있는지 확인해요. 느낌표가 있으면 6단계 드라이버 재설치로 바로 넘어가도 돼요.</p>
+    <p>여기까지 해도 인식이 안 되면 다음 단계로 넘어가요. 연결 상태가 인증 시도 중이나 식별되지 않은 네트워크로 떠도 마찬가지예요.</p>
+
+    <h2 class="sub">저장된 와이파이 정보부터 지우고, 안 되면 초기화까지</h2>
+    <p>저장된 무선 AP 연결 정보를 지우고 다시 연결하면 대부분 풀려요. 인증 시도 중이나 식별되지 않은 네트워크로 계속 뜰 때 이 방법을 써요.</p>
+    <p>무선 AP(SSID)는 노트북이 기억하는 공유기 하나하나의 이름이에요.</p>
+    <p>윈도우 11은 설정에서 네트워크 및 인터넷을 눌러요. 와이파이로 들어가 알려진 네트워크 관리를 열면 돼요. 문제가 있는 무선AP 이름을 찾아 삭제를 누르면 돼요.</p>
+    <div class="imgwrap"><img src="img/02-ap-delete.jpg" width="455" height="555" alt="윈도우11 설정에서 알려진 네트워크 관리 화면, 연결정보 삭제 버튼"></div>
+    <p class="cap">설정 › 네트워크 및 인터넷 › Wi-Fi › 알려진 네트워크 관리 화면</p>
+    <p class="src">출처: 삼성서비스 공식 홈페이지</p>
+    <p>윈도우 10도 경로와 메뉴 이름이 모두 똑같아요. 윈도우 7은 제어판의 네트워크 및 공유 센터에서 무선 네트워크 관리로 들어가요. 해당 SSID를 찾아 제거하면 돼요.</p>
+    <p>지워도 걱정할 건 없어요. 같은 와이파이 비밀번호로 다시 연결하면 정보가 새로 저장돼요.</p>
+    <p>삭제 후 재연결해도 그대로면, 이번엔 네트워크 설정 자체를 초기화해봐요.</p>
+    <p>윈도우 11은 설정에서 네트워크 및 인터넷을 누르고 고급 네트워크 설정으로 들어가요. 네트워크 초기화에서 지금 다시 설정을 누르면 돼요. 확인 팝업에서 예를 선택하고, 로그오프 안내창에서 닫기를 누르면 컴퓨터가 다시 시작돼요.</p>
+    <div class="imgwrap"><img src="img/03-network-reset.jpg" width="452" height="545" alt="윈도우11 네트워크 및 인터넷 설정에서 고급 네트워크 설정으로 들어가는 화면"></div>
+    <p class="cap">설정 › 네트워크 및 인터넷 › 고급 네트워크 설정으로 들어가는 경로</p>
+    <p class="src">출처: 삼성서비스 공식 홈페이지</p>
+    <p>윈도우 10은 설정에서 네트워크 및 인터넷의 상태 탭으로 들어가요. 네트워크 초기화를 누르면 같은 순서로 진행돼요.</p>
+    <p>윈도우 8.1 이하는 이 기능이 아예 없어요. 대신 장치관리자에서 무선랜 장치를 제거해요. 이때 드라이버 삭제 체크박스는 누르지 않고 제거만 해요. 그 상태로 재부팅하면 무선랜이 다시 설치돼요.</p>
+    <p>네트워크 초기화는 되돌리기 버튼이 따로 없어요. 진행 전에 지금 쓰는 와이파이 비밀번호를 알고 있는지만 미리 확인해두면 마음이 편해요.</p>
+    <p>재부팅 후에도 안 잡히면, 이번엔 노트북이 아니라 공유기 쪽을 봐요.</p>
+
+    <h2 class="sub">공유기(모뎀) 자체도 확인해봐요</h2>
+    <p>노트북 쪽 설정을 다 확인했는데도 안 되면 공유기 문제일 수 있어요.</p>
+    <p>먼저 램프 상태를 봐요. 전원 램프가 따로 있는 제품은 최소 3개는 켜져 있어야 정상이에요. 전원 램프가 없는 제품은 최소 2개 이상이면 돼요.</p>
+    <p>램프가 하나도 안 켜져 있으면 전원 케이블과 멀티탭 전원부터 확인해요.</p>
+    <ul>
+      <li>전원 케이블 분리 리셋: 케이블을 뽑았다가 10초 뒤 다시 꽂고, 1분 정도 기다린 뒤 연결을 확인해요.</li>
+      <li>리셋 버튼 이용: 공유기 뒷면 Reset 구멍을 볼펜 등으로 5초 정도 눌렀다 떼고, 2~3분 뒤 연결을 확인해요.</li>
+    </ul>
+    <div class="imgwrap"><img src="img/04-router-reset.png" width="531" height="88" alt="공유기 뒷면의 리셋 버튼 위치를 보여주는 사진"></div>
+    <p class="cap">공유기 뒷면 Reset 버튼 위치, 제품마다 모양은 달라요</p>
+    <p class="src">출처: 삼성서비스 공식 홈페이지</p>
+    <p>공유기를 리셋하면 지금 연결된 유선과 무선 기기가 한꺼번에 끊겨요. 다른 가족이 인터넷을 쓰고 있진 않은지 확인하고 진행하는 게 좋아요.</p>
+    <p>리셋 후에도 그대로면 마지막으로 무선랜 드라이버를 다시 깔아봐요.</p>
+
+    <h2 class="sub">마지막은 무선랜 드라이버 재설치예요</h2>
+    <p>여기까지 해도 안 잡히면 무선랜 드라이버 자체를 지우고 새로 깔아야 할 가능성이 커요.</p>
+    <p>문제는 와이파이가 안 되니 드라이버를 인터넷으로 받기도 어렵다는 점이에요. 삼성 휴대폰의 USB 테더링으로 우회할 수 있어요.</p>
+    <p>휴대폰을 노트북 USB 단자에 연결해요. 휴대폰 설정의 연결 메뉴에서 모바일 핫스팟 및 테더링을 찾아요. 그 안의 USB 테더링을 켜면 인터넷이 잡혀요.</p>
+    <p>인터넷이 연결되면 Windows 로고 키와 Q 키로 검색창을 열어요. Samsung Update를 찾아 실행하면 돼요. 드라이버 탭에서 무선랜 드라이버 옆의 설치를 누르면 돼요.</p>
+    <div class="imgwrap"><img src="img/05-samsung-update.jpg" width="457" height="403" alt="삼성 업데이트 프로그램 드라이버 목록에서 무선 랜 드라이버 설치 버튼 화면"></div>
+    <p class="cap">Samsung Update 드라이버 탭에서 무선랜 드라이버 설치</p>
+    <p class="src">출처: 삼성서비스 공식 홈페이지</p>
+    <p>시스템 재시작이 필요하다는 메시지가 뜨면 확인을 눌러 재부팅하면 설치가 끝나요.</p>
+    <p>테더링할 휴대폰이 없다면 다른 방법도 있어요. 인터넷이 되는 다른 PC에 USB 메모리를 꽂아요. Samsung Update의 설정에서 다운로드 메뉴로 들어가요. 모델명과 윈도우 버전을 골라 무선랜 드라이버를 저장해요. 그 USB를 노트북에 옮겨 inst.exe 파일을 실행하면 돼요.</p>
+    <p>윈도우 8.1 이하는 Samsung Update 구버전에서도 가능해요. 설치 및 업데이트 메뉴에서 같은 작업을 하면 돼요.</p>
+    <p>드라이버 재설치는 기존 설정을 지우는 절차가 아니라 새로 깔아서 문제를 고치는 과정이에요. 따로 되돌릴 일은 없어요.</p>
+    <p>삼성서비스는 <b>"안내해드린 방법으로 조치가 안된다면 전문 엔지니어를 통해 점검을 받아보시기 바랍니다"</b>라고 안내해요.</p>
+    <p>여섯 단계를 다 해봐도 그대로면 혼자 붙잡고 있기보다 서비스센터 문의가 빨라요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 6단계까지 다 해봐도 와이파이가 안 잡히면 어떻게 하나요?</b><br>공식 문서는 이 순서로 조치해도 안 되면 전문 엔지니어 점검을 받아보라고 안내해요. 혼자 씨름하기보다 서비스센터에 문의하는 게 정확해요.</p>
+    <p><b>Q. 윈도우 8.1보다 낮은 버전도 순서가 똑같나요?</b><br>큰 흐름은 같지만 일부 단계 조작법이 달라요. 4단계 네트워크 초기화 기능은 윈도우 10과 11에만 있어요. 8.1 이하는 장치관리자에서 무선랜 장치를 지웠다가 다시 설치하는 방식을 대신 써요.</p>
+
+    <p><b>참고한 곳</b><br>· <a href="https://www.samsungsvc.co.kr/solution/39495" target="_blank">삼성서비스 - 무선 인터넷(Wi-Fi) 연결이 안 될 경우 조치 방법</a></p>
+
+    <p class="tags">#삼성노트북와이파이 #와이파이연결안됨 #노트북와이파이 #네트워크초기화 #무선랜드라이버 #공유기리셋 #SamsungUpdate</p>
+
+    <p><b>하루 정리</b><br>
+    · 순서는 재부팅 → 와이파이 확인 → AP 삭제 → 초기화 → 공유기 리셋 → 드라이버 재설치, 이 순서가 제일 빨라요.<br>
+    · 인증 시도 중이나 식별되지 않은 네트워크로 뜬다면 3단계부터 시작해도 돼요.<br>
+    · 네트워크 초기화 전에는 와이파이 비밀번호만 미리 확인해두면 돼요.<br>
+    · 여섯 단계를 다 해봐도 안 되면 서비스센터에 맡기는 쪽이 시간을 아껴요.</p>
+  </div>
+</div>
+
+<button id="npBtn">📋 네이버용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer">
+  <div class="np-head">
+    <span class="np-t">네이버 붙여넣기용 본문</span>
+    <button id="npCopy" class="np-copy" type="button">본문 전체 복사</button>
+    <button id="npClose" class="np-x">×</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>사용법</h2>
+      <b>①</b> 아래 점선 박스 내용을 복사해 네이버 블로그 글쓰기 화면에 붙여넣으세요.<br>
+      <b>②</b> 이미지 5장은 img 폴더에서 순서대로 함께 올려주세요.
+    </div>
+    <p class="np-lbl">복사 영역</p>
+    <div id="copy">
+      <p>노트북을 켰는데 와이파이 목록이 통째로 안 보일 때가 있어요. 분명 비밀번호를 맞게 넣었는데 연결이 자꾸 끊기기도 해요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>삼성 노트북 와이파이 연결이 안 될 때는 공식이 안내하는 여섯 단계가 있어요. 재부팅부터 드라이버 재설치까지, 순서대로 짚어보면 돼요. 순서를 건너뛰지 않고 하나씩 확인하는 게 핵심이에요.</p>
+      <p class="sp">&nbsp;</p>
+      <p>이 글은 삼성 노트북, 윈도우 10과 11 기준으로 정리했어요. 윈도우 8.1 이하는 일부 단계에서 조작 방법이 달라서 해당 부분에 따로 적어뒀어요. 삼성서비스 공식 홈페이지 2026.08.13 기준으로 확인한 내용이에요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>여섯 단계, 순서가 있어요</h3>
+      <p>삼성서비스 공식 안내를 보면 확인 순서는 총 여섯 단계예요.</p>
+      <p class="sp">&nbsp;</p>
+      <ol>
+        <li>Shutdown 명령어로 재부팅해서 확인하기</li>
+        <li>무선랜(Wi-Fi) 켜짐 상태 확인하기</li>
+        <li>무선 AP(SSID) 연결 정보 삭제 후 재연결하기</li>
+        <li>Windows 설정에서 네트워크 초기화하기</li>
+        <li>공유기(모뎀) 리셋 점검하기</li>
+        <li>무선랜 드라이버 재설치하기(Samsung Update)</li>
+      </ol>
+      <p class="sp">&nbsp;</p>
+      <p>순서대로 하나씩 확인해볼게요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>재부팅부터, 와이파이 켜짐 상태까지</h3>
+      <p>가장 먼저 컴퓨터를 완전히 껐다가 다시 켜보는 게 첫 번째예요.</p>
+      <p>Windows 로고 키와 R 키를 같이 눌러 실행 창을 열어요. Shutdown -s -t 0을 입력한 뒤 엔터를 누르면 돼요. Shift 키를 누른 채로 전원 버튼을 길게 눌러도 같은 방식으로 완전히 꺼져요.</p>
+      <p>재부팅해도 그대로면 이번엔 와이파이 자체가 켜져 있는지부터 봐요.</p>
+      <p>윈도우 10과 11은 작업표시줄 오른쪽 트레이의 인터넷 아이콘을 눌러요. 와이파이가 꺼짐으로 돼 있는지 확인해요. 꺼져 있으면 켜짐으로 바꾼 뒤 공유기 연결이 되는지 확인하면 돼요. 윈도우 8.1 이하는 Fn 키를 누른 채로 F12나 F9를 눌러 무선랜을 켜고 끌 수 있어요.</p>
+      <p class="sp">&nbsp;</p>
+      <img src="img/01-wifi-status.jpg" width="456" height="371" alt="윈도우 10, 11 작업표시줄에서 와이파이 켜짐 꺼짐 상태 확인 화면">
+      <p class="tnote-line">작업표시줄 트레이의 와이파이 켜짐·꺼짐 상태 (출처: 삼성서비스 공식 홈페이지)</p>
+      <p>작업표시줄에 와이파이 아이콘 자체가 안 보이면 네트워크 연결 창을 직접 열어봐요. Windows 로고 키와 R 키로 ncpa.cpl을 입력하면 돼요. 여기서 와이파이가 사용 안 함이면, 마우스 오른쪽 버튼으로 눌러 사용으로 바꾸면 돼요.</p>
+      <p>무선 항목 자체가 안 보이면 장치관리자를 열어봐요. Windows 로고 키와 X 키를 누르면 바로 열려요. 네트워크 어댑터에 노란 느낌표가 있는지 확인해요. 느낌표가 있으면 6단계 드라이버 재설치로 바로 넘어가도 돼요.</p>
+      <p>여기까지 해도 인식이 안 되면 다음 단계로 넘어가요. 연결 상태가 인증 시도 중이나 식별되지 않은 네트워크로 떠도 마찬가지예요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>저장된 와이파이 정보부터 지우고, 안 되면 초기화까지</h3>
+      <p>저장된 무선 AP 연결 정보를 지우고 다시 연결하면 대부분 풀려요. 인증 시도 중이나 식별되지 않은 네트워크로 계속 뜰 때 이 방법을 써요.</p>
+      <p>무선 AP(SSID)는 노트북이 기억하는 공유기 하나하나의 이름이에요.</p>
+      <p>윈도우 11은 설정에서 네트워크 및 인터넷을 눌러요. 와이파이로 들어가 알려진 네트워크 관리를 열면 돼요. 문제가 있는 무선AP 이름을 찾아 삭제를 누르면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <img src="img/02-ap-delete.jpg" width="455" height="555" alt="윈도우11 설정에서 알려진 네트워크 관리 화면, 연결정보 삭제 버튼">
+      <p class="tnote-line">설정 › 네트워크 및 인터넷 › Wi-Fi › 알려진 네트워크 관리 화면 (출처: 삼성서비스 공식 홈페이지)</p>
+      <p>윈도우 10도 경로와 메뉴 이름이 모두 똑같아요. 윈도우 7은 제어판의 네트워크 및 공유 센터에서 무선 네트워크 관리로 들어가요. 해당 SSID를 찾아 제거하면 돼요.</p>
+      <p>지워도 걱정할 건 없어요. 같은 와이파이 비밀번호로 다시 연결하면 정보가 새로 저장돼요.</p>
+      <p>삭제 후 재연결해도 그대로면, 이번엔 네트워크 설정 자체를 초기화해봐요.</p>
+      <p>윈도우 11은 설정에서 네트워크 및 인터넷을 누르고 고급 네트워크 설정으로 들어가요. 네트워크 초기화에서 지금 다시 설정을 누르면 돼요. 확인 팝업에서 예를 선택하고, 로그오프 안내창에서 닫기를 누르면 컴퓨터가 다시 시작돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <img src="img/03-network-reset.jpg" width="452" height="545" alt="윈도우11 네트워크 및 인터넷 설정에서 고급 네트워크 설정으로 들어가는 화면">
+      <p class="tnote-line">설정 › 네트워크 및 인터넷 › 고급 네트워크 설정으로 들어가는 경로 (출처: 삼성서비스 공식 홈페이지)</p>
+      <p>윈도우 10은 설정에서 네트워크 및 인터넷의 상태 탭으로 들어가요. 네트워크 초기화를 누르면 같은 순서로 진행돼요.</p>
+      <p>윈도우 8.1 이하는 이 기능이 아예 없어요. 대신 장치관리자에서 무선랜 장치를 제거해요. 이때 드라이버 삭제 체크박스는 누르지 않고 제거만 해요. 그 상태로 재부팅하면 무선랜이 다시 설치돼요.</p>
+      <p>네트워크 초기화는 되돌리기 버튼이 따로 없어요. 진행 전에 지금 쓰는 와이파이 비밀번호를 알고 있는지만 미리 확인해두면 마음이 편해요.</p>
+      <p>재부팅 후에도 안 잡히면, 이번엔 노트북이 아니라 공유기 쪽을 봐요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>공유기(모뎀) 자체도 확인해봐요</h3>
+      <p>노트북 쪽 설정을 다 확인했는데도 안 되면 공유기 문제일 수 있어요.</p>
+      <p>먼저 램프 상태를 봐요. 전원 램프가 따로 있는 제품은 최소 3개는 켜져 있어야 정상이에요. 전원 램프가 없는 제품은 최소 2개 이상이면 돼요.</p>
+      <p>램프가 하나도 안 켜져 있으면 전원 케이블과 멀티탭 전원부터 확인해요.</p>
+      <p class="sp">&nbsp;</p>
+      <ul>
+        <li>전원 케이블 분리 리셋: 케이블을 뽑았다가 10초 뒤 다시 꽂고, 1분 정도 기다린 뒤 연결을 확인해요.</li>
+        <li>리셋 버튼 이용: 공유기 뒷면 Reset 구멍을 볼펜 등으로 5초 정도 눌렀다 떼고, 2~3분 뒤 연결을 확인해요.</li>
+      </ul>
+      <p class="sp">&nbsp;</p>
+      <img src="img/04-router-reset.png" width="531" height="88" alt="공유기 뒷면의 리셋 버튼 위치를 보여주는 사진">
+      <p class="tnote-line">공유기 뒷면 Reset 버튼 위치, 제품마다 모양은 달라요 (출처: 삼성서비스 공식 홈페이지)</p>
+      <p>공유기를 리셋하면 지금 연결된 유선과 무선 기기가 한꺼번에 끊겨요. 다른 가족이 인터넷을 쓰고 있진 않은지 확인하고 진행하는 게 좋아요.</p>
+      <p>리셋 후에도 그대로면 마지막으로 무선랜 드라이버를 다시 깔아봐요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>마지막은 무선랜 드라이버 재설치예요</h3>
+      <p>여기까지 해도 안 잡히면 무선랜 드라이버 자체를 지우고 새로 깔아야 할 가능성이 커요.</p>
+      <p>문제는 와이파이가 안 되니 드라이버를 인터넷으로 받기도 어렵다는 점이에요. 삼성 휴대폰의 USB 테더링으로 우회할 수 있어요.</p>
+      <p>휴대폰을 노트북 USB 단자에 연결해요. 휴대폰 설정의 연결 메뉴에서 모바일 핫스팟 및 테더링을 찾아요. 그 안의 USB 테더링을 켜면 인터넷이 잡혀요.</p>
+      <p>인터넷이 연결되면 Windows 로고 키와 Q 키로 검색창을 열어요. Samsung Update를 찾아 실행하면 돼요. 드라이버 탭에서 무선랜 드라이버 옆의 설치를 누르면 돼요.</p>
+      <p class="sp">&nbsp;</p>
+      <img src="img/05-samsung-update.jpg" width="457" height="403" alt="삼성 업데이트 프로그램 드라이버 목록에서 무선 랜 드라이버 설치 버튼 화면">
+      <p class="tnote-line">Samsung Update 드라이버 탭에서 무선랜 드라이버 설치 (출처: 삼성서비스 공식 홈페이지)</p>
+      <p>시스템 재시작이 필요하다는 메시지가 뜨면 확인을 눌러 재부팅하면 설치가 끝나요.</p>
+      <p>테더링할 휴대폰이 없다면 다른 방법도 있어요. 인터넷이 되는 다른 PC에 USB 메모리를 꽂아요. Samsung Update의 설정에서 다운로드 메뉴로 들어가요. 모델명과 윈도우 버전을 골라 무선랜 드라이버를 저장해요. 그 USB를 노트북에 옮겨 inst.exe 파일을 실행하면 돼요.</p>
+      <p>윈도우 8.1 이하는 Samsung Update 구버전에서도 가능해요. 설치 및 업데이트 메뉴에서 같은 작업을 하면 돼요.</p>
+      <p>드라이버 재설치는 기존 설정을 지우는 절차가 아니라 새로 깔아서 문제를 고치는 과정이에요. 따로 되돌릴 일은 없어요.</p>
+      <p>삼성서비스는 <b>"안내해드린 방법으로 조치가 안된다면 전문 엔지니어를 통해 점검을 받아보시기 바랍니다"</b>라고 안내해요.</p>
+      <p>여섯 단계를 다 해봐도 그대로면 혼자 붙잡고 있기보다 서비스센터 문의가 빨라요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 6단계까지 다 해봐도 와이파이가 안 잡히면 어떻게 하나요?</b><br>공식 문서는 이 순서로 조치해도 안 되면 전문 엔지니어 점검을 받아보라고 안내해요. 혼자 씨름하기보다 서비스센터에 문의하는 게 정확해요.</p>
+      <p><b>Q. 윈도우 8.1보다 낮은 버전도 순서가 똑같나요?</b><br>큰 흐름은 같지만 일부 단계 조작법이 달라요. 4단계 네트워크 초기화 기능은 윈도우 10과 11에만 있어요. 8.1 이하는 장치관리자에서 무선랜 장치를 지웠다가 다시 설치하는 방식을 대신 써요.</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>참고한 곳</b><br>· <a href="https://www.samsungsvc.co.kr/solution/39495" target="_blank">삼성서비스 - 무선 인터넷(Wi-Fi) 연결이 안 될 경우 조치 방법</a></p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p class="tags-line">#삼성노트북와이파이 #와이파이연결안됨 #노트북와이파이 #네트워크초기화 #무선랜드라이버 #공유기리셋 #SamsungUpdate</p>
+
+      <p class="sp">&nbsp;</p>
+      <p class="sp">&nbsp;</p>
+      <p><b>하루 정리</b><br>
+      · 순서는 재부팅 → 와이파이 확인 → AP 삭제 → 초기화 → 공유기 리셋 → 드라이버 재설치, 이 순서가 제일 빨라요.<br>
+      · 인증 시도 중이나 식별되지 않은 네트워크로 뜬다면 3단계부터 시작해도 돼요.<br>
+      · 네트워크 초기화 전에는 와이파이 비밀번호만 미리 확인해두면 돼요.<br>
+      · 여섯 단계를 다 해봐도 안 되면 서비스센터에 맡기는 쪽이 시간을 아껴요.</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
