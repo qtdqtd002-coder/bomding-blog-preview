@@ -1145,6 +1145,10 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    "하루살이":{tag:"IT 제품 · AI · 활용팁", ac:"var(--a-harusari)"}
  };
  const PREF=["봄딩","영도","겜더쿠","연봄","하루살이"];
+ /* 휴면(inactive) 작성자 — 2026-08-14 사용자 지시. 기존 글·탭·카드는 그대로 보이되(삭제 아님)
+    '새 글 요청' 대상에서만 뺀다. 정본=쓰담v2/canon/config.json writers.inactive.
+    재개하려면 이 배열을 [] 로 되돌린다. */
+ const INACTIVE_WRITERS=["겜더쿠","연봄"];
  const FALLBACK_AC="var(--brand)";
 
  /* ---------- 작성자 아바타 (각 실제 블로그 프로필 참고 · 한 화풍 통일) ---------- */
@@ -1936,7 +1940,7 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
  const REQ_STATUS_LABEL={ local:"임시저장", queued:"전송 대기", submitted:"접수됨", received:"접수됨", processing:"발행중", published:"발행됨", failed:"실패", skipped:"건너뜀" };
  function renderRequest(){
    titleEl.textContent="새 글 요청"; subEl.textContent="주제만 적으면 작성→검수→발행까지 자동으로 — 발행되면 알림으로 알려드려요";
-   const writers=PREF.slice();
+   const writers=PREF.filter(w=>INACTIVE_WRITERS.indexOf(w)<0);  /* 휴면 작성자는 요청 대상에서 제외(2026-08-14) */
    /* 작성자 칩(플랫폼 자동) — payload writer 키는 hidden #rfWriter로 보존 */
    const WRITER_INFO={
      "":{plat:"",desc:"주제에 맞는 작성자를 회사가 배정해요"},

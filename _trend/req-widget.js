@@ -13,6 +13,10 @@
   var API = 'https://34.139.184.70.sslip.io';
   var PURPOSES = ['사전예약', '출시·첫인상', '업데이트·패치', '게임 정보', '게임 공략', '쿠폰·이벤트', '티어·추천', '제품 비교·추천', '사용 후기·리뷰'];
   var WRITERS = ['봄딩', '영도', '겜더쿠', '연봄'];
+  // 휴면(inactive) 작성자 — 2026-08-14 사용자 지시로 발행 배선 중단.
+  // 이미 발행된 옛 브리핑 페이지(7일 보관분)에서도 요청 버튼이 뜨지 않게 막는다.
+  // 재개하려면 이 배열을 [] 로 되돌린다. 정본=쓰담v2/canon/config.json writers.inactive.
+  var INACTIVE = ['겜더쿠', '연봄'];
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]; }); }
   function txt(el) { return el ? (el.textContent || '').replace(/\s+/g, ' ').trim() : ''; }
@@ -113,6 +117,7 @@
     if (!picks.length) return;
     injectStyle();
     var writer = detectWriter();
+    if (INACTIVE.indexOf(writer) >= 0) return; // 휴면 작성자 브리핑 — 발행 요청 버튼 자체를 달지 않는다
     Array.prototype.forEach.call(picks, function (pick) {
       if (pick.querySelector('.rw-act')) return;
       var req = pickToReq(pick, writer);
