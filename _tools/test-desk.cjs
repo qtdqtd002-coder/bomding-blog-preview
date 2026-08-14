@@ -21,33 +21,49 @@ const TREND = mod.normEditions(raw);
 let fail = 0;
 const ok = (cond, msg) => { console.log((cond ? '  PASS ' : '  FAIL ') + msg); if (!cond) fail++; };
 
+/* ★불변식 검사만 한다 — 회차마다 바뀌는 수치(에디션 수·건수·경고 수·특정 id)에 단언을 걸지 않는다.
+   시드 수치에 못을 박아 두면 매일 데이터가 아니라 테스트가 실패한다. */
 console.log('\n[1] normEditions');
-ok(TREND.length === 1, 'edition count = 1 (got ' + TREND.length + ')');
-ok(TREND[0].date === '2026-08-14', 'date parsed');
-ok(TREND[0].sections.length === 4, 'always 4 sections (got ' + TREND[0].sections.length + ')');
-ok(TREND[0].sections.map(s => s.key).join(',') === 'new,update,hot,console', 'section order fixed');
+ok(TREND.length >= 1, 'edition count >= 1 (got ' + TREND.length + ')');
+ok(TREND.length <= (raw.keepDays || 14), 'keepDays 이내 (' + TREND.length + ' <= ' + (raw.keepDays || 14) + ')');
+ok(TREND.every(e => /^\d{4}-\d{2}-\d{2}$/.test(e.date)), 'every date parsed as YYYY-MM-DD');
+/* ★칸 수·순서는 index.html 의 DESK_SECTIONS 에서 끌어온다 — 사이트가 분류를 늘리면 테스트도 같이 따라간다.
+   (숫자를 여기 박아 두면 사이트 개편 때 데이터가 아니라 테스트가 먼저 깨진다) */
+const SECKEYS = mod.DESK_SECTIONS.map(s => s.key);
+console.log('  · DESK_SECTIONS = ' + SECKEYS.join(','));
+ok(TREND.every(e => e.sections.length === SECKEYS.length), 'sections = DESK_SECTIONS 수(' + SECKEYS.length + ')');
+ok(TREND.every(e => e.sections.map(s => s.key).join(',') === SECKEYS.join(',')), 'section order = DESK_SECTIONS 순서');
 
-console.log('\n[2] items');
-const all = mod.edItems(TREND[0]);
-ok(all.length === 14, 'total items = 14 (got ' + all.length + ')');
+console.log('\n[2] items (최신 에디션)');
+const ED = TREND[0];
+const all = mod.edItems(ED);
+console.log('  · ' + ED.date + ' — ' + all.length + '건 ' +
+  ED.sections.map(s => s.key + ':' + s.items.length).join(' '));
+ok(all.length > 0, 'edition has at least 1 item');
 ok(all.every(i => i.id && i.title), 'every item has id + title');
-ok(new Set(all.map(i => i.id)).size === all.length, 'ids unique');
+ok(new Set(all.map(i => i.id)).size === all.length, 'ids unique within edition');
 ok(all.every(i => ['new', 'update', 'hot', 'console'].includes(i.sec)), 'sec tagged on every item');
 ok(all.every(i => i.heat >= 0 && i.heat <= 3), 'heat clamped 0..3');
-ok(all.every(i => Array.isArray(i.sources) && i.sources.every(s => s.url)), 'sources well-formed');
-ok(all.filter(i => i.coverage.length).length === 5, 'coverage warnings = 5');
+ok(all.every(i => Array.isArray(i.sources) && i.sources.length >= 1 && i.sources.every(s => s.url)), 'every item has >=1 well-formed source');
+ok(all.every(i => !('writer' in i) || !i.writer), 'no writer key (배정은 발주 팝업 몫)');
+ok(TREND.every(e => new Set(mod.edItems(e).map(i => i.id)).size === mod.edItems(e).length), 'ids unique in every edition');
 
 console.log('\n[3] deskMaterial (발주 모달 프리필)');
-const m = mod.deskMaterial(all.find(i => i.id === '20260814-hot-1'));
-ok(m.includes('[8/13 정식 출시]'), 'when 앞머리 포함');
-ok(m.includes('참고: 인벤 https://'), '출처 URL 포함');
-ok(m.includes('★기존 글 확인 필요: 봄딩'), 'coverage 경고가 소재 메모에 실림');
-ok(mod.deskMaterial(all.find(i => i.id === '20260814-new-2')).indexOf('★기존 글') < 0, 'coverage 없으면 경고 미삽입');
+const anyItem = all[0];
+const m = mod.deskMaterial(anyItem);
+ok(typeof m === 'string' && m.length > 0, 'material 생성됨');
+ok(m.includes('http'), '출처 URL 포함');
+const withCov = all.find(i => i.coverage.length);
+const noCov = all.find(i => !i.coverage.length);
+if (withCov) ok(mod.deskMaterial(withCov).includes('★기존 글 확인 필요'), 'coverage 경고가 소재 메모에 실림');
+else console.log('  SKIP coverage 경고 — 오늘 판에 경고 붙은 항목 없음');
+if (noCov) ok(mod.deskMaterial(noCov).indexOf('★기존 글') < 0, 'coverage 없으면 경고 미삽입');
+else console.log('  SKIP 무경고 항목 — 오늘 판 전 항목에 경고가 붙음');
 
 console.log('\n[4] 방어 — 깨진/구 스키마 입력');
 ok(mod.normEditions(null).length === 0, 'null → []');
 ok(mod.normEditions({ issues: [{ writer: '봄딩', date: '2026-08-13' }] }).length === 0, '구 issues 스키마 → [] (조용히 버림)');
-ok(mod.normEditions({ editions: [{ date: '2026-08-15' }] })[0].sections.length === 4, 'sections 없어도 4칸 생성');
+ok(mod.normEditions({ editions: [{ date: '2026-08-15' }] })[0].sections.length === mod.DESK_SECTIONS.length, 'sections 없어도 DESK_SECTIONS 만큼 칸 생성');
 const junk = mod.normEditions({ editions: [{ date: '2026-08-15', sections: [{ key: 'new', items: [{ title: '' }, null, { title: 'ok' }] }] }] });
 ok(mod.edItems(junk[0]).length === 1, '빈 title·null 아이템 제거');
 const two = mod.normEditions({ editions: [{ date: '2026-08-13' }, { date: '2026-08-15' }] });
