@@ -33,11 +33,18 @@ else
 fi
 
 # 2) Caddyfile — 443 → localhost:8080 (자동 TLS)
-echo "▶ Caddyfile 작성"
+#    ★ 이 스크립트는 Caddyfile 을 통째로 덮어쓴다. 그래서 다른 사이트 설정을
+#      여기 직접 적으면 재실행할 때 사라진다. 반드시 conf.d 드롭인으로 넣는다.
+#      (2026-08-14 연봄하우스가 /etc/caddy/conf.d/yeonbom-house.caddy 로 붙어 있음)
+echo "▶ Caddyfile 작성 (conf.d 드롭인 보존)"
+sudo mkdir -p /etc/caddy/conf.d
 sudo tee /etc/caddy/Caddyfile >/dev/null <<EOF
 ${HOST_TLS} {
     reverse_proxy localhost:${BACKEND_PORT}
 }
+
+# 드롭인 — 이 서버의 다른 사이트는 conf.d 에 넣는다 (여기 적으면 재실행 때 날아간다)
+import /etc/caddy/conf.d/*.caddy
 EOF
 
 # 3) Caddy enable + 재시작
