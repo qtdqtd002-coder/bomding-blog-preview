@@ -227,21 +227,39 @@ if(Test-Path $gjf){
 }
 $script:KnownGames = @($kg | Where-Object { $_ -and $_.Trim() -ne "" } | Select-Object -Unique)
 
-# ── trend.json 로드 → 작성자 직전 픽(날짜별) ──
+# ── trend.json 로드 → 직전 추천(날짜별) ──
+#   ★2026-08-14 스키마 2 대응: 트렌드가 '작성자별 브리핑(issues[].picks)' 에서
+#     '작성자 무관 일간 토픽 데스크(editions[].sections[].items[].title)' 로 바뀌었다.
+#     새 스키마엔 writer 필드가 없다(작성자는 발주 시점에 정해진다) → 작성자 필터 없이 전 항목을 직전 추천으로 본다.
+#     이월(🔄) 판정의 의미는 그대로다: "데스크가 이미 며칠째 밀고 있는 주제인가".
+#   옛 issues 스키마도 계속 읽는다(archive 된 과거 파일로 회귀 검증할 수 있게).
 $trendFile = Join-Path $Base "_trend\trend.json"
-$prevByDate = @()   # 최신순: @{ date; picks=@(@{clean;norm;bg;kw;gameGuess}) }
+$prevByDate = @()   # 최신순: @{ date; picks=@(@{clean;norm;bg;kw}) }
 if(Test-Path $trendFile){
   $tj = Get-Content $trendFile -Raw -Encoding UTF8 | ConvertFrom-Json
   $exclD = if([string]::IsNullOrWhiteSpace($ExcludeDate)){ $TODAY } else { $ExcludeDate }
-  $issues = @($tj.issues) | Where-Object { $_.writer -eq $Writer -and ([string]$_.date) -ne $exclD }
-  $issues = $issues | Sort-Object -Property date -Descending | Select-Object -First $PrevIssues
-  foreach($is in $issues){
+  $days = @()   # @{ date; titles=@() }
+  if($tj.editions){
+    foreach($ed in @($tj.editions)){
+      if(-not $ed.date -or ([string]$ed.date) -eq $exclD){ continue }
+      $titles = @()
+      foreach($sec in @($ed.sections)){ foreach($item in @($sec.items)){ if($item.title){ $titles += [string]$item.title } } }
+      $days += [pscustomobject]@{ date=[string]$ed.date; titles=$titles }
+    }
+  } else {
+    foreach($is in @($tj.issues)){
+      if($is.writer -ne $Writer -or ([string]$is.date) -eq $exclD){ continue }
+      $days += [pscustomobject]@{ date=[string]$is.date; titles=@($is.picks | ForEach-Object { [string]$_ }) }
+    }
+  }
+  $days = $days | Sort-Object -Property date -Descending | Select-Object -First $PrevIssues
+  foreach($d in $days){
     $ps = @()
-    foreach($p in @($is.picks)){
+    foreach($p in @($d.titles)){
       $c = Clean-Pick ([string]$p); $cn = Norm $c
       $ps += [pscustomobject]@{ clean=$c; norm=$cn; bg=(Bigrams $cn); kw=(Find-Keywords $cn) }
     }
-    $prevByDate += [pscustomobject]@{ date=[string]$is.date; picks=$ps }
+    $prevByDate += [pscustomobject]@{ date=$d.date; picks=$ps }
   }
 }
 
