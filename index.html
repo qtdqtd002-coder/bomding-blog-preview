@@ -58,15 +58,16 @@
   --a-yeonbom:#3F7EC0; --a-yeonbom-weak:#E6EFF9;
   --a-harusari:#BC3D73; --a-harusari-weak:#FBE9F1;
   --a-trend:#C4482A; --a-news:#8A5D08; --a-about:#C4482A; --a-queue:#1B5FA8; --a-ops:#166E3F;
-  /* ── 토픽 데스크 분류(2026-08-14 신설) ──
+  /* ── 토픽 데스크 분류(2026-08-14 신설 · 08-15 pin 추가/con 폐지) ──
      작성자 색과 다른 '주제 분류' 축이다. 트렌드 탭엔 작성자 색이 아예 렌더되지 않으므로 출처와 혼동되지 않고,
-     4색 중 3색은 이미 대비 검증된 상태 토큰(info·ok·accent)을 재사용한다. 새 값은 콘솔(바이올렛) 하나뿐.
+     전 색이 이미 대비 검증된 상태 토큰(warn·info·ok·accent)에서 왔다 — 새로 만든 값이 없다.
      ★색만으로 분류를 전달하지 않는다 — 섹션마다 아이콘 + 한글 라벨을 항상 같이 둔다. */
+  --c-pin:#8A5D08;      /* 꼭 다룰 게임 — 종이 위 5.6:1(--warn 과 같은 앰버, 이미 대비 검증된 값) */
   --c-core:#9C3F6E;     /* 주로 다루는 게임 — 종이 위 5.5:1 */
   --c-new:#1B5FA8;      /* 신작 게임 */
   --c-upd:#15703C;      /* 최근 업데이트 게임 */
   --c-hot:#C4482A;      /* 최근 화제 게임 */
-  --c-con:#5B4B8A;      /* 콘솔 게임 — 종이 위 6.5:1 */
+  /* ~~--c-con(콘솔)~~ = 2026-08-15 분류 폐지로 사용처 없음 — 토큰도 함께 제거했다(죽은 토큰 금지) */
   /* ── 상태 ── */
   --ok:#15703C; --ok-weak:#E1F0E7; --warn:#8A5D08; --warn-weak:#F8EEDA;
   --bad:#B3261E; --bad-weak:#FAE7E5; --info:#1B5FA8; --info-weak:#E5EEF8;
@@ -103,7 +104,7 @@
   --a-bomding:#F09067; --a-yeongdo:#4CB6A1; --a-gemdeokku:#A98BEC;
   --a-yeonbom:#6BA6E0; --a-harusari:#EC85AF;
   --a-trend:#FF8A62; --a-queue:#7BB4EE; --a-ops:#4ED88E; --a-news:#E7B34A;
-  --c-core:#E58AB4; --c-new:#7BB4EE; --c-upd:#4CD98D; --c-hot:#FF8A62; --c-con:#A99AE0;  /* 토픽 데스크 분류(다크) */
+  --c-pin:#E7B34A; --c-core:#E58AB4; --c-new:#7BB4EE; --c-upd:#4CD98D; --c-hot:#FF8A62;  /* 토픽 데스크 분류(다크) */
   --ok:#4CD98D; --ok-weak:#11241A; --warn:#E7B34A; --warn-weak:#261E10;
   --bad:#F58D82; --bad-weak:#2A1614; --info:#7BB4EE; --info-weak:#121E2B;
   --ac-fg:#121110;
@@ -473,14 +474,66 @@ svg{display:block;}
   padding:4px 11px;font-feature-settings:"tnum";flex:none;}
 .tsec-b{border:1px solid var(--line);border-top:0;border-radius:0 0 var(--r-lg) var(--r-lg);
   background:var(--surface);padding:16px 18px 18px;box-shadow:var(--sh-xs);}
-/* ── 주제 목록 (2026-08-14 2차 — 카드 그리드 → 목록) ──
-   사용자 피드백: "어떤 게임인지 한눈에 보기가 힘들다."
-   카드 그리드는 게임명이 카드마다 다른 높이에 흩어져 세로로 훑을 수가 없었다.
-   → DESIGN.md §Row(목록) 패턴을 따라 **게임명을 고정 열로 세운다.** 눈이 한 축만 따라가면 된다.
-   열 = 4px 색바 · 게임명(+플랫폼·레인) · 주제+왜 · 목적/시의성 · 발주 */
+/* ── 꼭 다룰 게임 상자 (2026-08-15 신설) ──
+   트렌드 탭 최상단. 여기 적은 게임은 다음 회차 데스크가 게임마다 주제 3~5개를 반드시 낸다.
+   ★설명문을 넣지 않는다(회사 규칙) — 남긴 한 줄 "다음 회차부터"는 읽지 않으면 잘못 쓰게 되는 정보다
+     (오늘 판에 즉시 반영된다고 오해하는 게 이 UI 의 유일한 함정). */
+.pinbox{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);
+  box-shadow:var(--sh-xs);overflow:hidden;margin-bottom:18px;}
+.pin-h{display:flex;align-items:center;gap:10px;padding:13px 18px;position:relative;
+  background:color-mix(in srgb,var(--ac) 7%,var(--surface));border-bottom:1px solid var(--line);}
+.pin-h::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ac);}
+.pin-ic{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;flex:none;
+  border-radius:8px;color:var(--ac);background:color-mix(in srgb,var(--ac) 13%,var(--surface));}
+.pin-ic .ic{width:15px;height:15px;}
+.pin-t{font-size:15.5px;font-weight:700;letter-spacing:-.022em;color:var(--ink);}
+.pin-note{font-size:12.5px;color:var(--ink-3);letter-spacing:-.01em;}
+.pin-n{margin-left:auto;font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--ink-3);
+  font-feature-settings:"tnum";flex:none;}
+.pin-n.full{color:var(--ac);}
+.pin-b{padding:14px 18px 16px;}
+.pin-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.pin-chip{display:inline-flex;align-items:center;gap:3px;padding:5px 5px 5px 12px;border-radius:999px;
+  background:color-mix(in srgb,var(--ac) 9%,var(--surface));
+  border:1px solid color-mix(in srgb,var(--ac) 32%,transparent);max-width:100%;}
+.pin-nm{font-size:13.5px;font-weight:700;letter-spacing:-.015em;color:var(--ac-ink,var(--ink));
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pin-x{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;flex:none;
+  border:0;border-radius:50%;background:transparent;color:var(--ink-3);cursor:pointer;transition:.15s var(--ease);}
+.pin-x .ic{width:12px;height:12px;stroke-width:2.4;}
+.pin-x:hover{background:color-mix(in srgb,var(--ac) 18%,transparent);color:var(--ink);}
+.pin-x:disabled{opacity:.4;cursor:default;}
+.pin-add{display:flex;gap:8px;align-items:center;}
+.pin-i{flex:1;min-width:0;height:40px;padding:0 14px;font:inherit;font-size:14px;color:var(--ink);
+  background:var(--paper);border:1px solid var(--line-2);border-radius:var(--r-sm);
+  transition:border-color .15s var(--ease),box-shadow .15s var(--ease);}
+.pin-i::placeholder{color:var(--ink-4,var(--ink-3));}
+.pin-i:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 18%,transparent);}
+.pin-i:disabled{background:var(--surface-2);color:var(--ink-3);}
+.pin-go{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 16px;flex:none;
+  border:0;border-radius:var(--r-sm);background:var(--ink);color:var(--paper);font:inherit;font-size:13.5px;
+  font-weight:700;letter-spacing:-.015em;cursor:pointer;white-space:nowrap;transition:.2s var(--ease);}
+.pin-go .ic{width:14px;height:14px;stroke-width:2.4;}
+.pin-go:hover:not(:disabled){background:var(--ac);color:var(--on-brand,var(--paper));}
+.pin-go:disabled{opacity:.42;cursor:default;}
+@media(max-width:600px){
+  .pin-h{padding:12px 15px;gap:8px;flex-wrap:wrap;}
+  .pin-note{order:3;flex-basis:100%;}
+  .pin-b{padding:13px 15px 15px;}
+  .pin-add{flex-wrap:wrap;}
+  .pin-i{flex-basis:100%;}
+  .pin-go{flex:1;justify-content:center;}
+}
+
+/* ── 주제 목록 (2026-08-14 2차 목록 전환 → 08-15 3차 간소화) ──
+   08-14: 카드 그리드는 게임명이 흩어져 세로로 훑을 수가 없어 **게임명을 고정 열로** 세웠다.
+   08-15(사용자 지시): 그 위에 남아 있던 플랫폼·화제도·작성자·왜지금·목적·시점·출처를 **전부 뺐다**.
+     "불필요한 설명이 많아 모바일에서 보기 힘들다" — 훑는 자리에 판단 재료를 다 얹으면 훑을 수가 없다.
+     그 정보는 사라진 게 아니라 [발주 요청] 모달(.rf-brief)로 옮겨 갔다.
+   열 = 4px 색바 · 게임명 · 주제(+겹침 경고) · 발주 */
 .tlist{border:1px solid var(--line);border-top:0;border-radius:0 0 var(--r-lg) var(--r-lg);
   background:var(--surface);box-shadow:var(--sh-xs);overflow:hidden;}
-.trow{display:grid;grid-template-columns:4px 168px minmax(0,1fr) 148px 122px;align-items:center;
+.trow{display:grid;grid-template-columns:4px 170px minmax(0,1fr) auto;align-items:center;
   gap:0 15px;padding:0 16px 0 0;border-bottom:1px solid var(--line);
   transition:background .16s var(--ease);}
 .trow:last-child{border-bottom:0;}
@@ -489,37 +542,21 @@ svg{display:block;}
 .trow>*{grid-row:1;}
 .tr-bar{align-self:stretch;background:var(--ac,var(--accent));opacity:.5;transition:opacity .16s var(--ease);}
 .trow:hover .tr-bar{opacity:1;}
-.tr-g{display:flex;flex-direction:column;gap:4px;min-width:0;padding:14px 0;}
-.tr-gname{font-size:14.5px;font-weight:700;letter-spacing:-.02em;color:var(--ac-ink);line-height:1.35;
-  word-break:keep-all;}
-.tr-gsub{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
-.tr-plat{font-size:12.5px;font-weight:600;color:var(--ink-3);}
+.tr-g{min-width:0;padding:13px 0;font-size:14px;font-weight:700;letter-spacing:-.02em;
+  color:var(--ac-ink);line-height:1.4;word-break:keep-all;}
+.tr-m{min-width:0;padding:13px 0;display:flex;align-items:center;gap:8px;}
+.tr-h{min-width:0;font-size:14.5px;font-weight:600;line-height:1.5;letter-spacing:-.018em;
+  color:var(--ink);word-break:keep-all;}
 .tr-heat{display:inline-flex;align-items:center;gap:3px;}
 .tr-heat i{width:5px;height:5px;border-radius:50%;background:var(--line-2);}
 .tr-heat i.on{background:var(--ac,var(--accent));}
-/* 레인 = 이 게임을 주로 쓰는 작성자. 출처 표시라 작성자색 + 이름 텍스트를 함께 둔다(Author-Color Rule). */
-.tr-lane{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;
-  color:var(--wac,var(--ink-3));}
-.tr-lane .av{width:17px;height:17px;box-shadow:none;}
-.tr-m{min-width:0;padding:14px 0;display:flex;flex-direction:column;gap:5px;}
-.tr-h{font-size:15px;font-weight:700;line-height:1.5;letter-spacing:-.018em;color:var(--ink);word-break:keep-all;}
-.tr-why{font-size:13px;line-height:1.6;color:var(--ink-2);word-break:keep-all;}
-.tr-x{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:2px;}
-.tr-src{font-size:12.5px;font-weight:600;color:var(--ink-3);text-decoration:none;
-  border-bottom:1px solid var(--line-2);transition:.15s var(--ease);}
-.tr-src:hover{color:var(--accent);border-color:var(--accent);}
-.tr-warn{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--warn);
-  background:var(--warn-weak);border:1px solid color-mix(in srgb,var(--warn) 34%,transparent);
-  border-radius:var(--r-xs);padding:3px 8px;cursor:help;}
-.tr-warn .ic{width:13px;height:13px;flex:none;}
-.tr-m2{display:flex;flex-direction:column;gap:6px;align-items:flex-start;padding:14px 0;min-width:0;}
-.tr-purp{font-size:12.5px;font-weight:700;color:var(--ac-ink);border-radius:var(--r-xs);padding:3px 9px;
-  background:color-mix(in srgb,var(--ac,var(--accent)) 10%,var(--surface));
-  border:1px solid color-mix(in srgb,var(--ac,var(--accent)) 30%,var(--surface));
-  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.tr-when{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink-3);
-  font-feature-settings:"tnum";word-break:keep-all;}
-.tr-a{display:flex;align-items:center;gap:7px;justify-content:flex-end;padding:14px 0;}
+/* 겹침 경고 — 행에 유일하게 남긴 메타. 아이콘+숫자만(제목은 title 툴팁), 색만으로 뜻을 전하지 않게 숫자를 둔다. */
+.tr-warn{display:inline-flex;align-items:center;gap:4px;flex:none;font-size:12px;font-weight:700;
+  color:var(--warn);background:var(--warn-weak);
+  border:1px solid color-mix(in srgb,var(--warn) 34%,transparent);
+  border-radius:var(--r-xs);padding:2px 7px;cursor:help;font-feature-settings:"tnum";}
+.tr-warn .ic{width:12px;height:12px;flex:none;}
+.tr-a{display:flex;align-items:center;gap:7px;justify-content:flex-end;padding:13px 0;}
 .tr-req{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 5px 0 13px;
   border:0;border-radius:999px;background:var(--ink);color:var(--paper);font:inherit;font-size:13px;
   font-weight:700;cursor:pointer;letter-spacing:-.015em;white-space:nowrap;
@@ -536,26 +573,26 @@ svg{display:block;}
 .tr-req.done{background:var(--ok);color:var(--paper);cursor:default;}
 .tr-req.done:hover{transform:none;box-shadow:none;background:var(--ok);color:var(--paper);}
 .tr-req.done:hover .knob{transform:none;}
-.tr-copy{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;flex:none;
-  border:1px solid var(--line-2);border-radius:50%;background:var(--surface);color:var(--ink-3);
-  cursor:pointer;transition:.2s var(--ease);}
-.tr-copy .ic{width:14px;height:14px;}
-.tr-copy:hover{border-color:var(--line-3);color:var(--ink);background:var(--surface-2);}
-/* 1240px: 목적/시의성 열을 접어 본문 아래로 · 960px: 게임 열도 접어 2줄 카드 행 */
-@media(max-width:1240px){
-  .trow{grid-template-columns:4px 158px minmax(0,1fr) 122px;}
-  .tr-m2{display:none;}
-  .tr-x .tr-purp-i{display:inline-flex;}
+/* 860px: 게임 열을 좁힌다 · 620px: 게임명↑/주제↓ 2줄 + 발주 버튼은 오른쪽에 두 줄 걸침.
+   ★행이 세 요소뿐이라 옛 3단 스택(게임/주제/버튼)이 필요 없어졌다 — 모바일에서 한 항목이 3줄→2줄로 줄었다. */
+@media(max-width:860px){
+  .trow{grid-template-columns:4px 140px minmax(0,1fr) auto;gap:0 12px;padding-right:14px;}
 }
-@media(min-width:1241px){ .tr-x .tr-purp-i{display:none;} }
-@media(max-width:960px){
-  .trow{grid-template-columns:4px minmax(0,1fr);grid-template-areas:"bar game" "bar main" "bar act";
-    gap:0;padding:0 14px 0 0;}
+@media(max-width:620px){
+  .trow{grid-template-columns:4px minmax(0,1fr) auto;grid-template-areas:"bar game act" "bar main act";
+    gap:0 12px;padding:0 14px 0 0;}
   .trow>*{grid-row:auto;}
-  .tr-bar{grid-area:bar;} .tr-g{grid-area:game;padding:13px 0 0;flex-direction:row;align-items:center;gap:9px;flex-wrap:wrap;}
-  .tr-m{grid-area:main;padding:7px 0;} .tr-a{grid-area:act;padding:0 0 13px;justify-content:flex-start;}
+  .tr-bar{grid-area:bar;}
+  .tr-g{grid-area:game;padding:11px 0 0;font-size:12.5px;}
+  .tr-m{grid-area:main;padding:2px 0 11px;align-items:flex-start;}
+  .tr-h{font-size:14px;}
+  .tr-warn{margin-top:2px;}
+  .tr-a{grid-area:act;padding:0;}
+  .tr-req{height:34px;padding:0 4px 0 11px;font-size:12.5px;}
+  .tr-req .knob{width:24px;height:24px;}
 }
 @media(max-width:720px){ .tsec-h{padding:13px 15px;} }
+@media(max-width:600px){ .tsec-d{display:none;} }   /* 분류 설명은 좁은 화면에서 접는다(라벨+아이콘으로 충분) */
 
 /* ── 발주 요청 모달 ── */
 .mdl-back{position:fixed;inset:0;z-index:var(--z-modal);display:flex;align-items:center;justify-content:center;
@@ -603,10 +640,28 @@ svg{display:block;}
   border-radius:999px;background:var(--surface);color:var(--ink-2);font:inherit;font-size:13.5px;font-weight:700;
   cursor:pointer;transition:.18s var(--ease);}
 .mdl-cancel:hover{border-color:var(--line-3);color:var(--ink);background:var(--surface-2);}
+.mdl-copy{display:inline-flex;align-items:center;gap:7px;height:44px;padding:0 15px;border:1px solid var(--line-2);
+  border-radius:999px;background:var(--surface);color:var(--ink-2);font:inherit;font-size:13.5px;font-weight:700;
+  cursor:pointer;transition:.18s var(--ease);}
+.mdl-copy .ic{width:14px;height:14px;}
+.mdl-copy:hover{border-color:var(--line-3);color:var(--ink);background:var(--surface-2);}
 .mdl-msg{width:100%;font-size:13px;line-height:1.7;color:var(--ink-2);}
 .mdl-msg.err{color:var(--bad);font-weight:600;} .mdl-msg.ok{color:var(--ok);font-weight:600;}
+/* 주제 브리핑 — 08-15 개편에서 목록 행이 버린 맥락이 여기 모인다(훑는 자리 ≠ 정하는 자리). */
+.rf-brief{border:1px solid var(--line);border-radius:var(--r-md,10px);background:var(--surface-2);
+  padding:13px 15px;margin-bottom:18px;}
+.rf-bh{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.rf-bg{font-size:14.5px;font-weight:700;letter-spacing:-.02em;color:var(--ac-ink,var(--ink));word-break:keep-all;}
+.rf-bp{font-size:12.5px;font-weight:600;color:var(--ink-3);}
+.rf-bw{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink-3);font-feature-settings:"tnum";}
+.rf-bwhy{font-size:13px;line-height:1.65;color:var(--ink-2);margin-top:7px;word-break:keep-all;}
+.rf-bsrc{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:9px;}
+.rf-bsrc a{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;color:var(--ink-3);
+  text-decoration:none;border-bottom:1px solid var(--line-2);transition:.15s var(--ease);}
+.rf-bsrc a .ic{width:11px;height:11px;}
+.rf-bsrc a:hover{color:var(--accent);border-color:var(--accent);}
 @media(max-width:640px){ .mdl-back{padding:12px;} .mdl{max-height:94vh;} .mdl-f{flex-direction:column-reverse;align-items:stretch;}
-  .mdl-cancel{justify-content:center;} }
+  .mdl-cancel,.mdl-copy{justify-content:center;} }
 @media(prefers-reduced-motion:reduce){
   .titem,.ti-req,.ti-req .knob,.mdl,.mdl-back,.mdl-go,.mdl-go .knob{transition:none!important;}
   .titem:hover,.ti-req:hover,.mdl-go:hover{transform:none!important;}
@@ -1292,8 +1347,9 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
   inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
   alertTri:'<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
   star:'<path d="M11.5 3.2a.6.6 0 0 1 1 0l2.3 4.7 5.2.75a.6.6 0 0 1 .33 1.02l-3.76 3.66.89 5.17a.6.6 0 0 1-.87.63L12 16.7l-4.63 2.43a.6.6 0 0 1-.87-.63l.89-5.17-3.76-3.66a.6.6 0 0 1 .33-1.02l5.2-.75z"/>',
-  gamepad:'<line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/>',
   x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',
+  pin:'<path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/>',
   clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'
  };
  const svg=(n,cls)=>`<svg class="ic${cls?(" "+cls):""}" viewBox="0 0 24 24" aria-hidden="true">${I[n]||""}</svg>`;
@@ -1468,6 +1524,43 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    }
  };
 
+ /* ---------- 꼭 다룰 게임(pins) — 다음 회차 데스크가 반드시 주제를 뽑을 게임 (2026-08-15) ----------
+    저장을 백엔드에 두는 이유가 이 기능의 전부다: 이 목록을 실제로 소비하는 쪽이 브라우저가 아니라
+    **PC 에서 도는 daily-topic-desk 스킬**이라, localStorage 에 두면 스킬이 영영 읽지 못한다.
+    백엔드에 두면 폰(PWA)에서 지정해도 다음 날 아침 회차가 그대로 읽는다.
+    localStorage 는 '마지막으로 본 값' 캐시일 뿐 — 서버 응답이 오면 언제나 서버가 이긴다. */
+ const PINS_MAX=8;
+ const PIN_LS="sseudam_pins_cache";
+ let PINS=[];                 /* 현재 지정 목록(순서 유지) — GET /pins 로 채움 */
+ let PINS_AT=null;            /* 마지막 저장 시각(ms) — 서버 기준 */
+ const PinSvc={
+   isConnected(){ return !!REQ_CFG.API_BASE; },
+   /* 캐시 우선 표시 → 서버 응답으로 교체. 오프라인에서도 상자가 비어 보이지 않게 한다. */
+   loadCache(){ try{ const a=JSON.parse(localStorage.getItem(PIN_LS)||"[]"); if(Array.isArray(a))PINS=a.map(String).slice(0,PINS_MAX); }catch(_){ } },
+   async load(){
+     if(!this.isConnected())return;
+     try{ const r=await fetch(apiBase()+"/pins?ts="+Date.now()); if(!r.ok)return;
+          const d=await r.json(); if(!d||!Array.isArray(d.games))return;
+          PINS=d.games.map(String).slice(0,PINS_MAX); PINS_AT=d.updatedAt||null;
+          try{ localStorage.setItem(PIN_LS,JSON.stringify(PINS)); }catch(_){ } }catch(_){ }
+   },
+   /* 전체 교체 저장. 부분 연산(add/remove)이 아니라 최종 상태를 보내는 이유는 백엔드 주석 참조. */
+   async save(games){
+     if(!this.isConnected())throw new Error("백엔드 미연결 — 꼭 다룰 게임은 서버 저장이 필요해요.");
+     const r=await fetch(apiBase()+"/pins",{method:"POST",headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({games,source:"site"})});
+     if(!r.ok){ let m=""; try{ m=(await r.json()).error; }catch(_){ } throw new Error(m||("HTTP "+r.status)); }
+     const d=await r.json();
+     PINS=(d&&Array.isArray(d.games))?d.games.map(String):games.slice(0,PINS_MAX);
+     PINS_AT=(d&&d.updatedAt)||Date.now();
+     try{ localStorage.setItem(PIN_LS,JSON.stringify(PINS)); }catch(_){ }
+     return PINS;
+   },
+   /* 중복 판정은 백엔드와 같은 규칙(공백 무시) — 서버가 조용히 합쳐서 UI 와 어긋나는 일을 막는다. */
+   key(s){ return String(s||"").replace(/\s+/g,"").toLowerCase(); },
+   has(s){ const k=this.key(s); return PINS.some(p=>this.key(p)===k); }
+ };
+
  /* 웹 푸시: 사이트 SW(sw.js) 등록 후에만 동작(설치형 PWA 단계에서 등록). */
  const PushSvc={
    supported(){ return ("serviceWorker" in navigator)&&("PushManager" in window)&&("Notification" in window); },
@@ -1562,6 +1655,8 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
  const pubP=fetch("published.json?ts="+Date.now()).then(r=>r.ok?r.json():{publishedRels:[]}).catch(()=>({publishedRels:[]}));
  const hidP=HiddenSvc.load();   /* 백엔드 숨김 목록(GET /hidden) — 실패해도 조용히 통과(아무것도 안 숨김) */
  const mpubP=MpubSvc.load();    /* 백엔드 수동 발행완료 목록(GET /mpub) — 실패해도 조용히 통과 */
+ PinSvc.loadCache();            /* 꼭 다룰 게임 — 캐시부터 그려 두고(오프라인 대비) 아래 응답으로 교체 */
+ const pinP=PinSvc.load();      /* 백엔드 지정 목록(GET /pins) — 실패해도 조용히 통과(캐시 유지) */
  /* 부팅 진행바 — 실제 fetch 완료 시점에만 채운다(연출용 가짜 진행 아님) */
  const bstep=n=>{ try{ window.__boot&&window.__boot.step(n); }catch(_){} };
  postsP.finally(()=>bstep("글 목록을 불러왔어요"));
@@ -1570,7 +1665,7 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
  Promise.resolve(hidP).finally(()=>bstep("숨김 목록 동기화"));
  Promise.resolve(mpubP).finally(()=>bstep("발행 완료 표시 동기화"));
 
- Promise.all([postsP,trendP,pubP,hidP,mpubP]).then(([posts,trend,pub])=>{
+ Promise.all([postsP,trendP,pubP,hidP,mpubP,pinP]).then(([posts,trend,pub])=>{
    const PUBSET=new Set(((pub&&pub.publishedRels)||[]));
    POSTS=(posts||[]).filter(p=>p&&p.rel&&!p.rel.split("/").some(s=>s.startsWith(".")||s.startsWith("_"))).map(p=>{
      const a=p.rel.split("/");
@@ -2271,24 +2366,37 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
     트렌드 = 일간 토픽 데스크 (2026-08-14 전면 개편)
     ------------------------------------------------------------------------
     옛 방식: 작성자 5인별 브리핑 HTML 5편 → 글 안의 위젯에서 발행 요청.
-    새 방식: **작성자와 무관한 하루치 뉴스 1판**을 4분류(신작·업데이트·화제·콘솔)로 내고,
+    새 방식: **작성자와 무관한 하루치 뉴스 1판**을 분류별로 내고,
              주제마다 [발주 요청] → 모달에서 **그때 작성자를 고른다**.
     데이터 = _trend/trend.json (schema 2, editions[] 배열). 별도 HTML 파일 없음.
+
+    ★2026-08-15 2차 개편(사용자 지시) — 세 가지가 바뀌었다.
+      ⑴ 탭 최상단에 **꼭 다룰 게임 상자**(최대 8종). 백엔드 /pins 에 저장되고, 다음 날 아침 데스크가
+         읽어 **게임마다 주제 3~5개**를 반드시 만든다(분류 pinned).
+      ⑵ 목록 행은 **게임명 · 주제 · [발주 요청]** 셋으로 줄였다. 플랫폼·화제도·작성자·왜지금·목적·시점·출처는
+         행에서 빼고 **발주 모달**로 옮겼다 — 모바일에서 한 화면에 들어오는 항목 수가 목적이다.
+         (남긴 예외 = 이미 다룬 글 경고. 이건 장식이 아니라 '발주할지 말지'를 뒤집는 신호라 행에 남긴다.)
+      ⑶ 콘솔 게임 분류 폐지 · 마스트헤드 안내문단/에디션 리드 제거(읽지 않아도 잘못 쓸 일이 없는 문장).
     ======================================================================== */
- /* 분류 5개 — cap 은 '상한'이지 '채워야 할 수'가 아니다. 못 채우면 비운다(사용자 지시 08-14). */
+ /* 분류 5개 — cap 은 '상한'이지 '채워야 할 수'가 아니다. 못 채우면 비운다(사용자 지시 08-14).
+    ★2026-08-15 개편: 맨 앞에 pinned(꼭 다룰 게임) 신설 · console(콘솔 게임) 폐지(사용자 지시).
+    pinned cap 40 = 지정 게임 8종 × 게임당 최대 5주제. 다른 분류와 달리 '게임마다 3~5건'이 규칙이라
+    한 분류에 여러 건이 같은 게임으로 모이는 유일한 칸이다. */
  const DESK_SECTIONS=[
+   {key:"pinned", label:"꼭 다룰 게임",       desc:"내가 지정한 게임",          icon:"pin",     ac:"var(--c-pin)",  cap:40},
    {key:"core",   label:"주로 다루는 게임",   desc:"봄딩·영도가 계속 쓰는 게임", icon:"star",    ac:"var(--c-core)", cap:10},
    {key:"new",    label:"신작 게임",          desc:"막 나왔거나 곧 나오는 게임", icon:"spark",   ac:"var(--c-new)",  cap:5},
    {key:"update", label:"최근 업데이트 게임",  desc:"화제성 있는 패치·시즌",      icon:"refresh", ac:"var(--c-upd)",  cap:5},
-   {key:"hot",    label:"최근 화제되는 게임",  desc:"지금 검색·화제가 몰리는 쪽",  icon:"flame",   ac:"var(--c-hot)",  cap:5},
-   {key:"console",label:"콘솔 게임",          desc:"PS·Xbox·스위치 — 화제작",   icon:"gamepad", ac:"var(--c-con)",  cap:5}
+   {key:"hot",    label:"최근 화제되는 게임",  desc:"지금 검색·화제가 몰리는 쪽",  icon:"flame",   ac:"var(--c-hot)",  cap:5}
  ];
  const DESK_SEC=Object.fromEntries(DESK_SECTIONS.map(s=>[s.key,s]));
  /* trend.json 정규화 — schema 2(editions)만 읽는다. 옛 issues 스키마는 08-14 폐기(잔재가 오면 조용히 버린다). */
  function normEditions(raw){
    const eds=(raw&&Array.isArray(raw.editions))?raw.editions:[];
+   /* lead(2~3문장 리드)는 08-15 개편에서 렌더를 끊었다 — headline + 분류별 건수 칩이 같은 말을 이미 한다.
+      옛 데이터에 남아 있어도 조용히 무시한다(스키마 하위호환). */
    return eds.filter(e=>e&&e.date).map(e=>({
-     date:String(e.date), headline:String(e.headline||""), lead:String(e.lead||""), note:String(e.note||""),
+     date:String(e.date), headline:String(e.headline||""), note:String(e.note||""),
      sections:DESK_SECTIONS.map(s=>{
        const src=(e.sections||[]).find(x=>x&&x.key===s.key)||{};
        const items=(src.items||[]).filter(Boolean).map((it,i)=>({
@@ -2322,54 +2430,90 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    return parts.join("\n");
  }
 
+ /* ---------- 꼭 다룰 게임 상자 (트렌드 탭 최상단) ----------
+    여기 적은 게임은 **다음 회차(다음 날 아침 6시) 데스크**가 게임마다 주제 3~5개를 반드시 만든다.
+    오늘 판에 즉시 반영되지 않는다는 게 이 UI 의 유일한 오해 소지라, 그 한 줄만 상자 안에 둔다. */
+ function pinBox(){
+   const full=PINS.length>=PINS_MAX;
+   const chips=PINS.map((g,i)=>
+     `<span class="pin-chip"><span class="pin-nm">${esc(g)}</span>`+
+     `<button type="button" class="pin-x" data-pin-rm="${i}" title="${esc(g)} 빼기" aria-label="${esc(g)} 빼기">${svg("x")}</button></span>`
+   ).join("");
+   return `<section class="pinbox" style="--ac:var(--c-pin)">`+
+     `<div class="pin-h">`+
+       `<span class="pin-ic">${svg("pin")}</span>`+
+       `<span class="pin-t">꼭 다룰 게임</span>`+
+       `<span class="pin-note">다음 회차부터 게임마다 주제 3~5개</span>`+
+       `<span class="pin-n${full?" full":""}">${PINS.length} / ${PINS_MAX}</span>`+
+     `</div>`+
+     `<div class="pin-b">`+
+       (PINS.length?`<div class="pin-chips">${chips}</div>`:"")+
+       `<form class="pin-add" id="pinForm" autocomplete="off">`+
+         `<input id="pinInput" class="pin-i" type="text" maxlength="40" ${full?"disabled":""}`+
+           ` placeholder="${full?"8칸을 다 썼어요 — 빼야 더 넣을 수 있어요":"게임 이름 (예: 메이플플래닛)"}"`+
+           ` aria-label="꼭 다룰 게임 추가">`+
+         `<button type="submit" class="pin-go" ${full?"disabled":""}>${svg("plus")}<span>추가</span></button>`+
+       `</form>`+
+     `</div>`+
+   `</section>`;
+ }
+ /* 상자만 다시 그린다 — 목록 전체를 render() 로 재생성하면 스크롤 위치가 튄다. */
+ function repaintPinBox(focus){
+   const old=contentEl.querySelector(".pinbox"); if(!old)return;
+   const tmp=document.createElement("div"); tmp.innerHTML=pinBox();
+   old.replaceWith(tmp.firstElementChild);
+   bindPinBox();
+   if(focus){ const i=contentEl.querySelector("#pinInput"); if(i&&!i.disabled)i.focus(); }
+ }
+ function bindPinBox(){
+   const form=contentEl.querySelector("#pinForm");
+   if(form)form.addEventListener("submit",async e=>{
+     e.preventDefault();
+     const el=contentEl.querySelector("#pinInput"); if(!el)return;
+     const name=el.value.replace(/\s+/g," ").trim();
+     if(!name){ el.focus(); return; }
+     if(PinSvc.has(name)){ toast("이미 지정한 게임이에요."); el.value=""; el.focus(); return; }
+     if(PINS.length>=PINS_MAX){ toast("최대 "+PINS_MAX+"개까지만 지정할 수 있어요.","err"); return; }
+     el.disabled=true;
+     try{ await PinSvc.save(PINS.concat([name])); toast("‘"+name+"’ 추가 — 다음 회차 데스크부터 반영돼요.","ok"); repaintPinBox(true); }
+     catch(err){ el.disabled=false; toast("저장 실패: "+((err&&err.message)||err),"err"); }
+   });
+   contentEl.querySelectorAll("[data-pin-rm]").forEach(b=>b.addEventListener("click",async()=>{
+     const i=Number(b.dataset.pinRm); const name=PINS[i]; if(!name)return;
+     b.disabled=true;
+     try{ await PinSvc.save(PINS.filter((_,n)=>n!==i)); toast("‘"+name+"’ 뺐어요."); repaintPinBox(false); }
+     catch(err){ b.disabled=false; toast("저장 실패: "+((err&&err.message)||err),"err"); }
+   }));
+ }
+
  /* ---------- 트렌드(일간 토픽 데스크) ---------- */
  function renderTrend(){
    titleEl.textContent="트렌드 데스크"; if(qEl)qEl.placeholder="주제 검색 (예: 명조, 스위치, 사전예약)";
    const mast=`<div class="masthead" style="--ac:var(--a-trend)"><div class="mk">${svg("news")}일간 토픽 데스크</div>`+
-     `<div class="mt">오늘 쓸 만한 게임 주제, 뉴스처럼 하루 한 판</div>`+
-     `<div class="ms">신작·업데이트·화제·콘솔 네 갈래로 그날의 소재를 모읍니다. 쓸 만한 주제를 고르면 <b>[발주 요청]</b>에서 작성자를 정해 작업 큐로 바로 보낼 수 있어요.</div></div>`;
+     `<div class="mt">오늘 쓸 만한 게임 주제, 뉴스처럼 하루 한 판</div></div>`;
    if(!TREND.length){
      subEl.textContent="일간 토픽 데스크";
-     contentEl.innerHTML=`<div class="news">${mast}${emptyBox("base","아직 발행된 토픽 데스크가 없어요.<br>매일 00시 루틴이 그날의 주제를 모아 올립니다.")}</div>`;
+     contentEl.innerHTML=`<div class="news">${pinBox()}${mast}`+
+       emptyBox("base","아직 발행된 토픽 데스크가 없어요.<br>매일 아침 6시 루틴이 그날의 주제를 모아 올립니다.")+`</div>`;
+     bindPinBox();
      return;
    }
    const dates=TREND.map(e=>e.date);
    if(!state.trendDate||dates.indexOf(state.trendDate)<0)state.trendDate=dates[0];
 
-   /* 목록 행 1줄 — 게임명이 고정 열로 서서 세로로 훑힌다(08-14 2차 개편) */
+   /* 목록 행 = 게임명 · 주제 · [발주 요청]. 그 외 정보는 전부 발주 모달로 갔다(08-15 사용자 지시).
+      '이미 다룬 글' 경고만 예외로 남긴다 — 발주 여부를 뒤집는 신호라 누르기 전에 보여야 한다. */
    const row=(it)=>{
      const s=DESK_SEC[it.sec]||DESK_SECTIONS[0];
-     const heat=it.heat?`<span class="tr-heat" title="화제도 ${it.heat}/3" aria-label="화제도 ${it.heat}/3">`+
-       [1,2,3].map(n=>`<i class="${n<=it.heat?"on":""}"></i>`).join("")+`</span>`:"";
-     const lane=it.lane
-       ? `<span class="tr-lane" style="--wac:${ACCENT[it.lane]||"var(--ink-3)"}">${avatar(it.lane,"s")}${esc(it.lane)}</span>` : "";
-     const src=it.sources.length
-       ? `<a class="tr-src" href="${esc(it.sources[0].url)}" target="_blank" rel="noopener noreferrer">${esc(it.sources[0].label)} ${svg("arrowUR")}</a>` : "";
      const warn=it.coverage.length
-       ? `<span class="tr-warn" title="${esc(it.coverage.map(c=>c.writer+" 「"+c.title+"」").join(" · "))} — 발주 전에 각도가 겹치지 않는지 확인하세요">`+
-         `${svg("alertTri")}이미 다룬 글 ${it.coverage.length}` : "";
-     const warnEnd=it.coverage.length?`</span>`:"";
+       ? `<span class="tr-warn" title="${esc(it.coverage.map(c=>c.writer+" 「"+c.title+"」").join(" · "))} — 발주 전에 각도가 겹치지 않는지 확인하세요"`+
+         ` aria-label="이미 다룬 글 ${it.coverage.length}건">${svg("alertTri")}<b>${it.coverage.length}</b></span>` : "";
      return `<div class="trow" style="--ac:${s.ac}">`+
        `<span class="tr-bar" aria-hidden="true"></span>`+
-       `<span class="tr-g">`+
-         `<span class="tr-gname">${esc(it.game||"—")}</span>`+
-         `<span class="tr-gsub">${it.platform?`<span class="tr-plat">${esc(it.platform)}</span>`:""}${heat}${lane}</span>`+
-       `</span>`+
-       `<span class="tr-m">`+
-         `<span class="tr-h">${esc(it.title)}</span>`+
-         (it.why?`<span class="tr-why">${esc(it.why)}</span>`:"")+
-         `<span class="tr-x">`+
-           (it.purpose?`<span class="tr-purp tr-purp-i">${esc(it.purpose)}</span>`:"")+
-           src+warn+warnEnd+
-         `</span>`+
-       `</span>`+
-       `<span class="tr-m2">`+
-         (it.purpose?`<span class="tr-purp">${esc(it.purpose)}</span>`:"")+
-         (it.when?`<span class="tr-when">${esc(it.when)}</span>`:"")+
-       `</span>`+
+       `<span class="tr-g">${esc(it.game||"—")}</span>`+
+       `<span class="tr-m"><span class="tr-h">${esc(it.title)}</span>${warn}</span>`+
        `<span class="tr-a">`+
          `<button type="button" class="tr-req" data-req="${esc(it.id)}"><span class="lbl">발주 요청</span><span class="knob">${svg("arrowR")}</span></button>`+
-         `<button type="button" class="tr-copy" data-copy="${esc(it.id)}" title="발주 양식 복사" aria-label="발주 양식 복사">${svg("copy")}</button>`+
        `</span>`+
      `</div>`;
    };
@@ -2384,11 +2528,11 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
        if(hay.includes(q))hits.push(it);
      }));
      subEl.innerHTML=`'${esc(q)}' 검색 · <b>${hits.length}</b>건 · 전체 ${dates.length}일치`;
-     contentEl.innerHTML=`<div class="news">${mast}`+
+     contentEl.innerHTML=`<div class="news">${pinBox()}${mast}`+
        (hits.length?`<div class="tsec"><div class="tlist" style="border-radius:var(--r-lg);border-top:1px solid var(--line)">`+
          hits.map(row).join("")+`</div></div>`
         :emptyBox("search",`‘${esc(q)}’에 해당하는 주제가 없어요.`))+`</div>`;
-     bindDesk();
+     bindPinBox(); bindDesk();
      return;
    }
 
@@ -2400,14 +2544,20 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    }).join("");
    const head=`<div class="masthead" style="--ac:var(--a-trend)"><div class="mk">${svg("news")}일간 토픽 데스크</div>`+
      `<div class="mt">${esc(ed.headline||"오늘의 게임 주제")}</div>`+
-     (ed.lead?`<div class="ms">${esc(ed.lead)}</div>`:"")+
      `<div class="ed-stats">${stats}</div>`+
      (ed.note?`<div class="ed-note">${esc(ed.note)}</div>`:"")+`</div>`;
    const secs=DESK_SECTIONS.map((s,si)=>{
      const items=(ed.sections.find(x=>x.key===s.key)||{items:[]}).items;
+     /* 빈 칸 문구는 분류마다 뜻이 다르다 — pinned 가 비었다면 '소식이 없어서'가 아니라
+        아직 아무것도 지정하지 않았거나(=상자가 비었음) 지정이 다음 회차에 반영되기 전이다. */
+     const emptyTx=(s.key!=="pinned")
+       ? "오늘은 이 분류에서 건질 만한 주제가 없었어요.<br>없는 걸 채우지 않는 게 원칙이라 비워 둡니다."
+       : (PINS.length
+           ? "지정한 게임의 주제는 <b>다음 회차 데스크</b>부터 올라와요.<br>지금 지정된 게임 "+PINS.length+"종"
+           : "위 상자에 게임을 지정하면 <b>게임마다 주제 3~5개</b>를 여기에 모아 둡니다.");
      const body=items.length
        ? `<div class="tlist">${items.map(row).join("")}</div>`
-       : `<div class="tsec-b"><div class="ed-empty">오늘은 이 분류에서 건질 만한 주제가 없었어요.<br>없는 걸 채우지 않는 게 원칙이라 비워 둡니다.</div></div>`;
+       : `<div class="tsec-b"><div class="ed-empty">${emptyTx}</div></div>`;
      return `<section class="tsec reveal" style="--ac:${s.ac};--i:${si+1}">`+
        `<div class="tsec-h"><span class="tsec-ic">${svg(s.icon)}</span>`+
          `<span class="tsec-t">${esc(s.label)}</span><span class="tsec-d">${esc(s.desc)}</span>`+
@@ -2415,26 +2565,30 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
        body+`</section>`;
    }).join("");
    subEl.innerHTML=`<b>${esc(ed.date)}</b> 데스크 · 주제 ${all.length}건 · 전체 ${dates.length}일치 누적`;
-   contentEl.innerHTML=`<div class="news">${head}${datePager(dates,state.trendDate,"trend","var(--a-trend)")}${secs}</div>`;
+   contentEl.innerHTML=`<div class="news">${pinBox()}${head}`+
+     datePager(dates,state.trendDate,"trend","var(--a-trend)")+secs+`</div>`;
    attachPager("trend",dates);
-   bindDesk();
+   bindPinBox(); bindDesk();
  }
  /* 데스크 카드의 버튼 배선 — id로 현재 에디션(또는 전체)에서 아이템을 되찾는다 */
  function deskItemById(id){
    for(const ed of TREND){ const hit=edItems(ed).find(x=>x.id===id); if(hit)return hit; }
    return null;
  }
+ /* 발주 양식 클립보드 복사 — 08-15 개편으로 목록 행에서 빠지고 발주 모달 안으로 들어갔다.
+    ★모달 안에서 부르므로 화면에 보이는 '지금 값'(사용자가 고친 주제·목적·소재)을 그대로 받는다.
+      원본 it 을 다시 조립하면 사용자가 방금 고친 내용이 복사본에서 사라진다. */
+ async function copyOrderForm(o){
+   const block="[목적] "+(o.purpose||"기타")+"\n[작성자] "+(o.writer||"미지정")+"\n[주제] "+(o.topic||"")+
+     "\n[소재/참고메모] "+(o.material||"(없음)");
+   try{ await navigator.clipboard.writeText(block); toast("발주 양식을 복사했어요."); return true; }
+   catch(_){ try{ const ta=document.createElement("textarea"); ta.value=block; document.body.appendChild(ta);
+     ta.select(); document.execCommand("copy"); document.body.removeChild(ta); toast("발주 양식을 복사했어요."); return true; }
+     catch(e2){ toast("복사에 실패했어요.","err"); return false; } }
+ }
  function bindDesk(){
    contentEl.querySelectorAll("[data-req]").forEach(b=>b.addEventListener("click",()=>{
      const it=deskItemById(b.dataset.req); if(it)openOrderModal(it,b);
-   }));
-   contentEl.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{
-     const it=deskItemById(b.dataset.copy); if(!it)return;
-     const block="[목적] "+(it.purpose||"기타")+"\n[작성자] 미지정\n[주제] "+it.title+"\n[소재/참고메모] "+(deskMaterial(it)||"(없음)");
-     try{ await navigator.clipboard.writeText(block); toast("발주 양식을 복사했어요."); }
-     catch(_){ try{ const ta=document.createElement("textarea"); ta.value=block; document.body.appendChild(ta);
-       ta.select(); document.execCommand("copy"); document.body.removeChild(ta); toast("발주 양식을 복사했어요."); }
-       catch(e2){ toast("복사에 실패했어요.","err"); } }
    }));
  }
 
@@ -2472,6 +2626,18 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
          `${avatar(w,"s")}${esc(w)}<span class="rf-chip-plat">${esc(i.plat||"")}</span></button>`;}).join("");
    const purOpts=DESK_PURPOSES.map(p=>
      `<option value="${esc(p)}"${p===it.purpose?" selected":""}>${esc(p)}</option>`).join("");
+   /* 주제 브리핑 — 08-15 개편으로 목록 행에서 뺀 맥락(게임·플랫폼·시점·화제도·왜 지금·출처)이 여기로 왔다.
+      행은 훑는 자리, 이 창은 정하는 자리다. 판단 근거는 정하는 자리에 있어야 한다. */
+   const heat=it.heat?`<span class="tr-heat" title="화제도 ${it.heat}/3" aria-label="화제도 ${it.heat}/3">`+
+     [1,2,3].map(n=>`<i class="${n<=it.heat?"on":""}"></i>`).join("")+`</span>`:"";
+   const brief=`<div class="rf-brief">`+
+     `<div class="rf-bh"><span class="rf-bg">${esc(it.game||"—")}</span>`+
+       (it.platform?`<span class="rf-bp">${esc(it.platform)}</span>`:"")+
+       (it.when?`<span class="rf-bw">${esc(it.when)}</span>`:"")+heat+`</div>`+
+     (it.why?`<div class="rf-bwhy">${esc(it.why)}</div>`:"")+
+     (it.sources.length?`<div class="rf-bsrc">`+it.sources.map(s2=>
+       `<a href="${esc(s2.url)}" target="_blank" rel="noopener noreferrer">${esc(s2.label)}${svg("arrowUR")}</a>`).join("")+`</div>`:"")+
+   `</div>`;
    const back=document.createElement("div");
    back.className="mdl-back"; back.setAttribute("role","dialog"); back.setAttribute("aria-modal","true");
    back.setAttribute("aria-labelledby","mdlTitle");
@@ -2483,6 +2649,7 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
        <button type="button" class="mdl-x" id="mdlX" aria-label="닫기">${svg("x")}</button>
      </div>
      <div class="mdl-b">
+       ${brief}
        <div class="rf-sec">누가 쓸까요</div>
        <div class="rf-chips" id="mdlChips">${chips}</div>
        <div class="rf-winfo" id="mdlWInfo">${pre
@@ -2500,6 +2667,7 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
          `. 같은 각도면 발주하지 말고, 새 각도라면 무엇이 다른지 소재 메모에 적어주세요.</span></div>`:""}
      </div>
      <div class="mdl-f">
+       <button type="button" class="mdl-copy" id="mdlCopy" title="발주 양식 복사">${svg("copy")}<span>양식 복사</span></button>
        <button type="button" class="mdl-cancel" id="mdlCancel">취소</button>
        <button type="button" class="mdl-go" id="mdlGo"><span class="lbl">작업 큐로 보내기</span><span class="knob">${svg("arrowR")}</span></button>
        <div class="mdl-msg" id="mdlMsg" role="status" aria-live="polite"></div>
@@ -2528,6 +2696,10 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    back.addEventListener("mousedown",e=>{ if(e.target===back)closeOrderModal(); });
    $("#mdlX").addEventListener("click",closeOrderModal);
    $("#mdlCancel").addEventListener("click",closeOrderModal);
+   $("#mdlCopy").addEventListener("click",()=>copyOrderForm({
+     purpose:$("#mdlPurpose").value, writer, topic:$("#mdlTopic").value.trim()||it.title,
+     material:$("#mdlMaterial").value.trim()
+   }));
    const msg=(t,k)=>{ const m=$("#mdlMsg"); m.textContent=t; m.className="mdl-msg"+(k?" "+k:""); };
    if(!RequestService.isConnected())msg("백엔드가 연결돼 있지 않아 임시 저장만 됩니다.","err");
    $("#mdlGo").addEventListener("click",async()=>{
