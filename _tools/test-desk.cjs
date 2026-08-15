@@ -12,8 +12,22 @@ function grab(startMarker, endMarker) {
   if (b < 0) throw new Error('end marker not found: ' + endMarker);
   return html.slice(a, b);
 }
+/* normEditions 가 참조하는 외부 상수(작성자 목록·휴면 목록)도 index.html 에서 같이 끌어온다.
+   ★여기에 값을 하드코딩하면 사이트에서 작성자가 바뀌어도 테스트는 옛 값으로 통과해 버린다 —
+     테스트가 진실을 보게 하려면 정의부를 그대로 떼어 와야 한다. */
+function grabLine(re, what) {
+  const m = html.match(re);
+  if (!m) throw new Error('정의를 찾지 못했습니다: ' + what + ' — index.html 에서 이름이 바뀌었는지 확인하세요.');
+  return m[0];
+}
+const deps = [
+  grabLine(/ const PREF=\[[^\]]*\];/, 'PREF'),
+  grabLine(/ const INACTIVE_WRITERS=\[[^\]]*\];/, 'INACTIVE_WRITERS'),
+].join('\n');
+
 const src = grab(' const DESK_SECTIONS=[', ' /* ---------- 트렌드(일간 토픽 데스크) ---------- */');
-const mod = new Function(src + '\n return {DESK_SECTIONS,DESK_SEC,normEditions,edItems,deskMaterial};')();
+const mod = new Function(deps + '\n' + src + '\n return {DESK_SECTIONS,DESK_SEC,normEditions,edItems,deskMaterial,PREF,INACTIVE_WRITERS};')();
+console.log('  · PREF = ' + mod.PREF.join(',') + ' | 휴면 = ' + (mod.INACTIVE_WRITERS.join(',') || '없음'));
 
 const raw = JSON.parse(fs.readFileSync(path.join(ROOT, '_trend', 'trend.json'), 'utf8'));
 const TREND = mod.normEditions(raw);
@@ -42,7 +56,9 @@ console.log('  · ' + ED.date + ' — ' + all.length + '건 ' +
 ok(all.length > 0, 'edition has at least 1 item');
 ok(all.every(i => i.id && i.title), 'every item has id + title');
 ok(new Set(all.map(i => i.id)).size === all.length, 'ids unique within edition');
-ok(all.every(i => ['new', 'update', 'hot', 'console'].includes(i.sec)), 'sec tagged on every item');
+/* ★분류 키를 여기 나열하지 않는다 — SECKEYS(=index.html DESK_SECTIONS)에서 끌어온다.
+   08-15 에 core 를 추가했을 때 이 줄이 옛 4키를 박고 있어 데이터가 아니라 테스트가 먼저 깨졌다(L006 동형 재발). */
+ok(all.every(i => SECKEYS.includes(i.sec)), 'sec tagged on every item (' + SECKEYS.join('/') + ')');
 ok(all.every(i => i.heat >= 0 && i.heat <= 3), 'heat clamped 0..3');
 ok(all.every(i => Array.isArray(i.sources) && i.sources.length >= 1 && i.sources.every(s => s.url)), 'every item has >=1 well-formed source');
 ok(all.every(i => !('writer' in i) || !i.writer), 'no writer key (배정은 발주 팝업 몫)');
