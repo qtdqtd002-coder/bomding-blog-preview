@@ -62,6 +62,7 @@
      작성자 색과 다른 '주제 분류' 축이다. 트렌드 탭엔 작성자 색이 아예 렌더되지 않으므로 출처와 혼동되지 않고,
      4색 중 3색은 이미 대비 검증된 상태 토큰(info·ok·accent)을 재사용한다. 새 값은 콘솔(바이올렛) 하나뿐.
      ★색만으로 분류를 전달하지 않는다 — 섹션마다 아이콘 + 한글 라벨을 항상 같이 둔다. */
+  --c-core:#9C3F6E;     /* 주로 다루는 게임 — 종이 위 5.5:1 */
   --c-new:#1B5FA8;      /* 신작 게임 */
   --c-upd:#15703C;      /* 최근 업데이트 게임 */
   --c-hot:#C4482A;      /* 최근 화제 게임 */
@@ -102,7 +103,7 @@
   --a-bomding:#F09067; --a-yeongdo:#4CB6A1; --a-gemdeokku:#A98BEC;
   --a-yeonbom:#6BA6E0; --a-harusari:#EC85AF;
   --a-trend:#FF8A62; --a-queue:#7BB4EE; --a-ops:#4ED88E; --a-news:#E7B34A;
-  --c-new:#7BB4EE; --c-upd:#4CD98D; --c-hot:#FF8A62; --c-con:#A99AE0;   /* 토픽 데스크 분류(다크) — 콘솔 7.6:1 */
+  --c-core:#E58AB4; --c-new:#7BB4EE; --c-upd:#4CD98D; --c-hot:#FF8A62; --c-con:#A99AE0;  /* 토픽 데스크 분류(다크) */
   --ok:#4CD98D; --ok-weak:#11241A; --warn:#E7B34A; --warn-weak:#261E10;
   --bad:#F58D82; --bad-weak:#2A1614; --info:#7BB4EE; --info-weak:#121E2B;
   --ac-fg:#121110;
@@ -472,69 +473,89 @@ svg{display:block;}
   padding:4px 11px;font-feature-settings:"tnum";flex:none;}
 .tsec-b{border:1px solid var(--line);border-top:0;border-radius:0 0 var(--r-lg) var(--r-lg);
   background:var(--surface);padding:16px 18px 18px;box-shadow:var(--sh-xs);}
-.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(336px,1fr));gap:14px;}
-
-/* 주제 카드 — 외곽 트레이 + 내부 판(중첩 라운드: 18 → 13) */
-.titem{background:var(--surface-2);border:1px solid var(--line);border-radius:18px;padding:5px;
-  transition:transform .34s var(--ease),box-shadow .34s var(--ease),border-color .2s var(--ease);}
-.titem:hover{transform:translateY(-3px);box-shadow:var(--sh-md);border-color:var(--line-2);}
-.ti-core{display:flex;flex-direction:column;gap:10px;height:100%;padding:15px 16px 14px;
-  background:var(--surface);border:1px solid var(--line);border-radius:13px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.7);}
-:root[data-theme="dark"] .ti-core{box-shadow:inset 0 1px 0 rgba(255,255,255,.045);}
-.ti-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.ti-game{display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--ac-ink);
-  background:color-mix(in srgb,var(--ac,var(--accent)) 12%,var(--surface));
-  border:1px solid color-mix(in srgb,var(--ac,var(--accent)) 28%,var(--surface));
-  border-radius:999px;padding:3px 11px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.ti-plat{font-size:12.5px;font-weight:600;color:var(--ink-3);}
-.ti-heat{display:inline-flex;align-items:center;gap:3px;}
-.ti-heat i{width:5px;height:5px;border-radius:50%;background:var(--line-2);}
-.ti-heat i.on{background:var(--ac,var(--accent));}
-.ti-when{margin-left:auto;font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink-3);
-  font-feature-settings:"tnum";flex:none;}
-.ti-h{font-size:15.5px;font-weight:700;line-height:1.58;letter-spacing:-.018em;color:var(--ink);word-break:keep-all;}
-.ti-why{font-size:13.5px;line-height:1.72;color:var(--ink-2);word-break:keep-all;}
-.ti-why b{color:var(--ink);}
-.ti-detail{font-size:13px;line-height:1.72;color:var(--ink-3);word-break:keep-all;
-  padding:10px 12px;background:var(--surface-2);border-radius:var(--r-sm);}
-.ti-tags{display:flex;flex-wrap:wrap;gap:6px;}
-.ti-tag{font-size:12.5px;font-weight:600;color:var(--ink-2);background:var(--surface-2);
-  border:1px solid var(--line);border-radius:var(--r-xs);padding:4px 9px;}
-.ti-tag.purp{color:var(--ac-ink);border-color:color-mix(in srgb,var(--ac,var(--accent)) 32%,var(--surface));
-  background:color-mix(in srgb,var(--ac,var(--accent)) 9%,var(--surface));}
-.ti-warn{display:flex;gap:8px;align-items:flex-start;padding:9px 11px;border-radius:var(--r-sm);
+/* ── 주제 목록 (2026-08-14 2차 — 카드 그리드 → 목록) ──
+   사용자 피드백: "어떤 게임인지 한눈에 보기가 힘들다."
+   카드 그리드는 게임명이 카드마다 다른 높이에 흩어져 세로로 훑을 수가 없었다.
+   → DESIGN.md §Row(목록) 패턴을 따라 **게임명을 고정 열로 세운다.** 눈이 한 축만 따라가면 된다.
+   열 = 4px 색바 · 게임명(+플랫폼·레인) · 주제+왜 · 목적/시의성 · 발주 */
+.tlist{border:1px solid var(--line);border-top:0;border-radius:0 0 var(--r-lg) var(--r-lg);
+  background:var(--surface);box-shadow:var(--sh-xs);overflow:hidden;}
+.trow{display:grid;grid-template-columns:4px 168px minmax(0,1fr) 148px 122px;align-items:center;
+  gap:0 15px;padding:0 16px 0 0;border-bottom:1px solid var(--line);
+  transition:background .16s var(--ease);}
+.trow:last-child{border-bottom:0;}
+.trow:hover{background:var(--surface-2);}
+/* ★모든 셀에 grid-row:1 — DESIGN.md Row 규칙. 안 하면 메타가 2행으로 흘러 줄이 깨진다. */
+.trow>*{grid-row:1;}
+.tr-bar{align-self:stretch;background:var(--ac,var(--accent));opacity:.5;transition:opacity .16s var(--ease);}
+.trow:hover .tr-bar{opacity:1;}
+.tr-g{display:flex;flex-direction:column;gap:4px;min-width:0;padding:14px 0;}
+.tr-gname{font-size:14.5px;font-weight:700;letter-spacing:-.02em;color:var(--ac-ink);line-height:1.35;
+  word-break:keep-all;}
+.tr-gsub{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.tr-plat{font-size:12.5px;font-weight:600;color:var(--ink-3);}
+.tr-heat{display:inline-flex;align-items:center;gap:3px;}
+.tr-heat i{width:5px;height:5px;border-radius:50%;background:var(--line-2);}
+.tr-heat i.on{background:var(--ac,var(--accent));}
+/* 레인 = 이 게임을 주로 쓰는 작성자. 출처 표시라 작성자색 + 이름 텍스트를 함께 둔다(Author-Color Rule). */
+.tr-lane{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;
+  color:var(--wac,var(--ink-3));}
+.tr-lane .av{width:17px;height:17px;box-shadow:none;}
+.tr-m{min-width:0;padding:14px 0;display:flex;flex-direction:column;gap:5px;}
+.tr-h{font-size:15px;font-weight:700;line-height:1.5;letter-spacing:-.018em;color:var(--ink);word-break:keep-all;}
+.tr-why{font-size:13px;line-height:1.6;color:var(--ink-2);word-break:keep-all;}
+.tr-x{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:2px;}
+.tr-src{font-size:12.5px;font-weight:600;color:var(--ink-3);text-decoration:none;
+  border-bottom:1px solid var(--line-2);transition:.15s var(--ease);}
+.tr-src:hover{color:var(--accent);border-color:var(--accent);}
+.tr-warn{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--warn);
   background:var(--warn-weak);border:1px solid color-mix(in srgb,var(--warn) 34%,transparent);
-  font-size:12.5px;line-height:1.65;color:var(--ink-2);word-break:keep-all;}
-.ti-warn .ic{width:14px;height:14px;color:var(--warn);flex:none;margin-top:2px;}
-.ti-warn b{color:var(--ink);}
-.ti-src{display:flex;flex-wrap:wrap;gap:9px;font-size:12.5px;}
-.ti-src a{color:var(--ink-3);font-weight:600;text-decoration:none;border-bottom:1px solid var(--line-2);
-  transition:.15s var(--ease);}
-.ti-src a:hover{color:var(--accent);border-color:var(--accent);}
-.ti-act{display:flex;gap:8px;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid var(--line);}
-.ti-req{flex:1;min-width:0;display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 5px 0 15px;
-  border:0;border-radius:999px;background:var(--ink);color:var(--paper);font:inherit;font-size:13.5px;
-  font-weight:700;cursor:pointer;letter-spacing:-.015em;
+  border-radius:var(--r-xs);padding:3px 8px;cursor:help;}
+.tr-warn .ic{width:13px;height:13px;flex:none;}
+.tr-m2{display:flex;flex-direction:column;gap:6px;align-items:flex-start;padding:14px 0;min-width:0;}
+.tr-purp{font-size:12.5px;font-weight:700;color:var(--ac-ink);border-radius:var(--r-xs);padding:3px 9px;
+  background:color-mix(in srgb,var(--ac,var(--accent)) 10%,var(--surface));
+  border:1px solid color-mix(in srgb,var(--ac,var(--accent)) 30%,var(--surface));
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tr-when{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink-3);
+  font-feature-settings:"tnum";word-break:keep-all;}
+.tr-a{display:flex;align-items:center;gap:7px;justify-content:flex-end;padding:14px 0;}
+.tr-req{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 5px 0 13px;
+  border:0;border-radius:999px;background:var(--ink);color:var(--paper);font:inherit;font-size:13px;
+  font-weight:700;cursor:pointer;letter-spacing:-.015em;white-space:nowrap;
   transition:background .28s var(--ease),color .28s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease);}
-.ti-req .lbl{flex:1;text-align:left;white-space:nowrap;}
-.ti-req .knob{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;flex:none;
+.tr-req .lbl{white-space:nowrap;}
+.tr-req .knob{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;flex:none;
   border-radius:50%;background:color-mix(in srgb,var(--paper) 20%,transparent);
   transition:transform .34s var(--ease),background .28s var(--ease);}
-.ti-req .knob .ic{width:14px;height:14px;}
-.ti-req:hover{background:var(--accent);color:var(--on-brand);transform:translateY(-1px);box-shadow:var(--sh-sm);}
-.ti-req:hover .knob{transform:translate(2px,-1px) scale(1.07);
+.tr-req .knob .ic{width:13px;height:13px;}
+.tr-req:hover{background:var(--accent);color:var(--on-brand);transform:translateY(-1px);box-shadow:var(--sh-sm);}
+.tr-req:hover .knob{transform:translate(2px,-1px) scale(1.07);
   background:color-mix(in srgb,var(--on-brand) 22%,transparent);}
-.ti-req:active{transform:translateY(0) scale(.985);}
-.ti-req.done{background:var(--ok);color:var(--paper);cursor:default;}
-.ti-req.done:hover{transform:none;box-shadow:none;background:var(--ok);color:var(--paper);}
-.ti-req.done:hover .knob{transform:none;}
-.ti-copy{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;flex:none;
+.tr-req:active{transform:translateY(0) scale(.985);}
+.tr-req.done{background:var(--ok);color:var(--paper);cursor:default;}
+.tr-req.done:hover{transform:none;box-shadow:none;background:var(--ok);color:var(--paper);}
+.tr-req.done:hover .knob{transform:none;}
+.tr-copy{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;flex:none;
   border:1px solid var(--line-2);border-radius:50%;background:var(--surface);color:var(--ink-3);
   cursor:pointer;transition:.2s var(--ease);}
-.ti-copy .ic{width:15px;height:15px;}
-.ti-copy:hover{border-color:var(--line-3);color:var(--ink);background:var(--surface-2);}
-@media(max-width:720px){ .tgrid{grid-template-columns:1fr;} .tsec-h{padding:13px 15px;} .tsec-b{padding:13px 13px 15px;} }
+.tr-copy .ic{width:14px;height:14px;}
+.tr-copy:hover{border-color:var(--line-3);color:var(--ink);background:var(--surface-2);}
+/* 1240px: 목적/시의성 열을 접어 본문 아래로 · 960px: 게임 열도 접어 2줄 카드 행 */
+@media(max-width:1240px){
+  .trow{grid-template-columns:4px 158px minmax(0,1fr) 122px;}
+  .tr-m2{display:none;}
+  .tr-x .tr-purp-i{display:inline-flex;}
+}
+@media(min-width:1241px){ .tr-x .tr-purp-i{display:none;} }
+@media(max-width:960px){
+  .trow{grid-template-columns:4px minmax(0,1fr);grid-template-areas:"bar game" "bar main" "bar act";
+    gap:0;padding:0 14px 0 0;}
+  .trow>*{grid-row:auto;}
+  .tr-bar{grid-area:bar;} .tr-g{grid-area:game;padding:13px 0 0;flex-direction:row;align-items:center;gap:9px;flex-wrap:wrap;}
+  .tr-m{grid-area:main;padding:7px 0;} .tr-a{grid-area:act;padding:0 0 13px;justify-content:flex-start;}
+}
+@media(max-width:720px){ .tsec-h{padding:13px 15px;} }
 
 /* ── 발주 요청 모달 ── */
 .mdl-back{position:fixed;inset:0;z-index:var(--z-modal);display:flex;align-items:center;justify-content:center;
@@ -1270,6 +1291,7 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
   copy:'<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
   inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
   alertTri:'<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  star:'<path d="M11.5 3.2a.6.6 0 0 1 1 0l2.3 4.7 5.2.75a.6.6 0 0 1 .33 1.02l-3.76 3.66.89 5.17a.6.6 0 0 1-.87.63L12 16.7l-4.63 2.43a.6.6 0 0 1-.87-.63l.89-5.17-3.76-3.66a.6.6 0 0 1 .33-1.02l5.2-.75z"/>',
   gamepad:'<line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/>',
   x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
   clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'
@@ -2253,11 +2275,13 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
              주제마다 [발주 요청] → 모달에서 **그때 작성자를 고른다**.
     데이터 = _trend/trend.json (schema 2, editions[] 배열). 별도 HTML 파일 없음.
     ======================================================================== */
+ /* 분류 5개 — cap 은 '상한'이지 '채워야 할 수'가 아니다. 못 채우면 비운다(사용자 지시 08-14). */
  const DESK_SECTIONS=[
-   {key:"new",    label:"신작 게임",          desc:"막 나왔거나 곧 나오는 게임", icon:"spark",   ac:"var(--c-new)"},
-   {key:"update", label:"최근 업데이트 게임",  desc:"패치·시즌·신규 콘텐츠",      icon:"refresh", ac:"var(--c-upd)"},
-   {key:"hot",    label:"최근 화제되는 게임",  desc:"지금 검색·화제가 몰리는 쪽",  icon:"flame",   ac:"var(--c-hot)"},
-   {key:"console",label:"콘솔 게임",          desc:"PS·Xbox·스위치·스팀덱",      icon:"gamepad", ac:"var(--c-con)"}
+   {key:"core",   label:"주로 다루는 게임",   desc:"봄딩·영도가 계속 쓰는 게임", icon:"star",    ac:"var(--c-core)", cap:10},
+   {key:"new",    label:"신작 게임",          desc:"막 나왔거나 곧 나오는 게임", icon:"spark",   ac:"var(--c-new)",  cap:5},
+   {key:"update", label:"최근 업데이트 게임",  desc:"화제성 있는 패치·시즌",      icon:"refresh", ac:"var(--c-upd)",  cap:5},
+   {key:"hot",    label:"최근 화제되는 게임",  desc:"지금 검색·화제가 몰리는 쪽",  icon:"flame",   ac:"var(--c-hot)",  cap:5},
+   {key:"console",label:"콘솔 게임",          desc:"PS·Xbox·스위치 — 화제작",   icon:"gamepad", ac:"var(--c-con)",  cap:5}
  ];
  const DESK_SEC=Object.fromEntries(DESK_SECTIONS.map(s=>[s.key,s]));
  /* trend.json 정규화 — schema 2(editions)만 읽는다. 옛 issues 스키마는 08-14 폐기(잔재가 오면 조용히 버린다). */
@@ -2273,10 +2297,13 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
          purpose:String(it.purpose||""), platform:String(it.platform||""),
          why:String(it.why||""), detail:String(it.detail||""), angle:String(it.angle||""),
          when:String(it.when||""), heat:Math.max(0,Math.min(3,Number(it.heat)||0)),
+         /* lane = 이 게임을 주로 쓰는 작성자(주로 다루는 게임 분류에만 붙는다).
+            발주 모달이 이 값으로 작성자 칩을 미리 골라 준다 — 배정을 강제하는 게 아니라 기본값만 준다. */
+         lane:(function(w){ return (w&&PREF.indexOf(w)>=0&&INACTIVE_WRITERS.indexOf(w)<0)?w:""; })(String(it.lane||"")),
          keywords:(it.keywords||[]).map(String).filter(Boolean),
          sources:(it.sources||[]).filter(s2=>s2&&s2.url).map(s2=>({label:String(s2.label||"출처"),url:String(s2.url)})),
          coverage:(it.coverage||[]).filter(c=>c&&c.writer).map(c=>({writer:String(c.writer),title:String(c.title||"")}))
-       })).filter(it=>it.title);
+       })).filter(it=>it.title).slice(0,s.cap||99);
        return {key:s.key,items};
      })
    })).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
@@ -2309,37 +2336,42 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    const dates=TREND.map(e=>e.date);
    if(!state.trendDate||dates.indexOf(state.trendDate)<0)state.trendDate=dates[0];
 
-   /* 카드 1장 */
-   const card=(it,i)=>{
+   /* 목록 행 1줄 — 게임명이 고정 열로 서서 세로로 훑힌다(08-14 2차 개편) */
+   const row=(it)=>{
      const s=DESK_SEC[it.sec]||DESK_SECTIONS[0];
-     const heat=it.heat?`<span class="ti-heat" title="화제도 ${it.heat}/3" aria-label="화제도 ${it.heat}/3">`+
+     const heat=it.heat?`<span class="tr-heat" title="화제도 ${it.heat}/3" aria-label="화제도 ${it.heat}/3">`+
        [1,2,3].map(n=>`<i class="${n<=it.heat?"on":""}"></i>`).join("")+`</span>`:"";
-     const tags=[]
-       .concat(it.purpose?[`<span class="ti-tag purp">${esc(it.purpose)}</span>`]:[])
-       .concat(it.keywords.slice(0,4).map(k=>`<span class="ti-tag">${esc(k)}</span>`)).join("");
-     const src=it.sources.slice(0,3).map(s2=>
-       `<a href="${esc(s2.url)}" target="_blank" rel="noopener noreferrer">${esc(s2.label)} ${svg("arrowUR")}</a>`).join("");
+     const lane=it.lane
+       ? `<span class="tr-lane" style="--wac:${ACCENT[it.lane]||"var(--ink-3)"}">${avatar(it.lane,"s")}${esc(it.lane)}</span>` : "";
+     const src=it.sources.length
+       ? `<a class="tr-src" href="${esc(it.sources[0].url)}" target="_blank" rel="noopener noreferrer">${esc(it.sources[0].label)} ${svg("arrowUR")}</a>` : "";
      const warn=it.coverage.length
-       ? `<div class="ti-warn">${svg("alertTri")}<span><b>이미 다룬 글이 있어요</b> — `+
-         it.coverage.map(c=>`${esc(c.writer)} 「${esc(c.title)}」`).join(" · ")+
-         ` · 발주 전에 각도가 겹치지 않는지 확인하세요.</span></div>` : "";
-     return `<article class="titem reveal" style="--ac:${s.ac};--i:${i+1}"><div class="ti-core">`+
-       `<div class="ti-top">`+
-         (it.game?`<span class="ti-game">${esc(it.game)}</span>`:"")+
-         (it.platform?`<span class="ti-plat">${esc(it.platform)}</span>`:"")+heat+
-         (it.when?`<span class="ti-when">${esc(it.when)}</span>`:"")+
-       `</div>`+
-       `<h3 class="ti-h">${esc(it.title)}</h3>`+
-       (it.why?`<p class="ti-why">${esc(it.why)}</p>`:"")+
-       (it.detail?`<p class="ti-detail">${esc(it.detail)}</p>`:"")+
-       (tags?`<div class="ti-tags">${tags}</div>`:"")+
-       warn+
-       (src?`<div class="ti-src">${src}</div>`:"")+
-       `<div class="ti-act">`+
-         `<button type="button" class="ti-req" data-req="${esc(it.id)}">`+
-           `<span class="lbl">발주 요청</span><span class="knob">${svg("arrowR")}</span></button>`+
-         `<button type="button" class="ti-copy" data-copy="${esc(it.id)}" title="발주 양식 복사" aria-label="발주 양식 복사">${svg("copy")}</button>`+
-       `</div></div></article>`;
+       ? `<span class="tr-warn" title="${esc(it.coverage.map(c=>c.writer+" 「"+c.title+"」").join(" · "))} — 발주 전에 각도가 겹치지 않는지 확인하세요">`+
+         `${svg("alertTri")}이미 다룬 글 ${it.coverage.length}` : "";
+     const warnEnd=it.coverage.length?`</span>`:"";
+     return `<div class="trow" style="--ac:${s.ac}">`+
+       `<span class="tr-bar" aria-hidden="true"></span>`+
+       `<span class="tr-g">`+
+         `<span class="tr-gname">${esc(it.game||"—")}</span>`+
+         `<span class="tr-gsub">${it.platform?`<span class="tr-plat">${esc(it.platform)}</span>`:""}${heat}${lane}</span>`+
+       `</span>`+
+       `<span class="tr-m">`+
+         `<span class="tr-h">${esc(it.title)}</span>`+
+         (it.why?`<span class="tr-why">${esc(it.why)}</span>`:"")+
+         `<span class="tr-x">`+
+           (it.purpose?`<span class="tr-purp tr-purp-i">${esc(it.purpose)}</span>`:"")+
+           src+warn+warnEnd+
+         `</span>`+
+       `</span>`+
+       `<span class="tr-m2">`+
+         (it.purpose?`<span class="tr-purp">${esc(it.purpose)}</span>`:"")+
+         (it.when?`<span class="tr-when">${esc(it.when)}</span>`:"")+
+       `</span>`+
+       `<span class="tr-a">`+
+         `<button type="button" class="tr-req" data-req="${esc(it.id)}"><span class="lbl">발주 요청</span><span class="knob">${svg("arrowR")}</span></button>`+
+         `<button type="button" class="tr-copy" data-copy="${esc(it.id)}" title="발주 양식 복사" aria-label="발주 양식 복사">${svg("copy")}</button>`+
+       `</span>`+
+     `</div>`;
    };
 
    /* 검색 = 전체 에디션 횡단 */
@@ -2353,8 +2385,8 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
      }));
      subEl.innerHTML=`'${esc(q)}' 검색 · <b>${hits.length}</b>건 · 전체 ${dates.length}일치`;
      contentEl.innerHTML=`<div class="news">${mast}`+
-       (hits.length?`<div class="tsec"><div class="tsec-b" style="border-radius:var(--r-lg);border-top:1px solid var(--line)">`+
-         `<div class="tgrid">${hits.map(card).join("")}</div></div></div>`
+       (hits.length?`<div class="tsec"><div class="tlist" style="border-radius:var(--r-lg);border-top:1px solid var(--line)">`+
+         hits.map(row).join("")+`</div></div>`
         :emptyBox("search",`‘${esc(q)}’에 해당하는 주제가 없어요.`))+`</div>`;
      bindDesk();
      return;
@@ -2371,16 +2403,16 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
      (ed.lead?`<div class="ms">${esc(ed.lead)}</div>`:"")+
      `<div class="ed-stats">${stats}</div>`+
      (ed.note?`<div class="ed-note">${esc(ed.note)}</div>`:"")+`</div>`;
-   const secs=DESK_SECTIONS.map(s=>{
+   const secs=DESK_SECTIONS.map((s,si)=>{
      const items=(ed.sections.find(x=>x.key===s.key)||{items:[]}).items;
      const body=items.length
-       ? `<div class="tgrid">${items.map(card).join("")}</div>`
-       : `<div class="ed-empty">오늘은 이 분류에서 건질 만한 주제가 없었어요.<br>없는 걸 채우지 않는 게 원칙이라 비워 둡니다.</div>`;
-     return `<section class="tsec" style="--ac:${s.ac}">`+
+       ? `<div class="tlist">${items.map(row).join("")}</div>`
+       : `<div class="tsec-b"><div class="ed-empty">오늘은 이 분류에서 건질 만한 주제가 없었어요.<br>없는 걸 채우지 않는 게 원칙이라 비워 둡니다.</div></div>`;
+     return `<section class="tsec reveal" style="--ac:${s.ac};--i:${si+1}">`+
        `<div class="tsec-h"><span class="tsec-ic">${svg(s.icon)}</span>`+
          `<span class="tsec-t">${esc(s.label)}</span><span class="tsec-d">${esc(s.desc)}</span>`+
          `<span class="tsec-n">${items.length}</span></div>`+
-       `<div class="tsec-b">${body}</div></section>`;
+       body+`</section>`;
    }).join("");
    subEl.innerHTML=`<b>${esc(ed.date)}</b> 데스크 · 주제 ${all.length}건 · 전체 ${dates.length}일치 누적`;
    contentEl.innerHTML=`<div class="news">${head}${datePager(dates,state.trendDate,"trend","var(--a-trend)")}${secs}</div>`;
@@ -2432,9 +2464,11 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
      "겜더쿠":{plat:"티스토리",ac:"--a-gemdeokku"}, "연봄":{plat:"티스토리",ac:"--a-yeonbom"},
      "하루살이":{plat:"네이버",ac:"--a-harusari"}
    };
-   const chips=`<button type="button" class="rf-chip rf-wchip on" data-w="">자동 배정</button>`+
+   /* 레인이 있으면(주로 다루는 게임) 그 작성자를 기본 선택으로 둔다 — 강제가 아니라 기본값. 언제든 바꿀 수 있다. */
+   const pre=(it.lane&&writers.indexOf(it.lane)>=0)?it.lane:"";
+   const chips=`<button type="button" class="rf-chip rf-wchip${pre?"":" on"}" data-w="">자동 배정</button>`+
      writers.map(w=>{const i=WI[w]||{};
-       return `<button type="button" class="rf-chip rf-wchip" data-w="${esc(w)}" style="--ac:var(${i.ac||"--brand"})">`+
+       return `<button type="button" class="rf-chip rf-wchip${w===pre?" on":""}" data-w="${esc(w)}" style="--ac:var(${i.ac||"--brand"})">`+
          `${avatar(w,"s")}${esc(w)}<span class="rf-chip-plat">${esc(i.plat||"")}</span></button>`;}).join("");
    const purOpts=DESK_PURPOSES.map(p=>
      `<option value="${esc(p)}"${p===it.purpose?" selected":""}>${esc(p)}</option>`).join("");
@@ -2451,7 +2485,9 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
      <div class="mdl-b">
        <div class="rf-sec">누가 쓸까요</div>
        <div class="rf-chips" id="mdlChips">${chips}</div>
-       <div class="rf-winfo" id="mdlWInfo">주제에 맞는 작성자를 회사가 배정해요</div>
+       <div class="rf-winfo" id="mdlWInfo">${pre
+         ? `${esc((WI[pre]||{}).plat||"")} · <b>${esc(pre)}</b>가 이 게임을 계속 써 온 작성자라 미리 골라뒀어요 — 바꿔도 됩니다`
+         : "주제에 맞는 작성자를 회사가 배정해요"}</div>
        <div class="rf-sec">무엇을 쓸까요</div>
        <label class="rf-l" for="mdlPurpose">글의 목적</label>
        <select id="mdlPurpose" class="rf-i">${purOpts}</select>
@@ -2472,7 +2508,7 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    document.body.appendChild(back);
    document.body.style.overflow="hidden";
    const $=q=>back.querySelector(q);
-   let writer="";
+   let writer=pre;
    $("#mdlChips").querySelectorAll(".rf-wchip").forEach(c=>c.addEventListener("click",()=>{
      $("#mdlChips").querySelectorAll(".rf-wchip").forEach(x=>x.classList.remove("on"));
      c.classList.add("on"); writer=c.dataset.w;
