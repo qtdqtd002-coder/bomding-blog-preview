@@ -1,0 +1,288 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>쿠키런 크럼블 업데이트 정리, 쿨링민트맛 쿠키에 신규 던전·룰렛까지 떴어요</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}  /* overflow:hidden 두지 말 것 — §1-4 사이드 노트가 카드 밖에서 잘림 */
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}  /* 봄딩 정본 소제목 — 인라인 style= 금지, 반드시 이 클래스 사용 */
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}  /* 🔍 게임 내 확인 마커(미리보기 전용·발행본 제외) — 주황 pill 정본, 노란 음영(.rev-hl)과 혼동 금지 */
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .coupang{display:block;text-align:center;background:#fef2ef;border:1px solid #f3b8a8;color:#c0392b;
+    text-decoration:none;padding:12px;border-radius:8px;font-weight:700;font-size:14.5px;margin:6px 0 22px;}
+  .coupang small{display:block;color:#9a6b62;font-weight:500;font-size:11.5px;margin-top:3px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== §1-4b 출처 재서술 표시(음영+사이드노트, 미리보기 전용) ===== */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: 쿠키런 크럼블 업데이트 뭐가 바뀌었나 / 쿨링민트맛 쿠키가 뭔가요 / 쿠키런 크럼블 다음 업데이트는 언제쯤일까 -->
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">쿠키런 크럼블 업데이트 정리, 쿨링민트맛 쿠키에 신규 던전·룰렛까지 떴어요</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.08.15</span><span>· 게임</span></div>
+
+    <p>쿠키런 크럼블 출시하고 매일 들어가서 쿠키 모으고 있었는데, 어느새 2주가 지났다 싶더니 딱 업데이트가 뜨더라고요. 8월 13일에 올라온 1.1.001 패치인데, 첫 정기 업데이트치고는 알맹이가 꽤 알차서 오늘은 이거부터 정리해볼게요. 새 쿠키 하나 딱 들어오고 끝날 줄 알았는데 던전이랑 이벤트까지 같이 열려서, 저도 접속하자마자 한참 둘러봤어요. 정확히 뭐가 새로 생겼고, 뭐가 아직 베일에 싸여 있는지까지 한 번에 정리해드릴게요.</p>
+
+    <h2 class="sub">1.1.001 업데이트, 언제 뭐가 적용됐는지부터</h2>
+    <div class="para-wrap">
+      <p><span class="rev-hl">이번 업데이트는 8월 13일 오후 1시 19분에 버전 1.1.001로 적용됐고, 큰 줄기로는 쿨링민트맛 쿠키·신규 일일 던전·룰렛 이벤트 이렇게 세 가지가 새로 들어왔어요.</span> 원래 업데이트 노트엔 딱 세 줄로만 짧게 적혀 있었는데, 그걸 하나씩 풀어볼게요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 앱스토어 업데이트 노트</span>
+        <span class="sn-src"><b>앱스토어 업데이트 노트</b>가 "쿨링민트맛 쿠키가 추가되었습니다 / 신규 일일 던전이 추가되었습니다 / 룰렛 이벤트가 추가되었습니다"라고 세 줄로 안내했어요. (<a href="https://apps.apple.com/kr/app/id6749251466" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 세 줄을 한 문장으로 묶고 버전·적용시각을 앞에 붙여 흐름 있게 풀었어요.</span>
+      </div>
+    </div>
+    <p>게임 개발은 스튜디오킹덤이 맡고, 배급은 데브시스터즈 이름으로 스토어에 올라가는 구조예요.</p>
+    <table class="tbl">
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>적용 버전</td><td>1.1.001</td></tr>
+      <tr><td>적용 일시</td><td>2026년 8월 13일 오후 1시 19분(한국시간)</td></tr>
+      <tr><td>배급사</td><td>Devsisters Corp.</td></tr>
+      <tr><td>핵심 변경</td><td>쿨링민트맛 쿠키 추가 · 신규 일일 던전 추가 · 룰렛 이벤트 추가</td></tr>
+    </table>
+    <p>버전 숫자가 1.0대에서 1.1.001로 올라간 걸 보면, 이번이 마이너 업데이트치곤 담긴 게 꽤 많다는 뜻이기도 해요. 정식 출시가 7월 30일이었으니까, 이번 업데이트가 진짜 '첫' 정기 업데이트가 맞아요.</p>
+
+    <!-- 이미지 이유: 이번 업데이트가 적용된 앱 자체를 보여주는 공식 아이콘 / 출처: App Store(iTunes lookup API 실측) / 분류: A형 -->
+    <div class="imgwrap"><img src="img/app-icon.jpg" alt="쿠키런 키우기 - 쿠키런: 크럼블 공식 앱 아이콘" width="140" height="140"></div>
+    <p class="cap">지금 스토어에 떠 있는 '쿠키런 키우기 - 쿠키런: 크럼블' 아이콘이에요. 버전 1.1.001로 올라가 있으면 업데이트 제대로 받은 거예요.</p>
+    <p class="src">이미지 출처: <a href="https://apps.apple.com/kr/app/id6749251466" target="_blank">App Store 공식 페이지</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 게임 실행 시 뜨는 1.1.001 업데이트 안내 팝업</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 게임 켜자마자 뜨는 패치 공지창을 그대로 캡처하면 돼요. 비슷한 화면 참고할 곳: <a href="https://apps.apple.com/kr/app/id6749251466" target="_blank">App Store 앱 페이지</a></div>
+    <p class="cap">업데이트 노트 원문이 이 창에 그대로 떠요. 세 줄짜리라 캡처 한 장이면 충분해요.</p>
+
+    <h2 class="sub">쿨링민트맛 쿠키가 새로 추가됐어요</h2>
+    <p>이번 업데이트로 새로 들어온 쿠키 이름은 <b>'쿨링민트맛 쿠키'</b>예요. 앱스토어 업데이트 노트엔 딱 이름만 나와 있고, 등급이나 스킬, 픽업 기간 같은 세부 내용은 아직 공식 소개 페이지에 안 떴더라고요.<span class="chk">🔍 게임 내 확인</span> 인게임 공지나 쿠키 소개창에 뜨는 대로 다시 확인해서 채워둘게요.</p>
+    <p>예전에 등급표 글에서 커먼부터 트랜센던트슈퍼스페셜레어(TSSR)까지 정리해뒀었는데, 쿨링민트맛 쿠키도 결국 그 체계 안 어딘가로 들어올 텐데 지금은 어느 자리인지 가늠이 안 되는 상태예요. 등급이 확정되면 그 등급표 글부터 손볼 생각이에요.</p>
+    <p>참고로 출시 때 기준을 보면, 7일 연속 출석 보상으로 확정 지급됐던 '크림소다맛 쿠키'가 SSR 등급이었고, 얼터너티브 쿠키로 소개된 '오븐방랑자 쿠키'는 그보다 한 단계 위인 TSSR 등급이었어요. 쿨링민트맛 쿠키가 이 중 어디쯤일지는 아직 알 수 없어요. 신규 쿠키는 보통 소환(가챠)으로 얻거나 이벤트로 픽업되는 경우가 많은데, 쿨링민트맛 쿠키가 어느 쪽인지도 아직 따로 공지가 없고요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 쿠키 도감에서 확인한 '쿨링민트맛 쿠키' 카드</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 쿠키 도감 들어가서 신규로 뜬 쿨링민트맛 쿠키 카드를 캡처하면 돼요.</div>
+    <p class="cap">도감에 카드는 떠 있는데, 등급 칸은 아직 저도 못 채운 상태예요.</p>
+
+    <h2 class="sub">일일 던전이랑 룰렛 이벤트도 같이 열렸어요</h2>
+    <p>이번 업데이트에서는 새 쿠키 말고도 <b>신규 일일 던전</b>이랑 <b>룰렛 이벤트</b>, 이렇게 두 콘텐츠가 같이 열리더라고요.</p>
+    <ul>
+      <li><b>신규 일일 던전</b> — 던전 이름이나 입장 조건은 업데이트 노트에 따로 안 나와 있어서, 인게임 던전 목록에서 새로 뜬 항목을 직접 확인해봐야 해요.<span class="chk">🔍 게임 내 확인</span></li>
+      <li><b>룰렛 이벤트</b> — 진행 기간이나 보상 구성도 마찬가지로 미공개고, 이벤트 탭 열어보면 자세한 내용이 뜰 거예요.<span class="chk">🔍 게임 내 확인</span></li>
+    </ul>
+    <p>영문 공지 쪽엔 좀 더 구체적인 이름이 돌고 있다는 얘기도 들었는데, 저는 그 원문을 직접 확인 못 했어요. 한국어 공식 명칭은 아직 '신규 일일 던전'·'룰렛 이벤트'라는 릴리즈 노트 표현이 전부라, 괜히 영문 이름을 우리말로 옮겨 붙이진 않을게요.</p>
+    <p>일일 던전은 이름 그대로면 매일 리셋되는 콘텐츠일 가능성이 높으니까, 접속하는 김에 한 번씩 들어가 보는 습관을 들이면 좋을 것 같고, 룰렛 이벤트는 보통 무료로 받는 재화를 태워서 돌리는 자리라 진행 기간 안에 놓치지 않고 챙기는 게 중요해요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 던전 목록에서 새로 뜬 일일 던전 입장 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 던전 탭 들어가서 새로 추가된 항목의 입장 화면을 캡처하면 돼요.</div>
+    <p class="cap">던전 목록에 항목 하나가 더 늘어난 게 바로 보여요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 룰렛 이벤트 탭 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 이벤트 탭에서 룰렛 이벤트 배너·룰렛판 화면을 캡처하면 돼요.</div>
+    <p class="cap">돌리는 재미가 있는 룰렛판이 이벤트 탭에 떠 있어요.</p>
+
+    <h2 class="sub">왜 하필 8월 13일이었을까, 정기 업데이트 주기로 보면</h2>
+    <div class="para-wrap">
+      <p><span class="rev-hl">7월 30일 정식 출시 때 데브시스터즈가 예고했던 '2주 단위 정기 업데이트' 약속이 이번에 그대로 지켜진 거예요.</span> 출시 시점에 쿠키 69종, 펫 54종을 풀어놓고 앞으로 2주마다 새 쿠키·펫을 채워나가겠다고 했었는데, 8월 13일이 딱 그 첫 회차인 셈이죠.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 데브시스터즈 공식 보도자료</span>
+        <span class="sn-src"><b>데브시스터즈 공식 보도자료</b>가 "2주 단위의 정기 업데이트를 통해 신규 쿠키와 펫을 출시"할 계획이라고 밝혔어요. (<a href="https://www.devsisters.com/stories/news/CC-global-launch" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 보도자료의 계획 문구를 이번 업데이트 날짜랑 엮어서 "왜 하필 8/13인가"로 풀었어요.</span>
+      </div>
+    </div>
+    <table class="tbl">
+      <tr><th>시점</th><th>내용</th><th>확정 여부</th></tr>
+      <tr><td>2026.07.30</td><td>정식 출시(쿠키 69종·펫 54종, 얼터너티브 쿠키 '오븐방랑자 쿠키'는 TSSR 등급)</td><td>확정</td></tr>
+      <tr><td>2026.08.13</td><td>1.1.001 첫 정기 업데이트(쿨링민트맛 쿠키·신규 일일 던전·룰렛 이벤트)</td><td>확정</td></tr>
+      <tr><td>2026.08.27(추정)</td><td>2주 주기 그대로면 다음 정기 업데이트 예상 시점</td><td>미확정(추정)</td></tr>
+    </table>
+    <p>거기다 출시 시점에 쿠키 69종, 펫 54종을 이미 갖추고 시작한 게임이니까, 2주마다 여기에 계속 얹어진다면 반년쯤 뒤엔 로스터가 지금보다 훨씬 두꺼워져 있을 거예요. 그러니까 이번 쿨링민트맛 쿠키는 완전히 새로운 시도가 아니라, 출시 때부터 예고했던 '2주마다 새 쿠키·펫' 계획의 첫 실행분인 셈이에요. 다음 업데이트까지 이 텀이 이어진다면, 그 사이엔 지금 나온 쿨링민트맛 쿠키·일일 던전·룰렛 이벤트를 충분히 즐기면서 기다리면 될 것 같아요. 2주면 콘텐츠가 순식간에 소진될 정도로 짧지도 않고, 그렇다고 손 놓고 있기엔 긴 것도 아니라서 꾸준히 들여다보기엔 딱 좋은 주기더라고요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 업데이트는 어떻게 받나요?</b><br>스토어 자동 업데이트가 켜져 있으면 따로 안 눌러도 1.1.001로 알아서 올라가고, 수동으로 관리하신다면 앱스토어나 구글플레이 들어가서 업데이트 버튼만 눌러주면 돼요.</p>
+    <p><b>Q. 안드로이드도 같은 버전으로 업데이트됐나요?</b><br>구글플레이 쪽 정확한 배포 시각은 확인이 안 됐어요. 이번 정리는 앱스토어 기준이라, 안드로이드로 하시는 분들은 스토어에서 직접 업데이트 여부를 한 번 확인해보시는 게 좋아요.</p>
+    <p><b>Q. 이번 업데이트 기념 쿠폰 코드도 따로 나왔나요?</b><br>공식 쿠폰 등록 페이지(coupon.devplay.com)랑 커뮤니티 쪽도 같이 살펴봤는데, 아직 이번 1.1.001 패치 전용 코드는 안 보이더라고요. 지금 도는 코드들은 다 출시 기념으로 나왔던 거예요. 코드가 새로 뜨면 쿠폰 정리 글에 바로 추가해둘게요.</p>
+
+    <h2 class="sub">쿠키런 크럼블 1.1.001 정리</h2>
+    <p>챙길 것만 추리면, 이번 업데이트는 쿨링민트맛 쿠키 추가에 신규 일일 던전, 룰렛 이벤트까지 셋이 한꺼번에 들어온 첫 정기 업데이트였어요. 세부 내용은 아직 다 안 풀렸지만, 2주마다 이 정도 규모로 계속 온다면 초반 로드맵은 기대해볼 만하겠더라고요. 등급이랑 스킬 같은 세부 내용 풀리는 대로 등급표 글이랑 티어표 글도 같이 업데이트할 예정이니, 궁금하신 분들은 그때 다시 챙겨보시면 좋을 것 같아요. 특히 등급 확정이랑 던전 이름은 저도 계속 지켜보고 있는 부분이라, 뜨는 대로 이 글에도 업데이트해둘게요. 새 쿠키·던전·이벤트가 한 번에 몰려서 처음엔 좀 정신없을 수 있는데, 하나씩 차례로 들어가보면 금방 감 잡히실 거예요.</p>
+    <p>✔ 쿠키런 크럼블 같이 보기 좋은 내용 — 등급표 글이랑 티어표 글에서 기존 쿠키들 조합은 더 자세히 다뤘어요(발행되면 여기 링크 걸어둘게요).</p>
+
+    <!-- 내부링크: 쿠키런 크럼블 등급표 글(제목 "쿠키런 크럼블 등급표 총정리! 초반엔 뭐부터 키워야 할까") · 티어표 글(제목 "쿠키런 크럼블 티어표 직접 매겨봤어요, SSR조합 짜는 법까지 정리") post ID 확인 후 연결 -->
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://apps.apple.com/kr/app/id6749251466" target="_blank">쿠키런 키우기 - 쿠키런: 크럼블 (App Store)</a><br>
+    · <a href="https://www.devsisters.com/stories/news/CC-global-launch" target="_blank">데브시스터즈 공식 스토리 — 쿠키런: 크럼블 글로벌 출시</a></p>
+    <p class="cap">(2026.08.15 기준)</p>
+
+    <div class="tags">#쿠키런크럼블 #쿠키런크럼블업데이트 #쿨링민트맛쿠키 #쿠키런크럼블신규쿠키 #쿠키런크럼블일일던전 #쿠키런크럼블룰렛이벤트 #쿠키런키우기</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 10분):</b> 📷 <b>사진 5곳</b> 업로드(아이콘 1 · 직접촬영 4). 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 쿠키런 크럼블 업데이트 정리, 쿨링민트맛 쿠키에 신규 던전·룰렛까지 떴어요</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>쿠키런 크럼블 출시하고 매일 들어가서 쿠키 모으고 있었는데, 어느새 2주가 지났다 싶더니 딱 업데이트가 뜨더라고요. 8월 13일에 올라온 1.1.001 패치인데, 첫 정기 업데이트치고는 알맹이가 꽤 알차서 오늘은 이거부터 정리해볼게요. 새 쿠키 하나 딱 들어오고 끝날 줄 알았는데 던전이랑 이벤트까지 같이 열려서, 저도 접속하자마자 한참 둘러봤어요. 정확히 뭐가 새로 생겼고, 뭐가 아직 베일에 싸여 있는지까지 한 번에 정리해드릴게요.</p>
+
+      <h3>1.1.001 업데이트, 언제 뭐가 적용됐는지부터</h3>
+      <p>이번 업데이트는 8월 13일 오후 1시 19분에 버전 1.1.001로 적용됐고, 큰 줄기로는 쿨링민트맛 쿠키·신규 일일 던전·룰렛 이벤트 이렇게 세 가지가 새로 들어왔어요. 원래 업데이트 노트엔 딱 세 줄로만 짧게 적혀 있었는데, 그걸 하나씩 풀어볼게요.</p>
+      <table>
+        <tr><th>항목</th><th>내용</th></tr>
+        <tr><td class="l">적용 버전</td><td>1.1.001</td></tr>
+        <tr><td class="l">적용 일시</td><td>2026년 8월 13일 오후 1시 19분(한국시간)</td></tr>
+        <tr><td class="l">배급사</td><td>Devsisters Corp.</td></tr>
+        <tr><td class="l">핵심 변경</td><td>쿨링민트맛 쿠키 추가 · 신규 일일 던전 추가 · 룰렛 이벤트 추가</td></tr>
+      </table>
+      <p>게임 개발은 스튜디오킹덤이 맡고, 배급은 데브시스터즈 이름으로 스토어에 올라가는 구조예요.</p>
+      <p>버전 숫자가 1.0대에서 1.1.001로 올라간 걸 보면, 이번이 마이너 업데이트치곤 담긴 게 꽤 많다는 뜻이기도 해요. 정식 출시가 7월 30일이었으니까, 이번 업데이트가 진짜 '첫' 정기 업데이트가 맞아요.</p>
+      <p class="ph">📷 〔사진 자리 1〕 쿠키런 크럼블 공식 앱 아이콘 — 미리보기에서 이미지 복사 후 업로드</p>
+      <p>지금 스토어에 떠 있는 '쿠키런 키우기 - 쿠키런: 크럼블' 아이콘이에요. 버전 1.1.001로 올라가 있으면 업데이트 제대로 받은 거예요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 게임 실행 시 뜨는 1.1.001 업데이트 안내 팝업 — 직접 촬영 후 업로드<br>└ 캡션 추천: "업데이트 노트 원문이 이 창에 그대로 떠요."</p>
+
+      <h3>쿨링민트맛 쿠키가 새로 추가됐어요</h3>
+      <p>이번 업데이트로 새로 들어온 쿠키 이름은 <b>'쿨링민트맛 쿠키'</b>예요. 앱스토어 업데이트 노트엔 딱 이름만 나와 있고, 등급이나 스킬, 픽업 기간 같은 세부 내용은 아직 공식 소개 페이지에 안 떴더라고요. 인게임 공지나 쿠키 소개창에 뜨는 대로 다시 확인해서 채워둘게요.</p>
+      <p>예전에 등급표 글에서 커먼부터 트랜센던트슈퍼스페셜레어(TSSR)까지 정리해뒀었는데, 쿨링민트맛 쿠키도 결국 그 체계 안 어딘가로 들어올 텐데 지금은 어느 자리인지 가늠이 안 되는 상태예요. 등급이 확정되면 그 등급표 글부터 손볼 생각이에요.</p>
+      <p>참고로 출시 때 기준을 보면, 7일 연속 출석 보상으로 확정 지급됐던 '크림소다맛 쿠키'가 SSR 등급이었고, 얼터너티브 쿠키로 소개된 '오븐방랑자 쿠키'는 그보다 한 단계 위인 TSSR 등급이었어요. 쿨링민트맛 쿠키가 이 중 어디쯤일지는 아직 알 수 없어요. 신규 쿠키는 보통 소환(가챠)으로 얻거나 이벤트로 픽업되는 경우가 많은데, 쿨링민트맛 쿠키가 어느 쪽인지도 아직 따로 공지가 없고요.</p>
+      <p class="ph">📷 〔사진 자리 3〕 쿠키 도감의 '쿨링민트맛 쿠키' 카드 — 직접 촬영 후 업로드<br>└ 캡션 추천: "도감에 카드는 떠 있는데, 등급 칸은 아직 저도 못 채운 상태예요."</p>
+
+      <h3>일일 던전이랑 룰렛 이벤트도 같이 열렸어요</h3>
+      <p>이번 업데이트에서는 새 쿠키 말고도 <b>신규 일일 던전</b>이랑 <b>룰렛 이벤트</b>, 이렇게 두 콘텐츠가 같이 열리더라고요.</p>
+      <ul>
+        <li><b>신규 일일 던전</b> — 던전 이름이나 입장 조건은 업데이트 노트에 따로 안 나와 있어서, 인게임 던전 목록에서 새로 뜬 항목을 직접 확인해봐야 해요.</li>
+        <li><b>룰렛 이벤트</b> — 진행 기간이나 보상 구성도 마찬가지로 미공개고, 이벤트 탭 열어보면 자세한 내용이 뜰 거예요.</li>
+      </ul>
+      <p>영문 공지 쪽엔 좀 더 구체적인 이름이 돌고 있다는 얘기도 들었는데, 저는 그 원문을 직접 확인 못 했어요. 한국어 공식 명칭은 아직 '신규 일일 던전'·'룰렛 이벤트'라는 릴리즈 노트 표현이 전부라, 괜히 영문 이름을 우리말로 옮겨 붙이진 않을게요.</p>
+      <p>일일 던전은 이름 그대로면 매일 리셋되는 콘텐츠일 가능성이 높으니까, 접속하는 김에 한 번씩 들어가 보는 습관을 들이면 좋을 것 같고, 룰렛 이벤트는 보통 무료로 받는 재화를 태워서 돌리는 자리라 진행 기간 안에 놓치지 않고 챙기는 게 중요해요.</p>
+      <p class="ph">📷 〔사진 자리 4〕 던전 목록의 신규 일일 던전 입장 화면 — 직접 촬영 후 업로드<br>└ 캡션 추천: "던전 목록에 항목 하나가 더 늘어난 게 바로 보여요."</p>
+      <p class="ph">📷 〔사진 자리 5〕 룰렛 이벤트 탭 화면 — 직접 촬영 후 업로드<br>└ 캡션 추천: "돌리는 재미가 있는 룰렛판이 이벤트 탭에 떠 있어요."</p>
+
+      <h3>왜 하필 8월 13일이었을까, 정기 업데이트 주기로 보면</h3>
+      <p>7월 30일 정식 출시 때 데브시스터즈가 예고했던 '2주 단위 정기 업데이트' 약속이 이번에 그대로 지켜진 거예요. 출시 시점에 쿠키 69종, 펫 54종을 풀어놓고 앞으로 2주마다 새 쿠키·펫을 채워나가겠다고 했었는데, 8월 13일이 딱 그 첫 회차인 셈이죠.</p>
+      <table>
+        <tr><th>시점</th><th>내용</th><th>확정 여부</th></tr>
+        <tr><td class="l">2026.07.30</td><td>정식 출시(쿠키 69종·펫 54종, 얼터너티브 쿠키 '오븐방랑자 쿠키'는 TSSR 등급)</td><td>확정</td></tr>
+        <tr><td class="l">2026.08.13</td><td>1.1.001 첫 정기 업데이트(쿨링민트맛 쿠키·신규 일일 던전·룰렛 이벤트)</td><td>확정</td></tr>
+        <tr><td class="l">2026.08.27(추정)</td><td>2주 주기 그대로면 다음 정기 업데이트 예상 시점</td><td>미확정(추정)</td></tr>
+      </table>
+      <p>거기다 출시 시점에 쿠키 69종, 펫 54종을 이미 갖추고 시작한 게임이니까, 2주마다 여기에 계속 얹어진다면 반년쯤 뒤엔 로스터가 지금보다 훨씬 두꺼워져 있을 거예요. 그러니까 이번 쿨링민트맛 쿠키는 완전히 새로운 시도가 아니라, 출시 때부터 예고했던 '2주마다 새 쿠키·펫' 계획의 첫 실행분인 셈이에요. 다음 업데이트까지 이 텀이 이어진다면, 그 사이엔 지금 나온 쿨링민트맛 쿠키·일일 던전·룰렛 이벤트를 충분히 즐기면서 기다리면 될 것 같아요. 2주면 콘텐츠가 순식간에 소진될 정도로 짧지도 않고, 그렇다고 손 놓고 있기엔 긴 것도 아니라서 꾸준히 들여다보기엔 딱 좋은 주기더라고요.</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 업데이트는 어떻게 받나요?</b><br>스토어 자동 업데이트가 켜져 있으면 따로 안 눌러도 1.1.001로 알아서 올라가고, 수동으로 관리하신다면 앱스토어나 구글플레이 들어가서 업데이트 버튼만 눌러주면 돼요.</p>
+      <p><b>Q. 안드로이드도 같은 버전으로 업데이트됐나요?</b><br>구글플레이 쪽 정확한 배포 시각은 확인이 안 됐어요. 이번 정리는 앱스토어 기준이라, 안드로이드로 하시는 분들은 스토어에서 직접 업데이트 여부를 한 번 확인해보시는 게 좋아요.</p>
+      <p><b>Q. 이번 업데이트 기념 쿠폰 코드도 따로 나왔나요?</b><br>공식 쿠폰 등록 페이지(coupon.devplay.com)랑 커뮤니티 쪽도 같이 살펴봤는데, 아직 이번 1.1.001 패치 전용 코드는 안 보이더라고요. 지금 도는 코드들은 다 출시 기념으로 나왔던 거예요. 코드가 새로 뜨면 쿠폰 정리 글에 바로 추가해둘게요.</p>
+
+      <h3>쿠키런 크럼블 1.1.001 정리</h3>
+      <p>챙길 것만 추리면, 이번 업데이트는 쿨링민트맛 쿠키 추가에 신규 일일 던전, 룰렛 이벤트까지 셋이 한꺼번에 들어온 첫 정기 업데이트였어요. 세부 내용은 아직 다 안 풀렸지만, 2주마다 이 정도 규모로 계속 온다면 초반 로드맵은 기대해볼 만하겠더라고요. 등급이랑 스킬 같은 세부 내용 풀리는 대로 등급표 글이랑 티어표 글도 같이 업데이트할 예정이니, 궁금하신 분들은 그때 다시 챙겨보시면 좋을 것 같아요. 특히 등급 확정이랑 던전 이름은 저도 계속 지켜보고 있는 부분이라, 뜨는 대로 이 글에도 업데이트해둘게요. 새 쿠키·던전·이벤트가 한 번에 몰려서 처음엔 좀 정신없을 수 있는데, 하나씩 차례로 들어가보면 금방 감 잡히실 거예요.</p>
+      <p>✔ 쿠키런 크럼블 같이 보기 좋은 내용 — 등급표 글이랑 티어표 글에서 기존 쿠키들 조합은 더 자세히 다뤘어요(발행되면 여기 링크 걸어둘게요).</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://apps.apple.com/kr/app/id6749251466" target="_blank">쿠키런 키우기 - 쿠키런: 크럼블 (App Store)</a><br>
+      · <a href="https://www.devsisters.com/stories/news/CC-global-launch" target="_blank">데브시스터즈 공식 스토리 — 쿠키런: 크럼블 글로벌 출시</a></p>
+
+      <p class="tags-line">#쿠키런크럼블 #쿠키런크럼블업데이트 #쿨링민트맛쿠키 #쿠키런크럼블신규쿠키 #쿠키런크럼블일일던전 #쿠키런크럼블룰렛이벤트 #쿠키런키우기</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
