@@ -1,0 +1,297 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메이플플래닛 잠재능력 큐브 확률표 총정리 뭐부터 돌려야 손해 안 볼까</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">메이플플래닛</div>
+    <h1 class="title">메이플플래닛 잠재능력 큐브 확률표 총정리 뭐부터 돌려야 손해 안 볼까</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.08.18</span><span>· 게임</span></div>
+
+    <p>장비 다 맞추고 나서 결국 마지막에 부딪히는 게 잠재능력 큐브인데요, 저도 창고에 큐브만 잔뜩 쌓아두고 뭐부터 돌려야 할지 몰라서 한참을 미루기만 했거든요. 이번엔 마음먹고 메이플플래닛 공식 확률 고지 페이지까지 직접 뒤져서, 등급 상승 확률표랑 옵션 등급 설정 구조를 제대로 정리해봤어요. 여기에 부위별로 뭐부터 돌리는 게 좋은지 커뮤니티에서 자주 나오는 이야기까지 같이 묶어볼게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 잠재능력 큐브 사용 직전, 옵션 3줄이 뜨는 결과창</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 장비 우클릭 → 잠재능력 부여 → 큐브 사용 화면 캡처</div>
+    <p class="cap">이 세 줄이 어떤 확률로 정해지는지가 오늘 정리할 내용이에요.</p>
+
+    <h2 class="sub">잠재능력이랑 큐브, 정확히 뭘 하는 기능인가요</h2>
+    <p>잠재능력은 장비에 숨겨진 옵션을 큐브로 다시 굴려서 더 좋은 옵션으로 바꾸는 시스템이에요. 메이플플래닛의 등급 체계는 <b>노멀 → 레어 → 에픽 → 유니크</b> 순으로 올라가고, <b>유니크가 가장 높은 최상위 등급</b>이에요. 본섭 메이플스토리처럼 유니크 위에 다른 등급이 더 있는 구조가 아니라서, 여기서는 유니크까지 올리는 게 잠재능력의 최종 목표라고 보면 됩니다.</p>
+    <p>큐브는 '미라클 큐브'랑 '수상한 큐브' 두 종류가 공식 페이지에 각각 따로 탭으로 안내되어 있는데요, 탭을 눌러보면 두 큐브 정보를 서로 바꿔가며 확인할 수 있어요. 다만 등급 상승 확률이나 옵션 등급 설정 구조 같은 큰 틀은 두 큐브가 공통으로 쓰는 값이라, 이 글에서는 어느 한쪽 큐브를 따로 특정하지 않고 공식 페이지에 안내된 확률표를 기준으로만 이야기할게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 장비 정보창에서 등급(레어·에픽·유니크)이 표기된 부분</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 인벤토리에서 장비 커서를 올려 등급 표기가 보이는 툴팁 캡처</div>
+    <p class="cap">등급 이름 옆에 붙는 색상·표기를 미리 봐두면 큐브 돌릴 때 헷갈리지 않아요.</p>
+
+    <h2 class="sub">등급 상승 확률표는 어떻게 될까요</h2>
+    <p>공식 페이지 기준으로 <b>레어에서 에픽으로 올라갈 확률은 6.0000%, 에픽에서 유니크로 올라갈 확률은 1.8000%</b>예요.</p>
+    <table class="tbl">
+      <tr><th>등급 상승 구간</th><th>확률</th></tr>
+      <tr><td>레어 → 에픽</td><td>6.0000%</td></tr>
+      <tr><td>에픽 → 유니크</td><td>1.8000%</td></tr>
+    </table>
+    <p>숫자가 소수점 넷째 자리까지 딱 떨어지게 나와 있는 게 신기했는데요, 페이지에 '각 확률은 게임산업법 시행령에서 정하는 방식에 따라 반올림하여 표기'한다는 공식 고지 문구가 같이 적혀 있더라고요. 확률형 아이템 표시 의무 규정 때문에 소수점까지 이렇게 정직하게 공개하는 거였어요. 유니크까지 한 번에 뚫리는 확률이 아니라 <b>단계마다 따로 굴려야 하는 확률</b>이라, 체감상으로는 이 숫자보다 훨씬 낮게 느껴지실 수 있어요.</p>
+
+    <h2 class="sub">옵션은 어떻게 정해지나요 (첫째·둘째·셋째 줄 등급 설정)</h2>
+    <p>잠재능력 옵션은 <b>첫 번째·두 번째·세 번째 줄마다 등급이 각각 따로</b> 뽑히는 방식이에요.</p>
+    <table class="tbl">
+      <tr><th>옵션 순서</th><th>등급 설정 확률</th></tr>
+      <tr><td>첫 번째 옵션</td><td>전 등급 100.0000%</td></tr>
+      <tr><td>두 번째 옵션</td><td>자기 등급 유지 10.0000% / 한 단계 낮은 등급 90.0000%</td></tr>
+      <tr><td>세 번째 옵션</td><td>자기 등급 유지 1.0000% / 한 단계 낮은 등급 99.0000%</td></tr>
+    </table>
+    <p>첫 번째 줄은 무조건 그 장비의 현재 등급 그대로 옵션이 나오는데, 두 번째·세 번째 줄은 구조가 좀 달라요. 두 번째 줄은 10%만 자기 등급을 유지하고 나머지 90%는 한 단계 낮은 등급으로 내려가고, 세 번째 줄은 그 비율이 1% 대 99%로 더 벌어져요. 그러니까 세 줄이 전부 높은 등급으로 맞춰지려면 <b>등급 상승 확률이랑 이 등급 유지 확률이 같이 맞아떨어져야</b> 하는 셈이라, 큐브 한두 번에 원하는 옵션 세 줄을 다 잡는 건 애초에 쉬운 일이 아니더라고요. 옵션 자체를 지정해서 넣는 기능은 없고 정해진 옵션 풀 안에서 무작위로 뽑히는 구조인데, 페이지에 옵션 검색 기능이 따로 있어서 내가 원하는 옵션이 몇 번째 줄·어느 등급에서 나오는지는 미리 찾아볼 수 있었어요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: mapleplanet.co.kr/Cube 확률형 아이템 고지 페이지 캡처</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — <a href="https://mapleplanet.co.kr/Cube" target="_blank">공식 확률형 아이템 페이지</a> 접속 후 등급 상승·옵션 설정 표 캡처</div>
+    <p class="cap">여기 나온 숫자를 그대로 옮긴 거라, 궁금하시면 직접 열어봐도 좋아요.</p>
+
+    <h2 class="sub">그럼 큐브는 어느 부위부터 돌려야 손해 안 볼까요</h2>
+    <p>등급 상승 확률 자체는 부위와 상관없이 다 똑같기 때문에, 순서를 정할 때는 확률이 아니라 <b>성공했을 때 이득이 큰 부위부터 돌리는 게 유리하다는 의견이 많아요.</b></p>
+    <p>레어→에픽 6.0000%, 에픽→유니크 1.8000%는 무기든 방어구든 장신구든 똑같이 적용되는 수치라, 확률표만 보면 어디부터 돌려도 사실 차이가 없어요. 그런데도 커뮤니티에서 부위 순서를 따지는 이유는 간단해요 — 같은 확률로 성공했을 때 딜이나 생존에 미치는 영향이 부위마다 다르기 때문이에요. 딱 정해진 정답은 없지만, 메이플 계열 게임에서 흔히 나오는 이야기를 순서대로 묶어볼게요.</p>
+
+    <h2 class="sub">1순위 — 무기부터 돌리는 걸 추천하는 의견이 많아요</h2>
+    <p>무기는 공격력이나 보스 공격력 같은 딜 직결 옵션이 몰려 있어서, 잠재능력 하나 바뀌는 것만으로도 체감 딜 차이가 가장 크게 난다는 이야기가 많아요. 큐브 개수가 넉넉하지 않다면 무기부터 먼저 굴려보는 걸 권하는 의견이 많더라고요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 무기 잠재능력 옵션 예시(공격력·보스공격력 라인)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 본인 무기 잠재능력 옵션창 캡처</div>
+    <p class="cap">무기 옵션은 딜 관련 라인이 자주 붙어서 우선순위로 많이 꼽혀요.</p>
+
+    <h2 class="sub">2순위 — 장신구·훈장류가 다음으로 꼽혀요</h2>
+    <p>반지·펜던트·훈장처럼 세팅 자유도가 큰 부위는 공격력%나 보스 공격력% 옵션이 나왔을 때 효율이 좋다는 평이 많아서, 무기 다음으로 손대는 경우가 흔해요.</p>
+
+    <h2 class="sub">3순위 — 방어구는 올스탯 위주라 급하지 않다는 의견</h2>
+    <p>방어구 계열은 올스탯이나 방어력 옵션 비중이 커서, 생존이 급한 상황이 아니면 무기·장신구부터 먼저 맞추고 나중으로 미루는 경우가 많다는 의견이에요.</p>
+    <p>다만 이건 어디까지나 커뮤니티에서 자주 나오는 통설이라 정답이라고 단정할 순 없어요. <b>내 직업이 어떤 옵션에 더 크게 반응하는지</b>를 먼저 따져보고, 그 부위부터 큐브를 몰아주는 게 가장 확실한 방법이에요.</p>
+
+    <div style="background:#fff;border:2px solid #EC5C92;border-radius:14px;padding:10px 18px 14px;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:1px 3px 10px rgba(236,92,146,.12);margin:6px 0 22px;">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:#EC5C92;color:#fff;font-size:12.5px;font-weight:800;padding:4px 12px;border-radius:0 0 10px 10px;margin:-10px 0 8px 0;">♥ 큐브 돌릴 순서, 이렇게 체크해보세요</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px dashed #f3c9da;">
+        <span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:2px solid #EC5C92;display:flex;align-items:center;justify-content:center;color:#D63E7A;font-weight:800;">1</span>
+        <span style="font-size:13.5px;color:#4a4047;line-height:1.5;word-break:keep-all;">무기 — 딜 직결 옵션 비중이 커서 체감 효율 1순위</span></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px dashed #f3c9da;">
+        <span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:2px solid #EC5C92;display:flex;align-items:center;justify-content:center;color:#D63E7A;font-weight:800;">2</span>
+        <span style="font-size:13.5px;color:#4a4047;line-height:1.5;word-break:keep-all;">장신구·훈장 — 세팅 자유도가 커서 공격력 계열 효율이 좋음</span></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;">
+        <span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:2px solid #EC5C92;display:flex;align-items:center;justify-content:center;color:#D63E7A;font-weight:800;">3</span>
+        <span style="font-size:13.5px;color:#4a4047;line-height:1.5;word-break:keep-all;">방어구 — 올스탯·방어력 위주라 상대적으로 덜 급함</span></div>
+    </div>
+
+    <table class="tbl">
+      <tr><th>순위</th><th>부위</th><th>이유</th></tr>
+      <tr><td>1순위</td><td>무기</td><td>딜 직결 옵션 비중이 커서 체감 효율이 가장 큼</td></tr>
+      <tr><td>2순위</td><td>장신구·훈장</td><td>세팅 자유도가 커서 공격력 계열 옵션 효율이 좋음</td></tr>
+      <tr><td>3순위</td><td>방어구</td><td>올스탯·방어력 위주라 상대적으로 급하지 않음</td></tr>
+    </table>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 미라클 큐브랑 수상한 큐브는 확률이 다른가요?</b><br>탭을 눌러 확인해보면 등급 상승 확률이랑 옵션 등급 설정 확률(100%·10~90%·1~99%) 자체는 두 큐브가 똑같이 쓰는 구조예요. 다만 이 표는 '등급'이 어떻게 정해지는지를 보여주는 거지, 그 등급 안에서 실제로 어떤 옵션 하나하나가 몇 %로 걸리는지까지 알려주는 건 아니라서, '등급 확률은 같아도 등급 안에서 뭐가 걸리느냐는 또 다른 문제'라는 점만 헷갈리지 않으시면 될 것 같아요.</p>
+    <p><b>Q. 옵션을 직접 골라서 넣을 수는 없나요?</b><br>넣는 기능이 없다는 것보다 더 챙겨야 할 부분은, 옵션 검색으로 확인되는 건 '이 옵션이 존재하고 몇 등급에 묶여 있는지'까지지 그 옵션이 실제로 몇 % 확률로 뽑히는지는 검색 결과에 안 나온다는 거예요. 그러니까 검색은 원하는 옵션이 있는지·어느 등급 소속인지 확인하는 용도로만 쓰고, 뽑힐 확률까지 알려주는 기능은 아니라는 걸 감안하고 보시면 좋아요.</p>
+    <p><b>Q. 부위별 우선순위도 공식에서 정해준 기준인가요?</b><br>아니에요. 등급 상승 확률표나 옵션 설정 구조는 공식 고지 내용이지만, 부위별로 뭐부터 돌리라는 순서는 공식 자료엔 없고 유저들 사이에서 나오는 이야기예요. 참고만 하시고 본인 캐릭터 상황에 맞게 판단하시는 게 제일 좋아요.</p>
+
+    <h2 class="sub">메이플플래닛 잠재능력 큐브 정리</h2>
+    <p>정리하면, 등급 상승 확률은 레어→에픽 6.0000%·에픽→유니크 1.8000%로 부위 상관없이 똑같고, 옵션은 첫 줄 100.0000%·둘째 줄 자기 등급 유지 10.0000%/한 단계 낮은 등급 90.0000%·셋째 줄 자기 등급 유지 1.0000%/한 단계 낮은 등급 99.0000%로 정해져요. 확률이 같은 만큼 순서는 성공했을 때 이득이 큰 부위, 보통 무기부터 잡는 걸 추천하는 의견이 많으니 참고해서 큐브 통 정리해보시면 좋을 것 같아요.</p>
+
+    <p><b>✔ 메이플플래닛 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224341812330" target="_blank">메이플플래닛 캐시템 뭐부터 사야하나 과금 우선순위 가성비 정리</a><br>
+    · <a href="https://blog.naver.com/bomding/224309917141" target="_blank">메이플플래닛 나이트로드 스킬트리·템세팅</a><br>
+    · <a href="https://blog.naver.com/bomding/224308831977" target="_blank">메이플플래닛 보우마스터 스킬트리·선마 순서</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://mapleplanet.co.kr/Cube" target="_blank">메이플플래닛 확률형 아이템 정보</a></p>
+
+    <!-- AI브리핑 타깃 질문: 메이플플래닛 잠재능력 등급 상승 확률은 얼마나 되나요 / 메이플플래닛 잠재능력 옵션은 어떻게 정해지나요 / 메이플플래닛 큐브 뭐부터 돌려야 하나요 -->
+    <!-- 이미지 안내: 이번 글은 공식 사이트(mapleplanet.co.kr) WebFetch가 403으로 막혀 실제 스크린샷 URL을 확보하지 못했습니다. MapleStory Worlds 플랫폼 페이지에서 이 게임 전용이 아닌 플랫폼 공용 로고 하나만 확인됐는데, 실제 게임과 무관한 이미지를 끼워 넣는 건 오히려 부정확하다고 판단해 사용하지 않았습니다. 대신 스크린샷 자리 4곳은 전부 B형(직접 촬영) 점선 박스로 표시했고, 자체 제작 인포그래픽(스크랩북 체크리스트) 1개 + 표 3개로 시각 앵커를 보강했습니다. -->
+
+    <div class="tags">#메이플플래닛 #메이플플래닛잠재능력 #메이플플래닛큐브확률 #메이플플래닛수상한큐브 #메이플플래닛미라클큐브 #메이플플래닛공략</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 8분):</b> 📷 <b>사진 4곳</b> 촬영·업로드. 나머지 본문·볼드·표·내부링크·출처는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플플래닛 잠재능력 큐브 확률표 총정리 뭐부터 돌려야 손해 안 볼까</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>장비 다 맞추고 나서 결국 마지막에 부딪히는 게 잠재능력 큐브인데요, 저도 창고에 큐브만 잔뜩 쌓아두고 뭐부터 돌려야 할지 몰라서 한참을 미루기만 했거든요. 이번엔 마음먹고 메이플플래닛 공식 확률 고지 페이지까지 직접 뒤져서, 등급 상승 확률표랑 옵션 등급 설정 구조를 제대로 정리해봤어요. 여기에 부위별로 뭐부터 돌리는 게 좋은지 커뮤니티에서 자주 나오는 이야기까지 같이 묶어볼게요.</p>
+
+      <p class="ph">📷 〔사진 1〕 잠재능력 큐브 사용 직전, 옵션 3줄이 뜨는 결과창 — 장비 우클릭 → 잠재능력 부여 → 큐브 사용 화면 촬영 후 업로드</p>
+
+      <h3>잠재능력이랑 큐브, 정확히 뭘 하는 기능인가요</h3>
+      <p>잠재능력은 장비에 숨겨진 옵션을 큐브로 다시 굴려서 더 좋은 옵션으로 바꾸는 시스템이에요. 메이플플래닛의 등급 체계는 <b>노멀 → 레어 → 에픽 → 유니크</b> 순으로 올라가고, <b>유니크가 가장 높은 최상위 등급</b>이에요. 본섭 메이플스토리처럼 유니크 위에 다른 등급이 더 있는 구조가 아니라서, 여기서는 유니크까지 올리는 게 잠재능력의 최종 목표라고 보면 됩니다.</p>
+      <p>큐브는 '미라클 큐브'랑 '수상한 큐브' 두 종류가 공식 페이지에 각각 따로 탭으로 안내되어 있는데요, 탭을 눌러보면 두 큐브 정보를 서로 바꿔가며 확인할 수 있어요. 다만 등급 상승 확률이나 옵션 등급 설정 구조 같은 큰 틀은 두 큐브가 공통으로 쓰는 값이라, 이 글에서는 어느 한쪽 큐브를 따로 특정하지 않고 공식 페이지에 안내된 확률표를 기준으로만 이야기할게요.</p>
+
+      <p class="ph">📷 〔사진 2〕 장비 정보창에서 등급(레어·에픽·유니크)이 표기된 부분 — 인벤토리 툴팁 촬영 후 업로드</p>
+
+      <h3>등급 상승 확률표는 어떻게 될까요</h3>
+      <p>공식 페이지 기준으로 <b>레어에서 에픽으로 올라갈 확률은 6.0000%, 에픽에서 유니크로 올라갈 확률은 1.8000%</b>예요.</p>
+      <table>
+        <tr><th>등급 상승 구간</th><th>확률</th></tr>
+        <tr><td class="l">레어 → 에픽</td><td>6.0000%</td></tr>
+        <tr><td class="l">에픽 → 유니크</td><td>1.8000%</td></tr>
+      </table>
+      <p>숫자가 소수점 넷째 자리까지 딱 떨어지게 나와 있는 게 신기했는데요, 페이지에 '각 확률은 게임산업법 시행령에서 정하는 방식에 따라 반올림하여 표기'한다는 공식 고지 문구가 같이 적혀 있더라고요. 확률형 아이템 표시 의무 규정 때문에 소수점까지 이렇게 정직하게 공개하는 거였어요. 유니크까지 한 번에 뚫리는 확률이 아니라 <b>단계마다 따로 굴려야 하는 확률</b>이라, 체감상으로는 이 숫자보다 훨씬 낮게 느껴지실 수 있어요.</p>
+
+      <h3>옵션은 어떻게 정해지나요 (첫째·둘째·셋째 줄 등급 설정)</h3>
+      <p>잠재능력 옵션은 <b>첫 번째·두 번째·세 번째 줄마다 등급이 각각 따로</b> 뽑히는 방식이에요.</p>
+      <table>
+        <tr><th>옵션 순서</th><th>등급 설정 확률</th></tr>
+        <tr><td class="l">첫 번째 옵션</td><td>전 등급 100.0000%</td></tr>
+        <tr><td class="l">두 번째 옵션</td><td>자기 등급 유지 10.0000% / 한 단계 낮은 등급 90.0000%</td></tr>
+        <tr><td class="l">세 번째 옵션</td><td>자기 등급 유지 1.0000% / 한 단계 낮은 등급 99.0000%</td></tr>
+      </table>
+      <p>첫 번째 줄은 무조건 그 장비의 현재 등급 그대로 옵션이 나오는데, 두 번째·세 번째 줄은 구조가 좀 달라요. 두 번째 줄은 10%만 자기 등급을 유지하고 나머지 90%는 한 단계 낮은 등급으로 내려가고, 세 번째 줄은 그 비율이 1% 대 99%로 더 벌어져요. 그러니까 세 줄이 전부 높은 등급으로 맞춰지려면 <b>등급 상승 확률이랑 이 등급 유지 확률이 같이 맞아떨어져야</b> 하는 셈이라, 큐브 한두 번에 원하는 옵션 세 줄을 다 잡는 건 애초에 쉬운 일이 아니더라고요. 옵션 자체를 지정해서 넣는 기능은 없고 정해진 옵션 풀 안에서 무작위로 뽑히는 구조인데, 페이지에 옵션 검색 기능이 따로 있어서 내가 원하는 옵션이 몇 번째 줄·어느 등급에서 나오는지는 미리 찾아볼 수 있었어요.</p>
+
+      <p class="ph">📷 〔사진 3〕 mapleplanet.co.kr/Cube 확률형 아이템 고지 페이지 캡처 — 공식 페이지 접속 후 등급 상승·옵션 설정 표 촬영 후 업로드</p>
+
+      <h3>그럼 큐브는 어느 부위부터 돌려야 손해 안 볼까요</h3>
+      <p>등급 상승 확률 자체는 부위와 상관없이 다 똑같기 때문에, 순서를 정할 때는 확률이 아니라 <b>성공했을 때 이득이 큰 부위부터 돌리는 게 유리하다는 의견이 많아요.</b></p>
+      <p>레어→에픽 6.0000%, 에픽→유니크 1.8000%는 무기든 방어구든 장신구든 똑같이 적용되는 수치라, 확률표만 보면 어디부터 돌려도 사실 차이가 없어요. 그런데도 커뮤니티에서 부위 순서를 따지는 이유는 간단해요 — 같은 확률로 성공했을 때 딜이나 생존에 미치는 영향이 부위마다 다르기 때문이에요. 딱 정해진 정답은 없지만, 메이플 계열 게임에서 흔히 나오는 이야기를 순서대로 묶어볼게요.</p>
+
+      <h3>1순위 — 무기부터 돌리는 걸 추천하는 의견이 많아요</h3>
+      <p>무기는 공격력이나 보스 공격력 같은 딜 직결 옵션이 몰려 있어서, 잠재능력 하나 바뀌는 것만으로도 체감 딜 차이가 가장 크게 난다는 이야기가 많아요. 큐브 개수가 넉넉하지 않다면 무기부터 먼저 굴려보는 걸 권하는 의견이 많더라고요.</p>
+
+      <p class="ph">📷 〔사진 4〕 무기 잠재능력 옵션 예시(공격력·보스공격력 라인) — 본인 무기 옵션창 촬영 후 업로드</p>
+
+      <h3>2순위 — 장신구·훈장류가 다음으로 꼽혀요</h3>
+      <p>반지·펜던트·훈장처럼 세팅 자유도가 큰 부위는 공격력%나 보스 공격력% 옵션이 나왔을 때 효율이 좋다는 평이 많아서, 무기 다음으로 손대는 경우가 흔해요.</p>
+
+      <h3>3순위 — 방어구는 올스탯 위주라 급하지 않다는 의견</h3>
+      <p>방어구 계열은 올스탯이나 방어력 옵션 비중이 커서, 생존이 급한 상황이 아니면 무기·장신구부터 먼저 맞추고 나중으로 미루는 경우가 많다는 의견이에요.</p>
+      <p>다만 이건 어디까지나 커뮤니티에서 자주 나오는 통설이라 정답이라고 단정할 순 없어요. <b>내 직업이 어떤 옵션에 더 크게 반응하는지</b>를 먼저 따져보고, 그 부위부터 큐브를 몰아주는 게 가장 확실한 방법이에요.</p>
+
+      <div style="background:#fff;border:2px solid #EC5C92;border-radius:14px;padding:10px 18px 14px;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;box-shadow:1px 3px 10px rgba(236,92,146,.12);margin:6px 0 22px;">
+        <div style="display:inline-flex;align-items:center;gap:6px;background:#EC5C92;color:#fff;font-size:12.5px;font-weight:800;padding:4px 12px;border-radius:0 0 10px 10px;margin:-10px 0 8px 0;">♥ 큐브 돌릴 순서, 이렇게 체크해보세요</div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px dashed #f3c9da;">
+          <span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:2px solid #EC5C92;display:flex;align-items:center;justify-content:center;color:#D63E7A;font-weight:800;">1</span>
+          <span style="font-size:13.5px;color:#4a4047;line-height:1.5;word-break:keep-all;">무기 — 딜 직결 옵션 비중이 커서 체감 효율 1순위</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px dashed #f3c9da;">
+          <span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:2px solid #EC5C92;display:flex;align-items:center;justify-content:center;color:#D63E7A;font-weight:800;">2</span>
+          <span style="font-size:13.5px;color:#4a4047;line-height:1.5;word-break:keep-all;">장신구·훈장 — 세팅 자유도가 커서 공격력 계열 효율이 좋음</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;">
+          <span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:2px solid #EC5C92;display:flex;align-items:center;justify-content:center;color:#D63E7A;font-weight:800;">3</span>
+          <span style="font-size:13.5px;color:#4a4047;line-height:1.5;word-break:keep-all;">방어구 — 올스탯·방어력 위주라 상대적으로 덜 급함</span></div>
+      </div>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 미라클 큐브랑 수상한 큐브는 확률이 다른가요?</b><br>탭을 눌러 확인해보면 등급 상승 확률이랑 옵션 등급 설정 확률(100%·10~90%·1~99%) 자체는 두 큐브가 똑같이 쓰는 구조예요. 다만 이 표는 '등급'이 어떻게 정해지는지를 보여주는 거지, 그 등급 안에서 실제로 어떤 옵션 하나하나가 몇 %로 걸리는지까지 알려주는 건 아니라서, '등급 확률은 같아도 등급 안에서 뭐가 걸리느냐는 또 다른 문제'라는 점만 헷갈리지 않으시면 될 것 같아요.</p>
+      <p><b>Q. 옵션을 직접 골라서 넣을 수는 없나요?</b><br>넣는 기능이 없다는 것보다 더 챙겨야 할 부분은, 옵션 검색으로 확인되는 건 '이 옵션이 존재하고 몇 등급에 묶여 있는지'까지지 그 옵션이 실제로 몇 % 확률로 뽑히는지는 검색 결과에 안 나온다는 거예요. 그러니까 검색은 원하는 옵션이 있는지·어느 등급 소속인지 확인하는 용도로만 쓰고, 뽑힐 확률까지 알려주는 기능은 아니라는 걸 감안하고 보시면 좋아요.</p>
+      <p><b>Q. 부위별 우선순위도 공식에서 정해준 기준인가요?</b><br>아니에요. 등급 상승 확률표나 옵션 설정 구조는 공식 고지 내용이지만, 부위별로 뭐부터 돌리라는 순서는 공식 자료엔 없고 유저들 사이에서 나오는 이야기예요. 참고만 하시고 본인 캐릭터 상황에 맞게 판단하시는 게 제일 좋아요.</p>
+
+      <h3>메이플플래닛 잠재능력 큐브 정리</h3>
+      <p>정리하면, 등급 상승 확률은 레어→에픽 6.0000%·에픽→유니크 1.8000%로 부위 상관없이 똑같고, 옵션은 첫 줄 100.0000%·둘째 줄 자기 등급 유지 10.0000%/한 단계 낮은 등급 90.0000%·셋째 줄 자기 등급 유지 1.0000%/한 단계 낮은 등급 99.0000%로 정해져요. 확률이 같은 만큼 순서는 성공했을 때 이득이 큰 부위, 보통 무기부터 잡는 걸 추천하는 의견이 많으니 참고해서 큐브 통 정리해보시면 좋을 것 같아요.</p>
+
+      <p><b>✔ 메이플플래닛 같이 보기 좋은 내용</b><br>
+      · <a href="https://blog.naver.com/bomding/224341812330" target="_blank">메이플플래닛 캐시템 뭐부터 사야하나 과금 우선순위 가성비 정리</a><br>
+      · <a href="https://blog.naver.com/bomding/224309917141" target="_blank">메이플플래닛 나이트로드 스킬트리·템세팅</a><br>
+      · <a href="https://blog.naver.com/bomding/224308831977" target="_blank">메이플플래닛 보우마스터 스킬트리·선마 순서</a></p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://mapleplanet.co.kr/Cube" target="_blank">메이플플래닛 확률형 아이템 정보</a></p>
+
+      <p class="tags-line">#메이플플래닛 #메이플플래닛잠재능력 #메이플플래닛큐브확률 #메이플플래닛수상한큐브 #메이플플래닛미라클큐브 #메이플플래닛공략</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
