@@ -67,6 +67,9 @@
   --c-new:#1B5FA8;      /* 신작 게임 */
   --c-upd:#15703C;      /* 최근 업데이트 게임 */
   --c-hot:#C4482A;      /* 최근 화제 게임 */
+  --c-par:#6A46BE;      /* 육아 제품 — 종이 위 5.71:1(실측). 08-14 개편 때 유실된 🍼육아 트랙을 08-18 복원하며 신설.
+                           남은 색상환에서 5분류(앰버·자주·파랑·초록·주황빨강)와 가장 멀리 떨어진 보라를 골랐다.
+                           봄딩 주황(--a-bomding)을 쓰지 않은 이유는 --c-hot 과 같은 계열이라 분류가 뭉개지기 때문. */
   /* ~~--c-con(콘솔)~~ = 2026-08-15 분류 폐지로 사용처 없음 — 토큰도 함께 제거했다(죽은 토큰 금지) */
   /* ── 상태 ── */
   --ok:#15703C; --ok-weak:#E1F0E7; --warn:#8A5D08; --warn-weak:#F8EEDA;
@@ -105,6 +108,7 @@
   --a-yeonbom:#6BA6E0; --a-harusari:#EC85AF;
   --a-trend:#FF8A62; --a-queue:#7BB4EE; --a-ops:#4ED88E; --a-news:#E7B34A;
   --c-pin:#E7B34A; --c-core:#E58AB4; --c-new:#7BB4EE; --c-upd:#4CD98D; --c-hot:#FF8A62;  /* 토픽 데스크 분류(다크) */
+  --c-par:#B79BF2;  /* 육아 제품(다크) — 배경 위 8.07:1(실측) */
   --ok:#4CD98D; --ok-weak:#11241A; --warn:#E7B34A; --warn-weak:#261E10;
   --bad:#F58D82; --bad-weak:#2A1614; --info:#7BB4EE; --info-weak:#121E2B;
   --ac-fg:#121110;
@@ -2385,6 +2389,11 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
  const DESK_SECTIONS=[
    {key:"pinned", label:"꼭 다룰 게임",       desc:"내가 지정한 게임",          icon:"pin",     ac:"var(--c-pin)",  cap:40},
    {key:"core",   label:"주로 다루는 게임",   desc:"봄딩·영도가 계속 쓰는 게임", icon:"star",    ac:"var(--c-core)", cap:10},
+   /* 육아는 게임이 아니라 봄딩 전용 상시 레인이다(쿠팡 파트너스 수익형).
+      pinned·core 뒤, new 앞에 두는 이유 = 앞 셋은 "우리가 계속 쓰는 것"(내부 축)이고
+      new·update·hot 은 "밖에서 일어난 일"(외부 축)이라, 육아는 내부 축에 속한다.
+      2026-08-14 개편 때 옛 trend-analysis-team 의 🍼육아 트랙이 통째로 사라졌던 것을 08-18 복원한 칸. */
+   {key:"parenting", label:"육아 제품",       desc:"봄딩이 쓰는 쿠팡 제휴 비교글", icon:"gift", ac:"var(--c-par)", cap:5},
    {key:"new",    label:"신작 게임",          desc:"막 나왔거나 곧 나오는 게임", icon:"spark",   ac:"var(--c-new)",  cap:5},
    {key:"update", label:"최근 업데이트 게임",  desc:"화제성 있는 패치·시즌",      icon:"refresh", ac:"var(--c-upd)",  cap:5},
    {key:"hot",    label:"최근 화제되는 게임",  desc:"지금 검색·화제가 몰리는 쪽",  icon:"flame",   ac:"var(--c-hot)",  cap:5}
