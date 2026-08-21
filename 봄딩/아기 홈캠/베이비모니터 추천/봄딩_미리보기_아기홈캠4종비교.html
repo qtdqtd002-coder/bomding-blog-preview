@@ -1,0 +1,407 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>아기 홈캠 추천, 전용 베이비캠 vs 스마트홈캠 4종 비교 (이글루캠 S4+·QCAM-K3·Tapo C220·샤오미 C701)</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+  :root{
+    --ink:#2f332f;--sub:#8d948d;--line:#e7ece7;
+    --green:#1f8a6b;--green-bg:#eef8f4;--green-line:#cfe6da;
+    --coral:#c65a3e;--coral-bg:#fdefe9;--coral-line:#f0c3b0;
+    --blue:#2f6fa8;--blue-bg:#eaf2fa;--blue-line:#cfe0f0;
+    --naver:#03c75a;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f2f4f0;color:var(--ink);
+    font-family:Pretendard,"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 6px 30px rgba(50,60,50,.06);}
+  .topbar{display:flex;align-items:center;gap:8px;padding:13px 22px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);background:#fbfdfb;border-radius:14px 14px 0 0;}
+  .topbar .badge{background:var(--naver);color:#fff;font-weight:700;border-radius:5px;padding:2px 8px;font-size:12px;letter-spacing:.2px;}
+  .post{padding:30px 30px 44px;}
+  .cat{color:var(--coral);font-size:13px;font-weight:800;margin-bottom:9px;letter-spacing:.3px;}
+  h1.title{font-size:24px;line-height:1.42;margin:0 0 15px;font-weight:800;letter-spacing:-.5px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:17px;margin-bottom:22px;}
+  .meta .author{font-weight:800;color:#555;}
+  .notice{background:var(--coral-bg);border:1px solid var(--coral-line);border-radius:10px;padding:12px 15px;font-size:12.5px;color:#9a4a3a;margin-bottom:24px;line-height:1.65;}
+  .notice b{color:#b5502f;}
+  .notice p{margin:0 0 6px;font-size:12.5px;line-height:1.65;color:inherit;}
+  .notice p:last-child{margin:0;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+
+  .verdict{background:linear-gradient(180deg,#f7fbf9 0%,#f0f7f3 100%);border:1px solid var(--green-line);border-radius:14px;padding:20px 22px 22px;margin:0 0 24px;}
+  .verdict .vh{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;color:#1c6b52;margin:0 0 4px;letter-spacing:-.3px;}
+  .verdict .vsub{font-size:12.5px;color:#7f9789;margin:0 0 15px;}
+  .verdict .vlist{list-style:none;margin:0;padding:0;}
+  .vrow{display:flex;align-items:baseline;gap:11px;padding:10px 0;border-top:1px dashed #d9e9de;font-size:14.6px;line-height:1.6;}
+  .vrow:first-of-type{border-top:none;}
+  .vrow .vcase{flex:0 0 auto;min-width:112px;font-weight:800;color:#3d453e;}
+  .vrow .vpick{color:#3a3f47;}
+  .vrow .vpick a{color:var(--green);font-weight:800;text-decoration:none;border-bottom:2px solid var(--green-line);}
+
+  h2.sub{font-size:19.5px;font-weight:800;margin:36px 0 14px;letter-spacing:-.4px;scroll-margin-top:16px;}
+  .whofor{display:inline-block;background:var(--blue-bg);border:1px solid var(--blue-line);color:var(--blue);font-size:13px;font-weight:700;border-radius:8px;padding:7px 13px;margin:-4px 0 16px;line-height:1.55;}
+
+  .tipbox{background:var(--blue-bg);border:1px solid var(--blue-line);border-radius:12px;padding:16px 18px;margin:0 0 24px;font-size:14.2px;line-height:1.85;}
+  .tipbox .bt{font-weight:800;color:#25577f;margin-bottom:8px;font-size:15px;}
+  .tipbox b{color:#25577f;}
+  .tipbox ul{list-style:none;margin:0;padding:0;}
+  .tipbox li{position:relative;padding-left:14px;margin:0 0 2px;}
+  .tipbox li:last-child{margin:0;}
+  .tipbox li::before{content:"·";position:absolute;left:0;top:0;}
+  .warnli{color:#b5651d;}
+
+  .card{border:1px solid var(--line);border-radius:12px;padding:18px 19px 16px;margin:0 0 16px;background:#fff;scroll-margin-top:16px;}
+  .card.hero{border:1px solid var(--green-line);background:linear-gradient(180deg,#fbfefc 0%,#f4faf6 100%);}
+  .pname{font-size:16px;font-weight:800;margin:0 0 8px;letter-spacing:-.3px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .price{display:inline-block;background:var(--blue-bg);border:1px solid var(--blue-line);color:var(--blue);border-radius:6px;padding:2px 9px;font-size:13px;font-weight:800;}
+  .besttag{display:inline-block;background:var(--green);color:#fff;border-radius:6px;padding:2px 9px;font-size:11.5px;font-weight:800;}
+  .limtag{display:inline-block;background:var(--coral);color:#fff;border-radius:6px;padding:2px 9px;font-size:11.5px;font-weight:800;}
+  .idline{font-size:14.7px;line-height:1.82;margin:0 0 11px;color:#464b46;}
+  .idline b{color:#1c6b52;}
+  .feat{margin:0 0 11px;padding:0;list-style:none;font-size:14.3px;line-height:1.6;}
+  .feat li{position:relative;padding:4px 0 4px 21px;}
+  .feat li::before{content:"✔";position:absolute;left:0;top:4px;color:var(--green);font-weight:800;}
+  .minus{font-size:13.6px;line-height:1.7;margin:0 0 13px;color:#9a4a3a;}
+  .minus b{color:#b06a3a;font-weight:800;}
+
+  a.buy{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:800;color:var(--coral);text-decoration:none;border-bottom:2px solid var(--coral-line);padding-bottom:1px;}
+  a.buy.hero{display:flex;justify-content:center;background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14.5px;box-shadow:0 3px 12px rgba(31,138,107,.28);}
+  a.buy .arw{font-weight:900;}
+
+  /* A형: 온라인 이미지를 저장해 넣는 자리 */
+  .imgslot{border:1.6px solid var(--blue-line);border-bottom:none;
+    background:repeating-linear-gradient(-45deg,#fbfcfe 0 11px,#f0f6fb 11px 22px);
+    border-radius:12px 12px 0 0;margin:14px 0 0;padding:30px 18px;text-align:center;color:#4f7191;}
+  .imgslot .frame{font-size:30px;line-height:1;margin-bottom:9px;}
+  .imgslot .what{font-size:14.3px;font-weight:800;color:#33587f;letter-spacing:-.2px;line-height:1.5;}
+  .imgsrc{background:#f2f7fc;border:1.6px solid var(--blue-line);border-top:1px dashed #c2d6ec;
+    border-radius:0 0 12px 12px;margin:0 0 20px;padding:9px 14px;font-size:12px;color:#4f7191;line-height:1.65;text-align:center;}
+  .imgsrc b{color:#33587f;} .imgsrc a{color:#1a73e8;text-decoration:none;font-weight:700;}
+  .imgslot.mini{display:flex;align-items:center;gap:13px;min-height:88px;padding:13px 15px;margin:0 0 13px;
+    text-align:left;border:1.6px solid var(--blue-line);border-radius:11px;}
+  .imgslot.mini .frame{font-size:25px;margin:0;flex:0 0 auto;}
+  .imgslot.mini .mtxt{font-size:12.7px;line-height:1.55;color:#4f7191;}
+  .imgslot.mini .mtxt b{color:#33587f;font-weight:800;display:block;font-size:13.2px;margin-bottom:2px;}
+  .imgslot.mini .mtxt a{color:#1a73e8;text-decoration:none;font-weight:700;}
+
+  .ss{border:2px dashed #cdd8d0;background:#f6f9f6;border-radius:10px;margin:8px 0 6px;padding:32px 16px;text-align:center;color:#69786d;}
+  .ss .ico{font-size:28px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.3px;font-weight:700;}
+  .shoot{border:1px dashed #d7e0d8;border-top:none;background:#fafcfa;border-radius:0 0 10px 10px;margin:-6px 0 8px;padding:9px 13px;font-size:12px;color:#69786d;line-height:1.65;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 22px;}
+
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 8px;font-size:13px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:9px 8px;text-align:center;vertical-align:middle;}
+  .tbl th{background:#f6f9f6;font-weight:800;color:#4f564f;}
+  .tbl td.l{text-align:left;font-weight:800;}
+  .tbl .rec{color:#d69a1f;font-weight:800;letter-spacing:.5px;}
+  .tnote{font-size:12px;color:var(--sub);margin:0 0 22px;line-height:1.65;}
+  @media(max-width:480px){
+    .post{padding:24px 18px 40px;}
+    .vrow{flex-direction:column;gap:2px;}
+    .vrow .vcase{min-width:0;}
+    .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%;}
+    .tbl thead{display:none;}
+    .tbl tr{margin-bottom:12px;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+    .tbl td{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:right;border:none;border-bottom:1px solid var(--line);padding:9px 13px;}
+    .tbl tr td:last-child{border-bottom:none;}
+    .tbl td::before{content:attr(data-label);font-weight:800;color:var(--sub);text-align:left;white-space:nowrap;}
+    .tbl td.l{display:block;text-align:center;background:#f6f9f6;font-size:15px;padding:10px;}
+    .tbl td.l::before{content:"";}
+  }
+  .tags{margin-top:26px;color:#a9b0a9;font-size:13px;line-height:1.9;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:var(--naver);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:Pretendard,"맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:Pretendard,"맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:var(--naver);color:#fff;border:0;border-radius:8px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:8px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:7px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:6px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed var(--naver);border-radius:10px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:26px 0 10px;color:#111;}
+  #copy p{margin:0 0 15px;}
+  #copy ul{margin:0 0 15px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .spec{color:#333;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .minus-line{color:#9a4a3a;}
+  #copy .warn-line{color:#b5651d;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 육아</div>
+  <div class="post">
+    <div class="cat">육아일상</div>
+    <h1 class="title">아기 홈캠 추천, 전용 베이비캠 vs 스마트홈캠 4종 비교 (이글루캠 S4+·QCAM-K3·Tapo C220·샤오미 C701)</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 8. 21.</span><span>· 육아</span></div>
+
+    <div class="notice">
+      <p><b>이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</b></p>
+      <p>가격·스펙은 2026년 8월 21일 다나와 가격비교 기준(쿠팡 등 오픈마켓 최저가)이고, 샤오미 신제품 소식은 아주경제 보도(2026.7.24)를 참고했어요. 판매처·시점에 따라 달라질 수 있어요.</p>
+    </div>
+
+    <p>아기 재우고 거실에 나와도 자꾸 방문 쪽을 힐끔거리게 되는 시기가 있죠. 저희도 귤씨 재우고 나면 소리만으로는 안심이 안 돼서 <b>아기 홈캠</b>을 알아봤는데, 막상 찾아보니 처음부터 아기용으로 나온 <b>전용 베이비캠</b>이랑 원래 집 전체를 지키던 <b>스마트홈캠</b>을 아기 방에 그대로 쓰는 경우로 갈리더라고요. 그래서 이번엔 전용 베이비캠 2종(이글루캠 S4+·QCAM-K3)이랑 범용 스마트홈캠 2종(Tapo C220·샤오미 C701 프로)까지 총 4종을 <b>화소·팬틸트 각도·부가기능·가격</b> 기준으로 나란히 비교해볼게요.</p>
+    <p>미리 솔직하게 말씀드리면, 저희가 4종을 직접 다 사서 나란히 써본 건 아니고 각 제조사 공식몰·다나와 상세페이지를 대조해서 정리한 비교글이에요.</p>
+
+    <h2 class="sub">전용 베이비캠이랑 스마트홈캠, 뭐가 다른가요</h2>
+    <p>전용 베이비캠은 처음부터 아기 방에 두는 걸 목적으로 나온 제품이라 <b>양방향통화·프라이버시모드·클라우드 저장</b>처럼 육아에 맞춘 기능이 세분화돼 있는 편이에요. 반면 스마트홈캠은 원래 집 전체나 반려동물까지 아우르는 범용 제품이다 보니, 같은 가격대에서 <b>화소나 팬틸트 각도 같은 하드웨어 스펙이 더 좋은 경우</b>가 많더라고요. 그래서 이 글은 "아기 방에만 딱 특화된 기능이 필요한가" 아니면 "화질·화각 스펙까지 넉넉히 챙기고 싶은가"를 기준으로 골라볼 수 있게 정리했어요.</p>
+
+    <div class="imgslot"><div class="frame">🖼️</div><div class="what"><span class="besttag" style="margin-right:6px;">사진 1</span>전용 베이비캠과 스마트홈캠을 나란히 놓고 비교하는 제품 라인업 컷</div></div>
+    <div class="imgsrc">📎 <b>받을 곳</b> — 4개 제품 각각의 대표 이미지를 저장해 콜라주로 합성하세요 · <a href="https://prod.danawa.com/info/?pcode=30268655" target="_blank">다나와(이글루캠 S4+) →</a> · <a href="https://prod.danawa.com/info/?pcode=14092580" target="_blank">다나와(QCAM-K3) →</a> · <a href="https://prod.danawa.com/info/?pcode=27783323" target="_blank">다나와(Tapo C220) →</a> · <a href="https://www.mi.com/kr/" target="_blank">샤오미 공식몰(C701 프로 검색) →</a> 네이버엔 저장해 재업로드</div>
+
+    <div class="verdict">
+      <p class="vh">🍼 바쁘면 이것만 보세요</p>
+      <p class="vsub">상황별로 딱 하나씩만 골랐어요. 자세한 이유는 아래에서 이어집니다.</p>
+      <ul class="vlist">
+        <li class="vrow"><span class="vcase">아기방 전용 기능</span><span class="vpick"><a href="#p1">이글루캠 S4+</a> (96,900원) — 육아 특화 부가기능 최다</span></li>
+        <li class="vrow"><span class="vcase">저렴하게 시작</span><span class="vpick"><a href="#p2">QCAM-K3</a> (4만원대 초반) — 전용캠 중 가장 저렴</span></li>
+        <li class="vrow"><span class="vcase">화질·화각 욕심</span><span class="vpick"><a href="#p3">Tapo C220</a> (57,490원) — 400만화소·틸트 114도</span></li>
+        <li class="vrow"><span class="vcase">AI 감지 궁금</span><span class="vpick"><a href="#p4">샤오미 C701 프로</a> — 8/24까지 한정가 149,800원</span></li>
+      </ul>
+    </div>
+
+    <h2 class="sub">사기 전에 꼭 알아두세요 — 안전 체크리스트</h2>
+    <div class="tipbox">
+      <div class="bt">🍼 설치 전 1분만 — 이건 꼭 확인하세요</div>
+      <ul>
+        <li><b>설치 위치</b> — 카메라와 전원 코드 모두 아기 손이 안 닿는 높이에 둬야 해요. 벽걸이나 거치대를 활용해서 아기 침대·요람 바로 위나 옆에 낮게 걸어두지 않는 게 좋아요.</li>
+        <li><b>전원 코드 정리</b> — 아기가 코드를 잡아당기거나 입에 넣지 않도록 코드를 벽에 고정하거나 코드 커버를 씌워 정리해주세요.</li>
+        <li><b>영상 보안</b> — 앱 로그인 비밀번호는 기기 초기 비밀번호 그대로 두지 말고 별도로 설정하고, 2단계 인증을 지원하면 켜두는 게 좋아요. 계정도 가족 외엔 공유하지 않는 게 안전해요.</li>
+        <li><b>저장 방식 확인</b> — 클라우드 저장은 무료·유료 구독에 따라 보관 기간이 달라지니 구매 전에 확인하시고, 로컬 SD카드(메모리) 저장을 지원하는지도 아래 표의 '메모리저장' 표기로 함께 체크해주세요.</li>
+        <li class="warnli"><b>인증 안내</b> — 아기 홈캠 자체는 어린이제품이 아니라서 어린이제품 KC 인증 대상은 아니에요. 다만 함께 오는 전원 어댑터(직류전원장치)는 전기용품 및 생활용품 안전관리법상 <b>안전관리 대상</b>이에요(제품에 따라 안전인증·안전확인 등급이 달라요). 어댑터 쪽에 KC 마크가 있는지 확인하시는 게 정확해요.</li>
+      </ul>
+    </div>
+
+    <div class="imgslot"><div class="frame">🖼️</div><div class="what"><span class="besttag" style="margin-right:6px;">사진 2</span>전원 어댑터에 붙은 KC 안전인증 마크 클로즈업 컷</div></div>
+    <div class="imgsrc">📎 <b>받을 곳</b> — 국가기술표준원 안전코리아(safetykorea.kr)의 KC 안전인증 마크 이미지, 또는 구매한 제품 실물의 KC 마크를 직접 촬영 · <a href="https://www.safetykorea.kr/" target="_blank">안전코리아 →</a> 네이버엔 저장해 재업로드</div>
+
+    <h2 class="sub">4종 한눈에 비교</h2>
+    <table class="tbl">
+      <thead><tr><th>구분</th><th>제품</th><th>화소·해상도</th><th>팬(좌우)·틸트(상하)</th><th>가격</th><th>추천도*</th></tr></thead>
+      <tbody>
+        <tr><td data-label="구분">전용 베이비캠</td><td class="l"><a href="#p1">이글루캠 S4+</a></td><td data-label="화소·해상도">300만화소 · 2304×1296</td><td data-label="팬·틸트">360˚ / 90˚</td><td data-label="가격">96,900원</td><td data-label="추천도"><span class="rec">★★★★☆</span></td></tr>
+        <tr><td data-label="구분">전용 베이비캠</td><td class="l"><a href="#p2">QCAM-K3</a></td><td data-label="화소·해상도">200만화소 · 1920×1080(FHD)</td><td data-label="팬·틸트">355˚ / 60˚</td><td data-label="가격">4만원대 초반</td><td data-label="추천도"><span class="rec">★★★☆☆</span></td></tr>
+        <tr><td data-label="구분">범용 스마트홈캠</td><td class="l"><a href="#p3">Tapo C220</a></td><td data-label="화소·해상도">400만화소 · 2560×1440(WQHD)</td><td data-label="팬·틸트">360˚ / 114˚</td><td data-label="가격">57,490원</td><td data-label="추천도"><span class="rec">★★★★★</span></td></tr>
+        <tr><td data-label="구분">범용 스마트홈캠</td><td class="l"><a href="#p4">샤오미 C701 프로</a></td><td data-label="화소·해상도">확인 필요</td><td data-label="팬·틸트">확인 필요</td><td data-label="가격">149,800원(8/24까지 한정)</td><td data-label="추천도"><span class="rec">★★★☆☆</span></td></tr>
+      </tbody>
+    </table>
+    <p class="tnote">* 추천도는 화소·팬틸트 각도·부가기능·가격을 종합한 참고용 점수예요(공식 순위 아님). 화소·팬틸트는 스펙이 확인된 3종(이글루캠 S4+·QCAM-K3·Tapo C220)만 비교했고, 그중 Tapo C220의 틸트 114도가 가장 넓어요. 샤오미 C701 프로는 이 두 축 스펙이 공개되지 않아 비교에서 제외했고, 그만큼 별점 상한을 적용했어요. 4개 제품 모두 평점·리뷰수는 페이지에 표기가 없어 이 글에서 다루지 않았어요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 아기방 벽면 높은 위치에 거치한 홈캠 설치 분위기컷</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 실제 설치한 모습이 제일 정확해요. 없으면 각 제품 공식 상세페이지의 설치 예시 이미지로 대체.</div>
+    <p class="cap">아기 손이 안 닿는 높이에 거치해두면 코드 정리까지 한 번에 신경 쓸 수 있어요.</p>
+
+    <h2 class="sub">전용 베이비캠 두 제품</h2>
+    <span class="whofor">👉 이런 분께: 아기 방에만 딱 쓸 거라 육아 특화 기능이 더 중요하다</span>
+
+    <div class="card hero" id="p1">
+      <div class="pname">이글루캠 S4+ <span class="besttag">부가기능 최다</span> <span class="price">96,900원</span></div>
+      <div class="imgslot mini"><span class="frame">🖼️</span><span class="mtxt"><b>제품컷 자리 · 트루엔 이글루캠 S4+</b>다나와 상세페이지 대표 이미지를 저장해 넣어주세요 · <a href="https://prod.danawa.com/info/?pcode=30268655" target="_blank">다나와 상세보기 →</a></span></div>
+      <p class="idline">트루엔이 만든 <b>아기 전용 홈캠</b>으로, 스마트폰모니터링·양방향통화·프라이버시모드에 클라우드카메라까지 육아에 맞춘 기능을 가장 폭넓게 담았어요. 팬 360도로 방 전체를 회전해서 볼 수 있게 잡은 것도 특징이에요.</p>
+      <ul class="feat">
+        <li>300만화소(2304×1296) — 확인된 3종 중 두 번째로 높은 화소예요.</li>
+        <li>팬 360˚·틸트 90˚로 방 구석구석까지 회전 가능.</li>
+        <li>양방향통화·프라이버시모드·동작감지·소리감지·야간자동전환·적외선LED·<b>클라우드카메라</b>·메모리저장까지, 확인된 기능 목록 기준으로는 부가기능이 가장 많아요.</li>
+        <li>전원 5V DC 5W 어댑터.</li>
+      </ul>
+      <p class="minus"><b>아쉬운 점</b> — 화소는 300만으로 Tapo C220(400만)보다는 낮고, 가격도 4종 중 QCAM-K3 다음으로 저렴한 편은 아니에요. 평점·리뷰수는 페이지에 표기가 없어 확인이 안 됐어요.</p>
+      <a class="buy hero" href="#" data-coupang="이글루캠 S4+">👉 이글루캠 S4+ 쿠팡 최저가 보기</a>
+    </div>
+
+    <div class="card" id="p2">
+      <div class="pname">QCAM-K3 <span class="price">4만원대 초반</span></div>
+      <div class="imgslot mini"><span class="frame">🖼️</span><span class="mtxt"><b>제품컷 자리 · 서진네트웍스 QCAM-K3</b>다나와 상세페이지 대표 이미지를 저장해 넣어주세요 · <a href="https://prod.danawa.com/info/?pcode=14092580" target="_blank">다나와 상세보기 →</a></span></div>
+      <p class="idline">서진네트웍스의 보급형 전용 베이비캠으로, 팬 355도까지는 넓게 도는데 <b>틸트는 60도로 확인된 3종 중 가장 좁아요</b>. 대신 원격으로 각도를 직접 조정할 수 있는 기능이 특징이에요.</p>
+      <ul class="feat">
+        <li>200만화소(1920×1080 FHD) — 확인된 3종 중 화소가 가장 낮아요.</li>
+        <li>팬 355˚·틸트 60˚ + <b>원격각도조정</b> 기능.</li>
+        <li>스마트폰모니터링·양방향통화·동작감지·소리감지·야간자동전환·적외선LED·메모리저장.</li>
+        <li>전원 5V DC 7W 어댑터.</li>
+        <li>다나와 확인 기준(2026-08-21) <b>4종 중 가장 저렴한 가격대</b>.</li>
+      </ul>
+      <p class="minus"><b>아쉬운 점</b> — 화소·해상도가 가장 낮고, 틸트 각도도 60도라 위아래로 넓게 살피긴 어려워요. 평점·리뷰수 표기는 없어요.</p>
+      <a class="buy" href="#" data-coupang="QCAM-K3">쿠팡 실시간 최저가 확인 <span class="arw">→</span></a>
+    </div>
+
+    <div class="imgslot"><div class="frame">🖼️</div><div class="what"><span class="besttag" style="margin-right:6px;">사진 3</span>두 전용 베이비캠의 팬·틸트 회전 각도 차이를 보여주는 스펙 비교 이미지</div></div>
+    <div class="imgsrc">📎 <b>받을 곳</b> — 두 제품 상세페이지의 팬틸트 각도 안내 이미지를 저장해서 · <a href="https://prod.danawa.com/info/?pcode=30268655" target="_blank">다나와(이글루캠 S4+) →</a> · <a href="https://prod.danawa.com/info/?pcode=14092580" target="_blank">다나와(QCAM-K3) →</a> 네이버엔 저장해 재업로드</div>
+
+    <h2 class="sub">범용 스마트홈캠 두 제품</h2>
+    <span class="whofor">👉 이런 분께: 화질·화각 스펙까지 챙기고 싶다 · 다른 방·반려동물도 같이 보고 싶다</span>
+
+    <div class="card hero" id="p3">
+      <div class="pname">Tapo C220 <span class="besttag">화소·틸트 최고</span> <span class="price">57,490원</span></div>
+      <div class="imgslot mini"><span class="frame">🖼️</span><span class="mtxt"><b>제품컷 자리 · TP-LINK Tapo C220</b>다나와 상세페이지 대표 이미지를 저장해 넣어주세요 · <a href="https://prod.danawa.com/info/?pcode=27783323" target="_blank">다나와 상세보기 →</a></span></div>
+      <p class="idline">TP-LINK의 스마트홈캠으로, 아기 방뿐 아니라 반려동물·집안 전체 모니터링에도 쓸 수 있는 범용 제품이에요. <b>400만화소·WQHD로 확인된 3종 중 화질이 가장 좋고</b>, 틸트도 114도로 확인된 3종 중 상하로 가장 넓게 봐요.</p>
+      <ul class="feat">
+        <li>400만화소(2560×1440 WQHD) — 확인된 3종 중 화소가 가장 높아요.</li>
+        <li>팬 360˚·<b>틸트 114˚로 확인된 3종 중 상하 각도가 가장 넓어요</b>.</li>
+        <li>스마트폰모니터링·양방향통화·프라이버시모드·동작감지·소리감지·메모리저장.</li>
+        <li>전원 100~240V AC 입력.</li>
+      </ul>
+      <p class="minus"><b>아쉬운 점</b> — 이글루캠 S4+만큼 클라우드카메라 같은 육아 특화 기능이 세분화돼 있진 않아요. 평점·리뷰수 표기는 없어요.</p>
+      <a class="buy hero" href="#" data-coupang="Tapo C220">👉 Tapo C220 쿠팡 최저가 보기</a>
+    </div>
+
+    <div class="card" id="p4">
+      <div class="pname">샤오미 C701 프로 <span class="limtag">한정가 8/24까지</span> <span class="price">149,800원</span></div>
+      <div class="imgslot mini"><span class="frame">🖼️</span><span class="mtxt"><b>제품컷 자리 · 샤오미 C701 프로</b>샤오미 공식몰(mi.com)에서 'C701 프로' 정확한 상품명으로 검색해 대표 이미지를 저장해 넣어주세요 · <a href="https://www.mi.com/kr/" target="_blank">샤오미 공식몰 →</a></span></div>
+      <p class="idline">2026년 7월 24일 국내 출시한 샤오미의 신형 스마트카메라예요(아주경제 2026.7.24 보도). 초광각+망원 렌즈를 결합한 <b>9배 하이브리드 줌</b>이 특징이고, 제조사는 "사람과 반려동물 및 아기 울음소리를 감지하는 AI 기능"을 지원한다고 밝혔어요. 다만 감지 정확도나 오탐률을 확인할 수 있는 공개 자료는 따로 없어서, 이 기능은 참고 정도로만 봐주시는 게 좋아요.</p>
+      <ul class="feat">
+        <li>초광각+망원 렌즈 결합 <b>9배 하이브리드 줌</b>(기사 명시 스펙).</li>
+        <li>사람·반려동물·<b>아기 울음소리 감지 AI 기능</b>(제조사 표기 문구).</li>
+        <li>2026년 8월 24일까지 <b>출시 한정가 149,800원</b>(오늘 기준 D-3).</li>
+      </ul>
+      <p class="minus"><b>아쉬운 점</b> — 화소·팬틸트 각도가 공개 자료에 없어 확인이 필요하고, 한정가가 끝난 뒤의 정상가도 아직 알려지지 않았어요. 신규 출시라 평점·리뷰수도 없어요.</p>
+      <a class="buy" href="#" data-coupang="샤오미 C701 프로">한정가 마감 전 쿠팡에서 확인 <span class="arw">→</span></a>
+    </div>
+
+    <h2 class="sub">정리하며</h2>
+    <p>정리하면 아기 방에만 딱 쓸 거고 육아 특화 기능이 더 끌리면 전용 베이비캠 두 종을, 화질·화각까지 넉넉히 챙기고 싶거나 다른 방·반려동물까지 같이 보고 싶으면 스마트홈캠 쪽을 보시면 될 것 같아요. 어떤 제품을 고르시든 <b>설치 위치, 전원 코드 정리, 영상 보안</b> 세 가지는 꼭 챙겨주세요. 샤오미 C701 프로는 한정가가 8월 24일까지라 관심 있으시면 이번 주 안에 확인해보시는 걸 추천드려요.</p>
+    <!-- 내부링크: 봄딩 육아 카테고리에 아기 홈캠 관련 기존 발행글 없음(이 주제 첫 글이라 정당한 부재) -->
+
+    <div class="tags">#아기홈캠 #베이비모니터추천 #아기울음소리감지카메라 #이글루캠S4플러스 #QCAMK3 #TapoC220 #샤오미C701프로 #스마트홈캠추천</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>직접 업로드</b>, 👉 쿠팡 링크는 본인 파트너스 URL 연결.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 8분):</b> 📷 <b>사진 8곳</b> 업로드 · 👉 <b>쿠팡 링크 4곳</b> 본인 파트너스 URL. 표의 제품 이름에도 쿠팡 링크를 걸면 자연스러워요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 아기 홈캠 추천, 전용 베이비캠 vs 스마트홈캠 4종 비교 (이글루캠 S4+·QCAM-K3·Tapo C220·샤오미 C701)</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p class="notice-line">[필수 고지] 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 가격·스펙은 2026년 8월 21일 다나와 가격비교 기준(쿠팡 등 오픈마켓 최저가)이고, 샤오미 신제품 소식은 아주경제 보도(2026.7.24)를 참고했어요. 판매처·시점에 따라 달라질 수 있어요.</p>
+
+      <p>아기 재우고 거실에 나와도 자꾸 방문 쪽을 힐끔거리게 되는 시기가 있죠. 저희도 귤씨 재우고 나면 소리만으로는 안심이 안 돼서 아기 홈캠을 알아봤는데, 막상 찾아보니 처음부터 아기용으로 나온 전용 베이비캠이랑 원래 집 전체를 지키던 스마트홈캠을 아기 방에 그대로 쓰는 경우로 갈리더라고요. 그래서 이번엔 전용 베이비캠 2종(이글루캠 S4+·QCAM-K3)이랑 범용 스마트홈캠 2종(Tapo C220·샤오미 C701 프로)까지 총 4종을 화소·팬틸트 각도·부가기능·가격 기준으로 나란히 비교해볼게요.</p>
+
+      <p>미리 솔직하게 말씀드리면, 저희가 4종을 직접 다 사서 나란히 써본 건 아니고 각 제조사 공식몰·다나와 상세페이지를 대조해서 정리한 비교글이에요.</p>
+
+      <h3>전용 베이비캠이랑 스마트홈캠, 뭐가 다른가요</h3>
+      <p>전용 베이비캠은 처음부터 아기 방에 두는 걸 목적으로 나온 제품이라 양방향통화·프라이버시모드·클라우드 저장처럼 육아에 맞춘 기능이 세분화돼 있는 편이에요. 반면 스마트홈캠은 원래 집 전체나 반려동물까지 아우르는 범용 제품이다 보니, 같은 가격대에서 화소나 팬틸트 각도 같은 하드웨어 스펙이 더 좋은 경우가 많더라고요. 그래서 이 글은 "아기 방에만 딱 특화된 기능이 필요한가" 아니면 "화질·화각 스펙까지 넉넉히 챙기고 싶은가"를 기준으로 골라볼 수 있게 정리했어요.</p>
+
+      <p>📷 〔사진 자리 1〕 전용 베이비캠과 스마트홈캠을 나란히 놓고 비교하는 제품 라인업 컷 — 네이버에서 직접 업로드</p>
+
+      <h3>🍼 바쁘면 이것만 보세요</h3>
+      <ul>
+        <li><b>아기방 전용 기능</b> → 이글루캠 S4+(96,900원) — 육아 특화 부가기능 최다</li>
+        <li><b>저렴하게 시작</b> → QCAM-K3(4만원대 초반) — 전용캠 중 가장 저렴</li>
+        <li><b>화질·화각 욕심</b> → Tapo C220(57,490원) — 400만화소·틸트 114도</li>
+        <li><b>AI 감지 궁금</b> → 샤오미 C701 프로 — 8/24까지 한정가 149,800원</li>
+      </ul>
+
+      <h3>사기 전에 꼭 알아두세요 — 안전 체크리스트</h3>
+      <ul>
+        <li>설치 위치 — 카메라와 전원 코드 모두 아기 손이 안 닿는 높이에 둬야 해요. 벽걸이나 거치대를 활용해서 아기 침대·요람 바로 위나 옆에 낮게 걸어두지 않는 게 좋아요.</li>
+        <li>전원 코드 정리 — 아기가 코드를 잡아당기거나 입에 넣지 않도록 코드를 벽에 고정하거나 코드 커버를 씌워 정리해주세요.</li>
+        <li>영상 보안 — 앱 로그인 비밀번호는 기기 초기 비밀번호 그대로 두지 말고 별도로 설정하고, 2단계 인증을 지원하면 켜두는 게 좋아요. 계정도 가족 외엔 공유하지 않는 게 안전해요.</li>
+        <li>저장 방식 확인 — 클라우드 저장은 무료·유료 구독에 따라 보관 기간이 달라지니 구매 전에 확인하시고, 로컬 SD카드(메모리) 저장을 지원하는지도 아래 표의 '메모리저장' 표기로 함께 체크해주세요.</li>
+        <li class="warn-line">인증 안내 — 아기 홈캠 자체는 어린이제품이 아니라서 어린이제품 KC 인증 대상은 아니에요. 다만 함께 오는 전원 어댑터(직류전원장치)는 전기용품 및 생활용품 안전관리법상 안전관리 대상이에요(제품에 따라 안전인증·안전확인 등급이 달라요). 어댑터 쪽에 KC 마크가 있는지 확인하시는 게 정확해요.</li>
+      </ul>
+
+      <p>📷 〔사진 자리 2〕 전원 어댑터에 붙은 KC 안전인증 마크 클로즈업 컷 — 네이버에서 직접 업로드</p>
+
+      <h3>4종 한눈에 비교</h3>
+      <table>
+        <tr><th>구분</th><th>제품</th><th>화소·해상도</th><th>팬·틸트</th><th>가격</th><th>추천도*</th></tr>
+        <tr><td>전용 베이비캠</td><td class="l">이글루캠 S4+</td><td>300만화소·2304×1296</td><td>360˚/90˚</td><td>96,900원</td><td>★★★★☆</td></tr>
+        <tr><td>전용 베이비캠</td><td class="l">QCAM-K3</td><td>200만화소·1920×1080(FHD)</td><td>355˚/60˚</td><td>4만원대 초반</td><td>★★★☆☆</td></tr>
+        <tr><td>범용 스마트홈캠</td><td class="l">Tapo C220</td><td>400만화소·2560×1440(WQHD)</td><td>360˚/114˚</td><td>57,490원</td><td>★★★★★</td></tr>
+        <tr><td>범용 스마트홈캠</td><td class="l">샤오미 C701 프로</td><td>확인 필요</td><td>확인 필요</td><td>149,800원(8/24까지 한정)</td><td>★★★☆☆</td></tr>
+      </table>
+      <p class="tnote-line">* 추천도는 화소·팬틸트 각도·부가기능·가격을 종합한 참고용 점수예요(공식 순위 아님). 화소·팬틸트는 스펙이 확인된 3종(이글루캠 S4+·QCAM-K3·Tapo C220)만 비교했고, 그중 Tapo C220의 틸트 114도가 가장 넓어요. 샤오미 C701 프로는 이 두 축 스펙이 공개되지 않아 비교에서 제외했고, 그만큼 별점 상한을 적용했어요. 4개 제품 모두 평점·리뷰수는 페이지에 표기가 없어 이 글에서 다루지 않았어요.</p>
+
+      <p>📷 〔스크린샷 자리〕 아기방 벽면 높은 위치에 거치한 홈캠 설치 분위기컷 — 직접 촬영 권장(실제 설치한 모습이 제일 정확해요), 없으면 각 제품 공식 상세페이지의 설치 예시 이미지로 대체 — 네이버에서 직접 업로드</p>
+
+      <h3>전용 베이비캠 두 제품</h3>
+      <p class="spec">👉 이런 분께: 아기 방에만 딱 쓸 거라 육아 특화 기능이 더 중요하다</p>
+
+      <p><b>이글루캠 S4+</b> — 96,900원(다나와, 작성 시점)</p>
+      <p>📷 〔제품컷 · 트루엔 이글루캠 S4+〕 다나와 상세페이지 대표 이미지 저장 후 업로드(권장)</p>
+      <p>트루엔이 만든 아기 전용 홈캠으로, 스마트폰모니터링·양방향통화·프라이버시모드에 클라우드카메라까지 육아에 맞춘 기능을 가장 폭넓게 담았어요. 팬 360도로 방 전체를 회전해서 볼 수 있게 잡은 것도 특징이에요. 300만화소(2304×1296)에 팬 360˚·틸트 90˚로 방 구석구석까지 회전 가능하고, 양방향통화·프라이버시모드·동작감지·소리감지·야간자동전환·적외선LED·클라우드카메라·메모리저장까지, 확인된 기능 목록 기준으로는 부가기능이 가장 많아요. 전원은 5V DC 5W 어댑터를 써요.</p>
+      <p class="minus-line">아쉬운 점 — 화소는 300만으로 Tapo C220(400만)보다는 낮고, 가격도 QCAM-K3보다 저렴한 편은 아니에요. 평점·리뷰수는 페이지에 표기가 없어 확인이 안 됐어요. <span class="ph">👉 〔쿠팡 링크 ①〕 이글루캠 S4+ 최저가 보기 — 본인 파트너스 URL 연결</span></p>
+
+      <p><b>QCAM-K3</b> — 4만원대 초반(다나와, 작성 시점)</p>
+      <p>📷 〔제품컷 · 서진네트웍스 QCAM-K3〕 다나와 상세페이지 대표 이미지 저장 후 업로드(권장)</p>
+      <p>서진네트웍스의 보급형 전용 베이비캠으로, 팬 355도까지는 넓게 도는데 틸트는 60도로 확인된 3종 중 가장 좁아요. 대신 원격으로 각도를 직접 조정할 수 있는 기능이 특징이에요. 200만화소(1920×1080 FHD)로 확인된 3종 중 화소가 가장 낮고, 스마트폰모니터링·양방향통화·동작감지·소리감지·야간자동전환·적외선LED·메모리저장 기능을 담았어요. 전원은 5V DC 7W 어댑터고, 다나와 확인 기준(2026-08-21) 4종 중 가장 저렴한 가격대예요.</p>
+      <p class="minus-line">아쉬운 점 — 화소·해상도가 가장 낮고, 틸트 각도도 60도라 위아래로 넓게 살피긴 어려워요. 평점·리뷰수 표기는 없어요. <span class="ph">👉 〔쿠팡 링크 ②〕 QCAM-K3 최저가 확인 — 본인 파트너스 URL 연결</span></p>
+
+      <p>📷 〔사진 자리 3〕 두 전용 베이비캠의 팬·틸트 회전 각도 차이를 보여주는 스펙 비교 이미지 — 네이버에서 직접 업로드</p>
+
+      <h3>범용 스마트홈캠 두 제품</h3>
+      <p class="spec">👉 이런 분께: 화질·화각 스펙까지 챙기고 싶다 · 다른 방·반려동물도 같이 보고 싶다</p>
+
+      <p><b>Tapo C220</b> — 57,490원(다나와, 작성 시점)</p>
+      <p>📷 〔제품컷 · TP-LINK Tapo C220〕 다나와 상세페이지 대표 이미지 저장 후 업로드(권장)</p>
+      <p>TP-LINK의 스마트홈캠으로, 아기 방뿐 아니라 반려동물·집안 전체 모니터링에도 쓸 수 있는 범용 제품이에요. 400만화소·WQHD로 확인된 3종 중 화질이 가장 좋고, 틸트도 114도로 확인된 3종 중 상하로 가장 넓게 봐요. 팬 360˚·틸트 114˚에 스마트폰모니터링·양방향통화·프라이버시모드·동작감지·소리감지·메모리저장 기능을 담았고, 전원은 100~240V AC 입력을 써요.</p>
+      <p class="minus-line">아쉬운 점 — 이글루캠 S4+만큼 클라우드카메라 같은 육아 특화 기능이 세분화돼 있진 않아요. 평점·리뷰수 표기는 없어요. <span class="ph">👉 〔쿠팡 링크 ③〕 Tapo C220 최저가 보기 — 본인 파트너스 URL 연결</span></p>
+
+      <p><b>샤오미 C701 프로</b> — 149,800원(한정가, 2026년 8월 24일까지)</p>
+      <p>📷 〔제품컷 · 샤오미 C701 프로〕 공식몰·쿠팡 상세 대표 이미지 저장 후 업로드(권장)</p>
+      <p>2026년 7월 24일 국내 출시한 샤오미의 신형 스마트카메라예요(아주경제 2026.7.24 보도). 초광각+망원 렌즈를 결합한 9배 하이브리드 줌이 특징이고, 제조사는 "사람과 반려동물 및 아기 울음소리를 감지하는 AI 기능"을 지원한다고 밝혔어요. 다만 감지 정확도나 오탐률을 확인할 수 있는 공개 자료는 따로 없어서, 이 기능은 참고 정도로만 봐주시는 게 좋아요.</p>
+      <p class="minus-line">아쉬운 점 — 화소·팬틸트 각도가 공개 자료에 없어 확인이 필요하고, 한정가가 끝난 뒤의 정상가도 아직 알려지지 않았어요. 신규 출시라 평점·리뷰수도 없어요. <span class="ph">👉 〔쿠팡 링크 ④〕 샤오미 C701 프로 한정가 확인 — 본인 파트너스 URL 연결</span></p>
+
+      <h3>정리하며</h3>
+      <p>정리하면 아기 방에만 딱 쓸 거고 육아 특화 기능이 더 끌리면 전용 베이비캠 두 종을, 화질·화각까지 넉넉히 챙기고 싶거나 다른 방·반려동물까지 같이 보고 싶으면 스마트홈캠 쪽을 보시면 될 것 같아요. 어떤 제품을 고르시든 설치 위치, 전원 코드 정리, 영상 보안 세 가지는 꼭 챙겨주세요. 샤오미 C701 프로는 한정가가 8월 24일까지라 관심 있으시면 이번 주 안에 확인해보시는 걸 추천드려요.</p>
+
+      <p class="tags-line">#아기홈캠 #베이비모니터추천 #아기울음소리감지카메라 #이글루캠S4플러스 #QCAMK3 #TapoC220 #샤오미C701프로 #스마트홈캠추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
