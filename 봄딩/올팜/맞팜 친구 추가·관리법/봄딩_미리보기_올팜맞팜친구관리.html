@@ -1,0 +1,216 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>올팜 맞팜 친구 추가하는 법, 만들고 관리하고 정리까지 한 번에</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul{margin:0 0 20px;padding-left:22px;word-break:keep-all;}
+  .post li{margin:6px 0;font-size:15.5px;line-height:1.9;}
+  .post b{font-weight:800;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 공략 · 앱테크</div>
+    <h1 class="title">올팜 맞팜 친구 추가하는 법, 만들고 관리하고 정리까지 한 번에</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.08.21</span><span>· 게임</span></div>
+
+    <!-- AI브리핑 타깃 질문: 1) 올팜 맞팜 친구는 어떻게 추가하나요 2) 초대코드를 커뮤니티에 올려도 되나요 3) 안 크는 맞팜 친구는 어떻게 정리하나요 -->
+
+    <p>지난번에 「올팜 맞팜 품앗이 친구초대 공략」편(블로그 내 이전 글)에서 양분 75 이상일 때 물 주는 법이랑 데일리 루틴, 친구초대 보상까지 한 번 정리해드렸었는데요, 막상 쓰고 나서 다시 보니 <b>친구를 실제로 어떻게 만들고 관리하는지</b>는 저도 애매하게 짧게만 짚고 넘어갔더라고요. 그래서 오늘은 그 부분만 따로 깊게 파보려고 합니다. 맞팜 친구 추가하는 방법부터 커뮤니티 이용할 때 주의점, 안 크는 친구 정리하는 법, 맞팜은 몇 명 정도가 적당한지까지 순서대로 짚어볼게요.</p>
+
+    <!-- 이미지 이유: 개인 계정의 맞팜/친구 메뉴 진입 화면 — 공식 프레스킷·스톡 이미지 없음 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 올팜 메인 화면에서 '맞팜'·'친구' 메뉴 진입 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 본인 올웨이즈 앱 → 올팜 메인 → 맞팜/친구 메뉴 캡처, 메뉴 이름과 친구 목록이 함께 보이도록</div>
+    <p class="cap">여기가 맞팜 친구 관리의 시작점이에요. 초대도, 정리도 전부 이 메뉴 안에서 이뤄집니다.</p>
+
+    <h2 class="sub">맞팜 친구, 실제로 어떻게 추가하나</h2>
+    <p>올팜에서 맞팜 친구를 추가하는 방법은 크게 두 가지예요 — <b>내가 초대 링크를 만들어 보내는 방법</b>과 <b>상대가 준 초대코드를 입력하는 방법</b>이죠.</p>
+    <p>첫 번째는 올팜 화면에서 '맞팜' 또는 '친구' 메뉴로 들어가 <b>초대 링크 생성</b> 버튼을 누르는 거예요. 이렇게 만든 링크를 카카오톡 같은 메신저로 상대에게 보내면, 상대가 그 링크를 눌러 들어오면서 자연스럽게 서로 맞팜 관계가 맺어지는 흐름입니다. 두 번째는 반대로 <b>상대가 공유해 준 초대코드를 내 앱의 코드 입력창에 넣는</b> 방식이에요. 어느 쪽이든 결과는 똑같이 맞팜 친구 하나가 늘어나는 셈이라, 상황에 맞게 편한 쪽을 쓰시면 됩니다.</p>
+    <p>이렇게 링크나 코드로 연결을 요청하면, 상대가 그 요청을 수락해야 최종적으로 맞팜이 성사되는 구조예요. 수락이 되고 나면 그때부터 서로의 친구 목록에 나란히 뜨고, 별도로 대기 시간 없이 바로 상대 농장에 들어가 물을 줄 수 있게 됩니다.</p>
+    <p>친구를 몇 명까지 둘 수 있는지, 초대했을 때 정확히 어떤 보상이 오는지는 <b>업데이트마다 바뀔 수 있어서</b> 이 자리에서 숫자로 딱 정해 말씀드리긴 어려워요. 친구 목록이나 초대 화면에서 실시간으로 확인하시는 게 가장 정확합니다.</p>
+
+    <!-- 이미지 이유: 개인 계정의 초대 링크 생성·코드 입력 화면 — 공식 소재로 대체 불가, 실제 UI 캡처 필요 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 초대 링크 생성 화면 + 초대코드 입력창</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 맞팜/친구 메뉴 안 '초대 링크 만들기'와 '코드 입력' 화면 각각 캡처, 버튼 문구와 입력창이 선명하게 보이도록</div>
+    <p class="cap">링크를 만들어 보내거나, 받은 코드를 여기에 넣거나. 둘 다 결과는 같습니다.</p>
+
+    <h2 class="sub">친구 요청·커뮤니티 이용할 때 주의할 점</h2>
+    <p>주변에 맞팜 할 사람이 없어 온라인 카페·커뮤니티 게시판에 초대코드를 올려 낯선 사람과 맞팜하는 경우가 실제로 꽤 많은데요, 이때 몇 가지는 미리 알아두시는 게 좋습니다.</p>
+    <ul>
+      <li><b>초대코드·링크를 아무 데나 공개적으로 올리면</b> 원치 않는 사람이 한꺼번에 대량으로 들어올 수 있어요. 게시글이 퍼지면 그 이후엔 통제가 잘 안 되거든요.</li>
+      <li>커뮤니티를 돌아다니다 보면 <b>부계정이나 매크로로 맞팜을 여러 개 돌리는 사람</b>도 간혹 보이는데, 편법으로 자원을 불리는 셈이라 계정 자체가 정지될 위험을 안고 가는 거라 저는 굳이 따라 하고 싶지 않더라고요.</li>
+    </ul>
+    <p>반대로 커뮤니티에 올린 초대코드를 보고 모르는 사람이 먼저 맞팜을 걸어오는 경우도 있는데, 이때 굳이 다 받아줄 필요는 없어요. 내 상황에 맞게 받을지 말지를 직접 고르시면 됩니다. 가능하다면 <b>가족이나 지인처럼 아는 사이와 먼저 맞팜을 맺는 것</b>을 추천드려요. 서로 챙겨주는 관계다 보니 방문·물주기도 꾸준히 이어지고, 굳이 낯선 커뮤니티까지 나갈 필요가 줄어들거든요.</p>
+
+    <h2 class="sub">안 크는 맞팜 친구, 정리가 필요합니다</h2>
+    <p>맞팜 친구 슬롯은 한정돼 있어서, <b>오래 접속하지 않거나 물을 안 주는 '휴면' 친구</b>를 그대로 두면 슬롯만 차지하고 정작 도움은 안 됩니다.</p>
+    <p>이럴 땐 앱 안 <b>친구 목록이나 맞팜 관리 화면</b>에서 특정 친구를 골라 맞팜을 해제(삭제)할 수 있어요. 판별 기준은 딱히 복잡하지 않은데, <b>내 농장에 최근 방문한 흔적이 없거나</b> <b>물 준 알림이 한참 안 오는 친구</b>라면 정리 후보로 보시면 됩니다.</p>
+    <p>저는 개인적으로 <b>최근 방문 기록이 며칠째 안 보이거나, 알림함에 물 준 알림이 한동안 뜸한 친구</b>부터 먼저 살펴보는 편이에요. 완벽한 기준은 아니지만, 이 정도만 체크해도 슬롯 관리에는 충분하더라고요.</p>
+
+    <!-- 이미지 이유: 개인 계정의 친구 목록·맞팜 해제 옵션 화면 — 공식 소재 없음, 실사용 UI 캡처 필요 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 친구 목록에서 특정 친구 선택 후 맞팜 해제 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 맞팜 관리 화면에서 친구 하나를 눌러 나오는 해제 옵션 캡처, 해제/삭제 버튼 문구가 잘리지 않게</div>
+    <p class="cap">방문 흔적이 없는 친구는 여기서 정리해줘야 새 친구 자리가 생겨요.</p>
+
+    <h2 class="sub">맞팜, 몇 명이 적당할까</h2>
+    <p>친구 농장에 들어가면 물을 랜덤으로 돌려받는다는 부분은 지난 「올팜 맞팜 품앗이 친구초대 공략」편에서 이미 다뤘으니 여기서는 짧게만 짚고 넘어갈게요 — 방문·물주기가 곧 나에게도 자원으로 돌아오는 구조라는 정도만 기억해두시면 됩니다.</p>
+    <p>그보다 제가 실제로 더 신경 쓰는 부분은 <b>친구 수를 무작정 늘리는 것보다, 내가 챙길 수 있는 범위 안에서 관리 가능한 친구 수를 유지하는 것</b>이에요. 슬롯이 꽉 찰 만큼 친구를 늘려놔도 정작 하나하나 방문해서 물을 줄 시간이 없으면 절반은 그냥 잠들어 있는 친구가 돼버리거든요. 그럴 바엔 처음부터 하루에 무리 없이 챙길 수 있는 수만큼만 맞팜을 맺어두는 편이 오히려 실속 있습니다.</p>
+    <p>결국 중요한 건 친구 <b>숫자</b>가 아니라 <b>얼마나 꾸준히 서로 오가느냐</b>예요. 방문이 뜸한 친구가 하나둘 늘어나기 시작하면 그때부터는 앞서 말씀드린 정리 기준으로 솎아내고, 그 자리를 다시 꾸준히 챙길 수 있는 친구로 채우는 흐름을 유지하시는 걸 추천드려요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 초대 링크와 초대코드, 둘 중 어느 쪽이 더 편한가요?</b><br>지인에게 바로 메시지를 보낼 수 있는 상황이면 초대 링크 쪽이 간편하고, 상대가 이미 코드를 갖고 있다면 코드 입력이 더 빠르게 끝나요. 상황에 맞춰 편한 쪽을 고르시면 됩니다.</p>
+    <p><b>Q. 맞팜 친구 슬롯이 다 찼는데 새 친구를 추가하고 싶으면요?</b><br>이럴 땐 앞서 말씀드린 대로 안 쓰는 휴면 친구를 먼저 정리해서 자리를 비워야 새 친구를 추가할 수 있어요. 슬롯 여유가 없으면 초대를 눌러도 안 될 수 있으니 정리부터 하시는 걸 추천드려요.</p>
+    <p><b>Q. 맞팜 신청을 받았는데 모르는 사람이면 어떻게 하나요?</b><br>꼭 받아줘야 하는 건 아니에요. 아는 사이가 아니라면 넘기셔도 되고, 앞서 말씀드린 대로 가족·지인 위주로 맞팜을 맺어두는 편이 이후 관리하기도 더 편합니다.</p>
+
+    <h2 class="sub">올팜 맞팜 친구관리 정리</h2>
+    <p>정리하면, <b>맞팜 친구는 초대 링크나 초대코드로 만들고</b>, <b>커뮤니티보다는 가족·지인 위주로 맺는 게 안전</b>하며, <b>휴면 친구는 주기적으로 정리</b>해줘야 슬롯이 낭비되지 않아요. 무엇보다 친구 수를 무리하게 늘리기보다 <b>꾸준히 챙길 수 있는 만큼만 유지하는 게 결국 자원을 가장 많이 불리는 방법</b>이더라고요. 저도 이번에 정리하면서 느낀 건데, 방문·물주기를 꾸준히 챙기기만 해도 자원이 확실히 늘어나는 구조예요. 지난 「올팜 맞팜 품앗이 친구초대 공략」편에서 양분 75 물주기나 데일리 루틴을 다뤘으니, 이 글과 같이 보시면 맞팜을 처음부터 끝까지 챙기실 수 있을 거예요.</p>
+
+    <p><b>✔ 올팜 같이 보기 좋은 내용</b><br>「올팜 맞팜 품앗이 친구초대 공략」편 — 양분 75 물주기, 데일리 루틴, 친구초대 보상 (같은 블로그 이전 글 · 발행 시 링크 연결)</p>
+    <!-- 내부링크: 올팜 맞팜 품앗이 친구초대 공략 post ID 확인 후 연결 -->
+
+    <p><b>참고한 곳</b><br>친구 인원 한도·삭제 제한·방문 시 성장 촉진 폭 같은 수치는 신뢰할 공식 공지가 따로 없는 부분이라, 정확한 값은 올웨이즈 앱 내 올팜 화면에서 실시간으로 확인하시는 것이 가장 정확합니다.<br>· <a href="https://play.google.com/store/apps/details?id=com.ilevit.alwayz.android" target="_blank">올웨이즈(Alwayz) 공식 앱 — Google Play</a></p>
+
+    <div class="tags">#올팜 #올팜맞팜 #올팜친구추가 #올팜친구관리 #올팜맞팜친구 #올웨이즈 #앱테크</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표는 이 글엔 없어서 신경 쓰실 게 없어요.
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 5분):</b> 📷 <b>사진 3곳</b> 업로드. 나머지 본문·볼드·리스트는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 올팜 맞팜 친구 추가하는 법, 만들고 관리하고 정리까지 한 번에</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>지난번에 「올팜 맞팜 품앗이 친구초대 공략」편(블로그 내 이전 글)에서 양분 75 이상일 때 물 주는 법이랑 데일리 루틴, 친구초대 보상까지 한 번 정리해드렸었는데요, 막상 쓰고 나서 다시 보니 <b>친구를 실제로 어떻게 만들고 관리하는지</b>는 저도 애매하게 짧게만 짚고 넘어갔더라고요. 그래서 오늘은 그 부분만 따로 깊게 파보려고 합니다. 맞팜 친구 추가하는 방법부터 커뮤니티 이용할 때 주의점, 안 크는 친구 정리하는 법, 맞팜은 몇 명 정도가 적당한지까지 순서대로 짚어볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 올팜 메인 화면에서 '맞팜'·'친구' 메뉴 진입 화면 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "여기가 맞팜 친구 관리의 시작점이에요. 초대도, 정리도 전부 이 메뉴 안에서 이뤄집니다."</p>
+
+      <h3>맞팜 친구, 실제로 어떻게 추가하나</h3>
+      <p>올팜에서 맞팜 친구를 추가하는 방법은 크게 두 가지예요 — <b>내가 초대 링크를 만들어 보내는 방법</b>과 <b>상대가 준 초대코드를 입력하는 방법</b>이죠.</p>
+      <p>첫 번째는 올팜 화면에서 '맞팜' 또는 '친구' 메뉴로 들어가 <b>초대 링크 생성</b> 버튼을 누르는 거예요. 이렇게 만든 링크를 카카오톡 같은 메신저로 상대에게 보내면, 상대가 그 링크를 눌러 들어오면서 자연스럽게 서로 맞팜 관계가 맺어지는 흐름입니다. 두 번째는 반대로 <b>상대가 공유해 준 초대코드를 내 앱의 코드 입력창에 넣는</b> 방식이에요. 어느 쪽이든 결과는 똑같이 맞팜 친구 하나가 늘어나는 셈이라, 상황에 맞게 편한 쪽을 쓰시면 됩니다.</p>
+      <p>이렇게 링크나 코드로 연결을 요청하면, 상대가 그 요청을 수락해야 최종적으로 맞팜이 성사되는 구조예요. 수락이 되고 나면 그때부터 서로의 친구 목록에 나란히 뜨고, 별도로 대기 시간 없이 바로 상대 농장에 들어가 물을 줄 수 있게 됩니다.</p>
+      <p>친구를 몇 명까지 둘 수 있는지, 초대했을 때 정확히 어떤 보상이 오는지는 <b>업데이트마다 바뀔 수 있어서</b> 이 자리에서 숫자로 딱 정해 말씀드리긴 어려워요. 친구 목록이나 초대 화면에서 실시간으로 확인하시는 게 가장 정확합니다.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 초대 링크 생성 화면 + 초대코드 입력창 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "링크를 만들어 보내거나, 받은 코드를 여기에 넣거나. 둘 다 결과는 같습니다."</p>
+
+      <h3>친구 요청·커뮤니티 이용할 때 주의할 점</h3>
+      <p>주변에 맞팜 할 사람이 없어 온라인 카페·커뮤니티 게시판에 초대코드를 올려 낯선 사람과 맞팜하는 경우가 실제로 꽤 많은데요, 이때 몇 가지는 미리 알아두시는 게 좋습니다.</p>
+      <ul>
+        <li><b>초대코드·링크를 아무 데나 공개적으로 올리면</b> 원치 않는 사람이 한꺼번에 대량으로 들어올 수 있어요. 게시글이 퍼지면 그 이후엔 통제가 잘 안 되거든요.</li>
+        <li>커뮤니티를 돌아다니다 보면 <b>부계정이나 매크로로 맞팜을 여러 개 돌리는 사람</b>도 간혹 보이는데, 편법으로 자원을 불리는 셈이라 계정 자체가 정지될 위험을 안고 가는 거라 저는 굳이 따라 하고 싶지 않더라고요.</li>
+      </ul>
+      <p>반대로 커뮤니티에 올린 초대코드를 보고 모르는 사람이 먼저 맞팜을 걸어오는 경우도 있는데, 이때 굳이 다 받아줄 필요는 없어요. 내 상황에 맞게 받을지 말지를 직접 고르시면 됩니다. 가능하다면 <b>가족이나 지인처럼 아는 사이와 먼저 맞팜을 맺는 것</b>을 추천드려요. 서로 챙겨주는 관계다 보니 방문·물주기도 꾸준히 이어지고, 굳이 낯선 커뮤니티까지 나갈 필요가 줄어들거든요.</p>
+
+      <h3>안 크는 맞팜 친구, 정리가 필요합니다</h3>
+      <p>맞팜 친구 슬롯은 한정돼 있어서, <b>오래 접속하지 않거나 물을 안 주는 '휴면' 친구</b>를 그대로 두면 슬롯만 차지하고 정작 도움은 안 됩니다.</p>
+      <p>이럴 땐 앱 안 <b>친구 목록이나 맞팜 관리 화면</b>에서 특정 친구를 골라 맞팜을 해제(삭제)할 수 있어요. 판별 기준은 딱히 복잡하지 않은데, <b>내 농장에 최근 방문한 흔적이 없거나</b> <b>물 준 알림이 한참 안 오는 친구</b>라면 정리 후보로 보시면 됩니다.</p>
+      <p>저는 개인적으로 <b>최근 방문 기록이 며칠째 안 보이거나, 알림함에 물 준 알림이 한동안 뜸한 친구</b>부터 먼저 살펴보는 편이에요. 완벽한 기준은 아니지만, 이 정도만 체크해도 슬롯 관리에는 충분하더라고요.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 친구 목록에서 특정 친구 선택 후 맞팜 해제 화면 — 네이버에서 직접 업로드</p>
+      <p>└ 캡션 추천: "방문 흔적이 없는 친구는 여기서 정리해줘야 새 친구 자리가 생겨요."</p>
+
+      <h3>맞팜, 몇 명이 적당할까</h3>
+      <p>친구 농장에 들어가면 물을 랜덤으로 돌려받는다는 부분은 지난 「올팜 맞팜 품앗이 친구초대 공략」편에서 이미 다뤘으니 여기서는 짧게만 짚고 넘어갈게요 — 방문·물주기가 곧 나에게도 자원으로 돌아오는 구조라는 정도만 기억해두시면 됩니다.</p>
+      <p>그보다 제가 실제로 더 신경 쓰는 부분은 <b>친구 수를 무작정 늘리는 것보다, 내가 챙길 수 있는 범위 안에서 관리 가능한 친구 수를 유지하는 것</b>이에요. 슬롯이 꽉 찰 만큼 친구를 늘려놔도 정작 하나하나 방문해서 물을 줄 시간이 없으면 절반은 그냥 잠들어 있는 친구가 돼버리거든요. 그럴 바엔 처음부터 하루에 무리 없이 챙길 수 있는 수만큼만 맞팜을 맺어두는 편이 오히려 실속 있습니다.</p>
+      <p>결국 중요한 건 친구 <b>숫자</b>가 아니라 <b>얼마나 꾸준히 서로 오가느냐</b>예요. 방문이 뜸한 친구가 하나둘 늘어나기 시작하면 그때부터는 앞서 말씀드린 정리 기준으로 솎아내고, 그 자리를 다시 꾸준히 챙길 수 있는 친구로 채우는 흐름을 유지하시는 걸 추천드려요.</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 초대 링크와 초대코드, 둘 중 어느 쪽이 더 편한가요?</b><br>지인에게 바로 메시지를 보낼 수 있는 상황이면 초대 링크 쪽이 간편하고, 상대가 이미 코드를 갖고 있다면 코드 입력이 더 빠르게 끝나요. 상황에 맞춰 편한 쪽을 고르시면 됩니다.</p>
+      <p><b>Q. 맞팜 친구 슬롯이 다 찼는데 새 친구를 추가하고 싶으면요?</b><br>이럴 땐 앞서 말씀드린 대로 안 쓰는 휴면 친구를 먼저 정리해서 자리를 비워야 새 친구를 추가할 수 있어요. 슬롯 여유가 없으면 초대를 눌러도 안 될 수 있으니 정리부터 하시는 걸 추천드려요.</p>
+      <p><b>Q. 맞팜 신청을 받았는데 모르는 사람이면 어떻게 하나요?</b><br>꼭 받아줘야 하는 건 아니에요. 아는 사이가 아니라면 넘기셔도 되고, 앞서 말씀드린 대로 가족·지인 위주로 맞팜을 맺어두는 편이 이후 관리하기도 더 편합니다.</p>
+
+      <h3>올팜 맞팜 친구관리 정리</h3>
+      <p>정리하면, <b>맞팜 친구는 초대 링크나 초대코드로 만들고</b>, <b>커뮤니티보다는 가족·지인 위주로 맺는 게 안전</b>하며, <b>휴면 친구는 주기적으로 정리</b>해줘야 슬롯이 낭비되지 않아요. 무엇보다 친구 수를 무리하게 늘리기보다 <b>꾸준히 챙길 수 있는 만큼만 유지하는 게 결국 자원을 가장 많이 불리는 방법</b>이더라고요. 저도 이번에 정리하면서 느낀 건데, 방문·물주기를 꾸준히 챙기기만 해도 자원이 확실히 늘어나는 구조예요. 지난 「올팜 맞팜 품앗이 친구초대 공략」편에서 양분 75 물주기나 데일리 루틴을 다뤘으니, 이 글과 같이 보시면 맞팜을 처음부터 끝까지 챙기실 수 있을 거예요.</p>
+
+      <p><b>✔ 올팜 같이 보기 좋은 내용</b><br>「올팜 맞팜 품앗이 친구초대 공략」편 — 양분 75 물주기, 데일리 루틴, 친구초대 보상 (같은 블로그 이전 글, 검색으로 찾아보시면 나와요)</p>
+
+      <p><b>참고한 곳</b><br>친구 인원 한도·삭제 제한·방문 시 성장 촉진 폭 같은 수치는 신뢰할 공식 공지가 따로 없는 부분이라, 정확한 값은 올웨이즈 앱 내 올팜 화면에서 실시간으로 확인하시는 것이 가장 정확합니다.<br>· <a href="https://play.google.com/store/apps/details?id=com.ilevit.alwayz.android" target="_blank">올웨이즈(Alwayz) 공식 앱 — Google Play</a></p>
+
+      <p class="tags-line">#올팜 #올팜맞팜 #올팜친구추가 #올팜친구관리 #올팜맞팜친구 #올웨이즈 #앱테크</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
