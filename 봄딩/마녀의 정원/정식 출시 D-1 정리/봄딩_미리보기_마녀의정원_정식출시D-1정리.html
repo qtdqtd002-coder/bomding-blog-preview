@@ -1,0 +1,286 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>마녀의정원 정식출시일 D-1 팀타파스 로그라이크 정식판 달라지는점 정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:22px;}
+  .post li{font-size:15.5px;line-height:1.9;margin:0 0 8px;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .spec{color:#333;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .minus-line{color:#9a4a3a;}
+  #copy .warn-line{color:#b5651d;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">마녀의정원 정식출시일 D-1 팀타파스 로그라이크 정식판 달라지는점 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.08.27</span><span>· 게임</span></div>
+
+    <p><b>마녀의 정원</b>이 내일, 2026년 8월 28일에 정식 출시를 앞두고 있습니다. 스팀 상점 페이지의 '앞서 해보기 종료' 안내에 8월 28일이 그대로 못 박혀 있고, 인벤 보도에서도 같은 날짜를 정식 출시일로 확인해줬는데요. 오늘이 바로 그 하루 전, D-1인 셈이죠. 그동안 '앞서 해보기'로 서비스돼 온 게임이라 아직 안 접해보신 분들도 많을 텐데, 정식판에서 뭐가 새로 생기고 뭐가 달라지는지 공식 정보 기준으로 미리 정리해볼게요.</p>
+
+    <!-- 이미지 이유: 도입부 직후 상단 공식 이미지 — 게임 키비주얼/로고로 첫인상 확보 / 출처: https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana / 분류: A형(자동수집·스팀 공식 스토어) -->
+    <div class="imgwrap"><img src="img/header.jpg" width="460" height="215" alt="마녀의 정원 스팀 상점 키비주얼"></div>
+    <p class="cap">스팀 상점에 걸려 있는 '마녀의 정원' 대표 이미지예요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana" target="_blank">마녀의 정원 스팀 상점</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">마녀의 정원, 어떤 게임인가요?</h2>
+    <p>마녀의 정원은 <b>'팀 타파스'</b>가 단독으로 개발하고 서비스하는 로그라이크 액션 게임입니다. 스팀 장르 태그에는 액션·인디·RPG·앞서 해보기가 함께 걸려 있고요, 앞서 해보기 기간 동안 챕터 1부터 5까지 메인 스토리 전체가 이미 제공돼 왔습니다.</p>
+    <p>스킬과 무기, 젬 같은 조합 요소를 골라 담아 던전을 도는 구조라 로그라이크 특유의 '판마다 달라지는 조합' 재미가 핵심이에요. 개발과 배급을 전부 팀 타파스 한 곳이 맡고 있다는 점도 짚어둘게요 — 다른 대형 퍼블리셔가 낀 게 아니라, 개발사가 직접 서비스하는 인디 게임입니다.</p>
+
+    <!-- 이미지 이유: '어떤 게임인가' 단락 직후 — 스킬·각인 조합 시스템을 보여주는 인게임 도감 화면 / 출처: https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana / 분류: A형(자동수집·스팀 공식 스토어) -->
+    <div class="imgwrap"><img src="img/ss2.jpg" width="1920" height="1080" alt="마녀의 정원 마법·각인 도감 화면"></div>
+    <p class="cap">마법과 각인을 살펴보는 도감 화면이에요. 조합을 짜는 재미가 이 게임 핵심이라고 하네요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana" target="_blank">마녀의 정원 스팀 상점</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">앞서 해보기는 언제 끝나고, 정식 출시는 언제인가요?</h2>
+    <p>앞서 해보기는 2026년 8월 28일에 끝나고, 같은 날 정식 출시로 넘어갑니다. 스팀 상점 페이지에 '앞서 해보기 종료: 2026년 8월 28일'이라고 명시돼 있고, 인벤에서도 8월 28일 정식 출시로 못 박아 보도했더라고요.</p>
+    <p>오늘(8월 27일) 기준으로는 정확히 하루 남은 셈이라, 지금 미리 뭐가 바뀌는지 알아두면 출시 당일 헷갈릴 일이 줄어들 거예요.</p>
+
+    <h2 class="sub">정식판에서 새로 추가되는 건 뭔가요?</h2>
+    <p>정식 출시와 함께 스토리 결말, 조작 방식, 전투 시스템까지 한꺼번에 달라진다고 하는데요, 아래 항목들은 스팀 상점 페이지가 아니라 <b>경향게임스·인벤 보도</b>를 근거로 정리한 내용이라는 점을 먼저 밝혀둘게요.</p>
+    <ul>
+      <li><b>에필로그 2·3 추가</b> — 앞서 해보기에서는 볼 수 없었던 결말 파트가 정식판에서 공개됩니다.</li>
+      <li><b>키보드·마우스 조작 정식 지원</b> — 그동안 패드 위주였다면, 이제 키보드·마우스로도 기본 지원됩니다.</li>
+      <li><b>'시너지' 시스템 개편</b> — 기존 시너지 시스템은 사라지고, 그 자리를 스킬·무기·각인·마도구 각각의 고유 메커니즘이 대신하는 쪽으로 손이 갔다고 해요.</li>
+      <li>출시 전인 8월 중순에는 전투 시스템 베타테스트도 한 차례 검토됐다고 합니다.</li>
+    </ul>
+    <p>전투 흐름 자체가 꽤 바뀔 수 있는 변경이라, 앞서 해보기 때 잠깐 봤던 기억만 믿고 정식판에 들어가면 살짝 낯설 수도 있겠어요.</p>
+
+    <!-- 이미지 이유: '정식판 신규 요소(에필로그 등 스토리 결말)' 단락 직후 — 스토리 씬을 보여주는 컷 / 출처: https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana / 분류: A형(자동수집·스팀 공식 스토어) -->
+    <div class="imgwrap"><img src="img/ss4.jpg" width="1920" height="1080" alt="마녀의 정원 스토리 대화 장면"></div>
+    <p class="cap">스토리 파트의 한 장면이에요. 정식판에서는 여기서 더 나아가 에필로그까지 이어진다고 하네요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana" target="_blank">마녀의 정원 스팀 상점</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">한국어랑 일본어 음성은 어떻게 지원되나요?</h2>
+    <p>한국어는 인터페이스와 자막까지만 지원되고 음성은 지원되지 않으며, 일본어 음성은 정식 출시와 함께 챕터 5까지 새로 추가됩니다.</p>
+    <p>스팀 언어 지원표를 2026년 8월 27일 기준으로 확인해보면, 지금은 어떤 언어도 음성 지원 열에 체크가 안 돼 있어요. 아직 정식판 패치가 반영되기 전이라 그런 건데, 경향게임스 보도에 따르면 한국콘텐츠진흥원 게임더하기 해외 수출 지원사업을 통해 일본어 음성 더빙이 챕터 5까지 붙는다고 합니다. 한국어를 쓰는 입장에서는 자막으로 읽는 방식이 그대로 유지되고, 음성은 이번에도 지원되지 않는다고 보시면 됩니다.</p>
+    <table class="tbl">
+      <tr><th>언어</th><th>인터페이스</th><th>자막</th><th>음성</th></tr>
+      <tr><td>한국어</td><td>지원</td><td>지원</td><td>미지원</td></tr>
+      <tr><td>일본어</td><td>지원</td><td>지원</td><td>정식 출시부터 챕터5까지 지원 예정</td></tr>
+    </table>
+    <p>(한국어·일본어의 인터페이스·자막, 그리고 현재 음성 미지원 상태는 2026년 8월 27일 스팀 언어 지원표에서 직접 확인한 내용이고, 일본어 음성이 챕터5까지 추가된다는 부분은 아직 스팀 표에는 반영되지 않은 경향게임스 보도 기준 예정 사항이에요. 정확한 반영 여부는 정식 출시 후 스팀 언어표에서 다시 확인하시는 걸 추천드려요.)</p>
+
+    <h2 class="sub">가격이랑 할인은 어떻게 되나요?</h2>
+    <p>정가는 <b>22,000원</b>이고, 지금(8월 27일) 기준으로는 진행 중인 할인이 없습니다.</p>
+    <p>스팀 스토어에서 확인한 실제 판매가가 22,000원이고, 할인율은 0%로 떠 있어요. 다만 경향게임스 보도를 보면 출시를 기념해 30% 할인이 진행될 예정이라고 하니, 이 부분은 아직 '예정'이라는 걸 분명히 해둘게요. 실제 할인이 언제 시작해서 언제 끝나는지는 스팀 페이지에서 직접 확인하시는 걸 추천드립니다.</p>
+
+    <!-- 이미지 이유: 가격/할인 단락 인근 — 전투 장면으로 텍스트 구간 사이 시각 앵커 분산 / 출처: https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana / 분류: A형(자동수집·스팀 공식 스토어) -->
+    <div class="imgwrap"><img src="img/ss1.jpg" width="1920" height="1080" alt="마녀의 정원 보스 전투 장면"></div>
+    <p class="cap">체력이 만 단위로 오가는 보스전이에요. 화려한 이펙트가 로그라이크 특유의 손맛을 보여줍니다.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana" target="_blank">마녀의 정원 스팀 상점</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">DLC 없이도 본편을 다 즐길 수 있나요?</h2>
+    <p>네, DLC 없이 본편만으로도 처음부터 끝까지 완전하게 플레이할 수 있습니다.</p>
+    <p>이 게임에 연결된 DLC는 'Garden of Witches - Original Soundtrack'(8,900원) 하나뿐인데, 이름 그대로 음악 앨범이거든요. 본편 진행에 꼭 있어야 하는 요소는 아니라서, 오리지널 사운드트랙이 마음에 들었다면 그때 별도로 챙기면 되는 정도로 보시면 됩니다.</p>
+
+    <h2 class="sub">스팀 말고 스토브에서도 할 수 있나요?</h2>
+    <p>네, 스팀 외에 스마일게이트의 게임 플랫폼 '스토브(STOVE)'에서도 함께 서비스됩니다.</p>
+    <p>스토브는 스마일게이트가 운영하는 게임 유통 플랫폼이고, 마녀의 정원은 그 위에서 스팀과 나란히 유통되는 구조예요. 그러니까 스마일게이트가 이 게임을 배급하는 게 아니라, 팀 타파스가 개발·배급을 모두 맡은 게임을 스토브라는 플랫폼에도 함께 올려둔 것으로 이해하시면 됩니다. 스팀 라이브러리를 이미 쓰고 계신 분이라면 굳이 옮길 필요 없이 스팀 그대로 즐기셔도 되고요.</p>
+
+    <!-- 이미지 이유: 스토브 서비스 단락 인근 — 파밍·전투 장면으로 마무리 전 시각 앵커 분산 / 출처: https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana / 분류: A형(자동수집·스팀 공식 스토어) -->
+    <div class="imgwrap"><img src="img/ss5.jpg" width="1920" height="1080" alt="마녀의 정원 호박밭 전투 장면"></div>
+    <p class="cap">호박밭에서 여러 적을 한 번에 쓸어담는 장면이에요. 파밍하는 재미도 로그라이크답게 쏠쏠해 보입니다.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana" target="_blank">마녀의 정원 스팀 상점</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 마녀의 정원은 혼자서만 즐기는 게임인가요, 협동도 되나요?</b><br>
+    스팀 카테고리에는 '싱글 플레이어'만 명시돼 있고, 별도의 협동·멀티플레이 카테고리는 없어요. 혼자서 진행하는 구조로 보시면 됩니다.</p>
+    <p><b>Q. 컨트롤러로 플레이해도 괜찮나요?</b><br>
+    네, 오히려 컨트롤러 쪽이 원래 강점이었어요. 스팀 카테고리에 '컨트롤러 완벽 지원'과 '게임패드 권장'이 함께 표시돼 있고, 듀얼쇼크·듀얼센스 지원도 확인됩니다. 이번에 새로 붙는 키보드·마우스 지원은 선택지가 하나 늘어난 거지, 패드 지원이 빠지는 게 아니잖아요.</p>
+    <p><b>Q. 진행 상황이 클라우드에 저장되나요?</b><br>
+    네, 스팀 클라우드 저장을 지원하는 걸로 확인돼요. PC를 바꾸거나 다시 설치해도 진행 상황을 이어갈 수 있습니다.</p>
+
+    <h2 class="sub">마녀의 정원 정리</h2>
+    <p>짚어보면, 마녀의 정원은 8월 28일 정식 출시로 넘어가면서 에필로그 2·3과 키보드·마우스 지원, 시너지 시스템 개편까지 한꺼번에 달라집니다. 가격은 22,000원이고 지금은 할인이 없지만 30% 출시 할인이 예정돼 있고요, 한국어는 자막까지만·일본어는 음성 더빙까지 챙기는 정식판이 되는 거고요. 앞서 해보기 시절 잠깐 봤던 분이라면 이번 정식 출시를 계기로 다시 한 번 들여다볼 만하겠어요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana" target="_blank">마녀의 정원 스팀 상점 페이지</a><br>
+    · <a href="https://store.onstove.com/ko/games/4207" target="_blank">마녀의 정원 스토브 스토어 페이지</a></p>
+
+    <!-- 내부링크: 봄딩 기존 발행글 중 '마녀의 정원' 소재 0건(사전 중복체크 완료, 봄딩 첫 소개글) — 연결할 형제 글이 없어 ✔ 내부링크 줄은 정당하게 생략함(다이아블로 이모탈 224319278285 케이스와 동일 원칙) -->
+
+    <div class="tags">태그: 마녀의 정원, Garden of Witches, 팀 타파스, 로그라이크 액션, 스토브 게임, 정식출시</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 5곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 마녀의정원 정식출시일 D-1 팀타파스 로그라이크 정식판 달라지는점 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>마녀의 정원이 내일, 2026년 8월 28일에 정식 출시를 앞두고 있습니다. 스팀 상점 페이지의 '앞서 해보기 종료' 안내에 8월 28일이 그대로 못 박혀 있고, 인벤 보도에서도 같은 날짜를 정식 출시일로 확인해줬는데요. 오늘이 바로 그 하루 전, D-1인 셈이죠. 그동안 '앞서 해보기'로 서비스돼 온 게임이라 아직 안 접해보신 분들도 많을 텐데, 정식판에서 뭐가 새로 생기고 뭐가 달라지는지 공식 정보 기준으로 미리 정리해볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 마녀의 정원 스팀 상점 키비주얼 — 미리보기 이미지 복사해 붙여넣기 또는 스팀 상점에서 저장 후 업로드</p>
+
+      <h3>마녀의 정원, 어떤 게임인가요?</h3>
+      <p>마녀의 정원은 <b>'팀 타파스'</b>가 단독으로 개발하고 서비스하는 로그라이크 액션 게임입니다. 스팀 장르 태그에는 액션·인디·RPG·앞서 해보기가 함께 걸려 있고요, 앞서 해보기 기간 동안 챕터 1부터 5까지 메인 스토리 전체가 이미 제공돼 왔습니다.</p>
+      <p>스킬과 무기, 젬 같은 조합 요소를 골라 담아 던전을 도는 구조라 로그라이크 특유의 '판마다 달라지는 조합' 재미가 핵심이에요. 개발과 배급을 전부 팀 타파스 한 곳이 맡고 있다는 점도 짚어둘게요 — 다른 대형 퍼블리셔가 낀 게 아니라, 개발사가 직접 서비스하는 인디 게임입니다.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 마녀의 정원 마법·각인 도감 화면 — 미리보기 이미지 복사해 붙여넣기 또는 스팀 상점에서 저장 후 업로드</p>
+
+      <h3>앞서 해보기는 언제 끝나고, 정식 출시는 언제인가요?</h3>
+      <p>앞서 해보기는 2026년 8월 28일에 끝나고, 같은 날 정식 출시로 넘어갑니다. 스팀 상점 페이지에 '앞서 해보기 종료: 2026년 8월 28일'이라고 명시돼 있고, 인벤에서도 8월 28일 정식 출시로 못 박아 보도했더라고요.</p>
+      <p>오늘(8월 27일) 기준으로는 정확히 하루 남은 셈이라, 지금 미리 뭐가 바뀌는지 알아두면 출시 당일 헷갈릴 일이 줄어들 거예요.</p>
+
+      <h3>정식판에서 새로 추가되는 건 뭔가요?</h3>
+      <p>정식 출시와 함께 스토리 결말, 조작 방식, 전투 시스템까지 한꺼번에 달라진다고 하는데요, 아래 항목들은 스팀 상점 페이지가 아니라 <b>경향게임스·인벤 보도</b>를 근거로 정리한 내용이라는 점을 먼저 밝혀둘게요.</p>
+      <ul>
+        <li><b>에필로그 2·3 추가</b> — 앞서 해보기에서는 볼 수 없었던 결말 파트가 정식판에서 공개됩니다.</li>
+        <li><b>키보드·마우스 조작 정식 지원</b> — 그동안 패드 위주였다면, 이제 키보드·마우스로도 기본 지원됩니다.</li>
+        <li><b>'시너지' 시스템 개편</b> — 기존 시너지 시스템은 사라지고, 그 자리를 스킬·무기·각인·마도구 각각의 고유 메커니즘이 대신하는 쪽으로 손이 갔다고 해요.</li>
+        <li>출시 전인 8월 중순에는 전투 시스템 베타테스트도 한 차례 검토됐다고 합니다.</li>
+      </ul>
+      <p>전투 흐름 자체가 꽤 바뀔 수 있는 변경이라, 앞서 해보기 때 잠깐 봤던 기억만 믿고 정식판에 들어가면 살짝 낯설 수도 있겠어요.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 마녀의 정원 스토리 대화 장면 — 미리보기 이미지 복사해 붙여넣기 또는 스팀 상점에서 저장 후 업로드</p>
+
+      <h3>한국어랑 일본어 음성은 어떻게 지원되나요?</h3>
+      <p>한국어는 인터페이스와 자막까지만 지원되고 음성은 지원되지 않으며, 일본어 음성은 정식 출시와 함께 챕터 5까지 새로 추가됩니다.</p>
+      <p>스팀 언어 지원표를 2026년 8월 27일 기준으로 확인해보면, 지금은 어떤 언어도 음성 지원 열에 체크가 안 돼 있어요. 아직 정식판 패치가 반영되기 전이라 그런 건데, 경향게임스 보도에 따르면 한국콘텐츠진흥원 게임더하기 해외 수출 지원사업을 통해 일본어 음성 더빙이 챕터 5까지 붙는다고 합니다. 한국어를 쓰는 입장에서는 자막으로 읽는 방식이 그대로 유지되고, 음성은 이번에도 지원되지 않는다고 보시면 됩니다.</p>
+      <table>
+        <tr><th>언어</th><th>인터페이스</th><th>자막</th><th>음성</th></tr>
+        <tr><td class="l">한국어</td><td>지원</td><td>지원</td><td>미지원</td></tr>
+        <tr><td class="l">일본어</td><td>지원</td><td>지원</td><td>정식 출시부터 챕터5까지 지원 예정</td></tr>
+      </table>
+      <p class="tnote-line">(한국어·일본어의 인터페이스·자막, 그리고 현재 음성 미지원 상태는 2026년 8월 27일 스팀 언어 지원표에서 직접 확인한 내용이고, 일본어 음성이 챕터5까지 추가된다는 부분은 아직 스팀 표에는 반영되지 않은 경향게임스 보도 기준 예정 사항이에요. 정확한 반영 여부는 정식 출시 후 스팀 언어표에서 다시 확인하시는 걸 추천드려요.)</p>
+
+      <h3>가격이랑 할인은 어떻게 되나요?</h3>
+      <p>정가는 <b>22,000원</b>이고, 지금(8월 27일) 기준으로는 진행 중인 할인이 없습니다.</p>
+      <p>스팀 스토어에서 확인한 실제 판매가가 22,000원이고, 할인율은 0%로 떠 있어요. 다만 경향게임스 보도를 보면 출시를 기념해 30% 할인이 진행될 예정이라고 하니, 이 부분은 아직 '예정'이라는 걸 분명히 해둘게요. 실제 할인이 언제 시작해서 언제 끝나는지는 스팀 페이지에서 직접 확인하시는 걸 추천드립니다.</p>
+
+      <p class="ph">📷 〔사진 자리 4〕 마녀의 정원 보스 전투 장면 — 미리보기 이미지 복사해 붙여넣기 또는 스팀 상점에서 저장 후 업로드</p>
+
+      <h3>DLC 없이도 본편을 다 즐길 수 있나요?</h3>
+      <p>네, DLC 없이 본편만으로도 처음부터 끝까지 완전하게 플레이할 수 있습니다.</p>
+      <p>이 게임에 연결된 DLC는 'Garden of Witches - Original Soundtrack'(8,900원) 하나뿐인데, 이름 그대로 음악 앨범이거든요. 본편 진행에 꼭 있어야 하는 요소는 아니라서, 오리지널 사운드트랙이 마음에 들었다면 그때 별도로 챙기면 되는 정도로 보시면 됩니다.</p>
+
+      <h3>스팀 말고 스토브에서도 할 수 있나요?</h3>
+      <p>네, 스팀 외에 스마일게이트의 게임 플랫폼 '스토브(STOVE)'에서도 함께 서비스됩니다.</p>
+      <p>스토브는 스마일게이트가 운영하는 게임 유통 플랫폼이고, 마녀의 정원은 그 위에서 스팀과 나란히 유통되는 구조예요. 그러니까 스마일게이트가 이 게임을 배급하는 게 아니라, 팀 타파스가 개발·배급을 모두 맡은 게임을 스토브라는 플랫폼에도 함께 올려둔 것으로 이해하시면 됩니다. 스팀 라이브러리를 이미 쓰고 계신 분이라면 굳이 옮길 필요 없이 스팀 그대로 즐기셔도 되고요.</p>
+
+      <p class="ph">📷 〔사진 자리 5〕 마녀의 정원 호박밭 전투 장면 — 미리보기 이미지 복사해 붙여넣기 또는 스팀 상점에서 저장 후 업로드</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 마녀의 정원은 혼자서만 즐기는 게임인가요, 협동도 되나요?</b><br>
+      스팀 카테고리에는 '싱글 플레이어'만 명시돼 있고, 별도의 협동·멀티플레이 카테고리는 없어요. 혼자서 진행하는 구조로 보시면 됩니다.</p>
+      <p><b>Q. 컨트롤러로 플레이해도 괜찮나요?</b><br>
+      네, 오히려 컨트롤러 쪽이 원래 강점이었어요. 스팀 카테고리에 '컨트롤러 완벽 지원'과 '게임패드 권장'이 함께 표시돼 있고, 듀얼쇼크·듀얼센스 지원도 확인됩니다. 이번에 새로 붙는 키보드·마우스 지원은 선택지가 하나 늘어난 거지, 패드 지원이 빠지는 게 아니잖아요.</p>
+      <p><b>Q. 진행 상황이 클라우드에 저장되나요?</b><br>
+      네, 스팀 클라우드 저장을 지원하는 걸로 확인돼요. PC를 바꾸거나 다시 설치해도 진행 상황을 이어갈 수 있습니다.</p>
+
+      <h3>마녀의 정원 정리</h3>
+      <p>짚어보면, 마녀의 정원은 8월 28일 정식 출시로 넘어가면서 에필로그 2·3과 키보드·마우스 지원, 시너지 시스템 개편까지 한꺼번에 달라집니다. 가격은 22,000원이고 지금은 할인이 없지만 30% 출시 할인이 예정돼 있고요, 한국어는 자막까지만·일본어는 음성 더빙까지 챙기는 정식판이 되는 거고요. 앞서 해보기 시절 잠깐 봤던 분이라면 이번 정식 출시를 계기로 다시 한 번 들여다볼 만하겠어요.</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://store.steampowered.com/app/2530470/Garden_of_Witches/?l=koreana" target="_blank">마녀의 정원 스팀 상점 페이지</a><br>
+      · <a href="https://store.onstove.com/ko/games/4207" target="_blank">마녀의 정원 스토브 스토어 페이지</a></p>
+
+      <p class="tags-line">태그: 마녀의 정원, Garden of Witches, 팀 타파스, 로그라이크 액션, 스토브 게임, 정식출시</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
