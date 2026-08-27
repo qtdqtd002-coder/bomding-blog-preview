@@ -1,0 +1,303 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>제우스: 오만의 신 MMORPG 기대작 정식 오픈, 초반 튜토리얼부터 엘리멘탈리스트 육성까지</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:15.5px;line-height:1.85;margin:0 0 8px;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">제우스: 오만의 신 MMORPG 기대작 정식 오픈, 초반 튜토리얼부터 엘리멘탈리스트 육성까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.08.27</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: 제우스 오만의 신 초반에 뭘 챙기나 / 엘리멘탈리스트는 어떤 클래스인가 / 오디세이아는 뭔가 -->
+    <div class="notice">본 포스팅은 해당 업체로부터 원고료를 지원받아 솔직하게 작성된 후기입니다.</div>
+
+    <p>2026년 8월 26일 낮 12시, 컴투스와 에이버튼이 함께 만든 신작 <b>MMORPG 기대작 「제우스: 오만의 신」</b>이 정식 오픈했습니다. 그리스 신화를 배경으로 한 세계관에, 워리어·로그·메이지·파라곤 4대 클래스가 각각 두 갈래로 갈리는 8종 클래스 구조를 내세운 작품인데요. 예전에 쇼케이스 소식을 전해드렸던(<a href="https://blog.naver.com/bomding/224367132900" target="_blank">제우스: 오만의 신 쇼케이스 임박 디렉터스 인사이트 내용 정리 MMORPG 신작</a>) 그 게임이 드디어 문을 연 거라, 오늘은 정식 오픈 초반에 챙겨두면 좋을 것들이랑 엘리멘탈리스트 육성 방향, 인게임 시스템까지 한 번에 정리해 드릴게요.</p>
+    <p>요즘 mmorpg 신작 가뭄이다 싶으셨던 분들껜 특히 반가운 타이밍이지 싶은데요, 출시일 확정 소식이나 사전예약 특전 세부 내용은 위에 링크해둔 글에 이미 정리해뒀으니 그쪽 참고하시고, 이 글에서는 안 겹치게 초반 시스템 위주로 풀어볼게요.</p>
+
+    <div class="imgwrap"><img src="img/01_zeus_launch_pv.jpg" alt="제우스 오만의 신 공식 정식 출시 PV" width="1280" height="720"></div>
+    <p class="cap">공식 유튜브에 올라온 정식 출시 PV 한 장면이에요.</p>
+    <p class="src">이미지 출처: <a href="https://www.youtube.com/@ZEUS_mmorpg" target="_blank">제우스: 오만의 신 공식 유튜브</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">제우스: 오만의 신, 정식 오픈 초반에 뭐부터 챙기나</h2>
+    <p>정식 오픈 초반엔 사전예약·오픈 기념 보상이랑 AI 모드, 시련의 틈 같은 편의 시스템부터 확인해두는 게 순서예요. 사전예약은 참여한 채널별로 보상이 나뉘어 있어서 하나씩 짚어볼게요.</p>
+    <ul>
+      <li><b>스토어(마켓) 사전예약</b> — 희귀 등급 탈것 확정 소환 + 강화 주문서 3종 각 10장</li>
+      <li><b>홈페이지(휴대폰번호) 사전예약</b> — <a href="https://zeus.com2us.com/" target="_blank">공식 홈페이지</a>에서 고급 등급 탈것 소환권 1개 + <b>에테리온 결정</b> 1개</li>
+      <li><b>공식 채널(유튜브·카카오톡) 구독</b> — <a href="https://www.youtube.com/@ZEUS_mmorpg" target="_blank">유튜브</a>·<a href="https://pf.kakao.com/_xdxdwTX" target="_blank">카카오톡</a> 채널 구독 시 골드 100만 + 공격·방어 영약 각 12개, 에테르 비약 40개</li>
+    </ul>
+    <p>참고로 캐릭터명 선점 이벤트도 8월 13일에 미리 진행됐다고 하더라고요. 지금은 지난 이벤트라 참여는 못 하지만, 이런 것도 있었구나 하고 알아두시면 좋을 것 같아요.</p>
+
+    <div class="imgwrap"><img src="img/02_zeus_name_reservation_event.jpg" alt="제우스 오만의 신 캐릭터명 선점 이벤트 안내" width="1280" height="720"></div>
+    <p class="cap">공식 유튜브에 올라온 캐릭터명 선점 이벤트 안내 영상 한 장면이에요.</p>
+    <p class="src">이미지 출처: <a href="https://www.youtube.com/@ZEUS_mmorpg" target="_blank">제우스: 오만의 신 공식 유튜브</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <p>편의 시스템도 초반부터 눈에 띄네요. 접속하지 않은 시간에도 설정해둔 방식대로 자동 사냥·성장을 진행해주는 <b>AI 모드</b>가 있고, 오프라인 캐릭터도 길드 레이드 같은 콘텐츠에 참여시킬 수 있는 <b>'징집'</b> 기능이 딸려 있다고 해요. 반대로 직접 조작하며 몰입하고 싶은 유저를 위한 <b>시련의 틈</b>도 따로 있어서, 자동·수동을 취향껏 오갈 수 있는 구조예요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: AI 모드 설정 화면 · 시련의 틈 입장 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://www.youtube.com/@ZEUS_mmorpg" target="_blank">공식 유튜브</a> · <a href="https://zeus.com2us.com/" target="_blank">공식 홈페이지</a></div>
+    <p class="cap">AI 모드랑 시련의 틈, 인게임에서 직접 캡처해 넣으면 좋을 자리예요.</p>
+
+    <p>본격적인 클래스 이야기에 들어가기 전에, 우선 8종 클래스를 쭉 훑어볼게요.</p>
+
+    <h2 class="sub">플레이 가능한 클래스는 몇 종류나 되나</h2>
+    <p>제우스: 오만의 신은 워리어·로그·메이지·파라곤 4대 클래스가 각각 두 갈래로 나뉘어 총 8종 클래스를 플레이할 수 있어요.</p>
+    <table class="tbl">
+      <tr><th>기반 클래스</th><th>전직</th><th>한 줄 특징</th></tr>
+      <tr><td>워리어</td><td>나이트</td><td>강철의 신념과 맹세로 아군을 지키는 수호자</td></tr>
+      <tr><td>워리어</td><td>버서커</td><td>대검을 휘둘러 적의 진형을 파괴</td></tr>
+      <tr><td>로그</td><td>어쌔신</td><td>쌍검과 은신으로 적을 단숨에 암살</td></tr>
+      <tr><td>로그</td><td>레인저</td><td>예리한 활 끝으로 숨은 적을 꿰뚫음</td></tr>
+      <tr><td>메이지</td><td>엘리멘탈리스트</td><td>지팡이에 깃든 얼음과 불의 권능으로 전장을 지배</td></tr>
+      <tr><td>메이지</td><td>오라클</td><td>오브의 빛으로 아군을 치유·정화</td></tr>
+      <tr><td>파라곤</td><td>블레스드</td><td>축복받은 철퇴와 방패로 적을 심판</td></tr>
+      <tr><td>파라곤</td><td>아티산</td><td>금빛 행운으로 아군 능력 극대화(경제·생산 특화)</td></tr>
+    </table>
+    <p>이 중 이번 글에서 집중해서 살펴볼 클래스는 메이지 계열의 <b>엘리멘탈리스트</b>예요.</p>
+
+    <h2 class="sub">엘리멘탈리스트는 어떤 클래스인가</h2>
+    <p>엘리멘탈리스트는 지팡이 하나로 얼음과 불 속성을 오가며 전장을 지배하는 메이지 계열 클래스예요. 공식 소개 문구만 보면 광역 제어랑 딜링을 동시에 노리는 타입으로 보이는데요, 얼음으로 묶고 불로 몰아치는 운용이 기대되는 클래스라 마법사 계열 좋아하시는 분들껜 눈여겨볼 만해 보여요. 같은 메이지 계열인 오라클이 회복·정화에 특화된 것과 비교하면, 엘리멘탈리스트 쪽이 공격적인 포지션에 더 가깝다고 봐도 무리는 없을 것 같습니다.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 엘리멘탈리스트 지팡이 스킬 이펙트(얼음/불 속성)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://zeus.com2us.com/gameinfo/class" target="_blank">공식 클래스 소개 페이지</a> · <a href="https://www.youtube.com/@ZEUS_mmorpg" target="_blank">공식 유튜브</a></div>
+    <p class="cap">엘리멘탈리스트 스킬 연출, 인게임 캡처로 채워 넣으면 좋을 자리예요.</p>
+
+    <h2 class="sub">육성은 뭐 위주로 하면 되나</h2>
+    <p>초반 육성은 강화 주문서로 장비를 다지고, AI 모드로 기본 성장을 돌리면서, 거래소·미다스의 금고로 경제적 여유를 챙기는 3박자가 기본이에요.</p>
+    <ul>
+      <li>무기·방어구·장신구 <b>강화 주문서</b>로 장비 성능 올리기</li>
+      <li><b>AI 모드</b> 자동 사냥으로 접속 안 해도 경험치·재화 누적</li>
+      <li><b>인터서버 통합 거래소</b>로 아이템 매매하고, <b>미다스의 금고</b>에 장비를 넘겨 다이아로 바꾸기</li>
+      <li>아티산의 제작 활동과 맞물려 경제 흐름 전체가 하나로 연결되는 구조</li>
+    </ul>
+    <p>엘리멘탈리스트라면 사전예약으로 받은 강화 주문서를 무기, 그러니까 지팡이 쪽에 먼저 몰아주는 쪽이 무난해 보여요. 메이지 계열은 원래 스킬 딜 비중이 크잖아요, 방어구·장신구보다 무기 강화 우선순위를 높게 잡는 게 초반 성장 체감에 유리할 것 같습니다.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 미다스의 금고 · 인터서버 거래소 UI</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://zeus.com2us.com/" target="_blank">공식 홈페이지</a> · <a href="https://www.youtube.com/@ZEUS_mmorpg" target="_blank">공식 유튜브</a></div>
+    <p class="cap">거래소랑 미다스의 금고, 인게임에서 캡처해 채워두면 좋아요.</p>
+
+    <h2 class="sub">경쟁 콘텐츠 오디세이아는 뭔가</h2>
+    <p>오디세이아는 개인전부터 길드 단위까지 아우르는 제우스: 오만의 신의 시즌제 경쟁 콘텐츠예요. 경쟁이라고 해서 실력 좋은 유저만 파고들 수 있는 구조는 아니고, 성향에 맞는 콘텐츠를 골라 즐길 수 있게 다양하게 갈라져 있다고 해요. 다만 전부 한꺼번에 열리는 게 아니라 순차적으로 오픈되는 방식이거든요. 일정도 같이 챙겨두면 좋아요.</p>
+    <ul>
+      <li><b>무한의 탑</b> — 층을 오르는 개인 PvE 콘텐츠(정식 오픈 시점부터 참여 가능)</li>
+      <li><b>길드 레이드</b> — 길드 단위 협동 PvE, AI 모드 '징집'으로 오프라인 캐릭터도 기여 가능(정식 오픈 시점부터 참여 가능)</li>
+      <li><b>콜로세움</b> — 페르소나(AI) 상대 1:1 대결이라 실시간 대전 부담이 적은 편(오픈 2주차부터 개방)</li>
+      <li><b>아카디아 제전</b> — 길드 단위 축제형 콘텐츠(순차 오픈 예정)</li>
+      <li><b>시련의 전당</b> — 별도의 도전형 콘텐츠(오픈 1개월차부터)</li>
+    </ul>
+    <p>오픈 첫 주엔 무한의 탑·길드 레이드부터, 2주차엔 콜로세움까지 순서대로 즐기면 되니 조급해하지 않아도 괜찮아 보여요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 오디세이아 콘텐츠 목록 화면(콜로세움/아카디아 제전)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://zeus.com2us.com/" target="_blank">공식 홈페이지</a> · <a href="https://pf.kakao.com/_xdxdwTX" target="_blank">공식 카카오톡 채널</a></div>
+    <p class="cap">오디세이아 콘텐츠 목록, 인게임에서 캡처해두면 좋을 자리예요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 쿠폰은 어디서 등록하나요?</b><br>공식 쿠폰 등록 페이지(coupon.withhive.com/2352)에서 등록할 수 있어요. 코드는 시기마다 바뀔 수 있으니 최신 코드는 공식 채널에서 바로 확인하시는 걸 추천드려요.</p>
+    <p><b>Q. 엘리멘탈리스트는 무소과금으로도 할 만한가요?</b><br>장비 강화랑 AI 모드 자동 성장을 잘 챙기면 큰 무리 없이 따라갈 수 있어 보여요.</p>
+    <p><b>Q. 오디세이아는 정식 오픈 시점부터 바로 참여할 수 있나요?</b><br>콘텐츠별로 순차 오픈되는 방식이라 한 번에 다 열리진 않아요. 무한의 탑·길드 레이드는 바로, 콜로세움은 2주차, 아카디아 제전·시련의 전당은 그 이후 순차 오픈이라고 안내돼 있으니 일정 체크해가며 하나씩 즐기면 될 것 같습니다.</p>
+
+    <h2 class="sub">제우스: 오만의 신 정리</h2>
+    <p>정리하면, 제우스: 오만의 신은 8종 클래스로 취향껏 골라 키울 수 있고, 그중 엘리멘탈리스트는 얼음과 불을 오가는 화려한 마법사 포지션이 매력 포인트예요. 강화·AI 모드·거래소로 이어지는 성장 구조에 오디세이아라는 다양한 경쟁 콘텐츠까지 갖췄으니, PvP든 PvE든 자기 방식대로 즐길 수 있는 mmorpg 기대작인 건 분명해 보입니다. 공식 홈페이지(<a href="https://zeus.com2us.com/" target="_blank">zeus.com2us.com</a>)·유튜브 채널(<a href="https://www.youtube.com/@ZEUS_mmorpg" target="_blank">@ZEUS_mmorpg</a>)·<a href="https://pf.kakao.com/_xdxdwTX" target="_blank">카카오톡 채널</a>을 구독해두면 이벤트·업데이트 소식을 놓치지 않을 수 있으니 함께 챙겨두시고, 엘리멘탈리스트 쪽으로 마음이 기우신다면 한 번쯤 시작해보셔도 좋을 것 같습니다.</p>
+
+    <div class="btns"><a href="https://zeus.com2us.com/" target="_blank">공식 홈페이지 바로가기</a></div>
+
+    <p><b>✔ 제우스: 오만의 신 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224367132900" target="_blank">제우스: 오만의 신 쇼케이스 임박 디렉터스 인사이트 내용 정리 MMORPG 신작</a></p>
+    <!-- 내부링크: 「제우스오만의신 출시일 8월26일 확정, 멤버십·페르소나 오픈 정보 정리」·「제우스오만의신 사전예약 특전 총정리, 스토어랑 홈페이지가 달라요」 post ID 확인 후 연결 -->
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://zeus.com2us.com/" target="_blank">제우스: 오만의 신 공식 홈페이지</a><br>
+    · <a href="https://zeus.com2us.com/gameinfo/class" target="_blank">공식 클래스 소개 페이지</a> (2026.08.27 기준)</p>
+
+    <div class="tags">#제우스오만의신 #제우스 #MMORPG기대작 #엘리멘탈리스트 #오디세이아 #정식오픈 #강화 #쿠폰</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 5곳</b> 업로드(AI모드·시련의틈 / 엘리멘탈리스트 스킬 / 미다스의 금고·거래소 / 오디세이아 목록). 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 제우스: 오만의 신 MMORPG 기대작 정식 오픈, 초반 튜토리얼부터 엘리멘탈리스트 육성까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p class="notice-line">본 포스팅은 해당 업체로부터 원고료를 지원받아 솔직하게 작성된 후기입니다.</p>
+      <p>2026년 8월 26일 낮 12시, 컴투스와 에이버튼이 함께 만든 신작 <b>MMORPG 기대작 「제우스: 오만의 신」</b>이 정식 오픈했습니다. 그리스 신화를 배경으로 한 세계관에, 워리어·로그·메이지·파라곤 4대 클래스가 각각 두 갈래로 갈리는 8종 클래스 구조를 내세운 작품인데요. 예전에 쇼케이스 소식을 전해드렸던(<a href="https://blog.naver.com/bomding/224367132900" target="_blank">제우스: 오만의 신 쇼케이스 임박 디렉터스 인사이트 내용 정리 MMORPG 신작</a>) 그 게임이 드디어 문을 연 거라, 오늘은 정식 오픈 초반에 챙겨두면 좋을 것들이랑 엘리멘탈리스트 육성 방향, 인게임 시스템까지 한 번에 정리해 드릴게요.</p>
+      <p>요즘 mmorpg 신작 가뭄이다 싶으셨던 분들껜 특히 반가운 타이밍이지 싶은데요, 출시일 확정 소식이나 사전예약 특전 세부 내용은 위에 링크해둔 글에 이미 정리해뒀으니 그쪽 참고하시고, 이 글에서는 안 겹치게 초반 시스템 위주로 풀어볼게요.</p>
+      <p class="ph">📷 〔사진 자리 1〕 공식 정식 출시 PV 화면 — 유튜브 @ZEUS_mmorpg 채널 영상에서 캡처 후 업로드</p>
+
+      <h3>제우스: 오만의 신, 정식 오픈 초반에 뭐부터 챙기나</h3>
+      <p>정식 오픈 초반엔 사전예약·오픈 기념 보상이랑 AI 모드, 시련의 틈 같은 편의 시스템부터 확인해두는 게 순서예요. 사전예약은 참여한 채널별로 보상이 나뉘어 있어서 하나씩 짚어볼게요.</p>
+      <ul>
+        <li><b>스토어(마켓) 사전예약</b> — 희귀 등급 탈것 확정 소환 + 강화 주문서 3종 각 10장</li>
+        <li><b>홈페이지(휴대폰번호) 사전예약</b> — <a href="https://zeus.com2us.com/" target="_blank">공식 홈페이지</a>에서 고급 등급 탈것 소환권 1개 + <b>에테리온 결정</b> 1개</li>
+        <li><b>공식 채널(유튜브·카카오톡) 구독</b> — <a href="https://www.youtube.com/@ZEUS_mmorpg" target="_blank">유튜브</a>·<a href="https://pf.kakao.com/_xdxdwTX" target="_blank">카카오톡</a> 채널 구독 시 골드 100만 + 공격·방어 영약 각 12개, 에테르 비약 40개</li>
+      </ul>
+      <p>참고로 캐릭터명 선점 이벤트도 8월 13일에 미리 진행됐다고 하더라고요. 자세한 내용은 <a href="https://www.youtube.com/@ZEUS_mmorpg" target="_blank">공식 유튜브</a> 채널의 캐릭터명 선점 이벤트 안내 영상에서 확인할 수 있어요.</p>
+      <p>편의 시스템도 초반부터 눈에 띄네요. 접속하지 않은 시간에도 설정해둔 방식대로 자동 사냥·성장을 진행해주는 <b>AI 모드</b>가 있고, 오프라인 캐릭터도 길드 레이드 같은 콘텐츠에 참여시킬 수 있는 <b>'징집'</b> 기능이 딸려 있다고 해요. 반대로 직접 조작하며 몰입하고 싶은 유저를 위한 <b>시련의 틈</b>도 따로 있어서, 자동·수동을 취향껏 오갈 수 있는 구조예요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 AI 모드 설정 화면 · 시련의 틈 입장 화면 — 인게임 직접 캡처</p>
+      <p>본격적인 클래스 이야기에 들어가기 전에, 우선 8종 클래스를 쭉 훑어볼게요.</p>
+
+      <h3>플레이 가능한 클래스는 몇 종류나 되나</h3>
+      <p>제우스: 오만의 신은 워리어·로그·메이지·파라곤 4대 클래스가 각각 두 갈래로 나뉘어 총 8종 클래스를 플레이할 수 있어요.</p>
+      <table>
+        <tr><th>기반 클래스</th><th>전직</th><th>한 줄 특징</th></tr>
+        <tr><td class="l">워리어</td><td>나이트</td><td>강철의 신념과 맹세로 아군을 지키는 수호자</td></tr>
+        <tr><td class="l">워리어</td><td>버서커</td><td>대검을 휘둘러 적의 진형을 파괴</td></tr>
+        <tr><td class="l">로그</td><td>어쌔신</td><td>쌍검과 은신으로 적을 단숨에 암살</td></tr>
+        <tr><td class="l">로그</td><td>레인저</td><td>예리한 활 끝으로 숨은 적을 꿰뚫음</td></tr>
+        <tr><td class="l">메이지</td><td>엘리멘탈리스트</td><td>지팡이에 깃든 얼음과 불의 권능으로 전장을 지배</td></tr>
+        <tr><td class="l">메이지</td><td>오라클</td><td>오브의 빛으로 아군을 치유·정화</td></tr>
+        <tr><td class="l">파라곤</td><td>블레스드</td><td>축복받은 철퇴와 방패로 적을 심판</td></tr>
+        <tr><td class="l">파라곤</td><td>아티산</td><td>금빛 행운으로 아군 능력 극대화(경제·생산 특화)</td></tr>
+      </table>
+      <p>이 중 이번 글에서 집중해서 살펴볼 클래스는 메이지 계열의 <b>엘리멘탈리스트</b>예요.</p>
+
+      <h3>엘리멘탈리스트는 어떤 클래스인가</h3>
+      <p>엘리멘탈리스트는 지팡이 하나로 얼음과 불 속성을 오가며 전장을 지배하는 메이지 계열 클래스예요. 공식 소개 문구만 보면 광역 제어랑 딜링을 동시에 노리는 타입으로 보이는데요, 얼음으로 묶고 불로 몰아치는 운용이 기대되는 클래스라 마법사 계열 좋아하시는 분들껜 눈여겨볼 만해 보여요. 같은 메이지 계열인 오라클이 회복·정화에 특화된 것과 비교하면, 엘리멘탈리스트 쪽이 공격적인 포지션에 더 가깝다고 봐도 무리는 없을 것 같습니다.</p>
+      <p class="ph">📷 〔사진 자리 3〕 엘리멘탈리스트 지팡이 스킬 이펙트(얼음/불 속성) — 인게임 직접 캡처</p>
+
+      <h3>육성은 뭐 위주로 하면 되나</h3>
+      <p>초반 육성은 강화 주문서로 장비를 다지고, AI 모드로 기본 성장을 돌리면서, 거래소·미다스의 금고로 경제적 여유를 챙기는 3박자가 기본이에요.</p>
+      <ul>
+        <li>무기·방어구·장신구 <b>강화 주문서</b>로 장비 성능 올리기</li>
+        <li><b>AI 모드</b> 자동 사냥으로 접속 안 해도 경험치·재화 누적</li>
+        <li><b>인터서버 통합 거래소</b>로 아이템 매매하고, <b>미다스의 금고</b>에 장비를 넘겨 다이아로 바꾸기</li>
+        <li>아티산의 제작 활동과 맞물려 경제 흐름 전체가 하나로 연결되는 구조</li>
+      </ul>
+      <p>엘리멘탈리스트라면 사전예약으로 받은 강화 주문서를 무기, 그러니까 지팡이 쪽에 먼저 몰아주는 쪽이 무난해 보여요. 메이지 계열은 원래 스킬 딜 비중이 크잖아요, 방어구·장신구보다 무기 강화 우선순위를 높게 잡는 게 초반 성장 체감에 유리할 것 같습니다.</p>
+      <p class="ph">📷 〔사진 자리 4〕 미다스의 금고 · 인터서버 거래소 UI — 인게임 직접 캡처</p>
+
+      <h3>경쟁 콘텐츠 오디세이아는 뭔가</h3>
+      <p>오디세이아는 개인전부터 길드 단위까지 아우르는 제우스: 오만의 신의 시즌제 경쟁 콘텐츠예요. 경쟁이라고 해서 실력 좋은 유저만 파고들 수 있는 구조는 아니고, 성향에 맞는 콘텐츠를 골라 즐길 수 있게 다양하게 갈라져 있다고 해요. 다만 전부 한꺼번에 열리는 게 아니라 순차적으로 오픈되는 방식이거든요. 일정도 같이 챙겨두면 좋아요.</p>
+      <ul>
+        <li><b>무한의 탑</b> — 층을 오르는 개인 PvE 콘텐츠(정식 오픈 시점부터 참여 가능)</li>
+        <li><b>길드 레이드</b> — 길드 단위 협동 PvE, AI 모드 '징집'으로 오프라인 캐릭터도 기여 가능(정식 오픈 시점부터 참여 가능)</li>
+        <li><b>콜로세움</b> — 페르소나(AI) 상대 1:1 대결이라 실시간 대전 부담이 적은 편(오픈 2주차부터 개방)</li>
+        <li><b>아카디아 제전</b> — 길드 단위 축제형 콘텐츠(순차 오픈 예정)</li>
+        <li><b>시련의 전당</b> — 별도의 도전형 콘텐츠(오픈 1개월차부터)</li>
+      </ul>
+      <p>오픈 첫 주엔 무한의 탑·길드 레이드부터, 2주차엔 콜로세움까지 순서대로 즐기면 되니 조급해하지 않아도 괜찮아 보여요.</p>
+      <p class="ph">📷 〔사진 자리 5〕 오디세이아 콘텐츠 목록 화면(콜로세움/아카디아 제전) — 인게임 직접 캡처</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 쿠폰은 어디서 등록하나요?</b><br>공식 쿠폰 등록 페이지(coupon.withhive.com/2352)에서 등록할 수 있어요. 코드는 시기마다 바뀔 수 있으니 최신 코드는 공식 채널에서 바로 확인하시는 걸 추천드려요.</p>
+      <p><b>Q. 엘리멘탈리스트는 무소과금으로도 할 만한가요?</b><br>장비 강화랑 AI 모드 자동 성장을 잘 챙기면 큰 무리 없이 따라갈 수 있어 보여요.</p>
+      <p><b>Q. 오디세이아는 정식 오픈 시점부터 바로 참여할 수 있나요?</b><br>콘텐츠별로 순차 오픈되는 방식이라 한 번에 다 열리진 않아요. 무한의 탑·길드 레이드는 바로, 콜로세움은 2주차, 아카디아 제전·시련의 전당은 그 이후 순차 오픈이라고 안내돼 있으니 일정 체크해가며 하나씩 즐기면 될 것 같습니다.</p>
+
+      <h3>제우스: 오만의 신 정리</h3>
+      <p>정리하면, 제우스: 오만의 신은 8종 클래스로 취향껏 골라 키울 수 있고, 그중 엘리멘탈리스트는 얼음과 불을 오가는 화려한 마법사 포지션이 매력 포인트예요. 강화·AI 모드·거래소로 이어지는 성장 구조에 오디세이아라는 다양한 경쟁 콘텐츠까지 갖췄으니, PvP든 PvE든 자기 방식대로 즐길 수 있는 mmorpg 기대작인 건 분명해 보입니다. 공식 홈페이지(<a href="https://zeus.com2us.com/" target="_blank">zeus.com2us.com</a>)·유튜브 채널(<a href="https://www.youtube.com/@ZEUS_mmorpg" target="_blank">@ZEUS_mmorpg</a>)·<a href="https://pf.kakao.com/_xdxdwTX" target="_blank">카카오톡 채널</a>을 구독해두면 이벤트·업데이트 소식을 놓치지 않을 수 있으니 함께 챙겨두시고, 엘리멘탈리스트 쪽으로 마음이 기우신다면 한 번쯤 시작해보셔도 좋을 것 같습니다.</p>
+
+      <p><b>▶ <a href="https://zeus.com2us.com/" target="_blank">공식 홈페이지 바로가기</a></b></p>
+
+      <p><b>✔ 제우스: 오만의 신 같이 보기 좋은 내용</b><br>· <a href="https://blog.naver.com/bomding/224367132900" target="_blank">제우스: 오만의 신 쇼케이스 임박 디렉터스 인사이트 내용 정리 MMORPG 신작</a></p>
+      <!-- 내부링크: 출시일 확정·사전예약 특전을 다룬 다른 두 편은 post ID 확인 후 연결 -->
+
+      <p><b>참고한 곳</b><br>· <a href="https://zeus.com2us.com/" target="_blank">제우스: 오만의 신 공식 홈페이지</a><br>· <a href="https://zeus.com2us.com/gameinfo/class" target="_blank">공식 클래스 소개 페이지</a> — 2026.08.27 기준</p>
+
+      <p class="tags-line">#제우스오만의신 #제우스 #MMORPG기대작 #엘리멘탈리스트 #오디세이아 #정식오픈 #강화 #쿠폰</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
