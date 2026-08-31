@@ -1,0 +1,406 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>육아 어플 추천 4종, 신생아 수유일기부터 어린이집 알림장까지 (베이비타임·똑닥·키즈노트·당근)</title>
+<!-- AI브리핑 타깃 질문: 신생아 때 뭐부터 깔면 좋은 육아 어플이 있을까 / 예방접종 시기 소아과 예약·대기는 어떻게 확인할까 / 어린이집 알림장은 어떤 어플로 보나 -->
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+  :root{
+    --ink:#33302c;--sub:#948d83;--line:#ece7df;
+    --green:#178a5a;--green-bg:#f1f8f4;--green-line:#cfe7d9;
+    --coral:#e0644a;--coral-bg:#fdefe9;--coral-line:#f4c6b8;
+    --blue:#1a5fb4;--blue-bg:#eef4fc;--blue-line:#d3e2f6;
+    --naver:#03c75a;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f4efe7;color:var(--ink);
+    font-family:Pretendard,"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:24px auto;background:#fffdf9;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 6px 30px rgba(60,50,35,.06);}
+  .topbar{display:flex;align-items:center;gap:8px;padding:13px 22px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);background:#fffefb;}
+  .topbar .badge{background:var(--naver);color:#fff;font-weight:700;border-radius:5px;padding:2px 8px;font-size:12px;letter-spacing:.2px;}
+  .post{padding:30px 30px 44px;}
+  .cat{color:var(--coral);font-size:13px;font-weight:800;margin-bottom:9px;letter-spacing:.3px;}
+  h1.title{font-size:24px;line-height:1.42;margin:0 0 15px;font-weight:800;letter-spacing:-.5px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:17px;margin-bottom:22px;}
+  .meta .author{font-weight:800;color:#5a544b;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+
+  /* ===== 결론 먼저 (빠른 결론 히어로) ===== */
+  .verdict{background:linear-gradient(180deg,#fffaf3 0%,#fff6ec 100%);border:1px solid #f2dcc4;border-radius:14px;padding:20px 22px 22px;margin:0 0 24px;}
+  .verdict .vh{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;color:#b5502f;margin:0 0 4px;letter-spacing:-.3px;}
+  .verdict .vsub{font-size:12.5px;color:#a98f74;margin:0 0 15px;}
+  .vrow{display:flex;align-items:baseline;gap:11px;padding:10px 0;border-top:1px dashed #eeddc7;font-size:14.6px;line-height:1.6;}
+  .vrow:first-of-type{border-top:none;}
+  .vrow .vcase{flex:0 0 auto;min-width:132px;font-weight:800;color:#4a443b;}
+  .vrow .vpick{color:#3a3f47;}
+  .vrow .vpick a{color:var(--coral);font-weight:800;text-decoration:none;border-bottom:2px solid var(--coral-line);}
+  .vrow .vpick a:hover{border-bottom-color:var(--coral);}
+
+  h2.sub{font-size:20px;font-weight:800;margin:38px 0 15px;letter-spacing:-.4px;scroll-margin-top:16px;}
+  .whofor{display:inline-block;background:var(--blue-bg);border:1px solid var(--blue-line);color:var(--blue);font-size:13px;font-weight:700;border-radius:8px;padding:7px 13px;margin:-4px 0 16px;line-height:1.55;}
+
+  .card{border:1px solid var(--line);border-radius:12px;padding:18px 19px 16px;margin:0 0 16px;background:#fff;scroll-margin-top:16px;}
+  .pname{font-size:16px;font-weight:800;margin:0 0 8px;letter-spacing:-.3px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .freetag{display:inline-block;background:var(--green-bg);border:1px solid var(--green-line);color:var(--green);border-radius:7px;padding:2px 9px;font-size:12px;font-weight:800;}
+  .idline{font-size:14.7px;line-height:1.82;margin:0 0 11px;color:#494438;}
+  .idline b{color:#146b41;}
+  .feat{margin:0 0 11px;padding:0;list-style:none;font-size:14.3px;line-height:1.6;}
+  .feat li{position:relative;padding:4px 0 4px 21px;}
+  .feat li::before{content:"✔";position:absolute;left:0;top:4px;color:var(--green);font-weight:800;}
+  .minus{font-size:13.6px;line-height:1.7;margin:0 0 13px;color:#7a6a4a;}
+  .minus b{color:#9a7d3a;font-weight:800;}
+  .storelinks{font-size:13px;margin:0 0 2px;}
+  .storelinks a{color:var(--blue);text-decoration:none;font-weight:700;border-bottom:1.5px solid var(--blue-line);}
+
+  .ss{border:2px dashed #d8cdbb;background:#faf6ef;border-radius:10px;margin:8px 0 6px;padding:32px 16px;text-align:center;color:#8a7c66;}
+  .ss .ico{font-size:28px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.3px;font-weight:700;}
+  .shoot{border:1px dashed #ddd2c0;border-top:none;background:#fdfbf6;border-radius:0 0 10px 10px;margin:-6px 0 8px;padding:9px 13px;font-size:12px;color:#8a7c66;line-height:1.65;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 22px;}
+
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 8px;font-size:13px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:9px 8px;text-align:center;vertical-align:middle;}
+  .tbl th{background:#faf6ef;font-weight:800;color:#5a544b;}
+  .tbl td.l{text-align:left;font-weight:800;}
+  .tbl td.l a{color:var(--coral);text-decoration:none;border-bottom:1.5px solid var(--coral-line);}
+  .tnote{font-size:12px;color:var(--sub);margin:0 0 22px;line-height:1.6;}
+  @media(max-width:480px){
+    .post{padding:24px 18px 40px;}
+    .vrow{flex-direction:column;gap:2px;}
+    .vrow .vcase{min-width:0;}
+    .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%;}
+    .tbl thead{display:none;}
+    .tbl tr{margin-bottom:12px;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+    .tbl td{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:right;border:none;border-bottom:1px solid var(--line);padding:9px 13px;}
+    .tbl tr td:last-child{border-bottom:none;}
+    .tbl td::before{content:attr(data-label);font-weight:800;color:var(--sub);text-align:left;white-space:nowrap;}
+    .tbl td.l{display:block;text-align:center;background:#faf6ef;font-size:15px;padding:10px;}
+    .tbl td.l::before{content:"";}
+  }
+  .tags{margin-top:26px;color:#b3a89a;font-size:13px;line-height:1.9;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:var(--naver);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:Pretendard,"맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:Pretendard,"맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:var(--naver);color:#fff;border:0;border-radius:8px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:8px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:7px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:6px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed var(--naver);border-radius:10px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:26px 0 10px;color:#111;}
+  #copy p{margin:0 0 15px;}
+  #copy ul{margin:0 0 15px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .spec{color:#333;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .minus-line{color:#7a6a4a;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 육아</div>
+  <div class="post">
+    <div class="cat">육아일상</div>
+    <h1 class="title">육아 어플 추천 4종, 신생아 수유일기부터 어린이집 알림장까지 (베이비타임·똑닥·키즈노트·당근)</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 8. 31.</span><span>· 육아</span></div>
+
+    <p>귤씨 낳고 나서 제일 많이 늘어난 게 폰 홈화면 육아 어플 폴더였어요. 신생아 때는 몇 시에 얼마나 먹었는지도 까먹기 일쑤라 급하게 아무 메모장에나 적어두다가, 결국 전용 어플을 하나둘 깔기 시작했거든요. 그러다 보니 예방접종 갈 땐 소아과 대기줄에서, 어린이집 다니기 시작하면서는 알림장 확인하느라, 카시트·유모차 정리할 땐 중고거래까지 — 시기마다 손이 가는 어플이 완전히 다르더라고요.</p>
+    <p>그래서 오늘은 저희 부부가 신생아기부터 지금까지 실제로 쓰고 있는 육아 어플 딱 <b>4종</b>만 정리해볼게요. 이것저것 다 깔아봤다가 지운 게 아니라, 지금도 폰에 남아서 계속 쓰고 있는 것들로만요.</p>
+
+    <!-- ===== 결론 먼저 ===== -->
+    <div class="verdict">
+      <div class="vh">🍼 바쁘면 이것만 보세요</div>
+      <div class="vsub">언제 뭐부터 깔면 되는지만 빠르게 정리했어요. 자세한 이야기는 아래에서 이어집니다.</div>
+      <div class="vrow"><span class="vcase">신생아~돌 전후</span><span class="vpick"><a href="#p1">베이비타임</a> — 수유텀·기저귀·수면 기록, 배우자와 실시간 공유</span></div>
+      <div class="vrow"><span class="vcase">예방접종·병원 갈 때</span><span class="vpick"><a href="#p2">똑닥</a> — 소아과 예약·실시간 대기순서 확인</span></div>
+      <div class="vrow"><span class="vcase">어린이집 다니기 시작하면</span><span class="vpick"><a href="#p3">키즈노트</a> — 알림장·출결 확인</span></div>
+      <div class="vrow"><span class="vcase">카시트·유모차 정리할 때</span><span class="vpick"><a href="#p4">당근</a> — 단기 육아용품 중고 거래</span></div>
+      <div class="vrow"><span class="vcase">순서대로 보고 싶다면</span><span class="vpick"><a href="#timeline">맨 아래 타임라인 정리</a>로 바로 가기</span></div>
+    </div>
+
+    <!-- ===== 비교표 상단 ===== -->
+    <h2 class="sub">4종 한눈에 비교</h2>
+    <table class="tbl">
+      <thead><tr><th>어플</th><th>개발사</th><th>무료·인앱결제</th><th>이럴 때 써요</th></tr></thead>
+      <tbody>
+        <tr><td class="l"><a href="#p1">베이비타임</a></td><td data-label="개발사">(주)심플러(Simfler Inc.)</td><td data-label="무료·인앱결제">무료 · 인앱구매 있음(iOS 기준)</td><td data-label="이럴 때 써요">신생아~돌 전후 수유·기저귀·수면 기록</td></tr>
+        <tr><td class="l"><a href="#p2">똑닥</a></td><td data-label="개발사">(주)비브로스</td><td data-label="무료·인앱결제">무료 · 앱 자체 정기결제(스토어 아님)</td><td data-label="이럴 때 써요">소아과 예약, 실시간 대기순서 확인</td></tr>
+        <tr><td class="l"><a href="#p3">키즈노트</a></td><td data-label="개발사">(주)키즈노트(Kids Note, Inc.)</td><td data-label="무료·인앱결제">무료 · 인앱구매 있음(iOS 기준)</td><td data-label="이럴 때 써요">어린이집·유치원 알림장·출결 확인</td></tr>
+        <tr><td class="l"><a href="#p4">당근</a></td><td data-label="개발사">(주)당근마켓(Danggeun Market Inc.)</td><td data-label="무료·인앱결제">무료 · 인앱결제 없음(iOS 기준)</td><td data-label="이럴 때 써요">카시트·유모차 등 단기 육아용품 중고 거래</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote">* 인앱결제 금액·정책은 Android/iOS가 다르게 안내될 수 있어서, 위 표는 확인된 쪽 기준으로 적었어요(2026.08.31 스토어 기준 — 이후 정책이 바뀔 수 있어요). 반대쪽 플랫폼 정확한 금액은 앱 내 상세 안내를 참고해주세요. 4종 모두 Android·iOS 스토어에 다 있어서 기종 상관없이 받을 수 있어요.</p>
+
+    <h2 class="sub">육아 어플, 시기마다 왜 이렇게 갈아타게 될까요</h2>
+    <p>육아 어플은 아이 월령과 상황에 따라 필요한 기능이 완전히 달라져서, 한 어플로 처음부터 끝까지 다 해결하기보다는 <b>시기별로 갈아타면서</b> 쓰게 되더라고요. 신생아 때는 기록형 어플이 필요하고요. 예방접종이 시작되면 병원 예약형이, 어린이집에 들어가면 기관과 연동되는 알림장형이 필요해지더라고요. 여기에 육아용품을 정리하거나 새로 구할 때 쓰는 중고거래 어플까지 더하면, 저희 부부 기준으로는 이 4종이 거의 상시 켜져 있는 어플이 됐어요.</p>
+
+    <h2 class="sub" id="p1">신생아 수유·기저귀 기록엔 뭐가 편할까요 — 베이비타임</h2>
+    <span class="whofor">👉 이런 분께: 신생아~돌 전후 수유텀·기저귀·수면을 기록하고 싶다 · 배우자와 기록을 같이 보고 싶다</span>
+    <div class="card">
+      <div class="pname">베이비타임 <span class="freetag">무료 · 인앱구매 있음</span></div>
+      <p class="idline">신생아~돌 전후엔 <b>수유텀·기저귀 교체·수면 패턴</b>을 기록하는 베이비타임이 제일 먼저 손이 가는 어플이에요. 새벽 3시에 눈 반쯤 감고 수유하면서 시간 재는 거, 처음엔 종이에 적었는데 며칠 만에 포기했거든요. 베이비타임 켜두고 수유 시작 버튼만 누르면 되니까 훨씬 편하더라고요. 기록은 배우자 계정이랑도 같이 볼 수 있어서, 남편이 밤중 수유 당번일 때 제가 아침에 확인하면 얼마나 먹었는지 바로 알 수 있어요.</p>
+      <ul class="feat">
+        <li>정식명칭 <b>베이비타임 - BabyTime (수유, 육아, 일기)</b>, 개발사는 (주)심플러(Simfler Inc.)예요.</li>
+        <li>Android·iOS 스토어에 모두 있어서 부부가 기종이 달라도 같이 쓸 수 있어요.</li>
+        <li>기본 기록 기능은 무료고, 동반보호자(배우자) 계정 확장·광고 제거 같은 부가기능은 인앱구매로 붙어요.</li>
+      </ul>
+      <p class="minus"><b>확인해두면 좋은 점</b> — 동반보호자 확장은 iOS 기준 3,300원, 광고 제거는 6,600원짜리 인앱구매가 따로 있어요. 안드로이드 가격은 정확히 재확인이 안 돼서, 앱 내 상세 안내를 참고하시는 게 정확해요.</p>
+      <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 베이비타임 앱 실행화면(수유·기저귀 기록 목록) 캡처</span></div>
+      <div class="shoot">📸 직접 촬영 권장 — 실제 기록 목록 화면. 앱 아이콘·스토어 스크린샷은 저작권 민감해서 그대로 가져오지 않고 직접 찍어서 채워주세요.</div>
+      <p class="cap">밤중 수유 끝나고 버튼 하나 누르면 기록 끝이라 손이 훨씬 편해요.</p>
+      <p class="storelinks">▶ <a href="https://play.google.com/store/apps/details?id=yducky.application.babytime&hl=ko" target="_blank">구글플레이에서 보기</a> · <a href="https://apps.apple.com/kr/app/id1052459780" target="_blank">앱스토어에서 보기</a></p>
+    </div>
+
+    <h2 class="sub" id="p2">예방접종 시기 소아과 예약·대기는 어떻게 할까요 — 똑닥</h2>
+    <span class="whofor">👉 이런 분께: 영유아 예방접종·검진 시기를 챙기고 싶다 · 병원 대기실에서 하염없이 기다리기 싫다</span>
+    <div class="card">
+      <div class="pname">똑닥 <span class="freetag">무료 · 앱 자체 정기결제</span></div>
+      <p class="idline">영유아 예방접종이나 컨디션이 안 좋을 때 병원 예약·실시간 대기 순서를 확인하려면 똑닥을 켜는 게 제일 빨라요. 귤씨 예방접종 맞히러 갈 때마다 대기실에서 하염없이 기다리는 게 제일 힘들었는데, 똑닥으로 예약하고 가면 지금 몇 번째인지 실시간으로 뜨니까 그 시간에 잠깐 나가서 볼일 보고 올 수 있더라고요.</p>
+      <ul class="feat">
+        <li>정식명칭 <b>똑닥 - 병원 예약/접수, 실시간 대기순서</b>, 개발사는 (주)비브로스예요.</li>
+        <li>Android·iOS 스토어에 모두 있어요.</li>
+        <li>예방접종 시기를 놓치기 쉬운데, 접종 알림도 같이 챙겨줘서 도움이 많이 됐어요.</li>
+      </ul>
+      <p class="minus"><b>이건 참고하세요</b> — 기본은 무료고, 유료 멤버십은 스토어 인앱결제가 아니라 앱 자체 정기결제예요(해지는 앱 내 '마이페이지 > 멤버십 관리'에서만 가능, 월 1,100원·연 11,000원 등 부가세 포함). 특정 병원의 실제 대기시간은 그날그날·병원마다 다르니 이 글에서 단정하지 않고 참고만 해주세요.</p>
+      <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 똑닥 병원 예약·실시간 대기순서 화면 캡처</span></div>
+      <div class="shoot">📸 직접 촬영 권장 — 실제 예약·대기 화면. 앱 스크린샷 저작권 민감하니 직접 찍은 화면으로 채워주세요.</div>
+      <p class="cap">지금 몇 번째인지 실시간으로 뜨니까 대기실에 붙어있지 않아도 되더라고요.</p>
+      <p class="storelinks">▶ <a href="https://play.google.com/store/apps/details?id=com.bbros.sayup&hl=ko" target="_blank">구글플레이에서 보기</a> · <a href="https://apps.apple.com/kr/app/id1014889755" target="_blank">앱스토어에서 보기</a></p>
+    </div>
+
+    <h2 class="sub" id="p3">어린이집 알림장·출결은 어떤 어플로 확인하나요 — 키즈노트</h2>
+    <span class="whofor">👉 이런 분께: 어린이집·유치원 다니기 시작했다 · 원 생활이 궁금해서 불안하다</span>
+    <div class="card">
+      <div class="pname">키즈노트 <span class="freetag">무료 · 인앱구매 있음</span></div>
+      <p class="idline">어린이집·유치원에 다니기 시작하면 원에서 보내주는 알림장·출결 확인은 키즈노트 하나로 정리돼요. 어린이집 처음 보낼 때 제일 불안했던 게 '오늘 하루 잘 지냈나'였는데, 키즈노트로 낮잠 시간·간식 먹은 거·활동 사진까지 올라오니까 마음이 한결 놓이더라고요. 등하원 체크도 알림으로 오니까 깜빡하고 안 보내는 일도 줄었고요.</p>
+      <ul class="feat">
+        <li>정식명칭 <b>키즈노트</b>, 개발사는 (주)키즈노트(Kids Note, Inc.)예요.</li>
+        <li>Android·iOS 스토어에 모두 있어요.</li>
+        <li>원에서 실제로 키즈노트를 쓰고 있어야 우리 아이 알림장이 열리는 구조예요.</li>
+      </ul>
+      <p class="minus"><b>미리 알아두면 좋은 부분</b> — 기본은 무료지만 인앱구매가 있어요(iOS 기준, 안드로이드는 앱 내 확인). 원에서 계정을 초대해줘야 알림장 기능이 열리니, 등록 전엔 미리 깔아둘 필요는 없어요.</p>
+      <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 키즈노트 알림장·출결 화면 캡처</span></div>
+      <div class="shoot">📸 직접 촬영 권장 — 실제 알림장 화면. 원 정보가 보이는 화면이라 개인정보 가리고 찍어주세요.</div>
+      <p class="cap">낮잠·간식·활동 사진까지 올라오니까 원 생활이 눈에 보이는 느낌이었어요.</p>
+      <p class="storelinks">▶ <a href="https://play.google.com/store/apps/details?id=com.vaultmicro.kidsnote&hl=ko" target="_blank">구글플레이에서 보기</a> · <a href="https://apps.apple.com/kr/app/id527574743" target="_blank">앱스토어에서 보기</a></p>
+    </div>
+
+    <h2 class="sub" id="p4">카시트·유모차 같은 단기 육아용품은 어디서 구하나요 — 당근</h2>
+    <span class="whofor">👉 이런 분께: 카시트·유모차·범퍼침대처럼 잠깐 쓰고 마는 용품을 부담 없이 마련하고 싶다</span>
+    <div class="card">
+      <div class="pname">당근 <span class="freetag">무료 · 인앱결제 없음</span></div>
+      <p class="idline">카시트·유모차·범퍼침대처럼 잠깐 쓰고 마는 육아용품은 당근에서 중고로 구하는 게 부담이 훨씬 적어요. 귤씨 클 때마다 카시트도 바꿔줘야 하고 유모차도 사이즈가 안 맞아지고… 매번 새 걸로 사기엔 금방 못 쓰게 되는 것들이 많더라고요. 동네 기반 직거래라 실물을 직접 보고 상태를 확인한 뒤 결정할 수 있는 게 저는 제일 마음에 들었어요.</p>
+      <ul class="feat">
+        <li>정식명칭 <b>당근</b>, 개발사는 (주)당근마켓(Danggeun Market Inc.)이에요.</li>
+        <li>Android·iOS 스토어에 모두 있어요.</li>
+        <li>인앱결제 없이(iOS 기준) 동네 기반 직거래로 운영돼요.</li>
+      </ul>
+      <p class="minus"><b>이 부분도 참고해주세요</b> — 인앱결제는 없어요(iOS 기준, 안드로이드도 앱 내 확인 권장). 다만 중고거래 특성상 직접 만나서 상태를 확인하고 거래하는 게 안전해요.</p>
+      <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 당근 육아용품 검색 화면 캡처</span></div>
+      <div class="shoot">📸 직접 촬영 권장 — 실제 검색·거래 화면.</div>
+      <p class="cap">동네에서 직접 보고 상태 확인한 뒤 결정할 수 있어서 마음이 편했어요.</p>
+      <p class="storelinks">▶ <a href="https://play.google.com/store/apps/details?id=com.towneers.www&hl=ko" target="_blank">구글플레이에서 보기</a> · <a href="https://apps.apple.com/kr/app/id1018769995" target="_blank">앱스토어에서 보기</a></p>
+    </div>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 네 어플을 실제로 깔아둔 홈화면 스크린샷 자리</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 본인 폰 홈화면에 4개 어플이 나란히 깔린 모습(개인정보 가리고 찍기).</div>
+    <p class="cap">저희 부부 폰엔 지금 이 넷이 홈화면 한 줄에 나란히 있어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 육아 어플은 언제부터 깔아두면 좋을까요?</b><br>
+    베이비타임은 출산 전 임신 후기에 미리 깔아두면 신생아를 맞이하자마자 바로 기록을 시작할 수 있어서 편해요. 똑닥은 예방접종이 본격적으로 시작되는 생후 한두 달 즈음 깔아도 늦지 않고요.</p>
+    <p><b>Q. 이 어플들 다 유료인가요?</b><br>
+    네 개 다 기본 기능은 무료예요. 베이비타임·키즈노트는 부가기능에 스토어 인앱구매가 있고, 똑닥은 스토어 인앱결제가 아니라 앱 자체 정기결제(월 1,100원·연 11,000원 등)가 있어요. 당근은 인앱결제가 아예 없고요. 다만 베이비타임·키즈노트는 확인된 iOS 또는 Android 한쪽 기준이라, 반대쪽 가격은 앱 안에서 직접 확인하시는 게 정확해요.</p>
+    <p><b>Q. 어린이집 다니기 전에도 키즈노트가 필요한가요?</b><br>
+    아니요, 키즈노트는 어린이집·유치원에서 원 계정으로 초대해줘야 알림장 기능이 열리는 구조라, 등록 전에는 미리 깔아둘 필요는 없어요.</p>
+
+    <h2 class="sub" id="timeline">그래서 저희 집은 이 순서로 깔았어요</h2>
+    <p>정리하면 <b>임신 후기~신생아기엔 베이비타임을 먼저</b> 깔아서 수유·기저귀 기록을 시작하고, 예방접종이 다가오면 <b>똑닥</b>을 추가했어요. <b>어린이집을 다니기 시작하면서 키즈노트</b>가 필요해졌고, <b>당근</b>은 카시트·유모차처럼 필요할 때마다 상시 켜두고 쓰는 느낌이에요. 다만 스토어 정책이나 인앱결제 구성은 이후 바뀔 수 있으니(이 글은 2026년 8월 31일 스토어 기준으로 확인했어요) 실제 설치 전엔 스토어에서 한 번 더 최신 정보를 확인해보시는 걸 추천드려요.</p>
+
+    <p><b>✔ 육아 어플 말고도 이런 글도 있어요</b><br>
+    · <a href="https://blog.naver.com/bomding/224344543839" target="_blank">아기 체온계 추천 — 비접촉 vs 고막식 정확도·오차범위 5종 비교</a><br>
+    · 아기 유산균 비교 (같은 육아일상 카테고리에서 더 자세히 다뤘어요 — 발행 시 링크 연결)<br>
+    · 아기 이유식 보관용기 4종 비교 (발행 시 링크 연결)<br>
+    · 아기 자기주도컵 4종 비교 (발행 시 링크 연결)<br>
+    · 아기 홈캠·베이비모니터 4종 비교 (발행 시 링크 연결)</p>
+    <!-- 내부링크: 아기 유산균 비교 / 아기 이유식 보관용기 4종 / 아기 자기주도컵 4종 / 아기 홈캠·베이비모니터 4종 — 각 글 네이버 post ID 확인 후 연결 -->
+
+    <p><b>참고한 곳</b> (2026.08.31 기준)<br>
+    · <a href="https://play.google.com/store/apps/details?id=yducky.application.babytime&hl=ko" target="_blank">베이비타임 - 구글플레이</a> · <a href="https://apps.apple.com/kr/app/id1052459780" target="_blank">베이비타임 - 앱스토어</a><br>
+    · <a href="https://play.google.com/store/apps/details?id=com.bbros.sayup&hl=ko" target="_blank">똑닥 - 구글플레이</a> · <a href="https://apps.apple.com/kr/app/id1014889755" target="_blank">똑닥 - 앱스토어</a><br>
+    · <a href="https://play.google.com/store/apps/details?id=com.vaultmicro.kidsnote&hl=ko" target="_blank">키즈노트 - 구글플레이</a> · <a href="https://apps.apple.com/kr/app/id527574743" target="_blank">키즈노트 - 앱스토어</a><br>
+    · <a href="https://play.google.com/store/apps/details?id=com.towneers.www&hl=ko" target="_blank">당근 - 구글플레이</a> · <a href="https://apps.apple.com/kr/app/id1018769995" target="_blank">당근 - 앱스토어</a></p>
+
+    <div class="tags">#육아어플추천 #신생아어플 #베이비타임 #똑닥 #키즈노트 #당근 #초보부모어플 #육아꿀템</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 이 글은 사진이 전부 직접 촬영 자리라, 📷 <b>사진 5곳은 스마트폰으로 직접 찍어서 네이버에 업로드</b>해주세요.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 10분):</b> 📷 <b>사진 5곳</b> 직접 촬영 업로드. 나머지 본문·볼드·리스트·표·링크는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 육아 어플 추천 4종, 신생아 수유일기부터 어린이집 알림장까지 (베이비타임·똑닥·키즈노트·당근)</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>귤씨 낳고 나서 제일 많이 늘어난 게 폰 홈화면 육아 어플 폴더였어요. 신생아 때는 몇 시에 얼마나 먹었는지도 까먹기 일쑤라 급하게 아무 메모장에나 적어두다가, 결국 전용 어플을 하나둘 깔기 시작했거든요. 그러다 보니 예방접종 갈 땐 소아과 대기줄에서, 어린이집 다니기 시작하면서는 알림장 확인하느라, 카시트·유모차 정리할 땐 중고거래까지 — 시기마다 손이 가는 어플이 완전히 다르더라고요.</p>
+      <p>그래서 오늘은 저희 부부가 신생아기부터 지금까지 실제로 쓰고 있는 육아 어플 딱 <b>4종</b>만 정리해볼게요. 이것저것 다 깔아봤다가 지운 게 아니라, 지금도 폰에 남아서 계속 쓰고 있는 것들로만요.</p>
+
+      <h3>🍼 바쁘면 이것만 보세요</h3>
+      <ul>
+        <li><b>신생아~돌 전후</b> → 베이비타임 — 수유텀·기저귀·수면 기록, 배우자와 실시간 공유</li>
+        <li><b>예방접종·병원 갈 때</b> → 똑닥 — 소아과 예약·실시간 대기순서 확인</li>
+        <li><b>어린이집 다니기 시작하면</b> → 키즈노트 — 알림장·출결 확인</li>
+        <li><b>카시트·유모차 정리할 때</b> → 당근 — 단기 육아용품 중고 거래</li>
+      </ul>
+
+      <h3>4종 한눈에 비교</h3>
+      <table>
+        <tr><th>어플</th><th>개발사</th><th>무료·인앱결제</th><th>이럴 때 써요</th></tr>
+        <tr><td class="l">베이비타임</td><td>(주)심플러(Simfler Inc.)</td><td>무료 · 인앱구매 있음(iOS 기준)</td><td>신생아~돌 전후 수유·기저귀·수면 기록</td></tr>
+        <tr><td class="l">똑닥</td><td>(주)비브로스</td><td>무료 · 앱 자체 정기결제(스토어 아님)</td><td>소아과 예약, 실시간 대기순서 확인</td></tr>
+        <tr><td class="l">키즈노트</td><td>(주)키즈노트(Kids Note, Inc.)</td><td>무료 · 인앱구매 있음(iOS 기준)</td><td>어린이집·유치원 알림장·출결 확인</td></tr>
+        <tr><td class="l">당근</td><td>(주)당근마켓(Danggeun Market Inc.)</td><td>무료 · 인앱결제 없음(iOS 기준)</td><td>카시트·유모차 등 단기 육아용품 중고 거래</td></tr>
+      </table>
+      <p class="tnote-line">* 인앱결제 금액·정책은 Android/iOS가 다르게 안내될 수 있어서, 위 표는 확인된 쪽 기준으로 적었어요(2026.08.31 스토어 기준 — 이후 정책이 바뀔 수 있어요). 반대쪽 플랫폼 정확한 금액은 앱 내 상세 안내를 참고해주세요.</p>
+
+      <h3>육아 어플, 시기마다 왜 이렇게 갈아타게 될까요</h3>
+      <p>육아 어플은 아이 월령과 상황에 따라 필요한 기능이 완전히 달라져서, 한 어플로 처음부터 끝까지 다 해결하기보다는 시기별로 갈아타면서 쓰게 되더라고요. 신생아 때는 기록형 어플이 필요하고요. 예방접종이 시작되면 병원 예약형이, 어린이집에 들어가면 기관과 연동되는 알림장형이 필요해지더라고요. 여기에 육아용품을 정리하거나 새로 구할 때 쓰는 중고거래 어플까지 더하면, 저희 부부 기준으로는 이 4종이 거의 상시 켜져 있는 어플이 됐어요.</p>
+
+      <h3>신생아 수유·기저귀 기록엔 뭐가 편할까요 — 베이비타임</h3>
+      <p class="spec">👉 이런 분께: 신생아~돌 전후 수유텀·기저귀·수면을 기록하고 싶다 · 배우자와 기록을 같이 보고 싶다</p>
+      <p><b>베이비타임</b> — 무료 · 인앱구매 있음</p>
+      <p>신생아~돌 전후엔 수유텀·기저귀 교체·수면 패턴을 기록하는 베이비타임이 제일 먼저 손이 가는 어플이에요. 새벽 3시에 눈 반쯤 감고 수유하면서 시간 재는 거, 처음엔 종이에 적었는데 며칠 만에 포기했거든요. 베이비타임 켜두고 수유 시작 버튼만 누르면 되니까 훨씬 편하더라고요. 기록은 배우자 계정이랑도 같이 볼 수 있어서, 남편이 밤중 수유 당번일 때 제가 아침에 확인하면 얼마나 먹었는지 바로 알 수 있어요.</p>
+      <ul>
+        <li>정식명칭 <b>베이비타임 - BabyTime (수유, 육아, 일기)</b>, 개발사는 (주)심플러(Simfler Inc.)예요.</li>
+        <li>Android·iOS 스토어에 모두 있어서 부부가 기종이 달라도 같이 쓸 수 있어요.</li>
+        <li>기본 기록 기능은 무료고, 동반보호자(배우자) 계정 확장·광고 제거 같은 부가기능은 인앱구매로 붙어요.</li>
+      </ul>
+      <p class="minus-line">확인해두면 좋은 점 — 동반보호자 확장은 iOS 기준 3,300원, 광고 제거는 6,600원짜리 인앱구매가 따로 있어요. 안드로이드 가격은 정확히 재확인이 안 돼서, 앱 내 상세 안내를 참고하시는 게 정확해요.</p>
+      <p>📷 〔사진 자리 1〕 베이비타임 앱 실행화면(수유·기저귀 기록 목록) 직접 촬영 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "밤중 수유 끝나고 버튼 하나 누르면 기록 끝이라 손이 훨씬 편해요."</p>
+      <p><span class="ph">▶ 구글플레이·앱스토어 링크는 위 미리보기 storelinks 참고해 본문에 직접 걸어주세요.</span></p>
+
+      <h3>예방접종 시기 소아과 예약·대기는 어떻게 할까요 — 똑닥</h3>
+      <p class="spec">👉 이런 분께: 영유아 예방접종·검진 시기를 챙기고 싶다 · 병원 대기실에서 하염없이 기다리기 싫다</p>
+      <p><b>똑닥</b> — 무료 · 앱 자체 정기결제</p>
+      <p>영유아 예방접종이나 컨디션이 안 좋을 때 병원 예약·실시간 대기 순서를 확인하려면 똑닥을 켜는 게 제일 빨라요. 귤씨 예방접종 맞히러 갈 때마다 대기실에서 하염없이 기다리는 게 제일 힘들었는데, 똑닥으로 예약하고 가면 지금 몇 번째인지 실시간으로 뜨니까 그 시간에 잠깐 나가서 볼일 보고 올 수 있더라고요.</p>
+      <ul>
+        <li>정식명칭 <b>똑닥 - 병원 예약/접수, 실시간 대기순서</b>, 개발사는 (주)비브로스예요.</li>
+        <li>Android·iOS 스토어에 모두 있어요.</li>
+        <li>예방접종 시기를 놓치기 쉬운데, 접종 알림도 같이 챙겨줘서 도움이 많이 됐어요.</li>
+      </ul>
+      <p class="minus-line">이건 참고하세요 — 기본은 무료고, 유료 멤버십은 스토어 인앱결제가 아니라 앱 자체 정기결제예요(해지는 앱 내 '마이페이지 > 멤버십 관리'에서만 가능, 월 1,100원·연 11,000원 등 부가세 포함). 특정 병원의 실제 대기시간은 그날그날·병원마다 다르니 이 글에서 단정하지 않고 참고만 해주세요.</p>
+      <p>📷 〔사진 자리 2〕 똑닥 병원 예약·실시간 대기순서 화면 직접 촬영 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "지금 몇 번째인지 실시간으로 뜨니까 대기실에 붙어있지 않아도 되더라고요."</p>
+
+      <h3>어린이집 알림장·출결은 어떤 어플로 확인하나요 — 키즈노트</h3>
+      <p class="spec">👉 이런 분께: 어린이집·유치원 다니기 시작했다 · 원 생활이 궁금해서 불안하다</p>
+      <p><b>키즈노트</b> — 무료 · 인앱구매 있음</p>
+      <p>어린이집·유치원에 다니기 시작하면 원에서 보내주는 알림장·출결 확인은 키즈노트 하나로 정리돼요. 어린이집 처음 보낼 때 제일 불안했던 게 '오늘 하루 잘 지냈나'였는데, 키즈노트로 낮잠 시간·간식 먹은 거·활동 사진까지 올라오니까 마음이 한결 놓이더라고요. 등하원 체크도 알림으로 오니까 깜빡하고 안 보내는 일도 줄었고요.</p>
+      <ul>
+        <li>정식명칭 <b>키즈노트</b>, 개발사는 (주)키즈노트(Kids Note, Inc.)예요.</li>
+        <li>Android·iOS 스토어에 모두 있어요.</li>
+        <li>원에서 실제로 키즈노트를 쓰고 있어야 우리 아이 알림장이 열리는 구조예요.</li>
+      </ul>
+      <p class="minus-line">미리 알아두면 좋은 부분 — 기본은 무료지만 인앱구매가 있어요(iOS 기준, 안드로이드는 앱 내 확인). 원에서 계정을 초대해줘야 알림장 기능이 열리니, 등록 전엔 미리 깔아둘 필요는 없어요.</p>
+      <p>📷 〔사진 자리 3〕 키즈노트 알림장·출결 화면 직접 촬영(개인정보 가리고) — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "낮잠·간식·활동 사진까지 올라오니까 원 생활이 눈에 보이는 느낌이었어요."</p>
+
+      <h3>카시트·유모차 같은 단기 육아용품은 어디서 구하나요 — 당근</h3>
+      <p class="spec">👉 이런 분께: 카시트·유모차·범퍼침대처럼 잠깐 쓰고 마는 용품을 부담 없이 마련하고 싶다</p>
+      <p><b>당근</b> — 무료 · 인앱결제 없음</p>
+      <p>카시트·유모차·범퍼침대처럼 잠깐 쓰고 마는 육아용품은 당근에서 중고로 구하는 게 부담이 훨씬 적어요. 귤씨 클 때마다 카시트도 바꿔줘야 하고 유모차도 사이즈가 안 맞아지고… 매번 새 걸로 사기엔 금방 못 쓰게 되는 것들이 많더라고요. 동네 기반 직거래라 실물을 직접 보고 상태를 확인한 뒤 결정할 수 있는 게 저는 제일 마음에 들었어요.</p>
+      <ul>
+        <li>정식명칭 <b>당근</b>, 개발사는 (주)당근마켓(Danggeun Market Inc.)이에요.</li>
+        <li>Android·iOS 스토어에 모두 있어요.</li>
+        <li>인앱결제 없이(iOS 기준) 동네 기반 직거래로 운영돼요.</li>
+      </ul>
+      <p class="minus-line">이 부분도 참고해주세요 — 인앱결제는 없어요(iOS 기준, 안드로이드도 앱 내 확인 권장). 다만 중고거래 특성상 직접 만나서 상태를 확인하고 거래하는 게 안전해요.</p>
+      <p>📷 〔사진 자리 4〕 당근 육아용품 검색 화면 직접 촬영 — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "동네에서 직접 보고 상태 확인한 뒤 결정할 수 있어서 마음이 편했어요."</p>
+
+      <p>📷 〔사진 자리 5〕 네 어플을 실제로 깔아둔 홈화면 스크린샷(개인정보 가리고) — 네이버에서 직접 업로드<br>
+      └ 캡션 추천: "저희 부부 폰엔 지금 이 넷이 홈화면 한 줄에 나란히 있어요."</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 육아 어플은 언제부터 깔아두면 좋을까요?</b><br>
+      베이비타임은 출산 전 임신 후기에 미리 깔아두면 신생아를 맞이하자마자 바로 기록을 시작할 수 있어서 편해요. 똑닥은 예방접종이 본격적으로 시작되는 생후 한두 달 즈음 깔아도 늦지 않고요.</p>
+      <p><b>Q. 이 어플들 다 유료인가요?</b><br>
+      네 개 다 기본 기능은 무료예요. 베이비타임·키즈노트는 부가기능에 스토어 인앱구매가 있고, 똑닥은 스토어 인앱결제가 아니라 앱 자체 정기결제(월 1,100원·연 11,000원 등)가 있어요. 당근은 인앱결제가 아예 없고요. 다만 베이비타임·키즈노트는 확인된 iOS 또는 Android 한쪽 기준이라, 반대쪽 가격은 앱 안에서 직접 확인하시는 게 정확해요.</p>
+      <p><b>Q. 어린이집 다니기 전에도 키즈노트가 필요한가요?</b><br>
+      아니요, 키즈노트는 어린이집·유치원에서 원 계정으로 초대해줘야 알림장 기능이 열리는 구조라, 등록 전에는 미리 깔아둘 필요는 없어요.</p>
+
+      <h3>그래서 저희 집은 이 순서로 깔았어요</h3>
+      <p>정리하면 임신 후기~신생아기엔 베이비타임을 먼저 깔아서 수유·기저귀 기록을 시작하고, 예방접종이 다가오면 똑닥을 추가했어요. 어린이집을 다니기 시작하면서 키즈노트가 필요해졌고, 당근은 카시트·유모차처럼 필요할 때마다 상시 켜두고 쓰는 느낌이에요. 다만 스토어 정책이나 인앱결제 구성은 이후 바뀔 수 있으니(이 글은 2026년 8월 31일 스토어 기준으로 확인했어요) 실제 설치 전엔 스토어에서 한 번 더 최신 정보를 확인해보시는 걸 추천드려요.</p>
+
+      <p><b>✔ 육아 어플 말고도 이런 글도 있어요</b><br>
+      · <a href="https://blog.naver.com/bomding/224344543839" target="_blank">아기 체온계 추천 — 비접촉 vs 고막식 정확도·오차범위 5종 비교</a><br>
+      · 아기 유산균 비교 (같은 육아일상 카테고리에서 더 자세히 다뤘어요)<br>
+      · 아기 이유식 보관용기 4종 비교<br>
+      · 아기 자기주도컵 4종 비교<br>
+      · 아기 홈캠·베이비모니터 4종 비교</p>
+
+      <p><b>참고한 곳</b> (2026.08.31 기준)<br>
+      · <a href="https://play.google.com/store/apps/details?id=yducky.application.babytime&hl=ko" target="_blank">베이비타임 - 구글플레이</a> · <a href="https://apps.apple.com/kr/app/id1052459780" target="_blank">베이비타임 - 앱스토어</a><br>
+      · <a href="https://play.google.com/store/apps/details?id=com.bbros.sayup&hl=ko" target="_blank">똑닥 - 구글플레이</a> · <a href="https://apps.apple.com/kr/app/id1014889755" target="_blank">똑닥 - 앱스토어</a><br>
+      · <a href="https://play.google.com/store/apps/details?id=com.vaultmicro.kidsnote&hl=ko" target="_blank">키즈노트 - 구글플레이</a> · <a href="https://apps.apple.com/kr/app/id527574743" target="_blank">키즈노트 - 앱스토어</a><br>
+      · <a href="https://play.google.com/store/apps/details?id=com.towneers.www&hl=ko" target="_blank">당근 - 구글플레이</a> · <a href="https://apps.apple.com/kr/app/id1018769995" target="_blank">당근 - 앱스토어</a></p>
+
+      <p class="tags-line">#육아어플추천 #신생아어플 #베이비타임 #똑닥 #키즈노트 #당근 #초보부모어플 #육아꿀템</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
