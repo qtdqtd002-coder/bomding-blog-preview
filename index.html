@@ -772,8 +772,8 @@ svg{display:block;}
 .uch-t i{font-style:normal;font-family:var(--mono);font-weight:700;color:var(--ink-3);font-feature-settings:"tnum";}
 .ucols{display:flex;gap:7px;align-items:flex-end;height:64px;}
 .ucol{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;}
-.ustack{display:flex;flex-direction:column-reverse;gap:2px;width:100%;}
-.ustack i{min-height:3px;border-radius:2px;opacity:.92;transition:opacity .15s var(--ease);}
+.ustack{display:flex;flex-direction:column-reverse;gap:1px;width:100%;}
+.ustack i{min-height:2px;border-radius:2px;opacity:.92;transition:opacity .15s var(--ease);}
 .ucol:hover .ustack i,.ucol.on .ustack i{opacity:1;}
 .ucol .zero{height:3px;border-radius:2px;background:var(--line-2);}
 .uaxis{display:flex;gap:7px;margin-top:8px;}
@@ -2222,6 +2222,89 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    }catch(e){ toast("취소 실패: "+((e&&e.message)||e),"err"); }
  }
  window.__cancelQueued=cancelQueued;
+
+ /* ---------- 큐 상단 사용량 대시보드 (발주 실측 + 토큰 추정) ----------
+    왜 여기인가: 트렌드 데스크에서 오늘 발주를 정하기 전에 «어제까지 누가 얼마나 썼나»를 봐야 하는데,
+    그 판단이 필요한 화면이 큐다(발주가 실제로 쌓이는 곳).
+    발주 = /requests 의 createdAt — 실측. 취소·실패분도 '발주는 발주'라 상태로 거르지 않는다.
+    토큰 = _trend/_usage.json — 데스크 회차가 `_tools/usage-daily.cjs` 로 굽는다(작성자 귀속은 추정).
+    ★파일이 없으면 «없다»고 적고 발주 축만 그린다 — 0으로 위장하지 않는다(KPI 카드 규칙). */
+ const USAGE_DAYS=7;
+ let USAGE=null, USAGE_P=null;
+ function usageFetch(force){
+   if(force) USAGE_P=null;
+   if(!USAGE_P) USAGE_P=fetch("_trend/_usage.json?ts="+Date.now())
+     .then(r=>r.ok?r.json():null)
+     .then(j=>{ USAGE=(j&&Array.isArray(j.days))?j:null; return USAGE; })
+     .catch(()=>{ USAGE=null; return null; });
+   return USAGE_P;
+ }
+ const uYmd=d=>{ const p=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; };
+ /* 정체 없는 두 칸은 작성자 색을 쓰지 않는다. 단, 서로도 구분돼야 해서 명도를 갈라 둔다
+    (기타/공용=진한 중립, 자동배정=옅은 중립). 라이트·다크 모두 토큰이라 자동 반전. */
+ const uAc=n=>n==="기타/공용"?"var(--ink-3)":n==="자동배정"?"var(--line-strong)"
+   :(ACCENT[n]||(KNOWN[n]&&KNOWN[n].ac)||FALLBACK_AC);
+ const uTok=t=>t>=1e6?Math.round(t/1e6).toLocaleString()+"M":t>=1e3?Math.round(t/1e3)+"K":String(Math.round(t));
+ /* 세로 막대 한 칸 — 높이=그날 총량÷최대, 내부는 작성자 몫만큼 flex 로 나눈다(비율 왜곡 없음).
+    ★조각 최소높이(2px)+간격(1px) 합보다 칸이 낮으면 위쪽 조각이 잘려 «색이 사라진다» — 바닥 높이를 강제한다.
+    UCOL_H(=.ucols 높이 64px)와 이 상수는 CSS 와 짝이다. 한쪽만 바꾸면 다시 잘린다. */
+ const UCOL_H=64, USEG_MIN=2, USEG_GAP=1;
+ function uCol(day,map,total,max,today,tip){
+   const ks=Object.keys(map).filter(k=>map[k]>0).sort((a,b)=>map[b]-map[a]);
+   const floor=ks.length?Math.ceil((ks.length*USEG_MIN+(ks.length-1)*USEG_GAP)/UCOL_H*100):0;
+   const h=max>0?Math.max(floor,Math.round(total/max*100)):0;
+   const segs=ks.map(w=>`<i style="flex:${Math.max(1,Math.round(map[w]/(total||1)*1000))} 1 0;background:${uAc(w)}" title="${esc(tip(day,w,map[w],total))}"></i>`).join("");
+   return `<div class="ucol${day===today?" on":""}">`+
+     (h>0&&segs?`<div class="ustack" style="height:${h}%">${segs}</div>`:`<i class="zero"></i>`)+`</div>`;
+ }
+ function usageBlock(all){
+   const t0=new Date(); t0.setHours(0,0,0,0);
+   const days=[]; for(let i=USAGE_DAYS-1;i>=0;i--) days.push(uYmd(new Date(t0.getTime()-i*86400000)));
+   const today=days[days.length-1];
+   const label=d=>{ const a=d.split("-"); return (+a[1])+"/"+(+a[2]); };
+   /* 발주(실측) */
+   const ord={}; days.forEach(d=>ord[d]={});
+   const ordTot={};
+   (all||[]).forEach(r=>{ const d=uYmd(new Date(r.createdAt||0)); if(!ord[d])return;
+     const w=r.writer||"자동배정"; ord[d][w]=(ord[d][w]||0)+1; ordTot[w]=(ordTot[w]||0)+1; });
+   const ordSum={}; days.forEach(d=>ordSum[d]=Object.values(ord[d]).reduce((s,v)=>s+v,0));
+   const ordMax=Math.max(1,...days.map(d=>ordSum[d]));
+   const ordAll=days.reduce((s,d)=>s+ordSum[d],0);
+   /* 토큰(추정) — 데이터가 있는 날만 그린다 */
+   const tk={}, tkTot={}; let tkAll=0, tkDays=0;
+   if(USAGE) USAGE.days.forEach(x=>{ if(days.indexOf(x.d)<0)return;
+     tk[x.d]=x; tkDays++; tkAll+=x.tok||0;
+     Object.entries(x.by||{}).forEach(([w,v])=>tkTot[w]=(tkTot[w]||0)+v); });
+   const tkMax=Math.max(1,...days.map(d=>(tk[d]&&tk[d].tok)||0));
+   /* 범례 = 두 축 합집합. 정체 없는 칸(기타/공용·자동배정)은 항상 아래로. */
+   const isDim=w=>w==="기타/공용"||w==="자동배정";
+   const names=[...new Set([...Object.keys(tkTot),...Object.keys(ordTot)])]
+     .sort((a,b)=>(isDim(a)-isDim(b))||((tkTot[b]||0)-(tkTot[a]||0))||((ordTot[b]||0)-(ordTot[a]||0))||a.localeCompare(b,"ko"));
+   const leg=names.map(w=>{
+     const pct=tkAll>0&&tkTot[w]!=null?Math.round(tkTot[w]/tkAll*100)+"%":"—";
+     return `<div class="uleg-r"><span class="dot" style="background:${uAc(w)}"></span>`+
+       `<span class="nm">${esc(w)}</span>`+
+       `<span class="vv">${ordTot[w]||0}건 <em>·</em> ${pct}</span></div>`;
+   }).join("");
+   const ordTip=(d,w,v)=>`${label(d)} ${w} ${v}건`;
+   const tkTip=(d,w,v,t)=>`${label(d)} ${w} ${uTok(v)} (${t>0?Math.round(v/t*100):0}%)`;
+   const axis=days.map(d=>`<span class="${d===today?"on":""}">${label(d)}</span>`).join("");
+   const ordChart=`<div class="uch"><h4 class="uch-t">발주 <i>${ordAll}건</i></h4>`+
+     `<div class="ucols">${days.map(d=>uCol(d,ord[d],ordSum[d],ordMax,today,ordTip)).join("")}</div>`+
+     `<div class="uaxis">${axis}</div></div>`;
+   const tkChart=tkDays
+     ? `<div class="uch"><h4 class="uch-t">토큰 <i>${uTok(tkAll)}</i></h4>`+
+       `<div class="ucols">${days.map(d=>uCol(d,(tk[d]&&tk[d].by)||{},(tk[d]&&tk[d].tok)||0,tkMax,today,tkTip)).join("")}</div>`+
+       `<div class="uaxis">${axis}</div></div>`
+     : `<div class="uch"><h4 class="uch-t">토큰 <i>—</i></h4>`+
+       `<div class="uempty">아직 사용량 스냅샷이 없어요.<br>트렌드 데스크 회차가 돌면 채워져요.</div></div>`;
+   const upd=USAGE&&USAGE.updated?` · 갱신 ${qTime(Date.parse(USAGE.updated))}`:"";
+   return `<section class="upan"><div class="upan-h"><b>작성자 사용량</b>`+
+     `<span class="u-sub">최근 ${USAGE_DAYS}일 · 발주 건수와 토큰 비중${esc(upd)}</span>`+
+     `<span class="u-est">토큰=추정</span></div>`+
+     `<div class="upan-b">${ordChart}${tkChart}<div class="uleg">${leg||`<div class="uleg-r"><span class="nm">기록 없음</span></div>`}</div></div></section>`;
+ }
+
  function renderQueue(){
    titleEl.textContent="작업 큐"; subEl.textContent="대기·진행 중인 글과 실패·취소 기록 — 작성자별로, 큐가 얼마나 쌓였는지 한눈에";
    if(QUEUE_TIMER){ clearInterval(QUEUE_TIMER); QUEUE_TIMER=null; }
@@ -2262,15 +2345,15 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
      };
      const sec=(title,icon,arr,emptyMsg,cls)=>`<section class="q-sec ${cls}"><h3 class="q-sec-h">${svg(icon)}<span>${esc(title)}</span><span class="q-sec-n">${arr.length}</span></h3>`+
        (arr.length?`<div class="q-list">${arr.map(item).join("")}</div>`:`<div class="q-empty">${esc(emptyMsg)}</div>`)+`</section>`;
-     box.innerHTML=maintBanner+bar+
-       `<div class="q-actions"><button class="q-refresh" id="qRefresh">${svg("refresh")}새로고침</button><span class="q-hint">20초마다 자동 갱신 · 발행 완료 글은 ‘서고’에서 확인</span></div>`+
+     box.innerHTML=maintBanner+bar+usageBlock(all)+
+      `<div class="q-actions"><button class="q-refresh" id="qRefresh">${svg("refresh")}새로고침</button><span class="q-hint">20초마다 자동 갱신 · 발행 완료 글은 ‘서고’에서 확인</span></div>`+
        sec("작업 대기·진행 중","clock",active,"대기 중인 글이 없어요. 트렌드 데스크의 [발주 요청]이나 ‘새 글 요청’에서 보내보세요.","q-active")+
        sec("실패·취소 기록","alertTri",history,"실패하거나 취소된 글이 없어요.","q-history");
      box.querySelectorAll(".q-cancel").forEach(b=>b.addEventListener("click",()=>cancelQueued(b.dataset.id,b.dataset.topic)));
      const rf=document.getElementById("qRefresh"); if(rf)rf.addEventListener("click",()=>load(true));
    };
    const load=(manual)=>{ if(manual){ const box=document.getElementById("qBox"); if(box){ const rf=document.getElementById("qRefresh"); if(rf){ rf.disabled=true; rf.innerHTML=svg("refresh")+"갱신 중…"; } } }
-     Promise.all([queueFetch(),maintenanceFetch()]).then(([all,maint])=>{ paint(all,maint); const el=document.getElementById("navQueueCnt"); if(el){ const a=all.filter(x=>x.status==="received"||x.status==="processing").length; if(a>0){el.textContent=a;el.hidden=false;}else{el.hidden=true;} } })
+     Promise.all([queueFetch(),maintenanceFetch(),usageFetch(manual)]).then(([all,maint])=>{ paint(all,maint); const el=document.getElementById("navQueueCnt"); if(el){ const a=all.filter(x=>x.status==="received"||x.status==="processing").length; if(a>0){el.textContent=a;el.hidden=false;}else{el.hidden=true;} } })
        .catch(e=>{ const box=document.getElementById("qBox"); if(box)box.innerHTML=emptyBox("base","큐를 불러오지 못했어요. 잠시 후 새로고침해주세요."); }); };
    load(false);
    QUEUE_TIMER=setInterval(()=>{ if(state.view==="__queue__"){ load(false); } else { clearInterval(QUEUE_TIMER); QUEUE_TIMER=null; } },20000);
