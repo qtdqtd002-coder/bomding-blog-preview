@@ -1641,7 +1641,9 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
  };
  function b64ToU8(b64){ const pad="=".repeat((4-(b64.length%4))%4); const s=(b64+pad).replace(/-/g,"+").replace(/_/g,"/"); const raw=atob(s); return Uint8Array.from(Array.prototype.map.call(raw,c=>c.charCodeAt(0))); }
 
- let POSTS=[], ACCENT={}, TREND=[],
+ /* TREND_DATES = 전체 날짜 목록(경량본이 실어 준다) — 페이저가 14칸을 다 그리게 한다.
+    TREND_FULL = 지금 TREND 에 전량이 들어 있나. 경량본(최신 3일)만 받은 상태면 false 다. */
+ let POSTS=[], ACCENT={}, TREND=[], TREND_DATES=[], TREND_FULL=true, TREND_FULL_P=null,
      state={view:"__today__",q:"",trendDate:"",page:1,
             sortDir:ls("sortDir","desc"), gridView:ls("gridView","0")==="1",
             archiveSub:"all"};
@@ -1715,7 +1717,14 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    .catch(()=>fetch("manifest.json?ts="+Date.now()).then(r=>r.ok?r.json():{}).then(m=>{
      return Object.keys(m||{}).map(k=>{const v=(typeof m[k]==="string")?{date:m[k]}:m[k];return Object.assign({rel:k},v);});
    }).catch(()=>[]));
- const trendP=fetch("_trend/trend.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}).catch(()=>({issues:[]}));
+ /* ★2026-09-02: 부팅은 «경량본»만 받는다 — 최신 3일 + 날짜 목록 14일(gzip 210KB → 36KB).
+    전량(trend.json 14일치)은 트렌드 탭에서 **3일 밖으로 넘기거나 검색할 때** ensureFullTrend() 가 받는다.
+    부팅에 실제로 필요한 건 네비 배지와 「오늘」 탭 요약뿐인데, 트렌드 탭을 안 열어도 794KB 를 받고 있었다.
+    ★lite 가 없으면(구 배포·굽기 실패) 원본으로 폴백한다 — 느려질 뿐 기능은 그대로 돈다. */
+ const trendP=fetch("_trend/trend-lite.json?ts="+Date.now())
+   .then(r=>r.ok?r.json():null)
+   .then(j=>j||fetch("_trend/trend.json?ts="+Date.now()).then(r=>r.ok?r.json():{issues:[]}))
+   .catch(()=>({issues:[]}));
  const pubP=fetch("published.json?ts="+Date.now()).then(r=>r.ok?r.json():{publishedRels:[]}).catch(()=>({publishedRels:[]}));
  const hidP=HiddenSvc.load();   /* 백엔드 숨김 목록(GET /hidden) — 실패해도 조용히 통과(아무것도 안 숨김) */
  const mpubP=MpubSvc.load();    /* 백엔드 수동 발행완료 목록(GET /mpub) — 실패해도 조용히 통과 */
@@ -1749,6 +1758,9 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    ordered.forEach(n=>{ ACCENT[n]=(KNOWN[n]&&KNOWN[n].ac)||FALLBACK_AC; });
 
    TREND=normEditions(trend);   /* trend.json schema 2 → 일간 에디션(최신순). 08-14 개편 전 issues 스키마는 폐기 */
+   /* 경량본이면 실린 판은 3일뿐이지만 날짜 목록은 14일 전량이라 페이저가 잘려 보이지 않는다. */
+   TREND_DATES=(trend&&Array.isArray(trend.allDates)&&trend.allDates.length)?trend.allDates.map(String):TREND.map(e=>e.date);
+   TREND_FULL=!(trend&&trend.lite);
 
    buildNav(ordered);
    paintStrip();          /* 상태 스트립(로컬 파생분 먼저) */
@@ -2581,6 +2593,18 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    })).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
  }
  const edItems=ed=>ed?ed.sections.reduce((a,s)=>a.concat(s.items),[]):[];
+ /* 전량(trend.json 14일치) 지연 로드 — 경량본 밖의 날짜로 넘어가거나 검색할 때만 부른다.
+    한 번 받으면 세션 안에서 재사용하고, 실패해도 갖고 있던 경량본으로 계속 돈다(화면이 죽지 않는다). */
+ function ensureFullTrend(){
+   if(TREND_FULL)return Promise.resolve(TREND);
+   if(!TREND_FULL_P) TREND_FULL_P=fetch("_trend/trend.json?ts="+Date.now())
+     .then(r=>r.ok?r.json():null)
+     .then(j=>{ if(j&&j.editions){ TREND=normEditions(j); TREND_FULL=true;
+                                   if(TREND.length)TREND_DATES=TREND.map(e=>e.date); }
+                return TREND; })
+     .catch(()=>TREND);
+   return TREND_FULL_P;
+ }
  /* 발주 양식 문자열 — 모달 프리필·복사에 같이 쓴다(백엔드 material 필드와 1:1). */
  function deskMaterial(it){
    /* 09-02: 라벨 + 줄바꿈 구조로 바꿨다. 전에는 시점·왜지금·사실이 라벨 없이 이어 붙어,
@@ -2664,7 +2688,9 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
      bindPinBox();
      return;
    }
-   const dates=TREND.map(e=>e.date);
+   /* ★페이저는 «전체 날짜»를 그린다(경량본이 allDates 로 실어 준다) — 안 그러면 3일치만 있는 것처럼 보인다.
+      경량본에 없는 날짜를 고르면 아래에서 전량을 받아 다시 그린다. */
+   const dates=TREND_DATES.length?TREND_DATES:TREND.map(e=>e.date);
    if(!state.trendDate||dates.indexOf(state.trendDate)<0)state.trendDate=dates[0];
 
    /* 목록 행 = 게임명 · 주제 · [발주 요청]. 그 외 정보는 전부 발주 모달로 갔다(08-15 사용자 지시).
@@ -2684,6 +2710,15 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
      `</div>`;
    };
 
+   /* 검색 = 전체 에디션 횡단 — 경량본만 있으면 3일치만 뒤져 «없다»고 거짓말하게 된다. 먼저 전량을 받는다. */
+   if(state.q&&!TREND_FULL){
+     subEl.textContent="지난 판을 불러오는 중…";
+     contentEl.innerHTML=`<div class="news">${pinBox()}${mast}`+
+       `<div class="tsec"><div class="tsec-b"><div class="ed-empty">지난 판을 불러오는 중이에요…</div></div></div></div>`;
+     bindPinBox();
+     ensureFullTrend().then(()=>{ if(state.view==="__trend__")renderTrend(); });
+     return;
+   }
    /* 검색 = 전체 에디션 횡단 */
    if(state.q){
      const q=state.q;
@@ -2702,7 +2737,18 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
      return;
    }
 
-   const ed=TREND.find(e=>e.date===state.trendDate)||TREND[0];
+   /* 고른 날짜가 경량본에 없다 = 3일 밖의 과거 판. 여기서만 전량을 받는다(부팅에서 받지 않는 이유). */
+   const edHit=TREND.find(e=>e.date===state.trendDate);
+   if(!edHit&&!TREND_FULL){
+     subEl.innerHTML=`<b>${esc(state.trendDate)}</b> 데스크 · 불러오는 중…`;
+     contentEl.innerHTML=`<div class="news">${pinBox()}${mast}`+
+       datePager(dates,state.trendDate,"trend","var(--a-trend)")+
+       `<div class="tsec"><div class="tsec-b"><div class="ed-empty">지난 판을 불러오는 중이에요…</div></div></div></div>`;
+     attachPager("trend",dates); bindPinBox();
+     ensureFullTrend().then(()=>{ if(state.view==="__trend__")renderTrend(); });
+     return;
+   }
+   const ed=edHit||TREND[0];
    const all=edItems(ed);
    const stats=DESK_SECTIONS.map(s=>{
      const n=(ed.sections.find(x=>x.key===s.key)||{items:[]}).items.length;

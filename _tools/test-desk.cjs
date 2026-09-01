@@ -111,5 +111,19 @@ for (const e of TREND) {
 }
 if (!noteChecked) console.log('  SKIP — 시행일 이후 에디션이 아직 없음(구판만 있음)');
 
+/* [7] 경량본 최신성 — 2026-09-02 신설.
+   사이트는 부팅에서 `_trend/trend-lite.json`(최신 3일 + 날짜 목록 14일)만 받는다.
+   trend.json 을 새로 쓰고 lite 를 다시 굽지 않으면 **사이트가 어제 판을 보여 준다** —
+   그것도 «에러 없이» 보여 주므로 눈으로는 안 걸린다. 그래서 발행 게이트에서 막는다.
+   (trend.json 자체는 14일 전량 그대로다 — 도구들이 보는 창은 하나도 안 좁아졌다) */
+console.log('\n[7] 경량본(trend-lite.json) 최신성');
+{
+  const r = require('child_process').spawnSync(process.execPath,
+    [path.join(ROOT, '_tools', 'build-trend-lite.cjs'), '--check'], { encoding: 'utf8' });
+  const out = ((r.stdout || '') + (r.stderr || '')).trim();
+  if (out) console.log(out.split('\n').map(l => l.replace(/^\s{0,2}/, '  ')).join('\n'));
+  ok(r.status === 0, 'trend-lite.json 이 trend.json 과 일치');
+}
+
 console.log(fail ? '\n>>> ' + fail + ' FAILED\n' : '\n>>> ALL PASS\n');
 process.exit(fail ? 1 : 0);
