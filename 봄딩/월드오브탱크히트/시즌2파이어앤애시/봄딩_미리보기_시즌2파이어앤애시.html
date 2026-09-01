@@ -1,0 +1,327 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>월드오브탱크히트 시즌2 파이어앤애시 업데이트 갬빗 능력 총정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:22px;}
+  .post li{font-size:15.5px;line-height:1.85;margin:0 0 8px;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .coupang{display:block;text-align:center;background:#fef2ef;border:1px solid #f3b8a8;color:#c0392b;
+    text-decoration:none;padding:12px;border-radius:8px;font-weight:700;font-size:14.5px;margin:6px 0 22px;}
+  .coupang small{display:block;color:#9a6b62;font-weight:500;font-size:11.5px;margin-top:3px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* §1-4b 출처 재서술 표시 */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .notice-line{font-weight:800;}
+  #copy .spec{color:#333;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .minus-line{color:#9a4a3a;}
+  #copy .warn-line{color:#b5651d;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+<!-- AI브리핑 타깃 질문(작성팀 확정 — 구조·연결 5번 미기재): 월드오브탱크히트 시즌2 언제 시작하나 / 갬빗 능력이 뭔가 / 20대20 컨퀘스트 상시 모드인가 -->
+<!-- 글 성격: 신규(월드오브탱크히트 봄딩 첫 글) -->
+<!-- 내부링크: 월드오브탱크히트 관련 봄딩 기존 발행글 없음 — 이 게임 클러스터의 첫 글이라 연결할 형제글이 아직 없음(정당한 부재) -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">월드오브탱크히트 시즌2 파이어앤애시 업데이트 갬빗 능력 총정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.09.02</span><span>· 게임</span></div>
+
+    <p>오늘(9월 2일)부터 '월드 오브 탱크: 히트'(World of Tanks: HEAT) <b>시즌2 '파이어 앤 애시'</b>가 시작됐다는 소식, 들으셨나요? 먼저 짚고 갈 게 있는데요, 이 게임은 워게이밍이 오래전부터 서비스해온 그 '월드 오브 탱크' 본편이랑은 <b>완전히 별개인 신작 타이틀</b>이에요. 이름이 비슷해서 헷갈리기 쉬운데, 본편이 장갑·기동성·화력 같은 전차 자체 스탯 위주로 굴러갔다면 히트는 요원(에이전트)마다 고유 능력이 서로 물고 물리는 능력 기반 시스템이 진짜 핵심이라, 아예 다른 게임으로 보시는 게 맞더라고요.</p>
+    <p>참고로 저는 아직 이 게임을 직접 플레이해보진 못했어요. 개발진 인터뷰랑 공식 자료를 쭉 찾아보고 정리하는 프리뷰 성격의 글이라는 점 먼저 말씀드릴게요. 오늘부터 뭐가 어떻게 바뀌는지, 새로 합류한 요원 '갬빗'은 어떤 능력을 들고 왔는지, 신규 전차 3종은 각각 누구 소속인지까지 한 번에 챙겨드릴 테니, 여러분도 편하게 따라와 주세요.</p>
+
+    <div class="imgwrap"><img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2100280/997337e1ed5ece9c9aadea13cf6b0cd6fdd72465/header_alt_assets_1.jpg" alt="월드 오브 탱크: 히트 공식 스팀 페이지 헤더 이미지" width="460" height="215"></div>
+    <p class="cap">스팀에 올라와 있는 '월드 오브 탱크: 히트' 공식 헤더 이미지예요. PC(스팀·워게이밍 게임 센터)·PS5·Xbox Series X|S·스팀덱·지포스 나우까지 크로스플랫폼으로 서비스되고 있어요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/2100280" target="_blank">스팀 공식 페이지</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">월드 오브 탱크: 히트, 본편이랑 뭐가 다른가요</h2>
+    <p><b>월드 오브 탱크: 히트는 워게이밍의 기존 '월드 오브 탱크'와는 완전히 별개인, 2026년 5월 26일 정식 출시된 크로스플랫폼 MMO TPS 신작이에요.</b> PC(스팀·워게이밍 게임 센터)뿐 아니라 PS5·Xbox Series X|S·스팀덱·지포스 나우까지 한 번에 서비스를 시작했어요. 본편 '월드 오브 탱크'가 장갑·기동성·화력 같은 전차 자체 스탯으로 승부를 봤다면, 히트는 요원별 고유 능력이 서로 상쇄하고 대응하는 <b>능력 기반 시스템</b>이 진짜 핵심이라고 해요.</p>
+    <p>히트 커뮤니티 총괄을 맡고 있는 루크 니콜스가 <a href="https://www.invenglobal.com/articles/25278/world-of-tanks-heat-its-different-starting-season-2" target="_blank">인벤 글로벌과의 인터뷰</a>에서 직접 짚은 부분이라 믿고 참고하셔도 될 것 같아요. 신규 전차 3종·요원 갬빗·전장까지 전부 이 능력 기반 구조 위에서 새로 생긴 콘텐츠라는 걸 기억해두시면 이해가 훨씬 쉬워요.</p>
+
+    <h2 class="sub">오늘(9/2) 시작한 시즌2 '파이어 앤 애시', 왜 진짜 시작이라고 하나요</h2>
+    <p><b>지금까지의 시즌0·시즌1은 사실상 준비 단계였고, 오늘부터 시작되는 시즌2부터 약 3개월 단위 정규 시즌 구조가 처음으로 정식 적용되기 때문이에요.</b></p>
+    <div class="para-wrap">
+      <p>이 내용은 루크 니콜스가 2026년 8월 28일 게재된 인벤 인터뷰에서 직접 밝힌 건데요, <span class="rev-hl">시즌0은 5주 정도의 '감사 이벤트'에 가까운 성격이었고, 시즌1은 다소 실험적이고 압축된 형태였다면, 오늘 시작한 시즌2부터가 개발진이 원래 계획했던 3개월 단위 정규 시즌 구조라고 못박았어요.</span> 그러니까 지금까지는 게임을 다듬는 준비운동에 가까웠고, 오늘부터가 진짜 본경기인 셈이에요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 시즌 구조 설명</span>
+        <span class="sn-src"><b>Inven Global</b>이 "Season 0 was closer to a five-week thank-you event and Season 1 was a somewhat experimental, condensed format, Season 2 marks the implementation of the development team's planned regular three-month seasonal structure"라고 전했어요. (<a href="https://www.invenglobal.com/articles/25278/world-of-tanks-heat-its-different-starting-season-2" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 영문 인터뷰 인용을 봄딩 톤의 구어체 설명으로 풀어썼어요.</span>
+      </div>
+    </div>
+    <table class="tbl">
+      <tr><th>시즌</th><th>기간·성격</th><th>비고</th></tr>
+      <tr><td>시즌0</td><td>약 5주, 감사 이벤트에 가까운 성격</td><td>준비 단계</td></tr>
+      <tr><td>시즌1</td><td>압축된 기간, 다소 실험적인 형태</td><td>준비 단계</td></tr>
+      <tr><td>시즌2 '파이어 앤 애시'</td><td>약 3개월 단위 정규 시즌</td><td>오늘(9/2) 시작, 정식 구조 첫 적용</td></tr>
+    </table>
+
+    <div class="imgwrap"><img src="https://static.invenglobal.com/upload/image/2026/08/27/r1787850922553201.jpeg" alt="월드 오브 탱크: 히트 커뮤니티 총괄 루크 니콜스" width="708" height="399"></div>
+    <p class="cap">이번 시즌2 소식을 인터뷰로 직접 풀어준 히트 커뮤니티 총괄 루크 니콜스예요.</p>
+    <p class="src">이미지 출처: <a href="https://www.invenglobal.com/articles/25278/world-of-tanks-heat-its-different-starting-season-2" target="_blank">Inven Global</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">신규 요원 갬빗, 어떤 능력을 가졌나요</h2>
+    <p><b>갬빗은 자신이 받은 피해에 비례해서 공격자를 방해하는 방어형 요원이에요.</b> 이번 시즌2에 새로 합류했고, 능력이 크게 두 가지로 나뉩니다. 하나씩 살펴보겠습니다.</p>
+    <ul>
+      <li><b>지속효과 「피드백 루프」</b> — 자신이 받은 피해에 비례해서 공격한 상대를 재밍(전파 방해)해요. 맞을수록 오히려 상대를 방해하는 구조라 최전선에서 버티는 역할에 딱 맞아요.</li>
+      <li><b>궁극기 「아이언 커튼」</b> — 소형 드론 무리를 띄워서 자신에게 임시 체력을 부여하는 동시에 전차를 수리해요. 이 효과가 인근 아군한테도 같이 적용된다는 게 포인트예요.</li>
+    </ul>
+    <p>피해를 받아도 손해가 아니라 오히려 반격 수단이 되고, 궁극기 한 번으로 본인 생존력에 주변 아군 회복까지 챙기는 구조라 <b>최전선을 단단히 지키면서 아군을 능동적으로 도와주는 요원</b>으로 설계됐다고 해요.</p>
+
+    <div class="imgwrap"><img src="https://static.invenglobal.com/upload/image/2026/08/27/r1787850924469198.jpeg" alt="월드 오브 탱크: 히트 신규 요원 갬빗" width="708" height="399"></div>
+    <p class="cap">시즌2에 새로 합류한 방어형 요원 '갬빗'이에요.</p>
+    <p class="src">이미지 출처: <a href="https://www.invenglobal.com/articles/25278/world-of-tanks-heat-its-different-starting-season-2" target="_blank">Inven Global</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">갬빗과 엠버, 신규 전차 3종은 각각 누구 소속인가요</h2>
+    <p><b>이번 시즌엔 갬빗 전용 전차 2종과, 기존 요원 엠버의 신규 전차 1종까지 총 3종이 새로 추가됐어요.</b> 여기서 헷갈리기 쉬운 부분이 있는데, 세 대가 전부 갬빗 소속은 아니라는 거예요. 표로 정리해드릴게요.</p>
+    <table class="tbl">
+      <tr><th>전차명</th><th>소속 요원</th><th>특징</th></tr>
+      <tr><td>T-72SH</td><td>갬빗(신규)</td><td>기동성이 좋고, 적을 방해하는 데 초점이 맞춰졌어요</td></tr>
+      <tr><td>M60A3E2</td><td>갬빗(신규)</td><td>공격보다는 방어에 특화된 전차예요</td></tr>
+      <tr><td>M1150 브리처</td><td>엠버(기존 요원)</td><td>장애물·지뢰·방벽 파괴에 특화됐고, 화염방사기까지 탑재됐어요</td></tr>
+    </table>
+    <p><b>M1150 브리처는 신규 요원 갬빗이 아니라 기존 요원 엠버의 새 전차</b>라는 점, 한 번 더 짚고 넘어갈게요. 갬빗 전용 전차 2종과 엮여서 셋 다 갬빗 것으로 오해하기 쉽거든요.</p>
+
+    <div class="imgwrap"><img src="https://static.invenglobal.com/upload/image/2026/08/27/r1787850926293875.jpeg" alt="월드 오브 탱크: 히트 M1150 브리처 화염방사기 전차" width="708" height="399"></div>
+    <p class="cap">엠버의 신규 전차 M1150 브리처예요. 화염방사기를 달고 장애물·지뢰·방벽을 부수는 역할을 맡아요.</p>
+    <p class="src">이미지 출처: <a href="https://www.invenglobal.com/articles/25278/world-of-tanks-heat-its-different-starting-season-2" target="_blank">Inven Global</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">새 전장 '인페르노 원', 용암이 진짜 전투에 영향을 주나요</h2>
+    <p><b>네, 인페르노 원은 가상역사 아이슬란드를 배경으로 하는데, 경기 도중 용암이 실제로 흘러들어와 지형 자체가 바뀌어요.</b> C거점 바깥쪽에 있는 용암이 경기 시작 시점엔 없다가, 시간이 지나면서 서서히 흘러들어와 접근로 일부를 막아버려요. 그냥 배경으로 깔린 용암이 아니라 <b>시간이 지날수록 전투 판도 자체를 바꾸는 실시간 지형 변화</b>인 셈이라, 초반이랑 후반에 같은 루트로 붙기는 어려워질 것 같아요.</p>
+
+    <div class="imgwrap"><img src="https://static.invenglobal.com/upload/image/2026/08/27/r1787850930148787.jpeg" alt="월드 오브 탱크: 히트 신규 전장 인페르노 원" width="708" height="399"></div>
+    <p class="cap">신규 전장 '인페르노 원'이에요. 시간이 지날수록 용암 지형이 변하는 모습이 보이시나요.</p>
+    <p class="src">이미지 출처: <a href="https://www.invenglobal.com/articles/25278/world-of-tanks-heat-its-different-starting-season-2" target="_blank">Inven Global</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">20대20 컨퀘스트, 상시로 즐길 수 있나요</h2>
+    <p><b>아니요, 상시 모드는 아니지만 '특정 주말' 한정도 아니에요. 오늘(9/2) 확정된 공식 패치노트 기준으로 피크 타임(성수 시간대)에만, 기존 '플랜트/디퓨즈' 모드랑 똑같은 방식으로 운영돼요.</b></p>
+    <div class="para-wrap">
+      <p>기존 10대10 컨퀘스트를 그대로 두 배 키워서 <span class="rev-hl">한 판에 총 40명이 붙는 20대20 컨퀘스트가 피크 타임에만, 플랜트/디퓨즈 모드와 같은 방식으로 열린다</span>고 해요. 사실 지난달 28일 인터뷰 시점만 해도 루크 니콜스는 "시즌2 특정 주말에 별도 대기열로 열겠다"고 예고했었는데요, 실제로 오늘 시즌2가 시작되면서 공개된 공식 패치노트에서는 '특정 주말'이 아니라 피크 타임 상시 제공으로 확정됐어요. 개발 계획 단계랑 실제 출시 내용이 조금 달라진 셈이라 이 부분은 헷갈리지 않게 짚고 갈게요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 20대20 모드 성격</span>
+        <span class="sn-src"><b>월드 오브 탱크: 히트 공식 패치노트(1.2.0)</b>가 "Available during peak hours only, just like Plant/Defuse."라고 전했어요. (<a href="https://cdn.wotheat.com/articles/patch-notes-1-2-0/index.html" target="_blank">출처</a>) 참고로 8/28 인벤 글로벌 인터뷰에서 루크 니콜스는 "We'll open 20v20 as a separate playlist queue on specific weekends during Season 2"라고 예고했었어요.</span>
+        <span class="sn-mine">→ 인터뷰 예고와 실제 출시 확정 내용이 달라져서, 그 시점 차이를 자연스럽게 풀어썼어요.</span>
+      </div>
+    </div>
+    <table class="tbl">
+      <tr><th>구분</th><th>10대10 컨퀘스트</th><th>20대20 컨퀘스트</th></tr>
+      <tr><td>총 인원</td><td>20명</td><td>40명</td></tr>
+      <tr><td>제공 방식</td><td>상시</td><td>피크 타임 한정(플랜트/디퓨즈와 동일 방식)</td></tr>
+      <tr><td>성격</td><td>기본 모드</td><td>피크 타임 전용 모드</td></tr>
+    </table>
+
+    <h2 class="sub">배틀패스, 시즌 끝나면 사라지나요</h2>
+    <p><b>이제는 아니에요. 시즌2부터 배틀패스가 '아카이브'에 보관돼서, 시즌이 끝난 뒤에도 원하는 배틀패스에 계속 인텔을 쓸 수 있어요.</b> 예전엔 시즌이 끝나면 그 시즌 배틀패스도 같이 사라졌는데, 이번 시즌2부터는 구조가 바뀌었답니다. 다만 <b>시즌0 배틀패스는 이 아카이브 대상에서 빠진다</b>고 하니 그 점은 참고하셔야 해요. 유료 배틀패스를 구매했다면 그 혜택도 그대로 유지된다고 하니, 이번 시즌에 다 못 채운 패스가 있는 분들도 너무 조급해하지 않으셔도 될 것 같아요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>시즌2 이전</th><th>시즌2부터</th></tr>
+      <tr><td>시즌 종료 시</td><td>배틀패스 소멸</td><td>'아카이브'에 보관</td></tr>
+      <tr><td>인텔 사용</td><td>해당 시즌에만</td><td>이후에도 원하는 패스에 계속 사용 가능(시즌0 제외)</td></tr>
+      <tr><td>유료 패스 혜택</td><td>-</td><td>구매분 그대로 유지</td></tr>
+    </table>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 시즌2 패치 버전 번호는 몇인가요?</b><br>
+    시즌2 패치 버전은 <b>1.2.0</b>이에요. 워게이밍 공식 패치노트에도 오늘(9월 2일) 'Update 1.2.0 goes live on September 2, 2026'이라고 명시돼서 올라왔으니, 이제는 버전 숫자로도 확실히 구분하실 수 있어요.</p>
+    <p><b>Q. 여기서 소개한 것 말고 이번 패치에 다른 변경 사항도 있나요?</b><br>
+    네, 있어요. 조준경에 거리 표시가 추가되거나 기지 배정 방식이 랜덤화되는 등 자잘한 조정들도 이번 1.2.0에 함께 들어갔어요. 여기서 다 못 다룬 세부 내용은 아래 참고한 곳에 걸어둔 공식 패치노트에서 확인하실 수 있으니 궁금하시면 한 번 들러보세요.</p>
+
+    <h2 class="sub">월드 오브 탱크: 히트 시즌2 정리</h2>
+    <p>오늘부터 시작된 시즌2 '파이어 앤 애시'는 개발진이 원래 계획했던 3개월 단위 정규 시즌 구조가 처음 적용되는 시즌이에요. 방어형 신규 요원 갬빗이 「피드백 루프」·「아이언 커튼」 능력을 들고 합류했고, 갬빗 전용 전차 T-72SH·M60A3E2에 엠버의 신규 전차 M1150 브리처까지 3종이 새로 추가됐어요. 여기에 용암 지형이 실시간으로 변하는 새 전장 인페르노 원, 피크 타임에 플랜트/디퓨즈와 같은 방식으로 열리는 20대20 컨퀘스트, 시즌0을 뺀 지난 시즌 배틀패스를 계속 이어서 채울 수 있는 아카이브까지 — 콘텐츠 양만 봐도 이번 시즌부터가 진짜 시작이라는 말이 이해가 되네요. 앞으로 공식 채널에서 세부 내용이 더 풀리면 또 정리해서 들고 올게요.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://store.steampowered.com/app/2100280" target="_blank">월드 오브 탱크: 히트 공식 스팀 페이지</a><br>
+    · <a href="https://cdn.wotheat.com/articles/patch-notes-1-2-0/index.html" target="_blank">월드 오브 탱크: 히트 공식 패치노트 아카이브</a></p>
+
+    <div class="tags">#월드오브탱크히트 #WorldofTanksHEAT #히트시즌2 #파이어앤애시 #갬빗 #워게이밍</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 5분):</b> 📷 <b>사진 5곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 월드오브탱크히트 시즌2 파이어앤애시 업데이트 갬빗 능력 총정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>오늘(9월 2일)부터 '월드 오브 탱크: 히트'(World of Tanks: HEAT) <b>시즌2 '파이어 앤 애시'</b>가 시작됐다는 소식, 들으셨나요? 먼저 짚고 갈 게 있는데요, 이 게임은 워게이밍이 오래전부터 서비스해온 그 '월드 오브 탱크' 본편이랑은 <b>완전히 별개인 신작 타이틀</b>이에요. 이름이 비슷해서 헷갈리기 쉬운데, 본편이 장갑·기동성·화력 같은 전차 자체 스탯 위주로 굴러갔다면 히트는 요원(에이전트)마다 고유 능력이 서로 물고 물리는 능력 기반 시스템이 진짜 핵심이라, 아예 다른 게임으로 보시는 게 맞더라고요.</p>
+      <p>참고로 저는 아직 이 게임을 직접 플레이해보진 못했어요. 개발진 인터뷰랑 공식 자료를 쭉 찾아보고 정리하는 프리뷰 성격의 글이라는 점 먼저 말씀드릴게요. 오늘부터 뭐가 어떻게 바뀌는지, 새로 합류한 요원 '갬빗'은 어떤 능력을 들고 왔는지, 신규 전차 3종은 각각 누구 소속인지까지 한 번에 챙겨드릴 테니, 여러분도 편하게 따라와 주세요.</p>
+      <p class="ph">📷 〔사진 1〕 스팀 공식 헤더 이미지 — 미리보기에서 이미지 우클릭 후 복사해 업로드</p>
+
+      <h3>월드 오브 탱크: 히트, 본편이랑 뭐가 다른가요</h3>
+      <p><b>월드 오브 탱크: 히트는 워게이밍의 기존 '월드 오브 탱크'와는 완전히 별개인, 2026년 5월 26일 정식 출시된 크로스플랫폼 MMO TPS 신작이에요.</b> PC(스팀·워게이밍 게임 센터)뿐 아니라 PS5·Xbox Series X|S·스팀덱·지포스 나우까지 한 번에 서비스를 시작했어요. 본편 '월드 오브 탱크'가 장갑·기동성·화력 같은 전차 자체 스탯으로 승부를 봤다면, 히트는 요원별 고유 능력이 서로 상쇄하고 대응하는 <b>능력 기반 시스템</b>이 진짜 핵심이라고 해요.</p>
+      <p>히트 커뮤니티 총괄을 맡고 있는 루크 니콜스가 인벤 글로벌과의 인터뷰에서 직접 짚은 부분이라 믿고 참고하셔도 될 것 같아요. 신규 전차 3종·요원 갬빗·전장까지 전부 이 능력 기반 구조 위에서 새로 생긴 콘텐츠라는 걸 기억해두시면 이해가 훨씬 쉬워요.</p>
+
+      <h3>오늘(9/2) 시작한 시즌2 '파이어 앤 애시', 왜 진짜 시작이라고 하나요</h3>
+      <p><b>지금까지의 시즌0·시즌1은 사실상 준비 단계였고, 오늘부터 시작되는 시즌2부터 약 3개월 단위 정규 시즌 구조가 처음으로 정식 적용되기 때문이에요.</b> 시즌0은 5주 정도의 '감사 이벤트'에 가까운 성격이었고, 시즌1은 다소 실험적이고 압축된 형태였다면, 오늘 시작한 시즌2부터가 개발진이 원래 계획했던 3개월 단위 정규 시즌 구조라고 해요. 그러니까 지금까지는 게임을 다듬는 준비운동에 가까웠고, 오늘부터가 진짜 본경기인 셈이에요.</p>
+      <table>
+        <tr><th>시즌</th><th>기간·성격</th><th>비고</th></tr>
+        <tr><td class="l">시즌0</td><td>약 5주, 감사 이벤트에 가까운 성격</td><td>준비 단계</td></tr>
+        <tr><td class="l">시즌1</td><td>압축된 기간, 다소 실험적인 형태</td><td>준비 단계</td></tr>
+        <tr><td class="l">시즌2 '파이어 앤 애시'</td><td>약 3개월 단위 정규 시즌</td><td>오늘(9/2) 시작, 정식 구조 첫 적용</td></tr>
+      </table>
+      <p class="ph">📷 〔사진 2〕 루크 니콜스 인물사진 — 미리보기에서 이미지 우클릭 후 복사해 업로드</p>
+
+      <h3>신규 요원 갬빗, 어떤 능력을 가졌나요</h3>
+      <p><b>갬빗은 자신이 받은 피해에 비례해서 공격자를 방해하는 방어형 요원이에요.</b> 이번 시즌2에 새로 합류했고, 능력이 크게 두 가지로 나뉩니다. 하나씩 살펴보겠습니다.</p>
+      <ul>
+        <li><b>지속효과 「피드백 루프」</b> — 자신이 받은 피해에 비례해서 공격한 상대를 재밍(전파 방해)해요. 맞을수록 오히려 상대를 방해하는 구조라 최전선에서 버티는 역할에 딱 맞아요.</li>
+        <li><b>궁극기 「아이언 커튼」</b> — 소형 드론 무리를 띄워서 자신에게 임시 체력을 부여하는 동시에 전차를 수리해요. 이 효과가 인근 아군한테도 같이 적용된다는 게 포인트예요.</li>
+      </ul>
+      <p>피해를 받아도 손해가 아니라 오히려 반격 수단이 되고, 궁극기 한 번으로 본인 생존력에 주변 아군 회복까지 챙기는 구조라 <b>최전선을 단단히 지키면서 아군을 능동적으로 도와주는 요원</b>으로 설계됐다고 해요.</p>
+      <p class="ph">📷 〔사진 3〕 신규 요원 갬빗 아트 — 미리보기에서 이미지 우클릭 후 복사해 업로드</p>
+
+      <h3>갬빗과 엠버, 신규 전차 3종은 각각 누구 소속인가요</h3>
+      <p><b>이번 시즌엔 갬빗 전용 전차 2종과, 기존 요원 엠버의 신규 전차 1종까지 총 3종이 새로 추가됐어요.</b> 여기서 헷갈리기 쉬운 부분이 있는데, 세 대가 전부 갬빗 소속은 아니라는 거예요. 표로 정리해드릴게요.</p>
+      <table>
+        <tr><th>전차명</th><th>소속 요원</th><th>특징</th></tr>
+        <tr><td class="l">T-72SH</td><td>갬빗(신규)</td><td>기동성이 좋고, 적을 방해하는 데 초점</td></tr>
+        <tr><td class="l">M60A3E2</td><td>갬빗(신규)</td><td>공격보다 방어에 특화</td></tr>
+        <tr><td class="l">M1150 브리처</td><td>엠버(기존 요원)</td><td>장애물·지뢰·방벽 파괴 특화, 화염방사기 탑재</td></tr>
+      </table>
+      <p><b>M1150 브리처는 신규 요원 갬빗이 아니라 기존 요원 엠버의 새 전차</b>라는 점, 한 번 더 짚고 넘어갈게요. 갬빗 전용 전차 2종과 엮여서 셋 다 갬빗 것으로 오해하기 쉽거든요.</p>
+      <p class="ph">📷 〔사진 4〕 M1150 브리처 전차 — 미리보기에서 이미지 우클릭 후 복사해 업로드</p>
+
+      <h3>새 전장 '인페르노 원', 용암이 진짜 전투에 영향을 주나요</h3>
+      <p><b>네, 인페르노 원은 가상역사 아이슬란드를 배경으로 하는데, 경기 도중 용암이 실제로 흘러들어와 지형 자체가 바뀌어요.</b> C거점 바깥쪽에 있는 용암이 경기 시작 시점엔 없다가, 시간이 지나면서 서서히 흘러들어와 접근로 일부를 막아버려요. 그냥 배경으로 깔린 용암이 아니라 <b>시간이 지날수록 전투 판도 자체를 바꾸는 실시간 지형 변화</b>인 셈이라, 초반이랑 후반에 같은 루트로 붙기는 어려워질 것 같아요.</p>
+      <p class="ph">📷 〔사진 5〕 신규 전장 인페르노 원 — 미리보기에서 이미지 우클릭 후 복사해 업로드</p>
+
+      <h3>20대20 컨퀘스트, 상시로 즐길 수 있나요</h3>
+      <p><b>아니요, 상시 모드는 아니지만 '특정 주말' 한정도 아니에요. 오늘(9/2) 확정된 공식 패치노트 기준으로 피크 타임(성수 시간대)에만, 기존 '플랜트/디퓨즈' 모드랑 똑같은 방식으로 운영돼요.</b> 기존 10대10 컨퀘스트를 그대로 두 배 키워서 한 판에 총 40명이 붙는 20대20 컨퀘스트가 피크 타임에만, 플랜트/디퓨즈 모드와 같은 방식으로 열린다고 해요. 사실 지난달 28일 인터뷰 시점만 해도 루크 니콜스는 "시즌2 특정 주말에 별도 대기열로 열겠다"고 예고했었는데요, 실제로 오늘 시즌2가 시작되면서 공개된 공식 패치노트에서는 '특정 주말'이 아니라 피크 타임 상시 제공으로 확정됐어요. 개발 계획 단계랑 실제 출시 내용이 조금 달라진 셈이라 이 부분은 헷갈리지 않게 짚고 갈게요.</p>
+      <table>
+        <tr><th>구분</th><th>10대10 컨퀘스트</th><th>20대20 컨퀘스트</th></tr>
+        <tr><td class="l">총 인원</td><td>20명</td><td>40명</td></tr>
+        <tr><td class="l">제공 방식</td><td>상시</td><td>피크 타임 한정(플랜트/디퓨즈와 동일 방식)</td></tr>
+        <tr><td class="l">성격</td><td>기본 모드</td><td>피크 타임 전용 모드</td></tr>
+      </table>
+
+      <h3>배틀패스, 시즌 끝나면 사라지나요</h3>
+      <p><b>이제는 아니에요. 시즌2부터 배틀패스가 '아카이브'에 보관돼서, 시즌이 끝난 뒤에도 원하는 배틀패스에 계속 인텔을 쓸 수 있어요.</b> 예전엔 시즌이 끝나면 그 시즌 배틀패스도 같이 사라졌는데, 이번 시즌2부터는 구조가 바뀌었답니다. 다만 <b>시즌0 배틀패스는 이 아카이브 대상에서 빠진다</b>고 하니 그 점은 참고하셔야 해요. 유료 배틀패스를 구매했다면 그 혜택도 그대로 유지된다고 하니, 이번 시즌에 다 못 채운 패스가 있는 분들도 너무 조급해하지 않으셔도 될 것 같아요.</p>
+      <table>
+        <tr><th>구분</th><th>시즌2 이전</th><th>시즌2부터</th></tr>
+        <tr><td class="l">시즌 종료 시</td><td>배틀패스 소멸</td><td>'아카이브'에 보관</td></tr>
+        <tr><td class="l">인텔 사용</td><td>해당 시즌에만</td><td>이후에도 원하는 패스에 계속 사용 가능(시즌0 제외)</td></tr>
+        <tr><td class="l">유료 패스 혜택</td><td>-</td><td>구매분 그대로 유지</td></tr>
+      </table>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 시즌2 패치 버전 번호는 몇인가요?</b><br>
+      시즌2 패치 버전은 <b>1.2.0</b>이에요. 워게이밍 공식 패치노트에도 오늘(9월 2일) 'Update 1.2.0 goes live on September 2, 2026'이라고 명시돼서 올라왔으니, 이제는 버전 숫자로도 확실히 구분하실 수 있어요.</p>
+      <p><b>Q. 여기서 소개한 것 말고 이번 패치에 다른 변경 사항도 있나요?</b><br>
+      네, 있어요. 조준경에 거리 표시가 추가되거나 기지 배정 방식이 랜덤화되는 등 자잘한 조정들도 이번 1.2.0에 함께 들어갔어요. 여기서 다 못 다룬 세부 내용은 아래 참고한 곳에 걸어둔 공식 패치노트에서 확인하실 수 있으니 궁금하시면 한 번 들러보세요.</p>
+
+      <h3>월드 오브 탱크: 히트 시즌2 정리</h3>
+      <p>오늘부터 시작된 시즌2 '파이어 앤 애시'는 개발진이 원래 계획했던 3개월 단위 정규 시즌 구조가 처음 적용되는 시즌이에요. 방어형 신규 요원 갬빗이 「피드백 루프」·「아이언 커튼」 능력을 들고 합류했고, 갬빗 전용 전차 T-72SH·M60A3E2에 엠버의 신규 전차 M1150 브리처까지 3종이 새로 추가됐어요. 여기에 용암 지형이 실시간으로 변하는 새 전장 인페르노 원, 피크 타임에 플랜트/디퓨즈와 같은 방식으로 열리는 20대20 컨퀘스트, 시즌0을 뺀 지난 시즌 배틀패스를 계속 이어서 채울 수 있는 아카이브까지 — 콘텐츠 양만 봐도 이번 시즌부터가 진짜 시작이라는 말이 이해가 되네요. 앞으로 공식 채널에서 세부 내용이 더 풀리면 또 정리해서 들고 올게요.</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://store.steampowered.com/app/2100280" target="_blank">월드 오브 탱크: 히트 공식 스팀 페이지</a><br>
+      · <a href="https://cdn.wotheat.com/articles/patch-notes-1-2-0/index.html" target="_blank">월드 오브 탱크: 히트 공식 패치노트 아카이브</a></p>
+
+      <p class="tags-line">#월드오브탱크히트 #WorldofTanksHEAT #히트시즌2 #파이어앤애시 #갬빗 #워게이밍</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
