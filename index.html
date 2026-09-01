@@ -2300,7 +2300,7 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
        `<div class="uempty">아직 사용량 스냅샷이 없어요.<br>트렌드 데스크 회차가 돌면 채워져요.</div></div>`;
    const upd=USAGE&&USAGE.updated?` · 갱신 ${qTime(Date.parse(USAGE.updated))}`:"";
    return `<section class="upan"><div class="upan-h"><b>작성자 사용량</b>`+
-     `<span class="u-sub">최근 ${USAGE_DAYS}일 · 발주 건수와 토큰 비중${esc(upd)}</span>`+
+     `<span class="u-sub">최근 ${USAGE_DAYS}일${esc(upd)}</span>`+   /* 차트마다 제 이름이 있다 — 여기 설명문 금지 */
      `<span class="u-est">토큰=추정</span></div>`+
      `<div class="upan-b">${ordChart}${tkChart}<div class="uleg">${leg||`<div class="uleg-r"><span class="nm">기록 없음</span></div>`}</div></div></section>`;
  }
