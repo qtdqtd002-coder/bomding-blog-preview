@@ -1,0 +1,342 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬고 아머드 뮤츠 메가 피날레 레이드 공략 이로치 여부 카운터 추천</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:15.5px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 봄딩 전용 스크랩북 인포그래픽(핑크) */
+  .memo{position:relative;background:#FFEFF5;border:1px solid #f7c6da;border-radius:10px;padding:18px 20px 16px;margin:6px 0 24px;box-shadow:0 2px 8px rgba(214,62,122,.08);transform:rotate(-.6deg);}
+  .memo:before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(2deg);width:96px;height:18px;background:rgba(236,92,146,.22);border-radius:2px;}
+  .memo h4{margin:4px 0 12px;font-size:15px;color:#D63E7A;font-weight:800;}
+  .memo ul{margin:0;padding:0;list-style:none;}
+  .memo li{position:relative;padding:5px 0 5px 26px;font-size:14px;line-height:1.7;border-bottom:1px dashed #f3b9d0;}
+  .memo li:last-child{border-bottom:none;}
+  .memo li:before{content:"✓";position:absolute;left:4px;top:5px;color:#EC5C92;font-weight:800;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:left;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: 아머드 뮤츠 메가 피날레 이로치 나오나요 / 아머드 뮤츠 레이드 최소 몇 명 필요한가요 / 아머드 뮤츠 카운터 없어도 초보자가 참여할 수 있나요 (기획팀 미지정 — 작성팀이 정함) -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 정보</div>
+    <h1 class="title">포켓몬고 아머드 뮤츠 메가 피날레 레이드 공략 이로치 여부 카운터 추천</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 9. 2.</span><span>· 게임</span></div>
+
+    <p>포켓몬고에서 이번 주말 5성 레이드 자리에 오랜만에 반가운 얼굴이 올라올 예정이에요. 저는 아직 참여해본 건 아니라 직접 경험담은 어렵지만, 9월 5일과 6일 이틀 진행될 '메가 피날레(통칭 메가피날레)'에서 '아머드 뮤츠'가 5성 레이드 보스로 등장한다는 공식 소식이 떠서 일정·이로치 여부·카운터 조합을 미리 정리해봤어요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 메가 피날레 아머드 뮤츠 공식 안내 이미지</span></div>
+    <div class="shoot">📸 이미지 자리 — 공식 안내 받을 곳: <a href="https://pokemongo.com/ko/news/megafinale-2026-armored-mewtwo" target="_blank">Pokémon GO 공식 뉴스</a></div>
+    <p class="cap">메가 피날레 아머드 뮤츠, 9월 5~6일 등장 예정이에요.</p>
+
+    <h2 class="sub">메가 피날레 아머드 뮤츠, 언제 만날 수 있나요?</h2>
+    <p>메가 피날레 기간 중 5성 일반 레이드에 아머드 뮤츠가 등장하는 시간은 <b>9월 5일(토)과 9월 6일(일) 이틀 모두 한국시간 오전 10시부터 오후 6시까지</b>인데요.</p>
+    <ul>
+      <li>9월 5일(토) 오전 10시 ~ 오후 6시</li>
+      <li>9월 6일(일) 오전 10시 ~ 오후 6시</li>
+    </ul>
+    <p>양일 모두 같은 시간대라 하루를 놓치셔도 다음 날 다시 도전하실 수 있으니, 주말 일정 잡으실 때 미리 체크해두시면 좋을 것 같네요.</p>
+
+    <h2 class="sub">6년 만에 돌아온 아머드 뮤츠, 이번엔 뭐가 달라졌을까요?</h2>
+    <p>이번 아머드 뮤츠는 <b>2020년 이후 무려 6년 만에</b> 포켓몬고 레이드에 복귀하는 개체예요. 2020년 9월 30일 개봉한 극장판 「뮤츠의 역습 EVOLUTION」 속, 아머(갑옷)로 온몸이 구속돼 힘이 억제된 뮤츠의 모습이 바로 아머드 뮤츠라, 이번 복귀가 왜 반가운 소식인지 아실 만하실 거예요.</p>
+    <p>많은 분들이 가장 궁금해하실 부분은 이로치(색이 다른 개체) 등장 여부일 텐데요, <b>공식 공지에 따르면 "해당 기간 동안에 색이 다른 '아머드 뮤츠'는 등장하지 않습니다"</b>라고 명시돼 있어요. 예전 GO페스트 이로치 우선순위 글에서도 말씀드렸듯, 시즌마다 이로치 등장 여부가 갈리니 매번 확인하는 습관이 필요해요. 이번엔 이로치보다 일반 개체 확보와 카운터 대응에 집중하시는 게 나을 것 같아요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 아머드 뮤츠 도감·스토리 화면</span></div>
+    <div class="shoot">📸 이미지 자리 — 직접 촬영: 인게임 도감 > 아머드 뮤츠 항목에서 극장판 모티브(아머 구속) 설명 텍스트와 실루엣이 보이게 (공식 뉴스 페이지엔 극장판 이미지가 따로 없어 도감 화면으로 대체)</div>
+    <p class="cap">2020년 이후 6년 만에 돌아오는 아머드 뮤츠예요.</p>
+
+    <h2 class="sub">타입 상성부터 짚어볼게요, 약점은 어디일까요?</h2>
+    <p>아머드 뮤츠는 <b>에스퍼 단일 타입</b>이라 <b>벌레·악·고스트 타입 공격에 1.6배 약점</b>이 들어가요. 반대로 격투·에스퍼 타입 공격엔 내성이 있어 딜이 덜 들어가니 카운터 고르실 때 참고하세요.</p>
+
+    <h2 class="sub">아머드 뮤츠 종족값이랑 CP는 어느 정도인가요?</h2>
+    <p>아머드 뮤츠의 종족값은 <b>공격 182 · 방어 278 · 체력 214</b>로, 방어와 체력 쪽에 무게가 실린 탱키한 스탯인데요.</p>
+    <p style="font-size:12.5px;color:var(--sub);margin:0 0 6px;">※ 2026-09-02 기준</p>
+    <table class="tbl">
+      <tr><th>항목</th><th>수치</th></tr>
+      <tr><td>공격</td><td>182</td></tr>
+      <tr><td>방어</td><td>278</td></tr>
+      <tr><td>체력</td><td>214</td></tr>
+      <tr><td>최대 CP (Lv50)</td><td>3,603</td></tr>
+      <tr><td>최대 CP (Lv40)</td><td>3,187</td></tr>
+      <tr><td>레이드 포획 CP (일반, Lv20)</td><td>1,740~1,821</td></tr>
+      <tr><td>레이드 포획 CP (날씨부스트, Lv25)</td><td>2,175~2,276</td></tr>
+    </table>
+    <p>날씨부스트는 바람 부는 날씨에 적용돼요. 주말 날씨가 바람이면 포획 CP가 더 높게 나올 수 있어요.</p>
+    <p>레이드보스로 나오는 아머드 뮤츠는 빠른기술로 <b>염동력이나 아이언테일 중 하나</b>를, 차지기술로는 <b>미래예지·스톤샤워·지진·폭발펀치·사이코브레이크 중 하나</b>를 사용하는 것으로 알려져 있어요. 개체마다 조합이 갈려서 특정 기술로 미리 단정하기는 어렵고, 실제 레이드에서 확인하시는 게 정확하답니다.</p>
+
+    <h2 class="sub">카운터로는 뭘 데려가야 하나요?</h2>
+    <p>현재 기준으로 가장 강한 카운터는 <b>새벽의날개 네크로즈마를 필두로 한 메가진화·전설·섀도우 포켓몬</b> 위주예요. 포켓몬고허브 DB 기준 순위·기술을 정리하면 아래와 같습니다.</p>
+    <p style="font-size:12.5px;color:var(--sub);margin:0 0 6px;">※ 포켓몬고허브 DB 기준(2026-09-02 확인)</p>
+    <table class="tbl">
+      <tr><th>순위</th><th>포켓몬</th><th>기술</th><th>필요 조건</th></tr>
+      <tr><td>1</td><td>새벽의날개 네크로즈마</td><td>섀도우클로 / 섀도레이</td><td>전설 포켓몬</td></tr>
+      <tr><td>2</td><td>메가 헬가</td><td>바크아웃 / 악의파동</td><td>메가에너지</td></tr>
+      <tr><td>3</td><td>메가뮤츠Y</td><td>사이코컷 / 섀도우볼</td><td>메가에너지·전설</td></tr>
+      <tr><td>4</td><td>메가 팬텀</td><td>핥기 / 섀도우볼</td><td>메가에너지</td></tr>
+      <tr><td>5</td><td>메가 마기라스</td><td>물기 / 세차게휘두르기</td><td>메가에너지</td></tr>
+      <tr><td>6</td><td>메가 앱솔</td><td>바크아웃 / 세차게휘두르기</td><td>메가에너지</td></tr>
+      <tr><td>7</td><td>섀도우 다크라이</td><td>바크아웃 / 섀도우볼</td><td>전설·섀도우(로켓단 처치)</td></tr>
+      <tr><td>8</td><td>섀도우 삼삼드래</td><td>물기 / 세차게휘두르기</td><td>섀도우(로켓단 처치)</td></tr>
+      <tr><td>9</td><td>메가뮤츠X</td><td>사이코컷 / 섀도우볼</td><td>메가에너지·전설</td></tr>
+      <tr><td>10</td><td>메가 독침붕</td><td>벌레먹음 / 마지막일침</td><td>메가에너지</td></tr>
+    </table>
+    <p>표의 10마리는 전부 <b>메가진화 에너지가 필요하거나, 전설이라 구하기 쉽지 않거나, 로켓단을 처치해야 얻는 섀도우 포켓몬</b>이에요. 신규·라이트 트레이너분들은 '이 중 하나도 없는데' 싶으실 수 있죠.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 카운터 후보 포켓몬(새벽의날개 네크로즈마 등) 도감 화면</span></div>
+    <div class="shoot">📸 이미지 자리 — 직접 촬영: 인게임 포켓몬 도감에서 카운터로 쓸 개체 화면</div>
+    <p class="cap">TOP10은 전부 선투자가 필요한 개체들이에요.</p>
+
+    <h2 class="sub">TOP10이 하나도 없다면 어떻게 하나요?</h2>
+    <p>위 TOP10을 하나도 못 채우셨어도 걱정하지 않으셔도 돼요 — <b>벌레·악·고스트 타입이면 등급에 상관없이 상성만으로 도움이 되거든요.</b></p>
+    <p>아머드 뮤츠는 에스퍼 단일 타입이라 벌레·악·고스트 공격에 전부 1.6배 약점이 들어가기 때문에, 도감에 있는 이 세 타입 중 CP 높고 기술 괜찮은 개체 하나만 골라 가셔도 충분히 제 몫을 해요. 메가진화·전설·섀도우가 없어도 상성만 맞으면 딜은 확실히 들어가니, 초반 트레이너분들도 이 정도 준비로 참여하는 데 무리 없을 것 같아요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 벌레·악·고스트 타입 보유 포켓몬 도감 화면</span></div>
+    <div class="shoot">📸 이미지 자리 — 직접 촬영: 인게임 도감에서 벌레·악·고스트 타입으로 필터링한 화면</div>
+    <p class="cap">TOP10 없이도 상성만 맞으면 충분히 도움이 돼요.</p>
+
+    <h2 class="sub">최소 몇 명이면 클리어할 수 있나요?</h2>
+    <p>해외 팬사이트 theclick.gg에 따르면 아머드 뮤츠 레이드는 <b>4명 이상이 모이면 여유롭게 클리어할 수 있는 난이도</b>로 알려져 있어요. 공식이 못박은 수치는 아니라 참고치로 보시면 되는데, 5성 레이드는 원래 혼자 깨기 힘든 난이도라 최소한의 인원은 모아서 가시는 게 기본이에요. 근처에 사람이 안 모이면 커뮤니티나 채팅방을 활용하거나, 그마저 어려우면 리모트 레이드 패스로 원격 참여하는 방법도 있답니다.</p>
+
+    <h2 class="sub">같은 주말 슈퍼 메가 레이드, 헷갈리면 안 돼요</h2>
+    <p>같은 주말엔 5성 일반 레이드 아머드 뮤츠와는 <b>완전히 별개인 콘텐츠</b>로 '슈퍼 메가 레이드'도 함께 열려요. 9월 5일(토)엔 메가뮤츠X, 9월 6일(일)엔 메가뮤츠Y가 요일별로 보스로 등장하고, 이 기간엔 리모트레이드 참여 인원 상한이 없어지며 메가진화 포켓몬 전원의 CP가 부스트돼요. 이번 글 주인공인 아머드 뮤츠 5성 레이드와 헷갈리지 않게 구분해서 즐겨보세요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 슈퍼 메가 레이드 공식 안내 이미지</span></div>
+    <div class="shoot">📸 이미지 자리 — 공식 안내 받을 곳: <a href="https://pokemongo.com/ko/news/more-mega-updates-2026" target="_blank">Pokémon GO 공식 뉴스 — 메가뮤츠 필드 효과</a></div>
+    <p class="cap">슈퍼 메가 레이드는 5성 일반 레이드 아머드 뮤츠와 별개예요.</p>
+
+    <div class="memo">
+      <h4>🧬 메가 피날레 준비물, 이 다섯 가지만 기억하세요</h4>
+      <ul>
+        <li><b>9/5(토)·9/6(일) 오전 10시~오후 6시</b> 5성 레이드 등장</li>
+        <li>공식 공지대로 <b>이번엔 이로치 등장 없음</b></li>
+        <li>에스퍼 단일, <b>벌레·악·고스트 1.6배 약점</b></li>
+        <li>TOP10 없으면 벌레·악·고스트 타입 아무거나로 대체</li>
+        <li>인원은 <b>4명 이상</b> 목표, 슈퍼 메가 레이드(메가뮤츠X·Y)와는 별개</li>
+      </ul>
+    </div>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 이번 아머드 뮤츠 레이드에서 이로치가 나오나요?</b><br>아니요, 공식 공지에 따르면 이번 메가 피날레 기간엔 색이 다른 아머드 뮤츠가 등장하지 않는다고 명시돼 있어요. 이로치가 목적이셨다면 다른 레이드 일정을 확인해보시는 게 나을 것 같아요.</p>
+    <p><b>Q. 혼자서도 아머드 뮤츠 레이드에 참여할 수 있나요?</b><br>5성 레이드는 혼자 깨기 어렵고, 참고치로는 4명 이상이면 여유롭게 클리어된다고 알려져 있어요. 사람이 없으면 리모트 레이드 패스나 커뮤니티를 활용해보세요.</p>
+    <p><b>Q. TOP10 카운터가 하나도 없는 초보 트레이너도 참여할 수 있나요?</b><br>네, 충분히 가능해요. 아머드 뮤츠는 벌레·악·고스트 공격에 전부 약점이 있어서, 메가·전설·섀도우가 아니어도 도감의 이 세 타입 포켓몬 하나만 데려가셔도 상성으로 도움이 됩니다.</p>
+
+    <h2 class="sub">아머드 뮤츠 메가 피날레 정리</h2>
+    <p>짧게 정리하자면, <b>9월 5일과 6일 오전 10시~오후 6시</b>가 아머드 뮤츠 레이드 시간이고, 공식 공지대로 이번엔 이로치가 안 나온다는 점만 기억해두시면 돼요. 카운터는 새벽의날개 네크로즈마 같은 TOP10이 있으면 최우선, 없으면 벌레·악·고스트 타입 아무거나로도 충분하고, 인원은 4명 이상을 목표로 모아보세요. 같은 주말 슈퍼 메가 레이드(메가뮤츠X·Y)와는 다른 콘텐츠라는 점도 헷갈리지 마세요.</p>
+
+    <p><b>✔ 포켓몬고 같이 보기 좋은 내용</b><br>
+    · <a href="#" target="_blank">포켓몬고 루나아라레이드 8월19일 이로치루나아라 첫등장 초보자카운터 추천</a><br>
+    · <a href="#" target="_blank">포켓몬고 GO페스트 2026 이로치 우선순위 뭘 노려야 이득일까</a><br>
+    · <a href="#" target="_blank">포켓몬고 리모트레이드패스 무료레이드패스 차이 언제 사야 이득일까</a></p>
+    <!-- 내부링크: 위 세 건은 같은 봄딩 폴더 내 기존 발행글, 네이버 post ID 확인 후 실제 URL로 교체 필요 -->
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://pokemongo.com/ko/news/megafinale-2026-armored-mewtwo" target="_blank">Pokémon GO 공식 뉴스 — 메가 피날레에 아머드 뮤츠가 돌아옵니다</a><br>
+    · <a href="https://pokemongo.com/ko/news/more-mega-updates-2026" target="_blank">Pokémon GO 공식 뉴스 — 메가뮤츠 필드 효과</a></p>
+
+    <div class="tags">#포켓몬고 #아머드뮤츠 #메가피날레 #포켓몬고레이드 #아머드뮤츠레이드 #포켓몬고이로치 #포켓몬고카운터 #포켓몬고초보 #봄딩게임</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 5분):</b> 📷 <b>사진 5곳</b> 업로드 · 🔗 <b>내부링크 3곳</b> 기존 글 연결. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬고 아머드 뮤츠 메가 피날레 레이드 공략 이로치 여부 카운터 추천</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>포켓몬고에서 이번 주말 5성 레이드 자리에 오랜만에 반가운 얼굴이 올라올 예정이에요. 저는 아직 참여해본 건 아니라 직접 경험담은 어렵지만, 9월 5일과 6일 이틀 진행될 '메가 피날레(통칭 메가피날레)'에서 '아머드 뮤츠'가 5성 레이드 보스로 등장한다는 공식 소식이 떠서 일정·이로치 여부·카운터 조합을 미리 정리해봤어요.</p>
+
+      <p>📷 〔사진 자리 1〕 메가 피날레 아머드 뮤츠 공식 안내 이미지 — pokemongo.com/ko/news 에서 저장 후 업로드<br>
+      └ 캡션 추천: "메가 피날레 아머드 뮤츠, 9월 5~6일 등장 예정이에요."</p>
+
+      <h3>메가 피날레 아머드 뮤츠, 언제 만날 수 있나요?</h3>
+      <p>메가 피날레 기간 중 5성 일반 레이드에 아머드 뮤츠가 등장하는 시간은 <b>9월 5일(토)과 9월 6일(일) 이틀 모두 한국시간 오전 10시부터 오후 6시까지</b>인데요.</p>
+      <ul>
+        <li>9월 5일(토) 오전 10시 ~ 오후 6시</li>
+        <li>9월 6일(일) 오전 10시 ~ 오후 6시</li>
+      </ul>
+      <p>양일 모두 같은 시간대라 하루를 놓치셔도 다음 날 다시 도전하실 수 있으니, 주말 일정 잡으실 때 미리 체크해두시면 좋을 것 같네요.</p>
+
+      <h3>6년 만에 돌아온 아머드 뮤츠, 이번엔 뭐가 달라졌을까요?</h3>
+      <p>이번 아머드 뮤츠는 <b>2020년 이후 무려 6년 만에</b> 포켓몬고 레이드에 복귀하는 개체예요. 2020년 9월 30일 개봉한 극장판 「뮤츠의 역습 EVOLUTION」 속, 아머(갑옷)로 온몸이 구속돼 힘이 억제된 뮤츠의 모습이 바로 아머드 뮤츠라, 이번 복귀가 왜 반가운 소식인지 아실 만하실 거예요.</p>
+      <p>많은 분들이 가장 궁금해하실 부분은 이로치(색이 다른 개체) 등장 여부일 텐데요, <b>공식 공지에 따르면 "해당 기간 동안에 색이 다른 '아머드 뮤츠'는 등장하지 않습니다"</b>라고 명시돼 있어요. 예전 GO페스트 이로치 우선순위 글에서도 말씀드렸듯, 시즌마다 이로치 등장 여부가 갈리니 매번 확인하는 습관이 필요해요. 이번엔 이로치보다 일반 개체 확보와 카운터 대응에 집중하시는 게 나을 것 같아요.</p>
+
+      <p>📷 〔사진 자리 2〕 직접 촬영: 인게임 도감 > 아머드 뮤츠 항목에서 극장판 모티브(아머 구속) 설명 텍스트와 실루엣이 보이게 (공식 뉴스 페이지엔 극장판 이미지가 따로 없어 도감 화면으로 대체)<br>
+      └ 캡션 추천: "2020년 이후 6년 만에 돌아오는 아머드 뮤츠예요."</p>
+
+      <h3>타입 상성부터 짚어볼게요, 약점은 어디일까요?</h3>
+      <p>아머드 뮤츠는 <b>에스퍼 단일 타입</b>이라 <b>벌레·악·고스트 타입 공격에 1.6배 약점</b>이 들어가요. 반대로 격투·에스퍼 타입 공격엔 내성이 있어 딜이 덜 들어가니 카운터 고르실 때 참고하세요.</p>
+
+      <h3>아머드 뮤츠 종족값이랑 CP는 어느 정도인가요?</h3>
+      <p>아머드 뮤츠의 종족값은 <b>공격 182 · 방어 278 · 체력 214</b>로, 방어와 체력 쪽에 무게가 실린 탱키한 스탯인데요.</p>
+      <p>※ 2026-09-02 기준</p>
+      <table>
+        <tr><th>항목</th><th>수치</th></tr>
+        <tr><td>공격</td><td>182</td></tr>
+        <tr><td>방어</td><td>278</td></tr>
+        <tr><td>체력</td><td>214</td></tr>
+        <tr><td>최대 CP (Lv50)</td><td>3,603</td></tr>
+        <tr><td>최대 CP (Lv40)</td><td>3,187</td></tr>
+        <tr><td>레이드 포획 CP (일반, Lv20)</td><td>1,740~1,821</td></tr>
+        <tr><td>레이드 포획 CP (날씨부스트, Lv25)</td><td>2,175~2,276</td></tr>
+      </table>
+      <p>날씨부스트는 바람 부는 날씨에 적용돼요. 주말 날씨가 바람이면 포획 CP가 더 높게 나올 수 있어요.</p>
+      <p>레이드보스로 나오는 아머드 뮤츠는 빠른기술로 <b>염동력이나 아이언테일 중 하나</b>를, 차지기술로는 <b>미래예지·스톤샤워·지진·폭발펀치·사이코브레이크 중 하나</b>를 사용하는 것으로 알려져 있어요. 개체마다 조합이 갈려서 특정 기술로 미리 단정하기는 어렵고, 실제 레이드에서 확인하시는 게 정확하답니다.</p>
+
+      <h3>카운터로는 뭘 데려가야 하나요?</h3>
+      <p>현재 기준으로 가장 강한 카운터는 <b>새벽의날개 네크로즈마를 필두로 한 메가진화·전설·섀도우 포켓몬</b> 위주예요. 포켓몬고허브 DB 기준 순위·기술을 정리하면 아래와 같습니다.</p>
+      <p>※ 포켓몬고허브 DB 기준(2026-09-02 확인)</p>
+      <table>
+        <tr><th>순위</th><th>포켓몬</th><th>기술</th><th>필요 조건</th></tr>
+        <tr><td>1</td><td>새벽의날개 네크로즈마</td><td>섀도우클로 / 섀도레이</td><td>전설 포켓몬</td></tr>
+        <tr><td>2</td><td>메가 헬가</td><td>바크아웃 / 악의파동</td><td>메가에너지</td></tr>
+        <tr><td>3</td><td>메가뮤츠Y</td><td>사이코컷 / 섀도우볼</td><td>메가에너지·전설</td></tr>
+        <tr><td>4</td><td>메가 팬텀</td><td>핥기 / 섀도우볼</td><td>메가에너지</td></tr>
+        <tr><td>5</td><td>메가 마기라스</td><td>물기 / 세차게휘두르기</td><td>메가에너지</td></tr>
+        <tr><td>6</td><td>메가 앱솔</td><td>바크아웃 / 세차게휘두르기</td><td>메가에너지</td></tr>
+        <tr><td>7</td><td>섀도우 다크라이</td><td>바크아웃 / 섀도우볼</td><td>전설·섀도우(로켓단 처치)</td></tr>
+        <tr><td>8</td><td>섀도우 삼삼드래</td><td>물기 / 세차게휘두르기</td><td>섀도우(로켓단 처치)</td></tr>
+        <tr><td>9</td><td>메가뮤츠X</td><td>사이코컷 / 섀도우볼</td><td>메가에너지·전설</td></tr>
+        <tr><td>10</td><td>메가 독침붕</td><td>벌레먹음 / 마지막일침</td><td>메가에너지</td></tr>
+      </table>
+      <p>표의 10마리는 전부 <b>메가진화 에너지가 필요하거나, 전설이라 구하기 쉽지 않거나, 로켓단을 처치해야 얻는 섀도우 포켓몬</b>이에요. 신규·라이트 트레이너분들은 '이 중 하나도 없는데' 싶으실 수 있죠.</p>
+
+      <p>📷 〔사진 자리 3〕 직접 촬영: 인게임 포켓몬 도감에서 카운터로 쓸 개체 화면<br>
+      └ 캡션 추천: "TOP10은 전부 선투자가 필요한 개체들이에요."</p>
+
+      <h3>TOP10이 하나도 없다면 어떻게 하나요?</h3>
+      <p>위 TOP10을 하나도 못 채우셨어도 걱정하지 않으셔도 돼요 — <b>벌레·악·고스트 타입이면 등급에 상관없이 상성만으로 도움이 되거든요.</b></p>
+      <p>아머드 뮤츠는 에스퍼 단일 타입이라 벌레·악·고스트 공격에 전부 1.6배 약점이 들어가기 때문에, 도감에 있는 이 세 타입 중 CP 높고 기술 괜찮은 개체 하나만 골라 가셔도 충분히 제 몫을 해요. 메가진화·전설·섀도우가 없어도 상성만 맞으면 딜은 확실히 들어가니, 초반 트레이너분들도 이 정도 준비로 참여하는 데 무리 없을 것 같아요.</p>
+
+      <p>📷 〔사진 자리 4〕 직접 촬영: 인게임 도감에서 벌레·악·고스트 타입으로 필터링한 화면<br>
+      └ 캡션 추천: "TOP10 없이도 상성만 맞으면 충분히 도움이 돼요."</p>
+
+      <h3>최소 몇 명이면 클리어할 수 있나요?</h3>
+      <p>해외 팬사이트 theclick.gg에 따르면 아머드 뮤츠 레이드는 <b>4명 이상이 모이면 여유롭게 클리어할 수 있는 난이도</b>로 알려져 있어요. 공식이 못박은 수치는 아니라 참고치로 보시면 되는데, 5성 레이드는 원래 혼자 깨기 힘든 난이도라 최소한의 인원은 모아서 가시는 게 기본이에요. 근처에 사람이 안 모이면 커뮤니티나 채팅방을 활용하거나, 그마저 어려우면 리모트 레이드 패스로 원격 참여하는 방법도 있답니다.</p>
+
+      <h3>같은 주말 슈퍼 메가 레이드, 헷갈리면 안 돼요</h3>
+      <p>같은 주말엔 5성 일반 레이드 아머드 뮤츠와는 <b>완전히 별개인 콘텐츠</b>로 '슈퍼 메가 레이드'도 함께 열려요. 9월 5일(토)엔 메가뮤츠X, 9월 6일(일)엔 메가뮤츠Y가 요일별로 보스로 등장하고, 이 기간엔 리모트레이드 참여 인원 상한이 없어지며 메가진화 포켓몬 전원의 CP가 부스트돼요. 이번 글 주인공인 아머드 뮤츠 5성 레이드와 헷갈리지 않게 구분해서 즐겨보세요.</p>
+
+      <p>📷 〔사진 자리 5〕 공식 안내 받을 곳: <a href="https://pokemongo.com/ko/news/more-mega-updates-2026" target="_blank">Pokémon GO 공식 뉴스 — 메가뮤츠 필드 효과</a><br>
+      └ 캡션 추천: "슈퍼 메가 레이드는 5성 일반 레이드 아머드 뮤츠와 별개예요."</p>
+
+      <h3>메가 피날레 준비물, 이 다섯 가지만 기억하세요</h3>
+      <ul>
+        <li><b>9/5(토)·9/6(일) 오전 10시~오후 6시</b> 5성 레이드 등장</li>
+        <li>공식 공지대로 <b>이번엔 이로치 등장 없음</b></li>
+        <li>에스퍼 단일, <b>벌레·악·고스트 1.6배 약점</b></li>
+        <li>TOP10 없으면 벌레·악·고스트 타입 아무거나로 대체</li>
+        <li>인원은 <b>4명 이상</b> 목표, 슈퍼 메가 레이드(메가뮤츠X·Y)와는 별개</li>
+      </ul>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 이번 아머드 뮤츠 레이드에서 이로치가 나오나요?</b><br>아니요, 공식 공지에 따르면 이번 메가 피날레 기간엔 색이 다른 아머드 뮤츠가 등장하지 않는다고 명시돼 있어요. 이로치가 목적이셨다면 다른 레이드 일정을 확인해보시는 게 나을 것 같아요.</p>
+      <p><b>Q. 혼자서도 아머드 뮤츠 레이드에 참여할 수 있나요?</b><br>5성 레이드는 혼자 깨기 어렵고, 참고치로는 4명 이상이면 여유롭게 클리어된다고 알려져 있어요. 사람이 없으면 리모트 레이드 패스나 커뮤니티를 활용해보세요.</p>
+      <p><b>Q. TOP10 카운터가 하나도 없는 초보 트레이너도 참여할 수 있나요?</b><br>네, 충분히 가능해요. 아머드 뮤츠는 벌레·악·고스트 공격에 전부 약점이 있어서, 메가·전설·섀도우가 아니어도 도감의 이 세 타입 포켓몬 하나만 데려가셔도 상성으로 도움이 됩니다.</p>
+
+      <h3>아머드 뮤츠 메가 피날레 정리</h3>
+      <p>짧게 정리하자면, <b>9월 5일과 6일 오전 10시~오후 6시</b>가 아머드 뮤츠 레이드 시간이고, 공식 공지대로 이번엔 이로치가 안 나온다는 점만 기억해두시면 돼요. 카운터는 새벽의날개 네크로즈마 같은 TOP10이 있으면 최우선, 없으면 벌레·악·고스트 타입 아무거나로도 충분하고, 인원은 4명 이상을 목표로 모아보세요. 같은 주말 슈퍼 메가 레이드(메가뮤츠X·Y)와는 다른 콘텐츠라는 점도 헷갈리지 마세요.</p>
+
+      <p><b>✔ 포켓몬고 같이 보기 좋은 내용</b><br>
+      · <span class="ph">〔내부링크 자리 1〕</span> 포켓몬고 루나아라레이드 8월19일 이로치루나아라 첫등장 초보자카운터 추천 — 네이버에서 기존 글 링크 연결<br>
+      · <span class="ph">〔내부링크 자리 2〕</span> 포켓몬고 GO페스트 2026 이로치 우선순위 뭘 노려야 이득일까 — 네이버에서 기존 글 링크 연결<br>
+      · <span class="ph">〔내부링크 자리 3〕</span> 포켓몬고 리모트레이드패스 무료레이드패스 차이 언제 사야 이득일까 — 네이버에서 기존 글 링크 연결</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://pokemongo.com/ko/news/megafinale-2026-armored-mewtwo" target="_blank">Pokémon GO 공식 뉴스 — 메가 피날레에 아머드 뮤츠가 돌아옵니다</a><br>
+      · <a href="https://pokemongo.com/ko/news/more-mega-updates-2026" target="_blank">Pokémon GO 공식 뉴스 — 메가뮤츠 필드 효과</a></p>
+
+      <p class="tags-line">#포켓몬고 #아머드뮤츠 #메가피날레 #포켓몬고레이드 #아머드뮤츠레이드 #포켓몬고이로치 #포켓몬고카운터 #포켓몬고초보 #봄딩게임</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
