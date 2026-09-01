@@ -457,8 +457,18 @@ svg{display:block;}
   background:var(--surface-2);border:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--ink-2);}
 .ed-stat b{font-family:var(--mono);font-size:14.5px;font-weight:700;color:var(--cc,var(--ink));
   font-feature-settings:"tnum";line-height:1;}
-.ed-note{margin-top:15px;padding:12px 15px;border-radius:var(--r-sm);background:var(--surface-2);
-  border-left:3px solid var(--accent);font-size:13.5px;line-height:1.75;color:var(--ink-2);word-break:keep-all;}
+/* 데스크 노트 — 08-14~09-01 은 1,100~3,700자 한 문단이라 화면에서 벽이 됐다(사용자 지적 09-02).
+   이제 줄 목록으로 그린다. 줄마다 앞에 표식을 두어 '어디서 끊기는지'를 눈으로 잡게 한다. */
+.ed-note{margin:15px 0 0;padding:12px 15px 12px 15px;border-radius:var(--r-sm);background:var(--surface-2);
+  border-left:3px solid var(--accent);font-size:13.5px;line-height:1.7;color:var(--ink-2);
+  word-break:keep-all;list-style:none;display:grid;gap:8px;}
+.ed-note li{position:relative;padding-left:15px;}
+.ed-note li::before{content:"";position:absolute;left:3px;top:0.62em;width:4px;height:4px;border-radius:50%;
+  background:var(--ink-3);}
+/* ★ 줄 = "확인 못 했다·빼 두었다" 경고. 사실 줄과 같은 굵기로 두면 안 읽힌다. */
+.ed-note li.warn{color:var(--ink);}
+.ed-note li.warn::before{content:"!";left:1px;top:0;width:auto;height:auto;border-radius:0;background:none;
+  font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--warn);line-height:1.7;}
 .ed-note b{color:var(--ink);}
 .ed-empty{padding:34px 20px;text-align:center;font-size:13.5px;color:var(--ink-3);line-height:1.8;}
 
@@ -659,7 +669,17 @@ svg{display:block;}
 .rf-bp{font-size:12.5px;font-weight:600;color:var(--ink-3);}
 .rf-bw{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink-3);font-feature-settings:"tnum";}
 .rf-bwhy{font-size:13px;line-height:1.65;color:var(--ink-2);margin-top:7px;word-break:keep-all;}
-.rf-bsrc{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:9px;}
+/* 09-02: 왜지금·확인된 사실·각도를 라벨 붙은 줄로 세운다.
+   전에는 detail 이 소재 메모 textarea 안에만 있어서, 발주할지 정하려면 스크롤부터 해야 했다. */
+.rf-bf{display:grid;grid-template-columns:62px 1fr;gap:10px;margin-top:10px;align-items:baseline;}
+.rf-bk{font-size:11.5px;font-weight:700;letter-spacing:.02em;color:var(--ink-3);white-space:nowrap;}
+.rf-bv{font-size:13px;line-height:1.65;color:var(--ink-2);word-break:keep-all;display:grid;gap:5px;}
+.rf-bl{display:block;}
+.rf-bcau{margin-top:10px;padding:9px 12px;border-radius:var(--r-sm);background:var(--surface);
+  border-left:3px solid var(--warn);font-size:12.5px;line-height:1.6;color:var(--ink-2);
+  word-break:keep-all;display:grid;gap:5px;}
+@media(max-width:520px){ .rf-bf{grid-template-columns:1fr;gap:3px;} }
+.rf-bsrc{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:11px;}
 .rf-bsrc a{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;color:var(--ink-3);
   text-decoration:none;border-bottom:1px solid var(--line-2);transition:.15s var(--ease);}
 .rf-bsrc a .ic{width:11px;height:11px;}
@@ -735,6 +755,46 @@ svg{display:block;}
 .rl-st.s-published{background:var(--ok-weak);color:var(--ok);}
 .rl-st.s-failed{background:var(--bad-weak);color:var(--bad);}
 .rl-st.s-cancel{background:var(--surface-2);color:var(--ink-3);border:1px dashed var(--line-2);}
+
+/* ══════════ 큐 상단 — 작성자 사용량(발주·토큰) ══════════ */
+/* 두 축의 출처가 다르다: 발주=백엔드 /requests 실측 · 토큰=_trend/_usage.json(데스크 회차가 굽는 «추정» 귀속).
+   그래서 패널 머리에 «토큰=추정» 칩을 박는다 — 정확한 과금 분해로 읽히면 안 된다. */
+.upan{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);box-shadow:var(--sh-xs);
+  padding:13px 17px 15px;margin-bottom:16px;}
+.upan-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:12px;}
+.upan-h b{font-size:14px;font-weight:700;letter-spacing:-.02em;}
+.upan-h .u-sub{font-size:12.5px;color:var(--ink-3);}
+.upan-h .u-est{margin-left:auto;font-size:12.5px;font-weight:600;color:var(--ink-3);background:var(--surface-2);
+  border:1px solid var(--line);border-radius:99px;padding:2.5px 10px;}
+.upan-b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(158px,200px);gap:20px;align-items:start;}
+.uch{min-width:0;}
+.uch-t{display:flex;align-items:baseline;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink-2);margin:0 0 9px;}
+.uch-t i{font-style:normal;font-family:var(--mono);font-weight:700;color:var(--ink-3);font-feature-settings:"tnum";}
+.ucols{display:flex;gap:7px;align-items:flex-end;height:64px;}
+.ucol{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;}
+.ustack{display:flex;flex-direction:column-reverse;gap:2px;width:100%;}
+.ustack i{min-height:3px;border-radius:2px;opacity:.92;transition:opacity .15s var(--ease);}
+.ucol:hover .ustack i,.ucol.on .ustack i{opacity:1;}
+.ucol .zero{height:3px;border-radius:2px;background:var(--line-2);}
+.uaxis{display:flex;gap:7px;margin-top:8px;}
+.uaxis span{flex:1;min-width:0;text-align:center;font-family:var(--mono);font-size:12.5px;color:var(--ink-3);
+  font-feature-settings:"tnum";}
+.uaxis span.on{color:var(--ink);font-weight:700;}
+.uleg{display:flex;flex-direction:column;gap:8px;}
+.uleg-r{display:flex;align-items:center;gap:9px;font-size:13px;line-height:1.35;min-width:0;}
+.uleg-r .dot{width:10px;height:10px;border-radius:3px;flex:none;}
+.uleg-r .nm{font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.uleg-r .vv{margin-left:auto;font-family:var(--mono);font-size:12.5px;color:var(--ink-2);white-space:nowrap;
+  font-feature-settings:"tnum";}
+.uleg-r .vv em{font-style:normal;color:var(--ink-3);}
+.uempty{display:flex;align-items:center;justify-content:center;height:64px;padding:0 12px;text-align:center;
+  border:1px dashed var(--line-2);border-radius:var(--r-sm);font-size:12.5px;color:var(--ink-3);line-height:1.6;}
+@media(max-width:1080px){
+  .upan-b{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+  .uleg{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;gap:8px 20px;}
+  .uleg-r{flex:1 1 190px;}
+}
+@media(max-width:620px){ .upan-b{grid-template-columns:1fr;gap:16px;} }
 
 /* ══════════ 새 글 요청 ══════════ */
 .reqwrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);gap:20px;align-items:start;}
@@ -1367,10 +1427,10 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    "하루살이":{tag:"IT 제품 · AI · 활용팁", ac:"var(--a-harusari)"}
  };
  const PREF=["봄딩","영도","겜더쿠","연봄","하루살이"];
- /* 휴면(inactive) 작성자 — 2026-08-14 사용자 지시. 기존 글·탭·카드는 그대로 보이되(삭제 아님)
-    '새 글 요청' 대상에서만 뺀다. 정본=쓰담v2/canon/config.json writers.inactive.
-    재개하려면 이 배열을 [] 로 되돌린다. */
- const INACTIVE_WRITERS=["겜더쿠","연봄"];
+ /* 휴면(inactive) 작성자 — 2026-08-14(겜더쿠·연봄) · 2026-09-02(하루살이) 사용자 지시.
+    기존 글·탭·카드는 그대로 보이되(삭제 아님) '새 글 요청' 대상에서만 뺀다.
+    정본=쓰담v2/canon/config.json writers.inactive. 재개하려면 이 배열을 [] 로 되돌린다. */
+ const INACTIVE_WRITERS=["겜더쿠","연봄","하루살이"];
  const FALLBACK_AC="var(--brand)";
 
  /* ---------- 작성자 아바타 (각 실제 블로그 프로필 참고 · 한 화풍 통일) ---------- */
@@ -2399,13 +2459,25 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    {key:"hot",    label:"최근 화제되는 게임",  desc:"지금 검색·화제가 몰리는 쪽",  icon:"flame",   ac:"var(--c-hot)",  cap:5}
  ];
  const DESK_SEC=Object.fromEntries(DESK_SECTIONS.map(s=>[s.key,s]));
+ /* ── 긴 문장을 읽을 수 있는 줄로 쪼갠다 (2026-09-02 사용자 지적: "개행도 없고 쭉 이어져 보기 어렵다") ──
+    데스크가 남기는 note·detail 은 ★ 로 절을 나눈 한 덩어리 문자열이었다. 화면에선 그게 벽이 된다.
+    ⑴ 09-02 부터 note 는 배열로 쓴다. ⑵ 그 전 14일치는 문자열이라 여기서 ★·줄바꿈 기준으로 쪼갠다
+       — 데이터를 손대지 않아도 지난 판이 같이 읽힌다(마이그레이션 없는 하위호환). */
+ function splitLines(v){
+   const arr=Array.isArray(v)?v:String(v||"").split(/\r?\n|(?=★)/);
+   return arr.map(s=>String(s||"").replace(/^[\s·•]+/,"").trim()).filter(Boolean);
+ }
+ /* ★로 시작하는 줄 = "확인 못 했다·주의하라"는 경고. 본문 사실과 섞어 두면 눈에 안 띈다. */
+ const isCaution=s=>/^★/.test(s);
  /* trend.json 정규화 — schema 2(editions)만 읽는다. 옛 issues 스키마는 08-14 폐기(잔재가 오면 조용히 버린다). */
  function normEditions(raw){
    const eds=(raw&&Array.isArray(raw.editions))?raw.editions:[];
    /* lead(2~3문장 리드)는 08-15 개편에서 렌더를 끊었다 — headline + 분류별 건수 칩이 같은 말을 이미 한다.
       옛 데이터에 남아 있어도 조용히 무시한다(스키마 하위호환). */
    return eds.filter(e=>e&&e.date).map(e=>({
-     date:String(e.date), headline:String(e.headline||""), note:String(e.note||""),
+     date:String(e.date), headline:String(e.headline||""),
+     /* note = 배열(09-02~) 또는 긴 문자열(~09-01). 화면은 언제나 줄 목록으로만 그린다. */
+     note:splitLines(e.note),
      sections:DESK_SECTIONS.map(s=>{
        const src=(e.sections||[]).find(x=>x&&x.key===s.key)||{};
        const items=(src.items||[]).filter(Boolean).map((it,i)=>({
@@ -2428,15 +2500,17 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
  const edItems=ed=>ed?ed.sections.reduce((a,s)=>a.concat(s.items),[]):[];
  /* 발주 양식 문자열 — 모달 프리필·복사에 같이 쓴다(백엔드 material 필드와 1:1). */
  function deskMaterial(it){
+   /* 09-02: 라벨 + 줄바꿈 구조로 바꿨다. 전에는 시점·왜지금·사실이 라벨 없이 이어 붙어,
+      작성자가 받는 발주서에서 "어디까지가 확인된 사실이고 어디부터가 각도인지"가 구분되지 않았다. */
    const parts=[];
-   if(it.when)parts.push("["+it.when+"]");
-   if(it.why)parts.push(it.why);
-   if(it.detail)parts.push(it.detail);
-   if(it.angle)parts.push("각도: "+it.angle);
-   if(it.keywords.length)parts.push("키워드: "+it.keywords.join(", "));
-   if(it.sources.length)parts.push("참고: "+it.sources.map(s=>s.label+" "+s.url).join(" , "));
+   if(it.when)parts.push("[시점] "+it.when);
+   if(it.why)parts.push("[왜 지금] "+it.why);
+   if(it.detail)parts.push("[확인된 사실]\n"+splitLines(it.detail).map(s=>"- "+s).join("\n"));
+   if(it.angle)parts.push("[각도] "+it.angle);
+   if(it.keywords.length)parts.push("[키워드] "+it.keywords.join(", "));
+   if(it.sources.length)parts.push("[참고]\n"+it.sources.map(s=>"- "+s.label+" "+s.url).join("\n"));
    if(it.coverage.length)parts.push("★기존 글 확인 필요: "+it.coverage.map(c=>c.writer+" 「"+c.title+"」").join(" / ")+" — 각도가 겹치면 새 각도로 잡거나 발주를 취소할 것");
-   return parts.join("\n");
+   return parts.join("\n\n");
  }
 
  /* ---------- 꼭 다룰 게임 상자 (트렌드 탭 최상단) ----------
@@ -2554,7 +2628,10 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
    const head=`<div class="masthead" style="--ac:var(--a-trend)"><div class="mk">${svg("news")}일간 토픽 데스크</div>`+
      `<div class="mt">${esc(ed.headline||"오늘의 게임 주제")}</div>`+
      `<div class="ed-stats">${stats}</div>`+
-     (ed.note?`<div class="ed-note">${esc(ed.note)}</div>`:"")+`</div>`;
+     /* 데스크 노트 = 한 덩어리 문단이 아니라 줄 목록. ★로 시작하는 줄은 경고로 따로 세운다.
+        (08-14~09-01 판은 문자열이라 splitLines 가 ★ 기준으로 쪼갠다 — 옛 판도 같이 읽힌다) */
+     (ed.note.length?`<ul class="ed-note">`+ed.note.map(n=>
+       `<li${isCaution(n)?` class="warn"`:""}>${esc(n.replace(/^★+\s*/,""))}</li>`).join("")+`</ul>`:"")+`</div>`;
    const secs=DESK_SECTIONS.map((s,si)=>{
      const items=(ed.sections.find(x=>x.key===s.key)||{items:[]}).items;
      /* 빈 칸 문구는 분류마다 뜻이 다르다 — pinned 가 비었다면 '소식이 없어서'가 아니라
@@ -2639,11 +2716,21 @@ body.leaving-page{animation:pageOut .22s var(--ease) forwards;pointer-events:non
       행은 훑는 자리, 이 창은 정하는 자리다. 판단 근거는 정하는 자리에 있어야 한다. */
    const heat=it.heat?`<span class="tr-heat" title="화제도 ${it.heat}/3" aria-label="화제도 ${it.heat}/3">`+
      [1,2,3].map(n=>`<i class="${n<=it.heat?"on":""}"></i>`).join("")+`</span>`:"";
+   /* detail = 검증된 사실 2~3문장 + ★확인 필요 표시가 한 덩어리로 붙어 있다.
+      textarea 안에만 두면 발주 판단을 스크롤하며 해야 한다 — 라벨 붙은 줄로 밖에 세운다(09-02). */
+   const dl=splitLines(it.detail);
+   const facts=dl.filter(s=>!isCaution(s)), cautions=dl.filter(isCaution);
+   const fld=(k,v)=>v?`<div class="rf-bf"><span class="rf-bk">${k}</span><span class="rf-bv">${esc(v)}</span></div>`:"";
    const brief=`<div class="rf-brief">`+
      `<div class="rf-bh"><span class="rf-bg">${esc(it.game||"—")}</span>`+
        (it.platform?`<span class="rf-bp">${esc(it.platform)}</span>`:"")+
        (it.when?`<span class="rf-bw">${esc(it.when)}</span>`:"")+heat+`</div>`+
-     (it.why?`<div class="rf-bwhy">${esc(it.why)}</div>`:"")+
+     fld("왜 지금",it.why)+
+     (facts.length?`<div class="rf-bf"><span class="rf-bk">확인된 사실</span><span class="rf-bv">`+
+       facts.map(s=>`<span class="rf-bl">${esc(s)}</span>`).join("")+`</span></div>`:"")+
+     fld("각도",it.angle)+
+     (cautions.length?`<div class="rf-bcau">`+cautions.map(s=>
+       `<span class="rf-bl">${esc(s.replace(/^★+\s*/,""))}</span>`).join("")+`</div>`:"")+
      (it.sources.length?`<div class="rf-bsrc">`+it.sources.map(s2=>
        `<a href="${esc(s2.url)}" target="_blank" rel="noopener noreferrer">${esc(s2.label)}${svg("arrowUR")}</a>`).join("")+`</div>`:"")+
    `</div>`;
