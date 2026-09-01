@@ -34,6 +34,8 @@ const TREND = mod.normEditions(raw);
 
 let fail = 0;
 const ok = (cond, msg) => { console.log((cond ? '  PASS ' : '  FAIL ') + msg); if (!cond) fail++; };
+/* 노트 가독성 규칙 시행일 — 이 날짜 이전 에디션엔 소급하지 않는다(§[6] 참고) */
+const NOTE_RULE_FROM = '2026-09-02';
 
 /* ★불변식 검사만 한다 — 회차마다 바뀌는 수치(에디션 수·건수·경고 수·특정 id)에 단언을 걸지 않는다.
    시드 수치에 못을 박아 두면 매일 데이터가 아니라 테스트가 실패한다. */
@@ -87,6 +89,27 @@ ok(two[0].date === '2026-08-15', '최신순 정렬');
 
 console.log('\n[5] 날짜 페이저 입력');
 ok([...new Set(TREND.map(e => e.date))].length === TREND.length, '에디션당 날짜 1개(중복 없음)');
+
+/* [6] 노트 가독성 — 2026-09-02 신설.
+   08-14~09-01 의 note 는 1,100~3,700자 한 문단이었다. 사이트가 줄 목록으로 그리게 고쳤지만,
+   렌더만 고치면 «줄 하나가 655자»인 상태는 그대로다(사용자 지적: "정보대로 쭉 정리돼 보기 어렵다").
+   그래서 길이를 코드로 막는다 — 산문 규칙은 집행되지 않는다(context-budget 교훈).
+   ★소급 적용하지 않는다: 규칙 시행일 이전 판은 보고만 하고 통과시킨다(지난 데이터가 아니라
+     오늘 내는 판을 막는 게 목적이고, 옛 판은 keepDays 안에 저절로 빠진다). */
+console.log('\n[6] 데스크 노트 가독성 (시행 ' + NOTE_RULE_FROM + '~)');
+const NOTE_MAX_LINES = 6, NOTE_MAX_CHARS = 140;
+let noteChecked = 0;
+for (const e of TREND) {
+  const legacy = e.date < NOTE_RULE_FROM;
+  const long = e.note.filter(l => l.length > NOTE_MAX_CHARS);
+  const label = e.date + ' note ' + e.note.length + '줄' + (long.length ? ' · ' + long.length + '줄이 ' + NOTE_MAX_CHARS + '자 초과(최장 ' + Math.max(...long.map(l => l.length)) + ')' : '');
+  if (legacy) { console.log('  (구판) ' + label); continue; }
+  noteChecked++;
+  ok(e.note.length <= NOTE_MAX_LINES, label + ' — ' + NOTE_MAX_LINES + '줄 이하');
+  ok(long.length === 0, e.date + ' note 각 줄 ' + NOTE_MAX_CHARS + '자 이하' +
+    (long.length ? ' — 넘친 줄: 「' + long[0].slice(0, 40) + '…」' : ''));
+}
+if (!noteChecked) console.log('  SKIP — 시행일 이후 에디션이 아직 없음(구판만 있음)');
 
 console.log(fail ? '\n>>> ' + fail + ' FAILED\n' : '\n>>> ALL PASS\n');
 process.exit(fail ? 1 : 0);
