@@ -35,9 +35,42 @@
   .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
   .copywrap{max-width:720px;margin:16px auto 40px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:20px 24px 26px;}
   .copywrap h2{font-size:15px;margin:0 0 12px;color:#444;}
-  #copy{white-space:pre-wrap;font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;font-size:14px;line-height:1.9;color:#333;background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:16px 18px;word-break:keep-all;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
-<div class="pvbar">✍️ 이 글은 <b>미리보기 확인용</b>입니다. 실제 네이버 게시는 아래 <b>"▼ 네이버 붙여넣기용 본문"</b> 박스 안 텍스트를 그대로 복사해 쓰세요. 이미지는 같은 폴더 img\ 안에 있습니다(직접 다운로드하신 뒤 네이버 에디터에 재업로드해 주세요).</div>
+<div class="pvbar">✍️ 이 글은 <b>미리보기 확인용</b>입니다. 실제 네이버 게시는 <b>우측 상단 📋 [네이버 붙여넣기용 복사]</b> 버튼으로 본문을 그대로 복사해 쓰세요. 이미지는 같은 폴더 img\ 안에 있습니다(직접 다운로드하신 뒤 네이버 에디터에 재업로드해 주세요).</div>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
   <div class="post">
@@ -179,135 +212,136 @@
 </div>
 
 <div class="copywrap">
-  <h2>▼ 네이버 붙여넣기용 본문 (아래 텍스트를 그대로 복사해서 쓰세요. 이미지는 img\ 폴더에서 직접 업로드)</h2>
-<div id="copy">[제목]
-레이저 명조 워더링 웨이브 콜라보 바이퍼 V3 프로 SE, 데니아 에디션 스펙·가격 총정리
-
-[본문]
-안녕하세요. 영원한도시입니다. 저는 마우스를 살 때 무게부터 보는 편인데요, 60g 아래로 내려가면 일단 장바구니에 담고 보는 버릇이 있습니다. 그래서 이번 건은 스펙표를 열자마자 눈이 갔어요. 레이저(Razer)가 쿠로게임즈와 손잡고 내놓은 '명조: 워더링 웨이브' 콜라보 바이퍼 V3 프로 SE - 54g에 가격은 20만 원대입니다.
-
-이 글은 공식 페이지에 올라온 스펙ㆍ가격ㆍ구매 조건을 하나씩 대조해서 정리한 소개글입니다. 특히 게임 내 보상이 품목마다 다르다는 점과 실물 핀 세트 지급 조건은 공식 문구를 그대로 확인해 봤는데, 널리 알려진 것과 다른 부분이 있어서 그 대목을 중심으로 짚어보겠습니다.
-
-1. 레이저 × 명조: 워더링 웨이브, 데니아 콜라보는 어떤 컬렉션인가
-
-한국 공식 표기로는 'Razer | 명조: 워더링 웨이브 컬렉션'이고요, 레이저가 개발사 쿠로게임즈(KURO GAMES)와 손잡고 2026년 7월 2일 공식 발표한 콜라보입니다. 명조: 워더링 웨이브의 최신 공명자(newest Resonator) '데니아(Denia)'를 테마로 잡았고, 구성은 게이밍 체어 '이스커(Iskur) V2 X', 무선 키보드 '블랙위도우(BlackWidow) V4 텐키리스 하이퍼스피드', 무선 마우스 '바이퍼(Viper) V3 프로 SE', 마우스패드 '기간투스(Gigantus) V2 XXL', 이렇게 4종입니다.
-
-[여기 이미지: 체어ㆍ키보드ㆍ마우스ㆍ마우스패드 4종 컬렉션 전체 라인업 — 이미지 출처: Razer 공식 보도자료(razer.com/newsroom)]
-
-레이저 라이프스타일 부문 글로벌 총괄(Global Head of Lifestyle Division at Razer) 애디 탄(Addie Tan)은 보도자료에서, 데니아의 굳은 의지가 플레이어가 퍼포먼스에 임하는 방식 - 집중력 있고, 정밀하고, 끝까지 버티는 - 으로 자연스럽게 이어진다고 설명했습니다.
-
-그리고 이 컬렉션은 품목마다 명조: 워더링 웨이브 게임 내 보상이 따로 붙는데요, 여기서 하나 짚고 갈 게 있습니다. 공식 컬렉션 페이지를 보면 품목별로 주는 게 다르고, 4종 전부가 같은 걸 받는 게 아닙니다. 주인장이 직접 대조해 본 내용은 아래 표와 같습니다.
-
-[표: 콜라보 품목별 게임 내 보상 (2026년 7월 27일 기준, Razer 공식 콜라보 컬렉션 페이지 안내 문구 기준)]
-품목 | 구매 시 따라오는 게임 내 보상
-마우스(바이퍼 V3 프로 SE) | SIGIL
-키보드(블랙위도우 V4 TKL) | SIGIL + ASTRITE + 고급 에너지 코어
-체어(이스커 V2 X) | SIGIL + ASTRITE + 고급 공명 물약
-마우스패드(기간투스 V2 XXL) | ASTRITE + 쉘 크레딧 (SIGIL 없음)
-※ 보상 이름은 공식 페이지에 영문(SIGIL·ASTRITE 등)으로만 표기돼 있어, 한국어 표기는 게임 내 정식 명칭과 다를 수 있습니다.
-
-보시다시피 마우스패드만 SIGIL이 빠져 있습니다. 실(SIGIL)이 목적이라면 마우스패드 단품이 아니라 마우스나 키보드 쪽을 봐야 한다는 뜻이라, 이건 구매 전에 꼭 확인하셔야 할 부분이에요.
-
-실물 굿즈 쪽도 하나 더 있습니다. 공식 컬렉션 페이지 약관에 'Razer Denia 핀 세트 – Wuthering Waves 에디션'이 안내돼 있는데, 조건은 사전예약이 아니라 '구매 시 증정'입니다. 지정된 바이퍼 V3 프로 SE 명조 에디션 또는 마우스 번들을 사면 주는 방식이고요, 키보드를 사면 이건 'Razer Denia 라지 핀'이라는 다른 품목으로 바뀝니다. 다만 이 혜택은 RazerStore에서 구매한 경우에만 적용된다고 약관에 명시돼 있으니, 다른 경로로 사실 계획이라면 감안해 두시는 게 좋습니다.
-
-[여기 이미지: 마우스 상판 데코와 데니아 캐릭터 아트가 나란히 놓인 컷 — 이미지 출처: Razer 공식 제품 페이지(razer.com/kr-kr)]
-
-2. 바이퍼 V3 프로 SE 데니아 에디션, 핵심 스펙부터 짚어보면
-
-먼저 표로 한 번에 정리하고 가겠습니다.
-
-[표: 바이퍼 V3 프로 SE(데니아 에디션) 핵심 스펙 (2026년 7월 27일 기준, Razer 공식 제품 페이지 표기 기준)]
-항목 | 바이퍼 V3 프로 SE(데니아 에디션)
-무게 | 54g
-쉐입 | 오른손잡이용 대칭형(Right-handed Symmetrical)
-센서 | 포커스 프로(Focus Pro) 35K 옵티컬 센서 2세대
-최대 DPI | 35,000 DPI
-추적속도 / 가속도 | 750 IPS / 70G
-스위치 | 레이저 옵티컬 마우스 스위치 3세대
-클릭 수명 / 액추에이션 | 9천만 회 / 0.2ms
-프로그래밍 가능한 컨트롤 | 8개(공식 표기 기준)
-폴링레이트 | 기본 1,000Hz / 최대 8,000Hz(하이퍼폴링 동글 별매)
-배터리 | 최대 95시간(1,000Hz 기준)
-연결 | 하이퍼스피드 무선 + USB Type-A to Type-C 유선 겸용
-※ 하드웨어 스펙은 표준 바이퍼 V3 프로 SE와 동일합니다.
-
-이제 숫자를 하나씩 풀어볼게요. 무게는 54g 초경량입니다. 센서는 레이저 포커스 프로(Focus Pro) 35K 옵티컬 센서 2세대를 얹었는데, 최대 35,000 DPI에 750 IPS 추적속도, 최대 70G 가속도까지 잡아줍니다. 숫자만 나열하면 감이 잘 안 오실 텐데, 정리하면 저속으로 세밀하게 조준하는 상황부터 화면을 빠르게 훑는 순간까지 센서가 놓치지 않고 다 따라온다는 뜻입니다.
-
-[여기 이미지: 블랙 바디에 은색 클릭부, 핑크 포인트가 들어간 사이드 버튼ㆍ스크롤휠 구성 — 이미지 출처: Razer 공식 제품 페이지(razer.com/kr-kr)]
-
-버튼 이야기는 표기를 한 번 짚고 가야 합니다. 레이저 공식 페이지는 '프로그래밍 가능한 8개의 컨트롤'이라고 적어 두는데요, 실제로 손에 닿는 물리 버튼은 좌ㆍ우클릭, 휠 클릭, 상단 DPI 버튼, 사이드 버튼 2개로 6개입니다. 휠의 위ㆍ아래 스크롤까지 할당 가능한 컨트롤로 세느냐 마느냐의 차이라, 공식 표기 기준으로는 8개라고 알아 두시면 됩니다. 클릭에는 레이저 옵티컬(광학식) 마우스 스위치 3세대가 들어갔고, 9천만 회 클릭 수명에 0.2ms 액추에이션이라 스펙상 클릭 지연이 거의 없는 쪽으로 잡혀 있습니다.
-
-[여기 이미지: 사이드 버튼 아래 새겨진 'DENIA' 워드마크가 보이는 컷, 앞쪽에서 비스듬히 촬영 — 이미지 출처: Razer 공식 제품 페이지(razer.com/kr-kr)]
-
-폴링레이트는 동봉된 하이퍼스피드(HyperSpeed) 무선 동글 기준 1,000Hz가 기본입니다. 여기서 별매인 하이퍼폴링(HyperPolling) 무선 동글을 따로 연결하면 최대 8,000Hz까지 끌어올릴 수 있는데, 이 동글은 마우스에 기본 포함된 게 아니라는 점은 짚고 가야겠습니다. 배터리는 1,000Hz 기준 최대 95시간이고, 연결은 레이저 하이퍼스피드 무선에 USB Type-A to Type-C 유선 겸용까지 지원합니다.
-
-3. 가격 - 표준 모델보다 얼마나 비싼가
-
-가격은 201,600원입니다(razer.com/kr-kr · 2026년 7월 27일 기준). 같은 사이트, 같은 시점을 기준으로 콜라보가 아닌 표준 바이퍼 V3 프로 SE 블랙 모델 가격은 159,000원인데요. 계산해 보면 이번 명조 콜라보 데코에 붙는 프리미엄이 42,600원 정도인 셈입니다.
-
-[여기 이미지: 옆면 'DENIA' 각인과 마우스 쉐입이 보이는 컷 — 이미지 출처: Razer 공식 제품 페이지(razer.com/kr-kr)]
-
-하드웨어 스펙(센서ㆍ스위치ㆍ폴링레이트ㆍ배터리) 자체는 표준 모델과 동일하고, 콜라보 에디션에만 데니아 테마 도장ㆍ사이드 버튼 포인트 컬러ㆍ'DENIA' 각인 같은 외형 요소가 더해진 구조입니다. 순수 성능만 보고 고른다면 표준 모델로도 충분하고, 4만 원대 프리미엄은 사실상 컬렉션ㆍ팬심 값이라고 보는 게 맞습니다.
-
-4. 이 마우스, 누가 사면 좋을까
-
-하드웨어 자체는 앞서 정리한 것처럼 표준 바이퍼 V3 프로 SE와 동일합니다. 그래서 판단 기준도 표준 모델에 대한 평가를 그대로 가져올 수 있는데요.
-
-대칭형 초경량 마우스는 보통 클로 그립ㆍ핑거팁 그립 위주로 플레이하는 경쟁형 게이머에게 잘 맞는다고 알려져 있습니다. 바이퍼 V3 프로 SE도 오른손잡이용 대칭형(Right-handed Symmetrical) 쉐입에 54g 초경량 무게라 이 조합에 해당하고요, 특히 옵티컬 스위치 특유의 클릭 지연 없는 반응성은 FPSㆍ에임 슈터 계열에서 강점으로 꼽힙니다. 반대로 팜 그립을 선호하거나 손이 큰 편이라 묵직한 마우스를 찾는다면, 이 라인업보다는 무게가 더 나가는 다른 모델을 먼저 보는 게 나을 수 있습니다.
-
-정리하면 이 제품은 아래 두 부류에 가장 잘 맞습니다.
-· 명조: 워더링 웨이브 팬이면서 데스크 셋업까지 테마로 맞추고 싶은 사람
-· 클로ㆍ핑거팁 그립으로 가볍고 반응 빠른 마우스를 찾던 경쟁형 게이머
-
-참고로 이 쉐입은 오른손잡이용 대칭형(Right-handed Symmetrical)이라, 왼손잡이시라면 손 모양 자체가 안 맞을 수 있으니 구매 전에 이 부분도 한 번 체크해 보시는 게 좋습니다.
-
-5. 한눈에 비교
-
-[표: 명조 콜라보 vs 표준 모델 가격 비교 (2026년 7월 27일 기준, Razer 공식 제품 페이지(razer.com/kr-kr) 표시 가격 기준)]
-구분 | 명조 콜라보 데니아 에디션 | 표준 바이퍼 V3 프로 SE(블랙)
-가격 | 201,600원 | 159,000원
-차액(프리미엄) | +42,600원
-하드웨어 스펙 | 동일(센서ㆍ스위치ㆍ폴링레이트ㆍ배터리)
-디자인 | 데니아 테마 도장 + 'DENIA' 각인 | 기본 블랙
-마우스+패드 번들 | Viper V3 Pro SE Bundle - Wuthering Waves Edition / 정가 323,600원 → 할인가 291,700원(재고 부족)
-※ 번들은 정가에서 할인이 적용된 상태로 표시되며, 할인율ㆍ재고는 시점에 따라 바뀔 수 있으니 구매 전 공식 페이지에서 다시 확인해 주세요.
-
-6. 구매 방법과 지금 재고 상태
-
-결론부터 말씀드리면 2026년 7월 27일 기준으로 마우스와 번들은 지금 바로 결제가 안 됩니다. 주인장이 직접 레이저 코리아 페이지를 하나씩 눌러 본 상태를 표로 정리했습니다.
-
-[표: 콜라보 4종 구매 가능 상태 (2026년 7월 27일 확인 기준)]
-품목 | 제품 페이지 상태 | 지금 할 수 있는 것
-마우스(데니아 에디션) | 재고 부족 | 재입고 알림 신청
-마우스+패드 번들 | 재고 부족 | 재입고 알림 신청
-키보드(블랙위도우 V4 TKL) | 컬렉션 페이지에 '선주문' 표시 | 개별 페이지에서 재고 확인
-체어(이스커 V2 X) | 컬렉션 페이지에 '구매하기' 표시 | 개별 페이지에서 재고 확인
-※ 콜라보 컬렉션 페이지의 버튼 라벨과 각 제품 페이지의 재고 표시를 함께 대조한 결과이며, 재고 상태는 수시로 바뀝니다.
-
-여기서 헷갈리기 쉬운 게, 컬렉션 페이지에는 '선주문'이라고 떠 있어도 개별 제품 페이지로 들어가면 '재고 부족'인 경우가 있다는 점입니다. 실제 결제가 되는지는 결국 개별 제품 페이지에서 확인해야 해요. 마우스패드는 단품 페이지 없이 마우스와 묶인 번들로만 팔리니, 패드가 목적이시라면 번들 쪽을 봐야 합니다.
-
-자주 묻는 질문
-
-Q. 하이퍼폴링 무선 동글은 따로 사야 하나요?
-네, 별매입니다. 마우스에 기본 동봉된 하이퍼스피드 동글은 1,000Hz 폴링레이트까지만 지원하고, 8,000Hz까지 끌어올리려면 하이퍼폴링 무선 동글을 별도로 구매해 연결해야 합니다. 명조 콜라보 데니아 에디션도 예외는 아니라서, 8,000Hz 폴링이 꼭 필요하시다면 동글 구매 비용까지 감안해서 예산을 잡으시는 게 좋습니다.
-
-Q. 실(SIGIL)만 목적이라면 제일 싸게 가는 방법은 뭔가요?
-공식 안내 기준으로 SIGIL이 붙는 품목은 마우스ㆍ키보드ㆍ체어 셋이고, 마우스패드는 ASTRITE와 쉘 크레딧만 붙습니다. 이 중 가장 저렴한 게 마우스(201,600원)라, SIGIL이 목적이라면 마우스가 최소 비용 경로가 됩니다. 다만 실물 핀 세트까지 챙기려면 RazerStore에서 구매해야 한다는 조건이 따로 붙어 있으니, 두 가지를 같이 노리신다면 구매처를 먼저 확인하시는 게 좋습니다.
-
-마무리
-
-정리하면 이렇습니다. 명조: 워더링 웨이브 팬이라 데스크 테마까지 맞추고 싶다면 4만 원대 프리미엄은 감당할 만한 값이고, 마우스를 사면 게임 내 SIGIL에 RazerStore 구매 조건으로 데니아 핀 세트까지 따라옵니다. 순수 성능만 본다면 하드웨어가 똑같은 표준 모델도 충분한 대안이 되고요. 다만 7월 27일 기준으로 마우스ㆍ번들 모두 재고 부족이라, 마음을 정하셨다면 공식 페이지에서 재입고 알림부터 걸어 두시는 게 지금으로선 가장 빠릅니다.
-
-참고한 곳
-· Razer 공식 제품 페이지(영문): https://www.razer.com/gaming-mice/wuthering-waves-razer-viper-v3-pro-se
-· Razer 공식 제품 페이지(한국): https://www.razer.com/kr-kr/gaming-mice/wuthering-waves-razer-viper-v3-pro-se
-· Razer 공식 보도자료: https://www.razer.com/newsroom/product-news/wuthering-waves-collection
-· Razer 공식 콜라보 컬렉션 페이지(한국): https://www.razer.com/kr-kr/collabs/wuthering-waves
-
-▶ 같이 보면 좋은 글: 레이저 포켓몬 콜라보 게이밍기어 4종 출시, 에브이·블래키 에디션 총정리 (네이버에서 해당 글 링크를 직접 넣어 주세요)
-▶ 같이 보면 좋은 글: 로지텍 G304 X SUPERLIGHT 국내 출시, 59g 초경량 무선마우스 스펙 총정리 (네이버에서 해당 글 링크를 직접 넣어 주세요)
-
-[태그]
-#레이저바이퍼V3프로SE #명조워더링웨이브콜라보 #RazerViperV3ProSE #데니아에디션 #레이저게이밍마우스 #WutheringWaves콜라보 #게이밍기어신제품 #레이저콜라보</div>
+  
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 5곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 레이저 명조 워더링 웨이브 콜라보 바이퍼 V3 프로 SE, 데니아 에디션 스펙·가격 총정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>안녕하세요. 영원한도시입니다. 저는 마우스를 살 때 무게부터 보는 편인데요, 60g 아래로 내려가면 일단 장바구니에 담고 보는 버릇이 있습니다. 그래서 이번 건은 스펙표를 열자마자 눈이 갔어요. 레이저(Razer)가 쿠로게임즈와 손잡고 내놓은 '명조: 워더링 웨이브' 콜라보 바이퍼 V3 프로 SE - 54g에 가격은 20만 원대입니다.</p>
+<p>이 글은 공식 페이지에 올라온 스펙ㆍ가격ㆍ구매 조건을 하나씩 대조해서 정리한 소개글입니다. 특히 게임 내 보상이 품목마다 다르다는 점과 실물 핀 세트 지급 조건은 공식 문구를 그대로 확인해 봤는데, 널리 알려진 것과 다른 부분이 있어서 그 대목을 중심으로 짚어보겠습니다.</p>
+<h3>1. 레이저 × 명조: 워더링 웨이브, 데니아 콜라보는 어떤 컬렉션인가</h3>
+<p>한국 공식 표기로는 'Razer | 명조: 워더링 웨이브 컬렉션'이고요, 레이저가 개발사 쿠로게임즈(KURO GAMES)와 손잡고 2026년 7월 2일 공식 발표한 콜라보입니다. 명조: 워더링 웨이브의 최신 공명자(newest Resonator) '데니아(Denia)'를 테마로 잡았고, 구성은 게이밍 체어 '이스커(Iskur) V2 X', 무선 키보드 '블랙위도우(BlackWidow) V4 텐키리스 하이퍼스피드', 무선 마우스 '바이퍼(Viper) V3 프로 SE', 마우스패드 '기간투스(Gigantus) V2 XXL', 이렇게 4종입니다.</p>
+<p class="ph">📷 〔사진 자리 1〕 체어ㆍ키보드ㆍ마우스ㆍ마우스패드 4종 컬렉션 전체 라인업 — 이미지 출처: Razer 공식 보도자료(razer.com/newsroom) — 네이버에서 직접 업로드</p>
+<p>레이저 라이프스타일 부문 글로벌 총괄(Global Head of Lifestyle Division at Razer) 애디 탄(Addie Tan)은 보도자료에서, 데니아의 굳은 의지가 플레이어가 퍼포먼스에 임하는 방식 - 집중력 있고, 정밀하고, 끝까지 버티는 - 으로 자연스럽게 이어진다고 설명했습니다.</p>
+<p>그리고 이 컬렉션은 품목마다 명조: 워더링 웨이브 게임 내 보상이 따로 붙는데요, 여기서 하나 짚고 갈 게 있습니다. 공식 컬렉션 페이지를 보면 품목별로 주는 게 다르고, 4종 전부가 같은 걸 받는 게 아닙니다. 주인장이 직접 대조해 본 내용은 아래 표와 같습니다.</p>
+<table>
+<tr><td>품목</td><td>구매 시 따라오는 게임 내 보상</td></tr>
+<tr><td class="l">마우스(바이퍼 V3 프로 SE)</td><td>SIGIL</td></tr>
+<tr><td class="l">키보드(블랙위도우 V4 TKL)</td><td>SIGIL + ASTRITE + 고급 에너지 코어</td></tr>
+<tr><td class="l">체어(이스커 V2 X)</td><td>SIGIL + ASTRITE + 고급 공명 물약</td></tr>
+<tr><td class="l">마우스패드(기간투스 V2 XXL)</td><td>ASTRITE + 쉘 크레딧 (SIGIL 없음)</td></tr>
+</table>
+<p>※ 보상 이름은 공식 페이지에 영문(SIGIL·ASTRITE 등)으로만 표기돼 있어, 한국어 표기는 게임 내 정식 명칭과 다를 수 있습니다.</p>
+<p>보시다시피 마우스패드만 SIGIL이 빠져 있습니다. 실(SIGIL)이 목적이라면 마우스패드 단품이 아니라 마우스나 키보드 쪽을 봐야 한다는 뜻이라, 이건 구매 전에 꼭 확인하셔야 할 부분이에요.</p>
+<p>실물 굿즈 쪽도 하나 더 있습니다. 공식 컬렉션 페이지 약관에 'Razer Denia 핀 세트 – Wuthering Waves 에디션'이 안내돼 있는데, 조건은 사전예약이 아니라 '구매 시 증정'입니다. 지정된 바이퍼 V3 프로 SE 명조 에디션 또는 마우스 번들을 사면 주는 방식이고요, 키보드를 사면 이건 'Razer Denia 라지 핀'이라는 다른 품목으로 바뀝니다. 다만 이 혜택은 RazerStore에서 구매한 경우에만 적용된다고 약관에 명시돼 있으니, 다른 경로로 사실 계획이라면 감안해 두시는 게 좋습니다.</p>
+<p class="ph">📷 〔사진 자리 2〕 마우스 상판 데코와 데니아 캐릭터 아트가 나란히 놓인 컷 — 이미지 출처: Razer 공식 제품 페이지(razer.com/kr-kr) — 네이버에서 직접 업로드</p>
+<h3>2. 바이퍼 V3 프로 SE 데니아 에디션, 핵심 스펙부터 짚어보면</h3>
+<p>먼저 표로 한 번에 정리하고 가겠습니다.</p>
+<table>
+<tr><td>항목</td><td>바이퍼 V3 프로 SE(데니아 에디션)</td></tr>
+<tr><td>무게</td><td>54g</td></tr>
+<tr><td>쉐입</td><td>오른손잡이용 대칭형(Right-handed Symmetrical)</td></tr>
+<tr><td>센서</td><td>포커스 프로(Focus Pro) 35K 옵티컬 센서 2세대</td></tr>
+<tr><td>최대 DPI</td><td>35,000 DPI</td></tr>
+<tr><td class="l">추적속도 / 가속도</td><td>750 IPS / 70G</td></tr>
+<tr><td>스위치</td><td>레이저 옵티컬 마우스 스위치 3세대</td></tr>
+<tr><td class="l">클릭 수명 / 액추에이션</td><td>9천만 회 / 0.2ms</td></tr>
+<tr><td class="l">프로그래밍 가능한 컨트롤</td><td>8개(공식 표기 기준)</td></tr>
+<tr><td>폴링레이트</td><td>기본 1,000Hz / 최대 8,000Hz(하이퍼폴링 동글 별매)</td></tr>
+<tr><td>배터리</td><td>최대 95시간(1,000Hz 기준)</td></tr>
+<tr><td>연결</td><td>하이퍼스피드 무선 + USB Type-A to Type-C 유선 겸용</td></tr>
+</table>
+<p>※ 하드웨어 스펙은 표준 바이퍼 V3 프로 SE와 동일합니다.</p>
+<p>이제 숫자를 하나씩 풀어볼게요. 무게는 54g 초경량입니다. 센서는 레이저 포커스 프로(Focus Pro) 35K 옵티컬 센서 2세대를 얹었는데, 최대 35,000 DPI에 750 IPS 추적속도, 최대 70G 가속도까지 잡아줍니다. 숫자만 나열하면 감이 잘 안 오실 텐데, 정리하면 저속으로 세밀하게 조준하는 상황부터 화면을 빠르게 훑는 순간까지 센서가 놓치지 않고 다 따라온다는 뜻입니다.</p>
+<p class="ph">📷 〔사진 자리 3〕 블랙 바디에 은색 클릭부, 핑크 포인트가 들어간 사이드 버튼ㆍ스크롤휠 구성 — 이미지 출처: Razer 공식 제품 페이지(razer.com/kr-kr) — 네이버에서 직접 업로드</p>
+<p>버튼 이야기는 표기를 한 번 짚고 가야 합니다. 레이저 공식 페이지는 '프로그래밍 가능한 8개의 컨트롤'이라고 적어 두는데요, 실제로 손에 닿는 물리 버튼은 좌ㆍ우클릭, 휠 클릭, 상단 DPI 버튼, 사이드 버튼 2개로 6개입니다. 휠의 위ㆍ아래 스크롤까지 할당 가능한 컨트롤로 세느냐 마느냐의 차이라, 공식 표기 기준으로는 8개라고 알아 두시면 됩니다. 클릭에는 레이저 옵티컬(광학식) 마우스 스위치 3세대가 들어갔고, 9천만 회 클릭 수명에 0.2ms 액추에이션이라 스펙상 클릭 지연이 거의 없는 쪽으로 잡혀 있습니다.</p>
+<p class="ph">📷 〔사진 자리 4〕 사이드 버튼 아래 새겨진 'DENIA' 워드마크가 보이는 컷, 앞쪽에서 비스듬히 촬영 — 이미지 출처: Razer 공식 제품 페이지(razer.com/kr-kr) — 네이버에서 직접 업로드</p>
+<p>폴링레이트는 동봉된 하이퍼스피드(HyperSpeed) 무선 동글 기준 1,000Hz가 기본입니다. 여기서 별매인 하이퍼폴링(HyperPolling) 무선 동글을 따로 연결하면 최대 8,000Hz까지 끌어올릴 수 있는데, 이 동글은 마우스에 기본 포함된 게 아니라는 점은 짚고 가야겠습니다. 배터리는 1,000Hz 기준 최대 95시간이고, 연결은 레이저 하이퍼스피드 무선에 USB Type-A to Type-C 유선 겸용까지 지원합니다.</p>
+<h3>3. 가격 - 표준 모델보다 얼마나 비싼가</h3>
+<p>가격은 201,600원입니다(razer.com/kr-kr · 2026년 7월 27일 기준). 같은 사이트, 같은 시점을 기준으로 콜라보가 아닌 표준 바이퍼 V3 프로 SE 블랙 모델 가격은 159,000원인데요. 계산해 보면 이번 명조 콜라보 데코에 붙는 프리미엄이 42,600원 정도인 셈입니다.</p>
+<p class="ph">📷 〔사진 자리 5〕 옆면 'DENIA' 각인과 마우스 쉐입이 보이는 컷 — 이미지 출처: Razer 공식 제품 페이지(razer.com/kr-kr) — 네이버에서 직접 업로드</p>
+<p>하드웨어 스펙(센서ㆍ스위치ㆍ폴링레이트ㆍ배터리) 자체는 표준 모델과 동일하고, 콜라보 에디션에만 데니아 테마 도장ㆍ사이드 버튼 포인트 컬러ㆍ'DENIA' 각인 같은 외형 요소가 더해진 구조입니다. 순수 성능만 보고 고른다면 표준 모델로도 충분하고, 4만 원대 프리미엄은 사실상 컬렉션ㆍ팬심 값이라고 보는 게 맞습니다.</p>
+<h3>4. 이 마우스, 누가 사면 좋을까</h3>
+<p>하드웨어 자체는 앞서 정리한 것처럼 표준 바이퍼 V3 프로 SE와 동일합니다. 그래서 판단 기준도 표준 모델에 대한 평가를 그대로 가져올 수 있는데요.</p>
+<p>대칭형 초경량 마우스는 보통 클로 그립ㆍ핑거팁 그립 위주로 플레이하는 경쟁형 게이머에게 잘 맞는다고 알려져 있습니다. 바이퍼 V3 프로 SE도 오른손잡이용 대칭형(Right-handed Symmetrical) 쉐입에 54g 초경량 무게라 이 조합에 해당하고요, 특히 옵티컬 스위치 특유의 클릭 지연 없는 반응성은 FPSㆍ에임 슈터 계열에서 강점으로 꼽힙니다. 반대로 팜 그립을 선호하거나 손이 큰 편이라 묵직한 마우스를 찾는다면, 이 라인업보다는 무게가 더 나가는 다른 모델을 먼저 보는 게 나을 수 있습니다.</p>
+<p>정리하면 이 제품은 아래 두 부류에 가장 잘 맞습니다.</p>
+<ul><li>명조: 워더링 웨이브 팬이면서 데스크 셋업까지 테마로 맞추고 싶은 사람</li><li>클로ㆍ핑거팁 그립으로 가볍고 반응 빠른 마우스를 찾던 경쟁형 게이머</li></ul>
+<p>참고로 이 쉐입은 오른손잡이용 대칭형(Right-handed Symmetrical)이라, 왼손잡이시라면 손 모양 자체가 안 맞을 수 있으니 구매 전에 이 부분도 한 번 체크해 보시는 게 좋습니다.</p>
+<h3>5. 한눈에 비교</h3>
+<table>
+<tr><td>구분</td><td>명조 콜라보 데니아 에디션</td><td>표준 바이퍼 V3 프로 SE(블랙)</td></tr>
+<tr><td>가격</td><td>201,600원</td><td>159,000원</td></tr>
+<tr><td class="l">차액(프리미엄)</td><td>+42,600원</td></tr>
+<tr><td class="l">하드웨어 스펙</td><td>동일(센서ㆍ스위치ㆍ폴링레이트ㆍ배터리)</td></tr>
+<tr><td>디자인</td><td>데니아 테마 도장 + 'DENIA' 각인</td><td>기본 블랙</td></tr>
+</table>
+<p>마우스+패드 번들 | Viper V3 Pro SE Bundle - Wuthering Waves Edition / 정가 323,600원 → 할인가 291,700원(재고 부족)</p>
+<p>※ 번들은 정가에서 할인이 적용된 상태로 표시되며, 할인율ㆍ재고는 시점에 따라 바뀔 수 있으니 구매 전 공식 페이지에서 다시 확인해 주세요.</p>
+<h3>6. 구매 방법과 지금 재고 상태</h3>
+<p>결론부터 말씀드리면 2026년 7월 27일 기준으로 마우스와 번들은 지금 바로 결제가 안 됩니다. 주인장이 직접 레이저 코리아 페이지를 하나씩 눌러 본 상태를 표로 정리했습니다.</p>
+<table>
+<tr><th>품목</th><th>제품 페이지 상태</th><th>지금 할 수 있는 것</th></tr>
+<tr><td class="l">마우스(데니아 에디션)</td><td>재고 부족</td><td>재입고 알림 신청</td></tr>
+<tr><td class="l">마우스+패드 번들</td><td>재고 부족</td><td>재입고 알림 신청</td></tr>
+<tr><td class="l">키보드(블랙위도우 V4 TKL)</td><td>컬렉션 페이지에 '선주문' 표시</td><td>개별 페이지에서 재고 확인</td></tr>
+<tr><td class="l">체어(이스커 V2 X)</td><td>컬렉션 페이지에 '구매하기' 표시</td><td>개별 페이지에서 재고 확인</td></tr>
+</table>
+<p>※ 콜라보 컬렉션 페이지의 버튼 라벨과 각 제품 페이지의 재고 표시를 함께 대조한 결과이며, 재고 상태는 수시로 바뀝니다.</p>
+<p>여기서 헷갈리기 쉬운 게, 컬렉션 페이지에는 '선주문'이라고 떠 있어도 개별 제품 페이지로 들어가면 '재고 부족'인 경우가 있다는 점입니다. 실제 결제가 되는지는 결국 개별 제품 페이지에서 확인해야 해요. 마우스패드는 단품 페이지 없이 마우스와 묶인 번들로만 팔리니, 패드가 목적이시라면 번들 쪽을 봐야 합니다.</p>
+<p>자주 묻는 질문</p>
+<p><b>Q. 하이퍼폴링 무선 동글은 따로 사야 하나요?</b></p>
+<p>네, 별매입니다. 마우스에 기본 동봉된 하이퍼스피드 동글은 1,000Hz 폴링레이트까지만 지원하고, 8,000Hz까지 끌어올리려면 하이퍼폴링 무선 동글을 별도로 구매해 연결해야 합니다. 명조 콜라보 데니아 에디션도 예외는 아니라서, 8,000Hz 폴링이 꼭 필요하시다면 동글 구매 비용까지 감안해서 예산을 잡으시는 게 좋습니다.</p>
+<p><b>Q. 실(SIGIL)만 목적이라면 제일 싸게 가는 방법은 뭔가요?</b></p>
+<p>공식 안내 기준으로 SIGIL이 붙는 품목은 마우스ㆍ키보드ㆍ체어 셋이고, 마우스패드는 ASTRITE와 쉘 크레딧만 붙습니다. 이 중 가장 저렴한 게 마우스(201,600원)라, SIGIL이 목적이라면 마우스가 최소 비용 경로가 됩니다. 다만 실물 핀 세트까지 챙기려면 RazerStore에서 구매해야 한다는 조건이 따로 붙어 있으니, 두 가지를 같이 노리신다면 구매처를 먼저 확인하시는 게 좋습니다.</p>
+<p>마무리</p>
+<p>정리하면 이렇습니다. 명조: 워더링 웨이브 팬이라 데스크 테마까지 맞추고 싶다면 4만 원대 프리미엄은 감당할 만한 값이고, 마우스를 사면 게임 내 SIGIL에 RazerStore 구매 조건으로 데니아 핀 세트까지 따라옵니다. 순수 성능만 본다면 하드웨어가 똑같은 표준 모델도 충분한 대안이 되고요. 다만 7월 27일 기준으로 마우스ㆍ번들 모두 재고 부족이라, 마음을 정하셨다면 공식 페이지에서 재입고 알림부터 걸어 두시는 게 지금으로선 가장 빠릅니다.</p>
+<h3>참고한 곳</h3>
+<ul><li>Razer 공식 제품 페이지(영문): <a href="https://www.razer.com/gaming-mice/wuthering-waves-razer-viper-v3-pro-se" target="_blank">https://www.razer.com/gaming-mice/wuthering-waves-razer-viper-v3-pro-se</a></li><li>Razer 공식 제품 페이지(한국): <a href="https://www.razer.com/kr-kr/gaming-mice/wuthering-waves-razer-viper-v3-pro-se" target="_blank">https://www.razer.com/kr-kr/gaming-mice/wuthering-waves-razer-viper-v3-pro-se</a></li><li>Razer 공식 보도자료: <a href="https://www.razer.com/newsroom/product-news/wuthering-waves-collection" target="_blank">https://www.razer.com/newsroom/product-news/wuthering-waves-collection</a></li><li>Razer 공식 콜라보 컬렉션 페이지(한국): <a href="https://www.razer.com/kr-kr/collabs/wuthering-waves" target="_blank">https://www.razer.com/kr-kr/collabs/wuthering-waves</a></li></ul>
+<p>▶ 같이 보면 좋은 글: 레이저 포켓몬 콜라보 게이밍기어 4종 출시, 에브이·블래키 에디션 총정리 (네이버에서 해당 글 링크를 직접 넣어 주세요)</p>
+<p>▶ 같이 보면 좋은 글: 로지텍 G304 X SUPERLIGHT 국내 출시, 59g 초경량 무선마우스 스펙 총정리 (네이버에서 해당 글 링크를 직접 넣어 주세요)</p>
+<p class="tags-line">#레이저바이퍼V3프로SE #명조워더링웨이브콜라보 #RazerViperV3ProSE #데니아에디션 #레이저게이밍마우스 #WutheringWaves콜라보 #게이밍기어신제품 #레이저콜라보</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

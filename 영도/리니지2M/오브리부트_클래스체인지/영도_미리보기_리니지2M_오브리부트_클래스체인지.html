@@ -40,6 +40,40 @@
   .ref b{color:#333;}
   .ref a{color:#1a73e8;text-decoration:none;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -138,4 +172,125 @@
     <div class="tags">#리니지2M #리니지2M오브 #리니지2M오브리부트 #리니지2MSANCTUARY #리니지2M클래스체인지 #리니지2M클래스체인지이벤트 #리니지2M불멸의왕도 #리니지2M쌍도끼 #리니지2M소울브레이커 #리니지2M헛개수</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 7곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 리니지2M SANCTUARY 업데이트 오브 클래스체인지, 9월 9일 전에 갈아타야 할까?</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p><b>9월 9일</b> 정기점검 전까지, 지금 <b>리니지2M</b>을 하고 계신 분이라면 이번 '오브 클래스체인지' 이벤트는 최소한 한 번쯤 저울질해볼 가치가 있습니다. <b>8월 26일</b> 정기점검으로 적용된 'SANCTUARY : 전장을 되살리는 기적' 업데이트에서 지원형 클래스 '오브'가 통째로 손질됐고, 그 기념으로 그날부터 <b>9월 9일</b>까지 무료 전직 이벤트가 열렸거든요. 오늘은 스킬이 뭐가 바뀌었는지 나열만 하지 않고, "지금 갈아타면 진짜 이득인가"를 기준으로 정리해 보겠습니다.</p>
+
+<p class="ph">📷 〔사진 자리 1〕 리니지2M SANCTUARY 전장을 되살리는 기적 업데이트 메인 배너, 2026.8.26 UPDATE 표기 — img/og-banner.jpg 업로드 — 네이버에서 직접 업로드</p>
+<p class="cap">위 이미지를 보시면 공식 페이지 최상단에 8월 26일 업데이트라고 못박혀 있어요.</p>
+
+<h3>1. 오브가 왜 다시 화제인가</h3>
+<p>8월 26일 SANCTUARY 업데이트로 리니지2M 지원형 클래스 '오브'의 핵심 스킬 여섯 종이 리부트됐습니다. 표로 정리하면 이렇습니다.</p>
+
+<table>
+  <tr><th>스킬</th><th>효과</th><th>비고</th></tr>
+  <tr><td>'세크리드니스'</td><td class="al">사망 직전 위기의 파티원에게 '신의 가호'를 부여해 일정량 HP를 자동으로 회복시켜 다시 전투에 참여할 수 있게 함</td><td>리부트</td></tr>
+  <tr><td>'헤일로'</td><td class="al">헤일로 사용 시 파티원 능력치를 강화하고, 오브를 일정 시간 이상 장착해 강화된 상태가 되면 신화 등급 디버프까지 제거</td><td>구 '그레이스 힐' 리부트</td></tr>
+  <tr><td>'둠'</td><td class="al">대상이 있는 지역에 '파멸의 저주'를 내려 영역 내 대상에 지속 피해를 입히고 '둠' 디버프를 부여함(공격형)</td><td>리부트</td></tr>
+  <tr><td>'그룹 힐'</td><td class="al">주변 파티원 HP를 지속적으로 회복</td><td>리부트</td></tr>
+  <tr><td>'루미너스 힐'</td><td class="al">'그룹 힐'을 강화해 회복량을 늘리고, 범위 내 파티원 방어력을 높이는 효과를 추가</td><td>구 '더블 실드' 리부트</td></tr>
+  <tr><td>'그레이트 힐'</td><td class="al">'풀 힐'의 선행 스킬로 변경되며, 스킬 사용 시 파티원 HP를 즉시 크게 회복시킴</td><td>구 '매스 힐' 리부트</td></tr>
+</table>
+
+<p>공식 업데이트 페이지를 직접 열어서 하나씩 확인해봤는데요, '헤일로', '루미너스 힐', '그레이트 힐' 이렇게 세 개는 이름만 바뀐 게 아니라 각각 '그레이스 힐', '더블 실드', '매스 힐'이었던 스킬을 통째로 갈아엎은 리부트더라고요. 여기에 이번에 완전히 새로 생긴 '둠'까지 합치면 <b>총 여섯 개</b> 스킬이 이번에 손을 봤습니다. 한마디로 오브라는 클래스 자체를 밑바닥부터 다시 그린 셈이죠.</p>
+<p>오브는 원래도 파티 사냥이나 공성전에서 아군을 지원하는 힐러 포지션으로 분류되는 클래스인데요, 이번처럼 스킬 여섯 개가 한꺼번에 손질된 사례는 최근 밸런스 패치 중에서도 폭이 큰 편입니다. 공식 페이지 소개 문구를 그대로 옮기면 "강화된 힐 능력, 생명을 밝히는 축복의 빛"이라고 돼 있는데, 스킬을 하나하나 뜯어보면 대부분은 파티 생존력에 방점을 찍은 게 맞습니다. 다만 '둠' 하나는 예외로, 지역에 지속 피해를 주고 디버프까지 거는 완전한 공격형 스킬이라 오브 리부트를 순수 힐러 강화로만 보기는 어렵더라고요. 특히 '세크리드니스'는 공식 설명에 "사망에 가까운 위기에 처하면 가호의 힘으로 일정량의 HP를 회복하여 다시 전투에 참여할 수 있게 됩니다"라고 적혀 있어서, 파티원이 녹기 직전인 상황을 버텨주는 역할에 초점을 맞춘 걸로 보입니다.</p>
+
+<p class="ph">📷 〔사진 자리 2〕 공식 페이지 '리부트 스킬 프리뷰' 섹션 — 세크리드니스·헤일로(구.그레이스 힐)·둠·루미너스 힐(구.더블 실드)·그레이트 힐(구.매스 힐)·그룹 힐 6종 아이콘, REBOOT 배지 — img/sec2-skill-off.webp 업로드 — 네이버에서 직접 업로드</p>
+<p class="cap">아이콘 아래 (구) 표기로 어떤 스킬이 리부트됐는지 바로 확인되더라고요.</p>
+
+<p>표에서 새로 채운 '둠'ㆍ'그레이트 힐' 두 줄은 아래 공식 설명 이미지를 직접 읽고 그대로 옮긴 겁니다.</p>
+
+<p class="ph">📷 〔사진 자리 3〕 둠 스킬 공식 설명 — 신의 분노를 담아 대상이 위치한 지역에 파멸의 저주를 내립니다. 영역 내 대상에 지속 피해를 입히고 둠 디버프를 부여합니다. — img/sec2-desc-doom.webp 업로드 — 네이버에서 직접 업로드</p>
+<p class="ph">📷 〔사진 자리 4〕 그레이트 힐(구. 매스 힐) 공식 설명 — 풀 힐의 선행 스킬로 변경됩니다. 스킬 사용 시 파티원의 HP를 즉시 크게 회복합니다. — img/sec2-desc-half.webp 업로드 — 네이버에서 직접 업로드</p>
+
+<h3>2. 무료 클래스체인지 조건</h3>
+<p>오브 리부트를 기념해 8월 26일 정기점검 후부터 9월 9일 정기점검 전까지, 보유 캐릭터를 무료로 오브 클래스로 바꿀 수 있는 클래스체인지 이벤트가 진행 중입니다.</p>
+<p>
+ㆍ기간ㆍ<b>2026년 8월 26일(수) 정기점검 후 ~ 9월 9일(수) 정기점검 전</b><br>
+ㆍ오브 클래스체인지 <b>1회</b> 무료 제공<br>
+ㆍ전직 후 마음에 안 들면 리턴 클래스체인지로 원래 클래스 복귀 <b>1회</b> 가능 — 이것도 <b>9월 9일 정기점검 전까지</b>입니다
+</p>
+<p>공식 페이지에 "오브 클래스 체인지 1회, 리턴 클래스 체인지 1회"라고 정확히 적혀 있더라고요. 그러니까 갈아탔다가 아니다 싶으면 한 번은 되돌릴 수 있다는 얘기입니다. 이게 이번 이벤트에서 제일 중요한 안전장치예요. 다만 공식 원문을 다시 보면 이 두 횟수가 <b>같은 기간구</b>("9월 9일 정기 점검 전까지")에 함께 걸려 있어서, 되돌리는 것도 마감 전에 끝내야 한다는 점은 따로 챙겨야 합니다.</p>
+<p>여기서 '정기점검 전'이라는 표현이 좀 헷갈릴 수 있는데요, <b>9월 9일 하루 전체가 아니라 9월 9일(수) 정기점검이 시작되기 전까지</b>라는 뜻입니다. 자정 넘어서까지 여유가 있다고 생각하지 마시고, 정기점검 시작 전에 미리 끝내두시는 게 안전합니다.</p>
+
+<h3>3. 그래서, 지금 갈아타면 이득일까요?</h3>
+<p>결론부터 말씀드리면 '무료+되돌리기 가능'이라는 조건 덕분에 제가 보기엔 큰 부담 없이 시도해볼 만하지만, 무조건 갈아타야 하는 건 아닙니다.</p>
+
+<p class="ph">📷 〔사진 자리 5〕 공식 안내문 — 2026.8.26(수) 정기점검 후 ~ 9.9.(수) 정기점검 전, 오브 클래스 체인지 1회, 리턴 클래스 체인지 1회 — img/sec3-disc.webp 업로드 — 네이버에서 직접 업로드</p>
+<p class="cap">이미지를 보시면 날짜랑 횟수가 그대로 박혀 있어서 헷갈릴 일이 없어요. 두 횟수가 같은 줄, 같은 기간에 나란히 적혀 있다는 것도 확인되고요.</p>
+
+<p>
+ㆍ<b>파티 지원형(힐러) 포지션이 아쉬웠던 혈맹·파티</b>라면 → 지금이 오브를 무료로 들여볼 좋은 타이밍입니다.<br>
+ㆍ<b>기존 클래스 전용 장비ㆍ스킬에 이미 많이 투자한 캐릭터</b>라면 → 전직 후 세팅을 다시 맞춰야 할 수 있으니, 전직 전에 먼저 확인해두세요.<br>
+ㆍ<b>애매하게 고민된다면</b> → 리턴 클래스체인지도 같은 마감(9월 9일) 안에서만 쓸 수 있으니, 일단 갈아타 보되 되돌릴지 여부까지 마감 전에 정해두는 걸 추천합니다.<br>
+ㆍ<b>이미 오브 계열 캐릭터를 키우고 있었다면</b> → 별도 전직 없이 이번 리부트로 올라간 성능을 그대로 누리는 셈이니, 굳이 다른 캐릭터를 오브로 바꿀 필요는 없습니다.
+</p>
+<p>다만 리턴 클래스체인지도 딱 <b>1회</b>뿐이고, 게다가 오브 클래스체인지와 <b>같은 마감(9월 9일 정기점검 전)</b>까지만 유효하다는 점은 꼭 챙기셔야 합니다. 예를 들어 9월 7~8일에 급하게 전직했다가 안 맞아서 되돌리려 해도, 마감을 넘기면 되돌릴 창구 자체가 사라진다는 뜻이에요. 오늘(<b>8월 28일</b>) 기준으로 계산하면 마감까지 남은 시간은 약 <b>12일</b>입니다. 넉넉해 보여도 혈맹 단위로 전직 여부를 상의해야 하는 상황이라면, 게다가 되돌리기까지 감안하면 생각보다 빠듯할 수 있으니, 저라면 미루지 말고 이번 주 안에 방향부터 정해두겠습니다.</p>
+
+<h3>4. 같이 실린 다른 소식도 챙겨두세요</h3>
+<p>
+ㆍ연합 보스 쟁탈전 <b>'불멸의 왕도'</b> ㆍ 공식 소개 문구 그대로 "연합 간의 명예를 건 신규 보스 쟁탈전"입니다. 연합 활성도 순위 상위 <b>10개</b> 연합만 참가할 수 있고, <b>금요일 22:30</b>부터 매칭된 연합 소속 캐릭터가 입장할 수 있는데요, 입구에서 중간 보스를 처치하면 전투에 도움이 되는 버프를 얻은 뒤 본전으로 들어가는 구조더라고요.<br>
+ㆍ리저브 월드 2주년 특전 ㆍ 신규 클래스 <b>'쌍도끼'</b>가 먼저 추가됐고, <b>'소울 브레이커'</b>는 9월 중 추가될 예정입니다. 다만 이 두 클래스는 공식 페이지에서 '리저브 월드 업데이트 라인업'으로 따로 소개돼 있어서, 오리진 월드까지 전체 서버에 적용되는지는 명확하게 확인되지 않았습니다. 확인되는 대로 다시 정리해서 알려드릴게요.<br>
+ㆍ리저브 월드 2주년 감사제 ㆍ 에덴ㆍ엘모아덴ㆍ사이하 세 서버가 걸어온 2년을 돌아보는 감사 영상도 함께 공개됐는데요, 영상 속에 숨겨진 <b>2주년 스페셜 쿠폰</b>도 놓치지 말라고 공식적으로 안내하고 있습니다.<br>
+ㆍ헛개수 콜라보레이션 ㆍ 헛개수 제품을 구매하고 쿠폰을 등록하면 게임 내 보상을 받을 수 있는 이벤트도 같이 진행 중입니다.
+</p>
+
+<p class="ph">📷 〔사진 자리 6〕 공식 페이지 '연합 보스 쟁탈전 : 불멸의 왕도' 섹션 — 매칭규칙(연합 활성도 순위 상위 10개 연합 대상) · 입장조건(금요일 22:30부터) 안내문 — 직접 캡처 위치: lineage2m.plaync.com/conts/260812_update#section-4 — 네이버에서 직접 업로드</p>
+<p class="cap">불멸의 왕도 매칭 규칙이 텍스트로 딱 정리돼 있어서 그대로 캡처하면 됩니다.</p>
+
+<p class="ph">📷 〔사진 자리 7〕 공식 페이지 '리저브 월드 업데이트 라인업' 섹션 — 신규 클래스 쌍도끼(적용) · 소울 브레이커(9월 COMING SOON) 아트 — 직접 캡처 위치: lineage2m.plaync.com/conts/260812_update#section-9 — 네이버에서 직접 업로드</p>
+<p class="cap">소울 브레이커 쪽엔 'COMING SOON' 배지가 따로 붙어 있더라고요.</p>
+
+<div class="summary"><b>오늘 내용 정리</b><br>
+여기까지 살펴본 걸 다시 한 줄로 붙이면, 오브 리부트는 실전 성능이 확실히 올라간 개편이고, 클래스체인지 이벤트는 무료인 데다 되돌리기까지 됩니다. 다만 되돌리기까지 염두에 두면 마감(9월 9일)보다 며칠은 여유를 두고 결정하시는 게 안전한 구조예요. 오브 실전 세팅이나 룬 조합 얘기는 다음 글에서 이어가겠습니다.</div>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://lineage2m.plaync.com/conts/260812_update" target="_blank">NC 리니지2M 공식 업데이트 페이지 — SANCTUARY : 전장을 되살리는 기적</a></p>
+
+<p>#리니지2M #리니지2M오브 #리니지2M오브리부트 #리니지2MSANCTUARY #리니지2M클래스체인지 #리니지2M클래스체인지이벤트 #리니지2M불멸의왕도 #리니지2M쌍도끼 #리니지2M소울브레이커 #리니지2M헛개수</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

@@ -41,6 +41,40 @@
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
   .links{margin-top:26px;font-size:14.5px;line-height:2;color:#444;}
   .links .h{font-weight:800;color:#0a8a44;margin-bottom:4px;display:block;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -113,4 +147,83 @@
     <div class="tags">#히간이루실 #넥슨신작 #selectall #서브컬처게임추천 #사전예약 #할만한모바일게임 #수집형RPG #빌리빌리게임</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 히간 이루실 사전예약 방법 보상 정리, 넥슨 select all 첫 서브컬처 신작 할만한 모바일게임 추천</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>안녕하세요. 영원한도시입니다. 요즘 서브컬처 신작 소식 뜨면 일단 사전예약부터 걸어놓고 보는 편인데요, 이번엔 좀 흥미로운 조합이라 바로 글로 정리하게 됐습니다. 넥슨이 새 퍼블리싱 브랜드를 하나 만들었고, 그 첫 타자로 서브컬처 게임을 하나 데려왔거든요. 이름하여 '히간: 이루실'입니다.</p>
+<p>저도 이름만 듣고는 뭔가 했는데, 직접 찾아보니 원래 있던 게임을 국내로 새로 들여오는 케이스더라고요. 처음 접하시는 분들 헷갈리지 않게 브랜드 정보부터 게임 소개, 사전예약 방법·보상까지 한 번에 정리해 드릴게요.</p>
+<h3>1. select all이 뭔가요? - 넥슨의 새 서브컬처 창구</h3>
+<p>'select all'은 넥슨이 새로 내건 퍼블리싱 브랜드입니다. 넥슨이 직접 개발하는 게 아니라, 이미 다른 지역에서 검증된 게임을 데이터 기반으로 골라 국내에 소개하는 역할이라고 보시면 되는데요. 기사들 찾아보니 "데이터 기반의 고도화된 게임 검토 프로세스로 잠재력 있는 게임을 발굴한다"는 게 넥슨 쪽 설명이었습니다.</p>
+<p>그리고 이 select all 브랜드의 첫 타이틀로 낙점된 게 바로 '히간: 이루실'입니다. 넥슨이 서브컬처 장르에 여러 갈래로 손을 뻗고 있다는 건 다들 아실 텐데, 이번엔 아예 전용 브랜드까지 만들어서 들어왔다는 게 눈에 띄더라고요.</p>
+<p class="ph">📷 〔사진 자리 1〕 히간 이루실 공식 키비주얼 또는 로고 이미지 — 인벤·경향게임스 등 보도자료 이미지 다운받아 재업로드하거나 공식 홈페이지 키비주얼 캡처 — 네이버에서 직접 업로드</p>
+<p>한 줄 요약부터 박고 가면</p>
+<p>히간: 이루실은 중국 빌리빌리가 개발한 서브컬처 수집형 3D RPG고, 모바일·PC 양쪽 다 지원합니다. 2023년 4월에 이미 글로벌 출시가 됐던 게임인데, 게임성과 캐릭터를 손본 2.0 리메이크 버전이 중국(2024년 말)에 이어 대만·홍콩·마카오(2025년 말)에 순차로 나왔고, 넥슨이 이 리메이크 버전을 국내에 서비스할 예정이라고 하네요. 완전 신작이라기보단 '검증된 게임의 국내 상륙'에 가까운 셈이죠.</p>
+<h3>2. 어떤 세계관, 어떤 전투인가요? - 마법과 과학이 섞인 다크 판타지</h3>
+<p>세계관부터 보면, 마법과 고도화된 과학기술이 융합된 다크 판타지를 배경으로 합니다. 플레이어는 여러 개성 있는 동료를 이끄는 '극단'의 단장 역할을 맡아서, 악몽에 잠식된 세계를 돌아다니며 잃어버린 낙원을 되찾아 나가는 이야기라고 하는데요. 극단이라는 소재 자체가 서브컬처 장르에서 흔한 편은 아니라 저는 이 부분이 좀 눈길이 갔습니다.</p>
+<p>전투는 실시간 3D 액션과 카드 전술을 결합한 하이브리드 방식이라고 소개돼 있습니다. 실시간 맵에서 움직이다가 '불릿 타임'으로 시간을 늦추고 카드로 전술 지시를 내리는 구조로 보이더라고요. 6개 클래스와 5가지 속성 조합으로 파티를 짜는 형태라, 조합을 고민하는 재미는 확실히 있을 것 같습니다. 다만 클래스·속성별 구체적인 상성표까지는 국내 정식 공개 전이라 아직 나온 게 없어서, 이 부분은 공식 공지가 뜨는 대로 다시 짚어드릴게요.</p>
+<p>방치형이라 부담이 덜하다는 점</p>
+<p>또 하나 챙길 부분은 방치형 시스템을 도입했다는 건데요. 반복 파밍 구간의 피로도를 낮췄다는 설명이라, 매일 붙잡고 있어야 하는 게임보다는 짬 날 때 들여다보는 쪽에 더 맞을 것 같습니다. 여기에 극장판 애니메이션급 3D 컷신과 일본어 풀보이스까지 얹었다고 하니, 스토리·연출 쪽에 힘을 준 게임이라는 인상이더라고요.</p>
+<p class="ph">📷 〔사진 자리 2〕 캐릭터 루코 또는 대표 캐릭터 일러스트 — 공식 홈페이지·구글플레이 스토어 캐릭터 이미지 확인 후 재업로드 — 네이버에서 직접 업로드</p>
+<h3>3. 사전예약 방법과 보상 - 성휘 1000개부터 스킨까지</h3>
+<p>가장 궁금해하실 부분이죠. 사전예약은 '히간: 이루실' 공식 홈페이지에서 진행됩니다. 별도로 복잡한 절차는 없고, 홈페이지 접속 후 신청하면 끝이라고 나와 있더라고요. 저도 직접 검색해서 공식 홈페이지 접속 경로를 확인해 봤는데, 국내 서비스 페이지가 별도로 열려 있는 구조라 '히간: 이루실'로 검색하시면 바로 찾으실 수 있을 겁니다.</p>
+<h3>사전예약 보상 구성</h3>
+<ul><li>재화: 성휘 1,000개 + 20만 신용 포인트</li><li>모집 아이템: '별하늘 모집권'</li><li>꾸미기: 프로필 테두리, 말풍선 스킨</li><li>캐릭터 스킨: 루코 '도로시 공주' 스킨</li></ul>
+<p>재화성 보상뿐 아니라 캐릭터 스킨까지 얹어준다는 게 포인트인데요, '별하늘 모집권'은 신규 캐릭터 뽑기에 바로 쓸 수 있는 아이템으로 보여서 초반 세팅에 꽤 도움이 될 것 같습니다. 참여자 수 달성 구간별로 추가 보상이 더 풀리는지는 아직 공식 공지에서 명확히 밝히지 않아서, 이 부분은 확정되는 대로 갱신해서 알려드리겠습니다.</p>
+<p class="ph">📷 〔사진 자리 3〕 사전예약 페이지 화면 - 보상 리스트 표시 구간, 직접 캡처 — 네이버에서 직접 업로드</p>
+<p>저도 궁금해서 사전예약 페이지에 직접 들어가 봤는데요, 예약 인원 게이지가 계속 올라가는 형태라 지금 참여해도 마감 걱정 없이 보상은 다 챙길 수 있는 구조더라고요. 다만 정확한 출시일과 사전예약 마감일은 아직 공식적으로 확정되지 않았습니다. 국내 출시를 앞두고 사전예약이 먼저 열린 단계라, "출시가 임박했다"고 단정하긴 이릅니다 — 이 부분은 성급하게 날짜 지어내지 말고 진행 상황 그대로 담백하게 알려드리는 게 맞다고 봐요.</p>
+<h3>4. 미리 알아두면 좋을 점 - 신작이 아니라 '국내화'라는 것</h3>
+<p>여기서 한 가지는 짚고 넘어가야 할 것 같은데요, 히간: 이루실은 완전히 새로 만들어지는 게임이 아니라 이미 해외 서비스 중인 게임이 국내로 들어오는 구조입니다. 원판 글로벌 출시(2023년) 이후 3년 넘게 운영되며 캐릭터 폭도 넓어지고 콘텐츠도 쌓인 상태라, 국내 유저 입장에서는 후발주자로 들어가는 셈이 됩니다. 다만 넥슨이 서비스하는 건 초기 버전이 아니라 게임성과 캐릭터를 손본 2.0 리메이크판이라, 예전 자료를 찾아보면서 "이거 그래픽이 왜 이래?" 하고 놀라실 필요는 없을 것 같습니다. 저도 해외 버전 플레이 영상을 몇 개 돌려 봤는데, 확실히 리메이크 전후 연출 차이가 꽤 크더라고요.</p>
+<p>또 하나, 확률형 아이템 포함 여부나 과금 구조는 아직 국내 기준으로 공개된 바가 없습니다. 해외 서비스 사례로 미뤄보면 캐릭터 뽑기가 포함될 가능성이 높아 보이긴 하는데, 이 부분은 확인 안 된 걸 단정하지 않고 정식 공지가 나오면 그때 다시 정리해서 알려드리는 게 맞을 것 같아요. 사전예약 단계에서는 일단 정보 파악과 보상 챙기기에 집중하시면 됩니다.</p>
+<h3>5. 이런 분들께 관심 가질 만합니다</h3>
+<p>정리하자면 히간: 이루실은 ①캐릭터 수집·육성에 관심 있고 ②스토리·연출에 힘 들어간 서브컬처 게임을 좋아하고 ③매일 붙잡는 것보다는 방치형으로 편하게 하고 싶은 분들에게 맞을 것 같습니다. 이미 해외에서 2.0 리메이크로 한 차례 검증을 거친 버전이 국내로 들어오는 거라, '넥슨이 처음부터 실험하는 신작'보다는 '이미 다듬어진 게임의 국내화'에 가깝다는 점도 참고하시면 좋겠고요.</p>
+<p>넥슨이 서브컬처 라인업을 계속 늘리는 흐름 속에서, select all이라는 새 창구까지 만든 걸 보면 이 장르에 힘을 꽤 싣고 있다는 게 느껴집니다. 저도 국내 정식 서비스 일정이 잡히는 대로 추가 소식 들어오면 바로 정리해서 알려드릴게요.</p>
+<h3>짧게 추리면</h3>
+<p>히간: 이루실은 넥슨 select all의 첫 타이틀이고, 빌리빌리가 만든 서브컬처 수집형 3D RPG가 2.0 리메이크 버전으로 국내에 상륙하는 겁니다. 사전예약은 공식 홈페이지에서 진행되고 성휘·모집권·스킨 등 보상이 지급되며, 다만 정확한 출시일·마감일은 아직 미정이라는 점만 참고해 두시면 될 것 같아요. :)</p>
+<p>▶ 같이 보면 좋은 글</p>
+<ul><li>넥슨 신작 서브컬처 게임 소식 모음 — (네이버에서 해당 글 링크를 직접 넣어 주세요)</li><li>서브컬처 수집형 RPG 사전예약 비교 — (네이버에서 해당 글 링크를 직접 넣어 주세요)</li></ul>
+<p class="tags-line">#히간이루실 #넥슨신작 #selectall #서브컬처게임추천 #사전예약 #할만한모바일게임 #수집형RPG #빌리빌리게임</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

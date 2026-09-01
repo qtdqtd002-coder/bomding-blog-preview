@@ -32,6 +32,40 @@
   .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
   .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -94,71 +128,94 @@
   </div>
 </div>
 
-<div class="wrap" style="margin-top:18px;">
-  <div class="topbar"><span class="badge" style="background:#888;">copy</span> 네이버 붙여넣기용 본문 블록 (그대로 복붙 — 🔍 마커·안내문 없음)</div>
-  <div class="post" id="copy">
-<pre style="white-space:pre-wrap;word-break:keep-all;font-family:inherit;font-size:14.5px;line-height:1.9;">
-로스트아크 차원술사 사전등록 7월 8일 업데이트 미리보기, 신규 복귀 지원까지 할만한 PC게임
 
-딱 잘라 말하면, 이번 사전등록은 새 직업 하나 받자고 하는 게 아닙니다. 로스트아크는 이미 6월 24일에 로아온 썸머 대규모 업데이트로 진입 장벽을 낮추는 시스템 손질을 먼저 넣어뒀고, 여기서 7월 8일에 신규 클래스 '차원술사'까지 출시되면 그림이 완성되는 구조더라고요. 차원술사가 어떤 직업인지는 지난 글에서 이미 자세히 풀었으니, 오늘은 사전등록을 지금 챙겨야 하는 이유랑 6월 24일에 이미 들어온 것ㆍ7월 8일에 새로 오는 것 위주로 정리해 볼게요.
 
-[여기 이미지: 온스토브 차원술사 사전등록 페이지 메인 화면 캡처]
-사전등록 페이지 들어가 보니 참여 버튼이랑 보상 안내가 바로 떠 있더라고요.
-
-1. 사전등록 언제까지? - 기간ㆍ보상 한눈에
-
-사전등록은 6월 24일부터 7월 8일까지 진행됩니다. 출시일이랑 사전등록 마감일이 같은 날이라, 이 글 보시는 시점이 7월 8일 이전이라면 오늘 바로 참여하시는 걸 추천드려요. 참여 방법도 복잡하지 않습니다. 사전등록 페이지 들어가서 버튼 한 번 눌러주면 끝이더라고요.
-
-[표: 사전등록 요약]
-구분 | 내용
-사전등록 기간 | 6월 24일 ~ 7월 8일
-참여 보상 | 한정 무기 아바타 + 완성형 칭호
-차원술사 출시일 | 2026년 7월 8일
-등록 방법 | 온스토브 사전등록 페이지 접속 후 참여
-
-보상 구성이 한정 무기 아바타랑 완성형 칭호인데요. 둘 다 사전등록 안 하면 나중에 따로 구하기 애매한 것들이라, "일단 눌러나 두자" 하는 마음으로 참여해도 손해 볼 게 없어 보입니다.
-
-2. 차원술사 한 줄 요약 - 자세한 건 지난 글로
-
-차원술사가 뭔지 처음 들어보시는 분들을 위해 아주 짧게만 짚고 갈게요. 로스트아크 최초의 남자 요즈 종족 클래스고, 무기는 차원 시계의 시침과 분침입니다. 환영술로 시공간을 넘나드는 콘셉트라 공격을 반복할수록 공격ㆍ이동 속도가 빨라지거나, 공간을 열어 빠르게 움직이고 적을 묶어두는 식으로 굴러갑니다. 직업 특성은 시간 관리자(전방향 딜러 - 특정 시점을 저장했다가 원하는 타이밍에 되돌아감)ㆍ공간 검사(백어택 딜러 - 취약 공간을 열어 어디서든 백어택 효과) 이렇게 두 갈래고요.
-
-▶ 같이 보면 좋은 글
-· 차원술사 직업 정보는 지난 글 "로스트아크 차원술사 직업 정보ㆍ플레이스타일 총정리"에서 훨씬 자세히 다뤘어요. 무기 메커니즘이랑 두 특성 차이가 궁금하신 분들은 그 글부터 보고 오시는 걸 추천드립니다.
-
-[여기 이미지: 차원술사 시침ㆍ분침 전투 연출 컷(공식 트레일러 캡처)]
-저도 공식 트레일러 직접 돌려 봤는데, 시계 바늘 휘두르는 손맛이 확실히 눈에 띄더라고요.
-
-3. 이미 낮아진 진입 장벽 - 6월 24일에 뭐가 들어왔나
-
-여기서부터가 오늘 글에서 제일 하고 싶은 얘기입니다. 6월 24일 로아온 썸머 업데이트로 기존 레이드 콘텐츠를 손보는 개편이 이미 들어와 있어요. 방향은 명확합니다. 신규ㆍ복귀 유저가 엔드 콘텐츠에 더 쉽게 합류하게 만드는 것이고, 사전등록도 같은 날 같이 시작됐죠.
-
-싱글 모드 확장 - 이미 적용
-카제로스 레이드 4막과 종막이 싱글(혼자) 모드로 이미 열려 있습니다. 혼자 클리어할 수 있게 일부 기믹ㆍ패턴도 손봤고요(클리어 메달은 4막 3,100ㆍ종막 3,400). 로아 좀 해보신 분들은 아시겠지만, 스토리 레이드는 파티 맞추는 것부터가 은근 진입장벽이거든요. 스토리만 눈으로 따라가고 싶은데 굳이 파티원을 구해야 하나 싶었던 분들한테는 이미 반가운 소식이었을 것 같습니다.
-
-신규 매칭 모드 - 세르카 레이드도 이미 적용
-그림자 레이드 세르카에도 신규 매칭 모드가 이미 추가돼 있어요. 자동 매칭은 물론 혼자서도 입장 가능하고, 무한 부활에 전투 지원 효과까지 들어간 매칭 전용 난이도라 전멸해도 실패 처리가 안 됩니다. 파티 구하기 부담을 덜어주는 쪽으로 짜인 걸로 보여요. 가디언 레이드처럼 무작위로 팀이 맞춰지는 구조에 가깝고, 실수해도 무한 부활로 다시 붙을 수 있으니 숙련도가 낮아도 도전해볼 만해 보입니다.
-
-싱글 모드 확장이랑 세르카 매칭 모드, 이 둘을 묶어서 보면 결국 "레이드 진입 부담을 낮추겠다"는 한 방향으로 6월 24일에 이미 움직였다는 게 느껴지더라고요. 그래서 지금 사전등록만 해두면, 7월 8일 차원술사 출시 때 이 낮아진 진입 문턱으로 바로 엔드 콘텐츠까지 합류할 수 있는 구조예요.
-
-[표: 시점별 업데이트]
-시점 | 내용
-6월 24일 - 이미 적용 | 카제로스 레이드 4막ㆍ종막 싱글 모드 / 세르카 신규 매칭 모드(무한 부활ㆍ전투 지원) / 차원술사 사전등록 시작
-7월 8일 - 신규 | 차원술사 정식 출시 / 전용 고속 성장 이벤트(1,700 점핑권ㆍ유물 코어 상자 3개) / 여름 이벤트 아바타
-방향성 | 신규ㆍ복귀 유저의 엔드 콘텐츠 합류 장벽 완화
-
-4. 차원술사 전용 고속 성장 이벤트 - 7월 8일부터
-
-차원술사로 새로 시작하거나 오랜만에 복귀하는 분들을 위한 전용 고속 성장 이벤트도 7월 8일 출시와 함께 열립니다. 1,700 점핑권에 유물 코어 상자 3개까지 지급되는 구성이라, 신규 캐릭터를 빠르게 최신 콘텐츠에 합류시키는 육성 지원으로 보시면 됩니다. 여기에 여름 이벤트 헤어ㆍ아바타, 치지직 드롭스 이벤트까지 같은 타이밍에 겹쳐서 진행돼요.
-
-모코코 베이스 캠프 같은 기존 신규ㆍ복귀 지원이랑도 겹쳐 쓸 수 있는 구성으로 보이니, 부캐 하나 더 키우거나 오랜만에 복귀 준비 중이신 분들은 이번 타이밍 챙겨두시면 좋을 것 같습니다.
-
-[오늘 내용 정리]
-핵심만 짚으면 ① 사전등록은 7월 8일까지, 보상은 한정 무기 아바타 + 완성형 칭호 ② 차원술사 자세한 직업 정보는 지난 글 참고 ③ 6월 24일에 카제로스 레이드 4막ㆍ종막 싱글 모드랑 세르카 매칭 모드(무한 부활ㆍ전투 지원)가 이미 들어와서 레이드 진입 부담이 눈에 띄게 줄어든 상태 ④ 7월 8일엔 차원술사 출시 + 전용 고속 성장 이벤트(1,700 점핑권ㆍ유물 코어 상자 3개)가 함께 옵니다.
-
-주인장은 사전등록 페이지 들어가 버튼부터 눌러놓고, 7월 8일에 차원술사 직접 굴려 보러 갈 생각이에요. 실제 플레이 후기는 또 따로 정리해서 들고 올게요. 궁금한 거 있으면 언제든 댓글 남겨주세요!
-
-#로스트아크 #차원술사 #차원술사사전등록 #로아7월8일업데이트 #카제로스레이드 #세르카레이드 #로아신규직업 #할만한PC게임 #PC온라인게임추천 #로아온썸머
-</pre>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 2곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>로스트아크 차원술사 사전등록 7월 8일 업데이트 미리보기, 신규 복귀 지원까지 할만한 PC게임</p>
+<p>딱 잘라 말하면, 이번 사전등록은 새 직업 하나 받자고 하는 게 아닙니다. 로스트아크는 이미 6월 24일에 로아온 썸머 대규모 업데이트로 진입 장벽을 낮추는 시스템 손질을 먼저 넣어뒀고, 여기서 7월 8일에 신규 클래스 '차원술사'까지 출시되면 그림이 완성되는 구조더라고요. 차원술사가 어떤 직업인지는 지난 글에서 이미 자세히 풀었으니, 오늘은 사전등록을 지금 챙겨야 하는 이유랑 6월 24일에 이미 들어온 것ㆍ7월 8일에 새로 오는 것 위주로 정리해 볼게요.</p>
+<p class="ph">📷 〔사진 자리 1〕 온스토브 차원술사 사전등록 페이지 메인 화면 캡처 — 네이버에서 직접 업로드</p>
+<p>사전등록 페이지 들어가 보니 참여 버튼이랑 보상 안내가 바로 떠 있더라고요.</p>
+<h3>1. 사전등록 언제까지? - 기간ㆍ보상 한눈에</h3>
+<p>사전등록은 6월 24일부터 7월 8일까지 진행됩니다. 출시일이랑 사전등록 마감일이 같은 날이라, 이 글 보시는 시점이 7월 8일 이전이라면 오늘 바로 참여하시는 걸 추천드려요. 참여 방법도 복잡하지 않습니다. 사전등록 페이지 들어가서 버튼 한 번 눌러주면 끝이더라고요.</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td class="l">사전등록 기간</td><td>6월 24일 ~ 7월 8일</td></tr>
+<tr><td>참여 보상</td><td>한정 무기 아바타 + 완성형 칭호</td></tr>
+<tr><td class="l">차원술사 출시일</td><td>2026년 7월 8일</td></tr>
+<tr><td>등록 방법</td><td>온스토브 사전등록 페이지 접속 후 참여</td></tr>
+</table>
+<p>보상 구성이 한정 무기 아바타랑 완성형 칭호인데요. 둘 다 사전등록 안 하면 나중에 따로 구하기 애매한 것들이라, "일단 눌러나 두자" 하는 마음으로 참여해도 손해 볼 게 없어 보입니다.</p>
+<h3>2. 차원술사 한 줄 요약 - 자세한 건 지난 글로</h3>
+<p>차원술사가 뭔지 처음 들어보시는 분들을 위해 아주 짧게만 짚고 갈게요. 로스트아크 최초의 남자 요즈 종족 클래스고, 무기는 차원 시계의 시침과 분침입니다. 환영술로 시공간을 넘나드는 콘셉트라 공격을 반복할수록 공격ㆍ이동 속도가 빨라지거나, 공간을 열어 빠르게 움직이고 적을 묶어두는 식으로 굴러갑니다. 직업 특성은 시간 관리자(전방향 딜러 - 특정 시점을 저장했다가 원하는 타이밍에 되돌아감)ㆍ공간 검사(백어택 딜러 - 취약 공간을 열어 어디서든 백어택 효과) 이렇게 두 갈래고요.</p>
+<p>▶ 같이 보면 좋은 글</p>
+<ul><li>차원술사 직업 정보는 지난 글 "로스트아크 차원술사 직업 정보ㆍ플레이스타일 총정리"에서 훨씬 자세히 다뤘어요. 무기 메커니즘이랑 두 특성 차이가 궁금하신 분들은 그 글부터 보고 오시는 걸 추천드립니다.</li></ul>
+<p class="ph">📷 〔사진 자리 2〕 차원술사 시침ㆍ분침 전투 연출 컷(공식 트레일러 캡처) — 네이버에서 직접 업로드</p>
+<p>저도 공식 트레일러 직접 돌려 봤는데, 시계 바늘 휘두르는 손맛이 확실히 눈에 띄더라고요.</p>
+<h3>3. 이미 낮아진 진입 장벽 - 6월 24일에 뭐가 들어왔나</h3>
+<p>여기서부터가 오늘 글에서 제일 하고 싶은 얘기입니다. 6월 24일 로아온 썸머 업데이트로 기존 레이드 콘텐츠를 손보는 개편이 이미 들어와 있어요. 방향은 명확합니다. 신규ㆍ복귀 유저가 엔드 콘텐츠에 더 쉽게 합류하게 만드는 것이고, 사전등록도 같은 날 같이 시작됐죠.</p>
+<p>싱글 모드 확장 - 이미 적용</p>
+<p>카제로스 레이드 4막과 종막이 싱글(혼자) 모드로 이미 열려 있습니다. 혼자 클리어할 수 있게 일부 기믹ㆍ패턴도 손봤고요(클리어 메달은 4막 3,100ㆍ종막 3,400). 로아 좀 해보신 분들은 아시겠지만, 스토리 레이드는 파티 맞추는 것부터가 은근 진입장벽이거든요. 스토리만 눈으로 따라가고 싶은데 굳이 파티원을 구해야 하나 싶었던 분들한테는 이미 반가운 소식이었을 것 같습니다.</p>
+<p>신규 매칭 모드 - 세르카 레이드도 이미 적용</p>
+<p>그림자 레이드 세르카에도 신규 매칭 모드가 이미 추가돼 있어요. 자동 매칭은 물론 혼자서도 입장 가능하고, 무한 부활에 전투 지원 효과까지 들어간 매칭 전용 난이도라 전멸해도 실패 처리가 안 됩니다. 파티 구하기 부담을 덜어주는 쪽으로 짜인 걸로 보여요. 가디언 레이드처럼 무작위로 팀이 맞춰지는 구조에 가깝고, 실수해도 무한 부활로 다시 붙을 수 있으니 숙련도가 낮아도 도전해볼 만해 보입니다.</p>
+<p>싱글 모드 확장이랑 세르카 매칭 모드, 이 둘을 묶어서 보면 결국 "레이드 진입 부담을 낮추겠다"는 한 방향으로 6월 24일에 이미 움직였다는 게 느껴지더라고요. 그래서 지금 사전등록만 해두면, 7월 8일 차원술사 출시 때 이 낮아진 진입 문턱으로 바로 엔드 콘텐츠까지 합류할 수 있는 구조예요.</p>
+<table>
+<tr><th>시점</th><th>내용</th></tr>
+</table>
+<table>
+<tr><td class="l">6월 24일 - 이미 적용 | 카제로스 레이드 4막ㆍ종막 싱글 모드</td><td>세르카 신규 매칭 모드(무한 부활ㆍ전투 지원)</td><td>차원술사 사전등록 시작</td></tr>
+<tr><td class="l">7월 8일 - 신규 | 차원술사 정식 출시</td><td>전용 고속 성장 이벤트(1,700 점핑권ㆍ유물 코어 상자 3개)</td><td>여름 이벤트 아바타</td></tr>
+</table>
+<p>방향성 | 신규ㆍ복귀 유저의 엔드 콘텐츠 합류 장벽 완화</p>
+<h3>4. 차원술사 전용 고속 성장 이벤트 - 7월 8일부터</h3>
+<p>차원술사로 새로 시작하거나 오랜만에 복귀하는 분들을 위한 전용 고속 성장 이벤트도 7월 8일 출시와 함께 열립니다. 1,700 점핑권에 유물 코어 상자 3개까지 지급되는 구성이라, 신규 캐릭터를 빠르게 최신 콘텐츠에 합류시키는 육성 지원으로 보시면 됩니다. 여기에 여름 이벤트 헤어ㆍ아바타, 치지직 드롭스 이벤트까지 같은 타이밍에 겹쳐서 진행돼요.</p>
+<p>모코코 베이스 캠프 같은 기존 신규ㆍ복귀 지원이랑도 겹쳐 쓸 수 있는 구성으로 보이니, 부캐 하나 더 키우거나 오랜만에 복귀 준비 중이신 분들은 이번 타이밍 챙겨두시면 좋을 것 같습니다.</p>
+<h3>[오늘 내용 정리]</h3>
+<p>핵심만 짚으면 ① 사전등록은 7월 8일까지, 보상은 한정 무기 아바타 + 완성형 칭호 ② 차원술사 자세한 직업 정보는 지난 글 참고 ③ 6월 24일에 카제로스 레이드 4막ㆍ종막 싱글 모드랑 세르카 매칭 모드(무한 부활ㆍ전투 지원)가 이미 들어와서 레이드 진입 부담이 눈에 띄게 줄어든 상태 ④ 7월 8일엔 차원술사 출시 + 전용 고속 성장 이벤트(1,700 점핑권ㆍ유물 코어 상자 3개)가 함께 옵니다.</p>
+<p>주인장은 사전등록 페이지 들어가 버튼부터 눌러놓고, 7월 8일에 차원술사 직접 굴려 보러 갈 생각이에요. 실제 플레이 후기는 또 따로 정리해서 들고 올게요. 궁금한 거 있으면 언제든 댓글 남겨주세요!</p>
+<p class="tags-line">#로스트아크 #차원술사 #차원술사사전등록 #로아7월8일업데이트 #카제로스레이드 #세르카레이드 #로아신규직업 #할만한PC게임 #PC온라인게임추천 #로아온썸머</p>
+    </div>
   </div>
 </div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

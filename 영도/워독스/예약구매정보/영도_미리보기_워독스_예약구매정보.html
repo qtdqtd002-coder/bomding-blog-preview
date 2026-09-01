@@ -30,6 +30,40 @@
   .tbl th{background:#f7f8fa;font-weight:700;}
   .faqq{font-weight:800;margin:16px 0 4px;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -126,4 +160,112 @@
     <div class="tags">#워독스 #WARDOGS #스팀예약구매 #앞서해보기 #얼리액세스 #대규모FPS #신작게임 #샌드박스FPS</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 워독스(WARDOGS) 스팀 예약 구매 시작, 사전예약과는 다릅니다 - 가격ㆍ혜택 총정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>딱 잘라 말씀드리면, 지금 스팀에서 열린 건 무료로 참여하는 사전예약이 아니라 결제까지 마쳐야 하는 예약 구매입니다. 신작 대규모 밀리터리 샌드박스 FPS '워독스(WARDOGS)'가 어제(8월 12일)부터 스팀에서 이걸 시작했는데요, '사전예약'이라는 표현이 워낙 익숙하다 보니 무료로 참여하는 걸로 오해하실 수도 있을 것 같더라고요. 가격부터 혜택, 게임 소개까지 한 번에 정리해 드릴게요.</p>
+<p class="ph">📷 〔사진 자리 1〕 워독스(WARDOGS) 스팀 스토어 헤더 이미지 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 받는 곳: <a href="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1867240/59d4daf753bd5d982e6675f7eee363bc817c574e/header.jpg" target="_blank">https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1867240/59d4daf753bd5d982e6675f7eee363bc817c574e/header.jpg</a></p>
+<p class="phsub">└ 캡션 추천: “워독스(WARDOGS) 스팀 스토어 페이지 대문 이미지”</p>
+<table>
+<tr><th>항목</th><th>내용</th></tr>
+<tr><td>게임명</td><td>워독스 (WARDOGS)</td></tr>
+<tr><td>구분</td><td>FPS (대규모 밀리터리 샌드박스)</td></tr>
+<tr><td>개발</td><td>BULKHEAD</td></tr>
+<tr><td>배급</td><td>Team17</td></tr>
+<tr><td>지원 언어</td><td>한국어 포함 14개 언어</td></tr>
+<tr><td>장르</td><td>액션ㆍ인디ㆍ대규모 멀티플레이어ㆍ시뮬레이션ㆍ앞서 해보기</td></tr>
+<tr><td class="l">예약 구매 시작일</td><td>2026년 8월 12일</td></tr>
+</table>
+<p>개발은 BULKHEAD, 배급은 영국 퍼블리셔 Team17이 맡았습니다. 지원 언어는 스팀 페이지 원문을 그대로 옮기면 '한국어 및 13개 언어'라고 적혀 있는데요, 한국어를 포함하면 총 14개 언어를 지원하는 셈입니다.</p>
+<h3>1. 예약 구매 시작 - 사전예약과는 다릅니다</h3>
+<p>워독스는 사전예약이 아니라 유료 예약 구매(pre-purchase)입니다. 스팀 구매 버튼에도 'WARDOGS 예약 구매'라는 문구가 그대로 걸려 있습니다.</p>
+<p>'사전예약'과 '예약 구매'는 엄연히 다릅니다. 사전예약은 보통 이메일이나 연락처만 남기면 끝나는 무료 참여 방식인 경우가 많은데, 워독스는 지금 바로 결제까지 마쳐야 하는 예약 구매입니다. 가격은 기본 에디션이 ₩47,270, Supporter Edition이 ₩58,000이고요, 결제 버튼도 두 상품 다 지금 바로 눌러서 살 수 있게 열려 있습니다. 사전예약이라는 말만 보고 무료로 생각하셨다면, 정확히는 유료 예약 구매라는 점 짚고 넘어가시면 좋겠습니다.</p>
+<h3>2. 에디션ㆍ가격 한눈에 보기</h3>
+<p>에디션은 두 가지고, 차이는 Supporter Pack 포함 여부입니다.</p>
+<table>
+<tr><th>에디션</th><th>가격</th><th>구성</th></tr>
+<tr><td class="l">WARDOGS</td><td>₩47,270</td><td>본편</td></tr>
+<tr><td class="l">WARDOGS - Supporter Edition</td><td>₩58,000</td><td>본편 + Supporter Pack</td></tr>
+</table>
+<p>두 에디션의 차액은 ₩10,730입니다. Supporter Pack에 정확히 뭐가 들어있는지 스팀 페이지에 구체적으로 나와 있진 않아서, 본편 이상으로 Team17ㆍ개발사를 조금 더 응원하고 싶으신 분들이 고르시면 될 것 같습니다.</p>
+<h3>3. 출시일 - 2026년 9월 11일 앞서 해보기 출시</h3>
+<p>정식 출시일은 한국 시간 기준 2026년 9월 11일입니다.</p>
+<table>
+<tr><th>항목</th><th>내용</th></tr>
+<tr><td>출시 예정일</td><td>2026년 9월 11일 (한국 시간 기준)</td></tr>
+</table>
+<p>스팀 스토어의 출시일 표기는 접속 지역 시간대에 맞춰 바뀌는데, 한국에서 열면 9월 11일로 뜹니다.</p>
+<h3>4. 예약 구매로 받는 혜택</h3>
+<p>예약 구매로 확정된 혜택은 두 가지입니다.</p>
+<ul><li>클로즈드 베타 참가 확정권 (8월 21일 ~ 23일, 예약 구매자 대상)</li><li>Supporter Pack (Supporter Edition 구매 시 포함)</li></ul>
+<p>스팀 페이지에 명시된 혜택은 이 두 가지가 전부입니다. 다른 보상을 기대하고 계셨다면 참고해 주세요.</p>
+<h3>5. 완성판이 아닌 앞서 해보기(Early Access)</h3>
+<p>워독스는 정식 출시가 아니라 앞서 해보기(Early Access)로 나옵니다. 개발사가 밝힌 앞서 해보기 예상 기간은 1~2년입니다. 스팀 FAQ 원문에는 "We expect WARDOGS to remain in Early Access for around 1 to 2 years."라고 적혀 있고, 스토어 페이지에는 이 게임이 "약 4주 후에 잠금 해제될 예정"이라는 표기도 함께 있습니다.</p>
+<p>지금 결제한다고 완성된 게임을 받는 게 아니라, 개발이 진행 중인 버전을 미리 플레이하면서 피드백을 주는 자리라는 뜻입니다. 게임메카 보도에 따르면 앞서 해보기 기간 중에는 유료화 요소를 전면 배제하며, 인게임 재화 등 게임 내 콘텐츠를 현금으로 판매하지 않는다고 하고요, 개발사가 직접 만든 '게임을 구매하지 말아야 하는 10가지 이유'라는 홍보 영상까지 있을 정도로 완성도에 대해서는 솔직하게 짚고 가는 편입니다.</p>
+<h3>6. 워독스는 어떤 게임인가</h3>
+<p>워독스는 최대 100명이 256km² 규모 맵에서 무작위로 정해지는 점령구역을 두고 싸우는 대규모 밀리터리 샌드박스 FPS입니다.</p>
+<p class="ph">📷 〔사진 자리 2〕 워독스 인게임 스크린샷 - 헬기를 이용한 병력 침투 장면 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 받는 곳: <a href="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1867240/13fbc7cb084ec25c20ad031c7e888a9459cd8e77/ss_13fbc7cb084ec25c20ad031c7e888a9459cd8e77.1920x1080.jpg" target="_blank">https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1867240/13fbc7cb084ec25c20ad031c7e888a9459cd8e77/ss_13fbc7cb084ec25c20ad031c7e888a9459cd8e77.1920x1080.jpg</a></p>
+<p class="phsub">└ 캡션 추천: “헬기로 병력을 실어 나르는 침투 장면”</p>
+<ul><li>전술적인 교전 - 은엄폐ㆍ분대 단위 움직임 위주</li><li>제병합동 전투 - 보병뿐 아니라 여러 병과가 함께 싸우는 구조</li><li>건축ㆍ파괴 메커니즘 - 지형지물을 직접 짓고 부술 수 있음</li></ul>
+<p class="ph">📷 〔사진 자리 3〕 워독스 인게임 스크린샷 - 보병과 전차가 함께하는 제병합동 전투 장면 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 받는 곳: <a href="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1867240/672d7ce9debe7a3bcfa5feee5fccc3d8b482b13e/ss_672d7ce9debe7a3bcfa5feee5fccc3d8b482b13e.1920x1080.jpg" target="_blank">https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1867240/672d7ce9debe7a3bcfa5feee5fccc3d8b482b13e/ss_672d7ce9debe7a3bcfa5feee5fccc3d8b482b13e.1920x1080.jpg</a></p>
+<p class="phsub">└ 캡션 추천: “제병합동 전투(보병+전차) 인게임 스크린샷”</p>
+<p>개발은 BULKHEAD, 배급은 Team17이 맡았습니다. 게임메카 보도에 따르면 예약 구매가 열리고 나서 스팀 전 세계 최고 인기 순위 5위까지 올라섰다고 하는데(8월 12일 오후 4시 30분 기준, 국내에서 노출되지 않은 게임을 확인하기 위해 미국 IP로 접속해서 잰 순위라는 단서가 붙어 있습니다), 위 홍보 영상이 화제가 된 것도 한몫한 것 같습니다.</p>
+<p>자주 묻는 질문</p>
+<p><b>Q. 예약 구매하면 지금 바로 플레이할 수 있나요?</b></p>
+<p>아니요. 지금은 결제만 먼저 하는 거고, 실제 플레이는 출시에 맞춰 잠금이 풀립니다. 스팀 페이지에는 "약 4주 후에 잠금 해제"라고 적혀 있어서, 결제해도 곧바로 즐길 수 있는 건 아닙니다.</p>
+<p><b>Q. 클로즈드 베타는 예약 구매 안 해도 참가할 수 있나요?</b></p>
+<p>네, 별도의 무료 참가 경로가 있긴 합니다. 스팀 페이지의 구매 섹션 바로 위를 보면 'WARDOGS Playtest 참가'라는 무료 신청 블록이 따로 있는데요, '참가 신청' 버튼을 누르면 개발자가 참가자를 더 많은 플레이어에게 순차적으로 확대할 준비가 됐을 때 알림을 받는 방식입니다. 즉 신청한다고 참가가 바로 보장되는 건 아닙니다. 반면 예약 구매로 받는 건 8월 21일부터 23일까지 열리는 클로즈드 베타의 확정 참여권이라 성격이 다릅니다. 다만 이 무료 플레이테스트가 8월 21~23일 클로즈드 베타와 같은 건지는 스팀 페이지에 명시돼 있지 않아서, 같다 다르다 단정하긴 어렵습니다. 게임메카 보도에서도 이전 테스트 당시 신청자 전체를 수용하지 못했다는 언급이 있는 걸 보면, 신청 기반 무료 참가 방식이 계속 이어지고 있는 것 같습니다. 확실하게 베타에 참가하고 싶으시면 예약 구매 쪽이 안전한 방법입니다.</p>
+<p><b>Q. 기본판이랑 Supporter Edition 중에 뭘 사야 하나요?</b></p>
+<p>두 에디션의 차이는 Supporter Pack 포함 여부뿐입니다. 앞서 해보기부터 확실히 시작하고 싶다면 기본판으로도 충분하고, Supporter Pack까지 챙기고 싶으시면 Supporter Edition을 고르시면 됩니다.</p>
+<h3>참고한 곳</h3>
+<ul><li>스팀 공식 스토어 - WARDOGS (<a href="https://store.steampowered.com/app/1867240/WARDOGS/?l=koreana" target="_blank">https://store.steampowered.com/app/1867240/WARDOGS/?l=koreana</a>)</li><li>게임메카 - 워독스 관련 기사 (<a href="https://www.gamemeca.com/view.php?gid=1779041" target="_blank">https://www.gamemeca.com/view.php?gid=1779041</a>)</li></ul>
+<p>오늘은 예약 구매 시작 소식과 사전예약과 다른 점, 가격ㆍ혜택까지 짚어봤습니다. 주인장은 다음 소식으로 다시 찾아올게요 :)</p>
+<p class="tags-line">#워독스 #WARDOGS #스팀예약구매 #앞서해보기 #얼리액세스 #대규모FPS #신작게임 #샌드박스FPS</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

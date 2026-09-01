@@ -64,9 +64,12 @@ $missing = @()
 foreach($f in $files){
   $segs = $f -split '/'
   if($segs | Where-Object { $_ -like '_*' -or $_ -like '.*' }){ continue }
-  # 티스토리 '붙여넣기·발행 소스'(_티스토리_, 겜더쿠·연봄)는 사이트 목록에 띄우지 않음 — 발행용 본문이라 글 카드 아님
-  # (_워드프레스_는 2026-06-09 연봄 티스토리 전환으로 폐기됐으나, 혹시 남은 레거시 파일 대비 필터 유지)
-  if($f -match '_티스토리_' -or $f -match '_워드프레스_'){ continue }
+  # '붙여넣기·발행 소스'는 사이트 목록에 띄우지 않음 — 발행용 본문이라 글 카드가 아니다.
+  #   ・_티스토리_ / _워드프레스_ = 겜더쿠·연봄(_워드프레스_는 2026-06-09 폐기, 레거시 대비 유지)
+  #   ・붙여넣기      = 네이버(봄딩·영도). ★2026-09-02 추가 — 붙여넣기본을 .txt 가 아니라 .html 로 뽑은 회차가
+  #     생기면서 같은 글이 '미리보기 + 붙여넣기본' 두 장으로 뜨던 버그(영도 7편·봄딩 5편). 네이버 복사는
+  #     미리보기 안의 우측상단 위젯(#npBtn)이 정본이므로, 별도 붙여넣기 파일은 어떤 확장자든 목록 비대상.
+  if($f -match '_티스토리_' -or $f -match '_워드프레스_' -or $f -match '붙여넣기'){ continue }
 
   $full = Join-Path $base ($f -replace '/','\')
   if(-not (Test-Path $full)){ continue }
@@ -106,7 +109,7 @@ foreach($f in $files){
 $onDisk = (Get-ChildItem -Path (Join-Path $base "봄딩"),(Join-Path $base "영도"),(Join-Path $base "겜더쿠"),(Join-Path $base "연봄"),(Join-Path $base "하루살이") -Recurse -Filter *.html -ErrorAction SilentlyContinue |
            ForEach-Object { $_.FullName.Substring($base.Length).TrimStart('\','/') -replace '\\','/' })
 foreach($d in $onDisk){
-  if($d -match '_티스토리_' -or $d -match '_워드프레스_'){ continue }   # 붙여넣기·발행 소스는 목록 비대상 → 누락 검증에서 제외
+  if($d -match '_티스토리_' -or $d -match '_워드프레스_' -or $d -match '붙여넣기'){ continue }   # 붙여넣기·발행 소스는 목록 비대상 → 누락 검증에서 제외
   if(-not $map.Contains($d)){ $missing += "manifest 누락(디스크에만 존재, 커밋 필요): $d" }
 }
 

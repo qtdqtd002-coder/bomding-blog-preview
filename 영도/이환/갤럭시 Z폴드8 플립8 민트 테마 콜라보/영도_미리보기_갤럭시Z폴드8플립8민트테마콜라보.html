@@ -41,6 +41,40 @@
   .copybody{padding:24px 28px 32px;font-size:15px;line-height:1.9;color:#333;}
   .copybody p{margin:0 0 16px;word-break:keep-all;}
   .copybody a{color:#1a73e8;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -134,15 +168,34 @@
   </div>
 </div>
 
-<div class="copywrap" id="copy">
-  <div class="copybar">✍️ 네이버 붙여넣기용 본문 블록 — 아래만 그대로 복사해서 붙여넣으세요 (🔍 마커·사이드노트·촬영가이드 전부 제외됨)</div>
-  <div class="copybody">
-    <p>이환 민트 갤럭시Z폴드8 울트라·폴드8·플립8 스페셜 테마 콜라보, 받는 조건은?</p>
-    <p>안녕하세요, 영원한도시입니다. 이환 글은 몇 편 써봤지만 이번 소재는 결이 좀 다르네요. 스마트폰 신제품에 게임 캐릭터가 그대로 들어가는 콜라보는 흔치 않은데, '이환'의 마스코트 '민트'가 삼성 갤럭시 Z폴드8·플립8 시리즈 속으로 들어갔습니다. 오늘은 이 테마 콜라보 내용을 정리해 볼게요.</p>
+
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 이환 민트 갤럭시Z폴드8 울트라·폴드8·플립8 스페셜 테마 콜라보, 받는 조건은?</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>안녕하세요, 영원한도시입니다. 이환 글은 몇 편 써봤지만 이번 소재는 결이 좀 다르네요. 스마트폰 신제품에 게임 캐릭터가 그대로 들어가는 콜라보는 흔치 않은데, '이환'의 마스코트 '민트'가 삼성 갤럭시 Z폴드8·플립8 시리즈 속으로 들어갔습니다. 오늘은 이 테마 콜라보 내용을 정리해 볼게요.</p>
 
     <p><b>1. '민트'가 누구길래 폰 속까지 들어갔나</b><br>
     '민트'는 이환 속 '이상 관리국 수용2팀' 소속 캐릭터로, 동료·이웃 정보를 백과사전처럼 꿰고 있는 게 특징입니다. 헤테로 시티의 가성비 좋은 식당 정보에 특히 밝고, 시력이 좋지 않은 대신 후각이 예민해서 상대를 냄새에 맞는 애칭으로 부르는 개성 있는 캐릭터더라고요.</p>
-    <p>[여기 이미지: 민트 공식 일러스트 — 이상 관리국 수용2팀 소속 소개 컷]</p>
+    <p>📷 〔사진 자리 1〕 민트 공식 일러스트 — 이상 관리국 수용2팀 소속 소개 컷 — 네이버에서 직접 업로드</p>
 
     <p><b>2. 이환 혼자만의 콜라보가 아니었다</b><br>
     사실 이번 갤럭시 Z 폴드8 울트라·폴드8·플립8 출시를 기념한 서브컬처 콜라보는 이환 하나만 있었던 게 아닙니다. 삼성전자는 같은 시기에 '명조: 워더링 웨이브'(캐릭터 '에이메스'), '원신'(캐릭터 '리니'), '붕괴: 스타레일'('팅윈&블레이드')까지 총 4개 게임과 동시에 스페셜 테마 콜라보를 진행했더라고요. 이환·민트만 특별히 뽑혔다기보다는, 서브컬처 게임 팬덤을 폴더블 신제품 쪽으로 끌어오려는 삼성전자의 대규모 동시 캠페인 중 하나였던 셈입니다.</p>
@@ -153,7 +206,7 @@
 
     <p><b>4. 지원 기기는 3종 — 폴드8 울트라도 포함</b><br>
     지원 기기는 갤럭시 Z 폴드8 울트라, 갤럭시 Z 폴드8, 갤럭시 Z 플립8 3종입니다. 폴드8·플립8만 언급되는 자료도 종종 보이는데, 실제로는 울트라 라인업까지 3종 전부 지원됩니다.</p>
-    <p>[여기 이미지: 이환-갤럭시 콜라보 소식을 전한 보도 이미지(경향게임스)]</p>
+    <p>📷 〔사진 자리 2〕 이환-갤럭시 콜라보 소식을 전한 보도 이미지(경향게임스) — 네이버에서 직접 업로드</p>
 
     <p><b>5. 아무나 받는 거 아니다 — 배포 조건부터 짚고 갑니다</b><br>
     이 테마는 갤럭시 스토어에서 검색만 하면 아무나 받을 수 있는 게 아닙니다. 국내에서 갤럭시 Z 폴드8 울트라·폴드8·플립8 신제품을 구매하고 개통한 고객 한정 혜택이에요. 해당 고객이 갤럭시 스토어 안 스페셜 테마 이벤트 페이지에 접속해서 다운로드하는 방식입니다.</p>
@@ -161,7 +214,7 @@
 
     <p><b>6. 배포 기간은 8월 4일부터 10월 31일까지</b><br>
     배포 기간은 2026년 8월 4일부터 10월 31일까지입니다. 오늘(2026년 8월 4일)부터 시작이니, 신제품을 구매·개통하신 분들은 이 기간 안에 챙기시면 됩니다.</p>
-    <p>[여기 이미지: 갤럭시 스토어 스페셜 테마 이벤트 페이지 캡처(배포 기간 안내 부분)]</p>
+    <p>📷 〔사진 자리 3〕 갤럭시 스토어 스페셜 테마 이벤트 페이지 캡처(배포 기간 안내 부분) — 네이버에서 직접 업로드</p>
 
     <p><b>7. 오프라인 이벤트는 이미 끝났다</b><br>
     이 테마와 별개로, 오프라인에서도 미리 이벤트가 있었습니다. 2026년 7월 23일부터 8월 3일까지 전국 삼성스토어 5곳(홍대·대전·상무·신세계 대구·신세계 센텀시티)에서 매장을 방문해 NFC 태그를 하면 테마를 받을 수 있는 이벤트가 진행됐는데요, 8월 4일인 오늘 기준으로는 이미 종료된 상태입니다. 참고로 이 오프라인 체험 이벤트 중에서도 행사 첫날인 7월 23일에 한해서는 각 매장 방문객 300명에게 갤럭시 스토어 2만원 할인쿠폰을 한정 지급했다고 하네요. 지금은 이미 다 끝난 이벤트라 직접 챙기실 순 없지만, 이런 혜택도 같이 걸려 있었다는 점은 참고로 알아두시면 좋을 것 같습니다. 혹시 오프라인 이벤트를 기억하고 매장을 찾아가실 계획이었다면, 이제는 갤럭시 스토어 온라인 이벤트 페이지 쪽으로 방향을 트시는 게 맞습니다.</p>
@@ -190,6 +243,29 @@
     · <a href="https://www.gameple.co.kr/news/articleView.html?idxno=216112" target="_blank">게임플</a></p>
 
     <p>#이환 #이환민트 #갤럭시Z폴드8 #갤럭시Z폴드8울트라 #갤럭시Z플립8 #삼성콜라보 #퍼펙트월드게임즈 #게임소식</p>
+    </div>
   </div>
 </div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

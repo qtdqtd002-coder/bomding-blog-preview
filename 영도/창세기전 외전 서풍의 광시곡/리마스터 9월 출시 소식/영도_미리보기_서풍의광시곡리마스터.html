@@ -47,6 +47,40 @@
   .related{font-size:14.5px;line-height:1.9;margin:6px 0 10px;border-top:1px dashed var(--line);padding-top:16px;}
   .related .h{font-weight:800;margin-bottom:6px;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -138,4 +172,101 @@
     <div class="tags">#창세기전 #창세기전외전 #서풍의광시곡 #서풍의광시곡리마스터 #나인서클 #창세기전리마스터 #스팀출시 #PC게임추천 #레트로게임 #클래식RPG</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 창세기전 외전 서풍의 광시곡 리마스터 9월 스팀 출시, 나인서클이 만든다</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>안녕하세요, 영원한도시입니다. 창세기전 시리즈를 기억하시는 분들이라면 이 소식이 꽤 반가우실 것 같은데요, '창세기전 외전: 서풍의 광시곡'이 리마스터로 다시 나옵니다. 정확히는 원작사가 다시 만드는 게 아니라, 새로 생긴 개발사가 리마스터판을 만들고 있는 상황이더라고요. 오랜만에 반가운 이름이라 주인장도 소식을 듣자마자 관련 자료들을 좀 찾아봤습니다.</p>
+<p>📜 QUEST LOG ┃ 글 한눈에 보기</p>
+<p>① 서풍의 광시곡, 창세기전에서 어떤 작품인가 → ② 리마스터로 뭐가 좋아지나(나인서클ㆍ참여진) → ③ 출시일ㆍ텀블벅 일정 헷갈리지 않기 → ④ 창세기전3 리마스터도 나올까</p>
+<p>텀블벅 프로젝트 페이지를 직접 열어봤는데, 후원자가 3,420명에 목표 금액의 392%까지 채워져 있더라고요. 시간이 꽤 지난 IP인데도 팬덤이 여전히 탄탄하다는 게 숫자로 딱 느껴졌습니다. 오늘은 이 리마스터가 시리즈에서 어떤 위치의 작품인지, 뭐가 좋아지는지, 그리고 언제 만날 수 있는지까지 한번 살펴보겠습니다.</p>
+<p class="ph">📷 〔사진 자리 1〕 텀블벅 펀딩 현황 화면(후원자 수ㆍ달성률) — https://tumblbug.com/the_rhapsody_of_zephyr 에서 캡처해서 업로드 — 네이버에서 직접 업로드</p>
+<p>392% 달성 그래프를 그대로 캡처해서 넣으면 신뢰감이 확 살 것 같아요.</p>
+<h3>1. '서풍의 광시곡'은 창세기전에서 어떤 작품인가</h3>
+<p>'창세기전 외전: 서풍의 광시곡'은 1998년 소프트맥스가 만든 '창세기전' 시리즈의 외전 작품입니다.</p>
+<p>이름에 '외전'이 딱 박혀 있는 것처럼, 정식 넘버링으로 이어지는 본편 시리즈와는 별도로 나온 스핀오프 작품이라고 보시면 될 것 같아요. 이번에 리마스터되는 게 바로 이 1998년작이고요. 정식 명칭은 '서풍의 광시곡'이니 검색하실 때 이 표기 그대로 찾으시는 게 정확할 것 같습니다.</p>
+<p>배경은 전작 창세기전2의 '창세전쟁'이 끝나고 50년이 지난 시점인데요, 믿었던 이들에게 배신당한 주인공 시라노(번스타인)가 복수를 향해 나아가는 이야기를 그립니다. 알렉상드르 뒤마의 소설 《몬테크리스토 백작》을 원안으로 삼았다고 하니, 복수극의 결이 어느 쪽인지는 대충 감이 오실 것 같아요(?). 자세한 줄거리는 스포일러가 될 수 있어서 여기까지만 담백하게 적어두겠습니다.</p>
+<p>당시 기준으로 그래픽ㆍ사운드 완성도가 높다는 평가를 받았고, 별도 사운드트랙까지 발매됐을 만큼 인정받은 작품이기도 합니다. 창세기전 시리즈 중에서도 완성도가 높다는 평이 많은 편인데, 다만 인카운터율이 높고 전투가 다소 지루하다는 단점도 같이 거론되곤 했어요. 명과 암을 같이 알아두시면 좋을 것 같습니다.</p>
+<p class="ph">📷 〔사진 자리 2〕 텀블벅 프로젝트 페이지 키비주얼 — https://tumblbug.com/the_rhapsody_of_zephyr 에서 다운로드해서 업로드 — 네이버에서 직접 업로드</p>
+<p>텀블벅 프로젝트 페이지에 걸려 있는 키비주얼이에요 :)</p>
+<h3>2. 리마스터로 기대할 수 있는 부분 - 개발은 원작사가 아니라 나인서클</h3>
+<p>이번 리마스터 개발은 원작사인 소프트맥스가 아니라, '나인서클'이라는 개발사가 맡아 진행하고 있습니다.</p>
+<p>왜 소프트맥스가 아니라 나인서클이 만드나 궁금하실 수 있는데요, 사실 창세기전 IP는 지금 소프트맥스가 아니라 라인게임즈가 들고 있습니다. 여러 인수합병 과정을 거치면서 현재는 라인게임즈가 창세기전 IP를 보유하고 있는 상황이거든요. 나인서클은 이 IP를 새로 사들인 곳은 아니고, '창세기전 시리즈 원작에 참여한 개발자가 주축인 독립 게임 개발 스튜디오'라고 하니 완전히 남남이 만드는 건 아니라고 보셔도 될 것 같습니다.</p>
+<p>제작에는 창세기전 시리즈 원작자인 최연규 디렉터가 참여하는데, 이번엔 대본 및 설정의 검토ㆍ수정 작업을 맡는다고 해요. 여기에 원작에서 디렉터 겸 메인 프로그래머로 있었던 전 소프트맥스 조영기 CTO도 함께 참여하고 있고, 이번 소식은 나인서클 김현수 디렉터 명의로 전해졌습니다. 원작을 만든 회사와 이번 리마스터를 만드는 회사가 다르다는 점은 헷갈리지 않으셨으면 하네요.</p>
+<p>리마스터로 달라지는 부분은 정리하면 이렇습니다.</p>
+<ul><li>HD 해상도 지원 및 화질 개선</li><li>와이드 스크린 대응</li><li>주요 이벤트 음성 더빙 추가</li><li>캐릭터 이동 속도와 미니맵 등 각종 편의 기능 강화</li><li>적 속성 및 방어 성공 아이콘 추가</li><li>일괄 회복 기능 구현</li><li>컨트롤러 진동 지원</li></ul>
+<p>한 줄 요약 - 옛날 감성은 그대로 두고, 지금 기준으로 보기 편하고 다루기 편하게 다듬는 방향이라고 보시면 될 것 같습니다.</p>
+<p class="ph">📷 〔사진 자리 3〕 창세기전 외전 서풍의 광시곡 리마스터 게임플레이 스크린샷 — https://www.gamemeca.com/view.php?gid=1778905 게임메카 기사에서 다운로드해서 업로드 (원출처: 텀블벅 펀딩페이지) — 네이버에서 직접 업로드</p>
+<p>게임메카 기사에 공개된 리마스터 게임플레이 화면이에요 :)</p>
+<h3>3. 출시는 9월 3주 차, 텀블벅 키 지급일이랑 헷갈리지 마세요</h3>
+<p>'서풍의 광시곡' 리마스터는 9월 3주 차에 스팀으로 정식 출시될 예정입니다.</p>
+<table>
+<tr><th>항목</th><th>내용</th></tr>
+<tr><td class="l">스팀 정식 출시</td><td>9월 3주 차 (정확한 날짜 미공개)</td></tr>
+<tr><td class="l">텀블벅 후원자 키 지급</td><td>9월 11일부터 (후원자 한정 · 일반 출시일 아님)</td></tr>
+<tr><td>플랫폼</td><td>PC(스팀)</td></tr>
+<tr><td>가격</td><td>미공개</td></tr>
+</table>
+<p>덧붙이자면 앞서 2번에서 말씀드린 '주요 이벤트 음성 더빙'은 사실 텀블벅 스트레치 골(추가 목표를 넘기면 주는 보상)이었습니다. 300% 달성 시 지원하겠다고 약속했던 항목인데, 300%를 넘기면서 이미 확정됐고, 지금은 392%까지 채워진 상태예요. 나인서클 김현수 디렉터도 "300% 달성 시 제공을 약속드린 메인 스토리 이벤트 풀 보이스 성우 음성 지원을 이행할 수 있게 되어 기쁘다"고 밝혔더라고요.</p>
+<p>여기서 하나 짚고 넘어가야 할 게, 9월 11일은 텀블벅으로 미리 후원한 분들한테 게임 키가 전달되는 날짜지 일반 출시일이 아니라는 점이에요. 두 날짜가 비슷한 시기라 헷갈리기 쉬운데, '9월 3주 차 스팀 출시'랑 '9월 11일 후원자 키 지급'은 따로 구분해서 기억해두시는 게 좋을 것 같습니다.</p>
+<p>주인장이 스팀에서 직접 검색도 해봤는데, 아직 정식 상점 페이지는 열리지 않은 상태더라고요(?). 페이지가 열리면 정확한 출시일이랑 가격도 같이 공개될 것 같으니, 그건 또 소식 들리는 대로 알려드리겠습니다.</p>
+<h3>4. 창세기전3 리마스터도 나올까 - 아직은 팬들의 바람일 뿐</h3>
+<p>현재까지 창세기전3 리마스터에 대한 공식 발표는 없습니다.</p>
+<p>서풍의 광시곡 리마스터 소식이 나오다 보니 자연스럽게 '그럼 창세기전3도 리마스터 되는 거 아니냐'는 기대가 따라붙는 것 같더라고요. 창세기전3 파트1ㆍ파트2까지 리마스터로 만나고 싶어 하는 팬들도 있을 법합니다. 다만 지금까지 나온 자료 어디에도 후속작 리마스터 계획이 언급된 곳은 없었어요. 서풍의 광시곡 리마스터가 잘 되면 다음 이야기로 이어질 가능성을 기대해볼 수는 있겠지만, 그건 어디까지나 팬 입장에서의 바람이고 현재까지 공식적으로 발표된 후속 리마스터 계획은 없다는 점은 분명히 해두는 게 맞을 것 같습니다.</p>
+<p>주인장도 창세기전3까지 리마스터로 만나볼 수 있으면 참 좋겠다 싶은데요, 일단은 이번 서풍의 광시곡부터 잘 챙겨보고 후속 소식이 뜨면 그때 다시 정리해서 들고 오겠습니다.</p>
+<p>자주 묻는 질문</p>
+<p><b>Q. 서풍의 광시곡 리마스터 정확한 출시일이 언제인가요?</b></p>
+<p>A. 9월 3주 차로만 공개돼 있고, 정확한 날짜는 아직 나오지 않았습니다. 스팀 상점 페이지가 열리면 함께 공개될 걸로 보여요.</p>
+<p><b>Q. 텀블벅 후원을 안 했는데 스팀에서 살 수 있나요?</b></p>
+<p>A. 네, 9월 3주 차 스팀 정식 출시는 후원 여부와 상관없이 일반 구매가 가능한 출시예요. 9월 11일 키 지급은 텀블벅 후원자한테만 해당하는 별도 일정입니다.</p>
+<p><b>Q. 창세기전3 리마스터도 준비 중인가요?</b></p>
+<p>A. 아니요, 현재까지 공식적으로 발표된 후속작 리마스터 계획은 없습니다. 팬들 사이에서 기대하는 반응만 있는 상태예요.</p>
+<h3>참고한 곳</h3>
+<ul><li>게임메카 - 창세기전: 서풍의 광시곡 리마스터, 9월 스팀 출시 (<a href="https://www.gamemeca.com/view.php?gid=1778905" target="_blank">https://www.gamemeca.com/view.php?gid=1778905</a>)</li><li>게임메카 - 최연규 등 원작자 참여, 서풍의 광시곡 리마스터 만든다 (<a href="https://www.gamemeca.com/view.php?gid=1768622" target="_blank">https://www.gamemeca.com/view.php?gid=1768622</a>)</li><li>텀블벅 - 창세기전 외전: 서풍의 광시곡 리마스터 (<a href="https://tumblbug.com/the_rhapsody_of_zephyr" target="_blank">https://tumblbug.com/the_rhapsody_of_zephyr</a>)</li><li>루리웹 - 창세기전 외전 서풍의 광시곡 리마스터 소식 (<a href="https://bbs.ruliweb.com/news/read/219581" target="_blank">https://bbs.ruliweb.com/news/read/219581</a>)</li></ul>
+<p>▶ 같이 보면 좋은 글</p>
+<ul><li>창세기전 모바일 아우터원 철가면 신캐 성능 — 참고로 이 글은 모바일 게임 '창세기전 모바일' 이야기라, 오늘 다룬 PC 스팀용 서풍의 광시곡 리마스터랑은 서로 다른 작품이에요. (네이버에서 해당 글 링크를 직접 넣어 주세요)</li></ul>
+<p>창세기전, 창세기전외전, 서풍의광시곡, 서풍의광시곡리마스터, 나인서클, 창세기전리마스터, 스팀출시, PC게임추천, 레트로게임, 클래식RPG</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

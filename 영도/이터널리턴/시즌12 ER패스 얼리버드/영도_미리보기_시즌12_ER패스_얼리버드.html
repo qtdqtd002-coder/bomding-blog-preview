@@ -41,6 +41,40 @@
   .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
     text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -118,4 +152,95 @@
     <div class="tags">#이터널리턴 #이터널리턴패스 #세일링ER패스 #이터널리턴시즌12 #세일링얼리버드 #이터널리턴시즌팩 #이터널리턴쿠폰 #PC게임추천 #할만한게임</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 이터널리턴 시즌12 세일링 ER패스 얼리버드 판매기간ㆍ가격 총정리 (PC게임추천ㆍ할만한게임)</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>결론부터 말씀드리면, 세일링 ER패스는 아직 구매 버튼 자체가 안 열려 있습니다. 저도 궁금해서 오늘 직접 상점에 들어가 봤는데, 세일링 배너는 떠 있어도 ER 패스 구매 칸은 회색으로 막혀 있더라고요(오류인가(?) 싶었는데 그냥 아직 안 열린 거였어요). 이유는 간단해요 — 지금은 프리시즌이고, 정규 시즌12 '세일링(Sailing)'이 8월 13일부터 시작되면서 그때 같이 열리거든요. 그래서 이번 글에선 미리 알아두고 있다가 열리자마자 챙기시라는 취지로, 얼리버드 판매 기간ㆍ가격ㆍ포함 스킨까지 한 번에 정리해 드릴게요.</p>
+<p>참고로 이번 정규시즌부터는 '실험체 관찰일지'라는 신규 콘텐츠도 같이 열리더라고요. 게임을 플레이하면서 캐릭터별 리포트랑 관찰 로그를 하나씩 풀어가는 방식인데, 패스 얘기로 바로 넘어가기 전에 시즌 자체가 꽤 알차게 시작한다는 것만 짚고 갈게요. 예전에 '이터널리턴 티어 정리와 시즌11 랭크 보상ㆍ쿠폰 총정리' 글에서 랭크 체계랑 시즌11 보상은 따로 다뤄봤는데, 이번엔 패스ㆍ재화 쪽만 새로 정리하는 거라 겹치는 내용은 없어요.</p>
+<p class="ph">📷 〔사진 자리 1〕 이터널리턴 ER패스 만렙 달성 연출 — 패스 얘기로 넘어가기 전에 살짝 보여드리면, ER 패스 최고 레벨 찍었을 때 뜨는 축하 연출이에요 — 네이버에서 직접 업로드</p>
+<p>(이미지 출처: 이터널리턴 12.0 패치노트 Part.1 (공식) - <a href="https://playeternalreturn.com/posts/news/3742?hl=ko-KR" target="_blank">https://playeternalreturn.com/posts/news/3742?hl=ko-KR</a> · 네이버엔 이미지 파일 직접 업로드)</p>
+<p>얼리버드 판매 기간ㆍ가격부터 짚어볼게요</p>
+<p>세일링 ER패스 얼리버드는 2026년 8월 13일 점검 후부터 8월 27일 점검 전까지 판매됩니다. 정규 시즌 개막(8/13)이랑 딱 맞물려 열리고, 대략 2주 정도만 얼리버드 가격으로 살 수 있는 구조예요.</p>
+<table>
+<tr><td>구성</td><td>얼리버드가</td><td>정상가(얼리버드 종료 후)</td></tr>
+<tr><td>ER 패스</td><td>890 NP</td><td>1,250 NP</td></tr>
+<tr><td>ER 플러스</td><td>1,750 NP</td><td>2,550 NP</td></tr>
+<tr><td>업그레이드</td><td>1,050 NP</td><td>1,450 NP</td></tr>
+</table>
+<p>참고로 이번 12.0 패치 자체는 8월 6일 오전 11시부터 오후 5시까지 약 6시간 점검으로 적용됐고, 시즌12 세일링 프리시즌은 그때부터 시작해서 8월 13일 점검 전까지 약 1주간 이어지는 거예요. 얼리버드 기간이 끝나면 셋 다 정상가로 돌아가니, 8월 27일 점검 전까지가 진짜 데드라인이라고 보시면 됩니다.</p>
+<p>패스 사면 스킨 3종도 같이 챙겨요</p>
+<p>세일링 ER 패스에는 레벨 보상으로 스킨 3종이 포함돼 있어요. 순서대로 보면 이렇습니다.</p>
+<ul><li>'유릿빛 물결 타지아'(희귀) — 20레벨 보상</li><li>'풍랑 위의 이정표 유민'(희귀) — 40레벨 보상</li><li>'니아'(영웅, 물속성) — 80레벨 보상</li></ul>
+<p class="ph">📷 〔사진 자리 2〕 세일링 ER패스 영웅 스킨 니아 — 80레벨까지 찍어야 만날 수 있는 영웅 등급 '니아'예요 — 네이버에서 직접 업로드</p>
+<p>(이미지 출처: 이터널리턴 12.0 패치노트 Part.1 (공식) - <a href="https://playeternalreturn.com/posts/news/3742?hl=ko-KR" target="_blank">https://playeternalreturn.com/posts/news/3742?hl=ko-KR</a> · 네이버엔 이미지 파일 직접 업로드)</p>
+<p>영웅 등급인 '니아'는 80레벨까지는 찍어야 나오는 자리라, 만렙 목표로 잡고 달릴 분들은 참고해두시면 좋을 것 같아요.</p>
+<p>패스 사면 스킨 말고 이런 보상도 레벨업으로 챙겨요</p>
+<p>스킨만 받는 게 아니에요. 패치노트를 다시 읽어보니 ER 패스는 게임 플레이랑 미션 클리어로 ER 포인트를 모아 시즌 레벨을 올리는 방식이더라고요. 사자마자 한꺼번에 딸려오는 게 아니라, 시즌 내내 플레이하면서 레벨을 올릴 때마다 아래 같은 보상이 하나씩 풀리는 구조예요.</p>
+<ul><li>최대 900 NP</li><li>8,000 A-Coin</li><li>신규 킬 어나운스 아이콘 3종</li><li>신규 이모티콘 10종</li><li>신규 로비 스크린 1종</li><li>신규 프로필 배경ㆍ테두리 각 3종</li></ul>
+<p>여기에 드론ㆍ비석ㆍ스프레이ㆍ카메라ㆍ프로필 아이콘ㆍ어나운스 등등도 더 있어서 실제 목록은 이보다 훨씬 길어요. 그리고 세일링 토큰 100개는 시즌팩 즉시 보너스랑은 별개로, ER 패스만 사도 레벨업으로 채울 수 있는 항목에 포함돼 있더라고요 — 시즌팩 전용 혜택으로 알고 계셨다면 그건 아니에요. 즉 구매 즉시 받는 목록이 아니라 시즌 레벨업 누적 보상 카탈로그라고 보시면 돼요. 플레이 기간이 길수록 레벨업 기회가 많아지는 건 맞지만, 패치노트를 보니 늦게 사시더라도 그 사이 수행한 추가 미션은 소급으로 인정해준다고 하니 얼리버드를 놓쳤다고 너무 조급해하실 필요는 없을 것 같아요.</p>
+<p>시즌팩이랑은 다른 상품이에요</p>
+<p>헷갈리기 쉬운데, 세일링 시즌팩은 ER 패스랑 별개 상품이에요. 시즌팩은 이미 8월 6일 점검 후부터 할인 판매 중인데, 할인폭이 2단계로 나뉘어요. 8월 20일 점검 전까지는 정가 13,780 NP가 5,800 NP로(약 57% 할인), 8월 20일 점검 후부터 정규시즌12 종료까지는 6,400 NP로(약 53% 할인) 할인폭이 한 단계 줄어드는 구조라, 최대한 아끼려면 8월 20일 전에 사두는 게 낫더라고요. 구성은 신규 실험체 2종(루치아ㆍ세레스)에 신규 스킨 6종, 그리고 시즌팩 특별 구성품으로 별도 지급되는 영웅 등급 스킨 '벽파참랑 슈린'까지 묶여 있고요(슈린은 신규 스킨 6종과는 별개 항목이에요). 여기에 세일링 토큰 100개ㆍER Point 부스터 14일도 구매하자마자 바로 붙는 보너스로 딸려와요. 이 글에서 다루는 890~1,750 NP짜리 ER 패스랑은 가격대도 구성도 다르니, 상점에서 헷갈리지 말고 원하는 쪽으로 구매하시면 됩니다.</p>
+<p class="ph">📷 〔사진 자리 3〕 이터널리턴 12.0 패치노트 시즌12 세일링 대표 이미지 — 세일링 시즌 전체 비주얼이에요. 여름 느낌 물씬 나죠 — 네이버에서 직접 업로드</p>
+<p>(이미지 출처: 이터널리턴 12.0 패치노트 Part.1 (공식) - <a href="https://playeternalreturn.com/posts/news/3742?hl=ko-KR" target="_blank">https://playeternalreturn.com/posts/news/3742?hl=ko-KR</a> · 네이버엔 이미지 파일 직접 업로드)</p>
+<p>3주년 이벤트는 이미 끝났어요</p>
+<p>혹시 3주년 특별 출석부나 쿠폰 'THX3RDANNIVERSARY' 챙기려던 분 계시면, 이미 8월 6일 점검 전까지였어서 지금은 종료된 상태예요. 세일링으로 넘어오면서 자연스럽게 마감된 거라 굳이 따로 찾으실 필요는 없습니다. 그리고 이번에 확인한 바로는 지금 당장 입력할 수 있는 신규 쿠폰은 따로 없는 것 같아요. 나중에 새 쿠폰이 뿌려지면 그때 다시 정리해서 올려드릴게요.</p>
+<p>(참고: 이터널리턴 3주년 이벤트 공지 (공식) - <a href="https://playeternalreturn.com/posts/news/3694?hl=ko-KR" target="_blank">https://playeternalreturn.com/posts/news/3694?hl=ko-KR</a>)</p>
+<p>자주 묻는 질문</p>
+<p><b>Q. 프리시즌 기간(~8/13 점검 전)에도 미리 살 수 있나요?</b></p>
+<p>A. 아니요, 얼리버드 판매 자체가 정규 시즌 개막(8/13 점검 후)에 맞춰 열려서 프리시즌 동안은 상점에 구매 칸이 뜨지 않아요.</p>
+<p><b>Q. 패스 레벨은 따로 뭘 눌러서 올리는 건가요?</b></p>
+<p>A. 아니요, 특별히 조작하는 게 아니라 게임 플레이랑 미션 클리어로 자연스럽게 ER 포인트가 쌓이면서 레벨이 올라가는 구조예요. 그냥 평소처럼 게임 돌리시면 레벨업 보상도 알아서 따라오는 셈이라 플레이 기간이 길수록 유리하긴 한데, 앞서 말씀드렸듯 늦게 사시더라도 그 사이 수행한 추가 미션은 소급 인정되니 얼리버드를 놓쳤다고 조급해하실 필요는 없어요.</p>
+<p><b>Q. 시즌팩만 사면 ER 패스도 같이 따라오나요?</b></p>
+<p>A. 네, 따라옵니다. 패치노트를 다시 보니 프리시즌 기간 중에 시즌팩을 사면 ER 패스를 그 자리에서 바로 쓸 수 있게 돼 있더라고요 — 구매하면 우편으로 세일링 ER 패스가 지급되는데, 그걸 수령하면 바로 활성화되는 방식이에요. 반대로 ER 패스만 따로 사는 건 프리시즌 동안엔 안 되고 얼리버드 기간(8월 13일 점검 이후)부터 열려요. 그러니까 얼리버드까지 기다리기 아쉬우신 분이라면, 시즌팩을 먼저 사는 게 프리시즌 중에도 ER 패스를 바로 쓸 수 있는 사실상 유일한 방법이에요.</p>
+<p><b>Q. 시즌팩 할인은 언제까지가 제일 저렴한가요?</b></p>
+<p>A. 8월 20일 점검 전까지가 5,800 NP(약 57% 할인)로 가장 저렴하고, 그 이후부터 정규시즌12 종료까지는 6,400 NP(약 53% 할인)로 할인폭이 줄어들어요. 최대 할인으로 챙기고 싶으면 8월 20일 전에 결제해두시는 걸 추천드려요.</p>
+<h3>[마무리 박스: 마무리]</h3>
+<p>포인트만 다시 짚어보면 ① 세일링 ER 패스 얼리버드는 8월 13일 점검 후 ~ 8월 27일 점검 전까지만 890~1,750 NP대로 살 수 있고 ② 패스 안에 '니아' 포함 스킨 3종이 딸려 있으며 ③ 시즌팩ㆍ3주년 이벤트는 이거랑 완전히 다른 얘기라는 점만 구분해두면 됩니다. 저도 13일 되면 바로 들어가서 얼리버드부터 눌러볼 생각입니다.</p>
+<h3>참고한 곳</h3>
+<ul><li>이터널리턴 12.0 패치노트 Part.1 (공식) — 2026.08.11 기준 - <a href="https://playeternalreturn.com/posts/news/3742?hl=ko-KR" target="_blank">https://playeternalreturn.com/posts/news/3742?hl=ko-KR</a></li><li>이터널리턴 3주년 이벤트 공지 (공식) — 2026.08.11 기준 - <a href="https://playeternalreturn.com/posts/news/3694?hl=ko-KR" target="_blank">https://playeternalreturn.com/posts/news/3694?hl=ko-KR</a></li></ul>
+<p class="tags-line">#이터널리턴 #이터널리턴패스 #세일링ER패스 #이터널리턴시즌12 #세일링얼리버드 #이터널리턴시즌팩 #이터널리턴쿠폰 #PC게임추천 #할만한게임</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>
