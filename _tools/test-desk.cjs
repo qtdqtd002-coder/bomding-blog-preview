@@ -5,12 +5,17 @@ const path = require('path');
 const ROOT = 'C:\\Users\\qtdqt\\Desktop\\Claude\\BlogPreview';
 const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 
-function grab(startMarker, endMarker) {
-  const a = html.indexOf(startMarker);
-  if (a < 0) throw new Error('marker not found: ' + startMarker);
-  const b = html.indexOf(endMarker, a);
-  if (b < 0) throw new Error('end marker not found: ' + endMarker);
-  return html.slice(a, b);
+/* ★2026-09-03 개정 — 마커를 문자열에서 «정규식»으로 바꿨다.
+   사이트 v5 개편에서 선언 키워드(const→var)·들여쓰기·주석 문양이 바뀌자 하네스가 통째로 죽었다.
+   테스트가 사이트의 «표기»에 묶여 있으면 로직이 멀쩡해도 개편마다 테스트가 먼저 깨진다.
+   묶여야 할 것은 표기가 아니라 «이름»이다. */
+function grabRe(startRe, endRe, what) {
+  const a = html.search(startRe);
+  if (a < 0) throw new Error('시작 마커를 찾지 못했습니다: ' + what + ' — index.html 에서 이름이 바뀌었는지 확인하세요.');
+  const rest = html.slice(a);
+  const b = rest.search(endRe);
+  if (b < 0) throw new Error('끝 마커를 찾지 못했습니다: ' + what);
+  return rest.slice(0, b);
 }
 /* normEditions 가 참조하는 외부 상수(작성자 목록·휴면 목록)도 index.html 에서 같이 끌어온다.
    ★여기에 값을 하드코딩하면 사이트에서 작성자가 바뀌어도 테스트는 옛 값으로 통과해 버린다 —
@@ -20,12 +25,15 @@ function grabLine(re, what) {
   if (!m) throw new Error('정의를 찾지 못했습니다: ' + what + ' — index.html 에서 이름이 바뀌었는지 확인하세요.');
   return m[0];
 }
+/* 휴면 목록의 변수명은 개편에서 INACTIVE_WRITERS → INACTIVE 로 바뀔 수 있다. 둘 다 받고 하네스 안에서 별칭을 맞춘다. */
+const inactiveDecl = grabLine(/^[ \t]*(?:const|var|let) INACTIVE(?:_WRITERS)?=\[[^\]]*\];/m, 'INACTIVE_WRITERS');
 const deps = [
-  grabLine(/ const PREF=\[[^\]]*\];/, 'PREF'),
-  grabLine(/ const INACTIVE_WRITERS=\[[^\]]*\];/, 'INACTIVE_WRITERS'),
+  grabLine(/^[ \t]*(?:const|var|let) PREF=\[[^\]]*\];/m, 'PREF'),
+  inactiveDecl,
+  /INACTIVE_WRITERS=/.test(inactiveDecl) ? '' : 'var INACTIVE_WRITERS=INACTIVE;',
 ].join('\n');
 
-const src = grab(' const DESK_SECTIONS=[', ' /* ---------- 트렌드(일간 토픽 데스크) ---------- */');
+const src = grabRe(/^[ \t]*(?:const|var|let) DESK_SECTIONS=\[/m, /function pinBox\s*\(/, 'DESK_SECTIONS…deskMaterial');
 const mod = new Function(deps + '\n' + src + '\n return {DESK_SECTIONS,DESK_SEC,normEditions,edItems,deskMaterial,PREF,INACTIVE_WRITERS};')();
 console.log('  · PREF = ' + mod.PREF.join(',') + ' | 휴면 = ' + (mod.INACTIVE_WRITERS.join(',') || '없음'));
 
