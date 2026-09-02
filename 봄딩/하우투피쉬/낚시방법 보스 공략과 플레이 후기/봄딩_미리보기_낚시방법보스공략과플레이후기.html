@@ -1,0 +1,319 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>낚시게임추천 하우투피쉬(낚시방법) 보스11종공략과 반응 총정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:22px;}
+  .post li{margin:6px 0;font-size:15.5px;line-height:1.85;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 9px;text-align:left;line-height:1.55;}
+  .tbl th{background:#f7f8fa;font-weight:700;white-space:nowrap;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:left;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">낚시게임추천 하우투피쉬(낚시방법) 보스11종공략과 반응 총정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.09.02</span><span>· 게임</span></div>
+
+    <p>낚시 방법, 영문 이름으로는 하우투피쉬(How to Fish)라는 게임이 지난 8월 20일에 스팀에서 정식 출시했는데요. 데이즈드 게임즈(Dazed Games)가 만들고 8,400원이라는 부담 없는 가격에, 리뷰 47,191건 중 94.95%가 긍정 평가를 남길 만큼 반응이 좋더라고요. 이번 글에서는 이 게임이 어떤 방식으로 진행되는지, 확인된 보스 11종은 각각 어떻게 공략하면 되는지, 그리고 실제 반응은 어떤지까지 한 번에 정리해볼게요.</p>
+
+    <!-- 이미지 이유: 게임 첫인상을 보여주는 공식 키비주얼 / 출처: 스팀 스토어 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/header.jpg" width="460" height="215" alt="낚시 방법 How to Fish 스팀 공식 키비주얼"></div>
+    <p class="cap">스팀 공식 키비주얼이에요. 낚싯대 든 인물이랑 무기 든 인물이 같이 있는 게 이 게임 성격을 잘 보여주죠.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4001890/How_to_Fish/" target="_blank">낚시 방법 스팀 스토어</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">낚시 방법이 대체 뭔 게임이냐면</h2>
+    <p><b>한마디로 말하면, 물리 기반 낚시 시뮬레이터에 산탄총 전투와 카지노까지 뒤섞인 협동 서바이벌 게임이에요.</b> 설정부터가 특이한데요, 술 마시고 보트를 몰다가 실수로 작은 섬에 들이받아 좌초된 상황에서 시작해요. 집에 돌아가려면 결국 낚시하는 법을 배워야 하는 거죠. 장비도 무기도 없는 빈손으로 시작해서, 물고기를 낚고 팔아 번 돈으로 장비와 무기를 사고, 퀘스트를 깨고 보스를 잡아가며 새로운 섬으로 넘어가는 구조예요. 공식 장르는 액션·캐주얼·인디·시뮬레이션이고, 스토어 태그에는 협동(Co-Op)·낚시·슈터·물리·카투니 같은 키워드가 함께 붙어 있어요. 출시 초반엔 최대 4명까지 온라인 협동이 가능했는데, 패치로 지금은 최대 8명까지 늘어나서 혼자보다는 여럿이 왁자지껄하게 즐기기 좋게 설계된 느낌이더라고요.</p>
+
+    <h2 class="sub">기본 조작은 이렇게 돌아가요</h2>
+    <p><b>캐스팅은 좌클릭을 눌러 파워를 충전한 뒤 놓으면 되고, 릴링은 입질이 왔을 때 좌클릭을 홀드하면서 장력을 조절하는 방식이에요.</b> 캐스팅할 땐 45도 각도로 던지는 게 기본이고, 홀드를 오래 할수록 더 멀리 날아가요. 릴링 중엔 장력이 위험 구간까지 올라가면 살짝 놓았다가 다시 홀드하는 식으로 줄을 지켜야 하고요. 낚은 물고기나 보스는 그냥 잡히는 게 아니라 직접 무기로 처치해야 하는데, 초반엔 칼이나 너클 같은 근접무기로 시작해서 산탄총·기관단총을 거쳐 저격총·돌격소총까지 순서대로 강화해나가는 구조예요.</p>
+
+    <!-- 이미지 이유: 캐스팅·릴링으로 물고기를 낚는 장면을 직접 보여주려 / 출처: 스팀 스토어 스크린샷 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/ss3.jpg" width="1920" height="1080" alt="낚시 방법 게임 내 릴링 장면"></div>
+    <p class="cap">이렇게 릴을 감아서 물고기를 끌어올리는 장면이에요. 낚싯대 하나 들고 있는데도 긴장감이 꽤 있어 보이죠.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4001890/How_to_Fish/" target="_blank">낚시 방법 스팀 스토어</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">섬은 어떤 순서로 넘어가나요</h2>
+    <p><b>등대 섬 → 숲 섬 → 사막 섬 → 바위 섬 → 화산 섬, 이렇게 5단계가 고정된 순서로 이어져요.</b> 섬마다 진행 방식이 똑같은 사이클로 돌아가는데요, NPC 퀘스트를 받아서 전용 미끼를 구하고, 그 미끼로 보스를 소환해서 잡고, 보스한테서 나온 전리품을 다시 NPC한테 가져다주면 다음 섬으로 가는 길이 열리는 식이에요.</p>
+
+    <!-- 이미지 이유: NPC와 무기 상점을 함께 보여주는 초반 진행 장면 / 출처: 스팀 스토어 스크린샷 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/ss1.jpg" width="1920" height="1080" alt="낚시 방법 게임 내 NPC 멜빈과 무기 상점"></div>
+    <p class="cap">등대 섬에서 만나는 NPC 멜빈이에요. 옆에 걸린 칼·권총·다이너마이트가 앞으로 쓸 무기들이겠죠.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4001890/How_to_Fish/" target="_blank">낚시 방법 스팀 스토어</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">보스전 들어가기 전에 꼭 알아둘 규칙 3가지</h2>
+    <p><b>보스는 전용 미끼가 있어야만 나타나고, 잡아도 고유 전리품을 NPC에게 전달해야 진짜로 끝나며, 시간제한도 있다는 걸 기억해두세요.</b></p>
+    <ul>
+      <li><b>전용 미끼 필수</b> — 일반 미끼로는 보스가 아예 등장하지 않아요. 보스 등장 자체가 미끼에 달려있거든요, 섬마다 정해진 전용 미끼를 먼저 구해야 해요.</li>
+      <li><b>전리품 반납</b> — 보스를 처치하는 것만으론 부족하고, 일반 물고기가 아닌 고유 전리품(껍질·뼈·머리 등)을 해당 NPC에게 전달해야 다음 좌표가 열려요.</li>
+      <li><b>탈출 타이머</b> — 전투 중 제한 시간이 있어서, 시간 안에 못 끝내면 보스가 도망가거나 리셋돼요. 무기를 미리 업그레이드해두고 들어가는 게 안전해요.</li>
+    </ul>
+
+    <!-- 이미지 이유: 전리품(잡은 물고기)을 NPC에게 넘기는 반납 장면 / 출처: 스팀 스토어 스크린샷 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/ss5.jpg" width="1920" height="1080" alt="낚시 방법 게임 내 전리품을 NPC에게 건네는 장면"></div>
+    <p class="cap">잡은 걸 NPC한테 이렇게 직접 건네줘야 다음 단계가 열려요. 그냥 잡기만 하고 끝이 아니라는 거죠.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4001890/How_to_Fish/" target="_blank">낚시 방법 스팀 스토어</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">보스는 몇 마리고, 어떻게 잡나요</h2>
+    <p><b>확인된 보스는 총 11종이에요. 메인 스토리 경로를 완주하려면 결국 만나게 되는 5마리(스파이더 크랩·자이언트 피라냐·복어·알바트로스, 그리고 최종보스인 변이 보우헤드 고래)가 핵심이고, 나머지 6마리(선피시·올드 파이크·블루 샤크·참치·고블린 샤크·일반 보우헤드 고래)는 다음 보스를 부르거나 자금·조리 특전을 위해 만나는 보스들이에요. 이 중 참치와 일반 보우헤드 고래는 각각 알바트로스와 최종보스의 등장 조건이라 사실상 건너뛸 수 없고, 선피시·올드 파이크·블루 샤크·고블린 샤크는 몰라도 진행엔 지장 없어요.</b> 표는 보스명(영문/한글)·등장 지역·소환 미끼(또는 조건)·공략법·팁, 이렇게 다섯 가지 기준으로 정리했어요.</p>
+
+    <table class="tbl">
+      <caption style="caption-side:top;text-align:left;font-size:12.5px;color:var(--sub);font-weight:400;padding:0 0 6px;">가격·수치는 2026.09.02 확인 기준, 패치로 바뀔 수 있어요</caption>
+      <tr><th>보스명(영/한)</th><th>등장 지역</th><th>소환 미끼·조건</th><th>공략법</th><th>팁</th></tr>
+      <tr><td>Spider Crab<br>스파이더 크랩<br>(스토리)</td><td>등대 섬</td><td>빈 맥주캔 미끼(맥주 구매→등대지기 전달)</td><td>돌진·집게 공격이 빗나가면 기절, 그 틈에 근접무기(칼 등) 3~4타</td><td>칼 먼저 구매 권장. 처치 후 껍질을 등대지기에게 전달해야 보트 열쇠+레이더($10) 획득</td></tr>
+      <tr><td>Sunfish<br>선피시<br>(미니보스)</td><td>숲~화산 섬 랜덤</td><td>초급 보스 미끼(올드 파이크와 랜덤 공유)</td><td>공격을 안 해서 권총으로 처치</td><td>스토리 진행과는 무관</td></tr>
+      <tr><td>The Old Pike<br>올드 파이크<br>(미니보스)</td><td>숲 섬</td><td>초급 보스 미끼</td><td>단순 꼬리치기, 산탄총으로 회피사격</td><td>자이언트 피라냐전 연습용</td></tr>
+      <tr><td>Giant Piranha<br>자이언트 피라냐<br>(스토리)</td><td>숲 섬 호수</td><td>변형 거머리 미끼(거머리 3마리 채집→NPC 전달)</td><td>잔챙이 원거리 정리 후 도약공격 회피, 착지 시 집중공격</td><td>해골(뼈)을 NPC에 전달해야 사막 섬 오픈</td></tr>
+      <tr><td>Blue Shark<br>블루 샤크<br>(미니보스)</td><td>사막 섬</td><td>표준 보스 미끼</td><td>회전 돌진, 거리 유지하며 산탄총</td><td>처치 후 그릴 장인에게 전달하면 조리 기능 해금(판매가↑). 복어 전에 처치 권장</td></tr>
+      <tr><td>Pufferfish<br>복어<br>(스토리)</td><td>사막 섬</td><td>당근 미끼(멸종위기종 낚아 관광객 전달)</td><td>부풀어 굴러오는 공격, 산탄총 2발 후 이동, 체력 절반 이하 시 독 장판 회피</td><td>지느러미를 관광객에 전달해야 바위 섬 오픈</td></tr>
+      <tr><td>Tuna<br>참치<br>(사실상 필수)</td><td>바위 섬</td><td>전문 보스 미끼(약 $1,200)</td><td>좁은 지형 직선 돌진, 산탄총+탄약 업그레이드</td><td>처치 후 시체를 남겨둬야 함(판매·조리 금지, 알바트로스 소환용)</td></tr>
+      <tr><td>Albatross<br>알바트로스<br>(스토리)</td><td>바위 섬</td><td>참치 시체 방치 시 등장</td><td>공중 원거리+배설물 공격, 엄폐물 뒤에서 저격총</td><td>머리를 NPC에 전달해야 화산 섬 오픈</td></tr>
+      <tr><td>Goblin Shark<br>고블린 샤크<br>(미니보스)</td><td>화산 섬</td><td>과학 보스 미끼(고가)</td><td>돌격소총·기관단총, 용암 지형 회피</td><td>게임 내 최고가 어종(생물 약 $6,200, 조리 시 약 $9,300). 자금 마련용. 조리하면 판매가가 최대 1.5배까지 뛰는데(사막 그릴도 같은 배율이에요), 화산 섬 용암은 타이밍 실패로 태워서 0원 될 위험 없이 이 1.5배를 안전하게 챙길 수 있어서 이런 고가 어종엔 특히 짭짤해요</td></tr>
+      <tr><td>Bowhead Whale<br>보우헤드 고래<br>(사전 처치)</td><td>화산 섬</td><td>화산 어종 5마리 완료→물고기 양동이</td><td>공중 도약 내려찍기, 착지 후 이동+집중공격</td><td>시체(판매·조리 금지)를 분화구에 던지면 최종보스 등장</td></tr>
+      <tr><td>Mutated Bowhead Whale<br>변이 보우헤드 고래<br>(최종보스)</td><td>화산 섬 분화구</td><td>고래 시체 투척</td><td>용암 낙하공격 회피, 착지 후 돌격소총 집중공격</td><td>처치 시 스토리 목표 달성(엔딩)</td></tr>
+    </table>
+    <p>보스마다 등장 조건이랑 미끼가 다 다르니까, 표를 저장해두고 섬 넘어갈 때마다 하나씩 확인하면서 진행하면 헷갈릴 일이 확 줄어들 것 같네요.</p>
+
+    <!-- 이미지 이유: 실제 보스전 전투 장면(스파이크 달린 몬스터에게 사격 중) / 출처: 스팀 스토어 스크린샷 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/ss2.jpg" width="1920" height="1080" alt="낚시 방법 게임 내 보스 전투 장면"></div>
+    <p class="cap">이런 가시투성이 보스한테 총을 갈기는 장면이네요. 데미지 숫자 뜨는 거 보면 은근 손맛이 있어 보여요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4001890/How_to_Fish/" target="_blank">낚시 방법 스팀 스토어</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <p>보스만 잡고 끝이 아니라, 잡은 재료로 뭘 해먹을 수 있는지도 궁금하실 것 같아요.</p>
+
+    <!-- 이미지 이유: 블루 샤크를 넘기면 열리는 그릴(조리) 콘텐츠를 보여주려 / 출처: 스팀 스토어 스크린샷 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/ss4.jpg" width="1920" height="1080" alt="낚시 방법 게임 내 그릴 조리 장면"></div>
+    <p class="cap">그릴 장인한테 재료 넘기면 이렇게 구워주는 모양이에요. 표에 있는 블루 샤크 팁이랑 연결되는 장면이죠.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4001890/How_to_Fish/" target="_blank">낚시 방법 스팀 스토어</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">빙봉이라는 존재도 있던데, 보스일까요</h2>
+    <p><b>빙봉은 이번에 정리한 11종 보스에는 들어가지 않는, 아직 정체가 확실하지 않은 존재예요.</b> 사막 섬 야자수 근처에서 코코넛(약 350달러) 미끼로 부를 수 있다고 하는데, 일부 공략 사이트(Game8)는 이걸 보스로 분류하는 반면 다른 사이트(how-to-fish.wiki)는 정식 보스는 아니고 다른 게임(Peak)과의 크로스오버로 등장하는 히든 크리처로 따로 분류하고 있어요. 개발사가 공식적으로 뭐라고 부르는지, 체력이 얼마인지도 확인되지 않았는데요, 커뮤니티에서 도는 수치일 뿐이라 그대로 믿기는 어려워요. 그래서 이번 정리에는 별도 항목으로만 짧게 남겨둘게요.</p>
+
+    <!-- 이미지 이유: 빙봉 소환 장소인 야자수·코코넛 미끼 맥락을 보여주려 / 출처: 스팀 스토어 스크린샷 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/ss6.jpg" width="1920" height="1080" alt="낚시 방법 게임 내 야자수와 코코넛 미끼 장면"></div>
+    <p class="cap">이런 야자수 근처에서 코코넛을 미끼로 쓰면 빙봉이 나온다고 하더라고요. 정체는 아직 미스터리예요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4001890/How_to_Fish/" target="_blank">낚시 방법 스팀 스토어</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">실제 반응은 어떨까요</h2>
+    <p><b>여러 리뷰와 영상을 종합해보면, '조용한 낚시 게임인 줄 알았는데 산탄총 전투에 카지노까지 있는 혼돈의 협동 게임'이라는 평가가 자주 보이더라고요.</b> 저는 아직 직접 플레이해본 건 아니고 공개된 리뷰와 영상을 두루 살펴본 정도인데요, 협동 플레이의 재미와 트릭샷 시스템, 가격 대비 만족도를 좋게 평가하는 후기가 많았어요. 출시 초반엔 48시간 만에 누적 플레이어 100만 명을 넘겼다는 소식도 여러 매체에서 다뤄질 정도로 화제였고요.</p>
+    <ul>
+      <li>출시 초반 화면 버그가 있었다는 지적</li>
+      <li>친구 초대 기능에서 오류가 발생했다는 후기</li>
+      <li>폭발물을 과하게 쓰면 성능이 떨어진다는 의견</li>
+    </ul>
+    <p>이런 이슈들도 함께 언급되고 있어서, 완벽하다기보다는 초반 잔손질이 필요한 상태로 보여요.</p>
+
+    <!-- 이미지 이유: 후기·분위기를 마무리하는 인상적인 무기 연출 컷 / 출처: 스팀 스토어 스크린샷 / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="img/ss7.jpg" width="1920" height="1080" alt="낚시 방법 게임 내 무기 연출 장면"></div>
+    <p class="cap">이런저런 이슈에도 사람들이 계속 즐기는 걸 보면 매력은 확실한가 봐요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4001890/How_to_Fish/" target="_blank">낚시 방법 스팀 스토어</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 낚시 방법은 한국어를 지원하나요?</b><br>네, 지원 언어 16개 전체에 한국어가 포함돼 있고 자막뿐 아니라 음성 더빙까지 지원해요. 다만 실제 번역이 얼마나 자연스러운지는 아직 확인된 정보가 없어서, 이 부분은 직접 플레이하면서 느껴보시는 게 정확할 것 같아요.</p>
+    <p><b>Q. 혼자서도 보스를 잡을 수 있나요?</b><br>혼자서도 가능은 한데, 여러 리뷰에서 솔로 플레이일 때 보스 난이도가 확 올라간다는 얘기가 꽤 있더라고요. 그래서 가능하면 협동 모드로 같이 가는 걸 추천하는 분위기예요. 참고로 출시 초반엔 4명까지였는데, 패치 이후로는 최대 8명까지 함께 할 수 있게 늘었답니다.</p>
+    <p><b>Q. 확률형 아이템이 있나요?</b><br>리얼머니로 결제하는 확률형 가챠는 없어요. 다만 스팀 공식 콘텐츠 고지에 '물고기로 하는 도박 요소(실제 현금 아님)'가 안내돼 있는데, 게임 내 재화로 하는 도박성 미니게임 정도로 보면 된답니다.</p>
+
+    <p>아직 낚시 방법을 다룬 봄딩 글이 없어서 이번이 첫 소개예요. 다음엔 그릴 활용법이나 트릭샷 꿀팁으로 이어서 써볼게요.</p>
+    <!-- 내부링크: 낚시 방법 관련 기존 발행글 없음(첫 소개, sibling 0) -->
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://store.steampowered.com/app/4001890/How_to_Fish/" target="_blank">낚시 방법(How to Fish) 스팀 스토어 페이지</a><br>
+    · <a href="https://game8.co/games/How-to-Fish/archives/616920" target="_blank">Game8 - 보스 전체 목록</a><br>
+    · <a href="https://how-to-fish.wiki/guides/boss-fights/" target="_blank">how-to-fish.wiki - 보스 공략 가이드</a></p>
+    <p style="font-size:12.5px;color:#999;margin-top:-14px;">2026.09.02 기준</p>
+
+    <h2 class="sub">낚시 방법 정리</h2>
+    <p>정리하면, 낚시 방법은 5개 섬을 돌면서 미끼로 보스를 소환해 잡고 전리품을 넘기며 진행하는 협동 낚시 게임이고, 확인된 보스는 11종, 빙봉은 아직 정체가 확실하지 않은 별도 존재예요. 가격도 부담 없고, 패치로 최대 8명까지 함께 즐길 수 있게 넓어진 만큼, 친구들이랑 한 번 들여다보시면 좋을 것 같아요.</p>
+
+    <div class="tags">#낚시방법 #하우투피쉬 #HowToFish #낚시게임추천 #보스공략 #협동게임 #스팀인디게임</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 8가지(약 4분):</b> 📷 <b>사진 8곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 낚시게임추천 하우투피쉬(낚시방법) 보스11종공략과 반응 총정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>낚시 방법, 영문 이름으로는 하우투피쉬(How to Fish)라는 게임이 지난 8월 20일에 스팀에서 정식 출시했는데요. 데이즈드 게임즈(Dazed Games)가 만들고 8,400원이라는 부담 없는 가격에, 리뷰 47,191건 중 94.95%가 긍정 평가를 남길 만큼 반응이 좋더라고요. 이번 글에서는 이 게임이 어떤 방식으로 진행되는지, 확인된 보스 11종은 각각 어떻게 공략하면 되는지, 그리고 실제 반응은 어떤지까지 한 번에 정리해볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 낚시 방법 스팀 공식 키비주얼 — 스팀 스토어에서 저장 후 업로드</p>
+
+      <h3>낚시 방법이 대체 뭔 게임이냐면</h3>
+      <p><b>한마디로 말하면, 물리 기반 낚시 시뮬레이터에 산탄총 전투와 카지노까지 뒤섞인 협동 서바이벌 게임이에요.</b> 설정부터가 특이한데요, 술 마시고 보트를 몰다가 실수로 작은 섬에 들이받아 좌초된 상황에서 시작해요. 집에 돌아가려면 결국 낚시하는 법을 배워야 하는 거죠. 장비도 무기도 없는 빈손으로 시작해서, 물고기를 낚고 팔아 번 돈으로 장비와 무기를 사고, 퀘스트를 깨고 보스를 잡아가며 새로운 섬으로 넘어가는 구조예요. 공식 장르는 액션·캐주얼·인디·시뮬레이션이고, 스토어 태그에는 협동(Co-Op)·낚시·슈터·물리·카투니 같은 키워드가 함께 붙어 있어요. 출시 초반엔 최대 4명까지 온라인 협동이 가능했는데, 패치로 지금은 최대 8명까지 늘어나서 혼자보다는 여럿이 왁자지껄하게 즐기기 좋게 설계된 느낌이더라고요.</p>
+
+      <h3>기본 조작은 이렇게 돌아가요</h3>
+      <p><b>캐스팅은 좌클릭을 눌러 파워를 충전한 뒤 놓으면 되고, 릴링은 입질이 왔을 때 좌클릭을 홀드하면서 장력을 조절하는 방식이에요.</b> 캐스팅할 땐 45도 각도로 던지는 게 기본이고, 홀드를 오래 할수록 더 멀리 날아가요. 릴링 중엔 장력이 위험 구간까지 올라가면 살짝 놓았다가 다시 홀드하는 식으로 줄을 지켜야 하고요. 낚은 물고기나 보스는 그냥 잡히는 게 아니라 직접 무기로 처치해야 하는데, 초반엔 칼이나 너클 같은 근접무기로 시작해서 산탄총·기관단총을 거쳐 저격총·돌격소총까지 순서대로 강화해나가는 구조예요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 릴링 장면 — 스팀 스토어에서 저장 후 업로드</p>
+
+      <h3>섬은 어떤 순서로 넘어가나요</h3>
+      <p><b>등대 섬 → 숲 섬 → 사막 섬 → 바위 섬 → 화산 섬, 이렇게 5단계가 고정된 순서로 이어져요.</b> 섬마다 진행 방식이 똑같은 사이클로 돌아가는데요, NPC 퀘스트를 받아서 전용 미끼를 구하고, 그 미끼로 보스를 소환해서 잡고, 보스한테서 나온 전리품을 다시 NPC한테 가져다주면 다음 섬으로 가는 길이 열리는 식이에요.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 NPC 멜빈과 무기 상점 — 스팀 스토어에서 저장 후 업로드</p>
+
+      <h3>보스전 들어가기 전에 꼭 알아둘 규칙 3가지</h3>
+      <p><b>보스는 전용 미끼가 있어야만 나타나고, 잡아도 고유 전리품을 NPC에게 전달해야 진짜로 끝나며, 시간제한도 있다는 걸 기억해두세요.</b></p>
+      <ul>
+        <li><b>전용 미끼 필수</b> — 일반 미끼로는 보스가 아예 등장하지 않아요. 보스 등장 자체가 미끼에 달려있거든요, 섬마다 정해진 전용 미끼를 먼저 구해야 해요.</li>
+        <li><b>전리품 반납</b> — 보스를 처치하는 것만으론 부족하고, 일반 물고기가 아닌 고유 전리품(껍질·뼈·머리 등)을 해당 NPC에게 전달해야 다음 좌표가 열려요.</li>
+        <li><b>탈출 타이머</b> — 전투 중 제한 시간이 있어서, 시간 안에 못 끝내면 보스가 도망가거나 리셋돼요. 무기를 미리 업그레이드해두고 들어가는 게 안전해요.</li>
+      </ul>
+
+      <p class="ph">📷 〔사진 자리 4〕 전리품을 NPC에게 건네는 장면 — 스팀 스토어에서 저장 후 업로드</p>
+
+      <h3>보스는 몇 마리고, 어떻게 잡나요</h3>
+      <p><b>확인된 보스는 총 11종이에요. 메인 스토리 경로를 완주하려면 결국 만나게 되는 5마리(스파이더 크랩·자이언트 피라냐·복어·알바트로스, 그리고 최종보스인 변이 보우헤드 고래)가 핵심이고, 나머지 6마리(선피시·올드 파이크·블루 샤크·참치·고블린 샤크·일반 보우헤드 고래)는 다음 보스를 부르거나 자금·조리 특전을 위해 만나는 보스들이에요. 이 중 참치와 일반 보우헤드 고래는 각각 알바트로스와 최종보스의 등장 조건이라 사실상 건너뛸 수 없고, 선피시·올드 파이크·블루 샤크·고블린 샤크는 몰라도 진행엔 지장 없어요.</b> 표는 보스명(영문/한글)·등장 지역·소환 미끼(또는 조건)·공략법·팁, 이렇게 다섯 가지 기준으로 정리했어요.</p>
+
+      <table>
+        <caption style="caption-side:top;text-align:left;font-size:12px;color:#999;font-weight:400;padding:0 0 6px;">가격·수치는 2026.09.02 확인 기준, 패치로 바뀔 수 있어요</caption>
+        <tr><th>보스명(영/한)</th><th>등장 지역</th><th>소환 미끼·조건</th><th>공략법</th><th>팁</th></tr>
+        <tr><td>Spider Crab<br>스파이더 크랩(스토리)</td><td>등대 섬</td><td>빈 맥주캔 미끼(맥주 구매→등대지기 전달)</td><td>돌진·집게 공격이 빗나가면 기절, 그 틈에 근접무기(칼 등) 3~4타</td><td>칼 먼저 구매 권장. 처치 후 껍질을 등대지기에게 전달해야 보트 열쇠+레이더($10) 획득</td></tr>
+        <tr><td>Sunfish<br>선피시(미니보스)</td><td>숲~화산 섬 랜덤</td><td>초급 보스 미끼(올드 파이크와 랜덤 공유)</td><td>공격을 안 해서 권총으로 처치</td><td>스토리 진행과는 무관</td></tr>
+        <tr><td>The Old Pike<br>올드 파이크(미니보스)</td><td>숲 섬</td><td>초급 보스 미끼</td><td>단순 꼬리치기, 산탄총으로 회피사격</td><td>자이언트 피라냐전 연습용</td></tr>
+        <tr><td>Giant Piranha<br>자이언트 피라냐(스토리)</td><td>숲 섬 호수</td><td>변형 거머리 미끼(거머리 3마리 채집→NPC 전달)</td><td>잔챙이 원거리 정리 후 도약공격 회피, 착지 시 집중공격</td><td>해골(뼈)을 NPC에 전달해야 사막 섬 오픈</td></tr>
+        <tr><td>Blue Shark<br>블루 샤크(미니보스)</td><td>사막 섬</td><td>표준 보스 미끼</td><td>회전 돌진, 거리 유지하며 산탄총</td><td>처치 후 그릴 장인에게 전달하면 조리 기능 해금(판매가↑). 복어 전에 처치 권장</td></tr>
+        <tr><td>Pufferfish<br>복어(스토리)</td><td>사막 섬</td><td>당근 미끼(멸종위기종 낚아 관광객 전달)</td><td>부풀어 굴러오는 공격, 산탄총 2발 후 이동, 체력 절반 이하 시 독 장판 회피</td><td>지느러미를 관광객에 전달해야 바위 섬 오픈</td></tr>
+        <tr><td>Tuna<br>참치(사실상 필수)</td><td>바위 섬</td><td>전문 보스 미끼(약 $1,200)</td><td>좁은 지형 직선 돌진, 산탄총+탄약 업그레이드</td><td>처치 후 시체를 남겨둬야 함(판매·조리 금지, 알바트로스 소환용)</td></tr>
+        <tr><td>Albatross<br>알바트로스(스토리)</td><td>바위 섬</td><td>참치 시체 방치 시 등장</td><td>공중 원거리+배설물 공격, 엄폐물 뒤에서 저격총</td><td>머리를 NPC에 전달해야 화산 섬 오픈</td></tr>
+        <tr><td>Goblin Shark<br>고블린 샤크(미니보스)</td><td>화산 섬</td><td>과학 보스 미끼(고가)</td><td>돌격소총·기관단총, 용암 지형 회피</td><td>게임 내 최고가 어종(생물 약 $6,200, 조리 시 약 $9,300). 자금 마련용. 조리하면 판매가가 최대 1.5배까지 뛰는데(사막 그릴도 같은 배율이에요), 화산 섬 용암은 타이밍 실패로 태워서 0원 될 위험 없이 이 1.5배를 안전하게 챙길 수 있어서 이런 고가 어종엔 특히 짭짤해요</td></tr>
+        <tr><td>Bowhead Whale<br>보우헤드 고래(사전 처치)</td><td>화산 섬</td><td>화산 어종 5마리 완료→물고기 양동이</td><td>공중 도약 내려찍기, 착지 후 이동+집중공격</td><td>시체(판매·조리 금지)를 분화구에 던지면 최종보스 등장</td></tr>
+        <tr><td>Mutated Bowhead Whale<br>변이 보우헤드 고래(최종보스)</td><td>화산 섬 분화구</td><td>고래 시체 투척</td><td>용암 낙하공격 회피, 착지 후 돌격소총 집중공격</td><td>처치 시 스토리 목표 달성(엔딩)</td></tr>
+      </table>
+      <p>보스마다 등장 조건이랑 미끼가 다 다르니까, 표를 저장해두고 섬 넘어갈 때마다 하나씩 확인하면서 진행하면 헷갈릴 일이 확 줄어들 것 같네요.</p>
+
+      <p class="ph">📷 〔사진 자리 5〕 보스 전투 장면 — 스팀 스토어에서 저장 후 업로드</p>
+
+      <p>보스만 잡고 끝이 아니라, 잡은 재료로 뭘 해먹을 수 있는지도 궁금하실 것 같아요.</p>
+
+      <p class="ph">📷 〔사진 자리 6〕 그릴 조리 장면 — 스팀 스토어에서 저장 후 업로드</p>
+
+      <h3>빙봉이라는 존재도 있던데, 보스일까요</h3>
+      <p><b>빙봉은 이번에 정리한 11종 보스에는 들어가지 않는, 아직 정체가 확실하지 않은 존재예요.</b> 사막 섬 야자수 근처에서 코코넛(약 350달러) 미끼로 부를 수 있다고 하는데, 일부 공략 사이트(Game8)는 이걸 보스로 분류하는 반면 다른 사이트(how-to-fish.wiki)는 정식 보스는 아니고 다른 게임(Peak)과의 크로스오버로 등장하는 히든 크리처로 따로 분류하고 있어요. 개발사가 공식적으로 뭐라고 부르는지, 체력이 얼마인지도 확인되지 않았는데요, 커뮤니티에서 도는 수치일 뿐이라 그대로 믿기는 어려워요. 그래서 이번 정리에는 별도 항목으로만 짧게 남겨둘게요.</p>
+
+      <p class="ph">📷 〔사진 자리 7〕 야자수와 코코넛 미끼 장면 — 스팀 스토어에서 저장 후 업로드</p>
+
+      <h3>실제 반응은 어떨까요</h3>
+      <p><b>여러 리뷰와 영상을 종합해보면, '조용한 낚시 게임인 줄 알았는데 산탄총 전투에 카지노까지 있는 혼돈의 협동 게임'이라는 평가가 자주 보이더라고요.</b> 저는 아직 직접 플레이해본 건 아니고 공개된 리뷰와 영상을 두루 살펴본 정도인데요, 협동 플레이의 재미와 트릭샷 시스템, 가격 대비 만족도를 좋게 평가하는 후기가 많았어요. 출시 초반엔 48시간 만에 누적 플레이어 100만 명을 넘겼다는 소식도 여러 매체에서 다뤄질 정도로 화제였고요.</p>
+      <ul>
+        <li>출시 초반 화면 버그가 있었다는 지적</li>
+        <li>친구 초대 기능에서 오류가 발생했다는 후기</li>
+        <li>폭발물을 과하게 쓰면 성능이 떨어진다는 의견</li>
+      </ul>
+      <p>이런 이슈들도 함께 언급되고 있어서, 완벽하다기보다는 초반 잔손질이 필요한 상태로 보여요.</p>
+
+      <p class="ph">📷 〔사진 자리 8〕 무기 연출 컷 — 스팀 스토어에서 저장 후 업로드</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 낚시 방법은 한국어를 지원하나요?</b><br>네, 지원 언어 16개 전체에 한국어가 포함돼 있고 자막뿐 아니라 음성 더빙까지 지원해요. 다만 실제 번역이 얼마나 자연스러운지는 아직 확인된 정보가 없어서, 이 부분은 직접 플레이하면서 느껴보시는 게 정확할 것 같아요.</p>
+      <p><b>Q. 혼자서도 보스를 잡을 수 있나요?</b><br>혼자서도 가능은 한데, 여러 리뷰에서 솔로 플레이일 때 보스 난이도가 확 올라간다는 얘기가 꽤 있더라고요. 그래서 가능하면 협동 모드로 같이 가는 걸 추천하는 분위기예요. 참고로 출시 초반엔 4명까지였는데, 패치 이후로는 최대 8명까지 함께 할 수 있게 늘었답니다.</p>
+      <p><b>Q. 확률형 아이템이 있나요?</b><br>리얼머니로 결제하는 확률형 가챠는 없어요. 다만 스팀 공식 콘텐츠 고지에 '물고기로 하는 도박 요소(실제 현금 아님)'가 안내돼 있는데, 게임 내 재화로 하는 도박성 미니게임 정도로 보면 된답니다.</p>
+
+      <p>아직 낚시 방법을 다룬 봄딩 글이 없어서 이번이 첫 소개예요. 다음엔 그릴 활용법이나 트릭샷 꿀팁으로 이어서 써볼게요.</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://store.steampowered.com/app/4001890/How_to_Fish/" target="_blank">낚시 방법(How to Fish) 스팀 스토어 페이지</a><br>
+    · <a href="https://game8.co/games/How-to-Fish/archives/616920" target="_blank">Game8 - 보스 전체 목록</a><br>
+    · <a href="https://how-to-fish.wiki/guides/boss-fights/" target="_blank">how-to-fish.wiki - 보스 공략 가이드</a></p>
+      <p style="font-size:12.5px;color:#999;margin-top:-14px;">2026.09.02 기준</p>
+
+      <h3>낚시 방법 정리</h3>
+      <p>정리하면, 낚시 방법은 5개 섬을 돌면서 미끼로 보스를 소환해 잡고 전리품을 넘기며 진행하는 협동 낚시 게임이고, 확인된 보스는 11종, 빙봉은 아직 정체가 확실하지 않은 별도 존재예요. 가격도 부담 없고, 패치로 최대 8명까지 함께 즐길 수 있게 넓어진 만큼, 친구들이랑 한 번 들여다보시면 좋을 것 같아요.</p>
+
+      <p class="tags-line">#낚시방법 #하우투피쉬 #HowToFish #낚시게임추천 #보스공략 #협동게임 #스팀인디게임</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
