@@ -32,6 +32,40 @@
   .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
   .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -109,4 +143,118 @@
     <div class="tags">#열혈서유기천축난투편 #쿠니오군 #로그라이트게임 #플레이후기 #닌텐도스위치게임 #PS5게임 #스팀게임추천 #열혈시리즈40주년 #손오공저팔계사오정 #할만한게임</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 5곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 열혈서유기 천축난투편 플레이 후기 3시간, 쿠니오군 첫 로그라이트 액션 할만한가? 손오공 저팔계 사오정</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>주말에 뭐 하나 가볍게 달려볼 게 없나 둘러보다가, '쿠니오군'이 서유기로 돌아왔다는 소식에 바로 지갑을 열어버린 주인장입니다. 그것도 시리즈 <b>40주년 기념작</b>이 떡하니 <b>로그라이트</b>로 나왔다니ㆍ이건 안 해볼 수가 없었는데요. 어릴 때 '열혈고교' 패다가 손가락 아팠던 기억이 있는 분들이라면 이름만 들어도 반갑지 않나요(?)</p>
+
+    <p>그래서 일단 <b>3시간 정도 붙잡고 달려봤습니다.</b> 엄~청 깊게 판 건 아니지만, 첫인상을 잡기엔 충분한 시간이었는데요. 좋았던 점ㆍ아쉬웠던 점 솔직하게 풀어볼게요.</p>
+
+    <p class="ph">📷 〔사진 자리 1〕 스샷 1: 타이틀 화면 + 첫 스테이지 진입 장면 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “쿠니오가 손오공이 됐다니ㆍ비주얼만 봐도 정신없죠 :)”</p>
+
+    <h3>1. 일단 어떤 게임이냐면 - 쿠니오군 첫 로그라이트!</h3>
+    <p>본론 들어가기 전에 기본 정보부터 짚고 갈게요. 모르고 지나가면 섭섭하니까요. 출시일ㆍ플랫폼ㆍ가격은 표로 정리했습니다.</p>
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>정식 명칭</td><td>열혈서유기 천축난투편 (쿠니오군 시리즈)</td></tr>
+      <tr><td>장르</td><td>열혈 로그라이트 액션 (싱글 플레이)</td></tr>
+      <tr><td>출시일</td><td>2026년 6월 4일 (한국어판)</td></tr>
+      <tr><td>플랫폼</td><td>닌텐도 스위치 · PS5 · 스팀(PC) / 다운로드 전용</td></tr>
+      <tr><td>가격</td><td>29,800원 (스팀 기준)</td></tr>
+      <tr><td>개발 · 배급</td><td>아크 시스템 웍스 · 유나이트플러스 / 배급 아크 시스템 웍스</td></tr>
+    </table>
+    <p>핵심은 <b>'서유기'를 모티프로 한 쿠니오군 시리즈 최초의 로그라이트 액션</b>이라는 점인데요. 한국어ㆍ일본어ㆍ영어ㆍ중국어까지 지원하고, 한글화도 깔끔하게 됐더라고요. 멀티가 아니라 혼자 진득하게 파는 게임이라는 것도 미리 알아두시면 좋겠네요.</p>
+
+    <h3>2. 전작보다 길찾기 부담이 확 줄었다</h3>
+    <p>예전 쿠니오군 시리즈, 특히 RPG성 짙던 작품들은 맵 넓고 어디로 가야 하나 헤매는 맛(?)도 있었지만 그게 또 사람 피곤하게 했거든요. 그런데 이번엔 <b>로그라이트로 나오면서 그 길찾기 부담이 거의 사라졌습니다.</b></p>
+    <p>스테이지 단위로 쪼개져 있어서 "다음에 뭐 하지" 하고 멈칫할 일이 없어요. 클리어하면 다음으로, 또 클리어하면 다음으로ㆍ흐름이 끊기지 않고 쭉 달리게 되더라고요. 길 헤매는 시간 없이 액션에만 집중할 수 있다는 게 생각보다 큰 장점이었습니다.</p>
+    <p class="ph">📷 〔사진 자리 2〕 스샷 2: 스테이지 클리어 후 다음 스테이지로 넘어가는 진행 화면 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “보시면 동선이 단순해서 멈칫할 일이 없어요”</p>
+
+    <h3>3. 스테이지마다 '뭘 고를까' 고민하는 재미</h3>
+    <p>로그라이트의 꽃은 역시 <b>선택</b>이죠. 이 게임의 핵심은 <b>스테이지마다 무작위로 등장하는 '신불'에게서 '극의(極意)'를 얻어 스킬이나 스탯을 강화</b>하는 건데요. 이 '극의'가 무려 80종에 달해서, 매판 뽑히는 선택지가 달라지니 은근 머리를 쓰게 만듭니다.</p>
+    <p>지금 내 빌드가 한 방이 부족하면 공격 쪽을 챙기고, 자꾸 죽는다 싶으면 회복이나 방어 쪽을 챙기고ㆍ상황 보면서 판단하는 재미가 쏠쏠해요. 제가 해보니 무기나 회복 관련 효과까지 폭이 꽤 넓어서, "이번엔 이렇게 가볼까?" 하고 빌드를 굴려보는 맛이 확실히 살아 있더라고요.</p>
+    <p class="ph">📷 〔사진 자리 3〕 스샷 3: 스테이지 클리어 후 강화(스킬/스탯) 선택지가 뜬 화면 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “왼쪽 선택지를 보면ㆍ뭘 챙길지 고민되죠?”</p>
+
+    <h3>4. 액션이 전보다 더 묵직해졌다</h3>
+    <p>개인적으로 제일 만족스러웠던 부분인데요. <b>액션의 손맛이 전작들보다 한층 강해졌습니다.</b> 잡몹을 모아서 한 번에 쓸어버리는 그 시원함은 쿠니오군 그대로인데, 거기에 묵직함이 더해진 느낌이에요.</p>
+    <p>특히 <b>다양한 스킬 조합</b>이랑 <b>대시 액션</b>에 힘이 제대로 실려 있더라고요. 그냥 두들기는 게 아니라, 대시로 거리를 좁히고 스킬을 엮어서 콤보를 넣는 맛이 확실합니다. 강화로 빌드가 쌓일수록 화면이 점점 화려해지는데, 이 손맛 하나만으로도 "사길 잘했다" 싶었네요.</p>
+    <p class="ph">📷 〔사진 자리 4〕 스샷 4: 스킬 조합 + 대시로 적 무리를 쓸어버리는 전투 장면 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “대시로 파고들어서 스킬 엮으면ㆍ이 맛에 합니다 :)”</p>
+
+    <h3>5. 손오공·저팔계·사오정, 누구로 달릴까?</h3>
+    <p>이번 작품의 또 다른 재미는 <b>주인공 쿠니오가 손오공ㆍ저팔계ㆍ사오정 세 명으로 등장</b>한다는 거예요. 셋 다 생긴 건 쿠니오인데(ㅋㅋ) 누구로 스테이지에 도전하느냐에 따라 전투 스타일이 확 달라집니다. 제가 직접 굴려본 느낌을 표로 정리해봤어요.</p>
+    <table>
+      <tr><th>캐릭터</th><th>제가 써본 전투 스타일</th></tr>
+      <tr><td>손오공</td><td>공격ㆍ방어ㆍ체력이 고르게 잡힌 <b>밸런스형</b>. 무난해서 입문용으로 딱</td></tr>
+      <tr><td>저팔계</td><td>공격 속도는 느리지만 <b>넓은 범위 + 강력한 한 방</b>을 지닌 딜러형</td></tr>
+      <tr><td>사오정</td><td>아직 직접 못 해봤습니다 (해보고 추후 정리할게요)</td></tr>
+    </table>
+    <p>손오공은 처음 잡기에 부담이 없어서 게임 익히기 좋았고, 저팔계는 답답할 만큼 느리다가도 한 방이 들어가면 시원하게 정리되는 맛이 있더라고요. <b>같은 스테이지도 누구로 가느냐에 따라 운영이 달라지니</b>, 한 번 깼다고 끝이 아니라 캐릭터별로 또 달려보게 됩니다. 사오정은 아직 못 만져봤는데, 이쪽도 손에 익으면 따로 후기를 정리해서 알려드릴게요.</p>
+    <p class="ph">📷 〔사진 자리 5〕 스샷 5: 손오공/저팔계 캐릭터 선택(또는 플레이) 화면 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “지금 보시는 캐릭터에 따라 운영이 완전히 달라져요”</p>
+
+    <h3>6. 스토리는? - 가볍게 즐기기 딱 좋다</h3>
+    <p>솔직하게 말씀드릴게요. <b>스토리는 복잡한 편도 아니고, 그렇다고 막 흥미진진한 것도 아닙니다.</b> 서유기 특유의 좌충우돌 코미디 분위기로 가볍게 흘러가는 정도예요. 깊은 서사나 반전을 기대하면 살짝 김이 샐 수 있어요.</p>
+    <p>그런데 저는 이게 오히려 이 게임의 결에 맞는다고 봤거든요. 머리 비우고 액션만 즐기고 싶을 때, 스토리에 발목 잡히지 않고 쭉쭉 달릴 수 있으니까요. <b>"진득한 명작 RPG"가 아니라 "라이트하게 손맛 보는 액션"</b>으로 접근하면 만족도가 확 올라갑니다. 3시간 해본 제 결론은 딱 그거였어요.</p>
+
+    <h3>7. 죽으면 1스테이지부터 - 그래도 할 때마다 강해진다</h3>
+    <p>로그라이트 장르답게, <b>죽으면 다시 1스테이지부터 시작합니다.</b> 처음엔 "아 어렵게 온 건데" 싶어서 한숨 나오는데요(?) 막상 다시 달려보면 이게 또 묘하게 중독돼요.</p>
+    <p>이유는 간단해요. <b>반복할 때마다 분명히 강해지거든요.</b> 죽으면서 얻은 감각, 그리고 빌드 굴리는 노하우가 쌓이니까 "이번엔 더 갈 수 있겠다"는 생각에 자꾸 한 판 더 누르게 됩니다. 로그라이트를 좋아하는 분들이라면 이 사이클이 얼마나 위험한지(?) 아실 거예요ㅋㅋ "한 판만 더"가 30분 순삭이더라고요.</p>
+
+    <p><b>마무리 - 이런 분께 추천</b><br>
+    여기까지가 3시간 플레이로 풀어본 <b>열혈서유기 천축난투편</b> 첫인상 후기인데요. 깊은 스토리보다 <b>가볍고 시원한 손맛 액션</b>을 찾는 분, 출퇴근ㆍ잠깐잠깐 짧게 끊어 달리고 싶은 분, 그리고 옛 쿠니오군 추억이 있는 분이라면 3만 원 값은 충분히 한다고 봅니다. 반대로 묵직한 서사를 원하면 살짝 아쉬울 수 있어요. 사오정까지 굴려보고 캐릭터별 운영 팁은 추후 정리해서 또 들고 올게요!</p>
+
+    <p class="tags-line">#열혈서유기천축난투편 #쿠니오군 #로그라이트게임 #플레이후기 #닌텐도스위치게임 #PS5게임 #스팀게임추천 #열혈시리즈40주년 #손오공저팔계사오정 #할만한게임</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

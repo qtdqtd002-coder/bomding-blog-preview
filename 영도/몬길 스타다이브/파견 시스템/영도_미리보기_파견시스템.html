@@ -34,6 +34,40 @@
   .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
   .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -153,4 +187,156 @@
     <div class="tags">#몬길스타다이브 #몬스터길들이기스타다이브 #몬길12패치 #파견시스템 #필드런 #몬길의뢰시스템 #몬스터링합성 #서머다이브 #프란시스 #베르나 #레기눌라 #넷마블 #모바일게임공략 #신작게임업데이트</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 6곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 몬길 스타다이브 1.2 패치 파견 시스템 완전 정리, 필드런 지겨웠던 분들 주목</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>※ 다른 공략은 댓글을 참고해 주세요.</p>
+
+    <p>요즘 몬길 하시는 분들이면 다들 한 번쯤 그런 생각 하셨을 거예요. '오늘도 필드 돌면서 몬스터링 파밍해야 하는데…' 하는 그 약간의 피로감이요. 저도 어제까지만 해도 링 하나 뜰까 싶어서 같은 구역을 계속 왕복하고 있었거든요. 근데 어제 라이브 방송을 챙겨보고 나서 이게 확 편해지겠다 싶더라고요. 바로 <b>'파견 시스템'</b> 얘기입니다.</p>
+    <p>7월 1일 라운지 토크(개발자 라이브 방송)에서 1.2 패치 내용이 공개됐는데요, 저도 방송 켜놓고 실시간으로 챙겨봤습니다. 동시 시청자가 <b>1,200명</b> 가까이 붙어 있던 걸 보고 다들 궁금한 게 비슷했구나 싶었어요.(ㅋㅋ) 오늘은 그중에서도 <b>필드런 피로도를 정면으로 겨냥한 파견 시스템</b>을 중심으로, 같이 바뀌는 몬스터링ㆍ편의성 개편까지 한 번에 정리해 드릴게요. 아무튼 바로 들어가 보겠습니다.</p>
+
+    <p class="ph">📷 〔사진 자리 1〕 스샷 1: 7월 1일 라운지 토크(개발자 라이브 방송) 썸네일 및 파견 시스템 소개 장면 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “라운지 토크에서 처음 공개된 파견 시스템. 필드런을 대체할 신규 콘텐츠예요.”</p>
+
+    <h3>0. 파견 시스템, 한 줄로 뭐냐면요</h3>
+    <p>한 줄 요약 — <b>'캐릭터를 지역에 보내두면 사냥ㆍ채집ㆍ채광을 대신 해주고, 즉시 완료로 바로 보상까지 챙기는 시스템'</b></p>
+    <p><b>파견 시스템</b>은 각 지역에 캐릭터를 파견해 <b>몬스터 사냥ㆍ채집ㆍ채광 등을 자동으로 진행하고 보상을 획득</b>하는 시스템이에요. 말 그대로 캐릭터한테 "여기 가서 이거 좀 해와"하고 보내두는 개념이죠. 개발진이 라이브 방송에서 밝힌 도입 취지가 명확한데요, <b>필드런(반복적인 몬스터링 수집을 위해 필드를 계속 도는 행위)의 피로도를 완화</b>하기 위해서라고 합니다. 저도 몬스터링 옵션 하나 보려고 같은 구역 몇 바퀴씩 돌아본 사람이라 이 취지에 격하게 공감했어요.</p>
+    <p>가장 실용적인 부분은 <b>파견은 진행 즉시 완료 및 보상 정산이 가능</b>하다는 건데요. 그러니까 파견을 걸어두고 몇 시간씩 기다릴 필요 없이, 원하면 바로 완료 처리해서 보상을 받을 수 있다는 얘기예요. 다만 파견 1회당 정확히 얼마나 걸리는지, 즉시완료에 재화가 드는지 같은 세부 수치까지는 라이브 방송에서 구체적으로 안 나왔는데요, 이 부분은 패치 들어가면 실제 플레이해 보고 확정될 것 같습니다.</p>
+
+    <h3>1. 필드런이 왜 피로했나 — 파견이 해결하는 지점</h3>
+    <p>몬길을 좀 해보신 분들은 아시겠지만, 몬스터링 육성은 결국 <b>같은 몬스터를 반복해서 잡아 재료를 모으는 구조</b>예요. 특정 링 하나 노리고 필드를 왕복하다 보면 정작 캐릭터 육성보다 '이동ㆍ전투ㆍ이동ㆍ전투'를 반복하는 노가다에 더 많은 시간을 쓰게 되거든요. 저는 특히 뉴비ㆍ복귀 유저분들한테 이 필드런이 진입 장벽으로 느껴질 거라고 봐요. 신캐 뽑아놓고 세팅하려면 결국 필드부터 돌아야 하니까요.</p>
+    <p>파견 시스템은 이 반복 구간을 <b>'보내두면 대신 진행'</b>으로 바꿔주는 거라, 직접 조작하지 않아도 사냥ㆍ채집ㆍ채광 결과를 챙길 수 있게 됩니다. <b>바쁘게 출퇴근하는 직장인 유저</b>나 <b>여러 캐릭터를 동시에 육성하는 유저</b>한테 특히 반가운 개편이라고 봐요. 저처럼 시간 날 때 몰아서 하는 스타일이면 자투리 시간에 파견만 돌려두고, 정작 손이 필요한 보스전ㆍ토벌에 시간을 더 쓸 수 있게 되는 거죠. 반대로 필드런 그 자체를 즐기시는 분들한테는 그렇게까지 체감이 크진 않을 수도 있는데, 어차피 파견은 선택 콘텐츠라 필드런을 아예 없애는 게 아니라 <b>선택지가 하나 늘어나는 것</b>으로 이해하시면 됩니다.</p>
+
+    <p><b>여기서 헷갈리면 안 되는 부분</b><br>
+      1) 파견은 <b>필드런을 대체하는 게 아니라 보완하는 콘텐츠</b>예요. 직접 필드를 도는 것과 병행하는 개념으로 보시면 됩니다.<br>
+      2) 파견 슬롯 개수ㆍ파견 가능 캐릭터 제한처럼 세부 룰은 아직 공식으로 확정 공개된 게 없어요. 확정되면 별도로 정리해 드릴게요.<br>
+      3) 즉시완료가 된다고 해서 무한정 반복 가능한 건 아닐 가능성이 커요. 재화 소모나 쿨타임 같은 제약은 패치 후 직접 확인이 필요합니다.</p>
+
+    <p class="ph">📷 〔사진 자리 2〕 스샷 2: 파견 시스템 지역 선택 및 캐릭터 배치 화면 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “지역별로 캐릭터를 배치해 사냥ㆍ채집ㆍ채광을 진행하는 구조예요.”</p>
+
+    <h3>2. 특성 승급ㆍ변경 재화, 파견ㆍ의뢰로 챙긴다</h3>
+    <p>파견 시스템이 단순히 '편해지는' 개편에서 끝나는 게 아니라, 이번 패치의 다른 핵심 개편인 <b>몬스터링 특성 승급ㆍ특성 변경</b>이랑 바로 연결된다는 게 중요해요. <b>파견과 '의뢰'를 통해 특성 승급ㆍ특성 변경에 필요한 신규 재화를 획득</b>할 수 있게 되거든요. 즉 이제 몬스터링 옵션이 마음에 안 든다고 처음부터 다시 파밍할 필요 없이, 파견ㆍ의뢰로 모은 재화로 <b>있는 몬스터링의 특성을 갈아엎을 수 있는 길</b>이 생기는 거죠.</p>
+    <p>다만 이 신규 재화의 정확한 명칭이나 획득량은 아직 공식으로 세세하게 안 나왔는데요, 패치 적용되고 나면 실제 인게임에서 확인하고 다시 정리해 드릴게요.</p>
+
+    <h3>3. 의뢰 시스템도 같이 바뀝니다 — 3회 수주 허용</h3>
+    <p>파견이랑 세트로 묶어서 봐야 하는 게 <b>의뢰 시스템 개선</b>이에요. 이번 패치로 <b>동일 몬스터 의뢰를 최대 3회까지 수주</b>할 수 있게 바뀌는데요, 지금까진 같은 몬스터 의뢰가 1개만 뜨면 그거 끝날 때까지 다음 의뢰를 못 받는 구조였잖아요. 이게 3회까지 늘어나면 <b>보르보그ㆍ설귀호</b> 같은 특정 몬스터링 재료 파밍 난이도가 확 낮아질 걸로 보입니다.</p>
+    <p>저도 설귀호 재료 하나 때문에 의뢰 갱신 기다리면서 다른 거 하다가 까먹은 적이 있었는데요(ㅋㅋ), 이제 한 번에 3개까지 걸어둘 수 있으면 그런 대기 시간 자체가 줄어들 것 같아요. 파견으로 시간을 아끼고, 의뢰로 파밍 회전율을 올리는 조합이라고 보시면 됩니다.</p>
+
+    <table>
+      <tr><th>구분</th><th>변경 전</th><th>1.2 패치 후</th></tr>
+      <tr><td>동일 몬스터 의뢰 수주</td><td>1개 진행 중엔 추가 수주 불가</td><td><b>최대 3회까지 동시 수주 가능</b></td></tr>
+      <tr><td>체감 난이도</td><td>보르보그ㆍ설귀호 등 특정 재료 파밍 부담 큼</td><td>파밍 난이도 하락</td></tr>
+    </table>
+
+    <p class="ph">📷 〔사진 자리 3〕 스샷 3: 의뢰 목록 화면 — 동일 몬스터 의뢰 3회 수주 UI — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “같은 몬스터 의뢰를 3개까지 쟁여둘 수 있게 되면서 대기 시간이 줄어요.”</p>
+
+    <h3>4. 몬스터링 육성 개편 — 특성 승급ㆍ합성 등급 보정</h3>
+    <p>몬스터링 쪽도 이번에 손을 많이 봤어요. 정리하면 이렇습니다.</p>
+    <p><b>뭐가 새로 생기고 뭐가 바뀌나</b></p>
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td><b>특성 승급</b></td><td>신규 기능 추가 — 위 2번 항목 재화로 진행</td></tr>
+      <tr><td><b>특성 변경</b></td><td>신규 기능 추가 — 잘못 나온 옵션도 갈아엎을 길이 생김</td></tr>
+      <tr><td><b>합성 등급 보정</b></td><td>서로 다른 등급 몬스터링을 합성하면 <b>높은 등급을 기준으로 결과 확정</b></td></tr>
+      <tr><td><b>돌연변이 합성 확률</b></td><td>기존보다 상향 — 언론 보도 기준 <b>최대 50% 이상까지 상향하는 방안을 검토 중</b></td></tr>
+      <tr><td><b>고등급 특성 획득 확률</b></td><td>조정(상향 방향)</td></tr>
+      <tr><td><b>속성별 특성 그룹화</b></td><td>신규 적용</td></tr>
+    </table>
+    <p>이 중에서 제일 체감 클 것 같은 건 역시 <b>합성 등급 보정</b>이에요. 지금까진 낮은 등급 링을 합성 재료로 섞으면 결과물 등급이 낮아질까 봐 조심스러웠는데, 높은 등급 기준으로 확정된다고 하면 <b>잉여 몬스터링을 부담 없이 재료로 태울 수 있게</b> 되는 거니까요.</p>
+    <p><b>돌연변이 합성 성공 확률</b>은 언론 보도 기준 <b>최대 50% 이상까지 상향하는 방안을 검토 중이라고 밝혔는데요</b>, 아직 '검토 중' 단계이고 공식 패치노트로 세부 수치가 확정돼 나온 게 아니라서 <b>50% '이상'이라는 방향성 정도로만</b> 받아들이시는 게 안전할 것 같아요. 확정 수치는 패치 적용 후 공식 패치노트로 다시 확인해 보겠습니다.</p>
+    <p><b>몬스터링 개편에서 자주 헷갈릴 수 있는 부분</b><br>
+      1) <b>합성 등급 보정 ≠ 옵션 보장</b>입니다. 등급만 높은 쪽 기준으로 확정되는 거지, 부옵션까지 원하는 대로 나오는 게 아니에요.<br>
+      2) 돌연변이 확률 상향을 <b>정확히 몇 %로 단정하고 계산기 돌리지 마세요.</b> 아직 '검토 중'인 단계입니다.<br>
+      3) 특성 변경이 생겼다고 <b>기존에 모아둔 재화(승급의 돌 등)를 함부로 정리하지 마세요.</b> 신규 재화 체계가 어떻게 맞물리는지 패치 후 확인 먼저 하시는 걸 추천드려요.</p>
+
+    <p class="ph">📷 〔사진 자리 4〕 스샷 4: 몬스터링 특성 승급/변경 UI 및 합성 등급 보정 안내 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “잘못 나온 몬스터링도 이제 승급ㆍ변경으로 손볼 수 있게 돼요.”</p>
+
+    <h3>5. 편의성 개선 — 소소하지만 은근 큰 것들</h3>
+    <p>파견ㆍ몬스터링만큼 화제는 아니지만, 실제 플레이 체감으로 따지면 이쪽도 꽤 큽니다. 하나씩 정리해 드릴게요.</p>
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>모바일 키 커스터마이징</td><td>신규 추가</td></tr>
+      <tr><td>모바일 전투 보조 시스템</td><td>신규 추가</td></tr>
+      <tr><td>초반 성장동선</td><td>정리</td></tr>
+      <tr><td>토벌 콘텐츠</td><td>높은 단계 클리어 시 <b>하위 단계 자동 완료</b> + 초회 도전 시 <b>입장권 미소모</b></td></tr>
+      <tr><td>보스 포박</td><td>조작 횟수 감소</td></tr>
+      <tr><td>에피소드 보스전</td><td>시간 제한 제거</td></tr>
+    </table>
+    <p>개인적으로 제일 반가운 건 <b>토벌 하위 단계 자동 완료</b>예요. 고단 토벌 뚫었는데 굳이 아래 단계를 또 돌아야 했던 거, 은근 스트레스였거든요. 거기다 <b>초회 도전 시 입장권을 안 쓴다</b>고 하니까 신규ㆍ복귀 유저 입장에서 입장권 아끼면서 도전해볼 수 있는 여지도 늘어난 셈이고요. 모바일 키 커스터마이징이랑 전투 보조 시스템은 모바일로 주로 플레이하시는 분들한테 특히 체감이 클 것 같습니다. 저는 주로 PC로 하는 편이라 이 부분은 직접 써보고 후기를 더 자세히 남겨볼게요.</p>
+
+    <p class="ph">📷 〔사진 자리 5〕 스샷 5: 모바일 키 커스터마이징 설정 화면 예시 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “모바일 유저분들은 특히 챙겨봐야 할 개편이에요.”</p>
+
+    <h3>6. 언제부터냐면요 — 7월 8일, 그리고 여름 축제</h3>
+    <p><b>1.2 버전 업데이트는 2026년 7월 8일 적용 예정</b>이에요. 세부 내용은 앞서 말씀드린 대로 <b>7월 1일 개발자 라이브 방송(라운지 토크)</b>에서 먼저 공개됐고요, 저도 실시간으로 챙겨봤는데 동시 시청자가 <b>약 1,200명</b>까지 붙었더라고요. 관심 많이들 갖고 계시구나 싶었습니다.</p>
+    <p>패치랑 같이 여름 축제 <b>'잊지 못할 첫 여름, 서머 다이브!'</b>도 <b>7월 8일부터 28일까지</b> 진행돼요. 신규 맵 <b>'서머레인'</b>(아르카나 숲 깊은 곳에 위치)이 열리고, 신규 5성 캐릭터로 <b>'프란시스: 서머 다이브!'</b>ㆍ<b>'베르나: 서머 다이브!'</b>가 등장합니다. 여기에 전설 몬스터 <b>'레기눌라'</b> 관련 콘텐츠도 함께 챙길 수 있는데요, 레기눌라는 원래 <b>1.1 업데이트 때 선보였던 전설 몬스터</b>예요. 전용 링크체인 스킬로 캐릭터와 동행하며 전투에 직접 참여하는 게 특징이라, 몬스터링 파티 구성에도 활용해볼 여지가 있어 보입니다.</p>
+    <p>라이브 방송 시청자한테는 <b>약속의 나침반 3개ㆍ프리미엄 연어 퓨레 10개ㆍ열쇠 150개</b> 쿠폰도 뿌렸는데요, 다시보기로 챙겨보시는 분들은 쿠폰 지급이 실시간 시청 한정이었는지 다시보기에서도 되는지 공식 공지로 한 번 더 확인해 보시는 걸 추천드려요.</p>
+
+    <table>
+      <tr><th>일정</th><th>내용</th></tr>
+      <tr><td>7월 1일</td><td>개발자 라이브 방송(라운지 토크) — 1.2 패치 세부 공개, 동시 시청 약 1,200명</td></tr>
+      <tr><td>7월 8일</td><td><b>1.2 버전 업데이트 적용</b></td></tr>
+      <tr><td>7월 8일 ~ 28일</td><td>여름 축제 '잊지 못할 첫 여름, 서머 다이브!' 진행</td></tr>
+    </table>
+
+    <p class="ph">📷 〔사진 자리 6〕 스샷 6: 여름 축제 '서머 다이브!' 및 신규 캐릭터 프란시스ㆍ베르나 키비주얼 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “신규 맵 서머레인이랑 전설 몬스터 레기눌라까지, 여름 축제도 볼거리가 많아요.”</p>
+
+    <p>짧게 추리면, 이번 1.2 패치의 뼈대는 <b>파견 시스템으로 필드런 피로도를 덜고, 그렇게 아낀 시간을 의뢰 3회 수주ㆍ몬스터링 특성 승급변경으로 더 알차게 굴리라는 것</b>으로 요약할 수 있을 것 같아요. 필드런 자체가 지겨워서 몬길을 잠깐 놓으셨던 분들이라면, 이번 패치 이후에 한 번 다시 들어와 보시는 것도 좋을 타이밍이라고 봅니다. 세부 수치(파견 소요시간ㆍ신규 재화명ㆍ돌연변이 확정 확률)는 7월 8일 패치 적용되고 나서 제가 직접 확인해서 다시 정리해 드릴게요.</p>
+    <p>궁금한 점은 댓글로 남겨주세요. 그럼 오늘 파견 시스템 정리는 여기서 마치겠습니다. :)</p>
+
+    <p class="tags-line">#몬길스타다이브 #몬스터길들이기스타다이브 #몬길12패치 #파견시스템 #필드런 #몬길의뢰시스템 #몬스터링합성 #서머다이브 #프란시스 #베르나 #레기눌라 #넷마블 #모바일게임공략 #신작게임업데이트</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

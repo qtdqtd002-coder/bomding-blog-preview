@@ -44,6 +44,40 @@
   .pastebox th{background:#f2efe0;}
   .note{max-width:720px;margin:0 auto 30px;font-size:12px;color:#999;text-align:center;}
   .shoot{border:1px dashed #cbb356;background:#fffbe8;padding:8px 12px;margin:2px 0 20px;font-size:12px;color:#8a6d1f;border-radius:6px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 
 <div class="wrap">
@@ -136,33 +170,46 @@
     <div class="tags">#카오스제로나이트메어 #카제나 #시즌4 #부서진빛과발톱 #힐데 #아라벨라 #올가 #신규전투원 #외출복 #덱빌딩로그라이크</div>
   </div>
 </div>
-
-<div class="note">↓ 아래는 네이버 에디터에 그대로 붙여넣기용 본문 블록(🔍 마커·사이드노트 등 미리보기 전용 요소 제외)입니다.</div>
-
-<div class="pastebox">
-<h2>[네이버 붙여넣기용 본문]</h2>
-
-<p><b>제목:</b> 카오스 제로 나이트메어 시즌4 '부서진 빛과 발톱' 예고, 힐데ㆍ아라벨라ㆍ올가 신규 전투원과 외출복까지</p>
-
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 4곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 카오스 제로 나이트메어 시즌4 '부서진 빛과 발톱' 예고, 힐데ㆍ아라벨라ㆍ올가 신규 전투원과 외출복까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
 <p>안녕하세요. 영원한도시입니다. 최근 테네브리아 공략을 올렸었는데, 이번엔 같은 게임 시즌4 예고 소식으로 다시 찾아왔네요.</p>
 
 <p>오늘이 7월 27일이니까 정식 업데이트까지 이틀 남았는데요. 지금까지 공식적으로 공개된 내용을 정리해서 알려드리려고 합니다.</p>
 
-<h3>1. 시즌4 '부서진 빛과 발톱', 언제 뭐가 오나</h3>
+<p><b>1. 시즌4 '부서진 빛과 발톱', 언제 뭐가 오나</b></p>
 <p>카오스 제로 나이트메어는 슈퍼크리에이티브가 개발하고 스마일게이트 메가포트가 서비스하는 덱빌딩 로그라이크 RPG인데요, 이번에 나오는 시즌4 '부서진 빛과 발톱'은 2026년 7월 29일에 정식 적용됩니다.</p>
 <p>이 소식이 처음 공개된 건 7월 3일(현지시간) 저녁, 미국 LA에서 열린 '2026 애니메 엑스포' 개발자 패널 세션이었습니다. 국내에는 7월 4일 저녁부터 소식이 전해졌고요, 이후 7월 17일에는 게임 공식 X(트위터) 계정에서 첫 픽업 캐릭터 '힐데'를 따로 예고하면서 '29일 출시 예정인 캐릭터'라고 소개했습니다.</p>
 <p>이번 발표에서는 카오스 제로 나이트메어의 김형석 PD님이 직접 나와 개발 철학을 공유하고, 앞으로 게임 완성도를 계속 강화해 나가겠다는 방향도 이야기했습니다.</p>
-<p>[여기 이미지: 애니메 엑스포 패널 현장 사진 — 인벤 웹진(2026-07-06, news=318150) 참고, 직접 캡처해 업로드]</p>
+<p class="ph">📷 〔사진 자리 1〕 애니메 엑스포 패널 현장 사진 — 인벤 웹진(2026-07-06, news=318150) 참고, 직접 캡처해 업로드 — 네이버에서 직접 업로드</p>
 <p>위 사진을 보시면 아시겠지만 무대보다 객석 뒷모습이 화면 대부분을 차지하는 구도인데, 뒤쪽 자리에서 찍은 사진인데도 스크린에 걸린 시즌4 타이틀만큼은 또렷하게 보이더라고요.</p>
 <p>이미지 출처: 인벤 웹진(https://www.inven.co.kr/webzine/news/?news=318150) ⓒ슈퍼크리에이티브ㆍ스마일게이트 메가포트</p>
 
-<h3>2. 시즌4 스토리는 뭘 다루나 - '은하계 재해'</h3>
+<p><b>2. 시즌4 스토리는 뭘 다루나 - '은하계 재해'</b></p>
 <p>시즌4 스토리는 '은하계 재해'를 소재로 삼는데, 이번 시즌은 '신 번뜩임'이 대체 뭔지, 우주의 신들이 왜 얽혀 있는지를 본격적으로 파고든다고 해요.</p>
 <p>바로 앞 시즌3가 아델하이트 편으로 마무리되고, 시즌3 종료와 함께 3주 간의 프리 시즌이 진행된다고 알려진 걸 감안하면, 이번 시즌4는 그 뒤를 잇는 새 국면이 되는 셈이거든요.</p>
 <p>게임 공식 X에는 연쇄 실종 사건의 진실이 무엇인지 궁금증을 자극하는 미스터리풍 티저 문구도 함께 올라왔다고 하더라고요. 자세한 줄거리는 본편이 열려야 확인될 것 같습니다.</p>
 <p>이번 시즌엔 스토리와 함께 신규 시스템 '욕망 카드'도 같이 소개됐습니다. 경향게임스 보도에 따르면 이 카드 시스템은 '소유ㆍ탐구ㆍ통제ㆍ생존' 네 가지 키워드를 기반으로 합니다.</p>
 
-<h3>3. 신규 전투원 3인 - 힐데ㆍ아라벨라ㆍ올가</h3>
+<p><b>3. 신규 전투원 3인 - 힐데ㆍ아라벨라ㆍ올가</b></p>
 <p>이번 시즌엔 힐데, 아라벨라, 올가 세 명의 신규 전투원이 합류합니다.</p>
 <ul>
 <li>'힐데' - '아이언 레인' 소속, '폭스 소대' 소대장입니다. 이번 시즌 세 차례 예정된 픽업 캐릭터 중 첫 번째로 예고됐습니다.</li>
@@ -176,10 +223,10 @@
 <tr><td>아라벨라</td><td>사복검</td><td>미공개</td><td>미공개</td></tr>
 <tr><td>올가</td><td>거대한 낫</td><td>미공개</td><td>미공개</td></tr>
 </table>
-<p>[여기 이미지: 신규 전투원 힐데 예고 이미지(공식 X)]</p>
-<p>[여기 이미지: 아라벨라ㆍ올가 예고 이미지]</p>
+<p class="ph">📷 〔사진 자리 2〕 신규 전투원 힐데 예고 이미지(공식 X) — 네이버에서 직접 업로드</p>
+<p class="ph">📷 〔사진 자리 3〕 아라벨라ㆍ올가 예고 이미지 — 네이버에서 직접 업로드</p>
 
-<h3>4. 신규 시스템 '외출복' - 신규 전투원 것이 아니라는 점 주의</h3>
+<p><b>4. 신규 시스템 '외출복' - 신규 전투원 것이 아니라는 점 주의</b></p>
 <p><b>이번에 함께 공개된 '외출복' 시스템은 힐데ㆍ아라벨라ㆍ올가 신규 전투원의 것이 아닙니다.</b> 기존에 있던 전투원들의 새 외출복이에요. 헷갈릴 수 있는 부분이라 먼저 짚고 갈게요.</p>
 <p>'외출복'은 전투원의 외형을 바꾸는 스킨 시스템인데, 단순히 겉모습만 바뀌는 게 아니라 전용 보이스와 전용 스토리까지 딸려 있고, 방주도시(게임 내 로비)에서도 바뀐 모습이 그대로 적용된다고 해요.</p>
 <p>이번에 같이 공개된 외출복은 이렇습니다.</p>
@@ -190,9 +237,9 @@
 </ul>
 <p>올여름 하이데마리ㆍ세레니엘의 외출복을 시작으로, 앞으로 다양한 전투원들의 외형 콘텐츠(외출복)를 순차적으로 계속 선보일 계획이라고 합니다.</p>
 <p>신규 전투원 3인의 외출복은 "준비 중"이라는 언급만 있고, 구체적인 시기는 아직 확인되지 않았습니다. 나오는 대로 다시 정리해서 알려드릴게요.</p>
-<p>[여기 이미지: 하이데마리 외출복(메이드 콘셉트) 예고 이미지]</p>
+<p class="ph">📷 〔사진 자리 4〕 하이데마리 외출복(메이드 콘셉트) 예고 이미지 — 네이버에서 직접 업로드</p>
 
-<h3>자주 묻는 질문</h3>
+<p><b>자주 묻는 질문</b></p>
 <p><b>Q. 신규 전투원 3명은 언제부터 뽑을 수 있나요?</b><br>힐데는 7월 29일 시즌4 적용과 함께 첫 픽업으로 나옵니다. 아라벨라ㆍ올가는 총 세 차례 픽업 중 나머지 두 자리로 예고됐고, 개별 픽업 일정은 아직 나오지 않았습니다.</p>
 <p><b>Q. 욕망 카드도 시즌4와 함께 처음 등장하는 완전히 새로운 시스템인가요?</b><br>네, 이번 시즌4에서 처음 소개된 신규 시스템입니다.</p>
 
@@ -210,6 +257,29 @@
 · <a href="https://www.inven.co.kr/webzine/news/?news=318150" target="_blank">인벤 - 시즌4 신규 전투원 웹진 기사</a></p>
 
 <p>#카오스제로나이트메어 #카제나 #시즌4 #부서진빛과발톱 #힐데 #아라벨라 #올가 #신규전투원 #외출복 #덱빌딩로그라이크</p>
+    </div>
+  </div>
 </div>
-
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

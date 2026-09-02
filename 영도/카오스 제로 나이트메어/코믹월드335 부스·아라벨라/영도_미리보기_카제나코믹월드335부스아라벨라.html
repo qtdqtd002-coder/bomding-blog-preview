@@ -59,6 +59,40 @@
   .sidenote a{color:#1a73e8;text-decoration:none;}
   @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
   .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 영도 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
 <div class="wrap">
@@ -194,23 +228,36 @@
     <div class="tags">#카오스제로나이트메어 #카제나 #코믹월드335 #아라벨라 #시즌4 #슈퍼크리에이티브 #스마일게이트 #서브컬처게임추천</div>
   </div>
 </div>
-
-<div class="note">↓ 아래는 네이버 에디터에 그대로 붙여넣기용 본문 블록(🔍 마커·사이드노트 등 미리보기 전용 요소 제외)입니다.</div>
-
-<div class="pastebox">
-<h2>[네이버 붙여넣기용 본문]</h2>
-
-<p><b>제목:</b> 카오스 제로 나이트메어 카제나 코믹월드335(8/15~16) 부스 혜택ㆍ이벤트 총정리, 신규 전투원 아라벨라 소개</p>
-
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 카오스 제로 나이트메어 카제나 코믹월드335(8/15~16) 부스 혜택ㆍ이벤트 총정리, 신규 전투원 아라벨라 소개</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
 <p>안녕하세요, 영원한도시입니다. 지난 글에서 카제나(카오스 제로 나이트메어)가 코믹월드335에 부스로 참가한다는 소식이랑 시즌4 여름 이벤트를 한 번에 정리해 드렸었는데요, 그 사이에 부스 세부 내용이 새로 풀렸고 마침 신규 전투원 소식까지 겹쳐서 오늘 한 번 더 다뤄보려고 합니다.</p>
 <p>행사는 오늘 8월 15일(토)부터 내일 8월 16일(일)까지 일산 킨텍스 제1전시장에서 열리는데요, 아시다시피 100% 사전예약제로 운영되고 입장 시간표도 따로 있습니다. 예약 방법이랑 정확한 시간표가 궁금하신 분들은 예전에 올렸던 「카오스 제로 나이트메어 카제나 코믹월드335 오프라인 부스 참가, 시즌4 여름 이벤트 총정리」 글을 참고해 주시는 게 빠릅니다. 오늘은 그 뒤에 새로 나온 부스 세부 내용이랑, 아직 출시 전인 신규 전투원 아라벨라 이야기를 중심으로 풀어보겠습니다.</p>
 
-<h3>1. 코믹월드335 부스, '나이트메어호의 여름휴가'로 열립니다</h3>
+<p><b>1. 코믹월드335 부스, '나이트메어호의 여름휴가'로 열립니다</b></p>
 <p>이번 카제나 부스는 '나이트메어호의 여름휴가'라는 이름으로, 시원한 바다ㆍ해변 콘셉트를 그대로 부스에 옮겨온다고 합니다. 카제나는 슈퍼크리에이티브가 개발하고 스마일게이트가 서비스하는 서브컬처 게임인데요, 8월 7일 인벤ㆍ엑스포츠뉴스ㆍ게임메카ㆍ베타뉴스 등 여러 매체에서 부스 세부 내용을 동시에 보도했습니다. 주인장도 기사들을 하나씩 살펴봤는데, 다들 같은 키비주얼을 쓰고 있더라고요.</p>
-<p>[여기 이미지: 코믹월드335 부스 '나이트메어호의 여름휴가' 키비주얼 — 웹진 인벤(2026-08-07) 게재본, 직접 업로드]</p>
+<p class="ph">📷 〔사진 자리 1〕 코믹월드335 부스 '나이트메어호의 여름휴가' 키비주얼 — 웹진 인벤(2026-08-07) 게재본, 직접 업로드 — 네이버에서 직접 업로드</p>
 <p>참고로 부스 위치를 못 찾아 헤매실까 봐 덧붙이면, 공식 계정이 D-1 공지에서 "일산 킨텍스 제1전시장 입구 우측에서 나이트메어호의 커피차를 찾아주세요"라고 안내했습니다. 입구에서 오른쪽으로 방향만 잡으시면 바로 찾으실 수 있을 것 같습니다.</p>
 
-<h3>2. 함장 레벨 10만 넘으면 받는 혜택들</h3>
+<p><b>2. 함장 레벨 10만 넘으면 받는 혜택들</b></p>
 <p>부스 방문 시 받는 혜택은 크게 세 가지인데, 전부 '함장 레벨 10 이상'을 인증해야 받을 수 있다는 조건이 붙습니다.</p>
 <ul>
 <li>함장 레벨 10 이상 인증 → 시원한 음료 + 캐릭터 포토카드 + 게임 쿠폰 지급</li>
@@ -220,11 +267,11 @@
 <p>다만 '붕괴 타임'이 정확히 몇 시에 열리는지까지는 아직 따로 공지된 게 없더라고요. 현장 방문 시 부스 안내를 통해 확인하시는 게 제일 정확할 것 같습니다.</p>
 <p>여기서 말하는 '함장'은 카제나 인게임에서 유저를 부르는 호칭인데요, 레벨 10이면 튜토리얼만 넘겨도 금방 도달하는 초반 구간이라 사전예약만 해두면 대부분 받아 가실 수 있을 것 같습니다. 주인장 개인적으로는 신규 전투원 예고랑 대형 오프라인 행사 일정이 이렇게 겹치는 게 우연은 아닌 것 같더라고요. 보통 이런 큰 행사 앞두고 신캐 소식을 같이 얹어 화제성을 끌어올리는 게 흔한 흥행 전략이니까요.</p>
 
-<h3>3. 오늘 오후 1시, 쥬다스ㆍ루밀 의원도 현장에서 만납니다</h3>
+<p><b>3. 오늘 오후 1시, 쥬다스ㆍ루밀 의원도 현장에서 만납니다</b></p>
 <p>부스 방문 혜택 말고도 눈여겨볼 현장 이벤트가 하나 더 있는데요, 공식 계정이 쥬다스ㆍ루밀 의원의 코믹월드 방문을 확정 공지하면서, 오늘 8월 15일(토) 오후 1시 일산 킨텍스 제1전시장에서 두 캐릭터를 직접 만날 수 있다고 안내했습니다. "화면 너머로만 만나던 두 캐릭터를 이번엔 현장에서 직접 만나보세요"라는 문구까지 달렸더라고요.</p>
 <p>정확히 어떤 형태(코스프레인지 스크린 연출인지)로 등장하는지까지는 아직 따로 공지되지 않았더라고요. 그리고 이 둘은 뒤에서 소개해 드릴 코스프레 모델 7인이 맡은 전투원들과는 별개의 캐릭터라, 헷갈리지 않으셨으면 합니다.</p>
 
-<h3>4. 코스프레 모델 7명, 누가 어떤 전투원을 맡았나</h3>
+<p><b>4. 코스프레 모델 7명, 누가 어떤 전투원을 맡았나</b></p>
 <p>이번 부스에는 코스프레 모델 7명이 나와 각각 다른 전투원을 연기하는데요, 이 라인업도 눈여겨볼 만합니다. 포토존에서 실제로 만나볼 수 있다고 하네요.</p>
 <table>
 <tr><th>모델</th><th>담당 전투원</th></tr>
@@ -238,14 +285,14 @@
 </table>
 <p>주인장이 명단을 보다 보니 송주아ㆍ시루 두 분은 SNS 팔로워가 각각 60만 명대라, 이미 익숙하신 분들도 있을 것 같더라고요. 아직 출시도 안 한 아라벨라를 벌써 코스프레로 만나볼 수 있다는 것도 재밌는 포인트입니다.</p>
 
-<h3>5. 신규 전투원 아라벨라, 8월 19일부터 만날 수 있습니다</h3>
+<p><b>5. 신규 전투원 아라벨라, 8월 19일부터 만날 수 있습니다</b></p>
 <p>아라벨라는 아직 출시 전이며, 오는 8월 19일 업데이트로 픽업이 시작됩니다. 속성은 본능, 클래스는 스트라이커고, 파트너 캐릭터로 '리시니아'가 함께 추가됩니다. 참고로 전투모션 영상도 먼저 공개됐더라고요.</p>
 <p>여기서 하나 바로잡을 게 있는데요, 지난 글에서는 힐데ㆍ아라벨라ㆍ올가 세 캐릭터가 한 번에 풀린 것처럼 다뤘는데, 정확히는 시즌4 신규 전투원 3인이 순차적으로 픽업되는 구조였습니다. 경향게임스 기사를 직접 찾아 확인해 보니, 힐데가 7월 29일 첫 번째 픽업(본능 속성 레인저)이었고, 그 뒤를 이어 아라벨라가 8월 19일 두 번째 픽업으로 오는 순서더라고요.</p>
-<p>[여기 이미지: 시즌4 첫 픽업 전투원 힐데(본능 속성 레인저) 공식 티저 — 경향게임스 기사 게재본, 직접 업로드]</p>
+<p class="ph">📷 〔사진 자리 2〕 시즌4 첫 픽업 전투원 힐데(본능 속성 레인저) 공식 티저 — 경향게임스 기사 게재본, 직접 업로드 — 네이버에서 직접 업로드</p>
 <p>마침 관련 기사에 로드맵 이미지가 실려 있었는데요, 세 캐릭터의 업데이트 일정이 한눈에 들어오더라고요. 아래 이미지를 보시면 힐데(7/29ㆍ파트너 유니) → 아라벨라(8/19ㆍ파트너 리시니아) → 올가(9/9ㆍ파트너 에밀리) 순으로, 약 3주 간격을 두고 순차 픽업되는 구조라는 걸 확인하실 수 있습니다.</p>
-<p>[여기 이미지: 시즌4 '부서진 빛과 발톱' 신규 전투원 로드맵(힐데 7/29ㆍ아라벨라 8/19ㆍ올가 9/9) — 경향게임스 기사 게재본, 직접 업로드]</p>
+<p class="ph">📷 〔사진 자리 3〕 시즌4 '부서진 빛과 발톱' 신규 전투원 로드맵(힐데 7/29ㆍ아라벨라 8/19ㆍ올가 9/9) — 경향게임스 기사 게재본, 직접 업로드 — 네이버에서 직접 업로드</p>
 
-<h3>6. 아라벨라 스킬은 '균열'을 쌓아 짓누르는 방식입니다</h3>
+<p><b>6. 아라벨라 스킬은 '균열'을 쌓아 짓누르는 방식입니다</b></p>
 <p>아라벨라의 핵심 메커니즘은 적에게 '균열'이라는 디버프를 부여하고, 그걸 전장 전체에 누적시켜 다수의 적을 지속적으로 압박하는 방식이라고 합니다. 게임톡 기사(8/13)에 따르면 대표 스킬은 이렇습니다.</p>
 <ul>
 <li>스킬 '공허한 선고': 모든 적에게 피해를 주면서 균열 2 부여(다수전에 효율적)</li>
@@ -256,7 +303,7 @@
 <p>이 외에도 '해체의 미학' 같은 스킬이 더 있다고 하니, 전체 스킬셋은 8월 19일 정식 공개 후 다시 정리해 보겠습니다.</p>
 <p>이 수치는 게임톡이 사전 공개 정보로 보도한 내용이라, 실제 8월 19일 정식 업데이트 전에 밸런스가 조정될 가능성은 있다고 봐야 할 것 같습니다. 참고로 힐데ㆍ아라벨라ㆍ올가 시즌4 신규 전투원 3인이 전부 본능 속성이라, 한 파티에 모아 쓰면 지속 피해랑 해로운 효과 시너지를 노려볼 수 있다고 하네요.</p>
 
-<h3>자주 묻는 질문</h3>
+<p><b>자주 묻는 질문</b></p>
 <p><b>Q. 코믹월드335 카제나 부스는 예약 없이도 들어갈 수 있나요?</b><br>아니요, 코믹월드335 행사 자체가 100% 사전예약제라 예약 없이는 입장이 어렵습니다. 정확한 입장 시간표와 예약 방법은 위에서 안내해 드린 예전 글을 참고해 주세요.</p>
 <p><b>Q. 아라벨라는 지금 바로 뽑을 수 있나요?</b><br>아직입니다. 8월 19일 업데이트로 픽업이 열려야 뽑으실 수 있고, 그전까지는 출시 전 상태입니다.</p>
 <p><b>Q. 올가는 언제 나오나요?</b><br>공식 로드맵 기준으로는 9월 9일 업데이트로 예정돼 있고, 파트너 캐릭터는 '에밀리'입니다.</p>
@@ -281,6 +328,29 @@
 · <a href="https://x.com/CZN_Official_KR/status/2088098282538991946" target="_blank">카오스 제로 나이트메어 공식 X(전투모션 예고)</a></p>
 
 <p>#카오스제로나이트메어 #카제나 #코믹월드335 #아라벨라 #시즌4 #슈퍼크리에이티브 #스마일게이트 #서브컬처게임추천</p>
+    </div>
+  </div>
 </div>
-
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

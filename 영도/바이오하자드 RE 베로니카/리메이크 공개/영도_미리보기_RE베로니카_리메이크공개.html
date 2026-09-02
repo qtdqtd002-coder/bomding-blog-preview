@@ -49,6 +49,40 @@
   .sidenote a{color:#1a73e8;text-decoration:none;}
   @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
   .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 영도 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
 <div class="wrap">
@@ -140,4 +174,115 @@
     <div class="tags">#바이오하자드 #RE베로니카 #코드베로니카 #코드베로니카리메이크 #바이오하자드리메이크 #서머게임페스트2026 #좀비게임 #서바이벌호러 #PS5게임 #스위치2 #클레어레드필드 #캡콤 #신작게임 #콘솔게임추천</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 바이오하자드 RE:베로니카 공개 코드 베로니카 리메이크 출시일 플랫폼 정리, 기대되는 좀비게임</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>주인장이 옛~날에 드림캐스트로 클레어 붙잡고 록포트 섬부터 남극 기지까지 질질 끌려다니던(?) 기억이 아직도 생생한데요. 그 녀석이, 그러니까 <b>'바이오하자드 코드: 베로니카'</b>가 무려 <b>리메이크</b>로 돌아온다는 소식에 트레일러 보다 말고 혼자 "어, 어어?" 했네요ㅋㅋ. 이름하여 <b>'바이오하자드 RE:베로니카'</b>, 드디어 베일을 벗었습니다.</p>
+
+    <p>그래서 오늘은 코드 베로니카가 원래 어떤 게임이었는지부터, RE:베로니카가 원작과 뭐가 달라지는지, 그리고 출시일ㆍ플랫폼까지 한 번에 정리해 드릴게요. 좀비게임ㆍ서바이벌 호러 좋아하시는 분들은 끝까지 보시면 좋겠습니다.</p>
+
+    <!-- 이미지 이유: 글 첫머리 키비주얼 — 이번에 공개된 RE:베로니카 리빌 트레일러 대표 화면 / 출처: 캡콤 공식 리빌 트레일러(유튜브) / 분류: A형 -->
+    <p class="ph">📷 〔사진 자리 3〕 바이오하자드 RE:베로니카 리빌 트레일러 화면 — 네이버에서 직접 업로드</p>
+    <p class="phsub">└ 캡션 추천: “서머 게임 페스트 2026에서 공개된 'RE:베로니카' 리빌 트레일러. 보시면 클레어가 한층 또렷해졌죠?”</p>
+
+    <h3>1. 바이오하자드 코드 베로니카, 어떤 게임이었나 - 클레어 단독 주연작!</h3>
+
+    <p><b>'바이오하자드 코드: 베로니카'</b>는 지난 <b>2000년 드림캐스트</b>로 처음 나온 작품인데요. 이후 PS2, 닌텐도 게임큐브 등으로도 이식되면서 시리즈를 대표하는 외전 타이틀로 자리 잡았습니다. 넘버링은 아니지만, 스토리상 비중이 꽤 묵직한 작품이라 올드 팬들 사이에선 "이건 사실상 넘버링급이지" 소리를 듣던 녀석이거든요.</p>
+
+    <p>주인공은 다들 아시는 <b>'클레어 레드필드'</b>입니다. 바이오하자드 2에서 라쿤시티를 빠져나온 클레어가, 이번엔 오빠인 <b>'크리스 레드필드'</b>의 행방을 쫓는 이야기인데요. 시기상으로는 <b>바이오하자드 2 이후 수개월 뒤</b>의 사건을 다룹니다. 즉 라쿤시티 그 난리를 겪고도 클레어의 고생길이 안 끝났다는 거죠.(ㅋㅋ)</p>
+
+    <p>원작의 주 무대는 엄브렐러 사의 사유지인 <b>'록포트 섬'</b>, 그리고 후반부의 <b>남극 기지</b>였습니다. 외딴 섬에 갇힌 채 좀비ㆍ크리처를 헤치고 나아가는 그 폐쇄적인 긴장감이 코드 베로니카의 핵심 매력이었는데요. 보시는 분들 중에 "아, 그 섬!" 하고 떠오르시면 같은 세대(?)입니다.</p>
+
+    <p class="ph">📷 〔사진 자리 1〕 스샷 1: 원작 코드 베로니카(드림캐스트/PS2)의 록포트 섬 또는 클레어 플레이 장면 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “원작 록포트 섬의 그 음산한 분위기. 리메이크에선 이게 얼마나 달라질지가 관전 포인트네요.”</p>
+
+    <h3>2. RE:베로니카 ↔ 원작, 뭐가 달라지나 - 파리가 새로 등장!</h3>
+
+    <p>이번 <b>'RE:베로니카'</b>는 캡콤이 RE2ㆍRE3ㆍRE4 리메이크에서 써 온 그 <b>'RE 엔진'</b>으로 다시 만들어집니다. 트레일러만 봐도 클레어의 표정ㆍ피부ㆍ머리카락 디테일이 확 올라왔는데요. <b>한층 사실적이고 수려하게 모델링된 클레어와 무대</b>가 이번 리메이크의 1차 셀링포인트라고 보시면 됩니다.</p>
+
+    <p>그런데 이번 공개에서 제일 눈에 띈 건 따로 있었습니다. 바로 원작엔 없던 <b>'파리(엄브렐러 파리 지부)' 무대가 새로 추가</b>된다는 점인데요. 트레일러는 파리를 배경으로 한 노파의 등장으로 시작해서, 방 안의 오브젝트들을 하나씩 천천히 비추며 긴장감을 쌓다가, 마지막에 RE 엔진으로 빚어낸 클레어의 모습으로 마무리됩니다. 연출만 봐도 "아, 이번엔 공포 쪽으로 제대로 조이겠구나" 싶더라고요.</p>
+
+    <p>스토리 흐름을 보면, 클레어가 <b>오빠 크리스를 찾기 위해 파리의 엄브렐러 지부에 잠입</b>하는 과정에서 파리의 한 숙소를 거치는 장면이 그려졌는데요. 원작이 곧장 록포트 섬에서 출발했던 걸 떠올리면, 도입부 서사가 꽤 확장될 수 있다는 신호로 읽힙니다.</p>
+
+    <p class="ph">📷 〔사진 자리 2〕 스샷 2: RE:베로니카 트레일러 속 파리 배경 장면(노파 등장/방 안 오브젝트 클로즈업) — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “원작엔 없던 파리 무대. 이 추가 하나만으로도 "단순 그래픽 업그레이드는 아니다" 싶죠.”</p>
+
+    <p>다만 여기서 한 가지 짚고 갈 게 있는데요. <b>게임플레이 시점(1인칭/3인칭)이나 세미 오픈월드 같은 구조적인 정보는 아직 공식적으로 확정 발표되지 않았습니다.</b> 인터넷에 도는 추측들이 좀 있긴 한데, 주인장은 떠도는 얘기에 너무 휘둘리진 말자는 쪽이에요. 이 부분은 <b>추후 공개 예정</b>이니, 확정되면 따로 정리해서 알려드릴게요.</p>
+
+    <h3>3. 출시일ㆍ플랫폼 - 2027년, 스위치 2까지 멀티 발매!</h3>
+
+    <p>가장 궁금하실 출시 정보부터 정리하면요. RE:베로니카는 <b>2027년 출시 예정</b>입니다. 다만 <b>정확한 출시 월ㆍ일은 아직 공개되지 않았다</b>는 점은 기억해 두세요. 지금은 "2027년 어딘가" 정도로만 잡고 기다리시면 됩니다.</p>
+
+    <p>플랫폼은 <b>멀티로 넉넉하게</b> 나옵니다. 보시는 표처럼 정리했는데요.</p>
+
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>정식 명칭</td><td>바이오하자드 RE:베로니카 (코드: 베로니카 리메이크)</td></tr>
+      <tr><td>개발ㆍ배급</td><td>캡콤(Capcom)</td></tr>
+      <tr><td>엔진</td><td>RE 엔진</td></tr>
+      <tr><td>최초 공개</td><td>서머 게임 페스트 2026 (리빌 트레일러)</td></tr>
+      <tr><td>출시 예정</td><td>2027년 (정확한 월ㆍ일 미정)</td></tr>
+      <tr><td>플랫폼</td><td>PS5 / Xbox Series X|S / PC(Steam) / 닌텐도 스위치 2</td></tr>
+    </table>
+
+    <p>개인적으로 반가운 건 <b>닌텐도 스위치 2</b>까지 발매 라인업에 들어갔다는 점인데요. 최신 캡콤 호러를 휴대용으로 들고 다니며 즐길 수 있다는 소리니까요. 물론 기종별 최적화나 그래픽 옵션이 어디까지 받쳐줄지는 실제 출시 전후로 확인이 필요하겠지만, 일단 선택지가 넓다는 건 환영입니다.</p>
+
+    <h3>4. 마무리 - 이게 왜 기대되냐면</h3>
+
+    <p>정리하면, RE:베로니카는 <b>RE 엔진으로 다시 빚어진 클레어</b>, <b>새로 추가된 파리 무대</b>, 그리고 <b>2027년 멀티플랫폼 발매</b>까지 — 기대할 거리가 꽤 촘촘한 리메이크입니다. 캡콤이 RE2ㆍRE3ㆍRE4 리메이크로 이미 "원작 살리면서 현대적으로 조이는" 감각을 증명해 왔으니, 코드 베로니카라는 묵직한 원작이 그 손을 거치면 어떤 그림이 나올지 진짜 궁금하거든요.</p>
+
+    <p>아직 시점ㆍ게임플레이 구조 같은 핵심 정보가 남아 있는 만큼, 추가 공개가 나오면 그때 또 한 번 싹 정리해서 들고 오겠습니다.</p>
+
+    <p><b>한 줄 정리</b><br>
+      바이오하자드 <b>RE:베로니카</b> = 코드 베로니카 리메이크 · RE 엔진 · <b>2027년</b> 예정(월ㆍ일 미정) · PS5ㆍXbox Series X|SㆍPC(Steam)ㆍ스위치 2 · 새 무대 '파리' 추가. 시점ㆍ게임플레이 구조는 추후 공개.</p>
+
+    <p>여기까지가 주인장이 정리해 본 RE:베로니카 공개 소식인데요. 저는 일단 옛날 원작 한 번 다시 만져보면서 2027년을 느긋하게 기다려 볼 생각입니다. 더 풀리는 정보 있으면 또 정리해서 들고 올게요!</p>
+
+    <p class="tags-line">#바이오하자드 #RE베로니카 #코드베로니카 #코드베로니카리메이크 #바이오하자드리메이크 #서머게임페스트2026 #좀비게임 #서바이벌호러 #PS5게임 #스위치2 #클레어레드필드 #캡콤 #신작게임 #콘솔게임추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

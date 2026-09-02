@@ -40,6 +40,40 @@
   .ig .ig-bar{flex:1;height:14px;background:#eef6f1;border-radius:7px;overflow:hidden;}
   .ig .ig-fill{height:100%;background:linear-gradient(90deg,#14b8a6,#15a05a);}
   .ig .ig-val{font-family:"Consolas","D2Coding",monospace;font-weight:800;color:#14b8a6;font-size:13px;min-width:78px;text-align:right;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -110,4 +144,104 @@
     <div class="tags">#게이밍키보드 #기계식키보드 #청축 #적축 #갈축 #키보드축비교 #키보드축차이 #게이밍기어 #체리축 #키보드추천</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 1곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 게이밍 키보드 축 비교 청축 적축 갈축 차이, 타건감 소음 키압부터 게이밍 추천축까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>주인장이 처음 기계식 키보드 입문할 때 멋모르고 '찰칵찰칵' 소리에 반해서 청축을 질렀다가, 한밤중에 게임하면 옆방에서 컨트롤(?) 들어오는 바람에 결국 적축으로 갈아탄 흑역사가 있는데요.(ㅋㅋ) 그만큼 <b>축(스위치)</b>만 잘 골라도 손맛이 확 달라집니다. 오늘은 가장 많이 찾으시는 <b>청축ㆍ적축ㆍ갈축</b> 세 가지를 놓고, 뭐가 어떻게 다른지 그리고 본인 용도엔 어떤 축이 맞는지 주인장이 깔끔하게 정리해 드릴게요.</p>
+
+    <h3>1. 축이 뭐길래? - 키감을 가르는 3대장</h3>
+    <p>기계식 키보드는 키 하나하나 아래에 '스위치'가 들어가는데, 이 스위치를 흔히 <b>축</b>이라고 부릅니다. 색깔로 종류를 나누고요. 작동 방식으로 보면 크게 <b>리니어ㆍ택타일ㆍ클릭</b> 세 갈래인데, 오늘 비교할 셋이 딱 하나씩 대표 격이에요. 처음엔 '그냥 다 똑같은 키보드 아닌가?' 싶지만, 한 번 손에 익으면 다른 축은 손가락이 먼저 어색해할 정도로 차이가 큽니다.</p>
+    <p>한 줄 요약부터 박고 가면, <b>청축은 찰칵거리는 클릭, 적축은 매끄러운 리니어, 갈축은 그 중간의 택타일</b>입니다. 참고로 아래 수치는 가장 기준이 되는 <b>체리(Cherry MX)</b> 기준이고, 같은 색이라도 제조사ㆍ브랜드마다 키압이 조금씩 다르니 '대략 이 정도구나' 정도로 보시면 됩니다.</p>
+
+    <h3>2. 청축 - 찰칵찰칵, 확실한 타건감</h3>
+    <p>청축은 <b>클릭(Clicky)</b> 타입입니다. 키를 누르다 작동점을 지나는 순간 '찰칵' 하는 소리와 함께 걸리는 느낌이 확실하게 와요. 타이핑할 때 '내가 지금 입력했다'는 피드백이 가장 선명한 축이라, 글 많이 쓰시는 분들이 좋아하시죠. 작동압은 체리 기준 약 <b>60g</b>, 작동점은 <b>2.2mm</b>로 셋 중 가장 묵직하고 깊은 편입니다.</p>
+    <p>대신 <b>소음이 셋 중 제일 큽니다.</b> 이게 매력이자 단점인데요, 사무실이나 가족이 함께 쓰는 공간, 마이크 켜고 하는 보이스챗 환경에선 민폐가 될 수 있어요. 주인장이 흑역사 만든 게 바로 이 부분입니다.</p>
+    <p class="ph">📷 〔사진 자리 1〕 스샷 1: 청축 스위치 클로즈업(파란색 하우징) — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “파란 하우징이 청축. 보시면 색으로 바로 구분되죠.”</p>
+
+    <h3>3. 적축 - 매끄럽게 쭉, 게이밍 단골</h3>
+    <p>적축은 <b>리니어(Linear)</b> 타입이라 누르는 내내 걸리는 구간 없이 <b>처음부터 끝까지 매끄럽게 쭉</b> 들어갑니다. 작동압은 약 <b>45g</b>으로 셋 중 가장 가볍고, 작동점 2mm를 지나면 바로 입력돼요. 걸림이 없으니 빠르게 연타하거나 방향키ㆍ스킬키를 다다닥 누르는 게임 플레이에 유리해서, <b>게이밍 키보드 기본 축</b>으로 가장 많이 쓰입니다.</p>
+    <p>소음도 셋 중 가장 조용한 편이라 게임이든 사무든 무난하게 굴러갑니다. 다만 걸리는 맛이 없다 보니 타이핑할 때 '꾹꾹 눌러지는' 손맛을 좋아하시는 분껜 살짝 밋밋하게 느껴질 수도 있어요. 이건 진짜 취향 차이입니다.</p>
+
+    <h3>4. 갈축 - 적당한 걸림, 만능형</h3>
+    <p>갈축은 <b>택타일(Tactile)</b> 타입인데요. 청축처럼 '찰칵' 소리는 안 나지만, <b>작동점에서 살짝 걸리는 감</b>이 있어서 입력됐다는 느낌은 줍니다. 청축의 타건감과 적축의 정숙함 사이 어딘가에 있는, 말 그대로 <b>중간형ㆍ만능형</b>이에요. 작동압은 약 <b>55g</b>입니다.</p>
+    <p>소리는 청축보다 작고, 키감은 적축보다 조금 단단한 그 절묘한 지점이라, <b>게임도 하고 타이핑도 많이 하는데 하나로 다 쓰고 싶다</b> 하시는 분들께 제일 무난한 선택지예요. 솔직히 뭘 사야 할지 모르겠다 싶으면 갈축이 실패 확률이 제일 낮습니다. 말하자면 메뉴 고민될 때 시키는 국밥(?) 같은 포지션이랄까요.</p>
+
+      <b>키압(작동압) 한눈에 · 체리 MX 기준</b><br>
+      <table>
+<tr><td class="l">적축</td><td>약 45g</td></tr>
+<tr><td class="l">갈축</td><td>약 55g</td></tr>
+<tr><td class="l">청축</td><td>약 60g</td></tr>
+</table>
+
+    <h3>5. 청축ㆍ적축ㆍ갈축 한눈에 비교</h3>
+    <table>
+      <tr><th>구분</th><th>청축</th><th>적축</th><th>갈축</th></tr>
+      <tr><td>타입</td><td>클릭</td><td>리니어</td><td>택타일</td></tr>
+      <tr><td>타건감</td><td>찰칵, 확실</td><td>매끄럽게 쭉</td><td>적당한 걸림</td></tr>
+      <tr><td>작동압(체리)</td><td>약 60g</td><td>약 45g</td><td>약 55g</td></tr>
+      <tr><td>소음</td><td>큼</td><td>작음</td><td>중간</td></tr>
+      <tr><td>잘 맞는 용도</td><td>타이핑·타건감</td><td>게이밍</td><td>게임+타이핑 겸용</td></tr>
+    </table>
+    <p>표로 보시면 성격이 한눈에 갈리죠. 작동압은 브랜드마다 다를 수 있으니 절대 수치보단 <b>청축이 제일 무겁고 적축이 제일 가볍다</b> 정도의 순서로 기억해 두시면 됩니다.</p>
+
+    <h3>6. 그래서 뭘 사야 하나 - 상황별 추천</h3>
+    <p>마지막으로 용도별로 딱 잘라 추천드릴게요. 본인 상황에 대입해 보세요.</p>
+
+      <b>이런 분께 이 축!</b><br>
+
+    <p>참고로 청축이 끌리는데 소음이 걸린다면, 요즘은 키캡 아래에 <b>저소음 버전</b>이나 흡음재가 들어간 키보드도 많으니 그쪽도 한 번 알아보세요. 무작정 청축 질렀다가 주인장처럼 갈아타는 일은 없으셔야죠.(ㅋㅋ)</p>
+
+    <p><b>한 줄로 추리면</b><br>
+      <b>게이밍은 적축, 타건감은 청축, 못 고르겠으면 갈축</b>입니다. 결국 키감은 취향이라 가능하면 매장에서 직접 한 번씩 눌러보고 고르시는 게 제일 확실해요. 그럼 본인한테 딱 맞는 축 찾으시길 바랄게요!</p>
+
+      <b>▶ 같이 보면 좋은 글</b><br>
+      · 게이밍 기어 관련 기존 리뷰 — (네이버에서 해당 글 링크를 직접 넣어 주세요)
+
+    <p class="tags-line">#게이밍키보드 #기계식키보드 #청축 #적축 #갈축 #키보드축비교 #키보드축차이 #게이밍기어 #체리축 #키보드추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

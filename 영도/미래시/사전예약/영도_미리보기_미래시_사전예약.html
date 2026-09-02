@@ -39,6 +39,40 @@
   .ig .ig-no{font-family:"Consolas","D2Coding",monospace;font-weight:800;color:#14b8a6;font-size:15px;min-width:30px;}
   .ig .ig-tx{font-size:14px;line-height:1.6;color:#2f2f2f;}
   .ig .ig-tx b{color:#0a8a44;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -107,4 +141,102 @@
     <div class="tags">#미래시 #보이지않는미래 #미래시사전예약 #스마일게이트 #컨트롤나인 #혈라 #서브컬처게임 #수집형RPG #신작모바일게임 #PC온라인게임추천</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 2곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 미래시 보이지 않는 미래 사전예약 정보 정리, 스마일게이트 혈라 아트 서브컬처 신작 사전등록 방법</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>안녕하세요. 영원한도시입니다. 요즘 서브컬처 신작 소식이라면 일단 눈이 가는 주인장인데요, 이번엔 '혈라' 작가 아트로 무장한 스마일게이트 신작이 사전예약을 열었다는 얘기에 바로 찾아봤습니다. 이름하여 <b>'미래시: 보이지 않는 미래'</b>인데요. 니케 좋아하시는 분들이라면 공개된 캐릭터 일러스트만 봐도 한 번 멈칫하실 거예요.(ㅋㅋ) 오늘은 미래시가 어떤 게임인지, 사전예약은 어떻게 하는지 주인장이 싹 정리해 드릴게요.</p>
+
+    <p class="ph">📷 〔사진 자리 1〕 스샷 1: 미래시 사전예약 페이지 메인 키비주얼(주인공·소녀들 단체 일러스트) — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “시공간이 뒤섞인 세계관답게 캐릭터 분위기가 제각각이라 첫인상이 강하죠.”</p>
+
+    <h3>1. 미래시, 누가 만드나 - 니케·세븐나이츠2 그 분들</h3>
+    <p>먼저 개발사부터 보시면 <b>컨트롤나인(Control9)</b>이라는 스튜디오인데요. 스마일게이트의 자회사이고, '승리의 여신: 니케'와 '세븐나이츠2' 같은 흥행 서브컬처 게임 개발에 참여했던 핵심 인력들이 모여 세운 곳이라고 합니다. 퍼블리싱은 <b>스마일게이트</b>가 맡고요.</p>
+    <p>그리고 이번 미래시에서 제일 화제가 된 부분, 아트 디렉터가 바로 <b>김형섭(혈라)</b> 일러스트레이터입니다. 니케를 비롯해 여러 서브컬처 게임에서 비주얼 경쟁력을 제대로 보여준 분이라, '혈라 아트'라는 다섯 글자만으로도 기대치가 확 올라가는 게 사실이에요. 장르는 <b>수집형 RPG</b>입니다.</p>
+    <p>사실 서브컬처 수집형 RPG가 워낙 쏟아지는 요즘인데, 미래시가 출시 전부터 이름값을 하는 이유는 결국 이 <b>'개발진 + 아트' 조합</b> 때문이라고 봐요. 니케의 손맛을 아는 팀이 혈라 작가의 그림으로 새 세계관을 짠다는 것만으로도 한 번은 지켜볼 이유가 되니까요. 거기에 퍼블리셔가 스마일게이트라 서비스 안정성 면에서도 크게 불안할 게 없죠.</p>
+
+    <h3>2. 세계관·스토리 - 시공간이 뒤섞인 세계</h3>
+    <p>스토리는 <b>시공간이 교차하는 세계관</b>이 배경인데요. 주인공 '의원'이 '엔데', '티에리아', '이츠카' 등 매력적인 소녀들과 함께 멸망의 위기에 처한 시대를 구원해 나가는 이야기라고 합니다. 여기에 <b>'타임 트립'</b> 메커니즘이 결합되는 구조라, 단순히 캐릭터 모으는 데서 끝나는 게 아니라 시간대를 넘나드는 설정이 어떻게 풀릴지가 궁금해지는 대목이에요.</p>
+
+    <h3>3. 캐릭터·아트 - '갸루 닌자'에 '사이보그 수녀'까지</h3>
+    <p>아트 얘기를 안 할 수가 없는데요. 시간이 뒤섞인 세계관을 그대로 반영해서, 서로 안 어울릴 법한 이질적인 요소들을 한 캐릭터 안에 자연스럽게 섞어 놓은 게 특징입니다. 공개된 표현 그대로 '갸루 닌자'나 '사이보그 수녀' 같은 조합(?)이 나온다고 하니, 디자인 보는 재미가 쏠쏠하겠더라고요.</p>
+
+      <b>공개된 주요 캐릭터 3인 한눈에</b><br>
+
+    <p>주인장도 공개된 캐릭터 일러스트를 쭉 들여다봤는데, 확실히 '혈라 작가구나' 싶은 선과 색감이더라고요. 특히 티에리아의 수녀복 위에 기계 파츠가 얹힌 디자인은 한참 들여다봤네요. 이 묘한(?) 조합이 미래시 아트의 핵심이지 싶어요. 참고로 3D 모델은 아직 초기 연구 개발 단계라 계속 다듬어 나가겠다고 공식적으로 밝혔는데요. 정식 빌드에서 이 일러스트의 분위기가 얼마나 살아날지는 조금 지켜봐야 할 부분이에요.</p>
+
+    <h3>4. 전투 시스템 - 위치 기반 실시간 턴제</h3>
+    <p>전투는 <b>위치 기반 실시간 턴제</b> 방식이라고 합니다. 캐릭터의 위치와 이동을 핵심 전략 요소로 활용하는 구조라는 건데요. 무작정 강한 캐릭터만 박아 넣는 게 아니라, 진형을 어떻게 짜고 어디로 움직이느냐가 변수가 되는 셈이라 수집형 RPG 좋아하시는 분들 입장에선 손맛이 갈리는 포인트가 될 것 같네요.</p>
+
+    <h3>5. 출시일·플랫폼 - 크로스 플랫폼, 출시일은?</h3>
+    <p>플랫폼은 <b>PC와 모바일 크로스 플랫폼</b>으로 출시 예정입니다. 한 계정으로 PC에서도 모바일에서도 즐길 수 있다는 거죠. 다만 <b>정식 출시일은 아직 미정</b>이에요. 세부 서비스 일정은 추후 순차적으로 공개하겠다고만 밝힌 상태라, 인터넷에 도는 구체적인 날짜가 있더라도 아직 확정은 아니니 너무 휘둘리진 마세요.</p>
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>게임명</td><td>미래시: 보이지 않는 미래</td></tr>
+      <tr><td>장르</td><td>수집형 RPG (위치 기반 실시간 턴제)</td></tr>
+      <tr><td>개발 / 퍼블리싱</td><td>컨트롤나인 / 스마일게이트</td></tr>
+      <tr><td>아트 디렉터</td><td>김형섭(혈라)</td></tr>
+      <tr><td>플랫폼</td><td>PC · 모바일 크로스 플랫폼</td></tr>
+      <tr><td>출시일</td><td>미정 (추후 공개)</td></tr>
+      <tr><td>사전예약</td><td>2026년 6월 24일 페이지 오픈</td></tr>
+    </table>
+
+    <h3>6. 사전예약 방법·보상 - 어떻게 신청하나</h3>
+    <p>사전예약 페이지는 스마일게이트의 <b>애니메 엑스포 2026</b> 참가를 기념해 열렸는데요. 신청 방법 자체는 간단합니다. 공식 사전예약 페이지에 들어가서 <b>본인 연락처를 등록</b>하면 끝이에요. 별다른 가입 절차나 결제 같은 게 없으니, 관심만 있으면 부담 없이 걸어둘 수 있는 수준이라 너무 간단하죠.</p>
+    <p>다만 <b>사전예약 보상이나 마감일은 아직 공개되지 않았습니다.</b> 보통 사전예약은 달성 인원에 따라 단계별 보상이 풀리는 경우가 많은데, 미래시는 현재 그 부분이 안 나와 있어서 추후 공식 채널을 통해 확인하셔야 해요. 이 부분은 공개되는 대로 주인장이 따로 정리해서 알려드릴게요.</p>
+    <p class="ph">📷 〔사진 자리 2〕 스샷 2: 사전예약 페이지 하단 '연락처 등록' 영역 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “연락처만 남기면 되니 부담 없이 걸어둘 만하죠.”</p>
+
+    <p><b>마무리</b><br>
+      혈라 아트에 니케 출신 개발진, 거기에 위치 기반 턴제까지 — 서브컬처 좋아하는 분이라면 일단 찜해둘 만한 신작이에요. 출시일·보상은 아직 미정이라 지금은 가볍게 연락처만 걸어두고 기다리는 단계네요. 새 정보 풀리면 또 정리해서 들고 올게요. :)</p>
+
+      <b>▶ 같이 보면 좋은 글</b><br>
+      · 미래시 관련 후속 글 — (네이버에서 해당 글 링크를 직접 넣어 주세요)
+
+    <p class="tags-line">#미래시 #보이지않는미래 #미래시사전예약 #스마일게이트 #컨트롤나인 #혈라 #서브컬처게임 #수집형RPG #신작모바일게임 #PC온라인게임추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>

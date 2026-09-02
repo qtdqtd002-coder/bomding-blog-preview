@@ -35,6 +35,40 @@
   .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
   .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
   .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
 </style></head><body>
 <div class="wrap">
   <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
@@ -143,4 +177,146 @@
     <div class="tags">#이환 #이환공략 #카오스 #카오스공략 #카오스아크 #카오스콘솔 #카오스파티조합 #이환카오스 #스트리트복서 #NTE #모바일게임추천 #핸드폰게임추천</div>
   </div>
 </div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳:</b> 위 3번 방식으로 올리시면 돼요. 그리고 파란 <b>(확인: …)</b> 자리 7곳은 게임·공식에서 확인해 채워 주세요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 이환 카오스 공략, 아크 콘솔 파티 조합 추천 (상 속성 죄목 메인 딜러 운영법)</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>※ 다른 공략은 댓글을 참고해 주세요.</p>
+
+    <p>이번 카오스는 스킬 설명만 읽으면 <b>'죄목'이 어쩌고 '악명'이 저쩌고</b> 해서 첫인상이 좀 복잡한데요. 막상 굴려보면 의외로 단순합니다. 딱 잘라 말하면 <b>카오스는 평타로 먹고사는 상(相) 속성 메인 딜러</b>예요. 손이 화려한 콤보 캐가 아니라, 평타를 꾸준히 박아 '죄목'을 쌓고 그게 가득 차면 한 방에 터뜨리는 구조라서, 핵심 리듬만 잡으면 뉴비분들도 금방 손에 익습니다.</p>
+    <p>그래서 카오스 막 뽑은 분들 헤매지 않게, 아크ㆍ콘솔ㆍ파티 조합ㆍ운영법까지 딱 필요한 것만 정리해 드릴게요. 이 글 하나면 카오스 기본 세팅은 끝납니다.</p>
+
+    <p class="ph">📷 〔사진 자리 1〕 스샷 1: 카오스 캐릭터 정보 화면(이름ㆍ상 속성ㆍ평타 모션 보이게) — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “평타로 죄목 쌓아 터뜨리는 상 속성 메인 딜러, 카오스 :)”</p>
+
+    <h3>1. 카오스 한눈에 - 어떤 캐릭터?</h3>
+    <p>먼저 정체성부터 짚을게요. 카오스는 <b>상(相) 속성 메인 딜러</b>입니다. 낫을 휘둘러 올려치는 평타가 전투의 중심이고요. 화려한 스킬 난사보다는 <b>평타를 끊지 않고 이어주는 게 핵심</b>인 캐릭터라, 손이 바쁜 걸 싫어하는 분들한테 오히려 편할 수 있어요.</p>
+    <p>카오스의 모든 딜은 <b>'죄목'</b> 이라는 스택에서 나옵니다. 평타를 칠 때마다 죄목이 쌓이고, 이게 <b>상한치까지 차면 전부 소모하면서 강력한 추가타(청산 피해)</b>가 한 번에 터지거든요.(확인: 죄목 상한 수치 게임 내 확인) 그러니까 <b>"평타로 죄목 쌓기 → 가득 차면 정산"</b> 이 무한 반복, 이 한 줄만 머리에 박고 시작하시면 됩니다.</p>
+
+    <h3>2. 전투 메커니즘 기초 - 죄목ㆍ표식ㆍ악명 상태</h3>
+    <p>한 줄 요약 — "평타로 죄목 쌓고, 표식ㆍ악명으로 그 속도를 폭발시킨다"</p>
+    <p>카오스는 스킬 이름이 살벌(?)해서 그렇지, 역할은 명확합니다. 평타로 죄목을 모으고, 두 스킬이 그 죄목 쌓는 속도와 딜을 끌어올려 주는 구조예요. 하나씩 풀어볼게요.</p>
+
+    <p>죄목 쌓는 원리 (why)</p>
+    <p>기본은 평타입니다. 평타로 죄목 스택을 쌓되, <b>길게 눌러 모아치면</b> 더 효율적으로 쌓이고요. 죄목이 상한에 도달하는 순간 <b>모든 죄목을 소모해 추가 '재단'이 발동</b>하면서 높은 청산 피해가 들어갑니다.(확인: 재단/청산 배수 게임 내 확인) 그래서 평타를 중간에 끊지 않고 꾸준히 이어주는 게 그렇게 중요한 거예요.</p>
+
+    <p>표식ㆍ악명 (핵심)</p>
+    <p>여기서 카오스 딜을 한 단계 끌어올리는 두 스킬이 들어갑니다. 먼저 <b>'바이레일'(E)</b> 을 쓰면 사냥개를 풀어 범위 안 적에게 <b>'추적(추격) 허가' 표식</b>을 남기는데요. 이 표식이 묻은 적은 <b>받는 피해가 늘어납니다.</b>(확인: 표식 받는 피해 증가(기본 약 15%·각성 시 상향) 게임 내 확인) 그래서 딜 넣기 전에 표식부터 깔아두는 게 정석이에요.</p>
+    <p>그리고 <b>울티메이트(Q)</b> 가 진짜 핵심입니다. 궁을 쓰면 <b>주변 모든 적에게 표식을 남기고, 동시에 카오스가 '악명' 상태로 진입</b>하거든요.(확인: 악명 상태 명칭/지속 게임 내 확인) 이 악명 상태 동안에는 <b>죄목이 가만히 있어도 빠르게 차오르고</b>, 여기에 평타를 더하면 죄목이 폭발적으로 쌓입니다. 즉 <b>궁을 켜는 순간이 카오스 딜의 진짜 타임</b>이라고 보시면 돼요. 평소엔 평타로 죄목 모으다가, 악명 상태에서 몰아치는 그림입니다.</p>
+
+    <p>원리를 알았으니 실전 순서 (how)</p>
+    <p>말로 풀면 복잡한데, 실전에서는 아래 순서만 돌리시면 됩니다.</p>
+    <table>
+      <tr><th>순서</th><th>할 일</th></tr>
+      <tr><td>① 표식 깔기</td><td><b>'바이레일'(E)</b>로 사냥개 풀어 적에게 추적 허가 표식 부여</td></tr>
+      <tr><td>② 죄목 쌓기</td><td>평타를 끊지 말고 이어 쳐 <b>죄목</b> 적재(길게 눌러 모아치기)</td></tr>
+      <tr><td>③ 악명 켜기</td><td>궁극기 <b>(Q)</b>로 광역 표식 + <b>'악명'</b> 상태 진입</td></tr>
+      <tr><td>④ 폭발ㆍ정산</td><td>악명 상태에서 평타로 죄목 급속 충전 → 상한 도달 시 <b>청산 피해</b> 정산</td></tr>
+    </table>
+
+    <p class="ph">📷 〔사진 자리 2〕 스샷 2: 적에게 추적 허가 표식 + 카오스 악명 상태 떠 있는 전투 화면 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “보시면 적한테 표식이 잔뜩 깔려 있죠? 이 상태에서 악명 켜고 몰아치는 게 핵심입니다.”</p>
+
+    <h3>3. 아크 추천 - 카오스 전용 아크가 1순위</h3>
+    <p>아크부터 가볍게 정리할게요. 카오스는 <b>전용(전무) 아크</b>를 끼는 게 1순위입니다. 주인장은 카오스 전용 아크인 <b>'만인의 갈망'</b>(확인: 전용 아크 한글 명칭 게임 내 확인) 을 쓰고 있는데요. 이환은 <b>상시 캐릭터 전용 아크를 고위험 이상 의뢰 클리어로 1회 확정 파밍</b>할 수 있으니, 카오스를 키울 거라면 전용 아크부터 챙겨두시는 걸 추천드려요.</p>
+    <table>
+      <tr><th>아크</th><th>설명</th><th>추천도</th></tr>
+      <tr><td><b>'만인의 갈망'</b><br>(카오스 전용/전무)(확인: 명칭 확인)</td><td>카오스 평타ㆍ죄목 운영에 맞춰진 전용 아크. 고위험 이상 의뢰에서 1회 확정 파밍 가능</td><td>★ 1순위</td></tr>
+      <tr><td>상시ㆍ패스 아크<br>(무과금 대체)</td><td>전용을 못 챙겼다면 공격력ㆍ상 속성 결의 상시 아크로 대체</td><td>차선책</td></tr>
+    </table>
+    <p>전용 아크가 제일 좋은 건 맞지만, 무과금이라면 무리할 필요는 없어요. <b>캐릭터 본체부터 챙기고 아크는 차차</b> 맞춰가도 1인분 이상은 충분히 합니다.</p>
+
+    <h3>4. 콘솔(카트리지) 추천 - '스트리트 복서' 4세트</h3>
+    <p>콘솔에 끼우는 카트리지 세트는 <b>'스트리트 복서' 4세트</b>가 카오스랑 결이 잘 맞습니다. 이 세트가 <b>치명타 확률을 크게 끌어올려 주거든요.</b></p>
+    <table>
+      <tr><th>구분</th><th>효과</th></tr>
+      <tr><td>2세트</td><td>락샤나(=상 속성) 피해 <b>+10%</b></td></tr>
+      <tr><td>4세트</td><td>치명타 확률 <b>+14%</b>, '레모라' 또는 '스테인' 발동 시 일정 시간(약 15~20초) 치명타 확률 보너스가 <b>28%로 강화</b>(확인: 지속시간 게임 내 확인)</td></tr>
+    </table>
+    <p>카오스는 콘솔(7×7 그리드)에 드라이브 모듈을 맞춰 세트 효과를 발동시키는데요. 메인 헌터 레벨 <b>30</b>부터 '토끼굴'에서 콘솔ㆍ드라이브 모듈을 파밍할 수 있으니, 30레벨 찍었으면 토끼굴부터 도시면 됩니다. 부옵션(메인 스탯) 우선순위는 아래대로 잡으세요.</p>
+    <table>
+      <tr><th>1순위</th><th>2순위</th><th>3순위</th><th>4순위</th></tr>
+      <tr><td>상 속성 이능력 피해</td><td>치명 확률</td><td>치명 피해</td><td>공격력</td></tr>
+    </table>
+    <p>주인장 경험상 카오스는 <b>치명 확률이 워낙 높게 받쳐줘서</b>, 솔직히 부옵을 상 속성 이능력 피해로 몰아도 좋고 깡공격력이나 치명 피해로 가도 다 무난합니다. 스트리트 복서 4세트가 치명 확률을 28%까지 띄워주니까, 거기에 맞춰 <b>치명 피해를 챙기면 곱연산으로 딜이 확 뜨거든요.</b> 본인 보유 모듈 상황 보고 가장 좋은 옵션으로 채우시면 됩니다.</p>
+
+    <h3>5. 파티 조합 추천 - 레모라ㆍ스테인 사이클</h3>
+    <p>이환은 파티 속성 조합으로 <b>'에스퍼 사이클'</b> 반응을 굴리는 게임이라, 카오스도 혼자보다 조합이 중요한데요. 주인장이 실제로 굴려보고 추천하는 조합 두 개부터 풀어볼게요.</p>
+    <table>
+      <tr><th>조합</th><th>구성</th><th>특징</th></tr>
+      <tr><td>① 레모라 사이클</td><td><b>카오스ㆍ하토르ㆍ호토리ㆍ제로</b></td><td>'레모라' 반응을 안정적으로 돌리는 조합</td></tr>
+      <tr><td>② 레모라+차지</td><td><b>카오스ㆍ하토르ㆍ민트ㆍ제로</b></td><td>'레모라'에 '차지'까지 2종 사이클을 같이 굴림</td></tr>
+    </table>
+    <p>①에 들어가는 <b>'호토리'</b> 는 파티원 스킬을 복제하는 특성이라 속성에 안 묶이고 어디든 잘 섞입니다. 그래서 카오스 옆에 두기 편한 픽이에요. ②는 <b>'민트'</b> 를 넣어 차지 사이클을 하나 더 얹는 구성인데, 반응을 더 자주 보고 싶은 분들한테 맞습니다.</p>
+    <p>주인장이 더 바라는 건 - 상 + 혼 속성 조합</p>
+    <p>여기에 한 가지 더 추천드리고 싶은 건, <b>상 속성(카오스)에 혼 속성 캐릭터를 섞는 조합</b>이에요. 이유가 있는데요. <b>상 + 혼 속성은 '스테인' 사이클이 돌면서, 혼/상 속성이 적에게 주는 받는 피해를 20% 늘려줍니다.</b> 카오스가 상 속성 평타 딜러니까, 혼 속성 동료(예: 하니엘)를 한 명 끼워 스테인을 굴리면 카오스 딜 자체가 한 단계 올라가는 셈이라, 주인장은 이 방향을 제일 선호합니다.</p>
+
+    <p class="ph">📷 〔사진 자리 3〕 스샷 3: 카오스 + 하토르 + 호토리 + 제로 파티 편성 화면 — 네이버에서 직접 업로드</p>
+
+    <p class="phsub">└ 캡션 추천: “핵심은 사이클을 돌려줄 동료 구성! 상+혼으로 스테인까지 노리면 더 좋아요 :)”</p>
+
+    <h3>6. 카오스 운영 꿀팁 + 뉴비분들이 자주 하는 실수 3가지</h3>
+    <p>마지막으로 실전에서 딜이 새는 포인트만 짚어드릴게요. 카오스는 메커니즘이 단순한 대신 <b>'순서'를 어기면 딜이 확 빠지는</b> 캐라, 아래 세 가지만 안 하시면 됩니다.</p>
+    <p><b>⚠️ 뉴비분들이 자주 하는 실수 3가지</b><br>
+      1) <b>표식 안 깔고 평타부터 욱여넣기</b> → 적이 받는 피해 증가를 못 받아 딜이 손해입니다. <b>'바이레일'(E) 표식부터</b> 깔고 때리세요.<br>
+      2) <b>악명 상태를 안 쓰고 평타만 치기</b> → 죄목 차는 속도가 느려 정산이 한참 걸립니다. 궁(Q)으로 <b>악명 켜고 그때 몰아치세요.</b><br>
+      3) <b>속성 안 맞는 동료 아무나 넣기</b> → 카오스는 사이클 반응으로 딜이 붙는 캐라, 레모라ㆍ스테인을 돌려줄 조합이 없으면 체급이 안 나옵니다.</p>
+
+    <p>처음엔 죄목이니 악명이니 용어가 많아 보여도, <b>"표식 깔고 → 평타로 죄목 쌓고 → 악명 켜서 터뜨린다"</b> 이 리듬만 손에 익으면 카오스만큼 운영이 깔끔한 딜러도 드뭅니다. 너무 간단하죠?</p>
+
+    <p><b>카오스 핵심만 다시</b><br>
+      · 컨셉: 평타로 <b>죄목</b> 쌓고 상한에서 터뜨리는 상 속성 메인 딜러<br>
+      · 아크: 카오스 <b>전용 '만인의 갈망'</b> (무과금은 상시ㆍ패스 아크로 대체)<br>
+      · 콘솔: <b>'스트리트 복서' 4세트</b> (치명 확률 +14% → 반응 시 28%) + 부옵 상 속성 이능 피해 > 치명 확률 > 치명 피해 > 공격력<br>
+      · 파티: 카오스ㆍ하토르ㆍ호토리ㆍ제로(레모라) / 카오스ㆍ하토르ㆍ민트ㆍ제로(레모라+차지)<br>
+      · 주인장 추천: <b>상 + 혼 속성으로 '스테인'(받는 피해 +20%)까지 노리기</b></p>
+
+    <p>지금까지 카오스 아크ㆍ콘솔ㆍ파티 조합ㆍ운영법까지 한 번에 짚어봤는데요. 결국 핵심은 평타로 죄목 쌓고 악명 상태에서 몰아치는 그 리듬 하나입니다. 주인장도 상+혼 스테인 조합 더 다듬어서 추후 심화 운영도 정리해 올려볼게요. 헷갈리는 구간 있으면 댓글로 물어봐 주세요. 같이 풀어봐요!</p>
+
+    <p class="tags-line">#이환 #이환공략 #카오스 #카오스공략 #카오스아크 #카오스콘솔 #카오스파티조합 #이환카오스 #스트리트복서 #NTE #모바일게임추천 #핸드폰게임추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
 </body></html>
