@@ -1,0 +1,332 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>환세록 리메이크 스팀 출시 D-8, 원작 아시는 분ㆍ처음 보시는 분 다르게 챙길 것들</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}  /* overflow:hidden 두지 말 것 — 사이드 노트가 카드 밖에서 잘림 */
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.7;}
+  .guidenote{color:#999;font-size:13px;margin-bottom:18px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post .q{color:var(--pt);}
+  .post ul{margin:0 0 18px;padding-left:22px;font-size:15.5px;line-height:1.9;}
+  .post li{margin:4px 0;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== §1-4b 출처 재서술 사이드노트 (미리보기 전용) ===== */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy h3:first-child{margin-top:0;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy a{color:#1a73e8;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;}
+</style></head><body>
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 영도 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">게임소식</div>
+    <h1 class="title">환세록 리메이크 스팀 출시 D-8, 원작 아시는 분ㆍ처음 보시는 분 다르게 챙길 것들</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026.09.02</span><span>· 게임</span></div>
+
+    <p>환세록, 이라는 이름 얼핏 들어보신 분들 계실 텐데요. 주인장도 이 제목을 들으면 어렴풋이 옛날 SRPG 하나가 떠오르긴 하는데, 정작 자세한 내막은 이번에 스팀 페이지랑 이런저런 소식들을 찾아보면서야 제대로 알게 됐습니다. 그 환세록을 새로 만든 리메이크작이 이제 스팀 정식 출시를 코앞에 두고 있어서, 원작을 아셨던 분ㆍ이번에 처음 이름 들으시는 분 각각 챙기시면 좋을 내용으로 정리해 봤습니다.</p>
+
+    <h2 class="sec">1. 환세록 리메이크가 뭐냐 - 원작 아시는 분이면 반가우실 이야기</h2>
+    <p><b>환세록 리메이크는 1998년 국내에 소개됐던 SRPG '환세록'을 유저조이(USERJOY Technology Co., Ltd.)가 새로 만들어 스팀에 내놓는 작품입니다.</b></p>
+    <p>스팀 페이지 기준으로 개발과 배급을 유저조이가 단독으로 맡고 있고, 공식 영문 타이틀은 <b>'The Legend of Fancy Realm Remake'</b>더라고요. 장르는 어드벤처ㆍRPGㆍ전략으로 등록돼 있어서, 순수 전략 SRPG보다는 캐릭터 서사 비중도 꽤 진하게 다루는 모양입니다.</p>
+
+    <!-- 이미지: Steam 공식 상점 스크린샷(전투 화면), self-host, 이유: 원작을 아는 분ㆍ모르는 분 모두에게 게임이 실제로 어떤 화면인지 첫인상을 보여주기 위해 도입부 다음에 배치 / 출처: store.steampowered.com/app/4030150 / 분류: A형(Tier 1 공식 스토어) -->
+    <div class="imgwrap">
+      <img src="img/hwanserok_01.jpg" width="700" height="394" alt="환세록 리메이크 스팀 스크린샷 — 격자형 전장에서 아군과 적군 기사단이 대치한 턴제 전투 화면" loading="lazy">
+    </div>
+    <p class="cap">보시면 격자형 전장에서 아군ㆍ적군이 마주선 전투 화면이에요. 왼쪽엔 턴 순서대로 캐릭터 초상화랑 체력바가 쭉 나열돼 있고, 오른쪽 아래엔 지금 턴인 캐릭터의 HPㆍMPㆍSP까지 자세히 뜨네요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/4030150/" target="_blank">Steam 공식 상점 페이지</a> (ⓒUSERJOY Technology)</p>
+
+    <h2 class="sec">2. 근데 환세록, 사실 국산이 아니었다구요(?)</h2>
+    <p><b>많은 분들이 환세록을 국산 SRPG로 기억하고 계시지만, 정확히는 대만 오딘소프트(Odinsoft)가 1995년에 만든 게임을 1998년 국내 소프트월드가 '판타스틱 택틱스'라는 이름으로 들여와 소개한 작품이라고 알려져 있습니다.</b><span class="chk">🔍 원작 계보 확인</span></p>
+    <div class="para-wrap">
+      <p><span class="rev-hl">국내 게임 잡지 PC챔프 1999년 2월호에도 이 수입 사실이 언급된 걸로 기록돼 있어서, 단순 커뮤니티 뇌피셜이 아니라 근거가 붙은 얘기더라고요.</span> 주인장도 이번에 찾아보기 전까진 그냥 국산 게임으로만 알고 있었는데, 원작을 아셨던 분들한테도 나름 새로운 정보가 될 만합니다.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 환세록 원작 계보</span>
+        <span class="sn-src"><b>나무위키 '환세록' 문서</b>가 원작을 대만 오딘소프트의 1995년작으로, 1998년 국내 소프트월드가 '판타스틱 택틱스'로 수입했다고 정리하고 있어요. (근거로 PC챔프 1999년 2월호 인용도 있음)</span>
+        <span class="sn-mine">→ 커뮤니티 위키 출처라 단정형 대신 "~로 알려져 있다" 톤으로 완화하고, 잡지 인용 부분만 발췌해 문장을 새로 짰습니다.</span>
+      </div>
+    </div>
+    <p>1998년 당시 원작 개발사와 지금 리메이크를 만드는 유저조이가 정확히 같은 회사인지는 스팀 페이지에 별도 언급이 없어 딱 잘라 확인하긴 어렵더라고요(대만 게임업계는 그 사이 합병ㆍ사명 변경이 잦아서 완전히 다른 회사라고 단정하기도 애매합니다). 어느 쪽이든 원작 감성을 이어받아 리메이크로 다시 만든 작품이라는 점은 분명합니다.</p>
+
+    <h2 class="sec">3. 출시일은 D-8인데, 스팀 페이지엔 9일로도 뜨더라고요</h2>
+    <p><b>환세록 리메이크의 정식 출시일은 한국 시간 기준으로 2026년 9월 10일입니다.</b></p>
+    <p>스팀 상점 페이지 안에 초 단위로 찍혀 있는 출시 시각 값을 직접 확인해서 한국 시간으로 환산해보면 9월 10일 오후 1시가 나오더라고요. 그런데 재밌게도 상점 페이지를 여는 시간대에 따라 화면에 찍히는 날짜가 9일로 보일 때가 있습니다. 접속하는 쪽 시간대 기준으로 페이지 표시가 달라지는 걸로 보이는데, 스팀이 정확히 어떤 기준으로 이렇게 갈리는지는 공식적으로 밝히진 않아서 그 이상은 저도 단정하기 어렵습니다. 아무튼 스팀 페이지 들어가셨을 때 날짜가 하루 다르게 떠도 당황하지 마시고, 한국 기준으론 9월 10일이라고 기억해 두시면 됩니다.</p>
+    <div class="para-wrap">
+      <p><span class="rev-hl">국내에서도 유저조이가 9월 10일 PC 스팀 정식 출시를 예고했다는 소식이 전해졌고요,</span> 이 날짜가 위에서 확인한 한국 시간 환산값이랑 정확히 맞아떨어집니다.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 국내 출시일 보도</span>
+        <span class="sn-src"><b>게임톡</b>이 "유저조이가 … '환세록 리메이크'를 오는 9월 10일 PC 스팀에 정식 출시한다"고 보도했어요. (<a href="https://www.gametoc.co.kr/news/articleView.html?idxno=110682" target="_blank">기사 링크</a>)</span>
+        <span class="sn-mine">→ 원문 문장을 그대로 쓰지 않고, 위 스팀 페이지 초단위 환산값이랑 연결해 제 식으로 다시 풀었습니다.</span>
+      </div>
+    </div>
+    <table class="tbl">
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>정식 출시일(한국 시간)</td><td>2026년 9월 10일</td></tr>
+      <tr><td>플랫폼</td><td>Windows(PC) — Mac·Linux 미지원</td></tr>
+      <tr><td>가격</td><td>아직 공개되지 않음(미정)</td></tr>
+    </table>
+
+    <h2 class="sec">4. 지원 언어랑 음성 확인해봤는데, 한국어는 자막만이더라고요</h2>
+    <p><b>지원 언어는 영어ㆍ중국어 간체ㆍ중국어 번체ㆍ일본어ㆍ한국어 5개인데, 이 중 음성 더빙이 들어가는 언어는 중국어 번체 하나뿐이고 한국어는 자막으로만 지원됩니다.</b></p>
+    <p>저도 처음엔 한국어 더빙까지 되는 줄 알았는데, 스팀 페이지의 지원 언어 표를 자세히 보니 음성 지원 표시(*)가 중국어 번체 옆에만 붙어 있더라고요. 한국어로 즐기실 분들은 자막 플레이가 기본이라고 생각하시면 됩니다.</p>
+    <table class="tbl">
+      <tr><th>언어</th><th>자막</th><th>음성</th></tr>
+      <tr><td>영어</td><td>지원</td><td>미지원</td></tr>
+      <tr><td>중국어 간체</td><td>지원</td><td>미지원</td></tr>
+      <tr><td>중국어 번체</td><td>지원</td><td>지원</td></tr>
+      <tr><td>일본어</td><td>지원</td><td>미지원</td></tr>
+      <tr><td>한국어</td><td>지원</td><td>미지원</td></tr>
+    </table>
+
+    <h2 class="sec">5. 데모는 실제로 있어요, 근데 세이브 연동은 아직 확실치 않습니다</h2>
+    <p><b>환세록 리메이크는 데모가 별도 앱(appid 4778780)으로 스팀에 이미 올라와 있고, 스크린샷 6장과 트레일러 2개도 정상적으로 게시돼 있습니다.</b></p>
+    <p>데모 페이지를 들어가 보니 패치 이력도 있더라고요. 검은 화면이랑 명중률 버그를 고친 업데이트가 올라온 걸 보면, 개발진이 정식 출시 전까지 데모를 꾸준히 다듬고 있는 것 같습니다. 관심 있으신 분은 정식판 나오기 전에 데모부터 위시리스트 걸어두고 한 번 받아 보셔도 좋을 것 같네요.</p>
+    <p>데모에서 진행한 세이브가 정식판으로 그대로 이어지는지도 궁금하실 텐데, 이 부분은 아직 완전히 확실치 않습니다. 경향게임스 등 일부 매체는 데모 진행분이 정식판과 연동돼 이어서 즐길 수 있다고 보도했는데, 정작 스팀 공식 상점 페이지 설명문을 직접 뒤져봐도 세이브 연동에 대한 문구는 찾지 못했습니다. 그러니까 있다ㆍ없다 어느 쪽으로도 아직 단정은 어렵고, 정식 출시 즈음에 다시 확인해 보는 게 안전할 것 같습니다.<span class="chk">🔍 데모 세이브 연동 공식 확인 필요</span></p>
+
+    <h2 class="sec">6. 전투ㆍ스토리는 어떤 느낌이냐</h2>
+    <p><b>환세록 리메이크는 신마대전 이후 만 년이 지난 대륙 '파루시온'을 배경으로, 흔들리는 평화의 맹약 속에서 플레이어가 변화의 중심에 서는 정통 턴제 SRPG입니다.</b></p>
+    <p>스팀 소개문을 보면 동료와의 관계와 신뢰도가 결말에 영향을 준다는 점, 선택에 따라 전개가 갈리는 분기점, 그리고 다중 엔딩까지 캐릭터 서사 쪽에 힘을 준 걸 알 수 있습니다. 전투는 진형이랑 지형ㆍ길목을 활용하는 전술적 배치에, 캐릭터별 역할이 뚜렷하고 스킬 타이밍이 중요한 정밀 전투로 소개돼 있고요.</p>
+
+    <!-- 이미지: Steam 공식 상점 스크린샷(캐릭터 클로즈업 컷), self-host, 이유: 바로 위 문단이 말한 '관계ㆍ서사' 비중을 보여주는 캐릭터 연출 장면이라 배치 / 출처: store.steampowered.com/app/4030150 / 분류: A형(Tier 1 공식 스토어) -->
+    <div class="imgwrap">
+      <img src="img/hwanserok_02.jpg" width="700" height="394" alt="환세록 리메이크 스팀 스크린샷 — 날개 달린 캐릭터와 검을 든 캐릭터의 클로즈업 연출 장면" loading="lazy">
+    </div>
+    <p class="cap">지금 보시는 것처럼 날개 달린 캐릭터랑 검을 겨눈 캐릭터가 화면 가득 클로즈업된 컷도 있어요. 전투 연출 중간중간 캐릭터 표정ㆍ감정을 크게 잡아주는 장면이 꽤 있는 것 같습니다.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/4030150/" target="_blank">Steam 공식 상점 페이지</a> (ⓒUSERJOY Technology)</p>
+
+    <p>이 밖에 챙길 만한 기능들도 있는데요,</p>
+    <ul>
+      <li>싱글 플레이어 전용, 스팀 도전 과제 지원</li>
+      <li>DualSense 포함 컨트롤러 완벽 지원</li>
+      <li>난이도 조정 가능, 마우스 전용 플레이 옵션도 있음</li>
+      <li>퀵타임 이벤트(QTE) 없이 진행 가능</li>
+      <li>수시 저장ㆍSteam Cloudㆍ가족 공유 지원</li>
+    </ul>
+
+    <!-- 이미지: Steam 공식 상점 스크린샷(절벽 지형 전투), self-host, 이유: 바로 위 문단이 말한 '지형ㆍ길목 활용 전술 배치'를 보여주는 실제 전투 화면이라 배치, 앞 이미지(클로즈업)와 유형을 다르게 섞음 / 출처: store.steampowered.com/app/4030150 / 분류: A형(Tier 1 공식 스토어) -->
+    <div class="imgwrap">
+      <img src="img/hwanserok_03.jpg" width="700" height="394" alt="환세록 리메이크 스팀 스크린샷 — 좁은 절벽 지형에 캐릭터들이 흩어져 배치된 전투 화면" loading="lazy">
+    </div>
+    <p class="cap">이미지 왼쪽을 보면 좁은 절벽 길을 사이에 두고 날개 달린 캐릭터들이랑 다른 아군이 흩어져 서 있죠. 지형을 활용한 배치가 이런 느낌이구나 싶더라고요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/4030150/" target="_blank">Steam 공식 상점 페이지</a> (ⓒUSERJOY Technology)</p>
+
+    <p>원작 감성은 유지하면서 그래픽이랑 시스템은 현대적으로 다시 짰다는 게 유저조이가 내세우는 핵심 셀링포인트인데, 처음 접하시는 분들도 부담 없이 들어갈 수 있는 정통파 SRPG로 보시면 될 것 같습니다.</p>
+
+    <h2 class="sec">7. PC 사양 체크 - 이 정도면 무난하게 돌아갈지도</h2>
+    <p><b>PC 사양은 최소ㆍ권장 모두 그렇게 부담스러운 수준은 아닙니다.</b></p>
+    <table class="tbl">
+      <tr><th>구분</th><th>최소 사양</th><th>권장 사양</th></tr>
+      <tr><td>OS</td><td>Windows 7/8.1/10</td><td>Windows 7/8.1/10</td></tr>
+      <tr><td>CPU</td><td>i5-4400</td><td>i5-6400</td></tr>
+      <tr><td>RAM</td><td>8GB</td><td>16GB</td></tr>
+      <tr><td>GPU</td><td>GTX750 2GB / HD7770 2GB</td><td>GTX1060 6GB</td></tr>
+      <tr><td>DirectX</td><td>DirectX 11</td><td>DirectX 11</td></tr>
+      <tr><td>저장공간</td><td>10GB</td><td>10GB</td></tr>
+    </table>
+    <p>권장 사양도 GTX1060 6GB 정도면 되니까, 최근에 산 그래픽카드가 아니어도 크게 무리는 없을 것 같습니다.</p>
+
+    <div class="summary"><div class="h">마무리</div>환세록 리메이크는 한국 시간 기준 9월 10일 스팀 정식 출시를 앞두고 있고, 원작을 아셨던 분들껜 '사실 대만 게임이었다'는 반전이, 처음 보시는 분들껜 정통 SRPG에 서사까지 깊게 다룬 신작이라는 게 핵심입니다. 가격이랑 데모 세이브 연동처럼 아직 안 풀린 부분은 출시 가까워지면 다시 짚어보겠습니다. 개인적으론 원작 갬성이 얼마나 살아있을지가 제일 궁금하네요 :)</div>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://store.steampowered.com/app/4030150/" target="_blank">환세록 리메이크 스팀 공식 상점 페이지</a><br>
+    · <a href="https://store.steampowered.com/app/4778780/" target="_blank">환세록 리메이크 데모 스팀 페이지</a></p>
+
+    <div class="tags">#환세록리메이크 #유저조이 #스팀신작 #SRPG게임추천 #판타스틱택틱스 #할만한PC게임 #신작SRPG</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드ㆍ리스트ㆍ표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문ㆍ리스트ㆍ표는 복사로 들어갑니다.</div>
+      <span class="ti">📌 제목칸에 따로: 환세록 리메이크 스팀 출시 D-8, 원작 아시는 분ㆍ처음 보시는 분 다르게 챙길 것들</span>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>환세록, 이라는 이름 얼핏 들어보신 분들 계실 텐데요. 주인장도 이 제목을 들으면 어렴풋이 옛날 SRPG 하나가 떠오르긴 하는데, 정작 자세한 내막은 이번에 스팀 페이지랑 이런저런 소식들을 찾아보면서야 제대로 알게 됐습니다. 그 환세록을 새로 만든 리메이크작이 이제 스팀 정식 출시를 코앞에 두고 있어서, 원작을 아셨던 분ㆍ이번에 처음 이름 들으시는 분 각각 챙기시면 좋을 내용으로 정리해 봤습니다.</p>
+
+<h3>1. 환세록 리메이크가 뭐냐 - 원작 아시는 분이면 반가우실 이야기</h3>
+<p><b>환세록 리메이크는 1998년 국내에 소개됐던 SRPG '환세록'을 유저조이(USERJOY Technology Co., Ltd.)가 새로 만들어 스팀에 내놓는 작품입니다.</b></p>
+<p>스팀 페이지 기준으로 개발과 배급을 유저조이가 단독으로 맡고 있고, 공식 영문 타이틀은 <b>'The Legend of Fancy Realm Remake'</b>더라고요. 장르는 어드벤처ㆍRPGㆍ전략으로 등록돼 있어서, 순수 전략 SRPG보다는 캐릭터 서사 비중도 꽤 진하게 다루는 모양입니다.</p>
+<p class="ph">📷 〔사진 자리 1〕 스팀 공식 스크린샷 — 격자형 전장 전투 화면</p>
+<p class="phsub">└ 캡션 추천: "격자형 전장에서 아군ㆍ적군이 마주선 전투 화면이에요."</p>
+
+<h3>2. 근데 환세록, 사실 국산이 아니었다구요(?)</h3>
+<p><b>많은 분들이 환세록을 국산 SRPG로 기억하고 계시지만, 정확히는 대만 오딘소프트(Odinsoft)가 1995년에 만든 게임을 1998년 국내 소프트월드가 '판타스틱 택틱스'라는 이름으로 들여와 소개한 작품이라고 알려져 있습니다.</b></p>
+<p>국내 게임 잡지 PC챔프 1999년 2월호에도 이 수입 사실이 언급된 걸로 기록돼 있어서, 단순 커뮤니티 뇌피셜이 아니라 근거가 붙은 얘기더라고요. 주인장도 이번에 찾아보기 전까진 그냥 국산 게임으로만 알고 있었는데, 원작을 아셨던 분들한테도 나름 새로운 정보가 될 만합니다.</p>
+<p>1998년 당시 원작 개발사와 지금 리메이크를 만드는 유저조이가 정확히 같은 회사인지는 스팀 페이지에 별도 언급이 없어 딱 잘라 확인하긴 어렵더라고요(대만 게임업계는 그 사이 합병ㆍ사명 변경이 잦아서 완전히 다른 회사라고 단정하기도 애매합니다). 어느 쪽이든 원작 감성을 이어받아 리메이크로 다시 만든 작품이라는 점은 분명합니다.</p>
+
+<h3>3. 출시일은 D-8인데, 스팀 페이지엔 9일로도 뜨더라고요</h3>
+<p><b>환세록 리메이크의 정식 출시일은 한국 시간 기준으로 2026년 9월 10일입니다.</b></p>
+<p>스팀 상점 페이지 안에 초 단위로 찍혀 있는 출시 시각 값을 직접 확인해서 한국 시간으로 환산해보면 9월 10일 오후 1시가 나오더라고요. 그런데 재밌게도 상점 페이지를 여는 시간대에 따라 화면에 찍히는 날짜가 9일로 보일 때가 있습니다. 접속하는 쪽 시간대 기준으로 페이지 표시가 달라지는 걸로 보이는데, 스팀이 정확히 어떤 기준으로 이렇게 갈리는지는 공식적으로 밝히진 않아서 그 이상은 저도 단정하기 어렵습니다. 아무튼 스팀 페이지 들어가셨을 때 날짜가 하루 다르게 떠도 당황하지 마시고, 한국 기준으론 9월 10일이라고 기억해 두시면 됩니다.</p>
+<p>국내에서도 유저조이가 9월 10일 PC 스팀 정식 출시를 예고했다는 소식이 전해졌고요, 이 날짜가 위에서 확인한 한국 시간 환산값이랑 정확히 맞아떨어집니다.</p>
+<table>
+  <tr><th>항목</th><th>내용</th></tr>
+  <tr><td class="l">정식 출시일(한국 시간)</td><td>2026년 9월 10일</td></tr>
+  <tr><td class="l">플랫폼</td><td>Windows(PC) — Mac·Linux 미지원</td></tr>
+  <tr><td class="l">가격</td><td>아직 공개되지 않음(미정)</td></tr>
+</table>
+
+<h3>4. 지원 언어랑 음성 확인해봤는데, 한국어는 자막만이더라고요</h3>
+<p><b>지원 언어는 영어ㆍ중국어 간체ㆍ중국어 번체ㆍ일본어ㆍ한국어 5개인데, 이 중 음성 더빙이 들어가는 언어는 중국어 번체 하나뿐이고 한국어는 자막으로만 지원됩니다.</b></p>
+<p>저도 처음엔 한국어 더빙까지 되는 줄 알았는데, 스팀 페이지의 지원 언어 표를 자세히 보니 음성 지원 표시(*)가 중국어 번체 옆에만 붙어 있더라고요. 한국어로 즐기실 분들은 자막 플레이가 기본이라고 생각하시면 됩니다.</p>
+<table>
+  <tr><th>언어</th><th>자막</th><th>음성</th></tr>
+  <tr><td>영어</td><td>지원</td><td>미지원</td></tr>
+  <tr><td>중국어 간체</td><td>지원</td><td>미지원</td></tr>
+  <tr><td>중국어 번체</td><td>지원</td><td>지원</td></tr>
+  <tr><td>일본어</td><td>지원</td><td>미지원</td></tr>
+  <tr><td>한국어</td><td>지원</td><td>미지원</td></tr>
+</table>
+
+<h3>5. 데모는 실제로 있어요, 근데 세이브 연동은 아직 확실치 않습니다</h3>
+<p><b>환세록 리메이크는 데모가 별도 앱(appid 4778780)으로 스팀에 이미 올라와 있고, 스크린샷 6장과 트레일러 2개도 정상적으로 게시돼 있습니다.</b></p>
+<p>데모 페이지를 들어가 보니 패치 이력도 있더라고요. 검은 화면이랑 명중률 버그를 고친 업데이트가 올라온 걸 보면, 개발진이 정식 출시 전까지 데모를 꾸준히 다듬고 있는 것 같습니다. 관심 있으신 분은 정식판 나오기 전에 데모부터 위시리스트 걸어두고 한 번 받아 보셔도 좋을 것 같네요.</p>
+<p>데모에서 진행한 세이브가 정식판으로 그대로 이어지는지도 궁금하실 텐데, 이 부분은 아직 완전히 확실치 않습니다. 경향게임스 등 일부 매체는 데모 진행분이 정식판과 연동돼 이어서 즐길 수 있다고 보도했는데, 정작 스팀 공식 상점 페이지 설명문을 직접 뒤져봐도 세이브 연동에 대한 문구는 찾지 못했습니다. 그러니까 있다ㆍ없다 어느 쪽으로도 아직 단정은 어렵고, 정식 출시 즈음에 다시 확인해 보는 게 안전할 것 같습니다.</p>
+
+<h3>6. 전투ㆍ스토리는 어떤 느낌이냐</h3>
+<p><b>환세록 리메이크는 신마대전 이후 만 년이 지난 대륙 '파루시온'을 배경으로, 흔들리는 평화의 맹약 속에서 플레이어가 변화의 중심에 서는 정통 턴제 SRPG입니다.</b></p>
+<p>스팀 소개문을 보면 동료와의 관계와 신뢰도가 결말에 영향을 준다는 점, 선택에 따라 전개가 갈리는 분기점, 그리고 다중 엔딩까지 캐릭터 서사 쪽에 힘을 준 걸 알 수 있습니다. 전투는 진형이랑 지형ㆍ길목을 활용하는 전술적 배치에, 캐릭터별 역할이 뚜렷하고 스킬 타이밍이 중요한 정밀 전투로 소개돼 있고요.</p>
+<p class="ph">📷 〔사진 자리 2〕 스팀 공식 스크린샷 — 캐릭터 클로즈업 연출 컷</p>
+<p class="phsub">└ 캡션 추천: "날개 달린 캐릭터랑 검을 겨눈 캐릭터가 화면 가득 클로즈업된 컷이에요."</p>
+<p>이 밖에 챙길 만한 기능들도 있는데요,</p>
+<ul>
+  <li>싱글 플레이어 전용, 스팀 도전 과제 지원</li>
+  <li>DualSense 포함 컨트롤러 완벽 지원</li>
+  <li>난이도 조정 가능, 마우스 전용 플레이 옵션도 있음</li>
+  <li>퀵타임 이벤트(QTE) 없이 진행 가능</li>
+  <li>수시 저장ㆍSteam Cloudㆍ가족 공유 지원</li>
+</ul>
+<p class="ph">📷 〔사진 자리 3〕 스팀 공식 스크린샷 — 절벽 지형 전투 화면</p>
+<p class="phsub">└ 캡션 추천: "좁은 절벽 길을 사이에 두고 캐릭터들이 흩어져 배치된 전투 장면이에요."</p>
+<p>원작 감성은 유지하면서 그래픽이랑 시스템은 현대적으로 다시 짰다는 게 유저조이가 내세우는 핵심 셀링포인트인데, 처음 접하시는 분들도 부담 없이 들어갈 수 있는 정통파 SRPG로 보시면 될 것 같습니다.</p>
+
+<h3>7. PC 사양 체크 - 이 정도면 무난하게 돌아갈지도</h3>
+<p><b>PC 사양은 최소ㆍ권장 모두 그렇게 부담스러운 수준은 아닙니다.</b></p>
+<table>
+  <tr><th>구분</th><th>최소 사양</th><th>권장 사양</th></tr>
+  <tr><td>OS</td><td>Windows 7/8.1/10</td><td>Windows 7/8.1/10</td></tr>
+  <tr><td>CPU</td><td>i5-4400</td><td>i5-6400</td></tr>
+  <tr><td>RAM</td><td>8GB</td><td>16GB</td></tr>
+  <tr><td>GPU</td><td>GTX750 2GB / HD7770 2GB</td><td>GTX1060 6GB</td></tr>
+  <tr><td>DirectX</td><td>DirectX 11</td><td>DirectX 11</td></tr>
+  <tr><td>저장공간</td><td>10GB</td><td>10GB</td></tr>
+</table>
+<p>권장 사양도 GTX1060 6GB 정도면 되니까, 최근에 산 그래픽카드가 아니어도 크게 무리는 없을 것 같습니다.</p>
+
+<p><b>마무리</b><br>환세록 리메이크는 한국 시간 기준 9월 10일 스팀 정식 출시를 앞두고 있고, 원작을 아셨던 분들껜 '사실 대만 게임이었다'는 반전이, 처음 보시는 분들껜 정통 SRPG에 서사까지 깊게 다룬 신작이라는 게 핵심입니다. 가격이랑 데모 세이브 연동처럼 아직 안 풀린 부분은 출시 가까워지면 다시 짚어보겠습니다. 개인적으론 원작 갬성이 얼마나 살아있을지가 제일 궁금하네요 :)</p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://store.steampowered.com/app/4030150/" target="_blank">환세록 리메이크 스팀 공식 상점 페이지</a><br>
+· <a href="https://store.steampowered.com/app/4778780/" target="_blank">환세록 리메이크 데모 스팀 페이지</a></p>
+
+<p class="tags-line">#환세록리메이크 #유저조이 #스팀신작 #SRPG게임추천 #판타스틱택틱스 #할만한PC게임 #신작SRPG</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+</body></html>
