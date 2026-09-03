@@ -18,10 +18,10 @@
 
    무엇을 주나 (전부 롤체지지 1차)
    -------------------------------
-     · 메타덱 22종 — 점유율·승률·순방률·평균등수·핵심 챔피언·아이템·특성
-     · 챔피언 65 / 특성 88 / 아이템 125 통계 — 등장률·평균등수
+     · 메타덱 20여 종(회차마다 변동) — **롤체지지 표기 이름**·점유율·승률·순방률·평균등수·핵심 챔피언·아이템·특성
+     · 챔피언·특성·아이템 통계 — 등장률·평균등수
      · 챔피언 160 · 특성 109 · 아이템 272 · 증강 986 **한국어 명칭·설명 정본**
-     · 패치노트 271판 — 최신판은 «무엇이 몇에서 몇으로» 원문 그대로
+     · 패치노트 전체 — 최신판은 «무엇이 몇에서 몇으로» 원문 그대로(+ 라이엇 공식 대조 URL 자동 출력)
      · 가이드 덱 31 · 스트리머 덱 10
      · 어제 스냅샷 대비 **점유율 변동**(신선도 · `angles`)
 
@@ -206,17 +206,20 @@ function mkRefs(refs) {
   };
 }
 
-/* 덱 이름: 사이트가 덱 «이름»을 주지 않으므로(metaDeckNames 는 빈 배열) 데이터에서 만든다 —
-   «가장 많이 넣은» 특성 + 1코어 챔피언. 지어낸 별명이 아니라 그 덱의 실제 구성이다.
-   ★단계(style)가 아니라 인원(numUnits)이 먼저다 — 1인 유니크 특성도 style 이 높아서,
-     단계로 정렬하면 8인짜리 몸통 특성 대신 «가시의 여인 1» 같은 곁가지가 덱 이름이 된다. */
+/* 덱 이름 = 롤체지지가 `deckKey` 에 박아 둔 «특성-챔피언-해시» 를 한국어로 편 것.
+   예: `DA_18_Elderwood-DA_18_Ezreal-0f39…` → 「나무정령 이즈리얼」.
+   ★파생 라벨(최다 인원 특성 + coreRank 1 챔피언)을 먼저 만들어 봤다가 버렸다 — 두 가지가 틀린다:
+     ⑴ 특성 인원이 데이터 갱신마다 흔들려 **같은 덱 이름이 회차마다 바뀐다**(소환사 3 → 처형자 4).
+     ⑵ 캐리를 잘못 짚는다(사이트는 「나무정령 이즈리얼」인데 coreRank 1 은 드레이븐이었다).
+   deckKey 는 덱의 «식별자»라 통계와 무관하게 고정이고, 사이트 표기와도 일치한다. */
 function deckLabel(d, R) {
-  const ts = [...(d.deck?.traits || [])].sort((a, b) => (b.numUnits - a.numUnits) || (b.style - a.style));
-  const t  = ts[0];
+  const segs = String(d.deckKey || '').split('-');
+  const named = segs.map((s) => (R.T.get(s)?.name) || (R.C.get(s)?.name) || null).filter(Boolean);
+  if (named.length) return named.join(' ');
+  // 폴백: deckKey 가 없거나 refs 에 없는 키일 때만 데이터에서 만든다(회차 간 흔들릴 수 있음 — 위 주석 참조).
+  const t = [...(d.deck?.traits || [])].sort((a, b) => (b.numUnits - a.numUnits) || (b.style - a.style))[0];
   const core = (d.deck?.champions || []).find((c) => c.coreRank === 1) || (d.deck?.champions || [])[0];
-  const tn = t ? `${R.trait(t.key)} ${t.numUnits}` : '';
-  const cn = core ? R.champ(core.key) : '';
-  return [tn, cn].filter(Boolean).join(' · ');
+  return [t ? `${R.trait(t.key)} ${t.numUnits}` : '', core ? R.champ(core.key) : ''].filter(Boolean).join(' · ') || '(이름 미상)';
 }
 
 function stamp(head, meta) {
@@ -260,7 +263,7 @@ async function cmdDecks(topN) {
   if (JSON_OUT) return console.log(JSON.stringify({ meta, decks: top.map((x) => shapeDeck(x, R, L.plays)) }, null, 2));
 
   let out = stamp(`■ 메타덱 ${L.metaDecks.length}종 (점유율순 상위 ${top.length})`, meta);
-  out += `\n${pad('덱(주력 특성 · 1코어)', 34)}${pad('점유율', 9)}${pad('승률', 8)}${pad('순방', 8)}${pad('평균등수', 9)}표본\n`;
+  out += `\n${pad('덱(롤체지지 표기)', 34)}${pad('점유율', 9)}${pad('승률', 8)}${pad('순방', 8)}${pad('평균등수', 9)}표본\n`;
   out += '─'.repeat(85) + '\n';
   for (const x of top) {
     out += `${pad(deckLabel(x, R), 34)}${pad(share(x.plays, L.plays), 9)}${pad(fx(x.winRate, 1) + '%', 8)}${pad(fx(x.topRate, 1) + '%', 8)}${pad(fx(x.avgPlacement), 9)}${n0(x.plays)}\n`;
