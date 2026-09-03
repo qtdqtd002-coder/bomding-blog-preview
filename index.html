@@ -30,6 +30,13 @@
      3) 움직임은 질량이 있다. 전 구간 cubic-bezier(.32,.72,0,1).
         transform·opacity 만 애니메이션한다(레이아웃 속성 금지).
      4) 문구는 짧게. 설명문·안내 카드를 화면에 두지 않는다.
+
+   v5.1 모션 계층 (2026-09-04) — «틱»으로 바뀌던 전환을 전부 보간으로
+     · GSAP 3.15 + Flip 을 _vendor/gsap/ 에 로컬 벤더. 있으면 <html class="gs">.
+     · 상태가 바뀌면 반드시 보간한다 — 뷰·목록 행(FLIP)·제목·메타 숫자·탭 알약·모달·토스트·알림판.
+     · 이동에는 방향이 있다(탭 순서·날짜 순서). 나갈 땐 ≤180ms, 들어올 땐 ≤500ms expo.out.
+     · SVG 는 부품 단위로 움직인다(아카이브 뚜껑·종·핀·섹션 아이콘 스트로크·완료 체크·로고).
+     · GSAP 이 없거나 prefers-reduced-motion 이면 html.gs 가 붙지 않아 CSS 폴백(즉시 확정)으로 돈다.
    ══════════════════════════════════════════════════════════════════ */
 :root{
   /* ── 무채색 램프 (쿨 실버) ── */
@@ -245,9 +252,9 @@ a{color:inherit; text-decoration:none}
 }
 .pmeta b{color:var(--ink); font-weight:700}
 
-/* 뷰 전환 — 페이드 + 아주 살짝의 상승·블러 */
-.view{transition:opacity 300ms var(--e), transform 420ms var(--e), filter 420ms var(--e)}
-.view.out{opacity:0; transform:translateY(10px); filter:blur(6px)}
+/* 뷰 전환 — CSS 폴백(GSAP 없을 때). 있을 땐 MO.swap 이 방향·무게를 붙여 보간한다 */
+.view{transition:opacity 300ms var(--e), transform 420ms var(--e)}
+.view.out{opacity:0; transform:translateY(10px)}
 
 /* ══════════ 이중 베젤 ══════════ */
 .tray{
@@ -295,7 +302,7 @@ a{color:inherit; text-decoration:none}
 .fsearch input::placeholder{color:var(--ink-4)}
 
 /* ══════════ 글 목록 ══════════ */
-.rows{display:flex; flex-direction:column}
+.rows{display:flex; flex-direction:column; position:relative}   /* FLIP 으로 나가는 행이 absolute 가 될 기준 */
 .row{
   position:relative; display:grid; align-items:center;
   grid-template-columns:104px minmax(0,1fr) 128px 62px 36px;
@@ -367,12 +374,29 @@ a{color:inherit; text-decoration:none}
 .empty-s{margin-top:6px; font-size:13px; color:var(--ink-4)}
 .loading{padding:72px 24px; text-align:center; font-size:13.5px; color:var(--ink-3)}
 
-/* 진입 애니메이션 — 무겁게 떠오른다 */
-.rise{opacity:0; transform:translateY(16px); filter:blur(5px)}
-.rise.in{
-  opacity:1; transform:none; filter:none;
-  transition:opacity 560ms var(--e-out) var(--d,0ms), transform 760ms var(--e) var(--d,0ms),
-             filter 560ms var(--e-out) var(--d,0ms);
+/* 진입(.rise) — 가시성은 클래스에 묶지 않는다. 기본이 «보임»이고, GSAP 이 있을 때만
+   MO.rise 가 잠깐 감췄다가 떠오르게 한다(숨은 탭·헤드리스에서 빈 화면이 되는 사고 방지). */
+
+/* 로딩 스켈레톤 — 스피너 대신 «곧 채워질 자리»를 보여준다 */
+.skel{padding:2px 0}
+.skel-row{
+  display:grid; grid-template-columns:104px minmax(0,1fr) 128px 62px; gap:14px; align-items:center;
+  padding:0 16px; height:56px; border-bottom:1px solid var(--hair);
+}
+.skel-row:last-child{border-bottom:0}
+.skel-row i{
+  display:block; height:11px; border-radius:6px;
+  background:linear-gradient(90deg,var(--surface-3) 0%,var(--surface-2) 45%,var(--surface-3) 90%);
+  background-size:220% 100%; animation:shimmer 1.5s linear infinite;
+}
+.skel-row i:nth-child(1){width:58px}
+.skel-row i:nth-child(2){width:min(68%,380px); height:13px}
+.skel-row i:nth-child(3){width:76px}
+.skel-row i:nth-child(4){width:36px; margin-left:auto}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-20% 0}}
+@media (max-width:860px){
+  .skel-row{grid-template-columns:minmax(0,1fr) 40px}
+  .skel-row i:nth-child(1),.skel-row i:nth-child(3){display:none}
 }
 
 /* ══════════ 트렌드 ══════════ */
@@ -727,17 +751,21 @@ select.f-i{
 .rl-del:hover{color:var(--alert)}
 
 /* ══════════ 토스트 ══════════ */
+/* 가로 중앙은 래퍼(flex)가 잡는다 — 토스트 자체의 transform 은 등장/퇴장(y·scale) 전용이라 GSAP 과 겹치지 않는다 */
+.toast-wrap{
+  position:fixed; left:0; right:0; bottom:24px; z-index:90; padding:0 20px;
+  display:flex; justify-content:center; pointer-events:none;
+}
 .toast{
-  position:fixed; left:50%; bottom:24px; z-index:90;
   display:flex; align-items:center; gap:12px; padding:11px 12px 11px 17px;
   border-radius:var(--r-pill); background:rgba(14,17,20,.94); color:#fff;
   backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
   box-shadow:var(--sh-float); font-size:13px; font-weight:500; letter-spacing:-.02em;
-  transform:translateX(-50%) translateY(24px) scale(.96); opacity:0; pointer-events:none;
+  transform:translateY(24px) scale(.96); opacity:0; pointer-events:none;
   transition:transform 460ms var(--e), opacity 260ms var(--e);
-  max-width:calc(100vw - 40px);
+  max-width:100%;
 }
-.toast.on{transform:translateX(-50%) translateY(0) scale(1); opacity:1; pointer-events:auto}
+.toast.on{transform:none; opacity:1; pointer-events:auto}
 .toast.err{background:rgba(150,38,28,.95)}
 .toast-act{
   flex:none; height:28px; padding:0 12px; border-radius:var(--r-pill);
@@ -746,6 +774,55 @@ select.f-i{
 }
 .toast-act:hover{background:rgba(255,255,255,.28)}
 .toast-act:active{transform:scale(.94)}
+
+/* ══════════ 모션 (GSAP 계층 · html.gs 일 때만) ══════════
+   GSAP 이 있으면 뷰·알약·토스트·모달·알림판·행은 JS 가 보간하므로 같은 속성의 CSS transition 을 끈다(이중 구동 방지).
+   없거나 reduce-motion 이면 html.gs 가 붙지 않아 위의 CSS transition 이 그대로 폴백이 된다. */
+html.gs .view,html.gs .isl-pill,html.gs .toast,html.gs .back,html.gs .mdl,html.gs .npanel{transition:none}
+html.gs .row{transition:background var(--t-fast) var(--e)}
+html.gs .nt{transition:none !important}
+/* 모션 토글(종 왼쪽) — 사이트 자체 설정. 끄면 GSAP 계층이 내려가고(html.gs 없음) CSS 전환만 남는다 */
+.mbtn{right:72px; z-index:61}
+.mbtn .ic .off{display:none}
+.mbtn[aria-pressed="false"]{color:var(--ink-4)}
+.mbtn[aria-pressed="false"] .ic .off{display:block}
+.mbtn .ic circle{transform-box:fill-box; transform-origin:center}
+.mbtn.zip .ic circle{animation:zip .55s var(--e-out)}
+@keyframes zip{0%{transform:translateX(-6px); opacity:.2}60%{transform:translateX(1px)}100%{transform:none; opacity:1}}
+
+/* ── 아이콘: 부품 단위로 움직인다 ── */
+/* 아카이브 — 상자 뚜껑(rect)이 들린다 */
+.arch .ic rect{transform-box:fill-box; transform-origin:center; transition:transform var(--t-fast) var(--e-out)}
+.arch:hover .ic rect,.arch:focus-visible .ic rect{transform:translateY(-2.5px)}
+.arch:active .ic rect{transform:translateY(-1px) rotate(-5deg)}
+/* 검색 — 돋보기가 살짝 기울며 «본다» */
+.fsearch .ic{transition:transform var(--t) var(--e-out), color var(--t-fast) var(--e)}
+.fsearch:focus-within .ic{color:var(--ink); transform:rotate(-14deg) scale(1.06)}
+/* 페이저 — 화살촉이 가는 방향으로 먼저 움직인다 */
+.dpbtn .ic{transition:transform var(--t-fast) var(--e-out)}
+.dpbtn[data-go="older"]:hover:not(:disabled) .ic,.dpbtn[data-go="older"]:focus-visible .ic{transform:translateX(-2px)}
+.dpbtn[data-go="newer"]:hover:not(:disabled) .ic,.dpbtn[data-go="newer"]:focus-visible .ic{transform:translateX(2px)}
+/* 종 — 읽지 않은 알림이 늘면 한 번 울린다 */
+.bell.ring .ic{transform-origin:50% 12%; animation:ring .9s var(--e-out)}
+@keyframes ring{
+  0%{transform:rotate(0)}15%{transform:rotate(14deg)}35%{transform:rotate(-11deg)}
+  55%{transform:rotate(7deg)}75%{transform:rotate(-4deg)}100%{transform:rotate(0)}
+}
+/* 핀 — 게임을 추가하면 꽂힌다 */
+.pin-ic.bump .ic{animation:pinbump .5s var(--e-out)}
+@keyframes pinbump{0%{transform:translateY(-3px) scale(1.08)}60%{transform:translateY(1px)}100%{transform:none}}
+/* FAB — 연필이 한 번 긁는다 */
+.fab:hover .knob .ic,.fab:focus-visible .knob .ic{animation:scribble .55s var(--e) 1}
+@keyframes scribble{
+  0%{transform:none}30%{transform:translate(1px,-1px) rotate(-4deg)}
+  60%{transform:translate(-1px,1px) rotate(3deg)}100%{transform:none}
+}
+/* 로고 — 첫 화면에서 본문 두 줄이 «써진다»(0.5초, 한 번) */
+.isl-mark svg rect:nth-child(3),.isl-mark svg rect:nth-child(4){
+  transform-box:fill-box; transform-origin:left center; animation:write .5s var(--e-out) both;
+}
+.isl-mark svg rect:nth-child(4){animation-delay:.12s}
+@keyframes write{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 
 /* ══════════ 반응형 ══════════ */
 @media (max-width:860px){
@@ -773,6 +850,7 @@ select.f-i{
   .island{top:12px; left:12px; right:12px; transform:none; width:auto; justify-content:flex-start}
   .island .isl-wm{display:none}
   .bell{top:16px; right:16px}
+  .mbtn{right:66px}
   .npanel{top:66px; right:12px; left:12px; width:auto}
   .fab{right:14px; bottom:16px; height:46px; padding:0 5px 0 15px; font-size:13px}
   .mdl-b{max-height:none}
@@ -785,9 +863,13 @@ select.f-i{
 /* 데스크톱에서만 아일랜드가 스크롤에 반응 */
 @media (min-width:861px){ .island.tuck{transform:translateX(-50%) translateY(-150%)} }
 
+/* OS 의 «애니메이션 줄이기»는 사이트 모션 설정이 켜져 있지 않을 때만 따른다(html.motion = 사이트 설정 ON).
+   ★이 PC 는 Windows 애니메이션 효과가 꺼져 있어(SPI_GETCLIENTAREAANIMATION=false) 크롬이 reduce 를 보고했고,
+   그게 «전환이 전부 틱으로 바뀌던» 원인이었다(2026-09-04 실측). 사이트 설정은 종 왼쪽 토글·localStorage sseudam_motion. */
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms !important; transition-duration:.01ms !important}
-  .rise{opacity:1; transform:none; filter:none}
+  html:not(.motion) *,html:not(.motion) *::before,html:not(.motion) *::after{
+    animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;
+  }
 }
 </style></head>
 <body>
@@ -814,13 +896,16 @@ select.f-i{
   <span class="bell-dot" id="bellDot" aria-hidden="true"></span>
 </button>
 <div class="npanel" id="npanel" role="dialog" aria-label="알림"><div class="np-core" id="npCore"></div></div>
+<button class="bell mbtn" id="mtoggle" type="button" aria-label="모션" aria-pressed="true" title="모션">
+  <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="12" r="3.2"/><path d="M8.5 8H4"/><path d="M6.5 12H2"/><path d="M8.5 16H4"/><path class="off" d="m3 3 18 18"/></svg>
+</button>
 
 <main class="main">
   <div class="phead">
     <h1 class="ptitle" id="ptitle">작성 글</h1>
     <div class="pmeta" id="pmeta"></div>
   </div>
-  <div class="view" id="view"><div class="loading">불러오는 중</div></div>
+  <div class="view" id="view"><div class="tray"><div class="core"><div class="skel" role="status" aria-live="polite"><span class="sr">불러오는 중</span><div class="skel-row"><i></i><i></i><i></i><i></i></div><div class="skel-row"><i></i><i></i><i></i><i></i></div><div class="skel-row"><i></i><i></i><i></i><i></i></div><div class="skel-row"><i></i><i></i><i></i><i></i></div><div class="skel-row"><i></i><i></i><i></i><i></i></div><div class="skel-row"><i></i><i></i><i></i><i></i></div></div></div></div></div>
 </main>
 
 <button class="fab" id="fab" type="button" aria-label="새 글 요청">
@@ -828,6 +913,9 @@ select.f-i{
   <span class="knob"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
 </button>
 
+<!-- 모션 엔진 — 로컬 벤더(GSAP 3.15.0 core + Flip). 못 받으면 MO 가 CSS 폴백으로 내려간다 -->
+<script src="_vendor/gsap/gsap.min.js"></script>
+<script src="_vendor/gsap/Flip.min.js"></script>
 <script>
 (function(){
 "use strict";
@@ -919,25 +1007,181 @@ function fmtRel(ts){
 }
 function el(id){ return document.getElementById(id); }
 
+/* ══════════ 모션 (GSAP 계층) ══════════
+   원칙 ① 상태가 바뀌면 반드시 보간한다(내용·숫자·제목·표시자) ② 이동에는 방향이 있다(탭 순서·날짜 순서)
+        ③ 나갈 땐 빠르게(≤180ms, power2.in) 들어올 땐 무겁게(≤500ms, expo.out)
+        ④ 살아남는 요소는 다시 그리지 않고 제자리에서 움직인다(FLIP)
+        ⑤ GSAP 이 없거나 reduce-motion 이면 전부 즉시 확정된다(html.gs 가 붙지 않아 CSS 폴백) */
+var VIEW_FRESH=false;   /* 뷰 전환 직후의 첫 그리기 — 메타 숫자를 0 부터 굴린다 */
+var MOTION_LS='sseudam_motion';   /* 'on' | 'off' | ''(기본 = on) */
+var MO=(function(){
+  var g=window.gsap||null, F=(g&&window.Flip)||null;
+  var mq=window.matchMedia?window.matchMedia('(prefers-reduced-motion:reduce)'):null;
+  var osReduce=!!(mq&&mq.matches);
+  var pref=ls(MOTION_LS,'');
+  /* ★사이트 설정이 OS 플래그보다 앞선다 — 이 PC 는 Windows 애니메이션 효과가 꺼져 있어 크롬이 reduce 를 보고했고,
+     사이트가 그걸 그대로 따라 모든 전환을 0 으로 만들던 것이 «틱»의 원인이었다. 기본은 켬, 끄기는 종 왼쪽 토글(영구 저장). */
+  function on(){ return pref!=='off'; }
+  function sync(){
+    var root=document.documentElement;
+    root.classList.toggle('motion',on());          /* CSS 전환·키프레임 유지(OS reduce 무시) */
+    root.classList.toggle('gs',!!g&&on());          /* GSAP 계층 */
+  }
+  if(mq&&mq.addEventListener)mq.addEventListener('change',function(e){ osReduce=!!e.matches; sync(); });
+  if(g){ if(F)g.registerPlugin(F); g.defaults({overwrite:'auto'}); }
+  sync();
+  function live(){ return !!g&&on(); }
+  function toggle(){ pref=on()?'off':'on'; lset(MOTION_LS,pref); sync(); return on(); }
+  var EXP='expo.out', IN='power2.in';
+
+  /* 컨테이너 교체: 나가기(빠름) → 내용 교체(+맨 위로) → 들어오기(방향·무게).
+     dir +1 = 오른쪽에서 들어옴 / -1 = 왼쪽에서 / 0 = 아래에서 살짝 */
+  function swap(box,o,paint){
+    o=o||{};
+    if(!live()){ paint(); if(o.top)window.scrollTo({top:0,behavior:'auto'}); return; }
+    if(box.__tl)box.__tl.kill();
+    var dir=o.dir||0, dx=dir*18;
+    var tl=g.timeline({onComplete:function(){ box.__tl=null; }});
+    box.__tl=tl;
+    tl.to(box,{opacity:0,x:-dx,y:dir?0:-4,duration:.16,ease:IN})
+      .add(function(){ if(o.top)window.scrollTo({top:0,behavior:'auto'}); paint(); })
+      .fromTo(box,{opacity:0,x:dx,y:dir?0:10},
+        {opacity:1,x:0,y:0,duration:.5,ease:EXP,immediateRender:false,clearProps:'transform'});
+  }
+  /* 진입 스태거 — 그리는 프레임 안에서 감췄다가 떠오르므로 «보였다 사라지는» 깜빡임이 없다 */
+  function rise(els,o){
+    els=Array.prototype.slice.call(els||[]); if(!els.length)return;
+    o=o||{};
+    els.forEach(function(n){ n.classList.add('in'); });
+    if(!live())return;
+    var amount=Math.min(o.amount==null?.24:o.amount,.045*els.length);
+    g.fromTo(els,{opacity:0,y:o.y==null?12:o.y},
+      {opacity:1,y:0,duration:o.dur||.5,ease:EXP,stagger:{amount:amount},clearProps:'transform,opacity'});
+    els.forEach(function(n,i){
+      var ic=n.querySelector('.tsec-ic .ic');
+      if(ic)draw(ic,.05+(els.length>1?amount*i/(els.length-1):0),.6);
+    });
+  }
+  /* 스트로크 드로잉 — 아이콘의 선이 그려진다 */
+  function draw(svg,delay,dur){
+    if(!live()||!svg)return;
+    Array.prototype.forEach.call(svg.querySelectorAll('path,circle,rect,line,polyline,polygon,ellipse'),function(s){
+      var len=0; try{ len=s.getTotalLength(); }catch(e){}
+      if(!len||!isFinite(len))return;
+      g.fromTo(s,{strokeDasharray:len,strokeDashoffset:len},
+        {strokeDashoffset:0,duration:dur||.6,delay:delay||0,ease:'power2.inOut',
+         clearProps:'strokeDasharray,strokeDashoffset'});
+    });
+  }
+  /* 숫자는 굴러간다 — 텍스트가 비어 있으면 0 부터 */
+  function count(node,to,from,done){
+    if(!node){ if(done)done(); return; }
+    to=Math.round(Number(to)||0);
+    if(from==null){ var t=String(node.textContent).replace(/[^\d]/g,''); from=t?parseInt(t,10):0; }
+    if(!live()||from===to){ node.textContent=String(to); if(done)done(); return; }
+    if(node.__cnt)g.killTweensOf(node.__cnt);
+    var o={v:from}; node.__cnt=o;
+    g.to(o,{v:to,duration:.55,ease:'power2.out',
+      onUpdate:function(){ node.textContent=String(Math.round(o.v)); },
+      onComplete:function(){ node.textContent=String(to); node.__cnt=null; if(done)done(); }});
+  }
+  /* 눌림(사이에 내용 교체) — CSS transition 과 싸우지 않게 잠깐 transition 을 끈다(.nt) */
+  function pulse(node,fn){
+    if(!live()||!node){ if(fn)fn(); return; }
+    node.classList.add('nt');
+    g.timeline({onComplete:function(){ node.classList.remove('nt'); }})
+      .to(node,{scale:.94,duration:.1,ease:IN}).add(function(){ if(fn)fn(); })
+      .to(node,{scale:1,duration:.36,ease:EXP,clearProps:'transform'});
+  }
+  function pop(node){
+    if(!live()||!node)return;
+    node.classList.add('nt');
+    g.fromTo(node,{scale:.85,opacity:0},{scale:1,opacity:1,duration:.4,ease:EXP,clearProps:'transform,opacity',
+      onComplete:function(){ node.classList.remove('nt'); }});
+  }
+  function out(node,done,o){
+    o=o||{};
+    if(!live()||!node){ if(done)done(); return; }
+    node.classList.add('nt');
+    g.to(node,{opacity:0,scale:o.scale==null?.92:o.scale,x:o.x||0,duration:.18,ease:IN,
+      onComplete:function(){ if(done)done(); }});
+  }
+  return {live:live,on:on,toggle:toggle,osReduce:function(){ return osReduce; },
+          g:g,F:F,swap:swap,rise:rise,draw:draw,count:count,pulse:pulse,pop:pop,out:out};
+})();
+
+/* 제목·메타 — 즉시 교체하지 않는다. (viewEl·titleEl·metaEl 은 아래 «상태» 절에서 잡는다) */
+var titleTl=null;
+function setTitle(t){
+  if(titleEl.textContent===t)return;
+  if(!MO.live()){ titleEl.textContent=t; return; }
+  if(titleTl)titleTl.kill();
+  titleTl=MO.g.timeline({onComplete:function(){ titleTl=null; }})
+    .to(titleEl,{y:-8,opacity:0,duration:.14,ease:'power2.in'})
+    .add(function(){ titleEl.textContent=t; })
+    .fromTo(titleEl,{y:10,opacity:0},
+      {y:0,opacity:1,duration:.48,ease:'expo.out',immediateRender:false,clearProps:'transform,opacity'});
+}
+/* 메타: 숫자만 바뀌면 제자리에서 굴리고, 구조가 바뀌면 크로스페이드(숫자는 이전 값에서 이어서 굴린다) */
+var metaTl=null;
+function setMeta(html){
+  var cur=metaEl.innerHTML;
+  if(cur===html)return;
+  if(!MO.live()){ metaEl.innerHTML=html; return; }
+  var norm=function(s){ return s.replace(/<b>\d+<\/b>/g,'<b>#</b>'); };
+  var olds=Array.prototype.map.call(metaEl.querySelectorAll('b'),function(b){ return parseInt(b.textContent,10); });
+  var fresh=VIEW_FRESH||!cur.trim();
+  var paint=function(){
+    metaEl.innerHTML=html;
+    Array.prototype.forEach.call(metaEl.querySelectorAll('b'),function(b,i){
+      var to=parseInt(b.textContent,10); if(isNaN(to))return;
+      MO.count(b,to,(fresh||isNaN(olds[i]))?0:olds[i]);
+    });
+  };
+  if(metaTl)metaTl.kill();
+  if(!fresh&&norm(cur)===norm(html)){ paint(); return; }
+  if(!cur.trim()){
+    paint();
+    metaTl=MO.g.fromTo(metaEl,{opacity:0,y:4},{opacity:1,y:0,duration:.4,ease:'expo.out',clearProps:'transform,opacity'});
+    return;
+  }
+  metaTl=MO.g.timeline({onComplete:function(){ metaTl=null; }})
+    .to(metaEl,{opacity:0,duration:.12,ease:'power2.in'})
+    .add(paint)
+    .fromTo(metaEl,{opacity:0,y:4},
+      {opacity:1,y:0,duration:.36,ease:'expo.out',immediateRender:false,clearProps:'transform,opacity'});
+}
+
 /* ══════════ 토스트 (되돌리기 액션 지원) ══════════ */
 var _toast=null,_toastT=0;
+function hideToast(){
+  if(!_toast)return;
+  clearTimeout(_toastT);
+  if(MO.live()){
+    MO.g.killTweensOf(_toast);
+    MO.g.to(_toast,{y:10,opacity:0,duration:.18,ease:'power2.in',onComplete:function(){ _toast.className='toast'; }});
+  }else _toast.className='toast';
+}
 function toast(msg,opt){
   opt=opt||{};
   if(!_toast){
+    var wrap=document.createElement('div'); wrap.className='toast-wrap';
     _toast=document.createElement('div'); _toast.className='toast';
     _toast.setAttribute('role','status'); _toast.setAttribute('aria-live','polite');
-    document.body.appendChild(_toast);
+    wrap.appendChild(_toast); document.body.appendChild(wrap);
   }
   _toast.innerHTML='<span>'+esc(msg)+'</span>'+
     (opt.action?'<button type="button" class="toast-act">'+esc(opt.action)+'</button>':'');
   _toast.className='toast on'+(opt.kind?' '+opt.kind:'');
+  if(MO.live()){
+    MO.g.killTweensOf(_toast);
+    MO.g.fromTo(_toast,{y:22,scale:.96,opacity:0},{y:0,scale:1,opacity:1,duration:.44,ease:'expo.out'});
+  }
   if(opt.action&&opt.onAction){
-    _toast.querySelector('.toast-act').addEventListener('click',function(){
-      _toast.className='toast'; clearTimeout(_toastT); opt.onAction();
-    });
+    _toast.querySelector('.toast-act').addEventListener('click',function(){ hideToast(); opt.onAction(); });
   }
   clearTimeout(_toastT);
-  _toastT=setTimeout(function(){ _toast.className='toast'; }, opt.kind==='err'?6500:(opt.action?7000:3600));
+  _toastT=setTimeout(hideToast, opt.kind==='err'?6500:(opt.action?7000:3600));
 }
 
 /* ══════════ 백엔드 서비스 ══════════ */
@@ -1180,7 +1424,8 @@ Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP]).then(function(r){
   TREND_FULL=!(trend&&trend.lite);
 
   paintNav();
-  render();
+  VIEW_FRESH=true;
+  MO.swap(viewEl,{dir:0,top:false},render);   /* 스켈레톤 → 내용: 첫 화면도 보간한다 */
   buildNotifs();
 }).catch(function(e){
   viewEl.innerHTML='<div class="tray"><div class="core"><div class="empty">'+
@@ -1189,40 +1434,53 @@ Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP]).then(function(r){
 });
 
 /* ══════════ 내비 ══════════ */
-var tabsEl=el('tabs'), pillEl=el('pill');
-function movePill(){
+var tabsEl=el('tabs'), pillEl=el('pill'), pillReady=false, pillTl=null, VIEWS=['posts','trend'];
+/* 선택 알약 — 탭 사이를 «늘어났다 줄어들며» 건너간다(먼저 두 탭을 덮을 만큼 늘고, 목적지로 수축).
+   anim=false 면 즉시 맞춘다(첫 배치·리사이즈). 이미 건너가는 중이면 목적지만 갱신한다. GSAP 없으면 CSS transition 폴백. */
+function movePill(anim){
   var on=tabsEl.querySelector('.isl-tab.on'); if(!on)return;
-  pillEl.style.width=on.offsetWidth+'px';
-  pillEl.style.transform='translateX('+on.offsetLeft+'px)';
-  pillEl.style.opacity='1';
+  var L=on.offsetLeft, W=on.offsetWidth;
+  if(!MO.live()){
+    pillEl.style.width=W+'px'; pillEl.style.transform='translateX('+L+'px)'; pillEl.style.opacity='1';
+    pillReady=true; return;
+  }
+  var g=MO.g;
+  if(!anim||!pillReady){ g.killTweensOf(pillEl); if(pillTl)pillTl.kill(); pillTl=null;
+    g.set(pillEl,{x:L,width:W,opacity:1}); pillReady=true; return; }
+  var cx=Number(g.getProperty(pillEl,'x'))||0, cw=pillEl.offsetWidth;
+  if(pillTl&&pillTl.isActive()){   /* 건너가는 중 — 이미 늘어나 있으니 수축만 새 목적지로 */
+    pillTl.kill(); pillTl=g.to(pillEl,{x:L,width:W,duration:.46,ease:'expo.out'}); return;
+  }
+  g.killTweensOf(pillEl);
+  if(Math.abs(cx-L)<1){ pillTl=g.to(pillEl,{width:W,duration:.3,ease:'expo.out'}); return; }   /* 숫자가 바뀌어 폭만 달라진 경우 */
+  var a=Math.min(cx,L), b=Math.max(cx+cw,L+W);
+  pillTl=g.timeline()
+    .to(pillEl,{x:a,width:b-a,duration:.17,ease:'power2.out'})
+    .to(pillEl,{x:L,width:W,duration:.46,ease:'expo.out'});
 }
 function paintNav(){
-  var np=el('nPosts'), nt=el('nTrend');
-  if(np)np.textContent=POSTS.filter(isLive).length;
-  if(nt)nt.textContent=TREND.length?edItems(TREND[0]).length:0;
-  requestAnimationFrame(movePill);
+  MO.count(el('nPosts'),POSTS.filter(isLive).length,null,function(){ movePill(true); });
+  MO.count(el('nTrend'),TREND.length?edItems(TREND[0]).length:0,null,function(){ movePill(true); });
+  requestAnimationFrame(function(){ movePill(true); });
 }
 tabsEl.addEventListener('click',function(e){
   var b=e.target.closest('.isl-tab'); if(!b)return;
   go(b.dataset.v);
 });
-window.addEventListener('resize',movePill);
+window.addEventListener('resize',function(){ movePill(false); });
 
 function go(v){
   if(S.view===v)return;
+  var dir=VIEWS.indexOf(v)>VIEWS.indexOf(S.view)?1:-1;   /* 탭 순서가 곧 이동 방향 */
   S.view=v; S.q=''; S.page=1;
   tabsEl.querySelectorAll('.isl-tab').forEach(function(b){
     var on=b.dataset.v===v;
     b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false');
   });
-  movePill();
-  /* 뷰 전환 = 페이드아웃 → 교체 → 페이드인. 위치는 항상 맨 위에서 다시 시작한다. */
-  viewEl.classList.add('out');
-  setTimeout(function(){
-    window.scrollTo({top:0,behavior:'auto'});
-    render();
-    requestAnimationFrame(function(){ viewEl.classList.remove('out'); });
-  },230);
+  movePill(true);
+  /* 뷰 전환 = 나가기(빠름) → 교체(맨 위로) → 들어오기(방향·무게). 제목·메타·탭 숫자도 각자 보간된다. */
+  VIEW_FRESH=true;
+  MO.swap(viewEl,{dir:dir,top:true},render);
 }
 
 /* 스크롤을 내리면 아일랜드가 접힌다(내용에 자리를 준다) — 올리면 즉시 복귀 */
@@ -1237,21 +1495,36 @@ window.addEventListener('scroll',function(){
 function render(){
   if(S.view==='trend')renderTrend();
   else renderPosts();
+  VIEW_FRESH=false;
 }
 
-/* 뷰포트 진입 시 떠오르기 — scroll 리스너 대신 IntersectionObserver */
-var RISE=null;
+/* 뷰포트 진입 시 떠오르기 — 지금 보이는 것은 즉시 스태거, 아래 것은 IntersectionObserver 가 들어올 때.
+   기본 상태가 «보임»이라 GSAP·관찰이 없어도 내용이 비지 않고, 6초 백스톱이 남은 것을 전부 보이게 한다. */
+var RISE=null, RISE_T=0;
 function observeRise(root){
-  if(!('IntersectionObserver' in window)){
-    root.querySelectorAll('.rise').forEach(function(n){ n.classList.add('in'); }); return;
-  }
+  var els=Array.prototype.slice.call(root.querySelectorAll('.rise:not(.in)'));
+  if(!els.length)return;
+  if(!MO.live()||!('IntersectionObserver' in window)){ els.forEach(function(n){ n.classList.add('in'); }); return; }
+  var vh=window.innerHeight||800, now=[], later=[];
+  els.forEach(function(n){ (n.getBoundingClientRect().top<vh*1.05?now:later).push(n); });
+  MO.rise(now);
+  if(!later.length)return;
+  MO.g.set(later,{opacity:0});
   if(RISE)RISE.disconnect();
   RISE=new IntersectionObserver(function(ents){
     ents.forEach(function(en){
-      if(en.isIntersecting){ en.target.classList.add('in'); RISE.unobserve(en.target); }
+      if(en.isIntersecting){ RISE.unobserve(en.target); MO.rise([en.target]); }
     });
-  },{rootMargin:'0px 0px -8% 0px',threshold:.05});
-  root.querySelectorAll('.rise').forEach(function(n){ RISE.observe(n); });
+  },{rootMargin:'0px 0px -6% 0px',threshold:.04});
+  later.forEach(function(n){ RISE.observe(n); });
+  clearTimeout(RISE_T);
+  RISE_T=setTimeout(function(){
+    later.forEach(function(n){
+      if(n.classList.contains('in'))return;
+      if(RISE)RISE.unobserve(n);
+      MO.g.set(n,{clearProps:'opacity'}); n.classList.add('in');
+    });
+  },6000);
 }
 
 /* ══════════ 작성 글 ══════════ */
@@ -1267,7 +1540,7 @@ function livePosts(){
   return list;
 }
 function renderPosts(){
-  titleEl.textContent='작성 글';
+  setTitle('작성 글');
 
   var all=POSTS.filter(isLive);
   /* 필터는 «목록에 실제로 있는 작성자»만 — 휴면이든 아니든 글이 없으면 칩도 없다 */
@@ -1280,10 +1553,9 @@ function renderPosts(){
   });
   if(S.writer&&!counts[S.writer])S.writer='';
 
-  var list=livePosts();
   var newCnt=all.filter(function(p){ return p.isNew; }).length;
-  metaEl.innerHTML='<span><b>'+all.length+'</b> 편</span>'+
-    (newCnt?'<span>새 글 <b>'+newCnt+'</b></span>':'');
+  setMeta('<span><b>'+all.length+'</b> 편</span>'+
+    (newCnt?'<span>새 글 <b>'+newCnt+'</b></span>':''));
 
   var chips='<button type="button" class="chip'+(S.writer?'':' on')+'" data-w="">전체'+
     '<span class="n">'+all.length+'</span></button>'+
@@ -1297,34 +1569,75 @@ function renderPosts(){
     '</span>';
 
   viewEl.innerHTML='<div class="filters" id="filters">'+chips+'</div>'+
-    '<div class="tray rise"><div class="core" id="listCore"></div></div>'+
+    '<div class="tray"><div class="core" id="listCore"></div></div>'+
     '<div class="more" id="moreWrap" hidden><button type="button" id="more"></button></div>';
 
   paintRows();
-  observeRise(viewEl);
+  var fch=viewEl.querySelectorAll('#filters > *');
+  if(MO.live()&&fch.length)MO.g.fromTo(fch,{opacity:0},
+    {opacity:1,duration:.4,stagger:{amount:.16},ease:'expo.out',clearProps:'opacity'});
   bindPosts();
   paintNav();
 }
-/* 목록만 다시 그린다 — 검색창을 재생성하지 않아야 한글 조합(IME)이 끊기지 않는다 */
+/* 목록만 다시 그린다 — 검색창을 재생성하지 않아야 한글 조합(IME)이 끊기지 않는다.
+   GSAP 이 있으면 «살아남는 행은 제자리에서 미끄러지고(FLIP), 새 행은 떠오르고, 빠지는 행은 접힌다». */
 function paintRows(){
   var core=el('listCore'); if(!core)return;
   var list=livePosts();
   var shown=list.slice(0,S.page*PAGE);
+  var rowsEl=core.querySelector('.rows');
+  function more(){
+    var wrap=el('moreWrap'), btn=el('more'); if(!wrap||!btn)return;
+    var rest=list.length-shown.length, num=btn.querySelector('.num');
+    wrap.hidden=rest<=0;
+    if(num)MO.count(num,rest); else btn.innerHTML='더 보기 <span class="num">'+rest+'</span>';
+  }
   if(!list.length){
-    core.innerHTML='<div class="empty"><div class="empty-t">'+
+    var emptyHtml='<div class="empty"><div class="empty-t">'+
       (S.q?'검색 결과가 없어요':(S.writer?esc(S.writer)+' 글이 없어요':'확인할 글이 없어요'))+
       '</div><div class="empty-s">'+
       (S.q||S.writer?'필터를 지우면 전체가 보여요':'새 글이 완성되면 여기에 올라와요')+'</div></div>';
-  }else{
+    if(MO.live()&&core.firstElementChild){
+      MO.g.to(core.firstElementChild,{opacity:0,duration:.14,ease:'power2.in',onComplete:function(){
+        core.innerHTML=emptyHtml;
+        MO.g.fromTo(core.firstElementChild,{opacity:0,y:6},
+          {opacity:1,y:0,duration:.4,ease:'expo.out',clearProps:'transform,opacity'});
+      }});
+    }else core.innerHTML=emptyHtml;
+    more(); return;
+  }
+  if(!rowsEl||!MO.live()||!MO.F){
     core.innerHTML='<div class="rows">'+shown.map(rowHtml).join('')+'</div>';
+    MO.rise(core.querySelectorAll('.row'),{y:8,amount:.3,dur:.45});
+    more(); return;
   }
-  var wrap=el('moreWrap'), btn=el('more');
-  if(wrap&&btn){
-    var rest=list.length-shown.length;
-    wrap.hidden=rest<=0;
-    btn.innerHTML='더 보기 <span class="num">'+rest+'</span>';
-  }
-  bindRows();
+  /* FLIP — 이전 자리(기록) → DOM 재배치 → 새 자리로 보간 */
+  Array.prototype.forEach.call(rowsEl.querySelectorAll('.row.leaving'),function(r){ r.parentNode.removeChild(r); });
+  var F=MO.F, before=Array.prototype.slice.call(rowsEl.children);
+  if(F.killFlipsOf)F.killFlipsOf(before);
+  var old={}; before.forEach(function(r){ old[r.dataset.rel]=r; });
+  var state=F.getState(before,{simple:true});
+  var keep={};
+  shown.forEach(function(p){
+    var r=old[p.rel];
+    if(!r){ var t=document.createElement('div'); t.innerHTML=rowHtml(p); r=t.firstElementChild; }
+    keep[p.rel]=1; rowsEl.appendChild(r);      /* appendChild 가 순서까지 맞춘다(기존 노드는 이동) */
+  });
+  var leaving=[];
+  before.forEach(function(r){
+    if(!keep[r.dataset.rel]){ r.classList.add('leaving'); r.style.display='none'; leaving.push(r); }
+  });
+  F.from(state,{
+    targets:Array.prototype.slice.call(rowsEl.children), duration:.42, ease:'expo.out', simple:true, absoluteOnLeave:true,
+    onEnter:function(els){ if(!els.length)return; return MO.g.fromTo(els,{opacity:0,y:10},{opacity:1,y:0,duration:.42,ease:'expo.out',
+      stagger:{amount:Math.min(.28,.018*els.length)},clearProps:'transform,opacity'}); },
+    onLeave:function(els){ if(!els.length)return; return MO.g.to(els,{opacity:0,y:-6,duration:.16,ease:'power2.in'}); },
+    onComplete:function(){
+      leaving.forEach(function(r){ if(r.parentNode)r.parentNode.removeChild(r); });
+      var kept=rowsEl.querySelectorAll('.row'); if(kept.length)MO.g.set(kept,{clearProps:'transform'});
+    }
+  });
+  more();
 }
 function rowHtml(p){
   return '<div class="row" data-rel="'+esc(p.rel)+'" style="--ac:'+wac(p.author)+'">'+
@@ -1352,52 +1665,56 @@ function bindPosts(){
   });
   var q=el('q');
   if(q){
-    var composing=false;
+    var composing=false, t=0;
+    var run=function(){ S.q=q.value.trim(); S.page=1; paintRows(); };
     q.addEventListener('compositionstart',function(){ composing=true; });
-    q.addEventListener('compositionend',function(){ composing=false; S.q=q.value.trim(); S.page=1; paintRows(); });
+    q.addEventListener('compositionend',function(){ composing=false; clearTimeout(t); t=setTimeout(run,60); });
     q.addEventListener('input',function(){
       if(composing)return;              /* 한글 조합 중엔 목록을 건드리지 않는다 */
-      S.q=q.value.trim(); S.page=1; paintRows();
+      clearTimeout(t); t=setTimeout(run,80);   /* 타자마다 FLIP 을 돌리지 않게 잠깐 모은다 */
     });
   }
   var m=el('more');
   if(m)m.addEventListener('click',function(){ S.page++; paintRows(); });
-}
-function bindRows(){
-  var core=el('listCore'); if(!core)return;
-  core.querySelectorAll('.arch').forEach(function(b){
-    b.addEventListener('click',function(e){
-      e.preventDefault(); e.stopPropagation();
-      var row=b.closest('.row'); if(row)archive(row);
-    });
+  /* 아카이브 버튼은 위임 — 행이 FLIP 으로 살아남아도 리스너가 중복되지 않는다 */
+  var core=el('listCore');
+  if(core)core.addEventListener('click',function(e){
+    var b=e.target.closest('.arch'); if(!b||b.disabled)return;
+    e.preventDefault(); e.stopPropagation();
+    var row=b.closest('.row'); if(row)archive(row);
   });
 }
-/* 아카이브 — 행이 미끄러져 나가고 아래 행들이 FLIP 으로 올라온다(transform 만 사용). */
+/* 아카이브 — 행이 오른쪽으로 미끄러져 나가고 아래 행들이 FLIP 으로 올라온다(transform 만 사용). */
 function archive(row){
   var rel=row.dataset.rel;
   var post=POSTS.filter(function(p){ return p.rel===rel; })[0];
   var btn=row.querySelector('.arch'); if(btn)btn.disabled=true;
   HiddenSvc.hide(rel).then(function(){
-    var rows=Array.prototype.slice.call(row.parentNode.children);
-    var after=rows.slice(rows.indexOf(row)+1);
-    var firsts=after.map(function(r){ return r.getBoundingClientRect().top; });
-    row.classList.add('gone');
-    setTimeout(function(){
-      row.parentNode&&row.parentNode.removeChild(row);
-      after.forEach(function(r,i){
-        var d=firsts[i]-r.getBoundingClientRect().top;
-        if(!d)return;
-        r.style.transition='none';
-        r.style.transform='translateY('+d+'px)';
-        requestAnimationFrame(function(){
-          r.style.transition=''; r.style.transform='';
-        });
-      });
+    var rowsEl=row.parentNode;
+    function settle(){
       paintNav(); refreshChipCounts();
-      if(!viewEl.querySelectorAll('.row').length)paintRows();
-    },230);
+      if(!viewEl.querySelectorAll('.row:not(.leaving)').length)paintRows();
+    }
+    if(MO.live()&&MO.F&&rowsEl){
+      /* 두 박자 — ①행이 오른쪽으로 빠져나가고(0.2s) ②그 다음에야 아래 행들이 틈을 메운다(0.42s).
+         동시에 돌리면 반투명한 행 위로 아래 행이 올라와 잠깐 겹쳐 보인다(design-reviewer 09-04 지적). */
+      var F=MO.F, all=Array.prototype.slice.call(rowsEl.children);
+      if(F.killFlipsOf)F.killFlipsOf(all);
+      var state=F.getState(all,{simple:true});   /* transform 만 움직이므로 지금 기록한 자리가 그대로 유효하다 */
+      row.classList.add('leaving','nt');
+      MO.g.to(row,{x:28,opacity:0,duration:.2,ease:'power2.in',onComplete:function(){
+        row.style.display='none';
+        F.from(state,{targets:all,duration:.42,ease:'expo.out',simple:true,absoluteOnLeave:true,
+          onLeave:function(els){ if(els.length)MO.g.set(els,{opacity:0}); },   /* 이미 빠진 행 — 다시 보이지 않게만 */
+          onComplete:function(){
+            if(row.parentNode)row.parentNode.removeChild(row);
+            var kept=rowsEl.querySelectorAll('.row'); if(kept.length)MO.g.set(kept,{clearProps:'transform'});
+          }});
+      }});
+    }else if(row.parentNode)row.parentNode.removeChild(row);
+    settle();
     toast('아카이브했어요',{action:'되돌리기',onAction:function(){
-      HiddenSvc.unhide(rel).then(function(){ renderPosts(); toast('되돌렸어요'); })
+      HiddenSvc.unhide(rel).then(function(){ MO.swap(viewEl,{dir:0,top:false},renderPosts); toast('되돌렸어요'); })
         .catch(function(err){ toast('되돌리기 실패: '+((err&&err.message)||err),{kind:'err'}); });
     }});
   }).catch(function(err){
@@ -1406,7 +1723,7 @@ function archive(row){
   });
   return post;
 }
-/* 아카이브 뒤 칩 숫자만 제자리에서 고친다(검색창을 다시 만들지 않으려고) */
+/* 아카이브 뒤 칩 숫자만 제자리에서 굴린다(검색창을 다시 만들지 않으려고) */
 function refreshChipCounts(){
   var fl=el('filters'); if(!fl)return;
   var all=POSTS.filter(isLive), counts={};
@@ -1414,12 +1731,11 @@ function refreshChipCounts(){
   fl.querySelectorAll('.chip').forEach(function(c){
     var w=c.dataset.w, n=c.querySelector('.n');
     if(!n)return;
-    var v=w?(counts[w]||0):all.length;
-    n.textContent=v;
-    if(w&&!counts[w])c.hidden=true;      /* 그 작성자 글이 다 빠지면 칩도 사라진다 */
+    MO.count(n,w?(counts[w]||0):all.length);
+    if(w&&!counts[w]&&!c.hidden)MO.out(c,function(){ c.hidden=true; });   /* 그 작성자 글이 다 빠지면 칩도 사라진다 */
   });
   var newCnt=all.filter(function(p){ return p.isNew; }).length;
-  metaEl.innerHTML='<span><b>'+all.length+'</b> 편</span>'+(newCnt?'<span>새 글 <b>'+newCnt+'</b></span>':'');
+  setMeta('<span><b>'+all.length+'</b> 편</span>'+(newCnt?'<span>새 글 <b>'+newCnt+'</b></span>':''));
 }
 
 /* ══════════ 트렌드 = 일간 토픽 데스크 ══════════ */
@@ -1545,6 +1861,9 @@ function bindPinBox(){
     input.disabled=true;
     PinSvc.save(PINS.concat([name])).then(function(){
       toast('‘'+name+'’ 추가 — 다음 회차부터 반영돼요'); repaintPinBox(true);
+      var chips=viewEl.querySelectorAll('.pin-chip'); MO.pop(chips[chips.length-1]);   /* 새 칩이 떠오르고 */
+      var ic=viewEl.querySelector('.pin-ic');                                          /* 핀이 꽂힌다 */
+      if(ic&&MO.live()){ ic.classList.add('bump'); ic.addEventListener('animationend',function(){ ic.classList.remove('bump'); },{once:true}); }
     }).catch(function(err){
       input.disabled=false; toast('저장 실패: '+((err&&err.message)||err),{kind:'err'});
     });
@@ -1553,10 +1872,14 @@ function bindPinBox(){
     b.addEventListener('click',function(){
       var i=Number(b.dataset.rm), name=PINS[i]; if(!name)return;
       b.disabled=true;
+      var chip=b.closest('.pin-chip');
+      MO.out(chip,null,{scale:.85});                       /* 먼저 접히기 시작하고(낙관), 실패하면 되살린다 */
       PinSvc.save(PINS.filter(function(_,n){ return n!==i; })).then(function(){
         toast('‘'+name+'’ 뺐어요'); repaintPinBox(false);
       }).catch(function(err){
-        b.disabled=false; toast('저장 실패: '+((err&&err.message)||err),{kind:'err'});
+        b.disabled=false;
+        if(MO.live()&&chip)MO.g.to(chip,{opacity:1,scale:1,x:0,duration:.25,ease:'expo.out',clearProps:'transform,opacity'});
+        toast('저장 실패: '+((err&&err.message)||err),{kind:'err'});
       });
     });
   });
@@ -1573,8 +1896,11 @@ function datePager(dates,cur){
 }
 function attachPager(dates){
   function goDate(d){
-    if(!d)return;
-    S.trendDate=d; renderTrend(); window.scrollTo({top:0,behavior:'smooth'});
+    if(!d||d===S.trendDate)return;
+    var i=dates.indexOf(S.trendDate), j=dates.indexOf(d);
+    S.trendDate=d;
+    /* 날짜 축은 최신이 오른쪽 — 과거로 가면 왼쪽에서, 최신으로 가면 오른쪽에서 들어온다 */
+    renderTrend({dir:j>i?-1:1,top:true});
   }
   viewEl.querySelectorAll('[data-go]').forEach(function(b){
     b.addEventListener('click',function(){
@@ -1600,15 +1926,33 @@ function trendRow(it){
       '<span class="knob">'+svg('arrowR')+'</span></button>'+
   '</div>';
 }
-function renderTrend(){
-  titleEl.textContent='트렌드';
+function skel(n){
+  var r=''; for(var i=0;i<n;i++)r+='<div class="skel-row"><i></i><i></i><i></i><i></i></div>';
+  return '<div class="tray"><div class="core"><div class="skel" role="status" aria-live="polite">'+
+    '<span class="sr">불러오는 중</span>'+r+'</div></div></div>';
+}
+/* 트렌드 뷰 = 검색줄(고정 셸) + 본문(#tbody). 본문만 갈아끼우므로 타자 중에도 입력창이 유지되고,
+   날짜 이동은 방향(o.dir)을 갖고 미끄러진다. 셸이 방금 생겼으면(탭 전환) 즉시 그린다 — 뷰 전환이 이미 보간 중이라서. */
+function renderTrend(o){
+  o=o||{};
+  setTitle('트렌드');
+  var fresh=!(el('tq')&&el('tbody'));
+  if(fresh){ viewEl.innerHTML=trendSearchBar()+'<div id="tbody"></div>'; bindTrendSearch(); }
+  var body=el('tbody');
+  function paint(html,after){
+    if(fresh||!MO.live()){
+      body.innerHTML=html; if(after)after();
+      if(o.top&&!fresh)window.scrollTo({top:0,behavior:'auto'});
+      return;
+    }
+    MO.swap(body,{dir:o.dir||0,top:!!o.top},function(){ body.innerHTML=html; if(after)after(); });
+  }
 
   if(!TREND.length){
-    metaEl.textContent='';
-    viewEl.innerHTML=pinBox()+'<div class="tray"><div class="core"><div class="empty">'+
+    setMeta('');
+    paint(pinBox()+'<div class="tray"><div class="core"><div class="empty">'+
       '<div class="empty-t">아직 데스크 판이 없어요</div>'+
-      '<div class="empty-s">매일 아침 6시에 그날 주제가 올라와요</div></div></div></div>';
-    bindPinBox();
+      '<div class="empty-s">매일 아침 6시에 그날 주제가 올라와요</div></div></div></div>', bindPinBox);
     return;
   }
   var dates=TREND_DATES.length?TREND_DATES:TREND.map(function(e){ return e.date; });
@@ -1617,16 +1961,13 @@ function renderTrend(){
   /* 경량본만 있는데 3일 밖 날짜를 고르면 여기서만 전량을 받는다 */
   var edHit=TREND.filter(function(e){ return e.date===S.trendDate; })[0];
   if(!edHit&&!TREND_FULL){
-    viewEl.innerHTML=trendSearchBar()+pinBox()+datePager(dates,S.trendDate)+
-      '<div class="tray"><div class="core"><div class="loading">지난 판을 불러오는 중</div></div></div>';
-    bindTrendSearch(); bindPinBox(); attachPager(dates);
+    paint(pinBox()+datePager(dates,S.trendDate)+skel(4),function(){ bindPinBox(); attachPager(dates); });
     ensureFullTrend().then(function(){ if(S.view==='trend')renderTrend(); });
     return;
   }
   /* 검색은 전체 판 횡단 — 경량본만 있으면 3일치만 뒤지고 «없다»고 거짓말하게 된다. 먼저 전량을 받는다. */
   if(S.q&&!TREND_FULL){
-    viewEl.innerHTML=trendSearchBar()+'<div class="tray"><div class="core"><div class="loading">지난 판을 불러오는 중</div></div></div>';
-    bindTrendSearch();
+    paint(skel(4));
     ensureFullTrend().then(function(){ if(S.view==='trend')renderTrend(); });
     return;
   }
@@ -1639,18 +1980,17 @@ function renderTrend(){
         if(hay.indexOf(q)>=0)hits.push(it);
       });
     });
-    metaEl.innerHTML='<span>검색 <b>'+hits.length+'</b></span><span>전체 '+dates.length+'일</span>';
-    viewEl.innerHTML=trendSearchBar()+'<div class="tray"><div class="core">'+
+    setMeta('<span>검색 <b>'+hits.length+'</b></span><span>전체 '+dates.length+'일</span>');
+    paint('<div class="tray"><div class="core">'+
       (hits.length?hits.map(trendRow).join('')
         :'<div class="empty"><div class="empty-t">해당하는 주제가 없어요</div></div>')+
-      '</div></div>';
-    bindTrendSearch(); bindOrderButtons();
+      '</div></div>', bindOrderButtons);
     return;
   }
 
   var ed=edHit||TREND[0];
   var all=edItems(ed);
-  metaEl.innerHTML='<span class="num">'+esc(ed.date)+'</span><span>주제 <b>'+all.length+'</b></span>';
+  setMeta('<span class="num">'+esc(ed.date)+'</span><span>주제 <b>'+all.length+'</b></span>');
 
   var stats=DESK_SECTIONS.map(function(s){
     var n=(ed.sections.filter(function(x){ return x.key===s.key; })[0]||{items:[]}).items.length;
@@ -1664,7 +2004,7 @@ function renderTrend(){
     }).join('')+'</ul>':'')+
     '</div></div></section>';
 
-  var secs=DESK_SECTIONS.map(function(s,si){
+  var secs=DESK_SECTIONS.map(function(s){
     var items=(ed.sections.filter(function(x){ return x.key===s.key; })[0]||{items:[]}).items;
     var emptyTx=(s.key!=='pinned')
       ? '오늘은 이 분류에서 건질 주제가 없었어요.'
@@ -1674,16 +2014,16 @@ function renderTrend(){
     var body=items.length
       ? items.map(trendRow).join('')
       : '<div class="tsec-empty">'+emptyTx+'</div>';
-    return '<section class="tray tsec rise" style="--ac:'+s.ac+';--d:'+(si*50)+'ms"><div class="core">'+
+    return '<section class="tray tsec rise" style="--ac:'+s.ac+'"><div class="core">'+
       '<div class="tsec-h"><span class="tsec-ic">'+svg(s.icon)+'</span>'+
         '<span class="tsec-t">'+esc(s.label)+'</span><span class="tsec-d">'+esc(s.desc)+'</span>'+
         '<span class="tsec-n">'+items.length+'</span></div>'+
       body+'</div></section>';
   }).join('');
 
-  viewEl.innerHTML=trendSearchBar()+pinBox()+mast+datePager(dates,S.trendDate)+secs;
-  observeRise(viewEl);
-  bindTrendSearch(); bindPinBox(); attachPager(dates); bindOrderButtons();
+  paint(pinBox()+mast+datePager(dates,S.trendDate)+secs,function(){
+    observeRise(body); bindPinBox(); attachPager(dates); bindOrderButtons();
+  });
 }
 function trendSearchBar(){
   return '<div class="filters"><span class="fsearch">'+svg('search')+
@@ -1693,8 +2033,7 @@ function trendSearchBar(){
 function bindTrendSearch(){
   var q=el('tq'); if(!q)return;
   var composing=false, t=0;
-  function run(){ S.q=q.value.trim(); renderTrend();
-    var n=el('tq'); if(n){ n.focus(); n.setSelectionRange(n.value.length,n.value.length); } }
+  var run=function(){ S.q=q.value.trim(); renderTrend(); };   /* 셸이 남으므로 포커스·커서를 다시 잡을 필요가 없다 */
   q.addEventListener('compositionstart',function(){ composing=true; });
   q.addEventListener('compositionend',function(){ composing=false; clearTimeout(t); t=setTimeout(run,220); });
   q.addEventListener('input',function(){
@@ -1716,10 +2055,19 @@ function closeModal(){
   if(!MODAL)return;
   var back=MODAL.back, opener=MODAL.opener;
   document.removeEventListener('keydown',MODAL.onKey);
-  back.classList.remove('on');
   MODAL=null;
   document.body.style.overflow='';
-  setTimeout(function(){ if(back.parentNode)back.parentNode.removeChild(back); },340);
+  function drop(){ if(back.parentNode)back.parentNode.removeChild(back); }
+  if(MO.live()){
+    var mdl=back.querySelector('.mdl');
+    MO.g.killTweensOf([back,mdl]);
+    MO.g.timeline({onComplete:drop})
+      .to(mdl,{y:8,scale:.985,opacity:0,duration:.16,ease:'power2.in'},0)
+      .to(back,{opacity:0,duration:.2,ease:'power2.in'},.02);
+  }else{
+    back.classList.remove('on');
+    setTimeout(drop,340);
+  }
   if(opener&&opener.focus)try{ opener.focus(); }catch(e){}
 }
 function openModal(inner,opener,label){
@@ -1744,7 +2092,20 @@ function openModal(inner,opener,label){
   back.addEventListener('mousedown',function(e){ if(e.target===back)closeModal(); });
   back.querySelectorAll('[data-close]').forEach(function(b){ b.addEventListener('click',closeModal); });
   MODAL={back:back,onKey:onKey,opener:opener||null};
-  requestAnimationFrame(function(){ back.classList.add('on'); });
+  if(MO.live()){
+    /* 배경이 깔리고 → 판이 떠오르고 → 안의 항목이 순서대로 자리 잡는다 */
+    var mdl=back.querySelector('.mdl');
+    var kids=back.querySelectorAll('.mdl-b > :not(form), .mdl-b > form > *');
+    back.classList.add('on');
+    MO.g.set(back,{opacity:0}); MO.g.set(mdl,{y:18,scale:.975,opacity:0});
+    var tl=MO.g.timeline()
+      .to(back,{opacity:1,duration:.24,ease:'power2.out'},0)
+      .to(mdl,{y:0,scale:1,opacity:1,duration:.5,ease:'expo.out',clearProps:'transform'},.02);
+    if(kids.length){
+      MO.g.set(kids,{opacity:0,y:8});
+      tl.to(kids,{opacity:1,y:0,duration:.42,stagger:{amount:.22},ease:'expo.out',clearProps:'transform,opacity'},.1);
+    }
+  }else requestAnimationFrame(function(){ back.classList.add('on'); });
   return back;
 }
 /* 작성자 칩 (요청·발주 공용) */
@@ -1863,10 +2224,11 @@ function openOrder(it,opener){
       if(rec.status==='submitted'){
         closeModal();
         toast((writer||'자동 배정')+' · 작업 큐로 보냈어요');
-        if(opener){
+        if(opener)MO.pulse(opener,function(){
           opener.disabled=true; opener.classList.add('done');
           opener.innerHTML='발주함<span class="knob">'+svg('check')+'</span>';
-        }
+          MO.draw(opener.querySelector('.ic'),.05,.4);   /* 체크가 그려진다 */
+        });
       }else if(rec.status==='queued'){ msg('네트워크 문제로 임시 저장했어요','err'); go.disabled=false; }
       else { msg('임시 저장했어요(백엔드 미연결)','ok'); go.disabled=false; }
     }).catch(function(e){ msg('전송 실패: '+((e&&e.message)||e),'err'); go.disabled=false; });
@@ -2018,11 +2380,14 @@ function unreadCount(){
   var seen=Number(ls(SEEN_LS,0))||0;
   return NOTIFS.filter(function(r){ return notifTs(r)>seen; }).length;
 }
+var lastUnread=-1;
 function paintBell(){
-  var dot=el('bellDot'), n=unreadCount();
+  var dot=el('bellDot'), bell=el('bell'), n=unreadCount();
   dot.textContent=n>9?'9+':String(n);
   dot.classList.toggle('on',n>0);
-  el('bell').setAttribute('aria-label',n?('알림 '+n+'건'):'알림');
+  bell.setAttribute('aria-label',n?('알림 '+n+'건'):'알림');
+  if(n>0&&n>lastUnread&&MO.live()){ bell.classList.remove('ring'); void bell.offsetWidth; bell.classList.add('ring'); }   /* 늘었을 때만 울린다 */
+  lastUnread=n;
 }
 function paintNotifPanel(){
   var seen=Number(ls(SEEN_LS,0))||0;
@@ -2069,14 +2434,41 @@ function paintPushBtn(){
 var npOpen=false;
 function toggleNotif(force){
   npOpen=(force==null)?!npOpen:force;
-  el('npanel').classList.toggle('on',npOpen);
+  var panel=el('npanel');
   el('bell').setAttribute('aria-expanded',npOpen?'true':'false');
+  if(MO.live()){
+    MO.g.killTweensOf(panel);
+    if(npOpen){
+      panel.classList.add('on');
+      MO.g.fromTo(panel,{y:-8,scale:.96,opacity:0},{y:0,scale:1,opacity:1,duration:.38,ease:'expo.out'});
+      var items=panel.querySelectorAll('.np-item');
+      if(items.length)MO.g.fromTo(items,{y:6,opacity:0},
+        {y:0,opacity:1,duration:.34,stagger:{amount:.16},ease:'expo.out',clearProps:'transform,opacity'});
+    }else{
+      MO.g.to(panel,{y:-6,scale:.97,opacity:0,duration:.16,ease:'power2.in',
+        onComplete:function(){ panel.classList.remove('on'); }});
+    }
+  }else panel.classList.toggle('on',npOpen);
   if(npOpen&&NOTIFS.length){
     lset(SEEN_LS,String(notifTs(NOTIFS[0])));
     setTimeout(function(){ paintBell(); },900);   /* 열자마자 사라지면 뭘 봤는지 모른다 — 잠깐 남긴다 */
   }
 }
 el('bell').addEventListener('click',function(e){ e.stopPropagation(); toggleNotif(); });
+el('bell').addEventListener('animationend',function(){ el('bell').classList.remove('ring'); });
+
+/* 모션 토글 — 사이트 설정(OS 플래그보다 우선). 켜면 아이콘의 점이 한 번 달린다 */
+(function(){
+  var b=el('mtoggle'); if(!b)return;
+  function paint(){ b.setAttribute('aria-pressed',MO.on()?'true':'false'); b.title=MO.on()?'모션 켜짐':'모션 꺼짐'; }
+  paint();
+  b.addEventListener('click',function(){
+    var on=MO.toggle(); paint();
+    if(on){ b.classList.remove('zip'); void b.offsetWidth; b.classList.add('zip'); }
+    toast(on?'모션을 켰어요':'모션을 껐어요 — 전환이 바로 바뀌어요');
+  });
+  b.addEventListener('animationend',function(){ b.classList.remove('zip'); });
+})();
 document.addEventListener('click',function(e){
   if(npOpen&&!e.target.closest('#npanel')&&!e.target.closest('#bell'))toggleNotif(false);
 });
@@ -2099,7 +2491,7 @@ document.addEventListener('visibilitychange',function(){
     REQS=rs; buildNotifs();
   });
 });
-movePill();
+movePill(false);
 })();
 </script>
 </body></html>
