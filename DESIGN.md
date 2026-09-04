@@ -315,7 +315,7 @@ v3는 10~11px 모노 라벨을 썼고 그게 "눈에 안 들어온다"의 직접
 - **SVG 부품**: 아카이브 뚜껑(hover 들림)·검색 돋보기(focus 기울기)·페이저 화살촉(가는 방향)·종(unread 증가 시 1회 울림)·핀(추가 시 꽂힘)·섹션 아이콘 스트로크 드로잉(리빌 시)·발주 완료 체크 드로잉·로고 두 줄 쓰기(로드 1회 0.5s).
 - **진입 `.rise`**: 가시성을 클래스에 묶지 않는다 — 기본이 «보임», GSAP 이 있을 때만 그리는 프레임 안에서 감췄다가 떠오른다. 화면 밖은 IntersectionObserver, 6초 백스톱.
 - **로딩**: 스피너 대신 스켈레톤 행(shimmer).
-- **★모션 설정이 OS 플래그보다 앞선다**: 이 PC 는 Windows 「애니메이션 효과」가 꺼져 있어 크롬이 `prefers-reduced-motion: reduce` 를 보고했고, 사이트가 그걸 그대로 따라 모든 전환을 0.01ms 로 만들던 것이 «틱»의 원인이었다(09-04 실측: `SPI_GETCLIENTAREAANIMATION=false`). 기본 ON, 종 왼쪽 토글(`#mtoggle`, `localStorage.sseudam_motion`)로 끄면 `html.motion`·`html.gs` 가 빠져 OS reduce 규칙이 다시 산다. 내부 도구·사용자 명시 요청이라는 맥락의 결정이며, 사용자별 끄기는 1클릭·영구 저장이다.
+- **★모션은 항상 켜져 있다 — 끄는 토글·저장 설정 없음, OS `prefers-reduced-motion` 도 따르지 않는다(사용자 결정 09-04)**: 이 PC 는 Windows 「애니메이션 효과」가 꺼져 있어 크롬이 reduce 를 보고했고, 사이트가 그걸 그대로 따라 모든 전환을 0.01ms 로 만들던 것이 «틱»의 원인이었다(09-04 실측: `SPI_GETCLIENTAREAANIMATION=false`). 처음엔 «기본 ON + 종 왼쪽 토글»로 넣었으나 사용자가 «끄는 것 자체를 없애라»고 결정해 토글·`localStorage.sseudam_motion`·reduce 규칙을 전부 제거했다. `html.gs` 는 GSAP 파일을 받았는지만 뜻한다(못 받으면 CSS 폴백).
 - 성능: transform·opacity 위주(알약 폭만 예외 — 38px 소형 요소), 스크롤 리스너 대신 IO, 헤드리스 실측 rAF 간격 최대 17ms(탭 전환)·FLIP 40행 첫 프레임 50ms 1회.
 
 ### Boot Sequence (부팅 스플래시)
