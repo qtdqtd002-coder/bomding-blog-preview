@@ -23,6 +23,8 @@
      · 챔피언 160 · 특성 109 · 아이템 272 · 증강 986 **한국어 명칭·설명 정본**
      · 패치노트 전체 — 최신판은 «무엇이 몇에서 몇으로» 원문 그대로(+ 라이엇 공식 대조 URL 자동 출력)
      · 가이드 덱 31 · 스트리머 덱 10
+     · ★라이엇 «게임 클라이언트» 원본(Community Dragon 한국어) — **아이템 조합 55종 · 증강 596 이름/설명 ·
+       챔피언 기본 능력치 · 특성 단계 구간**. 아래 loadCdragon 주석에 함정 5개와 그 코드 차단법을 적어 뒀다.
      · 어제 스냅샷 대비 **점유율 변동**(신선도 · `angles`)
 
    무엇을 «못» 주나 — 지어내지 말 것
@@ -49,7 +51,9 @@
      node lolchess.cjs items   [--top 20]
      node lolchess.cjs patch   [--id 558] [--list 10]
      node lolchess.cjs guide-decks | streamer-decks
-     node lolchess.cjs find "감시자"          # 한/영 명칭·설명 조회(챔피언·특성·아이템·증강)
+     node lolchess.cjs find "감시자"          # 명칭 조회 — 롤체지지 + CDragon(라이엇 원본) 동시, 조합 레시피 자동 병기
+     node lolchess.cjs recipes ["망토"]       # ★아이템 조합 레시피 55종(라이엇 원본) — 옛 위키 재대조 경로의 대체
+     node lolchess.cjs champ "아리"           # ★챔피언 기본 능력치(원본 수치) + 치환된 스킬 설명
      node lolchess.cjs angles                # 데이터에서 파생한 글감 후보 + 어제 대비 변동
      공통: --json(기계 출력) · --refresh(캐시 무시) · --no-snapshot
    캐시 = `_trend/_lolchess/`(기본 180분) · 스냅샷 = `_trend/_lolchess/snapshots/YYYY-MM-DD.json`
@@ -185,6 +189,98 @@ async function loadPatchNote(id) {
 async function loadGuideDecks(ep) { // guide-decks | streamer-decks
   const r = await cached(ep, 12 * 60, async () => JSON.parse(await fetchText(apiURL(ep))));
   return r.data;
+}
+
+/* ── Community Dragon — 라이엇 «게임 클라이언트» 원본 데이터 (2026-09-04 추가) ────
+   왜 넣었나: 롤체지지가 못 주는 세 가지를 라이엇 원본이 준다.
+     ⑴ **아이템 조합 레시피 55종**(「죽음의 검 = BF대검 + BF대검」) — 이게 급했다.
+        글로서리가 「조합이 의심스러우면 wiki.leagueoflegends.com 개별 아이템 페이지로 재대조」라고
+        시켰는데 **그 위키가 2026-09-04 봇 챌린지 뒤로 들어가 403** 이다(전 경로·API 포함).
+        즉 봄딩 조합표 글의 재검증 경로가 끊겨 있었고, 이 데이터가 그 자리를 그대로 메운다.
+     ⑵ **증강 596종 한국어 이름 + 설명** — 09-02 에 명칭 6/8 을 틀린 바로 그 밭.
+     ⑶ **챔피언 기본 능력치**(체력·방어·마저·공격력·공속·사거리·마나) 정확값.
+
+   ★함정 5개는 «규칙으로 적지 않고 코드로 막았다»(설계 B) — 지켜야 할 것이 늘면 언젠가 안 지켜진다:
+     ① 스킬 설명에 `@MagicDamageCalc1@` 같은 **플레이스홀더가 미치환**이다 → **스킬 설명을 아예 내보내지 않는다.**
+        치환된 스킬 텍스트가 필요하면 롤체지지 `find` 쪽을 쓴다(그쪽은 이미 숫자가 박혀 있다).
+     ② 특성 수치 변수명이 **해시**(`{6eab9c5e}`)라 desc 의 `@TeamDurability@` 와 순서가 **어긋난다**
+        (전쟁기계 실측: desc 는 팀→전쟁기계 순인데 데이터는 반대) → **variables 를 아예 내보내지 않는다.**
+        이걸 순서로 짐작하면 09-02 「숫자는 맞는데 주어가 뒤집힘」 사고가 그대로 재발한다.
+     ③ 원본 `Last-Modified` 가 **핫픽스보다 늦다**(08-29 판이 09-01 의 18.1d 를 모른다)
+        → 출력 머리에 **데이터 일자와 «이후 패치 N건 미반영»을 자동으로 찍는다.**
+     ④ `setData[].name` 이 틀렸다(`TFTSet18` 인데 `name:"Set10"`) → **그 필드를 쓰지 않는다.**
+     ⑤ 챔피언 91기에 **PVE 몬스터·아이템 모루가 섞여 있다**(협곡 바위 게·훈련 봇·용병 상자…)
+        → **롤체지지 refs 에 있는 것만** 남긴다(교집합 75기. 추측이 아니라 두 출처의 실제 교집합).
+
+   비용: 원본 24.6MB 는 **LLM 컨텍스트에 들어가지 않는다.** 받아서 179KB 인덱스로 줄여 두고,
+   평소엔 **HEAD 0.15초**로 바뀌었는지만 본다(최초 1회 다운로드 1.5초 + 파싱 0.23초 실측).
+────────────────────────────────────────────────────────────────────────────── */
+const CDRAGON_URL   = 'https://raw.communitydragon.org/latest/cdragon/tft/ko_kr.json';
+const CDRAGON_INDEX = path.join(CACHE_DIR, 'cdragon-index.json');
+const SET_MUTATOR   = 'TFTSet18';
+
+const stripTags = (s) => String(s || '').replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, '')
+  .replace(/%i:[a-zA-Z]+%/g, '').replace(/\(\s*\)/g, '').replace(/\s{2,}/g, ' ').trim();
+
+async function loadCdragon(R) {
+  ensureDir(CACHE_DIR);
+  let lastModified = null;
+  try {
+    const head = await fetch(CDRAGON_URL, { method: 'HEAD', headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(20000) });
+    lastModified = head.headers.get('last-modified');
+  } catch { /* HEAD 실패는 치명적이지 않다 — 캐시가 있으면 쓴다 */ }
+
+  if (!REFRESH && fs.existsSync(CDRAGON_INDEX)) {
+    try {
+      const c = JSON.parse(fs.readFileSync(CDRAGON_INDEX, 'utf8'));
+      if (!lastModified || c.sourceLastModified === lastModified) return c;
+    } catch { /* 깨진 인덱스는 다시 만든다 */ }
+  }
+
+  const raw = JSON.parse(await fetchText(CDRAGON_URL));
+  const items = new Map(raw.items.filter((x) => x.apiName).map((x) => [x.apiName, x]));
+  const set = raw.setData.find((x) => x.mutator === SET_MUTATOR);
+  if (!set) die(`CDragon 에 ${SET_MUTATOR} 가 없다 — 새 세트로 넘어갔는지 확인할 것(SET_MUTATOR 상수).`);
+
+  const idx = {
+    builtAt: Date.now(),
+    sourceLastModified: lastModified,
+    setMutator: SET_MUTATOR,           // ④ name 필드는 틀리므로 mutator 만 신뢰한다
+    // ⑤ 롤체지지 refs 교집합 = 실제 플레이어블. R 이 없으면 필터하지 못하므로 표시해 둔다.
+    filtered: !!R,
+    champions: (set.champions || [])
+      .filter((c) => (R ? R.C.has(c.apiName) : true))
+      .map((c) => ({ key: c.apiName, name: c.name, cost: c.cost, traits: c.traits || [],
+                     stats: c.stats || null, skillName: (c.ability || {}).name || null })),
+                     // ① ability.desc 는 담지 않는다(플레이스홀더 미치환)
+    traits: (set.traits || []).map((t) => ({
+      key: t.apiName, name: t.name, desc: stripTags(t.desc).replace(/@[A-Za-z0-9_*.]+@/g, '?'),
+      steps: (t.effects || []).map((e) => ({ min: e.minUnits, max: e.maxUnits > 1000 ? null : e.maxUnits })),
+      // ② variables 는 담지 않는다(해시 키 ↔ desc 변수명 순서가 어긋난다)
+    })),
+    augments: (set.augments || []).filter((a) => items.has(a))
+      .map((a) => ({ key: a, name: items.get(a).name, desc: stripTags(items.get(a).desc) })),
+    recipes: raw.items
+      .filter((x) => x.composition && x.composition.length && x.name && String(x.apiName).startsWith('DA_'))
+      .map((x) => ({ key: x.apiName, name: x.name,
+                     from: x.composition.map((c) => (items.get(c) || {}).name || c) })),
+  };
+  fs.writeFileSync(CDRAGON_INDEX, JSON.stringify(idx), 'utf8');
+  return idx;
+}
+
+/* ③ CDragon 이 최신 패치를 반영했는지 매 출력에 찍는다 — 조용히 낡은 값을 쓰는 게 제일 위험하다. */
+function cdragonStamp(cd, patchList) {
+  const lm = cd.sourceLastModified ? new Date(cd.sourceLastModified).getTime() : null;
+  const behind = lm && patchList ? patchList.filter((p) => p.registeredAt > lm) : [];
+  let s = `[CDragon] 라이엇 게임 데이터 ${cd.setMutator}`
+        + (lm ? ` · 원본 갱신 ${KST(lm)} KST` : ' · 원본 갱신 시각 불명')
+        + `${cd.filtered ? '' : ' · ⚠PVE 필터 미적용'}\n`;
+  if (behind.length) {
+    s += `⚠ 이 데이터 이후 패치 ${behind.length}건(${behind.map((p) => p.patchVersion).join(', ')})이 나왔다 — `
+       + `**밸런스 수치는 반영돼 있지 않을 수 있다.** 명칭·조합·구조는 안전, 수치는 \`patch\` 로 재확인할 것.\n`;
+  }
+  return s;
 }
 
 /* ── 이름 해석 ──────────────────────────────────────────────────────────── */
@@ -351,27 +447,88 @@ async function cmdPatch() {
 async function cmdFind(q) {
   if (!q) die('찾을 이름을 주세요:  node lolchess.cjs find "감시자"');
   const d = await loadDecks();
+  const R = mkRefs(d.refs);
   const augs = await loadAugmentRefs();
+  const cd = await loadCdragon(R).catch((e) => { process.stderr.write(`[lolchess] ⚠ CDragon 불가(${e.message}) — 롤체지지 결과만 낸다\n`); return null; });
+  const recipeOf = new Map((cd?.recipes || []).map((r) => [r.name, r.from]));
   const pool = [
-    ...(d.refs.champions || []).map((x) => ({ ...x, _t: '챔피언' })),
-    ...(d.refs.traits || []).map((x) => ({ ...x, _t: '특성' })),
-    ...(d.refs.items || []).map((x) => ({ ...x, _t: '아이템' })),
-    ...augs.map((x) => ({ ...x, _t: '증강' })),
+    ...(d.refs.champions || []).map((x) => ({ ...x, _t: '챔피언', _s: '롤체지지' })),
+    ...(d.refs.traits || []).map((x) => ({ ...x, _t: '특성', _s: '롤체지지' })),
+    ...(d.refs.items || []).map((x) => ({ ...x, _t: '아이템', _s: '롤체지지' })),
+    ...augs.map((x) => ({ ...x, _t: '증강', _s: '롤체지지' })),
+    // CDragon 은 라이엇 원본이라 «롤체지지에 없는 이름»을 잡아 준다. 중복은 아래에서 접는다.
+    ...(cd?.augments || []).map((x) => ({ ...x, _t: '증강', _s: 'CDragon' })),
   ];
   const nq = q.toLowerCase().replace(/\s+/g, '');
   const hit = pool.filter((x) => (x.name || '').toLowerCase().replace(/\s+/g, '').includes(nq) || (x.key || '').toLowerCase().includes(nq));
-  if (JSON_OUT) return console.log(JSON.stringify(hit.map((x) => ({ type: x._t, name: x.name, key: x.key, cost: x.cost, desc: x.desc })), null, 2));
-  if (!hit.length) return console.log(`[롤체지지] "${q}" 일치 없음. 한국어 정식 명칭이 아닐 수 있다 — 지어내지 말고 다른 표기로 다시 찾을 것.`);
+  if (JSON_OUT) return console.log(JSON.stringify(hit.map((x) => ({ type: x._t, source: x._s, name: x.name, key: x.key, cost: x.cost, desc: x.desc, recipe: recipeOf.get(x.name) || null })), null, 2));
+  if (!hit.length) return console.log(`[명칭 조회] "${q}" 일치 없음 — 롤체지지·CDragon(라이엇 원본) 어디에도 없다. **한국어 정식 명칭이 아니다.** 지어내지 말고 다른 표기로 다시 찾을 것.`);
   const NOTE = '※ 설명문의 `%i:...%` 는 롤체지지 아이콘 자리표시자라 지웠다(수치·문장은 원문 그대로).';
-  let out = `[롤체지지] "${q}" ${hit.length}건 — 한국어 명칭 정본(${d.season})\n\n`;
-  for (const x of hit.slice(0, num('top', 20))) {
-    out += `· [${x._t}] ${x.name}   (key ${x.key}${x.cost ? ` · ${x.cost}코스트` : ''})\n`;
+  // 같은 이름이 두 출처에 다 있으면 한 줄로 접고 출처를 합쳐 적는다(중복 나열 금지).
+  const merged = [];
+  for (const x of hit) {
+    const same = merged.find((m) => m.name === x.name && m._t === x._t);
+    if (same) { if (!same._s.includes(x._s)) same._s += '+' + x._s; if (!same.desc && x.desc) same.desc = x.desc; }
+    else merged.push({ ...x });
+  }
+  let out = `[명칭 조회] "${q}" ${merged.length}건 — 한국어 정식 명칭(${d.season})\n`;
+  out += `출처 표기: 롤체지지 = 라이브 트래커 / CDragon = 라이엇 게임 데이터 원본. 한쪽에만 있으면 그것도 정보다.\n\n`;
+  for (const x of merged.slice(0, num('top', 20))) {
+    out += `· [${x._t}] ${x.name}   (key ${x.key}${x.cost ? ` · ${x.cost}코스트` : ''} · 출처 ${x._s})\n`;
+    if (recipeOf.has(x.name)) out += `    조합 ${recipeOf.get(x.name).join(' + ')}  ← 라이엇 원본 레시피\n`;
     if (x.skill?.name) out += `    스킬 ${x.skill.name}\n`;
     const desc = (x.desc || x.skill?.desc || '').replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, '')
       .replace(/%i:[a-zA-Z]+%/g, '').replace(/\(\s*\)/g, '').replace(/\s{2,}/g, ' ').trim();
     if (desc) out += `    ${desc.slice(0, 300)}\n`;
     if (x.styles) out += `    단계 ${x.styles.map((s) => `${s.style} ${s.min}${s.max ? '~' + s.max : '+'}`).join(' / ')}\n`;
   }
+  console.log(out);
+}
+
+/* 아이템 조합 레시피 — 라이엇 원본. 옛 재대조 경로(라이엇 위키)가 403 이라 이게 그 자리를 대신한다. */
+async function cmdRecipes(q) {
+  const d = await loadDecks();
+  const R = mkRefs(d.refs);
+  const cd = await loadCdragon(R);
+  const patch = await loadPatchList().catch(() => ({ list: [] }));
+  let rows = [...cd.recipes].sort((a, b) => a.name.localeCompare(b.name, 'ko'));
+  if (q) {
+    const nq = q.replace(/\s+/g, '');
+    rows = rows.filter((r) => r.name.replace(/\s+/g, '').includes(nq) || r.from.some((f) => String(f).replace(/\s+/g, '').includes(nq)));
+  }
+  if (JSON_OUT) return console.log(JSON.stringify({ setMutator: cd.setMutator, sourceLastModified: cd.sourceLastModified, recipes: rows }, null, 2));
+  let out = cdragonStamp(cd, patch.list);
+  out += `\n■ 아이템 조합 레시피 ${rows.length}종${q ? ` ("${q}" 일치)` : ''}\n`;
+  out += `조합은 «구조»라 핫픽스로 바뀌지 않는다 — 위 미반영 경고는 수치에만 해당한다.\n\n`;
+  for (const r of rows) out += `  ${pad(r.name, 24)} = ${r.from.join(' + ')}\n`;
+  out += `\n※ 라이엇 게임 클라이언트 데이터가 출처다(커뮤니티 그리드 판독이 아니다) — 조합표 글은 이 값을 그대로 옮긴다.\n`;
+  console.log(out);
+}
+
+/* 챔피언 기본 능력치 — CDragon 원본 수치 + 롤체지지의 «치환된» 스킬 설명을 한자리에. */
+async function cmdChamp(q) {
+  if (!q) die('챔피언 이름을 주세요:  node lolchess.cjs champ "아리"');
+  const d = await loadDecks();
+  const R = mkRefs(d.refs);
+  const cd = await loadCdragon(R);
+  const patch = await loadPatchList().catch(() => ({ list: [] }));
+  const nq = q.replace(/\s+/g, '');
+  const hit = cd.champions.filter((c) => c.name.replace(/\s+/g, '').includes(nq) || c.key.toLowerCase().includes(q.toLowerCase()));
+  if (JSON_OUT) return console.log(JSON.stringify({ setMutator: cd.setMutator, sourceLastModified: cd.sourceLastModified, champions: hit }, null, 2));
+  if (!hit.length) return console.log(`[챔피언] "${q}" 없음 — 플레이어블 ${cd.champions.length}기 중 일치 없음(PVE 몬스터는 제외돼 있다).`);
+  let out = cdragonStamp(cd, patch.list);
+  const S = { hp: '체력', damage: '공격력', armor: '방어력', magicResist: '마법저항력', attackSpeed: '공격속도',
+              range: '사거리', mana: '최대마나', initialMana: '시작마나', critChance: '치명타확률', critMultiplier: '치명타배율' };
+  for (const c of hit.slice(0, num('top', 6))) {
+    out += `\n■ ${c.name} (${c.cost}코스트 · key ${c.key})\n`;
+    out += `   특성 ${(c.traits || []).join(' · ') || '-'}\n`;
+    if (c.skillName) out += `   스킬 ${c.skillName}\n`;
+    if (c.stats) out += `   ${Object.entries(c.stats).filter(([k]) => S[k]).map(([k, v]) => `${S[k]} ${Math.round(v * 1000) / 1000}`).join(' · ')}\n`;
+    const lc = R.C.get(c.key);
+    const sd = stripTags(lc?.skill?.desc);
+    if (sd) out += `   스킬 설명(롤체지지 — 수치가 치환된 판) ${sd.slice(0, 260)}\n`;
+  }
+  out += `\n※ 능력치는 1성 기준 원본값이다. 스킬 «설명»은 CDragon 쪽이 @변수@ 미치환이라 롤체지지 판만 싣는다.\n`;
   console.log(out);
 }
 
@@ -480,6 +637,8 @@ async function cmdBrief() {
       case 'items':          await cmdStat('items', num('top', 20)); break;
       case 'patch':          await cmdPatch(); break;
       case 'find':           await cmdFind(argv[1] && !argv[1].startsWith('--') ? argv[1] : opt('q', null)); break;
+      case 'recipes':        await cmdRecipes(argv[1] && !argv[1].startsWith('--') ? argv[1] : opt('q', null)); break;
+      case 'champ':          await cmdChamp(argv[1] && !argv[1].startsWith('--') ? argv[1] : opt('q', null)); break;
       case 'guide-decks':    await cmdGuide('guide-decks'); break;
       case 'streamer-decks': await cmdGuide('streamer-decks'); break;
       default: die(`모르는 명령: ${CMD}\n  brief | decks | champions | traits | items | patch | find | guide-decks | streamer-decks | angles`);
