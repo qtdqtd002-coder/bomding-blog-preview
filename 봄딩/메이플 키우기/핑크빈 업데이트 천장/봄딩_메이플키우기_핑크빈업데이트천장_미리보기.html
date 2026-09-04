@@ -1,0 +1,426 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메이플키우기 핑크빈 업데이트 — 소환·강화 천장 적용 후 달라지는 것 정리</title>
+<!-- AI브리핑 타깃 질문: Q1. 메이플 키우기 핑크빈이 뭔가요? Q2. 메이플 키우기 천장 시스템이 어떻게 바뀌었나요? Q3. 핑크빈 이벤트 기간과 코인 수급량은? -->
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--blue:#1a73e8;--blue-line:#c7d9f0;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 출처 재서술 음영 */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+  /* 네이버 붙여넣기 위젯 */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style>
+</head><body>
+
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">메이플키우기 핑크빈 업데이트 — 소환·강화 천장 적용 후 달라지는 것 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 9. 4.</span><span>· 게임</span></div>
+
+    <!-- ============ 본문 시작 ============ -->
+
+    <p>저도 업데이트 뜨자마자 바로 들어가봤는데요, '메이플 키우기'가 9월 3일에 꽤 굵직한 업데이트를 했더라고요. 신규 보스 '핑크빈' 레이드가 추가되고, <b>오래 기다리던 소환·강화 확정 시스템도 함께 들어왔거든요.</b> 핑크빈이라는 이름 자체가 메이플 원작 팬이라면 반가울 캐릭터이기도 하고, 이번 업데이트에 내용이 많아서 한 번에 정리해 보려고요.</p>
+
+    <!-- 이미지 이유: 메이플 키우기 핑크빈 업데이트 키비주얼 / 출처: 공식 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 메이플 키우기 핑크빈 업데이트 공식 키비주얼</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 게임 내 업데이트 배너 화면 또는 공식 넥슨 공지 페이지에서 캡처</div>
+    <p class="cap">9월 3일 메이플 키우기 핑크빈 업데이트 배너</p>
+
+    <h2 class="sub">핑크빈 보스 레이드, 이게 뭔가요?</h2>
+
+    <p><b>핑크빈 보스 레이드는 쉬움·보통·어려움 3가지 난이도로 열리고, 최대 4인 파티로 도전할 수 있어요.</b> 진입 조건이 있는데, 챕터 32 보스를 클리어한 뒤 쉬움 난이도부터 풀 수 있다고 하더라고요. 시작이 챕터 32 이후라는 게 다소 진입 문턱이 있긴 하지만, 4인 파티라 같이 하는 분들이 있다면 한 번씩 노려볼 만할 거 같아요.</p>
+
+    <p>이번에 싱글 모드도 함께 추가됐는데요, 1인 전용으로 보스 체력이 줄어드는 대신 나름 빡세게 운영된다고 하니 솔플 선호하시는 분들도 즐길 수 있을 것 같습니다. 그리고 <b>싱글 모드에서는 부 옵션이 많은 장비의 출현율이 올라간다</b>는 점도 있으니, 어떤 모드가 더 맞는지 따져보시는 것도 나쁘지 않을 것 같아요.</p>
+
+    <p>입장 체계도 조금 정비됐는데, 각 보스마다 주 2회 기본 입장에 더해 공용 보스 레이드 입장권도 매주 2장씩 추가로 들어온다고 해요.</p>
+
+    <div class="para-wrap">
+    <p>핑크빈 보스에서 나오는 보상을 짚고 넘어가면, <span class="rev-hl">기본 보상으로는 포켓 장비 '핑크빛 성배'를 얻을 수 있고, 어려움 난이도에서는 '블랙빈 마크', '카오스 핑크빈 마크' 같은 눈장식 아이템도 드롭된다고 합니다.</span> 난이도가 높을수록 더 높은 등급·레벨의 장비가 나오니, 어려움까지 도전할 수 있다면 고등급 아이템을 노려볼 수 있겠죠.</p>
+    <div class="sidenote">
+      <span class="sn-h">✍️ 재서술 ① · 핑크빈 보상</span>
+      <span class="sn-src"><b>인벤</b>이 "어려움 난도에서는 신규 눈장식 블랙빈 마크, 카오스 핑크빈 마크가 드롭"이라고 보도했어요. (<a href="https://www.inven.co.kr/webzine/news/?news=320398" target="_blank">인벤 기사</a>)</span>
+      <span class="sn-mine">→ 직접 경험 어조 유지, 출처 표현 그대로 인용하지 않고 봄딩 어미로 재서술.</span>
+    </div>
+    </div>
+
+    <!-- 이미지 이유: 핑크빈 보스 레이드 화면 / 출처: 게임 내 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 핑크빈 보스 레이드 입장 화면 또는 전투 장면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 게임 내 보스 레이드 탭에서 핑크빈 입장 화면 캡처</div>
+    <p class="cap">핑크빈 보스 레이드 입장 화면</p>
+
+    <h2 class="sub">소환·강화 천장 시스템, 어떻게 달라졌나?</h2>
+
+    <p><b>이번 업데이트의 가장 큰 축은 소환과 강화에 확정 성공을 보장하는 천장 시스템이 들어왔다는 거예요.</b> 뽑기를 하든 강화를 하든 운이 나쁘면 한없이 실패를 반복하는 구조가 참 힘들었는데, 이번에 확정 장치가 생겼으니 결과 예측이 훨씬 수월해진 거죠.</p>
+
+    <p>먼저 소환 쪽을 보면, 무기·동료·유물에 각각 확정 소환 기준이 적용됩니다.</p>
+
+    <ul>
+      <li><b>무기 소환</b> — Lv.18 이상에 천장 적용</li>
+      <li>동료 소환 — Lv.13 이상에 천장 적용</li>
+      <li>유물 상자 — 확정 소환 추가</li>
+    </ul>
+
+    <p>동료와 유물은 일반 소환과 픽업 소환 게이지를 따로 관리하는데, <b>픽업 게이지는 픽업 대상이 바뀌어도 유지된다는 점이 중요해요.</b> 구버전처럼 픽업이 바뀌면 게이지가 날아가는 구조가 아닌 거죠.</p>
+
+    <p>소급 적용 기준도 같이 정리할게요.</p>
+    <ul>
+      <li><b>동료·유물·스타포스</b> — 2026년 3월 1일 이후 기록 반영</li>
+      <li>무기 — 에인션트 최상급 무기 획득 이후의 소환 횟수 반영</li>
+    </ul>
+
+    <p>즉, 해당 기준 이후에 쌓아둔 뽑기 실패 횟수가 천장에 연산되는 거예요. 이미 열심히 뽑고 있던 분들이라면 예상보다 빨리 천장에 도달하는 경우도 있을 수 있겠죠ㅎㅎ.</p>
+
+    <p>공식 확률이 공개되지 않아 천장까지 정확히 몇 번이 필요한지는 알기 어려워요.</p>
+
+    <!-- 이미지 이유: 소환 천장 게이지 UI / 출처: 게임 내 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 소환 화면 내 천장 게이지 UI</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 무기 또는 동료 소환 화면에서 게이지 바가 보이는 상태로 캡처</div>
+    <p class="cap">소환 천장 게이지 확인 화면</p>
+
+    <h2 class="sub">스타포스 강화 체계도 바뀌었어요</h2>
+
+    <p><b>스타포스 강화 최대 단계가 기존 25성에서 30성으로 올라갔어요.</b> 단순히 숫자가 늘어난 게 아니라, 기존에 찍어뒀던 별 단계들도 새로운 구간으로 재조정됩니다.</p>
+
+    <table class="tbl">
+      <thead><tr><th>기존 단계</th><th>변경 후 단계</th></tr></thead>
+      <tbody>
+        <tr><td>23성</td><td>24성</td></tr>
+        <tr><td>24성</td><td>26성</td></tr>
+        <tr><td>25성</td><td>28성</td></tr>
+      </tbody>
+    </table>
+
+    <p>그리고 20성 이상부터는 기존 옵션 증폭과는 별개로 <b>최종 대미지 효과가 추가</b>돼서, 고단계까지 올린 분들은 실질적인 전투력 상승을 체감하실 수 있을 거예요.</p>
+
+    <p>강화 천장 쪽을 보면, 실패하거나 단계가 하락하거나 파괴될 때마다 포인트가 쌓이고, 최대치에 도달하면 다음 강화가 <b>확정 성공</b>되는 구조예요. 포인트 누적 방식은 아래와 같습니다.</p>
+
+    <ul>
+      <li>실패 시 +1점</li>
+      <li>단계 하락 시 +2점</li>
+      <li><b>파괴 시 +4점</b></li>
+    </ul>
+
+    <p>단계 하락 발생 구간도 조정됐는데, 기존에는 13성부터 하락이 생겼는데 이제는 21성에서 22성 구간부터 발생하도록 바뀌었습니다. 이 부분에서 중저단계 강화는 부담이 꽤 줄어든 셈이죠.</p>
+
+    <p>편의 기능으로 자동 강화도 추가됐는데, 목표 단계와 하락·파괴 완화 사용 여부를 미리 설정해두면 자동으로 돌려주는 기능이에요. <b>과금 없이도 이 천장·자동 강화 기능은 모두 사용할 수 있습니다.</b></p>
+
+    <!-- 이미지 이유: 스타포스 30성 강화 화면 / 출처: 게임 내 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 30성으로 확장된 스타포스 강화 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 게임 내 장비 강화 탭에서 스타포스 단계 상한이 30성으로 표시된 화면</div>
+    <p class="cap">30성으로 확장된 스타포스 강화</p>
+
+    <h2 class="sub">잠재 옵션 자동 변환·배속 등 편의 기능도 챙기기</h2>
+
+    <p>보스 레이드와 천장 얘기만 했는데, 편의 기능도 꽤 알찬 게 들어왔어요.</p>
+
+    <p>일단 잠재 옵션 자동 변환 기능이 생겼습니다. <b>최대 3개의 선호 옵션 조합을 등록해 두면, 그 조합이 나올 때까지 자동으로 변환</b>해 주는 기능이에요. 적용 대상은 장비 잠재, 유물 잠재, 여정의 발자취고요. 잠재 등급 상승만 노리는 '등급업 모드'도 따로 추가됐습니다. 설정만 해두면 자동으로 돌아가니 클릭 반복에서 해방될 수 있겠죠ㅎㅎ.</p>
+
+    <p>여정의 발자취 재화도 이번에 바뀌었는데, 기존의 '미라클 큐브' 대신 '여정의 기운'이라는 신규 재화로 교체됐어요. 일반 상점과 아레나 상점에서 따로 수급할 수 있다고 합니다.</p>
+
+    <p>전투 배속 면에서는 <b>길드 대항전·길드 수련장·아레나에서 1배속, 1.5배속, 2배속을 선택</b>할 수 있게 됐고요, 전투력이 충분히 높은 경우 전투 화면을 생략하고 결과만 바로 확인하는 스킵 기능도 붙었습니다.</p>
+
+    <!-- 이미지 이유: 잠재 옵션 자동 변환 설정 화면 / 출처: 게임 내 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 잠재 옵션 자동 변환 설정 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 게임 내 잠재 옵션 변환 화면에서 선호 옵션 등록 UI가 보이는 상태</div>
+    <p class="cap">잠재 옵션 자동 변환 설정 화면</p>
+
+    <h2 class="sub">핑크빈 이벤트 기간과 코인 수급 총정리</h2>
+
+    <p><b>핑크빈 기념 이벤트는 2026년 9월 3일부터 10월 14일까지 진행됩니다.</b> 주요 이벤트들을 보면, 크게 '핑크빈 다이어리'와 '도전! 핑크빈 레이드' 두 축으로 나뉘어요.</p>
+
+    <div class="para-wrap">
+    <p>'핑크빈 다이어리' 이벤트는 매일 3가지 미션을 클리어하면 다이어리를 받는 방식인데요, 미션 내용은 <span class="rev-hl">몬스터 2,000마리 처치 / 엘리트 몬스터 10회 소환 / 무기 던전 1회 클리어예요. 미션 1개당 다이어리 1개가 나오고 하루 최대 3개, 전 기간 참여하면 최대 126개를 모을 수 있습니다</span>(인벤 보도 기준). 이 중 125개를 릴레이 스탬프에 투입하고, 나머지 1개는 일일 누적 보상 쪽으로 분리해서 최종 합산이 이뤄지는 구조예요.</p>
+    <div class="sidenote">
+      <span class="sn-h">✍️ 재서술 ② · 다이어리 이벤트 미션·수량</span>
+      <span class="sn-src"><b>인벤</b>이 "일일 다이어리 3개, 9/3~10/14 전 기간 참여 시 최대 126개"라고 보도했어요. (<a href="https://www.inven.co.kr/webzine/news/?news=320398" target="_blank">인벤 기사</a>)</span>
+      <span class="sn-mine">→ 미션 구체 항목과 수급 수치를 봄딩 문체로 이어붙임. 출처 인벤 병기.</span>
+    </div>
+    </div>
+
+    <p>그렇게 모은 다이어리는 핑크빈 코인으로 환산되는데, 총 수급 구조가 이렇습니다.</p>
+
+    <table class="tbl">
+      <thead><tr><th>경로</th><th>코인 수량</th></tr></thead>
+      <tbody>
+        <tr><td>다이어리 125개 → 릴레이 스탬프 5라운드 완주</td><td>55,000코인</td></tr>
+        <tr><td>일일 미션 30개 누적 보상</td><td>11,000코인</td></tr>
+        <tr><td><b>합계</b></td><td><b>66,000코인</b></td></tr>
+      </tbody>
+    </table>
+
+    <p><b>블루 다이아 추가 지출 없이 최대 66,000코인</b>을 챙길 수 있어요. 빠짐없이 접속해서 미션만 꼬박꼬박 챙기면 되는 구조니까, 이벤트 기간 동안은 매일 접속하는 게 핵심이겠죠.</p>
+
+    <p>'도전! 핑크빈 레이드' 이벤트도 있는데, 핑크빈 레이드를 누적 30회 클리어하면 핑크빛 성배 4개, 무기 소환권 200개, 스타포스 강화 주문서 30개 등 보상 묶음이 돌아옵니다.</p>
+
+    <p>핫타임 이벤트도 붙어 있어서, 오픈일 기준 10일 동안 하루 1회씩 2시간 동안 경험치와 메소 획득량이 100% 증가해요. 접속 시간 여유가 된다면 핫타임 맞춰 달리면 더 효율적이겠죠.</p>
+
+    <!-- 이미지 이유: 핑크빈 이벤트 화면 / 출처: 게임 내 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 6: 핑크빈 이벤트 탭 전체 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 게임 내 이벤트 탭에서 핑크빈 다이어리·도전 레이드 미션 목록이 보이는 화면</div>
+    <p class="cap">핑크빈 이벤트 탭 전체 화면</p>
+
+    <p>참고로 핑크빈 코인은 이벤트 교환소에서 성장 재화·장비 등과 교환할 수 있어요. 구체적인 교환 아이템 목록은 게임 내 이벤트 탭에서 직접 확인하시는 게 가장 정확합니다.</p>
+
+    <h2 class="sub">메이플 키우기 핑크빈 업데이트 정리</h2>
+
+    <p>9월 3일 메이플 키우기 핑크빈 업데이트의 핵심을 한 번에 짚어볼게요.</p>
+
+    <ul>
+      <li>신규 보스 핑크빈 — 쉬움·보통·어려움 3난이도, 최대 4인 파티 / 싱글 모드 추가</li>
+      <li>소환 천장 — 무기(Lv.18+)·동료(Lv.13+)·유물에 확정 소환 적용, 픽업 게이지 변경 후에도 유지</li>
+      <li>스타포스 — 최대 30성으로 확장, 확정 성공 포인트 누적 천장 도입, 자동 강화 추가</li>
+      <li>편의 — 잠재 옵션 자동 변환, 배속 선택(1/1.5/2배속), 전투 스킵</li>
+      <li>이벤트 — 9/3~10/14, 꼬박 참여 시 핑크빈 다이어리 최대 126개·핑크빈 코인 최대 66,000코인 수급(인벤 보도 기준)</li>
+    </ul>
+
+    <p>천장 시스템이 생기면서 뽑기와 강화 두 곳 모두 운 나쁜 케이스에 대한 버퍼가 생겼으니, 결과 예측이 훨씬 수월해졌다는 게 느껴지더라고요. 이벤트 기간 꼬박꼬박 챙기시면서 핑크빈 레이드도 달려보세요!</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.inven.co.kr/webzine/news/?news=320398" target="_blank">인벤 — 메이플 키우기 9월 3일 업데이트 보도</a><br>
+    · <a href="https://www.khgames.co.kr/news/articleView.html?idxno=308024" target="_blank">경향게임스 — 메이플 키우기 핑크빈 업데이트 기사</a></p>
+
+    <div class="tags"># 메이플키우기 # 메이플키우기핑크빈 # 메이플키우기천장 # 메이플키우기업데이트 # 핑크빈코인 # 방치형게임 # 모바일게임추천</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 6가지(약 10분):</b> 📷 <b>사진 6곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플키우기 핑크빈 업데이트 — 소환·강화 천장 적용 후 달라지는 것 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>저도 업데이트 뜨자마자 바로 들어가봤는데요, '메이플 키우기'가 9월 3일에 꽤 굵직한 업데이트를 했더라고요. 신규 보스 '핑크빈' 레이드가 추가되고, <b>오래 기다리던 소환·강화 확정 시스템도 함께 들어왔거든요.</b> 핑크빈이라는 이름 자체가 메이플 원작 팬이라면 반가울 캐릭터이기도 하고, 이번 업데이트에 내용이 많아서 한 번에 정리해 보려고요.</p>
+
+      <p class="ph">📷 〔사진 1〕 메이플 키우기 핑크빈 업데이트 공식 키비주얼 — 게임 내 업데이트 배너 캡처 후 업로드</p>
+
+      <h3>핑크빈 보스 레이드, 이게 뭔가요?</h3>
+
+      <p><b>핑크빈 보스 레이드는 쉬움·보통·어려움 3가지 난이도로 열리고, 최대 4인 파티로 도전할 수 있어요.</b> 진입 조건이 있는데, 챕터 32 보스를 클리어한 뒤 쉬움 난이도부터 풀 수 있다고 하더라고요. 시작이 챕터 32 이후라는 게 다소 진입 문턱이 있긴 하지만, 4인 파티라 같이 하는 분들이 있다면 한 번씩 노려볼 만할 거 같아요.</p>
+
+      <p>이번에 싱글 모드도 함께 추가됐는데요, 1인 전용으로 보스 체력이 줄어드는 대신 나름 빡세게 운영된다고 하니 솔플 선호하시는 분들도 즐길 수 있을 것 같습니다. 그리고 <b>싱글 모드에서는 부 옵션이 많은 장비의 출현율이 올라간다</b>는 점도 있으니, 어떤 모드가 더 맞는지 따져보시는 것도 나쁘지 않을 것 같아요.</p>
+
+      <p>입장 체계도 조금 정비됐는데, 각 보스마다 주 2회 기본 입장에 더해 공용 보스 레이드 입장권도 매주 2장씩 추가로 들어온다고 해요.</p>
+
+      <p>핑크빈 보스에서 나오는 보상을 짚고 넘어가면, 기본 보상으로는 포켓 장비 '핑크빛 성배'를 얻을 수 있고, 어려움 난이도에서는 '블랙빈 마크', '카오스 핑크빈 마크' 같은 눈장식 아이템도 드롭된다고 합니다. 난이도가 높을수록 더 높은 등급·레벨의 장비가 나오니, 어려움까지 도전할 수 있다면 고등급 아이템을 노려볼 수 있겠죠.</p>
+
+      <p class="ph">📷 〔사진 2〕 핑크빈 보스 레이드 입장 화면 또는 전투 장면 — 게임 내 보스 레이드 탭 캡처 후 업로드</p>
+
+      <h3>소환·강화 천장 시스템, 어떻게 달라졌나?</h3>
+
+      <p><b>이번 업데이트의 가장 큰 축은 소환과 강화에 확정 성공을 보장하는 천장 시스템이 들어왔다는 거예요.</b> 뽑기를 하든 강화를 하든 운이 나쁘면 한없이 실패를 반복하는 구조가 참 힘들었는데, 이번에 확정 장치가 생겼으니 결과 예측이 훨씬 수월해진 거죠.</p>
+
+      <p>먼저 소환 쪽을 보면, 무기·동료·유물에 각각 확정 소환 기준이 적용됩니다.</p>
+      <ul>
+        <li><b>무기 소환</b> — Lv.18 이상에 천장 적용</li>
+        <li>동료 소환 — Lv.13 이상에 천장 적용</li>
+        <li>유물 상자 — 확정 소환 추가</li>
+      </ul>
+
+      <p>동료와 유물은 일반 소환과 픽업 소환 게이지를 따로 관리하는데, <b>픽업 게이지는 픽업 대상이 바뀌어도 유지된다는 점이 중요해요.</b> 구버전처럼 픽업이 바뀌면 게이지가 날아가는 구조가 아닌 거죠.</p>
+
+      <p>소급 적용 기준도 같이 정리할게요.</p>
+      <ul>
+        <li><b>동료·유물·스타포스</b> — 2026년 3월 1일 이후 기록 반영</li>
+        <li>무기 — 에인션트 최상급 무기 획득 이후의 소환 횟수 반영</li>
+      </ul>
+
+      <p>즉, 해당 기준 이후에 쌓아둔 뽑기 실패 횟수가 천장에 연산되는 거예요. 이미 열심히 뽑고 있던 분들이라면 예상보다 빨리 천장에 도달하는 경우도 있을 수 있겠죠ㅎㅎ.</p>
+
+      <p>공식 확률이 공개되지 않아 천장까지 정확히 몇 번이 필요한지는 알기 어려워요.</p>
+
+      <p class="ph">📷 〔사진 3〕 소환 화면 내 천장 게이지 UI — 무기 또는 동료 소환 화면에서 게이지 바 표시 상태 캡처 후 업로드</p>
+
+      <h3>스타포스 강화 체계도 바뀌었어요</h3>
+
+      <p><b>스타포스 강화 최대 단계가 기존 25성에서 30성으로 올라갔어요.</b> 단순히 숫자가 늘어난 게 아니라, 기존에 찍어뒀던 별 단계들도 새로운 구간으로 재조정됩니다.</p>
+
+      <table>
+        <thead><tr><th>기존 단계</th><th>변경 후 단계</th></tr></thead>
+        <tbody>
+          <tr><td>23성</td><td>24성</td></tr>
+          <tr><td>24성</td><td>26성</td></tr>
+          <tr><td>25성</td><td>28성</td></tr>
+        </tbody>
+      </table>
+
+      <p>그리고 20성 이상부터는 기존 옵션 증폭과는 별개로 <b>최종 대미지 효과가 추가</b>돼서, 고단계까지 올린 분들은 실질적인 전투력 상승을 체감하실 수 있을 거예요.</p>
+
+      <p>강화 천장 쪽을 보면, 실패하거나 단계가 하락하거나 파괴될 때마다 포인트가 쌓이고, 최대치에 도달하면 다음 강화가 <b>확정 성공</b>되는 구조예요.</p>
+      <ul>
+        <li>실패 시 +1점</li>
+        <li>단계 하락 시 +2점</li>
+        <li><b>파괴 시 +4점</b></li>
+      </ul>
+
+      <p>단계 하락 발생 구간도 조정됐는데, 기존에는 13성부터 하락이 생겼는데 이제는 21성에서 22성 구간부터 발생하도록 바뀌었습니다. 이 부분에서 중저단계 강화는 부담이 꽤 줄어든 셈이죠.</p>
+
+      <p>편의 기능으로 자동 강화도 추가됐는데, 목표 단계와 하락·파괴 완화 사용 여부를 미리 설정해두면 자동으로 돌려주는 기능이에요. <b>과금 없이도 이 천장·자동 강화 기능은 모두 사용할 수 있습니다.</b></p>
+
+      <p class="ph">📷 〔사진 4〕 30성으로 확장된 스타포스 강화 화면 — 게임 내 장비 강화 탭 캡처 후 업로드</p>
+
+      <h3>잠재 옵션 자동 변환·배속 등 편의 기능도 챙기기</h3>
+
+      <p>보스 레이드와 천장 얘기만 했는데, 편의 기능도 꽤 알찬 게 들어왔어요.</p>
+
+      <p>일단 잠재 옵션 자동 변환 기능이 생겼습니다. <b>최대 3개의 선호 옵션 조합을 등록해 두면, 그 조합이 나올 때까지 자동으로 변환</b>해 주는 기능이에요. 적용 대상은 장비 잠재, 유물 잠재, 여정의 발자취고요. 잠재 등급 상승만 노리는 '등급업 모드'도 따로 추가됐습니다. 설정만 해두면 자동으로 돌아가니 클릭 반복에서 해방될 수 있겠죠ㅎㅎ.</p>
+
+      <p>여정의 발자취 재화도 이번에 바뀌었는데, 기존의 '미라클 큐브' 대신 '여정의 기운'이라는 신규 재화로 교체됐어요. 일반 상점과 아레나 상점에서 따로 수급할 수 있다고 합니다.</p>
+
+      <p>전투 배속 면에서는 <b>길드 대항전·길드 수련장·아레나에서 1배속, 1.5배속, 2배속을 선택</b>할 수 있게 됐고요, 전투력이 충분히 높은 경우 전투 화면을 생략하고 결과만 바로 확인하는 스킵 기능도 붙었습니다.</p>
+
+      <p class="ph">📷 〔사진 5〕 잠재 옵션 자동 변환 설정 화면 — 선호 옵션 등록 UI 화면 캡처 후 업로드</p>
+
+      <h3>핑크빈 이벤트 기간과 코인 수급 총정리</h3>
+
+      <p><b>핑크빈 기념 이벤트는 2026년 9월 3일부터 10월 14일까지 진행됩니다.</b> 주요 이벤트들을 보면, 크게 '핑크빈 다이어리'와 '도전! 핑크빈 레이드' 두 축으로 나뉘어요.</p>
+
+      <p>'핑크빈 다이어리' 이벤트는 매일 3가지 미션을 클리어하면 다이어리를 받는 방식인데요, 미션 내용은 몬스터 2,000마리 처치 / 엘리트 몬스터 10회 소환 / 무기 던전 1회 클리어예요. 미션 1개당 다이어리 1개가 나오고 하루 최대 3개, 전 기간 참여하면 최대 126개를 모을 수 있습니다(인벤 보도 기준). 이 중 125개를 릴레이 스탬프에 투입하고, 나머지 1개는 일일 누적 보상 쪽으로 분리해서 최종 합산이 이뤄지는 구조예요.</p>
+
+      <p>그렇게 모은 다이어리는 핑크빈 코인으로 환산되는데, 총 수급 구조가 이렇습니다.</p>
+
+      <table>
+        <thead><tr><th>경로</th><th>코인 수량</th></tr></thead>
+        <tbody>
+          <tr><td>다이어리 125개 → 릴레이 스탬프 5라운드 완주</td><td>55,000코인</td></tr>
+          <tr><td>일일 미션 30개 누적 보상</td><td>11,000코인</td></tr>
+          <tr><td><b>합계</b></td><td><b>66,000코인</b></td></tr>
+        </tbody>
+      </table>
+
+      <p><b>블루 다이아 추가 지출 없이 최대 66,000코인</b>을 챙길 수 있어요. 빠짐없이 접속해서 미션만 꼬박꼬박 챙기면 되는 구조니까, 이벤트 기간 동안은 매일 접속하는 게 핵심이겠죠.</p>
+
+      <p>'도전! 핑크빈 레이드' 이벤트도 있는데, 핑크빈 레이드를 누적 30회 클리어하면 핑크빛 성배 4개, 무기 소환권 200개, 스타포스 강화 주문서 30개 등 보상 묶음이 돌아옵니다.</p>
+
+      <p>핫타임 이벤트도 붙어 있어서, 오픈일 기준 10일 동안 하루 1회씩 2시간 동안 경험치와 메소 획득량이 100% 증가해요. 접속 시간 여유가 된다면 핫타임 맞춰 달리면 더 효율적이겠죠.</p>
+
+      <p class="ph">📷 〔사진 6〕 핑크빈 이벤트 탭 전체 화면 — 게임 내 이벤트 탭 캡처 후 업로드</p>
+
+      <p>참고로 핑크빈 코인은 이벤트 교환소에서 성장 재화·장비 등과 교환할 수 있어요. 구체적인 교환 아이템 목록은 게임 내 이벤트 탭에서 직접 확인하시는 게 가장 정확합니다.</p>
+
+      <h3>메이플 키우기 핑크빈 업데이트 정리</h3>
+
+      <p>9월 3일 메이플 키우기 핑크빈 업데이트의 핵심을 한 번에 짚어볼게요.</p>
+      <ul>
+        <li>신규 보스 핑크빈 — 쉬움·보통·어려움 3난이도, 최대 4인 파티 / 싱글 모드 추가</li>
+        <li>소환 천장 — 무기(Lv.18+)·동료(Lv.13+)·유물에 확정 소환 적용, 픽업 게이지 변경 후에도 유지</li>
+        <li>스타포스 — 최대 30성으로 확장, 확정 성공 포인트 누적 천장 도입, 자동 강화 추가</li>
+        <li>편의 — 잠재 옵션 자동 변환, 배속 선택(1/1.5/2배속), 전투 스킵</li>
+        <li>이벤트 — 9/3~10/14, 꼬박 참여 시 핑크빈 다이어리 최대 126개·핑크빈 코인 최대 66,000코인 수급(인벤 보도 기준)</li>
+      </ul>
+
+      <p>천장 시스템이 생기면서 뽑기와 강화 두 곳 모두 운 나쁜 케이스에 대한 버퍼가 생겼으니, 결과 예측이 훨씬 수월해졌다는 게 느껴지더라고요. 이벤트 기간 꼬박꼬박 챙기시면서 핑크빈 레이드도 달려보세요!</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://www.inven.co.kr/webzine/news/?news=320398" target="_blank">인벤 — 메이플 키우기 9월 3일 업데이트 보도</a><br>
+      · <a href="https://www.khgames.co.kr/news/articleView.html?idxno=308024" target="_blank">경향게임스 — 메이플 키우기 핑크빈 업데이트 기사</a></p>
+
+      <p class="tags-line"># 메이플키우기 # 메이플키우기핑크빈 # 메이플키우기천장 # 메이플키우기업데이트 # 핑크빈코인 # 방치형게임 # 모바일게임추천</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
