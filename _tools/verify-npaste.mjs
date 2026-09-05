@@ -24,7 +24,8 @@ mkdirSync(OUT, { recursive: true });
 let files = args.filter(a => a.endsWith('.html'));
 if (flag('--all') || flag('--unpub') || !files.length) {
   const posts = JSON.parse(readFileSync(join(ROOT, 'posts.json'), 'utf8'));
-  files = posts.filter(p => p.author === '봄딩' && (!flag('--unpub') || !p.published)).map(p => p.rel);
+  const AUTHOR = val('--author', '봄딩');   /* --author 영도 : 다른 작성자 글에 같은 스크립트를 실험 주입(검토용) */
+  files = posts.filter(p => p.author === AUTHOR && (!flag('--unpub') || !p.published)).map(p => p.rel);
 }
 if (LIMIT) files = files.slice(0, LIMIT);
 console.log(`files: ${files.length}`);
