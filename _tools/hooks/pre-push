@@ -96,9 +96,8 @@ elif [ -s "$LIST" ]; then
 else
   echo "[pre-push] 발행 게이트: 이번 push 에 HTML 변경 없음 — 차단 검사 대상 0건."
 fi
-rm -f "$LIST"
-
 if [ "$RC" -ne 0 ]; then
+  rm -f "$LIST"
   echo ""
   # RC 는 xargs 경유일 때 123(= 하위 명령이 1~125로 종료) 이 나온다 — 숫자를 그대로 해석하지 말 것.
   echo "[pre-push] ✗ 발행 게이트 실패 — push 중단. (게이트 종료 신호 $RC · xargs 경유면 123)"
@@ -106,6 +105,50 @@ if [ "$RC" -ne 0 ]; then
   echo "           (정말 우회가 필요하면 git push --no-verify 지만, 발행 사고 재발 방지를 위해 권장하지 않음)"
   exit 1
 fi
+
+# ---- 용어집 오표기 게이트 (2026-09-05 신설) ----
+# 용어집 `흔한 오표기` 열을 코드가 집행한다. 그전엔 정본에 적혀 있어도 LLM 이 기억해야만 잡혔다.
+# ★style-lint 와 같은 원칙: **인자 모드(이번 push 분)에서만 DENY.**
+#   전수(--all)로 걸면 이미 발행된 과거 글의 위반 때문에 모든 push 가 막힌다
+#   (실측 2026-09-05: 1,100편 중 2편이 기존 위반 — 역전파는 별도 판단 사항이지 push 차단 사유가 아니다).
+GLINT="$REPO_ROOT/_tools/glossary-lint.py"
+if [ -f "$GLINT" ] && [ -s "$LIST" ]; then
+  echo "[pre-push] 용어집 게이트: 이번 push 분을 용어집 «흔한 오표기» 로 검사합니다."
+  PYTHONIOENCODING=utf-8 xargs -0 "$PY" "$GLINT" < "$LIST"
+  GRC=$?
+  if [ "$GRC" -ne 0 ]; then
+    rm -f "$LIST"
+    echo ""
+    echo "[pre-push] ✗ 용어집 게이트 실패 — push 중단. (종료 신호 $GRC · xargs 경유면 123)"
+    echo "           위에 나온 «오표기 → 공식 표기» 로 고친 뒤 다시 push하세요."
+    echo "           오표기가 아니라 정당한 표현이면 _glossary/<게임>.md 의 그 행을 고치는 게 맞습니다."
+    exit 1
+  fi
+fi
+
+# ---- 이미지 실재성 게이트 (2026-09-05 신설) ----
+# 글에 박힌 이미지가 «디스크에 실제로 있는가»를 코드가 본다. 네트워크는 타지 않는다(사용자 결정: 비용 0 안).
+# 배경: 2026-09-04 봄딩 팰월드 온라인 글이 이미지 4장을 전부 지어낸 구글플레이 CDN URL(전부 HTTP 400)로
+#       박은 채 발행됐고, 개수만 세던 검수·문체만 보던 린트를 전부 무증상 통과했다.
+# 차단 대상은 «사실»만 — 참조한 로컬 파일 없음(IMG-1) · 개인 블로그 이미지 하드금지 호스트(IMG-2).
+#   외부 핫링크·치수 불일치는 🟡 경고라 push 를 막지 않는다(전수 실측 2026-09-05: 1,102편 중
+#   핫링크만 쓰는 글이 58편 — 차단으로 올리면 오탐이 커진다).
+# ★style-lint·glossary-lint 와 같은 원칙: **인자 모드(이번 push 분)에서만 DENY.**
+ILINT="$REPO_ROOT/_tools/img-lint.py"
+if [ -f "$ILINT" ] && [ -s "$LIST" ]; then
+  echo "[pre-push] 이미지 게이트: 이번 push 분의 이미지 참조가 실재하는지 검사합니다."
+  PYTHONIOENCODING=utf-8 xargs -0 "$PY" "$ILINT" < "$LIST"
+  IRC=$?
+  if [ "$IRC" -ne 0 ]; then
+    rm -f "$LIST"
+    echo ""
+    echo "[pre-push] ✗ 이미지 게이트 실패 — push 중단. (종료 신호 $IRC · xargs 경유면 123)"
+    echo "           🔴 는 판단이 아니라 사실입니다 — 그대로 올리면 라이브에서 이미지가 깨집니다."
+    echo "           이미지를 글 폴더 img/ 에 받아(image-sourcing §6) 경로를 맞추고, 커밋에 img/ 를 함께 담으세요."
+    exit 1
+  fi
+fi
+rm -f "$LIST"
 
 # ---- 비차단 경고: 워킹트리 전수 스캔 ----
 # push 를 막지는 않지만 "리포 어딘가에 위반이 남아 있다"를 조용히 넘기지 않는다.
