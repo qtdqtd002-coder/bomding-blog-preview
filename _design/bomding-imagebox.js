@@ -5,6 +5,8 @@
  *    <script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
  *  수집원: ① 본문 <img> + 주변 메타(.cap/.src/이유 주석)  ② <script type="application/json" id="np-imgkit"> 추가 후보
  *  이미지·링크가 0이면 아무것도 그리지 않는다.
+ *  ★뷰어(2026-09-05): 썸네일 클릭 = 새 탭이 아니라 «같은 화면 오버레이 1개».
+ *    ← → 로 사진을 넘기고(끝에서 순환), 마음에 드는 사진이 나오면 그 사진 우측 하단 「저장」으로 받는다. Esc 닫기.
  */
 (function () {
   "use strict";
@@ -201,7 +203,49 @@
     '#bdTab.on{display:block;}',
     '@media (max-width:1279px){#bdBox{left:0;top:0;bottom:0;width:min(320px,92vw);border-radius:0;',
     'box-shadow:4px 0 22px rgba(0,0,0,.18);}}',
-    '@media print{#bdBox,#bdTab{display:none !important;}}'
+    /* ── 뷰어(라이트박스) — 새 탭 대신 같은 화면에서 크게 보고 ← → 로 넘긴다 ── */
+    'body.bd-lb-lock{overflow:hidden;}',
+    '#bdLb{position:fixed;left:0;top:0;right:0;bottom:0;z-index:100010;display:none;',
+    'align-items:center;justify-content:center;padding:52px 68px 66px;background:rgba(24,12,18,.88);',
+    '-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);}',
+    '#bdLb.on{display:flex;}',
+    '#bdLb.ld::after{content:"불러오는 중…";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);',
+    'text-align:center;color:#ffd0e2;font-size:13px;font-weight:800;pointer-events:none;}',
+    /* 컨트롤은 항상 사진 위 — 좁은 화면에서 사진이 화살표를 덮으면 ‹ 만 사라진다(DOM 순서) */
+    '.bd-lb-top{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;gap:10px;padding:12px 14px;color:#fff;}',
+    '.bd-lb-top .ct{flex:0 0 auto;background:#D63E7A;border-radius:20px;font-size:12px;font-weight:800;padding:3px 10px;}',
+    '.bd-lb-top .lb{flex:1 1 auto;min-width:0;font-size:13px;font-weight:700;line-height:1.4;',
+    'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 3px rgba(0,0,0,.6);}',
+    '.bd-lb-top .cl{flex:0 0 auto;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;',
+    'border-radius:8px;width:32px;height:32px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;}',
+    '.bd-lb-fig{position:relative;margin:0;line-height:0;max-width:100%;max-height:100%;}',
+    '.bd-lb-fig img{display:block;max-width:min(1240px,calc(100vw - 150px));max-height:calc(100vh - 128px);',
+    'width:auto;height:auto;border-radius:10px;background:#fff;box-shadow:0 12px 44px rgba(0,0,0,.55);}',
+    '#bdLb.ld .bd-lb-fig img{opacity:.32;}',
+    /* 저장 버튼 = 「보고 있는 그 사진」의 우측 하단(화면 구석이 아니라 이미지 위) — 짧은 사진에선 › 와 겹치므로 화살표보다 위에 둔다.
+       ★.bd-lb-fig 에는 z-index 를 주지 말 것 — 주면 스택 컨텍스트가 생겨 이 버튼이 그 안에 갇힌다 */
+    '.bd-lb-act{position:absolute;right:12px;bottom:12px;z-index:3;display:flex;gap:6px;line-height:1;}',
+    /* 작은 사진은 버튼이 사진을 덮으므로 같은 «우측 하단»을 유지한 채 이미지 바로 밑으로 내린다 */
+    '.bd-lb-act.out{right:0;bottom:-44px;}',
+    '.bd-lb-act button{background:#D63E7A;color:#fff;border:0;border-radius:8px;padding:9px 15px;font-size:13px;',
+    'font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 2px 10px rgba(0,0,0,.45);}',
+    '.bd-lb-act button.done{background:#eafaf0;color:#1d6b3e;}',
+    '.bd-lb-act button:disabled{opacity:.7;cursor:default;}',
+    '#bdLb .nv{position:absolute;top:50%;z-index:2;transform:translateY(-50%);width:44px;height:64px;border-radius:10px;',
+    /* 좁은 화면에선 화살표가 «사진 위»에 놓인다 — 밝은 스샷에서도 보이게 어두운 판을 깐다 */
+    'background:rgba(26,14,20,.55);border:1px solid rgba(255,255,255,.34);color:#fff;font-size:26px;',
+    'font-weight:800;line-height:1;cursor:pointer;font-family:inherit;text-shadow:0 1px 3px rgba(0,0,0,.6);}',
+    '#bdLb .nv.pv{left:12px;}#bdLb .nv.nx{right:12px;}',
+    '#bdLb .nv:hover,.bd-lb-top .cl:hover{background:rgba(214,62,122,.85);border-color:rgba(255,255,255,.5);}',
+    '.bd-lb-foot{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:9px 16px 12px;text-align:center;',
+    'color:#e9dde3;font-size:12.5px;line-height:1.5;}',
+    '.bd-lb-foot .sr{margin-left:8px;color:#ffc2d8;}',
+    '.bd-lb-foot a{color:#8ec5ff;text-decoration:none;font-weight:700;}',
+    '.bd-lb-foot .hint{display:block;margin-top:2px;color:#a9989f;font-size:11.5px;}',
+    '@media (max-width:900px){#bdLb{padding:48px 8px 60px;}#bdLb .nv{width:38px;height:54px;font-size:22px;}',
+    '#bdLb .nv.pv{left:4px;}#bdLb .nv.nx{right:4px;}',
+    '.bd-lb-fig img{max-width:calc(100vw - 20px);max-height:calc(100vh - 118px);}}',
+    '@media print{#bdBox,#bdTab,#bdLb{display:none !important;}}'
   ].join("");
   var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
 
@@ -218,7 +262,7 @@
       '<button type="button" class="sub" data-txt>출처 .txt</button></div>' : "") +
     (ITEMS.length ? '<div class="bd-list">' + ITEMS.map(function (it, i) {
       return '<div class="bd-it' + (it.extra ? " new" : "") + '" data-i="' + i + '">' +
-        '<div class="th" data-open title="새 탭에서 원본 열기"></div>' +
+        '<div class="th" data-open title="크게 보기 (← → 로 넘기기)"></div>' +
         '<div class="bd"><div class="lb">' + esc(it.label) +
         (it.extra ? '<span class="bd-tagx">후보</span>' : "") + '</div>' +
         '<div class="sc">' + (it.srcUrl
@@ -272,17 +316,22 @@
     a.href = u; a.download = name; document.body.appendChild(a); a.click();
     setTimeout(function () { URL.revokeObjectURL(u); a.remove(); }, 1200);
   }
+  /* btn 의 원래 라벨을 기억해 되돌린다 — 카드는 "받기", 뷰어는 "💾 저장"이라 하드코딩하면 안 된다 */
   function download(it, btn) {
-    if (btn) { btn.disabled = true; btn.textContent = "…"; }
+    var lbl = "";
+    if (btn) {
+      lbl = btn.dataset.o || btn.textContent;
+      btn.dataset.o = lbl; btn.disabled = true; btn.textContent = "…";
+    }
     return fetch(it.url, { mode: "cors", credentials: "omit" })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
       .then(function (b) {
         saveBlob(b, it.file);
-        if (btn) { btn.disabled = false; btn.textContent = "받기"; flash(btn, "저장됨"); }
+        if (btn) { btn.disabled = false; btn.textContent = lbl; flash(btn, "저장됨"); }
       })
       .catch(function () {
-        if (btn) { btn.disabled = false; btn.textContent = "받기"; }
-        window.open(it.url, "_blank", "noopener");   /* CORS 막히면 새 탭 → 우클릭 저장 */
+        if (btn) { btn.disabled = false; btn.textContent = lbl; }
+        window.open(it.url, "_blank", "noopener");   /* CORS 막히면 새 탭 → 우클릭 저장(실패 폴백뿐) */
       });
   }
   function toPng(blob) {
@@ -341,6 +390,122 @@
     return L.join("\r\n");
   }
 
+  /* ---------- 8. 뷰어(라이트박스) — 탭 1개로 크게 보기 · ← → 이동 · 우측하단 저장 ---------- */
+  var lb = null, lbFig = null, lbImg = null, lbCt = null, lbLbl = null,
+    lbCap = null, lbSrc = null, lbAct = null, lbSave = null, LB = -1, LBTOK = 0;
+
+  function srcHTML(it) {
+    if (it.srcUrl) {
+      return '출처: <a href="' + esc(it.srcUrl) + '" target="_blank" rel="noopener">' +
+        esc(it.srcName || "원문 보기") + "</a>";
+    }
+    return it.srcName ? "출처: " + esc(it.srcName) : "출처 미표기";
+  }
+
+  function buildLb() {
+    lb = document.createElement("div");
+    lb.id = "bdLb"; lb.tabIndex = -1;
+    lb.setAttribute("role", "dialog"); lb.setAttribute("aria-modal", "true");
+    lb.innerHTML =
+      '<div class="bd-lb-top"><span class="ct"></span><span class="lb"></span>' +
+      '<button class="cl" type="button" title="닫기 (Esc)">✕</button></div>' +
+      '<button class="nv pv" type="button" title="이전 사진 (←)">‹</button>' +
+      '<figure class="bd-lb-fig"><img alt="">' +
+      '<div class="bd-lb-act"><button class="dl" type="button" title="이 사진 저장">💾 저장</button></div>' +
+      "</figure>" +
+      '<button class="nv nx" type="button" title="다음 사진 (→)">›</button>' +
+      '<div class="bd-lb-foot"><span class="cap"></span><span class="sr"></span>' +
+      '<span class="hint">← → 넘기기 · Esc 닫기 · 마음에 드는 사진은 우측 하단 「저장」</span></div>';
+    document.body.appendChild(lb);
+    lbFig = lb.querySelector(".bd-lb-fig");
+    lbImg = lb.querySelector(".bd-lb-fig img");
+    lbCt = lb.querySelector(".bd-lb-top .ct");
+    lbLbl = lb.querySelector(".bd-lb-top .lb");
+    lbCap = lb.querySelector(".bd-lb-foot .cap");
+    lbSrc = lb.querySelector(".bd-lb-foot .sr");
+    lbAct = lb.querySelector(".bd-lb-act");
+    lbSave = lb.querySelector(".bd-lb-act .dl");
+    window.addEventListener("resize", function () {
+      if (lb && lb.classList.contains("on")) fitAct();
+    });
+
+    lb.addEventListener("click", function (e) {
+      if (e.target === lb) { closeLb(); return; }          /* 배경 클릭 = 닫기 */
+      if (e.target.closest(".cl")) { closeLb(); return; }
+      if (e.target.closest(".nv.pv")) { stepLb(-1); return; }
+      if (e.target.closest(".nv.nx")) { stepLb(1); return; }
+      if (e.target.closest(".dl")) { download(ITEMS[LB], lbSave); return; }
+    });
+    document.addEventListener("keydown", onLbKey);
+  }
+
+  function showLb() {
+    var it = ITEMS[LB]; if (!it) return;
+    lbCt.textContent = (LB + 1) + " / " + ITEMS.length;
+    lbLbl.textContent = it.label + (it.extra ? "  (본문 미채택 후보)" : "");
+    lbCap.textContent = it.cap || it.why || "";
+    lbSrc.innerHTML = srcHTML(it);
+    lbSave.disabled = false;
+    lbSave.textContent = lbSave.dataset.o || "💾 저장";
+    lbSave.className = "dl";
+    /* 미리 받아 두고 갈아끼운다 — 넘기는 동안 화면이 비지 않게 */
+    var tok = ++LBTOK, pre = new Image();
+    lb.classList.add("ld");
+    pre.onload = pre.onerror = function () {
+      if (tok !== LBTOK) return;                            /* 더 최근 요청이 있으면 버린다 */
+      lbImg.src = it.url; lbImg.alt = it.alt || it.label || "";
+      lb.classList.remove("ld");
+      fitAct();
+      [LB - 1, LB + 1].forEach(function (j) {               /* 양옆 1장씩 선반입 */
+        var n = ITEMS[(j + ITEMS.length) % ITEMS.length];
+        if (n && n.url !== it.url) { var p = new Image(); p.src = n.url; }
+      });
+    };
+    pre.src = it.url;
+  }
+
+  /* 저장 버튼은 늘 «그 사진의 우측 하단» — 다만 사진이 작으면 사진을 덮으므로 바로 밑으로 내린다 */
+  function fitAct() {
+    if (!lbImg || !lbAct) return;
+    var r = lbImg.getBoundingClientRect();
+    lbAct.classList.toggle("out", !(r.width >= 240 && r.height >= 140));
+  }
+
+  function stepLb(d) {
+    if (!ITEMS.length) return;
+    LB = (LB + d + ITEMS.length) % ITEMS.length;            /* 끝에서 순환 */
+    showLb();
+  }
+  function openLb(i) {
+    if (!ITEMS.length) return;
+    if (!lb) buildLb();
+    LB = (i + ITEMS.length) % ITEMS.length;
+    lb.classList.add("on");
+    document.body.classList.add("bd-lb-lock");
+    showLb();
+    try { lb.focus(); } catch (e) { }
+  }
+  function closeLb() {
+    if (!lb) return;
+    lb.classList.remove("on");
+    document.body.classList.remove("bd-lb-lock");
+    LBTOK++;                                                /* 진행 중이던 로딩 무효화 */
+  }
+  function onLbKey(e) {
+    if (!lb || !lb.classList.contains("on")) return;
+    if (e.altKey || e.ctrlKey || e.metaKey) return;          /* Alt+← = 브라우저 뒤로가기 */
+    var t = e.target;
+    if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+    var k = e.key;
+    if (k === "Escape") { closeLb(); }
+    else if (k === "ArrowLeft") { stepLb(-1); }
+    else if (k === "ArrowRight") { stepLb(1); }
+    else if (k === "Home") { LB = 0; showLb(); }
+    else if (k === "End") { LB = ITEMS.length - 1; showLb(); }
+    else return;
+    e.preventDefault();
+  }
+
   box.addEventListener("click", function (e) {
     var lk = e.target.closest(".bd-lk > b");
     if (lk) { lk.parentNode.classList.toggle("on"); return; }
@@ -349,7 +514,7 @@
       var it = ITEMS[+row.dataset.i];
       if (e.target.hasAttribute("data-dl")) { download(it, e.target); return; }
       if (e.target.hasAttribute("data-cp")) { copyImg(it, e.target); return; }
-      if (e.target.hasAttribute("data-open")) { window.open(it.url, "_blank", "noopener"); return; }
+      if (e.target.hasAttribute("data-open")) { openLb(+row.dataset.i); return; }
       return;
     }
     if (e.target.hasAttribute("data-txt")) {
