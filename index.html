@@ -617,6 +617,27 @@ a{color:inherit; text-decoration:none}
 .qchip .qsep{width:1px; height:14px; background:var(--hair-2)}
 .qchip .low b{color:var(--alert)}
 .qchip[hidden]{display:none}
+/* 남음 <10% — 칩 전체가 경고색(흰 글자 5.2:1). 아이콘·라벨·숫자·구분선 전부 흰색 계열 */
+.qchip.warn{background:var(--alert); color:#fff; box-shadow:0 0 0 1px var(--alert), var(--sh-rest)}
+.qchip.warn:hover,.qchip.warn:focus-visible{color:#fff; box-shadow:0 0 0 1px var(--alert), var(--sh-lift)}
+.qchip.warn .ic,.qchip.warn .qk,.qchip.warn b{color:#fff}
+.qchip.warn .qsep{background:rgba(255,255,255,.35)}
+/* 칩 상세 패널 — 칩 바로 아래 고정(top 70 · right 74), 폭 344px 고정, 3열 그리드(창 · 남음 · 초기화)에 줄바꿈 없음 */
+.qpop{
+  position:fixed; top:70px; right:74px; z-index:63; width:344px; padding:12px 14px 11px; border-radius:12px;
+  background:rgba(14,17,20,.94); color:#fff; box-shadow:var(--sh-float); font-size:12.5px; letter-spacing:-.01em;
+  pointer-events:none; opacity:0; transform:translateY(-4px);
+  transition:opacity var(--t-fast) var(--e), transform var(--t-fast) var(--e);
+}
+.qpop.on{opacity:1; transform:none}
+.qpop[hidden]{display:none}
+.qp-h{display:flex; justify-content:space-between; gap:12px; font-weight:600; color:rgba(255,255,255,.72); margin-bottom:6px; white-space:nowrap}
+.qp-h b{color:#fff; font-family:"JetBrains Mono",monospace; font-weight:500; font-variant-numeric:tabular-nums}
+.qp-r{display:grid; grid-template-columns:76px 74px 1fr; gap:10px; align-items:baseline; line-height:1.85; white-space:nowrap}
+.qp-r b{font-family:"JetBrains Mono",monospace; font-weight:600; font-variant-numeric:tabular-nums}
+.qp-r em{font-style:normal; color:rgba(255,255,255,.62); font-family:"JetBrains Mono",monospace; font-size:12px; font-variant-numeric:tabular-nums}
+.qp-r.warn b{color:#FF8A7A}
+.qp-warn{margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,.14); color:#FF8A7A; font-weight:600; white-space:nowrap}
 /* 차트 — 얇은 막대·2px 표면 간격·헤어라인 그리드·텍스트는 텍스트 토큰 */
 .chart{position:relative}
 .chart svg{display:block; width:100%; height:auto; overflow:visible}
@@ -650,9 +671,14 @@ a{color:inherit; text-decoration:none}
 .cr-tag.off{color:var(--ink-4)}
 .cr-err{font-size:12.5px; color:var(--alert); margin-left:auto}
 .cr-state{font-size:13px; color:var(--ink-3); padding:6px 0 4px}
-.chart .pubn{font-size:11.5px; font-weight:600; fill:var(--ink-2); font-family:"JetBrains Mono",monospace}   /* 막대 아래 «발행 편수» 행 */
-.chart .pubn.today{fill:var(--ink)}
-.chart .pubf{fill:var(--alert)}
+/* 사용량 콤보 — 편수 선(잉크 2px)+점(표면 링), 실패 점(경고색). 오른쪽 축 라벨은 .axis.r, 축 단위는 .axis.unit */
+.chart .ln{fill:none; stroke:var(--ink); stroke-width:2; stroke-linejoin:round; stroke-linecap:round; pointer-events:none}
+.chart .pt{fill:var(--ink); stroke:var(--surface); stroke-width:2; pointer-events:none}
+.chart .pf{fill:var(--alert); stroke:var(--surface); stroke-width:2; pointer-events:none}
+.chart .axis.r{fill:var(--ink-3)}
+.chart .axis.unit{fill:var(--ink-4)}
+.legend i.ln{width:14px; height:2px; border-radius:1px}
+.legend i.pt{width:8px; height:8px; border-radius:50%}
 @media (max-width:860px){ .cr-grid{grid-template-columns:1fr} .cr+.cr{border-left:0; padding-left:0; margin-top:12px; padding-top:12px; border-top:1px solid var(--hair)} }
 @media (max-width:520px){ .ks-stats{grid-template-columns:repeat(2,minmax(0,1fr))} }
 .ctip{
@@ -979,6 +1005,7 @@ html.gs .nt{transition:none !important}
   .qchip{top:66px; right:12px; height:34px; padding:0 11px 0 10px; gap:6px;
          transition:color var(--t-fast) var(--e), box-shadow var(--t-fast) var(--e), opacity var(--t-fast) var(--e), transform var(--t-fast) var(--e-out)}   /* 모바일: 섬이 전폭이라 종 줄엔 자리가 없다 → 그 아래 줄 */
   .qchip.tuck{opacity:0; pointer-events:none; transform:translateY(-10px)}   /* 스크롤을 내리면 접힌다(섬과 같은 규칙) — 고정 칩이 목록 행을 가리지 않게 */
+  .qpop{top:106px; right:12px; width:min(344px, calc(100vw - 24px))}
   .fsearch{width:100%; margin-left:0; order:9}
   .fsearch:focus-within{width:100%}
   .bf-f{grid-template-columns:1fr; gap:3px}
@@ -1026,7 +1053,8 @@ html.gs .nt{transition:none !important}
   <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
   <span class="bell-dot" id="bellDot" aria-hidden="true"></span>
 </button>
-<button class="qchip" id="qchip" type="button" aria-label="잔여 사용량" hidden></button><!-- 잔여 사용량 상단 고정 칩 — paintQuota() 가 채운다 -->
+<button class="qchip" id="qchip" type="button" aria-label="잔여 사용량" aria-describedby="qpop" hidden></button><!-- 잔여 사용량 상단 고정 칩 — paintQuota() 가 채운다 -->
+<div class="qpop" id="qpop" role="tooltip" hidden></div><!-- 칩 상세 — 고정 위치·고정 폭 패널(마우스 위치 무관) -->
 
 
 <div class="npanel" id="npanel" role="dialog" aria-label="알림" inert><div class="np-core" id="npCore"></div></div>
@@ -1054,6 +1082,7 @@ html.gs .nt{transition:none !important}
 /* ══════════ 아이콘 (인라인·currentColor) ══════════ */
 var I={
   search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  alert:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
   archive:'<rect x="2" y="4" width="20" height="5" rx="1.4"/><path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9"/><path d="M10 13h4"/>',
   arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
   arrowUR:'<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
@@ -1191,6 +1220,14 @@ var MO=(function(){
     var cols=root.querySelectorAll('.chart .col'), cnts=root.querySelectorAll('.cnt');
     if(cols.length)g.fromTo(cols,{scaleY:0,transformOrigin:'50% 100%'},
       {scaleY:1,duration:.8,ease:EXP,stagger:{amount:.35},clearProps:'transform'});
+    /* 콤보 선은 막대 뒤에 그려지고(draw-in), 점은 뒤따라 나타난다 — 마크업엔 최종값이 있어 GSAP 없이도 정적 완성 */
+    Array.prototype.forEach.call(root.querySelectorAll('.chart .ln'),function(l){
+      var len=0; try{ len=l.getTotalLength(); }catch(e){}
+      if(!len||!isFinite(len))return;
+      g.fromTo(l,{strokeDasharray:len,strokeDashoffset:len},{strokeDashoffset:0,duration:.9,delay:.25,ease:EXP,clearProps:'strokeDasharray,strokeDashoffset'});
+    });
+    var pts=root.querySelectorAll('.chart .pt,.chart .pf');
+    if(pts.length)g.fromTo(pts,{opacity:0},{opacity:1,duration:.4,delay:.8,ease:EXP,stagger:{amount:.2},clearProps:'opacity'});
     Array.prototype.forEach.call(cnts,function(n){ var v=n.getAttribute('data-n'); if(v!==''&&v!=null)count(n,Number(v),0); });
   }
   /* 스트로크 드로잉 — 아이콘의 선이 그려진다 */
@@ -1775,35 +1812,38 @@ function fmtStamp(ts){
 /* 잔여 사용량 — 홈 타일이 아니라 상단 고정 칩(종 왼쪽, 모든 탭 — 사용자 결정 09-05). 남음 % 둘(5시간 창·7일 전체)만 보이고
    모델별·초기화 시각·스냅샷 시각은 툴팁(hover·focus 동일). 스냅샷이 없으면 칩을 숨긴다(0 으로 위장하지 않는다) */
 function paintQuota(){
-  var chip=el('qchip'); if(!chip)return;
+  var chip=el('qchip'), pop=el('qpop'); if(!chip)return;
   var L=quotaLimits(), main=L.filter(function(l){ return l.kind==='session'||l.kind==='weekly_all'; });
-  if(!main.length){ chip.hidden=true; return; }
-  var at=QUOTA&&QUOTA.at?Date.parse(QUOTA.at):0;
-  chip.innerHTML=svg('gauge')+'<span class="qk">남음</span>'+main.map(function(l){
-    var rem=100-l.pct;
-    return '<span'+(rem<=15?' class="low"':'')+'>'+(l.kind==='session'?'5시간':'7일')+'<b>'+rem+'%</b></span>';
+  if(!main.length){ chip.hidden=true; if(pop)pop.hidden=true; return; }
+  var at=QUOTA&&QUOTA.at?Date.parse(QUOTA.at):0, remOf=function(l){ return 100-l.pct; };
+  /* 경고 = 두 창 중 하나라도 남음 <10% → 칩 전체가 경고색 + «거의 소진». 10~15% 는 그 숫자만 경고색 */
+  var minL=main.reduce(function(a,l){ return remOf(l)<remOf(a)?l:a; },main[0]), minRem=remOf(minL), warn=minRem<10;
+  chip.classList.toggle('warn',warn);
+  chip.innerHTML=svg(warn?'alert':'gauge')+'<span class="qk">'+(warn?'거의 소진':'남음')+'</span>'+main.map(function(l){
+    var rem=remOf(l);
+    return '<span'+(!warn&&rem<=15?' class="low"':'')+'>'+(l.kind==='session'?'5시간':'7일')+'<b>'+rem+'%</b></span>';
   }).join('<i class="qsep"></i>');
-  /* 툴팁 행은 «라벨|값» 한 줄씩 짧게(폭 260px) — 초기화 시각은 따로 한 행 */
-  var rows=L.map(function(l){
-    var lab=l.kind==='weekly_scoped'?(l.model||'모델')+' 7일':(LIMIT_LABEL[l.kind]||l.kind);
-    return lab+'|'+(100-l.pct)+'% 남음';
-  });
-  var resets=main.filter(function(l){ return l.resets; }).map(function(l){ return (l.kind==='session'?'5시간 ':'7일 ')+resetTx(l.resets).replace(/\s*초기화$/,''); });
-  if(resets.length)rows.push('초기화|'+resets.join(' · '));
-  chip.setAttribute('data-tip','잔여 사용량 · '+esc(tierLabel(QUOTA&&QUOTA.tier))+'|'+(at?fmtStamp(at):'')+'||'+rows.join(';'));
-  chip.setAttribute('aria-label','잔여 사용량 '+main.map(function(l){ return LIMIT_LABEL[l.kind]+' '+(100-l.pct)+'%'; }).join(', '));
+  chip.setAttribute('aria-label',(warn?'경고, 사용량이 거의 소진됐어요. ':'')+'잔여 사용량 '+main.map(function(l){ return LIMIT_LABEL[l.kind]+' '+remOf(l)+'%'; }).join(', '));
   chip.hidden=false;
-  if(!chip.__tip){ chip.__tip=1;
-    chip.addEventListener('pointerenter',function(e){ showTip(chip,e.clientX,e.clientY,false); });
-    chip.addEventListener('pointermove',function(e){ showTip(chip,e.clientX,e.clientY,false); });
-    chip.addEventListener('pointerleave',hideTip);
-    chip.addEventListener('focus',function(){ showTip(chip,0,0,true); });
-    chip.addEventListener('blur',hideTip);
+  /* 상세는 칩 아래 «고정» 패널(.qpop) — 마우스 위치와 무관하게 같은 자리·같은 크기, 줄바꿈 없음(사용자 결정 09-05) */
+  if(pop){
+    pop.innerHTML='<div class="qp-h"><span>잔여 사용량 · '+esc(tierLabel(QUOTA&&QUOTA.tier))+'</span><b>'+esc(at?fmtStamp(at):'스냅샷 없음')+'</b></div>'+
+      L.map(function(l){
+        var lab=l.kind==='weekly_scoped'?(l.model||'모델')+' 7일':(LIMIT_LABEL[l.kind]||l.kind);
+        return '<div class="qp-r'+(remOf(l)<10?' warn':'')+'"><span>'+esc(lab)+'</span><b>'+remOf(l)+'% 남음</b><em>'+esc(l.resets?resetTx(l.resets):'')+'</em></div>';
+      }).join('')+
+      (warn?'<div class="qp-warn">'+esc((LIMIT_LABEL[minL.kind]||minL.kind)+' 사용량이 거의 소진됐어요 · '+minRem+'% 남음'+(minL.resets?' · '+resetTx(minL.resets):''))+'</div>':'');
+    if(!chip.__pop){ chip.__pop=1;
+      var show=function(){ pop.hidden=false; requestAnimationFrame(function(){ pop.classList.add('on'); }); };
+      var hide=function(){ pop.classList.remove('on'); pop.hidden=true; };
+      chip.addEventListener('pointerenter',show); chip.addEventListener('pointerleave',hide);
+      chip.addEventListener('focus',show); chip.addEventListener('blur',hide);
+    }
   }
 }
 
-/* 사용량 — 작성자별 토큰(스택 막대)과 그날 발행 편수(막대 아래 숫자 행 · 실패는 경고색)를 한 차트에(사용자 결정 09-05: 주간 사용량+일간 발행 통합).
-   축은 토큰 하나뿐(이중 축 금지) — 편수는 축이 아니라 «행»이다. 토큰=_usage.json(하루 1회 스냅샷·추정), 편수=백엔드 /requests 종결 상태(실시간) */
+/* 사용량 — 콤보 차트(사용자 결정 09-05 3차): 작성자별 토큰 = 스택 막대(왼쪽 축) · 발행 편수 = 선+점(오른쪽 축, 잉크) · 실패·건너뜀 = 경고색 점(오른쪽 축).
+   «막대 아래 숫자 행» 방식은 읽기 어렵다는 사용자 평가로 폐기. 토큰=_usage.json(하루 1회 스냅샷·추정), 편수=백엔드 /requests 종결 상태(실시간). 미연결이면 오른쪽 축·선 자체를 안 그린다 */
 function tileUsage(){
   var tok={}; (USAGE&&Array.isArray(USAGE.days)?USAGE.days:[]).forEach(function(d){ if(d&&d.d)tok[d.d]=d; });
   var ds=dayStats(14), pub={}; ds.forEach(function(d){ pub[d.d]=d; });
@@ -1817,12 +1857,20 @@ function tileUsage(){
     var series=W_ORDER.filter(function(w){ return tot[w]>0; });
     var tokOf=function(d){ return Number((tok[d]||{}).tok)||0; };
     var max=Math.max.apply(null,dates.map(tokOf).concat([1]));
-    var W=chartW(560),H=208,padL=46,padR=8,padT=18,padB=44,pw=W-padL-padR,ph=H-padT-padB,slot=pw/dates.length,bw=Math.min(24,slot*.55);
+    var W=chartW(560),H=200,padL=46,padR=(REQS_OK?34:8),padT=22,padB=26,pw=W-padL-padR,ph=H-padT-padB,slot=pw/dates.length,bw=Math.min(24,slot*.55);
     var step=niceStep(max), grid='';
     for(var v=0;v<=max;v+=step){
       var gy=padT+ph-(v/max)*ph;
       grid+='<line class="grid" x1="'+padL+'" x2="'+(W-padR)+'" y1="'+gy.toFixed(1)+'" y2="'+gy.toFixed(1)+'"/>'+
         '<text class="axis" x="'+(padL-7)+'" y="'+(gy+3.5).toFixed(1)+'" text-anchor="end">'+fmtTok(v)+'</text>';
+    }
+    grid+='<text class="axis unit" x="'+(padL-7)+'" y="'+(padT-9)+'" text-anchor="end">토큰</text>';
+    /* 오른쪽 축 — 편수(발행 선·실패 점). 미연결이면 축도 선도 없다 */
+    var cmax=0; if(REQS_OK)ds.forEach(function(d){ cmax=Math.max(cmax,d.p,d.f); });
+    var cscale=Math.max(4,cmax), cstep=niceStep(cscale), cy=function(n){ return padT+ph-(n/cscale)*ph; }, raxis='';
+    if(REQS_OK){
+      for(var c=0;c<=cscale;c+=cstep)raxis+='<text class="axis r" x="'+(W-padR+7)+'" y="'+(cy(c)+3.5).toFixed(1)+'" text-anchor="start">'+c+'</text>';
+      raxis+='<text class="axis unit" x="'+(W-padR+7)+'" y="'+(padT-9)+'" text-anchor="start">편</text>';
     }
     var maxD=dates.reduce(function(a,d){ return tokOf(d)>tokOf(a)?d:a; },dates[0]);
     var every=slot<30?2:1;
@@ -1836,20 +1884,27 @@ function tileUsage(){
       });
       var isT=d===today, cx=(padL+slot*i+slot/2).toFixed(1);
       var cap=tk>0&&(d===maxD||isT)?'<text class="cap" x="'+(x+bw/2).toFixed(1)+'" y="'+(y-5).toFixed(1)+'" text-anchor="middle">'+fmtTok(tk)+'</text>':'';
-      /* 편수 행 — 좁은 폭(슬롯 <26px)에선 날짜 라벨과 같은 위상만 그린다(«12·2» 가 18px 슬롯에서 이웃과 뭉개진다 — 09-05 검수). 값은 툴팁·표에 전부 있다 */
-      var showPn=(p.p||p.f)&&(slot>=26||i%every===(dates.length-1)%every);
-      var pn=showPn?'<text class="pubn'+(isT?' today':'')+'" x="'+cx+'" y="'+(H-25)+'" text-anchor="middle">'+p.p+(p.f?'<tspan class="pubf">·'+p.f+'</tspan>':'')+'</text>':'';
       var lab=(i%every===(dates.length-1)%every)?'<text class="axis'+(isT?' today':'')+'" x="'+cx+'" y="'+(H-7)+'" text-anchor="middle">'+(isT?'오늘':mdLabel(d))+'</text>':'';
       if(REQS_OK){ tip.push('발행|'+p.p); if(p.f)tip.push('실패·건너뜀|'+p.f); }   /* 미연결이면 편수는 «모른다» — 0 으로 적지 않는다 */
-      return '<g class="col">'+segs+cap+pn+lab+
-        '<rect class="hit" tabindex="0" x="'+(padL+slot*i).toFixed(1)+'" y="'+padT+'" width="'+slot.toFixed(1)+'" height="'+(ph+18)+'"'+
+      return '<g class="col">'+segs+cap+lab+
+        '<rect class="hit" tabindex="0" x="'+(padL+slot*i).toFixed(1)+'" y="'+padT+'" width="'+slot.toFixed(1)+'" height="'+ph+'"'+
           ' data-tip="'+esc(mdLabel(d)+(isT?' 오늘':'')+'|'+fmtTok(tk)+'||'+tip.join(';'))+'" aria-label="'+esc(mdLabel(d)+' 토큰 '+fmtTok(tk)+(REQS_OK?' 발행 '+p.p+' 실패 '+p.f:' 발행 미연결'))+'"/></g>';
     }).join('');
+    /* 편수 선·점 — 막대(hit) 위에 그리되 포인터는 통과시킨다(.ln/.pt/.pf pointer-events:none) */
+    var line='', marks='';
+    if(REQS_OK){
+      var pts=dates.map(function(d,i){ var p=pub[d]||{p:0,f:0}; return {x:padL+slot*i+slot/2, y:cy(p.p), p:p.p, f:p.f, fy:cy(p.f), t:d===today}; });
+      line='<path class="ln" d="'+pts.map(function(q,i){ return (i?'L':'M')+q.x.toFixed(1)+' '+q.y.toFixed(1); }).join('')+'"/>';
+      marks=pts.map(function(q){
+        return (q.p>0?'<circle class="pt'+(q.t?' today':'')+'" cx="'+q.x.toFixed(1)+'" cy="'+q.y.toFixed(1)+'" r="3.5"/>':'')+
+               (q.f>0?'<circle class="pf" cx="'+q.x.toFixed(1)+'" cy="'+q.fy.toFixed(1)+'" r="3.5"/>':'');
+      }).join('');
+    }
     var pubAll=ds.reduce(function(a,d){ a.p+=d.p; a.f+=d.f; return a; },{p:0,f:0});
     var legend='<div class="legend">'+series.map(function(w){
         return '<span style="--c:'+wcol(w)+'"><i></i>'+esc(w)+'<b>'+fmtTok(tot[w])+'</b></span>'; }).join('')+
-      (REQS_OK?'<span style="--c:var(--ink-4)"><i></i>발행<b>'+pubAll.p+'</b></span><span style="--c:var(--alert)"><i></i>실패·건너뜀<b>'+pubAll.f+'</b></span>'
-              :'<span style="--c:var(--ink-4)"><i></i>발행<b>미연결</b></span>')+'</div>';
+      (REQS_OK?'<span style="--c:var(--ink)"><i class="ln"></i>발행<b>'+pubAll.p+'</b></span><span style="--c:var(--alert)"><i class="pt"></i>실패·건너뜀<b>'+pubAll.f+'</b></span>'
+              :'<span style="--c:var(--ink-4)"><i class="ln"></i>발행<b>미연결</b></span>')+'</div>';
     var table='<table class="sr"><caption>작성자별 일간 토큰과 발행 편수</caption><tr><th>날짜</th>'+
       series.map(function(w){ return '<th>'+esc(w)+'</th>'; }).join('')+'<th>합계</th><th>발행</th><th>실패·건너뜀</th></tr>'+
       dates.map(function(d){ var t=tok[d]||{}, p=pub[d]||{p:0,f:0};
@@ -1863,19 +1918,19 @@ function tileUsage(){
       '<span><span class="ks-k">7일 발행</span><b class="ks-v'+(REQS_OK?'':' pend')+'">'+(REQS_OK?wk.p:'미연결')+'</b></span>'+
       '<span><span class="ks-k">7일 실패율</span><b class="ks-v'+(wkRate==null?' pend':'')+'">'+(wkRate==null?'—':wkRate+'%')+'</b></span>'+
       '<span><span class="ks-k">7일 토큰</span><b class="ks-v'+(hasTok?'':' pend')+'">'+(hasTok?fmtTok(wkTok):'스냅샷 없음')+'</b></span></div>';
-    body=stats+'<div class="chart"><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+grid+cols+'</svg>'+table+'</div>'+legend;
+    body=stats+'<div class="chart"><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+grid+raxis+cols+line+marks+'</svg>'+table+'</div>'+legend;
   }
   var up=USAGE&&USAGE.updated?Date.parse(USAGE.updated):0;
   return '<section class="tray tile w7 rise" id="tileUsage"><div class="core">'+
     '<div class="tile-h"><span class="tile-ic">'+svg('layers')+'</span><span class="tile-t">사용량</span>'+
-      '<span class="tile-d">작성자별 토큰 · 발행 편수 · 14일</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
+      '<span class="tile-d">토큰 막대 · 발행 선 · 14일</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
     '<div class="tile-b">'+body+'</div></div></section>';
 }
 
 /* 차트 툴팁 — 하나를 돌려쓴다. 값이 앞, 이름이 뒤. 이름은 textContent 로만 넣는다 */
 var CTIP=null;
 function tipColor(name){
-  if(name==='발행')return 'var(--ink-4)';
+  if(name==='발행')return 'var(--ink)';
   if(name==='실패·건너뜀')return 'var(--alert)';
   return wcol(name);
 }
@@ -1893,9 +1948,9 @@ function showTip(hit,x,y,anchor){
     var b=document.createElement('b'); b.textContent=kv[1]||''; d.appendChild(b); CTIP.appendChild(d);
   });
   var vw=window.innerWidth, vh=window.innerHeight, tw=CTIP.offsetWidth||170, th=CTIP.offsetHeight||60;
-  if(anchor){ /* 키보드 포커스 — 열 «옆»에 붙인다. 위에 올리면 hit 스트립이 플롯 전체 높이라 타일 헤더와 겹친다(09-05 검수) */
-    var rc=hit.getBoundingClientRect(); x=rc.right+10; y=rc.top+rc.height/2-th/2;
-    if(x+tw>vw-8)x=rc.left-tw-10; }
+  if(anchor){ /* 키보드 포커스 — 플롯 «아래»(축 라벨·범례 위)에 붙인다. 위에 올리면 타일 헤더와, 옆에 붙이면 이웃 열과 겹친다(09-05 검수 2회) */
+    var rc=hit.getBoundingClientRect(); x=rc.left+rc.width/2-tw/2; y=rc.bottom+8;
+    if(y+th>vh-8)y=rc.top-th-8; }
   else { x=x+14; y=y+16; }
   x=Math.max(8,Math.min(vw-tw-8,x)); y=Math.max(8,Math.min(vh-th-8,y));
   CTIP.style.left=x+'px'; CTIP.style.top=y+'px';
