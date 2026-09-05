@@ -233,7 +233,7 @@ async function loadCdragon(R) {
   if (!REFRESH && fs.existsSync(CDRAGON_INDEX)) {
     try {
       const c = JSON.parse(fs.readFileSync(CDRAGON_INDEX, 'utf8'));
-      if (!lastModified || c.sourceLastModified === lastModified) return c;
+      if (!lastModified || c.sourceLastModified === lastModified) return withSets(c);
     } catch { /* 깨진 인덱스는 다시 만든다 */ }
   }
 
@@ -266,6 +266,13 @@ async function loadCdragon(R) {
                      from: x.composition.map((c) => (items.get(c) || {}).name || c) })),
   };
   fs.writeFileSync(CDRAGON_INDEX, JSON.stringify(idx), 'utf8');
+  return withSets(idx);
+}
+/* 라벨 판정용 조회 집합. 캐시 파일에는 담지 않는다(JSON 에 Set 이 안 들어간다). */
+function withSets(idx) {
+  if (!idx) return idx;
+  idx._champ = new Set((idx.champions || []).map((c) => c.key));
+  idx._aug   = new Set((idx.augments   || []).map((a) => a.key));
   return idx;
 }
 
@@ -300,6 +307,35 @@ function mkRefs(refs) {
       return hit ? hit.style : null;
     },
   };
+}
+
+/* ── 세트 판별 (2026-09-05 신설) ─────────────────────────────────────────────
+   왜: 롤체지지 `refs` 는 «현재 세트» 를 물어도 **지난 세트를 같이 실어 보낸다** —
+   실측 refs.champions 160 중 `TFT17_*` 가 68, refs.items 272 중 비-DA 가 134다.
+   09-04 데스크 사고(세트18에 없는 「전쟁기계」를 실을 뻔함)의 코드 쪽 뿌리가 이것이고,
+   `find` 는 이걸 안 걸러 `TFT17_MasterYi`(4코스트)를 그대로 돌려줬다.
+
+   ★«DA_ 가 아니면 유령» 은 틀렸다(실측으로 기각). `DA_18_CrimsonRaptor_Mini`(꼬마 부리)·
+     `DA_Elderwood18_Protector`(깊은숲 수호자)·`DA_TrainingDummy` 는 DA_ 인데 플레이어블
+     명단에 없다 — **다른 세트가 아니라 현세트의 소환수·더미**다. 유령이라 부르면 거짓이 된다.
+   그래서 지우지 않고 **세 갈래로 라벨**한다(판단은 사람이, 근거는 데이터가):
+     ✅현세트          = CDragon set18 플레이어블(챔피언) / set18 증강 / DA_ 계열(특성·아이템)
+     ◆현세트·비플레이어블 = DA_ 인데 플레이어블 명단 밖 — 소환수·더미. «챔피언»으로 쓰면 안 된다
+     ⛔다른 세트        = `TFT<숫자>_`·`TFTEvent*` — 실측상 현세트 아이템 통계 등장 0
+──────────────────────────────────────────────────────────────────────────── */
+const OTHER_SET = /^(TFT\d|TFTEvent)/i;
+function setTag(kind, key, cd) {
+  if (OTHER_SET.test(key)) return { tag: '⛔다른 세트', bad: true, note: '지난 세트 잔재 — 현재 세트 글에 쓰지 말 것' };
+  if (!cd) return { tag: '?미확인', bad: false, note: 'CDragon 대조 불가' };
+  if (kind === '챔피언') {
+    return cd._champ.has(key) ? { tag: '✅현세트', bad: false }
+      : { tag: '◆현세트·비플레이어블', bad: false, note: '소환수·더미 — 상점에서 못 뽑는다' };
+  }
+  if (kind === '증강') {
+    return cd._aug.has(key) ? { tag: '✅현세트', bad: false }
+      : { tag: '?미확인', bad: false, note: 'CDragon set18 증강 명단에 없다 — 인용 전 확인' };
+  }
+  return { tag: '✅현세트', bad: false }; // 특성·아이템: DA_ 계열이면 현세트(비-DA 는 위에서 걸렀다)
 }
 
 /* 덱 이름 = 롤체지지가 `deckKey` 에 박아 둔 «특성-챔피언-해시» 를 한국어로 편 것.
@@ -461,20 +497,27 @@ async function cmdFind(q) {
   ];
   const nq = q.toLowerCase().replace(/\s+/g, '');
   const hit = pool.filter((x) => (x.name || '').toLowerCase().replace(/\s+/g, '').includes(nq) || (x.key || '').toLowerCase().includes(nq));
-  if (JSON_OUT) return console.log(JSON.stringify(hit.map((x) => ({ type: x._t, source: x._s, name: x.name, key: x.key, cost: x.cost, desc: x.desc, recipe: recipeOf.get(x.name) || null })), null, 2));
+  if (JSON_OUT) return console.log(JSON.stringify(hit.map((x) => { const t = setTag(x._t, x.key, cd);
+    return { type: x._t, source: x._s, name: x.name, key: x.key, cost: x.cost, set: t.tag, otherSet: !!t.bad, desc: x.desc, recipe: recipeOf.get(x.name) || null }; }), null, 2));
   if (!hit.length) return console.log(`[명칭 조회] "${q}" 일치 없음 — 롤체지지·CDragon(라이엇 원본) 어디에도 없다. **한국어 정식 명칭이 아니다.** 지어내지 말고 다른 표기로 다시 찾을 것.`);
   const NOTE = '※ 설명문의 `%i:...%` 는 롤체지지 아이콘 자리표시자라 지웠다(수치·문장은 원문 그대로).';
-  // 같은 이름이 두 출처에 다 있으면 한 줄로 접고 출처를 합쳐 적는다(중복 나열 금지).
+  // ★접기 기준은 «키»다. 예전엔 «이름+종류»로 접었는데, 그러면 `마스터 이`(현세트)와
+  //   `마스터 이`(세트17 유령)가 한 줄로 합쳐져 **유령이 본체 뒤에 숨었다**(09-05 진단 5번).
+  //   같은 키가 두 출처에 있을 때만 접는다.
   const merged = [];
   for (const x of hit) {
-    const same = merged.find((m) => m.name === x.name && m._t === x._t);
+    const same = merged.find((m) => m.key === x.key && m._t === x._t);
     if (same) { if (!same._s.includes(x._s)) same._s += '+' + x._s; if (!same.desc && x.desc) same.desc = x.desc; }
     else merged.push({ ...x });
   }
+  // 현세트를 먼저, 다른 세트를 뒤로. 순서가 바뀌어도 유령이 앞에 서지 않는다.
+  for (const m of merged) m._set = setTag(m._t, m.key, cd);
+  merged.sort((a, b) => (a._set.bad ? 1 : 0) - (b._set.bad ? 1 : 0));
   let out = `[명칭 조회] "${q}" ${merged.length}건 — 한국어 정식 명칭(${d.season})\n`;
   out += `출처 표기: 롤체지지 = 라이브 트래커 / CDragon = 라이엇 게임 데이터 원본. 한쪽에만 있으면 그것도 정보다.\n\n`;
   for (const x of merged.slice(0, num('top', 20))) {
-    out += `· [${x._t}] ${x.name}   (key ${x.key}${x.cost ? ` · ${x.cost}코스트` : ''} · 출처 ${x._s})\n`;
+    out += `· [${x._t}] ${x.name}   ${x._set.tag}  (key ${x.key}${x.cost ? ` · ${x.cost}코스트` : ''} · 출처 ${x._s})\n`;
+    if (x._set.note) out += `    └ ${x._set.note}\n`;
     if (recipeOf.has(x.name)) out += `    조합 ${recipeOf.get(x.name).join(' + ')}  ← 라이엇 원본 레시피\n`;
     if (x.skill?.name) out += `    스킬 ${x.skill.name}\n`;
     const desc = (x.desc || x.skill?.desc || '').replace(/<br\s*\/?>/g, ' ').replace(/<[^>]+>/g, '')
@@ -482,6 +525,12 @@ async function cmdFind(q) {
     if (desc) out += `    ${desc.slice(0, 300)}\n`;
     if (x.styles) out += `    단계 ${x.styles.map((s) => `${s.style} ${s.min}${s.max ? '~' + s.max : '+'}`).join(' / ')}\n`;
   }
+  const bad = merged.filter((m) => m._set.bad);
+  if (bad.length) {
+    out += `\n⛔ **다른 세트 항목 ${bad.length}건이 같은 검색어에 잡혔다** — ${bad.map((m) => m.key).join(', ')}\n`;
+    out += `   이름만 보고 고르면 지난 세트를 쓴다. 현재 세트 글에는 ✅현세트 만 쓴다.\n`;
+  }
+  out += '\n' + NOTE + '\n';
   console.log(out);
 }
 

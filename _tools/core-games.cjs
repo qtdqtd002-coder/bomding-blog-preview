@@ -40,12 +40,54 @@ const NOT_GAMES = new Set([
 ].map(norm));
 
 /* 표기가 갈렸을 뿐 같은 게임인 것만 수동 병합(정규화로 안 붙는 경우).
-   ★다른 게임을 합치지 않도록 보수적으로만 등재한다. */
-const ALIAS = new Map(Object.entries({
-  '영원한도시': '이환',
-  '영원한 도시': '이환',
-  '이환영원한도시': '이환',
-}).map(([k, v]) => [norm(k), v]));
+   ★다른 게임을 합치지 않도록 보수적으로만 등재한다.
+   ★2026-09-05: 공용 별칭 색인 `_glossary/_aliases.json` 을 먼저 읽어 합친다.
+     그전엔 이 표가 유일한 별칭 소스였고 롤토체스 계열이 0건이라 **「전략적 팀 전투」와 「TFT」가
+     별개 게임으로 집계**됐다(진단 §2-4). 색인은 glossary-lint·qa-panel 과 같은 파일을 본다 —
+     한 곳만 고치면 세 도구가 같이 따라온다. 파일이 없거나 깨져도 아래 수동 표로 계속 돈다. */
+const ALIAS = (() => {
+  const m = new Map(Object.entries({
+    '영원한도시': '이환',
+    '영원한 도시': '이환',
+    '이환영원한도시': '이환',
+  }).map(([k, v]) => [norm(k), v]));
+  try {
+    const p = require('path').join(__dirname, '..', '..', '_glossary', '_aliases.json');
+    for (const g of (JSON.parse(require('fs').readFileSync(p, 'utf8')).games || [])) {
+      for (const a of [...(g.aliases || []), ...(g.folders || [])]) {
+        const k = norm(a);
+        if (k && norm(g.canon) !== k) m.set(k, g.canon);
+      }
+    }
+  } catch { /* 색인이 없어도 수동 표로 동작한다 — 조용히 죽지 않게만 */ }
+  return m;
+})();
+
+/* 평면 저장 구제 — `봄딩/롤토체스 싸움꾼 마스터 이/` 처럼 **게임 폴더 없이** 저장된 글을 같은 게임으로 묶는다.
+   09-04 봄딩 4편이 publish §1(`<작성자>/<게임>/<주제>`)을 어겨 이 꼴이 됐고, 그대로 두면 한 게임이
+   다섯 조각으로 집계된다. 폴더를 옮기는 건 사이트 URL 이 바뀌는 일이라 사용자 결정 사항이므로,
+   집계 쪽에서 흡수한다.
+   ★«접두어 일치»는 위험하다(메이플랜드 ⊃ 메이플). 그래서 **정규화 전 원문에서 «별칭 + 공백»으로만**
+     본다 — `롤토체스 싸움꾼…` 은 잡고 `롤토체스아이템`(붙임)·`메이플랜드` 는 안 잡는다. */
+const ALIAS_PREFIX = (() => {
+  const list = [];
+  try {
+    const p = require('path').join(__dirname, '..', '..', '_glossary', '_aliases.json');
+    for (const g of (JSON.parse(require('fs').readFileSync(p, 'utf8')).games || [])) {
+      for (const a of new Set([g.canon, ...(g.aliases || []), ...(g.folders || [])])) {
+        if (a && String(a).length >= 3) list.push([String(a) + ' ', g.canon]);
+      }
+    }
+  } catch { /* 색인 없으면 이 구제도 없다(기존 동작 그대로) */ }
+  return list.sort((a, b) => b[0].length - a[0].length);   // 긴 별칭 먼저 — 부분 일치 사고 방지
+})();
+function canonGame(group) {
+  const raw = String(group == null ? '' : group);
+  const byAlias = ALIAS.get(norm(raw));
+  if (byAlias) return byAlias;
+  for (const [pre, canon] of ALIAS_PREFIX) if (raw.startsWith(pre)) return canon;
+  return null;
+}
 
 const NOW = process.env.CORE_GAMES_TODAY || new Date().toISOString().slice(0, 10);
 
@@ -76,13 +118,14 @@ for (const w of WRITERS) {
   const agg = new Map();   // normKey -> record
   for (const p of posts) {
     if (p.author !== w || !p.group) continue;
-    const key = ALIAS.get(norm(p.group)) ? norm(ALIAS.get(norm(p.group))) : norm(p.group);
+    const canon = canonGame(p.group);
+    const key = canon ? norm(canon) : norm(p.group);
     if (!key || NOT_GAMES.has(key)) continue;
     const age = daysAgo(p.created || p.updated);
     if (age > 180) continue;
 
     if (!agg.has(key)) {
-      agg.set(key, { game: ALIAS.get(norm(p.group)) || p.group, score: 0, posts: 0,
+      agg.set(key, { game: canon || p.group, score: 0, posts: 0,
                      recent30: 0, recent90: 0, published: 0, last: '', aliases: new Set() });
     }
     const a = agg.get(key);
@@ -98,7 +141,7 @@ for (const w of WRITERS) {
     const base = age <= 30 ? 3 : age <= 90 ? 2 : 1;
     a.score += base * (live ? 1.25 : 1);
     /* 표기 대표는 '가장 최근에 쓴 표기'로 — 최신 표기를 따라간다 */
-    if (d === a.last) a.game = ALIAS.get(norm(p.group)) || p.group;
+    if (d === a.last) a.game = canonGame(p.group) || p.group;
   }
 
   const list = [...agg.values()]
