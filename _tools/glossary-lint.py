@@ -130,7 +130,7 @@ def parse_glossary(fname):
             #   `쿠키런 크럼블(약칭은 본문 허용)` 은 **허용**한다는 뜻이라 잡으면 오탐이고,
             #   `B 티어와 혼동 금지(...)` 는 검수자에게 주는 메모지 문자열 규칙이 아니다.
             #   → 허용·주의류가 섞인 칸은 통째로 건너뛰고, 괄호 주석은 떼고 본다.
-            if re.search(r'(허용|가능|무방|금지|주의|혼동|참고)', wrong):
+            if re.search(r'(허용|가능|무방|금지|주의|혼동|참고|없음|뭉뚱|병기|—)', wrong):
                 continue
             wrong = re.sub(r'\([^)]*\)', ' ', wrong)     # 괄호 주석 제거
             for w in re.split(r'[·,/]', wrong):
@@ -138,6 +138,36 @@ def parse_glossary(fname):
                 if len(w) >= 2 and w not in ('-', '—'):
                     rows.append((w, official))
     return rows
+
+def nz(s):
+    """공백·문장부호·대소문자를 지운 비교용 형태."""
+    return re.sub(r'[\s\-_:·,.()\[\]/]', '', str(s)).lower()
+
+def severity(wrong, official):
+    """
+    «오표기»를 두 종류로 자동 분류한다 (2026-09-05 신설).
+
+    용어집 오표기 열에는 성격이 다른 둘이 섞여 있다 —
+      🔴 **틀린 정보**: 독자를 오도한다. `타이란티어`(다른 포켓몬) · `신비한 숲`(없는 세트명) ·
+         `스태프`(공식은 지팡이) · `해저 평정산`(없는 지명). 이건 발행을 막아야 한다.
+      🟡 **표기 흔들림**: 띄어쓰기·약칭이라 뜻이 안 바뀐다. `AP초기화권`(공식 `AP 초기화권`) ·
+         `제노니아1`(용어집 스스로 «SEO용 관용 표기»라고 적어 둔 것).
+         **제목 붙여쓰기는 검색 유입 쪽 판단이라 코드가 막을 일이 아니다.**
+
+    첫 구현이 둘을 똑같이 🔴로 막았고, 실제로 걸린 2건이 전부 후자였다(사용자 지적).
+    ⇒ 판별은 **정규화 후 포함 관계**로 한다 — 공백·부호만 다르거나 정식명의 앞부분이면 흔들림.
+       실측(2026-09-05, 규칙 34건): 🟡 2 · 🔴 32 로 정확히 갈렸다.
+    ★용어집 25행을 손으로 고치지 않는 이유 = 앞으로 늘 규칙도 자동으로 분류돼야 하고,
+      기록(「이건 오표기다」)은 남기되 **집행 강도만** 달라야 하기 때문이다.
+    """
+    w, o = nz(wrong), nz(official)
+    if w == o:
+        return 'soft'
+    if len(w) >= 3 and o.startswith(w):
+        return 'soft'
+    if len(w) >= 4 and w in o:
+        return 'soft'
+    return 'hard'
 
 def visible_text(html):
     """검사 대상 본문만 남긴다 — 태그·속성·URL·스크립트는 오탐의 원천이라 통째로 뺀다."""
@@ -176,14 +206,14 @@ def check_file(path, games, forced=None):
             ctx = text[max(0, m.start() - 45):m.start() + len(wrong) + 45]
             if _EXCUSE.search(ctx) or _FORMER.search(text[max(0, m.start() - 12):m.start()]):
                 continue        # "신비한 숲(오표기) → 신비의 숲" 같은 설명·옛이름 병기는 통과
-            out['hits'].append({'kind': '용어집', 'wrong': wrong, 'official': official, 'ctx': ctx.strip()})
+            out['hits'].append({'kind': '용어집', 'sev': severity(wrong, official), 'wrong': wrong, 'official': official, 'ctx': ctx.strip()})
             break               # 같은 오표기는 한 번만 보고한다(한 줄이면 충분)
     for pat, fix, why in _COMMON:
         for m in re.finditer(pat, text):
             ctx = text[max(0, m.start() - 45):m.end() + 45]
             if _EXCUSE.search(ctx):
                 continue
-            out['hits'].append({'kind': '공통', 'wrong': m.group(0), 'official': fix.format(*m.groups()), 'ctx': ctx.strip(), 'why': why})
+            out['hits'].append({'kind': '공통', 'sev': 'hard', 'wrong': m.group(0), 'official': fix.format(*m.groups()), 'ctx': ctx.strip(), 'why': why})
             break
     return out
 
@@ -210,29 +240,39 @@ def main():
         targets = args
 
     results = [check_file(p, games, forced) for p in targets if os.path.isfile(p)]
-    bad = [r for r in results if r['hits']]
+    # 🔴 틀린 정보만 발행을 막는다. 🟡 표기 흔들림(띄어쓰기·약칭)은 알리되 막지 않는다 — severity() 주석 참조.
+    hard = [r for r in results if any(h.get('sev') != 'soft' for h in r['hits'])]
+    soft = [r for r in results if r['hits'] and r not in hard]
     skipped = [r for r in results if r.get('skipped')]
 
     if as_json:
-        print(json.dumps({'checked': len(results), 'violations': len(bad), 'results': results}, ensure_ascii=False, indent=2))
-        return 1 if bad else 0
+        print(json.dumps({'checked': len(results), 'blocking': len(hard), 'warnings': len(soft),
+                          'results': results}, ensure_ascii=False, indent=2))
+        return 1 if hard else 0
 
-    print('[glossary-lint] 검사 %d개 · 위반 %d개 · 대상 아님 %d개(용어집 없는 게임 또는 경로에서 게임 판정 불가 — --verbose 로 목록)' % (len(results), len(bad), len(skipped)))
-    for r in bad:
+    print('[glossary-lint] 검사 %d개 · 🔴차단 %d개 · 🟡경고 %d개 · 대상 아님 %d개(용어집 없는 게임 또는 경로에서 게임 판정 불가 — --verbose 로 목록)'
+          % (len(results), len(hard), len(soft), len(skipped)))
+    for r in hard:
         print('\n🔴 %s  (게임: %s)' % (r['file'], r['game']))
         for h in r['hits']:
+            if h.get('sev') == 'soft':
+                continue
             print('   [%s] «%s» → «%s»' % (h['kind'], h['wrong'], h['official']))
             print('        …%s…' % h['ctx'][:150])
             if h.get('why'):
                 print('        %s' % h['why'])
+    for r in soft:
+        print('\n🟡 %s  (게임: %s) — 표기 흔들림, 발행은 막지 않는다' % (r['file'], r['game']))
+        for h in r['hits']:
+            print('   «%s» → 공식은 «%s» (띄어쓰기·약칭 차이라 뜻은 같다 — 제목 표기는 검색 유입 판단)' % (h['wrong'], h['official']))
     if skipped and ('--verbose' in sys.argv):
         print('\n건너뜀:')
         for r in skipped:
             print('   - %s : %s' % (r['file'], r['skipped']))
-    if bad:
+    if hard:
         print('\n※ 새 오타를 여기서 잡고 싶으면 `_glossary/<게임>.md` 명칭 표의 «흔한 오표기» 열에 한 줄 추가한다.')
         print('  이 린트는 맞춤법 검사기가 아니라 «우리가 실제로 틀렸던 것»의 재발 방지 장치다.')
-    return 1 if bad else 0
+    return 1 if hard else 0
 
 if __name__ == '__main__':
     try:
