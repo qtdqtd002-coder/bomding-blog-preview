@@ -2801,7 +2801,10 @@ function openRequest(opener){
       files.push(f); added.push(f);
     });
     paintFiles();
-    if(files.length&&listEl.lastElementChild)listEl.lastElementChild.scrollIntoView({block:'nearest',behavior:'smooth'});   /* 새 행·«N/5» 줄이 모달 내부 스크롤 밖에 남지 않게(게이트 09-05) */
+    if(files.length&&listEl.lastElementChild){   /* 새 행·«N/5» 줄이 모달 내부 스크롤 밖에 남지 않게(게이트 09-05) */
+      listEl.lastElementChild.scrollIntoView({block:'nearest',behavior:'smooth'});
+      var ft=dz.closest('.mdl').querySelector('.mdl-f'); if(ft)ft.scrollIntoView({block:'nearest',behavior:'smooth'});   /* 모바일은 본문 캡이 없어 판(.back)이 스크롤 — 5개 채우면 풋터가 첫 화면 밖 14px 였다(재게이트 09-05) */
+    }
     if(bad.length){ var u=bad.filter(function(v,i){ return bad.indexOf(v)===i; }); msg(u.slice(0,2).join(' · ')+(u.length>2?' 외 '+(u.length-2)+'건':''),'err'); }
     else if(added.length)msg('');
     added.forEach(function(f){ var i=files.indexOf(f); if(i>=0&&listEl.children[i])MO.pop(listEl.children[i]); });
