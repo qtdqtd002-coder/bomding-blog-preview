@@ -141,6 +141,7 @@ a{color:inherit; text-decoration:none}
   font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
   transition:color var(--t-fast) var(--e);
 }
+.isl-tab .n:empty{display:none}   /* 숫자가 없으면 칸도 없앤다 — 빈 칸이 gap 7px 을 차지해 글자가 알약 왼쪽으로 밀리던 원인 */
 .isl-tab:hover{color:var(--ink)}
 .isl-tab:active{transform:scale(.97)}
 .isl-tab.on{color:#fff}
@@ -774,6 +775,9 @@ select.f-i{
 .wchip.on{background:var(--ink); color:#fff; box-shadow:0 0 0 1px var(--ink)}
 .wchip.on .plat{color:rgba(255,255,255,.55)}
 .wchip.on .dot{box-shadow:0 0 0 3px rgba(255,255,255,.16)}
+/* 작성자를 안 고르고 보내면 칩 무리가 잠깐 경고 테두리를 두른다 */
+.f-chips.need .wchip{box-shadow:0 0 0 1px var(--alert)}
+.f-chips.need .wchip.on{box-shadow:0 0 0 1px var(--ink)}
 .f-winfo{margin-top:8px; font-size:12px; color:var(--ink-3)}
 .f-file{display:flex; align-items:center; gap:9px; flex-wrap:wrap}
 .f-fbtn{
@@ -839,7 +843,7 @@ select.f-i{
   box-shadow:0 0 0 1px var(--hair);
   font-size:10.5px; font-weight:700; line-height:19px; color:var(--ink-3);
 }
-.rl-st.s-failed{background:var(--alert-weak); color:var(--alert); box-shadow:none}
+.rl-st.s-failed,.rl-st.s-sendfail{background:var(--alert-weak); color:var(--alert); box-shadow:none}
 .rl-st.s-processing{background:var(--ink); color:#fff; box-shadow:none}
 .rl-meta{font-size:11.5px; color:var(--ink-4)}
 .rl-del{
@@ -1309,12 +1313,15 @@ var RequestService={
         body:JSON.stringify({purpose:req.purpose,topic:req.topic,material:req.material,writer:req.writer,source:src})});
     }
     return p.then(function(res){
-      if(!res.ok)throw new Error('HTTP '+res.status);
+      /* 백엔드가 거절한 이유(형식·크기·휴면 작성자 등)를 그대로 보여 준다 — 'HTTP 400' 으로 뭉개지 않는다 */
+      if(!res.ok)return res.json().catch(function(){ return {}; }).then(function(j){
+        var e=new Error(j.error||('HTTP '+res.status)); e.http=true; throw e; });
       return res.json().catch(function(){ return {}; });
     }).then(function(body){
       rec.status='submitted'; rec.serverId=body.id||null;
     }).catch(function(err){
-      rec.status=req.file?'failed':'queued'; rec.error=String((err&&err.message)||err);
+      /* 서버가 거절했거나 파일이 딸린 요청은 임시 저장으로 위장하지 않는다(파일은 브라우저에 못 남긴다) */
+      rec.status=(err&&err.http)||req.file?'sendfail':'queued'; rec.error=String((err&&err.message)||err);
     }).then(function(){
       var all=reqLoad(); all.push(rec); reqSave(all); return rec;
     });
@@ -1724,6 +1731,11 @@ function chartW(desktop){
   return window.innerWidth<=860 ? Math.max(280, window.innerWidth-76) : desktop;
 }
 function tierLabel(t){ t=String(t||''); var m=t.match(/max_(\d+)x/); return m?('Max '+m[1]+'x'):(t.indexOf('pro')>=0?'Pro':'이 PC 계정'); }
+/* 스냅샷 시각 — 하루 1회(데스크 06:00) 갱신이라 «n시간 전»보다 시각 자체가 읽기 쉽다. 오늘이면 시각만, 아니면 날짜까지 */
+function fmtStamp(ts){
+  var d=new Date(ts), today=kstDay(ts)===kstDay(Date.now());
+  return (today?'':(d.getMonth()+1)+'.'+d.getDate()+' ')+hhmm(ts)+' 기준';
+}
 function gauge(l){
   var rem=100-l.pct, C=2*Math.PI*44, low=rem<=15, lab=LIMIT_LABEL[l.kind]||l.kind;
   return '<div class="gauge'+(low?' low':'')+'" role="img" aria-label="'+esc(lab)+' 남음 '+rem+'%">'+
@@ -1749,7 +1761,7 @@ function tileQuota(){
   return '<section class="tray tile w5 rise" id="tileQuota"><div class="core">'+
     '<div class="tile-h"><span class="tile-ic">'+svg('gauge')+'</span><span class="tile-t">잔여 사용량</span>'+
       '<span class="tile-d">'+esc(tierLabel(QUOTA&&QUOTA.tier))+'</span>'+
-      (at?'<span class="tile-m">'+esc(fmtRel(at))+' 기준</span>':'')+'</div>'+
+      (at?'<span class="tile-m">'+esc(fmtStamp(at))+'</span>':'')+'</div>'+
     '<div class="tile-b">'+body+'</div></div></section>';
 }
 
@@ -1796,7 +1808,7 @@ function tileUsage(){
   var up=USAGE&&USAGE.updated?Date.parse(USAGE.updated):0;
   return '<section class="tray tile w7 rise" id="tileUsage"><div class="core">'+
     '<div class="tile-h"><span class="tile-ic">'+svg('layers')+'</span><span class="tile-t">주간 사용량</span>'+
-      '<span class="tile-d">작성자별 토큰 · 추정</span>'+(up?'<span class="tile-m">'+esc(fmtRel(up))+' 기준</span>':'')+'</div>'+
+      '<span class="tile-d">작성자별 토큰 · 추정</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
     '<div class="tile-b">'+body+'</div></div></section>';
 }
 
@@ -2484,7 +2496,7 @@ function openModal(inner,opener,label){
   function onKey(e){
     if(e.key==='Escape'){ e.preventDefault(); closeModal(); return; }
     if(e.key!=='Tab')return;
-    var f=Array.prototype.slice.call(back.querySelectorAll('button,select,input,textarea,a[href]'))
+    var f=Array.prototype.slice.call(back.querySelectorAll('button,select,input,textarea,a[href],[tabindex="0"]'))
       .filter(function(n){ return !n.disabled&&n.offsetParent!==null; });
     if(!f.length)return;
     var first=f[0], last=f[f.length-1];
@@ -2512,10 +2524,10 @@ function openModal(inner,opener,label){
   return back;
 }
 /* 작성자 칩 (요청·발주 공용) */
+/* 작성자 칩 — «자동 배정» 없음. 발주는 사람이 정한다(pre 가 없으면 아무것도 선택되지 않은 채 열린다) */
 function writerChips(pre){
   var live=PREF.filter(function(w){ return INACTIVE.indexOf(w)<0; });
-  return '<button type="button" class="wchip'+(pre?'':' on')+'" data-w="">자동 배정</button>'+
-    live.map(function(w){
+  return live.map(function(w){
       var i=WMAP[w]||{};
       return '<button type="button" class="wchip'+(w===pre?' on':'')+'" data-w="'+esc(w)+'" style="--ac:'+wac(w)+'">'+
         '<span class="dot"></span>'+esc(w)+'<span class="plat">'+esc(i.plat||'')+'</span></button>';
@@ -2525,10 +2537,17 @@ function bindWriterChips(root,onPick){
   root.querySelectorAll('.wchip').forEach(function(c){
     c.addEventListener('click',function(){
       root.querySelectorAll('.wchip').forEach(function(x){ x.classList.remove('on'); });
-      c.classList.add('on');
+      c.classList.add('on'); root.classList.remove('need');
       onPick(c.dataset.w);
     });
   });
+}
+/* 작성자 미선택으로 보내기를 눌렀을 때 — 칩 무리에 경고 테두리 + 첫 칩으로 포커스 */
+function needChips(root){
+  if(!root)return;
+  root.classList.add('need');
+  var first=root.querySelector('.wchip'); if(first)first.focus();
+  setTimeout(function(){ root.classList.remove('need'); },1800);
 }
 
 /* ══════════ 발주 요청 모달 (트렌드) ══════════ */
@@ -2572,27 +2591,18 @@ function openOrder(it,opener){
       return '<a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+svg('arrowUR')+'</a>';
     }).join('')+'</div>':'')+
   '</div>';
-  var purOpts=DESK_PURPOSES.map(function(p){
-    return '<option value="'+esc(p)+'"'+(p===it.purpose?' selected':'')+'>'+esc(p)+'</option>';
-  }).join('');
-
+  /* 글의 목적은 화면에서 뺐다(주제에 이미 담긴다) — 데스크가 판정한 purpose 는 조용히 같이 보낸다 */
   var back=openModal(
     '<div class="mdl-h"><span class="mdl-hic">'+svg('send')+'</span>'+
       '<div><div class="mdl-ht">발주 요청</div><div class="mdl-hs">'+esc(s.label)+'</div></div>'+
       '<button type="button" class="mdl-x" data-close aria-label="닫기">'+svg('x')+'</button></div>'+
     '<div class="mdl-b">'+brief+
-      '<div class="f-sec">누가 쓸까요</div>'+
-      '<div class="f-chips" id="oChips">'+writerChips(pre)+'</div>'+
-      '<div class="f-winfo" id="oWInfo">'+(pre
-        ? esc((WMAP[pre]||{}).plat||'')+' · <b>'+esc(pre)+'</b>가 계속 써 온 게임이에요'
-        : '주제에 맞는 작성자를 회사가 배정해요')+'</div>'+
-      '<div class="f-sec">무엇을 쓸까요</div>'+
-      '<label class="f-l" for="oPurpose">글의 목적</label>'+
-      '<select id="oPurpose" class="f-i">'+purOpts+'</select>'+
-      '<label class="f-l" for="oTopic">주제 <span class="f-req">*</span></label>'+
+      '<label class="f-l" for="oTopic">주제</label>'+
       '<input id="oTopic" class="f-i" type="text" maxlength="200" value="'+esc(it.title)+'">'+
       '<label class="f-l" for="oMaterial">소재·참고 메모</label>'+
       '<textarea id="oMaterial" class="f-i f-ta">'+esc(deskMaterial(it))+'</textarea>'+
+      '<label class="f-l">작성자</label>'+
+      '<div class="f-chips" id="oChips">'+writerChips(pre)+'</div>'+
       (it.coverage.length?'<div class="f-hint warn">'+svg('alertTri')+'<span><b>이미 다룬 글</b> — '+
         it.coverage.map(function(c){ return esc(c.writer)+' 「'+esc(c.title)+'」'; }).join(' · ')+
         '. 같은 각도면 발주하지 마세요.</span></div>':'')+
@@ -2606,33 +2616,30 @@ function openOrder(it,opener){
 
   var $=function(q){ return back.querySelector(q); };
   var writer=pre;
-  bindWriterChips($('#oChips'),function(w){
-    writer=w;
-    var i=WMAP[w];
-    $('#oWInfo').textContent=w?((i&&i.plat?i.plat+' · ':'')+w+' 계정으로 발행돼요')
-                              :'주제에 맞는 작성자를 회사가 배정해요';
-  });
+  bindWriterChips($('#oChips'),function(w){ writer=w; });
   function msg(t,k){ var m=$('#oMsg'); m.textContent=t; m.className='mdl-msg'+(k?' '+k:''); }
   if(!RequestService.isConnected())msg('백엔드 미연결 — 임시 저장만 됩니다','err');
   $('#oCopy').addEventListener('click',function(){
-    copyOrderForm({purpose:$('#oPurpose').value,writer:writer,
+    copyOrderForm({purpose:it.purpose,writer:writer,
       topic:$('#oTopic').value.trim()||it.title,material:$('#oMaterial').value.trim()});
   });
   $('#oGo').addEventListener('click',function(){
     var topic=$('#oTopic').value.trim();
     if(!topic){ msg('주제를 입력해주세요','err'); $('#oTopic').focus(); return; }
+    if(!writer){ msg('작성자를 선택해주세요','err'); needChips($('#oChips')); return; }
     var go=$('#oGo'); go.disabled=true; msg('보내는 중…');
-    RequestService.submit({purpose:$('#oPurpose').value,topic:topic,
+    RequestService.submit({purpose:it.purpose,topic:topic,
       material:$('#oMaterial').value.trim(),writer:writer,source:'trend-desk'}).then(function(rec){
       if(rec.status==='submitted'){
         closeModal();
-        toast((writer||'자동 배정')+' · 작업 큐로 보냈어요');
+        toast(writer+' · 작업 큐로 보냈어요');
         if(opener)MO.pulse(opener,function(){
           opener.disabled=true; opener.classList.add('done');
           opener.innerHTML='발주함<span class="knob">'+svg('check')+'</span>';
           MO.draw(opener.querySelector('.ic'),.05,.4);   /* 체크가 그려진다 */
         });
-      }else if(rec.status==='queued'){ msg('네트워크 문제로 임시 저장했어요','err'); go.disabled=false; }
+      }else if(rec.status==='sendfail'){ msg(rec.error||'전송 실패','err'); go.disabled=false; }
+      else if(rec.status==='queued'){ msg('네트워크 문제로 임시 저장했어요','err'); go.disabled=false; }
       else { msg('임시 저장했어요(백엔드 미연결)','ok'); go.disabled=false; }
     }).catch(function(e){ msg('전송 실패: '+((e&&e.message)||e),'err'); go.disabled=false; });
   });
@@ -2640,63 +2647,33 @@ function openOrder(it,opener){
 }
 
 /* ══════════ 새 글 요청 모달 (FAB · 양식 유지) ══════════ */
-var REQ_STATUS_LABEL={local:'임시저장',queued:'전송 대기',submitted:'접수됨',received:'접수됨',
+var REQ_STATUS_LABEL={local:'임시저장',queued:'전송 대기',sendfail:'전송 실패',submitted:'접수됨',received:'접수됨',
   processing:'발행중',published:'발행됨',failed:'실패',skipped:'건너뜀'};
-/* 목적 — 백엔드 PURPOSES / post-purpose-guide.md 정본과 1:1 */
-var PURPOSE_GROUPS=[
-  ['게임',['사전예약','출시·첫인상','업데이트·패치','게임 정보','게임 공략','쿠폰·이벤트','티어·추천']],
-  ['제품(육아·취미)',['제품 비교·추천','사용 후기·리뷰']]
-];
-var PURPOSE_HINT={
-  '사전예약':'예약 기간·출시일·플랫폼·예약 방법·핵심 콘셉트',
-  '출시·첫인상':'출시일·플랫폼·장르·첫인상(좋은 점/아쉬운 점)·추천 대상',
-  '업데이트·패치':'패치 버전·적용일·공식 노트 변경점·핵심 분석',
-  '게임 정보':'검증된 핵심 사실·요청 소재 전부·출처',
-  '게임 공략':'신뢰 출처(교차 확인)·실전 단계·수치·표·대상(초보·엔드)',
-  '쿠폰·이벤트':'유효 코드+입력 경로·이벤트명·기간·조건·보상',
-  '티어·추천':'추천 기준·출처+메타 정립 여부·결론(1티어) 먼저',
-  '제품 비교·추천':'비교 후보·항목별 비교(가격·스펙)·추천 기준·내돈내산 고지',
-  '사용 후기·리뷰':'직접 사용 경험·솔직 장단·팁·추천 대상·내돈내산 고지',
-  '기타':'원하는 방향만 적어주세요 — 기획팀이 목적을 정해드려요'
-};
+/* 글의 목적(purpose)은 2026-09-05부터 화면에서 묻지 않는다 — 백엔드는 null 을 받고 러너가 주제·소재로 추정한다(정본 post-purpose-guide.md).
+   트렌드 발주만 데스크가 판정한 purpose 를 조용히 실어 보낸다. */
+/* 새 글 요청 — 주제·메모·작성자·요청 문서 네 칸뿐. 글의 목적은 주제에 담기므로 묻지 않는다(러너가 주제로 추정).
+   작성자는 기본 선택 없음 — 안 고르고 보내면 안내하고 고르게 한다(자동 배정 없음). 요청 문서 = 광고주 가이드(1회용·최우선 규칙). */
 function openRequest(opener){
-  var popts='<option value="" disabled selected>목적을 선택하세요</option>'+
-    PURPOSE_GROUPS.map(function(g){
-      return '<optgroup label="'+esc(g[0])+'">'+g[1].map(function(p){
-        return '<option value="'+esc(p)+'">'+esc(p)+'</option>'; }).join('')+'</optgroup>';
-    }).join('')+
-    '<optgroup label="기타"><option value="기타">기타 (기획팀이 정함)</option></optgroup>';
-
   var back=openModal(
     '<div class="mdl-h"><span class="mdl-hic">'+svg('edit')+'</span>'+
       '<div><div class="mdl-ht">새 글 요청</div>'+
-      '<div class="mdl-hs">'+(RequestService.isConnected()?'접수 → 작성 → 검수 → 발행':'백엔드 미연결 — 임시 저장')+'</div></div>'+
+      (RequestService.isConnected()?'':'<div class="mdl-hs">백엔드 미연결 — 임시 저장</div>')+'</div>'+
       '<button type="button" class="mdl-x" data-close aria-label="닫기">'+svg('x')+'</button></div>'+
     '<div class="mdl-b"><form id="rForm" novalidate>'+
-      '<div class="f-sec">필수 정보</div>'+
-      '<label class="f-l" for="rPurpose">글의 목적 <span class="f-req">*</span></label>'+
-      '<select id="rPurpose" class="f-i">'+popts+'</select>'+
-      '<div class="f-hint" id="rHint">'+svg('info')+'<span>목적을 고르면 꼭 들어갈 정보를 안내해드려요.</span></div>'+
-      '<label class="f-l" for="rTopic">주제 <span class="f-req">*</span></label>'+
+      '<label class="f-l" for="rTopic">주제</label>'+
       '<input id="rTopic" class="f-i" type="text" placeholder="예: 명조 2.0 신규 캐릭터 정보 정리" maxlength="200" required>'+
-      '<div class="f-sec">선택 정보</div>'+
-      '<label class="f-l" for="rMaterial">소재·참고 메모 <span class="f-opt">(선택)</span></label>'+
-      '<textarea id="rMaterial" class="f-i f-ta" placeholder="꼭 넣을 내용, 참고 링크, 톤 등" maxlength="2000"></textarea>'+
-      '<label class="f-l">희망 작성자 <span class="f-opt">(선택 · 플랫폼 자동)</span></label>'+
+      '<label class="f-l" for="rMaterial">소재·참고 메모</label>'+
+      '<textarea id="rMaterial" class="f-i f-ta" placeholder="꼭 넣을 내용, 참고 링크, 톤" maxlength="2000"></textarea>'+
+      '<label class="f-l">작성자</label>'+
       '<div class="f-chips" id="rChips">'+writerChips('')+'</div>'+
-      '<div class="f-winfo" id="rWInfo">주제에 맞는 작성자를 회사가 배정해요</div>'+
-      '<label class="f-l">참고 문서 첨부 <span class="f-opt">(선택)</span></label>'+
+      '<label class="f-l">요청 문서</label>'+
       '<div class="f-file">'+
-        '<label class="f-fbtn" for="rFile">'+svg('paperclip')+'파일 선택</label>'+
+        '<label class="f-fbtn" for="rFile" tabindex="0" role="button">'+svg('paperclip')+'파일 선택</label>'+
         '<input id="rFile" type="file" accept="'+esc(CFG.ACCEPT)+'" hidden>'+
-        '<span id="rFName" class="f-fname">선택된 파일 없음</span>'+
+        '<span id="rFName" class="f-fname">없음</span>'+
         '<button type="button" id="rFClear" class="f-fclear" hidden>지우기</button>'+
       '</div>'+
-      '<div class="f-hint">'+svg('info')+'<ol class="f-hl">'+
-        '<li>첨부한 규칙은 <b>이 요청 1건에만</b> 반영돼요.</li>'+
-        '<li>다른 글엔 영향 없는 <b>1회용</b>이에요.</li>'+
-        '<li>docx · xlsx · pdf · txt · hwpx</li>'+
-      '</ol></div>'+
+      '<div class="f-hint">'+svg('info')+'<span>이 요청 1건에만 최우선 규칙으로 적용 · docx xlsx pdf txt hwpx · 10MB</span></div>'+
       '<div id="rList"></div>'+
     '</form></div>'+
     '<div class="mdl-f">'+
@@ -2709,25 +2686,17 @@ function openRequest(opener){
   var picked=null, writer='';
   function msg(t,k){ var m=$('#rMsg'); m.textContent=t; m.className='mdl-msg'+(k?' '+k:''); }
 
-  $('#rPurpose').addEventListener('change',function(){
-    var v=$('#rPurpose').value, h=PURPOSE_HINT[v], hint=$('#rHint');
-    hint.innerHTML=h?(svg('info')+'<span><b>'+esc(v)+'</b>엔 꼭 — '+esc(h)+'</span>')
-                    :(svg('info')+'<span>목적을 고르면 꼭 들어갈 정보를 안내해드려요.</span>');
-    hint.classList.toggle('on',!!h);
-  });
-  bindWriterChips($('#rChips'),function(w){
-    writer=w;
-    var i=WMAP[w]||{};
-    $('#rWInfo').textContent=w?((i.plat?i.plat+' · ':'')+(i.desc||'')):'주제에 맞는 작성자를 회사가 배정해요';
-  });
+  bindWriterChips($('#rChips'),function(w){ writer=w; });
   var fi=$('#rFile'), fn=$('#rFName'), fc=$('#rFClear');
+  /* 키보드만 쓰는 사용자도 첨부할 수 있게 — label 은 포커스가 안 가고 hidden input 은 Tab 순서에서 빠진다 */
+  $('.f-fbtn').addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); fi.click(); } });
   fi.addEventListener('change',function(){
     picked=(fi.files&&fi.files[0])||null;
     if(picked&&picked.size>10*1024*1024){ msg('파일이 너무 큽니다(최대 10MB)','err'); picked=null; fi.value=''; }
-    fn.textContent=picked?picked.name:'선택된 파일 없음';
+    fn.textContent=picked?picked.name:'없음';
     fc.hidden=!picked;
   });
-  fc.addEventListener('click',function(){ picked=null; fi.value=''; fn.textContent='선택된 파일 없음'; fc.hidden=true; });
+  fc.addEventListener('click',function(){ picked=null; fi.value=''; fn.textContent='없음'; fc.hidden=true; });
 
   function drawList(){
     var reqs=RequestService.list().filter(function(r){ return r.status!=='published'; });
@@ -2749,23 +2718,22 @@ function openRequest(opener){
   RequestService.syncStatuses().then(function(c){ if(c&&MODAL)drawList(); });
 
   $('#rGo').addEventListener('click',function(){
-    var purpose=$('#rPurpose').value, topic=$('#rTopic').value.trim(),
-        material=$('#rMaterial').value.trim();
-    if(!purpose){ msg('글의 목적을 선택해주세요','err'); return; }
+    var topic=$('#rTopic').value.trim(), material=$('#rMaterial').value.trim();
     if(!topic){ msg('주제를 입력해주세요','err'); $('#rTopic').focus(); return; }
+    if(!writer){ msg('작성자를 선택해주세요','err'); needChips($('#rChips')); return; }
     var go=$('#rGo'); go.disabled=true; msg('보내는 중…');
-    RequestService.submit({purpose:purpose,topic:topic,material:material,writer:writer,file:picked})
+    RequestService.submit({topic:topic,material:material,writer:writer,file:picked})
       .then(function(rec){
         go.disabled=false;
         if(rec.status==='submitted'){
           closeModal();
           toast('요청이 접수됐어요 · 발행되면 알림으로 알려드려요');
-        }else if(rec.status==='failed'){ msg('전송 실패 — 파일을 다시 첨부해 보내주세요','err'); drawList(); }
+        }else if(rec.status==='sendfail'){ msg((rec.error||'전송 실패')+(picked?' — 파일은 다시 첨부해 주세요':''),'err'); drawList(); }
         else if(rec.status==='queued'){ msg('네트워크 문제로 임시 저장했어요','err'); drawList(); }
         else { msg('임시 저장했어요(백엔드 미연결)','ok'); drawList(); }
       }).catch(function(e){ go.disabled=false; msg('전송 실패: '+((e&&e.message)||e),'err'); });
   });
-  requestAnimationFrame(function(){ var p=$('#rPurpose'); if(p)p.focus(); });
+  requestAnimationFrame(function(){ var t=$('#rTopic'); if(t)t.focus(); });
 }
 
 /* ══════════ 알림 (실패한 글 작성) ══════════ */
