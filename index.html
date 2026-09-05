@@ -640,6 +640,29 @@ a{color:inherit; text-decoration:none}
 .legend span{display:inline-flex; align-items:center; gap:6px}
 .legend i{width:8px; height:8px; border-radius:2px; background:var(--c,var(--ink-4)); flex:none}
 .legend b{font-family:"JetBrains Mono",monospace; font-weight:500; color:var(--ink); font-variant-numeric:tabular-nums}
+/* 홈 — AI 브리핑 인용 · 일별 방문자 (2026-09-05). 작성자 행(.cr)은 면이 아니라 헤어라인 한 줄로 나눈다(카드 속 카드 금지) */
+.cr{padding:2px 0 4px}
+.cr+.cr{margin-top:12px; padding-top:12px; border-top:1px solid var(--hair)}
+.cr-h{display:flex; align-items:center; gap:8px; margin-bottom:8px}
+.cr-dot{width:9px; height:9px; border-radius:50%; background:var(--c,var(--ink-4)); flex:none}
+.cr-n{font-size:13.5px; font-weight:700; letter-spacing:-.02em}
+.cr-tag{font-size:12px; color:var(--ink-2); background:var(--surface-2); border-radius:999px; padding:2px 9px; white-space:nowrap}
+.cr-tag.off{color:var(--ink-4)}
+.cr-err{font-size:12px; color:var(--alert); margin-left:auto}
+.cr-state{font-size:13px; color:var(--ink-3); padding:6px 0 4px}
+.cr-stats{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px 12px; margin:0 0 10px}
+.cr-k{display:block; font-size:12px; color:var(--ink-4); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.cr-v{display:block; font-family:"JetBrains Mono",monospace; font-weight:600; font-size:15px; letter-spacing:-.02em; color:var(--ink); font-variant-numeric:tabular-nums; white-space:nowrap}
+.cr-v.pend{color:var(--ink-4); font-weight:500}
+.chart .ln{fill:none; stroke:var(--c,var(--ink-4)); stroke-width:2; stroke-linejoin:round; stroke-linecap:round}
+.chart .dot{fill:var(--c,var(--ink-4)); stroke:var(--surface); stroke-width:2; opacity:0; transition:opacity var(--t-fast) var(--e)}
+.chart .col.on .dot{opacity:1}
+.chart .xh{stroke:var(--ink-4); stroke-width:1; opacity:0; transition:opacity var(--t-fast) var(--e)}
+.chart .col.on .xh{opacity:.55}
+.chart .ed{fill:var(--c,var(--ink-4)); stroke:var(--surface); stroke-width:2}
+.chart .el{font-size:11.5px; font-weight:600; fill:var(--ink-2)}
+.legend.ln i{width:14px; height:2px; border-radius:1px}
+@media (max-width:520px){ .cr-stats{grid-template-columns:repeat(2,minmax(0,1fr))} }
 .ctip{
   position:fixed; z-index:95; pointer-events:none; min-width:150px; max-width:260px; padding:10px 12px;
   border-radius:12px; background:rgba(14,17,20,.94); color:#fff; box-shadow:var(--sh-float);
@@ -1029,6 +1052,7 @@ html.gs .nt{transition:none !important}
 /* ══════════ 아이콘 (인라인·currentColor) ══════════ */
 var I={
   search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   archive:'<rect x="2" y="4" width="20" height="5" rx="1.4"/><path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9"/><path d="M10 13h4"/>',
   arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
   arrowUR:'<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
@@ -1167,6 +1191,14 @@ var MO=(function(){
         bars=root.querySelectorAll('.scoped-r .bar i'), cnts=root.querySelectorAll('.cnt');
     if(cols.length)g.fromTo(cols,{scaleY:0,transformOrigin:'50% 100%'},
       {scaleY:1,duration:.8,ease:EXP,stagger:{amount:.35},clearProps:'transform'});
+    /* 선 차트 — 선은 그려지고 끝점·끝 라벨은 뒤따라 나타난다(마크업엔 최종값이 있어 GSAP 없이도 정적 완성) */
+    Array.prototype.forEach.call(root.querySelectorAll('.chart .ln'),function(l){
+      var len=0; try{ len=l.getTotalLength(); }catch(e){}
+      if(!len||!isFinite(len))return;
+      g.fromTo(l,{strokeDasharray:len,strokeDashoffset:len},{strokeDashoffset:0,duration:.9,ease:EXP,clearProps:'strokeDasharray,strokeDashoffset'});
+    });
+    var eds=root.querySelectorAll('.chart .ed,.chart .el');
+    if(eds.length)g.fromTo(eds,{opacity:0},{opacity:1,duration:.4,delay:.7,ease:EXP,clearProps:'opacity'});
     Array.prototype.forEach.call(arcs,function(a){
       var C=parseFloat(a.getAttribute('data-c')), f=parseFloat(a.getAttribute('data-f'))||0;
       if(!C)return;
@@ -1501,11 +1533,14 @@ var reqsP=CFG.API_BASE
 /* 홈 타일 스냅샷 2종 — 데스크·드레이너가 굽는다. 없으면 «스냅샷 없음»(0 위장 금지) */
 var usageP=jget('_trend/_usage.json?ts='+Date.now(),null);
 var quotaP=jget('_trend/_quota.json?ts='+Date.now(),null);
+/* 홈 «AI 브리핑 인용»·«일별 방문자» — _tools/mate-citations.cjs 가 데스크 [E]에서 하루 1회 굽는다(네이버 공개 프로필 스냅샷) */
+var citeP=jget('_trend/_citations.json?ts='+Date.now(),null);
 
-Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP]).then(function(r){
+Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP]).then(function(r){
   var posts=r[0]||[], pub=r[1]||{}, trend=r[2]||{}, reqs=r[6];
   USAGE=(r[7]&&Array.isArray(r[7].days))?r[7]:null;
   QUOTA=(r[8]&&(Array.isArray(r[8].limits)||r[8].five_hour))?r[8]:null;
+  CITES=(r[9]&&Array.isArray(r[9].writers))?r[9]:null;
 
   ((pub&&pub.publishedRels)||[]).forEach(function(x){ PUBSET[String(x)]=1; });
 
@@ -1656,7 +1691,7 @@ function observeRise(root){
    네 지표: ①작업 중 = 백엔드 /requests 의 received·processing ②작성자별 주간 사용량 = _trend/_usage.json(데스크·드레이너가 굽는다)
            ③일간 발행 실패율 = /requests 종결 상태(published·failed·skipped)의 일별 비율 ④잔여 사용량 = _trend/_quota.json(이 PC 계정 Max 한도 창).
    숫자는 실측만 — 스냅샷이 없으면 «스냅샷 없음»이지 0 이 아니다. 차트는 얇은 막대·2px 표면 간격·범례·툴팁·표 뷰(sr). */
-var USAGE=null, QUOTA=null, REQS_OK=false;   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
+var USAGE=null, QUOTA=null, CITES=null, REQS_OK=false;   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
 var W_ORDER=PREF.concat(['기타/공용']);
 var LIMIT_LABEL={session:'5시간 창',weekly_all:'7일 전체',weekly_scoped:'7일 모델별'};
 var WD=['일','월','화','수','목','금','토'];
@@ -1911,10 +1946,115 @@ function homeMeta(){
   return '<span class="num">'+(d.getMonth()+1)+'.'+d.getDate()+'</span><span>'+WD[d.getDay()]+'요일</span>'+
     (n?'<span>진행 <b>'+n+'</b></span>':'');
 }
+/* ══════════ 홈 — AI 브리핑 인용 · 일별 방문자 (2026-09-05) ══════════
+   출처 = _trend/_citations.json(_tools/mate-citations.cjs, 데스크 [E] 하루 1회, 네이버 공개 프로필 스냅샷).
+   행 값의 뜻: citations = 그 날짜 스냅샷→다음 스냅샷 사이 증분(어제까지만 있고 오늘은 집계 전) · visitors = 달력일 방문자(XML) 또는 06:00→06:00 차분.
+   인용수는 네이버 메이트로 선정된 블로그만 공개 — 영도처럼 선정 전이면 «비공개»로 적지 0 으로 그리지 않는다(0 위장 금지). */
+function fmtKo(n,sign){
+  n=Number(n)||0; var a=Math.abs(n), t;
+  if(a>=1e8)t=(a/1e8).toFixed(a>=1e9?0:1).replace(/\.0$/,'')+'억';
+  else if(a>=1e4)t=(a/1e4).toFixed(a>=1e5?0:1).replace(/\.0$/,'')+'만';
+  else t=a.toLocaleString('ko-KR');
+  return (n<0?'−':(sign&&n>0?'+':''))+t;
+}
+function citeDays(n){ var out=[], now=Date.now(); for(var i=n;i>=1;i--)out.push(kstDay(now-i*DAY)); return out; }
+function citeWriters(){ return CITES?CITES.writers.filter(function(w){ return w&&PREF.indexOf(w.name)>=0; }):[]; }
+function rowMap(w){ var m={}; (w.rows||[]).forEach(function(r){ if(r&&r.d)m[r.d]=r; }); return m; }
+function lastVal(w,key){ var rows=(w.rows||[]).filter(function(r){ return r&&r[key]!=null; }); return rows.length?rows[rows.length-1]:null; }
+
+function citeRow(w){
+  var L=w.latest||{}, m=w.mate, col=wac(w.name);
+  var head='<div class="cr-h"><span class="cr-dot" style="--c:'+col+'"></span><b class="cr-n">'+esc(w.name)+'</b>'+
+    (m?'<span class="cr-tag">'+esc(String(m.month||'')+'월 '+(m.topic||'')+' 메이트')+'</span>':'<span class="cr-tag off">메이트 선정 전</span>')+
+    (w.error?'<span class="cr-err">수집 실패</span>':'')+'</div>';
+  if(L.cum==null)return '<div class="cr">'+head+'<div class="cr-state">인용수 비공개 · 메이트 선정 시 자동 공개</div></div>';
+  var last=lastVal(w,'citations');
+  var stats='<div class="cr-stats">'+
+    '<span><span class="cr-k">'+(last?esc(mdLabel(last.d)+(last.span>1?' · '+last.span+'일 합':'')):'어제')+'</span>'+(last?'<b class="cr-v">'+fmtKo(last.citations,true)+'</b>':'<b class="cr-v pend">집계 전</b>')+'</span>'+
+    '<span><span class="cr-k">'+(L.monthNo||'')+'월</span><b class="cr-v">'+fmtKo(L.month)+'</b></span>'+
+    '<span><span class="cr-k">기준월 '+(L.selMonth||'')+'월</span><b class="cr-v">'+fmtKo(L.sel)+'</b></span>'+
+    '<span><span class="cr-k">누적</span><b class="cr-v">'+fmtKo(L.cum)+'</b></span></div>';
+  var days=citeDays(14), rm=rowMap(w), vals=days.map(function(d){ var r=rm[d]; return r&&r.citations!=null?Number(r.citations):null; });
+  var has=vals.some(function(v){ return v!=null; }), chart='';
+  if(has){
+    var W=chartW(560),H=150,padL=44,padR=8,padT=16,padB=24,pw=W-padL-padR,ph=H-padT-padB,slot=pw/days.length,bw=Math.min(24,slot*.5);
+    var max=Math.max.apply(null,vals.map(function(v){ return v||0; }).concat([1])), step=niceStep(max), grid='';
+    for(var v=0;v<=max;v+=step){ var gy=padT+ph-(v/max)*ph;
+      grid+='<line class="grid" x1="'+padL+'" x2="'+(W-padR)+'" y1="'+gy.toFixed(1)+'" y2="'+gy.toFixed(1)+'"/>'+
+        '<text class="axis" x="'+(padL-7)+'" y="'+(gy+3.5).toFixed(1)+'" text-anchor="end">'+fmtKo(v)+'</text>'; }
+    var maxI=-1, lastI=-1; vals.forEach(function(v,i){ if(v==null)return; lastI=i; if(maxI<0||v>vals[maxI])maxI=i; });
+    var every=slot<30?2:1;   /* 좁은 폭(모바일)에선 날짜 라벨을 하루 걸러 — 11px 모노 «8.23» 이 18px 슬롯에 겹친다 */
+    var cols=days.map(function(d,i){
+      var v=vals[i], x=padL+slot*i+(slot-bw)/2, r=rm[d]||{}, bar='', cap='';
+      var lab=(i%every===0||i===days.length-1)?'<text class="axis" x="'+(padL+slot*i+slot/2).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+mdLabel(d)+'</text>':'';
+      if(v!=null){ var h=Math.max(2,(Math.max(0,v)/max)*ph), y=padT+ph-h;
+        bar='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" fill="'+col+'"/>';
+        if(i===maxI||i===lastI)cap='<text class="cap" x="'+(x+bw/2).toFixed(1)+'" y="'+(y-5).toFixed(1)+'" text-anchor="middle">'+fmtKo(v,true)+'</text>'; }
+      var tip=mdLabel(d)+'|'+(v!=null?fmtKo(v,true)+(r.span>1?' ('+r.span+'일 합)':''):'집계 전')+'||'+(r.cum!=null?'누적|'+fmtKo(r.cum):'')+(r.at?';스냅샷|'+hhmm(Date.parse(r.at)):'');
+      return '<g class="col">'+bar+cap+lab+
+        '<rect class="hit" tabindex="0" x="'+(padL+slot*i).toFixed(1)+'" y="'+padT+'" width="'+slot.toFixed(1)+'" height="'+ph+'" data-tip="'+esc(tip)+'" aria-label="'+esc(mdLabel(d)+' '+(v!=null?fmtKo(v,true):'집계 전'))+'"/></g>';
+    }).join('');
+    var table='<table class="sr"><caption>'+esc(w.name)+' 일별 AI 브리핑 인용 증분</caption><tr><th>날짜</th><th>증분</th><th>누적</th></tr>'+
+      days.map(function(d,i){ var r=rm[d]||{}; return '<tr><td>'+esc(d)+'</td><td>'+(vals[i]!=null?fmtKo(vals[i],true):'—')+'</td><td>'+(r.cum!=null?fmtKo(r.cum):'—')+'</td></tr>'; }).join('')+'</table>';
+    chart='<div class="chart"><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+grid+cols+'</svg>'+table+'</div>';
+  } else chart='<div class="cr-state">일별 증분 집계 전 · 스냅샷 '+((w.rows||[]).filter(function(r){ return r&&r.at; }).length)+'개</div>';
+  return '<div class="cr">'+head+stats+chart+'</div>';
+}
+function tileCite(){
+  var ws=citeWriters(), body=ws.length?ws.map(citeRow).join(''):'<div class="wl-empty">스냅샷 없음</div>';
+  var up=CITES&&CITES.updated?Date.parse(CITES.updated):0;
+  return '<section class="tray tile w7 rise" id="tileCite"><div class="core">'+
+    '<div class="tile-h"><span class="tile-ic">'+svg('spark')+'</span><span class="tile-t">AI 브리핑 인용</span>'+
+      '<span class="tile-d">네이버 · 일별 증분 · 14일</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
+    '<div class="tile-b">'+body+'</div></div></section>';
+}
+/* 방문자 — 두 작성자를 한 축(같은 단위)에 선 2개로. 축은 하나뿐(이중 축 금지), 끝 라벨+범례+표 뷰로 색 없이도 식별된다 */
+function tileVisit(){
+  var ws=citeWriters(), days=citeDays(14);
+  var series=ws.map(function(w){ var rm=rowMap(w); return {name:w.name,col:wac(w.name),vals:days.map(function(d){ var r=rm[d]; return r&&r.visitors!=null?Number(r.visitors):null; })}; });
+  var has=series.some(function(s){ return s.vals.some(function(v){ return v!=null; }); }), body;
+  if(!ws.length)body='<div class="wl-empty">스냅샷 없음</div>';
+  else if(!has)body='<div class="wl-empty">집계 전</div>';
+  else{
+    var W=chartW(400),H=170,padL=42,padR=40,padT=14,padB=24,pw=W-padL-padR,ph=H-padT-padB,n=days.length,sx=function(i){ return padL+(n>1?pw*i/(n-1):pw/2); };
+    var max=1; series.forEach(function(s){ s.vals.forEach(function(v){ if(v!=null&&v>max)max=v; }); });
+    var step=niceStep(max), grid='', sy=function(v){ return padT+ph-(v/max)*ph; };
+    for(var g=0;g<=max;g+=step)grid+='<line class="grid" x1="'+padL+'" x2="'+(W-padR)+'" y1="'+sy(g).toFixed(1)+'" y2="'+sy(g).toFixed(1)+'"/><text class="axis" x="'+(padL-7)+'" y="'+(sy(g)+3.5).toFixed(1)+'" text-anchor="end">'+fmtKo(g)+'</text>';
+    var lines='', ends=[], labels='';
+    series.forEach(function(s){
+      var d='', open=false, lastI=-1;
+      s.vals.forEach(function(v,i){ if(v==null){ open=false; return; } d+=(open?'L':'M')+sx(i).toFixed(1)+' '+sy(v).toFixed(1); open=true; lastI=i; });
+      if(d)lines+='<path class="ln" style="--c:'+s.col+'" d="'+d+'"/>';
+      if(lastI>=0)ends.push({s:s,i:lastI,y:sy(s.vals[lastI])});
+    });
+    ends.sort(function(a,b){ return a.y-b.y; });
+    for(var k=1;k<ends.length;k++)if(ends[k].y-ends[k-1].y<13)ends[k].y=ends[k-1].y+13;
+    ends.forEach(function(e){ labels+='<circle class="ed" style="--c:'+e.s.col+'" cx="'+sx(e.i).toFixed(1)+'" cy="'+sy(e.s.vals[e.i]).toFixed(1)+'" r="4"/>'+
+      '<text class="el" x="'+(sx(e.i)+8).toFixed(1)+'" y="'+(e.y+4).toFixed(1)+'">'+esc(e.s.name)+'</text>'; });
+    var slot=n>1?pw/(n-1):pw, cols=days.map(function(d,i){
+      var x=sx(i), rows=series.filter(function(s){ return s.vals[i]!=null; }).map(function(s){ return s.name+'|'+s.vals[i].toLocaleString('ko-KR'); }), dots='';
+      series.forEach(function(s){ if(s.vals[i]!=null)dots+='<circle class="dot" style="--c:'+s.col+'" cx="'+x.toFixed(1)+'" cy="'+sy(s.vals[i]).toFixed(1)+'" r="4"/>'; });
+      var tip=mdLabel(d)+(rows.length?'':'|집계 전')+'||'+rows.join(';');   /* 머리 값이 없을 땐 '|' 를 붙이지 않는다 — '|||' 이 되면 첫 행이 값 자리로 밀린다 */
+      var lab=((n-1-i)%3===0)?'<text class="axis" x="'+x.toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+mdLabel(d)+'</text>':'';   /* 어제부터 거꾸로 3일 간격 — 끝에서 «9.3 9.4» 가 붙지 않는다 */
+      return '<g class="col"><line class="xh" x1="'+x.toFixed(1)+'" x2="'+x.toFixed(1)+'" y1="'+padT+'" y2="'+(padT+ph)+'"/>'+dots+lab+
+        '<rect class="hit" tabindex="0" x="'+(x-slot/2).toFixed(1)+'" y="'+padT+'" width="'+slot.toFixed(1)+'" height="'+ph+'" data-tip="'+esc(tip)+'" aria-label="'+esc(mdLabel(d)+' '+(rows.length?rows.join(', ').replace(/\|/g,' '):'집계 전'))+'"/></g>';
+    }).join('');
+    var legend='<div class="legend ln">'+series.map(function(s){ var lv=null; for(var i=s.vals.length-1;i>=0;i--)if(s.vals[i]!=null){ lv=s.vals[i]; break; } return '<span style="--c:'+s.col+'"><i></i>'+esc(s.name)+(lv!=null?'<b>'+lv.toLocaleString('ko-KR')+'</b>':'')+'</span>'; }).join('')+'</div>';
+    var table='<table class="sr"><caption>일별 방문자</caption><tr><th>날짜</th>'+series.map(function(s){ return '<th>'+esc(s.name)+'</th>'; }).join('')+'</tr>'+
+      days.map(function(d,i){ return '<tr><td>'+esc(d)+'</td>'+series.map(function(s){ return '<td>'+(s.vals[i]!=null?s.vals[i].toLocaleString('ko-KR'):'—')+'</td>'; }).join('')+'</tr>'; }).join('')+'</table>';
+    body='<div class="chart"><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+grid+lines+labels+cols+'</svg>'+table+'</div>'+legend;
+  }
+  var up=CITES&&CITES.updated?Date.parse(CITES.updated):0;
+  return '<section class="tray tile w5 rise" id="tileVisit"><div class="core">'+
+    '<div class="tile-h"><span class="tile-ic">'+svg('users')+'</span><span class="tile-t">일별 방문자</span>'+
+      '<span class="tile-d">네이버 블로그 · 14일</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
+    '<div class="tile-b">'+body+'</div></div></section>';
+}
+
 function renderHome(){
   setTitle('홈');
   setMeta(homeMeta());
-  viewEl.innerHTML='<div class="bento">'+tileWork()+tileQuota()+tileUsage()+tileFail()+'</div>';
+  viewEl.innerHTML='<div class="bento">'+tileWork()+tileQuota()+tileUsage()+tileFail()+tileCite()+tileVisit()+'</div>';
   observeRise(viewEl);
   bindCharts(viewEl);
   paintNav();
@@ -1939,7 +2079,7 @@ window.addEventListener('resize',function(){
   clearTimeout(homeRsT);
   homeRsT=setTimeout(function(){
     if(window.innerWidth===homeRsW)return; homeRsW=window.innerWidth;
-    [['tileUsage',tileUsage],['tileFail',tileFail]].forEach(function(t){
+    [['tileUsage',tileUsage],['tileFail',tileFail],['tileCite',tileCite],['tileVisit',tileVisit]].forEach(function(t){
       var old=el(t[0]); if(!old)return;
       var tmp=document.createElement('div'); tmp.innerHTML=t[1]();
       var core=old.querySelector('.core'); core.innerHTML=tmp.firstElementChild.querySelector('.core').innerHTML; bindCharts(old);
