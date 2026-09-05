@@ -748,7 +748,7 @@ select.f-i{
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23767D87' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
   background-repeat:no-repeat; background-position:right 13px center;
 }
-.f-ta{height:auto; min-height:92px; padding:11px 13px; line-height:1.6; resize:vertical}
+.f-ta{height:auto; min-height:164px; padding:11px 13px; line-height:1.6; resize:vertical}   /* 6줄(14px×1.6×6=134)+패딩 — 스크롤 없이 */
 .f-hint{
   display:flex; gap:7px; margin-top:8px; font-size:12px; line-height:1.55; color:var(--ink-3);
 }
@@ -779,18 +779,31 @@ select.f-i{
 .f-chips.need .wchip{box-shadow:0 0 0 1px var(--alert)}
 .f-chips.need .wchip.on{box-shadow:0 0 0 1px var(--ink)}
 .f-winfo{margin-top:8px; font-size:12px; color:var(--ink-3)}
-.f-file{display:flex; align-items:center; gap:9px; flex-wrap:wrap}
-.f-fbtn{
-  display:inline-flex; align-items:center; gap:6px; height:34px; padding:0 13px;
-  border-radius:var(--r-pill); background:var(--surface-2); color:var(--ink-2);
-  box-shadow:0 0 0 1px var(--hair); font-size:12.5px; font-weight:600; cursor:pointer;
-  transition:transform var(--t-fast) var(--e), color var(--t-fast) var(--e);
+/* 요청 문서 드롭존 — 클릭·키보드·드래그 앤 드롭 세 경로. 놓기 직전엔 테두리가 잉크로 조여지고 아이콘이 살짝 든다 */
+.dz{
+  position:relative; display:flex; align-items:center; justify-content:center; min-height:104px; padding:16px 18px;
+  border-radius:14px; background:var(--surface-2); box-shadow:0 0 0 1px var(--hair-2); cursor:pointer; text-align:center;
+  transition:background var(--t-fast) var(--e), box-shadow var(--t-fast) var(--e), transform var(--t-fast) var(--e-out);
 }
-.f-fbtn .ic{width:14px; height:14px}
-.f-fbtn:hover{color:var(--ink); transform:translateY(-1px)}
-.f-fname{font-size:12.5px; color:var(--ink-4); min-width:0; overflow:hidden;
-         text-overflow:ellipsis; white-space:nowrap}
-.f-fclear{font-size:12px; color:var(--ink-3); text-decoration:underline; text-underline-offset:2px}
+.dz:hover{background:var(--surface); box-shadow:0 0 0 1px var(--hair-3)}
+.dz:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
+.dz.over{background:var(--surface); box-shadow:0 0 0 2px var(--ink); transform:scale(1.01)}
+.dz.has{cursor:default; background:var(--surface)}
+.dz-idle{display:flex; flex-direction:column; align-items:center; gap:3px}
+.dz-idle[hidden],.dz-file[hidden]{display:none}   /* display:flex 가 [hidden] 의 UA 규칙을 이겨 둘 다 보이던 결함 방지 */
+.dz .dz-ic{width:20px; height:20px; color:var(--ink-3); margin-bottom:5px;
+           transition:transform var(--t) var(--e-out), color var(--t-fast) var(--e)}
+.dz:hover .dz-ic,.dz.over .dz-ic{transform:translateY(-2px); color:var(--ink)}
+.dz-t{font-size:13.5px; font-weight:600; letter-spacing:-.02em; color:var(--ink-2)}
+.dz.over .dz-t{color:var(--ink)}
+.dz-s{font-size:12px; color:var(--ink-3); line-height:1.5}   /* surface-2 위 AA(≈5.4:1) — ink-4 는 4.47:1 로 미달(게이트 09-05) */
+.dz-file{display:flex; align-items:center; gap:12px; width:100%; text-align:left}
+.dz-file .dz-ic{margin:0; color:var(--ink); flex:none}
+.dz-meta{min-width:0; flex:1}
+.dz-file .dz-t{color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.f-fclear{flex:none; font-size:12.5px; color:var(--ink-3); text-decoration:underline; text-underline-offset:2px;
+          padding:12px 8px; margin:-12px -8px}   /* 보이는 크기는 그대로, 탭 타깃만 ≥40px(게이트 09-05) */
+.f-fclear:hover{color:var(--alert)}
 
 /* 브리핑(발주 모달) */
 .brief{
@@ -2599,7 +2612,7 @@ function openOrder(it,opener){
     '<div class="mdl-b">'+brief+
       '<label class="f-l" for="oTopic">주제</label>'+
       '<input id="oTopic" class="f-i" type="text" maxlength="200" value="'+esc(it.title)+'">'+
-      '<label class="f-l" for="oMaterial">소재·참고 메모</label>'+
+      '<label class="f-l" for="oMaterial">요청 사항</label>'+
       '<textarea id="oMaterial" class="f-i f-ta">'+esc(deskMaterial(it))+'</textarea>'+
       '<label class="f-l">작성자</label>'+
       '<div class="f-chips" id="oChips">'+writerChips(pre)+'</div>'+
@@ -2662,18 +2675,20 @@ function openRequest(opener){
     '<div class="mdl-b"><form id="rForm" novalidate>'+
       '<label class="f-l" for="rTopic">주제</label>'+
       '<input id="rTopic" class="f-i" type="text" placeholder="예: 명조 2.0 신규 캐릭터 정보 정리" maxlength="200" required>'+
-      '<label class="f-l" for="rMaterial">소재·참고 메모</label>'+
+      '<label class="f-l" for="rMaterial">요청 사항</label>'+
       '<textarea id="rMaterial" class="f-i f-ta" placeholder="꼭 넣을 내용, 참고 링크, 톤" maxlength="2000"></textarea>'+
       '<label class="f-l">작성자</label>'+
       '<div class="f-chips" id="rChips">'+writerChips('')+'</div>'+
       '<label class="f-l">요청 문서</label>'+
-      '<div class="f-file">'+
-        '<label class="f-fbtn" for="rFile" tabindex="0" role="button">'+svg('paperclip')+'파일 선택</label>'+
+      '<div class="dz" id="rDz" tabindex="0" role="button" aria-label="요청 문서 — 파일을 놓거나 클릭해 선택">'+
         '<input id="rFile" type="file" accept="'+esc(CFG.ACCEPT)+'" hidden>'+
-        '<span id="rFName" class="f-fname">없음</span>'+
-        '<button type="button" id="rFClear" class="f-fclear" hidden>지우기</button>'+
+        '<div class="dz-idle" id="rDzIdle">'+svg('paperclip','dz-ic')+
+          '<div class="dz-t">파일을 여기에 놓거나 클릭</div>'+
+          '<div class="dz-s">docx xlsx pdf txt hwpx · 10MB · 이 요청 1건에만 최우선 규칙으로 적용</div></div>'+
+        '<div class="dz-file" id="rDzFile" hidden>'+svg('check','dz-ic')+
+          '<div class="dz-meta"><div class="dz-t" id="rFName"></div><div class="dz-s" id="rFSize"></div></div>'+
+          '<button type="button" id="rFClear" class="f-fclear">지우기</button></div>'+
       '</div>'+
-      '<div class="f-hint">'+svg('info')+'<span>이 요청 1건에만 최우선 규칙으로 적용 · docx xlsx pdf txt hwpx · 10MB</span></div>'+
       '<div id="rList"></div>'+
     '</form></div>'+
     '<div class="mdl-f">'+
@@ -2687,16 +2702,36 @@ function openRequest(opener){
   function msg(t,k){ var m=$('#rMsg'); m.textContent=t; m.className='mdl-msg'+(k?' '+k:''); }
 
   bindWriterChips($('#rChips'),function(w){ writer=w; });
-  var fi=$('#rFile'), fn=$('#rFName'), fc=$('#rFClear');
-  /* 키보드만 쓰는 사용자도 첨부할 수 있게 — label 은 포커스가 안 가고 hidden input 은 Tab 순서에서 빠진다 */
-  $('.f-fbtn').addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); fi.click(); } });
-  fi.addEventListener('change',function(){
-    picked=(fi.files&&fi.files[0])||null;
-    if(picked&&picked.size>10*1024*1024){ msg('파일이 너무 큽니다(최대 10MB)','err'); picked=null; fi.value=''; }
-    fn.textContent=picked?picked.name:'없음';
-    fc.hidden=!picked;
+  /* 요청 문서 드롭존 — 클릭(파일 선택창)·Enter/Space·드래그 앤 드롭. 형식·10MB 는 브라우저에서 먼저 거른다(백엔드와 같은 기준) */
+  var dz=$('#rDz'), fi=$('#rFile'), idle=$('#rDzIdle'), fileBox=$('#rDzFile'), fn=$('#rFName'), fsz=$('#rFSize'), fc=$('#rFClear');
+  var EXT=(CFG.ACCEPT.match(/\.(\w+)/g)||[]).map(function(s){ return s.slice(1).toLowerCase(); });
+  function fmtBytes(n){ return n>=1048576?(n/1048576).toFixed(1)+'MB':Math.max(1,Math.round(n/1024))+'KB'; }
+  function setFile(f){
+    if(!f){ picked=null; fi.value=''; idle.hidden=false; fileBox.hidden=true; dz.classList.remove('has'); return; }
+    var ext=(String(f.name).split('.').pop()||'').toLowerCase();
+    if(EXT.indexOf(ext)<0){ msg('허용 형식: '+EXT.join(' '),'err'); return; }
+    if(f.size>10*1024*1024){ msg('10MB 이하만 첨부할 수 있어요','err'); return; }
+    picked=f; fn.textContent=f.name; fsz.textContent=fmtBytes(f.size);
+    idle.hidden=true; fileBox.hidden=false; dz.classList.add('has'); msg('');
+    MO.pop(fileBox);
+  }
+  dz.addEventListener('click',function(e){ if(e.target.closest('#rFClear')||picked)return; fi.click(); });
+  dz.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&!picked){ e.preventDefault(); fi.click(); } });
+  fi.addEventListener('change',function(){ setFile((fi.files&&fi.files[0])||null); });
+  fc.addEventListener('click',function(e){ e.stopPropagation(); setFile(null); dz.focus(); });
+  ['dragenter','dragover'].forEach(function(t){
+    dz.addEventListener(t,function(e){ e.preventDefault(); e.stopPropagation(); dz.classList.add('over'); });
   });
-  fc.addEventListener('click',function(){ picked=null; fi.value=''; fn.textContent='없음'; fc.hidden=true; });
+  dz.addEventListener('dragleave',function(e){ if(!dz.contains(e.relatedTarget))dz.classList.remove('over'); });
+  dz.addEventListener('drop',function(e){
+    e.preventDefault(); e.stopPropagation(); dz.classList.remove('over');
+    var fs=e.dataTransfer&&e.dataTransfer.files; if(!fs||!fs.length)return;
+    if(fs.length>1)toast('파일은 1개만 — 첫 파일을 넣었어요');
+    setFile(fs[0]);
+  });
+  /* 판 밖에 떨어뜨리면 브라우저가 파일을 열어 버린다 — 모달 전체에서 기본 동작을 막는다 */
+  back.addEventListener('dragover',function(e){ e.preventDefault(); });
+  back.addEventListener('drop',function(e){ e.preventDefault(); });
 
   function drawList(){
     var reqs=RequestService.list().filter(function(r){ return r.status!=='published'; });
