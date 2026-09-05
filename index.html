@@ -636,6 +636,7 @@ a{color:inherit; text-decoration:none}
 .chart .col rect:not(.hit){transition:opacity var(--t-fast) var(--e)}
 .chart .col.on rect:not(.hit){opacity:.72}
 .chart .hit{fill:transparent; outline:none}
+.chart .hit:focus-visible{outline:2px solid var(--ink); outline-offset:-2px}   /* 키보드 포커스 링 — .chart .hit 이 전역 :focus-visible 보다 특이도가 높아 링이 사라졌었다(09-05 검수) */
 .legend{display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:12px; font-size:12px; color:var(--ink-2)}
 .legend span{display:inline-flex; align-items:center; gap:6px}
 .legend i{width:8px; height:8px; border-radius:2px; background:var(--c,var(--ink-4)); flex:none}
@@ -646,12 +647,12 @@ a{color:inherit; text-decoration:none}
 .cr-h{display:flex; align-items:center; gap:8px; margin-bottom:8px}
 .cr-dot{width:9px; height:9px; border-radius:50%; background:var(--c,var(--ink-4)); flex:none}
 .cr-n{font-size:13.5px; font-weight:700; letter-spacing:-.02em}
-.cr-tag{font-size:12px; color:var(--ink-2); background:var(--surface-2); border-radius:999px; padding:2px 9px; white-space:nowrap}
+.cr-tag{font-size:12.5px; color:var(--ink-2); background:var(--surface-2); border-radius:999px; padding:2px 9px; white-space:nowrap}
 .cr-tag.off{color:var(--ink-4)}
-.cr-err{font-size:12px; color:var(--alert); margin-left:auto}
+.cr-err{font-size:12.5px; color:var(--alert); margin-left:auto}
 .cr-state{font-size:13px; color:var(--ink-3); padding:6px 0 4px}
 .cr-stats{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px 12px; margin:0 0 10px}
-.cr-k{display:block; font-size:12px; color:var(--ink-4); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.cr-k{display:block; font-size:12.5px; color:var(--ink-4); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}   /* 라벨 ≥12.5px(.stat-l 선례) */
 .cr-v{display:block; font-family:"JetBrains Mono",monospace; font-weight:600; font-size:15px; letter-spacing:-.02em; color:var(--ink); font-variant-numeric:tabular-nums; white-space:nowrap}
 .cr-v.pend{color:var(--ink-4); font-weight:500}
 .chart .ln{fill:none; stroke:var(--c,var(--ink-4)); stroke-width:2; stroke-linejoin:round; stroke-linecap:round}
@@ -1929,7 +1930,9 @@ function showTip(hit,x,y,anchor){
     var b=document.createElement('b'); b.textContent=kv[1]||''; d.appendChild(b); CTIP.appendChild(d);
   });
   var vw=window.innerWidth, vh=window.innerHeight, tw=CTIP.offsetWidth||170, th=CTIP.offsetHeight||60;
-  if(anchor){ var rc=hit.getBoundingClientRect(); x=rc.left+rc.width/2-tw/2; y=rc.top-th-8; }
+  if(anchor){ /* 키보드 포커스 — 열 «옆»에 붙인다. 위에 올리면 hit 스트립이 플롯 전체 높이라 타일 헤더와 겹친다(09-05 검수) */
+    var rc=hit.getBoundingClientRect(); x=rc.right+10; y=rc.top+rc.height/2-th/2;
+    if(x+tw>vw-8)x=rc.left-tw-10; }
   else { x=x+14; y=y+16; }
   x=Math.max(8,Math.min(vw-tw-8,x)); y=Math.max(8,Math.min(vh-th-8,y));
   CTIP.style.left=x+'px'; CTIP.style.top=y+'px';
