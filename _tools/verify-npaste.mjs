@@ -10,7 +10,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..');
-const SCRIPT = readFileSync(join(ROOT, '_design', 'bomding-npaste.js'), 'utf8');
+const SCRIPT = readFileSync(join(ROOT, '_design', 'naver-npaste.js'), 'utf8');   /* 캐논(봄딩·영도 공용). bomding-npaste.js 는 1줄 로더 */
 const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 
 const args = process.argv.slice(2);
@@ -61,7 +61,7 @@ const PROBE = `(()=>{const d=window.__np; if(!d) return {err:'no __np'};
   let hit=0; for(const w of A) if(U.has(w)) hit++; let hitO=0; for(const w of A) if(O.has(w)) hitO++;
   const miss=[]; for(const w of A){ if(!U.has(w)){ miss.push(w); if(miss.length>=12) break; } }
   const h1=d.copyHTML('img','h3'), h2=d.copyHTML('text','quote');
-  return Object.assign({}, s, {artTok:A.size, cov:A.size?+(hit/A.size).toFixed(3):1, covOld:O.size?+(hitO/A.size).toFixed(3):null,
+  return Object.assign({}, s, {writer:d.writer, artTok:A.size, cov:A.size?+(hit/A.size).toFixed(3):1, covOld:O.size?+(hitO/A.size).toFixed(3):null,
     imgsInCopy:(h1.match(/<img /g)||[]).length, imgsInText:(h2.match(/<img /g)||[]).length, quotes:(h2.match(/<blockquote/g)||[]).length,
     h3InQuote:(h2.match(/<h3/g)||[]).length, phText:(h2.match(/사진 자리/g)||[]).length, cls:(h1.match(/class="(?!ph")/g)||[]).length,
     autoLen:d.autoText().length, oldLen:oldEl?oldEl.textContent.length:0, drawer:!!document.getElementById('npDrawer'), miss:miss.join(' ')});})()`;
@@ -73,7 +73,7 @@ for (let i = 0; i < files.length; i++) {
   const wantShot = i < SHOTS;
   const LIVE = flag('--live');   /* --live: 로컬 주입 없이 글에 박힌 include(라이브 URL)만으로 동작하는지 본다 */
   const blocked = wantShot ? [] : ['*.png', '*.jpg', '*.jpeg', '*.webp', '*.gif'];
-  if (!LIVE) blocked.push('*bomding-npaste.js*');
+  if (!LIVE) { blocked.push('*bomding-npaste.js*'); blocked.push('*naver-npaste.js*'); }
   await send('Network.setBlockedURLs', { urls: blocked });
   logs = [];
   const p = new Promise(r => loaded = r);
@@ -107,7 +107,7 @@ for (let i = 0; i < files.length; i++) {
   rows.push(v);
   const mark = v.err || v.exc || (v.cov != null && v.cov < 0.97) || !v.drawer ? ' <<' : '';
   if (mark) bad++;
-  console.log(`${String(i + 1).padStart(3)} cov=${v.cov ?? '-'} old=${v.covOld ?? '-'} photo=${v.photos ?? '-'}(img${v.imgs ?? '-'}) tbl=${v.tables ?? '-'} cp=${v.coupang ?? '-'} h=${v.heads ?? '-'} blocks=${v.blocks ?? '-'} imgCopy=${v.imgsInCopy ?? '-'}/${v.imgsInText ?? '-'} q=${v.quotes ?? '-'}/${v.h3InQuote ?? '-'} exc=${v.exc}${mark} ${rel.slice(0, 70)}${v.err ? ' ERR ' + v.err : ''}${v.exc ? ' ' + v.excMsg : ''}${mark && v.miss ? '\n      miss: ' + v.miss : ''}`);
+  console.log(`${String(i + 1).padStart(3)} [${v.writer ?? '?'}] cov=${v.cov ?? '-'} old=${v.covOld ?? '-'} photo=${v.photos ?? '-'}(img${v.imgs ?? '-'}) tbl=${v.tables ?? '-'} cp=${v.coupang ?? '-'} h=${v.heads ?? '-'} blocks=${v.blocks ?? '-'} imgCopy=${v.imgsInCopy ?? '-'}/${v.imgsInText ?? '-'} q=${v.quotes ?? '-'}/${v.h3InQuote ?? '-'} exc=${v.exc}${mark} ${rel.slice(0, 70)}${v.err ? ' ERR ' + v.err : ''}${v.exc ? ' ' + v.excMsg : ''}${mark && v.miss ? '\n      miss: ' + v.miss : ''}`);
 }
 writeFileSync(join(OUT, 'report.json'), JSON.stringify(rows, null, 1));
 const covs = rows.filter(r => r.cov != null).map(r => r.cov);
