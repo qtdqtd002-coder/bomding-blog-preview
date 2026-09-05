@@ -109,14 +109,16 @@ function render(g, rows, mpubSet, generatedAt) {
   const mpubSet = has('--mpub') ? await fetchMpub() : null;
 
   const want = argOf('--game', null);
-  let games = idx.games.filter((g) => g.space || g.glossary);
+  // ★space 를 «명시한» 게임만 — 지식 공간은 점진 적용(09-05 롤토체스·애니모). glossary 만 있는 게임에
+  //   폴더를 자동 생성하면 «빈 로그 폴더 15개»가 생긴다(첫 실행 실측) — 그건 축적이 아니라 잡음이다.
+  let games = idx.games.filter((g) => g.space);
   if (want) games = games.filter((g) => norm(g.canon) === norm(want) || (g.aliases || []).some((a) => norm(a) === norm(want)));
-  if (!games.length) { console.error('[game-ledger] 대상 게임이 없습니다(별칭 색인에 space/glossary 가 있어야 합니다).'); process.exit(1); }
+  if (!games.length) { console.error('[game-ledger] 대상 게임이 없습니다(별칭 색인에 `space` 를 명시한 게임만 원장을 만듭니다).'); process.exit(1); }
 
   const generatedAt = KST(new Date());
   const summary = [];
   for (const g of games) {
-    const space = g.space || String(g.glossary || '').replace(/\.md$/, '');
+    const space = g.space;
     if (!space) continue;
     const isMine = matcherFor(g);
     const rows = posts.filter((p) => p && p.rel && isMine(p)).map((p) => ({
