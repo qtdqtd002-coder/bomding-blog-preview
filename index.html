@@ -802,28 +802,33 @@ select.f-i{
 .f-chips.need .wchip{box-shadow:0 0 0 1px var(--alert)}
 .f-chips.need .wchip.on{box-shadow:0 0 0 1px var(--ink)}
 .f-winfo{margin-top:8px; font-size:12px; color:var(--ink-3)}
-/* 요청 문서 드롭존 — 클릭·키보드·드래그 앤 드롭 세 경로. 놓기 직전엔 테두리가 잉크로 조여지고 아이콘이 살짝 든다 */
+/* 요청 문서 드롭존 — 클릭·키보드·드래그 앤 드롭 세 경로, 최대 5개(파일당 20MB). 점선 테두리(놓는 자리라는 관습),
+   놓기 직전엔 실선 잉크로 조여지고 아이콘이 살짝 든다. 파일이 들어와도 계속 놓을 수 있다. */
 .dz{
-  position:relative; display:flex; align-items:center; justify-content:center; min-height:104px; padding:16px 18px;
-  border-radius:14px; background:var(--surface-2); box-shadow:0 0 0 1px var(--hair-2); cursor:pointer; text-align:center;
-  transition:background var(--t-fast) var(--e), box-shadow var(--t-fast) var(--e), transform var(--t-fast) var(--e-out);
+  position:relative; display:flex; align-items:center; justify-content:center; min-height:140px; padding:18px;
+  border-radius:14px; background:var(--surface-2); border:1.5px dashed var(--hair-3); cursor:pointer; text-align:center;
+  transition:background var(--t-fast) var(--e), border-color var(--t-fast) var(--e), box-shadow var(--t-fast) var(--e),
+             transform var(--t-fast) var(--e-out);
 }
-.dz:hover{background:var(--surface); box-shadow:0 0 0 1px var(--hair-3)}
+.dz:hover{background:var(--surface); border-color:var(--ink-4)}
 .dz:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
-.dz.over{background:var(--surface); box-shadow:0 0 0 2px var(--ink); transform:scale(1.01)}
-.dz.has{cursor:default; background:var(--surface)}
+.dz.over{background:var(--surface); border-color:var(--ink); border-style:solid; box-shadow:0 0 0 1px var(--ink); transform:scale(1.01)}
+.dz.has{align-items:stretch; justify-content:flex-start; text-align:left; padding:12px}
 .dz-idle{display:flex; flex-direction:column; align-items:center; gap:3px}
-.dz-idle[hidden],.dz-file[hidden]{display:none}   /* display:flex 가 [hidden] 의 UA 규칙을 이겨 둘 다 보이던 결함 방지 */
+.dz-idle[hidden],.dz-list[hidden]{display:none}   /* display:flex 가 [hidden] 의 UA 규칙을 이겨 둘 다 보이던 결함 방지 */
 .dz .dz-ic{width:20px; height:20px; color:var(--ink-3); margin-bottom:5px;
            transition:transform var(--t) var(--e-out), color var(--t-fast) var(--e)}
 .dz:hover .dz-ic,.dz.over .dz-ic{transform:translateY(-2px); color:var(--ink)}
 .dz-t{font-size:13.5px; font-weight:600; letter-spacing:-.02em; color:var(--ink-2)}
 .dz.over .dz-t{color:var(--ink)}
 .dz-s{font-size:12px; color:var(--ink-3); line-height:1.5}   /* surface-2 위 AA(≈5.4:1) — ink-4 는 4.47:1 로 미달(게이트 09-05) */
-.dz-file{display:flex; align-items:center; gap:12px; width:100%; text-align:left}
-.dz-file .dz-ic{margin:0; color:var(--ink); flex:none}
-.dz-meta{min-width:0; flex:1}
-.dz-file .dz-t{color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.dz-list{display:flex; flex-direction:column; gap:6px; width:100%}
+.dz-row{display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px;
+        background:var(--surface); box-shadow:0 0 0 1px var(--hair)}
+.dz-row .dz-ic{width:15px; height:15px; margin:0; color:var(--ink); flex:none; transform:none}
+.dz-row .dz-t{flex:1; min-width:0; font-size:13px; color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.dz-row .dz-s{flex:none; font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums}
+.dz-more{margin-top:6px; font-size:12px; color:var(--ink-3); text-align:center}
 .f-fclear{flex:none; font-size:12.5px; color:var(--ink-3); text-decoration:underline; text-underline-offset:2px;
           padding:12px 8px; margin:-12px -8px}   /* 보이는 크기는 그대로, 탭 타깃만 ≥40px(게이트 09-05) */
 .f-fclear:hover{color:var(--alert)}
@@ -1336,22 +1341,23 @@ function reqSave(a){ try{ localStorage.setItem(REQ_LS,JSON.stringify(a)); }catch
 var RequestService={
   isConnected:function(){ return !!CFG.API_BASE; },
   list:function(){ return reqLoad().sort(function(a,b){ return b.createdAt-a.createdAt; }); },
-  /* req: {purpose, topic, material, writer, source?, file?:File}. 첨부 있으면 multipart, 없으면 JSON.
+  /* req: {purpose?, topic, material, writer, source?, files?:File[]}. 첨부 있으면 multipart(같은 필드명 attachment 반복, 최대 5개), 없으면 JSON.
      source 기본 'site' · 트렌드 데스크 발주는 'trend-desk' 로 구분해 큐에서 출처가 보이게 한다. */
   submit:function(req){
     var src=(req.source||'site').slice(0,32);
+    var files=(req.files||[]).filter(Boolean);
     var rec={id:'req_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),createdAt:Date.now(),
-      status:'local',fileName:(req.file&&req.file.name)||null,
+      status:'local',fileNames:files.map(function(f){ return f.name; }),
       purpose:req.purpose,topic:req.topic,material:req.material,writer:req.writer,source:src};
     if(!this.isConnected()){ var a0=reqLoad(); a0.push(rec); reqSave(a0); return Promise.resolve(rec); }
     var p;
-    if(req.file){
+    if(files.length){
       var fd=new FormData();
       fd.append('topic',req.topic||''); fd.append('material',req.material||'');
       if(req.writer)fd.append('writer',req.writer);
       if(req.purpose)fd.append('purpose',req.purpose);
       fd.append('source',src);
-      fd.append('attachment',req.file,req.file.name);
+      files.forEach(function(f){ fd.append('attachment',f,f.name); });
       p=fetch(api()+'/requests',{method:'POST',body:fd});
     }else{
       p=fetch(api()+'/requests',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -1366,7 +1372,7 @@ var RequestService={
       rec.status='submitted'; rec.serverId=body.id||null;
     }).catch(function(err){
       /* 서버가 거절했거나 파일이 딸린 요청은 임시 저장으로 위장하지 않는다(파일은 브라우저에 못 남긴다) */
-      rec.status=(err&&err.http)||req.file?'sendfail':'queued'; rec.error=String((err&&err.message)||err);
+      rec.status=(err&&err.http)||files.length?'sendfail':'queued'; rec.error=String((err&&err.message)||err);
     }).then(function(){
       var all=reqLoad(); all.push(rec); reqSave(all); return rec;
     });
@@ -2816,18 +2822,16 @@ function openRequest(opener){
       '<label class="f-l" for="rTopic">주제</label>'+
       '<input id="rTopic" class="f-i" type="text" placeholder="예: 명조 2.0 신규 캐릭터 정보 정리" maxlength="200" required>'+
       '<label class="f-l" for="rMaterial">요청 사항</label>'+
-      '<textarea id="rMaterial" class="f-i f-ta" placeholder="꼭 넣을 내용, 참고 링크, 톤" maxlength="2000"></textarea>'+
+      '<textarea id="rMaterial" class="f-i f-ta" maxlength="2000" placeholder="예: 9/10 2.0 업데이트 기준 신규 캐릭터 2명 정리&#10;- 꼭 넣기: 이름·속성·역할, 뽑기 추천 여부와 이유&#10;- 참고: 공식 공지 링크 https://…&#10;- 톤: 처음 하는 독자 기준, 표 1개 이상&#10;- 빼기: 유출 정보·과장 표현"></textarea>'+
       '<label class="f-l">작성자</label>'+
       '<div class="f-chips" id="rChips">'+writerChips('')+'</div>'+
       '<label class="f-l">요청 문서</label>'+
-      '<div class="dz" id="rDz" tabindex="0" role="button" aria-label="요청 문서 — 파일을 놓거나 클릭해 선택">'+
-        '<input id="rFile" type="file" accept="'+esc(CFG.ACCEPT)+'" hidden>'+
+      '<div class="dz" id="rDz" tabindex="0" role="button" aria-label="요청 문서 — 파일을 놓거나 클릭해 선택, 최대 5개">'+
+        '<input id="rFile" type="file" accept="'+esc(CFG.ACCEPT)+'" multiple hidden>'+
         '<div class="dz-idle" id="rDzIdle">'+svg('paperclip','dz-ic')+
           '<div class="dz-t">파일을 여기에 놓거나 클릭</div>'+
-          '<div class="dz-s">docx xlsx pdf txt hwpx · 10MB · 이 요청 1건에만 최우선 규칙으로 적용</div></div>'+
-        '<div class="dz-file" id="rDzFile" hidden>'+svg('check','dz-ic')+
-          '<div class="dz-meta"><div class="dz-t" id="rFName"></div><div class="dz-s" id="rFSize"></div></div>'+
-          '<button type="button" id="rFClear" class="f-fclear">지우기</button></div>'+
+          '<div class="dz-s">docx xlsx pdf txt hwpx · 파일당 20MB · 최대 5개 · 이 요청 1건에만 최우선 규칙으로 적용</div></div>'+
+        '<div class="dz-list" id="rDzList" hidden></div>'+
       '</div>'+
       '<div id="rList"></div>'+
     '</form></div>'+
@@ -2838,27 +2842,52 @@ function openRequest(opener){
     '</div>', opener, '새 글 요청');
 
   var $=function(q){ return back.querySelector(q); };
-  var picked=null, writer='';
+  var files=[], writer='';
   function msg(t,k){ var m=$('#rMsg'); m.textContent=t; m.className='mdl-msg'+(k?' '+k:''); }
 
   bindWriterChips($('#rChips'),function(w){ writer=w; });
-  /* 요청 문서 드롭존 — 클릭(파일 선택창)·Enter/Space·드래그 앤 드롭. 형식·10MB 는 브라우저에서 먼저 거른다(백엔드와 같은 기준) */
-  var dz=$('#rDz'), fi=$('#rFile'), idle=$('#rDzIdle'), fileBox=$('#rDzFile'), fn=$('#rFName'), fsz=$('#rFSize'), fc=$('#rFClear');
+  /* 요청 문서 드롭존 — 클릭(파일 선택창)·Enter/Space·드래그 앤 드롭. 최대 5개·파일당 20MB·형식은 브라우저에서 먼저 거른다(백엔드와 같은 기준) */
+  var dz=$('#rDz'), fi=$('#rFile'), idle=$('#rDzIdle'), listEl=$('#rDzList');
   var EXT=(CFG.ACCEPT.match(/\.(\w+)/g)||[]).map(function(s){ return s.slice(1).toLowerCase(); });
+  var MAXF=5, MAXB=20*1024*1024;
   function fmtBytes(n){ return n>=1048576?(n/1048576).toFixed(1)+'MB':Math.max(1,Math.round(n/1024))+'KB'; }
-  function setFile(f){
-    if(!f){ picked=null; fi.value=''; idle.hidden=false; fileBox.hidden=true; dz.classList.remove('has'); return; }
-    var ext=(String(f.name).split('.').pop()||'').toLowerCase();
-    if(EXT.indexOf(ext)<0){ msg('허용 형식: '+EXT.join(' '),'err'); return; }
-    if(f.size>10*1024*1024){ msg('10MB 이하만 첨부할 수 있어요','err'); return; }
-    picked=f; fn.textContent=f.name; fsz.textContent=fmtBytes(f.size);
-    idle.hidden=true; fileBox.hidden=false; dz.classList.add('has'); msg('');
-    MO.pop(fileBox);
+  function paintFiles(){
+    listEl.textContent='';
+    if(!files.length){ idle.hidden=false; listEl.hidden=true; dz.classList.remove('has'); return; }
+    idle.hidden=true; listEl.hidden=false; dz.classList.add('has');
+    files.forEach(function(f,i){
+      var row=document.createElement('div'); row.className='dz-row';
+      row.innerHTML=svg('check','dz-ic')+'<span class="dz-t"></span><span class="dz-s"></span>'+
+        '<button type="button" class="f-fclear" data-i="'+i+'" aria-label="'+esc(f.name)+' 지우기">지우기</button>';
+      row.querySelector('.dz-t').textContent=f.name; row.querySelector('.dz-s').textContent=fmtBytes(f.size);
+      listEl.appendChild(row);
+    });
+    var more=document.createElement('div'); more.className='dz-more';
+    more.textContent=files.length+'/'+MAXF+(files.length<MAXF?' · 더 놓거나 클릭':'');
+    listEl.appendChild(more);
   }
-  dz.addEventListener('click',function(e){ if(e.target.closest('#rFClear')||picked)return; fi.click(); });
-  dz.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&!picked){ e.preventDefault(); fi.click(); } });
-  fi.addEventListener('change',function(){ setFile((fi.files&&fi.files[0])||null); });
-  fc.addEventListener('click',function(e){ e.stopPropagation(); setFile(null); dz.focus(); });
+  function addFiles(fs){
+    var added=[], bad=[];
+    Array.prototype.forEach.call(fs||[],function(f){
+      if(files.length>=MAXF){ bad.push('최대 '+MAXF+'개'); return; }
+      var ext=(String(f.name).split('.').pop()||'').toLowerCase();
+      if(EXT.indexOf(ext)<0){ bad.push(f.name+' 형식 불가'); return; }
+      if(f.size>MAXB){ bad.push(f.name+' 20MB 초과'); return; }
+      if(files.some(function(x){ return x.name===f.name&&x.size===f.size; }))return;   /* 같은 파일은 한 번만 */
+      files.push(f); added.push(f);
+    });
+    paintFiles();
+    if(bad.length){ var u=bad.filter(function(v,i){ return bad.indexOf(v)===i; }); msg(u.slice(0,2).join(' · ')+(u.length>2?' 외 '+(u.length-2)+'건':''),'err'); }
+    else if(added.length)msg('');
+    added.forEach(function(f){ var i=files.indexOf(f); if(i>=0&&listEl.children[i])MO.pop(listEl.children[i]); });
+  }
+  dz.addEventListener('click',function(e){
+    var rm=e.target.closest('.f-fclear');
+    if(rm){ e.stopPropagation(); files.splice(Number(rm.dataset.i),1); paintFiles(); dz.focus(); return; }
+    fi.click();
+  });
+  dz.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&e.target===dz){ e.preventDefault(); fi.click(); } });
+  fi.addEventListener('change',function(){ addFiles(fi.files); fi.value=''; });
   ['dragenter','dragover'].forEach(function(t){
     dz.addEventListener(t,function(e){ e.preventDefault(); e.stopPropagation(); dz.classList.add('over'); });
   });
@@ -2866,8 +2895,7 @@ function openRequest(opener){
   dz.addEventListener('drop',function(e){
     e.preventDefault(); e.stopPropagation(); dz.classList.remove('over');
     var fs=e.dataTransfer&&e.dataTransfer.files; if(!fs||!fs.length)return;
-    if(fs.length>1)toast('파일은 1개만 — 첫 파일을 넣었어요');
-    setFile(fs[0]);
+    addFiles(fs);
   });
   /* 판 밖에 떨어뜨리면 브라우저가 파일을 열어 버린다 — 모달 전체에서 기본 동작을 막는다 */
   back.addEventListener('dragover',function(e){ e.preventDefault(); });
@@ -2897,13 +2925,13 @@ function openRequest(opener){
     if(!topic){ msg('주제를 입력해주세요','err'); $('#rTopic').focus(); return; }
     if(!writer){ msg('작성자를 선택해주세요','err'); needChips($('#rChips')); return; }
     var go=$('#rGo'); go.disabled=true; msg('보내는 중…');
-    RequestService.submit({topic:topic,material:material,writer:writer,file:picked})
+    RequestService.submit({topic:topic,material:material,writer:writer,files:files.slice()})
       .then(function(rec){
         go.disabled=false;
         if(rec.status==='submitted'){
           closeModal();
           toast('요청이 접수됐어요 · 발행되면 알림으로 알려드려요');
-        }else if(rec.status==='sendfail'){ msg((rec.error||'전송 실패')+(picked?' — 파일은 다시 첨부해 주세요':''),'err'); drawList(); }
+        }else if(rec.status==='sendfail'){ msg((rec.error||'전송 실패')+(files.length?' — 파일은 다시 첨부해 주세요':''),'err'); drawList(); }
         else if(rec.status==='queued'){ msg('네트워크 문제로 임시 저장했어요','err'); drawList(); }
         else { msg('임시 저장했어요(백엔드 미연결)','ok'); drawList(); }
       }).catch(function(e){ go.disabled=false; msg('전송 실패: '+((e&&e.message)||e),'err'); });
