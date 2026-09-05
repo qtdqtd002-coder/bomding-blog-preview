@@ -437,7 +437,7 @@ a{color:inherit; text-decoration:none}
   transition:box-shadow var(--t-fast) var(--e);
 }
 .pin-i:focus{box-shadow:0 0 0 1px var(--hair-3)}
-.pin-i::placeholder{color:var(--ink-4)}
+.pin-i::placeholder{color:var(--ink-3)}   /* surface-2 위 AA(게이트 09-05) */
 .pin-i:disabled{color:var(--ink-4)}
 .pin-go{
   display:inline-flex; align-items:center; gap:5px; height:34px; padding:0 14px;
@@ -730,7 +730,7 @@ a{color:inherit; text-decoration:none}
 }
 .mdl-x:hover{background:var(--surface-2); color:var(--ink)}
 .mdl-x:active{transform:scale(.9)}
-.mdl-b{padding:18px; max-height:min(64vh,600px); overflow-y:auto; overscroll-behavior:contain}
+.mdl-b{padding:18px; max-height:min(72vh,720px); overflow-y:auto; overscroll-behavior:contain}   /* 요청 사항 6줄+요청 문서 5행=686px 실측 — 1080px 에서 내부 스크롤 없이(게이트 09-05) */
 .mdl-f{
   display:flex; align-items:center; gap:8px; padding:13px 18px;
   border-top:1px solid var(--hair); background:var(--surface-2); flex-wrap:wrap;
@@ -766,7 +766,7 @@ a{color:inherit; text-decoration:none}
   transition:box-shadow var(--t-fast) var(--e), background var(--t-fast) var(--e);
 }
 .f-i:focus{box-shadow:0 0 0 1px var(--hair-3); background:var(--surface)}
-.f-i::placeholder{color:var(--ink-4)}
+.f-i::placeholder{color:var(--ink-3)}   /* surface-2 위 AA — ink-4 는 4.47:1 로 미달(.dz-s 와 같은 조합, 게이트 09-05) */
 select.f-i{
   appearance:none; -webkit-appearance:none; cursor:pointer; padding-right:34px;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23767D87' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
@@ -823,7 +823,7 @@ select.f-i{
 .dz-t{font-size:13.5px; font-weight:600; letter-spacing:-.02em; color:var(--ink-2)}
 .dz.over .dz-t{color:var(--ink)}
 .dz-s{font-size:12px; color:var(--ink-3); line-height:1.5}   /* surface-2 위 AA(≈5.4:1) — ink-4 는 4.47:1 로 미달(게이트 09-05) */
-.dz-list{display:flex; flex-direction:column; gap:6px; width:100%}
+.dz-list{display:flex; flex-direction:column; gap:10px; width:100%}   /* «지우기» 확장 히트박스(행보다 위아래 3.7px 씩 큼)가 이웃 행과 안 겹치는 간격 — 6px 이면 1.2px 겹쳤다(게이트 09-05 2차) */
 .dz-row{display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px;
         background:var(--surface); box-shadow:0 0 0 1px var(--hair)}
 .dz-row .dz-ic{width:15px; height:15px; margin:0; color:var(--ink); flex:none; transform:none}
@@ -831,7 +831,7 @@ select.f-i{
 .dz-row .dz-s{flex:none; font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums}
 .dz-more{margin-top:6px; font-size:12px; color:var(--ink-3); text-align:center}
 .f-fclear{flex:none; font-size:12.5px; color:var(--ink-3); text-decoration:underline; text-underline-offset:2px;
-          padding:12px 8px; margin:-12px -8px}   /* 보이는 크기는 그대로, 탭 타깃만 ≥40px(게이트 09-05) */
+          padding:12px 8px; margin:-12px -8px}   /* 보이는 크기는 그대로, 탭 타깃만 ≥40px(43px 실측 — ±10px 은 39px 라 미달) */
 .f-fclear:hover{color:var(--alert)}
 
 /* 브리핑(발주 모달) */
@@ -2880,6 +2880,7 @@ function openRequest(opener){
       files.push(f); added.push(f);
     });
     paintFiles();
+    if(files.length&&listEl.lastElementChild)listEl.lastElementChild.scrollIntoView({block:'nearest',behavior:'smooth'});   /* 새 행·«N/5» 줄이 모달 내부 스크롤 밖에 남지 않게(게이트 09-05) */
     if(bad.length){ var u=bad.filter(function(v,i){ return bad.indexOf(v)===i; }); msg(u.slice(0,2).join(' · ')+(u.length>2?' 외 '+(u.length-2)+'건':''),'err'); }
     else if(added.length)msg('');
     added.forEach(function(f){ var i=files.indexOf(f); if(i>=0&&listEl.children[i])MO.pop(listEl.children[i]); });
