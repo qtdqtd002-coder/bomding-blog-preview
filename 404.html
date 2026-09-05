@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>이동된 글 찾는 중…</title>
+<!--
+  404.html — GitHub Pages 가 없는 경로에 이 페이지를 내준다(상태 404).
+  하는 일: BlogPreview/_moves.json(글 폴더 이동 원장)을 읽어, 옛 경로면 새 경로로 보낸다.
+  왜: 2026-09-05 롤토체스 글 12편을 `<작성자>/롤토체스/` 로 통합하면서 URL 이 바뀌었다.
+      카톡 등으로 이미 공유된 옛 링크가 깨지지 않게 하는 안전망. 원장에 없으면 «없는 페이지»만 보인다.
+  주의: 사이트 목록(index.html)은 posts.json 의 현재 경로만 쓰므로 이 파일과 무관하다.
+-->
+<style>
+  body{margin:0;min-height:100vh;display:grid;place-items:center;font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;background:#faf9f7;color:#2b2b2b}
+  .box{max-width:520px;padding:32px 28px;text-align:center}
+  h1{font-size:18px;margin:0 0 10px}
+  p{margin:6px 0;color:#555}
+  a{color:#3b4fd6}
+  code{font-size:12px;word-break:break-all;color:#777}
+</style>
+</head>
+<body>
+<div class="box" id="box">
+  <h1 id="h">이동된 글을 찾는 중이에요…</h1>
+  <p id="m">잠시만요. 옛 주소면 새 주소로 자동으로 넘어갑니다.</p>
+  <p><code id="p"></code></p>
+</div>
+<script>
+(function(){
+  var BASE='/bomding-blog-preview/';
+  var h=document.getElementById('h'), m=document.getElementById('m'), pc=document.getElementById('p');
+  function notFound(){
+    document.title='페이지를 찾을 수 없어요';
+    h.textContent='페이지를 찾을 수 없어요';
+    m.innerHTML='주소가 바뀌었거나 삭제된 글이에요. <a href="'+BASE+'">글 목록으로 가기</a>';
+  }
+  var path;
+  try{ path=decodeURIComponent(location.pathname); }catch(e){ path=location.pathname; }
+  pc.textContent=path;
+  if(path.indexOf(BASE)!==0){ notFound(); return; }
+  var rel=path.slice(BASE.length);
+  fetch(BASE+'_moves.json?ts='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.json():null; }).then(function(mv){
+    if(!mv){ notFound(); return; }
+    var to=null;
+    (mv.files||[]).some(function(f){ if(f.from===rel){ to=f.to; return true; } return false; });
+    if(!to){ (mv.dirs||[]).some(function(d){ if(rel===d.from||rel.indexOf(d.from+'/')===0){ to=d.to+rel.slice(d.from.length); return true; } return false; }); }
+    if(!to){ notFound(); return; }
+    var url=BASE+encodeURI(to).replace(/#/g,'%23')+location.search+location.hash;
+    m.textContent='새 주소로 이동합니다.';
+    location.replace(url);
+  }).catch(notFound);
+})();
+</script>
+</body>
+</html>

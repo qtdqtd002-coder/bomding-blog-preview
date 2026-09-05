@@ -43,6 +43,18 @@ if(Test-Path $pubFile){
   } catch { Write-Host "⚠ published.json 파싱 실패 — 발행됨 플래그 없이 진행: $($_.Exception.Message)" -ForegroundColor Yellow }
 }
 
+# ★이동된 글의 등록일 보존(2026-09-05 롤토체스 폴더 통합): _moves.json 의 files[].to → from 맵.
+#   created 는 «현재 경로의 첫 커밋»이라 폴더를 옮기면 이동일로 리셋된다(--follow 는 2026-07-01 복제 오추적 때문에 폐기).
+#   이동 원장을 따로 두고 옛 경로의 첫 커밋을 created 로 쓴다 — 안 그러면 옮긴 12편이 사이트 맨 위에 «오늘 새 글»로 뜬다.
+$mvMap = @{}
+$mvFile = Join-Path $base "_moves.json"
+if(Test-Path $mvFile){
+  try {
+    $mj = Get-Content $mvFile -Raw -Encoding UTF8 | ConvertFrom-Json
+    foreach($m in @($mj.files)){ if($m.to -and $m.from){ $mvMap[[string]$m.to] = [string]$m.from } }
+  } catch { Write-Host "⚠ _moves.json 파싱 실패 — 이동 글 등록일 보존 없이 진행: $($_.Exception.Message)" -ForegroundColor Yellow }
+}
+
 function Strip([string]$h){
   if($null -eq $h){return ""}
   $t = $h -replace '(?s)<[^>]+>',''
@@ -80,6 +92,12 @@ foreach($f in $files){
   #   아델 미리보기 복제)을 원본의 첫 커밋(아델 06-23)으로 오추적해, 신규 글 created 가 과거로 박혀 정렬이 묻히던 버그.
   #   현재 경로의 첫 Add 커밋을 created 로 쓴다(이동된 글은 이동 시점이 등록일 — 의도된 동작에 수렴).
   $created = (& git -C $base log --diff-filter=A --format="%ad" --date=format:"%Y-%m-%d %H:%M:%S" -- $f | Select-Object -Last 1)
+  # 이동 원장에 있는 글은 옛 경로의 첫 커밋이 등록일(위 ★ 주석).
+  if($mvMap.ContainsKey($f)){
+    $oldRel = $mvMap[$f]
+    $oldCreated = (& git -C $base log --diff-filter=A --format="%ad" --date=format:"%Y-%m-%d %H:%M:%S" -- $oldRel | Select-Object -Last 1)
+    if(-not [string]::IsNullOrWhiteSpace($oldCreated)){ $created = $oldCreated }
+  }
   $updated = (& git -C $base log -1 --format="%ad" --date=format:"%Y-%m-%d %H:%M:%S" -- $f)
   if([string]::IsNullOrWhiteSpace($created)){ $created = $updated }
   # 커밋 안 된 글은 git 날짜가 비어버림 → 빈 날짜로 발행되는 사고 방지(검증에서 잡음)
