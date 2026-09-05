@@ -976,7 +976,9 @@ html.gs .nt{transition:none !important}
   .wl-t{grid-area:t}
   .wl-w{grid-area:w}
   .wl-s{grid-area:s; align-self:center}
-  .qchip{top:66px; right:12px; height:34px; padding:0 11px 0 10px; gap:6px}   /* 모바일: 섬이 전폭이라 종 줄엔 자리가 없다 → 그 아래 줄 */
+  .qchip{top:66px; right:12px; height:34px; padding:0 11px 0 10px; gap:6px;
+         transition:color var(--t-fast) var(--e), box-shadow var(--t-fast) var(--e), opacity var(--t-fast) var(--e), transform var(--t-fast) var(--e-out)}   /* 모바일: 섬이 전폭이라 종 줄엔 자리가 없다 → 그 아래 줄 */
+  .qchip.tuck{opacity:0; pointer-events:none; transform:translateY(-10px)}   /* 스크롤을 내리면 접힌다(섬과 같은 규칙) — 고정 칩이 목록 행을 가리지 않게 */
   .fsearch{width:100%; margin-left:0; order:9}
   .fsearch:focus-within{width:100%}
   .bf-f{grid-template-columns:1fr; gap:3px}
@@ -1629,11 +1631,11 @@ function go(v){
 }
 
 /* 스크롤을 내리면 아일랜드가 접힌다(내용에 자리를 준다) — 올리면 즉시 복귀 */
-var lastY=0, islandEl=el('island');
+var lastY=0, islandEl=el('island'), chipEl=el('qchip');
 window.addEventListener('scroll',function(){
-  var y=window.scrollY;
-  if(y>140&&y>lastY)islandEl.classList.add('tuck');
-  else islandEl.classList.remove('tuck');
+  var y=window.scrollY, tuck=y>140&&y>lastY;
+  islandEl.classList.toggle('tuck',tuck);
+  if(chipEl)chipEl.classList.toggle('tuck',tuck);   /* 잔여 사용량 칩 — 모바일(≤860)에서만 CSS 가 접는다(내용 위에 떠서 행을 가리지 않게) */
   lastY=y;
 },{passive:true});
 
@@ -1815,7 +1817,7 @@ function tileUsage(){
     var series=W_ORDER.filter(function(w){ return tot[w]>0; });
     var tokOf=function(d){ return Number((tok[d]||{}).tok)||0; };
     var max=Math.max.apply(null,dates.map(tokOf).concat([1]));
-    var W=chartW(560),H=206,padL=46,padR=8,padT=18,padB=42,pw=W-padL-padR,ph=H-padT-padB,slot=pw/dates.length,bw=Math.min(24,slot*.55);
+    var W=chartW(560),H=208,padL=46,padR=8,padT=18,padB=44,pw=W-padL-padR,ph=H-padT-padB,slot=pw/dates.length,bw=Math.min(24,slot*.55);
     var step=niceStep(max), grid='';
     for(var v=0;v<=max;v+=step){
       var gy=padT+ph-(v/max)*ph;
@@ -1834,21 +1836,24 @@ function tileUsage(){
       });
       var isT=d===today, cx=(padL+slot*i+slot/2).toFixed(1);
       var cap=tk>0&&(d===maxD||isT)?'<text class="cap" x="'+(x+bw/2).toFixed(1)+'" y="'+(y-5).toFixed(1)+'" text-anchor="middle">'+fmtTok(tk)+'</text>':'';
-      var pn=(p.p||p.f)?'<text class="pubn'+(isT?' today':'')+'" x="'+cx+'" y="'+(H-22)+'" text-anchor="middle">'+p.p+(p.f?'<tspan class="pubf">·'+p.f+'</tspan>':'')+'</text>':'';
+      /* 편수 행 — 좁은 폭(슬롯 <26px)에선 날짜 라벨과 같은 위상만 그린다(«12·2» 가 18px 슬롯에서 이웃과 뭉개진다 — 09-05 검수). 값은 툴팁·표에 전부 있다 */
+      var showPn=(p.p||p.f)&&(slot>=26||i%every===(dates.length-1)%every);
+      var pn=showPn?'<text class="pubn'+(isT?' today':'')+'" x="'+cx+'" y="'+(H-25)+'" text-anchor="middle">'+p.p+(p.f?'<tspan class="pubf">·'+p.f+'</tspan>':'')+'</text>':'';
       var lab=(i%every===(dates.length-1)%every)?'<text class="axis'+(isT?' today':'')+'" x="'+cx+'" y="'+(H-7)+'" text-anchor="middle">'+(isT?'오늘':mdLabel(d))+'</text>':'';
-      tip.push('발행|'+p.p); if(p.f)tip.push('실패·건너뜀|'+p.f);
+      if(REQS_OK){ tip.push('발행|'+p.p); if(p.f)tip.push('실패·건너뜀|'+p.f); }   /* 미연결이면 편수는 «모른다» — 0 으로 적지 않는다 */
       return '<g class="col">'+segs+cap+pn+lab+
         '<rect class="hit" tabindex="0" x="'+(padL+slot*i).toFixed(1)+'" y="'+padT+'" width="'+slot.toFixed(1)+'" height="'+(ph+18)+'"'+
-          ' data-tip="'+esc(mdLabel(d)+(isT?' 오늘':'')+'|'+fmtTok(tk)+'||'+tip.join(';'))+'" aria-label="'+esc(mdLabel(d)+' 토큰 '+fmtTok(tk)+' 발행 '+p.p+' 실패 '+p.f)+'"/></g>';
+          ' data-tip="'+esc(mdLabel(d)+(isT?' 오늘':'')+'|'+fmtTok(tk)+'||'+tip.join(';'))+'" aria-label="'+esc(mdLabel(d)+' 토큰 '+fmtTok(tk)+(REQS_OK?' 발행 '+p.p+' 실패 '+p.f:' 발행 미연결'))+'"/></g>';
     }).join('');
     var pubAll=ds.reduce(function(a,d){ a.p+=d.p; a.f+=d.f; return a; },{p:0,f:0});
     var legend='<div class="legend">'+series.map(function(w){
         return '<span style="--c:'+wcol(w)+'"><i></i>'+esc(w)+'<b>'+fmtTok(tot[w])+'</b></span>'; }).join('')+
-      '<span style="--c:var(--ink-4)"><i></i>발행<b>'+pubAll.p+'</b></span><span style="--c:var(--alert)"><i></i>실패·건너뜀<b>'+pubAll.f+'</b></span></div>';
+      (REQS_OK?'<span style="--c:var(--ink-4)"><i></i>발행<b>'+pubAll.p+'</b></span><span style="--c:var(--alert)"><i></i>실패·건너뜀<b>'+pubAll.f+'</b></span>'
+              :'<span style="--c:var(--ink-4)"><i></i>발행<b>미연결</b></span>')+'</div>';
     var table='<table class="sr"><caption>작성자별 일간 토큰과 발행 편수</caption><tr><th>날짜</th>'+
       series.map(function(w){ return '<th>'+esc(w)+'</th>'; }).join('')+'<th>합계</th><th>발행</th><th>실패·건너뜀</th></tr>'+
       dates.map(function(d){ var t=tok[d]||{}, p=pub[d]||{p:0,f:0};
-        return '<tr><td>'+esc(d)+'</td>'+series.map(function(w){ return '<td>'+fmtTok((t.by||{})[w]||0)+'</td>'; }).join('')+'<td>'+fmtTok(t.tok||0)+'</td><td>'+p.p+'</td><td>'+p.f+'</td></tr>'; }).join('')+'</table>';
+        return '<tr><td>'+esc(d)+'</td>'+series.map(function(w){ return '<td>'+fmtTok((t.by||{})[w]||0)+'</td>'; }).join('')+'<td>'+fmtTok(t.tok||0)+'</td>'+(REQS_OK?'<td>'+p.p+'</td><td>'+p.f+'</td>':'<td>—</td><td>—</td>')+'</tr>'; }).join('')+'</table>';
     /* 머리 스탯 — 오늘 발행(·실패) · 7일 발행 · 7일 실패율 · 7일 토큰. 백엔드 미연결이면 편수 칸은 «미연결»(0 아님) */
     var wk=ds.slice(-7).reduce(function(a,d){ a.p+=d.p; a.f+=d.f; return a; },{p:0,f:0}), td=pub[today]||{p:0,f:0};
     var wkTok=dates.slice(-7).reduce(function(a,d){ return a+tokOf(d); },0);
@@ -1953,7 +1958,7 @@ function citeRow(w){
     var every=slot<30?2:1;   /* 좁은 폭(모바일)에선 날짜 라벨을 하루 걸러 — 11px 모노 «8.23» 이 18px 슬롯에 겹친다 */
     var cols=days.map(function(d,i){
       var v=vals[i], x=padL+slot*i+(slot-bw)/2, r=rm[d]||{}, bar='', cap='';
-      var lab=(i%every===0||i===days.length-1)?'<text class="axis" x="'+(padL+slot*i+slot/2).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+mdLabel(d)+'</text>':'';
+      var lab=(i%every===(days.length-1)%every)?'<text class="axis" x="'+(padL+slot*i+slot/2).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+mdLabel(d)+'</text>':'';   /* 끝(어제)에서부터 위상을 맞춘다 — «9.3 9.4» 붙음 방지(사용량 타일과 같은 공식) */
       if(v!=null){ var h=Math.max(2,(Math.max(0,v)/max)*ph), y=padT+ph-h;
         bar='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" fill="'+col+'"/>';
         if(i===maxI||i===lastI)cap='<text class="cap" x="'+(x+bw/2).toFixed(1)+'" y="'+(y-5).toFixed(1)+'" text-anchor="middle">'+fmtKo(v,true)+'</text>'; }
