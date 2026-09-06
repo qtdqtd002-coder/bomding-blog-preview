@@ -711,12 +711,10 @@ a{color:inherit; text-decoration:none}
 }
 .tb-item .tb-tx{min-width:0}
 .tb-item b{display:block; font-size:14px; font-weight:600; letter-spacing:-.02em; color:var(--ink); white-space:nowrap}
-.tb-item .s{display:block; margin-top:1px; font-size:12.5px; color:var(--ink-3); white-space:nowrap}
 .tb-item:hover{background:var(--surface-2); color:var(--ink)}
 .tb-item:active{transform:scale(.985)}
 .tb-item.on{background:var(--ink); color:#fff}
 .tb-item.on b{color:#fff}
-.tb-item.on .s{color:rgba(255,255,255,.62)}
 .tb-item.on .tb-ic{background:rgba(255,255,255,.14); box-shadow:none; color:#fff}
 .tb-main .core{min-height:440px}
 .tb-main .loading{min-height:440px; display:grid; place-items:center}
@@ -1731,8 +1729,9 @@ function render(){
    좌측 목록에서 도구를 고르면 우측 판에 그 도구가 실린다. 도구 본체는 _toolbox/<id>.js 가 window.SseudamTools[id]
    ({mount(host,api), unmount()}) 로 등록하며, 처음 고를 때 한 번만 받는다(라이브 캐시가 잡히지 않게 버전 쿼리).
    api = 사이트가 도구에 빌려주는 부품(모달·토스트·모션·아이콘·이스케이프) — 도구는 사이트 토큰만 쓰고 색을 새로 만들지 않는다. */
+/* 목록 행 = 아이콘 + 이름뿐. 부제(설명 한 줄)는 09-06 사용자 지시로 폐기 — 읽지 않아도 잘못 쓸 일이 없는 문구는 두지 않는다 */
 var TOOLS=[
-  {id:'thumb', name:'썸네일', sub:'봄딩 · 정사각 1000', icon:'image', src:'_toolbox/thumb.js?v=20260906d'}
+  {id:'thumb', name:'썸네일 제작', icon:'image', src:'_toolbox/thumb.js?v=20260906e'}
 ];
 var TOOL_P={}, TOOL_ON=null;
 function toolApi(){
@@ -1779,7 +1778,7 @@ function renderTools(){
         var on=t.id===S.tool;
         return '<button type="button" class="tb-item'+(on?' on':'')+'" data-t="'+esc(t.id)+'" aria-pressed="'+(on?'true':'false')+'">'+
           '<span class="tb-ic">'+svg(t.icon)+'</span>'+
-          '<span class="tb-tx"><b>'+esc(t.name)+'</b><span class="s">'+esc(t.sub)+'</span></span></button>';
+          '<span class="tb-tx"><b>'+esc(t.name)+'</b></span></button>';
       }).join('')+
     '</nav></div></aside>'+
     '<section class="tray tb-main" aria-label="도구"><div class="core" id="tbHost"></div></section></div>';

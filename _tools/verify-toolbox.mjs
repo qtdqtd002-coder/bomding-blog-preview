@@ -106,7 +106,8 @@ chk('탭 4개(홈·작성 글·트렌드·도구함)', (await ev(`[...document.q
 const t0 = Date.now();
 chk('도구함 진입 → 썸네일 도구 로드', await gotoTools(), { ms: Date.now() - t0 });
 chk('제목 «도구함»', (await ev(`document.getElementById('ptitle').textContent.trim()`)) === '도구함');
-chk('좌측 목록 선택 = 썸네일', await ev(`!!document.querySelector('#tbList .tb-item.on[data-t="thumb"][aria-pressed="true"]')`));
+chk('좌측 목록 선택 = 썸네일 제작', await ev(`!!document.querySelector('#tbList .tb-item.on[data-t="thumb"][aria-pressed="true"]')`));
+chk('도구 목록 행 = 이름 «썸네일 제작» 한 줄(부제 없음)', await ev(`(()=>{const b=document.querySelector('#tbList .tb-item[data-t="thumb"]');return b.querySelector('b').textContent==='썸네일 제작'&&!b.querySelector('.s')&&b.textContent.trim()==='썸네일 제작'})()`), await ev(`document.querySelector('#tbList .tb-item[data-t="thumb"]').textContent`));
 chk('빈 상태: 드롭존 보임 · 저장/복사/미리보기 비활성', await ev(`(()=>{const dz=document.getElementById('thDz');return !dz.hidden&&document.getElementById('thSave').disabled&&document.getElementById('thCopy').disabled&&document.getElementById('thPreview').disabled})()`));
 chk('빈 상태에서도 프리셋 타일이 그려짐', (await canvasVar('.th-preset[data-p="band"] canvas')) > 0);
 chk('기본값: 면 진하기 90% · 타이틀 16.5% · 부제 5.2%', await ev(`(()=>{const s=window.SseudamTools.thumb.__test.state();return Math.abs(s.op-.9)<.001&&Math.abs(s.nameH-.165)<.0001&&Math.abs(s.subH-.052)<.0001&&document.getElementById('thOpN').value==='90'&&document.getElementById('thOp').value==='90'&&document.getElementById('thNameSzN').value==='16.5'&&document.getElementById('thSubSzN').value==='5.2'})()`), await ev(`JSON.stringify(window.SseudamTools.thumb.__test.state())`));
