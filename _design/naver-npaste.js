@@ -334,6 +334,15 @@
   function richCopy(node) {
     var buf = el("div", "np2-copy np2-buf"); buf.appendChild(node); document.body.appendChild(buf);
     var ok = false;
+    /* ★봄딩 li 직접 지정(2026-09-06 사용자): 크롬은 «부모와 같은 값»은 생략하고 직렬화해서
+       <ul>에만 16px·나눔스퀘어가 박히고 <li>는 빈 style 로 나간다. 네이버가 조상 폰트를
+       안 따라오면 목록만 기본 서체로 변한다 → li 에 인라인으로 직접 박는다. */
+    if (!YD) {
+      [].forEach.call(buf.querySelectorAll("li"), function (li) {
+        li.style.fontSize = "16px";
+        li.style.fontFamily = "'NanumSquare','나눔스퀘어','se-nanumsquare','Apple SD Gothic Neo','맑은 고딕','Malgun Gothic',sans-serif";
+      });
+    }
     /* ★봄딩 «배경색 없음»(2026-09-06): 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을
        조상을 타고 올라가 찾아 첫 블록 style 에 박는다(실측: body{background:#f1f3f5} 가 그대로 실렸다).
        복사 동안만 html·body 배경을 transparent 로 내려 네이버 [배경색]이 «없음»으로 들어가게 한다.
@@ -484,6 +493,27 @@
     if (oldCopy) oldCopy.parentNode.removeChild(oldCopy);
     drawer.innerHTML = "";
     return { btn: btn, back: back, drawer: drawer, oldCopy: oldCopy, created: created };
+  }
+
+  /* ★봄딩 «배경색 없음» — 페이지 전역(2026-09-06 2차).
+     [본문 복사] 버튼은 richCopy 가 처리하지만, 사람이 본문이나 서랍 안쪽을 «직접 드래그해 Ctrl+C» 하면
+     그 경로는 안 거친다 — 실측상 그때 `.wrap{background:#fff}` 이 그대로 실려 네이버 [배경색]이 흰색이 된다.
+     모든 복사에서 선택 지점의 조상 배경과 글자 음영(.rev-hl)만 잠깐 내렸다 되돌린다.
+     표 헤더·사진자리 같은 «컴포넌트» 박스 배경은 그대로 둔다. 영도는 종전 그대로. */
+  if (!YD) {
+    document.addEventListener("copy", function () {
+      var sel = window.getSelection();
+      if (!sel || !sel.rangeCount || sel.isCollapsed) return;
+      var n = sel.getRangeAt(0).commonAncestorContainer;
+      if (n && n.nodeType === 3) n = n.parentElement;
+      var saved = [], el;
+      for (el = n; el; el = el.parentElement) { saved.push([el, el.style.backgroundColor]); el.style.backgroundColor = "transparent"; }
+      [].forEach.call(document.querySelectorAll(".rev-hl"), function (h) {
+        var inSel = true; try { inSel = sel.containsNode(h, true); } catch (e) { }
+        if (inSel) { saved.push([h, h.style.backgroundColor]); h.style.backgroundColor = "transparent"; }
+      });
+      setTimeout(function () { for (var i = 0; i < saved.length; i++) saved[i][0].style.backgroundColor = saved[i][1]; }, 0);
+    }, true);
   }
 
   var W = ensureWidget();
