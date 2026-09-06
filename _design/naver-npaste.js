@@ -477,7 +477,10 @@
     ".np2-buf{position:fixed;left:-99999px;top:0;width:700px;}" +
     /* ★서랍 UI 는 드래그 선택 대상에서 뺀다 — 사람이 서랍 안을 마우스로 긁어 Ctrl+C 하면
        초록 버튼 글자·썸네일·안내문까지 네이버로 딸려갔다(실측). 본문 생존본만 잡히게 한다. */
-    ".np2-head,.np2-guide,.np2-ui,.np2-meta,.np2-thumb,.np-old summary,.np2-spot.np2-viewonly .np2-meta{-webkit-user-select:none;user-select:none;}" +
+    ".np2-head,.np2-guide,.np2-ui,.np2-meta,.np-old summary{-webkit-user-select:none;user-select:none;}" +
+    /* ★.np2-thumb 는 «진짜 사진»이라 선택에서 빼지 않는다 — 빼면 드래그 복사에 사진이 통째로 빠진다.
+       대신 복사 동안만 서랍용 크기 제한(max-height:240px)을 풀어 원본 크기로 나가게 한다. */
+    "html.np2-copying .np2-thumb{max-height:none;max-width:100%;margin:0;}" +
     /* ★복사 동안만 «장식 배경»을 지운다 — 인라인이 아니라 클래스라야 복사본에 background 선언이 안 남는다.
        표 헤더·.notice·사진자리 점선 박스 같은 «컴포넌트» 배경은 여기 없다(그대로 유지). */
     "html.np2-copying #np2Auto,html.np2-copying .np2-oldbox,html.np2-copying .np2-fig,html.np2-copying .np2-spot,html.np2-copying .np2-thumb,html.np2-copying .rev-hl{background-color:transparent;}" +
