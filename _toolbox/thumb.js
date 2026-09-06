@@ -160,7 +160,6 @@ var CSS=
   'font:inherit;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums;'+
   'transition:box-shadow var(--t-fast) var(--e),background var(--t-fast) var(--e)}'+
 '.th-nm input:focus{box-shadow:0 0 0 2px var(--ink);background:var(--surface)}'+   /* 포커스 링 2px 잉크 — 1px hair-3 는 1.6:1 로 안 보였다(게이트 v2.1 🟡2) */
-'.th .f-i:focus{box-shadow:0 0 0 2px var(--ink)}'+   /* 도구 안 텍스트 입력·select 도 같은 세기 */
 '.th-nm input:disabled{color:var(--ink-4);cursor:default}'+
 '.th-nm span{font-size:12.5px;color:var(--ink-3)}'+
 '.th-sz{display:flex;align-items:center;gap:8px;margin-top:6px}'+

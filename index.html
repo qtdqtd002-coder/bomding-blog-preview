@@ -296,7 +296,7 @@ a{color:inherit; text-decoration:none}
   box-shadow:0 0 0 1px var(--hair), var(--sh-rest);
   transition:box-shadow var(--t-fast) var(--e), width var(--t) var(--e);
 }
-.fsearch:focus-within{box-shadow:0 0 0 1px var(--hair-3), var(--sh-lift); width:236px}
+.fsearch:focus-within{box-shadow:0 0 0 2px var(--ink), var(--sh-lift); width:236px}   /* 입력 포커스 링 전역 2px 잉크(09-06) */
 .fsearch .ic{width:14px; height:14px; color:var(--ink-4); margin-left:12px}
 .fsearch input{
   flex:1; min-width:0; border:0; outline:0; background:none; height:100%;
@@ -436,7 +436,7 @@ a{color:inherit; text-decoration:none}
   box-shadow:0 0 0 1px var(--hair); font-size:13px;
   transition:box-shadow var(--t-fast) var(--e);
 }
-.pin-i:focus{box-shadow:0 0 0 1px var(--hair-3)}
+.pin-i:focus{box-shadow:0 0 0 2px var(--ink)}   /* 입력 포커스 링 전역 2px 잉크(09-06) */
 .pin-i::placeholder{color:var(--ink-3)}   /* surface-2 위 AA(게이트 09-05) */
 .pin-i:disabled{color:var(--ink-4)}
 .pin-go{
@@ -818,7 +818,7 @@ a{color:inherit; text-decoration:none}
   font-size:14px; letter-spacing:-.02em;
   transition:box-shadow var(--t-fast) var(--e), background var(--t-fast) var(--e);
 }
-.f-i:focus{box-shadow:0 0 0 1px var(--hair-3); background:var(--surface)}
+.f-i:focus{box-shadow:0 0 0 2px var(--ink); background:var(--surface)}   /* 포커스 링 2px 잉크 — 1px hair-3 는 1.6:1 로 안 보였다(도구함 게이트 09-06 → 사용자 지시로 전역 통일) */
 .f-i::placeholder{color:var(--ink-3)}   /* surface-2 위 AA — ink-4 는 4.47:1 로 미달(.dz-s 와 같은 조합, 게이트 09-05) */
 select.f-i{
   appearance:none; -webkit-appearance:none; cursor:pointer; padding-right:34px;
@@ -1732,7 +1732,7 @@ function render(){
    ({mount(host,api), unmount()}) 로 등록하며, 처음 고를 때 한 번만 받는다(라이브 캐시가 잡히지 않게 버전 쿼리).
    api = 사이트가 도구에 빌려주는 부품(모달·토스트·모션·아이콘·이스케이프) — 도구는 사이트 토큰만 쓰고 색을 새로 만들지 않는다. */
 var TOOLS=[
-  {id:'thumb', name:'썸네일', sub:'봄딩 · 정사각 1000', icon:'image', src:'_toolbox/thumb.js?v=20260906c'}
+  {id:'thumb', name:'썸네일', sub:'봄딩 · 정사각 1000', icon:'image', src:'_toolbox/thumb.js?v=20260906d'}
 ];
 var TOOL_P={}, TOOL_ON=null;
 function toolApi(){
