@@ -202,7 +202,10 @@ def check_file(path, games, forced=None):
         return out
 
     for wrong, official in parse_glossary(g['glossary']):
-        for m in re.finditer(re.escape(wrong), text):
+        # ★한국어 단어 경계: 앞뒤가 한글 자모/글자이면 부분 포함으로 오탐 — lookbehind/lookahead로 차단
+        #   예) «이델» 오표기 규칙이 «에이델 대륙»의 «이델» 부분을 잡는 false positive 방지(2026-09-06)
+        pat = r'(?<![가-힣ㄱ-ㅎㅏ-ㅣ])' + re.escape(wrong) + r'(?![가-힣ㄱ-ㅎㅏ-ㅣ])'
+        for m in re.finditer(pat, text):
             ctx = text[max(0, m.start() - 45):m.start() + len(wrong) + 45]
             if _EXCUSE.search(ctx) or _FORMER.search(text[max(0, m.start() - 12):m.start()]):
                 continue        # "신비한 숲(오표기) → 신비의 숲" 같은 설명·옛이름 병기는 통과
