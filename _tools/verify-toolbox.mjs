@@ -109,6 +109,7 @@ chk('제목 «도구함»', (await ev(`document.getElementById('ptitle').textCon
 chk('좌측 목록 선택 = 썸네일', await ev(`!!document.querySelector('#tbList .tb-item.on[data-t="thumb"][aria-pressed="true"]')`));
 chk('빈 상태: 드롭존 보임 · 저장/복사/미리보기 비활성', await ev(`(()=>{const dz=document.getElementById('thDz');return !dz.hidden&&document.getElementById('thSave').disabled&&document.getElementById('thCopy').disabled&&document.getElementById('thPreview').disabled})()`));
 chk('빈 상태에서도 프리셋 타일이 그려짐', (await canvasVar('.th-preset[data-p="band"] canvas')) > 0);
+chk('기본값: 면 진하기 90% · 타이틀 16.5% · 부제 5.2%', await ev(`(()=>{const s=window.SseudamTools.thumb.__test.state();return Math.abs(s.op-.9)<.001&&Math.abs(s.nameH-.165)<.0001&&Math.abs(s.subH-.052)<.0001&&document.getElementById('thOpN').value==='90'&&document.getElementById('thOp').value==='90'&&document.getElementById('thNameSzN').value==='16.5'&&document.getElementById('thSubSzN').value==='5.2'})()`), await ev(`JSON.stringify(window.SseudamTools.thumb.__test.state())`));
 await shot('01-tools-empty-1920');
 
 /* 이미지 등록 (1000×1000 시험 이미지가 있으면 그걸로, 없으면 리포지토리의 966×360 배너로) */
@@ -134,14 +135,18 @@ for (const p of ['top', 'plaque', 'tint', 'stripe', 'half', 'cream', 'glass', 's
 chk('프리셋 aria-pressed 하나만 true', (await ev(`document.querySelectorAll('.th-preset[aria-pressed="true"]').length`)) === 1);
 chk('디자인 10종', (await ev(`document.querySelectorAll('.th-preset').length`)) === 10);
 await click('.th-preset[data-p="stroke"]'); await sleep(250);
-chk('스트로크(면 없음) → 면 진하기 비활성', await ev(`document.getElementById('thOp').disabled&&document.getElementById('thOpRow').classList.contains('off')`));
+chk('스트로크(면 없음) → 면 진하기 비활성(슬라이더·숫자)', await ev(`document.getElementById('thOp').disabled&&document.getElementById('thOpN').disabled&&document.getElementById('thOpRow').classList.contains('off')`));
 await click('.th-preset[data-p="stripe"]'); await sleep(250);
 chk('스트라이프 → 면 진하기 활성', await ev(`!document.getElementById('thOp').disabled`));
 const vBefore = await canvasVar('#thCanvas');
 await setInput('#thOp', '40'); await sleep(300);
-chk('면 진하기 40% → 상태 .4 · 캔버스 변화', Math.abs((await ev(`window.SseudamTools.thumb.__test.state().op`)) - .4) < .001 && (await canvasVar('#thCanvas')) !== vBefore, { op: await ev(`window.SseudamTools.thumb.__test.state().op`) });
+chk('면 진하기 슬라이더 40 → 상태 .4 · 숫자칸 40 · 캔버스 변화', Math.abs((await ev(`window.SseudamTools.thumb.__test.state().op`)) - .4) < .001 && (await ev(`document.getElementById('thOpN').value`)) === '40' && (await canvasVar('#thCanvas')) !== vBefore, { op: await ev(`window.SseudamTools.thumb.__test.state().op`) });
 await shot('03b-stripe-op40-1920');
-await setInput('#thOp', '100'); await sleep(200);
+await setInput('#thOpN', '63'); await sleep(250);
+chk('면 진하기 숫자 입력 63 → 상태 .63 · 슬라이더 63', Math.abs((await ev(`window.SseudamTools.thumb.__test.state().op`)) - .63) < .001 && (await ev(`document.getElementById('thOp').value`)) === '63');
+await setInput('#thOpN', '7'); await sleep(250);
+chk('숫자 범위 밖(7) 은 change 에 15 로 맞춤', Math.abs((await ev(`window.SseudamTools.thumb.__test.state().op`)) - .15) < .001 && (await ev(`document.getElementById('thOpN').value`)) === '15');
+await setInput('#thOpN', '90'); await sleep(200);
 await click('.th-preset[data-p="band"]'); await sleep(250);
 
 await setInput('#thName', '메이플키우기업데이트'); await sleep(300);
@@ -149,12 +154,34 @@ chk('10자 → 카운터 경고 + 검사 경고', await ev(`(()=>{return documen
 chk('10자여도 글자가 캔버스 폭 안(자동 축소)', (await canvasVar('#thCanvas')) > 30);
 await shot('04-longname-1920');
 await setInput('#thName', '메이플키우기'); await sleep(200);
+const vT = await canvasVar('#thCanvas');
+await setInput('#thNameSzN', '12'); await sleep(300);
+chk('타이틀 크기 숫자 12 → 상태 .12 · 슬라이더 12 · 검사 «표준 16.5% 미만» 경고', Math.abs((await ev(`window.SseudamTools.thumb.__test.state().nameH`)) - .12) < .0001 && (await ev(`document.getElementById('thNameSz').value`)) === '12' && await ev(`document.getElementById('thChk').textContent.includes('표준 16.5% 미만')`) && (await canvasVar('#thCanvas')) !== vT, await ev(`document.getElementById('thChk').textContent`));
+await setInput('#thNameSz', '20'); await sleep(300);
+chk('타이틀 크기 슬라이더 20 → 숫자칸 20 · 경고 없음', (await ev(`document.getElementById('thNameSzN').value`)) === '20' && !(await ev(`document.getElementById('thChk').textContent.includes('표준 16.5% 미만')`)));
+await shot('04b-titlesize20-1920');
+await setInput('#thNameSzN', '16.5'); await sleep(200);
 
 chk('부제 입력칸 항상 보임 · 비면 경고 숨김', await ev(`(()=>{const s=document.getElementById('thSub');return !s.hidden&&s.offsetParent!==null&&document.getElementById('thSubHint').hidden})()`));
 await setInput('#thSub', '핑크빈 업데이트'); await sleep(300);
 chk('부제 입력 → 경고 문구 표시 + 검사 경고 1', await ev(`!document.getElementById('thSubHint').hidden`) && (await ev(`document.querySelectorAll('#thChk li.bad').length`)) === 1, await ev(`document.getElementById('thChk').textContent`));
 chk('부제가 그려짐(캔버스 하단 분산)', (await canvasVar('#thCanvas')) > 30);
 await shot('05-subtitle-1920');
+await ev(`window.scrollTo(0,0)`); await sleep(200);
+const ctlLong = await ev(`document.querySelector('.th-ctl').getBoundingClientRect().bottom`);
+chk('가장 긴 상태(부제 경고 표시)에서도 설정 열 bottom ≤1080', ctlLong <= 1080, { ctlBottom: Math.round(ctlLong) });
+/* 포커스 링은 실제 마우스 클릭으로 포커스를 준 뒤 잰다 — 헤드리스에서 JS .focus() 는 :focus 스타일을 신뢰성 있게 켜지 않는다(게이트 09-06 교훈) */
+await click('#thOpN'); await sleep(450);   /* box-shadow 는 220ms 전환 — 끝난 뒤 잰다 */
+const ringN = await ev(`getComputedStyle(document.getElementById('thOpN')).boxShadow`);
+await click('#thName'); await sleep(450);
+const ringT = await ev(`getComputedStyle(document.getElementById('thName')).boxShadow`);
+await ev(`document.activeElement&&document.activeElement.blur()`);
+const ring2 = (s) => { const m = String(s).match(/rgba?\(14, 17, 20(?:, ([\d.]+))?\) 0px 0px 0px ([\d.]+)px/); return !!m && (m[1] == null || parseFloat(m[1]) >= .95) && parseFloat(m[2]) >= 1.9; };
+chk('숫자칸·텍스트칸 포커스 링 = 2px 잉크', ring2(ringN) && ring2(ringT), { ringN, ringT });
+await setInput('#thSubSzN', '8'); await sleep(300);
+chk('부제 크기 숫자 8 → 상태 .08 · 슬라이더 8', Math.abs((await ev(`window.SseudamTools.thumb.__test.state().subH`)) - .08) < .0001 && (await ev(`document.getElementById('thSubSz').value`)) === '8');
+await shot('05a-subsize8-1920');
+await setInput('#thSubSzN', '5.2'); await sleep(200);
 await setInput('#thSub', ''); await sleep(250);
 chk('부제 비움 → 경고 0 · 문구 숨김', (await ev(`document.querySelectorAll('#thChk li.bad').length`)) === 0 && await ev(`document.getElementById('thSubHint').hidden`));
 chk('글 제목 칸 없음', !(await ev(`!!document.getElementById('thTitle')`)));
