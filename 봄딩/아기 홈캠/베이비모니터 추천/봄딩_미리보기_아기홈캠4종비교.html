@@ -1,6 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>아기 홈캠 추천, 전용 베이비캠 vs 스마트홈캠 4종 비교 (이글루캠 S4+·QCAM-K3·Tapo C220·샤오미 C701)</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
 <style>
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
   :root{
@@ -12,7 +13,7 @@
   }
   *{box-sizing:border-box;}
   body{margin:0;background:#f2f4f0;color:var(--ink);
-    font-family:Pretendard,"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;
+    font-family:'NanumSquare','나눔스퀘어',Pretendard,"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;
     -webkit-font-smoothing:antialiased;}
   .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 6px 30px rgba(50,60,50,.06);}
   .topbar{display:flex;align-items:center;gap:8px;padding:13px 22px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);background:#fbfdfb;border-radius:14px 14px 0 0;}
@@ -26,7 +27,7 @@
   .notice b{color:#b5502f;}
   .notice p{margin:0 0 6px;font-size:12.5px;line-height:1.65;color:inherit;}
   .notice p:last-child{margin:0;}
-  .post p{font-size:15.5px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
   .post b{font-weight:800;}
 
   .verdict{background:linear-gradient(180deg,#f7fbf9 0%,#f0f7f3 100%);border:1px solid var(--green-line);border-radius:14px;padding:20px 22px 22px;margin:0 0 24px;}
@@ -113,11 +114,11 @@
   .tags{margin-top:26px;color:#a9b0a9;font-size:13px;line-height:1.9;}
 
   /* ===== 네이버 붙여넣기 위젯 (미리보기 전용) ===== */
-  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:var(--naver);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:Pretendard,"맑은 고딕",sans-serif;}
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:var(--naver);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',Pretendard,"맑은 고딕",sans-serif;}
   #npBtn:active{transform:translateY(1px);}
   #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
   #npBack.open{display:block;}
-  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:Pretendard,"맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',Pretendard,"맑은 고딕","Malgun Gothic",sans-serif;}
   #npDrawer.open{display:flex;}
   .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
   .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
@@ -130,7 +131,7 @@
   .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:7px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
   .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:6px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
   .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
-  #copy{background:#fff;border:2px dashed var(--naver);border-radius:10px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;}
+  #copy{background:#fff;border:2px dashed var(--naver);border-radius:10px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
   #copy h3{font-size:17px;font-weight:800;margin:26px 0 10px;color:#111;}
   #copy p{margin:0 0 15px;}
   #copy ul{margin:0 0 15px;padding-left:20px;}
@@ -402,7 +403,7 @@
     var el=document.getElementById('copy');
     var range=document.createRange(); range.selectNodeContents(el);
     var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
-    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    var ok=false; try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }   /* 봄딩: 복사 동안 조상 배경을 내려 네이버 [배경색]을 «없음»으로 */ ok=document.execCommand('copy'); for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
     sel.removeAllRanges();
     if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
     else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
