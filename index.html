@@ -694,6 +694,42 @@ a{color:inherit; text-decoration:none}
 .ctip-r i{width:10px; height:2px; border-radius:1px; background:var(--c,rgba(255,255,255,.5)); flex:none}
 .ctip-r b{margin-left:auto; padding-left:12px; font-family:"JetBrains Mono",monospace; font-weight:600; font-variant-numeric:tabular-nums}
 
+/* ══════════ 도구함 — 좌측 도구 목록 + 우측 도구 판 (2026-09-06) ══════════
+   도구는 _toolbox/<id>.js 로 분리해 처음 열 때만 받는다(index.html 을 키우지 않는다).
+   목록의 선택 표시는 사이트의 «잉크 채움» 어휘(탭 알약·칩과 같음). 860px 이하는 목록이 가로 줄이 된다. */
+.tb{display:grid; grid-template-columns:232px minmax(0,1fr); gap:14px; align-items:start}
+.tb-list{display:flex; flex-direction:column; gap:2px; padding:6px}
+.tb-item{
+  display:flex; align-items:center; gap:11px; width:100%; text-align:left; padding:9px 11px; border-radius:12px;
+  color:var(--ink-2);
+  transition:background var(--t-fast) var(--e), color var(--t-fast) var(--e), transform var(--t-fast) var(--e);
+}
+.tb-item .tb-ic{
+  width:32px; height:32px; border-radius:9px; display:grid; place-items:center; flex:none;
+  background:var(--surface-2); box-shadow:0 0 0 1px var(--hair); color:var(--ink-2);
+  transition:background var(--t-fast) var(--e), color var(--t-fast) var(--e);
+}
+.tb-item .tb-tx{min-width:0}
+.tb-item b{display:block; font-size:14px; font-weight:600; letter-spacing:-.02em; color:var(--ink); white-space:nowrap}
+.tb-item .s{display:block; margin-top:1px; font-size:12.5px; color:var(--ink-3); white-space:nowrap}
+.tb-item:hover{background:var(--surface-2); color:var(--ink)}
+.tb-item:active{transform:scale(.985)}
+.tb-item.on{background:var(--ink); color:#fff}
+.tb-item.on b{color:#fff}
+.tb-item.on .s{color:rgba(255,255,255,.62)}
+.tb-item.on .tb-ic{background:rgba(255,255,255,.14); box-shadow:none; color:#fff}
+.tb-main .core{min-height:440px}
+.tb-main .loading{min-height:440px; display:grid; place-items:center}
+/* 넓은 모달 — 도구의 «블로그 미리보기»처럼 966px 판을 통째로 보여야 할 때 */
+.mdl.wide{width:min(1060px,100%)}
+.mdl.wide .mdl-b{max-height:min(84vh,960px); padding:0}
+@media (max-width:860px){
+  .tb{grid-template-columns:1fr}
+  .tb-list{flex-direction:row; overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none}
+  .tb-list::-webkit-scrollbar{display:none}
+  .tb-item{width:auto; flex:none}
+}
+
 /* ══════════ FAB ══════════ */
 .fab{
   position:fixed; right:20px; bottom:22px; z-index:58;
@@ -791,7 +827,7 @@ select.f-i{
 }
 .f-ta{height:auto; min-height:164px; padding:11px 13px; line-height:1.6; resize:vertical}   /* 6줄(14px×1.6×6=134)+패딩 — 스크롤 없이 */
 .f-hint{
-  display:flex; gap:7px; margin-top:8px; font-size:12px; line-height:1.55; color:var(--ink-3);
+  display:flex; gap:7px; margin-top:8px; font-size:12.5px; line-height:1.55; color:var(--ink-3);   /* 라벨 하한 12.5px(게이트 09-06 — 12px 는 v5 원칙 미달) */
 }
 .f-hint .ic{width:13px; height:13px; margin-top:3px; color:var(--ink-4)}
 .f-hint.on{color:var(--ink-2)}
@@ -1009,8 +1045,10 @@ html.gs .nt{transition:none !important}
   .fsearch{width:100%; margin-left:0; order:9}
   .fsearch:focus-within{width:100%}
   .bf-f{grid-template-columns:1fr; gap:3px}
-  .island{top:12px; left:12px; right:12px; transform:none; width:auto; justify-content:flex-start}
+  .island{top:12px; left:12px; right:68px; transform:none; width:auto; justify-content:flex-start}   /* 종(44px)+틈 자리를 비운다 — 탭 4개가 되며 마지막 탭이 종 밑에 깔리던 것(09-06) */
   .island .isl-wm{display:none}
+  .isl-tabs{flex:1 1 auto; min-width:0; overflow-x:auto; scrollbar-width:none}   /* 폴백: 그래도 안 들어가는 폭이면 탭 줄만 가로 스크롤(알약은 내용과 같이 움직인다) */
+  .isl-tabs::-webkit-scrollbar{display:none}
   .bell{top:16px; right:16px}
   .npanel{top:66px; right:12px; left:12px; width:auto}
   .fab{right:14px; bottom:16px; height:46px; padding:0 5px 0 15px; font-size:13px}
@@ -1020,6 +1058,8 @@ html.gs .nt{transition:none !important}
 @media (max-width:400px){
   .fab .fab-tx{display:none}
   .fab{padding:0 5px}
+  .isl-tab{padding:0 10px; gap:5px}   /* 탭 4개(홈·작성 글·트렌드·도구함)+숫자가 360px 섬(종 자리 68px 제외) 안에 들어가게 */
+  .isl-mark,.isl-sep{display:none}    /* 400px 이하는 로고까지 접는다 — 숫자 달린 탭 4개가 우선(실측 360px: 262/268px) */
 }
 /* 데스크톱에서만 아일랜드가 스크롤에 반응 */
 @media (min-width:861px){ .island.tuck{transform:translateX(-50%) translateY(-150%)} }
@@ -1046,6 +1086,7 @@ html.gs .nt{transition:none !important}
     <button class="isl-tab on" data-v="home" role="tab" aria-selected="true">홈<span class="n" id="nHome"></span></button>
     <button class="isl-tab" data-v="posts" role="tab" aria-selected="false">작성 글<span class="n" id="nPosts"></span></button>
     <button class="isl-tab" data-v="trend" role="tab" aria-selected="false">트렌드<span class="n" id="nTrend"></span></button>
+    <button class="isl-tab" data-v="tools" role="tab" aria-selected="false">도구함</button>
   </span>
 </nav>
 
@@ -1107,7 +1148,8 @@ var I={
   activity:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
   gauge:'<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
   layers:'<path d="m12 2 8.5 4.9-8.5 4.9L3.5 6.9z"/><path d="m3.5 12 8.5 4.9 8.5-4.9"/><path d="m3.5 17 8.5 4.9 8.5-4.9"/>',
-  pulse:'<path d="M3 12h4l3-8 4 16 3-8h4"/>'
+  pulse:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',
+  image:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>'
 };
 function svg(n,cls){ return '<svg class="ic'+(cls?' '+cls:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+(I[n]||'')+'</svg>'; }
 
@@ -1530,7 +1572,7 @@ var PushSvc={
 /* ══════════ 상태 ══════════ */
 var POSTS=[], PUBSET=Object.create(null), ORDER_TS=Object.create(null), REQS=[];
 var TREND=[], TREND_DATES=[], TREND_FULL=true, TREND_FULL_P=null;
-var S={ view:'home', writer:'', q:'', page:1, trendDate:'' };
+var S={ view:'home', writer:'', q:'', page:1, trendDate:'', tool:'' };
 var viewEl=el('view'), titleEl=el('ptitle'), metaEl=el('pmeta');
 
 /* 목록에 남는 글 = 아직 «끝났다»는 신호가 하나도 없는 글.
@@ -1614,7 +1656,7 @@ Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP]).then
 });
 
 /* ══════════ 내비 ══════════ */
-var tabsEl=el('tabs'), pillEl=el('pill'), pillReady=false, pillTl=null, VIEWS=['home','posts','trend'];
+var tabsEl=el('tabs'), pillEl=el('pill'), pillReady=false, pillTl=null, VIEWS=['home','posts','trend','tools'];
 /* 선택 알약 — 탭 사이를 «늘어났다 줄어들며» 건너간다(먼저 두 탭을 덮을 만큼 늘고, 목적지로 수축).
    anim=false 면 즉시 맞춘다(첫 배치·리사이즈). 이미 건너가는 중이면 목적지만 갱신한다. GSAP 없으면 CSS transition 폴백. */
 function movePill(anim){
@@ -1654,6 +1696,7 @@ window.addEventListener('resize',function(){ movePill(false); });
 function go(v){
   if(S.view===v)return;
   var dir=VIEWS.indexOf(v)>VIEWS.indexOf(S.view)?1:-1;   /* 탭 순서가 곧 이동 방향 */
+  if(S.view==='tools')unmountTool();   /* 도구의 문서 단위 리스너(붙여넣기·키)를 떼고 나간다 */
   S.view=v; S.q=''; S.page=1;
   tabsEl.querySelectorAll('.isl-tab').forEach(function(b){
     var on=b.dataset.v===v;
@@ -1662,7 +1705,7 @@ function go(v){
   movePill(true);
   /* 뷰 전환 = 나가기(빠름) → 교체(맨 위로) → 들어오기(방향·무게). 제목은 내용과 «같은 순간»에 나가기 시작해야
      «제목은 홈인데 본문은 트렌드»인 프레임이 생기지 않는다(design-reviewer 09-04 지적) → render 를 기다리지 않고 지금 바꾼다. */
-  setTitle({home:'홈',posts:'작성 글',trend:'트렌드'}[v]||'');
+  setTitle({home:'홈',posts:'작성 글',trend:'트렌드',tools:'도구함'}[v]||'');
   VIEW_FRESH=true;
   MO.swap(viewEl,{dir:dir,top:true},render);
 }
@@ -1679,8 +1722,79 @@ window.addEventListener('scroll',function(){
 function render(){
   if(S.view==='home')renderHome();
   else if(S.view==='trend')renderTrend();
+  else if(S.view==='tools')renderTools();
   else renderPosts();
   VIEW_FRESH=false;
+}
+
+/* ══════════ 도구함 — 글쓰기 도구 모음 (2026-09-06) ══════════
+   좌측 목록에서 도구를 고르면 우측 판에 그 도구가 실린다. 도구 본체는 _toolbox/<id>.js 가 window.SseudamTools[id]
+   ({mount(host,api), unmount()}) 로 등록하며, 처음 고를 때 한 번만 받는다(라이브 캐시가 잡히지 않게 버전 쿼리).
+   api = 사이트가 도구에 빌려주는 부품(모달·토스트·모션·아이콘·이스케이프) — 도구는 사이트 토큰만 쓰고 색을 새로 만들지 않는다. */
+var TOOLS=[
+  {id:'thumb', name:'썸네일', sub:'봄딩 · 정사각 1000', icon:'image', src:'_toolbox/thumb.js?v=20260906'}
+];
+var TOOL_P={}, TOOL_ON=null;
+function toolApi(){
+  return {openModal:openModal, closeModal:closeModal, toast:toast, MO:MO, svg:svg, esc:esc,
+          icon:function(n){ return I[n]||''; }};
+}
+function loadTool(t){
+  if(TOOL_P[t.id])return TOOL_P[t.id];
+  TOOL_P[t.id]=new Promise(function(res,rej){
+    if(window.SseudamTools&&window.SseudamTools[t.id]){ res(window.SseudamTools[t.id]); return; }
+    var s=document.createElement('script'); s.src=t.src; s.async=true;
+    s.onload=function(){ var m=window.SseudamTools&&window.SseudamTools[t.id]; if(m)res(m); else rej(new Error('no module')); };
+    s.onerror=function(){ delete TOOL_P[t.id]; rej(new Error('load')); };
+    document.head.appendChild(s);
+  });
+  return TOOL_P[t.id];
+}
+function unmountTool(){
+  if(TOOL_ON&&TOOL_ON.unmount){ try{ TOOL_ON.unmount(); }catch(e){} }
+  TOOL_ON=null;
+}
+function mountTool(id){
+  var host=el('tbHost'), t=TOOLS.filter(function(x){ return x.id===id; })[0];
+  if(!host||!t)return;
+  unmountTool();
+  host.innerHTML='<div class="loading">'+esc(t.name)+' 도구를 불러오는 중</div>';
+  loadTool(t).then(function(m){
+    if(S.view!=='tools'||S.tool!==id||el('tbHost')!==host)return;   /* 받는 사이 다른 탭·도구로 갔다 */
+    host.innerHTML=''; TOOL_ON=m; m.mount(host,toolApi());
+  }).catch(function(){
+    if(el('tbHost')!==host)return;
+    host.innerHTML='<div class="empty"><div class="empty-t">도구를 불러오지 못했어요</div>'+
+      '<div class="empty-s"><button type="button" class="ghost" id="tbRetry">다시 시도</button></div></div>';
+    var b=el('tbRetry'); if(b)b.addEventListener('click',function(){ mountTool(id); });
+  });
+}
+function renderTools(){
+  setTitle('도구함');
+  setMeta('<span><b>'+TOOLS.length+'</b> 도구</span>');
+  if(!S.tool||!TOOLS.some(function(t){ return t.id===S.tool; }))S.tool=TOOLS[0].id;
+  viewEl.innerHTML='<div class="tb">'+
+    '<aside class="tray tb-side"><div class="core"><nav class="tb-list" id="tbList" aria-label="도구 목록">'+
+      TOOLS.map(function(t){
+        var on=t.id===S.tool;
+        return '<button type="button" class="tb-item'+(on?' on':'')+'" data-t="'+esc(t.id)+'" aria-pressed="'+(on?'true':'false')+'">'+
+          '<span class="tb-ic">'+svg(t.icon)+'</span>'+
+          '<span class="tb-tx"><b>'+esc(t.name)+'</b><span class="s">'+esc(t.sub)+'</span></span></button>';
+      }).join('')+
+    '</nav></div></aside>'+
+    '<section class="tray tb-main" aria-label="도구"><div class="core" id="tbHost"></div></section></div>';
+  el('tbList').addEventListener('click',function(e){
+    var b=e.target.closest('.tb-item'); if(!b||b.dataset.t===S.tool)return;
+    S.tool=b.dataset.t;
+    el('tbList').querySelectorAll('.tb-item').forEach(function(x){
+      var on=x.dataset.t===S.tool; x.classList.toggle('on',on); x.setAttribute('aria-pressed',on?'true':'false');
+    });
+    MO.pulse(b,null);
+    mountTool(S.tool);
+  });
+  MO.rise(viewEl.querySelectorAll('.tb-side,.tb-main'),{y:8,amount:.1,dur:.45});
+  mountTool(S.tool);
+  paintNav();
 }
 
 /* 뷰포트 진입 시 떠오르기 — 지금 보이는 것은 즉시 스태거, 아래 것은 IntersectionObserver 가 들어올 때.
@@ -2623,12 +2737,12 @@ function closeModal(){
   }
   if(opener&&opener.focus)try{ opener.focus(); }catch(e){}
 }
-function openModal(inner,opener,label){
+function openModal(inner,opener,label,cls){
   if(MODAL)closeModal();
   var back=document.createElement('div');
   back.className='back'; back.setAttribute('role','dialog'); back.setAttribute('aria-modal','true');
   back.setAttribute('aria-label',label||'대화상자');
-  back.innerHTML='<div class="mdl"><div class="mdl-core">'+inner+'</div></div>';
+  back.innerHTML='<div class="mdl'+(cls?' '+cls:'')+'"><div class="mdl-core">'+inner+'</div></div>';
   document.body.appendChild(back);
   document.body.style.overflow='hidden';
   function onKey(e){
