@@ -3,6 +3,7 @@
  *  제목·본문·태그 원클릭 복사 + 사진 포함 복사(실험) + 사진마다 [복사]/[받기] 버튼을 한 서랍에 모은다.
  *  ★발행 도구라 학습 격리 대상이 아니다(문체 자산 0). 단 작성자별 «생존본 규칙»은 각자 정본을 따른다 — 아래 WRITER 분기:
  *    봄딩(output-format §4-0/§4-2): .chk 제거 · .ss/.imgslot → 📷 〔사진 자리 N〕 파란 줄 · 태그 줄은 본문 밖([태그 복사]만)
+ *      ★봄딩 타이포그래피(2026-09-06 지시): 글꼴=나눔스퀘어 · 본문 16px · 글자 배경색 없음(복사 버퍼 배경 제거)
  *    영도(output-format §4-0/§4-2): .chk → 파란 «(확인: …)» 인라인 유지 · .ss/.shoot 는 복사 제외(서랍엔 회색 안내만)
  *                                  · .src 있는 이미지엔 «이미지: <출처>» 줄 동반 · 태그 줄 본문 끝 유지
  *  임베드: 미리보기 HTML </body> 앞 한 줄
@@ -333,12 +334,20 @@
   function richCopy(node) {
     var buf = el("div", "np2-copy np2-buf"); buf.appendChild(node); document.body.appendChild(buf);
     var ok = false;
+    /* ★봄딩 «배경색 없음»(2026-09-06): 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을
+       조상을 타고 올라가 찾아 첫 블록 style 에 박는다(실측: body{background:#f1f3f5} 가 그대로 실렸다).
+       복사 동안만 html·body 배경을 transparent 로 내려 네이버 [배경색]이 «없음»으로 들어가게 한다.
+       execCommand 는 동기라 화면에는 보이지 않는다. 영도는 기존 그대로. */
+    var de = document.documentElement, bd = document.body;
+    var sv1 = de.style.backgroundColor, sv2 = bd.style.backgroundColor;
+    if (!YD) { de.style.backgroundColor = "transparent"; bd.style.backgroundColor = "transparent"; }
     try {
       var range = document.createRange(); range.selectNodeContents(buf);
       var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
       ok = document.execCommand("copy");
       sel.removeAllRanges();
     } catch (e) { ok = false; }
+    if (!YD) { de.style.backgroundColor = sv1; bd.style.backgroundColor = sv2; }
     var html = buf.innerHTML, plain = buf.innerText || buf.textContent || "";
     buf.remove();
     if (ok) return Promise.resolve(true);
@@ -426,7 +435,7 @@
     ".np2-body{flex:1 1 auto;overflow:auto;padding:14px 14px 40px;}" +
     ".np2-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:10px 14px;font-size:12.5px;line-height:1.75;color:#6b5a2e;margin-bottom:12px;}" +
     ".np2-guide b{color:#8a6d1f;}" +
-    ".np2-copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:22px 22px 28px;font-size:15.5px;line-height:1.95;color:#222;font-family:'Apple SD Gothic Neo','맑은 고딕','Malgun Gothic',sans-serif;word-break:keep-all;}" +
+    ".np2-copy{border:2px dashed #03c75a;border-radius:8px;padding:22px 22px 28px;font-size:15.5px;line-height:1.95;color:#222;font-family:'Apple SD Gothic Neo','맑은 고딕','Malgun Gothic',sans-serif;word-break:keep-all;}#np2Auto,.np2-oldbox{background:#fff;}" +
     ".np2-copy h3{font-size:17px;font-weight:800;margin:26px 0 10px;color:#111;}" +
     ".np2-copy.np2-quote h3{border-left:4px solid #03c75a;padding-left:10px;color:#1d6b3e;}" +
     ".np2-copy blockquote{margin:24px 0 12px;padding:2px 0 2px 12px;border-left:4px solid #03c75a;font-weight:800;font-size:17px;}" +
@@ -448,10 +457,21 @@
     ".np2-spot.np2-viewonly{background:#f6f6f6;border-color:#d5d5d5;}.np2-spot.np2-viewonly .np2-meta{margin:0;color:#888;}" +
     ".np-old{margin-top:18px;font-size:13px;color:#667;}.np-old summary{cursor:pointer;font-weight:700;}" +
     ".np-old .np2-oldbox{margin-top:8px;border-color:#bbb;}.np-old button{margin:8px 0 0;background:#fff;border:1px solid #cfd6dd;border-radius:7px;padding:6px 12px;font-weight:700;cursor:pointer;}" +
-    ".np2-buf{position:fixed;left:-99999px;top:0;width:700px;background:#fff;}";
+    ".np2-buf{position:fixed;left:-99999px;top:0;width:700px;}" +
+    /* ★봄딩 전용(2026-09-06 사용자 지시): 글꼴=나눔스퀘어 · 본문 16px · 글자 배경 없음.
+       복사는 execCommand("copy") 가 선택영역을 직렬화하므로 크롬이 버퍼의 background:#fff 를
+       인라인으로 박아 네이버 [배경색]이 흰색으로 먹었다 → 복사 버퍼에서만 배경을 없앤다.
+       표 헤더 · 사진자리 같은 «컴포넌트» 배경은 그대로 둔다. 영도는 기존 그대로(공용 캐논 분기). */
+    (YD ? ".np2-buf{background:#fff;}"
+        : ".np2-copy{font-size:16px;font-family:'NanumSquare','나눔스퀘어','se-nanumsquare','Apple SD Gothic Neo','맑은 고딕','Malgun Gothic',sans-serif;}");
 
   function ensureWidget() {
     var st = document.createElement("style"); st.id = "np2-css"; st.textContent = CSS; document.head.appendChild(st);
+    if (!YD && !document.getElementById("np2-font")) {   /* 봄딩: 나눔스퀘어 웹폰트(서랍 미리보기용) */
+      var lk = document.createElement("link"); lk.id = "np2-font"; lk.rel = "stylesheet";
+      lk.href = "https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css";
+      document.head.appendChild(lk);
+    }
     var btn = document.getElementById("npBtn"), back = document.getElementById("npBack"), drawer = document.getElementById("npDrawer");
     var created = !drawer;
     if (created) {
