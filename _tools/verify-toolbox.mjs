@@ -65,6 +65,8 @@ await send('Network.setBlockedURLs', { urls: ['*sslip.io*', '*cheer-splash.js*']
 const shot = async (name) => { const r = await send('Page.captureScreenshot', { format: 'png' }); writeFileSync(join(OUT, name + '.png'), Buffer.from(r.result.data, 'base64')); };
 const rect = (sel) => ev(`(()=>{const e=document.querySelector(${JSON.stringify(sel)});if(!e)return null;const b=e.getBoundingClientRect();return{x:b.left,y:b.top,w:b.width,h:b.height,cx:b.left+b.width/2,cy:b.top+b.height/2}})()`);
 const click = async (sel) => {
+  await ev(`(()=>{const e=document.querySelector(${JSON.stringify(sel)});if(e&&!e.closest('.back'))e.scrollIntoView({block:'center'});return true})()`);   /* 뷰포트 밖 요소를 허공에 클릭하지 않게(09-06 교훈) — 모달 안은 스크롤 조상이 달라 건드리지 않는다 */
+  await sleep(120);
   const r = await rect(sel); if (!r) return false;
   await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: r.cx, y: r.cy });
   await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: r.cx, y: r.cy, button: 'left', clickCount: 1 });
@@ -92,6 +94,7 @@ const open = async (w, h, mobile) => {
   await sleep(400);
 };
 const gotoTools = async () => {
+  await ev(`window.scrollTo(0,0)`); await sleep(350);   /* 스크롤을 내린 뒤엔 섬이 접혀(tuck) 탭 좌표가 허공이 된다 */
   await click('.isl-tab[data-v="tools"]'); await sleep(700);
   return waitFor(`!!document.querySelector('#thCanvas')`, 8000);
 };
@@ -122,13 +125,24 @@ chk('183 미니 캔버스 그려짐', (await canvasVar('#thMini183')) > 30);
 chk('파일명 = 메이플키우기_1000.png', (await ev(`window.SseudamTools.thumb.__test.fileName()`)) === '메이플키우기_1000.png');
 await shot('02-tools-band-1920');
 
-for (const p of ['plaque', 'tint', 'stripe', 'cream', 'band']) {
+for (const p of ['top', 'plaque', 'tint', 'stripe', 'half', 'cream', 'glass', 'stroke', 'mono', 'band']) {
   await click(`.th-preset[data-p="${p}"]`); await sleep(320);
   const st = await ev(`window.SseudamTools.thumb.__test.state().preset`);
   chk(`프리셋 ${p} 선택·렌더`, st === p && (await canvasVar('#thCanvas')) > 30, { st, v: await canvasVar('#thCanvas') });
   if (p !== 'band') await shot(`03-preset-${p}-1920`);
 }
 chk('프리셋 aria-pressed 하나만 true', (await ev(`document.querySelectorAll('.th-preset[aria-pressed="true"]').length`)) === 1);
+chk('디자인 10종', (await ev(`document.querySelectorAll('.th-preset').length`)) === 10);
+await click('.th-preset[data-p="stroke"]'); await sleep(250);
+chk('스트로크(면 없음) → 면 진하기 비활성', await ev(`document.getElementById('thOp').disabled&&document.getElementById('thOpRow').classList.contains('off')`));
+await click('.th-preset[data-p="stripe"]'); await sleep(250);
+chk('스트라이프 → 면 진하기 활성', await ev(`!document.getElementById('thOp').disabled`));
+const vBefore = await canvasVar('#thCanvas');
+await setInput('#thOp', '40'); await sleep(300);
+chk('면 진하기 40% → 상태 .4 · 캔버스 변화', Math.abs((await ev(`window.SseudamTools.thumb.__test.state().op`)) - .4) < .001 && (await canvasVar('#thCanvas')) !== vBefore, { op: await ev(`window.SseudamTools.thumb.__test.state().op`) });
+await shot('03b-stripe-op40-1920');
+await setInput('#thOp', '100'); await sleep(200);
+await click('.th-preset[data-p="band"]'); await sleep(250);
 
 await setInput('#thName', '메이플키우기업데이트'); await sleep(300);
 chk('10자 → 카운터 경고 + 검사 경고', await ev(`(()=>{return document.getElementById('thNameCnt').classList.contains('bad')&&document.querySelectorAll('#thChk li.bad').length===1})()`), await ev(`document.getElementById('thChk').textContent`));
@@ -136,19 +150,36 @@ chk('10자여도 글자가 캔버스 폭 안(자동 축소)', (await canvasVar('
 await shot('04-longname-1920');
 await setInput('#thName', '메이플키우기'); await sleep(200);
 
-await click('#thSubOn'); await sleep(250);
-chk('부제 켬 → 입력·경고 문구 표시', await ev(`(()=>{return !document.getElementById('thSub').hidden&&!document.getElementById('thSubHint').hidden&&document.getElementById('thSubOn').getAttribute('aria-pressed')==='true'})()`));
+chk('부제 입력칸 항상 보임 · 비면 경고 숨김', await ev(`(()=>{const s=document.getElementById('thSub');return !s.hidden&&s.offsetParent!==null&&document.getElementById('thSubHint').hidden})()`));
 await setInput('#thSub', '핑크빈 업데이트'); await sleep(300);
-chk('부제 있음 → 검사 경고 1', (await ev(`document.querySelectorAll('#thChk li.bad').length`)) === 1, await ev(`document.getElementById('thChk').textContent`));
+chk('부제 입력 → 경고 문구 표시 + 검사 경고 1', await ev(`!document.getElementById('thSubHint').hidden`) && (await ev(`document.querySelectorAll('#thChk li.bad').length`)) === 1, await ev(`document.getElementById('thChk').textContent`));
+chk('부제가 그려짐(캔버스 하단 분산)', (await canvasVar('#thCanvas')) > 30);
 await shot('05-subtitle-1920');
-await click('#thSubOn'); await sleep(250);
-chk('부제 끔 → 경고 0', (await ev(`document.querySelectorAll('#thChk li.bad').length`)) === 0);
+await setInput('#thSub', ''); await sleep(250);
+chk('부제 비움 → 경고 0 · 문구 숨김', (await ev(`document.querySelectorAll('#thChk li.bad').length`)) === 0 && await ev(`document.getElementById('thSubHint').hidden`));
+chk('글 제목 칸 없음', !(await ev(`!!document.getElementById('thTitle')`)));
 
-await click('.th-sw[data-c="deep"]'); await sleep(250);
-chk('색 «딥 로즈» 선택 → 이름 표시', await ev(`(()=>{return document.getElementById('thSwn').textContent==='딥 로즈'&&document.querySelectorAll('.th-sw[aria-pressed="true"]').length===1&&window.SseudamTools.thumb.__test.state().accent==='deep'})()`));
-await setInput('#thFont', 'malgun'); await sleep(500);
-chk('글꼴 맑은 고딕 전환 → 렌더', (await ev(`window.SseudamTools.thumb.__test.state().font`)) === 'malgun' && (await canvasVar('#thCanvas')) > 30);
-await setInput('#thFont', 'pretendard'); await sleep(400);
+chk('포인트 색 = 봄딩 3 + 영도 3 + 기타', await ev(`(()=>{const b=[...document.querySelectorAll('#thSws .th-sw')].map(x=>x.dataset.c);return b.join(',')==='bd-rose,bd-pink,bd-plum,yd-green,yd-mint,yd-teal,custom'})()`), await ev(`[...document.querySelectorAll('#thSws .th-sw')].map(x=>x.dataset.c).join(',')`));
+await click('.th-sw[data-c="yd-teal"]'); await sleep(250);
+chk('색 «영도 틸» 선택 → 이름·HEX 표시', await ev(`(()=>{const t=document.getElementById('thSwn').textContent;return t.startsWith('영도 · 틸')&&t.includes('#0F7C86')&&document.querySelectorAll('#thSws .th-sw[aria-pressed="true"]').length===1&&window.SseudamTools.thumb.__test.state().accent==='yd-teal'})()`), await ev(`document.getElementById('thSwn').textContent`));
+await setInput('#thAccentPick', '#3366cc'); await sleep(250);
+chk('기타(팔레트) 색 입력 → 커스텀 반영', await ev(`(()=>{const s=window.SseudamTools.thumb.__test.state();return s.accent==='custom'&&s.accentHex==='#3366cc'&&document.querySelector('#thSws .custom').classList.contains('has')&&document.getElementById('thSwn').textContent.includes('#3366CC')})()`), await ev(`JSON.stringify(window.SseudamTools.thumb.__test.state())`));
+await click('.th-sw[data-c="bd-rose"]'); await sleep(200);
+chk('글자색 = 자동·흰색·플럼·크림 + 기타', await ev(`(()=>{const b=[...document.querySelectorAll('#thTcs .th-sw')].map(x=>x.dataset.c);return b.join(',')==='auto,white,plum,cream,custom'})()`));
+await click('#thTcs .th-sw[data-c="plum"]'); await sleep(250);
+chk('글자색 «플럼» 선택 → 상태·이름', await ev(`(()=>{return window.SseudamTools.thumb.__test.state().tc==='plum'&&document.getElementById('thTcn').textContent.startsWith('플럼')})()`));
+await setInput('#thTextPick', '#ffee00'); await sleep(250);
+chk('글자색 기타(팔레트) → 커스텀 반영', await ev(`(()=>{const s=window.SseudamTools.thumb.__test.state();return s.tc==='custom'&&s.tcHex==='#ffee00'})()`));
+await shot('05b-textcolor-1920');
+await click('#thTcs .th-sw[data-c="auto"]'); await sleep(200);
+chk('글꼴 6종', (await ev(`document.querySelectorAll('#thFont option').length`)) === 6, await ev(`[...document.querySelectorAll('#thFont option')].map(o=>o.value).join(',')`));
+for (const f of ['blackhan', 'dohyeon', 'jua', 'songmyung', 'malgun']) {
+  await setInput('#thFont', f); await sleep(f === 'malgun' ? 400 : 1600);
+  chk('글꼴 ' + f + ' 전환 → 렌더', (await ev(`window.SseudamTools.thumb.__test.state().font`)) === f && (await canvasVar('#thCanvas')) > 30);
+  if (f === 'blackhan') await shot('05c-font-blackhan-1920');
+}
+chk('구글 폰트 로드(검은고딕)', await ev(`document.fonts.check('400 165px "Black Han Sans"','가')`), { note: '네트워크 필요' });
+await setInput('#thFont', 'pretendard'); await sleep(600);
 
 await setInput('#thZoom', '1.6'); await sleep(250);
 chk('확대 1.6', Math.abs((await ev(`window.SseudamTools.thumb.__test.state().zoom`)) - 1.6) < .001);
@@ -163,6 +194,9 @@ await click('#thCenter'); await sleep(250);
 const stC = await ev(`window.SseudamTools.thumb.__test.state()`);
 chk('가운데 → 확대 1·이동 0', stC && stC.zoom === 1 && stC.px === 0 && stC.py === 0, stC);
 
+await ev(`window.scrollTo(0,0)`); await sleep(250);
+const saveR = await rect('#thSave'), ctlB = await ev(`document.querySelector('.th-ctl').getBoundingClientRect().bottom`);
+chk('1920×1080: PNG 저장 버튼·설정 열이 첫 화면 안(스크롤 0)', saveR && saveR.y + saveR.h <= 1080 && ctlB <= 1080, { saveBottom: saveR && Math.round(saveR.y + saveR.h), ctlBottom: Math.round(ctlB) });
 await ev(`window.__dls=[];HTMLAnchorElement.prototype.click=function(){if(this.download)window.__dls.push(this.download);};`);
 await click('#thSave'); await sleep(900);
 chk('PNG 저장 → 파일명', (await ev(`window.__dls[0]`)) === '메이플키우기_1000.png', await ev(`window.__dls`));
@@ -196,6 +230,7 @@ chk('Esc 로 닫힘', !(await ev(`!!document.querySelector('.back')`)));
 chk('미리보기 닫은 뒤 포커스 = 미리보기 버튼', (await ev(`document.activeElement&&document.activeElement.id`)) === 'thPreview');
 
 /* 탭 이탈·복귀 — 상태 유지 */
+await ev(`window.scrollTo(0,0)`); await sleep(350);
 await click('.isl-tab[data-v="home"]'); await sleep(900);
 chk('홈으로 → 도구 DOM 제거', !(await ev(`!!document.querySelector('#th')`)));
 await gotoTools(); await sleep(400);
@@ -221,7 +256,7 @@ await shot('10-tools-empty-390');
 await ev(`window.SseudamTools.thumb.__test.setImageURL(${JSON.stringify(imgUrl)},'t')`); await sleep(400);
 await setInput('#thName', '메이플키우기'); await sleep(400);
 chk('모바일 캔버스 그려짐', (await canvasVar('#thCanvas')) > 30);
-const tapMin = await ev(`(()=>{const q=[...document.querySelectorAll('.th-preset,.th-sw,#thSubOn,#thSave,#thCopy,#thPreview,#thCenter,#thReplace,.tb-item')];return Math.min(...q.map(e=>{const r=e.getBoundingClientRect();return Math.min(r.width,r.height)}))})()`);
+const tapMin = await ev(`(()=>{const q=[...document.querySelectorAll('.th-preset,.th-sw,#thSave,#thCopy,#thPreview,#thCenter,#thReplace,.tb-item')];return Math.min(...q.map(e=>{const r=e.getBoundingClientRect();return Math.min(r.width,r.height)}))})()`);
 chk('모바일 터치 타깃 최소 ≥28px(색 스와치 28·나머지 ≥32)', tapMin >= 28, { tapMin });
 await shot('11-tools-390');
 await ev(`window.scrollTo(0,document.body.scrollHeight)`); await sleep(300);
