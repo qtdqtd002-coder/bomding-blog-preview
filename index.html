@@ -655,7 +655,7 @@ a{color:inherit; text-decoration:none}
 .legend span{display:inline-flex; align-items:center; gap:6px}
 .legend i{width:8px; height:8px; border-radius:2px; background:var(--c,var(--ink-4)); flex:none}
 .legend b{font-family:"JetBrains Mono",monospace; font-weight:500; color:var(--ink); font-variant-numeric:tabular-nums}
-/* 홈 — 작은 스탯 칸(.ks-*, 사용량·인용 타일 공용) · AI 브리핑 인용 작성자 2칸(.cr-grid). 칸은 면이 아니라 헤어라인으로 나눈다(카드 속 카드 금지) */
+/* 홈 — 작은 스탯 칸(.ks-*, 사용량·블로그 활동 타일 공용) · 블로그 활동 작성자 2칸(.cr-grid). 칸은 면이 아니라 헤어라인으로 나눈다(카드 속 카드 금지) */
 .ks-stats{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px 12px; margin:0 0 10px}
 .ks-k{display:block; font-size:12.5px; color:var(--ink-4); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}   /* 라벨 ≥12.5px */
 .ks-v{display:block; font-family:"JetBrains Mono",monospace; font-weight:600; font-size:15px; letter-spacing:-.02em; color:var(--ink); font-variant-numeric:tabular-nums; white-space:nowrap}
@@ -668,7 +668,7 @@ a{color:inherit; text-decoration:none}
 .cr-dot{width:9px; height:9px; border-radius:50%; background:var(--c,var(--ink-4)); flex:none}
 .cr-n{font-size:13.5px; font-weight:700; letter-spacing:-.02em}
 .cr-tag{font-size:12.5px; color:var(--ink-2); background:var(--surface-2); border-radius:999px; padding:2px 9px; white-space:nowrap}
-.cr-tag.off{color:var(--ink-4)}
+.cr-tag.off{color:var(--ink-3)}   /* ink-4 는 surface-2 위 4.47:1 로 AA 미달(09-06 게이트 🟡2) */
 .cr-err{font-size:12.5px; color:var(--alert); margin-left:auto}
 .cr-state{font-size:13px; color:var(--ink-3); padding:6px 0 4px}
 /* 사용량 콤보 — 편수 선(잉크 2px)+점(표면 링), 실패 점(경고색). 오른쪽 축 라벨은 .axis.r, 축 단위는 .axis.unit */
@@ -1597,7 +1597,7 @@ var reqsP=CFG.API_BASE
 /* 홈 타일 스냅샷 2종 — 데스크·드레이너가 굽는다. 없으면 «스냅샷 없음»(0 위장 금지) */
 var usageP=jget('_trend/_usage.json?ts='+Date.now(),null);
 var quotaP=jget('_trend/_quota.json?ts='+Date.now(),null);
-/* 홈 «AI 브리핑 인용»·«일별 방문자» — _tools/mate-citations.cjs 가 데스크 [E]에서 하루 1회 굽는다(네이버 공개 프로필 스냅샷) */
+/* 홈 «블로그 활동»(구 «AI 브리핑 인용», 09-06 개명) — _tools/mate-citations.cjs 가 데스크 [E]에서 하루 1회 굽는다(인용·방문자·일자별 글 수) */
 var citeP=jget('_trend/_citations.json?ts='+Date.now(),null);
 
 Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP]).then(function(r){
@@ -2043,7 +2043,7 @@ function tileUsage(){
 /* 차트 툴팁 — 하나를 돌려쓴다. 값이 앞, 이름이 뒤. 이름은 textContent 로만 넣는다 */
 var CTIP=null;
 function tipColor(name){
-  if(name==='발행')return 'var(--ink)';
+  if(name==='발행'||name==='글')return 'var(--ink)';
   if(name==='실패·건너뜀')return 'var(--alert)';
   return wcol(name);
 }
@@ -2086,10 +2086,12 @@ function homeMeta(){
   return '<span class="num">'+(d.getMonth()+1)+'.'+d.getDate()+'</span><span>'+WD[d.getDay()]+'요일</span>'+
     (n?'<span>진행 <b>'+n+'</b></span>':'');
 }
-/* ══════════ 홈 — AI 브리핑 인용 · 일별 방문자 (2026-09-05) ══════════
-   출처 = _trend/_citations.json(_tools/mate-citations.cjs, 데스크 [E] 하루 1회, 네이버 공개 프로필 스냅샷).
+/* ══════════ 홈 — 「블로그 활동」 (2026-09-05 · ★09-06 개명·글 축 추가) ══════════
+   출처 = _trend/_citations.json(_tools/mate-citations.cjs, 데스크 [E] 하루 1회, 네이버 공개 스냅샷).
    행 값의 뜻: citations = 그 날짜 스냅샷→다음 스냅샷 사이 증분(어제까지만 있고 오늘은 집계 전) · visitors = 달력일 방문자(XML) 또는 06:00→06:00 차분.
-   인용수는 네이버 메이트로 선정된 블로그만 공개 — 영도처럼 선정 전이면 «비공개»로 적지 0 으로 그리지 않는다(0 위장 금지). */
+   ★postsDay = 그 달력일에 실제로 발행된 글 수(글 목록 addDate 를 센 값 — 0 도 0 으로 그린다) · months = 월별 글 수(full:false = 그 달을 반만 덮음).
+   인용수는 네이버 메이트로 선정된 블로그만 공개 — 영도처럼 선정 전이면 «비공개»로 적지 0 으로 그리지 않는다(0 위장 금지).
+   그래서 이 타일은 «인용»이 아니라 «활동»이다: 인용이 있으면 막대=인용·선=글, 없으면 막대=글 하나로 그린다. */
 function fmtKo(n,sign){
   n=Number(n)||0; var a=Math.abs(n), t;
   if(a>=1e8)t=(a/1e8).toFixed(a>=1e9?0:1).replace(/\.0$/,'')+'억';
@@ -2098,6 +2100,14 @@ function fmtKo(n,sign){
   return (n<0?'−':(sign&&n>0?'+':''))+t;
 }
 function citeDays(n){ var out=[], now=Date.now(); for(var i=n;i>=1;i--)out.push(kstDay(now-i*DAY)); return out; }
+function prevYm(ym){ var y=+ym.slice(0,4), mo=+ym.slice(5,7)-1; if(mo<1){ mo=12; y--; } return y+'-'+(mo<10?'0':'')+mo; }
+function ymLabel(ym){ return Number(ym.slice(5,7))+'월'; }
+function monthPosts(w,ym){ var a=(w&&Array.isArray(w.months))?w.months:[]; for(var i=0;i<a.length;i++)if(a[i].m===ym)return a[i]; return null; }
+function fmtPosts(n){ return n==null?'—':(Number(n).toLocaleString('ko-KR')+'편'); }
+/* 캡 라벨 x 를 플롯 안으로 당긴다 — 11px 모노 기준 폭 어림(한글 11px·그 외 6.6px)으로 좌우 끝을 넘지 않게.
+   ★09-06 게이트 🔴: 맨 오른쪽 칸의 캡 «+3.4만» 이 오른쪽 축 눈금·단위 «편» 과 겹쳤다(차트 실폭 ≤384px = 뷰포트 ≤460px, 즉 폰 전부). */
+function capW(t){ var s=String(t), w=0; for(var i=0;i<s.length;i++)w+=s.charCodeAt(i)>127?11:6.6; return w; }
+function capX(cx,t,lo,hi){ var w=capW(t)/2+3; return Math.max(lo+w,Math.min(hi-w,cx)); }   /* +3 = 폭 어림이 조금 모자랄 때의 여유 */
 function citeWriters(){ return CITES?CITES.writers.filter(function(w){ return w&&PREF.indexOf(w.name)>=0; }):[]; }
 function rowMap(w){ var m={}; (w.rows||[]).forEach(function(r){ if(r&&r.d)m[r.d]=r; }); return m; }
 function lastVal(w,key){ var rows=(w.rows||[]).filter(function(r){ return r&&r[key]!=null; }); return rows.length?rows[rows.length-1]:null; }
@@ -2106,53 +2116,96 @@ function citeRow(w){
   var L=w.latest||{}, m=w.mate, col=wac(w.name);
   var head='<div class="cr-h"><span class="cr-dot" style="--c:'+col+'"></span><b class="cr-n">'+esc(w.name)+'</b>'+
     (m?'<span class="cr-tag">'+esc(String(m.month||'')+'월 '+(m.topic||'')+' 메이트')+'</span>':'<span class="cr-tag off">메이트 선정 전</span>')+
-    (w.error?'<span class="cr-err">수집 실패</span>':'')+'</div>';
-  if(L.cum==null)return '<div class="cr">'+head+'<div class="cr-state">인용수 비공개 · 메이트 선정 시 자동 공개</div></div>';
-  var last=lastVal(w,'citations');
-  var stats='<div class="ks-stats">'+
-    '<span><span class="ks-k">'+(last?esc(mdLabel(last.d)+(last.span>1?' · '+last.span+'일 합':'')):'어제')+'</span>'+(last?'<b class="ks-v">'+fmtKo(last.citations,true)+'</b>':'<b class="ks-v pend">집계 전</b>')+'</span>'+
-    '<span><span class="ks-k">'+(L.monthNo||'')+'월</span><b class="ks-v">'+fmtKo(L.month)+'</b></span>'+
-    '<span><span class="ks-k">기준월 '+(L.selMonth||'')+'월</span><b class="ks-v">'+fmtKo(L.sel)+'</b></span>'+
-    '<span><span class="ks-k">누적</span><b class="ks-v">'+fmtKo(L.cum)+'</b></span></div>';
-  var days=citeDays(14), rm=rowMap(w), vals=days.map(function(d){ var r=rm[d]; return r&&r.citations!=null?Number(r.citations):null; });
-  var has=vals.some(function(v){ return v!=null; }), chart='';
-  if(has){
-    var W=chartW(560),H=150,padL=44,padR=8,padT=16,padB=24,pw=W-padL-padR,ph=H-padT-padB,slot=pw/days.length,bw=Math.min(24,slot*.5);
-    var max=Math.max.apply(null,vals.map(function(v){ return v||0; }).concat([1])), step=niceStep(max), grid='';
-    for(var v=0;v<=max;v+=step){ var gy=padT+ph-(v/max)*ph;
-      grid+='<line class="grid" x1="'+padL+'" x2="'+(W-padR)+'" y1="'+gy.toFixed(1)+'" y2="'+gy.toFixed(1)+'"/>'+
-        '<text class="axis" x="'+(padL-7)+'" y="'+(gy+3.5).toFixed(1)+'" text-anchor="end">'+fmtKo(v)+'</text>'; }
-    var maxI=-1, lastI=-1; vals.forEach(function(v,i){ if(v==null)return; lastI=i; if(maxI<0||v>vals[maxI])maxI=i; });
-    var every=slot<30?2:1;   /* 좁은 폭(모바일)에선 날짜 라벨을 하루 걸러 — 11px 모노 «8.23» 이 18px 슬롯에 겹친다 */
-    var cols=days.map(function(d,i){
-      var v=vals[i], x=padL+slot*i+(slot-bw)/2, r=rm[d]||{}, bar='', cap='';
-      var lab=(i%every===(days.length-1)%every)?'<text class="axis" x="'+(padL+slot*i+slot/2).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+mdLabel(d)+'</text>':'';   /* 끝(어제)에서부터 위상을 맞춘다 — «9.3 9.4» 붙음 방지(사용량 타일과 같은 공식) */
-      if(v!=null){ var h=Math.max(2,(Math.max(0,v)/max)*ph), y=padT+ph-h;
-        bar='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" fill="'+col+'"/>';
-        if(i===maxI||i===lastI)cap='<text class="cap" x="'+(x+bw/2).toFixed(1)+'" y="'+(y-5).toFixed(1)+'" text-anchor="middle">'+fmtKo(v,true)+'</text>'; }
-      var tip=mdLabel(d)+'|'+(v!=null?fmtKo(v,true)+(r.span>1?' ('+r.span+'일 합)':''):'집계 전')+'||'+(r.cum!=null?'누적|'+fmtKo(r.cum):'')+(r.at?';스냅샷|'+hhmm(Date.parse(r.at)):'');
-      return '<g class="col">'+bar+cap+lab+
-        '<rect class="hit" tabindex="0" x="'+(padL+slot*i).toFixed(1)+'" y="'+padT+'" width="'+slot.toFixed(1)+'" height="'+ph+'" data-tip="'+esc(tip)+'" aria-label="'+esc(mdLabel(d)+' '+(v!=null?fmtKo(v,true):'집계 전'))+'"/></g>';
-    }).join('');
-    var table='<table class="sr"><caption>'+esc(w.name)+' 일별 AI 브리핑 인용 증분</caption><tr><th>날짜</th><th>증분</th><th>누적</th></tr>'+
-      days.map(function(d,i){ var r=rm[d]||{}; return '<tr><td>'+esc(d)+'</td><td>'+(vals[i]!=null?fmtKo(vals[i],true):'—')+'</td><td>'+(r.cum!=null?fmtKo(r.cum):'—')+'</td></tr>'; }).join('')+'</table>';
-    chart='<div class="chart"><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+grid+cols+'</svg>'+table+'</div>';
-  } else chart='<div class="cr-state">일별 증분 집계 전 · 스냅샷 '+((w.rows||[]).filter(function(r){ return r&&r.at; }).length)+'개</div>';
+    (w.error?'<span class="cr-err">수집 실패</span>':(w.postsError?'<span class="cr-err">글 수집 실패</span>':''))+'</div>';
+  var days=citeDays(14), rm=rowMap(w);
+  var cv=days.map(function(d){ var r=rm[d]; return r&&r.citations!=null?Number(r.citations):null; });
+  var pv=days.map(function(d){ var r=rm[d]; return r&&r.postsDay!=null?Number(r.postsDay):null; });
+  var hasC=L.cum!=null&&cv.some(function(v){ return v!=null; });
+  var hasP=pv.some(function(v){ return v!=null; });
+  if(!hasC&&!hasP)return '<div class="cr">'+head+'<div class="cr-state">'+(L.cum==null?'인용수 비공개 · ':'')+'일별 집계 전 · 스냅샷 '+((w.rows||[]).filter(function(r){ return r&&r.at; }).length)+'개</div></div>';
+  /* ── 스탯: 인용 4칸(공개된 블로그만) + 글 4칸. 글 칸은 «어제 / 이번 달 / 지난달 / 총 글» — 인용 칸과 같은 결(어제·월·기준월·누적) */
+  var tm=kstDay(Date.now()).slice(0,7), pm=prevYm(tm), mThis=monthPosts(w,tm), mPrev=monthPosts(w,pm);
+  var yd=days[days.length-1], ydP=(rm[yd]&&rm[yd].postsDay!=null)?Number(rm[yd].postsDay):null;
+  var stats='';
+  if(hasC){
+    var last=lastVal(w,'citations');
+    stats+='<div class="ks-stats">'+
+      '<span><span class="ks-k">'+(last?esc(mdLabel(last.d)+(last.span>1?' · '+last.span+'일 합':'')+' 인용'):'어제 인용')+'</span>'+(last?'<b class="ks-v">'+fmtKo(last.citations,true)+'</b>':'<b class="ks-v pend">집계 전</b>')+'</span>'+
+      '<span><span class="ks-k">'+(L.monthNo||'')+'월 인용</span><b class="ks-v">'+fmtKo(L.month)+'</b></span>'+
+      '<span><span class="ks-k">기준월 '+(L.selMonth||'')+'월</span><b class="ks-v">'+fmtKo(L.sel)+'</b></span>'+
+      '<span><span class="ks-k">누적 인용</span><b class="ks-v">'+fmtKo(L.cum)+'</b></span></div>';
+  }
+  stats+='<div class="ks-stats">'+
+    '<span><span class="ks-k">어제 글</span><b class="ks-v'+(ydP==null?' pend':'')+'">'+(ydP==null?'집계 전':fmtPosts(ydP))+'</b></span>'+
+    '<span><span class="ks-k">'+ymLabel(tm)+' 글</span><b class="ks-v'+(mThis?'':' pend')+'">'+(mThis?fmtPosts(mThis.posts):'—')+'</b></span>'+
+    '<span><span class="ks-k">'+ymLabel(pm)+' 글'+(mPrev&&!mPrev.full?' *':'')+'</span><b class="ks-v'+(mPrev?'':' pend')+'">'+(mPrev?fmtPosts(mPrev.posts):'—')+'</b></span>'+
+    '<span><span class="ks-k">총 글</span><b class="ks-v'+(L.posts==null?' pend':'')+'">'+(L.posts==null?'—':fmtKo(L.posts)+'편')+'</b></span></div>';
+  if(!hasC)stats+='<div class="cr-state">인용수 비공개 · 메이트 선정 시 자동 공개</div>';
+  /* ── 차트: 인용이 공개면 «막대=인용(왼쪽 축) + 선·점=글(오른쪽 축 편)» 콤보, 아니면 «막대=글» 하나 (사용량 타일과 같은 어휘) */
+  /* ★글 작성 수는 «항상 꺾은선»(사용자 지시 09-06) — 인용이 공개면 막대(왼쪽 축) 위에 오른쪽 축(편)으로 얹고,
+     비공개면 왼쪽 축을 그대로 편으로 써서 선 하나만 그린다. 선 색은 단독일 때 작성자 색, 콤보일 때 잉크(사용량 타일과 같은 어휘) */
+  var barsOn=hasC, lineOn=hasP, combo=barsOn&&lineOn, lcol=combo?'var(--ink)':col;
+  var W=chartW(560),H=combo?178:156,padL=44,padR=combo?26:8,padT=22,padB=26,pw=W-padL-padR,ph=H-padT-padB,slot=pw/days.length,bw=Math.min(24,slot*.5);
+  var lv=barsOn?cv:pv;   /* 왼쪽 축이 재는 값 */
+  var max=Math.max.apply(null,lv.map(function(v){ return v||0; }).concat([1])), step=niceStep(max), grid='';
+  for(var v=0;v<=max;v+=step){ var gy=padT+ph-(v/max)*ph;
+    grid+='<line class="grid" x1="'+padL+'" x2="'+(W-padR)+'" y1="'+gy.toFixed(1)+'" y2="'+gy.toFixed(1)+'"/>'+
+      '<text class="axis" x="'+(padL-7)+'" y="'+(gy+3.5).toFixed(1)+'" text-anchor="end">'+(barsOn?fmtKo(v):Math.round(v))+'</text>'; }
+  grid+='<text class="axis unit" x="'+(padL-7)+'" y="'+(padT-9)+'" text-anchor="end">'+(barsOn?'인용':'편')+'</text>';
+  var pmax=0; pv.forEach(function(v){ if(v!=null)pmax=Math.max(pmax,v); });
+  var pscale=Math.max(4,pmax), pstep=niceStep(pscale), raxis='';
+  var py=combo?function(n){ return padT+ph-(n/pscale)*ph; }:function(n){ return padT+ph-(n/max)*ph; };
+  if(combo){
+    for(var c=0;c<=pscale;c+=pstep)raxis+='<text class="axis r" x="'+(W-padR+7)+'" y="'+(py(c)+3.5).toFixed(1)+'" text-anchor="start">'+c+'</text>';
+    raxis+='<text class="axis unit" x="'+(W-padR+7)+'" y="'+(padT-9)+'" text-anchor="start">편</text>';
+  }
+  var capV=barsOn?cv:pv, maxI=-1, lastI=-1;
+  capV.forEach(function(v,i){ if(v==null)return; lastI=i; if(maxI<0||v>capV[maxI])maxI=i; });
+  var every=slot<30?2:1;   /* 좁은 폭(모바일)에선 날짜 라벨을 하루 걸러 — 11px 모노 «8.23» 이 18px 슬롯에 겹친다 */
+  var cols=days.map(function(d,i){
+    var v=cv[i], x=padL+slot*i+(slot-bw)/2, r=rm[d]||{}, bar='', cap='';
+    var lab=(i%every===(days.length-1)%every)?'<text class="axis" x="'+(padL+slot*i+slot/2).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+mdLabel(d)+'</text>':'';   /* 끝(어제)에서부터 위상을 맞춘다 — «9.3 9.4» 붙음 방지(사용량 타일과 같은 공식) */
+    if(barsOn&&v!=null){ var h=Math.max(v>0?2:0,(Math.max(0,v)/max)*ph), y=padT+ph-h;
+      if(h>0)bar='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" fill="'+col+'"/>';
+      if(i===maxI||i===lastI){ var ct=fmtKo(v,true); cap='<text class="cap" x="'+capX(x+bw/2,ct,padL,W-padR).toFixed(1)+'" y="'+(y-5).toFixed(1)+'" text-anchor="middle">'+ct+'</text>'; } }
+    if(!barsOn&&pv[i]!=null&&(i===maxI||i===lastI))
+      cap='<text class="cap" x="'+capX(padL+slot*i+slot/2,pv[i],padL,W-padR).toFixed(1)+'" y="'+(py(pv[i])-9).toFixed(1)+'" text-anchor="middle">'+pv[i]+'</text>';
+    var tip=mdLabel(d)+'|'+(barsOn?(v!=null?fmtKo(v,true)+(r.span>1?' ('+r.span+'일 합)':''):'집계 전'):(pv[i]!=null?fmtPosts(pv[i]):'집계 전'))+'||'+
+      (barsOn&&pv[i]!=null?'글|'+fmtPosts(pv[i]):'')+(barsOn&&r.cum!=null?';누적|'+fmtKo(r.cum):'')+(r.at?';스냅샷|'+hhmm(Date.parse(r.at)):'');
+    var aria=mdLabel(d)+' '+(barsOn?'인용 '+(v!=null?fmtKo(v,true):'집계 전')+(pv[i]!=null?' 글 '+fmtPosts(pv[i]):''):'글 '+(pv[i]!=null?fmtPosts(pv[i]):'집계 전'));
+    return '<g class="col">'+bar+cap+lab+
+      '<rect class="hit" tabindex="0" x="'+(padL+slot*i).toFixed(1)+'" y="'+padT+'" width="'+slot.toFixed(1)+'" height="'+ph+'" data-tip="'+esc(tip)+'" aria-label="'+esc(aria)+'"/></g>';
+  }).join('');
+  /* 글 꺾은선·점 — 막대(hit) 위에 그리되 포인터는 통과시킨다(.ln/.pt pointer-events:none) */
+  var line='', marks='';
+  if(lineOn){
+    var pts=days.map(function(d,i){ return {x:padL+slot*i+slot/2, y:py(pv[i]||0), v:pv[i]}; }).filter(function(q){ return q.v!=null; });
+    line='<path class="ln" style="stroke:'+lcol+'" d="'+pts.map(function(q,i){ return (i?'L':'M')+q.x.toFixed(1)+' '+q.y.toFixed(1); }).join('')+'"/>';
+    marks=pts.map(function(q){ return '<circle class="pt" style="fill:'+lcol+'" cx="'+q.x.toFixed(1)+'" cy="'+q.y.toFixed(1)+'" r="3.5"/>'; }).join('');   /* 0 편인 날도 같은 크기로 찍는다 — 크기를 줄이면 «크기»가 문서에 없는 2차 인코딩이 된다(09-06 게이트 🟡3) */
+  }
+  var sumC=0, sumP=0; cv.forEach(function(v){ if(v!=null)sumC+=v; }); pv.forEach(function(v){ if(v!=null)sumP+=v; });
+  var legend='<div class="legend">'+
+    (hasC?'<span style="--c:'+col+'"><i></i>인용<b>'+fmtKo(sumC)+'</b></span>':'')+
+    (hasP?'<span style="--c:'+lcol+'"><i class="ln"></i>글<b>'+sumP+'편</b></span>':'')+
+    '</div>';
+  var table='<table class="sr"><caption>'+esc(w.name)+' 일별 활동 — '+(hasC?'AI 브리핑 인용 증분과 ':'')+'글 작성 수</caption><tr><th>날짜</th>'+(hasC?'<th>인용 증분</th><th>누적 인용</th>':'')+'<th>글</th></tr>'+
+    days.map(function(d,i){ var r=rm[d]||{}; return '<tr><td>'+esc(d)+'</td>'+(hasC?'<td>'+(cv[i]!=null?fmtKo(cv[i],true):'—')+'</td><td>'+(r.cum!=null?fmtKo(r.cum):'—')+'</td>':'')+'<td>'+(pv[i]!=null?pv[i]:'—')+'</td></tr>'; }).join('')+'</table>';
+  var chart='<div class="chart"><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+grid+raxis+cols+line+marks+'</svg>'+table+'</div>'+legend;
   return '<div class="cr">'+head+stats+chart+'</div>';
 }
 function tileCite(){
   var ws=citeWriters(), body=ws.length?'<div class="cr-grid">'+ws.map(citeRow).join('')+'</div>':'<div class="wl-empty">스냅샷 없음</div>';
   var up=CITES&&CITES.updated?Date.parse(CITES.updated):0;
   return '<section class="tray tile rise" id="tileCite"><div class="core">'+
-    '<div class="tile-h"><span class="tile-ic">'+svg('spark')+'</span><span class="tile-t">AI 브리핑 인용</span>'+
-      '<span class="tile-d">네이버 · 일별 증분 · 14일</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
+    '<div class="tile-h"><span class="tile-ic">'+svg('spark')+'</span><span class="tile-t">블로그 활동</span>'+
+      '<span class="tile-d">인용 막대 · 글 선 · 14일</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
     '<div class="tile-b">'+body+'</div></div></section>';
 }
 
 function renderHome(){
   setTitle('홈');
   setMeta(homeMeta());
-  viewEl.innerHTML='<div class="bento">'+tileWork()+tileUsage()+tileCite()+'</div>';   /* 3타일: 작업 중(5) · 사용량(7) · AI 브리핑 인용(12) — 잔여 사용량은 상단 칩 */
+  viewEl.innerHTML='<div class="bento">'+tileWork()+tileUsage()+tileCite()+'</div>';   /* 3타일: 작업 중(5) · 사용량(7) · 블로그 활동(12) — 잔여 사용량은 상단 칩 */
   observeRise(viewEl);
   bindCharts(viewEl);
   paintNav();

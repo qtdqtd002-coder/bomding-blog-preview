@@ -17,12 +17,19 @@
           «비공개»로 적는다. 선정되는 달부터 자동으로 값이 들어온다(코드 변경 불필요).
      ② https://blog.naver.com/NVisitorgp4Ajax.naver?blogId=<id>  → 최근 5일 «달력일» 방문자 XML.
         봄딩은 카운터를 닫아 204(없음) → 누적 차분으로 대체. 영도는 200.
+     ③ https://m.blog.naver.com/api/blogs/<id>/post-list?categoryNo=0&itemCount=30&page=N  (★2026-09-06 추가)
+        글 목록의 addDate(epoch ms)를 KST 달력일로 세어 **일자별·월별 «글 작성 수»**. 누적 postCount 차분이 아니라
+        실제 글의 날짜라 백필·삭제에 흔들리지 않는다. 홈 「블로그 활동」 타일의 글 축.
 
    일별 값의 뜻 (★해석 규칙 — 사이트 툴팁·문서와 같아야 한다)
      rows[i].citations = rows[i+1].cum − rows[i].cum  → «그 날짜 행에서 다음 스냅샷까지» 늘어난 인용 = 사실상 그 날의 인용.
        매일 06:00 데스크 [E] 에서 1회 찍으므로 «어제 행»까지만 값이 있고 오늘 행은 내일 아침에 채워진다(pending).
      rows[i].visitors  = XML 의 그 달력일 값(src:"xml")  |  없으면 누적 방문자 차분(src:"diff", 06:00→06:00 창)
      span = 다음 스냅샷까지 일수(하루를 건너뛰면 2 — 그 증분은 이틀치다. 사이트가 «n일 합»으로 표시).
+     rows[i].postsDay  = 그 달력일에 «발행 시각이 찍힌» 글 수(0 도 0 으로 적는다 — 빈칸은 «모름»과 다르다).
+                         오늘 행도 그 시점까지의 몫이 들어간다(06:00 스냅샷이면 새벽치). 창 밖이면 null.
+     writers[].months  = [{ m:"2026-09", posts, full }] — full=false 면 그 달을 반만 덮은 것(창 시작일 이후만).
+     writers[].postsFrom = 글 수를 신뢰할 수 있는 첫 날짜.
 
    운영 규칙
      - 하루 1행. 오늘 행이 이미 있으면 **덮어쓰지 않는다**(표본 시각을 지키려고). 강제=`--force`.
@@ -30,7 +37,7 @@
      - 실패해도 exit 0 (데스크 발행을 막지 않는다). 그 블로그는 `error` 를 남기고 지난 행을 보존한다. 파일을 못 쓰면 exit 1.
      - 벤치마크(게임인포·쿠치토 = 게임 주제 스페셜 메이트)도 같이 적는다 — 7월이 전원 피크였듯 시즌 효과를 가르는 기준선.
        사이트는 그리지 않는다(사용자 요청 범위 = 봄딩·영도). `--no-bench` 로 끌 수 있다.
-     - 60일 보관. 소비자 = index.html tileCite()/tileVisit() (14일 창).
+     - 60일 보관. 소비자 = index.html tileCite() = 홈 「블로그 활동」 타일 (14일 창 + 월별 글 수).
 
    실행  node _tools/mate-citations.cjs            # 데스크 [E] 매일 06:00 (usage-daily·quota 와 같은 자리)
          node _tools/mate-citations.cjs --print    # 사람이 보는 표
@@ -44,6 +51,8 @@ const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, '_trend', '_citations.json');
 const UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1';
 const KEEP = 60;
+const PLIST_ITEMS = 30;   /* 네이버 post-list 의 itemCount 상한(50 이상은 400 param_is_invalidate — 09-06 실측) */
+const PLIST_PAGES = 16;   /* 30×16 = 480편까지. 하루 4편이면 120일치라 창(≈62일)을 넉넉히 덮는다 */
 /* 현역 작성자 2인(브레인 ★0 라우팅표 — 휴면 3인은 네이버가 아니거나 휴면이라 대상 아님). 네이버 ID 정본 = check-published.ps1 과 동일 */
 const WRITERS = [{ name: '봄딩', id: 'bomding' }, { name: '영도', id: 'kkodug9' }];
 /* 게임 주제 벤치마크(공개 메이트) — 쓰담/docs/naver-mate-citations-2026-09-05.md §3 */
@@ -92,16 +101,60 @@ function parseXml(xml) {
   return out;
 }
 
+/* ── 일자별 «글 작성 수» (2026-09-06 추가) ─────────────────────────────────
+   출처 = m.blog.naver.com/api/blogs/<id>/post-list (공개 · 로그인 불필요 · itemCount 는 30 이 상한, 50↑ 은 400).
+   각 글의 addDate(epoch ms)를 KST 달력일로 접어 세므로 «누적 postCount 차분»과 달리 삭제·건너뛴 날에 흔들리지 않고,
+   기록을 시작하기 전 날짜도 그대로 채워진다(백필). 창 = 전월 1일과 60일 전 중 이른 쪽 −1일.
+   페이지를 창 밖까지 받고 나서 «가장 오래된 글의 날짜 + 1일»부터만 쓴다 — 그 하루는 반쪽만 받았을 수 있어서. */
+function ymdAdd(d, n) { return kstYmd(Date.parse(d + 'T00:00:00+09:00') + n * 86400000); }
+function monthStart(d) { return d.slice(0, 8) + '01'; }
+function prevMonthStart(today) { return monthStart(ymdAdd(monthStart(today), -1)); }
+
+async function postDays(id, today) {
+  const cutoff = ymdAdd([prevMonthStart(today), ymdAdd(today, -KEEP)].sort()[0], -1);
+  const days = {}; let oldest = null, pages = 0, capped = false;
+  for (let page = 1; page <= PLIST_PAGES; page++) {
+    const r = await get('https://m.blog.naver.com/api/blogs/' + id + '/post-list?categoryNo=0&itemCount=' + PLIST_ITEMS + '&page=' + page,
+      { 'Accept': 'application/json', 'Referer': 'https://m.blog.naver.com/' + id });
+    if (r.status !== 200) throw new Error('post-list HTTP ' + r.status + ' (p' + page + ')');
+    let j; try { j = JSON.parse(r.text); } catch (e) { throw new Error('post-list JSON 파싱 실패 (p' + page + ')'); }
+    if (!j || !j.isSuccess || !j.result || !Array.isArray(j.result.items)) throw new Error('post-list 응답 형식 변경?');
+    const items = j.result.items;
+    pages = page;
+    items.forEach((it) => {
+      const t = Number(it && it.addDate); if (!t) return;
+      const d = kstYmd(t); days[d] = (days[d] || 0) + 1;
+      if (!oldest || d < oldest) oldest = d;
+    });
+    if (!items.length || (oldest && oldest < cutoff)) { capped = false; break; }
+    if (page === PLIST_PAGES) capped = true;
+  }
+  if (!oldest) return { days: {}, from: null, pages, capped };
+  return { days, from: ymdAdd(oldest, 1), pages, capped };
+}
+/* 창 안의 모든 날에 값을 박는다 — 글이 없는 날은 «없음»이 아니라 0 편이다(빈칸으로 두면 차트가 끊긴다) */
+function applyPostDays(entry, pd, today) {
+  if (!pd || !pd.from) return 0;
+  let n = 0;
+  for (let d = pd.from; d <= today; d = ymdAdd(d, 1)) { row(entry.rows, d).postsDay = pd.days[d] || 0; n++; }
+  entry.postsFrom = pd.from;
+  const ms = {};
+  Object.keys(pd.days).forEach((d) => { if (d >= pd.from && d <= today) { const m = d.slice(0, 7); ms[m] = (ms[m] || 0) + pd.days[d]; } });
+  for (let d = pd.from; d <= today; d = ymdAdd(d, 1)) { const m = d.slice(0, 7); if (ms[m] == null) ms[m] = 0; }
+  entry.months = Object.keys(ms).sort().reverse().map((m) => ({ m, posts: ms[m], full: pd.from <= m + '-01' }));
+  return n;
+}
+
 function readPrev() { try { return JSON.parse(fs.readFileSync(OUT, 'utf8')); } catch (e) { return null; } }
 function findOrMake(list, b) {
   let e = list.find((x) => x && x.id === b.id);
-  if (!e) { e = { name: b.name, id: b.id, mate: null, latest: null, error: null, rows: [] }; list.push(e); }
+  if (!e) { e = { name: b.name, id: b.id, mate: null, latest: null, error: null, postsError: null, postsFrom: null, months: [], rows: [] }; list.push(e); }
   e.name = b.name; if (!Array.isArray(e.rows)) e.rows = [];
   return e;
 }
 function row(rows, d) {
   let r = rows.find((x) => x.d === d);
-  if (!r) { r = { d, at: null, cum: null, month: null, monthNo: null, sel: null, selMonth: null, totalVisitors: null, dayVisitors: null, posts: null, citations: null, span: null, visitors: null, visitorsSrc: null }; rows.push(r); }
+  if (!r) { r = { d, at: null, cum: null, month: null, monthNo: null, sel: null, selMonth: null, totalVisitors: null, dayVisitors: null, posts: null, postsDay: null, citations: null, span: null, visitors: null, visitorsSrc: null }; rows.push(r); }
   return r;
 }
 /* 차분 재계산 — 행 전체를 날짜순으로 훑어 «다음 스냅샷과의 차»를 앞 행에 적는다 */
@@ -144,6 +197,15 @@ async function snapshot(entry, b, withXml, today, nowIso) {
     const r = row(entry.rows, today);
     Object.assign(r, { at: nowIso, cum: entry.latest.cum, month: entry.latest.month, monthNo: entry.latest.monthNo, sel: entry.latest.sel, selMonth: entry.latest.selMonth,
       totalVisitors: p.totalVisitors, dayVisitors: p.dayVisitors, posts: p.posts });
+  }
+  /* 일자별 글 작성 수 — 인용 스냅샷과 «같은 타이밍»에 함께 기록한다(사용자 지시 09-06). 오늘 행도 그날 몫까지 채운다 */
+  if (withXml) {
+    try {
+      const pd = await postDays(b.id, today);
+      const n = applyPostDays(entry, pd, today);
+      entry.postsError = null;
+      note += ' · 글 ' + n + '일(p' + pd.pages + (pd.capped ? '·창 미달' : '') + ')';
+    } catch (e) { entry.postsError = { at: nowIso, msg: String(e && e.message || e) }; note += ' · 글 실패(' + entry.postsError.msg + ')'; }
   }
   /* 달력일 방문자(XML) — 오늘은 진행 중이라 어제까지만 */
   if (withXml) {
@@ -188,7 +250,8 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString('ko-KR'); 
       const L = e.latest || {};
       console.log('\n' + e.name + ' (' + e.id + ')' + (e.mate ? ' · ' + e.mate.year + '.' + e.mate.month + ' ' + e.mate.topic + ' 메이트' : ' · 메이트 아님(인용수 비공개)') + (e.error ? ' · ERROR ' + e.error.msg : ''));
       console.log('  누적 ' + fmt(L.cum) + ' · ' + (L.monthNo || '?') + '월 ' + fmt(L.month) + ' · 기준월 ' + (L.selMonth || '?') + '월 ' + fmt(L.sel) + ' · 누적방문 ' + fmt(L.totalVisitors) + ' · 글 ' + fmt(L.posts));
-      console.table(e.rows.slice(-10).map((r) => ({ d: r.d, cum: r.cum, citations: r.citations, span: r.span, visitors: r.visitors, src: r.visitorsSrc, snap: r.at ? r.at.slice(11, 16) + 'Z' : '' })));
+      if (Array.isArray(e.months) && e.months.length) console.log('  월별 글 ' + e.months.map((m) => m.m + ' ' + m.posts + '편' + (m.full ? '' : '(일부)')).join(' · ') + (e.postsError ? ' · ERROR ' + e.postsError.msg : ''));
+      console.table(e.rows.slice(-10).map((r) => ({ d: r.d, cum: r.cum, citations: r.citations, span: r.span, posts: r.postsDay, visitors: r.visitors, src: r.visitorsSrc, snap: r.at ? r.at.slice(11, 16) + 'Z' : '' })));
     }
   }
   process.exit(0);
