@@ -331,18 +331,26 @@
     [].forEach.call(c.querySelectorAll("[data-i],[loading]"), function (n) { n.removeAttribute("data-i"); n.removeAttribute("loading"); });
     return c;
   }
+  /* ★봄딩 li 폰트 직접 지정 — 버튼 복사·드래그 복사 공용.
+     크롬은 «부모와 같은 값»을 생략하고 직렬화해서 <ul>에만 16px·나눔스퀘어가 박히고 <li>는 빈 style 로
+     나간다. 네이버가 조상 폰트를 안 따라오면 목록만 기본 서체가 되므로 li 에 인라인으로 박는다.
+     save 배열을 주면 «잠깐 박았다 되돌리는» 모드(원본 DOM 을 더럽히지 않는다). */
+  var LI_FF = "'NanumSquare','나눔스퀘어','se-nanumsquare','Apple SD Gothic Neo','맑은 고딕','Malgun Gothic',sans-serif";
+  function stampLi(list, save) {
+    [].forEach.call(list, function (li) {
+      if (save) save.push([li, li.style.fontSize, li.style.fontFamily]);
+      li.style.fontSize = "16px";
+      li.style.fontFamily = LI_FF;
+    });
+  }
+
   function richCopy(node) {
     var buf = el("div", "np2-copy np2-buf"); buf.appendChild(node); document.body.appendChild(buf);
     var ok = false;
     /* ★봄딩 li 직접 지정(2026-09-06 사용자): 크롬은 «부모와 같은 값»은 생략하고 직렬화해서
        <ul>에만 16px·나눔스퀘어가 박히고 <li>는 빈 style 로 나간다. 네이버가 조상 폰트를
        안 따라오면 목록만 기본 서체로 변한다 → li 에 인라인으로 직접 박는다. */
-    if (!YD) {
-      [].forEach.call(buf.querySelectorAll("li"), function (li) {
-        li.style.fontSize = "16px";
-        li.style.fontFamily = "'NanumSquare','나눔스퀘어','se-nanumsquare','Apple SD Gothic Neo','맑은 고딕','Malgun Gothic',sans-serif";
-      });
-    }
+    if (!YD) stampLi(buf.querySelectorAll("li"), null);
     /* ★봄딩 «배경색 없음»(2026-09-06): 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을
        조상을 타고 올라가 찾아 첫 블록 style 에 박는다(실측: body{background:#f1f3f5} 가 그대로 실렸다).
        복사 동안만 html·body 배경을 transparent 로 내려 네이버 [배경색]이 «없음»으로 들어가게 한다.
@@ -467,6 +475,15 @@
     ".np-old{margin-top:18px;font-size:13px;color:#667;}.np-old summary{cursor:pointer;font-weight:700;}" +
     ".np-old .np2-oldbox{margin-top:8px;border-color:#bbb;}.np-old button{margin:8px 0 0;background:#fff;border:1px solid #cfd6dd;border-radius:7px;padding:6px 12px;font-weight:700;cursor:pointer;}" +
     ".np2-buf{position:fixed;left:-99999px;top:0;width:700px;}" +
+    /* ★서랍 UI 는 드래그 선택 대상에서 뺀다 — 사람이 서랍 안을 마우스로 긁어 Ctrl+C 하면
+       초록 버튼 글자·썸네일·안내문까지 네이버로 딸려갔다(실측). 본문 생존본만 잡히게 한다. */
+    ".np2-head,.np2-guide,.np2-ui,.np2-meta,.np2-thumb,.np-old summary,.np2-spot.np2-viewonly .np2-meta{-webkit-user-select:none;user-select:none;}" +
+    /* ★복사 동안만 «장식 배경»을 지운다 — 인라인이 아니라 클래스라야 복사본에 background 선언이 안 남는다.
+       표 헤더·.notice·사진자리 점선 박스 같은 «컴포넌트» 배경은 여기 없다(그대로 유지). */
+    "html.np2-copying #np2Auto,html.np2-copying .np2-oldbox,html.np2-copying .np2-fig,html.np2-copying .np2-spot,html.np2-copying .np2-thumb,html.np2-copying .rev-hl{background-color:transparent;}" +
+    /* 사진자리·이미지 블록의 «서랍 장식»(점선 테두리·안쪽 여백)도 복사 동안만 없앤다 —
+       드래그 복사에서 네이버로 빈 박스가 넘어가지 않게. 버튼 경로는 buildCopyNode 가 이미 벗겨낸다. */
+    "html.np2-copying .np2-fig,html.np2-copying .np2-spot{border:0;padding:0;}" +
     /* ★봄딩 전용(2026-09-06 사용자 지시): 글꼴=나눔스퀘어 · 본문 16px · 글자 배경 없음.
        복사는 execCommand("copy") 가 선택영역을 직렬화하므로 크롬이 버퍼의 background:#fff 를
        인라인으로 박아 네이버 [배경색]이 흰색으로 먹었다 → 복사 버퍼에서만 배경을 없앤다.
@@ -508,11 +525,19 @@
       if (n && n.nodeType === 3) n = n.parentElement;
       var saved = [], el;
       for (el = n; el; el = el.parentElement) { saved.push([el, el.style.backgroundColor]); el.style.backgroundColor = "transparent"; }
-      [].forEach.call(document.querySelectorAll(".rev-hl"), function (h) {
-        var inSel = true; try { inSel = sel.containsNode(h, true); } catch (e) { }
-        if (inSel) { saved.push([h, h.style.backgroundColor]); h.style.backgroundColor = "transparent"; }
+      document.documentElement.classList.add("np2-copying");
+      /* 드래그 복사도 목록 폰트를 잃지 않게 — 선택 안의 li 에만 잠깐 박았다 되돌린다 */
+      var liSave = [], inSelLi = [];
+      [].forEach.call(document.querySelectorAll("li"), function (li) {
+        var ok = true; try { ok = sel.containsNode(li, true); } catch (e) { }
+        if (ok) inSelLi.push(li);
       });
-      setTimeout(function () { for (var i = 0; i < saved.length; i++) saved[i][0].style.backgroundColor = saved[i][1]; }, 0);
+      stampLi(inSelLi, liSave);
+      setTimeout(function () {
+        document.documentElement.classList.remove("np2-copying");
+        for (var i = 0; i < saved.length; i++) saved[i][0].style.backgroundColor = saved[i][1];
+        for (var j = 0; j < liSave.length; j++) { liSave[j][0].style.fontSize = liSave[j][1]; liSave[j][0].style.fontFamily = liSave[j][2]; }
+      }, 0);
     }, true);
   }
 
