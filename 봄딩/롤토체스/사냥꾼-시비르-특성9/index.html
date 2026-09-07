@@ -1,0 +1,385 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>롤토체스 사냥꾼 시비르 덱 — 점유율 2위 강세덱, 특성 9개 한 번에 켜는 조합</title>
+<!-- AI브리핑 타깃 질문: 1."롤토체스 사냥꾼 시비르 어떻게 짜나요?" 2."롤체 사냥꾼 덱 강한가요?" 3."시비르 추천 아이템 뭐예요?" -->
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--blue:#1a5fb4;--blue-line:#c7d9f0;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보 · 롤토체스</div>
+    <h1 class="title">롤토체스 사냥꾼 시비르 덱 — 점유율 2위 강세덱, 특성 9개 한 번에 켜는 조합</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026-09-08</span><span>· 게임</span></div>
+
+    <!-- 본문 시작 -->
+
+    <p>롤체 티어 검색하다 '사냥꾼 시비르'라는 이름이 계속 눈에 밟히시는 분들, 저도 딱 그 상황이었어요. 점유율이 슬금슬금 올라오다 어느 날 보니까 <b>전체 2위</b>까지 올라와 있는 거더라고요. 성적까지 탄탄하면 무시하기가 어렵죠. 그래서 직접 파봤습니다.</p>
+
+    <!-- 이미지 이유: 롤체지지 메타 덱 사냥꾼 시비르 항목 화면 / 출처: lolchess.gg / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 롤체지지 사냥꾼 시비르 덱 메인 화면 (점유율·순방률·평균 등수 수치가 보이게)</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — <a href="https://lolchess.gg/decks" target="_blank">lolchess.gg/decks</a> 접속 → 사냥꾼 시비르 항목 / 무엇이 보이게: 점유율·순방률·평균 등수 수치가 한 화면에</div>
+    <p class="cap">롤체지지 기준 패치 18.1d 사냥꾼 시비르 현황 (라이브 트래커 값이라 날마다 달라질 수 있어요)</p>
+
+    <h2 class="sub">사냥꾼 시비르, 지금 얼마나 강한가요?</h2>
+
+    <p><b>패치 18.1d 기준 사냥꾼 시비르 덱은 점유율 11.24%, 순방률 53.7%, 평균 등수 4.38로 메타 상위권 강세덱이에요.</b> 롤체지지 마스터+ 랭크 기준 수치인데, 아래 표로 한눈에 정리해 드릴게요.</p>
+
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>수치</th>
+          <th>비고</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>점유율</td>
+          <td><b>11.24%</b></td>
+          <td>전체 2위</td>
+        </tr>
+        <tr>
+          <td>순방률</td>
+          <td><b>53.7%</b></td>
+          <td>안정적인 탑4 진입률</td>
+        </tr>
+        <tr>
+          <td>평균 등수</td>
+          <td><b>4.38</b></td>
+          <td>마스터+ 기준</td>
+        </tr>
+        <tr>
+          <td>표본</td>
+          <td>28,069판</td>
+          <td>전체 249,747판 중</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>수치는 롤체지지 기준이고, <b>라이브 트래커 값이라 날마다 달라질 수 있다</b>는 점 참고하세요. 조회 시점은 2026-09-08 기준이에요.</p>
+
+    <p>점유율 1위인 처형자 소라카(18.58%)와 비교하면 약 7%p 차이가 나긴 하는데요, 시비르 덱의 강점은 <b>점유율과 성적이 같이 올라오고 있다</b>는 거예요. 순방률 53.7%에 평균 등수 4.38이면 지금 메타에서 안정적인 선택지로 자리잡았다고 볼 수 있거든요.</p>
+
+    <!-- 이미지 이유: 메타 덱 점유율 순위표 또는 처형자 소라카 vs 사냥꾼 시비르 비교 화면 / 출처: 롤체지지 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 롤체지지 메타 덱 순위 전체 화면 (시비르가 2위에 있는 모습)</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — <a href="https://lolchess.gg/decks" target="_blank">lolchess.gg/decks</a> 메인 / 무엇이 보이게: 전체 덱 순위에서 사냥꾼 시비르 2위 위치가 보이게</div>
+    <p class="cap">패치 18.1d 메타 덱 순위 — 처형자 소라카에 이어 사냥꾼 시비르가 2위</p>
+
+    <h2 class="sub">특성 9개, 이렇게 켜집니다</h2>
+
+    <p><b>사냥꾼 시비르 덱에서 동시에 활성화되는 특성은 총 9가지예요.</b> 이게 이 덱의 핵심 매력인데, 여러 특성이 한 구성으로 한꺼번에 불이 들어오거든요.</p>
+
+    <ul>
+      <li><b>거석 1 (Gold)</b> — 말파이트가 보유한 특성</li>
+      <li><b>부식 1 (Gold)</b> — 핵심 유닛 중 한 명이 보유</li>
+      <li><b>협곡야수 3 (Bronze)</b> — 챔피언 3명으로 활성</li>
+      <li><b>적응가 2 (Bronze)</b></li>
+      <li><b>검은 가시 2 (Bronze)</b></li>
+      <li><b>싸움꾼 2 (Bronze)</b></li>
+      <li><b>사냥꾼 2 (Bronze)</b> — 덱 이름의 핵심 특성</li>
+      <li><b>기원자 2 (Bronze)</b></li>
+      <li><b>원시 2 (Bronze)</b></li>
+    </ul>
+
+    <p>Gold 등급 특성이 2개(거석·부식)나 들어가면서 Bronze들이 촘촘하게 받쳐주는 구조예요. '사냥꾼' 특성이 이름에 들어가 있긴 하지만, 실제로는 9개의 서로 다른 특성이 동시에 활성화된다는 게 이 덱의 시너지 설계 포인트라고 보시면 됩니다.</p>
+
+    <!-- 이미지 이유: 인게임 특성 활성화 패널 캡처 (9개 특성이 켜진 상태) / 출처: 직접 플레이 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 인게임 특성 패널 — 9개 특성(거석1·부식1·협곡야수3·적응가2·검은 가시2·싸움꾼2·사냥꾼2·기원자2·원시2)이 모두 켜진 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 게임 내 특성 패널에서 9개가 동시 활성화된 상태 캡처</div>
+    <p class="cap">특성 9개가 한꺼번에 켜지는 순간 — 이 구성이 완성되면 시너지가 본격적으로 터져요</p>
+
+    <h2 class="sub">핵심 유닛 4명과 추천 아이템 구성</h2>
+
+    <p><b>이 덱의 핵심은 4코스트 유닛 4명인데, 각 챔피언 역할이 명확하게 분리돼 있어요.</b> 시비르가 주 딜러, 니달리가 보조 딜러, 말파이트와 감시자가 탱커 역할을 맡는 구조거든요.</p>
+
+    <!-- 이미지 이유: 시비르·니달리·말파이트·감시자 4명의 챔피언 일러스트 또는 인게임 유닛 화면 / 출처: 라이엇 공식 또는 롤체지지 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 시비르·니달리·말파이트·감시자 4코스트 유닛 구성 화면 (아이템 장착 상태)</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 인게임 유닛 배치 화면 또는 롤체지지 덱 상세 페이지</div>
+    <p class="cap">핵심 4코스트 유닛과 권장 아이템 구성</p>
+
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>챔피언</th>
+          <th>코스트</th>
+          <th>역할</th>
+          <th>권장 아이템 3개</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>시비르</b></td>
+          <td>4코</td>
+          <td>주 딜러</td>
+          <td>무한의 대검 · 붉은 덩굴정령 · 타격대의 철퇴</td>
+        </tr>
+        <tr>
+          <td><b>니달리</b></td>
+          <td>4코</td>
+          <td>보조 딜러</td>
+          <td>무한의 대검 · 쇼진의 창 · 스테락의 도전</td>
+        </tr>
+        <tr>
+          <td><b>말파이트</b></td>
+          <td>4코</td>
+          <td>탱커</td>
+          <td>크라운가드 · 가고일 돌갑옷 · 워모그의 갑옷</td>
+        </tr>
+        <tr>
+          <td><b>감시자</b></td>
+          <td>4코</td>
+          <td>탱커</td>
+          <td>크라운가드 · 가고일 돌갑옷 · 워모그의 갑옷</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>시비르는 '무한의 대검'으로 크리티컬 딜을 쌓고, '붉은 덩굴정령'으로 지속 딜을, '타격대의 철퇴'로 적 이동속도를 제어하는 조합이에요. 니달리는 '쇼진의 창'으로 스킬을 빠르게 쓰게 하면서 '스테락의 도전'으로 생존력도 챙기는 구성이고요. 말파이트랑 감시자는 같은 아이템 세트로 탱킹에만 집중하는 형태라 재료만 맞춰두면 효율이 나와요.</p>
+
+    <h2 class="sub">운영 포인트, 이것만 챙기면 돼요</h2>
+
+    <p><b>사냥꾼 시비르 덱은 4코스트 유닛 안정화가 최우선이에요.</b> 핵심 4명 모두 4코스트인 만큼 골드 관리를 빡세게 해야 하는 건 사실인데, 롤오버(레벨업보다 이자 굴리기)를 적절히 활용하면 5~7라운드 무렵에 한 번에 쭉 올릴 수 있거든요.</p>
+
+    <p>아이템 조합 순서는 <b>시비르 아이템부터</b> 완성시키는 걸 추천드리는데요. 주 딜러가 아이템 갖추면 중반 라운드 버티기가 확실히 달라지더라고요. 니달리 '쇼진의 창'은 두 번째 우선순위고, 탱커 아이템은 재료가 남으면 조합하는 식으로 운영하시면 됩니다.</p>
+
+    <!-- 이미지 이유: 아이템 조합 레시피 또는 인게임 아이템 창 / 출처: 직접 플레이 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 시비르 아이템(무한의 대검·붉은 덩굴정령·타격대의 철퇴) 장착 상태 또는 조합 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 인게임 아이템 장착 화면, 또는 롤체지지 덱 아이템 섹션</div>
+    <p class="cap">딜러 시비르 아이템 세트 — 이 세 개가 갖춰지면 딜이 확 달라져요</p>
+
+    <p>특성 활성화는 챔피언을 올리다 보면 자연스럽게 맞춰지는 편이에요. '사냥꾼 2'를 먼저 챙기고, 나머지 Bronze 특성들은 4코스트 핵심 유닛이 들어오면서 자동으로 불이 켜지거든요. 다만 '협곡야수 3' 달성에 필요한 유닛 수를 미리 머릿속에 넣어두고 운영하시면 훨씬 수월합니다.</p>
+
+    <p>그리고 주 딜러 시비르가 왜 이 덱에 잘 맞는지 짚어두면 — 시비르 스킬 '부메랑 검'은 <b>거대한 십자날을 던져 현재 대상에게 물리 피해를 입히고 주변 적에게 8번 튕기며 추가 피해</b>를 주는 광역기예요. 적을 처치할 때마다 추가 튕김이 붙어서 전열이 뭉쳐 있을수록 딜이 기하급수적으로 터지거든요. 4코스트라 등장률 자체가 높진 않지만, 롤체지지 마스터+ 기준 4코스트 챔피언 중 시비르 등장률 8위(17.78%)·니달리 7위(18.10%)로 핵심 딜러 둘 다 꾸준히 픽되고 있다는 게 확인됩니다. 메타에서 선택받는 데는 이유가 있는 거죠.</p>
+
+    <p>비슷해 보이는 싸움꾼 2 공유 덱(싸움꾼 마스터 이)과 비교하면 차이가 좀 있는데요. 마스터 이는 3코스트 중심으로 구성되다 보니 확장성이 낮고, 후반 화력에 한계가 오는 경우가 있어요. 반면 사냥꾼 시비르는 <b>4코스트 딜러 4명이 핵심</b>이라 후반 화력이 확실히 달라지거든요. 골드 관리에 자신 있다면 사냥꾼 시비르 쪽이 더 잠재력이 높습니다.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+
+    <p><b>Q. 사냥꾼 시비르 덱은 어느 단계부터 목표로 잡아야 하나요?</b><br>
+    롤체지지 마스터+ 랭크에서 가장 많이 쓰이는 구성이라 하이 엘로에서 검증된 덱이에요. 점유율이 11.24%까지 올라온 만큼 다이아~마스터 구간에서도 충분히 노려볼 수 있는데요, 4코스트 유닛 4명을 동시에 완성해야 해서 <b>골드 관리와 레벨링 타이밍이 핵심</b>이에요. 초반에 무리하게 레벨 올리기보다 50골드 이자를 굴리다가 7라운드 전후로 한 번에 올리는 방식을 추천드립니다.</p>
+
+    <p><b>Q. 시비르 아이템이 안 갖춰지면 다른 아이템으로 대체 가능한가요?</b><br>
+    무한의 대검은 시비르의 크리티컬 딜과 직결돼서 대체가 어렵고요, '붉은 덩굴정령'은 지속 딜과 흡혈 역할이라 '피의 검'이나 '칼날비' 계열로 대체해볼 수 있어요. '타격대의 철퇴'는 제어기 역할인데, 급하면 '수호천사'로 시비르 생존을 올리는 선택지도 있으니 상황에 맞게 조합하시면 됩니다.</p>
+
+    <h2 class="sub">사냥꾼 시비르 덱 정리</h2>
+
+    <p>그래서 정리하면, 패치 18.1d 사냥꾼 시비르는 <b>점유율과 성적이 동반 상승하고 있는 정통 강세덱</b>이에요. 점유율 11.24%에 순방률 53.7%면 지금 메타에서 가장 믿을 만한 구성 중 하나거든요. 특성 9개가 동시에 켜지는 설계 덕분에 시너지 완성도도 높고, 핵심 유닛 4명의 역할이 명확해서 운영 방향도 잡기가 쉬운 편이에요. 골드 여유가 생기면 사냥꾼 시비르로 한 판 달려보시면 좋겠습니다~</p>
+
+    <p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+    · 롤토체스 싸움꾼 마스터 이 덱 (싸움꾼2·적응가2 동일 특성 조합)</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://lolchess.gg" target="_blank">롤체지지(lolchess.gg) — 마스터+ 메타 덱 통계 (2026-09-08 기준, 라이브 트래커)</a><br>
+    · <a href="https://www.leagueoflegends.com/ko-kr/news/game-updates/" target="_blank">라이엇 게임즈 공식 패치노트 — 롤토체스 세트18 패치 18.1d</a></p>
+
+    <div class="tags">#롤토체스 #TFT #사냥꾼시비르 #롤체덱 #롤체티어 #세트18 #패치18_1d #롤체공략 #시비르아이템 #롤체강세덱</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 10분):</b> 📷 <b>사진 5곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 롤토체스 사냥꾼 시비르 덱 — 점유율 2위 강세덱, 특성 9개 한 번에 켜는 조합</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>롤체 티어 검색하다 '사냥꾼 시비르'라는 이름이 계속 눈에 밟히시는 분들, 저도 딱 그 상황이었어요. 점유율이 슬금슬금 올라오다 어느 날 보니까 <b>전체 2위</b>까지 올라와 있는 거더라고요. 성적까지 탄탄하면 무시하기가 어렵죠. 그래서 직접 파봤습니다.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 롤체지지 사냥꾼 시비르 덱 화면 — 네이버에서 직접 업로드</p>
+
+      <h3>사냥꾼 시비르, 지금 얼마나 강한가요?</h3>
+
+      <p><b>패치 18.1d 기준 사냥꾼 시비르 덱은 점유율 11.24%, 순방률 53.7%, 평균 등수 4.38로 메타 상위권 강세덱이에요.</b> 롤체지지 마스터+ 랭크 기준 수치인데, 아래 표로 한눈에 정리해 드릴게요.</p>
+
+      <table>
+        <tr><th>항목</th><th>수치</th><th>비고</th></tr>
+        <tr><td class="l">점유율</td><td><b>11.24%</b></td><td>전체 2위</td></tr>
+        <tr><td class="l">순방률</td><td><b>53.7%</b></td><td>안정적인 탑4 진입률</td></tr>
+        <tr><td class="l">평균 등수</td><td><b>4.38</b></td><td>마스터+ 기준</td></tr>
+        <tr><td class="l">표본</td><td>28,069판</td><td>전체 249,747판 중</td></tr>
+      </table>
+
+      <p>수치는 롤체지지 기준이고, <b>라이브 트래커 값이라 날마다 달라질 수 있다</b>는 점 참고하세요. 조회 시점은 2026-09-08 기준이에요.</p>
+
+      <p>점유율 1위인 처형자 소라카(18.58%)와 비교하면 약 7%p 차이가 나긴 하는데요, 시비르 덱의 강점은 <b>점유율과 성적이 같이 올라오고 있다</b>는 거예요. 순방률 53.7%에 평균 등수 4.38이면 지금 메타에서 안정적인 선택지로 자리잡았다고 볼 수 있거든요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 롤체지지 메타 덱 순위 전체 화면 — 네이버에서 직접 업로드</p>
+
+      <h3>특성 9개, 이렇게 켜집니다</h3>
+
+      <p><b>사냥꾼 시비르 덱에서 동시에 활성화되는 특성은 총 9가지예요.</b> 이게 이 덱의 핵심 매력인데, 여러 특성이 한 구성으로 한꺼번에 불이 들어오거든요.</p>
+
+      <ul>
+        <li><b>거석 1 (Gold)</b> — 말파이트가 보유한 특성</li>
+        <li><b>부식 1 (Gold)</b> — 핵심 유닛 중 한 명이 보유</li>
+        <li><b>협곡야수 3 (Bronze)</b> — 챔피언 3명으로 활성</li>
+        <li><b>적응가 2 (Bronze)</b></li>
+        <li><b>검은 가시 2 (Bronze)</b></li>
+        <li><b>싸움꾼 2 (Bronze)</b></li>
+        <li><b>사냥꾼 2 (Bronze)</b> — 덱 이름의 핵심 특성</li>
+        <li><b>기원자 2 (Bronze)</b></li>
+        <li><b>원시 2 (Bronze)</b></li>
+      </ul>
+
+      <p>Gold 등급 특성이 2개(거석·부식)나 들어가면서 Bronze들이 촘촘하게 받쳐주는 구조예요. '사냥꾼' 특성이 이름에 들어가 있긴 하지만, 실제로는 9개의 서로 다른 특성이 동시에 활성화된다는 게 이 덱의 시너지 설계 포인트라고 보시면 됩니다.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 인게임 특성 패널 — 9개 특성이 모두 켜진 화면 — 네이버에서 직접 업로드</p>
+
+      <h3>핵심 유닛 4명과 추천 아이템 구성</h3>
+
+      <p><b>이 덱의 핵심은 4코스트 유닛 4명인데, 각 챔피언 역할이 명확하게 분리돼 있어요.</b> 시비르가 주 딜러, 니달리가 보조 딜러, 말파이트와 감시자가 탱커 역할을 맡는 구조거든요.</p>
+
+      <p class="ph">📷 〔사진 자리 4〕 핵심 4코스트 유닛 구성 화면 — 네이버에서 직접 업로드</p>
+
+      <table>
+        <tr><th>챔피언</th><th>코스트</th><th>역할</th><th>권장 아이템 3개</th></tr>
+        <tr><td class="l"><b>시비르</b></td><td>4코</td><td>주 딜러</td><td>무한의 대검 · 붉은 덩굴정령 · 타격대의 철퇴</td></tr>
+        <tr><td class="l"><b>니달리</b></td><td>4코</td><td>보조 딜러</td><td>무한의 대검 · 쇼진의 창 · 스테락의 도전</td></tr>
+        <tr><td class="l"><b>말파이트</b></td><td>4코</td><td>탱커</td><td>크라운가드 · 가고일 돌갑옷 · 워모그의 갑옷</td></tr>
+        <tr><td class="l"><b>감시자</b></td><td>4코</td><td>탱커</td><td>크라운가드 · 가고일 돌갑옷 · 워모그의 갑옷</td></tr>
+      </table>
+
+      <p>시비르는 '무한의 대검'으로 크리티컬 딜을 쌓고, '붉은 덩굴정령'으로 지속 딜을, '타격대의 철퇴'로 적 이동속도를 제어하는 조합이에요. 니달리는 '쇼진의 창'으로 스킬을 빠르게 쓰게 하면서 '스테락의 도전'으로 생존력도 챙기는 구성이고요. 말파이트랑 감시자는 같은 아이템 세트로 탱킹에만 집중하는 형태라 재료만 맞춰두면 효율이 나와요.</p>
+
+      <h3>운영 포인트, 이것만 챙기면 돼요</h3>
+
+      <p><b>사냥꾼 시비르 덱은 4코스트 유닛 안정화가 최우선이에요.</b> 핵심 4명 모두 4코스트인 만큼 골드 관리를 빡세게 해야 하는 건 사실인데, 롤오버(레벨업보다 이자 굴리기)를 적절히 활용하면 5~7라운드 무렵에 한 번에 쭉 올릴 수 있거든요.</p>
+
+      <p>아이템 조합 순서는 <b>시비르 아이템부터</b> 완성시키는 걸 추천드리는데요. 주 딜러가 아이템 갖추면 중반 라운드 버티기가 확실히 달라지더라고요. 니달리 '쇼진의 창'은 두 번째 우선순위고, 탱커 아이템은 재료가 남으면 조합하는 식으로 운영하시면 됩니다.</p>
+
+      <p class="ph">📷 〔사진 자리 5〕 시비르 아이템 장착 화면 — 네이버에서 직접 업로드</p>
+
+      <p>특성 활성화는 챔피언을 올리다 보면 자연스럽게 맞춰지는 편이에요. '사냥꾼 2'를 먼저 챙기고, 나머지 Bronze 특성들은 4코스트 핵심 유닛이 들어오면서 자동으로 불이 켜지거든요. 다만 '협곡야수 3' 달성에 필요한 유닛 수를 미리 머릿속에 넣어두고 운영하시면 훨씬 수월합니다.</p>
+
+      <p>그리고 주 딜러 시비르가 왜 이 덱에 잘 맞는지 짚어두면 — 시비르 스킬 '부메랑 검'은 <b>거대한 십자날을 던져 현재 대상에게 물리 피해를 입히고 주변 적에게 8번 튕기며 추가 피해</b>를 주는 광역기예요. 적을 처치할 때마다 추가 튕김이 붙어서 전열이 뭉쳐 있을수록 딜이 기하급수적으로 터지거든요. 4코스트라 등장률 자체가 높진 않지만, 롤체지지 마스터+ 기준 4코스트 챔피언 중 시비르 등장률 8위(17.78%)·니달리 7위(18.10%)로 핵심 딜러 둘 다 꾸준히 픽되고 있다는 게 확인됩니다. 메타에서 선택받는 데는 이유가 있는 거죠.</p>
+
+      <p>비슷해 보이는 싸움꾼 2 공유 덱(싸움꾼 마스터 이)과 비교하면 차이가 좀 있는데요. 마스터 이는 3코스트 중심으로 구성되다 보니 확장성이 낮고, 후반 화력에 한계가 오는 경우가 있어요. 반면 사냥꾼 시비르는 <b>4코스트 딜러 4명이 핵심</b>이라 후반 화력이 확실히 달라지거든요. 골드 관리에 자신 있다면 사냥꾼 시비르 쪽이 더 잠재력이 높습니다.</p>
+
+      <h3>자주 묻는 질문</h3>
+
+      <p><b>Q. 사냥꾼 시비르 덱은 어느 단계부터 목표로 잡아야 하나요?</b><br>
+      롤체지지 마스터+ 랭크에서 가장 많이 쓰이는 구성이라 하이 엘로에서 검증된 덱이에요. 점유율이 11.24%까지 올라온 만큼 다이아~마스터 구간에서도 충분히 노려볼 수 있는데요, 4코스트 유닛 4명을 동시에 완성해야 해서 <b>골드 관리와 레벨링 타이밍이 핵심</b>이에요. 초반에 무리하게 레벨 올리기보다 50골드 이자를 굴리다가 7라운드 전후로 한 번에 올리는 방식을 추천드립니다.</p>
+
+      <p><b>Q. 시비르 아이템이 안 갖춰지면 다른 아이템으로 대체 가능한가요?</b><br>
+      무한의 대검은 시비르의 크리티컬 딜과 직결돼서 대체가 어렵고요, '붉은 덩굴정령'은 지속 딜과 흡혈 역할이라 '피의 검'이나 '칼날비' 계열로 대체해볼 수 있어요. '타격대의 철퇴'는 제어기 역할인데, 급하면 '수호천사'로 시비르 생존을 올리는 선택지도 있으니 상황에 맞게 조합하시면 됩니다.</p>
+
+      <h3>사냥꾼 시비르 덱 정리</h3>
+
+      <p>그래서 정리하면, 패치 18.1d 사냥꾼 시비르는 <b>점유율과 성적이 동반 상승하고 있는 정통 강세덱</b>이에요. 점유율 11.24%에 순방률 53.7%면 지금 메타에서 가장 믿을 만한 구성 중 하나거든요. 특성 9개가 동시에 켜지는 설계 덕분에 시너지 완성도도 높고, 핵심 유닛 4명의 역할이 명확해서 운영 방향도 잡기가 쉬운 편이에요. 골드 여유가 생기면 사냥꾼 시비르로 한 판 달려보시면 좋겠습니다~</p>
+
+      <p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+      · 롤토체스 싸움꾼 마스터 이 덱 (싸움꾼2·적응가2 동일 특성 조합) — 발행 시 링크 연결</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://lolchess.gg" target="_blank">롤체지지(lolchess.gg) — 마스터+ 메타 덱 통계 (2026-09-08 기준, 라이브 트래커)</a><br>
+      · <a href="https://www.leagueoflegends.com/ko-kr/news/game-updates/" target="_blank">라이엇 게임즈 공식 패치노트 — 롤토체스 세트18 패치 18.1d</a></p>
+
+      <p class="tags-line">#롤토체스 #TFT #사냥꾼시비르 #롤체덱 #롤체티어 #세트18 #패치18_1d #롤체공략 #시비르아이템 #롤체강세덱</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
