@@ -103,7 +103,7 @@ var CSS=
 '.th{display:grid;grid-template-columns:minmax(300px,400px) minmax(0,1fr);grid-template-rows:auto 1fr;grid-template-areas:"stage ctl" "act ctl"}'+   /* 내보내기는 캔버스 아래(좌측 열) — 설정 열이 1080px 화면을 넘지 않게(09-06 v2) */
 '.th-stage{grid-area:stage;padding:18px 18px 4px;min-width:0}'+
 '.th-ctl{grid-area:ctl;padding:4px 18px 8px;min-width:0;border-left:1px solid var(--hair)}'+   /* 하단 여백 8 — 부제 경고까지 뜬 가장 긴 상태에서도 1080 안(게이트 v2.1 🟡1: 1087 이었다) */
-'.th-ctl .th-sec:last-child{padding-bottom:8px}'+
+'.th-ctl .th-sec:last-child{padding-bottom:4px}'+
 '.th-cv{position:relative;border-radius:14px;overflow:hidden;background:var(--surface-3);box-shadow:0 0 0 1px var(--hair)}'+
 '.th-cv canvas{display:block;width:100%;aspect-ratio:1/1;touch-action:none}'+
 '.th.has-img .th-cv canvas{cursor:grab}.th.has-img .th-cv canvas.drag{cursor:grabbing}'+
@@ -137,7 +137,7 @@ var CSS=
 '.th-chk li .ic{width:14px;height:14px;flex:none;color:var(--ink-3)}'+
 '.th-chk li.bad{color:var(--alert)}.th-chk li.bad .ic{color:var(--alert)}'+
 '.th-chk li b{font-weight:600;color:inherit}'+
-'.th-sec{padding:12px 0 14px;border-top:1px solid var(--hair)}.th-sec:first-child{border-top:0;padding-top:14px}'+
+'.th-sec{padding:10px 0 12px;border-top:1px solid var(--hair)}.th-sec:first-child{border-top:0;padding-top:14px}'+
 '.th-st{font-size:13.5px;font-weight:700;letter-spacing:-.025em;margin-bottom:10px;display:flex;align-items:center;gap:8px}'+
 '.th-st .d{font-size:12.5px;font-weight:500;color:var(--ink-3)}'+
 '.th-presets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}'+
@@ -171,7 +171,7 @@ var CSS=
 '.th-cnt{font-size:12.5px;font-weight:500;color:var(--ink-3)}.th-cnt.bad{color:var(--alert);font-weight:600}'+
 '.f-hint[hidden]{display:none}'+
 /* 색 — 그룹 라벨 + 원 스와치 + 「기타」(팔레트) */
-'.th-crow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-height:34px}'+
+'.th-crow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-height:32px}'+
 '.th-sgp{display:inline-flex;align-items:center;gap:7px}'+
 '.th-sg{font-size:12.5px;font-weight:600;color:var(--ink-3);margin:0 1px 0 4px}.th-sgp:first-child .th-sg{margin-left:0}'+
 '.th-sw{width:28px;height:28px;border-radius:50%;background:var(--c);flex:none;position:relative;'+
@@ -184,8 +184,15 @@ var CSS=
 '.th-sw.custom{background:conic-gradient(from 200deg,#C93C7C,#E3B75E,#15A05A,#0F7C86,#7C5BC7,#C93C7C);display:grid;place-items:center;color:#fff}'+
 '.th-sw.custom .ic{width:13px;height:13px;stroke-width:2;filter:drop-shadow(0 0 1px rgba(0,0,0,.6))}'+
 '.th-sw.custom.has{background:var(--cc)}'+   /* 팔레트에서 고르면 그 색을 보여 준다 */
-'.th-swn{flex-basis:100%;margin-top:2px;font-size:12.5px;color:var(--ink-2);font-weight:600}'+
-'.th-swn .num{font-weight:500;color:var(--ink-3);margin-left:4px}'+
+'.th-swn{flex-basis:100%;margin-top:0;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-2);font-weight:600}'+
+'.th-swn .nm{white-space:nowrap}'+
+/* HEX 직접 입력 — 팔레트(기타)는 OS 대화상자라 RGB 칸만 있다. 코드로도 넣게 스와치 줄 밑에 칸을 둔다(사용자 지시 09-07) */
+'.th-hex{width:100px;height:28px;padding:0 9px;border:0;outline:0;border-radius:9px;background:var(--surface-2);box-shadow:0 0 0 1px var(--hair);'+
+  'font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px;letter-spacing:.02em;color:var(--ink);text-transform:uppercase;'+
+  'transition:box-shadow var(--t-fast) var(--e),background var(--t-fast) var(--e)}'+
+'.th-hex::placeholder{color:var(--ink-3);text-transform:none}'+
+'.th-hex:focus{box-shadow:0 0 0 2px var(--ink);background:var(--surface)}'+
+'.th-hex.bad{box-shadow:0 0 0 2px var(--alert)}'+
 '.th-pick{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}'+   /* 숨긴 <input type=color> — 브라우저 팔레트를 연다 */
 '.th-act{grid-area:act;display:flex;flex-direction:column;gap:10px;margin:14px 18px 0;padding:14px 0 18px;border-top:1px solid var(--hair)}'+
 '.th-act-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}'+
@@ -269,6 +276,12 @@ function fontStr(px){ var f=font(); return f.w+' '+px+'px '+f.fam; }
 function safeName(s){ return String(s||'').replace(/[\\\/:*?"<>|]/g,'').replace(/\s+/g,'_').slice(0,40); }
 function fileName(){ return (safeName(ST.name)||'썸네일')+'_1000.png'; }
 function pct(v){ return String(Math.round(v*1000)/10); }   /* .165 → "16.5" */
+/* HEX 문자열 정규화 — "#abc"·"abc"·"C93C7C" 전부 받아 "#RRGGBB" 로. 못 읽으면 null */
+function normHex(v){
+  var s=String(v==null?'':v).trim().replace(/^#/,'');
+  if(/^[0-9a-fA-F]{3}$/.test(s))s=s.charAt(0)+s.charAt(0)+s.charAt(1)+s.charAt(1)+s.charAt(2)+s.charAt(2);
+  return /^[0-9a-fA-F]{6}$/.test(s)?('#'+s.toUpperCase()):null;
+}
 
 /* 이미지가 없을 때의 자리 그림 — 디자인이 어떻게 생겼는지 이미지 없이도 보이게(플럼→로즈, 아무 사진도 흉내내지 않는다) */
 function placeholder(){
@@ -637,9 +650,13 @@ function html(){
       '<div class="th-sec">'+
         '<div class="th-st">색</div>'+
         '<div class="th-lbl"><span>포인트 색</span></div>'+
-        '<div class="th-crow" id="thSws" role="group" aria-label="포인트 색">'+swatchHtml()+'<span class="th-swn" id="thSwn"></span></div>'+
+        '<div class="th-crow" id="thSws" role="group" aria-label="포인트 색">'+swatchHtml()+
+          '<span class="th-swn" id="thSwn"><span class="nm"></span>'+
+          '<input class="th-hex" id="thHex" type="text" maxlength="7" spellcheck="false" autocomplete="off" aria-label="포인트 색 HEX 코드" placeholder="#000000"></span></div>'+
         '<div class="th-lbl"><span>글자색</span></div>'+
-        '<div class="th-crow" id="thTcs" role="group" aria-label="글자색">'+textSwHtml()+'<span class="th-swn" id="thTcn"></span></div>'+
+        '<div class="th-crow" id="thTcs" role="group" aria-label="글자색">'+textSwHtml()+
+          '<span class="th-swn" id="thTcn"><span class="nm"></span>'+
+          '<input class="th-hex" id="thTcHex" type="text" maxlength="7" spellcheck="false" autocomplete="off" aria-label="글자색 HEX 코드" placeholder="자동"></span></div>'+
       '</div>'+
     '</section>'+
     '<section class="th-act" aria-label="내보내기">'+
@@ -726,9 +743,13 @@ function mount(host,a){
   subEl.addEventListener('input',function(){ ST.sub=this.value; subHint.hidden=!(ST.sub||'').trim(); refreshAll(); });
   $('thFont').addEventListener('change',function(){ ST.font=this.value; savePrefs(); refreshAll(); loadFonts().then(function(){ if(mounted)refreshAll(); }); });
   /* 색 — 스와치·기타(팔레트) */
+  /* HEX 칸은 타자 중이면 덮지 않는다(캐럿·입력 중 값 보호) */
+  function setHexBox(el,v,ph){ if(document.activeElement!==el){ el.value=v; el.classList.remove('bad'); } if(ph!=null)el.placeholder=ph; }
   function syncSwn(){
-    var a=accentName(); $('thSwn').innerHTML=esc(a.g?a.g+' · '+a.n:a.n)+'<span class="num">'+esc(a.hex.toUpperCase())+'</span>';
-    var t=textName(); $('thTcn').innerHTML=esc(t.n)+(t.hex?'<span class="num">'+esc(t.hex.toUpperCase())+'</span>':'');
+    var a=accentName(); $('thSwn').querySelector('.nm').textContent=a.g?a.g+' · '+a.n:a.n;
+    setHexBox($('thHex'),a.hex.toUpperCase());
+    var t=textName(); $('thTcn').querySelector('.nm').textContent=t.n;
+    setHexBox($('thTcHex'),t.hex?t.hex.toUpperCase():'',t.hex?'#000000':'자동');
     var cs=host.querySelector('#thSws .custom'); if(cs){ cs.style.setProperty('--cc',ST.accentHex); cs.classList.toggle('has',ST.accent==='custom'); }
     var ct=host.querySelector('#thTcs .custom'); if(ct){ ct.style.setProperty('--cc',ST.tcHex); ct.classList.toggle('has',ST.tc==='custom'); }
   }
@@ -747,6 +768,24 @@ function mount(host,a){
     ST.tc=b.dataset.c; pressOnly(tcs,b); savePrefs(); syncSwn(); refreshAll();
   });
   tPick.addEventListener('input',function(){ ST.tc='custom'; ST.tcHex=this.value; pressOnly(tcs,tcs.querySelector('.custom')); savePrefs(); syncSwn(); refreshAll(); });
+  /* HEX 칸 — 읽을 수 있게 되는 순간 반영(«#abc» 3자리·«C93C7C» # 없이도 받는다). 못 읽는 값은 칸을 떠날 때 되돌리고 잠깐 붉은 링 */
+  function bindHex(id,apply,cur){
+    var n=$(id);
+    n.addEventListener('input',function(){ var h=normHex(this.value); if(h)apply(h); });
+    n.addEventListener('change',function(){
+      var h=normHex(this.value);
+      if(h){ n.classList.remove('bad'); apply(h); return; }
+      this.value=cur(); n.classList.add('bad');
+      setTimeout(function(){ n.classList.remove('bad'); },900);
+    });
+    n.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); this.blur(); } });
+  }
+  bindHex('thHex',
+    function(h){ ST.accent='custom'; ST.accentHex=h; accPick.value=h.toLowerCase(); pressOnly(sws,sws.querySelector('.custom')); savePrefs(); syncSwn(); refreshAll(); },
+    function(){ return accentName().hex.toUpperCase(); });
+  bindHex('thTcHex',
+    function(h){ ST.tc='custom'; ST.tcHex=h; tPick.value=h.toLowerCase(); pressOnly(tcs,tcs.querySelector('.custom')); savePrefs(); syncSwn(); refreshAll(); },
+    function(){ var t=textName(); return t.hex?t.hex.toUpperCase():''; });
   syncSwn();
   $('thSave').addEventListener('click',save);
   $('thCopy').addEventListener('click',copyPng);

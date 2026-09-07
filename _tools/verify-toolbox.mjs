@@ -189,17 +189,34 @@ chk('글 제목 칸 없음', !(await ev(`!!document.getElementById('thTitle')`))
 
 chk('포인트 색 = 봄딩 3 + 영도 3 + 기타', await ev(`(()=>{const b=[...document.querySelectorAll('#thSws .th-sw')].map(x=>x.dataset.c);return b.join(',')==='bd-rose,bd-pink,bd-plum,yd-green,yd-mint,yd-teal,custom'})()`), await ev(`[...document.querySelectorAll('#thSws .th-sw')].map(x=>x.dataset.c).join(',')`));
 await click('.th-sw[data-c="yd-teal"]'); await sleep(250);
-chk('색 «영도 틸» 선택 → 이름·HEX 표시', await ev(`(()=>{const t=document.getElementById('thSwn').textContent;return t.startsWith('영도 · 틸')&&t.includes('#0F7C86')&&document.querySelectorAll('#thSws .th-sw[aria-pressed="true"]').length===1&&window.SseudamTools.thumb.__test.state().accent==='yd-teal'})()`), await ev(`document.getElementById('thSwn').textContent`));
+chk('색 «영도 틸» 선택 → 이름·HEX 칸 표시', await ev(`(()=>{const t=document.querySelector('#thSwn .nm').textContent;return t==='영도 · 틸'&&document.getElementById('thHex').value==='#0F7C86'&&document.querySelectorAll('#thSws .th-sw[aria-pressed="true"]').length===1&&window.SseudamTools.thumb.__test.state().accent==='yd-teal'})()`), await ev(`document.querySelector('#thSwn .nm').textContent+' / '+document.getElementById('thHex').value`));
 await setInput('#thAccentPick', '#3366cc'); await sleep(250);
-chk('기타(팔레트) 색 입력 → 커스텀 반영', await ev(`(()=>{const s=window.SseudamTools.thumb.__test.state();return s.accent==='custom'&&s.accentHex==='#3366cc'&&document.querySelector('#thSws .custom').classList.contains('has')&&document.getElementById('thSwn').textContent.includes('#3366CC')})()`), await ev(`JSON.stringify(window.SseudamTools.thumb.__test.state())`));
+chk('기타(팔레트) 색 입력 → 커스텀 반영·HEX 칸 동기', await ev(`(()=>{const s=window.SseudamTools.thumb.__test.state();return s.accent==='custom'&&s.accentHex==='#3366cc'&&document.querySelector('#thSws .custom').classList.contains('has')&&document.getElementById('thHex').value==='#3366CC'})()`), await ev(`JSON.stringify(window.SseudamTools.thumb.__test.state())`));
+/* ── HEX 직접 입력(09-07) ── */
+const vHex = await canvasVar('#thCanvas');
+await setInput('#thHex', '#15A05A'); await sleep(300);
+chk('HEX 칸 «#15A05A» → 커스텀 색·캔버스 변화', await ev(`(()=>{const s=window.SseudamTools.thumb.__test.state();return s.accent==='custom'&&s.accentHex==='#15A05A'&&document.getElementById('thAccentPick').value==='#15a05a'&&document.querySelector('#thSws .custom').classList.contains('has')})()`) && (await canvasVar('#thCanvas')) !== vHex, await ev(`JSON.stringify(window.SseudamTools.thumb.__test.state())`));
+await setInput('#thHex', '#abc'); await sleep(300);
+chk('HEX 3자리 «#abc» → #AABBCC 로 펼침', (await ev(`window.SseudamTools.thumb.__test.state().accentHex`)) === '#AABBCC');
+await setInput('#thHex', 'C93C7C'); await sleep(300);
+chk('HEX # 없이 «C93C7C» 도 받음', (await ev(`window.SseudamTools.thumb.__test.state().accentHex`)) === '#C93C7C');
+await ev(`(()=>{const e=document.getElementById('thHex');e.value='zzz';e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));return true})()`); await sleep(250);
+chk('HEX 못 읽는 값 → 값 되돌림·붉은 링·색 유지', await ev(`(()=>{const e=document.getElementById('thHex');return e.value==='#C93C7C'&&e.classList.contains('bad')&&window.SseudamTools.thumb.__test.state().accentHex==='#C93C7C'})()`), await ev(`document.getElementById('thHex').value`));
+await sleep(1000);
+chk('붉은 링은 잠깐만', !(await ev(`document.getElementById('thHex').classList.contains('bad')`)));
+await click('.th-sw[data-c="bd-pink"]'); await sleep(250);
+chk('프리셋 스와치 선택 → HEX 칸이 그 색으로', (await ev(`document.getElementById('thHex').value`)) === '#F58AB4');
 await click('.th-sw[data-c="bd-rose"]'); await sleep(200);
 chk('글자색 = 자동·흰색·플럼·크림 + 기타', await ev(`(()=>{const b=[...document.querySelectorAll('#thTcs .th-sw')].map(x=>x.dataset.c);return b.join(',')==='auto,white,plum,cream,custom'})()`));
 await click('#thTcs .th-sw[data-c="plum"]'); await sleep(250);
-chk('글자색 «플럼» 선택 → 상태·이름', await ev(`(()=>{return window.SseudamTools.thumb.__test.state().tc==='plum'&&document.getElementById('thTcn').textContent.startsWith('플럼')})()`));
+chk('글자색 «플럼» 선택 → 상태·이름·HEX 칸', await ev(`(()=>{return window.SseudamTools.thumb.__test.state().tc==='plum'&&document.querySelector('#thTcn .nm').textContent==='플럼'&&document.getElementById('thTcHex').value==='#2E2038'})()`));
+await setInput('#thTcHex', '#ff8800'); await sleep(300);
+chk('글자색 HEX 칸 입력 → 커스텀', await ev(`(()=>{const s=window.SseudamTools.thumb.__test.state();return s.tc==='custom'&&s.tcHex==='#FF8800'})()`), await ev(`JSON.stringify(window.SseudamTools.thumb.__test.state())`));
 await setInput('#thTextPick', '#ffee00'); await sleep(250);
 chk('글자색 기타(팔레트) → 커스텀 반영', await ev(`(()=>{const s=window.SseudamTools.thumb.__test.state();return s.tc==='custom'&&s.tcHex==='#ffee00'})()`));
 await shot('05b-textcolor-1920');
-await click('#thTcs .th-sw[data-c="auto"]'); await sleep(200);
+await click('#thTcs .th-sw[data-c="auto"]'); await sleep(250);
+chk('글자색 «자동» → HEX 칸 비고 placeholder «자동»', await ev(`(()=>{const e=document.getElementById('thTcHex');return e.value===''&&e.placeholder==='자동'})()`), await ev(`document.getElementById('thTcHex').value+' / '+document.getElementById('thTcHex').placeholder`));
 chk('글꼴 6종', (await ev(`document.querySelectorAll('#thFont option').length`)) === 6, await ev(`[...document.querySelectorAll('#thFont option')].map(o=>o.value).join(',')`));
 for (const f of ['blackhan', 'dohyeon', 'jua', 'songmyung', 'malgun']) {
   await setInput('#thFont', f); await sleep(f === 'malgun' ? 400 : 1600);
