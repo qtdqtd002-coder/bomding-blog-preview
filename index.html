@@ -697,12 +697,12 @@ a{color:inherit; text-decoration:none}
 /* ══════════ 도구함 — 좌측 도구 목록 + 우측 도구 판 (2026-09-06 · ★09-07 사이드 레일) ══════════
    도구는 _toolbox/<id>.js 로 분리해 처음 열 때만 받는다(index.html 을 키우지 않는다).
    목록의 선택 표시는 사이트의 «잉크 채움» 어휘(탭 알약·칩과 같음). 860px 이하는 목록이 가로 줄이 된다.
-   ★09-07(사용자 지시 «사이드 메뉴는 더 왼쪽으로, 진짜 사이드 메뉴탭처럼 · 도구 화면은 작성 글·트렌드와 같은 폭»):
-   1620px 이상에서는 목록이 본문 열 «왼쪽 바깥»(여백)에 매달린 sticky 레일이 되고, 도구 판이 1080 전폭을 쓴다.
-   그 아래 폭에서는 여백이 모자라 종전대로 열 안에 나란히 놓는다. */
+   ★09-07(사용자 지시 «사이드 메뉴는 더 왼쪽으로, 진짜 사이드 메뉴탭처럼 · 도구 화면은 넓게» → 2차 «작업 영역은 1920×1080 기준으로 넓혀서»):
+   도구함 뷰에서만 본문 열(.main.wide)이 1620px 까지 넓어지고, 목록은 그 안 왼쪽 sticky 레일(232), 판이 나머지(1920 에서 1326)를 쓴다.
+   홈·작성 글·트렌드는 종전 1080 그대로. 860px 이하는 목록이 가로 줄. */
+.main.wide{max-width:1620px}
 .tb{display:grid; grid-template-columns:232px minmax(0,1fr); gap:14px; align-items:start}
-@media (min-width:1620px){
-  .tb{margin-left:-246px}                       /* 232 + 14 — 판은 그대로 1080, 목록만 왼쪽 여백으로 */
+@media (min-width:861px){
   .tb-side{position:sticky; top:84px}           /* 섬(18 + 50) 아래에 붙어 따라온다 */
 }
 .tb-list{display:flex; flex-direction:column; gap:2px; padding:6px}
@@ -1725,6 +1725,7 @@ window.addEventListener('scroll',function(){
 },{passive:true});
 
 function render(){
+  var mainEl=document.querySelector('.main'); if(mainEl)mainEl.classList.toggle('wide',S.view==='tools');   /* 도구함만 넓은 작업 영역(1620) — 09-07 사용자 지시 «1920×1080 기준으로 넓혀서» */
   if(S.view==='home')renderHome();
   else if(S.view==='trend')renderTrend();
   else if(S.view==='tools')renderTools();
@@ -1739,7 +1740,7 @@ function render(){
 /* 목록 행 = 아이콘 + 이름뿐. 부제(설명 한 줄)는 09-06 사용자 지시로 폐기 — 읽지 않아도 잘못 쓸 일이 없는 문구는 두지 않는다 */
 var TOOLS=[
   {id:'thumb', name:'썸네일 제작', icon:'image', src:'_toolbox/thumb.js?v=20260907b'},
-  {id:'tier',  name:'티어표 제작', icon:'layers', src:'_toolbox/tier.js?v=20260907c'}
+  {id:'tier',  name:'티어표 제작', icon:'layers', src:'_toolbox/tier.js?v=20260907e'}
 ];
 var TOOL_P={}, TOOL_ON=null;
 function toolApi(){

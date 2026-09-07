@@ -14,6 +14,9 @@
  *    ⑧ 리소스 묶음 — _toolbox/tier/res/<게임>/manifest.json(+512² webp, _tools/tier-res.mjs 가 생성). «리소스 불러오기» 서랍에서 클릭=선택 티어에 추가, 끌어서 보드에 놓기.
  *       리소스로 넣은 항목은 res 참조가 저장돼 새로고침에도 그림이 남는다(손수 넣은 그림은 메모리만).
  *    ⑨ 티어 프리셋 삭제 — 기본 S·A·B·C 4단계.  ⑩ 부제 삭제 — 제목(게임 이름)은 가운데 정렬 «제목 띠»로 따로 둔다.
+ *  v2.2(09-07 4차 지시 «봄딩·영도 프로필을 다른 포즈로 시그니처처럼»): 바닥 오른쪽에 **작성자 시그니처 스티커**(디자인별 1장 · 높이 96 · 구분선 위로 34 걸침).
+ *    자산 = tier/sig/<design>.webp — 각 작성자 아바타를 -Ref 로 나노바나나 생성(봄딩=클립보드+윙크 / 영도=팔짱+설명, 축하 스플래시 포즈와 겹치지 않게) 후 배경 키잉.
+ *    「시그니처」 칩으로 끄고 켠다(기본 켬). 못 받으면 조용히 안 그리고 서명 텍스트만 남는다.
  *  v1 에서 유지: 농도=등급(포인트 색 하나를 1.0→0.14 로 옅혀 플라크를 채움), 초상 타일+이름, 티어별 한 줄, 바닥 기준 스탬프·서명, 캔버스에서 끌어 이동,
  *    빈 슬롯(점선)=양식, 되돌리기 토스트, JSON 저장/불러오기. 의존성 0. 캔버스는 :root 토큰·디자인 팔레트를 실색으로 쓴다.
  */
@@ -25,25 +28,27 @@ if(window.SseudamTools.tier)return;
 var W=693, EXPORT_SCALE=2, LS='sseudam_tier_v2', LS_V1='sseudam_tier_v1';
 var BASE=(function(){ var s=document.currentScript, u=(s&&s.src)||'_toolbox/tier.js'; return u.replace(/\?.*$/,'').replace(/[^\/]*$/,''); })();
 var RES_BASE=BASE+'tier/res/';
+var SIG_BASE=BASE+'tier/sig/';   /* 작성자 시그니처 스티커(봄딩·영도 전용 포즈, 나노바나나 -Ref 생성 → 배경 키잉) */
 var NANUM_CSS=BASE.replace(/_toolbox\/$/,'')+'_design/nanumsquare.css';
 var MAX_TIERS=7, MAX_ITEMS=200, COLS=[3,4,5,6];
 /* 디자인 2종 — 각 작성자 블로그 정본에서 가져온 값(봄딩: 썸네일 표준 v1 플럼·로즈·핑크 + 인포그래픽 핑크 / 영도: output-format §1-4 그린·민트 + 사이트 정체성색 틸) */
 var DESIGNS={
   bomding:{ id:'bomding', n:'봄딩', dot:'#C93C7C', fam:'"NanumSquare","나눔스퀘어","Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif', wTitle:'800', wName:'700',
     accent:'#C93C7C', sw:[{id:'rose',c:'#C93C7C',n:'로즈'},{id:'pink',c:'#F58AB4',n:'핑크'},{id:'plum',c:'#2E2038',n:'플럼'}],
-    ink:'#2E2038', inkDeep:'#17101E', ink2:'#5E5068', ink3:'#8C8194', paper:'#FFFBFC', tray:'#F6E1EA', tray2:'#F0D3DF', hair:'rgba(46,32,56,.10)', hair2:'rgba(46,32,56,.14)', hair3:'rgba(46,32,56,.24)', slot:'#F8F1F4',
-    titleFill:'#2E2038', titleInk:'#FFFFFF', titleRule:'#F58AB4', rTitle:16, rPlaque:16, rTile:.18, glyph:'heart', sep:'dash' },
+    ink:'#2E2038', inkDeep:'#17101E', ink2:'#5E5068', ink3:'#8C8194', paper:'#FFFBFC', tray:'#F6E1EA', tray2:'#F0D3DF', hair:'rgba(46,32,56,.10)', hair2:'rgba(46,32,56,.14)', hair3:'rgba(46,32,56,.24)', slot:'#F8F1F4', tileTint:'#F9E4EC',
+    titleFill:'#2E2038', titleInk:'#FFFFFF', titleRule:'#F58AB4', rTitle:16, rPlaque:16, rTile:.18, glyph:'heart', sep:'dash', sig:'bomding.webp' },
   yeongdo:{ id:'yeongdo', n:'영도', dot:'#0F7C86', fam:'"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif', wTitle:'800', wName:'700',
     accent:'#15A05A', sw:[{id:'green',c:'#15A05A',n:'그린'},{id:'mint',c:'#14B8A6',n:'민트'},{id:'teal',c:'#0F7C86',n:'틸'}],
-    ink:'#0E1114', ink2:'#3F4A52', ink3:'#6B7680', paper:'#FFFFFF', tray:'#E4ECEE', tray2:'#DCE6E9', hair:'rgba(14,17,20,.08)', hair2:'rgba(14,17,20,.13)', hair3:'rgba(14,17,20,.22)', slot:'#F3F6F7',
-    titleFill:'#0F7C86', titleInk:'#FFFFFF', titleRule:'#14B8A6', rTitle:10, rPlaque:8, rTile:.12, glyph:'square', sep:'line' }
+    ink:'#0E1114', ink2:'#3F4A52', ink3:'#6B7680', paper:'#FFFFFF', tray:'#E4ECEE', tray2:'#DCE6E9', hair:'rgba(14,17,20,.08)', hair2:'rgba(14,17,20,.13)', hair3:'rgba(14,17,20,.22)', slot:'#F3F6F7', tileTint:'#E3EEEA',
+    titleFill:'#0F7C86', titleInk:'#FFFFFF', titleRule:'#14B8A6', rTitle:10, rPlaque:8, rTile:.12, glyph:'square', sep:'line', sig:'yeongdo.webp' }
 };
 var SHAPES=[{id:'round',n:'둥근 사각'},{id:'circle',n:'원'},{id:'squircle',n:'스쿼클'},{id:'hex',n:'육각'},{id:'card',n:'세로 카드'}];
 var UID=0;
 function uid(){ return 'i'+(++UID); }
 
 /* ── 상태 ── */
-var ST={ title:'', stamp:'', sign:'', design:'bomding', accent:'auto', accentHex:'#C93C7C', cols:4, shape:'round', tiers:[] };
+var ST={ title:'', stamp:'', sign:'', design:'bomding', accent:'auto', accentHex:'#C93C7C', cols:4, shape:'round', sig:true, tiers:[] };
+var SIG={};   /* 디자인 id → Image (마운트·디자인 전환 때 받는다. 실패하면 조용히 안 그린다) */
 var IMG={};          /* id → {img,w,h,url,blob,res} */
 var sel=null;
 function mkTier(letter,label,note){ return {id:uid(),letter:letter||'',label:label||'',note:note||'',items:[]}; }
@@ -67,7 +72,7 @@ function restoreData(sv,withDesign){
     (Array.isArray(t.items)?t.items:[]).slice(0,MAX_ITEMS).forEach(function(it){
       if(!it||typeof it!=='object')return;
       var res=null; if(it.res&&typeof it.res==='object'&&/^[a-z0-9-]+$/.test(it.res.b||'')&&/^[A-Za-z0-9_-]+$/.test(it.res.c||''))res={b:it.res.b,c:it.res.c};
-      var x=mkItem(str(it.name,14),res);
+      var x=mkItem(str(it.name,20),res);
       if(typeof it.id==='string'&&/^i\d+$/.test(it.id)&&!seen[it.id]){ x.id=it.id; seen[it.id]=1; }
       tr.items.push(x);
     });
@@ -82,6 +87,7 @@ function restoreData(sv,withDesign){
     if(/^#[0-9a-f]{6}$/i.test(d.accentHex||''))ST.accentHex=d.accentHex;
     if(COLS.indexOf(d.cols)>=0)ST.cols=d.cols;
     if(SHAPES.some(function(s){ return s.id===d.shape; }))ST.shape=d.shape;
+    if(typeof d.sig==='boolean')ST.sig=d.sig;
   }
   if(sel&&!findItem(sel))sel=null;
 }
@@ -89,7 +95,7 @@ function data(){
   return {app:'sseudam-tier',v:2,
     board:{title:ST.title,stamp:ST.stamp,sign:ST.sign,
       tiers:ST.tiers.map(function(t){ return {id:t.id,letter:t.letter,label:t.label,note:t.note,items:t.items.map(function(i){ var o={id:i.id,name:i.name}; if(i.res)o.res=i.res; return o; })}; })},
-    design:{design:ST.design,accent:ST.accent,accentHex:ST.accentHex,cols:ST.cols,shape:ST.shape}};
+    design:{design:ST.design,accent:ST.accent,accentHex:ST.accentHex,cols:ST.cols,shape:ST.shape,sig:ST.sig}};
 }
 try{
   var sv0=JSON.parse(localStorage.getItem(LS)||'null');
@@ -140,7 +146,8 @@ readTokens();
 
 var CSS=
 /* 작업대: 왼쪽 보드(스크롤) + 오른쪽 편집 열(스크롤), 보드 아래 고정 내보내기 줄. 판 높이 = 뷰포트에 맞춤(항목이 늘어도 페이지가 길어지지 않는다) */
-'.tier{display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"stage ctl" "act ctl";height:calc(100dvh - 214px);min-height:600px}'+   /* 편집 열 340 = 1080 판에서 보드가 실제 크기(693)로 보이는 최대치(코어 1068 − 340 − 패딩 32 = 696) */
+'.tier{display:grid;grid-template-columns:minmax(0,1fr) 400px;grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"stage ctl" "act ctl";height:calc(100dvh - 214px);min-height:600px}'+   /* 넓은 작업 영역(1920 → 판 1326): 편집 열 400 · 보드 실제 크기 693 + 여유. 1400 이하는 340 */
+'@media (max-width:1400px){.tier{grid-template-columns:minmax(0,1fr) 340px}}'+
 '.tier-stage{grid-area:stage;overflow:auto;overscroll-behavior:contain;padding:18px 16px 16px;min-width:0;background:var(--surface-2)}'+
 '.tier-cv{position:relative;width:min(100%,693px);margin:0 auto;border-radius:16px}'+
 '.tier-cv canvas{display:block;width:100%;height:auto;touch-action:pan-y;cursor:default;border-radius:14px;box-shadow:0 0 0 1px var(--hair),var(--sh-rest)}'+
@@ -238,11 +245,11 @@ var CSS=
 '.tier-res-h .sp{margin-left:auto}'+
 '.tier-res-f{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 18px;border-bottom:1px solid var(--hair)}'+
 '.tier-res-f .tier-sel{width:auto;min-width:150px}'+
-'.tier-res-g{overflow:auto;overscroll-behavior:contain;padding:12px 18px 18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;align-content:start;flex:1 1 auto}'+
+'.tier-res-g{overflow:auto;overscroll-behavior:contain;padding:12px 18px 18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;align-content:start;flex:1 1 auto}'+
 '.tier-rc{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 4px 7px;border-radius:12px;text-align:left;touch-action:none;user-select:none;-webkit-user-select:none;'+
   'transition:background var(--t-fast) var(--e),box-shadow var(--t-fast) var(--e),transform var(--t-fast) var(--e)}'+
 '.tier-rc img{width:64px;height:64px;border-radius:14px;object-fit:cover;display:block;background:var(--surface-3);box-shadow:0 0 0 1px var(--hair);pointer-events:none}'+
-'.tier-rc b{font-size:12.5px;font-weight:600;letter-spacing:-.02em;color:var(--ink);text-align:center;line-height:1.3;word-break:keep-all;max-width:100%;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}'+
+'.tier-rc b{font-size:12.5px;font-weight:600;letter-spacing:-.02em;color:var(--ink);text-align:center;line-height:1.3;word-break:keep-all;max-width:100%;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}'+   /* 긴 이름(«바삭튼튼 소아과 의사 우유맛 쿠키»)도 잘리지 않게 3줄 */
 '.tier-rc i{font-style:normal;font-size:12.5px;font-weight:600;color:var(--ink-3);font-family:"JetBrains Mono",ui-monospace,monospace}'+
 '.tier-rc:hover{background:var(--surface-2)}.tier-rc:active{transform:scale(.97)}'+
 '.tier-rc.used{opacity:.45}'+
@@ -274,12 +281,22 @@ function plaqueText(fill,d){
 function accentHex(){ var d=design(); if(ST.accent==='custom')return ST.accentHex; if(ST.accent==='auto')return d.accent; for(var i=0;i<d.sw.length;i++)if(d.sw[i].id===ST.accent)return d.sw[i].c; return d.accent; }
 function accentName(){ var d=design(); if(ST.accent==='custom')return {n:'기타',hex:ST.accentHex}; if(ST.accent==='auto')return {n:d.n+' 기본',hex:d.accent}; for(var i=0;i<d.sw.length;i++)if(d.sw[i].id===ST.accent)return {n:d.sw[i].n,hex:d.sw[i].c}; return {n:'',hex:d.accent}; }
 function signText(){ return (ST.sign||'').trim()||design().n; }
+/* 시그니처 이미지 — 받아 놨고 켜져 있을 때만. 못 받으면 조용히 없는 셈(보드는 그대로 완성) */
+function sigImg(){ var d=design(); if(!ST.sig||!d.sig)return null; var im=SIG[d.id]; return (im&&im.complete&&im.naturalWidth)?im:null; }
+function loadSig(){
+  var d=design(); if(!d.sig||SIG[d.id])return;
+  var im=new Image(); im.decoding='async';
+  im.onload=function(){ if(mounted)schedule(); };
+  im.onerror=function(){ delete SIG[d.id]; };
+  SIG[d.id]=im; im.src=SIG_BASE+d.sig;
+}
 function safeName(s){ return String(s||'').replace(/[\\\/:*?"<>|]/g,'').replace(/\s+/g,'_').slice(0,40); }
 function fileName(){ return (safeName(ST.title)||'티어표')+'_티어표.png'; }
 function F(w,px,fam){ return w+' '+px+'px '+(fam||design().fam); }
 
 /* ── 치수(논리 px, 폭 693) ── */
-var M={tray:6,rTray:20,padX:18,padT:16,padB:14,plW:60,gapPl:12,gapX:10,gapY:12,bandT:12,bandB:12,nameGap:7,plMin:92,titleH:56,titleGap:14,titleFs:25};
+var M={tray:6,rTray:20,padX:18,padT:16,padB:14,plW:60,gapPl:12,gapX:10,gapY:12,bandT:12,bandB:12,nameGap:7,plMin:92,titleH:56,titleGap:14,titleFs:25,
+       sigH:96,sigLift:34,sigBox:70};   /* 시그니처: 높이 96 · 구분선 위로 34 걸침 · 바닥 영역 70(96−34=62 이 안에 든다) */
 function tileW(){ var iw=W-2*M.tray-2*M.padX-M.plW-M.gapPl; return Math.floor((iw-(ST.cols-1)*M.gapX)/ST.cols); }
 function tileH(w){ return ST.shape==='card'?Math.round(w*1.28):w; }
 function nameFs(t){ return clamp(Math.round(t*.14),12,19); }   /* 4열(135) → 19px → 폰(×0.52) 9.9px */
@@ -301,11 +318,23 @@ function shapePath(ctx,x,y,w,h){
 }
 function ell(ctx,s,maxW){ if(ctx.measureText(s).width<=maxW)return s; var a=Array.from(s); while(a.length>1){ a.pop(); var t=a.join('')+'…'; if(ctx.measureText(t).width<=maxW)return t; } return '…'; }
 function fitFs(ctx,s,maxW,fs,min,w,fam){ for(;fs>min;fs-=1){ ctx.font=F(w,fs,fam); ctx.letterSpacing=(-fs*.025)+'px'; if(ctx.measureText(s).width<=maxW)break; } ctx.font=F(w,fs,fam); ctx.letterSpacing=(-fs*.025)+'px'; return fs; }
+/* 이름은 2줄까지 — 어절 경계 우선, 없으면 글자 단위. 2줄째가 넘치면 … (09-07 사용자: «텍스트가 잘린다») */
+function nameLines(ctx,name,maxW){
+  if(ctx.measureText(name).width<=maxW)return [name];
+  var words=name.split(' ');
+  if(words.length>1){ for(var k=words.length-1;k>=1;k--){ var a=words.slice(0,k).join(' '), b=words.slice(k).join(' '); if(ctx.measureText(a).width<=maxW)return [a,ell(ctx,b,maxW)]; } }
+  var arr=Array.from(name), first='';
+  for(var i=0;i<arr.length;i++){ if(ctx.measureText(first+arr[i]).width<=maxW)first+=arr[i]; else break; }
+  if(!first)first=arr[0]||'';
+  var rest=arr.slice(Array.from(first).length).join('');
+  return rest?[first,ell(ctx,rest,maxW)]:[first];
+}
 
 /* 배치 — 먼저 재고(layout) 나중에 그린다(draw). 화면·내보내기가 같은 함수를 쓴다 */
 function layout(ctx){
-  var d=design(), tw=tileW(), th=tileH(tw), nfs=nameFs(tw), rowH=th+M.nameGap+Math.round(nfs*1.25);
+  var d=design(), tw=tileW(), th=tileH(tw), nfs=nameFs(tw), nlh=Math.round(nfs*1.2);
   var x0=M.tray+M.padX, innerW=W-2*(M.tray+M.padX), y=M.tray+M.padT;
+  ctx.font=F(d.wName,nfs); ctx.letterSpacing=(-nfs*.02)+'px';
   var title=(ST.title||'').trim()||'게임 이름';
   var hd={y:y,h:M.titleH,title:title}; y+=M.titleH+M.titleGap;
   var bands=[], n=ST.tiers.length;
@@ -313,16 +342,23 @@ function layout(ctx){
     var by=y, note=(t.note||'').trim(), noteH=note?22:0;
     var itemsX=x0+M.plW+M.gapPl, itemsW=innerW-M.plW-M.gapPl;
     var rows=Math.max(1,Math.ceil(t.items.length/ST.cols));
+    /* 이름 줄 수는 띠 단위로 통일(격자) — 한 항목이라도 2줄이면 그 띠의 모든 줄이 2줄 높이 */
+    var lines=t.items.map(function(it){ var nm=(it.name||'').trim(); return nm?nameLines(ctx,nm,tw-2):[]; });   /* 이름 폭 = 타일 폭 — 이웃 이름과 최소 간격(gapX) 보장, 넘치면 2줄 */
+    var maxL=Math.max(1,Math.max.apply(null,lines.map(function(l){ return l.length; }).concat([1])));
+    var rowH=th+M.nameGap+maxL*nlh;
     var blockH=t.items.length?rows*rowH+(rows-1)*M.gapY:th;
     var contentH=Math.max(noteH+blockH,M.plMin);
     var cy=by+M.bandT, off=Math.round((contentH-noteH-blockH)/2), tilesY=cy+noteH+off;   /* 타일 블록을 플라크 높이 안에서 세로 가운데 */
-    var tiles=t.items.map(function(it,i){ var r=Math.floor(i/ST.cols), c=i%ST.cols; return {id:it.id,ti:ti,i:i,x:itemsX+c*(tw+M.gapX),y:tilesY+r*(rowH+M.gapY),w:tw,h:th}; });
+    var tiles=t.items.map(function(it,i){ var r=Math.floor(i/ST.cols), c=i%ST.cols; return {id:it.id,ti:ti,i:i,x:itemsX+c*(tw+M.gapX),y:tilesY+r*(rowH+M.gapY),w:tw,h:th,lines:lines[i]}; });
     bands.push({ti:ti,y:by,h:M.bandT+contentH+M.bandB,pl:{x:x0,y:cy,w:M.plW,h:contentH},note:note,noteY:cy+off,itemsX:itemsX,itemsW:itemsW,tilesY:tilesY,tiles:tiles,rowH:rowH,tw:tw,th:th,last:ti===n-1});
     y=by+M.bandT+contentH+M.bandB;
   });
-  var stamp=(ST.stamp||'').trim(), sign=signText(), ft={y:y,stamp:stamp,sign:sign,h:40};
+  /* 바닥 — 기준 스탬프 · 서명 · 작성자 시그니처 스티커(오른쪽 끝, 구분선 위로 걸친다) */
+  var stamp=(ST.stamp||'').trim(), sign=signText(), sg=sigImg();
+  var ft={y:y,stamp:stamp,sign:sign,h:sg?M.sigBox:40,sig:null};
+  if(sg){ var sh=M.sigH, sw=Math.round(sh*(sg.naturalWidth/sg.naturalHeight)); ft.sig={img:sg,w:sw,h:sh,x:x0+innerW-sw,y:y-M.sigLift}; }
   y+=ft.h+M.padB+M.tray;
-  return {H:Math.max(Math.round(y),240),tw:tw,th:th,nfs:nfs,rowH:rowH,x0:x0,innerW:innerW,hd:hd,bands:bands,ft:ft};
+  return {H:Math.max(Math.round(y),240),tw:tw,th:th,nfs:nfs,nlh:nlh,x0:x0,innerW:innerW,hd:hd,bands:bands,ft:ft};
 }
 function drawEmptySlot(ctx,x,y,w,h){
   var d=design(); ctx.save();
@@ -339,7 +375,9 @@ function drawTile(ctx,tl,it,L,a,acc,selected){
     ctx.save(); shapePath(ctx,x,y,w,h); ctx.clip();
     var k=Math.max(w/im.w,h/im.h), dw=im.w*k, dh=im.h*k;
     ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
-    ctx.fillStyle=d.slot; ctx.fillRect(x,y,w,h);
+    /* 투명 배경 스프라이트가 «타일에 안 맞아» 보이지 않게 — 타일 전체를 디자인 틴트의 방사 바탕으로 채운 뒤 그림을 얹는다 */
+    var bg=ctx.createRadialGradient(x+w/2,y+h*.42,w*.08,x+w/2,y+h/2,w*.78); bg.addColorStop(0,'#FFFFFF'); bg.addColorStop(1,d.tileTint||d.slot);
+    ctx.fillStyle=bg; ctx.fillRect(x,y,w,h);
     try{ ctx.drawImage(im.img,x+(w-dw)/2,y+(h-dh)/2,dw,dh); }catch(e){}
     ctx.restore();
     ctx.strokeStyle=blendOn(acc,Math.max(.25,a)); ctx.lineWidth=2.5; shapePath(ctx,x+1.25,y+1.25,w-2.5,h-2.5); ctx.stroke();
@@ -351,7 +389,9 @@ function drawTile(ctx,tl,it,L,a,acc,selected){
   }else drawEmptySlot(ctx,x,y,w,h);
   if(name){
     ctx.fillStyle=d.ink; ctx.font=F(d.wName,L.nfs); ctx.letterSpacing=(-L.nfs*.02)+'px'; ctx.textAlign='center';
-    ctx.fillText(ell(ctx,name,w+M.gapX-4),x+w/2,y+h+M.nameGap+Math.round(L.nfs*.95)); ctx.textAlign='left';
+    var ls=tl.lines&&tl.lines.length?tl.lines:nameLines(ctx,name,w-2);
+    ls.forEach(function(s,li){ ctx.fillText(s,x+w/2,y+h+M.nameGap+Math.round(L.nfs*.95)+li*L.nlh); });
+    ctx.textAlign='left';
   }
   if(selected){ ctx.strokeStyle='#FFFFFF'; ctx.lineWidth=6; shapePath(ctx,x-3,y-3,w+6,h+6); ctx.stroke(); ctx.strokeStyle=T.ink; ctx.lineWidth=3; shapePath(ctx,x-3,y-3,w+6,h+6); ctx.stroke(); }
   ctx.restore();
@@ -406,17 +446,18 @@ function draw(ctx,L,o){
     });
     if(!t.items.length)drawEmptySlot(ctx,b.itemsX,b.tilesY,b.tw,b.th);
   });
-  /* 바닥 — 기준 스탬프 · 서명 */
+  /* 바닥 — 기준 스탬프 · 서명 · 시그니처 스티커 */
   var ft=L.ft;
   ctx.save(); ctx.strokeStyle=d.hair2; ctx.lineWidth=1; if(d.sep==='dash')ctx.setLineDash([3,5]); ctx.beginPath(); ctx.moveTo(L.x0,ft.y+.5); ctx.lineTo(L.x0+L.innerW,ft.y+.5); ctx.stroke(); ctx.restore();
-  var fy=ft.y+26;
-  if(ft.stamp){ ctx.fillStyle=d.ink3; ctx.font=F('500',12.5); ctx.letterSpacing='-0.1px'; ctx.textAlign='left'; ctx.fillText(ell(ctx,ft.stamp,L.innerW*.62),L.x0,fy); }
+  var fy=ft.y+(ft.sig?46:26), right=L.x0+L.innerW-(ft.sig?ft.sig.w+12:0);
+  if(ft.stamp){ ctx.fillStyle=d.ink3; ctx.font=F('500',12.5); ctx.letterSpacing='-0.1px'; ctx.textAlign='left'; ctx.fillText(ell(ctx,ft.stamp,right-L.x0-100),L.x0,fy); }
   ctx.font=F(d.wTitle,14); ctx.letterSpacing='-0.3px'; ctx.textAlign='right'; ctx.fillStyle=d.ink;
-  var sw=ctx.measureText(ft.sign).width; ctx.fillText(ft.sign,L.x0+L.innerW,fy);
+  var sw=ctx.measureText(ft.sign).width; ctx.fillText(ft.sign,right,fy);
   ctx.fillStyle=acc;
-  if(d.glyph==='heart'){ heart(ctx,L.x0+L.innerW-sw-14,fy-5,12); ctx.fill(); }
-  else{ rrect(ctx,L.x0+L.innerW-sw-18,fy-11,9,9,2); ctx.fill(); }
+  if(d.glyph==='heart'){ heart(ctx,right-sw-14,fy-5,12); ctx.fill(); }
+  else{ rrect(ctx,right-sw-18,fy-11,9,9,2); ctx.fill(); }
   ctx.textAlign='left';
+  if(ft.sig){ try{ ctx.drawImage(ft.sig.img,ft.sig.x,ft.sig.y,ft.sig.w,ft.sig.h); }catch(e){} }
   if(o.drag&&o.drag.moved&&o.drag.target){ var mk=o.drag.target.mk; ctx.fillStyle=T.ink; rrect(ctx,mk.x,mk.y,4,mk.h,2); ctx.fill(); }
   if(o.drag&&o.drag.moved&&o.drag.id)drawGhost(ctx,o.drag,L,acc);
   ctx.restore();
@@ -471,7 +512,7 @@ function setImageFile(id,f){
   return setImageURL(id,URL.createObjectURL(f),true).then(function(){ save(); }).catch(function(){ if(api)api.toast('이미지를 읽지 못했어요',{kind:'err'}); });
 }
 function clearImage(id){ var im=IMG[id]; var it=findItem(id); if(it&&it.item.res){ delete it.item.res; save(); } if(!im)return; if(im.blob)try{ URL.revokeObjectURL(im.url); }catch(e){} delete IMG[id]; renderList(); schedule(); }
-function fileBase(f){ return String(f&&f.name||'').replace(/\.[a-z0-9]+$/i,'').replace(/[_\-]+/g,' ').trim().slice(0,14); }
+function fileBase(f){ return String(f&&f.name||'').replace(/\.[a-z0-9]+$/i,'').replace(/[_\-]+/g,' ').trim().slice(0,20); }
 function takeFiles(files,ti,idx,onTileId){
   var list=Array.prototype.slice.call(files||[]).filter(function(f){ return /^image\//.test(f.type); });
   var json=Array.prototype.slice.call(files||[]).filter(function(f){ return /json$/i.test(f.type)||/\.json$/i.test(f.name); })[0];
@@ -495,7 +536,7 @@ function loadResImages(){
 
 /* ── 편집(내용) ── */
 function addNames(ti,text){
-  var names=String(text||'').split(/[,\n、]/).map(function(s){ return s.trim().slice(0,14); });
+  var names=String(text||'').split(/[,\n、]/).map(function(s){ return s.trim().slice(0,20); });
   if(names.length>1)names=names.filter(Boolean);
   if(!names.length)names=[''];
   if(countItems()+names.length>MAX_ITEMS){ api.toast('항목은 최대 '+MAX_ITEMS+'개까지예요',{kind:'err'}); return []; }
@@ -507,7 +548,7 @@ function addNames(ti,text){
 function addRes(bundleId,cid,ti,idx){
   var b=RES.cache[bundleId]; var ch=b&&b.map[cid]; if(!ch)return null;
   if(countItems()+1>MAX_ITEMS){ api.toast('항목은 최대 '+MAX_ITEMS+'개까지예요',{kind:'err'}); return null; }
-  var tier=ST.tiers[clamp(ti,0,ST.tiers.length-1)], it=mkItem(ch.name.slice(0,14),{b:bundleId,c:cid});
+  var tier=ST.tiers[clamp(ti,0,ST.tiers.length-1)], it=mkItem(ch.name.slice(0,20),{b:bundleId,c:cid});
   if(idx==null||idx>tier.items.length)idx=tier.items.length;
   tier.items.splice(idx,0,it); sel=it.id; renderAll(); save();
   setImageURL(it.id,RES_BASE+bundleId+'/'+ch.file,false,{b:bundleId,c:cid}).catch(function(){ api.toast(ch.name+' 그림을 읽지 못했어요',{kind:'err'}); });
@@ -687,7 +728,8 @@ function html(){
     '</section>'+
     '<section class="tier-ctl" aria-label="설정">'+
       '<div class="tier-sec"><div class="tier-st">디자인</div>'+
-        '<div class="tier-chips" id="tiDesign" role="group" aria-label="디자인">'+Object.keys(DESIGNS).map(function(k){ var d=DESIGNS[k]; return chip(k,'<span class="dot" style="--ac:'+d.dot+'"></span>'+esc(d.n),ST.design===k); }).join('')+'</div>'+
+        '<div class="tier-chips" id="tiDesign" role="group" aria-label="디자인">'+Object.keys(DESIGNS).map(function(k){ var d=DESIGNS[k]; return chip(k,'<span class="dot" style="--ac:'+d.dot+'"></span>'+esc(d.n),ST.design===k); }).join('')+
+          '<button type="button" class="chip'+(ST.sig?' on':'')+'" id="tiSig" aria-pressed="'+(ST.sig?'true':'false')+'" title="보드 바닥에 작성자 캐릭터를 넣어요">시그니처</button></div>'+
         '<div class="tier-lbl"><span>포인트 색</span></div>'+
         '<div class="tier-crow" id="tiSws" role="group" aria-label="포인트 색">'+swatchHtml()+'<span class="tier-swn" id="tiSwn"></span></div>'+
         '<div class="tier-ramp" id="tiRamp" aria-hidden="true"></div>'+
@@ -751,7 +793,7 @@ function renderList(){
       var im=IMG[it.id], name=(it.name||'').trim();
       h+='<div class="tier-it'+(sel===it.id?' sel':'')+'" data-id="'+it.id+'">'+
         '<button type="button" class="tier-th" data-act="img" aria-label="'+esc(name||'빈 슬롯')+' 그림 '+(im?'바꾸기':'넣기')+'">'+(im&&im.img?'<img src="'+esc(im.url)+'" alt="">':(name?esc(Array.from(name)[0]):ic('image')))+'</button>'+
-        '<input class="tier-in" data-f="name" value="'+esc(it.name)+'" maxlength="14" placeholder="이름" aria-label="항목 이름">'+
+        '<input class="tier-in" data-f="name" value="'+esc(it.name)+'" maxlength="20" placeholder="이름" aria-label="항목 이름">'+
         '<select class="tier-sel" data-f="tier" aria-label="티어">'+tierOpts(ti)+'</select>'+
         '<span class="tier-ibs">'+
         '<button type="button" class="tier-ib" data-act="up" aria-label="위로"'+(ti===0&&i===0?' disabled':'')+'>'+ic('up')+'</button>'+
@@ -768,7 +810,7 @@ function renderList(){
 function syncDesign(){
   if(!root)return;
   var d=design(), a=accentName();
-  root.querySelectorAll('#tiDesign .chip').forEach(function(b){ var on=b.dataset.v===ST.design; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false'); });
+  root.querySelectorAll('#tiDesign .chip').forEach(function(b){ var on=b.id==='tiSig'?ST.sig:(b.dataset.v===ST.design); b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false'); });
   var sws=$('tiSws'); if(sws){ var hexEl=$('tiHex'); var focused=hexEl&&document.activeElement===hexEl; if(!focused){ sws.innerHTML=swatchHtml()+'<span class="tier-swn" id="tiSwn"></span>'; } }
   $('tiSwn').innerHTML=esc(a.n)+'<span class="num">'+esc(String(a.hex).toUpperCase())+'</span>';
   var cs=root.querySelector('#tiSws .custom'); if(cs){ cs.style.setProperty('--cc',ST.accentHex); cs.classList.toggle('has',ST.accent==='custom'); }
@@ -872,7 +914,12 @@ function bindEditor(){
     $(p[0]).addEventListener('input',function(){ ST[p[1]]=this.value; if(p[1]==='title')syncBoardInputs(); save(); schedule(); });
   });
   /* 디자인 */
-  $('tiDesign').addEventListener('click',function(e){ var b=e.target.closest('.chip'); if(!b||!DESIGNS[b.dataset.v])return; ST.design=b.dataset.v; if(ST.accent!=='custom')ST.accent='auto'; save(); syncDesign(); renderTiers(); renderList(); schedule(); loadFonts().then(function(){ if(mounted)schedule(); }); });
+  $('tiDesign').addEventListener('click',function(e){
+    var b=e.target.closest('.chip'); if(!b)return;
+    if(b.id==='tiSig'){ ST.sig=!ST.sig; save(); syncDesign(); if(ST.sig)loadSig(); schedule(); return; }
+    if(!DESIGNS[b.dataset.v])return;
+    ST.design=b.dataset.v; if(ST.accent!=='custom')ST.accent='auto'; save(); syncDesign(); renderTiers(); renderList(); loadSig(); schedule(); loadFonts().then(function(){ if(mounted)schedule(); });
+  });
   var sws=$('tiSws');
   sws.addEventListener('click',function(e){
     var b=e.target.closest('.tier-sw'); if(!b)return;
@@ -989,7 +1036,7 @@ function mount(host,a){
     }
   };
   document.addEventListener('paste',onPaste);
-  renderAll(); paint(); loadResImages();
+  renderAll(); paint(); loadResImages(); loadSig();
   loadFonts().then(function(){ if(mounted)schedule(); });
 }
 function unmount(){
@@ -1010,8 +1057,8 @@ window.SseudamTools.tier={
     addRes:function(b,c,ti,idx){ return resBundle(b).then(function(){ return addRes(b,c,ti,idx); }); },
     move:function(id,ti,idx){ var ok=moveItem(id,ti,idx); if(ok){ renderList(); save(); paint(); } return ok; },
     select:function(id){ selectItem(id,true); },
-    hits:function(){ return HIT.map(function(t){ return {id:t.id,ti:t.ti,i:t.i,x:t.x,y:t.y,w:t.w,h:t.h}; }); },
-    layout:function(){ return LAY?{H:LAY.H,tw:LAY.tw,th:LAY.th,nfs:LAY.nfs,hd:{y:LAY.hd.y,h:LAY.hd.h},bands:LAY.bands.map(function(b){ return {ti:b.ti,y:b.y,h:b.h,tiles:b.tiles.length,pl:b.pl}; })}:null; },
+    hits:function(){ return HIT.map(function(t){ return {id:t.id,ti:t.ti,i:t.i,x:t.x,y:t.y,w:t.w,h:t.h,lines:(t.lines||[]).length}; }); },
+    layout:function(){ return LAY?{H:LAY.H,tw:LAY.tw,th:LAY.th,nfs:LAY.nfs,hd:{y:LAY.hd.y,h:LAY.hd.h},ft:{y:LAY.ft.y,h:LAY.ft.h,sig:LAY.ft.sig?{x:LAY.ft.sig.x,y:LAY.ft.sig.y,w:LAY.ft.sig.w,h:LAY.ft.sig.h}:null},bands:LAY.bands.map(function(b){ return {ti:b.ti,y:b.y,h:b.h,tiles:b.tiles.length,pl:b.pl}; })}:null; },
     dropTarget:function(x,y){ return dropTarget(x,y); },
     setImageURL:function(id,url){ return setImageURL(id,url,false); },
     openRes:function(){ openRes(); return resIndex(); }, closeRes:closeRes, res:function(){ return {open:RES.open,bundle:RES.bundle,filter:RES.filter,bundles:RES.index}; },
@@ -1019,6 +1066,7 @@ window.SseudamTools.tier={
     blob:function(){ return toBlob().then(function(b){ return b?{size:b.size,type:b.type}:null; }); },
     dataURL:function(){ return exportCanvas().toDataURL('image/png'); },
     designs:Object.keys(DESIGNS), shapes:SHAPES.map(function(s){ return s.id; }),
+    sigSrc:function(){ var im=sigImg(); return im?im.src:null; },
     plaques:function(){ var d=design(), acc=accentHex(), n=ST.tiers.length; return ST.tiers.map(function(t,i){ var fill=blendOn(acc,tierAlpha(i,n),d.paper), tc=plaqueText(fill,d); return {letter:t.letter,fill:fill,text:tc,contrast:Math.round(contrast(fill,tc)*100)/100}; }); },
     reset:function(){ IMG={}; sel=null; ST.design='bomding'; ST.accent='auto'; ST.cols=4; ST.shape='round'; defaultBoard(); renderAll(); save(); }
   }

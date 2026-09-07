@@ -115,9 +115,12 @@ chk('탭 4개', (await ev(`[...document.querySelectorAll('.isl-tab')].map(b=>b.d
 const t0 = Date.now();
 chk('도구함 진입 → 티어 도구 로드', await gotoTier(), { ms: Date.now() - t0 });
 chk('도구 목록 2개 · 메타 «2 도구»', await ev(`[...document.querySelectorAll('#tbList .tb-item')].map(b=>b.dataset.t).join(',')==='thumb,tier'&&document.getElementById('pmeta').textContent.includes('2')`));
-const rail = await ev(`(()=>{const tb=document.querySelector('.tb'),side=document.querySelector('.tb-side'),main=document.querySelector('.tb-main'),m=document.querySelector('.main');return{ml:getComputedStyle(tb).marginLeft,pos:getComputedStyle(side).position,top:getComputedStyle(side).top,sideRight:Math.round(side.getBoundingClientRect().right),mainLeft:Math.round(main.getBoundingClientRect().left),mainW:Math.round(main.getBoundingClientRect().width),contentW:m.clientWidth-48,contentLeft:Math.round(m.getBoundingClientRect().left)+24}})()`);
-chk('≥1620: 도구 목록 = 본문 왼쪽 여백의 sticky 레일(margin -246 · sticky top 84)', rail && rail.ml === '-246px' && rail.pos === 'sticky' && rail.top === '84px', rail);
-chk('≥1620: 도구 판 폭 = 작성 글·트렌드와 같은 본문 폭(1080) · 판 왼쪽 = 본문 왼쪽', rail && Math.abs(rail.mainW - rail.contentW) <= 1 && Math.abs(rail.mainLeft - rail.contentLeft) <= 1 && rail.sideRight <= rail.mainLeft, rail);
+const rail = await ev(`(()=>{const tb=document.querySelector('.tb'),side=document.querySelector('.tb-side'),main=document.querySelector('.tb-main'),m=document.querySelector('.main');return{ml:getComputedStyle(tb).marginLeft,pos:getComputedStyle(side).position,top:getComputedStyle(side).top,wide:m.classList.contains('wide'),mainMax:getComputedStyle(m).maxWidth,mW:Math.round(m.getBoundingClientRect().width),sideW:Math.round(side.getBoundingClientRect().width),panelW:Math.round(main.getBoundingClientRect().width)}})()`);
+chk('도구함 뷰 = 넓은 작업 영역(.main.wide 1620) · 목록은 왼쪽 sticky 레일(top 84)', rail && rail.wide && rail.mainMax === '1620px' && rail.mW === 1620 && rail.pos === 'sticky' && rail.top === '84px' && rail.ml === '0px', rail);
+chk('1920: 도구 판 폭 1326(1620 − 패딩 48 − 레일 232 − 간격 14)', rail && rail.panelW === 1326 && rail.sideW === 232, rail);
+await click('.isl-tab[data-v="home"]'); await sleep(700);
+chk('홈으로 가면 본문 열 1080 복귀(.wide 해제)', await ev(`(()=>{const m=document.querySelector('.main');return !m.classList.contains('wide')&&Math.round(m.getBoundingClientRect().width)===1080})()`), await ev(`Math.round(document.querySelector('.main').getBoundingClientRect().width)`));
+await gotoTier();
 await T('reset()'); await sleep(350);
 const s0 = await state();
 chk('기본 보드 = S·A·B·C 4단계 · 빈 슬롯 14 · 프리셋 없음', s0 && s0.board.tiers.length === 4 && s0.board.tiers.map(t => t.letter).join('') === 'SABC' && s0.board.tiers.reduce((a, t) => a + t.items.length, 0) === 14 && !(await ev(`!!document.querySelector('#tiPresets')`)), s0 && s0.board.tiers.map(t => t.letter + t.items.length));
@@ -126,8 +129,7 @@ const L0 = await T('layout()');
 chk('보드 논리 폭 693 · 캔버스 2배(1386) · 타일 135', s0.W === 693 && (await ev(`document.getElementById('tiCanvas').width`)) === 1386 && L0.tw === 135, { W: s0.W, tw: L0.tw });
 const ws0 = await ev(`(()=>{const t=document.querySelector('.tier'),st=document.querySelector('.tier-stage'),ct=document.querySelector('.tier-ctl'),save=document.getElementById('tiSave').getBoundingClientRect(),cv=document.getElementById('tiCanvas').getBoundingClientRect(),core=document.querySelector('.tb-main .core');return{h:Math.round(t.getBoundingClientRect().height),so:getComputedStyle(st).overflowY,co:getComputedStyle(ct).overflowY,saveIn:save.top>0&&save.bottom<=innerHeight,cvW:Math.round(cv.width),pageScroll:document.documentElement.scrollHeight-innerHeight,tierW:Math.round(t.getBoundingClientRect().width),stageW:st.clientWidth,ctlW:ct.getBoundingClientRect().width,coreW:core.clientWidth,cols:getComputedStyle(t).gridTemplateColumns}})()`);
 chk('작업대 = 뷰포트에 맞는 높이(866) · 보드/편집 열 내부 스크롤 · PNG 저장 버튼이 첫 화면에', ws0 && ws0.h === 866 && ws0.so === 'auto' && ws0.co === 'auto' && ws0.saveIn, ws0);
-/* 본문 열은 1080 − 패딩 48 = 1032 → 코어 1020 → 편집 열 340 을 두면 보드 표시 폭은 648(실제 크기의 93%). 내보내기는 693 논리 그대로 */
-chk('보드 표시 폭 ≥ 실제 크기의 92%(648/693)', ws0 && ws0.cvW >= 640 && ws0.cvW <= 693, ws0);
+chk('보드가 실제 크기(693)로 표시 · 편집 열 400', ws0 && ws0.cvW === 693 && ws0.ctlW === 400, ws0);
 chk('제목 띠(플럼) 그려짐', near(await px(30, L0.hd.y + 10), '#2E2038', 18), await px(30, L0.hd.y + 10));
 chk('S 플라크 = 로즈(농도 1.0)', near(await px(24 + 30, L0.bands[0].pl.y + 10), '#C93C7C', 18), await px(54, L0.bands[0].pl.y + 10));
 chk('빈 슬롯 그려짐', (await cvVar(96, L0.bands[0].pl.y + 4, 135, 120)) > 0);
@@ -144,6 +146,14 @@ chk('파일명 = <제목>_티어표.png', (await T('fileName()')) === '쿠키런
 await click('#tiDesign .chip[data-v="yeongdo"]'); await sleep(400);
 const Ly = await T('layout()');
 chk('영도 디자인 → 제목 띠 틸 · S 플라크 그린 · 서명 자리 «영도»', (await state()).design.design === 'yeongdo' && near(await px(30, Ly.hd.y + 10), '#0F7C86', 18) && near(await px(54, Ly.bands[0].pl.y + 10), '#15A05A', 18) && (await ev(`document.getElementById('tiSign').placeholder`)) === '영도', { band: await px(30, Ly.hd.y + 10), pl: await px(54, Ly.bands[0].pl.y + 10) });
+/* 작성자 시그니처 스티커(09-07 4차) — 디자인별 1장, 바닥 오른쪽, 칩으로 끄고 켬 */
+chk('시그니처 기본 켬 · 바닥 오른쪽 안쪽에 그려짐(오른쪽 끝 정렬 · 구분선 위로 34)', await ev(`(()=>{const t=window.SseudamTools.tier.__test;const L=t.layout(),s=t.state();const f=L.ft;if(!f.sig)return false;return s.design.sig===true&&Math.abs(f.sig.x+f.sig.w-(693-24))<=1&&f.sig.y===f.y-34&&f.sig.h===96&&f.sig.y+f.sig.h<=f.y+f.h})()`), await T('layout()').then(l => l && l.ft));
+const sigPx = await ev(`(()=>{const L=window.SseudamTools.tier.__test.layout();const f=L.ft.sig;const c=document.getElementById('tiCanvas').getContext('2d');const d=c.getImageData((f.x+f.w/2)*2,(f.y+f.h*.45)*2,1,1).data;return [d[0],d[1],d[2]]})()`);
+chk('시그니처 픽셀이 실제로 그려짐(바탕색과 다름)', sigPx && !(sigPx[0] > 250 && sigPx[1] > 245 && sigPx[2] > 248), sigPx);
+await click('#tiSig'); await sleep(300);
+chk('시그니처 끄면 바닥이 40 으로 줄고 스티커 없음', await ev(`(()=>{const t=window.SseudamTools.tier.__test;const L=t.layout();return !L.ft.sig&&L.ft.h===40&&t.state().design.sig===false})()`), await T('layout()').then(l => l && l.ft));
+await click('#tiSig'); await sleep(400);
+chk('다시 켜면 복귀', await waitFor(`!!window.SseudamTools.tier.__test.layout().ft.sig`, 4000));
 /* 플라크 글자 대비(게이트 🔴 09-07): 티어 전부, 두 디자인, 7단계까지 ≥ 4.5:1 */
 for (const dsg of ['yeongdo', 'bomding']) {
   await click(`#tiDesign .chip[data-v="${dsg}"]`); await sleep(250);
@@ -156,6 +166,7 @@ for (const dsg of ['yeongdo', 'bomding']) {
 await click('#tiDesign .chip[data-v="yeongdo"]'); await sleep(250);
 const pq4 = await T('plaques()');
 chk('영도 기본 4단계: S 플라크 글자 = 대비가 큰 쪽(잉크 5.5:1 > 흰 3.38:1)', pq4 && pq4[0].text !== '#FFFFFF' && pq4[0].contrast >= 4.5 && pq4[1].contrast >= 4.5, pq4);
+chk('영도 시그니처가 봄딩과 다른 파일(디자인별 자산)', await ev(`(()=>{const t=window.SseudamTools.tier.__test;const a=t.sigSrc();return /yeongdo\\.webp$/.test(a||'')})()`), await T('sigSrc()'));
 chk('영도 스와치 = 그린·민트·틸 3 + 팔레트 + 헥스칸', await ev(`(()=>{const s=[...document.querySelectorAll('#tiSws .tier-sw')].map(b=>b.dataset.c);return s.join(',')==='green,mint,teal,custom'&&!!document.getElementById('tiHex')})()`), await ev(`[...document.querySelectorAll('#tiSws .tier-sw')].map(b=>b.dataset.c).join(',')`));
 await shot('02-tier-yeongdo-1920');
 await click('#tiDesign .chip[data-v="bomding"]'); await sleep(400);
@@ -197,6 +208,14 @@ const hits1 = await T('hits()');
 const adel = hits1.find(h => h.i === 3 && h.ti === 0);
 chk('모노그램 타일(아델) 그려짐 · 순위 배지 없음(모서리 = 슬롯색)', adel && (await cvVar(adel.x + 10, adel.y + 10, adel.w - 20, adel.h - 20)) > 0 && near(await px(adel.x + 14, adel.y + 14), '#F8F1F4', 12), { adel, corner: adel && await px(adel.x + 14, adel.y + 14) });
 chk('편집 열 행 = 17개 · 아델 행 모노그램', await ev(`(()=>{const rows=[...document.querySelectorAll('.tier-it')];const r=rows.find(x=>x.querySelector('input').value==='아델');return rows.length===17&&!!r&&r.querySelector('.tier-th').textContent.trim()==='아'})()`), await ev(`document.querySelectorAll('.tier-it').length`));
+/* 긴 이름 → 2줄(띠 단위로 줄 높이 통일) — 09-07 «텍스트가 잘린다» */
+const bA0 = (await T('layout()')).bands[1];
+await setInput('#tiNewT', '1'); await click('#tiNew'); await setInput('#tiNew', '바삭튼튼 소아과 의사 우유맛 쿠키'); await key('Enter', 13, '\r'); await sleep(350);
+const sLong = await state(), longId = sLong.board.tiers[1].items[sLong.board.tiers[1].items.length - 1].id;
+const hLong = (await T('hits()')).find(h => h.id === longId), bA1 = (await T('layout()')).bands[1];
+chk('20자 이름 그대로 저장 · 타일 이름 2줄 · A 띠가 한 줄 높이만큼 자람', sLong.board.tiers[1].items.slice(-1)[0].name === '바삭튼튼 소아과 의사 우유맛 쿠키' && hLong && hLong.lines === 2 && bA1.h > bA0.h, { name: sLong.board.tiers[1].items.slice(-1)[0].name, lines: hLong && hLong.lines, h0: bA0.h, h1: bA1.h });
+await click('.tier-it[data-id="' + longId + '"] [data-act="del"]'); await sleep(300);
+await setInput('#tiNewT', '0');
 await shot('03-tier-items-1920');
 
 /* ▲▼ · 셀렉트 */
@@ -322,8 +341,8 @@ console.log('\n[1366×768]');
 logs = [];
 await open(1366, 768, false);
 chk('도구함 진입(1366)', await gotoTier());
-const rail2 = await ev(`(()=>{const tb=document.querySelector('.tb'),side=document.querySelector('.tb-side');return{ml:getComputedStyle(tb).marginLeft,pos:getComputedStyle(side).position,cols:getComputedStyle(tb).gridTemplateColumns.split(' ').length}})()`);
-chk('1366: 레일 없음 · 목록이 열 안에 나란히(2열)', rail2 && rail2.ml === '0px' && rail2.pos !== 'sticky' && rail2.cols === 2, rail2);
+const rail2 = await ev(`(()=>{const tb=document.querySelector('.tb'),side=document.querySelector('.tb-side'),main=document.querySelector('.tb-main'),cv=document.getElementById('tiCanvas');return{ml:getComputedStyle(tb).marginLeft,pos:getComputedStyle(side).position,cols:getComputedStyle(tb).gridTemplateColumns.split(' ').length,panelW:Math.round(main.getBoundingClientRect().width),cvW:Math.round(cv.getBoundingClientRect().width),ctl:getComputedStyle(document.querySelector('.tier')).gridTemplateColumns}})()`);
+chk('1366: 본문 전폭(판 1072) · 레일 sticky · 편집 열 340 · 보드 ≥ 680', rail2 && rail2.ml === '0px' && rail2.pos === 'sticky' && rail2.cols === 2 && rail2.panelW === 1072 && rail2.cvW >= 680 && rail2.ctl.endsWith('340px'), rail2);
 chk('1366 가로 넘침 없음', await ev(`document.documentElement.scrollWidth<=innerWidth+1`));
 await shot('08-tier-1366');
 chk('[1366] 콘솔 예외 0', logs.length === 0, logs);

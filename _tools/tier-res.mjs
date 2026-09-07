@@ -91,7 +91,14 @@ await ev(`window.__crop = async function(src, size, zoom, fx, fy, pad){
   ox.imageSmoothingEnabled = true; ox.imageSmoothingQuality = 'high';
   const inner = size - padPx * 2;
   ox.drawImage(c, sx, sy, side, side, padPx, padPx, inner, inner);
-  return { url: o.toDataURL('image/webp', .9), w, h, box: [l, t, bw, bh], side, sx, sy };
+  /* 디버그 — 원본 전체(200px 축소) 위에 상자(회색)·크롭 정사각(빨강)·중심 십자 */
+  const D = 200, k = D / Math.max(w, h), dc = document.createElement('canvas'); dc.width = D; dc.height = D; const dx = dc.getContext('2d');
+  dx.fillStyle = '#fff'; dx.fillRect(0, 0, D, D); dx.drawImage(c, (D - w * k) / 2, (D - h * k) / 2, w * k, h * k);
+  const ox0 = (D - w * k) / 2, oy0 = (D - h * k) / 2;
+  dx.strokeStyle = 'rgba(0,0,0,.35)'; dx.lineWidth = 1; dx.strokeRect(ox0 + l * k, oy0 + t * k, bw * k, bh * k);
+  dx.strokeStyle = '#E11D48'; dx.lineWidth = 2; dx.strokeRect(ox0 + sx * k, oy0 + sy * k, side * k, side * k);
+  dx.beginPath(); dx.moveTo(ox0 + (sx + side / 2) * k - 6, oy0 + (sy + side / 2) * k); dx.lineTo(ox0 + (sx + side / 2) * k + 6, oy0 + (sy + side / 2) * k); dx.moveTo(ox0 + (sx + side / 2) * k, oy0 + (sy + side / 2) * k - 6); dx.lineTo(ox0 + (sx + side / 2) * k, oy0 + (sy + side / 2) * k + 6); dx.stroke();
+  return { url: o.toDataURL('image/webp', .9), w, h, box: [l, t, bw, bh], side, sx, sy, debug: dc.toDataURL('image/png') };
 }; true`);
 
 /* 3) 항목마다 크롭 → 파일 */
@@ -109,7 +116,7 @@ for (const it of spec.items) {
   const file = it.id + '.webp';
   writeFileSync(join(outDir, file), Buffer.from(r.url.split(',')[1], 'base64'));
   manifest.characters.push({ id: it.id, name: it.name, rarity: it.rarity || null, element: it.element || null, role: it.role || null, file, src: { w: r.w, h: r.h, box: r.box, side: r.side, sx: r.sx, sy: r.sy, zoom: zoom == null ? 1 : zoom } });
-  sheetTiles.push({ name: it.name, rarity: it.rarity || '', url: r.url });
+  sheetTiles.push({ name: it.name, rarity: it.rarity || '', url: r.url, debug: r.debug });
   console.log(`  ${it.rarity || ''}\t${it.id}\t${it.name}\t${r.w}×${r.h} → box ${r.box.join(',')} side ${r.side}`);
 }
 writeFileSync(join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 1));
@@ -124,11 +131,17 @@ index.bundles.sort((a, b) => a.game.localeCompare(b.game, 'ko'));
 writeFileSync(idxPath, JSON.stringify(index, null, 1));
 console.log(`manifest ${manifest.characters.length}개 → ${join(outDir, 'manifest.json')} · index ${index.bundles.length}묶음`);
 
-/* 4) 대조용 contact sheet(선택) — 이름·희귀도 라벨과 함께 8열 */
+/* 4) 대조용 contact sheet(선택) — 이름·희귀도 라벨과 함께(기본 8열 150px, --cols·--cell 로 조절) */
 if (SHEET) {
-  const r = await ev(`(async()=>{const tiles=${JSON.stringify(sheetTiles)};const cols=8,cell=150,pad=10,lab=34;const rows=Math.ceil(tiles.length/cols);const c=document.createElement('canvas');c.width=cols*cell+pad*2;c.height=rows*(cell+lab)+pad*2;const x=c.getContext('2d');x.fillStyle='#EFF0F2';x.fillRect(0,0,c.width,c.height);for(let i=0;i<tiles.length;i++){const im=new Image();im.src=tiles[i].url;await im.decode();const cx=pad+(i%cols)*cell,cy=pad+Math.floor(i/cols)*(cell+lab);x.fillStyle='#fff';x.fillRect(cx+4,cy+4,cell-8,cell-8);x.drawImage(im,cx+4,cy+4,cell-8,cell-8);x.fillStyle='#0E1114';x.font='600 13px "Pretendard Variable",Pretendard,"Malgun Gothic",sans-serif';x.textAlign='center';x.fillText((tiles[i].rarity?tiles[i].rarity+' · ':'')+tiles[i].name,cx+cell/2,cy+cell+14,cell-6);}return c.toDataURL('image/png')})()`);
+  const COLS = parseInt(val('--cols', '8'), 10), CELL = parseInt(val('--cell', '150'), 10);
+  const r = await ev(`(async()=>{const tiles=${JSON.stringify(sheetTiles)};const cols=${COLS},cell=${CELL},pad=10,lab=34;const rows=Math.ceil(tiles.length/cols);const c=document.createElement('canvas');c.width=cols*cell+pad*2;c.height=rows*(cell+lab)+pad*2;const x=c.getContext('2d');x.fillStyle='#EFF0F2';x.fillRect(0,0,c.width,c.height);for(let i=0;i<tiles.length;i++){const im=new Image();im.src=tiles[i].url;await im.decode();const cx=pad+(i%cols)*cell,cy=pad+Math.floor(i/cols)*(cell+lab);x.fillStyle='#fff';x.fillRect(cx+4,cy+4,cell-8,cell-8);x.drawImage(im,cx+4,cy+4,cell-8,cell-8);x.fillStyle='#0E1114';x.font='600 13px "Pretendard Variable",Pretendard,"Malgun Gothic",sans-serif';x.textAlign='center';x.fillText((tiles[i].rarity?tiles[i].rarity+' · ':'')+tiles[i].name,cx+cell/2,cy+cell+14,cell-6);}return c.toDataURL('image/png')})()`);
   writeFileSync(join(outDir, 'contact-sheet.png'), Buffer.from(r.split(',')[1], 'base64'));
   console.log('contact-sheet.png 저장');
+  if (args.includes('--debug')) {   /* 원본+크롭 상자 대조판 — 초점 보정용(커밋 안 함) */
+    const r2 = await ev(`(async()=>{const tiles=${JSON.stringify(sheetTiles.map(t => ({ name: t.name, url: t.debug })))};const cols=${COLS},cell=${CELL},pad=10,lab=30;const rows=Math.ceil(tiles.length/cols);const c=document.createElement('canvas');c.width=cols*cell+pad*2;c.height=rows*(cell+lab)+pad*2;const x=c.getContext('2d');x.fillStyle='#EFF0F2';x.fillRect(0,0,c.width,c.height);for(let i=0;i<tiles.length;i++){const im=new Image();im.src=tiles[i].url;await im.decode();const cx=pad+(i%cols)*cell,cy=pad+Math.floor(i/cols)*(cell+lab);x.drawImage(im,cx+4,cy+4,cell-8,cell-8);x.fillStyle='#0E1114';x.font='600 13px "Pretendard Variable",Pretendard,"Malgun Gothic",sans-serif';x.textAlign='center';x.fillText(tiles[i].name,cx+cell/2,cy+cell+12,cell-6);}return c.toDataURL('image/png')})()`);
+    writeFileSync(join(outDir, 'debug-sheet.png'), Buffer.from(r2.split(',')[1], 'base64'));
+    console.log('debug-sheet.png 저장');
+  }
 }
 try { ws.close(); } catch {}
 chrome.kill(); srv.close();
