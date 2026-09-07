@@ -143,7 +143,7 @@ var CSS=
 '.th-presets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}'+
 '.th-preset{display:flex;flex-direction:column;align-items:center;gap:6px;padding:7px 4px 6px;border-radius:12px;'+
   'transition:background var(--t-fast) var(--e),box-shadow var(--t-fast) var(--e),transform var(--t-fast) var(--e)}'+
-'.th-preset canvas{display:block;width:100%;max-width:68px;aspect-ratio:1/1;border-radius:8px;background:var(--surface-3);box-shadow:0 0 0 1px var(--hair);'+
+'.th-preset canvas{display:block;width:100%;max-width:56px;aspect-ratio:1/1;border-radius:8px;background:var(--surface-3);box-shadow:0 0 0 1px var(--hair);'+   /* 09-07: 도구 판이 1032 로 넓어져 타일이 68 까지 자라며 설정 열이 1080 을 넘었다(1099) → 종전 실측 55 에 맞춘 상한 */
   'transition:box-shadow var(--t-fast) var(--e)}'+
 '.th-preset b{font-size:12.5px;font-weight:600;letter-spacing:-.02em;color:var(--ink-2);white-space:nowrap}'+
 '.th-preset:hover{background:var(--surface-2)}.th-preset:hover b{color:var(--ink)}'+

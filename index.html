@@ -694,10 +694,17 @@ a{color:inherit; text-decoration:none}
 .ctip-r i{width:10px; height:2px; border-radius:1px; background:var(--c,rgba(255,255,255,.5)); flex:none}
 .ctip-r b{margin-left:auto; padding-left:12px; font-family:"JetBrains Mono",monospace; font-weight:600; font-variant-numeric:tabular-nums}
 
-/* ══════════ 도구함 — 좌측 도구 목록 + 우측 도구 판 (2026-09-06) ══════════
+/* ══════════ 도구함 — 좌측 도구 목록 + 우측 도구 판 (2026-09-06 · ★09-07 사이드 레일) ══════════
    도구는 _toolbox/<id>.js 로 분리해 처음 열 때만 받는다(index.html 을 키우지 않는다).
-   목록의 선택 표시는 사이트의 «잉크 채움» 어휘(탭 알약·칩과 같음). 860px 이하는 목록이 가로 줄이 된다. */
+   목록의 선택 표시는 사이트의 «잉크 채움» 어휘(탭 알약·칩과 같음). 860px 이하는 목록이 가로 줄이 된다.
+   ★09-07(사용자 지시 «사이드 메뉴는 더 왼쪽으로, 진짜 사이드 메뉴탭처럼 · 도구 화면은 작성 글·트렌드와 같은 폭»):
+   1620px 이상에서는 목록이 본문 열 «왼쪽 바깥»(여백)에 매달린 sticky 레일이 되고, 도구 판이 1080 전폭을 쓴다.
+   그 아래 폭에서는 여백이 모자라 종전대로 열 안에 나란히 놓는다. */
 .tb{display:grid; grid-template-columns:232px minmax(0,1fr); gap:14px; align-items:start}
+@media (min-width:1620px){
+  .tb{margin-left:-246px}                       /* 232 + 14 — 판은 그대로 1080, 목록만 왼쪽 여백으로 */
+  .tb-side{position:sticky; top:84px}           /* 섬(18 + 50) 아래에 붙어 따라온다 */
+}
 .tb-list{display:flex; flex-direction:column; gap:2px; padding:6px}
 .tb-item{
   display:flex; align-items:center; gap:11px; width:100%; text-align:left; padding:9px 11px; border-radius:12px;
@@ -1731,8 +1738,8 @@ function render(){
    api = 사이트가 도구에 빌려주는 부품(모달·토스트·모션·아이콘·이스케이프) — 도구는 사이트 토큰만 쓰고 색을 새로 만들지 않는다. */
 /* 목록 행 = 아이콘 + 이름뿐. 부제(설명 한 줄)는 09-06 사용자 지시로 폐기 — 읽지 않아도 잘못 쓸 일이 없는 문구는 두지 않는다 */
 var TOOLS=[
-  {id:'thumb', name:'썸네일 제작', icon:'image', src:'_toolbox/thumb.js?v=20260906e'},
-  {id:'tier',  name:'티어표 제작', icon:'layers', src:'_toolbox/tier.js?v=20260907a'}
+  {id:'thumb', name:'썸네일 제작', icon:'image', src:'_toolbox/thumb.js?v=20260907a'},
+  {id:'tier',  name:'티어표 제작', icon:'layers', src:'_toolbox/tier.js?v=20260907c'}
 ];
 var TOOL_P={}, TOOL_ON=null;
 function toolApi(){
