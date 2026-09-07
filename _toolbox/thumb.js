@@ -35,7 +35,8 @@ var TEXTC=[
   {id:'auto',  n:'자동'},
   {id:'white', c:'#FFFFFF', n:'흰색'},
   {id:'plum',  c:'#2E2038', n:'플럼'},
-  {id:'cream', c:'#FAF7F9', n:'크림'}
+  {id:'cream', c:'#FAF7F9', n:'크림'},
+  {id:'sky',   c:'#58CCFF', n:'하늘'}   /* 09-07 사용자 지정 */
 ];
 /* 디자인 10 — 전부 글자 높이 16.5%·안전여백 4%·테두리 없음. area=false 는 면이 없어 «면 진하기»가 없다 */
 var PRESETS=[

@@ -207,7 +207,12 @@ chk('붉은 링은 잠깐만', !(await ev(`document.getElementById('thHex').clas
 await click('.th-sw[data-c="bd-pink"]'); await sleep(250);
 chk('프리셋 스와치 선택 → HEX 칸이 그 색으로', (await ev(`document.getElementById('thHex').value`)) === '#F58AB4');
 await click('.th-sw[data-c="bd-rose"]'); await sleep(200);
-chk('글자색 = 자동·흰색·플럼·크림 + 기타', await ev(`(()=>{const b=[...document.querySelectorAll('#thTcs .th-sw')].map(x=>x.dataset.c);return b.join(',')==='auto,white,plum,cream,custom'})()`));
+chk('글자색 = 자동·흰색·플럼·크림·하늘 + 기타', await ev(`(()=>{const b=[...document.querySelectorAll('#thTcs .th-sw')].map(x=>x.dataset.c);return b.join(',')==='auto,white,plum,cream,sky,custom'})()`), await ev(`[...document.querySelectorAll('#thTcs .th-sw')].map(x=>x.dataset.c).join(',')`));
+chk('글자색 스와치가 한 줄에(줄바꿈 0)', await ev(`(()=>{const t=[...document.querySelectorAll('#thTcs .th-sw')].map(x=>Math.round(x.getBoundingClientRect().top));return Math.max(...t)-Math.min(...t)<=2})()`), await ev(`[...document.querySelectorAll('#thTcs .th-sw')].map(x=>Math.round(x.getBoundingClientRect().top)).join(',')`));
+const vSky = await canvasVar('#thCanvas');
+await click('#thTcs .th-sw[data-c="sky"]'); await sleep(300);
+chk('글자색 «하늘» → 상태 sky · #58CCFF · 캔버스 변화', await ev(`(()=>{const s=window.SseudamTools.thumb.__test.state();return s.tc==='sky'&&document.getElementById('thTcHex').value==='#58CCFF'&&document.querySelector('#thTcn .nm').textContent==='하늘'})()`) && (await canvasVar('#thCanvas')) !== vSky, await ev(`document.getElementById('thTcHex').value`));
+await shot('05d-textcolor-sky-1920');
 await click('#thTcs .th-sw[data-c="plum"]'); await sleep(250);
 chk('글자색 «플럼» 선택 → 상태·이름·HEX 칸', await ev(`(()=>{return window.SseudamTools.thumb.__test.state().tc==='plum'&&document.querySelector('#thTcn .nm').textContent==='플럼'&&document.getElementById('thTcHex').value==='#2E2038'})()`));
 await setInput('#thTcHex', '#ff8800'); await sleep(300);
