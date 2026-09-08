@@ -1,0 +1,347 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>애니모 도감 속성치 비교 — 출시 전 공식 위키로 확인한 9종 능력치</title>
+<!-- AI브리핑 타깃 질문: 애니모 속성치 비교 / 애니모 포지션별 능력치 / 애니모 도감 합계 높은 애니모 -->
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--blue:#3f6191;--blue-line:#c7d9f0;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td.num{text-align:center;}
+  .tbl tr.highlight td{background:#fff9f0;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 네이버 붙여넣기 위젯 */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+  #copy .tnote-line{font-size:12.5px;color:#888;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">애니모 도감 속성치 비교 — 출시 전 공식 위키로 확인한 9종 능력치</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.09.08</span><span>· 게임</span></div>
+
+    <p>애니모 출시일이 가까워지면서 "포지션별로 어떤 애니모가 더 강한가"를 찾아보시는 분들이 부쩍 늘었는데요, 사실 출시 전에 확정적으로 말할 수 있는 건 별로 없잖아요. 실제 전투 밸런스는 게임을 직접 해봐야 알 수 있는 거고, 스킬 시너지나 팀 조합에 따라서도 얼마든지 달라질 수 있으니까요.</p>
+
+    <p>그런데 딱 하나, <b>지금 당장 객관적으로 비교할 수 있는 게 있더라고요.</b> 공식 위키 도감에 올라와 있는 속성 수치예요. 2026년 9월 7일 기준으로 직접 하나하나 확인해봤는데, 9종의 세부 스탯 항목이 전부 공개돼 있었어요. 오늘은 그 수치를 그대로 정리해드릴게요. <b>전투 강약 판단이 아니라, 지금 공개된 수치 기준의 비교</b>라는 점 먼저 짚고 넘어갈게요.</p>
+
+    <!-- 이미지 이유: 애니모 공식 키비주얼 — 게임 정체성 도입부 이미지 / 출처: wiki.aniimo.com / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 애니모 공식 대표 이미지 또는 타이틀 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 공식 미디어: <a href="https://wiki.aniimo.com/ko" target="_blank">애니모 공식 위키</a> 또는 공식 SNS 채널</div>
+    <p class="cap">애니모(Aniimo) — 공식 도감 속성치를 기준으로 9종을 직접 비교해봤어요.</p>
+
+    <h2 class="sub">포지션별 도감 수치 — 2026.09.07 공식 위키 실측 (95종 중 9종 표본)</h2>
+
+    <p>공식 위키 도감에는 각 애니모의 스탯이 <b>HP · 공격 · 물리방어 · 마법방어 · 무력화 · 에너지 회복</b> 여섯 항목으로 나뉘어 공개돼 있어요. 합계는 이 여섯 항목의 단순 합산값이고요. 아직 95종 중 일부만 확인한 표본 수치라는 점, 그리고 <b>이 합계는 공식 희귀도 서열이 아니라 위키에 공개된 수치의 단순 합산</b>이라는 점을 꼭 염두에 두고 봐주세요.</p>
+
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>포지션</th>
+          <th>이름</th>
+          <th>번호</th>
+          <th>HP</th>
+          <th>공격</th>
+          <th>물리방어</th>
+          <th>마법방어</th>
+          <th>무력화</th>
+          <th>에너지회복</th>
+          <th>합계</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight">
+          <td>격파</td><td><b>갸고일</b></td><td>NO.067</td>
+          <td class="num">105</td><td class="num">85</td><td class="num">111</td><td class="num">68</td><td class="num">102</td><td class="num">84</td><td class="num"><b>555</b></td>
+        </tr>
+        <tr>
+          <td>격파</td><td>헬울프</td><td>NO.004</td>
+          <td class="num">95</td><td class="num">89</td><td class="num">70</td><td class="num">80</td><td class="num">113</td><td class="num">104</td><td class="num">551</td>
+        </tr>
+        <tr class="highlight">
+          <td>서포터</td><td><b>캐슬앤트</b></td><td>NO.077</td>
+          <td class="num">75</td><td class="num">114</td><td class="num">85</td><td class="num">84</td><td class="num">103</td><td class="num">75</td><td class="num"><b>536</b></td>
+        </tr>
+        <tr>
+          <td>서포터</td><td>몽실양</td><td>NO.019</td>
+          <td class="num">95</td><td class="num">90</td><td class="num">80</td><td class="num">96</td><td class="num">50</td><td class="num">109</td><td class="num">520</td>
+        </tr>
+        <tr>
+          <td>서포터</td><td>플로라버드</td><td>NO.041</td>
+          <td class="num">84</td><td class="num">106</td><td class="num">68</td><td class="num">65</td><td class="num">81</td><td class="num">110</td><td class="num">514</td>
+        </tr>
+        <tr>
+          <td>서포터</td><td>허니버드</td><td>NO.040</td>
+          <td class="num">71</td><td class="num">90</td><td class="num">58</td><td class="num">55</td><td class="num">69</td><td class="num">94</td><td class="num">437</td>
+        </tr>
+        <tr class="highlight">
+          <td>에너지 재생</td><td><b>베서스</b></td><td>NO.083</td>
+          <td class="num">82</td><td class="num">89</td><td class="num">75</td><td class="num">75</td><td class="num">90</td><td class="num">110</td><td class="num"><b>521</b></td>
+        </tr>
+        <tr class="highlight">
+          <td>딜</td><td><b>엔젤후드</b></td><td>NO.092</td>
+          <td class="num">100</td><td class="num">105</td><td class="num">80</td><td class="num">80</td><td class="num">50</td><td class="num">100</td><td class="num"><b>515</b></td>
+        </tr>
+        <tr>
+          <td>딜</td><td>스타저드</td><td>NO.006</td>
+          <td class="num">90</td><td class="num">125</td><td class="num">63</td><td class="num">67</td><td class="num">50</td><td class="num">90</td><td class="num">485</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:var(--sub);margin-top:-16px;">※ 2026.09.07 기준 공식 위키 실측. 95종 중 9종 표본이며, 확정 티어 아님. 합계는 6항목 단순 합산값.</p>
+
+    <!-- 이미지 이유: 헬울프·갸고일 격파 포지션 애니모 이미지 / 출처: wiki.aniimo.com/ko/item/10003203, 10003311 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 헬울프(NO.004)와 갸고일(NO.067) 공식 도감 화면 비교</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 공식 위키 도감: <a href="https://wiki.aniimo.com/ko/item/10003203" target="_blank">헬울프 도감</a> · <a href="https://wiki.aniimo.com/ko/item/10003311" target="_blank">갸고일 도감</a></div>
+    <p class="cap">격파 포지션 두 애니모 — 스탯 구성이 꽤 다르더라고요.</p>
+
+    <h2 class="sub">속성치를 보는 법 — 합계가 높다고 무조건 강한 게 아니에요</h2>
+
+    <p><b>속성 합계는 전투력 지표가 아니라 여섯 항목의 단순 합산일 뿐이에요.</b> 예를 들어 스타저드는 합계 485로 이번 표본 중 가장 낮지만, 공격 수치는 125로 9종 중 단연 높거든요. 딜러 포지션에서 공격 수치가 핵심이라면, 단순 합계로 비교하는 건 의미가 없어지는 거죠.</p>
+
+    <p>포지션별로 어떤 항목이 중요한지도 다를 수밖에 없는데요, 지금 위키에서 읽을 수 있는 항목별 특성을 정리하면 이렇습니다.</p>
+
+    <ul>
+      <li><b>HP</b> — 버티는 능력. 격파·딜러 포지션에도 생각보다 차이가 나요.</li>
+      <li><b>공격</b> — 딜 포지션에서 핵심 수치. 스타저드가 125로 최고예요.</li>
+      <li><b>물리방어 / 마법방어</b> — 갸고일이 물리방어 111로 압도적. 두 방어 항목의 비율이 제각각이라 상성이 생길 여지가 있어요.</li>
+      <li><b>무력화</b> — 헬울프가 113, 갸고일이 102. 격파 포지션 특성상 이 수치가 높은 편이고요.</li>
+      <li><b>에너지 회복</b> — 서포터와 에너지 재생 포지션에서 높게 나오는 경향이 있어요. 플로라버드·베서스가 110으로 공동 최고.</li>
+    </ul>
+
+    <p>지금은 수치만 있고 실제 전투 메커니즘이 어떻게 작동하는지, 스킬 계수가 어떻게 붙는지 공개된 게 없어서 이걸로 서열을 정하기는 어려운 상황이에요. <b>"확정 티어 아님"</b>이라는 단서를 꼭 달고 보셔야 해요.</p>
+
+    <!-- 이미지 이유: 서포터 포지션 캐슬앤트·몽실양·플로라버드·허니버드 비교 이미지 / 출처: wiki.aniimo.com / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 서포터 포지션 4종(캐슬앤트·몽실양·플로라버드·허니버드) 공식 도감 이미지</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 공식 위키 도감: <a href="https://wiki.aniimo.com/ko/item/10003222" target="_blank">캐슬앤트</a> · <a href="https://wiki.aniimo.com/ko/item/10003140" target="_blank">몽실양</a> · <a href="https://wiki.aniimo.com/ko/item/10003296" target="_blank">플로라버드</a> · <a href="https://wiki.aniimo.com/ko/item/10003278" target="_blank">허니버드</a></div>
+    <p class="cap">서포터 4종 — 허니버드는 합계가 낮지만 어떤 역할을 하는지가 관건이에요.</p>
+
+    <h2 class="sub">지금 당장 눈여겨볼 애니모 — 포지션별 합계 상위 1종씩</h2>
+
+    <p>확정 강자라는 게 아니라, <b>현재 공개된 수치 기준으로 포지션별 합계가 가장 높은 1종씩</b>만 간략히 소개하는 거예요. 출시 후 메타에서도 이게 그대로 이어질지는 전혀 모르고요.</p>
+
+    <!-- 이미지 이유: 갸고일 단독 도감 스크린샷 — 격파 합계 최고 애니모 소개 / 출처: wiki.aniimo.com/ko/item/10003311 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 갸고일(NO.067) 도감 전체 화면 — 물리방어 111 수치 포함</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — <a href="https://wiki.aniimo.com/ko/item/10003311" target="_blank">갸고일 공식 위키 도감</a></div>
+    <p class="cap">갸고일 — 격파 포지션 중 합계 555, 물리방어가 눈에 띄어요.</p>
+
+    <ul>
+      <li><b>격파 포지션 — 갸고일(NO.067), 합계 555</b> : 물리방어 111로 포지션 내에서 독보적인 탱킹 스탯이에요. '리벤지 마스터' 특성으로 공격받을수록 무력화 효율이 올라가는 구조인데요, 바람 속성이라 속성 상성이 붙을 경우 더 주목받을 것 같아요. 같은 격파 포지션인 헬울프(551, 불+어둠 속성)와 수치 차이가 크지 않아서 어느 쪽이 실전에서 더 쓰기 좋은지는 지켜봐야 할 것 같아요.</li>
+      <li><b>서포터 포지션 — 캐슬앤트(NO.077), 합계 536</b> : 서포터치고는 공격 수치가 114로 상당히 높은 편이에요. 포탑 모드 스킬로 몸을 고정해 범위 포격으로 전환하는 구조이고, 무력화도 103이라서 공격형 서포터로 쓰일 것 같은 애니모예요.</li>
+      <li><b>에너지 재생 포지션 — 베서스(NO.083), 합계 521</b> : 이 포지션에서 현재 확인된 유일한 애니모예요. 에너지 회복 수치가 110이고 전기 속성이라, 출시 후 팀 구성에서 어떤 역할을 하는지 지켜볼 만한 캐릭터인데요.</li>
+      <li><b>딜 포지션 — 엔젤후드(NO.092), 합계 515</b> : 딜러 포지션에서는 합계 515로 스타저드(485)보다 높지만, 반대로 공격 수치만 놓고 보면 스타저드가 125로 압도적이에요. 엔젤후드는 얼음 속성으로 알려져 있어서 속성 딜 역할로 갈릴 가능성도 있어 보여요.</li>
+    </ul>
+
+    <!-- 이미지 이유: 베서스·스타저드 에너지/딜 포지션 도감 이미지 / 출처: wiki.aniimo.com / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 베서스(NO.083)와 스타저드(NO.006) 공식 도감 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — <a href="https://wiki.aniimo.com/ko/item/10003324" target="_blank">베서스 위키</a> · <a href="https://wiki.aniimo.com/ko/item/10003192" target="_blank">스타저드 위키</a></div>
+    <p class="cap">베서스는 에너지 재생 포지션 유일 확인 애니모, 스타저드는 공격 125로 9종 중 최고예요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+
+    <p><b>Q. 속성 합계가 높으면 그 애니모가 강한 건가요?</b><br>
+    꼭 그렇지는 않아요. 합계는 HP·공격·물리방어·마법방어·무력화·에너지회복 여섯 항목의 단순 합산이에요. 포지션마다 중요한 항목이 다르고, 스킬 계수나 팀 시너지에 따라 실전 기여도가 달라지기 때문에 합계 하나로 강약을 판단하기는 어렵습니다.</p>
+
+    <p><b>Q. 공식 위키에서 확인할 수 없는 속성이 있나요?</b><br>
+    위키 도감에는 여섯 항목의 기본 수치만 공개돼 있어요. 스킬 계수, 특성 발동 조건에 따른 추가 수치, 레벨업에 따른 성장폭 등은 아직 공개되지 않았거나 출시 이후에나 확인 가능한 부분이에요. 이번 글의 수치는 출시 전 기준이라 출시 후 변경될 수도 있습니다.</p>
+
+    <h2 class="sub">애니모 도감 속성치 비교 정리</h2>
+
+    <p>결국 지금 시점에서 확인할 수 있는 건 딱 하나예요. <b>공식 위키 도감에 올라온 여섯 항목의 수치.</b> 이것만큼은 추측이 아니라 실제 공개된 데이터거든요. 전투 밸런스가 어떻게 흘러갈지, 어떤 포지션 조합이 국룰이 될지는 출시 이후에 봐야 알 수 있지만, 적어도 "어떤 애니모가 어느 항목에 집중된 스탯을 갖고 있는가"는 지금도 파악이 되더라고요.</p>
+
+    <p>95종 중 9종만 확인한 표본이라 전체 그림은 아직 멀었어요. 출시 이후에 더 많은 종이 확인되면 이 비교표를 업데이트하면서 더 자세히 풀어드릴게요. <b>애니모 관심 있으신 분들은 일단 포지션별 스탯 차이만 눈에 담아두시면 좋겠네요.</b> 출시되면 한번 직접 써보고 싶은 애니모 골라두는 것도 재밌겠더라고요ㅎㅎ</p>
+
+    <p><b>✔ 애니모 같이 보기 좋은 내용</b><br>
+    · <span>애니모 희귀도·특수 형태(샤이닝·천휘·옵시디언) 차이 정리</span> — 발행 시 링크 연결<br>
+    · <span>애니모 출시일·플랫폼·가격 사양 정리</span> — 발행 시 링크 연결</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://wiki.aniimo.com/ko/item/10003203" target="_blank">애니모 공식 위키 — 헬울프(NO.004) 도감</a><br>
+    · <a href="https://wiki.aniimo.com/ko/item/10003311" target="_blank">애니모 공식 위키 — 갸고일(NO.067) 도감</a><br>
+    · <a href="https://wiki.aniimo.com/ko" target="_blank">애니모 공식 위키 도감 목록</a></p>
+
+    <div class="tags">#애니모 #애니모도감 #애니모속성치 #애니모능력치비교 #애니모포지션 #Aniimo</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 5곳</b> 업로드 · 내부링크 post ID 2곳. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 애니모 도감 속성치 비교 — 출시 전 공식 위키로 확인한 9종 능력치</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>애니모 출시일이 가까워지면서 "포지션별로 어떤 애니모가 더 강한가"를 찾아보시는 분들이 부쩍 늘었는데요, 사실 출시 전에 확정적으로 말할 수 있는 건 별로 없잖아요. 실제 전투 밸런스는 게임을 직접 해봐야 알 수 있는 거고, 스킬 시너지나 팀 조합에 따라서도 얼마든지 달라질 수 있으니까요.</p>
+      <p>그런데 딱 하나, <b>지금 당장 객관적으로 비교할 수 있는 게 있더라고요.</b> 공식 위키 도감에 올라와 있는 속성 수치예요. 2026년 9월 7일 기준으로 직접 하나하나 확인해봤는데, 9종의 세부 스탯 항목이 전부 공개돼 있었어요. 오늘은 그 수치를 그대로 정리해드릴게요. <b>전투 강약 판단이 아니라, 지금 공개된 수치 기준의 비교</b>라는 점 먼저 짚고 넘어갈게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 애니모 공식 대표 이미지 — 공식 위키 또는 공식 SNS에서 저장 후 업로드</p>
+
+      <h3>포지션별 도감 수치 — 2026.09.07 공식 위키 실측 (95종 중 9종 표본)</h3>
+      <p>공식 위키 도감에는 각 애니모의 스탯이 <b>HP · 공격 · 물리방어 · 마법방어 · 무력화 · 에너지 회복</b> 여섯 항목으로 나뉘어 공개돼 있어요. 합계는 이 여섯 항목의 단순 합산값이고요. 아직 95종 중 일부만 확인한 표본 수치라는 점, 그리고 <b>이 합계는 공식 희귀도 서열이 아니라 위키에 공개된 수치의 단순 합산</b>이라는 점을 꼭 염두에 두고 봐주세요.</p>
+      <table>
+        <thead>
+          <tr><th>포지션</th><th>이름</th><th>번호</th><th>HP</th><th>공격</th><th>물리방어</th><th>마법방어</th><th>무력화</th><th>에너지회복</th><th>합계</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="l">격파</td><td class="l"><b>갸고일</b></td><td>NO.067</td><td>105</td><td>85</td><td>111</td><td>68</td><td>102</td><td>84</td><td><b>555</b></td></tr>
+          <tr><td class="l">격파</td><td class="l">헬울프</td><td>NO.004</td><td>95</td><td>89</td><td>70</td><td>80</td><td>113</td><td>104</td><td>551</td></tr>
+          <tr><td class="l">서포터</td><td class="l"><b>캐슬앤트</b></td><td>NO.077</td><td>75</td><td>114</td><td>85</td><td>84</td><td>103</td><td>75</td><td><b>536</b></td></tr>
+          <tr><td class="l">서포터</td><td class="l">몽실양</td><td>NO.019</td><td>95</td><td>90</td><td>80</td><td>96</td><td>50</td><td>109</td><td>520</td></tr>
+          <tr><td class="l">서포터</td><td class="l">플로라버드</td><td>NO.041</td><td>84</td><td>106</td><td>68</td><td>65</td><td>81</td><td>110</td><td>514</td></tr>
+          <tr><td class="l">서포터</td><td class="l">허니버드</td><td>NO.040</td><td>71</td><td>90</td><td>58</td><td>55</td><td>69</td><td>94</td><td>437</td></tr>
+          <tr><td class="l">에너지 재생</td><td class="l"><b>베서스</b></td><td>NO.083</td><td>82</td><td>89</td><td>75</td><td>75</td><td>90</td><td>110</td><td><b>521</b></td></tr>
+          <tr><td class="l">딜</td><td class="l"><b>엔젤후드</b></td><td>NO.092</td><td>100</td><td>105</td><td>80</td><td>80</td><td>50</td><td>100</td><td><b>515</b></td></tr>
+          <tr><td class="l">딜</td><td class="l">스타저드</td><td>NO.006</td><td>90</td><td>125</td><td>63</td><td>67</td><td>50</td><td>90</td><td>485</td></tr>
+        </tbody>
+      </table>
+      <p class="tnote-line">※ 2026.09.07 기준 공식 위키 실측. 95종 중 9종 표본이며, 확정 티어 아님. 합계는 6항목 단순 합산값.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 헬울프·갸고일 공식 도감 비교 화면 — 직접 캡처 후 업로드</p>
+
+      <h3>속성치를 보는 법 — 합계가 높다고 무조건 강한 게 아니에요</h3>
+      <p><b>속성 합계는 전투력 지표가 아니라 여섯 항목의 단순 합산일 뿐이에요.</b> 예를 들어 스타저드는 합계 485로 이번 표본 중 가장 낮지만, 공격 수치는 125로 9종 중 단연 높거든요. 딜러 포지션에서 공격 수치가 핵심이라면, 단순 합계로 비교하는 건 의미가 없어지는 거죠.</p>
+      <p>포지션별로 어떤 항목이 중요한지도 다를 수밖에 없는데요, 지금 위키에서 읽을 수 있는 항목별 특성을 정리하면 이렇습니다.</p>
+      <ul>
+        <li><b>HP</b> — 버티는 능력. 격파·딜러 포지션에도 생각보다 차이가 나요.</li>
+        <li><b>공격</b> — 딜 포지션에서 핵심 수치. 스타저드가 125로 최고예요.</li>
+        <li><b>물리방어 / 마법방어</b> — 갸고일이 물리방어 111로 압도적. 두 방어 항목의 비율이 제각각이라 상성이 생길 여지가 있어요.</li>
+        <li><b>무력화</b> — 헬울프가 113, 갸고일이 102. 격파 포지션 특성상 이 수치가 높은 편이고요.</li>
+        <li><b>에너지 회복</b> — 서포터와 에너지 재생 포지션에서 높게 나오는 경향이 있어요. 플로라버드·베서스가 110으로 공동 최고.</li>
+      </ul>
+      <p>지금은 수치만 있고 실제 전투 메커니즘이 어떻게 작동하는지, 스킬 계수가 어떻게 붙는지 공개된 게 없어서 이걸로 서열을 정하기는 어려운 상황이에요. <b>"확정 티어 아님"</b>이라는 단서를 꼭 달고 보셔야 해요.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 서포터 4종 공식 도감 이미지 — 직접 캡처 후 업로드</p>
+
+      <h3>지금 당장 눈여겨볼 애니모 — 포지션별 합계 상위 1종씩</h3>
+      <p>확정 강자라는 게 아니라, <b>현재 공개된 수치 기준으로 포지션별 합계가 가장 높은 1종씩</b>만 간략히 소개하는 거예요. 출시 후 메타에서도 이게 그대로 이어질지는 전혀 모르고요.</p>
+
+      <p class="ph">📷 〔사진 자리 4〕 갸고일(NO.067) 도감 전체 화면 — 직접 캡처 후 업로드</p>
+
+      <ul>
+        <li><b>격파 포지션 — 갸고일(NO.067), 합계 555</b> : 물리방어 111로 포지션 내에서 독보적인 탱킹 스탯이에요. '리벤지 마스터' 특성으로 공격받을수록 무력화 효율이 올라가는 구조인데요, 바람 속성이라 속성 상성이 붙을 경우 더 주목받을 것 같아요. 같은 격파 포지션인 헬울프(551, 불+어둠 속성)와 수치 차이가 크지 않아서 어느 쪽이 실전에서 더 쓰기 좋은지는 지켜봐야 할 것 같아요.</li>
+        <li><b>서포터 포지션 — 캐슬앤트(NO.077), 합계 536</b> : 서포터치고는 공격 수치가 114로 상당히 높은 편이에요. 포탑 모드 스킬로 몸을 고정해 범위 포격으로 전환하는 구조이고, 무력화도 103이라서 공격형 서포터로 쓰일 것 같은 애니모예요.</li>
+        <li><b>에너지 재생 포지션 — 베서스(NO.083), 합계 521</b> : 이 포지션에서 현재 확인된 유일한 애니모예요. 에너지 회복 수치가 110이고 전기 속성이라, 출시 후 팀 구성에서 어떤 역할을 하는지 지켜볼 만한 캐릭터인데요.</li>
+        <li><b>딜 포지션 — 엔젤후드(NO.092), 합계 515</b> : 딜러 포지션에서는 합계 515로 스타저드(485)보다 높지만, 반대로 공격 수치만 놓고 보면 스타저드가 125로 압도적이에요. 엔젤후드는 얼음 속성으로 알려져 있어서 속성 딜 역할로 갈릴 가능성도 있어 보여요.</li>
+      </ul>
+
+      <p class="ph">📷 〔사진 자리 5〕 베서스·스타저드 공식 도감 화면 — 직접 캡처 후 업로드</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 속성 합계가 높으면 그 애니모가 강한 건가요?</b><br>
+      꼭 그렇지는 않아요. 합계는 HP·공격·물리방어·마법방어·무력화·에너지회복 여섯 항목의 단순 합산이에요. 포지션마다 중요한 항목이 다르고, 스킬 계수나 팀 시너지에 따라 실전 기여도가 달라지기 때문에 합계 하나로 강약을 판단하기는 어렵습니다.</p>
+      <p><b>Q. 공식 위키에서 확인할 수 없는 속성이 있나요?</b><br>
+      위키 도감에는 여섯 항목의 기본 수치만 공개돼 있어요. 스킬 계수, 특성 발동 조건에 따른 추가 수치, 레벨업에 따른 성장폭 등은 아직 공개되지 않았거나 출시 이후에나 확인 가능한 부분이에요. 이번 글의 수치는 출시 전 기준이라 출시 후 변경될 수도 있습니다.</p>
+
+      <h3>애니모 도감 속성치 비교 정리</h3>
+      <p>결국 지금 시점에서 확인할 수 있는 건 딱 하나예요. <b>공식 위키 도감에 올라온 여섯 항목의 수치.</b> 이것만큼은 추측이 아니라 실제 공개된 데이터거든요. 전투 밸런스가 어떻게 흘러갈지, 어떤 포지션 조합이 국룰이 될지는 출시 이후에 봐야 알 수 있지만, 적어도 "어떤 애니모가 어느 항목에 집중된 스탯을 갖고 있는가"는 지금도 파악이 되더라고요.</p>
+      <p>95종 중 9종만 확인한 표본이라 전체 그림은 아직 멀었어요. 출시 이후에 더 많은 종이 확인되면 이 비교표를 업데이트하면서 더 자세히 풀어드릴게요. <b>애니모 관심 있으신 분들은 일단 포지션별 스탯 차이만 눈에 담아두시면 좋겠네요.</b> 출시되면 한번 직접 써보고 싶은 애니모 골라두는 것도 재밌겠더라고요ㅎㅎ</p>
+
+      <p><b>✔ 애니모 같이 보기 좋은 내용</b><br>
+      · (같은 게임의 희귀도·특수 형태 정리 글에서 더 자세히 다뤘어요 — 발행 시 링크 연결)<br>
+      · (애니모 출시일·플랫폼·가격 사양 정리 글 — 발행 시 링크 연결)</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://wiki.aniimo.com/ko/item/10003203" target="_blank">애니모 공식 위키 — 헬울프(NO.004) 도감</a><br>
+      · <a href="https://wiki.aniimo.com/ko/item/10003311" target="_blank">애니모 공식 위키 — 갸고일(NO.067) 도감</a><br>
+      · <a href="https://wiki.aniimo.com/ko" target="_blank">애니모 공식 위키 도감 목록</a></p>
+
+      <p class="tags-line">#애니모 #애니모도감 #애니모속성치 #애니모능력치비교 #애니모포지션 #Aniimo</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
