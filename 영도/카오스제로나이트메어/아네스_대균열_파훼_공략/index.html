@@ -1,0 +1,358 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>카오스 제로 나이트메어 대균열 아네스 공략 — 파편부터 잡아라</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .guidenote{color:#999;font-size:13px;margin-bottom:18px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post .q{color:var(--pt);}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy h3:first-child{margin-top:0;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy a{color:#1a73e8;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;}
+</style></head><body>
+
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">카오스 제로 나이트메어 대균열 아네스 공략 — 파편부터 잡아야 이기는 이유</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026-09-08</span><span>· 게임</span></div>
+
+    <div class="guidenote">※ 다른 공략은 댓글을 참고해 주세요.</div>
+
+    <p>내일(9월 9일) 카제나에 신규 대균열 보스 '아네스'가 들어옵니다. 개발자 노트를 직접 확인해보니까요, 이 보스가 생각보다 뒤통수를 꽤 때릴 수 있는 구조더라고요. <b>본체에 화력을 몰아봤자 피해 감소 때문에 거의 안 들어가는 구조</b>라서, 처음 붙는 분들이 어리둥절하기 딱 좋은 형태입니다.</p>
+
+    <p>이번 업데이트는 시즌4 「은하계 재해」 3장 업데이트의 일환으로, 신규 전투원 '올가'와 함께 9월 9일에 동시 적용 예정이거든요. 아네스 공략 핵심이 올가와 딱 맞물리게 설계되어 있어서, 두 내용을 묶어서 정리해드리려고 합니다.</p>
+
+    <!-- 이미지 이유: 업데이트 공지 화면을 첫머리에 배치해 독자가 신규 보스 등장을 시각적으로 확인하도록 함 / 출처: B형(인게임 직접 캡처 — ⓒ 카오스 제로 나이트메어) / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 카제나 9월 9일 업데이트 공지 화면 또는 아네스 보스 소개 키비주얼</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 공식 채널이나 게임 내 업데이트 공지에서 아네스 보스 이미지 캡처</div>
+    <p class="cap">9월 9일 적용 예정 — 대균열 신규 보스 아네스</p>
+
+    <h2 class="sec">1. 아네스가 왜 어려운가</h2>
+
+    <p><b>한 줄 요약: 아네스는 파편을 처리하지 않으면 본체에 피해가 거의 들어가지 않습니다.</b></p>
+
+    <p>아네스 메커니즘을 쉽게 비유하자면 — <b>방탄복을 두른 보스 옆에 방패 여러 개가 떠 있는 구조</b>입니다. 방패(파편)를 일정 이상 두들겨야만 보스가 노출되는 방식이에요. 방탄복을 향해 아무리 총을 쏴봤자 튕겨나가는 것처럼, 파편 처리 없이 아네스 본체만 패봤다가는 딜이 안 들어가는 황당한 상황이 벌어집니다.</p>
+
+    <p>개발자 노트에서 확인한 메커니즘을 정리하면 이렇습니다:</p>
+
+    <table class="tbl">
+      <thead>
+        <tr><th>단계</th><th>상태</th><th>핵심 내용</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>①</td><td>파편 소환 직후</td><td>체력 감소 없음 — 피격은 되나 깎이지 않는 상태</td></tr>
+        <tr><td>②</td><td>파편 활성화</td><td>모든 파편이 동시에 일정 횟수 이상 피격되거나 지속 피해 발동 시 전환</td></tr>
+        <tr><td>③</td><td>아네스 약화</td><td>파편 체력이 0에 도달 후 회복할 때마다 아네스 약화 단계 상승</td></tr>
+        <tr><td>④</td><td>스트레스 관리</td><td>약화 단계가 높아질수록 전투원이 받는 스트레스 증가</td></tr>
+      </tbody>
+    </table>
+
+    <p>포인트는 파편이 죽어도 끝이 아니라는 점이에요. <b>파편은 처치되지 않고 회복</b>합니다. 그리고 회복할 때마다 아네스가 약해지는 구조라, 오히려 파편을 반복해서 체력 0으로 만드는 게 목표인 셈이거든요. 단, 그럴수록 우리 전투원이 받는 스트레스가 쌓이는 방식입니다.</p>
+
+    <h2 class="sec">2. 핵심 공략</h2>
+
+    <p><b>한 줄 요약: 전체 공격 카드와 지속 피해로 파편을 동시에 활성화하는 게 핵심입니다.</b></p>
+
+    <p>공략 방향은 사실 개발자 노트에서 이미 힌트를 줬더라고요. 활성화 조건이 "<b>모든 파편이 동시에 일정 횟수 이상 피격되거나 지속 피해 발동</b>"이니까, 자연스럽게 두 가지 방법이 나옵니다.</p>
+
+    <table class="tbl">
+      <thead>
+        <tr><th>방법</th><th>설명</th><th>효율</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>전체 공격 카드</td><td>파편 여러 개를 한 번에 타격해 동시 피격 조건 충족</td><td>1순위</td></tr>
+        <tr><td>지속 피해(균열/고통)</td><td>한 번 걸면 파편 전체에 자동으로 누적 — 활성화 조건 동시 충족</td><td>1순위</td></tr>
+        <tr><td>단일 공격 반복</td><td>파편 하나씩 돌아가며 치는 방식</td><td>비효율 (활성화 안 될 수 있음)</td></tr>
+      </tbody>
+    </table>
+
+    <p><b>함정: 단일 딜러 중심 파티로 파편 하나씩 처리하려 하면 조건이 채워지지 않습니다.</b> 파편 "동시" 피격이 핵심이라, 개별로 돌아가면서 패도 활성화가 안 될 수 있어요. 뉴비 분들이 가장 많이 빠지는 실수가 바로 이 부분이더라고요.</p>
+
+    <p>활성화 이후에는 파편 체력을 0으로 만들어 아네스 약화 단계를 쌓고, <b>약화가 충분히 쌓인 타이밍에 본체에 화력을 집중</b>하는 흐름입니다. 동시에 스트레스가 계속 쌓이기 때문에, <b>스트레스 관리 카드나 회복 수단을 반드시 챙겨두세요.</b></p>
+
+    <!-- 이미지 이유: 파편 여러 개가 동시에 소환된 전투 상황을 보여줌으로써 동시 공격 필요성을 직관적으로 전달 / 출처: B형(인게임 직접 캡처 — ⓒ 카오스 제로 나이트메어) / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 아네스 전투 화면 — 파편 여러 개가 소환된 상태</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 9월 9일 업데이트 이후 대균열 입장 시 파편 소환 장면 캡처</div>
+    <p class="cap">파편이 전부 활성화되기 전까지는 본체에 딜이 들어가지 않습니다</p>
+
+    <h2 class="sec">3. 올가 조합이 왜 추천되는가</h2>
+
+    <p><b>한 줄 요약: 올가는 아군의 지속 피해량을 증폭시키는 전투원이라, 아네스 파훼 조건과 시너지가 딱 맞아떨어집니다.</b></p>
+
+    <p>이번 업데이트에 함께 추가되는 신규 전투원 '올가'는 본능 속성 보조 공격형 사이오닉 전투원입니다. 아네스 공략에서 올가가 언급되는 이유가 명확한데요, 개발자 노트에서 확인한 올가의 핵심 능력이 이렇습니다:</p>
+
+    <table class="tbl">
+      <thead>
+        <tr><th>능력/키워드</th><th>설명</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>아군 지속 피해량 증폭</b></td><td>파티 전체의 지속 피해를 올려줌</td></tr>
+        <tr><td><b>「강욕」 키워드</b></td><td>아군이 균열 또는 고통을 부여할 때마다 중첩 — 중첩 시 카드 피해를 지속 피해로 취급</td></tr>
+        <tr><td>균열/고통 발동</td><td>적의 균열·고통을 발동시켜 추가 피해 제공</td></tr>
+      </tbody>
+    </table>
+
+    <p>아네스 파편 활성화 조건 중 하나가 "지속 피해 발동"이라는 걸 다시 떠올려보시면, 올가가 왜 아네스 공략용으로 설계되어 있는지 바로 보이거든요. <b>올가가 아군의 지속 피해를 끌어올려주면, 파편 활성화 조건이 훨씬 빠르게 충족</b>됩니다. 지속 피해 중심 파티 구성이 이미 어느 정도 갖춰진 분들은 올가 조합을 적극적으로 고려해보세요.</p>
+
+    <p>특히 「강욕」 키워드는 균열·고통을 부여하는 전투원이 많을수록 중첩이 빠르게 쌓여, 카드 피해 자체가 지속 피해로 분류되는 효과가 생깁니다. 결과적으로 <b>파편 활성화 속도가 올라갈수록 약화 단계 고점을 더 빨리 뽑아낼 수 있어</b>, 본체 집중 공격 타이밍을 앞당길 수 있는 구조예요.</p>
+
+    <p>단, 올가 픽업 배너의 구체적인 구성이나 확률업 대상은 현재 공식으로 확인된 내용이 없어서 기재하지 않겠습니다. 업데이트 당일 게임 내 배너 안내를 직접 확인해주시는 게 가장 정확합니다.</p>
+
+    <!-- 이미지 이유: 올가 전투원 비주얼과 스킬 화면을 함께 보여줘 독자가 신규 캐릭터를 빠르게 파악할 수 있게 함 / 출처: B형(인게임 직접 캡처 — ⓒ 카오스 제로 나이트메어) / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 올가 전투원 일러스트 또는 스킬 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 9월 9일 이후 올가 전투원 상세 페이지나 스킬 설명 화면</div>
+    <p class="cap">올가의 「강욕」 키워드 — 균열·고통 부여 시 중첩돼 카드 피해를 지속 피해로 취급합니다</p>
+
+    <h2 class="sec">4. 실전 순서 정리</h2>
+
+    <p><b>한 줄 요약: 파편 동시 활성화 → 반복 체력 0 → 약화 누적 → 본체 집중 공격의 흐름으로 가시면 됩니다.</b></p>
+
+    <table class="tbl">
+      <thead>
+        <tr><th>순서</th><th>행동</th><th>주의점</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>파편 소환 확인</td><td>소환 직후엔 피해 안 들어감 — 바로 패도 헛수고</td></tr>
+        <tr><td>2</td><td>지속 피해 또는 전체 공격으로 파편 동시 타격</td><td>단일 공격으로 한 개씩 치면 활성화 안 될 수 있음</td></tr>
+        <tr><td>3</td><td>파편 체력 0 반복</td><td>회복될 때마다 아네스 약화 단계 상승 — 반복이 핵심</td></tr>
+        <tr><td>4</td><td>스트레스 관리</td><td>약화 단계 높아질수록 스트레스 증가 — 회복 수단 필수</td></tr>
+        <tr><td>5</td><td>아네스 본체 집중 공격</td><td>약화 단계 충분히 쌓인 타이밍에 화력 집중</td></tr>
+      </tbody>
+    </table>
+
+    <p>뉴비 실수로 가장 흔한 건 두 가지입니다. <b>하나는 파편 활성화 전에 본체를 때리는 것</b>(딜이 거의 안 들어갑니다), <b>둘은 파편을 개별로 하나씩 잡으려는 것</b>(동시 공격이 아니라 조건 충족이 안 될 수 있어요). 이 두 가지만 피해도 아네스 공략이 훨씬 수월해집니다.</p>
+
+    <!-- 이미지 이유: 파편 체력 0 도달 후 아네스 약화 단계가 오르는 UI를 직접 보여줌으로써 반복 루프의 핵심을 시각화 / 출처: B형(인게임 직접 캡처 — ⓒ 카오스 제로 나이트메어) / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 아네스 약화 단계 상승 UI 또는 파편 체력 0 도달 장면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 파편 체력이 0이 되면서 아네스 약화 단계가 올라가는 화면</div>
+    <p class="cap">파편이 회복될 때마다 아네스 약화 단계가 오릅니다 — 이걸 반복 쌓는 게 공략의 핵심이에요</p>
+
+    <div class="summary">
+      <div class="h">공략 요약</div>
+      아네스 공략은 결국 파편 동시 타격 → 약화 단계 누적 → 스트레스 관리 → 본체 집중 공격의 사이클입니다. 본체에 딜이 안 들어간다 싶으면 파편부터 먼저 챙기세요. 지속 피해 파티에 올가를 넣으면 파편 활성화 속도가 올라가니, 9월 9일 업데이트 이후 대균열 도전하시는 분들은 조합 참고해보시고요~!
+    </div>
+
+    <p class="src">참고한 곳:<br>
+    <a href="https://bbs.ruliweb.com/news/board/320108/read/2293610" target="_blank">루리웹 — 카제나 개발자 노트 (9월 9일 업데이트)</a><br>
+    <a href="https://www.gamevu.co.kr/news/articleView.html?idxno=60548" target="_blank">게임뷰 — 카제나 신규 보스 아네스 업데이트 소개</a>
+    </p>
+
+    <div class="btns">
+      <a href="#" target="_blank">[라운지]</a>
+    </div>
+
+    <div class="tags">#카오스제로나이트메어 #카제나 #아네스공략 #대균열공략 #카제나공략 #카제나올가 #카제나보스 #카제나파편 #모바일게임공략 #카제나업데이트</div>
+
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 4곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div class="ti">📌 제목칸에 따로: 카오스 제로 나이트메어 대균열 아네스 공략 — 파편부터 잡아야 이기는 이유</div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+
+<p>※ 다른 공략은 댓글을 참고해 주세요.</p>
+
+<p>내일(9월 9일) 카제나에 신규 대균열 보스 '아네스'가 들어옵니다. 개발자 노트를 직접 확인해보니까요, 이 보스가 생각보다 뒤통수를 꽤 때릴 수 있는 구조더라고요. <b>본체에 화력을 몰아봤자 피해 감소 때문에 거의 안 들어가는 구조</b>라서, 처음 붙는 분들이 어리둥절하기 딱 좋은 형태입니다.</p>
+
+<p>이번 업데이트는 시즌4 「은하계 재해」 3장 업데이트의 일환으로, 신규 전투원 '올가'와 함께 9월 9일에 동시 적용 예정이거든요. 아네스 공략 핵심이 올가와 딱 맞물리게 설계되어 있어서, 두 내용을 묶어서 정리해드리려고 합니다.</p>
+
+<p class="ph">〔사진 자리 1〕 카제나 9월 9일 업데이트 공지 화면 또는 아네스 보스 소개 키비주얼 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "ⓒ 카오스 제로 나이트메어" 한 줄을 같이 적어주세요.</p>
+
+<h3>1. 아네스가 왜 어려운가</h3>
+
+<p><b>아네스는 파편을 처리하지 않으면 본체에 피해가 거의 들어가지 않습니다.</b></p>
+
+<p>아네스 메커니즘을 쉽게 비유하자면 — <b>방탄복을 두른 보스 옆에 방패 여러 개가 떠 있는 구조</b>입니다. 방패(파편)를 일정 이상 두들겨야만 보스가 노출되는 방식이에요. 방탄복을 향해 아무리 총을 쏴봤자 튕겨나가는 것처럼, 파편 처리 없이 아네스 본체만 패봤다가는 딜이 안 들어가는 황당한 상황이 벌어집니다.</p>
+
+<p>개발자 노트에서 확인한 메커니즘을 정리하면 이렇습니다:</p>
+
+<table>
+  <tr><th>단계</th><th>상태</th><th>핵심 내용</th></tr>
+  <tr><td>①</td><td>파편 소환 직후</td><td>체력 감소 없음 — 피격은 되나 깎이지 않는 상태</td></tr>
+  <tr><td>②</td><td>파편 활성화</td><td>모든 파편이 동시에 일정 횟수 이상 피격되거나 지속 피해 발동 시 전환</td></tr>
+  <tr><td>③</td><td>아네스 약화</td><td>파편 체력이 0에 도달 후 회복할 때마다 아네스 약화 단계 상승</td></tr>
+  <tr><td>④</td><td>스트레스 관리</td><td>약화 단계가 높아질수록 전투원이 받는 스트레스 증가</td></tr>
+</table>
+
+<p>포인트는 파편이 죽어도 끝이 아니라는 점이에요. <b>파편은 처치되지 않고 회복</b>합니다. 그리고 회복할 때마다 아네스가 약해지는 구조라, 오히려 파편을 반복해서 체력 0으로 만드는 게 목표인 셈이거든요. 단, 그럴수록 우리 전투원이 받는 스트레스가 쌓이는 방식입니다.</p>
+
+<h3>2. 핵심 공략</h3>
+
+<p><b>전체 공격 카드와 지속 피해로 파편을 동시에 활성화하는 게 핵심입니다.</b></p>
+
+<p>공략 방향은 사실 개발자 노트에서 이미 힌트를 줬더라고요. 활성화 조건이 "<b>모든 파편이 동시에 일정 횟수 이상 피격되거나 지속 피해 발동</b>"이니까, 자연스럽게 두 가지 방법이 나옵니다.</p>
+
+<table>
+  <tr><th>방법</th><th>설명</th><th>효율</th></tr>
+  <tr><td>전체 공격 카드</td><td>파편 여러 개를 한 번에 타격해 동시 피격 조건 충족</td><td>1순위</td></tr>
+  <tr><td>지속 피해(균열/고통)</td><td>한 번 걸면 파편 전체에 자동으로 누적 — 활성화 조건 동시 충족</td><td>1순위</td></tr>
+  <tr><td>단일 공격 반복</td><td>파편 하나씩 돌아가며 치는 방식</td><td>비효율 (활성화 안 될 수 있음)</td></tr>
+</table>
+
+<p><b>함정: 단일 딜러 중심 파티로 파편 하나씩 처리하려 하면 조건이 채워지지 않습니다.</b> 파편 "동시" 피격이 핵심이라, 개별로 돌아가면서 패도 활성화가 안 될 수 있어요. 뉴비 분들이 가장 많이 빠지는 실수가 바로 이 부분이더라고요.</p>
+
+<p>활성화 이후에는 파편 체력을 0으로 만들어 아네스 약화 단계를 쌓고, <b>약화가 충분히 쌓인 타이밍에 본체에 화력을 집중</b>하는 흐름입니다. 동시에 스트레스가 계속 쌓이기 때문에, <b>스트레스 관리 카드나 회복 수단을 반드시 챙겨두세요.</b></p>
+
+<p class="ph">〔사진 자리 2〕 아네스 전투 화면 — 파편 여러 개가 소환된 상태 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "ⓒ 카오스 제로 나이트메어" 한 줄을 같이 적어주세요.</p>
+
+<h3>3. 올가 조합이 왜 추천되는가</h3>
+
+<p><b>올가는 아군의 지속 피해량을 증폭시키는 전투원이라, 아네스 파훼 조건과 시너지가 딱 맞아떨어집니다.</b></p>
+
+<p>이번 업데이트에 함께 추가되는 신규 전투원 '올가'는 본능 속성 보조 공격형 사이오닉 전투원입니다. 아네스 공략에서 올가가 언급되는 이유가 명확한데요, 개발자 노트에서 확인한 올가의 핵심 능력이 이렇습니다:</p>
+
+<table>
+  <tr><th>능력/키워드</th><th>설명</th></tr>
+  <tr><td><b>아군 지속 피해량 증폭</b></td><td>파티 전체의 지속 피해를 올려줌</td></tr>
+  <tr><td><b>「강욕」 키워드</b></td><td>아군이 균열 또는 고통을 부여할 때마다 중첩 — 중첩 시 카드 피해를 지속 피해로 취급</td></tr>
+  <tr><td>균열/고통 발동</td><td>적의 균열·고통을 발동시켜 추가 피해 제공</td></tr>
+</table>
+
+<p>아네스 파편 활성화 조건 중 하나가 "지속 피해 발동"이라는 걸 다시 떠올려보시면, 올가가 왜 아네스 공략용으로 설계되어 있는지 바로 보이거든요. <b>올가가 아군의 지속 피해를 끌어올려주면, 파편 활성화 조건이 훨씬 빠르게 충족</b>됩니다. 지속 피해 파티 구성이 이미 어느 정도 갖춰진 분들은 올가 조합을 적극적으로 고려해보세요.</p>
+
+<p>특히 「강욕」 키워드는 균열·고통을 부여하는 전투원이 많을수록 중첩이 빠르게 쌓여, 카드 피해 자체가 지속 피해로 분류되는 효과가 생깁니다. 결과적으로 <b>파편 활성화 속도가 올라갈수록 약화 단계 고점을 더 빨리 뽑아낼 수 있어</b>, 본체 집중 공격 타이밍을 앞당길 수 있는 구조예요.</p>
+
+<p>단, 올가 픽업 배너의 구체적인 구성이나 확률업 대상은 현재 공식으로 확인된 내용이 없어서 기재하지 않겠습니다. 업데이트 당일 게임 내 배너 안내를 직접 확인해주시는 게 가장 정확합니다.</p>
+
+<p class="ph">〔사진 자리 3〕 올가 전투원 일러스트 또는 스킬 화면 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "ⓒ 카오스 제로 나이트메어" 한 줄을 같이 적어주세요.</p>
+
+<h3>4. 실전 순서 정리</h3>
+
+<p><b>파편 동시 활성화 → 반복 체력 0 → 약화 누적 → 본체 집중 공격의 흐름으로 가시면 됩니다.</b></p>
+
+<table>
+  <tr><th>순서</th><th>행동</th><th>주의점</th></tr>
+  <tr><td>1</td><td>파편 소환 확인</td><td>소환 직후엔 피해 안 들어감 — 바로 패도 헛수고</td></tr>
+  <tr><td>2</td><td>지속 피해 또는 전체 공격으로 파편 동시 타격</td><td>단일 공격으로 한 개씩 치면 활성화 안 될 수 있음</td></tr>
+  <tr><td>3</td><td>파편 체력 0 반복</td><td>회복될 때마다 아네스 약화 단계 상승 — 반복이 핵심</td></tr>
+  <tr><td>4</td><td>스트레스 관리</td><td>약화 단계 높아질수록 스트레스 증가 — 회복 수단 필수</td></tr>
+  <tr><td>5</td><td>아네스 본체 집중 공격</td><td>약화 단계 충분히 쌓인 타이밍에 화력 집중</td></tr>
+</table>
+
+<p>뉴비 실수로 가장 흔한 건 두 가지입니다. <b>하나는 파편 활성화 전에 본체를 때리는 것</b>(딜이 거의 안 들어갑니다), <b>둘은 파편을 개별로 하나씩 잡으려는 것</b>(동시 공격이 아니라 조건 충족이 안 될 수 있어요). 이 두 가지만 피해도 아네스 공략이 훨씬 수월해집니다.</p>
+
+<p class="ph">〔사진 자리 4〕 아네스 약화 단계 상승 UI 또는 파편 체력 0 도달 장면 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "ⓒ 카오스 제로 나이트메어" 한 줄을 같이 적어주세요.</p>
+
+<p>이걸로 카제나 대균열 아네스 공략 정리 마치겠습니다~! 9월 9일 적용 예정이니까 미리 흐름 파악해두시고, 올가 조합이나 지속 피해 파티 구성해두신 분들은 대균열에서 수월하게 달릴 수 있을 거예요~!</p>
+
+<p>참고한 곳:<br>
+루리웹 — 카제나 개발자 노트: https://bbs.ruliweb.com/news/board/320108/read/2293610<br>
+게임뷰 — 카제나 신규 보스 아네스 업데이트 소개: https://www.gamevu.co.kr/news/articleView.html?idxno=60548
+</p>
+
+<p class="tags-line">#카오스제로나이트메어 #카제나 #아네스공략 #대균열공략 #카제나공략 #카제나올가 #카제나보스 #카제나파편 #모바일게임공략 #카제나업데이트</p>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
