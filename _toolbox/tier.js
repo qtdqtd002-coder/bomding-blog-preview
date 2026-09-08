@@ -47,7 +47,7 @@ var UID=0;
 function uid(){ return 'i'+(++UID); }
 
 /* ── 상태 ── */
-var ST={ title:'', stamp:'', sign:'', design:'bomding', accent:'auto', accentHex:'#C93C7C', cols:4, shape:'round', sig:true, tiers:[] };
+var ST={ title:'', stamp:'', sign:'', design:'bomding', accent:'auto', accentHex:'#C93C7C', cols:4, shape:'round', tiers:[] };
 var SIG={};   /* 디자인 id → Image (마운트·디자인 전환 때 받는다. 실패하면 조용히 안 그린다) */
 var IMG={};          /* id → {img,w,h,url,blob,res} */
 var sel=null;
@@ -87,7 +87,6 @@ function restoreData(sv,withDesign){
     if(/^#[0-9a-f]{6}$/i.test(d.accentHex||''))ST.accentHex=d.accentHex;
     if(COLS.indexOf(d.cols)>=0)ST.cols=d.cols;
     if(SHAPES.some(function(s){ return s.id===d.shape; }))ST.shape=d.shape;
-    if(typeof d.sig==='boolean')ST.sig=d.sig;
   }
   if(sel&&!findItem(sel))sel=null;
 }
@@ -95,7 +94,7 @@ function data(){
   return {app:'sseudam-tier',v:2,
     board:{title:ST.title,stamp:ST.stamp,sign:ST.sign,
       tiers:ST.tiers.map(function(t){ return {id:t.id,letter:t.letter,label:t.label,note:t.note,items:t.items.map(function(i){ var o={id:i.id,name:i.name}; if(i.res)o.res=i.res; return o; })}; })},
-    design:{design:ST.design,accent:ST.accent,accentHex:ST.accentHex,cols:ST.cols,shape:ST.shape,sig:ST.sig}};
+    design:{design:ST.design,accent:ST.accent,accentHex:ST.accentHex,cols:ST.cols,shape:ST.shape}};
 }
 try{
   var sv0=JSON.parse(localStorage.getItem(LS)||'null');
@@ -128,6 +127,7 @@ var IC={
   up:'<path d="m18 15-6-6-6 6"/>',
   down:'<path d="m6 9 6 6 6-6"/>',
   back:'<path d="m15 18-6-6 6-6"/>',
+  arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
   image:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>',
   imgOff:'<path d="M10.4 3H19a2 2 0 0 1 2 2v8.6"/><path d="M21 21H5a2 2 0 0 1-2-2V5"/><path d="m21 15-5-5-3.5 3.5"/><path d="M2 2l20 20"/>',
   pipette:'<path d="m2 22 1-1h3l9-9"/><path d="M3 21v-3l9-9"/><path d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3l.4.4Z"/>',
@@ -173,6 +173,21 @@ var CSS=
 '.tier-cnt{font-size:12.5px;font-weight:500;color:var(--ink-3)}.tier-cnt.bad{color:var(--alert);font-weight:600}'+
 '.tier-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 10px}'+
 '.tier-2 .tier-lbl{margin-top:10px}'+
+/* 리소스 불러오기 = 이 도구의 첫 행동(어떤 게임인가) — 전폭 잉크 버튼으로 «누르는 자리»임을 분명히(09-08) */
+'.tier-ressec{padding-bottom:10px}'+
+'.tier-res-cta{display:flex;align-items:center;gap:10px;width:100%;height:48px;padding:0 8px 0 14px;border-radius:14px;'+
+  'background:var(--ink);color:#fff;box-shadow:var(--sh-rest);'+
+  'transition:transform var(--t-fast) var(--e),box-shadow var(--t-fast) var(--e)}'+
+'.tier-res-cta b{font-size:14px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;flex:none}'+   /* 340px 편집 열(1366)에서 라벨이 2줄로 깨졌다 — 줄어드는 건 미리보기 쪽(게이트 🔴 09-08) */
+'.tier-res-cta .ic-wrap{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:rgba(255,255,255,.14);flex:none}'+
+'.tier-res-cta .ic{width:15px;height:15px}'+
+'.tier-res-n{margin-left:auto;font-size:12.5px;color:rgba(255,255,255,.66);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}'+
+'.tier-res-cta .knob{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.14);flex:none;'+
+  'transition:transform var(--t) var(--e-out),background var(--t-fast) var(--e)}'+
+'.tier-res-cta:hover{transform:translateY(-1px);box-shadow:var(--sh-lift)}'+
+'.tier-res-cta:hover .knob{transform:translateX(3px);background:rgba(255,255,255,.24)}'+
+'.tier-res-cta:active{transform:scale(.985)}'+
+'.tier-res-cta:focus-visible{outline:2px solid var(--ink);outline-offset:3px}'+
 '.tier-chips{display:flex;flex-wrap:wrap;gap:6px}'+
 '.tier-chips .chip .dot{width:8px;height:8px}'+
 '.tier .chip .n{font-size:12.5px}'+   /* 사이트 칩 숫자는 11.5 — 도구 안 라벨 하한 12.5 를 지킨다 */
@@ -282,7 +297,7 @@ function accentHex(){ var d=design(); if(ST.accent==='custom')return ST.accentHe
 function accentName(){ var d=design(); if(ST.accent==='custom')return {n:'기타',hex:ST.accentHex}; if(ST.accent==='auto')return {n:d.n+' 기본',hex:d.accent}; for(var i=0;i<d.sw.length;i++)if(d.sw[i].id===ST.accent)return {n:d.sw[i].n,hex:d.sw[i].c}; return {n:'',hex:d.accent}; }
 function signText(){ return (ST.sign||'').trim()||design().n; }
 /* 시그니처 이미지 — 받아 놨고 켜져 있을 때만. 못 받으면 조용히 없는 셈(보드는 그대로 완성) */
-function sigImg(){ var d=design(); if(!ST.sig||!d.sig)return null; var im=SIG[d.id]; return (im&&im.complete&&im.naturalWidth)?im:null; }
+function sigImg(){ var d=design(); if(!d.sig)return null; var im=SIG[d.id]; return (im&&im.complete&&im.naturalWidth)?im:null; }
 function loadSig(){
   var d=design(); if(!d.sig||SIG[d.id])return;
   var im=new Image(); im.decoding='async';
@@ -292,14 +307,28 @@ function loadSig(){
 }
 function safeName(s){ return String(s||'').replace(/[\\\/:*?"<>|]/g,'').replace(/\s+/g,'_').slice(0,40); }
 function fileName(){ return (safeName(ST.title)||'티어표')+'_티어표.png'; }
+var MONO='"JetBrains Mono",ui-monospace,Consolas,monospace';   /* 캔버스 안 숫자·영문 라벨(영도 대시보드 기준·개수) */
 function F(w,px,fam){ return w+' '+px+'px '+(fam||design().fam); }
 
 /* ── 치수(논리 px, 폭 693) ── */
-var M={tray:6,rTray:20,padX:18,padT:16,padB:14,plW:60,gapPl:12,gapX:10,gapY:12,bandT:12,bandB:12,nameGap:7,plMin:92,titleH:56,titleGap:14,titleFs:25,
-       sigH:96,sigLift:34,sigBox:70};   /* 시그니처: 높이 96 · 구분선 위로 34 걸침 · 바닥 영역 70(96−34=62 이 안에 든다) */
-function tileW(){ var iw=W-2*M.tray-2*M.padX-M.plW-M.gapPl; return Math.floor((iw-(ST.cols-1)*M.gapX)/ST.cols); }
+var M={tray:6,rTray:20,padX:18,padT:16,padB:14,plW:60,gapPl:12,gapX:10,gapY:12,bandT:12,bandB:12,nameGap:7,plMin:92,titleH:56,titleGap:14,titleFs:25};
+/* ★스킨 = 작성자별 «골격»(2026-09-08 사용자 결정: 봄딩 B1 · 영도 Y4).
+   색·서체만 다르면 «같은 곳에서 찍어낸» 보드가 된다는 지적을 받아, 헤더·티어 마커·타일 프레임·바닥·시그니처 자리를 통째로 가른다.
+     봄딩 「스크랩북」 = 모눈 종이 + 워시테이프로 붙인 기울어진 제목 태그 + 모서리 접힌 포스트잇 + 폴라로이드 타일 + 시그니처 오른쪽 위
+     영도 「대시보드」 = 상단 풀블리드 틸 바(제목·기준) + 좌측 눈금 레일 + 얇은 테두리 타일 + 시그니처 왼쪽 아래(레일 끝)
+   layout()·draw() 는 이 표만 보고 갈라진다 — bands[].tiles[] 계약은 같아 드래그·히트·검사·내보내기가 그대로 돈다. */
+var SKINS={
+  bomding:{ padX:20, mark:76, gapPl:14, gapX:11, gapY:16, bandT:14, bandB:14, plMin:86, nameGap:8,
+            hdTop:22, hdH:66, hdGap:18, titleFs:25, rTray:22, grid:true, polaroid:true, tileRot:1.5, markKind:'sticky',
+            sigH:112, sigAt:'topRight', sigRot:7, footH:72, footSep:'dash' },
+  yeongdo:{ padX:16, mark:64, gapPl:12, gapX:10, gapY:12, bandT:12, bandB:12, plMin:76, nameGap:7,
+            hdTop:0, hdH:52, hdGap:14, titleFs:23, rTray:12, grid:false, polaroid:false, tileRot:0, markKind:'rail',
+            sigH:104, sigAt:'footLeft', sigRot:0, footH:0, footSep:'line' }
+};
+function skin(){ return SKINS[design().id]||SKINS.bomding; }
+function tileW(){ var sk=skin(), iw=W-2*M.tray-2*sk.padX-sk.mark-sk.gapPl; return Math.floor((iw-(ST.cols-1)*sk.gapX)/ST.cols); }
 function tileH(w){ return ST.shape==='card'?Math.round(w*1.28):w; }
-function nameFs(t){ return clamp(Math.round(t*.14),12,19); }   /* 4열(135) → 19px → 폰(×0.52) 9.9px */
+function nameFs(t){ return clamp(Math.round(t*.145),12,19); }   /* 스킨 도입으로 타일이 129(봄딩)/135(영도) — 4열에서 19px 라야 폰(×0.52) 9.9px 를 넘는다 */
 function rrect(ctx,x,y,w,h,r){ r=Math.max(0,Math.min(r,w/2,h/2)); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 /* 타일 모양 5 — 같은 상자(x,y,w,h) 안에 그린다 */
 function shapePath(ctx,x,y,w,h){
@@ -330,35 +359,41 @@ function nameLines(ctx,name,maxW){
   return rest?[first,ell(ctx,rest,maxW)]:[first];
 }
 
-/* 배치 — 먼저 재고(layout) 나중에 그린다(draw). 화면·내보내기가 같은 함수를 쓴다 */
+/* 배치 — 먼저 재고(layout) 나중에 그린다(draw). 화면·내보내기가 같은 함수를 쓴다. 스킨(봄딩 스크랩북 / 영도 대시보드)으로 갈라진다 */
 function layout(ctx){
-  var d=design(), tw=tileW(), th=tileH(tw), nfs=nameFs(tw), nlh=Math.round(nfs*1.2);
-  var x0=M.tray+M.padX, innerW=W-2*(M.tray+M.padX), y=M.tray+M.padT;
+  var d=design(), sk=skin(), tw=tileW(), th=tileH(tw), nfs=nameFs(tw), nlh=Math.round(nfs*1.2);
+  var x0=M.tray+sk.padX, innerW=W-2*(M.tray+sk.padX);
+  var sg=sigImg(), sigW=sg?Math.round(sk.sigH*(sg.naturalWidth/sg.naturalHeight)):0;
+  var y=M.tray+sk.hdTop;
   ctx.font=F(d.wName,nfs); ctx.letterSpacing=(-nfs*.02)+'px';
   var title=(ST.title||'').trim()||'게임 이름';
-  var hd={y:y,h:M.titleH,title:title}; y+=M.titleH+M.titleGap;
+  var hd={y:y,h:sk.hdH,title:title}; y+=sk.hdH+sk.hdGap;
   var bands=[], n=ST.tiers.length;
   ST.tiers.forEach(function(t,ti){
     var by=y, note=(t.note||'').trim(), noteH=note?22:0;
-    var itemsX=x0+M.plW+M.gapPl, itemsW=innerW-M.plW-M.gapPl;
+    var itemsX=x0+sk.mark+sk.gapPl, itemsW=innerW-sk.mark-sk.gapPl;
     var rows=Math.max(1,Math.ceil(t.items.length/ST.cols));
     /* 이름 줄 수는 띠 단위로 통일(격자) — 한 항목이라도 2줄이면 그 띠의 모든 줄이 2줄 높이 */
     var lines=t.items.map(function(it){ var nm=(it.name||'').trim(); return nm?nameLines(ctx,nm,tw-2):[]; });   /* 이름 폭 = 타일 폭 — 이웃 이름과 최소 간격(gapX) 보장, 넘치면 2줄 */
     var maxL=Math.max(1,Math.max.apply(null,lines.map(function(l){ return l.length; }).concat([1])));
-    var rowH=th+M.nameGap+maxL*nlh;
-    var blockH=t.items.length?rows*rowH+(rows-1)*M.gapY:th;
-    var contentH=Math.max(noteH+blockH,M.plMin);
-    var cy=by+M.bandT, off=Math.round((contentH-noteH-blockH)/2), tilesY=cy+noteH+off;   /* 타일 블록을 플라크 높이 안에서 세로 가운데 */
-    var tiles=t.items.map(function(it,i){ var r=Math.floor(i/ST.cols), c=i%ST.cols; return {id:it.id,ti:ti,i:i,x:itemsX+c*(tw+M.gapX),y:tilesY+r*(rowH+M.gapY),w:tw,h:th,lines:lines[i]}; });
-    bands.push({ti:ti,y:by,h:M.bandT+contentH+M.bandB,pl:{x:x0,y:cy,w:M.plW,h:contentH},note:note,noteY:cy+off,itemsX:itemsX,itemsW:itemsW,tilesY:tilesY,tiles:tiles,rowH:rowH,tw:tw,th:th,last:ti===n-1});
-    y=by+M.bandT+contentH+M.bandB;
+    var rowH=th+sk.nameGap+maxL*nlh;
+    var blockH=t.items.length?rows*rowH+(rows-1)*sk.gapY:th;
+    var contentH=Math.max(noteH+blockH,sk.plMin);
+    var cy=by+sk.bandT, off=Math.round((contentH-noteH-blockH)/2), tilesY=cy+noteH+off;   /* 타일 블록을 마커 높이 안에서 세로 가운데 */
+    var tiles=t.items.map(function(it,i){ var r=Math.floor(i/ST.cols), c=i%ST.cols; return {id:it.id,ti:ti,i:i,x:itemsX+c*(tw+sk.gapX),y:tilesY+r*(rowH+sk.gapY),w:tw,h:th,lines:lines[i]}; });
+    bands.push({ti:ti,y:by,h:sk.bandT+contentH+sk.bandB,pl:{x:x0,y:cy,w:sk.mark,h:contentH},note:note,noteY:cy+off,itemsX:itemsX,itemsW:itemsW,tilesY:tilesY,tiles:tiles,rowH:rowH,tw:tw,th:th,last:ti===n-1});
+    y=by+sk.bandT+contentH+sk.bandB;
   });
-  /* 바닥 — 기준 스탬프 · 서명 · 작성자 시그니처 스티커(오른쪽 끝, 구분선 위로 걸친다) */
-  var stamp=(ST.stamp||'').trim(), sign=signText(), sg=sigImg();
-  var ft={y:y,stamp:stamp,sign:sign,h:sg?M.sigBox:40,sig:null};
-  if(sg){ var sh=M.sigH, sw=Math.round(sh*(sg.naturalWidth/sg.naturalHeight)); ft.sig={img:sg,w:sw,h:sh,x:x0+innerW-sw,y:y-M.sigLift}; }
+  /* 바닥 — 기준 스탬프(영도는 상단 바로 올라간다) · 서명 · 시그니처 */
+  var stamp=(ST.stamp||'').trim(), sign=signText();
+  var footH=sk.sigAt==='footLeft'?(sg?sk.sigH+10:40):sk.footH;
+  var ft={y:y,stamp:stamp,sign:sign,h:footH,sig:null};
+  if(sg){
+    if(sk.sigAt==='footLeft')ft.sig={img:sg,w:sigW,h:sk.sigH,x:x0,y:y+footH-sk.sigH,rot:0};              /* 레일 아래 왼쪽 — 바닥 영역 «안» */
+    else ft.sig={img:sg,w:sigW,h:sk.sigH,x:W-M.tray-8-sigW,y:M.tray+2,rot:sk.sigRot};                    /* 제목 옆 오른쪽 위에서 빼꼼 */
+  }
   y+=ft.h+M.padB+M.tray;
-  return {H:Math.max(Math.round(y),240),tw:tw,th:th,nfs:nfs,nlh:nlh,x0:x0,innerW:innerW,hd:hd,bands:bands,ft:ft};
+  return {H:Math.max(Math.round(y),240),tw:tw,th:th,nfs:nfs,nlh:nlh,nameGap:sk.nameGap,x0:x0,innerW:innerW,hd:hd,bands:bands,ft:ft};
 }
 function drawEmptySlot(ctx,x,y,w,h){
   var d=design(); ctx.save();
@@ -369,8 +404,14 @@ function drawEmptySlot(ctx,x,y,w,h){
   ctx.restore();
 }
 function drawTile(ctx,tl,it,L,a,acc,selected){
-  var d=design(), x=tl.x, y=tl.y, w=tl.w, h=tl.h, im=IMG[it.id], name=(it.name||'').trim();
+  var d=design(), sk=skin(), x=tl.x, y=tl.y, w=tl.w, h=tl.h, im=IMG[it.id], name=(it.name||'').trim();
+  var rot=(sk.tileRot&&(im&&im.img||name))?(((tl.i||0)*37%7)-3)*(sk.tileRot/3):0;   /* 폴라로이드 미세 회전 ±1.5° — 히트박스 오차 ≤2px */
   ctx.save();
+  if(rot){ ctx.translate(x+w/2,y+h/2); ctx.rotate(rot*Math.PI/180); ctx.translate(-(x+w/2),-(y+h/2)); }
+  if(sk.polaroid&&(im&&im.img||name)){   /* 흰 판(아래가 두꺼운 폴라로이드) + 그림자 */
+    ctx.save(); ctx.shadowColor='rgba(46,32,56,.18)'; ctx.shadowBlur=7; ctx.shadowOffsetY=2;
+    ctx.fillStyle='#FFFFFF'; rrect(ctx,x-5,y-5,w+10,h+14,4); ctx.fill(); ctx.restore();
+  }
   if(im&&im.img){
     ctx.save(); shapePath(ctx,x,y,w,h); ctx.clip();
     var k=Math.max(w/im.w,h/im.h), dw=im.w*k, dh=im.h*k;
@@ -380,21 +421,23 @@ function drawTile(ctx,tl,it,L,a,acc,selected){
     ctx.fillStyle=bg; ctx.fillRect(x,y,w,h);
     try{ ctx.drawImage(im.img,x+(w-dw)/2,y+(h-dh)/2,dw,dh); }catch(e){}
     ctx.restore();
-    ctx.strokeStyle=blendOn(acc,Math.max(.25,a)); ctx.lineWidth=2.5; shapePath(ctx,x+1.25,y+1.25,w-2.5,h-2.5); ctx.stroke();
+    if(sk.polaroid){ ctx.strokeStyle=d.hair2; ctx.lineWidth=1; shapePath(ctx,x+.5,y+.5,w-1,h-1); ctx.stroke(); }   /* 폴라로이드는 흰 판이 테두리 — 등급색 링을 겹치지 않는다 */
+    else{ ctx.strokeStyle=blendOn(acc,Math.max(.25,a)); ctx.lineWidth=2.5; shapePath(ctx,x+1.25,y+1.25,w-2.5,h-2.5); ctx.stroke(); }
   }else if(name){
     ctx.fillStyle=d.slot; shapePath(ctx,x,y,w,h); ctx.fill();
     ctx.strokeStyle=d.hair2; ctx.lineWidth=1; shapePath(ctx,x+.5,y+.5,w-1,h-1); ctx.stroke();
     ctx.fillStyle=d.ink3; ctx.font=F(d.wTitle,Math.round(Math.min(w,h)*.36)); ctx.letterSpacing='0px'; ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText(Array.from(name)[0],x+w/2,y+h/2+h*.02); ctx.textBaseline='alphabetic'; ctx.textAlign='left';
   }else drawEmptySlot(ctx,x,y,w,h);
+  ctx.restore();   /* 회전 해제 — 이름·선택 링은 수평으로 */
   if(name){
+    ctx.save();
     ctx.fillStyle=d.ink; ctx.font=F(d.wName,L.nfs); ctx.letterSpacing=(-L.nfs*.02)+'px'; ctx.textAlign='center';
     var ls=tl.lines&&tl.lines.length?tl.lines:nameLines(ctx,name,w-2);
-    ls.forEach(function(s,li){ ctx.fillText(s,x+w/2,y+h+M.nameGap+Math.round(L.nfs*.95)+li*L.nlh); });
-    ctx.textAlign='left';
+    ls.forEach(function(s,li){ ctx.fillText(s,x+w/2,y+h+(L.nameGap||M.nameGap)+Math.round(L.nfs*.95)+li*L.nlh); });
+    ctx.restore();
   }
-  if(selected){ ctx.strokeStyle='#FFFFFF'; ctx.lineWidth=6; shapePath(ctx,x-3,y-3,w+6,h+6); ctx.stroke(); ctx.strokeStyle=T.ink; ctx.lineWidth=3; shapePath(ctx,x-3,y-3,w+6,h+6); ctx.stroke(); }
-  ctx.restore();
+  if(selected){ ctx.save(); ctx.strokeStyle='#FFFFFF'; ctx.lineWidth=6; shapePath(ctx,x-3,y-3,w+6,h+6); ctx.stroke(); ctx.strokeStyle=T.ink; ctx.lineWidth=3; shapePath(ctx,x-3,y-3,w+6,h+6); ctx.stroke(); ctx.restore(); }
 }
 function drawGhost(ctx,dg,L,acc){
   var f=findItem(dg.id); if(!f)return;
@@ -406,58 +449,125 @@ function drawGhost(ctx,dg,L,acc){
   ctx.restore();
 }
 function heart(ctx,cx,cy,s){ ctx.beginPath(); ctx.moveTo(cx,cy+s*.35); ctx.bezierCurveTo(cx-s*.5,cy-s*.05,cx-s*.42,cy-s*.5,cx,cy-s*.22); ctx.bezierCurveTo(cx+s*.42,cy-s*.5,cx+s*.5,cy-s*.05,cx,cy+s*.35); ctx.closePath(); }
-function draw(ctx,L,o){
-  o=o||{};
-  var d=design(), acc=accentHex(), n=ST.tiers.length;
-  ctx.save(); ctx.clearRect(0,0,W,L.H);
-  /* 트레이 → 코어 */
-  var g=ctx.createLinearGradient(0,0,0,L.H); g.addColorStop(0,d.tray); g.addColorStop(1,d.tray2);
-  ctx.fillStyle=g; rrect(ctx,0,0,W,L.H,M.rTray); ctx.fill();
-  ctx.strokeStyle=d.hair; ctx.lineWidth=1; rrect(ctx,.5,.5,W-1,L.H-1,M.rTray); ctx.stroke();
-  ctx.fillStyle=d.paper; rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,M.rTray-M.tray); ctx.fill();
-  /* 제목 띠 — 가운데 정렬, 작성자 처리 */
-  var hd=L.hd;
-  ctx.fillStyle=d.titleFill; rrect(ctx,L.x0,hd.y,L.innerW,hd.h,d.rTitle); ctx.fill();
-  var tfs=fitFs(ctx,hd.title,L.innerW-56,M.titleFs,15,d.wTitle);
-  ctx.fillStyle=d.titleInk; ctx.textAlign='center'; ctx.textBaseline='middle';
-  var tcy=hd.y+hd.h/2-(d.glyph==='heart'?3:0);
-  ctx.fillText(hd.title,L.x0+L.innerW/2,tcy);
+/* 시그니처 — 스킨이 정한 자리에(봄딩 오른쪽 위 기울여 / 영도 왼쪽 아래) */
+function drawSig(ctx,ft){
+  if(!ft.sig)return;
+  var s=ft.sig; ctx.save();
+  if(s.rot){ ctx.translate(s.x+s.w/2,s.y+s.h/2); ctx.rotate(s.rot*Math.PI/180); ctx.translate(-(s.x+s.w/2),-(s.y+s.h/2)); }
+  try{ ctx.drawImage(s.img,s.x,s.y,s.w,s.h); }catch(e){}
+  ctx.restore();
+}
+/* ── 봄딩 「스크랩북」 ── */
+function drawBomding(ctx,L,o,acc){
+  var d=design(), sk=skin(), n=ST.tiers.length, hd=L.hd;
+  /* 종이 + 모눈 */
+  ctx.fillStyle='#F4E6EC'; rrect(ctx,0,0,W,L.H,sk.rTray); ctx.fill();
+  ctx.fillStyle=d.paper; rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,sk.rTray-M.tray); ctx.fill();
+  ctx.save(); rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,sk.rTray-M.tray); ctx.clip();
+  ctx.strokeStyle='rgba(201,60,124,.055)'; ctx.lineWidth=1;
+  for(var gx=M.tray;gx<W;gx+=22){ ctx.beginPath(); ctx.moveTo(gx+.5,M.tray); ctx.lineTo(gx+.5,L.H-M.tray); ctx.stroke(); }
+  for(var gy=M.tray;gy<L.H;gy+=22){ ctx.beginPath(); ctx.moveTo(M.tray,gy+.5); ctx.lineTo(W-M.tray,gy+.5); ctx.stroke(); }
+  ctx.restore();
+  /* 제목 = 기울어진 종이 태그 + 워시테이프 2 */
+  var tagW=Math.min(L.innerW-90,420), tagX=(W-tagW)/2, tagY=hd.y, tagH=hd.h-4;
+  ctx.save(); ctx.translate(tagX+tagW/2,tagY+tagH/2); ctx.rotate(-1.1*Math.PI/180); ctx.translate(-(tagX+tagW/2),-(tagY+tagH/2));
+  ctx.save(); ctx.shadowColor='rgba(46,32,56,.14)'; ctx.shadowBlur=10; ctx.shadowOffsetY=3;
+  ctx.fillStyle='#FFFFFF'; rrect(ctx,tagX,tagY,tagW,tagH,6); ctx.fill(); ctx.restore();
+  var tfs=fitFs(ctx,hd.title,tagW-40,sk.titleFs,15,d.wTitle);
+  ctx.fillStyle=d.titleFill; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(hd.title,tagX+tagW/2,tagY+tagH/2-2);
   var twd=ctx.measureText(hd.title).width;
-  if(d.glyph==='heart'){ ctx.fillStyle=d.titleRule; var rw=Math.max(36,Math.round(twd*.34)); rrect(ctx,L.x0+L.innerW/2-rw/2,tcy+Math.round(tfs*.62),rw,3,1.5); ctx.fill(); }
-  else{ ctx.fillStyle=d.titleRule; ctx.fillRect(L.x0,hd.y+hd.h-3,L.innerW,3); }
-  ctx.textBaseline='alphabetic'; ctx.textAlign='left';
-  /* 티어 띠 */
+  ctx.fillStyle=d.titleRule; var rw=Math.max(36,Math.round(twd*.5)); rrect(ctx,tagX+tagW/2-rw/2,tagY+tagH/2+Math.round(tfs*.62),rw,3,1.5); ctx.fill();
+  [[tagX-16,tagY+6,-16],[tagX+tagW-40,tagY+tagH-22,12]].forEach(function(t){
+    ctx.save(); ctx.translate(t[0]+28,t[1]+9); ctx.rotate(t[2]*Math.PI/180);
+    ctx.fillStyle='rgba(245,138,180,.55)'; ctx.fillRect(-30,-9,60,18);
+    ctx.fillStyle='rgba(255,255,255,.35)'; ctx.fillRect(-30,-9,60,4); ctx.restore();
+  });
+  ctx.restore(); ctx.textBaseline='alphabetic'; ctx.textAlign='left';
+  /* 티어 = 모서리 접힌 포스트잇 */
   L.bands.forEach(function(b,bi){
     var t=ST.tiers[b.ti], a=tierAlpha(b.ti,n), fill=blendOn(acc,a,d.paper), lc=plaqueText(fill,d);
-    if(bi>0){ ctx.save(); ctx.strokeStyle=d.hair2; ctx.lineWidth=1; if(d.sep==='dash')ctx.setLineDash([3,5]); ctx.beginPath(); ctx.moveTo(L.x0,b.y+.5); ctx.lineTo(L.x0+L.innerW,b.y+.5); ctx.stroke(); ctx.restore(); }
-    ctx.fillStyle=fill; rrect(ctx,b.pl.x,b.pl.y,b.pl.w,b.pl.h,d.rPlaque); ctx.fill();
-    if(a<.35){ ctx.strokeStyle=d.hair2; ctx.lineWidth=1; rrect(ctx,b.pl.x+.5,b.pl.y+.5,b.pl.w-1,b.pl.h-1,d.rPlaque); ctx.stroke(); }
+    if(bi>0){ ctx.save(); ctx.strokeStyle=d.hair2; ctx.lineWidth=1; ctx.setLineDash([3,5]); ctx.beginPath(); ctx.moveTo(L.x0,b.y+.5); ctx.lineTo(L.x0+L.innerW,b.y+.5); ctx.stroke(); ctx.restore(); }
+    var pw=b.pl.w, ph=Math.min(b.pl.w,b.pl.h), px=b.pl.x, py=b.pl.y, fold=15;   /* 상단 정렬 — 세로 가운데면 2행 이상 띠에서 첫 줄이 라벨 없이 떠 보였다(게이트 🟡 09-08) */
+    ctx.save(); ctx.translate(px+pw/2,py+ph/2); ctx.rotate((bi%2?1.4:-1.4)*Math.PI/180); ctx.translate(-(px+pw/2),-(py+ph/2));
+    ctx.save(); ctx.shadowColor='rgba(46,32,56,.16)'; ctx.shadowBlur=8; ctx.shadowOffsetY=2;
+    ctx.fillStyle=fill; ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(px+pw,py); ctx.lineTo(px+pw,py+ph-fold); ctx.lineTo(px+pw-fold,py+ph); ctx.lineTo(px,py+ph); ctx.closePath(); ctx.fill(); ctx.restore();
+    ctx.fillStyle='rgba(46,32,56,.14)'; ctx.beginPath(); ctx.moveTo(px+pw,py+ph-fold); ctx.lineTo(px+pw-fold,py+ph); ctx.lineTo(px+pw-fold,py+ph-fold); ctx.closePath(); ctx.fill();
     var letter=(t.letter||'').trim()||'?', label=(t.label||'').trim(), al=Array.from(letter).length;
-    var lfs=fitFs(ctx,letter,b.pl.w-10,al<=1?30:(al===2?24:19),12,d.wTitle);
-    var lblFs=12, blockH=Math.round(lfs*.9)+(label?4+lblFs:0), ty=b.pl.y+(b.pl.h-blockH)/2;   /* 글자+라벨 묶음을 플라크 세로 가운데 */
-    ctx.fillStyle=lc; ctx.textAlign='center'; ctx.textBaseline='alphabetic'; ctx.font=F(d.wTitle,lfs); ctx.letterSpacing=(-lfs*.03)+'px';
-    ctx.fillText(letter,b.pl.x+b.pl.w/2,ty+Math.round(lfs*.82));
-    if(label){ ctx.font=F(d.wName,lblFs); ctx.letterSpacing='-0.2px'; ctx.fillText(ell(ctx,label,b.pl.w-8),b.pl.x+b.pl.w/2,ty+Math.round(lfs*.9)+4+Math.round(lblFs*.9)); }   /* 라벨도 불투명 — 12px 라 대비를 깎지 않는다 */
-    ctx.textAlign='left';
-    if(b.note){ ctx.fillStyle=d.ink2; ctx.font=F(d.wName,13); ctx.letterSpacing='-0.2px'; ctx.fillText(ell(ctx,b.note,b.itemsW),b.itemsX,b.noteY+14); }
-    b.tiles.forEach(function(tl){
-      var it=t.items[tl.i], ghost=o.drag&&o.drag.moved&&o.drag.id===it.id;
-      ctx.globalAlpha=ghost?.35:1; drawTile(ctx,tl,it,L,a,acc,!o.export&&o.sel===it.id&&!ghost); ctx.globalAlpha=1;
-    });
-    if(!t.items.length)drawEmptySlot(ctx,b.itemsX,b.tilesY,b.tw,b.th);
+    var lfs=fitFs(ctx,letter,pw-16,al<=1?30:(al===2?24:19),12,d.wTitle);
+    ctx.fillStyle=lc; ctx.textAlign='center'; ctx.font=F(d.wTitle,lfs); ctx.letterSpacing=(-lfs*.03)+'px';
+    ctx.fillText(letter,px+pw/2,py+ph/2+(label?2:Math.round(lfs*.34)));
+    if(label){ ctx.font=F(d.wName,12); ctx.letterSpacing='-0.2px'; ctx.fillText(ell(ctx,label,pw-12),px+pw/2,py+ph/2+22); }
+    ctx.restore(); ctx.textAlign='left';
+    drawBandItems(ctx,b,t,L,o,acc,a);
   });
-  /* 바닥 — 기준 스탬프 · 서명 · 시그니처 스티커 */
+  /* 바닥 — 점선 + 스탬프(왼쪽) + 서명(오른쪽). 시그니처는 위쪽에 있으므로 자리를 비우지 않는다 */
   var ft=L.ft;
-  ctx.save(); ctx.strokeStyle=d.hair2; ctx.lineWidth=1; if(d.sep==='dash')ctx.setLineDash([3,5]); ctx.beginPath(); ctx.moveTo(L.x0,ft.y+.5); ctx.lineTo(L.x0+L.innerW,ft.y+.5); ctx.stroke(); ctx.restore();
-  var fy=ft.y+(ft.sig?46:26), right=L.x0+L.innerW-(ft.sig?ft.sig.w+12:0);
-  if(ft.stamp){ ctx.fillStyle=d.ink3; ctx.font=F('500',12.5); ctx.letterSpacing='-0.1px'; ctx.textAlign='left'; ctx.fillText(ell(ctx,ft.stamp,right-L.x0-100),L.x0,fy); }
+  ctx.save(); ctx.strokeStyle=d.hair2; ctx.lineWidth=1; ctx.setLineDash([3,5]); ctx.beginPath(); ctx.moveTo(L.x0,ft.y+.5); ctx.lineTo(L.x0+L.innerW,ft.y+.5); ctx.stroke(); ctx.restore();
+  var fy=ft.y+30;
+  if(ft.stamp){ ctx.fillStyle=d.ink3; ctx.font=F('500',12.5); ctx.letterSpacing='-0.1px'; ctx.textAlign='left'; ctx.fillText(ell(ctx,ft.stamp,L.innerW*.58),L.x0,fy); }
+  ctx.font=F(d.wTitle,15); ctx.letterSpacing='-0.3px'; ctx.textAlign='right'; ctx.fillStyle=d.titleFill;
+  var sw=ctx.measureText(ft.sign).width; ctx.fillText(ft.sign,L.x0+L.innerW,fy);
+  ctx.fillStyle=acc; heart(ctx,L.x0+L.innerW-sw-14,fy-5,12); ctx.fill(); ctx.textAlign='left';
+  drawSig(ctx,ft);
+}
+/* ── 영도 「대시보드」 ── */
+function drawYeongdo(ctx,L,o,acc){
+  var d=design(), sk=skin(), n=ST.tiers.length, hd=L.hd;
+  ctx.fillStyle=d.tray; rrect(ctx,0,0,W,L.H,sk.rTray); ctx.fill();
+  ctx.fillStyle=d.paper; rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,sk.rTray-M.tray); ctx.fill();
+  /* 상단 풀블리드 바 — 제목(왼쪽) + 기준(오른쪽) */
+  ctx.save(); rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,sk.rTray-M.tray); ctx.clip();
+  ctx.fillStyle=d.titleFill; ctx.fillRect(M.tray,M.tray,W-2*M.tray,hd.h);
+  ctx.fillStyle=d.titleRule; ctx.fillRect(M.tray,M.tray+hd.h-3,W-2*M.tray,3);
+  ctx.restore();
+  var tfs=fitFs(ctx,hd.title,L.innerW*.56,sk.titleFs,15,d.wTitle);
+  ctx.fillStyle=d.titleInk; ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText(hd.title,L.x0,M.tray+hd.h/2);
+  var titW=ctx.measureText(hd.title).width;   /* 기준 문구는 제목이 쓰고 남은 폭을 전부 쓴다(고정 비율이면 짧은 제목에서도 잘렸다) */
+  if(L.ft.stamp){ ctx.font=F('600',12.5,MONO); ctx.letterSpacing='0px'; ctx.globalAlpha=.92; ctx.textAlign='right';
+    ctx.fillText(ell(ctx,L.ft.stamp,Math.max(80,L.innerW-titW-24)),L.x0+L.innerW,M.tray+hd.h/2); ctx.globalAlpha=1; }
+  ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+  /* 티어 = 좌측 눈금 레일 */
+  L.bands.forEach(function(b,bi){
+    var t=ST.tiers[b.ti], a=tierAlpha(b.ti,n), fill=blendOn(acc,a,d.paper);
+    ctx.fillStyle=d.slot; ctx.fillRect(b.pl.x,b.y,b.pl.w,b.h);
+    ctx.fillStyle=fill; ctx.fillRect(b.pl.x,b.y,4,b.h);
+    var letter=(t.letter||'').trim()||'?', label=(t.label||'').trim(), al=Array.from(letter).length;
+    var lfs=fitFs(ctx,letter,b.pl.w-12,al<=1?20:(al===2?17:14),11,d.wTitle);
+    var lc=blendOn(acc,1,d.paper); ctx.fillStyle=contrast(d.slot,lc)>=4.5?lc:d.ink;   /* 레일 바탕 위 4.5:1 못 넘으면 잉크 */
+    ctx.textAlign='center'; ctx.fillText(letter,b.pl.x+b.pl.w/2+2,b.pl.y+Math.round(lfs*1.1));
+    if(label){ ctx.fillStyle=d.ink2; ctx.font=F(d.wName,11.5); ctx.letterSpacing='-0.1px'; ctx.fillText(ell(ctx,label,b.pl.w-8),b.pl.x+b.pl.w/2+2,b.pl.y+Math.round(lfs*1.1)+18); }   /* ink3 는 slot 위 4.27:1 로 AA 미달(게이트 🔴 09-08) */
+    ctx.textAlign='left';
+    if(bi>0){ ctx.strokeStyle=d.hair; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(b.pl.x+b.pl.w,b.y+.5); ctx.lineTo(L.x0+L.innerW,b.y+.5); ctx.stroke(); }
+    drawBandItems(ctx,b,t,L,o,acc,a);
+  });
+  /* 바닥 — 시그니처(왼쪽) · 라벨 · 서명(오른쪽) */
+  var ft=L.ft, sigW=ft.sig?ft.sig.w+12:0;
+  ctx.strokeStyle=d.hair2; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(L.x0+sigW,ft.y+.5); ctx.lineTo(L.x0+L.innerW,ft.y+.5); ctx.stroke();
+  drawSig(ctx,ft);
+  var fy=ft.y+ft.h-16;
+  ctx.fillStyle=d.ink3; ctx.font=F('500',12.5,MONO); ctx.letterSpacing='0px'; ctx.textAlign='left';
+  ctx.fillText('TIER SHEET',L.x0+sigW,fy);
   ctx.font=F(d.wTitle,14); ctx.letterSpacing='-0.3px'; ctx.textAlign='right'; ctx.fillStyle=d.ink;
-  var sw=ctx.measureText(ft.sign).width; ctx.fillText(ft.sign,right,fy);
-  ctx.fillStyle=acc;
-  if(d.glyph==='heart'){ heart(ctx,right-sw-14,fy-5,12); ctx.fill(); }
-  else{ rrect(ctx,right-sw-18,fy-11,9,9,2); ctx.fill(); }
-  ctx.textAlign='left';
-  if(ft.sig){ try{ ctx.drawImage(ft.sig.img,ft.sig.x,ft.sig.y,ft.sig.w,ft.sig.h); }catch(e){} }
+  var sw=ctx.measureText(ft.sign).width; ctx.fillText(ft.sign,L.x0+L.innerW,fy);
+  ctx.fillStyle=acc; rrect(ctx,L.x0+L.innerW-sw-18,fy-11,9,9,2); ctx.fill(); ctx.textAlign='left';
+}
+/* 한 띠의 «한 줄»·타일 — 스킨 공통(계약: bands[].tiles[]) */
+function drawBandItems(ctx,b,t,L,o,acc,a){
+  var d=design();
+  if(b.note){ ctx.fillStyle=d.ink2; ctx.font=F(d.wName,13); ctx.letterSpacing='-0.2px'; ctx.textAlign='left'; ctx.fillText(ell(ctx,b.note,b.itemsW),b.itemsX,b.noteY+14); }
+  b.tiles.forEach(function(tl){
+    var it=t.items[tl.i], ghost=o.drag&&o.drag.moved&&o.drag.id===it.id;
+    ctx.globalAlpha=ghost?.35:1; drawTile(ctx,tl,it,L,a,acc,!o.export&&o.sel===it.id&&!ghost); ctx.globalAlpha=1;
+  });
+  if(!t.items.length)drawEmptySlot(ctx,b.itemsX,b.tilesY,b.tw,b.th);
+}
+function draw(ctx,L,o){
+  o=o||{};
+  var acc=accentHex();
+  ctx.save(); ctx.clearRect(0,0,W,L.H);
+  if(design().id==='yeongdo')drawYeongdo(ctx,L,o,acc); else drawBomding(ctx,L,o,acc);
   if(o.drag&&o.drag.moved&&o.drag.target){ var mk=o.drag.target.mk; ctx.fillStyle=T.ink; rrect(ctx,mk.x,mk.y,4,mk.h,2); ctx.fill(); }
   if(o.drag&&o.drag.moved&&o.drag.id)drawGhost(ctx,o.drag,L,acc);
   ctx.restore();
@@ -729,7 +839,7 @@ function html(){
     '<section class="tier-ctl" aria-label="설정">'+
       '<div class="tier-sec"><div class="tier-st">디자인</div>'+
         '<div class="tier-chips" id="tiDesign" role="group" aria-label="디자인">'+Object.keys(DESIGNS).map(function(k){ var d=DESIGNS[k]; return chip(k,'<span class="dot" style="--ac:'+d.dot+'"></span>'+esc(d.n),ST.design===k); }).join('')+
-          '<button type="button" class="chip'+(ST.sig?' on':'')+'" id="tiSig" aria-pressed="'+(ST.sig?'true':'false')+'" title="보드 바닥에 작성자 캐릭터를 넣어요">시그니처</button></div>'+
+          '</div>'+
         '<div class="tier-lbl"><span>포인트 색</span></div>'+
         '<div class="tier-crow" id="tiSws" role="group" aria-label="포인트 색">'+swatchHtml()+'<span class="tier-swn" id="tiSwn"></span></div>'+
         '<div class="tier-ramp" id="tiRamp" aria-hidden="true"></div>'+
@@ -737,6 +847,12 @@ function html(){
         '<div class="tier-chips" id="tiShape" role="group" aria-label="타일 모양">'+SHAPES.map(function(s){ return chip(s.id,esc(s.n),ST.shape===s.id); }).join('')+'</div>'+
         '<div class="tier-lbl"><span>한 줄에</span></div>'+
         '<div class="tier-chips" id="tiCols" role="group" aria-label="한 줄 항목 수">'+COLS.map(function(c){ return chip(String(c),c+'개',ST.cols===c); }).join('')+'</div>'+
+      '</div>'+
+      /* ★리소스 불러오기 = «어떤 게임의 티어표인가»를 정하는 첫 걸음이라 제목 위에 전폭 버튼으로 둔다(09-08 사용자 지시 — 종전엔 항목 헤더의 작은 부가 버튼) */
+      '<div class="tier-sec tier-ressec">'+
+        '<button type="button" class="tier-res-cta" id="tiResOpen">'+
+          '<span class="ic-wrap">'+ic('grid')+'</span><b>리소스 불러오기</b><span class="tier-res-n num" id="tiResN"></span><span class="knob">'+ic('arrowR')+'</span>'+
+        '</button>'+
       '</div>'+
       '<div class="tier-sec"><div class="tier-st">제목</div>'+
         '<label class="tier-lbl" for="tiTitle"><span>게임 이름</span><span class="tier-cnt num" id="tiTitleCnt"></span></label>'+
@@ -750,7 +866,7 @@ function html(){
         '<div class="tier-rows" id="tiRows"></div>'+
         '<button type="button" class="ghost tier-add" id="tiTierAdd">'+ic('plus')+'티어 추가</button>'+
       '</div>'+
-      '<div class="tier-sec"><div class="tier-st">항목<span class="d" id="tiIc"></span><span class="sp"></span><button type="button" class="ghost" id="tiResOpen">'+ic('grid')+'리소스 불러오기</button></div>'+
+      '<div class="tier-sec"><div class="tier-st">항목<span class="d" id="tiIc"></span></div>'+
         '<div class="tier-new"><select class="tier-sel" id="tiNewT" aria-label="넣을 티어"></select>'+
           '<input class="tier-in" id="tiNew" maxlength="120" placeholder="이름 · 쉼표로 여러 개" autocomplete="off" aria-label="추가할 항목 이름">'+
           '<button type="button" class="ghost" id="tiAdd">'+ic('plus')+'추가</button></div>'+
@@ -810,7 +926,7 @@ function renderList(){
 function syncDesign(){
   if(!root)return;
   var d=design(), a=accentName();
-  root.querySelectorAll('#tiDesign .chip').forEach(function(b){ var on=b.id==='tiSig'?ST.sig:(b.dataset.v===ST.design); b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false'); });
+  root.querySelectorAll('#tiDesign .chip').forEach(function(b){ var on=b.dataset.v===ST.design; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false'); });
   var sws=$('tiSws'); if(sws){ var hexEl=$('tiHex'); var focused=hexEl&&document.activeElement===hexEl; if(!focused){ sws.innerHTML=swatchHtml()+'<span class="tier-swn" id="tiSwn"></span>'; } }
   $('tiSwn').innerHTML=esc(a.n)+'<span class="num">'+esc(String(a.hex).toUpperCase())+'</span>';
   var cs=root.querySelector('#tiSws .custom'); if(cs){ cs.style.setProperty('--cc',ST.accentHex); cs.classList.toggle('has',ST.accent==='custom'); }
@@ -916,7 +1032,6 @@ function bindEditor(){
   /* 디자인 */
   $('tiDesign').addEventListener('click',function(e){
     var b=e.target.closest('.chip'); if(!b)return;
-    if(b.id==='tiSig'){ ST.sig=!ST.sig; save(); syncDesign(); if(ST.sig)loadSig(); schedule(); return; }
     if(!DESIGNS[b.dataset.v])return;
     ST.design=b.dataset.v; if(ST.accent!=='custom')ST.accent='auto'; save(); syncDesign(); renderTiers(); renderList(); loadSig(); schedule(); loadFonts().then(function(){ if(mounted)schedule(); });
   });
@@ -1036,6 +1151,11 @@ function mount(host,a){
     }
   };
   document.addEventListener('paste',onPaste);
+  /* 버튼에 «무엇이 들어 있는지»를 미리 보여 준다 — 묶음 1개면 그 게임 이름·개수, 여럿이면 게임 수 */
+  resIndex().then(function(list){
+    var el=$('tiResN'); if(!el||!list||!list.length)return;
+    el.textContent=list.length===1?(list[0].game+' '+(list[0].count||0)):(list.length+' 게임');
+  }).catch(function(){});
   renderAll(); paint(); loadResImages(); loadSig();
   loadFonts().then(function(){ if(mounted)schedule(); });
 }
@@ -1058,7 +1178,7 @@ window.SseudamTools.tier={
     move:function(id,ti,idx){ var ok=moveItem(id,ti,idx); if(ok){ renderList(); save(); paint(); } return ok; },
     select:function(id){ selectItem(id,true); },
     hits:function(){ return HIT.map(function(t){ return {id:t.id,ti:t.ti,i:t.i,x:t.x,y:t.y,w:t.w,h:t.h,lines:(t.lines||[]).length}; }); },
-    layout:function(){ return LAY?{H:LAY.H,tw:LAY.tw,th:LAY.th,nfs:LAY.nfs,hd:{y:LAY.hd.y,h:LAY.hd.h},ft:{y:LAY.ft.y,h:LAY.ft.h,sig:LAY.ft.sig?{x:LAY.ft.sig.x,y:LAY.ft.sig.y,w:LAY.ft.sig.w,h:LAY.ft.sig.h}:null},bands:LAY.bands.map(function(b){ return {ti:b.ti,y:b.y,h:b.h,tiles:b.tiles.length,pl:b.pl}; })}:null; },
+    layout:function(){ return LAY?{H:LAY.H,tw:LAY.tw,th:LAY.th,nfs:LAY.nfs,hd:{y:LAY.hd.y,h:LAY.hd.h},ft:{y:LAY.ft.y,h:LAY.ft.h,sig:LAY.ft.sig?{x:LAY.ft.sig.x,y:LAY.ft.sig.y,w:LAY.ft.sig.w,h:LAY.ft.sig.h,rot:LAY.ft.sig.rot||0}:null},bands:LAY.bands.map(function(b){ return {ti:b.ti,y:b.y,h:b.h,tiles:b.tiles.length,pl:b.pl}; })}:null; },
     dropTarget:function(x,y){ return dropTarget(x,y); },
     setImageURL:function(id,url){ return setImageURL(id,url,false); },
     openRes:function(){ openRes(); return resIndex(); }, closeRes:closeRes, res:function(){ return {open:RES.open,bundle:RES.bundle,filter:RES.filter,bundles:RES.index}; },

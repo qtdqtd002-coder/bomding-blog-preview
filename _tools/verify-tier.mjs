@@ -126,13 +126,21 @@ const s0 = await state();
 chk('기본 보드 = S·A·B·C 4단계 · 빈 슬롯 14 · 프리셋 없음', s0 && s0.board.tiers.length === 4 && s0.board.tiers.map(t => t.letter).join('') === 'SABC' && s0.board.tiers.reduce((a, t) => a + t.items.length, 0) === 14 && !(await ev(`!!document.querySelector('#tiPresets')`)), s0 && s0.board.tiers.map(t => t.letter + t.items.length));
 chk('기본 디자인 = 봄딩 · 색 자동 · 4열 · 둥근 사각 · 부제/순위 없음', s0.design.design === 'bomding' && s0.design.accent === 'auto' && s0.design.cols === 4 && s0.design.shape === 'round' && !(await ev(`!!document.querySelector('#tiSub')||!!document.querySelector('#tiOpts')`)), s0.design);
 const L0 = await T('layout()');
-chk('보드 논리 폭 693 · 캔버스 2배(1386) · 타일 135', s0.W === 693 && (await ev(`document.getElementById('tiCanvas').width`)) === 1386 && L0.tw === 135, { W: s0.W, tw: L0.tw });
+chk('보드 논리 폭 693 · 캔버스 2배(1386) · 봄딩 타일 129', s0.W === 693 && (await ev(`document.getElementById('tiCanvas').width`)) === 1386 && L0.tw === 129, { W: s0.W, tw: L0.tw });
 const ws0 = await ev(`(()=>{const t=document.querySelector('.tier'),st=document.querySelector('.tier-stage'),ct=document.querySelector('.tier-ctl'),save=document.getElementById('tiSave').getBoundingClientRect(),cv=document.getElementById('tiCanvas').getBoundingClientRect(),core=document.querySelector('.tb-main .core');return{h:Math.round(t.getBoundingClientRect().height),so:getComputedStyle(st).overflowY,co:getComputedStyle(ct).overflowY,saveIn:save.top>0&&save.bottom<=innerHeight,cvW:Math.round(cv.width),pageScroll:document.documentElement.scrollHeight-innerHeight,tierW:Math.round(t.getBoundingClientRect().width),stageW:st.clientWidth,ctlW:ct.getBoundingClientRect().width,coreW:core.clientWidth,cols:getComputedStyle(t).gridTemplateColumns}})()`);
 chk('작업대 = 뷰포트에 맞는 높이(866) · 보드/편집 열 내부 스크롤 · PNG 저장 버튼이 첫 화면에', ws0 && ws0.h === 866 && ws0.so === 'auto' && ws0.co === 'auto' && ws0.saveIn, ws0);
 chk('보드가 실제 크기(693)로 표시 · 편집 열 400', ws0 && ws0.cvW === 693 && ws0.ctlW === 400, ws0);
-chk('제목 띠(플럼) 그려짐', near(await px(30, L0.hd.y + 10), '#2E2038', 18), await px(30, L0.hd.y + 10));
-chk('S 플라크 = 로즈(농도 1.0)', near(await px(24 + 30, L0.bands[0].pl.y + 10), '#C93C7C', 18), await px(54, L0.bands[0].pl.y + 10));
+/* 봄딩 「스크랩북」 — 흰 종이 태그(가운데) · 모눈 바탕 · 포스트잇 티어 */
+chk('봄딩: 제목이 흰 종이 태그(가운데)', near(await px(346, L0.hd.y + 12), '#FFFFFF', 6), await px(346, L0.hd.y + 12));
+chk('봄딩: 태그 밑줄 = 로즈', await ev(`(()=>{const L=window.SseudamTools.tier.__test.layout();const c=document.getElementById('tiCanvas').getContext('2d');for(let dy=0;dy<40;dy++){const d=c.getImageData(346*2,(L.hd.y+30+dy)*2,1,1).data;if(Math.abs(d[0]-245)<20&&Math.abs(d[1]-138)<24&&Math.abs(d[2]-180)<24)return true;}return false})()`));
+chk('봄딩: S 포스트잇 = 로즈(농도 1.0)', near(await px(L0.bands[0].pl.x + 8, L0.bands[0].pl.y + 38), '#C93C7C', 20), await px(L0.bands[0].pl.x + 8, L0.bands[0].pl.y + 38));   /* 가운데는 흰 «S» 글자 획이라 왼쪽 안쪽에서 잰다 */
+chk('봄딩: 모눈 바탕(옅은 격자)', await ev(`(()=>{const c=document.getElementById('tiCanvas').getContext('2d');const y=${'${L0.hd.y+120}'}*2;let seen=0;for(let x=40;x<660;x++){const d=c.getImageData(x*2,y,1,1).data;if(d[0]>246&&d[1]>235&&d[2]<250&&d[1]<250)seen++;}return seen>0})()`));
 chk('빈 슬롯 그려짐', (await cvVar(96, L0.bands[0].pl.y + 4, 135, 120)) > 0);
+/* 리소스 불러오기 = 제목 위 전폭 버튼(09-08 사용자 «부가기능처럼 보인다» → 첫 행동으로 승격) */
+const resBtn = await ev(`(()=>{const b=document.getElementById('tiResOpen'),t=document.getElementById('tiTitle'),ct=document.querySelector('.tier-ctl');if(!b||!t)return null;const rb=b.getBoundingClientRect(),rt=t.getBoundingClientRect(),rc=ct.getBoundingClientRect();return{h:Math.round(rb.height),w:Math.round(rb.width),ctlInner:Math.round(rc.width)-36,aboveTitle:rb.bottom<=rt.top,inItemHead:!!document.querySelector('.tier-st #tiResOpen'),n:(document.getElementById('tiResN')||{}).textContent||'',bg:getComputedStyle(b).backgroundColor}})()`);
+chk('리소스 불러오기 = 제목 위 · 전폭 · 48px · 잉크 채움', resBtn && resBtn.h === 48 && resBtn.aboveTitle && !resBtn.inItemHead && Math.abs(resBtn.w - resBtn.ctlInner) <= 2 && /rgb\(14, 17, 20\)/.test(resBtn.bg), resBtn);
+chk('리소스 버튼 라벨은 1줄 고정(1920)', await ev(`(()=>{const b=document.querySelector('.tier-res-cta b');return Math.round(b.getBoundingClientRect().height)<=26})()`), await ev(`Math.round(document.querySelector('.tier-res-cta b').getBoundingClientRect().height)`));
+chk('버튼이 묶음을 미리 보여 준다(쿠키런: 크럼블 26)', await waitFor(`/크럼블/.test((document.getElementById('tiResN')||{}).textContent||'')`, 5000), resBtn && resBtn.n);
 chk('검사 문구에 «양식»·«빈 슬롯 14»', await ev(`(()=>{const t=document.getElementById('tiChk').textContent;return t.includes('양식')&&t.includes('14')})()`), await ev(`document.getElementById('tiChk').textContent`));
 await shot('01-tier-default-1920');
 
@@ -145,15 +153,16 @@ chk('파일명 = <제목>_티어표.png', (await T('fileName()')) === '쿠키런
 /* 디자인 2종 */
 await click('#tiDesign .chip[data-v="yeongdo"]'); await sleep(400);
 const Ly = await T('layout()');
-chk('영도 디자인 → 제목 띠 틸 · S 플라크 그린 · 서명 자리 «영도»', (await state()).design.design === 'yeongdo' && near(await px(30, Ly.hd.y + 10), '#0F7C86', 18) && near(await px(54, Ly.bands[0].pl.y + 10), '#15A05A', 18) && (await ev(`document.getElementById('tiSign').placeholder`)) === '영도', { band: await px(30, Ly.hd.y + 10), pl: await px(54, Ly.bands[0].pl.y + 10) });
-/* 작성자 시그니처 스티커(09-07 4차) — 디자인별 1장, 바닥 오른쪽, 칩으로 끄고 켬 */
-chk('시그니처 기본 켬 · 바닥 오른쪽 안쪽에 그려짐(오른쪽 끝 정렬 · 구분선 위로 34)', await ev(`(()=>{const t=window.SseudamTools.tier.__test;const L=t.layout(),s=t.state();const f=L.ft;if(!f.sig)return false;return s.design.sig===true&&Math.abs(f.sig.x+f.sig.w-(693-24))<=1&&f.sig.y===f.y-34&&f.sig.h===96&&f.sig.y+f.sig.h<=f.y+f.h})()`), await T('layout()').then(l => l && l.ft));
-const sigPx = await ev(`(()=>{const L=window.SseudamTools.tier.__test.layout();const f=L.ft.sig;const c=document.getElementById('tiCanvas').getContext('2d');const d=c.getImageData((f.x+f.w/2)*2,(f.y+f.h*.45)*2,1,1).data;return [d[0],d[1],d[2]]})()`);
+chk('영도 「대시보드」: 상단 풀블리드 틸 바 · 레일 색 바 그린 · 서명 자리 «영도»', (await state()).design.design === 'yeongdo' && near(await px(346, 8 + 20), '#0F7C86', 18) && near(await px(Ly.bands[0].pl.x + 2, Ly.bands[0].y + 20), '#15A05A', 20) && (await ev(`document.getElementById('tiSign').placeholder`)) === '영도', { bar: await px(346, 28), rail: await px(Ly.bands[0].pl.x + 2, Ly.bands[0].y + 20) });
+chk('영도 레일 소라벨 대비 ≥4.5:1(slot 위)', await ev(`(()=>{function L(h){const n=parseInt(h.slice(1),16),c=[n>>16&255,n>>8&255,n&255].map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}const a=L('#3F4A52'),b=L('#F3F6F7');return (Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5})()`));
+chk('영도: 레일 바탕(slot)이 띠 전체 높이', await ev(`(()=>{const L=window.SseudamTools.tier.__test.layout();const b=L.bands[0];const c=document.getElementById('tiCanvas').getContext('2d');const d=c.getImageData((b.pl.x+30)*2,(b.y+b.h-6)*2,1,1).data;return d[0]>235&&d[0]<250&&d[2]>240})()`));
+chk('영도: 제목이 왼쪽 정렬(가운데는 비어 있다)', await ev(`(()=>{const c=document.getElementById('tiCanvas').getContext('2d');const d=c.getImageData(560*2,30*2,1,1).data;return !(d[0]>240&&d[1]>240&&d[2]>240)})()`));
+/* 작성자 시그니처(09-08) — 칩 폐기·항상 켬, 자리는 스킨이 정한다(봄딩 오른쪽 위 / 영도 왼쪽 아래) */
+chk('시그니처는 항상 켬(토글 칩 없음 · 저장에도 없음)', !(await ev(`!!document.getElementById('tiSig')`)) && !('sig' in (await state()).design), (await state()).design);
+chk('영도 시그니처 = 바닥 왼쪽(레일 아래·바닥 영역 안)', await ev(`(()=>{const L=window.SseudamTools.tier.__test.layout();const f=L.ft;if(!f.sig)return false;return f.sig.x===22&&f.sig.h===104&&!f.sig.rot&&f.sig.y+f.sig.h<=f.y+f.h+1&&f.sig.y>=f.y})()`), await T('layout()').then(l => l && l.ft));
+const sigPx = await ev(`(()=>{const L=window.SseudamTools.tier.__test.layout();const f=L.ft.sig;const c=document.getElementById('tiCanvas').getContext('2d');const d=c.getImageData((f.x+f.w/2)*2,(f.y+f.h*.55)*2,1,1).data;return [d[0],d[1],d[2]]})()`);
 chk('시그니처 픽셀이 실제로 그려짐(바탕색과 다름)', sigPx && !(sigPx[0] > 250 && sigPx[1] > 245 && sigPx[2] > 248), sigPx);
-await click('#tiSig'); await sleep(300);
-chk('시그니처 끄면 바닥이 40 으로 줄고 스티커 없음', await ev(`(()=>{const t=window.SseudamTools.tier.__test;const L=t.layout();return !L.ft.sig&&L.ft.h===40&&t.state().design.sig===false})()`), await T('layout()').then(l => l && l.ft));
-await click('#tiSig'); await sleep(400);
-chk('다시 켜면 복귀', await waitFor(`!!window.SseudamTools.tier.__test.layout().ft.sig`, 4000));
+
 /* 플라크 글자 대비(게이트 🔴 09-07): 티어 전부, 두 디자인, 7단계까지 ≥ 4.5:1 */
 for (const dsg of ['yeongdo', 'bomding']) {
   await click(`#tiDesign .chip[data-v="${dsg}"]`); await sleep(250);
@@ -170,13 +179,14 @@ chk('영도 시그니처가 봄딩과 다른 파일(디자인별 자산)', await
 chk('영도 스와치 = 그린·민트·틸 3 + 팔레트 + 헥스칸', await ev(`(()=>{const s=[...document.querySelectorAll('#tiSws .tier-sw')].map(b=>b.dataset.c);return s.join(',')==='green,mint,teal,custom'&&!!document.getElementById('tiHex')})()`), await ev(`[...document.querySelectorAll('#tiSws .tier-sw')].map(b=>b.dataset.c).join(',')`));
 await shot('02-tier-yeongdo-1920');
 await click('#tiDesign .chip[data-v="bomding"]'); await sleep(400);
-chk('봄딩 복귀 → 플럼 띠', near(await px(30, (await T('layout()')).hd.y + 10), '#2E2038', 18));
+chk('봄딩 복귀 → 흰 태그 제목', near(await px(346, (await T('layout()')).hd.y + 12), '#FFFFFF', 6));
+chk('봄딩 시그니처 = 오른쪽 위(제목 옆·기울임 7°)', await ev(`(()=>{const L=window.SseudamTools.tier.__test.layout();const f=L.ft;if(!f.sig)return false;return Math.abs(f.sig.x+f.sig.w-(693-14))<=1&&f.sig.y===8&&f.sig.h===112&&f.sig.rot===7})()`), await T('layout()').then(l => l && l.ft));
 
 /* 헥스 입력 */
 await ev(`document.getElementById('tiHex').focus()`);
 await setInput('#tiHex', '#6B45C9'); await sleep(300);
-const sh = await state();
-chk('헥스 입력 → 기타 색 적용 · 플라크 색 바뀜', sh.design.accent === 'custom' && sh.design.accentHex === '#6B45C9' && near(await px(54, (await T('layout()')).bands[0].pl.y + 10), '#6B45C9', 18), { d: sh.design, pl: await px(54, (await T('layout()')).bands[0].pl.y + 10) });
+const sh = await state(), Lh = await T('layout()');
+chk('헥스 입력 → 기타 색 적용 · 플라크 색 바뀜', sh.design.accent === 'custom' && sh.design.accentHex === '#6B45C9' && near(await px(Lh.bands[0].pl.x + 8, Lh.bands[0].pl.y + 38), '#6B45C9', 20), { d: sh.design, pl: await px(Lh.bands[0].pl.x + 8, Lh.bands[0].pl.y + 38) });
 await ev(`(()=>{const e=document.getElementById('tiHex');e.value='zzzzzz';e.dispatchEvent(new Event('input',{bubbles:true}));return true})()`); await sleep(200);   /* 타자 중(input 만) */
 chk('잘못된 헥스 → 경고 링 · 값 유지', await ev(`document.getElementById('tiHex').classList.contains('bad')`) && (await state()).design.accentHex === '#6B45C9');
 await ev(`(()=>{const e=document.getElementById('tiHex');e.blur();e.dispatchEvent(new Event('change',{bubbles:true}));return true})()`); await sleep(200);   /* 사람이 타자 뒤 포커스를 옮기면 change 가 난다 — 프로그램 blur 는 change 를 안 내므로 직접 */
@@ -194,11 +204,11 @@ await click('#tiShape .chip[data-v="circle"]'); await sleep(150);
 chk('원 → 정사각', (await T('layout()')).th === (await T('layout()')).tw);
 await click('#tiShape .chip[data-v="round"]'); await sleep(150);
 await click('#tiCols .chip[data-v="3"]'); await sleep(200);
-chk('3열 → 타일 184', (await T('layout()')).tw === 184, await T('layout()'));
+chk('3열 → 타일 176', (await T('layout()')).tw === 176, await T('layout()'));
 await click('#tiCols .chip[data-v="6"]'); await sleep(200);
-chk('6열 → 타일 87 · 폰 이름 경고', (await T('layout()')).tw === 87 && await ev(`(()=>{const li=[...document.querySelectorAll('#tiChk li')].find(l=>l.textContent.includes('폰 이름'));return !!li&&li.classList.contains('bad')})()`));
+chk('6열 → 타일 82 · 폰 이름 경고', (await T('layout()')).tw === 82 && await ev(`(()=>{const li=[...document.querySelectorAll('#tiChk li')].find(l=>l.textContent.includes('폰 이름'));return !!li&&li.classList.contains('bad')})()`));
 await click('#tiCols .chip[data-v="4"]'); await sleep(200);
-chk('4열 복귀 · 폰 이름 9.9px 통과', (await T('layout()')).tw === 135 && await ev(`(()=>{const li=[...document.querySelectorAll('#tiChk li')].find(l=>l.textContent.includes('폰 이름'));return !!li&&!li.classList.contains('bad')&&li.textContent.includes('9.9')})()`), await ev(`document.getElementById('tiChk').textContent`));
+chk('4열 복귀 · 폰 이름 9.9px 통과', (await T('layout()')).tw === 129 && await ev(`(()=>{const li=[...document.querySelectorAll('#tiChk li')].find(l=>l.textContent.includes('폰 이름'));return !!li&&!li.classList.contains('bad')&&li.textContent.includes('9.9')})()`), await ev(`document.getElementById('tiChk').textContent`));
 
 /* 항목 추가 — 쉼표 */
 await click('#tiNew'); await setInput('#tiNew', '아델, 카데나, 제로'); await key('Enter', 13, '\r'); await sleep(350);
@@ -344,6 +354,7 @@ chk('도구함 진입(1366)', await gotoTier());
 const rail2 = await ev(`(()=>{const tb=document.querySelector('.tb'),side=document.querySelector('.tb-side'),main=document.querySelector('.tb-main'),cv=document.getElementById('tiCanvas');return{ml:getComputedStyle(tb).marginLeft,pos:getComputedStyle(side).position,cols:getComputedStyle(tb).gridTemplateColumns.split(' ').length,panelW:Math.round(main.getBoundingClientRect().width),cvW:Math.round(cv.getBoundingClientRect().width),ctl:getComputedStyle(document.querySelector('.tier')).gridTemplateColumns}})()`);
 chk('1366: 본문 전폭(판 1072) · 레일 sticky · 편집 열 340 · 보드 ≥ 680', rail2 && rail2.ml === '0px' && rail2.pos === 'sticky' && rail2.cols === 2 && rail2.panelW === 1072 && rail2.cvW >= 680 && rail2.ctl.endsWith('340px'), rail2);
 chk('1366 가로 넘침 없음', await ev(`document.documentElement.scrollWidth<=innerWidth+1`));
+chk('1366(편집 열 340): 리소스 버튼 라벨 1줄 · 버튼 48px', await ev(`(()=>{const b=document.querySelector('.tier-res-cta'),l=b.querySelector('b');return Math.round(l.getBoundingClientRect().height)<=26&&Math.round(b.getBoundingClientRect().height)===48})()`), await ev(`(()=>{const b=document.querySelector('.tier-res-cta'),l=b.querySelector('b');return{label:Math.round(l.getBoundingClientRect().height),btn:Math.round(b.getBoundingClientRect().height)}})()`));
 await shot('08-tier-1366');
 chk('[1366] 콘솔 예외 0', logs.length === 0, logs);
 
