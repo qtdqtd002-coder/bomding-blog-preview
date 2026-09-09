@@ -1,0 +1,318 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>롤토체스시즌18 싸움꾼마스터이렝가덱 사용법 공략 (18.1d)</title>
+<!-- AI브리핑 타깃 질문: "롤토체스 마스터 이 렝가 덱 어떻게 쓰나요", "싸움꾼 덱 공략 알려주세요" -->
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--blue:#1a73e8;--blue-line:#c7d9f0;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 네이버 붙여넣기 위젯 */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">롤토체스시즌18 싸움꾼마스터이렝가덱 사용법 공략 (패치 18.1d)</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 9. 9.</span><span>· 게임</span></div>
+
+    <p>롤토체스 시즌 18 시작하고 나서 어떤 덱을 굴려야 하나 고민이신 분들 많으시죠. 저도 요즘 시즌18 덱들 하나하나씩 파보고 있는데요, 이번 18.1d 패치 기준으로 <b>점유율 8.12%, 순방률 59.3%로 안정권에 자리 잡은 '싸움꾼 마스터 이' 덱</b>이 상당히 괜찮더라고요. 점유율 8% 넘기면서 순방률 59%대를 유지하고 있어서, 안정적으로 상위권 노리시는 분들한테 정말 잘 맞는 구성이에요. 오늘은 이 덱의 핵심 챔피언부터 아이템 세팅, 특성 활성, 운영 팁까지 순서대로 풀어볼게요.</p>
+
+    <!-- 이미지 이유: 싸움꾼 마스터 이 덱 전체 배치 키비주얼 / 출처: lolchess.gg / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 롤체지지 '싸움꾼 마스터 이' 덱 전체 배치 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — <a href="https://lolchess.gg/" target="_blank">롤체지지(lolchess.gg)</a>에서 '싸움꾼 마스터 이' 덱 검색 후 덱 구성 전체 화면 캡처</div>
+    <p class="cap">18.1d 기준 점유율 8.12%, 순방률 59.3%의 싸움꾼 마스터 이 덱 구성이에요</p>
+
+    <h2 class="sub">싸움꾼 마스터 이 덱, 어떤 덱인가요?</h2>
+
+    <p><b>싸움꾼 마스터 이 덱은 마스터 이를 핵심 딜러로 내세워 싸움꾼 상징 아이템으로 특성을 활성하고, 렝가의 강력한 점프 스킬로 뒤처리까지 챙기는 공격형 덱입니다.</b> 롤체지지 공식 명칭 그대로 '싸움꾼 마스터 이'인데요, 18.1d 패치 기준 17,989판(2026.09.09 기준) 표본에서 평균 등수 3.97을 기록하고 있어요. 순방률 59.3%면 꽤 안정적인 편이라, 운영이 안 맞아서 이리저리 돌리시는 분들한테도 입문하기 좋은 구성이더라고요.</p>
+
+    <p>핵심은 <b>마스터 이에게 싸움꾼 상징을 달아 싸움꾼 특성을 올리는 것</b>인데요, 상징 아이템이 프라이팬+거인의 허리띠 조합이라 재료 수급도 어렵지 않아요. 상징 장착 시 싸움꾼 특성을 부여받는 동시에 롤체지지 기준 기본 공격 시 최대 체력 2%의 마법 피해까지 추가돼서, 마이 고유 스킬인 '우주류 검술'과 맞물릴 때 딜이 폭발적으로 올라가죠.</p>
+
+    <h2 class="sub">핵심 챔피언 4인, 각자 역할이 뭔가요?</h2>
+
+    <p><b>이 덱에서 반드시 챙겨야 할 핵심 챔피언은 마스터 이, 렝가, 니달리, 코그모, 네 명입니다.</b> 각각 역할이 명확하게 갈리는 구성이라, 한 명이라도 아이템이 비거나 포지션이 틀어지면 성능이 뚝 떨어지더라고요. 아래에서 한 명씩 살펴볼게요.</p>
+
+    <!-- 이미지 이유: 마스터 이 챔피언 카드 및 스킬 설명 / 출처: lolchess.gg / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 마스터 이 챔피언 카드 (스킬 '우주류 검술' 설명 포함)</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — <a href="https://lolchess.gg/" target="_blank">롤체지지(lolchess.gg)</a> 챔피언 정보에서 마스터 이 카드 캡처</div>
+    <p class="cap">마스터 이의 '우주류 검술'은 세 번째 기본 공격마다 2연속 공격이 터지는 핵심 스킬이에요</p>
+
+    <p><b>마스터 이 (3코스트 · 메인 딜러)</b>는 이 덱의 중심이에요. 스킬 '우주류 검술'이 세 번째 기본 공격마다 2연속 공격을 터뜨리고, 처치 관여 시 이동 속도가 대폭 오르거든요. 여기에 적응가 특성이 붙으면 2연속 공격마다 공격 속도가 15%씩 쌓이고, 2연속 타격 시 추가 피해와 체력 회복까지 들어와요. 구인수의 격노검이 더해지면 공격 속도가 눈에 띄게 오르면서 연타 사이클이 극적으로 빨라지는 걸 느끼실 수 있을 거예요.</p>
+
+    <p>장착 아이템은 <b>싸움꾼 상징 · 밤의 끝자락 · 구인수의 격노검</b>입니다. 싸움꾼 상징으로 특성 활성과 체력 기반 마법 피해를 동시에 얹고, 밤의 끝자락으로 방어력 감소를 걸어 주면 딜 환경이 확 좋아지죠.</p>
+
+    <p><b>렝가 (3코스트 · 보조 딜러)</b>는 스킬 '포악함'으로 인게임 기준 3칸 내에서 체력 비율이 가장 낮은 적에게 도약해 찌르기 피해를 입히는 챔피언이에요. 기본 피해가 255~615(별 1~3 기준)에 잃은 체력 비례 회복이 최대 120~180까지 들어오니까, 체력 낮은 적을 골라 마무리 짓는 뒤처리 역할을 훌륭하게 해줘요. 장착 아이템은 <b>밤의 끝자락 · 구인수의 격노검 · 거인의 결의</b>인데요, 거인의 결의로 탱킹력까지 보강해서 전선에서 버티면서 딜을 넣는 구조예요.</p>
+
+    <!-- 이미지 이유: 렝가 챔피언 카드 및 포악함 스킬 설명 / 출처: lolchess.gg / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 렝가 챔피언 카드 (스킬 '포악함' 설명 포함)</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — <a href="https://lolchess.gg/" target="_blank">롤체지지(lolchess.gg)</a> 챔피언 정보에서 렝가 카드 캡처</div>
+    <p class="cap">렝가의 '포악함'은 체력 낮은 적을 찾아 도약하는 뒤처리 기술이에요</p>
+
+    <p><b>니달리 (4코스트 · 광역 딜러)</b>는 스킬 '창 투척'을 통해 다음 기본 공격 3회 동안 공격 속도 150%에 투창으로 대체 공격하는 챔피언이에요. 적응가 효과로 일반 타깃에게 170~2000, 세 번째 투창은 아이템이 가장 적고 가장 멀리 있는 적에게 285~3000 마법 피해를 꽂는데요, 별 3이 되면 수치가 극적으로 뛰어오르는 만큼 최대한 3성을 목표로 챙겨주시는 게 좋아요. 장착 아이템은 <b>무한의 대검 · 쇼진의 창 · 스테락의 도전</b>이에요.</p>
+
+    <p><b>코그모 (3코스트 · 원거리 딜러)</b>는 스킬 '쏟아지는 포화'로 대상과 가장 가까운 다른 적에게 산성을 뿌려 165~425 물리 피해를 입히고, 적이 최대 체력 50% 이하면 피해가 231~595로 증폭돼요. 체력 낮은 적에게 자동으로 더 세게 들어가는 구조라, 렝가의 뒤처리와 찰떡같이 맞물리는 편이에요. 장착 아이템은 <b>무한의 대검 · 붉은 덩굴정령 · 쇼진의 창</b>입니다.</p>
+
+    <h2 class="sub">아이템 세팅 요약 한눈에 보기</h2>
+
+    <p><b>핵심 챔피언 4인의 아이템 구성을 정리하면 아래와 같습니다.</b> 재료 겹치는 부분이 있어서 미리 파악해두시면 빠른 결정을 하는 데 도움이 돼요.</p>
+
+    <table class="tbl">
+      <thead><tr><th>챔피언</th><th>코스트</th><th>장착 아이템</th></tr></thead>
+      <tbody>
+        <tr><td><b>마스터 이</b></td><td>3코</td><td>싸움꾼 상징 · 밤의 끝자락 · 구인수의 격노검</td></tr>
+        <tr><td><b>렝가</b></td><td>3코</td><td>밤의 끝자락 · 구인수의 격노검 · 거인의 결의</td></tr>
+        <tr><td><b>니달리</b></td><td>4코</td><td>무한의 대검 · 쇼진의 창 · 스테락의 도전</td></tr>
+        <tr><td><b>코그모</b></td><td>3코</td><td>무한의 대검 · 붉은 덩굴정령 · 쇼진의 창</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 이미지 이유: 싸움꾼 상징 아이템 조합 화면 / 출처: lolchess.gg / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 싸움꾼 상징 아이템 조합 화면 (프라이팬 + 거인의 허리띠)</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 인게임 아이템 조합 화면 또는 <a href="https://lolchess.gg/" target="_blank">롤체지지(lolchess.gg)</a>의 아이템 정보에서 캡처</div>
+    <p class="cap">싸움꾼 상징은 프라이팬 + 거인의 허리띠 조합, 마이에 장착하면 싸움꾼 특성이 활성돼요</p>
+
+    <h2 class="sub">활성 특성이랑 배치는요?</h2>
+
+    <p><b>이 덱의 핵심 특성은 싸움꾼 2(브론즈), 적응가 3(실버), 부식 1(골드), 경쟁자 1(골드) 조합입니다.</b> 개화 3(브론즈), 전쟁기계 2(브론즈), 원시 2(브론즈)도 함께 활성되는 구조예요. 특성별로 짚어보면요:</p>
+
+    <ul>
+      <li><b>싸움꾼 2(브론즈)</b> — 아군 최대 체력 120 증가. 마스터 이·렝가에게 체력 상승 효과가 들어와요. 4명 이상이면 실버, 6명 이상이면 골드로 올라가는데, 이 덱은 2명 활성 기준이에요.</li>
+      <li><b>적응가 3(실버)</b> — 마이·렝가·니달리·코그모 스킬에 적응가 효과가 추가돼요. 마이의 연타 공격 속도 중첩, 코그모의 저체력 피해 증폭, 니달리의 원거리 투창 등이 전부 이 특성에서 나오는 거예요.</li>
+      <li><b>부식 1(골드)</b> — 부식 유닛이 피해를 입히면 적에게 4초 동안 파쇄·파열을 30% 적용해줘요. 파쇄는 마법 저항력, 파열은 방어력을 깎아주는 거라 마이·렝가 딜 환경이 확 좋아지는 구조입니다.</li>
+      <li><b>경쟁자 1(골드)</b> — 롤체지지 특성 효과 기준으로 골드 등급 특성 효과 활성이에요.</li>
+    </ul>
+
+    <p>배치는 <b>마스터 이와 렝가를 전선 중앙 쪽, 코그모를 후열에, 니달리는 원거리 포지션으로 후열 측면</b>에 두는 게 기본이에요. 마이가 전선에서 연타를 시작하면 처치 관여로 이동 속도가 오르고, 그 사이 렝가가 체력 낮은 적을 찾아 도약하는 흐름이 만들어지거든요.</p>
+
+    <h2 class="sub">싸움꾼 마스터 이 덱 운영 팁</h2>
+
+    <p>싸움꾼 마스터 이 덱은 <b>3코스트 리롤 덱이라 경제를 어느 정도 유지하면서 2성을 먼저 챙기는 게 핵심</b>이에요. 마이·렝가·코그모가 전부 3코스트라서 리롤 타이밍에 여러 명이 한꺼번에 올라오는 경우도 있어서, 골드 흐름 관리를 잘 해두시면 빠르게 세팅이 완성되더라고요.</p>
+
+    <p>니달리는 4코스트라 좀 늦게 올라오는 편인데요, <b>그 전까지는 적응가 특성 채울 수 있는 다른 챔피언으로 자리를 채워두셨다가 니달리 구해지면 교체해주시면 됩니다.</b> 아이템은 마이 세팅을 1순위로 챙기시고, 싸움꾼 상징 재료인 프라이팬·거인의 허리띠가 먼저 뜨면 바로 조합해두시는 게 좋아요.</p>
+
+    <p>렝가에게 거인의 결의를 올려두면 체력이 두툼해져서 전선에서 버티면서 뒤처리까지 하는 역할을 동시에 소화할 수 있거든요. <b>마이와 렝가 둘 다 밤의 끝자락을 들고 있어서 방어력 감소 디버프가 겹치는 것도 은근히 중요한 포인트</b>예요.</p>
+
+    <p>다만 이 덱은 <b>같은 3코스트 챔피언을 여러 명 확보하려는 상대가 많을 때 자원 경쟁이 심해지고, 리롤 압박이 걸리면 운영이 흔들릴 수 있다는 약점</b>이 있어요. 로비에 같은 챔피언을 쓰는 플레이어가 보이면 리롤 타이밍을 조금 당기거나, 자원 경쟁을 줄이는 방향으로 전략을 바꾸는 것도 고려해보세요.</p>
+
+    <!-- 이미지 이유: 마스터 이 2성 이상 배치 + 렝가 포지션 화면 / 출처: B형 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 마스터 이 2성 + 렝가 전선 배치 인게임 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 실제 판 진행 중 전선 배치 화면을 캡처하거나, 연습 모드에서 세팅 후 캡처</div>
+    <p class="cap">마이 2성 이상이 확보되면 딜이 확연히 달라지는 게 느껴져요</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+
+    <p><b>Q. 싸움꾼 상징이 없을 때는 어떻게 하나요?</b><br>
+    싸움꾼 상징이 없으면 마스터 이가 싸움꾼 특성을 가질 수 없어서 덱의 핵심 시너지가 빠지게 돼요. 이 경우 싸움꾼 상징 대신 딜을 보완해주는 다른 공격 아이템으로 임시 세팅하되, 프라이팬·거인의 허리띠 재료를 최대한 빨리 모아 상징을 조합하는 게 우선이에요. 상징 없이 진행하면 덱 성능이 상당히 떨어지는 구성이라서요.</p>
+
+    <p><b>Q. 니달리 대신 쓸 수 있는 챔피언이 있나요?</b><br>
+    니달리는 적응가 특성을 채워주는 역할도 겸하고 있어서 완전 대체는 어렵지만, 적응가 특성을 충족하는 다른 챔피언으로 임시 배치하면서 니달리가 올 때까지 버티는 방식으로 운영할 수 있어요. 다만 4코스트 딜러 공백은 체감이 크기 때문에 최대한 빠르게 구해주시는 게 좋습니다.</p>
+
+    <h2 class="sub">싸움꾼 마스터 이 덱 정리</h2>
+
+    <p>평균 등수 3.97, 순방률 59.3%면, <b>안정적으로 4강권을 노리기에 충분한 덱이에요.</b> 리롤 타이밍에 마이·렝가·코그모 세 명을 한꺼번에 올릴 수 있는 구조라서 세팅이 맞아떨어지는 순간 전투력이 팍팍 오르거든요. 싸움꾼 상징만 빠르게 조합하면 중후반 운영이 꽤 수월해지니까, 지금 롤체 덱 고민 중이신 분들은 한 번 달려보시면 좋을 것 같아요.</p>
+
+    <p>최신 순위와 세부 데이터는 메타가 패치마다 바뀌니까, <a href="https://lolchess.gg/" target="_blank">롤체지지(lolchess.gg)</a>에서 한 번씩 확인해보시면서 흐름을 잡으시는 걸 추천드려요.</p>
+
+    <p><!-- 내부링크: 롤토체스 시즌18 관련 기존 글 post ID 확인 후 연결 -->
+    (같은 게임의 롤토체스 시즌18 티어·덱 관련 글에서 더 자세히 다뤘어요 — 발행 시 링크 연결)</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://lolchess.gg/" target="_blank">롤체지지 (lolchess.gg)</a> — 2026.09.09 22:02 KST 기준 실측</p>
+
+    <div class="tags">#롤토체스 #롤체 #시즌18 #싸움꾼마스터이 #마스터이덱 #렝가덱 #롤체공략 #TFT #싸움꾼덱 #18.1d #롤체시즌18덱 #롤토체스공략</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 5곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 롤토체스시즌18 싸움꾼마스터이렝가덱 사용법 공략 (패치 18.1d)</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>롤토체스 시즌 18 시작하고 나서 어떤 덱을 굴려야 하나 고민이신 분들 많으시죠. 저도 요즘 시즌18 덱들 하나하나씩 파보고 있는데요, 이번 18.1d 패치 기준으로 <b>점유율 8.12%, 순방률 59.3%로 안정권에 자리 잡은 '싸움꾼 마스터 이' 덱</b>이 상당히 괜찮더라고요. 점유율 8% 넘기면서 순방률 59%대를 유지하고 있어서, 안정적으로 상위권 노리시는 분들한테 정말 잘 맞는 구성이에요. 오늘은 이 덱의 핵심 챔피언부터 아이템 세팅, 특성 활성, 운영 팁까지 순서대로 풀어볼게요.</p>
+
+      <p class="ph">📷 〔사진 자리 1〕 롤체지지 '싸움꾼 마스터 이' 덱 전체 배치 화면 — lolchess.gg에서 직접 캡처 후 업로드</p>
+
+      <h3>싸움꾼 마스터 이 덱, 어떤 덱인가요?</h3>
+
+      <p><b>싸움꾼 마스터 이 덱은 마스터 이를 핵심 딜러로 내세워 싸움꾼 상징 아이템으로 특성을 활성하고, 렝가의 강력한 점프 스킬로 뒤처리까지 챙기는 공격형 덱입니다.</b> 롤체지지 공식 명칭 그대로 '싸움꾼 마스터 이'인데요, 18.1d 패치 기준 17,989판(2026.09.09 기준) 표본에서 평균 등수 3.97을 기록하고 있어요. 순방률 59.3%면 꽤 안정적인 편이라, 운영이 안 맞아서 이리저리 돌리시는 분들한테도 입문하기 좋은 구성이더라고요.</p>
+
+      <p>핵심은 <b>마스터 이에게 싸움꾼 상징을 달아 싸움꾼 특성을 올리는 것</b>인데요, 상징 아이템이 프라이팬+거인의 허리띠 조합이라 재료 수급도 어렵지 않아요. 상징 장착 시 싸움꾼 특성을 부여받는 동시에 롤체지지 기준 기본 공격 시 최대 체력 2%의 마법 피해까지 추가돼서, 마이 고유 스킬인 '우주류 검술'과 맞물릴 때 딜이 폭발적으로 올라가죠.</p>
+
+      <h3>핵심 챔피언 4인, 각자 역할이 뭔가요?</h3>
+
+      <p><b>이 덱에서 반드시 챙겨야 할 핵심 챔피언은 마스터 이, 렝가, 니달리, 코그모, 네 명입니다.</b> 각각 역할이 명확하게 갈리는 구성이라, 한 명이라도 아이템이 비거나 포지션이 틀어지면 성능이 뚝 떨어지더라고요.</p>
+
+      <p class="ph">📷 〔사진 자리 2〕 마스터 이 챔피언 카드 (스킬 '우주류 검술' 설명 포함) — lolchess.gg에서 캡처 후 업로드</p>
+
+      <p><b>마스터 이 (3코스트 · 메인 딜러)</b>는 이 덱의 중심이에요. 스킬 '우주류 검술'이 세 번째 기본 공격마다 2연속 공격을 터뜨리고, 처치 관여 시 이동 속도가 대폭 오르거든요. 여기에 적응가 특성이 붙으면 2연속 공격마다 공격 속도가 15%씩 쌓이고, 2연속 타격 시 추가 피해와 체력 회복까지 들어와요. 구인수의 격노검이 더해지면 공격 속도가 눈에 띄게 오르면서 연타 사이클이 극적으로 빨라지는 걸 느끼실 수 있을 거예요. 장착 아이템은 <b>싸움꾼 상징 · 밤의 끝자락 · 구인수의 격노검</b>이에요.</p>
+
+      <p class="ph">📷 〔사진 자리 3〕 렝가 챔피언 카드 (스킬 '포악함' 설명 포함) — lolchess.gg에서 캡처 후 업로드</p>
+
+      <p><b>렝가 (3코스트 · 보조 딜러)</b>는 스킬 '포악함'으로 인게임 기준 3칸 내에서 체력 비율이 가장 낮은 적에게 도약해 찌르기 피해를 입히는 챔피언이에요. 기본 피해가 255~615(별 1~3 기준)에 잃은 체력 비례 회복이 최대 120~180까지 들어오니까, 체력 낮은 적을 골라 마무리 짓는 뒤처리 역할을 훌륭하게 해줘요. 장착 아이템은 <b>밤의 끝자락 · 구인수의 격노검 · 거인의 결의</b>예요.</p>
+
+      <p><b>니달리 (4코스트 · 광역 딜러)</b>는 스킬 '창 투척'을 통해 다음 기본 공격 3회 동안 공격 속도 150%에 투창으로 대체 공격하는 챔피언이에요. 일반 타깃에게 170~2000, 세 번째 투창은 285~3000 마법 피해를 꽂고요, 장착 아이템은 <b>무한의 대검 · 쇼진의 창 · 스테락의 도전</b>이에요.</p>
+
+      <p><b>코그모 (3코스트 · 원거리 딜러)</b>는 스킬 '쏟아지는 포화'로 대상과 가장 가까운 다른 적에게 산성을 뿌려 165~425 물리 피해를 입히고, 최대 체력 50% 이하의 적에게는 231~595로 증폭돼요. 장착 아이템은 <b>무한의 대검 · 붉은 덩굴정령 · 쇼진의 창</b>입니다.</p>
+
+      <h3>아이템 세팅 요약 한눈에 보기</h3>
+
+      <p><b>핵심 챔피언 4인의 아이템 구성을 정리하면 아래와 같습니다.</b></p>
+
+      <table>
+        <thead><tr><th>챔피언</th><th>코스트</th><th>장착 아이템</th></tr></thead>
+        <tbody>
+          <tr><td class="l">마스터 이</td><td>3코</td><td>싸움꾼 상징 · 밤의 끝자락 · 구인수의 격노검</td></tr>
+          <tr><td class="l">렝가</td><td>3코</td><td>밤의 끝자락 · 구인수의 격노검 · 거인의 결의</td></tr>
+          <tr><td class="l">니달리</td><td>4코</td><td>무한의 대검 · 쇼진의 창 · 스테락의 도전</td></tr>
+          <tr><td class="l">코그모</td><td>3코</td><td>무한의 대검 · 붉은 덩굴정령 · 쇼진의 창</td></tr>
+        </tbody>
+      </table>
+
+      <p class="ph">📷 〔사진 자리 4〕 싸움꾼 상징 아이템 조합 화면 (프라이팬 + 거인의 허리띠) — 인게임 캡처 후 업로드</p>
+
+      <h3>활성 특성이랑 배치는요?</h3>
+
+      <p><b>이 덱의 핵심 특성은 싸움꾼 2(브론즈), 적응가 3(실버), 부식 1(골드), 경쟁자 1(골드) 조합입니다.</b> 개화 3(브론즈), 전쟁기계 2(브론즈), 원시 2(브론즈)도 함께 활성되는 구조예요.</p>
+
+      <ul>
+        <li><b>싸움꾼 2(브론즈)</b> — 아군 최대 체력 120 증가. 마스터 이·렝가에게 체력 상승 효과가 들어와요.</li>
+        <li><b>적응가 3(실버)</b> — 마이·렝가·니달리·코그모 스킬에 적응가 효과가 추가돼요.</li>
+        <li><b>부식 1(골드)</b> — 부식 유닛이 피해를 입히면 적에게 4초 동안 파쇄·파열을 30% 적용해줘요. 파쇄는 마법 저항력, 파열은 방어력을 깎아주는 효과예요.</li>
+        <li><b>경쟁자 1(골드)</b> — 롤체지지 특성 효과 기준으로 골드 등급 특성 효과 활성이에요.</li>
+      </ul>
+
+      <p>배치는 <b>마스터 이와 렝가를 전선 중앙, 코그모를 후열, 니달리는 후열 측면</b>에 두는 게 기본이에요.</p>
+
+      <h3>싸움꾼 마스터 이 덱 운영 팁</h3>
+
+      <p>싸움꾼 마스터 이 덱은 <b>3코스트 리롤 덱이라 경제를 어느 정도 유지하면서 2성을 먼저 챙기는 게 핵심</b>이에요. 마이·렝가·코그모가 전부 3코스트라서 리롤 타이밍에 여러 명이 한꺼번에 올라오는 경우도 있어서, 골드 흐름 관리를 잘 해두시면 빠르게 세팅이 완성되더라고요.</p>
+
+      <p>니달리는 4코스트라 좀 늦게 올라오는 편인데요, <b>그 전까지는 적응가 특성 채울 수 있는 다른 챔피언으로 자리를 채워두셨다가 니달리 구해지면 교체</b>해주시면 됩니다. 아이템은 마이 세팅을 1순위로 챙기시고, 싸움꾼 상징 재료인 프라이팬·거인의 허리띠가 먼저 뜨면 바로 조합해두시는 게 좋아요.</p>
+
+      <p>다만 이 덱은 <b>같은 3코스트 챔피언을 여러 명 확보하려는 상대가 많을 때 자원 경쟁이 심해지고, 리롤 압박이 걸리면 운영이 흔들릴 수 있는 약점</b>이 있어요. 로비에 같은 챔피언을 쓰는 플레이어가 보이면 리롤 타이밍을 조금 당기거나 전략을 바꾸는 것도 고려해보세요.</p>
+
+      <p class="ph">📷 〔사진 자리 5〕 마스터 이 2성 + 렝가 전선 배치 인게임 화면 — 실제 판 진행 중 캡처 후 업로드</p>
+
+      <h3>자주 묻는 질문</h3>
+
+      <p><b>Q. 싸움꾼 상징이 없을 때는 어떻게 하나요?</b><br>
+      싸움꾼 상징이 없으면 마스터 이가 싸움꾼 특성을 가질 수 없어서 덱의 핵심 시너지가 빠지게 돼요. 이 경우 프라이팬·거인의 허리띠 재료를 최대한 빨리 모아 상징을 조합하는 게 우선이에요. 상징 없이 진행하면 덱 성능이 상당히 떨어지는 구성이라서요.</p>
+
+      <p><b>Q. 니달리 대신 쓸 수 있는 챔피언이 있나요?</b><br>
+      니달리는 적응가 특성을 채워주는 역할도 겸하고 있어서 완전 대체는 어렵지만, 적응가 특성을 충족하는 다른 챔피언으로 임시 배치하면서 니달리가 올 때까지 버티는 방식으로 운영할 수 있어요.</p>
+
+      <h3>싸움꾼 마스터 이 덱 정리</h3>
+
+      <p>평균 등수 3.97, 순방률 59.3%면, <b>안정적으로 4강권을 노리기에 충분한 덱이에요.</b> 싸움꾼 상징만 빠르게 조합하면 중후반 운영이 꽤 수월해지니까, 지금 롤체 덱 고민 중이신 분들은 한 번 달려보시면 좋을 것 같아요.</p>
+
+      <p>최신 순위와 세부 데이터는 메타가 패치마다 바뀌니까, 롤체지지(lolchess.gg)에서 한 번씩 확인해보시면서 흐름을 잡으시는 걸 추천드려요.</p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://lolchess.gg/" target="_blank">롤체지지 (lolchess.gg)</a> — 2026.09.09 22:02 KST 기준 실측</p>
+
+      <p class="tags-line">#롤토체스 #롤체 #시즌18 #싸움꾼마스터이 #마스터이덱 #렝가덱 #롤체공략 #TFT #싸움꾼덱 #18.1d #롤체시즌18덱 #롤토체스공략</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
