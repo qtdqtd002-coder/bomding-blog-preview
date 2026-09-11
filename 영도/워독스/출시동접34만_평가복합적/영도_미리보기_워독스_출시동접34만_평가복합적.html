@@ -1,0 +1,292 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>워독스 WARDOGS 앞서 해보기 동시접속자 34만, 스팀 평가는 복합적인 이유</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post li{font-size:15.5px;line-height:1.9;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post .q{color:var(--pt);}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 6px;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 6px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .faqq{font-weight:800;margin:16px 0 4px;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .linkline{margin:22px 0 0;padding-top:16px;border-top:1px solid var(--line);font-size:14px;line-height:1.9;color:#444;}
+  .linkline b{display:block;margin-bottom:4px;}
+  .refline{margin:14px 0 0;font-size:13px;line-height:1.9;color:#888;}
+  .refline b{display:block;margin-bottom:3px;color:#666;}
+  .refline a{color:#1a73e8;text-decoration:none;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">게임소식</div>
+    <h1 class="title">워독스 WARDOGS 앞서 해보기 동시접속자 34만, 스팀 평가는 복합적인 이유</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026.09.12</span><span>· 게임</span></div>
+
+    <p>딱 잘라 말씀드리면, <b>워독스(WARDOGS)</b>는 지금 흥행과 잡음을 동시에 겪고 있는 게임입니다. 스팀 앞서 해보기로 나오자마자 최고 동시접속자 <b>34만 명</b>을 찍었는데, 정작 스팀 평가는 '복합적(Mixed)'으로 나왔거든요. 오늘은 이 게임이 왜 이렇게 뜨고 있는지, 그리고 왜 동시에 평가가 깎이고 있는지 두 갈래로 나눠서 짚어보겠습니다.</p>
+
+    <h2 class="sec">1. 워독스, 어떤 게임이고 언제 나왔나</h2>
+    <p>개발사는 영국 더비에 있는 <b>벌크헤드(BULKHEAD)</b>, 퍼블리셔는 <b>팀17(Team17)</b>입니다. 장르는 최대 100명이 세 개 진영으로 갈려 싸우는 대규모 밀리터리 전술 FPS인데요, 배경은 동유럽 산업지대입니다.</p>
+
+    <table class="tbl">
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>개발사</td><td>벌크헤드(BULKHEAD, 영국 더비)</td></tr>
+      <tr><td>퍼블리셔</td><td>팀17(Team17)</td></tr>
+      <tr><td>장르</td><td>최대 100인ㆍ3파전 밀리터리 전술 FPS</td></tr>
+      <tr><td>배경</td><td>동유럽 산업지대</td></tr>
+      <tr><td>출시일(스팀 표기)</td><td>2026년 9월 10일</td></tr>
+      <tr><td>출시일(인벤 보도)</td><td>2026년 9월 11일</td></tr>
+    </table>
+    <p class="cap">※ 출시일은 스팀 상점 페이지 자체 표기(9/10)와 인벤 보도 시점(9/11)이 하루 차이 납니다</p>
+
+    <!-- 이미지 이유: 워독스 특유의 삭막한 산업지대 분위기를 보여주는 스팀 공식 키비주얼이라 도입부 인상 전달에 적합 / 출처: Steam 공식 상점 페이지(store.steampowered.com/app/1867240), self-host 완료 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/wardogs-header.jpg" alt="워독스 스팀 상점 페이지 헤더 이미지" width="460" height="215"></div>
+    <p class="cap">보시는 이미지가 스팀 상점 페이지에 걸린 키비주얼인데요, 워독스 특유의 삭막한 산업지대 분위기가 바로 느껴지실 겁니다.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/1867240/WARDOGS/" target="_blank">Steam 공식 상점 페이지</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <p>출시일 표기가 좀 재밌는데요, <b>스팀 상점 페이지 자체는 '10 Sep, 2026'(9월 10일)으로 적혀 있고, 인벤 보도(2026-09-11 07:00 게재)는 '9월 11일 출시'로 소개</b>했습니다. 직접 스팀 페이지에 들어가 보시면 이 하루 차이를 바로 확인하실 수 있으니, 어느 쪽이 맞나 헷갈리지 않으셔도 됩니다.</p>
+
+    <p>가격이나 에디션 구성은 앞서 '워독스 스팀 예약 구매 시작, 사전예약과는 다릅니다' 글에서 이미 정리해둔 게 있어서, 이번 글에선 다루지 않고 출시 이후 흥행ㆍ평가 얘기에만 집중하겠습니다.</p>
+
+    <h2 class="sec">2. 동시접속 34만, 뭐가 그렇게 몰렸나</h2>
+    <p>인벤 보도(2026-09-11 17:50 게재)에 따르면 워독스는 앞서 해보기 출시 직후 최고 동시접속자 <b>34만 명</b>을 찍었습니다. 같은 기사는 지금도 31만 명 안팎의 이용자가 게임을 즐기고 있다는 설명도 함께 전했는데요, 반짝 흥행이 아니라 이용자층이 꽤 두텁게 남아 있다는 뜻으로 읽힙니다.</p>
+
+    <!-- 이미지 이유: 100인 3파전 대규모 전투가 실제로 어떤 그림인지 보여주는 스팀 공식 인게임 스크린샷 / 출처: Steam 공식 상점 페이지(store.steampowered.com/app/1867240), self-host 완료 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/wardogs-battle.jpg" alt="워독스 인게임 전투 스크린샷" width="1920" height="1080"></div>
+    <p class="cap">보시면 100명이 한 맵 안에서 동시에 얽히는 대규모 전투가 어떤 그림인지 감이 오실 거예요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/1867240/WARDOGS/" target="_blank">Steam 공식 상점 페이지</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <p>왜 이렇게 몰렸는지는 시스템을 보면 짐작이 갑니다. 워독스는 최대 100명이 세 개 진영으로 갈려 컨트롤 존을 두고 싸우는 대규모 3파전 밀리터리 FPS인데요, 맵 자체가 파괴 가능해서 전투 지형이 계속 바뀝니다. 시작할 때 <b>초기 자금 10,000달러</b>를 들고 무기ㆍ장비ㆍ차량을 사서 꾸리고, 부상당한 동료를 소생시키거나, 수송하거나, 목표 지점을 점령하는 팀플레이로 자금을 더 벌어들이는 구조예요.</p>
+
+    <p>스팀 상점 페이지에 적힌 설명을 보면 시스템이 좀 더 촘촘한데요, 거점을 뺏고 지키는 제어 구역(Control Zone) 점령전이 게임 모드의 뼈대이고, 그 판에서 번 자금이 매치가 끝나도 사라지지 않고 다음 판까지 이어서 쌓이는 구조예요. 요새화 거점을 짓고 엄폐물을 세우는 건설과, 상대가 그걸 다시 부수는 파괴가 한 세트로 맞물려 돌아간다는 점도 특징이고요. 여기에 인벤 보도(2026-09-11 07:00 게재)를 보면, 전장에 들어갈 때 보병으로 뛸지 차량 같은 탑승 장비를 골라 움직일지 직접 정할 수 있고, 3파전으로 진행되다 보니 기존 대규모 전장에서는 보기 힘들던 교전 양상이 나온다고 소개했더라고요. 이 네 가지가 한꺼번에 맞물리다 보니, 단순히 총싸움에서 이기는 것만이 아니라 거점을 어떻게 지키고 다음 판 자금을 어떻게 굴릴지까지 고민하게 되는 게 워독스만의 재미 포인트로 보입니다.</p>
+
+    <p>100인 3파전이라는 판 자체가 흔치 않은 데다, 초기 자금으로 장비를 골라 사는 시스템이 밀리터리 FPS치고는 신선하다는 반응이 뜨겁게 반영된 결과로 보입니다.</p>
+
+    <h2 class="sec">3. 근데 스팀 평가는 복합적, 왜 그럴까</h2>
+    <p>흥행만 보면 성공(?)인데, 스팀 유저 평가는 그만큼 좋지 않았습니다. 인벤 보도(2026-09-11 17:50) 기준 워독스 추천 비율은 <b>62%</b>로 '복합적(Mixed)' 등급이었는데요, 오늘(9월 12일) 제가 직접 스팀 페이지에 들어가서 확인해보니 추천 비율이 <b>77%</b>, 등급도 '대체로 긍정적(Mostly Positive)'까지 올라와 있더라고요. 리뷰 개수는 18,020개였습니다.</p>
+
+    <table class="tbl">
+      <tr><th>시점</th><th>추천 비율</th><th>등급</th></tr>
+      <tr><td>기사 시점(2026-09-11 17:50)</td><td>62%</td><td>복합적(Mixed)</td></tr>
+      <tr><td>확인 시점(2026-09-12)</td><td>77%</td><td>대체로 긍정적(Mostly Positive)</td></tr>
+    </table>
+    <p class="cap">※ 추천 비율은 기사 게재 시점(2026-09-11 17:50)과 직접 확인 시점(2026-09-12) 기준이며, 이후로도 계속 바뀔 수 있는 값입니다</p>
+
+    <!-- 이미지 이유: 지금 시점 추천 비율ㆍ등급ㆍ리뷰 개수를 보여주는 실시간 UI라 정적 이미지로 대체 불가, 직접 캡처 필요 / 출처: Steam 상점 페이지 리뷰 요약 영역(직접 촬영) / 분류: B형(A형 소진 확인: 공식 뉴스룸ㆍ공식 페이지ㆍ도움말ㆍ스토어ㆍCC/공공누리ㆍ무료스톡 전부 실시간 변동 UI라 정적 이미지로 대체 불가 확인) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 스팀 상점 페이지 리뷰 요약 부분(추천 비율ㆍ등급ㆍ리뷰 개수)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://store.steampowered.com/app/1867240/WARDOGS/" target="_blank">스팀 상점 페이지</a> (페이지 상단 리뷰 요약 영역을 캡처하시면 됩니다)</div>
+    <p class="cap">지금 보시는 자리에 리뷰 요약 화면을 넣으시면, 숫자가 눈에 바로 들어와서 좋아요.</p>
+
+    <p>추천 비율은 이렇게 시시각각 바뀌는 값이다 보니, 이 글을 읽으시는 시점엔 또 달라져 있을 수 있습니다. 참고차 스팀 리뷰 등급 구간도 같이 적어둘게요.</p>
+
+    <table class="tbl">
+      <tr><th>등급</th><th>추천 비율 구간</th></tr>
+      <tr><td>복합적(Mixed)</td><td>40~69%</td></tr>
+      <tr><td>대체로 긍정적(Mostly Positive)</td><td>70~79%</td></tr>
+    </table>
+    <p class="cap">※ 스팀 리뷰 등급 구간(참고용, 2026-09-12 기준 공개된 구간표)</p>
+
+    <h2 class="sec">4. 평가가 갈린 이유, 인벤은 이렇게 짚었다</h2>
+    <p>평가가 갈린 이유에 대해 인벤은 '게임 자체의 재미보다는 서버 문제로 인한 불만이 크다'는 취지로 분석했습니다. 기사가 서버 문제의 구체적인 증상까지 짚지는 않았는데요, 대신 '서버 문제가 해결된다면 좀 더 좋은 평가를 기대해볼 수 있을 것 같다'는 전망으로 기사를 마무리했습니다.</p>
+
+    <p>다만 이건 어디까지나 인벤의 분석이자 전망이고, 서버 문제가 실제로 해결됐는지는 따로 확인된 바가 없습니다. 위에서 본 것처럼 확인 시점 평가가 62%에서 77%로 올라와 있긴 한데, 이게 서버 문제 해결 때문인지 다른 이유인지는 딱 잘라 말씀드리기 어렵네요.</p>
+
+    <h2 class="sec">자주 묻는 질문</h2>
+    <p class="faqq">Q. 동시접속자 34만 명은 스팀 공식 집계인가요?</p>
+    <p>A. 아닙니다. 인벤 보도(2026-09-11 17:50)에 나온 수치고, 스팀 자체 공식 발표나 SteamDB 같은 제3자 집계는 아닙니다. 같은 기사가 지금도 31만 명 안팎의 이용자가 게임을 즐기고 있다는 설명도 같이 전했어요.</p>
+
+    <p class="faqq">Q. 인벤 기사가 두 개(320695·320743) 나오던데, 뭐가 다른가요?</p>
+    <p>A. 320695는 9월 11일 오전 7시에 나온 출시 예고성 소식이고, 320743은 같은 날 오후 5시 50분에 나온 후속 기사로 동시접속자ㆍ스팀 평가 수치까지 담고 있습니다. 이 글은 수치가 실린 320743 기준으로 정리했고, 게임 소개 부분은 두 기사를 같이 참고했습니다.</p>
+
+    <p>참고로 대규모 전장 밀리터리 FPS를 좋아하시지만 서버가 확실히 안정화될 때까지는 좀 더 지켜보고 싶으신 분이라면 지금 당장보다는 몇 주 뒤 평가 추이를 보고 들어오시는 쪽을 권해드리고, 반대로 34만 명이 몰린 흥행 초입 분위기를 지금 바로 즐기고 싶으신 분이라면 바로 합류하셔도 좋을 것 같습니다.</p>
+
+    <div class="summary">이번 워독스 소식은 이 정도로 갈무리할게요. 100인 3파전이라는 판과 파괴 가능한 맵, 초기 자금으로 장비를 꾸리는 시스템이 34만 명을 끌어모은 힘이었고, 서버 문제로 짐작되는 불만이 '복합적' 평가로 이어진 게 지금까지 확인된 그림입니다. 평가는 앞으로도 계속 바뀔 값이니, 궁금하시면 스팀 페이지에서 최신 수치를 직접 확인해보시는 게 제일 정확합니다. 주인장도 서버 좀 잠잠해지면 한 판 들어가 볼 생각이에요.</div>
+
+    <div class="linkline"><b>▶ 같이 보면 좋은 글</b>· 워독스 스팀 예약 구매 시작, 사전예약과는 다릅니다 - 가격ㆍ혜택 총정리 — (네이버에서 해당 글 링크를 직접 넣어 주세요)</div>
+
+    <div class="refline"><b>참고한 곳</b>
+      · <a href="https://store.steampowered.com/app/1867240/WARDOGS/" target="_blank">워독스 스팀 공식 상점 페이지</a><br>
+      · <a href="https://www.inven.co.kr/webzine/news/?news=320743" target="_blank">인벤, "[Steam Pick] 워독스부터 동방홍마향, 그리고 블리즈컨까지, 이번 주 스팀을 달군 소식들" (2026-09-11 17:50)</a><br>
+      · <a href="https://www.inven.co.kr/webzine/news/?news=320695" target="_blank">인벤, "[9월 11일 간추린 뉴스] 100인이 참여하는 대규모 3파전 '워독스'" (2026-09-11 07:00)</a>
+    </div>
+
+    <div class="tags">#워독스 #WARDOGS #워독스출시 #스팀신작 #밀리터리FPS #앞서해보기 #벌크헤드 #팀17</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드ㆍ리스트ㆍ표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳 + 그 아래 출처 2줄:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문ㆍ표는 복사로 들어갑니다.</div>
+      <span class="ti">📌 제목칸에 따로: 워독스 WARDOGS 앞서 해보기 동시접속자 34만, 스팀 평가는 복합적인 이유</span>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<h3>워독스 WARDOGS 앞서 해보기 동시접속자 34만, 스팀 평가는 복합적인 이유</h3>
+<p>딱 잘라 말씀드리면, <b>워독스(WARDOGS)</b>는 지금 흥행과 잡음을 동시에 겪고 있는 게임입니다. 스팀 앞서 해보기로 나오자마자 최고 동시접속자 <b>34만 명</b>을 찍었는데, 정작 스팀 평가는 '복합적(Mixed)'으로 나왔거든요. 오늘은 이 게임이 왜 이렇게 뜨고 있는지, 그리고 왜 동시에 평가가 깎이고 있는지 두 갈래로 나눠서 짚어보겠습니다.</p>
+
+<h3>1. 워독스, 어떤 게임이고 언제 나왔나</h3>
+<p>개발사는 영국 더비에 있는 <b>벌크헤드(BULKHEAD)</b>, 퍼블리셔는 <b>팀17(Team17)</b>입니다. 장르는 최대 100명이 세 개 진영으로 갈려 싸우는 대규모 밀리터리 전술 FPS인데요, 배경은 동유럽 산업지대입니다.</p>
+<table>
+  <tr><th>항목</th><th>내용</th></tr>
+  <tr><td class="l">개발사</td><td>벌크헤드(BULKHEAD, 영국 더비)</td></tr>
+  <tr><td class="l">퍼블리셔</td><td>팀17(Team17)</td></tr>
+  <tr><td class="l">장르</td><td>최대 100인ㆍ3파전 밀리터리 전술 FPS</td></tr>
+  <tr><td class="l">배경</td><td>동유럽 산업지대</td></tr>
+  <tr><td class="l">출시일(스팀 표기)</td><td>2026년 9월 10일</td></tr>
+  <tr><td class="l">출시일(인벤 보도)</td><td>2026년 9월 11일</td></tr>
+</table>
+<span class="ph">📷 〔사진 자리 1〕 워독스 스팀 상점 페이지 헤더 이미지 — 네이버에서 직접 업로드</span>
+<span class="phsub">└ 캡션 추천: "워독스 특유의 삭막한 산업지대 분위기가 바로 느껴지실 겁니다"</span><br>
+<span class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "이미지: Steam 공식 상점 페이지 제공" 한 줄을 같이 적어주세요.</span>
+<p>출시일 표기가 좀 재밌는데요, <b>스팀 상점 페이지 자체는 '10 Sep, 2026'(9월 10일)으로 적혀 있고, 인벤 보도(2026-09-11 07:00 게재)는 '9월 11일 출시'로 소개</b>했습니다. 직접 스팀 페이지에 들어가 보시면 이 하루 차이를 바로 확인하실 수 있으니, 어느 쪽이 맞나 헷갈리지 않으셔도 됩니다.</p>
+<p>가격이나 에디션 구성은 앞서 '워독스 스팀 예약 구매 시작, 사전예약과는 다릅니다' 글에서 이미 정리해둔 게 있어서, 이번 글에선 다루지 않고 출시 이후 흥행ㆍ평가 얘기에만 집중하겠습니다.</p>
+
+<h3>2. 동시접속 34만, 뭐가 그렇게 몰렸나</h3>
+<p>인벤 보도(2026-09-11 17:50 게재)에 따르면 워독스는 앞서 해보기 출시 직후 최고 동시접속자 <b>34만 명</b>을 찍었습니다. 같은 기사는 지금도 31만 명 안팎의 이용자가 게임을 즐기고 있다는 설명도 함께 전했는데요, 반짝 흥행이 아니라 이용자층이 꽤 두텁게 남아 있다는 뜻으로 읽힙니다.</p>
+<span class="ph">📷 〔사진 자리 2〕 워독스 인게임 전투 스크린샷 — 네이버에서 직접 업로드</span>
+<span class="phsub">└ 캡션 추천: "100명이 한 맵 안에서 동시에 얽히는 대규모 전투 장면"</span><br>
+<span class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "이미지: Steam 공식 상점 페이지 제공" 한 줄을 같이 적어주세요.</span>
+<p>왜 이렇게 몰렸는지는 시스템을 보면 짐작이 갑니다. 워독스는 최대 100명이 세 개 진영으로 갈려 컨트롤 존을 두고 싸우는 대규모 3파전 밀리터리 FPS인데요, 맵 자체가 파괴 가능해서 전투 지형이 계속 바뀝니다. 시작할 때 <b>초기 자금 10,000달러</b>를 들고 무기ㆍ장비ㆍ차량을 사서 꾸리고, 부상당한 동료를 소생시키거나, 수송하거나, 목표 지점을 점령하는 팀플레이로 자금을 더 벌어들이는 구조예요.</p>
+<p>스팀 상점 페이지에 적힌 설명을 보면 시스템이 좀 더 촘촘한데요, 거점을 뺏고 지키는 제어 구역(Control Zone) 점령전이 게임 모드의 뼈대이고, 그 판에서 번 자금이 매치가 끝나도 사라지지 않고 다음 판까지 이어서 쌓이는 구조예요. 요새화 거점을 짓고 엄폐물을 세우는 건설과, 상대가 그걸 다시 부수는 파괴가 한 세트로 맞물려 돌아간다는 점도 특징이고요. 여기에 인벤 보도(2026-09-11 07:00 게재)를 보면, 전장에 들어갈 때 보병으로 뛸지 차량 같은 탑승 장비를 골라 움직일지 직접 정할 수 있고, 3파전으로 진행되다 보니 기존 대규모 전장에서는 보기 힘들던 교전 양상이 나온다고 소개했더라고요. 이 네 가지가 한꺼번에 맞물리다 보니, 단순히 총싸움에서 이기는 것만이 아니라 거점을 어떻게 지키고 다음 판 자금을 어떻게 굴릴지까지 고민하게 되는 게 워독스만의 재미 포인트로 보입니다.</p>
+<p>100인 3파전이라는 판 자체가 흔치 않은 데다, 초기 자금으로 장비를 골라 사는 시스템이 밀리터리 FPS치고는 신선하다는 반응이 뜨겁게 반영된 결과로 보입니다.</p>
+
+<h3>3. 근데 스팀 평가는 복합적, 왜 그럴까</h3>
+<p>흥행만 보면 성공(?)인데, 스팀 유저 평가는 그만큼 좋지 않았습니다. 인벤 보도(2026-09-11 17:50) 기준 워독스 추천 비율은 <b>62%</b>로 '복합적(Mixed)' 등급이었는데요, 오늘(9월 12일) 제가 직접 스팀 페이지에 들어가서 확인해보니 추천 비율이 <b>77%</b>, 등급도 '대체로 긍정적(Mostly Positive)'까지 올라와 있더라고요. 리뷰 개수는 18,020개였습니다.</p>
+<table>
+  <tr><th>시점</th><th>추천 비율</th><th>등급</th></tr>
+  <tr><td>기사 시점(2026-09-11 17:50)</td><td>62%</td><td>복합적(Mixed)</td></tr>
+  <tr><td>확인 시점(2026-09-12)</td><td>77%</td><td>대체로 긍정적(Mostly Positive)</td></tr>
+</table>
+<span class="ph">📷 〔사진 자리 3〕 스팀 상점 페이지 리뷰 요약 화면(추천 비율ㆍ등급ㆍ리뷰 개수) — 네이버에서 직접 업로드</span>
+<span class="phsub">└ 캡션 추천: "숫자가 눈에 바로 들어오는 리뷰 요약 화면"</span><br>
+<span class="phsub">└ ⚠️ 사진 자리 1·2와 달리 이 자리는 이미지 복사가 안 되는 자리예요 — 스팀 상점 페이지에 들어가서 리뷰 요약 부분을 직접 캡처해서 넣어주세요.</span>
+<p>추천 비율은 이렇게 시시각각 바뀌는 값이다 보니, 이 글을 읽으시는 시점엔 또 달라져 있을 수 있습니다. 참고차 스팀 리뷰 등급 구간도 같이 적어둘게요.</p>
+<table>
+  <tr><th>등급</th><th>추천 비율 구간</th></tr>
+  <tr><td>복합적(Mixed)</td><td>40~69%</td></tr>
+  <tr><td>대체로 긍정적(Mostly Positive)</td><td>70~79%</td></tr>
+</table>
+
+<h3>4. 평가가 갈린 이유, 인벤은 이렇게 짚었다</h3>
+<p>평가가 갈린 이유에 대해 인벤은 '게임 자체의 재미보다는 서버 문제로 인한 불만이 크다'는 취지로 분석했습니다. 기사가 서버 문제의 구체적인 증상까지 짚지는 않았는데요, 대신 '서버 문제가 해결된다면 좀 더 좋은 평가를 기대해볼 수 있을 것 같다'는 전망으로 기사를 마무리했습니다.</p>
+<p>다만 이건 어디까지나 인벤의 분석이자 전망이고, 서버 문제가 실제로 해결됐는지는 따로 확인된 바가 없습니다. 위에서 본 것처럼 확인 시점 평가가 62%에서 77%로 올라와 있긴 한데, 이게 서버 문제 해결 때문인지 다른 이유인지는 딱 잘라 말씀드리기 어렵네요.</p>
+
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 동시접속자 34만 명은 스팀 공식 집계인가요?</b></p>
+<p>A. 아닙니다. 인벤 보도(2026-09-11 17:50)에 나온 수치고, 스팀 자체 공식 발표나 SteamDB 같은 제3자 집계는 아닙니다. 같은 기사가 지금도 31만 명 안팎의 이용자가 게임을 즐기고 있다는 설명도 같이 전했어요.</p>
+
+<p><b>Q. 인벤 기사가 두 개(320695·320743) 나오던데, 뭐가 다른가요?</b></p>
+<p>A. 320695는 9월 11일 오전 7시에 나온 출시 예고성 소식이고, 320743은 같은 날 오후 5시 50분에 나온 후속 기사로 동시접속자ㆍ스팀 평가 수치까지 담고 있습니다. 이 글은 수치가 실린 320743 기준으로 정리했고, 게임 소개 부분은 두 기사를 같이 참고했습니다.</p>
+
+<p>참고로 대규모 전장 밀리터리 FPS를 좋아하시지만 서버가 확실히 안정화될 때까지는 좀 더 지켜보고 싶으신 분이라면 지금 당장보다는 몇 주 뒤 평가 추이를 보고 들어오시는 쪽을 권해드리고, 반대로 34만 명이 몰린 흥행 초입 분위기를 지금 바로 즐기고 싶으신 분이라면 바로 합류하셔도 좋을 것 같습니다.</p>
+
+<p>이번 워독스 소식은 이 정도로 갈무리할게요. 100인 3파전이라는 판과 파괴 가능한 맵, 초기 자금으로 장비를 꾸리는 시스템이 34만 명을 끌어모은 힘이었고, 서버 문제로 짐작되는 불만이 '복합적' 평가로 이어진 게 지금까지 확인된 그림입니다. 평가는 앞으로도 계속 바뀔 값이니, 궁금하시면 스팀 페이지에서 최신 수치를 직접 확인해보시는 게 제일 정확합니다. 주인장도 서버 좀 잠잠해지면 한 판 들어가 볼 생각이에요.</p>
+
+<p><b>▶ 같이 보면 좋은 글</b><br>· 워독스 스팀 예약 구매 시작, 사전예약과는 다릅니다 - 가격ㆍ혜택 총정리 — (네이버에서 해당 글 링크를 직접 넣어 주세요)</p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://store.steampowered.com/app/1867240/WARDOGS/" target="_blank">워독스 스팀 공식 상점 페이지</a><br>
+· <a href="https://www.inven.co.kr/webzine/news/?news=320743" target="_blank">인벤, "[Steam Pick] 워독스부터 동방홍마향, 그리고 블리즈컨까지, 이번 주 스팀을 달군 소식들" (2026-09-11 17:50)</a><br>
+· <a href="https://www.inven.co.kr/webzine/news/?news=320695" target="_blank">인벤, "[9월 11일 간추린 뉴스] 100인이 참여하는 대규모 3파전 '워독스'" (2026-09-11 07:00)</a></p>
+
+<p class="tags-line">#워독스 #WARDOGS #워독스출시 #스팀신작 #밀리터리FPS #앞서해보기 #벌크헤드 #팀17</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
