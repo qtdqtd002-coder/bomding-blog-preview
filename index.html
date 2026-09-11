@@ -308,7 +308,7 @@ a{color:inherit; text-decoration:none}
 .rows{display:flex; flex-direction:column; position:relative}   /* FLIP 으로 나가는 행이 absolute 가 될 기준 */
 .row{
   position:relative; display:grid; align-items:center;
-  grid-template-columns:104px minmax(0,1fr) 128px 62px 36px;
+  grid-template-columns:104px minmax(0,1fr) 128px 62px 88px 36px;
   gap:14px; padding:0 12px 0 16px; min-height:56px;
   border-bottom:1px solid var(--hair);
   transition:background var(--t-fast) var(--e), transform var(--t) var(--e), opacity 240ms var(--e);
@@ -344,9 +344,14 @@ a{color:inherit; text-decoration:none}
 }
 .row-c{font-size:12.5px; color:var(--ink-3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .row-d{font-size:12.5px; color:var(--ink-3); text-align:right}
+/* 발주→발행 소요 — 헤더 행이 없어 초시계 아이콘이 열 머리를 대신한다. 왼쪽 정렬이라 아이콘끼리 세로 줄이 맞는다 */
+.row-l{font-size:12.5px; color:var(--ink-3); white-space:nowrap}
+.lead{display:inline-flex; align-items:center; gap:5px; white-space:nowrap; font-variant-numeric:tabular-nums}
+.lead .ic{width:13px; height:13px; color:var(--ink-4)}
 /* 발주 기록이 없어 작성일로 대신한 날짜 — 물결표 + 한 단 옅게 */
 .approx{color:var(--ink-4)}
 .approx .tl{font-style:normal; opacity:.75}
+.row:hover .approx{color:var(--ink-3)}   /* ink-4 는 호버 면(surface-2) 위에서 4.47:1 로 AA 미달 — 호버 때만 한 단 진하게 */
 .row-meta-m{display:none}          /* 좁은 폭에서만 쓰는 한 줄 메타 */
 .row-a{display:flex; justify-content:flex-end}
 .arch{
@@ -1024,10 +1029,11 @@ html.gs .nt{transition:none !important}
   .row{grid-template-columns:minmax(0,1fr) 36px; grid-template-areas:"t a" "m a";
        gap:2px 10px; padding:11px 8px 11px 14px; min-height:0}
   .row-t{grid-area:t}
-  .row-w,.row-c,.row-d{display:none}
-  .row-meta-m{grid-area:m; display:flex; align-items:center; gap:5px; font-size:12px;
+  .row-w,.row-c,.row-d,.row-l{display:none}
+  .row-meta-m{grid-area:m; display:flex; align-items:center; gap:5px; font-size:12.5px;
               color:var(--ink-3); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
   .row-meta-m .wnm{font-weight:700; color:var(--ac,var(--ink-2))}
+  .row-meta-m .mc{min-width:0; overflow:hidden; text-overflow:ellipsis}   /* 넘치면 분류만 말줄임 — 발주일·소요는 끝까지 보인다 */
   .row{grid-template-columns:minmax(0,1fr) 40px}
   .arch{width:40px; height:40px}   /* 손가락 표적 */
   .row-a{grid-area:a; align-self:center}
@@ -1152,6 +1158,7 @@ var I={
   flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
   activity:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
   gauge:'<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
+  timer:'<path d="M10 2h4"/><path d="m12 14 3-3"/><circle cx="12" cy="14" r="8"/>',
   layers:'<path d="m12 2 8.5 4.9-8.5 4.9L3.5 6.9z"/><path d="m3.5 12 8.5 4.9 8.5-4.9"/><path d="m3.5 17 8.5 4.9 8.5-4.9"/>',
   pulse:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',
   image:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>'
@@ -1206,6 +1213,18 @@ function dateTx(p){
 }
 function dateTip(p){
   return (p.ordered&&!p.hasOrder)?' title="발주 기록 없음 — 작성일"':'';
+}
+/* 발주→발행 소요. 분은 툴팁에 찍힌 두 시각(HH:MM)의 차와 똑같이 센다 — 초 반올림 때문에 1분 어긋나 보이지 않게.
+   단위는 fmtDur 와 같되 목록에서 훑기 좋게 0 인 뒷자리는 뗀다(2시간 0분 → 2시간). */
+function fmtLead(from,to){
+  var m=Math.max(1,Math.floor(to/6e4)-Math.floor(from/6e4));
+  if(m<60)return m+'분';
+  var h=Math.floor(m/60); if(h<24)return h+'시간'+(m%60?' '+(m%60)+'분':'');
+  var d=Math.floor(h/24); return d+'일'+(h%24?' '+(h%24)+'시간':'');
+}
+function leadTx(p){
+  return '<span class="lead" title="발주 '+fmtTs(p.ordered)+' '+hhmm(p.ordered)+' → 발행 '+fmtTs(p.pubAt)+' '+hhmm(p.pubAt)+'">'+
+    svg('timer')+'<span class="sr">발행까지 </span>'+fmtLead(p.ordered,p.pubAt)+'</span>';
 }
 function fmtRel(ts){
   if(!ts)return '';
@@ -1633,12 +1652,17 @@ Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP]).then
     var a=p.rel.split('/');
     var created=p.created||p.date||'';
     var ordered=ORDER_TS[p.rel]||toTs(created);
+    /* 발주→발행 소요 = 사이트에 처음 올라온 시각(created = 그 글의 첫 커밋) − 최초 발주. 요청의 statusAt 은 쓰지 않는다 —
+       러너가 몰아서·늦게 보고하면 커밋보다 늦게 찍힌다(09-12 실측 578편: 80%는 5분 안이지만 최대 18.7시간, 커밋 시각이 다른 세 글이 한 시각으로 찍힌 회차도 있음). */
+    var pubAt=toTs(created), lead=(ORDER_TS[p.rel]&&pubAt>ORDER_TS[p.rel])?pubAt-ORDER_TS[p.rel]:0;
     return {
       rel:p.rel,
       author:p.author||(a.length>=2?a[0]:'(기타)'),
       title:p.title||a[a.length-1],
       cat:p.cat||'',
       ordered:ordered,
+      pubAt:pubAt,
+      lead:lead,
       isNew:ordered>0&&(Date.now()-ordered)<DAY,
       hasOrder:!!ORDER_TS[p.rel],
       published:(p.published===true)||!!PUBSET[p.rel]
@@ -2371,14 +2395,16 @@ function rowHtml(p){
   return '<div class="row" data-rel="'+esc(p.rel)+'" style="--ac:'+wac(p.author)+'">'+
     '<a class="row-w" href="'+encRel(p.rel)+'" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">'+
       '<span class="dot"></span><span>'+esc(p.author)+'</span></a>'+
-    '<a class="row-t" href="'+encRel(p.rel)+'" target="_blank" rel="noopener">'+
+    '<a class="row-t" href="'+encRel(p.rel)+'" target="_blank" rel="noopener" title="'+esc(p.title)+'">'+
       '<span class="tx">'+esc(p.title)+'</span>'+
       (p.isNew?'<span class="tag-new">NEW</span>':'')+
     '</a>'+
     '<span class="row-c">'+esc(p.cat||'—')+'</span>'+
     '<span class="row-d num'+(p.hasOrder?'':' approx')+'"'+dateTip(p)+'>'+dateTx(p)+'</span>'+
-    '<span class="row-meta-m"><span class="wnm">'+esc(p.author)+'</span> · '+esc(p.cat||'—')+' · '+
-      '<span class="num'+(p.hasOrder?'':' approx')+'"'+dateTip(p)+'>'+dateTx(p)+'</span></span>'+
+    '<span class="row-l'+(p.lead?'':' approx')+'">'+(p.lead?leadTx(p):'<span aria-hidden="true">—</span><span class="sr">소요 기록 없음</span>')+'</span>'+
+    '<span class="row-meta-m"><span class="wnm">'+esc(p.author)+'</span> · <span class="mc">'+esc(p.cat||'—')+'</span> · '+
+      '<span class="num'+(p.hasOrder?'':' approx')+'"'+dateTip(p)+'>'+dateTx(p)+'</span>'+
+      (p.lead?leadTx(p):'')+'</span>'+
     '<span class="row-a"><button type="button" class="arch" title="아카이브" aria-label="'+
       esc(p.title)+' 아카이브">'+svg('archive')+'</button></span>'+
   '</div>';
