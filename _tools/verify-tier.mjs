@@ -114,7 +114,7 @@ await ev(`localStorage.removeItem('sseudam_tier_v2');localStorage.removeItem('ss
 chk('탭 4개', (await ev(`[...document.querySelectorAll('.isl-tab')].map(b=>b.dataset.v).join(',')`)) === 'home,posts,trend,tools');
 const t0 = Date.now();
 chk('도구함 진입 → 티어 도구 로드', await gotoTier(), { ms: Date.now() - t0 });
-chk('도구 목록 2개 · 메타 «2 도구»', await ev(`[...document.querySelectorAll('#tbList .tb-item')].map(b=>b.dataset.t).join(',')==='thumb,tier'&&document.getElementById('pmeta').textContent.includes('2')`));
+chk('도구 목록 = 썸네일·티어표가 앞 · 메타 = 도구 수', await ev(`(()=>{const ids=[...document.querySelectorAll('#tbList .tb-item')].map(b=>b.dataset.t);return ids[0]==='thumb'&&ids[1]==='tier'&&document.getElementById('pmeta').textContent.includes(String(ids.length))})()`));   /* 09-12: 도구가 늘 때마다(표 제작 추가·다른 세션 작업) 개수 고정 검사가 먼저 깨졌다 — 순서·개수 일치만 본다 */
 const rail = await ev(`(()=>{const tb=document.querySelector('.tb'),side=document.querySelector('.tb-side'),main=document.querySelector('.tb-main'),m=document.querySelector('.main');return{ml:getComputedStyle(tb).marginLeft,pos:getComputedStyle(side).position,top:getComputedStyle(side).top,wide:m.classList.contains('wide'),mainMax:getComputedStyle(m).maxWidth,mW:Math.round(m.getBoundingClientRect().width),sideW:Math.round(side.getBoundingClientRect().width),panelW:Math.round(main.getBoundingClientRect().width)}})()`);
 chk('도구함 뷰 = 넓은 작업 영역(.main.wide 1620) · 목록은 왼쪽 sticky 레일(top 84)', rail && rail.wide && rail.mainMax === '1620px' && rail.mW === 1620 && rail.pos === 'sticky' && rail.top === '84px' && rail.ml === '0px', rail);
 chk('1920: 도구 판 폭 1326(1620 − 패딩 48 − 레일 232 − 간격 14)', rail && rail.panelW === 1326 && rail.sideW === 232, rail);
@@ -364,7 +364,7 @@ logs = [];
 await open(390, 844, true);
 chk('도구함 진입(모바일)', await gotoTier());
 chk('모바일 단일 열', (await ev(`getComputedStyle(document.querySelector('.tier')).gridTemplateColumns.split(' ').length`)) === 1);
-chk('모바일 가로 넘침 없음', await ev(`document.documentElement.scrollWidth<=innerWidth+1`), await ev(`document.documentElement.scrollWidth`));
+chk('모바일 가로 넘침 없음(레이아웃 뷰포트가 390 그대로)', await ev(`innerWidth===390&&document.documentElement.scrollWidth<=390`), await ev(`({iw:innerWidth,sw:document.documentElement.scrollWidth})`));   /* 09-12: 넘치면 innerWidth 도 같이 커져(402≤402) 옛 검사가 통과했고, 모바일 탭 좌표가 어긋나 서랍이 안 열리는 것으로만 드러났다 */
 chk('캔버스 폭 ≤ 390 · pan-y', await ev(`(()=>{const c=document.getElementById('tiCanvas');return c.getBoundingClientRect().width<=390&&getComputedStyle(c).touchAction==='pan-y'})()`));
 const tapMin = await ev(`(()=>{const q=[...document.querySelectorAll('.tier-sw,.tier-th,.tier-ib,#tiAdd,#tiSave,#tiCopy,#tiJson,#tiLoad,#tiClear,#tiTierAdd,#tiResOpen,.chip')].filter(e=>e.offsetParent);return Math.min(...q.map(e=>{const r=e.getBoundingClientRect();const cs=getComputedStyle(e,'::after');const pad=cs.content!=='none'&&cs.inset!=='auto'?12:0;return Math.min(r.width,r.height)+pad}))})()`);   /* 보이는 것만(숨긴 서랍 안 버튼은 0) */
 chk('모바일 터치 타깃 ≥ 28', tapMin >= 28, { tapMin });

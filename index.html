@@ -734,10 +734,13 @@ a{color:inherit; text-decoration:none}
 .mdl.wide{width:min(1060px,100%)}
 .mdl.wide .mdl-b{max-height:min(84vh,960px); padding:0}
 @media (max-width:860px){
-  .tb{grid-template-columns:1fr}
+  .tb{grid-template-columns:minmax(0,1fr)}   /* 1fr 의 자동 최소 = 목록 min-content — 도구가 3개로 늘자 트랙이 386 으로 벌어져 390 화면이 402 로 넘쳤다(09-12 실측, 모바일 탭 좌표 어긋남). 목록은 제 줄 안에서 가로 스크롤 */
   .tb-list{flex-direction:row; overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none}
   .tb-list::-webkit-scrollbar{display:none}
   .tb-item{width:auto; flex:none}
+  .tb-list.more-r{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent); mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent)}   /* 더 있음(오른쪽) — tbEdge 가 켠다 */
+  .tb-list.more-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 40px); mask-image:linear-gradient(90deg,transparent,#000 40px)}
+  .tb-list.more-l.more-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent); mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent)}
 }
 
 /* ══════════ FAB ══════════ */
@@ -1161,7 +1164,8 @@ var I={
   timer:'<path d="M10 2h4"/><path d="m12 14 3-3"/><circle cx="12" cy="14" r="8"/>',
   layers:'<path d="m12 2 8.5 4.9-8.5 4.9L3.5 6.9z"/><path d="m3.5 12 8.5 4.9 8.5-4.9"/><path d="m3.5 17 8.5 4.9 8.5-4.9"/>',
   pulse:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',
-  image:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>'
+  image:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>',
+  table:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 9.5h18"/><path d="M9.5 9.5V21"/>'
 };
 function svg(n,cls){ return '<svg class="ic'+(cls?' '+cls:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+(I[n]||'')+'</svg>'; }
 
@@ -1764,7 +1768,8 @@ function render(){
 /* 목록 행 = 아이콘 + 이름뿐. 부제(설명 한 줄)는 09-06 사용자 지시로 폐기 — 읽지 않아도 잘못 쓸 일이 없는 문구는 두지 않는다 */
 var TOOLS=[
   {id:'thumb', name:'썸네일 제작', icon:'image', src:'_toolbox/thumb.js?v=20260907b'},
-  {id:'tier',  name:'티어표 제작', icon:'layers', src:'_toolbox/tier.js?v=20260908a'}
+  {id:'tier',  name:'티어표 제작', icon:'layers', src:'_toolbox/tier.js?v=20260908a'},
+  {id:'table', name:'표 제작', icon:'table', src:'_toolbox/table.js?v=20260912a'}
 ];
 var TOOL_P={}, TOOL_ON=null;
 function toolApi(){
@@ -1824,6 +1829,8 @@ function renderTools(){
     MO.pulse(b,null);
     mountTool(S.tool);
   });
+  /* tbEdge — 모바일(≤860) 도구 목록 가로 줄: 넘치면 가장자리 페이드(.more-l/.more-r)로 «더 있음», 고른 도구는 줄 안으로(09-12 게이트 🟡 — 390 에서 3번째 «표 제작»이 글자 중간에서 잘려 보였다) */
+  (function tbEdge(l){ if(!l)return; function edge(){ var max=l.scrollWidth-l.clientWidth; l.classList.toggle('more-r',max>1&&l.scrollLeft<max-1); l.classList.toggle('more-l',max>1&&l.scrollLeft>1); } function reveal(){ var on=l.querySelector('.tb-item.on'); if(on&&l.scrollWidth>l.clientWidth+1){ var a=on.offsetLeft-l.offsetLeft, b=a+on.offsetWidth; if(b>l.scrollLeft+l.clientWidth)l.scrollLeft=b-l.clientWidth+8; else if(a<l.scrollLeft)l.scrollLeft=Math.max(0,a-8); } edge(); } l.addEventListener('scroll',edge,{passive:true}); l.addEventListener('click',function(){ requestAnimationFrame(reveal); }); l.__tbEdge=reveal; if(!renderTools.tbEdge){ renderTools.tbEdge=1; window.addEventListener('resize',function(){ var x=el('tbList'); if(x&&x.__tbEdge)x.__tbEdge(); },{passive:true}); } reveal(); })(el('tbList'));   /* tbEdge */
   MO.rise(viewEl.querySelectorAll('.tb-side,.tb-main'),{y:8,amount:.1,dur:.45});
   mountTool(S.tool);
   paintNav();
