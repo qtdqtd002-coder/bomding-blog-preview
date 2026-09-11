@@ -1,0 +1,297 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메이플랜드 돈되는 퀘스트 총정리, 장공 퀘스트가 뭔지부터 짚어드릴게요</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 봄딩 인포그래픽 — 스크랩북/핑크 (§1-4) */
+  .bd-ladder{margin:10px 0 24px;padding:18px 16px;background:#FFEFF5;border:1px solid #f6c9da;border-radius:12px;}
+  .bd-ladder .lt{font-weight:800;color:#D63E7A;font-size:14px;margin-bottom:12px;text-align:center;}
+  .bd-step{position:relative;background:#fff;border:1px solid #f3b8cf;border-radius:9px;padding:9px 13px;margin:7px 0;font-size:14px;line-height:1.5;box-shadow:0 1px 0 #f6c9da;}
+  .bd-step b{color:#D63E7A;}
+  .bd-step .rk{float:right;color:#EC5C92;font-size:12.5px;font-weight:700;}
+  .bd-arrow{text-align:center;color:#EC5C92;font-size:13px;margin:2px 0;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">메이플랜드 돈되는 퀘스트 총정리, 장공 퀘스트가 뭔지부터 짚어드릴게요</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 9. 12.</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: 메이플랜드 장공 퀘스트가 뭔가요 / 메이플랜드 돈되는 퀘스트는 뭐가 있나요 / 장공 주문서는 어떻게 얻나요 -->
+    <!-- 태그: #메이플랜드 #메이플랜드돈되는퀘스트 #메이플랜드장공퀘스트 #메이플랜드연금술사제인 #메이플랜드퀘스트공략 #메이플랜드주문서 #메이플랜드꿀팁 -->
+
+    <p>메이플랜드 커뮤니티 글 제목마다 "장공 챙기셨나요" 소리가 심심찮게 보이길래, 저도 궁금해서 이것저것 찾아보고 직접 캐릭으로 돌려본 김에 오늘 싹 정리해보려고요. 참고로 <b>메이플랜드는 넥슨이 직접 서비스하는 오리지널 메이플스토리가 아니라, 넥슨의 크리에이터 플랫폼 '메이플스토리 월드'에서 메이플랜드 팀이 만들고 엘릭서 스튜디오(주)가 운영하는 게임</b>이에요. 클래식 시절 느낌을 살린 팀 제작 타이틀이라는 것만 짚고 가고, 본격적으로 <b>돈이 되는 퀘스트</b>랑 <b>장공 퀘스트</b> 얘기로 들어가볼게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 인벤토리 창에 주문서가 들어온 화면 또는 캐릭터 정보 창</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 퀘스트 보상으로 주문서를 받은 직후 인벤토리 화면. 주문서 아이콘이 잘 보이게 캡처하면 도입과 잘 맞아요.</div>
+    <p class="cap">퀘스트 하나 깼을 뿐인데 주문서가 딱 떠 있으면 그렇게 반가울 수가 없어요.</p>
+
+    <h2 class="sub">돈되는 퀘스트, 정확히 뭘 기준으로 고르나요?</h2>
+    <p><b>메이플랜드에서 "돈되는 퀘스트"란 보상으로 받는 메소 자체가 크거나, 보상으로 나오는 장비 강화용 주문서를 거래소에서 유저끼리 사고팔 수 있어서 돈이 되는 퀘스트를 말해요.</b> 둘은 성격이 좀 달라요. 메소 보상이 큰 퀘스트는 깨는 순간 바로 메소가 들어오는 거고, 주문서형 퀘스트는 그 주문서를 직접 장비에 써도 되고 필요 없으면 시세대로 팔아서 메소로 바꿀 수도 있는 거죠. 특히 <b>저레벨 구간엔 재료를 모아서 깨는 퀘스트가 많은데, 이때는 재료 구하는 데 드는 비용보다 보상으로 받는 게 더 값어치 있는지부터 따져보는 게 순서</b>예요. 재료값이 보상보다 비싸면 그건 돈이 되는 퀘스트가 아니라 손해 보는 퀘스트가 되거든요.</p>
+
+    <h2 class="sub">장공이 대체 무슨 말이에요?</h2>
+    <p><b>'장공'은 '장갑 공격력 주문서'를 줄인 유저들의 줄임말이에요.</b> 검색해보면 다들 장공 장공 하는데 처음 들으면 뭔 소린가 싶으실 텐데요, 그냥 장갑에 공격력을 붙여주는 주문서를 말하는 거예요. 장공이라는 말이 정확히 어디서부터 왜 굳어졌는지 유래는 알려진 바 없지만, <b>리스항구 NPC 제인의 퀘스트 체인, 그러니까 연금술사 제인 시리즈 마지막 단계에서 장갑 공격력 주문서를 주는 걸로</b> 워낙 잘 알려져 있어요. 사실 "장공"은 장갑 공격력 주문서를 보상으로 주는 퀘스트들을 통틀어 부르는 말이라 다른 퀘스트도 몇 개 더 있긴 한데, 그중에서도 <b>가장 유명하고 확실한 게 바로 이 제인 체인</b>이라고 보시면 됩니다.</p>
+
+    <div class="bd-ladder">
+      <div class="lt">🍙 연금술사 제인 퀘스트 체인 (리스항구 NPC 제인)</div>
+      <div class="bd-step"><b>제인과 와일드보어</b><span class="rk">Lv.25</span></div>
+      <div class="bd-arrow">▼</div>
+      <div class="bd-step"><b>연금술사 제인 1</b><span class="rk">Lv.40</span></div>
+      <div class="bd-arrow">▼</div>
+      <div class="bd-step"><b>연금술사 제인 2</b><span class="rk">Lv.45</span></div>
+      <div class="bd-arrow">▼</div>
+      <div class="bd-step"><b>연금술사 제인 3</b><span class="rk">Lv.45 · 장공 보상!</span></div>
+    </div>
+
+    <p>4단계로 쭉 이어지는 체인이라, 순서대로 끊지 않고 가는 게 제일 편해요. 단계별 요구 레벨·재료·보상이 다르니까 아래 표로 한 번에 정리해드릴게요.</p>
+
+    <table class="tbl">
+      <tr><th>퀘스트</th><th>요구 레벨</th><th>필요 재료</th><th>보상</th></tr>
+      <tr><td>제인과 와일드보어</td><td>25</td><td>와일드보어의 송곳니 100개 + 뿔버섯의 갓 120개</td><td>랜덤 무기 60% 주문서</td></tr>
+      <tr><td>연금술사 제인 1</td><td>40</td><td>맑은물 1개 · 멜러디의 실험용 개구리 20개 · 이상한 느낌의 약 30개</td><td>엘릭서 10개 + 경험치 6,500</td></tr>
+      <tr><td>연금술사 제인 2</td><td>45</td><td>드레이크의 피 3개 · 멜러디의 실험용 개구리 30개 · 이상한 느낌의 약 100개 · 머쉬맘의 포자 1개</td><td>파워 엘릭서 15개 + 경험치 6,800</td></tr>
+      <tr><td>연금술사 제인 3</td><td>45</td><td>달의돌 1개 · 용의 가죽 20개 · 고목나무의 수액 10개</td><td><b>장갑 공격력 주문서 60% 또는 10% 중 랜덤 1장</b></td></tr>
+    </table>
+    <p class="cap">단계마다 재료가 다르니, 미리 뭘 모아야 하는지 표로 체크해두시면 편해요.</p>
+
+    <p>여기서 눈여겨볼 건 <b>연금술사 제인 2에서 재료로 쓰는 '이상한 느낌의 약'이 제인 1보다 훨씬 많이 필요하다는 것</b>이에요. 30개에서 100개로 확 뛰거든요. 미리 여유 있게 모아두지 않으면 마지막 단계 직전에서 발이 묶일 수 있으니, 체인을 시작하기 전에 재료 수량부터 넉넉히 파밍해두는 걸 추천드려요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 리스항구 NPC 제인 위치와 대화 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 리스항구에서 제인을 찾아 퀘스트 목록을 연 화면. 체인이 전부 뜨는 장면이면 더 좋아요.</div>
+    <p class="cap">리스항구 안에 있으니 처음 찾으실 땐 살짝 헤매실 수도 있어요.</p>
+
+    <h2 class="sub">마르셀·사쿠라도 장공 퀘스트라던데요?</h2>
+    <p>찾아보면 루디브리엄 물약상점 옆 NPC 마르셀 퀘스트(40 이후)나, 쇼와마을 NPC 사쿠라의 물개 인형 수집 퀘스트(45 이후)도 장공 계열로 종종 묶여 언급돼요. 다만 이 두 퀘스트는 <b>정확한 보상 수치를 제가 확인하지 못했어요.</b> 괜히 애매하게 적어드리는 것보다는, 확실한 제인 체인 위주로 이 글에서 다루고 이 두 개는 정직하게 빼는 게 맞는 것 같아요. 궁금하신 분은 인게임에서 직접 물어보시는 걸 추천드립니다.</p>
+
+    <h2 class="sub">레벨대별로 놓치면 아까운 퀘스트, 쭉 훑어볼게요</h2>
+    <p><b>제인 체인 말고도, 레벨대별로 따로 노려볼 만한 돈되는 퀘스트가 여섯 개 더 있어요.</b> 23렙부터 52렙까지 폭넓게 퍼져 있어서, 레벨업하면서 순서대로 걸리는 대로 하나씩 깨두시면 됩니다.</p>
+
+    <table class="tbl">
+      <tr><th>퀘스트</th><th>요구 레벨</th><th>NPC·조건</th><th>보상</th></tr>
+      <tr><td>카밀라의 유리구슬</td><td>23</td><td>NPC 카밀라(헤네시스)</td><td>돼지도감 + 케이크 30개 + 경험치 5,500</td></tr>
+      <tr><td>새집 짓기</td><td>30</td><td>NPC 페리온 '돼지와 함께 춤을' · 땅문서·나사30개·가공된나무30개·스톤골렘의돌조각100개</td><td>직업 무기 공격력 주문서 10% + 인기도 +2 + 메소 15,000 + 경험치 20,000</td></tr>
+      <tr><td>오염된 던전2: 커즈아이</td><td>30</td><td>깊은숲사냥터2 · 커즈아이 99마리 처치</td><td>랜덤 60% 무기주문서 또는 물약</td></tr>
+      <tr><td>요정 로웬과 저주받은 인형</td><td>35</td><td>NPC 엘리니아 로웬 · 저주받은 인형 2,300개</td><td>장갑 민첩 주문서 10%/60% + 40제 투구 + 인기도9 + 랜덤 원석</td></tr>
+      <tr><td>늪지대의 악어 1</td><td>52</td><td>NPC 페리온 이얀 · 리게이터 250 + 주니어네키 40 + 주니어네키의가죽 20</td><td>무기 공격력 주문서 10%</td></tr>
+      <tr><td>늪지대의 악어 2</td><td>52</td><td>크로코 120 + 크로코의가죽 50</td><td>망토 스텟(힘/지력/민첩/행운) 주문서 60% 중 택1</td></tr>
+    </table>
+    <p class="cap">52렙 늪지대의 악어는 1·2 둘 다 이얀 라인이라 이어서 받으실 수 있어요.</p>
+
+    <p>이 중에서 <b>요정 로웬 퀘스트는 저주받은 인형이 2,300개나 필요해서 체감상 가장 오래 걸리는 편</b>이에요. 대신 보상으로 나오는 <b>장갑 민첩 주문서는 확률이 10%뿐 아니라 60%짜리도 나올 수 있어서</b>, 체감 가치가 꽤 쏠쏠한 편이고요. 반대로 <b>카밀라의 유리구슬은 요구 레벨도 낮고 조건도 간단</b>해서, 저레벨 때 부담 없이 한 번 받아두기 좋아요.</p>
+
+    <p>이 참에 <b>오염된 던전2 커즈아이 사냥도 이 라인에서 같이 돌아두면</b> 동선 낭비 없이 한 번에 끝낼 수 있어요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 깊은숲사냥터2에서 커즈아이 사냥하는 장면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 오염된 던전2 퀘스트 진행 중인 사냥 화면. 처치 수 카운트가 보이면 설명이랑 잘 맞아요.</div>
+    <p class="cap">99마리라 숫자만 보면 많아 보이지만, 사냥터가 몰이하기 편해서 생각보다 금방 채워져요.</p>
+
+    <h2 class="sub">메소는 어떻게 버는 구조예요?</h2>
+    <p><b>퀘스트로 받은 주문서는 직접 장비에 써도 되고, 안 쓸 거면 거래소에 올려서 다른 유저에게 팔아 메소로 바꿀 수 있어요.</b> 시세는 서버 상황이나 시점에 따라 계속 바뀌기 때문에 "얼마에 팔린다"고 단정해서 말씀드리긴 어려워요. 대신 <b>퀘스트를 시작하기 전에 재료값과 보상 시세를 먼저 비교해보는 습관</b>을 들이시면 좋아요. 재료를 사서 채우는 데 드는 메소보다 완성됐을 때 받는 주문서 시세가 낮으면, 그건 굳이 서둘러 깰 필요가 없는 퀘스트거든요. 반대로 재료를 직접 사냥으로 모을 수 있는 퀘스트라면 순수익이라 더 이득이고요.</p>
+    <p>저는 이번에 정리하면서 <b>제인 체인이랑 늪지대의 악어 라인을 우선순위</b>로 뒀는데요, 둘 다 사냥으로 재료를 모을 수 있어서 돈을 따로 안 들이고도 깰 수 있다는 점이 컸어요. 반면 새집 짓기처럼 나사·가공된 나무 같은 제작·구매 재료가 섞인 퀘스트는 재료값부터 한 번 확인하고 들어가시는 걸 추천드려요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 거래소(자유시장)에서 주문서 시세를 확인하는 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 자유시장 상점이나 거래소에서 주문서 가격을 검색한 화면. 시세 비교 설명이랑 자연스럽게 이어져요.</div>
+    <p class="cap">시세는 그날그날 다르니까, 퀘스트 시작 전에 한 번 들러서 확인하는 게 습관이 되면 좋아요.</p>
+
+    <p>참고로 예전에 메이플랜드 2.0 직업별 1~30 파티퀘 루트 글도 올린 적이 있는데요, 저레벨 구간 파티퀘스트랑 사냥 루트가 궁금하신 분들은 그 글도 같이 보시면 이번 글이랑 이어서 도움이 되실 것 같아요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 장공 퀘스트는 몇 레벨부터 시작할 수 있나요?</b><br>연금술사 제인 체인의 첫 단계인 '제인과 와일드보어'가 25레벨부터라, 장공 체인 자체는 25레벨부터 시작할 수 있어요. 다만 진짜 장공(장갑 공격력 주문서) 보상은 체인 마지막인 연금술사 제인 3(45레벨)에서 나옵니다.</p>
+    <p><b>Q. 늪지대의 악어 퀘스트는 1·2 둘 다 해야 하나요?</b><br>둘 다 페리온 NPC 이얀 라인으로 이어지는 퀘스트라 순서대로 받을 수 있어요. 1은 무기 공격력 주문서, 2는 망토 스텟 주문서로 보상이 달라서 둘 다 깨두시는 게 이득이에요.</p>
+    <p><b>Q. 재료를 다 못 모았는데 퀘스트를 미리 받아둬도 되나요?</b><br>네, 대부분의 퀘스트는 재료가 부족해도 일단 수락은 해두고 나중에 채워서 제출할 수 있어요. 사냥하다 자연스럽게 모이는 재료가 많으니 미리 받아두고 틈틈이 채우시는 걸 추천드려요.</p>
+
+    <h2 class="sub">메이플랜드 돈되는 퀘스트 정리</h2>
+    <p>핵심만 추리면, <b>25~45레벨 구간은 리스항구 제인의 장공 체인으로, 23~52레벨 구간은 카밀라·새집 짓기·커즈아이·요정 로웬·늪지대의 악어로 채우는 게 메이플랜드 돈되는 퀘스트 루트</b>예요. 재료를 사냥으로 모을 수 있는 퀘스트부터 우선 잡고, 보상 주문서는 쓸지 팔지 재료값이랑 비교해서 결정하시면 됩니다. 레벨업하시면서 하나씩 순서대로 챙겨보시면 좋겠어요.</p>
+
+    <p><b>✔ 메이플랜드 같이 보기 좋은 내용</b><br>
+    · 메이플랜드 2.0 직업별 1~30 파티퀘 루트 (저레벨 파티퀘·사냥 동선을 더 자세히 다뤘어요 — 발행 시 링크 연결)<br>
+    <!-- 내부링크: '메이플랜드 2.0 직업별 1~30 파티퀘 루트' 글 네이버 post ID 확인 후 연결 --></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://maple.land/board/notices" target="_blank">메이플랜드 공식 공지 게시판</a><br>
+    · <a href="https://mapledb.kr" target="_blank">메이플랜드 데이터베이스(mapledb.kr)</a></p>
+
+    <div class="tags">#메이플랜드 #메이플랜드돈되는퀘스트 #메이플랜드장공퀘스트 #메이플랜드연금술사제인 #메이플랜드퀘스트공략 #메이플랜드주문서 #메이플랜드꿀팁</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 직접 촬영해서 업로드해주세요.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 5분):</b> 📷 <b>사진 4곳</b> 촬영·업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플랜드 돈되는 퀘스트 총정리, 장공 퀘스트가 뭔지부터 짚어드릴게요</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>메이플랜드 커뮤니티 글 제목마다 "장공 챙기셨나요" 소리가 심심찮게 보이길래, 저도 궁금해서 이것저것 찾아보고 직접 캐릭으로 돌려본 김에 오늘 싹 정리해보려고요. 참고로 <b>메이플랜드는 넥슨이 직접 서비스하는 오리지널 메이플스토리가 아니라, 넥슨의 크리에이터 플랫폼 '메이플스토리 월드'에서 메이플랜드 팀이 만들고 엘릭서 스튜디오(주)가 운영하는 게임</b>이에요. 클래식 시절 느낌을 살린 팀 제작 타이틀이라는 것만 짚고 가고, 본격적으로 <b>돈이 되는 퀘스트</b>랑 <b>장공 퀘스트</b> 얘기로 들어가볼게요.</p>
+      <p class="ph">📷 〔사진 자리 1〕 인벤토리 창에 주문서가 들어온 화면 또는 캐릭터 정보 창 — 네이버에서 직접 업로드<br>└ 캡션 추천: "퀘스트 하나 깼을 뿐인데 주문서가 딱 떠 있으면 그렇게 반가울 수가 없어요."</p>
+      <h3>돈되는 퀘스트, 정확히 뭘 기준으로 고르나요?</h3>
+      <p><b>메이플랜드에서 "돈되는 퀘스트"란 보상으로 받는 메소 자체가 크거나, 보상으로 나오는 장비 강화용 주문서를 거래소에서 유저끼리 사고팔 수 있어서 돈이 되는 퀘스트를 말해요.</b> 둘은 성격이 좀 달라요. 메소 보상이 큰 퀘스트는 깨는 순간 바로 메소가 들어오는 거고, 주문서형 퀘스트는 그 주문서를 직접 장비에 써도 되고 필요 없으면 시세대로 팔아서 메소로 바꿀 수도 있는 거죠. 특히 <b>저레벨 구간엔 재료를 모아서 깨는 퀘스트가 많은데, 이때는 재료 구하는 데 드는 비용보다 보상으로 받는 게 더 값어치 있는지부터 따져보는 게 순서</b>예요. 재료값이 보상보다 비싸면 그건 돈이 되는 퀘스트가 아니라 손해 보는 퀘스트가 되거든요.</p>
+      <h3>장공이 대체 무슨 말이에요?</h3>
+      <p><b>'장공'은 '장갑 공격력 주문서'를 줄인 유저들의 줄임말이에요.</b> 검색해보면 다들 장공 장공 하는데 처음 들으면 뭔 소린가 싶으실 텐데요, 그냥 장갑에 공격력을 붙여주는 주문서를 말하는 거예요. 장공이라는 말이 정확히 어디서부터 왜 굳어졌는지 유래는 알려진 바 없지만, <b>리스항구 NPC 제인의 퀘스트 체인, 그러니까 연금술사 제인 시리즈 마지막 단계에서 장갑 공격력 주문서를 주는 걸로</b> 워낙 잘 알려져 있어요. 사실 "장공"은 장갑 공격력 주문서를 보상으로 주는 퀘스트들을 통틀어 부르는 말이라 다른 퀘스트도 몇 개 더 있긴 한데, 그중에서도 <b>가장 유명하고 확실한 게 바로 이 제인 체인</b>이라고 보시면 됩니다.</p>
+      <h3>🍙 연금술사 제인 퀘스트 체인 (리스항구 NPC 제인)</h3>
+      <ul>
+        <li><b>제인과 와일드보어</b> — Lv.25</li>
+        <li><b>연금술사 제인 1</b> — Lv.40</li>
+        <li><b>연금술사 제인 2</b> — Lv.45</li>
+        <li><b>연금술사 제인 3</b> — Lv.45 · 장공(장갑 공격력 주문서) 보상</li>
+      </ul>
+      <p>4단계로 쭉 이어지는 체인이라, 순서대로 끊지 않고 가는 게 제일 편해요. 단계별 요구 레벨·재료·보상이 다르니까 아래 표로 한 번에 정리해드릴게요.</p>
+      <table>
+        <thead><tr><th>퀘스트</th><th>요구 레벨</th><th>필요 재료</th><th>보상</th></tr></thead>
+        <tbody>
+          <tr><td class="l">제인과 와일드보어</td><td>25</td><td>와일드보어의 송곳니 100개 + 뿔버섯의 갓 120개</td><td>랜덤 무기 60% 주문서</td></tr>
+          <tr><td class="l">연금술사 제인 1</td><td>40</td><td>맑은물 1개 · 멜러디의 실험용 개구리 20개 · 이상한 느낌의 약 30개</td><td>엘릭서 10개 + 경험치 6,500</td></tr>
+          <tr><td class="l">연금술사 제인 2</td><td>45</td><td>드레이크의 피 3개 · 멜러디의 실험용 개구리 30개 · 이상한 느낌의 약 100개 · 머쉬맘의 포자 1개</td><td>파워 엘릭서 15개 + 경험치 6,800</td></tr>
+          <tr><td class="l">연금술사 제인 3</td><td>45</td><td>달의돌 1개 · 용의 가죽 20개 · 고목나무의 수액 10개</td><td>장갑 공격력 주문서 60% 또는 10% 중 랜덤 1장</td></tr>
+        </tbody>
+      </table>
+      <p class="tnote-line">단계마다 재료가 다르니, 미리 뭘 모아야 하는지 표로 체크해두시면 편해요.</p>
+      <p>여기서 눈여겨볼 건 <b>연금술사 제인 2에서 재료로 쓰는 '이상한 느낌의 약'이 제인 1보다 훨씬 많이 필요하다는 것</b>이에요. 30개에서 100개로 확 뛰거든요. 미리 여유 있게 모아두지 않으면 마지막 단계 직전에서 발이 묶일 수 있으니, 체인을 시작하기 전에 재료 수량부터 넉넉히 파밍해두는 걸 추천드려요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 리스항구 NPC 제인 위치와 대화 화면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "리스항구 안에 있으니 처음 찾으실 땐 살짝 헤매실 수도 있어요."</p>
+      <h3>마르셀·사쿠라도 장공 퀘스트라던데요?</h3>
+      <p>찾아보면 루디브리엄 물약상점 옆 NPC 마르셀 퀘스트(40 이후)나, 쇼와마을 NPC 사쿠라의 물개 인형 수집 퀘스트(45 이후)도 장공 계열로 종종 묶여 언급돼요. 다만 이 두 퀘스트는 <b>정확한 보상 수치를 제가 확인하지 못했어요.</b> 괜히 애매하게 적어드리는 것보다는, 확실한 제인 체인 위주로 이 글에서 다루고 이 두 개는 정직하게 빼는 게 맞는 것 같아요. 궁금하신 분은 인게임에서 직접 물어보시는 걸 추천드립니다.</p>
+      <h3>레벨대별로 놓치면 아까운 퀘스트, 쭉 훑어볼게요</h3>
+      <p><b>제인 체인 말고도, 레벨대별로 따로 노려볼 만한 돈되는 퀘스트가 여섯 개 더 있어요.</b> 23렙부터 52렙까지 폭넓게 퍼져 있어서, 레벨업하면서 순서대로 걸리는 대로 하나씩 깨두시면 됩니다.</p>
+      <table>
+        <thead><tr><th>퀘스트</th><th>요구 레벨</th><th>NPC·조건</th><th>보상</th></tr></thead>
+        <tbody>
+          <tr><td class="l">카밀라의 유리구슬</td><td>23</td><td>NPC 카밀라(헤네시스)</td><td>돼지도감 + 케이크 30개 + 경험치 5,500</td></tr>
+          <tr><td class="l">새집 짓기</td><td>30</td><td>NPC 페리온 '돼지와 함께 춤을' · 땅문서·나사30개·가공된나무30개·스톤골렘의돌조각100개</td><td>직업 무기 공격력 주문서 10% + 인기도 +2 + 메소 15,000 + 경험치 20,000</td></tr>
+          <tr><td class="l">오염된 던전2: 커즈아이</td><td>30</td><td>깊은숲사냥터2 · 커즈아이 99마리 처치</td><td>랜덤 60% 무기주문서 또는 물약</td></tr>
+          <tr><td class="l">요정 로웬과 저주받은 인형</td><td>35</td><td>NPC 엘리니아 로웬 · 저주받은 인형 2,300개</td><td>장갑 민첩 주문서 10%/60% + 40제 투구 + 인기도9 + 랜덤 원석</td></tr>
+          <tr><td class="l">늪지대의 악어 1</td><td>52</td><td>NPC 페리온 이얀 · 리게이터 250 + 주니어네키 40 + 주니어네키의가죽 20</td><td>무기 공격력 주문서 10%</td></tr>
+          <tr><td class="l">늪지대의 악어 2</td><td>52</td><td>크로코 120 + 크로코의가죽 50</td><td>망토 스텟(힘/지력/민첩/행운) 주문서 60% 중 택1</td></tr>
+        </tbody>
+      </table>
+      <p class="tnote-line">52렙 늪지대의 악어는 1·2 둘 다 이얀 라인이라 이어서 받으실 수 있어요.</p>
+      <p>이 중에서 <b>요정 로웬 퀘스트는 저주받은 인형이 2,300개나 필요해서 체감상 가장 오래 걸리는 편</b>이에요. 대신 보상으로 나오는 <b>장갑 민첩 주문서는 확률이 10%뿐 아니라 60%짜리도 나올 수 있어서</b>, 체감 가치가 꽤 쏠쏠한 편이고요. 반대로 <b>카밀라의 유리구슬은 요구 레벨도 낮고 조건도 간단</b>해서, 저레벨 때 부담 없이 한 번 받아두기 좋아요.</p>
+      <p>이 참에 <b>오염된 던전2 커즈아이 사냥도 이 라인에서 같이 돌아두면</b> 동선 낭비 없이 한 번에 끝낼 수 있어요.</p>
+      <p class="ph">📷 〔사진 자리 3〕 깊은숲사냥터2에서 커즈아이 사냥하는 장면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "99마리라 숫자만 보면 많아 보이지만, 사냥터가 몰이하기 편해서 생각보다 금방 채워져요."</p>
+      <h3>메소는 어떻게 버는 구조예요?</h3>
+      <p><b>퀘스트로 받은 주문서는 직접 장비에 써도 되고, 안 쓸 거면 거래소에 올려서 다른 유저에게 팔아 메소로 바꿀 수 있어요.</b> 시세는 서버 상황이나 시점에 따라 계속 바뀌기 때문에 "얼마에 팔린다"고 단정해서 말씀드리긴 어려워요. 대신 <b>퀘스트를 시작하기 전에 재료값과 보상 시세를 먼저 비교해보는 습관</b>을 들이시면 좋아요. 재료를 사서 채우는 데 드는 메소보다 완성됐을 때 받는 주문서 시세가 낮으면, 그건 굳이 서둘러 깰 필요가 없는 퀘스트거든요. 반대로 재료를 직접 사냥으로 모을 수 있는 퀘스트라면 순수익이라 더 이득이고요.</p>
+      <p>저는 이번에 정리하면서 <b>제인 체인이랑 늪지대의 악어 라인을 우선순위</b>로 뒀는데요, 둘 다 사냥으로 재료를 모을 수 있어서 돈을 따로 안 들이고도 깰 수 있다는 점이 컸어요. 반면 새집 짓기처럼 나사·가공된 나무 같은 제작·구매 재료가 섞인 퀘스트는 재료값부터 한 번 확인하고 들어가시는 걸 추천드려요.</p>
+      <p class="ph">📷 〔사진 자리 4〕 거래소(자유시장)에서 주문서 시세를 확인하는 화면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "시세는 그날그날 다르니까, 퀘스트 시작 전에 한 번 들러서 확인하는 게 습관이 되면 좋아요."</p>
+      <p>참고로 예전에 메이플랜드 2.0 직업별 1~30 파티퀘 루트 글도 올린 적이 있는데요, 저레벨 구간 파티퀘스트랑 사냥 루트가 궁금하신 분들은 그 글도 같이 보시면 이번 글이랑 이어서 도움이 되실 것 같아요.</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 장공 퀘스트는 몇 레벨부터 시작할 수 있나요?</b><br>연금술사 제인 체인의 첫 단계인 '제인과 와일드보어'가 25레벨부터라, 장공 체인 자체는 25레벨부터 시작할 수 있어요. 다만 진짜 장공(장갑 공격력 주문서) 보상은 체인 마지막인 연금술사 제인 3(45레벨)에서 나옵니다.</p>
+      <p><b>Q. 늪지대의 악어 퀘스트는 1·2 둘 다 해야 하나요?</b><br>둘 다 페리온 NPC 이얀 라인으로 이어지는 퀘스트라 순서대로 받을 수 있어요. 1은 무기 공격력 주문서, 2는 망토 스텟 주문서로 보상이 달라서 둘 다 깨두시는 게 이득이에요.</p>
+      <p><b>Q. 재료를 다 못 모았는데 퀘스트를 미리 받아둬도 되나요?</b><br>네, 대부분의 퀘스트는 재료가 부족해도 일단 수락은 해두고 나중에 채워서 제출할 수 있어요. 사냥하다 자연스럽게 모이는 재료가 많으니 미리 받아두고 틈틈이 채우시는 걸 추천드려요.</p>
+      <h3>메이플랜드 돈되는 퀘스트 정리</h3>
+      <p>핵심만 추리면, <b>25~45레벨 구간은 리스항구 제인의 장공 체인으로, 23~52레벨 구간은 카밀라·새집 짓기·커즈아이·요정 로웬·늪지대의 악어로 채우는 게 메이플랜드 돈되는 퀘스트 루트</b>예요. 재료를 사냥으로 모을 수 있는 퀘스트부터 우선 잡고, 보상 주문서는 쓸지 팔지 재료값이랑 비교해서 결정하시면 됩니다. 레벨업하시면서 하나씩 순서대로 챙겨보시면 좋겠어요.</p>
+      <p><b>✔ 메이플랜드 같이 보기 좋은 내용</b><br>
+      · 메이플랜드 2.0 직업별 1~30 파티퀘 루트 (저레벨 파티퀘·사냥 동선을 더 자세히 다뤘어요)</p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://maple.land/board/notices" target="_blank">메이플랜드 공식 공지 게시판</a><br>
+      · <a href="https://mapledb.kr" target="_blank">메이플랜드 데이터베이스(mapledb.kr)</a></p>
+      <p class="tags-line">#메이플랜드 #메이플랜드돈되는퀘스트 #메이플랜드장공퀘스트 #메이플랜드연금술사제인 #메이플랜드퀘스트공략 #메이플랜드주문서 #메이플랜드꿀팁</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
