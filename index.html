@@ -1165,7 +1165,8 @@ var I={
   layers:'<path d="m12 2 8.5 4.9-8.5 4.9L3.5 6.9z"/><path d="m3.5 12 8.5 4.9 8.5-4.9"/><path d="m3.5 17 8.5 4.9 8.5-4.9"/>',
   pulse:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',
   image:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>',
-  table:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 9.5h18"/><path d="M9.5 9.5V21"/>'
+  table:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 9.5h18"/><path d="M9.5 9.5V21"/>',
+  imgEdit:'<path d="M21 11V5.5A2.5 2.5 0 0 0 18.5 3h-13A2.5 2.5 0 0 0 3 5.5v13A2.5 2.5 0 0 0 5.5 21H11"/><circle cx="9" cy="9" r="2"/><path d="m3 17 4.6-4.6a2 2 0 0 1 2.8 0l1.6 1.6"/><path d="M19.2 13.8a1.9 1.9 0 0 1 2.7 2.7L16.6 21.8l-3.6.9.9-3.6Z"/>'
 };
 function svg(n,cls){ return '<svg class="ic'+(cls?' '+cls:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+(I[n]||'')+'</svg>'; }
 
@@ -1769,7 +1770,8 @@ function render(){
 var TOOLS=[
   {id:'thumb', name:'썸네일 제작', icon:'image', src:'_toolbox/thumb.js?v=20260907b'},
   {id:'tier',  name:'티어표 제작', icon:'layers', src:'_toolbox/tier.js?v=20260908a'},
-  {id:'table', name:'표 제작', icon:'table', src:'_toolbox/table.js?v=20260912a'}
+  {id:'table', name:'표 제작', icon:'table', src:'_toolbox/table.js?v=20260912a'},
+  {id:'photo', name:'이미지 편집', icon:'imgEdit', src:'_toolbox/photo.js?v=20260912a'}
 ];
 var TOOL_P={}, TOOL_ON=null;
 function toolApi(){
