@@ -47,11 +47,16 @@ var SKINS={
   bomding:{ titleMode:'tag', noteAt:'foot', hdTop:22, hdH:60, hdGap:22, topPad:24, padX:20, rTray:22, rCard:14,
             grid:true, tape:true, headFill:'accent', tint:true, rail:0, rowNo:false, zebra:false, sep:'dash',
             polaroid:true, shapes:['polaroid','round','circle'], defShape:'polaroid',
-            ftH:48, sigAt:'footRight', sigRot:6, glyph:'heart', footLabel:'' },
-  yeongdo:{ titleMode:'bar', noteAt:'bar', hdTop:0, hdH:52, hdGap:16, topPad:16, padX:16, rTray:12, rCard:8,
-            grid:false, tape:false, headFill:'soft', tint:false, rail:26, rowNo:true, zebra:true, sep:'none',
+            ftH:48, sigAt:'footRight', sigRot:6, glyph:'heart', footLabel:'',
+            corner:0, barTick:false, headSepFull:false, footChip:false, footRule:false, tintCool:false, railHead:false, sepV:'soft', headGrad:false },
+  /* ★영도 v2(09-12 사용자 «1,2,3,4 숫자가 심미적으로 별로 · 디자인이 너무 심플») — 행 번호를 빼고 그 자리를
+     «구조를 드러내는» 데이터시트 어휘로 채운다: 카드 네 모서리 마커 · 상단 바 눈금 틱 · 레일 캡 ·
+     행 헤어라인 · 그림 모서리 · 바닥 칩 · 여백 도트. 장식이 아니라 판·행·열의 경계를 세우는 선들이다 */
+  yeongdo:{ titleMode:'bar', noteAt:'bar', hdTop:0, hdH:54, hdGap:16, topPad:16, padX:16, rTray:12, rCard:2,
+            grid:false, tape:false, headFill:'soft', tint:false, rail:22, rowNo:false, zebra:true, sep:'line',
             polaroid:false, shapes:['sharp','round','circle'], defShape:'sharp',
-            ftH:0, sigAt:'footLeft', sigRot:0, glyph:'square', footLabel:'DATA SHEET' }
+            ftH:0, sigAt:'footLeft', sigRot:0, glyph:'square', footLabel:'DATA SHEET',
+            corner:12, barTick:true, headSepFull:true, footChip:true, footRule:true, tintCool:true, railHead:true, sepV:'strong', headGrad:true }
 };
 var D=DESIGNS.bomding, SK=SKINS.bomding;
 /* 디자인이 바뀌면 색·틀도 그 디자인 것으로 — 상대 디자인에만 있는 값(로즈·폴라로이드)이 남으면 화면과 저장이 어긋난다 */
@@ -189,13 +194,26 @@ function blendOn(hex,a,base){ var c=hexRGB(hex), b=hexRGB(base||'#FFFFFF'); func
 /* 머리 띠 글자색 — 흰색 → 잉크 → 진한 잉크 → 검정 중 4.5:1 을 넘는 첫 후보(티어표 plaqueText 와 같은 규칙 · 흰·검정 중 하나는 늘 넘는다) */
 function onInk(fill){ var c=['#FFFFFF',D.ink,D.inkDeep,'#000000'], best=c[0], bc=0; for(var i=0;i<c.length;i++){ var v=contrast(fill,c[i]); if(v>=4.5)return c[i]; if(v>bc){ bc=v; best=c[i]; } } return best; }
 function accentHex(){ if(ST.accent==='custom')return ST.accentHex; var s=byId(D.sw,ST.accent); return s?s.c:D.accent; }
+/* ★장식 도형의 대비 사다리 — 글자는 onInk 로 보호되는데 모서리 마커·레일 캡·머리 룰·서명 글리프는 포인트 색 원색을
+   그대로 써서 민트 2.49:1 · 옅은 사용자 지정 1.08:1 로 «사라졌다»(design-reviewer 🔴 09-12).
+   ★목표는 3:1 = WCAG 1.4.11 «비텍스트 대비» — 글자 기준 4.5 를 쓰면 장식엔 과해서 파스텔 채도가 -67~-84 로
+   깎여 사용자가 고른 색이 회갈색으로 보였다(재검 🟡). 3:1 이면 그린·틸은 원색 그대로 남는다.
+   ★흰색에 가까운 색은 흰 바탕과 구별되려면 반드시 어두워져야 한다 — 코드로 풀리지 않는 광학적 한계다. */
+var MARKC={};
+function markC(){
+  var a=accentHex(), k=ST.design+'|'+a;
+  if(MARKC[k])return MARKC[k];
+  var c=a;
+  for(var i=1;i<=14&&contrast(c,'#FFFFFF')<3;i++)c=blendOn(D.ink,i*.06,a);
+  MARKC[k]=c; return c;
+}
 function signText(){ return (ST.sign||'').trim()||D.n; }   /* 기본 서명 = 그 디자인의 작성자 — 영도 표에 «봄딩»이 찍혔다(시각 점검 09-12) */
 function safeName(s){ return String(s||'').replace(/[\\\/:*?"<>|]/g,'').replace(/\s+/g,'_').slice(0,40); }
 function fileName(){ var t=safeName(ST.title); return (t||'봄딩')+'_표.png'; }
 function fileBase(f){ return String(f&&f.name||'').replace(/\.[a-z0-9]+$/i,'').replace(/[_\-]+/g,' ').trim().slice(0,LIM.label); }
 
 /* ── 글자 ── */
-var MONO='"JetBrains Mono",ui-monospace,Consolas,monospace';   /* 영도 데이터시트의 숫자·영문 라벨(행 번호·기준·DATA SHEET) */
+var MONO='"JetBrains Mono",ui-monospace,Consolas,monospace';   /* 영도 데이터시트의 영문 라벨(기준·DATA SHEET) */
 function F(w,px,fam){ return w+' '+px+'px '+(fam||D.fam); }
 function rgba(hex,a){ var c=hexRGB(hex); return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')'; }
 function rrect(ctx,x,y,w,h,r){ r=Math.max(0,Math.min(r,w/2,h/2)); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
@@ -260,7 +278,7 @@ var CSS=
 '.tbl-sec{padding:10px 0 12px;border-top:1px solid var(--hair)}.tbl-sec:first-child{border-top:0}'+
 '.tbl-st{font-size:13.5px;font-weight:700;letter-spacing:-.025em;margin-bottom:8px;display:flex;align-items:center;gap:8px}'+
 '.tbl-st .d{font-size:12.5px;font-weight:500;color:var(--ink-3)}'+
-'.tbl-lbl{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:12.5px;font-weight:600;color:var(--ink-2);margin:10px 0 5px}'+   /* 디자인 칩 줄이 생긴 만큼 회수 — 열 6개(최대)에서도 «행» 머리가 1080 첫 화면에(게이트 09-12) */
+'.tbl-lbl{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:12.5px;font-weight:600;color:var(--ink-2);margin:10px 0 5px}'+   /* 디자인 칩 줄이 생긴 만큼 회수 — ★그래도 열 6개(최대)에서는 «행» 머리가 1080 밖이다(리뷰어 실측 y=1127 · 09-12). 편집 열은 봄딩·영도 공용이라 구조를 바꿔야 풀린다 */
 '.tbl-lbl.first{margin-top:0}'+
 '.tbl-lbl .o{font-weight:500;color:var(--ink-3)}'+
 '.tbl-cnt{font-size:12.5px;font-weight:500;color:var(--ink-3)}'+
@@ -417,6 +435,7 @@ function layout(ctx){
 function drawPaper(ctx,L){
   ctx.fillStyle=D.edge; rrect(ctx,0,0,W,L.H,SK.rTray); ctx.fill();
   ctx.fillStyle=D.paper; rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,SK.rTray-M.tray); ctx.fill();
+  /* ★영도에 여백 도트를 깔아 봤다가 뺐다(시각 점검 09-12) — 카드가 거의 전폭이라 좌우 8px 띠에만 찍혀 질감이 아니라 노이즈였다 */
   if(!SK.grid||!D.grid)return;   /* 모눈은 봄딩 스크랩북만 — 영도 데이터시트는 흰 바탕 */
   ctx.save(); rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,SK.rTray-M.tray); ctx.clip();
   ctx.strokeStyle=D.grid; ctx.lineWidth=1;
@@ -435,11 +454,18 @@ function drawTitle(ctx,L){
     ctx.fillStyle=D.rule; ctx.fillRect(bx,hd.y+hd.h-3,bw,3);
     ctx.restore();
     ctx.textBaseline='middle'; ctx.fillStyle=bink;
-    var titW=0, cy=hd.y+(hd.h-3)/2;
-    if(hd.title){ fitFs(ctx,hd.title,L.innerW*.62,23,15,'800'); ctx.textAlign='left'; ctx.fillText(hd.title,L.x0,cy); titW=ctx.measureText(hd.title).width; }
+    var cy=hd.y+(hd.h-3)/2, tx=L.x0, tickW=0;
+    if(SK.barTick){   /* 제목 앞 앵커 + 오른쪽 끝 눈금 틱 3 — 데이터시트 헤더의 «눈금» 어휘(글자와 겹치지 않게 폭을 빼 둔다) */
+      ctx.fillRect(L.x0,cy-9,3,18); tx=L.x0+13;
+      tickW=42; ctx.save(); ctx.globalAlpha=.75;   /* .38 은 어떤 포인트 색에서도 ~2:1 이라 «눈금»이 아니라 얼룩으로 보였다(리뷰어 🟡 09-12) */
+      for(var tk=0;tk<3;tk++)ctx.fillRect(L.x0+L.innerW-2-tk*8,cy-8,2,16);
+      ctx.restore();
+    }
+    var titW=0, availT=L.innerW-(tx-L.x0)-tickW;
+    if(hd.title){ fitFs(ctx,hd.title,availT*.66,23,15,'800'); ctx.textAlign='left'; ctx.fillText(hd.title,tx,cy); titW=ctx.measureText(hd.title).width; }
     /* 기준 문구는 제목이 쓰고 남은 폭을 전부 쓴다(티어표 영도와 같은 규칙 — 고정 비율이면 짧은 제목에서도 잘렸다) */
     if(hd.note){ ctx.font=F('600',12.5,MONO); ctx.letterSpacing='0px'; ctx.globalAlpha=.92; ctx.textAlign='right';
-      ctx.fillText(ellFit(ctx,hd.note,Math.max(80,L.innerW-titW-24)),L.x0+L.innerW,cy); ctx.globalAlpha=1; }
+      ctx.fillText(ellFit(ctx,hd.note,Math.max(80,availT-titW-24)),L.x0+L.innerW-tickW,cy); ctx.globalAlpha=1; }
     ctx.textAlign='left'; ctx.textBaseline='alphabetic';
     return;
   }
@@ -468,6 +494,8 @@ function drawImage(ctx,r,im){
   try{ ctx.drawImage(im.img,g.x+(g.w-dw)/2,g.y+(g.h-dh)/2,dw,dh); }catch(e){}
   ctx.restore();
   ctx.strokeStyle=D.hair2; ctx.lineWidth=1; imgPath(ctx,{x:g.x+.5,y:g.y+.5,w:g.w-1,h:g.h-1}); ctx.stroke();
+  /* ★그림 왼쪽 위 모서리 마커를 넣었다가 뺐다(design-reviewer 🟡 09-12) — 사진 내용에 종속돼 대비를 보장할 수 없고
+     (같은 마커가 사진에 따라 3.21:1 ~ 1.19:1), 카드 네 모서리·레일·상단 앵커에 이미 같은 어휘가 3중이라 신호 대비 잡음만 늘었다 */
   ctx.restore();
 }
 /* 빈 그림 자리 — 화면에만(내보내기엔 그리지 않는다) */
@@ -501,22 +529,47 @@ function drawCard(ctx,L,o,acc){
   else { ctx.fillStyle='#FFFFFF'; rrect(ctx,c.x,c.y,c.w,c.h,SK.rCard); ctx.fill(); }
   ctx.save(); rrect(ctx,c.x,c.y,c.w,c.h,SK.rCard); ctx.clip();
   /* 머리 행 — 봄딩은 포인트 색으로 채우고, 영도는 옅은 면 + 포인트 색 3px 룰(대시보드 결) */
-  ctx.fillStyle=soft?D.slot:acc; ctx.fillRect(c.x,c.y,c.w,c.headH);
-  if(soft){ ctx.fillStyle=acc; ctx.fillRect(c.x,c.y+c.headH-3,c.w,3); }
+  if(soft&&SK.headGrad){ var hg=ctx.createLinearGradient(0,c.y,0,c.y+c.headH); hg.addColorStop(0,blendOn(D.slot,.45,'#FFFFFF')); hg.addColorStop(1,D.slot); ctx.fillStyle=hg; }   /* 평평한 면 하나보다 «띠»로 읽힌다(영도) */
+  else ctx.fillStyle=soft?D.slot:acc;
+  ctx.fillRect(c.x,c.y,c.w,c.headH);
+  if(soft){ ctx.fillStyle=markC(); ctx.fillRect(c.x,c.y+c.headH-3,c.w,3); }
+  if(SK.railHead&&SK.rail){ ctx.fillStyle=markC(); ctx.fillRect(c.x+Math.round((SK.rail-3)/2),c.y+13,3,c.headH-16); }   /* 레일 기둥을 머리 행까지 — 위에서 아래로 이어진다(모서리 마커와 겹치지 않게 13부터) */
   if(SK.zebra&&D.zebra){ ctx.fillStyle=D.zebra; L.rows.forEach(function(r,ri){ if(ri%2)ctx.fillRect(c.x,r.y,c.w,r.h); }); }   /* 줄무늬 = 영도의 행 구분(선 대신) */
-  if(SK.tint){ ctx.fillStyle=blendOn(acc,.08,'#FFFFFF'); ctx.fillRect(c.x,c.y+c.headH,L.ws[0],c.h-c.headH); }   /* 사진 열 = 포인트 색을 아주 옅게(봄딩) */
-  if(SK.rail){ ctx.fillStyle=acc; L.rows.forEach(function(r){ ctx.fillRect(c.x,r.y+9,4,Math.max(6,r.h-18)); }); }   /* 눈금 레일 = 영도(행마다 끊긴 4px 바) */
+  /* 사진 열 — 봄딩은 포인트 색 8%, 영도는 중성 회색(«인덱스 열»로 읽히게 · 포인트 색을 여기까지 쓰면 데이터시트가 물든다) */
+  if(SK.tint)ctx.fillStyle=blendOn(acc,.08,'#FFFFFF');
+  else if(SK.tintCool)ctx.fillStyle=rgba(D.ink,.030);
+  if(SK.tint||SK.tintCool)ctx.fillRect(c.x,c.y+c.headH,L.ws[0],c.h-c.headH);
+  if(SK.rail){   /* 눈금 레일 = 영도 — ★행 번호를 뺀 자리(09-12): 머리쪽 진한 캡 + 아래로 옅게 이어지는 바라 숫자 없이도 행이 세어진다 */
+    var rx=c.x+Math.round((SK.rail-3)/2), mk=markC();
+    L.rows.forEach(function(r){
+      ctx.fillStyle=mk; ctx.fillRect(rx,r.y+10,3,11);
+      ctx.fillStyle=rgba(mk,.34); ctx.fillRect(rx,r.y+21,3,Math.max(3,r.h-31));
+    });
+    ctx.fillStyle=D.hair; ctx.fillRect(c.x+SK.rail-1,c.y+c.headH,1,c.h-c.headH);   /* 레일과 사진 열 경계 */
+  }
   ctx.fillStyle=soft?D.hair2:(hink==='#FFFFFF'?'rgba(255,255,255,.26)':'rgba(46,32,56,.16)');
-  for(var i=1;i<L.xs.length;i++)ctx.fillRect(Math.round(L.xs[i]),c.y+10,1,c.headH-20);
-  ctx.fillStyle=D.hair; for(var j=2;j<L.xs.length;j++)ctx.fillRect(Math.round(L.xs[j]),c.y+c.headH,1,c.h-c.headH);
+  var hsY=SK.headSepFull?c.y:c.y+10, hsH=SK.headSepFull?c.headH:c.headH-20;   /* 영도 = 머리 칸 구분선을 띠 높이 전체로(«시트»답게) */
+  for(var i=1;i<L.xs.length;i++)ctx.fillRect(Math.round(L.xs[i]),hsY,1,hsH);
+  /* 열 구분선 — 봄딩은 사진 열을 틴트로 나누니 둘째 열부터 옅게, 영도는 사진 열 경계까지 진하게(8% 는 거의 안 보여 격자가 죽는다) */
+  var vStrong=SK.sepV==='strong'; ctx.fillStyle=vStrong?D.hair2:D.hair;
+  for(var j=vStrong?1:2;j<L.xs.length;j++)ctx.fillRect(Math.round(L.xs[j]),c.y+c.headH,1,c.h-c.headH);
   if(SK.sep==='dash'){
     ctx.strokeStyle=D.hair2; ctx.lineWidth=1; ctx.setLineDash([3,5]);
     L.rows.forEach(function(r,ri){ if(!ri)return; ctx.beginPath(); ctx.moveTo(c.x,r.y+.5); ctx.lineTo(c.x+c.w,r.y+.5); ctx.stroke(); });
     ctx.setLineDash([]);
+  } else if(SK.sep==='line'){   /* 영도 = 줄무늬만으론 경계가 흐려서 헤어라인을 겹친다(줄무늬 #F7FAFA 는 거의 안 보인다) */
+    ctx.fillStyle=D.hair;
+    L.rows.forEach(function(r,ri){ if(!ri)return; ctx.fillRect(c.x,r.y,c.w,1); });
   }
   if(o.screen&&hover&&!drop&&hover.kind!=='img'){ var hr=markRect(L,hover); if(hr){ ctx.fillStyle=hover.kind==='head'?(hink==='#FFFFFF'?'rgba(255,255,255,.14)':'rgba(46,32,56,.07)'):rgba(acc,.07); ctx.fillRect(hr.x,hr.y,hr.w,hr.h); } }
   ctx.restore();
   if(!SK.tape){ ctx.strokeStyle=D.hair2; ctx.lineWidth=1; rrect(ctx,c.x+.5,c.y+.5,c.w-1,c.h-1,SK.rCard); ctx.stroke(); }   /* 영도 = 그림자 대신 얇은 테두리 */
+  if(SK.corner){   /* 네 모서리 마커 — 시트의 «판»을 세우는 데이터시트 어휘(카드를 거의 각지게 두고 모서리에 겹친다) */
+    var q=SK.corner; ctx.strokeStyle=markC(); ctx.lineWidth=2; ctx.lineCap='butt';
+    [[c.x+1,c.y+1,1,1],[c.x+c.w-1,c.y+1,-1,1],[c.x+1,c.y+c.h-1,1,-1],[c.x+c.w-1,c.y+c.h-1,-1,-1]].forEach(function(p){
+      ctx.beginPath(); ctx.moveTo(p[0],p[1]+p[3]*q); ctx.lineTo(p[0],p[1]); ctx.lineTo(p[0]+p[2]*q,p[1]); ctx.stroke();
+    });
+  }
   ctx.textAlign='center'; ctx.textBaseline='middle';
   L.head.forEach(function(h){
     if(isEd('head',null,h.cid)||(h.empty&&!o.screen))return;
@@ -525,9 +578,7 @@ function drawCard(ctx,L,o,acc){
     setFont(ctx,ph?'400':'800',L.fs); ctx.fillStyle=hink;
     lines.forEach(function(s,li){ var cy=ty+(li+.5)*L.hlh; ctx.fillText(s,hx+hw/2,cy); if(ph)dashUnder(ctx,hx+hw/2,cy+L.fs*.62,ctx.measureText(s).width,hink); });
   });
-  if(SK.rowNo){ ctx.font=F('600',12,MONO); ctx.letterSpacing='0px';
-    L.rows.forEach(function(r,ri){ ctx.fillStyle=(SK.zebra&&D.zebra&&ri%2)?D.ink2:D.ink3; ctx.fillText(String(ri+1),c.x+4+(SK.rail-4)/2,r.y+r.h/2); });   /* 줄무늬 행에선 ink3 가 4.42:1 로 AA 미달(리뷰어 🟡 09-12) */
-  }
+  /* ★행 번호(1,2,3…)는 09-12 사용자 지적으로 뺐다 — 레일의 캡이 그 자리를 대신한다 */
   ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   L.rows.forEach(function(r){ drawRow(ctx,L,r,o); });
   if(SK.tape){ tape(ctx,c.x+16,c.y+3,-38,58); tape(ctx,c.x+c.w-16,c.y+3,38,58); }
@@ -535,13 +586,22 @@ function drawCard(ctx,L,o,acc){
 function heart(ctx,cx,cy,s){ ctx.beginPath(); ctx.moveTo(cx,cy+s*.35); ctx.bezierCurveTo(cx-s*.5,cy-s*.05,cx-s*.42,cy-s*.5,cx,cy-s*.22); ctx.bezierCurveTo(cx+s*.42,cy-s*.5,cx+s*.5,cy-s*.05,cx,cy+s*.35); ctx.closePath(); }
 function drawFooter(ctx,L,acc){
   var f=L.ft;
+  if(SK.footRule){ ctx.fillStyle=D.hair2; ctx.fillRect(L.x0+(f.sigLeftW||0),f.y,L.innerW-(f.sigLeftW||0),1); }   /* 영도 = 바닥을 시트에서 끊는 선(시그니처 폭은 비운다 — 티어표와 같은 규칙) */
   ctx.textBaseline='middle';
   ctx.font=F('800',15); ctx.letterSpacing='-0.3px'; var sw=ctx.measureText(f.sign).width;
   ctx.textAlign='right'; ctx.fillStyle=D.ink; ctx.fillText(f.sign,f.signR,f.base);
-  ctx.fillStyle=acc;
-  if(SK.glyph==='heart'){ heart(ctx,f.signR-sw-12,f.base,13); ctx.fill(); }
-  else { rrect(ctx,f.signR-sw-19,f.base-5,10,10,2); ctx.fill(); }   /* 영도 = ■ (티어표와 같은 서명 글리프) */
-  if(SK.footLabel){ ctx.font=F('600',12.5,MONO); ctx.letterSpacing='0px'; ctx.fillStyle=D.ink3; ctx.textAlign='left'; ctx.fillText(SK.footLabel,L.x0+(f.sigLeftW||0),f.base); }
+  if(SK.glyph==='heart'){ ctx.fillStyle=markC(); heart(ctx,f.signR-sw-12,f.base,13); ctx.fill(); }   /* ★♥ 도 같은 사다리 — 봄딩 «핑크» 프리셋만 골라도 2.23:1 이라 흐릿했다(재검 🟡 09-12 · 이번 회귀가 아니라 형제 분기에 남아 있던 같은 결함) */
+  else { ctx.fillStyle=markC(); rrect(ctx,f.signR-sw-19,f.base-5,10,10,2); ctx.fill(); }   /* 영도 = ■ (티어표와 같은 서명 글리프 · 옅은 색에서 사라지지 않게 대비 보정) */
+  if(SK.footLabel){
+    ctx.font=F('600',12.5,MONO); ctx.letterSpacing='0px'; ctx.textAlign='left';
+    var fx=L.x0+(f.sigLeftW||0);
+    if(SK.footChip){   /* 옅은 칩 — 라벨이 떠 있지 않고 시트의 «표제»로 읽힌다 */
+      var cw=Math.round(ctx.measureText(SK.footLabel).width)+18;
+      ctx.fillStyle=D.slot; rrect(ctx,fx,f.base-11,cw,22,3); ctx.fill();
+      ctx.strokeStyle=D.hair2; ctx.lineWidth=1; rrect(ctx,fx+.5,f.base-10.5,cw-1,21,3); ctx.stroke();
+      ctx.fillStyle=D.ink2; ctx.fillText(SK.footLabel,fx+9,f.base);
+    } else { ctx.fillStyle=D.ink3; ctx.fillText(SK.footLabel,fx,f.base); }
+  }
   else if(f.note){ ctx.font=F('700',14); ctx.letterSpacing='-0.2px'; ctx.fillStyle=D.ink2; ctx.textAlign='left'; ctx.fillText(ellFit(ctx,f.note,f.signR-sw-34-L.x0),L.x0+2,f.base); }
   ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   if(f.sig){ var s=f.sig; ctx.save(); ctx.translate(s.x+s.w/2,s.y+s.h/2); ctx.rotate(s.rot*Math.PI/180); ctx.translate(-(s.x+s.w/2),-(s.y+s.h/2)); try{ ctx.drawImage(s.img,s.x,s.y,s.w,s.h); }catch(e){} ctx.restore(); }
@@ -1298,7 +1358,8 @@ window.SseudamTools.table={
     reset:function(){ endEdit(false); IMG={}; cur=null; ST.design='bomding'; ST.accent='rose'; ST.accentHex='#C93C7C'; ST.size='m'; ST.fit='cover'; ST.shape='polaroid'; ST.fs=FS_DEF; applyDesign(); defaultBoard(); if(root)syncDesign(true); renderAll(); save(); if(mounted)paint(); return true; },
     designs:function(){ return Object.keys(DESIGNS); },
     setDesign:function(id){ if(!DESIGNS[id])return false; ST.design=id; applyDesign(); loadSig(); save(); if(root)renderAll(); if(mounted)paint(); return true; },
-    skin:function(){ return {id:ST.design,titleMode:SK.titleMode,noteAt:SK.noteAt,rail:SK.rail,rowNo:SK.rowNo,zebra:SK.zebra,sep:SK.sep,tint:SK.tint,tape:SK.tape,headFill:SK.headFill,sigAt:SK.sigAt,glyph:SK.glyph,shapes:SK.shapes.slice(),fam:D.fam,accent:accentHex(),paper:D.paper,slot:D.slot,zebraC:D.zebra}; },
+    skin:function(){ return {id:ST.design,titleMode:SK.titleMode,noteAt:SK.noteAt,rail:SK.rail,rowNo:SK.rowNo,zebra:SK.zebra,sep:SK.sep,tint:SK.tint,tape:SK.tape,headFill:SK.headFill,sigAt:SK.sigAt,glyph:SK.glyph,shapes:SK.shapes.slice(),fam:D.fam,accent:accentHex(),paper:D.paper,slot:D.slot,zebraC:D.zebra,
+      rCard:SK.rCard,corner:SK.corner,barTick:SK.barTick,headSepFull:SK.headSepFull,footChip:SK.footChip,footRule:SK.footRule,tintCool:SK.tintCool,railHead:SK.railHead,sepV:SK.sepV,headGrad:SK.headGrad,markC:markC()}; },
     setBoard:function(d){ endEdit(false); restoreData(d,true,false); cur=null; renderAll(); save(); if(mounted)paint(); return true; },
     setImageURL:function(rid,url){ return fetch(url).then(function(r){ if(!r.ok)throw new Error('http '+r.status); return r.blob(); }).then(function(b){ return setImageBlob(rid,b,true); }).then(function(){ if(mounted)paint(); return true; }).catch(function(e){ return String(e); }); },
     takeFiles:function(files,opt){ takeFiles(files,opt); return true; },

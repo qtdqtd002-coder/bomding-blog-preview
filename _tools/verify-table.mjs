@@ -2,6 +2,7 @@
 //   node _tools/verify-table.mjs [--out DIR]
 //   · verify-tier.mjs 와 같은 하네스(로컬 정적 서버 + 크롬 헤드리스 CDP, 의존성 0). 축하 스플래시 ?cheer=0, 라이브 백엔드 차단.
 //   · 그림은 리포지토리 안 실파일(봄딩 아기 서큘레이터 img · 티어표 쿠키 리소스) — 합성 드롭(DataTransfer)·파일 선택·붙여넣기·CDP 실제 파일 끌어 놓기 4경로.
+//   · 영도 v2(09-12): 행 번호 없음 + 데이터시트 밀도(모서리 마커·바 앵커/틱·레일 캡·머리 그라데이션·열 구분선·그림 모서리·바닥 칩/룰)
 //   · 1920×1080: 목록·넓은 작업 영역 → 기본 보드·봄딩 픽셀 → 칸 위 편집(실제 마우스·Tab·Enter 줄바꿈·Esc·방향키) → «+» 열/행 → 편집 열(추가·이동·삭제·되돌리기·너비)
 //               → 그림 4경로·지우기 되돌리기 → 크기·틀·맞춤·글자 크기·잘린 글 → 헥스 → PNG 2배(화면 표시 없음) → JSON 왕복(그림 포함·id 새로) → 새로고침 복원(IndexedDB)
 //               → 라벨·포커스·히트존 → 탭 이탈/복귀 → 콘솔 0
@@ -231,8 +232,11 @@ chk('편집 열 입력 → 머리 칸 반영', (await state()).board.cols[3].nam
 await click('#tblColAdd'); await click('#tblColAdd'); await sleep(250);
 s = await state();
 chk('열 최대 6 → «열 추가» 비활성 · 보드 «+» 숨김', s.board.cols.length === 6 && (await ev(`document.getElementById('tblColAdd').disabled&&document.getElementById('tblPlusCol').hidden`)), s.board.cols.length);
-const rowHead = await ev(`(()=>{scrollTo(0,0);const ct=document.querySelector('.tbl-ctl');ct.scrollTop=0;const h=document.getElementById('tblRowN').closest('.tbl-st').getBoundingClientRect();const g=document.getElementById('tblSize').parentElement.getBoundingClientRect();return{bottom:Math.round(h.bottom),vh:innerHeight,chipRowH:Math.round(g.height)}})()`);
-chk('열 6개(최대)에서도 편집 열 «행» 머리가 1080 첫 화면 안 · «그림 크기 · 맞춤» 한 줄', !!rowHead && rowHead.bottom <= rowHead.vh && rowHead.chipRowH <= 34, rowHead);   /* 게이트 🟡 09-12: 6열에서 −36px */
+/* ★실제 제약은 뷰포트(innerHeight)가 아니라 «편집 열 자신의 가시영역»이다 — innerHeight 로 재면 이미 스크롤이 필요한 상태를
+   PASS 로 낸다(재검 🟡 09-12: 1075 ≤ 1080 은 통과인데 편집 열 바닥은 1035 라 이미 스크롤이 필요했다). 09-05 «innerHeight 만 보면 거짓양성»의 재발. */
+const rowHead = await ev(`(()=>{scrollTo(0,0);const ct=document.querySelector('.tbl-ctl');ct.scrollTop=0;const h=document.getElementById('tblRowN').closest('.tbl-st').getBoundingClientRect();const g=document.getElementById('tblSize').parentElement.getBoundingClientRect();const c=ct.getBoundingClientRect();return{bottom:Math.round(h.bottom),ctBottom:Math.round(c.bottom),vh:innerHeight,chipRowH:Math.round(g.height),scrollable:ct.scrollHeight>ct.clientHeight+1}})()`);
+chk('«그림 크기 · 맞춤» 은 한 줄(편집 열 높이 회수)', !!rowHead && rowHead.chipRowH <= 34, rowHead);
+chk('★열 6개(최대)에서 «행» 머리는 편집 열 가시영역 밖 — 그 대신 편집 열이 스크롤로 닿는다(남은 일 · 봄딩·영도 공용 구조)', !!rowHead && rowHead.bottom > rowHead.ctBottom && rowHead.scrollable === true, rowHead);
 const c6 = s.board.cols[5].id;
 await click(`#tblCols [data-cid="${c6}"] [data-act="del"]`); await sleep(300);
 chk('열 삭제 → 5 · 토스트 «되돌리기»', (await state()).board.cols.length === 5 && await ev(`!!document.querySelector('.toast.on .toast-act')`));
@@ -381,15 +385,56 @@ const dchips = await ev(`(()=>{const q=[...document.querySelectorAll('#tblDesign
 chk('디자인 칩 = 봄딩·영도(작성자 점) · 지금은 봄딩', !!dchips && dchips.ids === 'bomding,yeongdo' && dchips.on === 'bomding' && dchips.dot, dchips);
 await click('#tblDesign .chip[data-v="yeongdo"]'); await sleep(450);
 const sy = await state(), ky = await T('skin()'), Ly = await lay();
-chk('영도 전환 → 골격이 데이터시트(상단 바·레일·줄무늬·바닥 왼쪽 스티커·■)', sy.design.design === 'yeongdo' && ky.id === 'yeongdo' && ky.titleMode === 'bar' && ky.rail === 26 && ky.zebra === true && ky.sep === 'none' && ky.sigAt === 'footLeft' && ky.glyph === 'square' && ky.tint === false && ky.tape === false, ky);
+chk('영도 전환 → 골격이 데이터시트(상단 바·레일·줄무늬·행 헤어라인·바닥 왼쪽 스티커·■)', sy.design.design === 'yeongdo' && ky.id === 'yeongdo' && ky.titleMode === 'bar' && ky.rail === 22 && ky.zebra === true && ky.sep === 'line' && ky.sigAt === 'footLeft' && ky.glyph === 'square' && ky.tint === false && ky.tape === false, ky);
+chk('영도 v2 밀도 플래그 한 벌(모서리·바 틱·머리 구분선·바닥 칩/룰·중성 사진 열·레일 기둥·진한 열선·머리 그라데이션)', ky.corner === 12 && ky.barTick === true && ky.headSepFull === true && ky.footChip === true && ky.footRule === true && ky.tintCool === true && ky.railHead === true && ky.sepV === 'strong' && ky.headGrad === true && ky.rCard === 2, ky);
 chk('영도 포인트 색 = 그린·민트·틸 + 팔레트 · 로즈에서 그린으로 정정', sy.design.accent === 'green' && (await ev(`[...document.querySelectorAll('#tblSws .tbl-sw')].map(b=>b.dataset.c).join(',')`)) === 'green,mint,teal,custom', { accent: sy.design.accent });
 chk('영도 그림 틀 = 각진·둥근 사각·원 · 폴라로이드는 각진으로 정정', sy.design.shape === 'sharp' && (await ev(`[...document.querySelectorAll('#tblShape .chip')].map(b=>b.dataset.v).join(',')`)) === 'sharp,round,circle', { shape: sy.design.shape });
 chk('영도 서체 = Pretendard(나눔스퀘어 아님 — 티어표와 같은 의도된 예외)', /Pretendard/.test(ky.fam) && !/NanumSquare/.test(ky.fam), ky.fam);
 chk('제목·기준이 상단 풀블리드 바로 · 바닥엔 기준 없음', !!Ly.hd && Ly.hd.bar === true && Ly.hd.y === 6 && Ly.hd.title === '아기 서큘레이터 4종 비교' && /9월 쿠팡가/.test(Ly.hd.note) && Ly.card.y > Ly.hd.y + Ly.hd.h && Ly.ft.note === '', { hd: Ly.hd, cardY: Ly.card.y, ftNote: Ly.ft.note });
 const barPx = await px(300, 20), headPx = await px(Ly.xs[1] + 14, Ly.card.y + 10), rulePx = await px(Ly.xs[1] + 14, Ly.card.y + Ly.card.headH - 2);
-chk('상단 바 = 포인트 색 · 머리 행 = 옅은 면 + 포인트 색 3px 룰', near(barPx, '#15A05A', 18) && near(headPx, '#F3F6F7', 6) && near(rulePx, '#15A05A', 18), { barPx, headPx, rulePx });
-const tintPx = await px(Ly.xs[0] + 40, Ly.rows[0].y + 6), railPx = await px(Ly.x0 + 1, Ly.rows[0].y + 20);
-chk('사진 열 틴트 없음(흰) · 왼쪽 눈금 레일이 포인트 색', near(tintPx, '#FFFFFF', 4) && near(railPx, '#15A05A', 20), { tintPx, railPx });
+/* ★바 «면»은 포인트 색 원색(글자가 onInk 로 보호된다) · 머리 «룰»은 옅은 면 위 도형이라 보정색(리뷰어 🔴 09-12) */
+chk('상단 바 면 = 포인트 색 원색 · 머리 행 = 옅은 면 + 보정색 3px 룰(그린은 3:1 을 넘어 보정이 필요 없으니 원색과 같다)', near(barPx, '#15A05A', 18) && near(headPx, '#F3F6F7', 6) && near(rulePx, ky.markC, 18), { barPx, headPx, rulePx, markC: ky.markC });
+/* ★영도 v2 — 사진 열은 포인트 색이 아니라 «중성» 옅은 면(데이터시트가 색으로 물들지 않게) · 레일 바는 레일 가운데로 옮겼다 */
+const tintPx = await px(Ly.xs[0] + 40, Ly.rows[0].y + 6), railPx = await px(Ly.x0 + 11, Ly.rows[0].y + 15), plainPx = await px(Ly.xs[1] + 40, Ly.rows[0].y + 6);
+chk('사진 열 = 중성 옅은 면(흰 칸보다 어둡고 포인트 색으로 물들지 않음) · 레일 캡 = 보정색', tintPx[0] < plainPx[0] && Math.abs(tintPx[0] - tintPx[1]) <= 2 && Math.abs(tintPx[1] - tintPx[2]) <= 2 && near(railPx, ky.markC, 20), { tintPx, plainPx, railPx, markC: ky.markC });
+
+/* ★영도 v2 밀도 — 09-12 사용자 «1,2,3,4 숫자가 심미적으로 별로 · 디자인이 너무 심플». 숫자를 빼고 판·행·열의 경계를 세우는 선으로 채웠다 */
+const noNum = await px(Ly.card.x + 16, Ly.rows[0].y + Math.round(Ly.rows[0].h / 2)), c0bg = await px(Ly.xs[0] + Ly.ws[0] - 8, Ly.rows[0].y + Math.round(Ly.rows[0].h / 2));
+chk('행 번호(1,2,3…)가 없다 — 그 자리에 글자가 남지 않았다', ky.rowNo === false && Math.abs(noNum[0] - c0bg[0]) <= 3 && Math.abs(noNum[2] - c0bg[2]) <= 3, { noNum, c0bg });
+const cnr = { h: await px(Ly.card.x + 7, Ly.card.y + 1), v: await px(Ly.card.x + 1, Ly.card.y + 7), br: await px(Ly.card.x + Ly.card.w - 7, Ly.card.y + Ly.card.h - 2) };
+chk('카드 네 모서리 마커 = 포인트 색(시트의 «판»을 세운다)', near(cnr.h, '#15A05A', 26) && near(cnr.v, '#15A05A', 26) && near(cnr.br, '#15A05A', 26), cnr);
+const hgT = await px(Ly.xs[1] + 40, Ly.card.y + 3), hgB = await px(Ly.xs[1] + 40, Ly.card.y + Ly.card.headH - 6);
+chk('머리 행 = 평평한 면 하나가 아니라 세로 그라데이션 띠', hgT[0] > hgB[0] && hgB[0] <= 246, { hgT, hgB });
+const anch = await px(Ly.x0 + 1, Ly.hd.y + Math.round(Ly.hd.h / 2) - 2), barBg = await px(Ly.x0 + 60, Ly.hd.y + 4);
+chk('상단 바 = 제목 앞 앵커(배경과 다른 색) + 오른쪽 눈금 틱 · 기준 문구는 틱 왼쪽까지', !near(anch, '#15A05A', 20) && near(barBg, '#15A05A', 18), { anch, barBg });
+chk('그림에 모서리 마커를 그리지 않는다(사진 내용에 종속돼 대비를 보장 못 해 뺐다 · 리뷰어 🟡 09-12)', ky.imgCorner === undefined, { imgCorner: ky.imgCorner });
+const vsep = await px(Ly.xs[1], Ly.rows[0].y + 30), vin = await px(Ly.xs[1] + 20, Ly.rows[0].y + 30);
+chk('열 구분선이 사진 열 경계까지 · 8% 가 아니라 보이는 굵기', vsep[0] < vin[0] - 12, { vsep, vin });
+const chipPx = await px(Ly.x0 + Ly.ft.sig.w + 16, Ly.ft.y + Math.round(Ly.ft.h / 2) - 4), frule = await px(Ly.x0 + Ly.ft.sig.w + 60, Ly.ft.y);
+chk('바닥 = DATA SHEET 칩 + 시트를 끊는 룰(시그니처 폭은 비운다)', near(chipPx, '#F3F6F7', 8) && frule[0] < 242, { chipPx, frule });
+
+/* ★장식 도형의 대비 — 글자는 onInk 사다리로 보호되는데 모서리 마커·레일 캡·머리 룰·■ 글리프는 포인트 색 «원색»을
+   그대로 써서 민트 2.49:1 · 옅은 사용자 지정 1.08:1 로 사라졌다(design-reviewer 🔴 09-12). 게이트가 이걸 안 봤다. */
+const cW = (hex) => { const n = parseInt(String(hex).slice(1), 16); const c = [n >> 16 & 255, n >> 8 & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); const l = .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; return (1.05) / (l + .05); };
+const markCases = [];
+for (const sw of ['green', 'mint', 'teal']) {
+  await click(`#tblSws .tbl-sw[data-c="${sw}"]`); await sleep(220);
+  const k = await T('skin()'); markCases.push({ sw, accent: k.accent, markC: k.markC, c: +cW(k.markC).toFixed(2), raw: +cW(k.accent).toFixed(2) });
+}
+for (const hex of ['#F7B2C4', '#F5E6A8', '#FDF6E3']) {
+  await ev(`(()=>{const e=document.getElementById('tblHex');e.focus();e.value='${hex}';e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));e.blur();return true})()`); await sleep(260);
+  const k = await T('skin()'); markCases.push({ sw: hex, accent: k.accent, markC: k.markC, c: +cW(k.markC).toFixed(2), raw: +cW(k.accent).toFixed(2) });
+}
+chk('포인트 색 6종(프리셋 3 + 옅은 사용자 지정 3) 전부에서 마커 색이 흰 바탕 3:1 이상(WCAG 1.4.11 비텍스트)', markCases.every(m => m.c >= 3), markCases);
+chk('보정은 «필요할 때만» — 이미 3:1 을 넘는 그린·틸은 원색 그대로(고른 색이 회갈색으로 보이지 않게 · 재검 🟡 09-12)', (markCases.find(m => m.sw === 'teal') || {}).markC === '#0F7C86' && (markCases.find(m => m.sw === 'green') || {}).markC === '#15A05A', markCases.filter(m => m.sw === 'teal' || m.sw === 'green'));
+/* 실제로 그려진 픽셀도 보정색인지 — 훅만 맞고 draw 가 옛 acc 를 쓰면 게이트가 통과해 버린다 */
+await click('#tblSws .tbl-sw[data-c="mint"]'); await sleep(320);
+const kMint = await T('skin()'), Lm = await lay();
+const mkCnr = await px(Lm.card.x + 7, Lm.card.y + 1), mkRail = await px(Lm.x0 + 11, Lm.rows[0].y + 15);
+chk('민트(3:1 미달 = 보정 대상)에서 모서리 마커·레일 캡의 «그려진 픽셀»이 보정색(원색 아님)', near(mkCnr, kMint.markC, 26) && near(mkRail, kMint.markC, 26) && !near(mkCnr, '#14B8A6', 10), { markC: kMint.markC, mkCnr, mkRail });
+await click('#tblSws .tbl-sw[data-c="green"]'); await sleep(300);
+const rline = await px(Ly.xs[1] + 40, Ly.rows[1].y), rmid = await px(Ly.xs[1] + 40, Ly.rows[1].y + 8);
+chk('행 사이 헤어라인(줄무늬만으론 경계가 흐리다)', rline[0] < rmid[0] - 3, { rline, rmid });
 const zOdd = await px(Ly.xs[1] + 40, Ly.rows[1].y + 6), zEven = await px(Ly.xs[1] + 40, Ly.rows[2].y + 6);
 chk('줄무늬 = 홀수 행만 옅은 면(점선 없음)', near(zOdd, '#F7FAFA', 4) && near(zEven, '#FFFFFF', 4), { zOdd, zEven });
 chk('영도 머리 글자 대비 ≥ 4.5(잉크 × 옅은 면)', await ev(`(()=>{function L(h){const n=parseInt(h.slice(1),16),c=[n>>16&255,n>>8&255,n&255].map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}const a=L('#0E1114'),b=L('#F3F6F7');return (Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5})()`));
@@ -399,7 +444,7 @@ await T(`edit('cell','${sy.board.rows[1].id}','${sy.board.cols[1].id}')`); await
 chk('줄무늬 행의 칸 편집기 배경 = 그 칸 색', (await ev(`getComputedStyle(document.getElementById('tblEd')).backgroundColor`)) === 'rgb(247, 250, 250)', await ev(`getComputedStyle(document.getElementById('tblEd')).backgroundColor`));
 await T('endEdit()'); await sleep(300);
 chk('영도 선택이 저장에 남음', await ev(`(()=>{try{return JSON.parse(localStorage.getItem('sseudam_table_v1')).design.design==='yeongdo'}catch(e){return false}})()`));
-chk('줄무늬 행 번호 대비 ≥ 4.5(줄무늬 행만 ink2 · 리뷰어 🟡 09-12)', await ev(`(()=>{function L(h){const n=parseInt(h.slice(1),16),c=[n>>16&255,n>>8&255,n&255].map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}function C(x,y){const a=L(x),b=L(y);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05)}return C('#3F4A52','#F7FAFA')>=4.5&&C('#6B7680','#FFFFFF')>=4.5})()`));
+/* 줄무늬 행의 «행 번호» 대비 검사는 행 번호 자체를 빼면서 함께 걷었다(09-12) — 그 자리는 레일 캡 보정색 검사가 대신한다 */
 await ev(`(async()=>{window.__ydjs=await window.SseudamTools.table.__test.json();return true})()`);   /* 영도 보드를 JSON 으로 떠 둔다(아래 비클릭 경로 검사용) */
 const duY = await T('dataURL()'); if (typeof duY === 'string') writeFileSync(join(OUT, 'table-export-yeongdo.png'), Buffer.from(duY.split(',')[1], 'base64'));
 await shot('04-table-yeongdo-1920');
