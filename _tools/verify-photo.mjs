@@ -1,13 +1,14 @@
-// verify-photo.mjs — 도구함 「이미지 편집」(_toolbox/photo.js) 헤드리스 검증 (2026-09-12 · v1)
+// verify-photo.mjs — 도구함 「이미지 편집」(_toolbox/photo.js) 헤드리스 검증 (2026-09-12 · v2)
 //   node _tools/verify-photo.mjs [--out DIR] [--page index.html]
 //   · verify-tier.mjs 와 같은 하네스(로컬 정적 서버 + 크롬 헤드리스 CDP, 의존성 0). 축하 스플래시 ?cheer=0, 라이브 백엔드 차단.
 //   · 시험 사진은 페이지 안에서 만든다(1200×800 · 네 칸 색 + 흑백 줄무늬 띠) — 픽셀 검사가 결정적이다.
 //   · 1920×1080: 작업대(판에 꽉 참) · 레일 12(스마트에디터 순서) · 빈 상태 · 열기 · 크기 · 자르기(실제 드래그·90°·반전·수평) · 필터 · 보정
 //                · 액자·마스크(출력 크기·투명) · 서명(9칸) · 텍스트(캔버스 클릭) · 스티커(봄딩 12·끌어 놓기) · 도형·돋보기·번호(실제 드래그)
 //                · 선택 이동·크기·회전 · 그리기·지우개 · 모자이크(분산 감소) · 키보드 · 레이어 · 되돌리기 · 내보내기(PNG/JPG) · 자동 보관 → 이어서 편집
+//   · v2(09-12 사용자 피드백 4건): 작성자 팩(봄딩·영도 스티커/팔레트/서명) · 도형 15종+손그림 · 사진 밖에선 안 만든다 · 레이어 서랍(항상 보임·숨김·접기)
 //   · 1366×768: 판 폭·넘침 0   · 390×844: 단일 열·넘침 0
 import { spawn } from 'node:child_process';
-import { writeFileSync, mkdirSync, existsSync, statSync, createReadStream } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync, statSync, createReadStream, readdirSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { resolve, join, dirname, extname, normalize } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -47,7 +48,7 @@ console.log('chrome', ver.Browser, '| http :' + HP, '| page', PAGE, '| out', OUT
 const tgt = await (await fetch(`http://127.0.0.1:${port}/json/new?about:blank`, { method: 'PUT' })).json();
 const ws = new WebSocket(tgt.webSocketDebuggerUrl);
 await new Promise(r => ws.onopen = r);
-let id = 0; const pending = new Map(); let logs = []; let loaded = null;
+let id = 0; const pending = new Map(); let logs = []; let loaded = null; const dlEv = [];
 ws.onmessage = (m0) => {
   const m = JSON.parse(m0.data);
   if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); }
@@ -56,6 +57,7 @@ ws.onmessage = (m0) => {
   else if (m.method === 'Network.loadingFailed' && /_toolbox\/photo/.test(m.params.requestId ? (pendingUrls.get(m.params.requestId) || '') : '')) logs.push('[net] ' + pendingUrls.get(m.params.requestId));
   else if (m.method === 'Network.requestWillBeSent') pendingUrls.set(m.params.requestId, m.params.request.url);
   else if (m.method === 'Network.responseReceived' && /_toolbox\/photo\//.test(m.params.response.url)) netPhoto.push([m.params.response.url.replace(/^.*_toolbox\//, ''), m.params.response.status]);
+  else if (/^Browser\.download/.test(m.method || '')) dlEv.push(m.method.replace('Browser.download','') + ':' + (m.params.state || m.params.suggestedFilename || ''));
   else if (m.method === 'Page.loadEventFired' && loaded) loaded();
 };
 const pendingUrls = new Map(); const netPhoto = [];
@@ -115,8 +117,20 @@ const makeImg = (w, h, type = 'image/png') => ev(`(async()=>{const c=document.cr
   x.fillStyle='#33AA55';x.fillRect(0,${h / 2},${w / 2},${h / 2});x.fillStyle='#EEEEEE';x.fillRect(${w / 2},${h / 2},${w / 2},${h / 2});
   for(let i=0;i<${w};i+=8){x.fillStyle=(i/8)%2?'#000000':'#FFFFFF';x.fillRect(i,${Math.round(h * .45)},8,${Math.round(h * .1)});}
   const b=await new Promise(r=>c.toBlob(r,'${type}',.95));return URL.createObjectURL(b);})()`);
+const pickShape = async (k) => {
+  for (let i = 0; i < 3; i++) {
+    await click(`[data-tile="shape"] .ph-tile[data-v="${k}"]`); await sleep(180);
+    if ((await S()).pref.shape === k) return true;
+  }
+  return false;
+};
+/* WCAG 대비 — 팩 색이 바뀌어도 «바탕 위 글자»가 읽히는지(09-12 검수 🟡1: 영도 그린+흰 글자 3.38:1) */
+const lum = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255)
+  .map((v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)))
+  .reduce((a, v, i) => a + [0.2126, 0.7152, 0.0722][i] * v, 0);
+const CR = (a, b) => { const x = lum(a), y = lum(b); return Math.round(((Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05)) * 100) / 100; };
 const near = (c, t, tol = 16) => c && Math.abs(c[0] - t[0]) <= tol && Math.abs(c[1] - t[1]) <= tol && Math.abs(c[2] - t[2]) <= tol;
-const panelScroll = () => ev(`(()=>{const p=document.getElementById('phPanel');if(p)p.scrollTop=0;return true})()`);
+const panelScroll = () => ev(`(()=>{const p=document.getElementById('phScroll')||document.getElementById('phPanel');if(p)p.scrollTop=0;return true})()`);
 
 /* ══════════ 1920×1080 ══════════ */
 console.log('\n[1920×1080]');
@@ -294,12 +308,61 @@ await setInput('#phVecTx', '꿀팁'); await sleep(650); s = await S();
 chk('라벨 글자 바꾸기', s.objs[s.objs.length - 1].tx === '꿀팁');
 await shot('04-stickers');
 
+/* 작성자 디자인 팩 — 봄딩 ↔ 영도 (09-12 사용자 요청 1) */
+chk('팩 고르개 2(봄딩·영도) · 기본 봄딩', await ev(`(()=>{const b=[...document.querySelectorAll('#phPks .ph-pk')];return b.length===2&&b[0].dataset.pack==='bomding'&&b[1].dataset.pack==='yeongdo'&&b[0].classList.contains('on')})()`));
+chk('스티커 분류에 봄딩·영도 둘 다', (await ev(`[...document.querySelectorAll('[data-chip="stk.cat"] .chip')].map(b=>b.dataset.v).join(',')`)) === 'bomding,yeongdo,deco,label,point,paper,photo');
+const keepId = (await S()).objs.find(o => o.t === 'stk').id;
+const keepCol = (await S()).objs.find(o => o.t === 'vec').col;
+await click('#phPks .ph-pk[data-pack="yeongdo"]'); await sleep(500);
+s = await S();
+chk('영도로 바꾸면 기본색이 영도 그린 · 서명 글자 «영도»', s.pref.pack === 'yeongdo' && s.pref.lineCol === '#15A05A' && s.pref.penCol === '#15A05A' && s.pref.sigTx === '영도', s.pref);
+chk('이미 올린 개체는 그대로(팩은 앞으로 만들 것만 바꾼다)', s.objs.find(o => o.id === keepId) && s.objs.find(o => o.t === 'vec').col === keepCol, { keepCol, now: s.objs.find(o => o.t === 'vec').col });
+chk('팔레트가 영도 색(그린·민트·틸)', await ev(`(()=>{const c=[...document.querySelectorAll('#phPb [data-color] .ph-sw')].map(b=>b.dataset.c);return c.includes('#15A05A')&&c.includes('#14B8A6')&&c.includes('#0F7C86')&&!c.includes('#C93C7C')})()`), await ev(`[...document.querySelectorAll('#phPb [data-color] .ph-sw')].map(b=>b.dataset.c).join(',')`));
+await click('[data-chip="stk.cat"] .chip[data-v="yeongdo"]'); await sleep(300);
+chk('영도 스티커 12 · 목록 그림 로드', await waitFor(`(()=>{const im=[...document.querySelectorAll('#phStk img')];return im.length===12&&im.every(i=>i.complete&&i.naturalWidth>0)&&im.every(i=>/\\/yd_/.test(i.src))})()`, 8000), await ev(`[...document.querySelectorAll('#phStk img')].map(i=>i.src.split('/').pop()).join(',')`));
+const nY = (await S()).objs.length;
+await click('#phStk .ph-sk[data-stk="yd_thumbs"]'); await sleep(900); s = await S();
+const ydObj = s.objs[s.objs.length - 1];
+chk('영도 스티커 넣기 → 개체·팩 기록', s.objs.length === nY + 1 && ydObj.t === 'stk' && ydObj.src === 'yd_thumbs', ydObj);
+chk('영도 스티커 원본 webp 200', netPhoto.some(([u, st]) => /stk\/yd_thumbs\.webp/.test(u) && st === 200), netPhoto.slice(-3));
+/* 텍스트 스타일도 팩을 따른다 */
+await T(`setTool('text')`); await sleep(300); await panelScroll();
+chk('텍스트 스타일 12', (await ev(`document.querySelectorAll('[data-tile="text.st"] .ph-tile').length`)) === 12);
+await T(`addText('영도 한 줄')`); await sleep(400);
+await click('[data-tile="text.st"] .ph-tile[data-v="label"]'); await sleep(300); s = await S();
+const ydTx = s.objs.find(o => o.t === 'text' && o.tx === '영도 한 줄');
+chk('영도 팩 라벨 텍스트 = 그린 바탕', ydTx && ydTx.bg === '#15A05A' && ydTx.pk === 'yeongdo', ydTx);
+chk('영도 라벨 글자색은 대비로 고른다(≥4.5:1 — 흰 글자면 3.38 로 AA 미달)', !!ydTx && CR(ydTx.col, ydTx.bg) >= 4.5, ydTx && { col: ydTx.col, bg: ydTx.bg, cr: CR(ydTx.col, ydTx.bg) });
+/* 영도 서명(캐릭터 얼굴) */
+await T(`setTool('sig')`); await sleep(300); await panelScroll();
+await T(`addSig('mascot')`); await sleep(900); s = await S();
+const ydSig = s.objs.find(o => o.t === 'sig');
+chk('영도 서명 = 캐릭터 · 글자 «영도»', ydSig && ydSig.pk === 'yeongdo' && ydSig.tx === '영도', ydSig);
+chk('영도 얼굴 yd_face.webp 200', netPhoto.some(([u, st]) => /stk\/yd_face\.webp/.test(u) && st === 200), netPhoto.slice(-3));
+await T(`select(${JSON.stringify(ydSig ? ydSig.id : '')})`);
+await click('#phPb [data-act="delSig"]'); await sleep(200);
+await T(`select(${JSON.stringify(ydTx ? ydTx.id : '')})`); await sleep(200);
+await click('#phPb [data-act="del"]'); await sleep(200);
+await T(`select(${JSON.stringify(ydObj.id)})`); await sleep(200);
+await click('#phPb [data-act="del"]'); await sleep(250);
+await click('#phPks .ph-pk[data-pack="bomding"]'); await sleep(400);
+chk('봄딩으로 되돌리기', (await S()).pref.pack === 'bomding');
+await T(`setTool('text')`); await sleep(300); await panelScroll();
+await T(`addText('봄딩 라벨 대비')`); await sleep(350);
+await click('[data-tile="text.st"] .ph-tile[data-v="label"]'); await sleep(250);
+s = await S(); const bdTx = s.objs.find(o => o.t === 'text' && o.tx === '봄딩 라벨 대비');
+chk('봄딩 라벨은 흰 글자 그대로(4.75:1)', !!bdTx && bdTx.col === '#FFFFFF' && bdTx.bg === '#C93C7C' && CR(bdTx.col, bdTx.bg) >= 4.5, bdTx && { col: bdTx.col, bg: bdTx.bg, cr: CR(bdTx.col, bdTx.bg) });
+await T(`select(${JSON.stringify(bdTx ? bdTx.id : '')})`); await sleep(150);
+await click('#phPb [data-act="del"]'); await sleep(200);
+await T(`setTool('sticker')`); await sleep(250);
+await shot('04b-yeongdo');
+
 /* 도형 · 돋보기 · 번호 */
 await T(`setTool('shape')`); await sleep(300); await panelScroll();
 await click('[data-tile="shape"] .ph-tile[data-v="rect"]');
 let a = await T('d2c(80,480)'), b = await T('d2c(380,680)');
 await drag(a.x, a.y, b.x, b.y); s = await S(); const rc = s.objs[s.objs.length - 1];
-chk('사각형 끌어 그리기 → 300×200 근처', rc.t === 'rect' && Math.abs(rc.w - 300) < 8 && Math.abs(rc.h - 200) < 8, rc);
+chk('사각형 끌어 그리기 → 300×200 근처', rc.t === 'shape' && rc.k === 'rect' && Math.abs(rc.w - 300) < 8 && Math.abs(rc.h - 200) < 8, rc);
 await click('[data-tile="shape"] .ph-tile[data-v="arrow"]');
 a = await T('d2c(500,700)'); b = await T('d2c(760,560)'); await drag(a.x, a.y, b.x, b.y); s = await S(); const arw = s.objs[s.objs.length - 1];
 chk('화살표 → 끝점', arw.t === 'arrow' && Math.abs(arw.x2 - 760) < 6 && Math.abs(arw.y2 - 560) < 6, arw);
@@ -312,6 +375,59 @@ await click('[data-tile="shape"] .ph-tile[data-v="num"]');
 a = await T('d2c(1000,120)'); await clickXY(a.x, a.y); a = await T('d2c(1100,120)'); await clickXY(a.x, a.y); s = await S();
 const nums = s.objs.filter(o => o.t === 'vec' && o.k === 'num').map(o => o.tx);
 chk('번호 → 누를 때마다 1, 2', nums.join(',') === '1,2', nums);
+
+/* 도형 15종 · 손그림 (09-12 사용자 요청 2) */
+chk('도형 타일 15(사각·둥근·원·삼각·별·하트·말풍선·구름·폭탄·물결·선·화살표·형광·돋보기·번호)',
+  (await ev(`[...document.querySelectorAll('[data-tile="shape"] .ph-tile')].map(b=>b.dataset.v).join(',')`)) === 'rect,round,ellipse,tri,star,heart,bubble,thought,burst,wave,line,arrow,hl,lens,num',
+  await ev(`[...document.querySelectorAll('[data-tile="shape"] .ph-tile')].map(b=>b.dataset.v).join(',')`));
+for (const [kind, label] of [['heart', '하트'], ['bubble', '말풍선'], ['thought', '구름 말풍선'], ['star', '별'], ['wave', '물결선'], ['tri', '삼각형'], ['burst', '폭탄 말풍선']]) {
+  const picked = await pickShape(kind);
+  const before = await T('exportRegion(440,140,240,180)');
+  a = await T('d2c(450,150)'); b = await T('d2c(670,310)'); await drag(a.x, a.y, b.x, b.y); await sleep(150);
+  s = await S(); const ob = s.objs[s.objs.length - 1];
+  const after = await T('exportRegion(440,140,240,180)');
+  chk(`${label} 끌어 그리기 → 개체 + 실제로 그려짐`, picked && ob.t === 'shape' && ob.k === kind && (after.mean !== before.mean || after.vari !== before.vari),
+    { picked, k: ob.k, before: [before.mean, before.vari], after: [after.mean, after.vari] });
+  await click('#phPb [data-act="del"]'); await sleep(150);
+}
+await pickShape('ellipse');
+a = await T('d2c(450,150)'); b = await T('d2c(670,310)'); await drag(a.x, a.y, b.x, b.y); await sleep(150);
+s = await S(); const smoothOb = s.objs[s.objs.length - 1];
+const smoothPx = await T('exportRegion(440,140,240,180)');
+await click('[data-chip="shape.hand"] .chip[data-v="on"]'); await sleep(250);
+s = await S(); const handOb = s.objs.find(o => o.id === smoothOb.id);
+const handPx = await T('exportRegion(440,140,240,180)');
+chk('손그림 칩 → 고른 도형이 손그림으로 · 그림이 실제로 달라진다', handOb && handOb.hand === true && (handPx.mean !== smoothPx.mean || handPx.vari !== smoothPx.vari), { hand: handOb && handOb.hand, smooth: [smoothPx.mean, smoothPx.vari], hand2: [handPx.mean, handPx.vari] });
+chk('손그림은 개체마다 고정(다시 그려도 같은 그림)', (await T('exportRegion(440,140,240,180)')).vari === handPx.vari);
+await click('#phPb [data-act="del"]'); await sleep(200);
+await click('[data-chip="shape.hand"] .chip[data-v="off"]'); await sleep(200);
+chk('손그림 끄기(다음에 만들 도형은 매끈)', (await S()).pref.hand === false);
+
+/* 사진 밖에서는 아무것도 만들지 않는다 (09-12 사용자 지적 3) */
+await pickShape('rect');
+const nOut = (await S()).objs.length;
+chk('사진 밖 판정', (await T('inPhoto(600,400)')) === true && (await T('inPhoto(600,-160)')) === false);
+let o1 = await T('d2c(600,-170)'), o2 = await T('d2c(900,-40)');
+await drag(o1.x, o1.y, o2.x, o2.y); await sleep(200);
+chk('사진 위쪽 바깥에서 끌어도 도형이 안 생긴다', (await S()).objs.length === nOut, { n0: nOut, n1: (await S()).objs.length });
+await T(`setTool('text')`); await sleep(250);
+o1 = await T('d2c(600,-170)'); await clickXY(o1.x, o1.y); await sleep(300);
+chk('사진 밖을 눌러도 텍스트가 안 생긴다', (await S()).objs.length === nOut, { n: (await S()).objs.length });
+await T(`setTool('mosaic')`); await sleep(250);
+o1 = await T('d2c(200,-170)'); o2 = await T('d2c(500,-40)'); await drag(o1.x, o1.y, o2.x, o2.y); await sleep(200);
+chk('사진 밖에서 끌어도 모자이크가 안 생긴다', (await S()).objs.length === nOut);
+await T(`setTool('draw')`); await sleep(250);
+o1 = await T('d2c(200,-170)'); o2 = await T('d2c(500,-150)'); await drag(o1.x, o1.y, o2.x, o2.y, 8); await sleep(200);
+chk('사진 밖에서 그어도 획이 안 생긴다', (await S()).objs.length === nOut);
+/* 이미 올린 개체를 밖으로 끌면 가운데는 사진 안에 남는다 */
+await T(`setTool('sticker')`); await sleep(250);
+s = await S(); const mv = s.objs.find(o => o.t === 'stk');
+await T(`select(${JSON.stringify(mv.id)})`); await sleep(200);
+let m1 = await T(`d2c(${mv.x},${mv.y})`), m2 = await T('d2c(600,-300)');
+await drag(m1.x, m1.y, m2.x, m2.y, 10); await sleep(200);
+s = await S(); const mv2 = s.objs.find(o => o.id === mv.id);
+chk('개체를 사진 밖으로 끌어도 가운데는 사진 안', mv2.y >= 0 && mv2.y <= 800 && mv2.x >= 0 && mv2.x <= 1200, mv2);
+await shot('05b-bounds');
 
 /* 그리기 · 지우개 */
 await T(`setTool('draw')`); await sleep(300); await panelScroll();
@@ -351,6 +467,36 @@ chk('레이어 목록 = 개체 수 · 맨 위가 가장 앞', layN === s.objs.le
 const topId = s.objs[s.objs.length - 1].id;
 await click(`#phLays .lb[data-lmove="down"][data-id="${topId}"]`); s = await S();
 chk('레이어 ↓ → 한 칸 뒤로', s.objs[s.objs.length - 2].id === topId);
+/* 레이어 서랍 — 설정이 길어도 늘 보인다 · 숨김 · 접기 (09-12 사용자 지적 4) */
+chk('레이어가 설정 열 바닥에 고정(설정만 스크롤)', await ev(`(()=>{const p=document.getElementById('phPanel'),sc=document.getElementById('phScroll'),ly=document.getElementById('phLaySec');
+  if(!sc||!ly||ly.hidden)return false;
+  const pr=p.getBoundingClientRect(), lr=ly.getBoundingClientRect();
+  return Math.abs(lr.bottom-pr.bottom)<2&&lr.top>pr.top&&p.scrollHeight<=p.clientHeight+1})()`));
+const longTools = ['sig', 'text', 'shape'];
+let alwaysOn = true, seen = [];
+for (const tl of longTools) {
+  await T(`setTool('${tl}')`); await sleep(300);
+  const v = await ev(`(()=>{const p=document.getElementById('phPanel'),ly=document.getElementById('phLaySec');const pr=p.getBoundingClientRect(),lr=ly.getBoundingClientRect();
+    return {vis:lr.height>40&&lr.bottom<=pr.bottom+1&&lr.top>=pr.top, top:Math.round(lr.top-pr.top), h:Math.round(lr.height)}})()`);
+  seen.push([tl, v.top, v.h]); if (!v.vis) alwaysOn = false;
+}
+chk('설정이 긴 도구(서명·텍스트·도형)에서도 레이어가 그대로 보인다', alwaysOn, seen);
+chk('도구를 바꾸면 설정은 맨 위부터', await ev(`document.getElementById('phScroll').scrollTop===0`));
+await T(`setTool('sticker')`); await sleep(300);
+s = await S(); const hideId = s.objs[s.objs.length - 1].id;
+const beforeHide = await T('exportInfo()');
+await click(`#phLays .lb[data-lmove="hide"][data-id="${hideId}"]`); await sleep(300);
+s = await S();
+chk('레이어 눈 → 잠깐 숨김(목록에는 남는다)', (await ev(`document.querySelectorAll('#phLays .ph-lay').length`)) === s.objs.length && (await ev(`!!document.querySelector('#phLays .ph-lay.off')`)));
+const afterHide = await T('exportInfo()');
+chk('숨긴 개체는 내보내기에도 안 나온다', afterHide.size !== beforeHide.size, { before: beforeHide.size, after: afterHide.size });
+await click(`#phLays .lb[data-lmove="hide"][data-id="${hideId}"]`); await sleep(300);
+chk('다시 보이기', !(await ev(`!!document.querySelector('#phLays .ph-lay.off')`)));
+await click('#phLayH'); await sleep(250);
+chk('레이어 접기 → 목록 감춤(머리는 남는다)', await ev(`(()=>{const ly=document.getElementById('phLaySec');return ly.classList.contains('closed')&&getComputedStyle(document.getElementById('phLays')).display==='none'&&document.getElementById('phLayH').offsetHeight>20})()`));
+await click('#phLayH'); await sleep(250);
+chk('다시 펼치기', await ev(`!document.getElementById('phLaySec').classList.contains('closed')`));
+
 const hi0 = (await S()).hist.i;
 await click('#phUndo'); chk('되돌리기 버튼', (await S()).hist.i === hi0 - 1);
 await click('#phRedo'); chk('다시 하기 버튼', (await S()).hist.i === hi0);
@@ -366,11 +512,12 @@ ex = await T('exportInfo()');
 chk('투명 마스크면 JPG 선택이어도 PNG', ex.type === 'image/png', ex);
 await click('#phReset'); await sleep(200);
 await ev(`(()=>{const e=document.getElementById('phFmt');e.value='auto';e.dispatchEvent(new Event('change',{bubbles:true}));return true})()`);
-await send('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: OUT }).catch(() => {});
+const dlSet = await send('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: OUT, eventsEnabled: true });
 await click('#phSave');
 chk('저장 → 토스트(파일명·크기)', await waitFor(`/시험사진_편집_1200\\.png/.test((document.querySelector('.toast.on')||{}).textContent||'')`, 6000), await ev(`(document.querySelector('.toast.on')||{}).textContent`));
-await sleep(800);
-chk('저장 파일 실제로 떨어짐', existsSync(join(OUT, '시험사진_편집_1200.png')));
+let saved = false;
+for (let i = 0; i < 30 && !saved; i++) { saved = existsSync(join(OUT, '시험사진_편집_1200.png')); if (!saved) await sleep(200); }
+chk('저장 파일 실제로 떨어짐', saved, { OUT, dl: dlSet && dlSet.error ? dlSet.error : 'ok', ev: dlEv.join(' | '), ls: readdirSync(OUT).join(',') });
 await click('#phCopy');
 chk('복사 → «클립보드에 복사했어요»', await waitFor(`/클립보드에 복사/.test((document.querySelector('.toast.on')||{}).textContent||'')`, 6000), await ev(`(document.querySelector('.toast.on')||{}).textContent`));
 
@@ -386,12 +533,25 @@ await shot('05-full-1920');
 /* 자동 보관 → 새로고침 → 이어서 편집 · 탭 이탈/복귀 */
 s = await S(); const nObj = s.objs.length;
 await T('flushSave()');
+/* v1 문서 이어받기 — 보관본을 옛 형태(도형이 t:'rect' · 팩 표시 없음)로 바꿔 두고 복원되는지 본다 */
+const v1id = await ev(`(async()=>{
+  const db=await new Promise((res,rej)=>{const r=indexedDB.open('sseudam_photo',1);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});
+  const rec=await new Promise((res,rej)=>{const q=db.transaction('work','readonly').objectStore('work').get('cur');q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error);});
+  if(!rec||!rec.doc)return '';
+  const sh=rec.doc.objs.filter(o=>o.t==='shape')[0]; if(!sh)return '';
+  sh.t = sh.k==='ellipse'?'ellipse':'rect'; sh.rad = sh.k==='round'?0.2:0; delete sh.k; delete sh.pk;
+  rec.doc.objs.forEach(o=>{ delete o.pk; });
+  await new Promise((res,rej)=>{const q=db.transaction('work','readwrite').objectStore('work').put(rec,'cur');q.onsuccess=()=>res();q.onerror=()=>rej(q.error);});
+  return sh.id;
+})()`);
 await open(1920, 1080, false); await gotoPhoto(); await sleep(600);
 chk('새로고침 뒤 «이어서 편집»(이름·시간)', await waitFor(`(()=>{const b=document.getElementById('phResume');return b&&!b.hidden&&getComputedStyle(b).display!=='none'&&/시험사진/.test(b.textContent)})()`, 5000), await ev(`(document.getElementById('phResume')||{}).textContent`));
 await click('#phResume'); await sleep(1000); s = await S();
 chk('이어서 편집 → 사진·개체 복원', s.doc && s.objs.length === nObj && s.odim.w === 1200, { n: s.objs.length, nObj });
 await click('.isl-tab[data-v="home"]'); await sleep(700); await gotoPhoto(); await sleep(400); s = await S();
 chk('탭 이탈/복귀 → 작업 그대로', s.doc && s.objs.length === nObj);
+const v1ob = v1id ? s.objs.find(o => o.id === v1id) : null;
+chk('v1 문서 이어받기 — 옛 도형(t:rect)이 shape 로 옮겨지고 팩 없는 개체도 살아난다', !!v1id && !!v1ob && v1ob.t === 'shape' && !!v1ob.k, { v1id, v1ob });
 chk('콘솔 오류 0(1920)', logs.length === 0, logs.slice(0, 5));
 
 /* ══════════ 1366×768 ══════════ */
@@ -402,6 +562,7 @@ await click('#phResume'); await sleep(900);
 const l2 = await ev(`(()=>{const ph=document.querySelector('.ph').getBoundingClientRect(),core=document.getElementById('tbHost').getBoundingClientRect(),st=document.getElementById('phStage').getBoundingClientRect(),pn=document.getElementById('phPanel').getBoundingClientRect(),act=document.getElementById('phAct').getBoundingClientRect();return{phW:Math.round(ph.width),coreW:Math.round(core.width),stW:Math.round(st.width),pnW:Math.round(pn.width),actH:Math.round(act.height),ovf:document.documentElement.scrollWidth-innerWidth,iw:innerWidth}})()`);
 chk('1366: 작업대 = 판 폭 · 설정 열 320 · 스테이지 ≥ 560 · 넘침 0', l2.phW === l2.coreW && l2.pnW === 320 && l2.stW >= 560 && l2.ovf <= 0 && l2.iw === 1366, l2);
 chk('1366: 내보내기 줄 한 줄(≤ 56px)', l2.actH <= 56, l2);
+chk('1366: 레일 12개가 스크롤 없이 다 보인다', await ev(`(()=>{const r=document.getElementById('phRail');return r.scrollHeight<=r.clientHeight+1&&document.querySelectorAll('.ph-ri').length===12})()`), await ev(`(()=>{const r=document.getElementById('phRail');return [r.scrollHeight,r.clientHeight]})()`));
 await shot('06-1366');
 
 /* ══════════ 390×844 ══════════ */
