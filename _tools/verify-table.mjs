@@ -376,6 +376,49 @@ const hiY = await T('headInk()');
 chk('세 자리(fe5) → #FFEE55 · 머리 글자는 4.5:1 넘는 잉크', (await state()).design.accentHex === '#FFEE55' && hiY.contrast >= 4.5 && hiY.ink !== '#FFFFFF', hiY);
 for (const c of ['pink', 'plum', 'rose']) { await click(`#tblSws .tbl-sw[data-c="${c}"]`); await sleep(150); const hi = await T('headInk()'); chk(`스와치 ${c} → 머리 글자 대비 ≥ 4.5`, (await state()).design.accent === c && hi.contrast >= 4.5, hi); }
 
+/* ── 영도 전용 디자인(스킨 분리 — 색이 아니라 골격) ── */
+const dchips = await ev(`(()=>{const q=[...document.querySelectorAll('#tblDesign .chip')];const on=document.querySelector('#tblDesign .chip.on');return{ids:q.map(b=>b.dataset.v).join(','),on:on&&on.dataset.v,dot:!!document.querySelector('#tblDesign .chip .dot')}})()`);
+chk('디자인 칩 = 봄딩·영도(작성자 점) · 지금은 봄딩', !!dchips && dchips.ids === 'bomding,yeongdo' && dchips.on === 'bomding' && dchips.dot, dchips);
+await click('#tblDesign .chip[data-v="yeongdo"]'); await sleep(450);
+const sy = await state(), ky = await T('skin()'), Ly = await lay();
+chk('영도 전환 → 골격이 데이터시트(상단 바·레일·줄무늬·바닥 왼쪽 스티커·■)', sy.design.design === 'yeongdo' && ky.id === 'yeongdo' && ky.titleMode === 'bar' && ky.rail === 26 && ky.zebra === true && ky.sep === 'none' && ky.sigAt === 'footLeft' && ky.glyph === 'square' && ky.tint === false && ky.tape === false, ky);
+chk('영도 포인트 색 = 그린·민트·틸 + 팔레트 · 로즈에서 그린으로 정정', sy.design.accent === 'green' && (await ev(`[...document.querySelectorAll('#tblSws .tbl-sw')].map(b=>b.dataset.c).join(',')`)) === 'green,mint,teal,custom', { accent: sy.design.accent });
+chk('영도 그림 틀 = 각진·둥근 사각·원 · 폴라로이드는 각진으로 정정', sy.design.shape === 'sharp' && (await ev(`[...document.querySelectorAll('#tblShape .chip')].map(b=>b.dataset.v).join(',')`)) === 'sharp,round,circle', { shape: sy.design.shape });
+chk('영도 서체 = Pretendard(나눔스퀘어 아님 — 티어표와 같은 의도된 예외)', /Pretendard/.test(ky.fam) && !/NanumSquare/.test(ky.fam), ky.fam);
+chk('제목·기준이 상단 풀블리드 바로 · 바닥엔 기준 없음', !!Ly.hd && Ly.hd.bar === true && Ly.hd.y === 6 && Ly.hd.title === '아기 서큘레이터 4종 비교' && /9월 쿠팡가/.test(Ly.hd.note) && Ly.card.y > Ly.hd.y + Ly.hd.h && Ly.ft.note === '', { hd: Ly.hd, cardY: Ly.card.y, ftNote: Ly.ft.note });
+const barPx = await px(300, 20), headPx = await px(Ly.xs[1] + 14, Ly.card.y + 10), rulePx = await px(Ly.xs[1] + 14, Ly.card.y + Ly.card.headH - 2);
+chk('상단 바 = 포인트 색 · 머리 행 = 옅은 면 + 포인트 색 3px 룰', near(barPx, '#15A05A', 18) && near(headPx, '#F3F6F7', 6) && near(rulePx, '#15A05A', 18), { barPx, headPx, rulePx });
+const tintPx = await px(Ly.xs[0] + 40, Ly.rows[0].y + 6), railPx = await px(Ly.x0 + 1, Ly.rows[0].y + 20);
+chk('사진 열 틴트 없음(흰) · 왼쪽 눈금 레일이 포인트 색', near(tintPx, '#FFFFFF', 4) && near(railPx, '#15A05A', 20), { tintPx, railPx });
+const zOdd = await px(Ly.xs[1] + 40, Ly.rows[1].y + 6), zEven = await px(Ly.xs[1] + 40, Ly.rows[2].y + 6);
+chk('줄무늬 = 홀수 행만 옅은 면(점선 없음)', near(zOdd, '#F7FAFA', 4) && near(zEven, '#FFFFFF', 4), { zOdd, zEven });
+chk('영도 머리 글자 대비 ≥ 4.5(잉크 × 옅은 면)', await ev(`(()=>{function L(h){const n=parseInt(h.slice(1),16),c=[n>>16&255,n>>8&255,n&255].map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}const a=L('#0E1114'),b=L('#F3F6F7');return (Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5})()`));
+chk('시그니처 = 영도 파일 · 바닥 왼쪽(바닥 영역 안)', /yeongdo\.webp$/.test((await T('sigSrc()')) || '') && !!Ly.ft.sig && Ly.ft.sig.x === Ly.x0 && Ly.ft.sig.y >= Ly.ft.y - 1, { src: await T('sigSrc()'), sig: Ly.ft.sig });
+chk('영도 기본 서명 = «영도»(봄딩 아님) · 입력칸 안내도 영도', Ly.ft.sign === '영도' && (await ev(`document.getElementById('tblSign').placeholder`)) === '영도', { sign: Ly.ft.sign, ph: await ev(`document.getElementById('tblSign').placeholder`) });
+await T(`edit('cell','${sy.board.rows[1].id}','${sy.board.cols[1].id}')`); await sleep(250);
+chk('줄무늬 행의 칸 편집기 배경 = 그 칸 색', (await ev(`getComputedStyle(document.getElementById('tblEd')).backgroundColor`)) === 'rgb(247, 250, 250)', await ev(`getComputedStyle(document.getElementById('tblEd')).backgroundColor`));
+await T('endEdit()'); await sleep(300);
+chk('영도 선택이 저장에 남음', await ev(`(()=>{try{return JSON.parse(localStorage.getItem('sseudam_table_v1')).design.design==='yeongdo'}catch(e){return false}})()`));
+chk('줄무늬 행 번호 대비 ≥ 4.5(줄무늬 행만 ink2 · 리뷰어 🟡 09-12)', await ev(`(()=>{function L(h){const n=parseInt(h.slice(1),16),c=[n>>16&255,n>>8&255,n&255].map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}function C(x,y){const a=L(x),b=L(y);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05)}return C('#3F4A52','#F7FAFA')>=4.5&&C('#6B7680','#FFFFFF')>=4.5})()`));
+await ev(`(async()=>{window.__ydjs=await window.SseudamTools.table.__test.json();return true})()`);   /* 영도 보드를 JSON 으로 떠 둔다(아래 비클릭 경로 검사용) */
+const duY = await T('dataURL()'); if (typeof duY === 'string') writeFileSync(join(OUT, 'table-export-yeongdo.png'), Buffer.from(duY.split(',')[1], 'base64'));
+await shot('04-table-yeongdo-1920');
+await click('#tblDesign .chip[data-v="bomding"]'); await sleep(450);
+const sb2 = await state(), kb2 = await T('skin()');
+/* ★JSON 불러오기로 디자인이 바뀌는 «비클릭» 경로 — 편집 열이 따라가지 않아 색·틀 클릭이 먹통이던 결함(리뷰어 🔴 09-12) */
+const okYd = await ev(`window.SseudamTools.table.__test.loadJson(window.__ydjs)`);
+await sleep(450);
+const sJ = await state();
+const domJ = await ev(`(()=>({sw:[...document.querySelectorAll('#tblSws .tbl-sw')].map(b=>b.dataset.c).join(','),on:(document.querySelector('#tblSws .tbl-sw.on')||{}).dataset.c,sh:[...document.querySelectorAll('#tblShape .chip')].map(b=>b.dataset.v).join(','),shOn:(document.querySelector('#tblShape .chip.on')||{}).dataset.v,dOn:(document.querySelector('#tblDesign .chip.on')||{}).dataset.v}))()`);
+chk('봄딩 상태에서 영도 JSON 을 열면 편집 열도 영도로(색·틀 재구성 · 클릭 먹통 아님)', okYd === true && sJ.design.design === 'yeongdo' && !!domJ && domJ.sw === 'green,mint,teal,custom' && domJ.on === 'green' && domJ.sh === 'sharp,round,circle' && domJ.shOn === 'sharp' && domJ.dOn === 'yeongdo', domJ);
+await click('#tblSws .tbl-sw[data-c="mint"]'); await sleep(250);
+chk('그 상태에서 색 스와치 클릭이 먹힌다', (await state()).design.accent === 'mint' && (await T('skin()')).accent.toUpperCase() === '#14B8A6', { accent: (await state()).design.accent });
+await click('#tblDesign .chip[data-v="bomding"]'); await sleep(400);
+const sb3 = await state();
+chk('다시 봄딩 → 색·틀이 봄딩 목록으로', sb3.design.design === 'bomding' && sb3.design.accent === 'rose' && (await ev(`[...document.querySelectorAll('#tblSws .tbl-sw')].map(b=>b.dataset.c).join(',')`)) === 'rose,pink,plum,custom', sb3.design);
+const Lb2 = await lay();
+chk('봄딩 복귀 → 색·틀·골격·서명이 봄딩 기본 · 기준은 다시 바닥으로', sb2.design.design === 'bomding' && sb2.design.accent === 'rose' && sb2.design.shape === 'polaroid' && kb2.titleMode === 'tag' && kb2.tape === true && Lb2.hd.bar === false && /9월 쿠팡가/.test(Lb2.ft.note) && Lb2.ft.sign === '봄딩', { d: sb2.design, hd: Lb2.hd, ftNote: Lb2.ft.note, sign: Lb2.ft.sign });
+
 /* 내보내기 */
 const Lx = await lay();
 const dims = await ev(`new Promise(r=>{const i=new Image();i.onload=()=>r([i.naturalWidth,i.naturalHeight]);i.src=window.SseudamTools.table.__test.dataURL()})`);

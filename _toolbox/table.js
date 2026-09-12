@@ -17,19 +17,53 @@ if(window.SseudamTools.table)return;
 
 var W=693, EXPORT_SCALE=2, DPR=2, LS='sseudam_table_v1', PHONE=.52;
 var BASE=(function(){ var s=document.currentScript, u=(s&&s.src)||'_toolbox/table.js'; return u.replace(/\?.*$/,'').replace(/[^\/]*$/,''); })();
-var SIG_SRC=BASE+'tier/sig/bomding.webp';   /* 봄딩 시그니처 스티커 — 티어표와 같은 파일(브랜드 한 벌) */
+var SIG_BASE=BASE+'tier/sig/';   /* 작성자 시그니처 스티커 — 티어표와 같은 파일을 함께 쓴다(브랜드 한 벌) */
 var NANUM_CSS=BASE.replace(/_toolbox\/$/,'')+'_design/nanumsquare.css';
 var MAX_COLS=6, MIN_COLS=2, MAX_ROWS=30, IMG_MAX=720, FS_MIN=14, FS_MAX=24, FS_DEF=19, LONG_H=2200;
 var LIM={title:30,note:40,sign:12,head:20,label:24,cell:100};
 var MAXL={head:2,label:3,cell:6};
-/* 봄딩 정본 값 — 티어표 DESIGNS.bomding 과 같은 출처(썸네일 표준 v1 플럼·로즈·핑크 · 나눔스퀘어 = output-format §2-0) */
-var D={ fam:'"NanumSquare","나눔스퀘어","Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif',
-  accent:'#C93C7C', sw:[{id:'rose',c:'#C93C7C',n:'로즈'},{id:'pink',c:'#F58AB4',n:'핑크'},{id:'plum',c:'#2E2038',n:'플럼'}],
-  ink:'#2E2038', inkDeep:'#17101E', ink2:'#5E5068', ink3:'#8C8194', paper:'#FFFBFC', edge:'#F4E6EC',
-  hair:'rgba(46,32,56,.08)', hair2:'rgba(46,32,56,.16)', hair3:'rgba(46,32,56,.30)', grid:'rgba(201,60,124,.055)', rule:'#F58AB4', tape:'rgba(245,138,180,.55)' };
+/* 작성자 정본 값 — 티어표 DESIGNS 와 같은 출처(봄딩: 썸네일 표준 v1 플럼·로즈·핑크 + 나눔스퀘어 output-format §2-0 /
+   영도: output-format §1-4 그린·민트 + 사이트 정체성색 틸 · 서체는 티어표와 같은 의도된 예외 Pretendard — 맑은 고딕 Bold 는 이미지에 구우면 거칠다) */
+var DESIGNS={
+  bomding:{ id:'bomding', n:'봄딩', dot:'#C93C7C',
+    fam:'"NanumSquare","나눔스퀘어","Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif',
+    accent:'#C93C7C', sw:[{id:'rose',c:'#C93C7C',n:'로즈'},{id:'pink',c:'#F58AB4',n:'핑크'},{id:'plum',c:'#2E2038',n:'플럼'}],
+    ink:'#2E2038', inkDeep:'#17101E', ink2:'#5E5068', ink3:'#8C8194', paper:'#FFFBFC', edge:'#F4E6EC',
+    hair:'rgba(46,32,56,.08)', hair2:'rgba(46,32,56,.16)', hair3:'rgba(46,32,56,.30)', grid:'rgba(201,60,124,.055)',
+    rule:'#F58AB4', tape:'rgba(245,138,180,.55)', slot:'#F8F1F4', zebra:'' },
+  yeongdo:{ id:'yeongdo', n:'영도', dot:'#0F7C86',
+    fam:'"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif',
+    accent:'#15A05A', sw:[{id:'green',c:'#15A05A',n:'그린'},{id:'mint',c:'#14B8A6',n:'민트'},{id:'teal',c:'#0F7C86',n:'틸'}],
+    ink:'#0E1114', inkDeep:'#000000', ink2:'#3F4A52', ink3:'#6B7680', paper:'#FFFFFF', edge:'#E4ECEE',
+    hair:'rgba(14,17,20,.08)', hair2:'rgba(14,17,20,.13)', hair3:'rgba(14,17,20,.22)', grid:'',
+    rule:'#14B8A6', tape:'', slot:'#F3F6F7', zebra:'#F7FAFA' }
+};
+/* ★스킨 = 작성자별 «골격». 티어표 09-08 교훈(«색만 다르면 같은 곳에서 찍어낸 것처럼 보인다») 그대로 —
+   제목 자리·머리 행·사진 열·행 구분·바닥·서명 글리프까지 가른다. layout()·draw() 는 이 표만 보고 갈라지고,
+   head[]·rows[].{box,img,lab,cells} 계약은 공용이라 칸 편집·끌어 놓기·검사·내보내기는 그대로 돈다.
+     봄딩 「스크랩북」 = 모눈 + 워시테이프 종이 태그 + 포인트 색 머리 띠 + 사진 열 틴트 + 폴라로이드 + 점선 + ♥ + 스티커 오른쪽 아래
+     영도 「데이터시트」 = 흰 바탕 + 상단 풀블리드 바(제목·기준) + 옅은 머리 + 포인트 색 룰 + 눈금 레일(행 번호) + 줄무늬 + ■ + 스티커 왼쪽 아래 */
+var SKINS={
+  bomding:{ titleMode:'tag', noteAt:'foot', hdTop:22, hdH:60, hdGap:22, topPad:24, padX:20, rTray:22, rCard:14,
+            grid:true, tape:true, headFill:'accent', tint:true, rail:0, rowNo:false, zebra:false, sep:'dash',
+            polaroid:true, shapes:['polaroid','round','circle'], defShape:'polaroid',
+            ftH:48, sigAt:'footRight', sigRot:6, glyph:'heart', footLabel:'' },
+  yeongdo:{ titleMode:'bar', noteAt:'bar', hdTop:0, hdH:52, hdGap:16, topPad:16, padX:16, rTray:12, rCard:8,
+            grid:false, tape:false, headFill:'soft', tint:false, rail:26, rowNo:true, zebra:true, sep:'none',
+            polaroid:false, shapes:['sharp','round','circle'], defShape:'sharp',
+            ftH:0, sigAt:'footLeft', sigRot:0, glyph:'square', footLabel:'DATA SHEET' }
+};
+var D=DESIGNS.bomding, SK=SKINS.bomding;
+/* 디자인이 바뀌면 색·틀도 그 디자인 것으로 — 상대 디자인에만 있는 값(로즈·폴라로이드)이 남으면 화면과 저장이 어긋난다 */
+function applyDesign(){
+  D=DESIGNS[ST.design]||DESIGNS.bomding; SK=SKINS[ST.design]||SKINS.bomding;
+  if(ST.accent!=='custom'&&!byId(D.sw,ST.accent))ST.accent=D.sw[0].id;
+  if(SK.shapes.indexOf(ST.shape)<0)ST.shape=SK.defShape;
+}
 var SIZES=[{id:'s',n:'작게',img:68},{id:'m',n:'보통',img:92},{id:'l',n:'크게',img:120}];
 var FITS=[{id:'cover',n:'채우기'},{id:'contain',n:'맞추기'}];
-var SHAPES=[{id:'polaroid',n:'폴라로이드'},{id:'round',n:'둥근 사각'},{id:'circle',n:'원'}];
+var SHAPES=[{id:'polaroid',n:'폴라로이드'},{id:'round',n:'둥근 사각'},{id:'circle',n:'원'},{id:'sharp',n:'각진'}];
+function shapesFor(){ return SK.shapes.map(function(id){ return byId(SHAPES,id); }); }   /* 틀 칩은 디자인마다 다르다 — 폴라로이드는 봄딩, 각진은 영도 */
 var WIDTHS=[{id:'s',n:'좁게',k:.65},{id:'n',n:'보통',k:1},{id:'w',n:'넓게',k:1.6}];
 function byId(list,id){ for(var i=0;i<list.length;i++)if(list[i].id===id)return list[i]; return null; }
 
@@ -38,7 +72,7 @@ var UID=0;
 function uid(p){ return p+(++UID); }
 function mkCol(name,w){ return {id:uid('c'),name:name||'',w:w||'n'}; }
 function mkRow(label){ return {id:uid('r'),label:label||'',cells:{}}; }
-var ST={ title:'', note:'', sign:'', accent:'rose', accentHex:'#C93C7C', size:'m', fit:'cover', shape:'polaroid', fs:FS_DEF, cols:[], rows:[] };
+var ST={ design:'bomding', title:'', note:'', sign:'', accent:'rose', accentHex:'#C93C7C', size:'m', fit:'cover', shape:'polaroid', fs:FS_DEF, cols:[], rows:[] };
 var IMG={};   /* 행 id → {img,w,h,url,blob} */
 function str(v,max){ return typeof v==='string'?v.slice(0,max):''; }
 function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
@@ -69,11 +103,12 @@ function restoreData(sv,withDesign,remap){
   ST.cols=cols; ST.rows=rows;
   if(withDesign&&sv.design&&typeof sv.design==='object'){
     var d=sv.design;
+    if(DESIGNS[d.design]){ ST.design=d.design; applyDesign(); }   /* 디자인 먼저 — 색·틀 검사가 그 디자인 목록을 봐야 한다 */
     if(d.accent==='custom'||byId(D.sw,d.accent))ST.accent=d.accent;
     if(/^#[0-9a-f]{6}$/i.test(d.accentHex||''))ST.accentHex=d.accentHex.toUpperCase();
     if(byId(SIZES,d.size))ST.size=d.size;
     if(byId(FITS,d.fit))ST.fit=d.fit;
-    if(byId(SHAPES,d.shape))ST.shape=d.shape;
+    if(SK.shapes.indexOf(d.shape)>=0)ST.shape=d.shape;
     if(typeof d.fs==='number'&&d.fs>=FS_MIN&&d.fs<=FS_MAX)ST.fs=Math.round(d.fs*2)/2;
   }
   return rmap;
@@ -83,9 +118,10 @@ function data(){
     board:{title:ST.title,note:ST.note,sign:ST.sign,
       cols:ST.cols.map(function(c){ return {id:c.id,name:c.name,w:c.w}; }),
       rows:ST.rows.map(function(r){ var cs={}; ST.cols.forEach(function(c,ci){ if(ci&&r.cells[c.id])cs[c.id]=r.cells[c.id]; }); return {id:r.id,label:r.label,cells:cs}; })},
-    design:{accent:ST.accent,accentHex:ST.accentHex,size:ST.size,fit:ST.fit,shape:ST.shape,fs:ST.fs}};
+    design:{design:ST.design,accent:ST.accent,accentHex:ST.accentHex,size:ST.size,fit:ST.fit,shape:ST.shape,fs:ST.fs}};
 }
 try{ var sv0=JSON.parse(localStorage.getItem(LS)||'null'); if(!(sv0&&sv0.app==='sseudam-table'&&sv0.v===1&&restoreData(sv0,true,false)))defaultBoard(); }catch(e){ defaultBoard(); }
+applyDesign();
 var saveT=0;
 function save(){ clearTimeout(saveT); saveT=setTimeout(function(){ try{ localStorage.setItem(LS,JSON.stringify(data())); }catch(e){} },250); }
 function snapshot(){ return JSON.stringify(data()); }
@@ -117,7 +153,7 @@ function idbAll(){
 }
 
 /* ── 부품 ── */
-var api=null, root=null, main=null, mctx=null, raf=0, mounted=false, LAY=null, cur=null, hover=null, drop=null, ED=null, T={}, SIG=null, imgBoot=null, ro=null, onPaste=null;
+var api=null, root=null, main=null, mctx=null, raf=0, mounted=false, LAY=null, cur=null, hover=null, drop=null, ED=null, T={}, SIGS={}, imgBoot=null, ro=null, onPaste=null, LASTD=null;
 function $(id){ return root?root.querySelector('#'+id):null; }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 var IC={
@@ -153,13 +189,15 @@ function blendOn(hex,a,base){ var c=hexRGB(hex), b=hexRGB(base||'#FFFFFF'); func
 /* 머리 띠 글자색 — 흰색 → 잉크 → 진한 잉크 → 검정 중 4.5:1 을 넘는 첫 후보(티어표 plaqueText 와 같은 규칙 · 흰·검정 중 하나는 늘 넘는다) */
 function onInk(fill){ var c=['#FFFFFF',D.ink,D.inkDeep,'#000000'], best=c[0], bc=0; for(var i=0;i<c.length;i++){ var v=contrast(fill,c[i]); if(v>=4.5)return c[i]; if(v>bc){ bc=v; best=c[i]; } } return best; }
 function accentHex(){ if(ST.accent==='custom')return ST.accentHex; var s=byId(D.sw,ST.accent); return s?s.c:D.accent; }
-function signText(){ return (ST.sign||'').trim()||'봄딩'; }
+function signText(){ return (ST.sign||'').trim()||D.n; }   /* 기본 서명 = 그 디자인의 작성자 — 영도 표에 «봄딩»이 찍혔다(시각 점검 09-12) */
 function safeName(s){ return String(s||'').replace(/[\\\/:*?"<>|]/g,'').replace(/\s+/g,'_').slice(0,40); }
 function fileName(){ var t=safeName(ST.title); return (t||'봄딩')+'_표.png'; }
 function fileBase(f){ return String(f&&f.name||'').replace(/\.[a-z0-9]+$/i,'').replace(/[_\-]+/g,' ').trim().slice(0,LIM.label); }
 
 /* ── 글자 ── */
-function F(w,px){ return w+' '+px+'px '+D.fam; }
+var MONO='"JetBrains Mono",ui-monospace,Consolas,monospace';   /* 영도 데이터시트의 숫자·영문 라벨(행 번호·기준·DATA SHEET) */
+function F(w,px,fam){ return w+' '+px+'px '+(fam||D.fam); }
+function rgba(hex,a){ var c=hexRGB(hex); return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')'; }
 function rrect(ctx,x,y,w,h,r){ r=Math.max(0,Math.min(r,w/2,h/2)); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 function ellFit(ctx,s,maxW){ if(ctx.measureText(s).width<=maxW)return s; var a=Array.from(s); while(a.length>1){ a.pop(); var t=a.join('').replace(/\s+$/,'')+'…'; if(ctx.measureText(t).width<=maxW)return t; } return '…'; }
 /* 한 문단 줄바꿈 — 어절 단위(keep-all), 한 어절이 폭보다 길면 글자 단위 */
@@ -219,15 +257,16 @@ var CSS=
 '.tbl-chk li .ic{width:13px;height:13px;flex:none;color:var(--ink-3)}'+
 '.tbl-chk li.bad{color:var(--alert)}.tbl-chk li.bad .ic{color:var(--alert)}'+
 '.tbl-chk li b{font-weight:600;color:inherit}'+
-'.tbl-sec{padding:12px 0 14px;border-top:1px solid var(--hair)}.tbl-sec:first-child{border-top:0}'+
-'.tbl-st{font-size:13.5px;font-weight:700;letter-spacing:-.025em;margin-bottom:10px;display:flex;align-items:center;gap:8px}'+
+'.tbl-sec{padding:10px 0 12px;border-top:1px solid var(--hair)}.tbl-sec:first-child{border-top:0}'+
+'.tbl-st{font-size:13.5px;font-weight:700;letter-spacing:-.025em;margin-bottom:8px;display:flex;align-items:center;gap:8px}'+
 '.tbl-st .d{font-size:12.5px;font-weight:500;color:var(--ink-3)}'+
-'.tbl-lbl{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:12.5px;font-weight:600;color:var(--ink-2);margin:12px 0 6px}'+
+'.tbl-lbl{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:12.5px;font-weight:600;color:var(--ink-2);margin:10px 0 5px}'+   /* 디자인 칩 줄이 생긴 만큼 회수 — 열 6개(최대)에서도 «행» 머리가 1080 첫 화면에(게이트 09-12) */
 '.tbl-lbl.first{margin-top:0}'+
 '.tbl-lbl .o{font-weight:500;color:var(--ink-3)}'+
 '.tbl-cnt{font-size:12.5px;font-weight:500;color:var(--ink-3)}'+
 '.tbl-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 10px}'+
 '.tbl-chips{display:flex;flex-wrap:wrap;gap:6px}'+
+'.tbl-chips .chip .dot{width:8px;height:8px}'+
 '.tbl-grp{display:inline-flex;flex-wrap:wrap;gap:6px}'+   /* 한 줄에 두 무리(그림 크기 · 맞춤) */
 '.tbl-sep{width:1px;align-self:stretch;margin:5px 3px;background:var(--hair-2)}'+
 /* 글자 크기 — 썸네일 도구와 같은 «슬라이더 + 숫자» 한 쌍(09-06 사용자: 바로만 조정하면 세밀 조정이 힘들다) */
@@ -300,23 +339,26 @@ var M={tray:6,rTray:22,padX:20,topPad:24,hdTop:22,hdH:60,hdGap:22,rCard:14,headM
        ftGap:12,ftH:48,padB:10,sigH:96,sigR:6,sigRot:6,grid:22};
 var CELL_W='700';   /* 글 칸 굵기 — 폰(×0.52)에서 획이 흐려지지 않게 */
 function imgPx(){ return (byId(SIZES,ST.size)||SIZES[1]).img; }
-function frame(){ return ST.shape==='polaroid'?{l:5,t:5,r:5,b:15}:{l:0,t:0,r:0,b:0}; }
-function col0W(){ var f=frame(); return Math.max(120,imgPx()+f.l+f.r+2*M.c0PadX+14); }   /* 최소 120 — «작게»에서 이름칸이 82px 라 «브라이트시커» 같은 한 어절이 글자 중간에서 끊겼다(시각 점검 09-12) */
+function frame(){ return (SK.polaroid&&ST.shape==='polaroid')?{l:5,t:5,r:5,b:15}:{l:0,t:0,r:0,b:0}; }
+function col0W(){ var f=frame(); return SK.rail+Math.max(120,imgPx()+f.l+f.r+2*M.c0PadX+14); }   /* 최소 120 — «작게»에서 이름칸이 82px 라 «브라이트시커» 같은 한 어절이 글자 중간에서 끊겼다(시각 점검 09-12) · 영도는 눈금 레일만큼 더 */
 function colWidths(innerW){
   var c0=col0W(), rest=innerW-c0, ks=ST.cols.slice(1).map(function(c){ return (byId(WIDTHS,c.w)||WIDTHS[1]).k; }), sum=ks.reduce(function(a,b){ return a+b; },0)||1, ws=[c0], used=c0;
   ks.forEach(function(k,i){ var w=i===ks.length-1?innerW-used:Math.floor(rest*k/sum); ws.push(w); used+=w; });
   return ws;
 }
 function isEd(kind,rid,cid){ return !!ED&&ED.kind===kind&&(ED.rid||null)===(rid||null)&&(ED.cid||null)===(cid||null); }
-function sigImg(){ return (SIG&&SIG.complete&&SIG.naturalWidth)?SIG:null; }
+function sigImg(){ var s=SIGS[ST.design]; return (s&&s.complete&&s.naturalWidth)?s:null; }   /* 디자인마다 다른 스티커 — 봄딩 클립보드+윙크 / 영도 팔짱+설명 */
 function setFont(ctx,w,px){ ctx.font=F(w,px); ctx.letterSpacing=(-px*.02)+'px'; }
 function fitFs(ctx,s,maxW,fs,min,w){ for(;fs>min;fs-=1){ ctx.font=F(w,fs); ctx.letterSpacing=(-fs*.025)+'px'; if(ctx.measureText(s).width<=maxW)break; } ctx.font=F(w,fs); ctx.letterSpacing=(-fs*.025)+'px'; return fs; }
 
 /* 배치 — 먼저 재고(layout) 나중에 그린다(draw). 화면·내보내기가 같은 함수를 쓴다 */
 function layout(ctx){
   var fs=ST.fs, lh=Math.round(fs*1.36), hlh=Math.round(fs*1.28), cut=0;
-  var x0=M.tray+M.padX, innerW=W-2*x0, y=M.tray, title=(ST.title||'').trim(), hd=null;
-  if(title){ y+=M.hdTop; hd={y:y,h:M.hdH,title:title}; y+=M.hdH+M.hdGap; } else y+=M.topPad;
+  var x0=M.tray+SK.padX, innerW=W-2*x0, y=M.tray, title=(ST.title||'').trim(), note=(ST.note||'').trim(), hd=null;
+  /* 제목 자리 = 스킨 — 봄딩은 가운데 종이 태그(비우면 없음) · 영도는 상단 풀블리드 바(제목이나 기준 중 하나만 있어도 그린다) */
+  if(SK.titleMode==='tag'){ if(title){ y+=SK.hdTop; hd={y:y,h:SK.hdH,title:title,bar:false,note:''}; y+=SK.hdH+SK.hdGap; } else y+=SK.topPad; }
+  else if(title||(SK.noteAt==='bar'&&note)){ hd={y:y,h:SK.hdH,title:title,bar:true,note:SK.noteAt==='bar'?note:''}; y+=SK.hdH+SK.hdGap; }
+  else y+=SK.topPad;
   var ws=colWidths(innerW), xs=[], ax=x0; ws.forEach(function(w){ xs.push(ax); ax+=w; });
   var cardY=y;
   setFont(ctx,'800',fs);
@@ -327,7 +369,7 @@ function layout(ctx){
   var headH=Math.max(M.headMin,Math.max.apply(null,head.map(function(h){ return h.lines.length; }))*hlh+2*M.headPadY);
   head.forEach(function(h){ h.y=y; h.h=headH; });
   y+=headH;
-  var im=imgPx(), fr=frame(), boxW=im+fr.l+fr.r, boxH=im+fr.t+fr.b, lw=ws[0]-2*M.c0PadX;
+  var im=imgPx(), fr=frame(), boxW=im+fr.l+fr.r, boxH=im+fr.t+fr.b, c0x=xs[0]+SK.rail, c0w=ws[0]-SK.rail, lw=c0w-2*M.c0PadX;
   /* 사진 열 이름 — 한 어절이 칸보다 길어 글자 중간에서 끊길 것 같으면 모든 행 이름을 같은 비율로 줄인다(최소 80% · 행마다 크기가 달라지지 않게 표 단위) */
   setFont(ctx,'800',fs);
   var labFs=fs;
@@ -346,41 +388,62 @@ function layout(ctx){
     var txtH=Math.max.apply(null,cells.map(function(c){ return c.lines.length*lh; }).concat([0]));
     var contentH=Math.max(c0H,txtH), rowH=contentH+2*M.padY, by=y+M.padY+Math.round((contentH-c0H)/2);
     var o={rid:r.id,ri:ri,y:y,h:rowH,cells:cells,labLines:lwr.lines,labEmpty:!(r.label||'').trim()};
-    o.box={x:xs[0]+Math.round((ws[0]-boxW)/2),y:by,w:boxW,h:boxH};
+    o.box={x:c0x+Math.round((c0w-boxW)/2),y:by,w:boxW,h:boxH};
     o.img={x:o.box.x+fr.l,y:by+fr.t,w:im,h:im};
-    o.lab={x:xs[0]+M.c0PadX,y:by+boxH+M.labelGap,w:lw,h:labH};
+    o.lab={x:c0x+M.c0PadX,y:by+boxH+M.labelGap,w:lw,h:labH};
     cells.forEach(function(c){ var th=Math.max(1,c.lines.length)*lh; c.y=y; c.h=rowH; c.th=th; c.ty=y+Math.round((rowH-th)/2); });
     y+=rowH;
     return o;
   });
   var card={x:x0,y:cardY,w:innerW,h:y-cardY,headH:headH};
   /* 시그니처 스티커 = 오른쪽 아래, 카드 모서리에 걸쳐 붙인다. 걸친 자리 밑 글자가 가려질 것 같으면 마지막 행 아래를 그만큼 늘린다(글자는 그대로) */
-  var sg=sigImg(), sigW=sg?Math.round(M.sigH*sg.naturalWidth/sg.naturalHeight):0;
-  if(sg&&rows.length){
-    var last=rows[rows.length-1], sx=W-M.tray-M.sigR-sigW, stTop=card.y+card.h+M.ftGap+M.ftH+M.padB-4-M.sigH, need=0;
+  var sg=sigImg(), sigW=sg?Math.round(M.sigH*sg.naturalWidth/sg.naturalHeight):0, right=SK.sigAt==='footRight';
+  if(sg&&right&&rows.length){
+    var last=rows[rows.length-1], sx=W-M.tray-M.sigR-sigW, stTop=card.y+card.h+M.ftGap+SK.ftH+M.padB-4-M.sigH, need=0;
     last.cells.forEach(function(c){ if(c.empty||c.x+c.w<sx)return; var b=c.ty+c.th+8; if(b>stTop)need=Math.max(need,b-stTop); });
     if(need){ last.h+=need; card.h+=need; last.cells.forEach(function(c){ c.h+=need; }); }
   }
-  var ftY=card.y+card.h+M.ftGap, H=Math.round(ftY+M.ftH+M.padB+M.tray), sig=null;
-  if(sg)sig={img:sg,x:W-M.tray-M.sigR-sigW,y:H-M.tray-4-M.sigH,w:sigW,h:M.sigH,rot:M.sigRot};
-  var ft={y:ftY,h:M.ftH,base:ftY+Math.round(M.ftH/2)+2,note:(ST.note||'').trim(),sign:signText(),signR:sig?sig.x-10:x0+innerW,sig:sig};
+  /* 봄딩 = 스티커가 카드 모서리에 걸치므로 바닥이 낮다 · 영도 = 스티커가 바닥 «안» 왼쪽이라 그만큼 바닥을 키운다(겹침 0) */
+  var ftH=right?SK.ftH:(sg?M.sigH+10:40);
+  var ftY=card.y+card.h+M.ftGap, H=Math.round(ftY+ftH+M.padB+M.tray), sig=null;
+  if(sg)sig=right?{img:sg,x:W-M.tray-M.sigR-sigW,y:H-M.tray-4-M.sigH,w:sigW,h:M.sigH,rot:SK.sigRot}
+                 :{img:sg,x:x0,y:H-M.tray-4-M.sigH,w:sigW,h:M.sigH,rot:0};
+  var ft={y:ftY,h:ftH,base:ftY+Math.round(ftH/2)+2,note:SK.noteAt==='foot'?note:'',sign:signText(),
+          signR:(right&&sig)?sig.x-10:x0+innerW,sigLeftW:(!right&&sig)?sig.w+12:0,sig:sig};
   return {H:H,fs:fs,lh:lh,hlh:hlh,labFs:labFs,llh:llh,x0:x0,innerW:innerW,ws:ws,xs:xs,hd:hd,head:head,rows:rows,card:card,ft:ft,cut:cut};
 }
 
 /* ── 그리기 ── */
 function drawPaper(ctx,L){
-  ctx.fillStyle=D.edge; rrect(ctx,0,0,W,L.H,M.rTray); ctx.fill();
-  ctx.fillStyle=D.paper; rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,M.rTray-M.tray); ctx.fill();
-  ctx.save(); rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,M.rTray-M.tray); ctx.clip();
+  ctx.fillStyle=D.edge; rrect(ctx,0,0,W,L.H,SK.rTray); ctx.fill();
+  ctx.fillStyle=D.paper; rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,SK.rTray-M.tray); ctx.fill();
+  if(!SK.grid||!D.grid)return;   /* 모눈은 봄딩 스크랩북만 — 영도 데이터시트는 흰 바탕 */
+  ctx.save(); rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,SK.rTray-M.tray); ctx.clip();
   ctx.strokeStyle=D.grid; ctx.lineWidth=1;
   for(var gx=M.tray;gx<W;gx+=M.grid){ ctx.beginPath(); ctx.moveTo(gx+.5,M.tray); ctx.lineTo(gx+.5,L.H-M.tray); ctx.stroke(); }
   for(var gy=M.tray;gy<L.H;gy+=M.grid){ ctx.beginPath(); ctx.moveTo(M.tray,gy+.5); ctx.lineTo(W-M.tray,gy+.5); ctx.stroke(); }
   ctx.restore();
 }
 function tape(ctx,cx,cy,rot,w){ ctx.save(); ctx.translate(cx,cy); ctx.rotate(rot*Math.PI/180); ctx.fillStyle=D.tape; ctx.fillRect(-w/2,-9,w,18); ctx.fillStyle='rgba(255,255,255,.35)'; ctx.fillRect(-w/2,-9,w,4); ctx.restore(); }
-/* 제목 = 워시테이프로 붙인 기울어진 종이 태그(티어표 봄딩 스크랩북과 같은 모티프) */
+/* 제목 — 봄딩 = 워시테이프로 붙인 기울어진 종이 태그 · 영도 = 상단 풀블리드 바(제목 왼쪽 + 기준 오른쪽 모노, 포인트 색 룰) */
 function drawTitle(ctx,L){
-  var hd=L.hd, tagW=Math.min(L.innerW-120,440), tagX=(W-tagW)/2, tagY=hd.y, tagH=hd.h-4;
+  var hd=L.hd;
+  if(hd.bar){
+    var acc=accentHex(), bink=onInk(acc), bx=M.tray, bw=W-2*M.tray;
+    ctx.save(); rrect(ctx,M.tray,M.tray,W-2*M.tray,L.H-2*M.tray,SK.rTray-M.tray); ctx.clip();
+    ctx.fillStyle=acc; ctx.fillRect(bx,hd.y,bw,hd.h);
+    ctx.fillStyle=D.rule; ctx.fillRect(bx,hd.y+hd.h-3,bw,3);
+    ctx.restore();
+    ctx.textBaseline='middle'; ctx.fillStyle=bink;
+    var titW=0, cy=hd.y+(hd.h-3)/2;
+    if(hd.title){ fitFs(ctx,hd.title,L.innerW*.62,23,15,'800'); ctx.textAlign='left'; ctx.fillText(hd.title,L.x0,cy); titW=ctx.measureText(hd.title).width; }
+    /* 기준 문구는 제목이 쓰고 남은 폭을 전부 쓴다(티어표 영도와 같은 규칙 — 고정 비율이면 짧은 제목에서도 잘렸다) */
+    if(hd.note){ ctx.font=F('600',12.5,MONO); ctx.letterSpacing='0px'; ctx.globalAlpha=.92; ctx.textAlign='right';
+      ctx.fillText(ellFit(ctx,hd.note,Math.max(80,L.innerW-titW-24)),L.x0+L.innerW,cy); ctx.globalAlpha=1; }
+    ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    return;
+  }
+  var tagW=Math.min(L.innerW-120,440), tagX=(W-tagW)/2, tagY=hd.y, tagH=hd.h-4;
   ctx.save(); ctx.translate(tagX+tagW/2,tagY+tagH/2); ctx.rotate(-1.1*Math.PI/180); ctx.translate(-(tagX+tagW/2),-(tagY+tagH/2));
   ctx.save(); ctx.shadowColor='rgba(46,32,56,.14)'; ctx.shadowBlur=10; ctx.shadowOffsetY=3; ctx.fillStyle='#FFFFFF'; rrect(ctx,tagX,tagY,tagW,tagH,6); ctx.fill(); ctx.restore();
   var tfs=fitFs(ctx,hd.title,tagW-44,25,15,'800');
@@ -393,11 +456,11 @@ function drawTitle(ctx,L){
 function dashUnder(ctx,cx,y,w,color){ ctx.save(); ctx.strokeStyle=color; ctx.globalAlpha=.55; ctx.lineWidth=1.2; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(cx-w/2,y+.5); ctx.lineTo(cx+w/2,y+.5); ctx.stroke(); ctx.restore(); }
 function imgPath(ctx,g){ if(ST.shape==='circle'){ ctx.beginPath(); ctx.arc(g.x+g.w/2,g.y+g.h/2,g.w/2,0,Math.PI*2); ctx.closePath(); } else rrect(ctx,g.x,g.y,g.w,g.h,ST.shape==='round'?Math.round(g.w*.18):2); }
 function drawImage(ctx,r,im){
-  var b=r.box, g=r.img, rot=ST.shape==='polaroid'?(r.ri%2?1.4:-1.4):0;
+  var b=r.box, g=r.img, pol=SK.polaroid&&ST.shape==='polaroid', rot=pol?(r.ri%2?1.4:-1.4):0;
   ctx.save();
   if(rot){ ctx.translate(b.x+b.w/2,b.y+b.h/2); ctx.rotate(rot*Math.PI/180); ctx.translate(-(b.x+b.w/2),-(b.y+b.h/2)); }
-  ctx.save(); ctx.shadowColor='rgba(46,32,56,.2)'; ctx.shadowBlur=8; ctx.shadowOffsetY=2; ctx.fillStyle='#FFFFFF';
-  if(ST.shape==='polaroid')rrect(ctx,b.x,b.y,b.w,b.h,3); else imgPath(ctx,g);
+  ctx.save(); ctx.shadowColor=pol?'rgba(46,32,56,.2)':'rgba(14,17,20,.10)'; ctx.shadowBlur=pol?8:5; ctx.shadowOffsetY=pol?2:1; ctx.fillStyle='#FFFFFF';
+  if(pol)rrect(ctx,b.x,b.y,b.w,b.h,3); else imgPath(ctx,g);
   ctx.fill(); ctx.restore();
   ctx.save(); imgPath(ctx,g); ctx.clip(); ctx.fillStyle='#FFFFFF'; ctx.fillRect(g.x,g.y,g.w,g.h);
   var contain=ST.fit==='contain', k=contain?Math.min(g.w/im.w,g.h/im.h)*(ST.shape==='circle'?.74:.92):Math.max(g.w/im.w,g.h/im.h), dw=im.w*k, dh=im.h*k;
@@ -433,29 +496,41 @@ function drawRow(ctx,L,r,o){
   ctx.textAlign='left'; ctx.textBaseline='alphabetic';
 }
 function drawCard(ctx,L,o,acc){
-  var c=L.card, hink=onInk(acc);
-  ctx.save(); ctx.shadowColor='rgba(46,32,56,.13)'; ctx.shadowBlur=16; ctx.shadowOffsetY=4; ctx.fillStyle='#FFFFFF'; rrect(ctx,c.x,c.y,c.w,c.h,M.rCard); ctx.fill(); ctx.restore();
-  ctx.save(); rrect(ctx,c.x,c.y,c.w,c.h,M.rCard); ctx.clip();
-  ctx.fillStyle=acc; ctx.fillRect(c.x,c.y,c.w,c.headH);
-  ctx.fillStyle=blendOn(acc,.08,'#FFFFFF'); ctx.fillRect(c.x,c.y+c.headH,L.ws[0],c.h-c.headH);   /* 사진 열 = 포인트 색을 아주 옅게 */
-  ctx.fillStyle=hink==='#FFFFFF'?'rgba(255,255,255,.26)':'rgba(46,32,56,.16)';
+  var c=L.card, soft=SK.headFill==='soft', hink=soft?D.ink:onInk(acc);
+  if(SK.tape){ ctx.save(); ctx.shadowColor='rgba(46,32,56,.13)'; ctx.shadowBlur=16; ctx.shadowOffsetY=4; ctx.fillStyle='#FFFFFF'; rrect(ctx,c.x,c.y,c.w,c.h,SK.rCard); ctx.fill(); ctx.restore(); }
+  else { ctx.fillStyle='#FFFFFF'; rrect(ctx,c.x,c.y,c.w,c.h,SK.rCard); ctx.fill(); }
+  ctx.save(); rrect(ctx,c.x,c.y,c.w,c.h,SK.rCard); ctx.clip();
+  /* 머리 행 — 봄딩은 포인트 색으로 채우고, 영도는 옅은 면 + 포인트 색 3px 룰(대시보드 결) */
+  ctx.fillStyle=soft?D.slot:acc; ctx.fillRect(c.x,c.y,c.w,c.headH);
+  if(soft){ ctx.fillStyle=acc; ctx.fillRect(c.x,c.y+c.headH-3,c.w,3); }
+  if(SK.zebra&&D.zebra){ ctx.fillStyle=D.zebra; L.rows.forEach(function(r,ri){ if(ri%2)ctx.fillRect(c.x,r.y,c.w,r.h); }); }   /* 줄무늬 = 영도의 행 구분(선 대신) */
+  if(SK.tint){ ctx.fillStyle=blendOn(acc,.08,'#FFFFFF'); ctx.fillRect(c.x,c.y+c.headH,L.ws[0],c.h-c.headH); }   /* 사진 열 = 포인트 색을 아주 옅게(봄딩) */
+  if(SK.rail){ ctx.fillStyle=acc; L.rows.forEach(function(r){ ctx.fillRect(c.x,r.y+9,4,Math.max(6,r.h-18)); }); }   /* 눈금 레일 = 영도(행마다 끊긴 4px 바) */
+  ctx.fillStyle=soft?D.hair2:(hink==='#FFFFFF'?'rgba(255,255,255,.26)':'rgba(46,32,56,.16)');
   for(var i=1;i<L.xs.length;i++)ctx.fillRect(Math.round(L.xs[i]),c.y+10,1,c.headH-20);
   ctx.fillStyle=D.hair; for(var j=2;j<L.xs.length;j++)ctx.fillRect(Math.round(L.xs[j]),c.y+c.headH,1,c.h-c.headH);
-  ctx.strokeStyle=D.hair2; ctx.lineWidth=1; ctx.setLineDash([3,5]);
-  L.rows.forEach(function(r,ri){ if(!ri)return; ctx.beginPath(); ctx.moveTo(c.x,r.y+.5); ctx.lineTo(c.x+c.w,r.y+.5); ctx.stroke(); });
-  ctx.setLineDash([]);
-  if(o.screen&&hover&&!drop&&hover.kind!=='img'){ var hr=markRect(L,hover); if(hr){ ctx.fillStyle=hover.kind==='head'?(hink==='#FFFFFF'?'rgba(255,255,255,.14)':'rgba(46,32,56,.07)'):'rgba(201,60,124,.06)'; ctx.fillRect(hr.x,hr.y,hr.w,hr.h); } }
+  if(SK.sep==='dash'){
+    ctx.strokeStyle=D.hair2; ctx.lineWidth=1; ctx.setLineDash([3,5]);
+    L.rows.forEach(function(r,ri){ if(!ri)return; ctx.beginPath(); ctx.moveTo(c.x,r.y+.5); ctx.lineTo(c.x+c.w,r.y+.5); ctx.stroke(); });
+    ctx.setLineDash([]);
+  }
+  if(o.screen&&hover&&!drop&&hover.kind!=='img'){ var hr=markRect(L,hover); if(hr){ ctx.fillStyle=hover.kind==='head'?(hink==='#FFFFFF'?'rgba(255,255,255,.14)':'rgba(46,32,56,.07)'):rgba(acc,.07); ctx.fillRect(hr.x,hr.y,hr.w,hr.h); } }
   ctx.restore();
+  if(!SK.tape){ ctx.strokeStyle=D.hair2; ctx.lineWidth=1; rrect(ctx,c.x+.5,c.y+.5,c.w-1,c.h-1,SK.rCard); ctx.stroke(); }   /* 영도 = 그림자 대신 얇은 테두리 */
   ctx.textAlign='center'; ctx.textBaseline='middle';
   L.head.forEach(function(h){
     if(isEd('head',null,h.cid)||(h.empty&&!o.screen))return;
-    var ph=h.empty, lines=ph?[h.ci?'열 이름':'항목']:h.lines, ty=h.y+Math.round((h.h-lines.length*L.hlh)/2);
+    var hx=h.ci?h.x:h.x+SK.rail, hw=h.ci?h.w:h.w-SK.rail;   /* 첫 칸 머리는 레일만큼 밀어 가운데를 맞춘다 */
+    var ph=h.empty, lines=ph?[h.ci?'열 이름':'항목']:h.lines, ty=h.y+Math.round((h.h-lines.length*L.hlh)/2)-(soft?1:0);
     setFont(ctx,ph?'400':'800',L.fs); ctx.fillStyle=hink;
-    lines.forEach(function(s,li){ var cy=ty+(li+.5)*L.hlh; ctx.fillText(s,h.x+h.w/2,cy); if(ph)dashUnder(ctx,h.x+h.w/2,cy+L.fs*.62,ctx.measureText(s).width,hink); });
+    lines.forEach(function(s,li){ var cy=ty+(li+.5)*L.hlh; ctx.fillText(s,hx+hw/2,cy); if(ph)dashUnder(ctx,hx+hw/2,cy+L.fs*.62,ctx.measureText(s).width,hink); });
   });
+  if(SK.rowNo){ ctx.font=F('600',12,MONO); ctx.letterSpacing='0px';
+    L.rows.forEach(function(r,ri){ ctx.fillStyle=(SK.zebra&&D.zebra&&ri%2)?D.ink2:D.ink3; ctx.fillText(String(ri+1),c.x+4+(SK.rail-4)/2,r.y+r.h/2); });   /* 줄무늬 행에선 ink3 가 4.42:1 로 AA 미달(리뷰어 🟡 09-12) */
+  }
   ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   L.rows.forEach(function(r){ drawRow(ctx,L,r,o); });
-  tape(ctx,c.x+16,c.y+3,-38,58); tape(ctx,c.x+c.w-16,c.y+3,38,58);
+  if(SK.tape){ tape(ctx,c.x+16,c.y+3,-38,58); tape(ctx,c.x+c.w-16,c.y+3,38,58); }
 }
 function heart(ctx,cx,cy,s){ ctx.beginPath(); ctx.moveTo(cx,cy+s*.35); ctx.bezierCurveTo(cx-s*.5,cy-s*.05,cx-s*.42,cy-s*.5,cx,cy-s*.22); ctx.bezierCurveTo(cx+s*.42,cy-s*.5,cx+s*.5,cy-s*.05,cx,cy+s*.35); ctx.closePath(); }
 function drawFooter(ctx,L,acc){
@@ -463,8 +538,11 @@ function drawFooter(ctx,L,acc){
   ctx.textBaseline='middle';
   ctx.font=F('800',15); ctx.letterSpacing='-0.3px'; var sw=ctx.measureText(f.sign).width;
   ctx.textAlign='right'; ctx.fillStyle=D.ink; ctx.fillText(f.sign,f.signR,f.base);
-  ctx.fillStyle=acc; heart(ctx,f.signR-sw-12,f.base,13); ctx.fill();
-  if(f.note){ ctx.font=F('700',14); ctx.letterSpacing='-0.2px'; ctx.fillStyle=D.ink2; ctx.textAlign='left'; ctx.fillText(ellFit(ctx,f.note,f.signR-sw-34-L.x0),L.x0+2,f.base); }
+  ctx.fillStyle=acc;
+  if(SK.glyph==='heart'){ heart(ctx,f.signR-sw-12,f.base,13); ctx.fill(); }
+  else { rrect(ctx,f.signR-sw-19,f.base-5,10,10,2); ctx.fill(); }   /* 영도 = ■ (티어표와 같은 서명 글리프) */
+  if(SK.footLabel){ ctx.font=F('600',12.5,MONO); ctx.letterSpacing='0px'; ctx.fillStyle=D.ink3; ctx.textAlign='left'; ctx.fillText(SK.footLabel,L.x0+(f.sigLeftW||0),f.base); }
+  else if(f.note){ ctx.font=F('700',14); ctx.letterSpacing='-0.2px'; ctx.fillStyle=D.ink2; ctx.textAlign='left'; ctx.fillText(ellFit(ctx,f.note,f.signR-sw-34-L.x0),L.x0+2,f.base); }
   ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   if(f.sig){ var s=f.sig; ctx.save(); ctx.translate(s.x+s.w/2,s.y+s.h/2); ctx.rotate(s.rot*Math.PI/180); ctx.translate(-(s.x+s.w/2),-(s.y+s.h/2)); try{ ctx.drawImage(s.img,s.x,s.y,s.w,s.h); }catch(e){} ctx.restore(); }
 }
@@ -721,7 +799,7 @@ function copyPng(){
 /* ── 마크업 ── */
 function chip(id,txt,on){ return '<button type="button" class="chip'+(on?' on':'')+'" data-v="'+esc(id)+'" aria-pressed="'+(on?'true':'false')+'">'+txt+'</button>'; }
 function swatchHtml(){
-  return D.sw.map(function(s){ return '<button type="button" class="tbl-sw'+(ST.accent===s.id?' on':'')+'" data-c="'+s.id+'" style="--c:'+s.c+'" aria-label="봄딩 '+esc(s.n)+'" aria-pressed="'+(ST.accent===s.id)+'" title="'+esc(s.n)+'"></button>'; }).join('')+
+  return D.sw.map(function(s){ return '<button type="button" class="tbl-sw'+(ST.accent===s.id?' on':'')+'" data-c="'+s.id+'" style="--c:'+s.c+'" aria-label="'+esc(D.n+' '+s.n)+'" aria-pressed="'+(ST.accent===s.id)+'" title="'+esc(s.n)+'"></button>'; }).join('')+
     '<button type="button" class="tbl-sw custom'+(ST.accent==='custom'?' on has':'')+'" data-c="custom" style="--cc:'+ST.accentHex+'" aria-label="기타 색 (팔레트)" aria-pressed="'+(ST.accent==='custom')+'" title="팔레트">'+ic('pipette')+'</button>'+
     '<input class="tbl-in tbl-in-hex" id="tblHex" maxlength="7" value="'+esc(accentHex().toUpperCase())+'" aria-label="포인트 색 헥스코드" spellcheck="false" autocomplete="off">'+
     '<input type="color" class="tbl-pick" id="tblPick" value="'+ST.accentHex+'" aria-label="포인트 색 팔레트" tabindex="-1">';
@@ -751,10 +829,12 @@ function html(){
     '</section>'+
     '<section class="tbl-ctl" aria-label="설정">'+
       '<div class="tbl-sec"><div class="tbl-st">디자인</div>'+
-        '<div class="tbl-lbl first"><span>포인트 색</span></div>'+
+        '<div class="tbl-chips" id="tblDesign" role="group" aria-label="디자인">'+
+          Object.keys(DESIGNS).map(function(k){ var d=DESIGNS[k]; return chip(k,'<span class="dot" style="--ac:'+d.dot+'"></span>'+esc(d.n),ST.design===k); }).join('')+'</div>'+
+        '<div class="tbl-lbl"><span>포인트 색</span></div>'+
         '<div class="tbl-crow" id="tblSws" role="group" aria-label="포인트 색">'+swatchHtml()+'</div>'+   /* 이름·HEX 읽기값 줄은 두지 않는다 — 헥스 칸이 같은 값을 보여 준다(편집 열 높이 회수) */
         '<div class="tbl-lbl"><span>그림 틀</span></div>'+
-        '<div class="tbl-chips" id="tblShape" role="group" aria-label="그림 틀">'+chipsHtml(SHAPES,'shape')+'</div>'+
+        '<div class="tbl-chips" id="tblShape" role="group" aria-label="그림 틀">'+chipsHtml(shapesFor(),'shape')+'</div>'+
         /* 크기·맞춤은 한 줄에 두 무리 — 열 6개(최대)에서 편집 열 «행» 머리가 1080 첫 화면 밖으로 36px 밀렸다(게이트 🟡 09-12) */
         '<div class="tbl-lbl"><span>그림 크기 · 맞춤</span></div>'+
         '<div class="tbl-chips">'+
@@ -771,7 +851,7 @@ function html(){
         '<input class="f-i" id="tblTitle" maxlength="'+LIM.title+'" placeholder="예: 아기 서큘레이터 4종 비교" autocomplete="off" value="'+esc(ST.title)+'">'+
         '<div class="tbl-2">'+
           '<div><label class="tbl-lbl" for="tblNote"><span>기준·출처</span></label><input class="f-i" id="tblNote" maxlength="'+LIM.note+'" placeholder="예: 9월 쿠팡가 기준" autocomplete="off" value="'+esc(ST.note)+'"></div>'+
-          '<div><label class="tbl-lbl" for="tblSign"><span>서명</span></label><input class="f-i" id="tblSign" maxlength="'+LIM.sign+'" placeholder="봄딩" autocomplete="off" value="'+esc(ST.sign)+'"></div>'+
+          '<div><label class="tbl-lbl" for="tblSign"><span>서명</span></label><input class="f-i" id="tblSign" maxlength="'+LIM.sign+'" placeholder="'+esc(D.n)+'" autocomplete="off" value="'+esc(ST.sign)+'"></div>'+
         '</div>'+
       '</div>'+
       '<div class="tbl-sec"><div class="tbl-st">열<span class="d" id="tblColN"></span></div>'+
@@ -843,9 +923,14 @@ function renderRows(){
   var rn=$('tblRowN'); if(rn)rn.textContent=n+'개';
   var add=$('tblRowAdd'); if(add)add.disabled=n>=MAX_ROWS;
 }
-function syncDesign(){
+function syncDesign(rebuild){
   if(!root)return;
-  /* 스와치는 갈아 끼우지 않고 제자리에서 표시만 바꾼다 — 갈아 끼우면 열려 있는 OS 색 대화상자가 떨어져 나간 input 에 묶여 두 번째 색부터 안 먹는다 */
+  /* 스와치는 갈아 끼우지 않고 제자리에서 표시만 바꾼다 — 갈아 끼우면 열려 있는 OS 색 대화상자가 떨어져 나간 input 에 묶여 두 번째 색부터 안 먹는다.
+     예외 = 디자인 전환(rebuild): 색 3개와 그림 틀 목록 자체가 바뀌므로 그때만 갈아 끼운다(대화상자가 열려 있을 수 없는 순간) */
+  if(rebuild){
+    var sw0=$('tblSws'); if(sw0)sw0.innerHTML=swatchHtml();
+    var sh0=$('tblShape'); if(sh0)sh0.innerHTML=chipsHtml(shapesFor(),'shape');
+  }
   var sws=$('tblSws'), hexEl=$('tblHex'), pick=$('tblPick');
   if(sws){
     sws.querySelectorAll('.tbl-sw').forEach(function(b){ var on=b.dataset.c===ST.accent; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false'); });
@@ -853,7 +938,8 @@ function syncDesign(){
   }
   if(hexEl&&document.activeElement!==hexEl){ hexEl.value=accentHex().toUpperCase(); hexEl.classList.remove('bad'); }
   if(pick&&pick.value.toUpperCase()!==ST.accentHex)pick.value=ST.accentHex;
-  [['tblSize','size'],['tblShape','shape'],['tblFit','fit']].forEach(function(p){
+  var sgn=$('tblSign'); if(sgn)sgn.placeholder=D.n;   /* 비우면 그 디자인의 작성자 이름이 서명으로 들어간다 */
+  [['tblDesign','design'],['tblSize','size'],['tblShape','shape'],['tblFit','fit']].forEach(function(p){
     root.querySelectorAll('#'+p[0]+' .chip').forEach(function(b){ var on=b.dataset.v===ST[p[1]]; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false'); });
   });
   var fs=$('tblFs'), fsn=$('tblFsN');
@@ -861,7 +947,13 @@ function syncDesign(){
   if(fsn&&document.activeElement!==fsn)fsn.value=ST.fs;
 }
 function syncBoardInputs(){ [['tblTitle','title'],['tblNote','note'],['tblSign','sign']].forEach(function(p){ var e=$(p[0]); if(e&&e!==document.activeElement&&e.value!==ST[p[1]])e.value=ST[p[1]]; }); }
-function renderAll(){ if(!root)return; syncBoardInputs(); renderCols(); renderRows(); syncDesign(); schedule(); }
+/* ★디자인이 바뀌었으면 색·틀 칩을 갈아 끼운다 — 칩 클릭 말고 JSON 불러오기·보드 복원으로 바뀌는 길이 있어서,
+   클릭 핸들러에만 걸어 두면 «열기»로 받은 영도 표에서 편집 열이 봄딩 색·틀로 남고 클릭이 조용히 먹통이 된다(리뷰어 🔴 09-12) */
+function renderAll(){
+  if(!root)return;
+  var rb=LASTD!==ST.design; LASTD=ST.design;
+  syncBoardInputs(); renderCols(); renderRows(); syncDesign(rb); schedule();
+}
 /* 보드에서 고친 이름을 편집 열 입력칸에도(그 칸에 포커스가 없을 때만) */
 function syncSide(t){
   if(!root||!t)return;
@@ -949,11 +1041,17 @@ function endEdit(commit){
 function edBox(t){
   if(!LAY)return null;
   var acc=accentHex();
-  if(t.kind==='head'){ var h=LAY.head[colIdx(t.cid)]; if(!h)return null; var hh=Math.max(1,h.lines.length)*LAY.hlh; return {x:h.x+M.cellPadX,y:h.y+Math.round((h.h-hh)/2),w:h.w-2*M.cellPadX,h:hh,lh:LAY.hlh,wt:'800',bg:acc,fg:onInk(acc)}; }
-  var r=LAY.rows[rowIdx(t.rid)]; if(!r)return null;
-  if(t.kind==='label')return {x:r.lab.x,y:r.lab.y,w:r.lab.w,h:Math.max(1,r.labLines.length)*LAY.llh,lh:LAY.llh,fs:LAY.labFs,wt:'800',bg:blendOn(acc,.08,'#FFFFFF'),fg:D.ink};
+  var soft=SK.headFill==='soft';
+  if(t.kind==='head'){
+    var h=LAY.head[colIdx(t.cid)]; if(!h)return null;
+    var hh=Math.max(1,h.lines.length)*LAY.hlh, hx=h.ci?h.x:h.x+SK.rail, hw=h.ci?h.w:h.w-SK.rail;
+    return {x:hx+M.cellPadX,y:h.y+Math.round((h.h-hh)/2),w:hw-2*M.cellPadX,h:hh,lh:LAY.hlh,wt:'800',bg:soft?D.slot:acc,fg:soft?D.ink:onInk(acc)};
+  }
+  var ri=rowIdx(t.rid), r=LAY.rows[ri]; if(!r)return null;
+  var rowBg=(SK.zebra&&D.zebra&&ri%2)?D.zebra:'#FFFFFF';   /* 줄무늬 행에서 입력칸 배경이 칸과 같아야 글자가 겹쳐 보이지 않는다 */
+  if(t.kind==='label')return {x:r.lab.x,y:r.lab.y,w:r.lab.w,h:Math.max(1,r.labLines.length)*LAY.llh,lh:LAY.llh,fs:LAY.labFs,wt:'800',bg:SK.tint?blendOn(acc,.08,'#FFFFFF'):rowBg,fg:D.ink};
   var c=null; r.cells.forEach(function(x){ if(x.cid===t.cid)c=x; }); if(!c)return null;
-  return {x:c.x+M.cellPadX,y:c.ty,w:c.w-2*M.cellPadX,h:c.th,lh:LAY.lh,wt:CELL_W,bg:'#FFFFFF',fg:D.ink};
+  return {x:c.x+M.cellPadX,y:c.ty,w:c.w-2*M.cellPadX,h:c.th,lh:LAY.lh,wt:CELL_W,bg:rowBg,fg:D.ink};
 }
 function placeEditor(){
   var ta=$('tblEd'); if(!ta||!ED)return;
@@ -1078,6 +1176,12 @@ function applyHex(v,allowShort){
 }
 function bindSide(){
   [['tblTitle','title'],['tblNote','note'],['tblSign','sign']].forEach(function(p){ $(p[0]).addEventListener('input',function(){ ST[p[1]]=this.value; save(); schedule(); }); });
+  /* 디자인 전환 — 색·틀도 그 디자인 것으로 정리하고(applyDesign) 스티커·서체를 새로 받는다 */
+  $('tblDesign').addEventListener('click',function(e){
+    var b=e.target.closest('.chip'); if(!b||!DESIGNS[b.dataset.v]||b.dataset.v===ST.design)return;
+    ST.design=b.dataset.v; applyDesign(); loadSig(); save(); renderAll();
+    loadFonts().then(function(){ if(mounted)schedule(); });
+  });
   var sws=$('tblSws');
   sws.addEventListener('click',function(e){
     var b=e.target.closest('.tbl-sw'); if(!b)return;
@@ -1090,7 +1194,7 @@ function bindSide(){
   });
   sws.addEventListener('change',function(e){ if(e.target.id!=='tblHex')return; if(!applyHex(e.target.value,true))e.target.value=accentHex().toUpperCase(); e.target.classList.remove('bad'); });
   sws.addEventListener('keydown',function(e){ if(e.target.id==='tblHex'&&e.key==='Enter'){ e.preventDefault(); e.target.blur(); } });
-  [['tblSize','size',SIZES],['tblShape','shape',SHAPES],['tblFit','fit',FITS]].forEach(function(p){
+  [['tblSize','size',SIZES],['tblShape','shape',SHAPES],['tblFit','fit',FITS]].forEach(function(p){   /* 틀 칩은 디자인별 목록이지만 검사는 전체 SHAPES 로 — 없는 값이면 무시된다 */
     $(p[0]).addEventListener('click',function(e){ var b=e.target.closest('.chip'); if(!b||!byId(p[2],b.dataset.v))return; ST[p[1]]=b.dataset.v; save(); syncDesign(); schedule(); });
   });
   var fs=$('tblFs'), fsn=$('tblFsN');
@@ -1136,6 +1240,7 @@ function bindSide(){
 /* 나눔스퀘어 — 스타일시트가 먼저 들어와야 document.fonts.load 가 무엇을 받을지 안다(시트 전에 부르면 빈 배열로 끝난다) */
 var fontP=null;
 function loadFonts(){
+  if(ST.design!=='bomding')return Promise.resolve();   /* 영도는 사이트 서체(Pretendard) — 티어표와 같은 의도된 예외 */
   if(fontP)return fontP;
   fontP=new Promise(function(res){
     function go(){
@@ -1149,7 +1254,13 @@ function loadFonts(){
   });
   return fontP;
 }
-function loadSig(){ if(SIG)return; SIG=new Image(); SIG.decoding='async'; SIG.onload=function(){ if(mounted)schedule(); }; SIG.onerror=function(){ SIG=null; }; SIG.src=SIG_SRC; }
+function loadSig(){
+  var k=ST.design; if(SIGS[k])return;
+  var im=new Image(); im.decoding='async';
+  im.onload=function(){ if(mounted)schedule(); };
+  im.onerror=function(){ delete SIGS[k]; };   /* 못 받으면 조용히 안 그린다(보드는 그대로 완성) */
+  SIGS[k]=im; im.src=SIG_BASE+k+'.webp';
+}
 function mount(host,a){
   api=a; root=host; mounted=true; readTokens();
   if(!document.getElementById('tblCss')){ var st=document.createElement('style'); st.id='tblCss'; st.textContent=CSS; document.head.appendChild(st); }
@@ -1167,7 +1278,7 @@ function unmount(){
   if(onPaste){ document.removeEventListener('paste',onPaste); onPaste=null; }
   if(ro){ try{ ro.disconnect(); }catch(e){} ro=null; }
   clearTimeout(saveT); try{ localStorage.setItem(LS,JSON.stringify(data())); }catch(e){}
-  root=null; main=null; mctx=null; hover=null; drop=null; LAY=null;
+  root=null; main=null; mctx=null; hover=null; drop=null; LAY=null; LASTD=null;   /* 다시 마운트하면 색·틀 칩을 그 디자인으로 새로 짠다 */
 }
 
 window.SseudamTools.table={
@@ -1176,14 +1287,18 @@ window.SseudamTools.table={
     state:function(){ var d=data(); d.cur=cur; d.images=Object.keys(IMG).filter(function(k){ return IMG[k]&&IMG[k].img&&rowIdx(k)>=0; }).length; d.editing=ED?{kind:ED.kind,rid:ED.rid,cid:ED.cid}:null; d.W=W; return d; },
     layout:function(){
       if(!LAY)return null;
-      return {H:LAY.H,fs:LAY.fs,lh:LAY.lh,x0:LAY.x0,innerW:LAY.innerW,ws:LAY.ws.slice(),xs:LAY.xs.slice(),cut:LAY.cut,hd:LAY.hd?{y:LAY.hd.y,h:LAY.hd.h}:null,
+      return {H:LAY.H,fs:LAY.fs,lh:LAY.lh,x0:LAY.x0,innerW:LAY.innerW,ws:LAY.ws.slice(),xs:LAY.xs.slice(),cut:LAY.cut,
+        hd:LAY.hd?{y:LAY.hd.y,h:LAY.hd.h,bar:!!LAY.hd.bar,title:LAY.hd.title||'',note:LAY.hd.note||''}:null,
         card:{x:LAY.card.x,y:LAY.card.y,w:LAY.card.w,h:LAY.card.h,headH:LAY.card.headH},
         head:LAY.head.map(function(h){ return {cid:h.cid,x:h.x,y:h.y,w:h.w,h:h.h,lines:h.lines.length}; }),
         rows:LAY.rows.map(function(r){ return {rid:r.rid,y:r.y,h:r.h,box:r.box,img:r.img,lab:{x:r.lab.x,y:r.lab.y,w:r.lab.w,h:r.lab.h,lines:r.labLines.length},
           cells:r.cells.map(function(c){ return {cid:c.cid,x:c.x,y:c.y,w:c.w,h:c.h,ty:c.ty,th:c.th,lines:c.lines.length}; })}; }),
-        ft:{y:LAY.ft.y,h:LAY.ft.h,sig:LAY.ft.sig?{x:LAY.ft.sig.x,y:LAY.ft.sig.y,w:LAY.ft.sig.w,h:LAY.ft.sig.h}:null}};
+        ft:{y:LAY.ft.y,h:LAY.ft.h,note:LAY.ft.note||'',sign:LAY.ft.sign||'',sig:LAY.ft.sig?{x:LAY.ft.sig.x,y:LAY.ft.sig.y,w:LAY.ft.sig.w,h:LAY.ft.sig.h}:null}};
     },
-    reset:function(){ endEdit(false); IMG={}; cur=null; ST.accent='rose'; ST.accentHex='#C93C7C'; ST.size='m'; ST.fit='cover'; ST.shape='polaroid'; ST.fs=FS_DEF; defaultBoard(); renderAll(); save(); if(mounted)paint(); return true; },
+    reset:function(){ endEdit(false); IMG={}; cur=null; ST.design='bomding'; ST.accent='rose'; ST.accentHex='#C93C7C'; ST.size='m'; ST.fit='cover'; ST.shape='polaroid'; ST.fs=FS_DEF; applyDesign(); defaultBoard(); if(root)syncDesign(true); renderAll(); save(); if(mounted)paint(); return true; },
+    designs:function(){ return Object.keys(DESIGNS); },
+    setDesign:function(id){ if(!DESIGNS[id])return false; ST.design=id; applyDesign(); loadSig(); save(); if(root)renderAll(); if(mounted)paint(); return true; },
+    skin:function(){ return {id:ST.design,titleMode:SK.titleMode,noteAt:SK.noteAt,rail:SK.rail,rowNo:SK.rowNo,zebra:SK.zebra,sep:SK.sep,tint:SK.tint,tape:SK.tape,headFill:SK.headFill,sigAt:SK.sigAt,glyph:SK.glyph,shapes:SK.shapes.slice(),fam:D.fam,accent:accentHex(),paper:D.paper,slot:D.slot,zebraC:D.zebra}; },
     setBoard:function(d){ endEdit(false); restoreData(d,true,false); cur=null; renderAll(); save(); if(mounted)paint(); return true; },
     setImageURL:function(rid,url){ return fetch(url).then(function(r){ if(!r.ok)throw new Error('http '+r.status); return r.blob(); }).then(function(b){ return setImageBlob(rid,b,true); }).then(function(){ if(mounted)paint(); return true; }).catch(function(e){ return String(e); }); },
     takeFiles:function(files,opt){ takeFiles(files,opt); return true; },
