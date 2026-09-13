@@ -213,6 +213,15 @@ const blockOf = (cond) => {
     if (from <= i) return out;
   }
 };
+/* ★★CSS 구조 검사 — 주석 하나를 안 닫으면 **그 뒤 규칙이 통째로 죽는다**(2026-09-14 실측 사고).
+   `/* … ` 를 닫지 않아 모바일 규칙 전체가 파서에서 사라졌고, 화면은 «깨진 티가 안 나게» 그냥 데스크톱 모양으로 떴다.
+   회귀 게이트 두 개(title·tier)가 390 단계에서 동시에 넘어져 발각됐다 — 사람 눈으로는 못 본다. 그래서 여기서 센다. */
+const CSSBODY = CSSSRC.slice(CSSSRC.indexOf('<style'), CSSSRC.indexOf('</style>'));
+const cOpen = (CSSBODY.match(/\/\*/g) || []).length, cClose = (CSSBODY.match(/\*\//g) || []).length;
+chk('CSS 주석이 전부 닫혀 있다', cOpen === cClose, { cOpen, cClose });
+const bOpen = (CSSBODY.match(/\{/g) || []).length, bClose = (CSSBODY.match(/\}/g) || []).length;
+chk('CSS 중괄호가 맞는다', bOpen === bClose, { bOpen, bClose });
+
 const ROWBTNS = ['.arch', '.whyb'];
 const selListed = (block, prop, btn) =>
   new RegExp('(^|[{}\\n])\\s*[^{}\\n]*\\' + btn + '\\b[^{}\\n]*\\{[^{}]*' + prop).test(block);
