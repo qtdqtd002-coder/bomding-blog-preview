@@ -152,8 +152,9 @@ await click('.why-chip[data-r="long"]');
 await sleep(500);
 chk('서버로 POST 됐다', posted.some((p) => p.url === '/why' && p.body.rel === rel && p.body.reason === 'long'), posted);
 chk('모달이 닫힌다', (await ev(`!document.querySelector('.why-grid')`)) === true);
-chk('행 버튼에 사유 라벨이 남는다', (await ev(`(()=>{const b=document.querySelector('#listCore .row .whyb.on .whyb-t');return b?b.textContent:null})()`)) === '너무 길다',
-  await ev(`(()=>{const b=document.querySelector('#listCore .row .whyb.on .whyb-t');return b?b.textContent:null})()`));
+chk('행 제목 칸에 사유 태그가 남는다', (await ev(`(()=>{const b=document.querySelector('#listCore .row .row-t .tag-why');return b?b.textContent:null})()`)) === '너무 길다',
+  await ev(`(()=>{const b=document.querySelector('#listCore .row .row-t .tag-why');return b?b.textContent:null})()`));
+chk('★태그가 잘리지 않는다(행 안에 들어간다)', await ev(`(()=>{const t=document.querySelector('#listCore .row .tag-why');if(!t)return false;const r=t.getBoundingClientRect(),w=t.closest('.row').getBoundingClientRect();return r.right<=w.right+0.5&&r.width>0})()`));
 chk('사유가 남은 버튼은 hover 없이도 보인다', (await ev(`getComputedStyle(document.querySelector('.whyb.on')).opacity`)) === '1');
 await shot('02-after');
 
@@ -164,7 +165,7 @@ chk('사유가 있을 때만 「지우기」가 있다', (await ev(`!!document.q
 await click('.why-clear');
 await sleep(500);
 chk('지우면 서버로 간다', posted.some((p) => p.url === '/why/clear' && p.body.rel === rel));
-chk('지우면 행 라벨도 사라진다', (await ev(`document.querySelectorAll('#listCore .row .whyb.on').length`)) === 0);
+chk('지우면 행 태그도 사라진다', (await ev(`document.querySelectorAll('#listCore .row .whyb.on').length`)) === 0 && (await ev(`document.querySelectorAll('#listCore .row .tag-why').length`)) === 0);
 
 chk('가로 넘침 없음(1920)', await ev(`document.documentElement.scrollWidth<=innerWidth`));
 chk('[1920] 콘솔 예외 0', logs.length === 0, logs);

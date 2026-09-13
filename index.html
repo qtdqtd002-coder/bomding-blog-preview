@@ -368,7 +368,7 @@ a{color:inherit; text-decoration:none}
 /* 「안 올린 이유」 버튼 — 아카이브와 같은 어휘(행에 올려야 뜬다). 사유가 남으면 항상 보이고 라벨을 달고 있는다
    (그 행이 «왜 안 올라갔는지»는 스쳐 지나갈 정보가 아니라 그 행의 상태다). */
 .whyb{
-  height:32px; min-width:32px; padding:0 8px; border-radius:9px; display:inline-flex; align-items:center; gap:6px;
+  width:32px; height:32px; border-radius:9px; display:grid; place-items:center;
   color:var(--ink-4); opacity:0; transform:scale(.9);
   transition:opacity var(--t-fast) var(--e), transform var(--t-fast) var(--e-out),
              background var(--t-fast) var(--e), color var(--t-fast) var(--e);
@@ -377,8 +377,17 @@ a{color:inherit; text-decoration:none}
 .whyb:hover{background:var(--ink); color:#fff}
 .whyb.on{color:var(--ink-2); background:var(--surface-3)}
 .whyb.on:hover{background:var(--ink); color:#fff}
-.whyb-t{font-size:12px; font-weight:600; letter-spacing:-.01em; white-space:nowrap}
-@media (max-width:700px){ .whyb-t{display:none} }
+.row-a{gap:4px}
+/* 버튼이 둘이 되는 목록에서만 마지막 칸을 넓힌다 — 봄딩만 보는 목록은 36px 그대로 */
+.rows.has-why .row{grid-template-columns:104px minmax(0,1fr) 128px 62px 88px 72px}
+@media (max-width:860px){ .rows.has-why .row{grid-template-columns:minmax(0,1fr) 72px} }
+/* 사유 태그 — NEW 배지와 같은 자리(제목 칸). 그 행이 «왜 안 올라갔는지»는 스쳐 지나갈 정보가 아니라 행의 상태다.
+   제목 칸은 minmax(0,1fr) 이라 길어져도 우아하게 줄어든다(마지막 칸에 넣었다가 잘렸다 — 09-14 실측). */
+.tag-why{
+  flex:none; height:17px; padding:0 7px; border-radius:5px;
+  background:var(--surface-3); color:var(--ink-3); border:1px solid var(--hair-2);
+  font-size:11px; font-weight:600; line-height:15px; white-space:nowrap;
+}
 /* 사유 고르기 — 칸마다 «라벨 + 그 사유가 가리키는 처방». 처방을 같이 보여 주는 이유는 고르는 순간
    그게 무엇을 바꾸는지 알아야 아무거나 고르지 않기 때문이다. */
 .why-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px}
@@ -1627,11 +1636,12 @@ function paintWhyBtn(rel){
   var id=WHY[rel]||'', lab=id?whyLabel(id):'';
   b.classList.toggle('on',!!id);
   b.setAttribute('title', id?('안 올린 이유 — '+lab):'안 올린 이유');
-  var t=b.querySelector('.whyb-t');
+  var host=row.querySelector('.row-t'), t=host&&host.querySelector('.tag-why');
+  if(!host)return;
   if(id){
-    if(!t){ t=document.createElement('span'); t.className='whyb-t'; b.appendChild(t); }
+    if(!t){ t=document.createElement('span'); t.className='tag-why'; host.appendChild(t); }
     t.textContent=lab;
-  }else if(t){ b.removeChild(t); }
+  }else if(t){ host.removeChild(t); }
 }
 function whyLabel(id){ for(var i=0;i<WHY_REASONS.length;i++)if(WHY_REASONS[i].id===id)return WHY_REASONS[i].label; return id||''; }
 
@@ -2512,7 +2522,8 @@ function paintRows(){
     more(); return;
   }
   if(!rowsEl||!MO.live()||!MO.F){
-    core.innerHTML='<div class="rows">'+shown.map(rowHtml).join('')+'</div>';
+    /* ★why 버튼이 하나라도 있으면 마지막 칸을 두 버튼 폭으로(그리드는 행마다 다를 수 없다) */
+    core.innerHTML='<div class="rows'+(shown.some(whyOn)?' has-why':'')+'">'+shown.map(rowHtml).join('')+'</div>';
     MO.rise(core.querySelectorAll('.row'),{y:8,amount:.3,dur:.45});
     more(); return;
   }
@@ -2551,6 +2562,7 @@ function rowHtml(p){
     '<a class="row-t" href="'+encRel(p.rel)+'" target="_blank" rel="noopener" title="'+esc(p.title)+'">'+
       '<span class="tx">'+esc(p.title)+'</span>'+
       (p.isNew?'<span class="tag-new">NEW</span>':'')+
+      (whyOn(p)&&WHY[p.rel]?'<span class="tag-why">'+esc(whyLabel(WHY[p.rel]))+'</span>':'')+
     '</a>'+
     '<span class="row-c">'+esc(p.cat||'—')+'</span>'+
     '<span class="row-d num'+(p.hasOrder?'':' approx')+'"'+dateTip(p)+'>'+dateTx(p)+'</span>'+
@@ -2561,8 +2573,7 @@ function rowHtml(p){
     '<span class="row-a">'+
       (whyOn(p)?'<button type="button" class="whyb'+(WHY[p.rel]?' on':'')+'" data-rel="'+esc(p.rel)+'" title="'+
         (WHY[p.rel]?esc('안 올린 이유 — '+whyLabel(WHY[p.rel])):'안 올린 이유')+'" aria-label="'+
-        esc(p.title)+' 안 올린 이유">'+svg('edit')+
-        (WHY[p.rel]?'<span class="whyb-t">'+esc(whyLabel(WHY[p.rel]))+'</span>':'')+'</button>':'')+
+        esc(p.title)+' 안 올린 이유">'+svg('edit')+'</button>':'')+
       '<button type="button" class="arch" title="아카이브" aria-label="'+
       esc(p.title)+' 아카이브">'+svg('archive')+'</button></span>'+
   '</div>';
