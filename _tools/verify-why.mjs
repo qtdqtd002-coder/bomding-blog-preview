@@ -176,6 +176,19 @@ await goPosts(); await pickWriter('영도');
 await click('#listCore .row .whyb');
 await waitFor(`!!document.querySelector('.why-grid')`, 5000);
 chk('[390] 모달이 열리고 칸이 접힌다', (await ev(`document.querySelectorAll('.why-chip').length`)) === 6);
+/* ★고른 칩 위의 처방 글자 대비 — 바탕이 surface-3 로 바뀌므로 ink-4(4.24:1) 로는 AA 미달이다(2026-09-14 검수) */
+chk('고른 칩의 처방 글자는 한 단 진하다', await ev(`(()=>{const c=document.querySelector('.why-chip');c.classList.add('on');const v=getComputedStyle(c.querySelector('.why-fix')).color;c.classList.remove('on');return v})()`)
+  !== (await ev(`getComputedStyle(document.querySelector('.why-chip .why-fix')).color`)),
+  await ev(`getComputedStyle(document.querySelector('.why-chip .why-fix')).color`));
+await ev(`document.querySelector('[data-close]')&&document.querySelector('[data-close]').click()`); await sleep(300);
+/* ★★터치 기기엔 hover 가 없다 — «사유가 아직 없는 행»의 버튼이 안 보이면 최초 기록 자체가 불가능하다.
+   .arch 에만 있던 상시노출 규칙이 .whyb 로 확장되지 않아 실제로 그랬다(2026-09-14 검수 🔴). */
+/* 행 진입 애니메이션(rise)이 끝난 뒤에 잰다 — 중간에 재면 둘 다 0.73 같은 보간값이 나온다(첫 시도 실측) */
+await sleep(1200);
+const touch = await ev(`(()=>{const r=[...document.querySelectorAll('#listCore .row')].find(x=>x.querySelector('.whyb')&&!x.querySelector('.whyb.on'));if(!r)return null;const w=r.querySelector('.whyb'),a=r.querySelector('.arch');return {why:getComputedStyle(w).opacity,arch:getComputedStyle(a).opacity}})()`);
+chk('[390 터치] 사유 없는 행도 버튼이 보인다(hover:none 상시노출)', !!touch && touch.why === '1' && touch.arch === '1', touch);
+const gapPx = await ev(`(()=>{const r=document.querySelector('#listCore .row .whyb');if(!r)return null;const a=r.closest('.row-a').querySelector('.arch');return Math.round(a.getBoundingClientRect().left-r.getBoundingClientRect().right)})()`);
+chk('두 버튼이 맞붙지 않는다(간격 ≥4px)', typeof gapPx === 'number' && gapPx >= 4, { gapPx });
 chk('[390] 가로 넘침 없음', await ev(`innerWidth===390&&document.documentElement.scrollWidth<=390`), await ev(`({iw:innerWidth,sw:document.documentElement.scrollWidth})`));
 await shot('03-390');
 chk('[390] 콘솔 예외 0', logs.length === 0, logs);

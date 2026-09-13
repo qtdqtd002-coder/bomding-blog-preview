@@ -377,10 +377,10 @@ a{color:inherit; text-decoration:none}
 .whyb:hover{background:var(--ink); color:#fff}
 .whyb.on{color:var(--ink-2); background:var(--surface-3)}
 .whyb.on:hover{background:var(--ink); color:#fff}
-.row-a{gap:4px}
+.row-a{gap:6px}
 /* 버튼이 둘이 되는 목록에서만 마지막 칸을 넓힌다 — 봄딩만 보는 목록은 36px 그대로 */
-.rows.has-why .row{grid-template-columns:104px minmax(0,1fr) 128px 62px 88px 72px}
-@media (max-width:860px){ .rows.has-why .row{grid-template-columns:minmax(0,1fr) 72px} }
+.rows.has-why .row{grid-template-columns:104px minmax(0,1fr) 128px 62px 88px 78px}   /* 32+6+32 + 여유 8 */
+@media (max-width:860px){ .rows.has-why .row{grid-template-columns:minmax(0,1fr) 78px} }
 /* 사유 태그 — NEW 배지와 같은 자리(제목 칸). 그 행이 «왜 안 올라갔는지»는 스쳐 지나갈 정보가 아니라 행의 상태다.
    제목 칸은 minmax(0,1fr) 이라 길어져도 우아하게 줄어든다(마지막 칸에 넣었다가 잘렸다 — 09-14 실측). */
 .tag-why{
@@ -399,13 +399,17 @@ a{color:inherit; text-decoration:none}
 .why-chip:hover{border-color:var(--hair-3); background:var(--surface-2)}
 .why-chip.on{border-color:var(--ink); background:var(--surface-3)}
 .why-fix{font-size:11.5px; font-weight:500; color:var(--ink-4); letter-spacing:-.01em}
+/* 고른 칩은 바탕이 surface-3 라 ink-4 가 4.24:1 로 AA 미달 — 그 상태에서만 ink-3(5.81:1)로 올린다 */
+.why-chip.on .why-fix{color:var(--ink-3)}
 .why-f{margin-top:12px; display:flex; justify-content:flex-end}
 .why-clear{height:32px; padding:0 12px; border-radius:var(--r-pill); border:1px solid var(--hair-2);
   background:var(--surface); color:var(--ink-3); font-size:12.5px; font-weight:600; cursor:pointer}
 .why-clear:hover{border-color:var(--hair-3); color:var(--ink)}
 .arch:active{transform:scale(.9)}
 .arch .ic{width:15px; height:15px}
-@media (hover:none){ .arch{opacity:1; transform:none} }
+/* ★터치 기기엔 hover 가 없다 — 행에 올려야 뜨는 버튼은 전부 여기서 상시노출로 풀어 준다.
+   ⛔.arch 만 적어 두면 새 버튼이 생길 때마다 조용히 빠진다(2026-09-14 실측: .whyb 가 빠져 터치로는 첫 사유를 남길 수 없었다). */
+@media (hover:none){ .arch,.whyb{opacity:1; transform:none} }
 
 .more{display:flex; justify-content:center; padding:16px 0 0}
 .more button{
