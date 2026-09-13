@@ -2131,13 +2131,17 @@ function homeMeta(){
 /* ══════════ 홈 — 「블로그 활동」 (2026-09-05 · ★09-06 개명·글 축 추가) ══════════
    출처 = _trend/_citations.json(_tools/mate-citations.cjs, 데스크 [E] 하루 1회, 네이버 공개 스냅샷).
    행 값의 뜻: citations = 그 날짜 스냅샷→다음 스냅샷 사이 증분(어제까지만 있고 오늘은 집계 전) · visitors = 달력일 방문자(XML) 또는 06:00→06:00 차분.
+   ★툴팁·표의 «누적» = cumEnd(r) = r.cum + 그 날 증분(= 그 날이 끝난 시점) — r.cum 그대로가 아니다(09-13).
    ★postsDay = 그 달력일에 실제로 발행된 글 수(글 목록 addDate 를 센 값 — 0 도 0 으로 그린다) · months = 월별 글 수(full:false = 그 달을 반만 덮음).
    인용수는 네이버 메이트로 선정된 블로그만 공개 — 영도처럼 선정 전이면 «비공개»로 적지 0 으로 그리지 않는다(0 위장 금지).
    그래서 이 타일은 «인용»이 아니라 «활동»이다: 인용이 있으면 막대=인용·선=글, 없으면 막대=글 하나로 그린다. */
+/* ★09-13(사용자 지시): 소수 첫째자리까지 «버림» — 반올림 금지. 예전엔 10만 이상에서 정수로 반올림해 누적 3,305,111 을 «331만» 으로 적었고,
+   네이버 프로필은 «330만» 이라 같은 수가 다르게 보였다. 이제 «330.5만»(버림) — 네이버의 9월·기준월 표기(36.7만·76.3만)와도 자리수가 맞는다.
+   자를 때는 정수 나눗셈을 쓴다(부동소수 오차 0): 만 = ⌊n/1000⌋/10 · 억 = ⌊n/1e7⌋/10. 딱 떨어지면 «.0» 은 뗀다(축 눈금 «2만» 유지). */
 function fmtKo(n,sign){
   n=Number(n)||0; var a=Math.abs(n), t;
-  if(a>=1e8)t=(a/1e8).toFixed(a>=1e9?0:1).replace(/\.0$/,'')+'억';
-  else if(a>=1e4)t=(a/1e4).toFixed(a>=1e5?0:1).replace(/\.0$/,'')+'만';
+  if(a>=1e8)t=(Math.floor(a/1e7)/10).toFixed(1).replace(/\.0$/,'')+'억';
+  else if(a>=1e4)t=(Math.floor(a/1e3)/10).toFixed(1).replace(/\.0$/,'')+'만';
   else t=a.toLocaleString('ko-KR');
   return (n<0?'−':(sign&&n>0?'+':''))+t;
 }
@@ -2153,6 +2157,10 @@ function capX(cx,t,lo,hi){ var w=capW(t)/2+3; return Math.max(lo+w,Math.min(hi-w
 function citeWriters(){ return CITES?CITES.writers.filter(function(w){ return w&&PREF.indexOf(w.name)>=0; }):[]; }
 function rowMap(w){ var m={}; (w.rows||[]).forEach(function(r){ if(r&&r.d)m[r.d]=r; }); return m; }
 function lastVal(w,key){ var rows=(w.rows||[]).filter(function(r){ return r&&r[key]!=null; }); return rows.length?rows[rows.length-1]:null; }
+/* ★그 날짜의 «누적» = 그 날이 끝난 시점의 누적 = r.cum + 그 날 증분(= 다음 스냅샷의 cum).
+   r.cum 은 그 날 06:00 스냅샷 값이라 «전날까지»의 누적이다 — 그대로 적으면 같은 툴팁에 «9.12 인용 +3.5만 / 누적 327만» 처럼
+   그 날 증분이 빠진 누적이 실려 실제 블로그 누적(330만)과 어긋난다(09-13 사용자 지적). 증분이 아직 없는 날(집계 전)은 누적도 적지 않는다. */
+function cumEnd(r){ return (r&&r.cum!=null&&r.citations!=null)?Number(r.cum)+Number(r.citations):null; }
 
 function citeRow(w){
   var L=w.latest||{}, m=w.mate, col=wac(w.name);
@@ -2213,7 +2221,7 @@ function citeRow(w){
     if(!barsOn&&pv[i]!=null&&(i===maxI||i===lastI))
       cap='<text class="cap" x="'+capX(padL+slot*i+slot/2,pv[i],padL,W-padR).toFixed(1)+'" y="'+(py(pv[i])-9).toFixed(1)+'" text-anchor="middle">'+pv[i]+'</text>';
     var tip=mdLabel(d)+'|'+(barsOn?(v!=null?fmtKo(v,true)+(r.span>1?' ('+r.span+'일 합)':''):'집계 전'):(pv[i]!=null?fmtPosts(pv[i]):'집계 전'))+'||'+
-      (barsOn&&pv[i]!=null?'글|'+fmtPosts(pv[i]):'')+(barsOn&&r.cum!=null?';누적|'+fmtKo(r.cum):'')+(r.at?';스냅샷|'+hhmm(Date.parse(r.at)):'');
+      (barsOn&&pv[i]!=null?'글|'+fmtPosts(pv[i]):'')+(barsOn&&cumEnd(r)!=null?';누적|'+fmtKo(cumEnd(r)):'')+(r.at?';스냅샷|'+hhmm(Date.parse(r.at)):'');
     var aria=mdLabel(d)+' '+(barsOn?'인용 '+(v!=null?fmtKo(v,true):'집계 전')+(pv[i]!=null?' 글 '+fmtPosts(pv[i]):''):'글 '+(pv[i]!=null?fmtPosts(pv[i]):'집계 전'));
     return '<g class="col">'+bar+cap+lab+
       '<rect class="hit" tabindex="0" x="'+(padL+slot*i).toFixed(1)+'" y="'+padT+'" width="'+slot.toFixed(1)+'" height="'+ph+'" data-tip="'+esc(tip)+'" aria-label="'+esc(aria)+'"/></g>';
@@ -2231,7 +2239,7 @@ function citeRow(w){
     (hasP?'<span style="--c:'+lcol+'"><i class="ln"></i>글<b>'+sumP+'편</b></span>':'')+
     '</div>';
   var table='<table class="sr"><caption>'+esc(w.name)+' 일별 활동 — '+(hasC?'AI 브리핑 인용 증분과 ':'')+'글 작성 수</caption><tr><th>날짜</th>'+(hasC?'<th>인용 증분</th><th>누적 인용</th>':'')+'<th>글</th></tr>'+
-    days.map(function(d,i){ var r=rm[d]||{}; return '<tr><td>'+esc(d)+'</td>'+(hasC?'<td>'+(cv[i]!=null?fmtKo(cv[i],true):'—')+'</td><td>'+(r.cum!=null?fmtKo(r.cum):'—')+'</td>':'')+'<td>'+(pv[i]!=null?pv[i]:'—')+'</td></tr>'; }).join('')+'</table>';
+    days.map(function(d,i){ var r=rm[d]||{}; return '<tr><td>'+esc(d)+'</td>'+(hasC?'<td>'+(cv[i]!=null?fmtKo(cv[i],true):'—')+'</td><td>'+(cumEnd(r)!=null?fmtKo(cumEnd(r)):'—')+'</td>':'')+'<td>'+(pv[i]!=null?pv[i]:'—')+'</td></tr>'; }).join('')+'</table>';
   var chart='<div class="chart"><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+grid+raxis+cols+line+marks+'</svg>'+table+'</div>'+legend;
   return '<div class="cr">'+head+stats+chart+'</div>';
 }
