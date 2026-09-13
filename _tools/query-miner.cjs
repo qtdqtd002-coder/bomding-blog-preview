@@ -55,7 +55,7 @@ const API = 'https://34.139.184.70.sslip.io';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 const SUFFIX = ['하는 법', '얻는 법', '쿠폰', '티어', '추천', '조건', '비용', '초보', '세팅', '공략', '위치', '순위'];
 /* 이동형 질의 = «그 사이트로 가고 싶다» — 블로그 글이 답이 될 수 없다(발주 후보에서 제외, 파일에는 남긴다) */
-const NAV = /나무위키|위키|갤러리|디시|인벤|루리웹|카페|사이트|홈페이지|공홈|다운로드|다운받|설치파일|토렌트|apk|스토어|트위치|유튜브|디스코드/i;
+const NAV = /나무위키|위키|갤러리|디시|인벤|루리웹|카페|사이트|홈페이지|공홈|다운로드|다운받|설치파일|토렌트|apk|스토어|트위치|유튜브|디스코드|\bgg\b|지지/i;
 
 const argv = process.argv.slice(2);
 const has = (f) => argv.includes(f);
@@ -84,6 +84,15 @@ function isOpen(q, who) {
   return who ? !(c[who] || []).length : !Object.values(c).some((a) => a.length);
 }
 function normKey(s) { return String(s).toLowerCase().replace(/[\s·:：\-—–_'"’”“(){}\[\]!?.,]/g, ''); }
+/* ★게임명이 «낱말로» 들어 있나 — 단순 포함 판정은 «애니모»가 «애니모션텍»(전혀 다른 회사)을 끌어온다(2026-09-13 실측).
+   ⛔공백을 지운 뒤 판정하면 안 된다 — 그러면 «애니모 출시일»도 «애니모+출»로 붙어 전부 탈락한다(같은 날 2차 실측).
+   그래서 «글자 사이 공백 허용 + 뒤에 한글이 붙으면 탈락» 으로 원문에서 본다(게임명 자체의 공백 표기 차이도 함께 흡수). */
+function gameRe(game) {
+  const chars = String(game).trim().split('').filter((c) => !/\s/.test(c))
+    .map((c) => c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  return new RegExp(chars.join('\\s*') + '(?![가-힣])', 'i');
+}
+function mentionsGame(q, game) { return gameRe(game).test(String(q)); }
 function sleep(ms) { return ms ? new Promise((r) => setTimeout(r, ms)) : Promise.resolve(); }
 
 async function ac(q) {
@@ -106,7 +115,7 @@ async function mine(game) {
   const put = (q, depth) => {
     const k = normKey(q);
     if (!k || seen.has(k)) return;
-    if (!k.includes(normKey(game))) return;     /* 게임과 무관한 자동완성(브랜드·오타 분기)은 버린다 */
+    if (!mentionsGame(q, game)) return;         /* 게임과 무관한 자동완성(브랜드·오타 분기)은 버린다 */
     seen.set(k, { q, depth });
   };
   const base = await ac(game);
