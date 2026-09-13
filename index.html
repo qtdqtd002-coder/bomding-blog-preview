@@ -365,6 +365,35 @@ a{color:inherit; text-decoration:none}
 }
 .row:hover .arch, .arch:focus-visible{opacity:1; transform:scale(1)}
 .arch:hover{background:var(--ink); color:#fff}
+/* 「안 올린 이유」 버튼 — 아카이브와 같은 어휘(행에 올려야 뜬다). 사유가 남으면 항상 보이고 라벨을 달고 있는다
+   (그 행이 «왜 안 올라갔는지»는 스쳐 지나갈 정보가 아니라 그 행의 상태다). */
+.whyb{
+  height:32px; min-width:32px; padding:0 8px; border-radius:9px; display:inline-flex; align-items:center; gap:6px;
+  color:var(--ink-4); opacity:0; transform:scale(.9);
+  transition:opacity var(--t-fast) var(--e), transform var(--t-fast) var(--e-out),
+             background var(--t-fast) var(--e), color var(--t-fast) var(--e);
+}
+.row:hover .whyb, .whyb:focus-visible, .whyb.on{opacity:1; transform:scale(1)}
+.whyb:hover{background:var(--ink); color:#fff}
+.whyb.on{color:var(--ink-2); background:var(--surface-3)}
+.whyb.on:hover{background:var(--ink); color:#fff}
+.whyb-t{font-size:12px; font-weight:600; letter-spacing:-.01em; white-space:nowrap}
+@media (max-width:700px){ .whyb-t{display:none} }
+/* 사유 고르기 — 칸마다 «라벨 + 그 사유가 가리키는 처방». 처방을 같이 보여 주는 이유는 고르는 순간
+   그게 무엇을 바꾸는지 알아야 아무거나 고르지 않기 때문이다. */
+.why-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px}
+.why-chip{
+  display:flex; flex-direction:column; align-items:flex-start; gap:3px; padding:11px 13px; border-radius:var(--r-row);
+  background:var(--surface); border:1px solid var(--hair-2); color:var(--ink); font-size:14px; font-weight:600;
+  text-align:left; cursor:pointer; transition:border-color var(--t-fast) var(--e), background var(--t-fast) var(--e);
+}
+.why-chip:hover{border-color:var(--hair-3); background:var(--surface-2)}
+.why-chip.on{border-color:var(--ink); background:var(--surface-3)}
+.why-fix{font-size:11.5px; font-weight:500; color:var(--ink-4); letter-spacing:-.01em}
+.why-f{margin-top:12px; display:flex; justify-content:flex-end}
+.why-clear{height:32px; padding:0 12px; border-radius:var(--r-pill); border:1px solid var(--hair-2);
+  background:var(--surface); color:var(--ink-3); font-size:12.5px; font-weight:600; cursor:pointer}
+.why-clear:hover{border-color:var(--hair-3); color:var(--ink)}
 .arch:active{transform:scale(.9)}
 .arch .ic{width:15px; height:15px}
 @media (hover:none){ .arch{opacity:1; transform:none} }
@@ -1552,6 +1581,60 @@ var MpubSvc={
   }
 };
 
+/* 안 올린 이유(why) — 우리가 쓴 초안을 작성자가 실블로그에 «안 올린 이유». 백엔드 /why 와 짝(2026-09-14).
+   ★영도 행에만 띄운다: 영도는 우리 초안이 라이브에 실리는 비율이 4~14%인데(봄딩 74~84%) 사유를 한 번도
+     물은 적이 없어 처방이 원인 없이 나갔다(09-13 진단 «파이프라인이 도달하지 않는다»). 봄딩은 채택률이 높아
+     지금은 켜지 않는다 — 켜는 건 WHY_WRITERS 에 한 줄이다.
+   사유 어휘·처방은 **서버가 내려 준다**(클라이언트가 지어내면 집계가 갈라지고, 집계가 갈라지면
+   «분량이 문제인가 사실이 문제인가»를 못 가른다 = 이 기능의 존재 이유). 백엔드 미연결이면 버튼을 숨긴다. */
+var WHY_WRITERS=['영도'];
+var WHY=Object.create(null), WHY_REASONS=[];
+var WhySvc={
+  isConnected:function(){ return !!CFG.API_BASE; },
+  load:function(){
+    if(!this.isConnected())return Promise.resolve();
+    return fetch(api()+'/why?ts='+Date.now()).then(function(r){ return r.ok?r.json():null; })
+      .then(function(d){
+        WHY=Object.create(null); WHY_REASONS=(d&&Array.isArray(d.reasons))?d.reasons:[];
+        ((d&&d.items)||[]).forEach(function(x){ if(x&&x.rel)WHY[String(x.rel)]=String(x.reason||''); });
+      }).catch(function(){});
+  },
+  set:function(rel,reason){
+    if(!this.isConnected())return Promise.reject(new Error('백엔드 미연결 — 사유 기록은 서버 연결이 필요해요.'));
+    return fetch(api()+'/why',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({rel:rel,reason:reason,source:'site'})}).then(function(r){
+      if(!r.ok)return r.json().catch(function(){ return {}; }).then(function(j){ throw new Error(j.error||('HTTP '+r.status)); });
+      WHY[rel]=reason;
+    });
+  },
+  clear:function(rel){
+    if(!this.isConnected())return Promise.reject(new Error('백엔드 미연결'));
+    return fetch(api()+'/why/clear',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({rel:rel})}).then(function(r){
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      delete WHY[rel];
+    });
+  }
+};
+function whyOn(p){ return WhySvc.isConnected() && WHY_WRITERS.indexOf(p.author)>=0; }
+/* ★행 버튼을 «제자리»로 고친다 — paintRows() 를 부르면 될 것 같지만 안 된다:
+   FLIP 경로는 기존 행 노드를 appendChild 로 «옮기기»만 하고 innerHTML 을 다시 만들지 않는다(2026-09-14 게이트가 잡음).
+   전량 재렌더(빈 목록→innerHTML)를 유도하면 스크롤·애니메이션이 튀므로, 바뀐 행 하나만 손댄다. */
+function paintWhyBtn(rel){
+  var row=document.querySelector('#listCore .row[data-rel="'+(window.CSS&&CSS.escape?CSS.escape(rel):rel)+'"]');
+  if(!row)return;
+  var b=row.querySelector('.whyb'); if(!b)return;
+  var id=WHY[rel]||'', lab=id?whyLabel(id):'';
+  b.classList.toggle('on',!!id);
+  b.setAttribute('title', id?('안 올린 이유 — '+lab):'안 올린 이유');
+  var t=b.querySelector('.whyb-t');
+  if(id){
+    if(!t){ t=document.createElement('span'); t.className='whyb-t'; b.appendChild(t); }
+    t.textContent=lab;
+  }else if(t){ b.removeChild(t); }
+}
+function whyLabel(id){ for(var i=0;i<WHY_REASONS.length;i++)if(WHY_REASONS[i].id===id)return WHY_REASONS[i].label; return id||''; }
+
 /* 꼭 다룰 게임(pins) — 소비자가 브라우저가 아니라 PC 의 daily-topic-desk 스킬이라 백엔드에 둔다. */
 var PINS_MAX=8, PIN_LS='sseudam_pins_cache', PINS=[];
 var PinSvc={
@@ -1636,6 +1719,7 @@ var trendP=jget('_trend/trend-lite.json?ts='+Date.now(),null).then(function(j){
 });
 var hidP=HiddenSvc.load();
 var mpubP=MpubSvc.load();
+var whyP=WhySvc.load();
 PinSvc.loadCache();
 var pinP=PinSvc.load();
 /* 발주일자·실패 알림의 단일 출처. 실패해도 화면은 뜬다(발주일은 작성일로 폴백). */
@@ -1648,7 +1732,7 @@ var quotaP=jget('_trend/_quota.json?ts='+Date.now(),null);
 /* 홈 «블로그 활동»(구 «AI 브리핑 인용», 09-06 개명) — _tools/mate-citations.cjs 가 데스크 [E]에서 하루 1회 굽는다(인용·방문자·일자별 글 수) */
 var citeP=jget('_trend/_citations.json?ts='+Date.now(),null);
 
-Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP]).then(function(r){
+Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP]).then(function(r){
   var posts=r[0]||[], pub=r[1]||{}, trend=r[2]||{}, reqs=r[6];
   USAGE=(r[7]&&Array.isArray(r[7].days))?r[7]:null;
   QUOTA=(r[8]&&(Array.isArray(r[8].limits)||r[8].five_hour))?r[8]:null;
@@ -2474,7 +2558,12 @@ function rowHtml(p){
     '<span class="row-meta-m"><span class="wnm">'+esc(p.author)+'</span> · <span class="mc">'+esc(p.cat||'—')+'</span> · '+
       '<span class="num'+(p.hasOrder?'':' approx')+'"'+dateTip(p)+'>'+dateTx(p)+'</span>'+
       (p.lead?leadTx(p):'')+'</span>'+
-    '<span class="row-a"><button type="button" class="arch" title="아카이브" aria-label="'+
+    '<span class="row-a">'+
+      (whyOn(p)?'<button type="button" class="whyb'+(WHY[p.rel]?' on':'')+'" data-rel="'+esc(p.rel)+'" title="'+
+        (WHY[p.rel]?esc('안 올린 이유 — '+whyLabel(WHY[p.rel])):'안 올린 이유')+'" aria-label="'+
+        esc(p.title)+' 안 올린 이유">'+svg('edit')+
+        (WHY[p.rel]?'<span class="whyb-t">'+esc(whyLabel(WHY[p.rel]))+'</span>':'')+'</button>':'')+
+      '<button type="button" class="arch" title="아카이브" aria-label="'+
       esc(p.title)+' 아카이브">'+svg('archive')+'</button></span>'+
   '</div>';
 }
@@ -2502,11 +2591,47 @@ function bindPosts(){
   /* 아카이브 버튼은 위임 — 행이 FLIP 으로 살아남아도 리스너가 중복되지 않는다 */
   var core=el('listCore');
   if(core)core.addEventListener('click',function(e){
+    var w=e.target.closest('.whyb');
+    if(w){ e.preventDefault(); e.stopPropagation(); openWhy(w); return; }
     var b=e.target.closest('.arch'); if(!b||b.disabled)return;
     e.preventDefault(); e.stopPropagation();
     var row=b.closest('.row'); if(row)archive(row);
   });
 }
+/* 「안 올린 이유」 — 사유를 하나 고르면 그대로 서버에 남는다(글 하나당 최신 1건, 바꾸면 덮어쓴다).
+   ★고른 사유가 곧 처방이다: 분량이면 분량 밴드, 사실이면 qa-fact — 그래서 자유 입력을 받지 않는다. */
+function openWhy(btn){
+  var rel=btn.getAttribute('data-rel');
+  var post=POSTS.filter(function(p){ return p.rel===rel; })[0];
+  if(!post)return;
+  var cur=WHY[rel]||'';
+  var chips=WHY_REASONS.map(function(x){
+    return '<button type="button" class="why-chip'+(x.id===cur?' on':'')+'" data-r="'+esc(x.id)+'">'+
+      esc(x.label)+'<span class="why-fix">'+esc(x.fix)+'</span></button>';
+  }).join('');
+  var back=openModal(
+    '<div class="mdl-h"><span class="mdl-hic">'+svg('edit')+'</span>'+
+      '<div><div class="mdl-ht">안 올린 이유</div><div class="mdl-hs">'+esc(post.title)+'</div></div>'+
+      '<button type="button" class="mdl-x" data-close aria-label="닫기">'+svg('x')+'</button></div>'+
+    '<div class="mdl-b"><div class="why-grid">'+chips+'</div>'+
+      (cur?'<div class="why-f"><button type="button" class="why-clear">사유 지우기</button></div>':'')+
+    '</div>', btn, '안 올린 이유');
+  if(!back)return;
+  back.addEventListener('click',function(e){
+    var c=e.target.closest('.why-chip');
+    if(c){
+      var id=c.getAttribute('data-r');
+      WhySvc.set(rel,id).then(function(){ closeModal(); paintWhyBtn(rel); toast('사유를 남겼어요 — '+whyLabel(id)); })
+        .catch(function(err){ toast(err.message||'실패'); });
+      return;
+    }
+    if(e.target.closest('.why-clear')){
+      WhySvc.clear(rel).then(function(){ closeModal(); paintWhyBtn(rel); toast('사유를 지웠어요'); })
+        .catch(function(err){ toast(err.message||'실패'); });
+    }
+  });
+}
+
 /* 아카이브 — 행이 오른쪽으로 미끄러져 나가고 아래 행들이 FLIP 으로 올라온다(transform 만 사용). */
 function archive(row){
   var rel=row.dataset.rel;

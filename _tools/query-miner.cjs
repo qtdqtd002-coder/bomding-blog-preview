@@ -95,8 +95,9 @@ function gameRe(game) {
 function mentionsGame(q, game) { return gameRe(game).test(String(q)); }
 function sleep(ms) { return ms ? new Promise((r) => setTimeout(r, ms)) : Promise.resolve(); }
 
+let capHit = false;
 async function ac(q) {
-  if (reqCount >= MAXREQ) return [];
+  if (reqCount >= MAXREQ) { capHit = true; return []; }
   reqCount++;
   const url = 'https://ac.search.naver.com/nx/ac?q=' + encodeURIComponent(q)
     + '&st=100&r_format=json&r_enc=UTF-8&r_unicode=0&t_koreng=1&q_enc=UTF-8&frm=nv';
@@ -235,10 +236,18 @@ async function main() {
   if (prev && Array.isArray(prev.games)) prev.games.forEach((g) => keep.set(g.game, g));
 
   for (const game of games) {
+    capHit = false;
     const list = await mine(game);
     if (!list.length) { console.error('⚠ ' + game + ' — 자동완성 0건(지난 판 보존)'); continue; }
+    /* ★요청 상한에 걸려 덜 돈 회차가 «더 적은 결과»로 저장본을 덮어쓰지 않게 한다(2026-09-14 QA 발견).
+       상한은 예의(네이버 부하)를 위한 것이지 «데이터를 줄이라»는 뜻이 아니다. */
+    const prev = keep.get(game);
+    if (capHit && prev && prev.count > list.length) {
+      console.error('⚠ ' + game + ' — 요청 상한(' + MAXREQ + ')에 걸려 ' + list.length + '건만 모았다 → 지난 판 ' + prev.count + '건 보존');
+      continue;
+    }
     keep.set(game, {
-      game, minedAt: new Date().toISOString(), count: list.length,
+      game, minedAt: new Date().toISOString(), count: list.length, partial: capHit || undefined,
       queries: list.map((x) => ({ q: x.q, depth: x.depth, angle: classify(x.q), nav: isNav(x.q), covered: coverage(ledger, game, x.q) })),
     });
     console.error('  ' + game + ' — 질의 ' + list.length + '개');
