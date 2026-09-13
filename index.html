@@ -678,6 +678,7 @@ a{color:inherit; text-decoration:none}
 .legend b{font-family:"JetBrains Mono",monospace; font-weight:500; color:var(--ink); font-variant-numeric:tabular-nums}
 /* 홈 — 작은 스탯 칸(.ks-*, 사용량·블로그 활동 타일 공용) · 블로그 활동 작성자 2칸(.cr-grid). 칸은 면이 아니라 헤어라인으로 나눈다(카드 속 카드 금지) */
 .ks-stats{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px 12px; margin:0 0 10px}
+.ks-stats.ks-3{grid-template-columns:repeat(3,minmax(0,1fr))}   /* 6칸(글 4 + 발행 리듬 2)을 3+3 으로 고르게 — 09-14 */
 .ks-k{display:block; font-size:12.5px; color:var(--ink-4); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}   /* 라벨 ≥12.5px */
 .ks-v{display:block; font-family:"JetBrains Mono",monospace; font-weight:600; font-size:15px; letter-spacing:-.02em; color:var(--ink); font-variant-numeric:tabular-nums; white-space:nowrap}
 .ks-v.pend{color:var(--ink-4); font-weight:500}
@@ -1787,7 +1788,8 @@ var TOOLS=[
   {id:'thumb', name:'썸네일 제작', icon:'image', src:'_toolbox/thumb.js?v=20260907b'},
   {id:'tier',  name:'티어표 제작', icon:'layers', src:'_toolbox/tier.js?v=20260908a'},
   {id:'table', name:'표 제작', icon:'table', src:'_toolbox/table.js?v=20260912c'},
-  {id:'photo', name:'이미지 편집', icon:'imgEdit', src:'_toolbox/photo.js?v=20260912b'}
+  {id:'photo', name:'이미지 편집', icon:'imgEdit', src:'_toolbox/photo.js?v=20260912b'},
+  {id:'title', name:'제목 검사기', icon:'search', src:'_toolbox/title.js?v=20260914b'}
 ];
 var TOOL_P={}, TOOL_ON=null;
 function toolApi(){
@@ -2194,6 +2196,10 @@ function capW(t){ var s=String(t), w=0; for(var i=0;i<s.length;i++)w+=s.charCode
 function capX(cx,t,lo,hi){ var w=capW(t)/2+3; return Math.max(lo+w,Math.min(hi-w,cx)); }   /* +3 = 폭 어림이 조금 모자랄 때의 여유 */
 function citeWriters(){ return CITES?CITES.writers.filter(function(w){ return w&&PREF.indexOf(w.name)>=0; }):[]; }
 function rowMap(w){ var m={}; (w.rows||[]).forEach(function(r){ if(r&&r.d)m[r.d]=r; }); return m; }
+/* 대기 초안 = 그 작성자 글 중 실블로그에 아직 안 올라간 것(isLive). 사이트 「작성 글」 목록의 기준과 같다 */
+function waitN(name){ var n=0; POSTS.forEach(function(p){ if(p.author===name&&isLive(p))n++; }); return n; }
+/* 14일 창의 하루 최대 발행 수 — 집계된 날이 하나도 없으면 null(0 으로 위장하지 않는다) */
+function maxDay(w){ var rm=rowMap(w), mx=null; citeDays(14).forEach(function(d){ var r=rm[d]; if(r&&r.postsDay!=null)mx=Math.max(mx==null?0:mx,Number(r.postsDay)); }); return mx; }
 function lastVal(w,key){ var rows=(w.rows||[]).filter(function(r){ return r&&r[key]!=null; }); return rows.length?rows[rows.length-1]:null; }
 /* ★그 날짜의 «누적» = 그 날이 끝난 시점의 누적 = r.cum + 그 날 증분(= 다음 스냅샷의 cum).
    r.cum 은 그 날 06:00 스냅샷 값이라 «전날까지»의 누적이다 — 그대로 적으면 같은 툴팁에 «9.12 인용 +3.5만 / 누적 327만» 처럼
@@ -2214,6 +2220,7 @@ function citeRow(w){
   /* ── 스탯: 인용 4칸(공개된 블로그만) + 글 4칸. 글 칸은 «어제 / 이번 달 / 지난달 / 총 글» — 인용 칸과 같은 결(어제·월·기준월·누적) */
   var tm=kstDay(Date.now()).slice(0,7), pm=prevYm(tm), mThis=monthPosts(w,tm), mPrev=monthPosts(w,pm);
   var yd=days[days.length-1], ydP=(rm[yd]&&rm[yd].postsDay!=null)?Number(rm[yd].postsDay):null;
+  var mxDay=maxDay(w);
   var stats='';
   if(hasC){
     var last=lastVal(w,'citations');
@@ -2223,11 +2230,18 @@ function citeRow(w){
       '<span><span class="ks-k">기준월 '+(L.selMonth||'')+'월</span><b class="ks-v">'+fmtKo(L.sel)+'</b></span>'+
       '<span><span class="ks-k">누적 인용</span><b class="ks-v">'+fmtKo(L.cum)+'</b></span></div>';
   }
-  stats+='<div class="ks-stats">'+
+  /* ★글 통계는 6칸(글 4 + 발행 리듬 2)이라 «3열»로 접는다(09-14 검수 🟡) — 4열이면 둘째 줄이 2/4 만 차서 리듬이 어긋난다 */
+  stats+='<div class="ks-stats ks-3">'+
     '<span><span class="ks-k">어제 글</span><b class="ks-v'+(ydP==null?' pend':'')+'">'+(ydP==null?'집계 전':fmtPosts(ydP))+'</b></span>'+
     '<span><span class="ks-k">'+ymLabel(tm)+' 글</span><b class="ks-v'+(mThis?'':' pend')+'">'+(mThis?fmtPosts(mThis.posts):'—')+'</b></span>'+
     '<span><span class="ks-k">'+ymLabel(pm)+' 글'+(mPrev&&!mPrev.full?' *':'')+'</span><b class="ks-v'+(mPrev?'':' pend')+'">'+(mPrev?fmtPosts(mPrev.posts):'—')+'</b></span>'+
-    '<span><span class="ks-k">총 글</span><b class="ks-v'+(L.posts==null?' pend':'')+'">'+(L.posts==null?'—':fmtKo(L.posts)+'편')+'</b></span></div>';
+    '<span><span class="ks-k">총 글</span><b class="ks-v'+(L.posts==null?' pend':'')+'">'+(L.posts==null?'—':fmtKo(L.posts)+'편')+'</b></span>'+
+    /* ★발행 리듬(2026-09-14) — 대기 = 아직 실블로그에 안 올린 초안(isLive = published·mpub·hidden 어디에도 없는 것) ·
+       최다·일 = 14일 창의 하루 최대 발행 수. 봄딩은 하루 최대 9편·4편 이상인 날이 42일이었고(09-13 진단), 골격이 같은
+       몰아치기는 네이버가 말한 «동일·유사 템플릿 대량 발행»과 겹쳐 보인다. ★단 네이버가 공표한 «하루 몇 편» 상한은
+       없으므로 임계선을 그리지 않고 실측만 적는다(없는 기준을 지어내지 않는다). */
+    '<span><span class="ks-k">대기 초안</span><b class="ks-v">'+waitN(w.name)+'편</b></span>'+
+    '<span><span class="ks-k">최다·일</span><b class="ks-v'+(mxDay==null?' pend':'')+'">'+(mxDay==null?'—':mxDay+'편')+'</b></span></div>';
   if(!hasC)stats+='<div class="cr-state">인용수 비공개 · 메이트 선정 시 자동 공개</div>';
   /* ── 차트: 인용이 공개면 «막대=인용(왼쪽 축) + 선·점=글(오른쪽 축 편)» 콤보, 아니면 «막대=글» 하나 (사용량 타일과 같은 어휘) */
   /* ★글 작성 수는 «항상 꺾은선»(사용자 지시 09-06) — 인용이 공개면 막대(왼쪽 축) 위에 오른쪽 축(편)으로 얹고,
