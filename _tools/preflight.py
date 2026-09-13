@@ -124,6 +124,19 @@ def main():
         if re.search(pat, html, re.I):
             issues.append('발행본 금지요소: %s — style-lint 가 push 를 차단한다' % why)
 
+    # ⑦ FAQ Q 개수(★봄딩 전용 · 2026-09-13 사용자 지시 «기본 5개») — 경고만, 차단하지 않는다.
+    #   FAQ 절이 아예 없는 글(육아 쿠팡 수익형·순수 후기형 = ai-briefing R4 범위 밖)은 침묵한다 — 오탐 0.
+    #   ★#copy(네이버 생존본)를 함께 세면 Q 가 정확히 2배로 나온다(09-13 실측) — strip_excluded 로 먼저 뺀다.
+    if writer == '봄딩':
+        post = strip_excluded(html)
+        if re.search(r'자주\s*묻는\s*질문|FAQ', post, re.I):
+            faq_q = re.findall(r'<b>\s*(?:Q\s*\d*\s*[.·:]?\s*)?[^<]{6,90}\?\s*</b>', post)
+            if len(faq_q) < 5:
+                warns.append('FAQ Q %d개 — 기본 5개 목표(ai-briefing R4 · 09-13 상향). '
+                             '★본문 재진술로 채우지 마라 — 새 질문이 없으면 그대로 둔다(미달 사유 기록 불필요). '
+                             '소재: 공식 공지 유의사항 · 커뮤니티 반복 질문 · 검색 자동완성 · aib-check 의 none 질의'
+                             % len(faq_q))
+
     ok = not issues
     if a.json:
         print(json.dumps({'ok': ok, 'chars': n, 'floor': floor, 'writer': writer,
