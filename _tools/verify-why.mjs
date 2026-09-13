@@ -117,8 +117,12 @@ const shot = async (n) => { const r = await send('Page.captureScreenshot', { for
 
 const R = []; let fail = 0;
 const chk = (name, ok, got) => { R.push({ name, ok: !!ok }); console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${name}${ok ? '' : '  → ' + JSON.stringify(got)}`); if (!ok) fail++; };
-const open = async (w, h, mobile) => {
+/* ★touchMedia: hover 매체 에뮬레이션은 **탐색 «전»에** 걸어야 한다.
+   페이지가 뜬 뒤에 setEmulatedMedia 를 부르면 이 크롬에서는 matchMedia 가 따라오지 않았고(2026-09-14 실측),
+   심지어 폭 기반 미디어쿼리까지 어긋나 버튼이 36px 로 읽혔다. 가드(matchMedia 검사)가 없었으면 그대로 속았다. */
+const open = async (w, h, mobile, touchMedia) => {
   await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: !!mobile });
+  if (touchMedia) await send('Emulation.setEmulatedMedia', { media: 'screen', features: [{ name: 'hover', value: 'none' }, { name: 'any-hover', value: 'none' }, { name: 'pointer', value: 'coarse' }] });
   const p = new Promise(r => loaded = r);
   await send('Page.navigate', { url: `http://127.0.0.1:${HP}/index.html?cheer=0` });
   await Promise.race([p, sleep(10000)]); loaded = null;
@@ -171,7 +175,7 @@ chk('가로 넘침 없음(1920)', await ev(`document.documentElement.scrollWidth
 chk('[1920] 콘솔 예외 0', logs.length === 0, logs);
 
 /* 390 — 좁은 폭에서는 라벨을 접고 아이콘만 */
-await open(390, 844, true); logs = [];
+await open(390, 844, true, true); logs = [];
 await goPosts(); await pickWriter('영도');
 await click('#listCore .row .whyb');
 await waitFor(`!!document.querySelector('.why-grid')`, 5000);
@@ -183,10 +187,51 @@ chk('고른 칩의 처방 글자는 한 단 진하다', await ev(`(()=>{const c=
 await ev(`document.querySelector('[data-close]')&&document.querySelector('[data-close]').click()`); await sleep(300);
 /* ★★터치 기기엔 hover 가 없다 — «사유가 아직 없는 행»의 버튼이 안 보이면 최초 기록 자체가 불가능하다.
    .arch 에만 있던 상시노출 규칙이 .whyb 로 확장되지 않아 실제로 그랬다(2026-09-14 검수 🔴). */
-/* 행 진입 애니메이션(rise)이 끝난 뒤에 잰다 — 중간에 재면 둘 다 0.73 같은 보간값이 나온다(첫 시도 실측) */
-await sleep(1200);
-const touch = await ev(`(()=>{const r=[...document.querySelectorAll('#listCore .row')].find(x=>x.querySelector('.whyb')&&!x.querySelector('.whyb.on'));if(!r)return null;const w=r.querySelector('.whyb'),a=r.querySelector('.arch');return {why:getComputedStyle(w).opacity,arch:getComputedStyle(a).opacity}})()`);
-chk('[390 터치] 사유 없는 행도 버튼이 보인다(hover:none 상시노출)', !!touch && touch.why === '1' && touch.arch === '1', touch);
+await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 2, y: 2, button: 'none' });   /* 마우스를 목록 밖으로 */
+/* ★★행에 서는 버튼의 «터치 규칙 등록» 검사 (2026-09-14 검수 🔴 + 후속 🟡)
+   터치 기기엔 hover 가 없다. 그래서 «행에 올려야 뜨는» 버튼은 두 규칙에 **이름을 등록**해야 한다:
+     ⑴ @media (hover:none) → opacity:1   (없으면 «사유가 아직 없는 행»의 버튼을 볼 방법이 없어 최초 기록 자체가 불가능)
+     ⑵ @media (max-width:860px) → 40px   (손가락 표적)
+   둘 다 선택자에 이름을 하나씩 적는 구조라 **새 버튼이 생길 때마다 조용히 빠진다** — 실제로 `.whyb` 가 둘 다 빠져 있었다.
+   ⛔행동(computed opacity)으로 재려다 두 번 속았다: ①마우스가 올라간 행을 재서 «틀린 이유로 통과»
+     ②`Emulation.setEmulatedMedia` 가 이 하네스에선 안 먹어(matchMedia hover:none=false) «틀린 이유로 실패».
+   그래서 원본 CSS 를 **Node 쪽에서 직접 읽어** 확인한다 — 브라우저를 안 거치니 흔들리지 않는다. */
+const CSSSRC = readFileSync(join(ROOT, 'index.html'), 'utf8');
+/* 같은 조건의 @media 블록이 여러 개일 수 있다(index.html 은 실제로 그렇다) — 전부 이어 붙여서 본다 */
+const blockOf = (cond) => {
+  let out = '', from = 0;
+  for (;;) {
+    const i = CSSSRC.indexOf(cond, from);
+    if (i < 0) return out;
+    const j = CSSSRC.indexOf('{', i);
+    if (j < 0) return out;
+    let d = 0;
+    for (let k = j; k < CSSSRC.length; k++) {
+      if (CSSSRC[k] === '{') d++;
+      else if (CSSSRC[k] === '}') { d--; if (!d) { out += CSSSRC.slice(j, k) + '\n'; from = k; break; } }
+    }
+    if (from <= i) return out;
+  }
+};
+const ROWBTNS = ['.arch', '.whyb'];
+const selListed = (block, prop, btn) =>
+  new RegExp('(^|[{}\\n])\\s*[^{}\\n]*\\' + btn + '\\b[^{}\\n]*\\{[^{}]*' + prop).test(block);
+
+const hoverBlock = blockOf('@media (hover:none)');
+chk('터치 상시노출 규칙이 있다', !!hoverBlock);
+ROWBTNS.forEach((b) => chk('터치 상시노출에 ' + b + ' 등록', selListed(hoverBlock, 'opacity', b), hoverBlock.slice(0, 160)));
+
+const narrowBlock = blockOf('@media (max-width:860px)');
+chk('모바일 블록이 있다', !!narrowBlock);
+ROWBTNS.forEach((b) => chk('손가락 표적 40px 에 ' + b + ' 등록',
+  new RegExp('[^{}\\n]*\\' + b + '\\b[^{}\\n]*\\{[^{}]*width\\s*:\\s*40px').test(narrowBlock),
+  (narrowBlock.match(/[^{}\n]*40px[^{}]*/) || [''])[0].slice(0, 120)));
+
+/* 행 버튼이 평소엔 숨어 있다가 행에 올리면 뜨는 것(데스크톱 어휘) — 이건 브라우저로 확인 */
+await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 2, y: 2, button: 'none' });
+await sleep(900);
+const hidden = await ev(`(()=>{const r=[...document.querySelectorAll('#listCore .row')].find(x=>x.querySelector('.whyb')&&!x.querySelector('.whyb.on')&&!x.matches(':hover'));if(!r)return null;return getComputedStyle(r.querySelector('.whyb')).opacity})()`);
+chk('사유 없는 버튼은 평소 숨어 있다(hover 어휘)', hidden === '0', { hidden });
 const gapPx = await ev(`(()=>{const r=document.querySelector('#listCore .row .whyb');if(!r)return null;const a=r.closest('.row-a').querySelector('.arch');return Math.round(a.getBoundingClientRect().left-r.getBoundingClientRect().right)})()`);
 chk('두 버튼이 맞붙지 않는다(간격 ≥4px)', typeof gapPx === 'number' && gapPx >= 4, { gapPx });
 chk('[390] 가로 넘침 없음', await ev(`innerWidth===390&&document.documentElement.scrollWidth<=390`), await ev(`({iw:innerWidth,sw:document.documentElement.scrollWidth})`));
@@ -195,7 +240,7 @@ chk('[390] 콘솔 예외 0', logs.length === 0, logs);
 
 /* 백엔드 미연결 — 버튼이 아예 없어야 한다(누르면 실패할 버튼을 보여 주지 않는다) */
 NOAPI = true;
-await open(1920, 1080, false); logs = [];
+await open(1920, 1080, false, false); logs = [];
 await goPosts(); await pickWriter('영도');
 chk('백엔드 미연결이면 버튼을 숨긴다', (await ev(`document.querySelectorAll('#listCore .row .whyb').length`)) === 0);
 chk('[미연결] 콘솔 예외 0', logs.length === 0, logs);
