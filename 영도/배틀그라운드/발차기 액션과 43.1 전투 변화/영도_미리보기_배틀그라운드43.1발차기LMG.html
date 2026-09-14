@@ -1,0 +1,327 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>배틀그라운드 PUBG 43.1 업데이트 발차기 액션 총정리, 경기관총 LMG 전투 밸런스 변화</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post .q{color:var(--pt);}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td.l{text-align:left;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy h3:first-child{margin-top:0;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy a{color:#1a73e8;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;}
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+</style></head><body>
+
+<div class="pvbar">✍️ 미리보기 전용입니다. 네이버에 붙여넣을 땐 우측 상단 📋 버튼을 이용해 주세요.</div>
+
+<!-- R1 타깃 질문(AEO): ① 43.1 발차기 어떻게 쓰나 ② LMG 왜 약해졌나 ③ 적용일이 언제인가 -->
+
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">게임 정보 · 소식</div>
+    <h1 class="title">배틀그라운드 PUBG 43.1 업데이트 발차기 액션 총정리, 경기관총 LMG 전투 밸런스 변화</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026-09-14</span><span>· 게임</span></div>
+
+    <!-- 본문 시작 -->
+    <p>안녕하세요. 영원한도시입니다. 배틀그라운드는 주인장 PC방 죽돌이 시절을 책임졌던 게임 중 하나인데요(ㅋㅋ), 그때는 문 앞에서 쭈뼛대다 무기도 없이 그대로 정리당하는 경우가 정말 많았거든요. 그런데 이번 43.1 업데이트 패치노트를 직접 열어보니, 드디어 맨손으로 문이나 창문을 걷어차 부술 수 있는 발차기 액션이 새로 생겼다고 하더라고요. 여기에 경기관총(LMG) 밸런스까지 크게 손을 댔다고 해서, 오늘은 이 두 가지 전투 변화만 짧게 정리해 드릴게요. (콜라보 소식은 지난 포스팅에서 이미 다뤘으니 이번 글에서는 다루지 않을게요.)</p>
+
+    <h2 class="sec">1. 발차기 액션이 뭐길래? 맨손 전투가 완전히 달라졌다</h2>
+
+    <p>이번 43.1 업데이트로 배틀그라운드 맨손 전투에 <b>'스탠드 킥'</b>과 <b>'점프 킥'</b>, 두 가지 발차기 액션이 사상 처음 생겼습니다.</p>
+
+    <p>공식 패치노트를 보면 두 액션 모두 <b>맨손 상태에서만 사용할 수 있다</b>고 못 박혀 있는데요, 총이나 근접무기를 들고 있을 땐 쓸 수 없다는 뜻이겠죠. 서 있는 상태에서 차는 '스탠드 킥'과 점프하면서 차는 '점프 킥'으로 나뉘어 있고, 그냥 상대를 때리는 용도가 아니라 아래 오브젝트들을 직접 파괴할 수 있다는 게 핵심이에요.</p>
+
+    <ul>
+      <li>창문</li>
+      <li>나무 문</li>
+      <li>나무 울타리</li>
+      <li>항아리</li>
+      <li>타이어</li>
+    </ul>
+
+    <p>지금까지는 문이 잠겨 있거나 창문이 막혀 있으면 근접무기나 총으로 부수거나, 아니면 빙 둘러서 다른 길을 찾아야 했는데요, 이제는 무기가 하나도 없는 극초반 상황에서도 발로 걷어차서 건물 안으로 밀고 들어갈 길이 생긴 셈입니다. 반대로 지형지물 뒤에 숨어 있던 상대 입장에서는 창문이나 나무 문, 나무 울타리가 더 이상 확실한 은신처가 아니게 됐다고 볼 수 있어요. 항아리ㆍ타이어처럼 시야를 가리던 소품도 발차기 한 번으로 치워 버릴 수 있으니, 근접전 시야 싸움에서도 변수가 하나 늘었다고 보시면 됩니다. 특히 자기장 안에서 무기 없이 갇혔을 때 발로 문을 열고 건물 사이를 빠르게 이동할 길이 생겼다는 점도, 실전에서는 은근히 크게 다가올 부분인 듯하고요.</p>
+
+    <!-- 이미지 이유: 43.1 발차기 액션 소개 / 출처: PUBG 공식 홈페이지 패치노트 / 분류: A형 -->
+    <div class="imgwrap">
+      <img src="https://wstatic-prod-boc.krafton.com/common/news/20260908/tKxvQL6l.jpg" alt="배틀그라운드 43.1 업데이트 발차기 액션 이미지" width="1920" height="1080">
+    </div>
+    <p class="cap">맨손 상태에서 쓸 수 있는 발차기 액션 — 스탠드 킥ㆍ점프 킥</p>
+    <p class="src">이미지 출처: <a href="https://www.pubg.com/ko/news/11057" target="_blank">PUBG 공식 홈페이지 — 43.1 업데이트 패치노트</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sec">2. 조준부터 느려졌다 — 경기관총(LMG) 이번 패치로 뭐가 바뀌었나</h2>
+
+    <p>완전히 못 쓰게 된 건 아니지만, 이번 43.1 패치로 <b>경기관총(LMG)</b> 계열은 확실히 손이 많이 갔습니다.</p>
+
+    <table class="tbl">
+      <thead>
+        <tr><th>항목</th><th>기존</th><th>43.1 변경</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="l">조준(ADS) 전환 시간</td><td>0.30초</td><td><b>0.37초</b></td></tr>
+        <tr><td class="l">차량 피해량 (M249ㆍRPD)</td><td>1.1배</td><td><b>1.0배</b></td></tr>
+        <tr><td class="l">차량 피해량 (MG3)</td><td>1.25배</td><td><b>1.1배</b></td></tr>
+        <tr><td class="l">반동 제어 감소 (RPD 기준ㆍ서서)</td><td>-</td><td><b>10%↓</b></td></tr>
+        <tr><td class="l">반동 제어 감소 (RPD 기준ㆍ앉아서)</td><td>-</td><td><b>17%↓</b></td></tr>
+        <tr><td class="l">반동 제어 감소 (RPD 기준ㆍ엎드려서)</td><td>-</td><td><b>27%↓</b></td></tr>
+        <tr><td class="l">RPDㆍM249 월드 스폰량</td><td>-</td><td><b>30%↓</b></td></tr>
+      </tbody>
+    </table>
+
+    <p>가장 크게 체감될 부분은 조준(ADS) 전환 시간인데요, <b>0.30초에서 0.37초로</b> 늘어났습니다. 숫자만 보면 0.07초 차이라 별것 아닌 것 같지만, 근거리 교전에서 조준 시작이 그만큼 밀린다는 뜻이라 초반 대응 속도가 눈에 띄게 늦어질 수밖에 없습니다.</p>
+
+    <p>차량 피해량도 함께 깎였는데요, M249ㆍRPD는 기존 1.1배에서 1.0배로, MG3는 1.25배에서 1.1배로 낮아졌습니다. 차량을 타고 도망가는 상대를 LMG 한 자루로 순삭시키던 재미가 이전만큼은 아니게 된 셈이죠.</p>
+
+    <p>반동 제어 효과도 RPD 기준으로 서서 사격은 10%, 앉아서 사격은 17%, 엎드려 사격은 27%나 줄었는데요, 특히 엎드려서 갈기던 이른바 눕사격 정확도가 크게 흔들리는 셈이죠. 여기에 RPDㆍM249의 월드 스폰량까지 30% 줄었으니, 이제 초반 파밍 단계에서부터 LMG를 마주칠 확률 자체가 낮아진 거예요. 이렇게 보면 화력이 아예 삭제된 건 아니지만, 조준ㆍ차량전ㆍ반동ㆍ파밍 네 가지가 한꺼번에 손질된 셈이라 '예전처럼 편하게 갈기는 총'은 아니게 됐다고 보시면 될 것 같습니다. 참고로 이번 패치노트에는 돌격소총(AR) 계열 조정 내용은 따로 없었으니, 상대적으로 LMG의 입지만 더 좁아진 패치더라고요.</p>
+
+    <h2 class="sec">3. 적용일은 언제? PC는 이미, 콘솔은 곧</h2>
+
+    <p>PC는 9월 10일 점검으로 이미 적용이 끝났고, 콘솔은 9월 17일 점검 이후 적용될 예정입니다.</p>
+
+    <table class="tbl">
+      <thead>
+        <tr><th>플랫폼</th><th>점검 시간</th><th>상태</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="l">PC</td><td>9월 10일 09:00~17:30</td><td><b>적용 완료</b></td></tr>
+        <tr><td class="l">콘솔(PSㆍXbox)</td><td>9월 17일 10:00~18:00</td><td><b>적용 예정</b></td></tr>
+      </tbody>
+    </table>
+
+    <p>PC 버전은 9월 10일 오전 9시부터 오후 5시 30분까지 진행된 점검으로 43.1 업데이트가 이미 반영됐습니다. 콘솔(플레이스테이션ㆍ엑스박스) 버전은 아직인데요, 9월 17일 오전 10시부터 오후 6시까지 예정된 점검이 끝나야 발차기 액션이랑 LMG 밸런스 조정을 그대로 체감할 수 있습니다. 그러니까 지금 PC로 플레이하고 계신 분들은 이미 바뀐 전투를 겪고 계신 거고, 콘솔 유저분들은 아직 예전 감각 그대로일 가능성이 높다는 뜻이에요.</p>
+
+    <h2 class="sec">4. 덤으로, 순위표 표시 방식도 바뀐다</h2>
+
+    <p>이번 업데이트로 <b>상위 500명까지는 실제 순위가 그대로 표시</b>되고, 그 밖은 <b>'상위 N.N%'</b> 형식으로 자기 위치가 보이는 방식으로 바뀌었습니다.</p>
+
+    <p>전투 시스템 말고도 이런 순위표 개편이 이번 패치에 함께 들어갔는데요, 상위권이 아니어도 전체에서 내가 어느 정도 위치에 있는지 감을 잡기는 오히려 더 쉬워진 셈이죠.</p>
+
+    <!-- 이미지 이유: 43.1 신규 순위표 개편 소개 / 출처: PUBG 공식 홈페이지 패치노트 / 분류: A형 -->
+    <div class="imgwrap">
+      <img src="https://wstatic-prod-boc.krafton.com/common/news/20260908/SgX7l49S.jpg" alt="배틀그라운드 43.1 업데이트 신규 순위표 이미지" width="1920" height="1080">
+    </div>
+    <p class="cap">신규 순위표 — 상위 500명 표시 + 상위 N.N% 방식</p>
+    <p class="src">이미지 출처: <a href="https://www.pubg.com/ko/news/11057" target="_blank">PUBG 공식 홈페이지 — 43.1 업데이트 패치노트</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sec">자주 묻는 질문</h2>
+
+    <p><b>Q. 발차기, 상대한테도 피해를 줄 수 있나요?</b><br>
+    네, 공식 패치노트에 따르면 발차기는 기존 펀치보다 강한 피해와 넉백 효과를 지닌 공격이라, 오브젝트를 부수는 용도뿐 아니라 근접전에서 상대를 밀어내는 데도 쓸 수 있습니다.</p>
+
+    <p><b>Q. LMG는 이제 완전히 버려야 하는 무기인가요?</b><br>
+    그렇게까지 볼 정도는 아닙니다. 화력 자체가 사라진 게 아니라 조준 속도ㆍ차량 피해량ㆍ반동 제어ㆍ스폰량이 함께 줄어든 밸런스 조정이라, 여전히 쓸 수는 있지만 예전만큼 편한 무기는 아니라고 보는 편이 정확할 것 같습니다. 특히 반동 제어가 크게 줄어드는 엎드려 사격 구간에서는, 상황에 따라 차라리 다른 총으로 바꿔 드는 판단도 충분히 나올 수 있는데요.</p>
+
+    <div class="summary">
+      <div class="h">핵심만 짚으면</div>
+      <p style="margin:0;">이번 43.1 업데이트는 콜라보 테마보다는 전투 시스템 자체를 만진 패치에 가깝습니다. 맨손 발차기로 문ㆍ창문ㆍ울타리 같은 지형지물을 부술 수 있게 됐고, 경기관총은 조준ㆍ차량전ㆍ반동ㆍ스폰량까지 두루 손질됐거든요. PC 유저분들은 이미 바뀐 전장을 겪고 계실 테고, 콘솔 유저분들은 9월 17일 점검을 기다리시면 됩니다. 발차기로 문 부수러 가실 때 다치지 않게(ㅋㅋ) 조심하세요.</p>
+    </div>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.pubg.com/ko/news/11057" target="_blank">PUBG 공식 홈페이지 — 43.1 업데이트 패치노트</a></p>
+
+    <p><b>▶ 같이 보면 좋은 글</b><br>
+    · <a href="https://blog.naver.com/kkodug9/223663805849" target="_blank">배틀그라운드 펍지 카페 위너 위너 도넛 디너!</a></p>
+
+    <div class="tags">#배틀그라운드 #PUBG #배틀그라운드43.1업데이트 #PUBG43.1업데이트 #발차기액션 #경기관총 #LMG밸런스 #배틀그라운드패치노트 #PUBG패치노트 #배그근황 #서바이벌게임 #슈팅게임추천 #PC게임추천</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드ㆍ리스트ㆍ표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 2곳 + 그 아래 출처 2줄:</b> 위 3번 방식으로 올리시고, 각 이미지 아래에 "이미지: PUBG 공식 홈페이지 제공" 한 줄을 같이 적어주세요.</div>
+      <div class="ti">📌 제목칸에 따로: 배틀그라운드 PUBG 43.1 업데이트 발차기 액션 총정리, 경기관총 LMG 전투 밸런스 변화</div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+
+<p>안녕하세요. 영원한도시입니다. 배틀그라운드는 주인장 PC방 죽돌이 시절을 책임졌던 게임 중 하나인데요(ㅋㅋ), 그때는 문 앞에서 쭈뼛대다 무기도 없이 그대로 정리당하는 경우가 정말 많았거든요. 그런데 이번 43.1 업데이트 패치노트를 직접 열어보니, 드디어 맨손으로 문이나 창문을 걷어차 부술 수 있는 발차기 액션이 새로 생겼다고 하더라고요. 여기에 경기관총(LMG) 밸런스까지 크게 손을 댔다고 해서, 오늘은 이 두 가지 전투 변화만 짧게 정리해 드릴게요. (콜라보 소식은 지난 포스팅에서 이미 다뤘으니 이번 글에서는 다루지 않을게요.)</p>
+
+<h3>1. 발차기 액션이 뭐길래? 맨손 전투가 완전히 달라졌다</h3>
+
+<p>이번 43.1 업데이트로 배틀그라운드 맨손 전투에 <b>'스탠드 킥'</b>과 <b>'점프 킥'</b>, 두 가지 발차기 액션이 사상 처음 생겼습니다.</p>
+
+<p>공식 패치노트를 보면 두 액션 모두 <b>맨손 상태에서만 사용할 수 있다</b>고 못 박혀 있는데요, 총이나 근접무기를 들고 있을 땐 쓸 수 없다는 뜻이겠죠. 서 있는 상태에서 차는 '스탠드 킥'과 점프하면서 차는 '점프 킥'으로 나뉘어 있고, 그냥 상대를 때리는 용도가 아니라 아래 오브젝트들을 직접 파괴할 수 있다는 게 핵심이에요.</p>
+
+<ul>
+  <li>창문</li>
+  <li>나무 문</li>
+  <li>나무 울타리</li>
+  <li>항아리</li>
+  <li>타이어</li>
+</ul>
+
+<p>지금까지는 문이 잠겨 있거나 창문이 막혀 있으면 근접무기나 총으로 부수거나, 아니면 빙 둘러서 다른 길을 찾아야 했는데요, 이제는 무기가 하나도 없는 극초반 상황에서도 발로 걷어차서 건물 안으로 밀고 들어갈 길이 생긴 셈입니다. 반대로 지형지물 뒤에 숨어 있던 상대 입장에서는 창문이나 나무 문, 나무 울타리가 더 이상 확실한 은신처가 아니게 됐다고 볼 수 있어요. 항아리ㆍ타이어처럼 시야를 가리던 소품도 발차기 한 번으로 치워 버릴 수 있으니, 근접전 시야 싸움에서도 변수가 하나 늘었다고 보시면 됩니다. 특히 자기장 안에서 무기 없이 갇혔을 때 발로 문을 열고 건물 사이를 빠르게 이동할 길이 생겼다는 점도, 실전에서는 은근히 크게 다가올 부분인 듯하고요.</p>
+
+<p class="ph">〔사진 자리 1〕 배틀그라운드 43.1 업데이트 발차기 액션 이미지</p>
+<p class="phsub">└ 캡션 추천: "맨손 상태에서 쓸 수 있는 발차기 액션 — 스탠드 킥ㆍ점프 킥"</p>
+<p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "이미지: PUBG 공식 홈페이지 제공" 한 줄을 같이 적어주세요.</p>
+
+<h3>2. 조준부터 느려졌다 — 경기관총(LMG) 이번 패치로 뭐가 바뀌었나</h3>
+
+<p>완전히 못 쓰게 된 건 아니지만, 이번 43.1 패치로 <b>경기관총(LMG)</b> 계열은 확실히 손이 많이 갔습니다.</p>
+
+<table>
+  <thead>
+    <tr><th>항목</th><th>기존</th><th>43.1 변경</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>조준(ADS) 전환 시간</td><td>0.30초</td><td><b>0.37초</b></td></tr>
+    <tr><td>차량 피해량 (M249ㆍRPD)</td><td>1.1배</td><td><b>1.0배</b></td></tr>
+    <tr><td>차량 피해량 (MG3)</td><td>1.25배</td><td><b>1.1배</b></td></tr>
+    <tr><td>반동 제어 감소 (RPD 기준ㆍ서서)</td><td>-</td><td><b>10%↓</b></td></tr>
+    <tr><td>반동 제어 감소 (RPD 기준ㆍ앉아서)</td><td>-</td><td><b>17%↓</b></td></tr>
+    <tr><td>반동 제어 감소 (RPD 기준ㆍ엎드려서)</td><td>-</td><td><b>27%↓</b></td></tr>
+    <tr><td>RPDㆍM249 월드 스폰량</td><td>-</td><td><b>30%↓</b></td></tr>
+  </tbody>
+</table>
+
+<p>가장 크게 체감될 부분은 조준(ADS) 전환 시간인데요, <b>0.30초에서 0.37초로</b> 늘어났습니다. 숫자만 보면 0.07초 차이라 별것 아닌 것 같지만, 근거리 교전에서 조준 시작이 그만큼 밀린다는 뜻이라 초반 대응 속도가 눈에 띄게 늦어질 수밖에 없습니다.</p>
+
+<p>차량 피해량도 함께 깎였는데요, M249ㆍRPD는 기존 1.1배에서 1.0배로, MG3는 1.25배에서 1.1배로 낮아졌습니다. 차량을 타고 도망가는 상대를 LMG 한 자루로 순삭시키던 재미가 이전만큼은 아니게 된 셈이죠.</p>
+
+<p>반동 제어 효과도 RPD 기준으로 서서 사격은 10%, 앉아서 사격은 17%, 엎드려 사격은 27%나 줄었는데요, 특히 엎드려서 갈기던 이른바 눕사격 정확도가 크게 흔들리는 셈이죠. 여기에 RPDㆍM249의 월드 스폰량까지 30% 줄었으니, 이제 초반 파밍 단계에서부터 LMG를 마주칠 확률 자체가 낮아진 거예요. 이렇게 보면 화력이 아예 삭제된 건 아니지만, 조준ㆍ차량전ㆍ반동ㆍ파밍 네 가지가 한꺼번에 손질된 셈이라 '예전처럼 편하게 갈기는 총'은 아니게 됐다고 보시면 될 것 같습니다. 참고로 이번 패치노트에는 돌격소총(AR) 계열 조정 내용은 따로 없었으니, 상대적으로 LMG의 입지만 더 좁아진 패치더라고요.</p>
+
+<h3>3. 적용일은 언제? PC는 이미, 콘솔은 곧</h3>
+
+<p>PC는 9월 10일 점검으로 이미 적용이 끝났고, 콘솔은 9월 17일 점검 이후 적용될 예정입니다.</p>
+
+<table>
+  <thead>
+    <tr><th>플랫폼</th><th>점검 시간</th><th>상태</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>PC</td><td>9월 10일 09:00~17:30</td><td><b>적용 완료</b></td></tr>
+    <tr><td>콘솔(PSㆍXbox)</td><td>9월 17일 10:00~18:00</td><td><b>적용 예정</b></td></tr>
+  </tbody>
+</table>
+
+<p>PC 버전은 9월 10일 오전 9시부터 오후 5시 30분까지 진행된 점검으로 43.1 업데이트가 이미 반영됐습니다. 콘솔(플레이스테이션ㆍ엑스박스) 버전은 아직인데요, 9월 17일 오전 10시부터 오후 6시까지 예정된 점검이 끝나야 발차기 액션이랑 LMG 밸런스 조정을 그대로 체감할 수 있습니다. 그러니까 지금 PC로 플레이하고 계신 분들은 이미 바뀐 전투를 겪고 계신 거고, 콘솔 유저분들은 아직 예전 감각 그대로일 가능성이 높다는 뜻이에요.</p>
+
+<h3>4. 덤으로, 순위표 표시 방식도 바뀐다</h3>
+
+<p>이번 업데이트로 <b>상위 500명까지는 실제 순위가 그대로 표시</b>되고, 그 밖은 <b>'상위 N.N%'</b> 형식으로 자기 위치가 보이는 방식으로 바뀌었습니다.</p>
+
+<p>전투 시스템 말고도 이런 순위표 개편이 이번 패치에 함께 들어갔는데요, 상위권이 아니어도 전체에서 내가 어느 정도 위치에 있는지 감을 잡기는 오히려 더 쉬워진 셈이죠.</p>
+
+<p class="ph">〔사진 자리 2〕 배틀그라운드 43.1 업데이트 신규 순위표 이미지</p>
+<p class="phsub">└ 캡션 추천: "신규 순위표 — 상위 500명 표시 + 상위 N.N% 방식"</p>
+<p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "이미지: PUBG 공식 홈페이지 제공" 한 줄을 같이 적어주세요.</p>
+
+<h3>자주 묻는 질문</h3>
+
+<p><b>Q. 발차기, 상대한테도 피해를 줄 수 있나요?</b><br>
+네, 공식 패치노트에 따르면 발차기는 기존 펀치보다 강한 피해와 넉백 효과를 지닌 공격이라, 오브젝트를 부수는 용도뿐 아니라 근접전에서 상대를 밀어내는 데도 쓸 수 있습니다.</p>
+
+<p><b>Q. LMG는 이제 완전히 버려야 하는 무기인가요?</b><br>
+그렇게까지 볼 정도는 아닙니다. 화력 자체가 사라진 게 아니라 조준 속도ㆍ차량 피해량ㆍ반동 제어ㆍ스폰량이 함께 줄어든 밸런스 조정이라, 여전히 쓸 수는 있지만 예전만큼 편한 무기는 아니라고 보는 편이 정확할 것 같습니다. 특히 반동 제어가 크게 줄어드는 엎드려 사격 구간에서는, 상황에 따라 차라리 다른 총으로 바꿔 드는 판단도 충분히 나올 수 있는데요.</p>
+
+<p><b>핵심만 짚으면</b><br>
+이번 43.1 업데이트는 콜라보 테마보다는 전투 시스템 자체를 만진 패치에 가깝습니다. 맨손 발차기로 문ㆍ창문ㆍ울타리 같은 지형지물을 부술 수 있게 됐고, 경기관총은 조준ㆍ차량전ㆍ반동ㆍ스폰량까지 두루 손질됐거든요. PC 유저분들은 이미 바뀐 전장을 겪고 계실 테고, 콘솔 유저분들은 9월 17일 점검을 기다리시면 됩니다. 발차기로 문 부수러 가실 때 다치지 않게(ㅋㅋ) 조심하세요.</p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://www.pubg.com/ko/news/11057" target="_blank">PUBG 공식 홈페이지 — 43.1 업데이트 패치노트</a></p>
+
+<p><b>▶ 같이 보면 좋은 글</b><br>
+· <a href="https://blog.naver.com/kkodug9/223663805849" target="_blank">배틀그라운드 펍지 카페 위너 위너 도넛 디너!</a></p>
+
+<p class="tags-line">#배틀그라운드 #PUBG #배틀그라운드43.1업데이트 #PUBG43.1업데이트 #발차기액션 #경기관총 #LMG밸런스 #배틀그라운드패치노트 #PUBG패치노트 #배그근황 #서바이벌게임 #슈팅게임추천 #PC게임추천</p>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
