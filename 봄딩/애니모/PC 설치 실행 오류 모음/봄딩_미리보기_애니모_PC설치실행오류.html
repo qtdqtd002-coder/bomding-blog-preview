@@ -1,0 +1,298 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>애니모 PC 설치 실행 오류 모음, 흰 화면부터 인텔 13세대 14세대 크래시 해결법까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== §1-4b 출처 재서술 음영·사이드노트 ===== */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: 애니모 실행 안됨 해결법 / 애니모 흰 화면 오류 해결 / 애니모 il2cpp 오류 해결 / 애니모 설치 경로 한글 문제 -->
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">애니모 PC 설치 실행 오류 모음, 흰 화면부터 인텔 13세대 14세대 크래시 해결법까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.09.16</span><span>· 게임</span></div>
+
+    <p>오늘 2026년 9월 16일(수)부터 애니모가 PC·콘솔로 정식 서비스를 시작했죠. 사전예약만 2,800만을 넘겼던 게임이라 그런지 접속이 한꺼번에 몰리면서, 다운로드부터 뭔가 삐끗하거나 막상 실행 버튼을 눌렀는데 화면이 멈추고 이상한 오류창부터 마주하신 분들도 꽤 계실 것 같아요. 검색창에 '애니모 실행 안됨'이나 '애니모 설치 오류'부터 쳐보고 이 글까지 들어오신 거라면 제대로 찾아오신 거예요.</p>
+    <p>그래서 오늘은 애니모 공식 뉴스센터가 사전 다운로드를 시작하면서 미리 안내해둔 대표적인 설치·실행 오류를 원인이랑 해결 방법까지 같이 정리해봤어요. 증상별로 나눠뒀으니까 순서 상관없이 내 상황이랑 제일 비슷한 항목부터 확인하시고 그대로 따라 해보시면 될 것 같습니다.</p>
+
+    <!-- 이미지 이유: 글 도입부 키비주얼 — 오늘 정식 출시한 애니모라는 게임 자체를 보여주려 / 출처: https://store.steampowered.com/app/4126040 / 분류: A형(자동수집, 공식 스토어) -->
+    <div class="imgwrap"><img src="img/01_steam_keyvisual.jpg" width="460" height="215" alt="애니모 공식 스팀 스토어 키비주얼"></div>
+    <p class="cap">오늘부로 정식 서비스에 들어간 애니모예요, 출시 첫날이라 이런저런 설치 이슈가 몰릴 시점이죠.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4126040" target="_blank">스팀 스토어 페이지</a></p>
+
+    <h2 class="sub">게임을 켰는데 애니모 로고도 안 뜨고 흰 화면만 계속돼요</h2>
+    <p><b>이건 대부분 다이렉트X(DirectX) 11이 없어서 생기는 증상이에요.</b></p>
+    <div class="para-wrap">
+      <p>애니모 로고조차 뜨지 않고 흰 화면에서 멈춰 있다면 게임보다는 그래픽 라이브러리 쪽 문제일 가능성이 커요. <span class="rev-hl">공식 뉴스센터도 정확히 이 상태를 짚어 안내했더라고요 — 애니모 로고가 나오지 않으면서 흰 화면만 이어지는 경우로 설명하면서, 다이렉트X 11 설치를 해결책으로 권했어요.</span> 마이크로소프트 공식 사이트에서 다이렉트X 최신 버전을 받아 설치한 뒤 다시 실행해보시면 되는데요, 윈도우 업데이트를 오래 안 돌린 컴퓨터일수록 이 증상이 잘 나타나는 편이라 겸사겸사 윈도우 업데이트도 한 번 확인해두시는 게 좋습니다.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 흰 화면 오류</span>
+        <span class="sn-src"><b>애니모 공식 뉴스센터</b>가 "게임 실행 후 &lt;애니모&gt; 로고가 표시되지 않고 흰 화면만 유지됩니다"라고 밝혔어요. (<a href="https://www.aniimo.com/ko/newslist/detail/100092" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 공식 문구를 그대로 옮기지 않고, 독자가 실제로 겪는 "로고조차 안 뜨고 멈춰 있다"는 표현으로 풀었어요.</span>
+      </div>
+    </div>
+
+    <!-- 이미지 이유: 다이렉트X 11 최신 버전 설치 마법사 화면을 보여주려 / 분류: B형(직접 캡처) / 사유: 마이크로소프트 공식 다운로드 페이지(id=35)에 실제 설치 마법사 화면 스크린샷이 게시돼 있지 않고 다운로드 버튼만 있어 A형으로 대체 불가, 사용자 개인 PC 환경에서 실행되는 설치 진행 화면이라 직접 캡처로 대체 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 다이렉트X 11 설치 화면(마이크로소프트 공식 다운로드 페이지)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 마이크로소프트 공식 <a href="https://www.microsoft.com/ko-kr/download/details.aspx?id=35" target="_blank">DirectX 최신 버전 다운로드 페이지</a> 실행 화면을 캡처</div>
+    <p class="cap">이 화면에서 최신 다이렉트X를 받아 설치하면 흰 화면 문제는 대부분 풀려요.</p>
+
+    <h2 class="sub">설치하자마자 '해당 파일 버전이 호환되지 않습니다' 라는 오류가 떠요</h2>
+    <p><b>이 오류는 대부분 32비트 윈도우거나 오래된 윈도우 버전을 쓰고 있어서 생겨요.</b></p>
+    <div class="para-wrap">
+      <p>설치 파일을 실행하자마자 호환성 오류부터 뜬다면 게임이 요구하는 운영체제 조건을 못 채운 경우가 많은데요, <span class="rev-hl">공식 안내도 이런 오류가 뜨면 내 컴퓨터가 64비트 윈도우 10 이상인지부터 확인해보라고 짚었어요.</span> 내 PC 운영체제는 '설정 → 시스템 → 정보'에서 바로 확인할 수 있는데, 여기서 시스템 종류가 32비트로 나온다면 애니모 자체를 못 돌리는 게 맞고 윈도우 버전이 10 미만이라면 업데이트부터 먼저 진행해주셔야 합니다.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 호환 오류</span>
+        <span class="sn-src"><b>애니모 공식 뉴스센터</b>가 "해당 파일 버전이 호환되지 않습니다"류 오류가 뜨면 64비트 윈도우 10 이상 여부 확인을 안내했어요. (<a href="https://www.aniimo.com/ko/newslist/detail/100092" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ "확인해보라"는 안내에 실제로 어디서 확인하는지(설정 경로)까지 붙여 바로 따라 할 수 있게 풀었어요.</span>
+      </div>
+    </div>
+
+    <h2 class="sub">'게임 시작' 눌렀더니 Failed to load il2cpp 오류가 떠요</h2>
+    <p><b>십중팔구 백신 프로그램이 게임 파일을 오탐해서 막은 경우예요.</b></p>
+    <div class="para-wrap">
+      <p>설치까지는 무사히 끝났는데 막상 게임을 실행하려고 하면 튕기듯 이 오류창이 뜨는 경우가 있는데요, <span class="rev-hl">설치한 백신이 게임 파일을 오작동으로 잘못 판단해서 격리하거나 차단해버린 게 원인이라고 공식 뉴스센터가 밝혔어요.</span> 그러니 순서는 이렇게 잡아주시면 됩니다.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ③ · il2cpp 오류</span>
+        <span class="sn-src"><b>애니모 공식 뉴스센터</b>가 "해당 오류는 백신 프로그램이 게임 파일을 오탐하여 격리하거나 차단했을 때 주로 발생합니다"라고 밝혔어요. (<a href="https://www.aniimo.com/ko/newslist/detail/100092" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 원인 설명은 그대로 두고, 뒤에 실제로 따라 할 3단계 순서로 풀어썼어요.</span>
+      </div>
+    </div>
+    <ul>
+      <li>우선 쓰고 계신 백신 프로그램의 검역소·격리함부터 열어서 애니모 설치 폴더나 실행 파일이 잡혀 있는지 확인해주세요.</li>
+      <li>격리돼 있다면 복원한 다음, 애니모 설치 경로를 백신 프로그램의 예외(허용) 목록에 등록해주시면 됩니다.</li>
+      <li>백신을 여러 개 같이 쓰고 계신다면 윈도우 자체 보안 프로그램(윈도우 보안)까지 같이 확인해보시는 게 좋아요.</li>
+    </ul>
+
+    <!-- 이미지 이유: 백신 프로그램 예외(허용) 목록에 애니모 설치 경로를 등록하는 화면을 보여주려 / 분류: B형(직접 캡처) / 사유: 백신 프로그램마다(V3·알약·Windows 보안 등) 예외 등록 UI가 전부 달라 공식 단일 출처가 없고, 사용자 개인 PC의 백신 설정 화면이라 직접 캡처로 대체 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 백신 프로그램 예외(허용) 목록 등록 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 사용 중인 백신 프로그램에서 애니모 설치 경로를 예외 등록하는 화면</div>
+    <p class="cap">애니모 설치 폴더를 예외로 등록해두면 il2cpp 오류가 대부분 사라져요.</p>
+
+    <h2 class="sub">인텔 13세대 14세대 CPU인데 자꾸 튕기고 렉이 걸려요</h2>
+    <p><b>인텔 13·14세대 프로세서 자체 이슈일 가능성이 높아서, 게임 설정보다 인텔 공식 안내부터 확인하는 게 먼저예요.</b></p>
+    <p>인텔 13세대나 14세대 CPU를 쓰는 경우 아래 증상이 겹쳐서 나타나는 사례가 보고됐어요.</p>
+    <ul>
+      <li>게임 도중 크래시·튕김</li>
+      <li>렉이나 화면 이상</li>
+      <li>비디오 메모리 부족 안내</li>
+    </ul>
+    <div class="para-wrap">
+      <p><span class="rev-hl">공식 뉴스센터는 이 증상을 인텔 13·14세대 프로세서 사용 중 발생하는 문제로 특정해 안내하면서, 인텔 공식 안내를 확인해보길 권했어요.</span> 그러니 애니모 쪽 설정을 이것저것 건드리기 전에 인텔 홈페이지에서 내 CPU 모델에 해당하는 공지나 업데이트가 올라와 있는지부터 확인해보시는 순서가 맞습니다.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ④ · 인텔 13·14세대 크래시</span>
+        <span class="sn-src"><b>애니모 공식 뉴스센터</b>가 "Intel 13세대 및 14세대 프로세서 사용 중 크래시, 튕김, 렉, 화면 이상 등 오류가 발생하거나, 비디오 메모리 부족 안내가 표시됩니다"라고 밝혔어요. (<a href="https://www.aniimo.com/ko/newslist/detail/100092" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 증상 나열을 리스트로 쪼개고, "게임 설정보다 인텔 쪽부터 본다"는 확인 순서를 덧붙였어요.</span>
+      </div>
+    </div>
+
+    <h2 class="sub">설치 경로에 한글 있어도 되나요</h2>
+    <p><b>권장하지 않아요, 영문 경로에 설치하시는 게 안전합니다.</b></p>
+    <div class="para-wrap">
+      <p>내 컴퓨터 사용자 이름이 한글이거나 설치 폴더를 한글로 만들어두신 분들이 자주 궁금해하시는 부분인데요, <span class="rev-hl">공식 뉴스센터는 설치 경로에 한글이 포함되면 게임 실행은 물론 로그인, 게임 내 결제 과정에서도 문제가 생길 수 있다고 밝히면서 한글 경로 설치는 권장하지 않는다고 못 박았어요.</span> 이미 한글 경로에 설치하셨는데 로그인이나 결제에 이상이 없다면 당장 재설치까지 하실 필요는 없지만, 새로 설치하시는 분이라면 처음부터 영문·숫자로만 된 경로를 잡아두시는 걸 추천드려요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ⑤ · 설치 경로 한글 문제</span>
+        <span class="sn-src"><b>애니모 공식 뉴스센터</b>가 "설치 경로에 한글이 포함될 경우 게임 실행, 로그인, 게임 내 결제 과정에서 문제가 발생할 수 있습니다"라고 밝혔어요. (<a href="https://www.aniimo.com/ko/newslist/detail/100092" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ "권장하지 않는다"는 문장에, 이미 설치한 사람은 어떻게 판단하면 되는지 기준을 더해서 풀었어요.</span>
+      </div>
+    </div>
+
+    <!-- 이미지 이유: 애니모 설치 마법사에서 경로를 영문 폴더로 지정하는 화면을 보여주려 / 분류: B형(직접 캡처) / 사유: 애니모 공식 채널에 설치 마법사 경로 선택 화면 스크린샷이 게시되지 않았고, 사용자 개인 PC의 설치 진행 화면이라 직접 캡처로 대체 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 설치 경로 선택 창(영문 폴더로 지정하는 화면)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 애니모 설치 마법사에서 경로를 'C:\Games\Aniimo'처럼 영문으로 바꾸는 화면</div>
+    <p class="cap">처음 설치할 때부터 영문 경로로 잡아두면 나중에 로그인·결제 이슈를 피할 수 있어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 모바일도 오늘 이 오류가 나타나나요?</b><br>아니요, 모바일(iOS·안드로이드)은 9월 23일에 따로 출시되니까 오늘 다룬 오류는 PC·콘솔 쪽 얘기예요. 모바일 출시일이 되면 그때 상황을 다시 봐야 할 것 같아요.</p>
+    <p><b>Q. 이 다섯 가지를 다 확인했는데도 안 되면 어떻게 하나요?</b><br>공식 FAQ 원문 페이지를 한 번 통째로 훑어보시는 게 좋아요. 여기서 다룬 다섯 개 말고도 다른 항목이 더 있을 수 있거든요.</p>
+    <p><b>Q. 인텔 13·14세대가 아닌 CPU에서도 튕기면 같은 문제인가요?</b><br>공식 안내는 인텔 13·14세대에 한정해서만 언급했기 때문에, 다른 CPU에서 튕김이 잦다면 이 사례랑은 원인이 다를 가능성이 커요.</p>
+    <p><b>Q. 이미 한글 경로에 설치했는데 지금이라도 옮겨야 하나요?</b><br>지금 로그인·결제에 문제가 없다면 급하게 재설치할 필요는 없어요. 다만 혹시 모를 상황을 대비해서 다음 설치 때부터라도 영문 경로를 써주시는 게 마음은 편해요.</p>
+    <p><b>Q. 백신 예외 등록해도 계속 il2cpp 오류가 뜨면요?</b><br>쓰고 계신 백신이 여러 개거나 방화벽까지 얽혀 있을 수 있어서, 이런 경우는 공식 뉴스센터 페이지의 문의 창구로 상황을 남겨보시는 게 가장 정확해요.</p>
+
+    <h2 class="sub">애니모 설치 실행 오류 정리</h2>
+    <p>이 다섯 가지만 짚고 가시면 오늘 애니모 설치·실행에서 막히는 경우는 거의 다 풀리실 거예요. 흰 화면은 다이렉트X, 호환 오류는 윈도우 버전, il2cpp는 백신 예외, 인텔 CPU 크래시는 인텔 공식 안내, 한글 경로는 영문으로 — 증상마다 원인이 갈리니까 순서대로 하나씩 대입해보시면 되겠습니다. 정식 출시 첫날이라 서버든 클라이언트든 예상 못 한 변수가 더 나올 수도 있는데, 그런 부분은 공식 FAQ 페이지가 계속 업데이트될 테니 틈틈이 들여다보시는 것도 좋을 것 같아요.</p>
+
+    <p><b>✔ 애니모 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224327277870" target="_blank">애니모 인게임 플레이 트레일러 공개, CBT 테스트 권장 사양 체크</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.aniimo.com/ko/newslist/detail/100092" target="_blank">애니모 공식 뉴스센터 — 사전 다운로드 안내 FAQ</a> (2026.09.16 기준)</p>
+
+    <div class="tags">#애니모 #애니모설치오류 #애니모실행안됨 #애니모il2cpp오류 #애니모인텔13세대14세대크래시 #애니모출시일 #Aniimo</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 3분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·리스트는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 애니모 PC 설치 실행 오류 모음, 흰 화면부터 인텔 13세대 14세대 크래시 해결법까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>오늘 2026년 9월 16일(수)부터 애니모가 PC·콘솔로 정식 서비스를 시작했죠. 사전예약만 2,800만을 넘겼던 게임이라 그런지 접속이 한꺼번에 몰리면서, 다운로드부터 뭔가 삐끗하거나 막상 실행 버튼을 눌렀는데 화면이 멈추고 이상한 오류창부터 마주하신 분들도 꽤 계실 것 같아요. 검색창에 '애니모 실행 안됨'이나 '애니모 설치 오류'부터 쳐보고 이 글까지 들어오신 거라면 제대로 찾아오신 거예요.</p>
+      <p>그래서 오늘은 애니모 공식 뉴스센터가 사전 다운로드를 시작하면서 미리 안내해둔 대표적인 설치·실행 오류를 원인이랑 해결 방법까지 같이 정리해봤어요. 증상별로 나눠뒀으니까 순서 상관없이 내 상황이랑 제일 비슷한 항목부터 확인하시고 그대로 따라 해보시면 될 것 같습니다.</p>
+      <p class="ph">📷 〔사진 자리 1〕 애니모 공식 키비주얼 — 스팀 스토어 페이지에서 저장 후 업로드</p>
+
+      <h3>게임을 켰는데 애니모 로고도 안 뜨고 흰 화면만 계속돼요</h3>
+      <p><b>이건 대부분 다이렉트X(DirectX) 11이 없어서 생기는 증상이에요.</b></p>
+      <p>애니모 로고조차 뜨지 않고 흰 화면에서 멈춰 있다면 게임보다는 그래픽 라이브러리 쪽 문제일 가능성이 커요. 공식 뉴스센터도 정확히 이 상태를 짚어 안내했더라고요 — 애니모 로고가 나오지 않으면서 흰 화면만 이어지는 경우로 설명하면서, 다이렉트X 11 설치를 해결책으로 권했어요. 마이크로소프트 공식 사이트에서 다이렉트X 최신 버전을 받아 설치한 뒤 다시 실행해보시면 되는데요, 윈도우 업데이트를 오래 안 돌린 컴퓨터일수록 이 증상이 잘 나타나는 편이라 겸사겸사 윈도우 업데이트도 한 번 확인해두시는 게 좋습니다.</p>
+      <p class="ph">📷 〔사진 자리 2〕 다이렉트X 11 설치 화면 — 직접 캡처 후 업로드</p>
+
+      <h3>설치하자마자 '해당 파일 버전이 호환되지 않습니다' 라는 오류가 떠요</h3>
+      <p><b>이 오류는 대부분 32비트 윈도우거나 오래된 윈도우 버전을 쓰고 있어서 생겨요.</b></p>
+      <p>설치 파일을 실행하자마자 호환성 오류부터 뜬다면 게임이 요구하는 운영체제 조건을 못 채운 경우가 많은데요, 공식 안내도 이런 오류가 뜨면 내 컴퓨터가 64비트 윈도우 10 이상인지부터 확인해보라고 짚었어요. 내 PC 운영체제는 '설정 → 시스템 → 정보'에서 바로 확인할 수 있는데, 여기서 시스템 종류가 32비트로 나온다면 애니모 자체를 못 돌리는 게 맞고 윈도우 버전이 10 미만이라면 업데이트부터 먼저 진행해주셔야 합니다.</p>
+
+      <h3>'게임 시작' 눌렀더니 Failed to load il2cpp 오류가 떠요</h3>
+      <p><b>십중팔구 백신 프로그램이 게임 파일을 오탐해서 막은 경우예요.</b></p>
+      <p>설치까지는 무사히 끝났는데 막상 게임을 실행하려고 하면 튕기듯 이 오류창이 뜨는 경우가 있는데요, 설치한 백신이 게임 파일을 오작동으로 잘못 판단해서 격리하거나 차단해버린 게 원인이라고 공식 뉴스센터가 밝혔어요. 그러니 순서는 이렇게 잡아주시면 됩니다.</p>
+      <ul>
+        <li>우선 쓰고 계신 백신 프로그램의 검역소·격리함부터 열어서 애니모 설치 폴더나 실행 파일이 잡혀 있는지 확인해주세요.</li>
+        <li>격리돼 있다면 복원한 다음, 애니모 설치 경로를 백신 프로그램의 예외(허용) 목록에 등록해주시면 됩니다.</li>
+        <li>백신을 여러 개 같이 쓰고 계신다면 윈도우 자체 보안 프로그램(윈도우 보안)까지 같이 확인해보시는 게 좋아요.</li>
+      </ul>
+      <p class="ph">📷 〔사진 자리 3〕 백신 프로그램 예외(허용) 목록 등록 화면 — 직접 캡처 후 업로드</p>
+
+      <h3>인텔 13세대 14세대 CPU인데 자꾸 튕기고 렉이 걸려요</h3>
+      <p><b>인텔 13·14세대 프로세서 자체 이슈일 가능성이 높아서, 게임 설정보다 인텔 공식 안내부터 확인하는 게 먼저예요.</b></p>
+      <p>인텔 13세대나 14세대 CPU를 쓰는 경우 아래 증상이 겹쳐서 나타나는 사례가 보고됐어요.</p>
+      <ul>
+        <li>게임 도중 크래시·튕김</li>
+        <li>렉이나 화면 이상</li>
+        <li>비디오 메모리 부족 안내</li>
+      </ul>
+      <p>공식 뉴스센터는 이 증상을 인텔 13·14세대 프로세서 사용 중 발생하는 문제로 특정해 안내하면서, 인텔 공식 안내를 확인해보길 권했어요. 그러니 애니모 쪽 설정을 이것저것 건드리기 전에 인텔 홈페이지에서 내 CPU 모델에 해당하는 공지나 업데이트가 올라와 있는지부터 확인해보시는 순서가 맞습니다.</p>
+
+      <h3>설치 경로에 한글 있어도 되나요</h3>
+      <p><b>권장하지 않아요, 영문 경로에 설치하시는 게 안전합니다.</b></p>
+      <p>내 컴퓨터 사용자 이름이 한글이거나 설치 폴더를 한글로 만들어두신 분들이 자주 궁금해하시는 부분인데요, 공식 뉴스센터는 설치 경로에 한글이 포함되면 게임 실행은 물론 로그인, 게임 내 결제 과정에서도 문제가 생길 수 있다고 밝히면서 한글 경로 설치는 권장하지 않는다고 못 박았어요. 이미 한글 경로에 설치하셨는데 로그인이나 결제에 이상이 없다면 당장 재설치까지 하실 필요는 없지만, 새로 설치하시는 분이라면 처음부터 영문·숫자로만 된 경로를 잡아두시는 걸 추천드려요.</p>
+      <p class="ph">📷 〔사진 자리 4〕 설치 경로 선택 창(영문 폴더) — 직접 캡처 후 업로드</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 모바일도 오늘 이 오류가 나타나나요?</b><br>아니요, 모바일(iOS·안드로이드)은 9월 23일에 따로 출시되니까 오늘 다룬 오류는 PC·콘솔 쪽 얘기예요. 모바일 출시일이 되면 그때 상황을 다시 봐야 할 것 같아요.</p>
+      <p><b>Q. 이 다섯 가지를 다 확인했는데도 안 되면 어떻게 하나요?</b><br>공식 FAQ 원문 페이지를 한 번 통째로 훑어보시는 게 좋아요. 여기서 다룬 다섯 개 말고도 다른 항목이 더 있을 수 있거든요.</p>
+      <p><b>Q. 인텔 13·14세대가 아닌 CPU에서도 튕기면 같은 문제인가요?</b><br>공식 안내는 인텔 13·14세대에 한정해서만 언급했기 때문에, 다른 CPU에서 튕김이 잦다면 이 사례랑은 원인이 다를 가능성이 커요.</p>
+      <p><b>Q. 이미 한글 경로에 설치했는데 지금이라도 옮겨야 하나요?</b><br>지금 로그인·결제에 문제가 없다면 급하게 재설치할 필요는 없어요. 다만 혹시 모를 상황을 대비해서 다음 설치 때부터라도 영문 경로를 써주시는 게 마음은 편해요.</p>
+      <p><b>Q. 백신 예외 등록해도 계속 il2cpp 오류가 뜨면요?</b><br>쓰고 계신 백신이 여러 개거나 방화벽까지 얽혀 있을 수 있어서, 이런 경우는 공식 뉴스센터 페이지의 문의 창구로 상황을 남겨보시는 게 가장 정확해요.</p>
+
+      <h3>애니모 설치 실행 오류 정리</h3>
+      <p>이 다섯 가지만 짚고 가시면 오늘 애니모 설치·실행에서 막히는 경우는 거의 다 풀리실 거예요. 흰 화면은 다이렉트X, 호환 오류는 윈도우 버전, il2cpp는 백신 예외, 인텔 CPU 크래시는 인텔 공식 안내, 한글 경로는 영문으로 — 증상마다 원인이 갈리니까 순서대로 하나씩 대입해보시면 되겠습니다. 정식 출시 첫날이라 서버든 클라이언트든 예상 못 한 변수가 더 나올 수도 있는데, 그런 부분은 공식 FAQ 페이지가 계속 업데이트될 테니 틈틈이 들여다보시는 것도 좋을 것 같아요.</p>
+
+      <p><b>✔ 애니모 같이 보기 좋은 내용</b><br>
+      · <a href="https://blog.naver.com/bomding/224327277870" target="_blank">애니모 인게임 플레이 트레일러 공개, CBT 테스트 권장 사양 체크</a></p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://www.aniimo.com/ko/newslist/detail/100092" target="_blank">애니모 공식 뉴스센터 — 사전 다운로드 안내 FAQ</a> (2026.09.16 기준)</p>
+
+      <p class="tags-line">#애니모 #애니모설치오류 #애니모실행안됨 #애니모il2cpp오류 #애니모인텔13세대14세대크래시 #애니모출시일 #Aniimo</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
