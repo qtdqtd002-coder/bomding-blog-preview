@@ -1,0 +1,274 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>컨트롤 레조넌트 출시일 PC사양 정리, 사전예약 스팀 위시리스트까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul{margin:0 0 20px;padding-left:22px;}
+  .post li{font-size:16px;line-height:1.9;margin:0 0 8px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: 컨트롤 레조넌트 출시일 언제인가요 / 컨트롤 레조넌트 PC 사양 어떻게 되나요 / 컨트롤 레조넌트 사전예약 어디서 하나요 -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 정보</div>
+    <h1 class="title">컨트롤 레조넌트 출시일 PC사양 정리, 사전예약 스팀 위시리스트까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.09.17</span><span>· 게임</span></div>
+
+    <p>여러분, 요즘 '컨트롤 레조넌트 출시일이 대체 언제냐'는 질문을 부쩍 많이 받고 있어요. 오늘이 9월 17일 목요일이니까 딱 <b>D-7</b> 남은 셈인데, 정작 이런 신작 소식에서 제일 많이들 궁금해하시는 건 스토리 얘기가 아니라 '내 컴퓨터로 돌아가긴 하는 거냐'는 현실적인 질문이더라고요. 그래서 오늘은 출시일이랑 플랫폼부터, 다들 궁금해하실 PC 사양, 그리고 사전예약은 지금 어디서 챙길 수 있는지까지 한 번에 정리해볼게요.</p>
+
+    <!-- 이미지 이유: 도입부 키비주얼 — 주인공과 뒤틀린 도시 전경을 한눈에 보여주려 / 출처: https://store.steampowered.com/app/3669870/CONTROL_Resonant/ / 분류: A형(자동수집, 공식 스팀 스토어) -->
+    <div class="imgwrap"><img src="img/01_steam_header.jpg" width="460" height="215" alt="컨트롤 레조넌트 공식 스팀 키아트, 주인공이 무기를 들고 뒤틀린 도시를 바라보고 있다"></div>
+    <p class="cap">리메디 엔터테인먼트의 신작 '컨트롤 레조넌트' 공식 키아트예요, 뒤로 보이는 붉은 균열이 이 게임 분위기를 딱 보여주네요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">스팀 스토어 페이지</a></p>
+
+    <h2 class="sub">컨트롤 레조넌트, 정확히 언제 나오는 거예요?</h2>
+    <p><b>컨트롤 레조넌트는 2026년 9월 24일(목) PS5·PC(스팀)·엑스박스 시리즈 X|S로 전 세계 동시 출시돼요.</b> 개발은 리메디 엔터테인먼트가 맡았고요, 딱 한 곳 뉴질랜드만 시차 때문에 하루 늦은 9월 25일로 잡혀 있다고 해요. 우리나라 기준으로는 그냥 9월 24일 목요일, 오늘(9월 17일 목요일)부터 세면 정확히 일주일 남은 거죠. 세 플랫폼 다 같은 날짜로 맞춰져 있어서 어느 쪽으로 시작하든 출시일 걱정은 안 하셔도 될 것 같아요.</p>
+
+    <h2 class="sub">장르랑 배경 세계관은 어떤 느낌이에요?</h2>
+    <p>컨트롤 레조넌트는 <b>초자연적인 힘으로 뒤틀린 맨해튼</b>을 무대로 하는 액션 게임이에요. 전작보다 액션 RPG 색이 좀 더 짙어졌다는 얘기도 나오고 있는데, 이 부분은 아직 제가 직접 확인한 정보는 아니라 담백하게만 짚고 넘어갈게요.</p>
+    <p>주인공은 전작에서 조연으로 나왔던 <b>딜런 페이든</b>이고요, 형태가 자유자재로 바뀌는 무기 <b>'변종'</b>을 손에 들고 싸운다고 해요. 전작 주인공이었던 제시 페이든과는 남매 사이라 이번 작 스토리에서도 큰 축이 될 것 같고요. 다만 새로 나온다는 근접무기·전투 시스템의 정확한 명칭은 아직 확인이 안 돼서, 이 부분은 나중에 더 나오면 채워드릴게요.</p>
+
+    <!-- 이미지 이유: 초자연적 힘으로 뒤틀린 맨해튼(세계관)을 직접 보여주려 / 출처: https://store.steampowered.com/app/3669870/CONTROL_Resonant/ / 분류: A형(자동수집, 공식 스팀 스토어) -->
+    <div class="imgwrap"><img src="img/03_steam_screenshot2.jpg" width="1920" height="1080" alt="위아래가 뒤집힌 건물들 사이 붉게 물든 골목을 걷는 캐릭터"></div>
+    <p class="cap">건물이 통째로 뒤집혀 있는 이 골목이 '뒤틀린 맨해튼'을 제일 잘 보여주는 장면 같아요, 보고 있으면 살짝 소름 돋더라고요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">스팀 스토어 페이지</a></p>
+
+    <h2 class="sub">다들 제일 궁금해하실 PC 사양, 최소·권장 정리해볼게요</h2>
+    <p><b>최소 사양은 라이젠5 3500·지포스 GTX 1070급, 권장 사양은 라이젠7 3700X·RTX 3060 Ti급이면 무난해요.</b> 사양표는 사람마다 옮겨 적을 때 값이 조금씩 달라지는 경우가 많아서, 저도 오늘(9월 17일) 발행 직전에 스팀 상점 페이지를 직접 열어서 최소·권장 값을 그대로 옮겨왔어요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>운영체제</th><th>CPU</th><th>메모리</th><th>그래픽카드</th><th>저장공간</th></tr>
+      <tr><td>최소</td><td>Windows 10/11(64비트)</td><td>i5-8500 / 라이젠5 3500</td><td>16GB</td><td>GTX 1070 / RX 5600 XT / Arc A580</td><td>120GB(SSD 필수)</td></tr>
+      <tr><td>권장</td><td>Windows 10/11(64비트)</td><td>i7-10700 / 라이젠7 3700X</td><td>16GB</td><td>RTX 3060 Ti / RX 6700 XT / Arc B580</td><td>120GB(SSD 필수)</td></tr>
+    </table>
+    <p><b>최소·권장 둘 다 램은 16GB로 같은데, 그래픽카드만 한 단계 확 뛰는 구조</b>라 그래픽카드가 발목 잡을 확률이 제일 높아요. 혹시 내 컴퓨터가 표 어디쯤 있는지 감이 안 잡히시면, CPU·그래픽카드 이름을 그대로 검색만 해봐도 표보다 위인지 아래인지 금방 나오니까 그 방법을 추천드려요. 저장공간은 최소·권장 둘 다 120GB인데 SSD가 필수라고 못 박혀 있으니, 여유 공간이 하드디스크뿐이라면 SSD 용량부터 한 번 확인해보시는 게 좋을 것 같아요. 콘솔(PS5·엑스박스 시리즈 X|S)은 사양 고민 없이 그대로 즐기면 되니 이 부분은 신경 안 쓰셔도 돼요.</p>
+
+    <h2 class="sub">사전예약, 지금 어디서 어떻게 하나요?</h2>
+    <p><b>PS 스토어는 사전예약이 6월 3일부터 이미 진행 중이고, 스팀도 위시리스트·예약구매 페이지가 열려 있어서 지금 바로 챙기실 수 있어요.</b> 6월 3일 플레이스테이션 공식 블로그에서 "오늘부터 예약 주문 가능합니다"라고 밝히면서 사전예약이 시작됐고요, PC판도 <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">스팀 상점 페이지</a>에 들어가 보면 위시리스트·예약구매 버튼이 그대로 떠 있어요.</p>
+    <p>실제로 오늘 제가 들어가봤을 때도 '약 7일 후 잠금 해제'라는 카운트다운이 뜨고 있더라고요, 딱 출시일(9월 24일)에 맞춘 숫자죠. 다만 정확한 사전예약 마감 시각까지 콕 집어 공지된 건 아니라서, 출시일인 24일 전까지는 계속 열려 있다고 보시면 될 것 같아요.</p>
+
+    <!-- 이미지 이유: 변종 무기를 활용한 전투 장면을 통해 사전예약이 기대되는 이유를 보여주려 / 출처: https://store.steampowered.com/app/3669870/CONTROL_Resonant/ / 분류: A형(자동수집, 공식 스팀 스토어) -->
+    <div class="imgwrap"><img src="img/04_steam_screenshot3.jpg" width="1920" height="1080" alt="빛나는 무기를 든 캐릭터가 이끼 낀 생명체와 맞서는 전투 장면"></div>
+    <p class="cap">저 빛나는 무기가 그 형태 변하는 '변종'인 것 같은데, 전투 연출이 꽤 화려해서 사전예약 눌러두고 싶어지더라고요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">스팀 스토어 페이지</a></p>
+
+    <h2 class="sub">사전예약 보상은 나왔어요?</h2>
+    <p><b>네, 사전구매 특전이 스팀·플레이스테이션·엑스박스 스토어에 각각 올라와 있는데, 스토어마다 포함된 아이템이 조금씩 달라요.</b> 사실 이 글을 처음 준비할 때는 공식 발표가 따로 없었는데, 오늘 다시 확인해보니 사전구매 특전이 그새 올라와 있더라고요. 다만 국문 정식 명칭이 따로 나온 건 아니라서 영문 표기 그대로 적어둘게요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>포함 내용</th></tr>
+      <tr><td>PC(스팀) 사전구매</td><td>Hiss Corruption 아웃핏 · Pickpocket's Tool 아티팩트</td></tr>
+      <tr><td>PS5(PS스토어) 사전구매</td><td>위 2종 + Occult 아웃핏</td></tr>
+      <tr><td>엑스박스 사전구매</td><td>사전구매 보너스 포함(세부 아이템명 비공개)</td></tr>
+      <tr><td>PS5 디지털 디럭스 추가분</td><td>디지털 아트북 · 오리지널 사운드트랙 · 시작 자원 번들 · Untapped 아티팩트(지갑) · AWE 미션 아웃핏 + 출시 48시간 전(9월 22일)부터 조기 플레이</td></tr>
+    </table>
+    <p>혹시 아직 뭘 챙겨야 할지 감이 안 잡히신다면, 스토어 알림 켜두기랑 위시리스트·예약주문 버튼 미리 눌러두는 것부터 해두시면 좋아요. 출시일 당일 오픈런하실 분들은 위에서 정리한 PC 사양도 미리 한 번 대조해두시는 걸 추천드려요.</p>
+
+    <h2 class="sub">확장된 어시스트 모드, 이번에 새로 생긴 게 많아요</h2>
+    <p><b>9월 14일 플레이스테이션 공식 블로그에서 어시스트 모드가 훨씬 세분화됐다고 발표했어요.</b> 프리셋으로 난이도를 고르는 게 아니라 전투 요소 하나하나를 직접 조정하는 방식인데, 항목을 나열해보면 이래요.</p>
+    <ul>
+      <li>전투 난이도 — 적 공격성 낮추기 · 완벽 회피 시간 늘리기 · 적 투사체 속도 늦추기</li>
+      <li>받는 피해량 · 주는 피해량 · 비틀거림 피해를 각각 따로 조정</li>
+      <li>능력(초자연 능력) 회복 속도 조정</li>
+      <li>근접 공격 유도 강화 — 적한테 더 잘 붙게</li>
+      <li>스토리 전용 옵션 — 무적 · 일격 처치 · 일격 비틀거림</li>
+    </ul>
+    <p>여기서 포인트는 <b>난이도를 낮추는 옵션만 있는 게 아니라 올리는 쪽으로도 조정할 수 있다</b>는 건데요, 액션 게임에 익숙한 분이라면 오히려 더 빡세게 세팅해서 즐기실 수도 있는 셈이죠.</p>
+
+    <!-- 이미지 이유: 확장된 어시스트 모드가 조정하는 실제 전투 상황을 보여주려 / 출처: https://store.steampowered.com/app/3669870/CONTROL_Resonant/ / 분류: A형(자동수집, 공식 스팀 스토어) -->
+    <div class="imgwrap"><img src="img/02_steam_screenshot1.jpg" width="1920" height="1080" alt="빛나는 손으로 초자연적 힘을 쓰며 오염된 존재들과 대치하는 캐릭터"></div>
+    <p class="cap">이런 다인원 전투 상황에서 적 공격성이나 회피 타이밍을 직접 조정할 수 있다는 거니까, 손이 서투른 분들한텐 꽤 반가운 소식이에요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">스팀 스토어 페이지</a></p>
+
+    <h2 class="sub">확정된 것 vs 아직 안 풀린 것, 한눈에 정리</h2>
+    <p>여기까지 나온 얘기, 확정된 것과 아직 안 나온 것으로 한번 나눠서 정리해볼게요.</p>
+    <table class="tbl">
+      <tr><th>지금 확정된 것</th><th>아직 안 풀린 것</th></tr>
+      <tr><td>출시일 9/24(뉴질랜드만 9/25) · 3개 플랫폼 · PC 사양 · 사전예약(PS스토어 6/3~·스팀 위시리스트) · 사전구매 특전 · 확장 어시스트 모드</td><td>신규 근접무기·전투 시스템 정확한 명칭 · 사전예약 정확한 마감 시각</td></tr>
+    </table>
+    <p>이 두 가지는 확정되면 그때 다시 정리해서 알려드릴게요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 컨트롤 레조넌트, 한국에서도 9월 24일에 똑같이 나오나요?</b><br>네, PS5·스팀·엑스박스 시리즈 X|S 전부 9월 24일 전 세계 동시 출시라 한국도 같은 날짜예요. 예외는 뉴질랜드 한 곳뿐이고 그마저 하루(9/25) 차이라 국내 기준으로는 신경 쓰실 부분이 없어요.</p>
+    <p><b>Q. PC 사양이 표보다 낮으면 아예 실행이 안 되나요?</b><br>최소 사양은 어디까지나 '이 정도는 되어야 무난하게 돌아간다'는 기준값이라, 표보다 낮다고 무조건 실행이 안 된다고 단정하긴 어려워요. 다만 그래픽카드가 표보다 많이 아래라면 프레임이 많이 떨어질 수 있으니, 출시 전에 내 부품 이름으로 한 번 검색해보시는 걸 추천드려요.</p>
+    <p><b>Q. PS5 디지털 디럭스 에디션 사면 뭐가 제일 좋아요?</b><br>가장 눈에 띄는 건 출시 48시간 전인 9월 22일부터 먼저 플레이할 수 있다는 점이에요. 특전 아이템도 스탠다드판보다 더 많고요.</p>
+    <p><b>Q. 신규 근접무기 이름이 뭔가요?</b><br>아직 확인이 안 돼요. 트레일러나 공식 소개에서 정확한 명칭이 따로 나오면 그때 이 글에 추가로 정리할게요.</p>
+
+    <h2 class="sub">컨트롤 레조넌트 정리</h2>
+    <p>정리하면, 컨트롤 레조넌트는 <b>9월 24일(목) PS5·PC(스팀)·엑스박스 시리즈 X|S로 전 세계 동시 출시</b>고요, PC 사양은 최소 GTX 1070급·권장 RTX 3060 Ti급으로 보시면 됩니다. 사전예약은 지금 바로 PS 스토어·스팀에서 챙길 수 있고 사전구매 특전도 이미 나와 있으니, 오픈런 준비하실 분들은 아래 스토어 페이지부터 미리 눌러두시면 좋을 것 같아요.</p>
+
+    <p><b>스토어 바로가기</b><br>
+    · <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">스팀(PC)</a> · <a href="https://store.playstation.com/en-us/product/EP5291-PPSA34547_00-0210080241603648" target="_blank">PS 스토어</a> · <a href="https://www.xbox.com/en-US/games/store/control-resonant/9p092299fsgw" target="_blank">Xbox 스토어</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://blog.ko.playstation.com/2026/06/03/20260603-control" target="_blank">플레이스테이션 공식 블로그 — 출시일·사전예약(6/3)</a><br>
+    · <a href="https://blog.ko.playstation.com/2026/09/14/20260914-control" target="_blank">플레이스테이션 공식 블로그 — 확장된 어시스트 모드(9/14)</a><br>
+    · <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">컨트롤 레조넌트 스팀 스토어 페이지</a></p>
+
+    <div class="tags">#컨트롤레조넌트 #CONTROLResonant #컨트롤레조넌트출시일 #컨트롤레조넌트PC사양 #리메디엔터테인먼트 #컨트롤레조넌트사전예약</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 5분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 컨트롤 레조넌트 출시일 PC사양 정리, 사전예약 스팀 위시리스트까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>여러분, 요즘 '컨트롤 레조넌트 출시일이 대체 언제냐'는 질문을 부쩍 많이 받고 있어요. 오늘이 9월 17일 목요일이니까 딱 <b>D-7</b> 남은 셈인데, 정작 이런 신작 소식에서 제일 많이들 궁금해하시는 건 스토리 얘기가 아니라 '내 컴퓨터로 돌아가긴 하는 거냐'는 현실적인 질문이더라고요. 그래서 오늘은 출시일이랑 플랫폼부터, 다들 궁금해하실 PC 사양, 그리고 사전예약은 지금 어디서 챙길 수 있는지까지 한 번에 정리해볼게요.</p>
+      <p class="ph">📷 〔사진 자리 1〕 컨트롤 레조넌트 공식 스팀 키아트 — 위에서 복사한 이미지를 여기에<br><span class="ph">└ 캡션 추천: "리메디 엔터테인먼트의 신작 '컨트롤 레조넌트' 공식 키아트예요, 뒤로 보이는 붉은 균열이 이 게임 분위기를 딱 보여주네요."</span></p>
+      <h3>컨트롤 레조넌트, 정확히 언제 나오는 거예요?</h3>
+      <p><b>컨트롤 레조넌트는 2026년 9월 24일(목) PS5·PC(스팀)·엑스박스 시리즈 X|S로 전 세계 동시 출시돼요.</b> 개발은 리메디 엔터테인먼트가 맡았고요, 딱 한 곳 뉴질랜드만 시차 때문에 하루 늦은 9월 25일로 잡혀 있다고 해요. 우리나라 기준으로는 그냥 9월 24일 목요일, 오늘(9월 17일 목요일)부터 세면 정확히 일주일 남은 거죠. 세 플랫폼 다 같은 날짜로 맞춰져 있어서 어느 쪽으로 시작하든 출시일 걱정은 안 하셔도 될 것 같아요.</p>
+      <h3>장르랑 배경 세계관은 어떤 느낌이에요?</h3>
+      <p>컨트롤 레조넌트는 <b>초자연적인 힘으로 뒤틀린 맨해튼</b>을 무대로 하는 액션 게임이에요. 전작보다 액션 RPG 색이 좀 더 짙어졌다는 얘기도 나오고 있는데, 이 부분은 아직 제가 직접 확인한 정보는 아니라 담백하게만 짚고 넘어갈게요.</p>
+      <p>주인공은 전작에서 조연으로 나왔던 <b>딜런 페이든</b>이고요, 형태가 자유자재로 바뀌는 무기 <b>'변종'</b>을 손에 들고 싸운다고 해요. 전작 주인공이었던 제시 페이든과는 남매 사이라 이번 작 스토리에서도 큰 축이 될 것 같고요. 다만 새로 나온다는 근접무기·전투 시스템의 정확한 명칭은 아직 확인이 안 돼서, 이 부분은 나중에 더 나오면 채워드릴게요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 위아래가 뒤집힌 건물들 사이 뒤틀린 맨해튼 골목 — 위에서 복사한 이미지를 여기에<br><span class="ph">└ 캡션 추천: "건물이 통째로 뒤집혀 있는 이 골목이 '뒤틀린 맨해튼'을 제일 잘 보여주는 장면 같아요, 보고 있으면 살짝 소름 돋더라고요."</span></p>
+      <h3>다들 제일 궁금해하실 PC 사양, 최소·권장 정리해볼게요</h3>
+      <p><b>최소 사양은 라이젠5 3500·지포스 GTX 1070급, 권장 사양은 라이젠7 3700X·RTX 3060 Ti급이면 무난해요.</b> 사양표는 사람마다 옮겨 적을 때 값이 조금씩 달라지는 경우가 많아서, 저도 오늘(9월 17일) 발행 직전에 스팀 상점 페이지를 직접 열어서 최소·권장 값을 그대로 옮겨왔어요.</p>
+      <table>
+        <tr><th>구분</th><th>운영체제</th><th>CPU</th><th>메모리</th><th>그래픽카드</th><th>저장공간</th></tr>
+        <tr><td class="l">최소</td><td>Windows 10/11(64비트)</td><td>i5-8500 / 라이젠5 3500</td><td>16GB</td><td>GTX 1070 / RX 5600 XT / Arc A580</td><td>120GB(SSD 필수)</td></tr>
+        <tr><td class="l">권장</td><td>Windows 10/11(64비트)</td><td>i7-10700 / 라이젠7 3700X</td><td>16GB</td><td>RTX 3060 Ti / RX 6700 XT / Arc B580</td><td>120GB(SSD 필수)</td></tr>
+      </table>
+      <p><b>최소·권장 둘 다 램은 16GB로 같은데, 그래픽카드만 한 단계 확 뛰는 구조</b>라 그래픽카드가 발목 잡을 확률이 제일 높아요. 혹시 내 컴퓨터가 표 어디쯤 있는지 감이 안 잡히시면, CPU·그래픽카드 이름을 그대로 검색만 해봐도 표보다 위인지 아래인지 금방 나오니까 그 방법을 추천드려요. 저장공간은 최소·권장 둘 다 120GB인데 SSD가 필수라고 못 박혀 있으니, 여유 공간이 하드디스크뿐이라면 SSD 용량부터 한 번 확인해보시는 게 좋을 것 같아요. 콘솔(PS5·엑스박스 시리즈 X|S)은 사양 고민 없이 그대로 즐기면 되니 이 부분은 신경 안 쓰셔도 돼요.</p>
+      <h3>사전예약, 지금 어디서 어떻게 하나요?</h3>
+      <p><b>PS 스토어는 사전예약이 6월 3일부터 이미 진행 중이고, 스팀도 위시리스트·예약구매 페이지가 열려 있어서 지금 바로 챙기실 수 있어요.</b> 6월 3일 플레이스테이션 공식 블로그에서 "오늘부터 예약 주문 가능합니다"라고 밝히면서 사전예약이 시작됐고요, PC판도 스팀 상점 페이지(store.steampowered.com/app/3669870)에 들어가 보면 위시리스트·예약구매 버튼이 그대로 떠 있어요.</p>
+      <p>실제로 오늘 제가 들어가봤을 때도 '약 7일 후 잠금 해제'라는 카운트다운이 뜨고 있더라고요, 딱 출시일(9월 24일)에 맞춘 숫자죠. 다만 정확한 사전예약 마감 시각까지 콕 집어 공지된 건 아니라서, 출시일인 24일 전까지는 계속 열려 있다고 보시면 될 것 같아요.</p>
+      <p class="ph">📷 〔사진 자리 3〕 빛나는 무기로 이끼 낀 생명체와 맞서는 전투 장면 — 위에서 복사한 이미지를 여기에<br><span class="ph">└ 캡션 추천: "저 빛나는 무기가 그 형태 변하는 '변종'인 것 같은데, 전투 연출이 꽤 화려해서 사전예약 눌러두고 싶어지더라고요."</span></p>
+      <h3>사전예약 보상은 나왔어요?</h3>
+      <p><b>네, 사전구매 특전이 스팀·플레이스테이션·엑스박스 스토어에 각각 올라와 있는데, 스토어마다 포함된 아이템이 조금씩 달라요.</b> 사실 이 글을 처음 준비할 때는 공식 발표가 따로 없었는데, 오늘 다시 확인해보니 사전구매 특전이 그새 올라와 있더라고요. 다만 국문 정식 명칭이 따로 나온 건 아니라서 영문 표기 그대로 적어둘게요.</p>
+      <table>
+        <tr><th>구분</th><th>포함 내용</th></tr>
+        <tr><td class="l">PC(스팀) 사전구매</td><td>Hiss Corruption 아웃핏 · Pickpocket's Tool 아티팩트</td></tr>
+        <tr><td class="l">PS5(PS스토어) 사전구매</td><td>위 2종 + Occult 아웃핏</td></tr>
+        <tr><td class="l">엑스박스 사전구매</td><td>사전구매 보너스 포함(세부 아이템명 비공개)</td></tr>
+        <tr><td class="l">PS5 디지털 디럭스 추가분</td><td>디지털 아트북 · 오리지널 사운드트랙 · 시작 자원 번들 · Untapped 아티팩트(지갑) · AWE 미션 아웃핏 + 출시 48시간 전(9월 22일)부터 조기 플레이</td></tr>
+      </table>
+      <p>혹시 아직 뭘 챙겨야 할지 감이 안 잡히신다면, 스토어 알림 켜두기랑 위시리스트·예약주문 버튼 미리 눌러두는 것부터 해두시면 좋아요. 출시일 당일 오픈런하실 분들은 위에서 정리한 PC 사양도 미리 한 번 대조해두시는 걸 추천드려요.</p>
+      <h3>확장된 어시스트 모드, 이번에 새로 생긴 게 많아요</h3>
+      <p><b>9월 14일 플레이스테이션 공식 블로그에서 어시스트 모드가 훨씬 세분화됐다고 발표했어요.</b> 프리셋으로 난이도를 고르는 게 아니라 전투 요소 하나하나를 직접 조정하는 방식인데, 항목을 나열해보면 이래요.</p>
+      <ul>
+        <li>전투 난이도 — 적 공격성 낮추기 · 완벽 회피 시간 늘리기 · 적 투사체 속도 늦추기</li>
+        <li>받는 피해량 · 주는 피해량 · 비틀거림 피해를 각각 따로 조정</li>
+        <li>능력(초자연 능력) 회복 속도 조정</li>
+        <li>근접 공격 유도 강화 — 적한테 더 잘 붙게</li>
+        <li>스토리 전용 옵션 — 무적 · 일격 처치 · 일격 비틀거림</li>
+      </ul>
+      <p>여기서 포인트는 <b>난이도를 낮추는 옵션만 있는 게 아니라 올리는 쪽으로도 조정할 수 있다</b>는 건데요, 액션 게임에 익숙한 분이라면 오히려 더 빡세게 세팅해서 즐기실 수도 있는 셈이죠.</p>
+      <p class="ph">📷 〔사진 자리 4〕 초자연적 힘으로 오염된 존재들과 대치하는 전투 상황 — 위에서 복사한 이미지를 여기에<br><span class="ph">└ 캡션 추천: "이런 다인원 전투 상황에서 적 공격성이나 회피 타이밍을 직접 조정할 수 있다는 거니까, 손이 서투른 분들한텐 꽤 반가운 소식이에요."</span></p>
+      <h3>확정된 것 vs 아직 안 풀린 것, 한눈에 정리</h3>
+      <p>여기까지 나온 얘기, 확정된 것과 아직 안 나온 것으로 한번 나눠서 정리해볼게요.</p>
+      <table>
+        <tr><th>지금 확정된 것</th><th>아직 안 풀린 것</th></tr>
+        <tr><td>출시일 9/24(뉴질랜드만 9/25) · 3개 플랫폼 · PC 사양 · 사전예약(PS스토어 6/3~·스팀 위시리스트) · 사전구매 특전 · 확장 어시스트 모드</td><td>신규 근접무기·전투 시스템 정확한 명칭 · 사전예약 정확한 마감 시각</td></tr>
+      </table>
+      <p>이 두 가지는 확정되면 그때 다시 정리해서 알려드릴게요.</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 컨트롤 레조넌트, 한국에서도 9월 24일에 똑같이 나오나요?</b><br>네, PS5·스팀·엑스박스 시리즈 X|S 전부 9월 24일 전 세계 동시 출시라 한국도 같은 날짜예요. 예외는 뉴질랜드 한 곳뿐이고 그마저 하루(9/25) 차이라 국내 기준으로는 신경 쓰실 부분이 없어요.</p>
+      <p><b>Q. PC 사양이 표보다 낮으면 아예 실행이 안 되나요?</b><br>최소 사양은 어디까지나 '이 정도는 되어야 무난하게 돌아간다'는 기준값이라, 표보다 낮다고 무조건 실행이 안 된다고 단정하긴 어려워요. 다만 그래픽카드가 표보다 많이 아래라면 프레임이 많이 떨어질 수 있으니, 출시 전에 내 부품 이름으로 한 번 검색해보시는 걸 추천드려요.</p>
+      <p><b>Q. PS5 디지털 디럭스 에디션 사면 뭐가 제일 좋아요?</b><br>가장 눈에 띄는 건 출시 48시간 전인 9월 22일부터 먼저 플레이할 수 있다는 점이에요. 특전 아이템도 스탠다드판보다 더 많고요.</p>
+      <p><b>Q. 신규 근접무기 이름이 뭔가요?</b><br>아직 확인이 안 돼요. 트레일러나 공식 소개에서 정확한 명칭이 따로 나오면 그때 이 글에 추가로 정리할게요.</p>
+      <h3>컨트롤 레조넌트 정리</h3>
+      <p>정리하면, 컨트롤 레조넌트는 <b>9월 24일(목) PS5·PC(스팀)·엑스박스 시리즈 X|S로 전 세계 동시 출시</b>고요, PC 사양은 최소 GTX 1070급·권장 RTX 3060 Ti급으로 보시면 됩니다. 사전예약은 지금 바로 PS 스토어·스팀에서 챙길 수 있고 사전구매 특전도 이미 나와 있으니, 오픈런 준비하실 분들은 아래 스토어 페이지부터 미리 눌러두시면 좋을 것 같아요.</p>
+      <p><b>스토어 바로가기</b><br>
+      · <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">스팀(PC)</a> · <a href="https://store.playstation.com/en-us/product/EP5291-PPSA34547_00-0210080241603648" target="_blank">PS 스토어</a> · <a href="https://www.xbox.com/en-US/games/store/control-resonant/9p092299fsgw" target="_blank">Xbox 스토어</a></p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://blog.ko.playstation.com/2026/06/03/20260603-control" target="_blank">플레이스테이션 공식 블로그 — 출시일·사전예약(6/3)</a><br>
+      · <a href="https://blog.ko.playstation.com/2026/09/14/20260914-control" target="_blank">플레이스테이션 공식 블로그 — 확장된 어시스트 모드(9/14)</a><br>
+      · <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">컨트롤 레조넌트 스팀 스토어 페이지</a></p>
+      <p class="tags-line">#컨트롤레조넌트 #CONTROLResonant #컨트롤레조넌트출시일 #컨트롤레조넌트PC사양 #리메디엔터테인먼트 #컨트롤레조넌트사전예약</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }   /* 봄딩: 복사 동안 조상 배경을 내려 네이버 [배경색]을 «없음»으로 */ ok=document.execCommand('copy'); for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
