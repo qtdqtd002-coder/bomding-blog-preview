@@ -583,7 +583,47 @@ function cmdParenting() {
 }
 
 /* ── 진입 ─────────────────────────────────────────────────────────────── */
-module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, demandOf, judge, sortSection, sortKey, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM };
+/* ── 글 → 발주 경로(칸)  (aib-followup · 2026-09-19 · 계획서 W4-1 «분류·각도별 브리핑 진입률») ─────────────
+   글 폴더 = 백엔드 요청 postRel 에서 파일명을 뺀 것. trend-desk 요청은 발주 제목(topic)을 데스크 항목 제목과 맞춰 칸 키를 얻는다.
+   ★D+14 쯤엔 그 판이 trend.json(14판)에서 빠지므로 글을 «등록할 때» 한 번 정해 박아 둔다(aib-followup). */
+async function getRequests(ms) {
+  try {
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), ms || 20000);
+    const r = await fetch(API + '/requests?ts=' + Date.now(), { signal: ctl.signal });
+    clearTimeout(t);
+    if (r.status !== 200) return null;
+    const j = await r.json();
+    return Array.isArray(j) ? j : null;
+  } catch (e) { return null; }
+}
+function deskItems(doc) {
+  const out = [];
+  ((doc && doc.editions) || []).forEach((e) => ((e && e.sections) || []).forEach((s) => ((s && s.items) || []).forEach((it) => {
+    if (it && it.title) out.push({ date: e.date, sec: s.key, title: it.title });
+  })));
+  return out;
+}
+/* trend-desk → 칸 키(판에서 못 찾으면 desk?) · site·pwa → direct(사람이 직접 적은 주제) · briefing → 08-14 이전 작성자별 브리핑 ·
+   그 밖 → other · 요청을 못 찾거나 백엔드를 못 읽으면 unknown(추정으로 채우지 않는다). 같은 폴더 요청이 여럿이면 가장 늦은 것. */
+function secOfPost(folder, reqs, items) {
+  if (!Array.isArray(reqs)) return 'unknown';
+  let r = null;
+  reqs.forEach((x) => {
+    if (!x || typeof x.postRel !== 'string' || x.postRel.split('/').slice(0, -1).join('/') !== folder) return;
+    if (!r || (x.createdAt || 0) > (r.createdAt || 0)) r = x;
+  });
+  if (!r) return 'unknown';
+  if (r.source === 'trend-desk') {
+    const k = normKey(r.topic);
+    const hit = (items || []).find((x) => normKey(x.title) === k);
+    return hit ? hit.sec : 'desk?';
+  }
+  if (r.source === 'site' || r.source === 'pwa') return 'direct';
+  if (r.source === 'briefing') return 'briefing';
+  return 'other';
+}
+
+module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, demandOf, judge, sortSection, sortKey, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, getRequests, deskItems, secOfPost };
 
 if (require.main === module) {
   const cmd = argv[0];

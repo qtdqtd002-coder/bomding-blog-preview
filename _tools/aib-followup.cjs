@@ -14,7 +14,9 @@
      <작성자>/…/_qa/aib-check.json    — 파이프라인이 발주 전에 남긴 타깃 질의(results[].q)와 그때의 판정
      posts.json                       — 글의 등록일(created) = D+0 기준. 없으면 aib-check 의 checkedAt
    출력 _trend/_aib-followup.json(gitignore — 파생 데이터)
-     { posts: { "<글 폴더>": { writer, pub, queries, pre:[{q,s,n,bd,yd}], d7:{at,res:[…]}, d14:{at,res:[…]} } } }
+     { posts: { "<글 폴더>": { writer, pub, title, sec, queries, pre:[{q,s,n,bd,yd}], d7:{at,res:[…]}, d14:{at,res:[…]} } } }
+     title = posts.json 제목(각도 판정용) · sec = 발주 경로(데스크 칸 키 · direct · briefing · desk? — desk-signals secOfPost).
+       ★sec 은 등록할 때 정한다 — D+14 쯤엔 그 판이 trend.json(14판)에서 빠져 나중엔 못 맞춘다. 요청을 못 찾으면 비워 두고 다음 날 다시.
      s = shown · async · none · unknown  / bd·yd = 봄딩·영도 인용 순위(없으면 null)
 
    규칙
@@ -29,11 +31,12 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const { aibLookup, aibFromCache, aibSummary } = require('./desk-signals.cjs');
+const { aibLookup, aibFromCache, aibSummary, getRequests, deskItems, secOfPost } = require('./desk-signals.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, '_trend', '_aib-followup.json');
 const POSTS = path.join(ROOT, 'posts.json');
+const TREND = path.join(ROOT, '_trend', 'trend.json');
 const CONFIG = path.join(ROOT, '..', '쓰담v2', 'canon', 'config.json');
 const argv = process.argv.slice(2);
 const val = (f, d) => { const i = argv.indexOf(f); return i >= 0 && argv[i + 1] ? argv[i + 1] : d; };
@@ -67,7 +70,7 @@ function walk(dir, out) {
   return out;
 }
 
-(function main() {
+(async function main() {
   const writers = activeWriters();
   const posts = readJson(POSTS, []);
   const state = readJson(OUT, null) || { schema: 1, posts: {} };
@@ -82,7 +85,15 @@ function walk(dir, out) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(pub)) return;
     const cur = state.posts[folder] || (added++, state.posts[folder] = { writer: w, pub, queries: qs, pre: j.results.map((r) => Object.assign({ q: r.q }, aibSummary(r) || {})) });
     cur.pub = pub; cur.queries = qs; cur.writer = w;
+    /* 제목 = posts.json · 없으면 폴더 끝 이름(«클랜챔피언십128개클랜결승일정» 처럼 주제가 적혀 있다 — 각도 판정용) */
+    if (post && post.title) cur.title = post.title; else if (!cur.title) cur.title = folder.split('/').pop();
   }));
+  /* 발주 경로(칸) — 아직 없는 글만 · 백엔드를 못 읽으면 다음 날 다시(0 으로 위장하지 않는다) */
+  if (!DRY && Object.values(state.posts).some((p) => !p.sec)) {
+    const reqs = await getRequests();
+    const items = deskItems(readJson(TREND, { editions: [] }));
+    Object.entries(state.posts).forEach(([k, p]) => { if (!p.sec && reqs) { const s = secOfPost(k, reqs, items); if (s !== 'unknown') p.sec = s; } });
+  }
   /* 기한 판정 */
   const due = [];
   Object.entries(state.posts).forEach(([k, p]) => {
@@ -108,4 +119,4 @@ function walk(dir, out) {
   fs.writeFileSync(tmp, JSON.stringify(state, null, 1) + '\n', 'utf8');
   fs.renameSync(tmp, OUT);
   console.log('→ ' + path.relative(ROOT, OUT) + ' · 이번에 채운 칸 ' + done + '/' + due.length + (done < due.length ? ' (나머지는 상한 · 내일 이어서)' : ''));
-})();
+})().catch((e) => { console.error('aib-followup 실패: ' + (e && e.stack ? e.stack : e)); process.exit(1); });

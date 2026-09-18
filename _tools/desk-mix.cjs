@@ -18,24 +18,26 @@
      secRate 최근 14일 분류별 «추천 → 발주» 비율(2026-09-18 거둬내기 W6 의 검증 지표 — 거둬낸 뒤 이 값이 안 오르면 기준이 틀린 것).
      days    판마다 한 행(건수·분류별 건수·각도 비중) — 14판.
      followup 발행 후 D+7·D+14 AI 브리핑 재검 요약(_trend/_aib-followup.json · aib-followup.cjs 가 굽는다). 없으면 null.
+              byAngle·bySec = 글마다 가장 늦은 재검(D+14 > D+7) 기준 «브리핑 뜸 %·우리 인용 %»(계획서 W4-1 «분류·각도별 진입률»).
+              각도 = 글 제목(사다리) · 분류 = aib-followup 이 등록 때 박은 발주 경로(데스크 칸 · direct · briefing · desk? · 없으면 unknown).
 
    각도 4갈래 = howto(공략·방법·얻는 법·쿠폰) · rank(티어·추천·비교) · news(출시·일정·발표·결과) · info(정리·후기·기타)
    목표선 = howto+rank ≥ 50%(2026-09-18 계획서 §W4 1차 관문 — 봄딩 P1 «공략·방법·쿠폰형 ≥50%»와 같은 방향).
 
    사용: node _tools/desk-mix.cjs [--offline] [--print]
+         --print = 계산해 찍기만 하고 파일은 쓰지 않는다(월 1회 «캡처의 날»에 재검 각도별·분류별 표를 보고할 때).
          데스크 [E] 에서 stamp 뒤·커밋 앞에 돈다(하루 1회). 멱등 — 같은 날 다시 돌리면 같은 값으로 덮어쓴다.
    ========================================================================== */
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const { angleOf, angleTypeOf } = require('./desk-signals.cjs');
+const { angleOf, angleTypeOf, getRequests } = require('./desk-signals.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 const TREND = path.join(ROOT, '_trend', 'trend.json');
 const POSTS = path.join(ROOT, 'posts.json');
 const OUT = path.join(ROOT, '_trend', '_desk-mix.json');
 const FOLLOW = path.join(ROOT, '_trend', '_aib-followup.json');
-const API = 'https://34.139.184.70.sslip.io';
 const GAME_SECS = ['pinned', 'core', 'guide', 'new', 'update', 'hot'];
 const WRITERS = ['봄딩', '영도'];
 const NOT_GAME = /육아|임신|출산|취미/;
@@ -43,6 +45,7 @@ const DAY = 86400e3;
 
 const argv = process.argv.slice(2);
 const OFFLINE = argv.includes('--offline');
+const PRINT = argv.includes('--print');
 function readJson(p, d) { try { return JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, '')); } catch (e) { return d; } }
 const norm = (s) => String(s || '').replace(/\s+/g, '').toLowerCase();
 const kst = (ts) => new Date(ts + 9 * 3600e3).toISOString().slice(0, 10);
@@ -57,19 +60,39 @@ function pct(mix) {
   return o;
 }
 
-async function getRequests() {
-  if (OFFLINE) return null;
-  try {
-    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 20000);
-    const r = await fetch(API + '/requests?ts=' + Date.now(), { signal: ctl.signal });
-    clearTimeout(t);
-    if (r.status !== 200) return null;
-    const j = await r.json();
-    return Array.isArray(j) ? j : null;
-  } catch (e) { return null; }
+/* 발행 후 재검 요약 — d7·d14 전체 + 글마다 가장 늦은 재검(D+14 > D+7) 기준 각도별·분류별 «브리핑 뜸 %·우리 인용 %» */
+function followupSummary(f) {
+  if (!f || !f.posts) return null;
+  const posts = Object.values(f.posts);
+  const sum = { posts: posts.length };
+  ['d7', 'd14'].forEach((k) => {
+    const rows = posts.map((p) => p[k]).filter((x) => x && Array.isArray(x.res));
+    const q = rows.flatMap((x) => x.res);
+    sum[k] = { posts: rows.length, queries: q.length, shown: q.filter((x) => x.s === 'shown').length,
+      async: q.filter((x) => x.s === 'async').length, none: q.filter((x) => x.s === 'none').length,
+      cited: q.filter((x) => x.bd || x.yd).length };
+  });
+  const byAngle = {}, bySec = {};
+  posts.forEach((p) => {
+    const last = [p.d14, p.d7].find((x) => x && Array.isArray(x.res));
+    if (!last) return;
+    [[byAngle, p.title ? angleOf(p.title) : 'unknown'], [bySec, p.sec || 'unknown']].forEach(([m, key]) => {
+      const c = m[key] = m[key] || { posts: 0, queries: 0, shown: 0, cited: 0 };
+      c.posts++; c.queries += last.res.length;
+      c.shown += last.res.filter((x) => x.s === 'shown' || x.s === 'async').length;   /* async = 브리핑은 떴고 출처만 미확인 — 타일·발주 모달과 같은 정의 */
+      c.cited += last.res.filter((x) => x.bd || x.yd).length;
+    });
+  });
+  [byAngle, bySec].forEach((m) => Object.values(m).forEach((c) => {
+    c.shownRate = c.queries ? Math.round(c.shown / c.queries * 1000) / 10 : null;
+    c.citedRate = c.queries ? Math.round(c.cited / c.queries * 1000) / 10 : null;
+  }));
+  sum.byAngle = byAngle; sum.bySec = bySec;
+  sum.updated = f.updated || null;
+  return sum;
 }
 
-(async () => {
+async function main() {
   const doc = readJson(TREND, { editions: [] });
   const eds = (doc.editions || []).filter((e) => e && e.date).sort((a, b) => (a.date < b.date ? 1 : -1));
   const items = [];                       /* {date, sec, it, type, via} */
@@ -92,7 +115,7 @@ async function getRequests() {
   });
 
   /* ── 발주(최근 14일) + 분류별 발주율 ── */
-  const reqs = await getRequests();
+  const reqs = OFFLINE ? null : await getRequests();
   let orders = null, secRate = null;
   if (reqs) {
     const from = since(14);
@@ -127,20 +150,7 @@ async function getRequests() {
   const drafts = Object.assign(pct(dr), { byWriter: Object.fromEntries(WRITERS.map((w) => [w, pct(byW[w])])) });
 
   /* ── 발행 후 재검 요약 ── */
-  let followup = null;
-  const f = readJson(FOLLOW, null);
-  if (f && f.posts) {
-    const sum = { posts: Object.keys(f.posts).length };
-    ['d7', 'd14'].forEach((k) => {
-      const rows = Object.values(f.posts).map((p) => p[k]).filter((x) => x && Array.isArray(x.res));
-      const q = rows.flatMap((x) => x.res);
-      sum[k] = { posts: rows.length, queries: q.length, shown: q.filter((x) => x.s === 'shown').length,
-        async: q.filter((x) => x.s === 'async').length, none: q.filter((x) => x.s === 'none').length,
-        cited: q.filter((x) => x.bd || x.yd).length };
-    });
-    sum.updated = f.updated || null;
-    followup = sum;
-  }
+  const followup = followupSummary(readJson(FOLLOW, null));
 
   const out = {
     schema: 1, kind: 'desk-mix', updated: new Date().toISOString(), ruleFrom: '2026-09-19',
@@ -152,13 +162,24 @@ async function getRequests() {
     ],
     secRate, days, followup,
   };
-  const tmp = OUT + '.tmp-' + process.pid;
-  fs.writeFileSync(tmp, JSON.stringify(out, null, 1) + '\n', 'utf8');
-  fs.renameSync(tmp, OUT);
+  if (!PRINT) {
+    const tmp = OUT + '.tmp-' + process.pid;
+    fs.writeFileSync(tmp, JSON.stringify(out, null, 1) + '\n', 'utf8');
+    fs.renameSync(tmp, OUT);
+  }
 
   const line = (b) => b.n == null ? b.label + ' 미연결' : b.label + ' ' + b.n + '건 — 공략·티어 ' + b.guide + '% (공략 ' + b.howto + ' · 티어 ' + b.rank + ' · 소식 ' + b.news + ' · 기타 ' + b.info + ')';
-  console.log('desk-mix ' + today + ' → ' + path.relative(ROOT, OUT));
+  console.log('desk-mix ' + today + (PRINT ? ' (--print · 파일은 쓰지 않음)' : ' → ' + path.relative(ROOT, OUT)));
   out.bars.forEach((b) => console.log('  ' + line(b)));
   if (secRate) console.log('  발주율(14일): ' + secRate.map((s) => s.sec + ' ' + s.ordered + '/' + s.supply).join(' · '));
-  if (followup) console.log('  재검: D+7 ' + followup.d7.queries + '질의(인용 ' + followup.d7.cited + ') · D+14 ' + followup.d14.queries + '질의(인용 ' + followup.d14.cited + ')');
-})().catch((e) => { console.error('desk-mix 실패: ' + (e && e.stack ? e.stack : e)); process.exit(0); });
+  if (followup) {
+    console.log('  재검: D+7 ' + followup.d7.queries + '질의(인용 ' + followup.d7.cited + ') · D+14 ' + followup.d14.queries + '질의(인용 ' + followup.d14.cited + ')');
+    const LBL = { howto: '공략', rank: '티어·추천', news: '소식', info: '기타', unknown: '제목 없음' };
+    const row = (m, lbl) => Object.entries(m).map(([k, c]) => (lbl[k] || k) + ' ' + c.posts + '편·' + c.queries + '질의 뜸 ' + c.shownRate + '% 인용 ' + c.citedRate + '%').join(' · ');
+    if (Object.keys(followup.byAngle).length) console.log('  재검 각도별(글마다 가장 늦은 재검): ' + row(followup.byAngle, LBL));
+    if (Object.keys(followup.bySec).length) console.log('  재검 분류별: ' + row(followup.bySec, {}));
+  }
+}
+
+module.exports = { followupSummary };
+if (require.main === module) main().catch((e) => { console.error('desk-mix 실패: ' + (e && e.stack ? e.stack : e)); process.exit(0); });

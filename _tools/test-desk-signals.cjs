@@ -117,5 +117,37 @@ console.log('\n[8] 브리핑 요약');
 eq(S.aibSummary({ status: 'shown', sources: [{ rank: 1, blog: 'x' }, { rank: 2, blog: 'bomding' }], fetchedAt: 't' }), { s: 'shown', n: 2, bd: 2, yd: null, at: 't' }, '봄딩 인용 순위');
 eq(S.aibSummary({ status: 'blocked' }).s, 'unknown', '차단·오류는 unknown');
 
+console.log('\n[9] 글 → 발주 경로(칸)');
+const RQ = [
+  { postRel: '봄딩/애니모/전투 티어표/a.html', source: 'trend-desk', topic: '애니모 전투 티어표', createdAt: 1 },
+  { postRel: '봄딩/애니모/전투 티어표/b.html', source: 'trend-desk', topic: '애니모  전투 티어표!', createdAt: 5 },
+  { postRel: '영도/겜/글/x.html', source: 'site', topic: '아무거나', createdAt: 2 },
+  { postRel: '봄딩/옛/글/y.html', source: 'briefing', topic: 'z', createdAt: 3 },
+  { postRel: '봄딩/새/글/w.html', source: 'trend-desk', topic: '판에 없는 제목', createdAt: 4 },
+  { postRel: '봄딩/앱/글/p.html', source: 'pwa', topic: 'q', createdAt: 6 },
+  { topic: 'postRel 없는 요청', source: 'trend-desk', createdAt: 7 },
+];
+const IT = S.deskItems({ editions: [{ date: '2026-09-19', sections: [{ key: 'guide', items: [{ title: '애니모 전투 티어표' }] }, { key: 'hot', items: [{}] }] }] });
+eq(IT, [{ date: '2026-09-19', sec: 'guide', title: '애니모 전투 티어표' }], '판 → 항목 평탄화(제목 없는 항목 제외)');
+eq(['봄딩/애니모/전투 티어표', '영도/겜/글', '봄딩/옛/글', '봄딩/새/글', '봄딩/앱/글', '없는/폴더'].map((f) => S.secOfPost(f, RQ, IT)),
+   ['guide', 'direct', 'briefing', 'desk?', 'direct', 'unknown'], 'trend-desk→칸(같은 폴더는 늦은 요청·공백·기호 무시) · site·pwa→direct · briefing · 판에 없음→desk? · 요청 없음→unknown');
+eq(S.secOfPost('봄딩/애니모/전투 티어표', null, IT), 'unknown', '백엔드를 못 읽으면 unknown(추정 금지)');
+
+console.log('\n[10] 발행 후 재검 요약(desk-mix followupSummary)');
+const { followupSummary } = require('./desk-mix.cjs');
+eq(followupSummary(null), null, '재검 파일이 없으면 null');
+const FS = followupSummary({ updated: 'u', posts: {
+  a: { title: '애니모 전투 티어표', sec: 'guide', d7: { res: [{ s: 'shown', bd: 2 }, { s: 'none' }] }, d14: { res: [{ s: 'shown', bd: 1 }, { s: 'shown' }] } },
+  b: { title: '신작 출시일 확정', sec: 'new', d7: { skipped: true, at: null }, d14: { res: [{ s: 'async' }] } },
+  c: { title: '쿠폰 코드 입력 방법', d7: { res: [{ s: 'shown', yd: 3 }] } },
+  d: { title: '아직 기한 전' },
+} });
+eq([FS.posts, FS.d7.posts, FS.d7.queries, FS.d14.posts, FS.d14.cited], [4, 2, 3, 2, 1], 'd7·d14 전체(건너뛴 d7 제외)');
+eq(FS.byAngle.rank, { posts: 1, queries: 2, shown: 2, cited: 1, shownRate: 100, citedRate: 50 }, '가장 늦은 재검(D+14)만 센다 — 티어');
+eq(FS.byAngle.howto, { posts: 1, queries: 1, shown: 1, cited: 1, shownRate: 100, citedRate: 100 }, 'D+14 가 없으면 D+7 — 쿠폰(공략)');
+eq([FS.byAngle.news.shownRate, FS.byAngle.news.citedRate], [100, 0], '소식 — async(출처 미확인)도 «뜸»으로 센다(타일·발주 모달과 같은 정의) · 인용 0');
+eq(Object.keys(FS.bySec).sort(), ['guide', 'new', 'unknown'], '칸 없는 글은 unknown · 기한 전 글은 빠진다');
+eq(FS.updated, 'u', '재검 파일 갱신 시각 전달');
+
 console.log('\n' + (bad ? 'FAIL ' + bad + '/' + n : 'ALL PASS ' + n));
 process.exit(bad ? 1 : 0);
