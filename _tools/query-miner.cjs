@@ -32,6 +32,7 @@
 
    실행
      node _tools/query-miner.cjs --game 팰월드 --print
+     node _tools/query-miner.cjs --games "팰월드,애니모"   # 여러 게임(쉼표) — 데스크 desk-signals.cjs queries 가 쓴다(2026-09-18)
      node _tools/query-miner.cjs --pins                  # 사이트 「꼭 다룰 게임」 전부
      node _tools/query-miner.cjs --from-ledger --top 12  # 원장 상위 게임
      node _tools/query-miner.cjs --game 애니모 --deep --print
@@ -67,7 +68,7 @@ const DEEP = has('--deep');
 let reqCount = 0;
 
 const LADDER = [
-  ['공략·방법형', /하는 ?법|방법|공략|위치|얻는 ?법|만드는 ?법|세팅|스킬트리|조합|루트|파밍|재료|퀘스트|보는 ?법|설정|설치|사용법|치트|명령어|염색코드|코디|기댓값|확률/],
+  ['공략·방법형', /하는 ?법|방법|공략|(?<!스)위치|얻는 ?법|만드는 ?법|세팅|스킬트리|조합|루트|파밍|재료|퀘스트|보는 ?법|설정|설치|사용법|치트|명령어|염색코드|코디|기댓값|확률/],
   ['쿠폰형', /쿠폰|코드/],
   ['추천·티어·비교형', /티어|추천|순위|BEST|TOP|비교|뭐가 다를|차이/i],
   ['후기·리뷰형', /후기|리뷰|사용기|써본|첫인상/],
@@ -160,6 +161,9 @@ function coverage(ledger, game, q) {
 async function seedGames() {
   const one = val('--game', null);
   if (one) return [one];
+  /* ★2026-09-18 — 여러 게임을 한 번에(데스크 guide·pinned 후보 밭 · desk-signals.cjs queries 가 부른다). 쉼표 구분. */
+  const many = val('--games', null);
+  if (many) return many.split(',').map((s) => s.trim()).filter(Boolean);
   if (has('--pins')) {
     try {
       const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 12000);
@@ -186,7 +190,7 @@ async function seedGames() {
     }));
     return Object.entries(cnt).sort((a, b) => b[1] - a[1]).slice(0, top).map(([g]) => g);
   }
-  console.error('시드를 정해야 한다: --game <게임> | --pins | --from-ledger');
+  console.error('시드를 정해야 한다: --game <게임> | --games "a,b" | --pins | --from-ledger');
   return [];
 }
 

@@ -70,7 +70,11 @@
   --w-fallback:#5A6270;
   /* ── 정체성: 데스크 분류 ── */
   --s-pinned:#A8720F;
+  --s-pinned-t:#8F610D;   /* ★꼭 다룰 게임 «글자» 단계(2026-09-18) — 원색 #A8720F 는 흰 면 4.13:1 · hover 면 3.86:1 로 12.5px 글자 AA 미달이었다.
+                             원색을 통째로 어둡게 하면 적록 색각에서 «화제»(#B93F14)와 겹친다(ΔE 1.8) → 아이콘·점(비텍스트 3:1 통과)은 원색 그대로, 행 게임명만 이 단계(5.41 · 5.04:1) */
   --s-core:#AE3468;
+  --s-guide:#5A6E14;   /* 「지금 검색되는 공략」(2026-09-18) — 올리브. 표면 5.71:1 · surface-2 5.33:1 · tray 4.62:1(글자 AA) ·
+                          기존 6색·봄딩·영도와 최소 ΔE2000 5.7(적색맹 모의 · pinned) — 기존 6색끼리 최저 3.5 보다 멀다. 빈 색상 구간(Lab h≈115°)을 골랐다 */
   --s-parenting:#6E4FBF;
   --s-new:#1F5FA8;
   --s-update:#1F7458;
@@ -549,8 +553,8 @@ a{color:inherit; text-decoration:none}
 .tsec-h{display:flex; align-items:center; gap:9px; padding:13px 16px 12px; border-bottom:1px solid var(--hair)}
 .tsec-ic{color:var(--ac); display:flex}
 .tsec-ic .ic{width:15px; height:15px}
-.tsec-t{font-size:13.5px; font-weight:700; letter-spacing:-.025em}
-.tsec-d{font-size:12px; color:var(--ink-4)}
+.tsec-t{font-size:13.5px; font-weight:700; letter-spacing:-.025em; white-space:nowrap}
+.tsec-d{font-size:12px; color:var(--ink-4); min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}   /* 09-19 좁은 폭에서 한 글자 고아 줄바꿈 대신 말줄임(제목은 줄바꿈 안 함) */
 .tsec-n{
   margin-left:auto; min-width:22px; height:20px; padding:0 7px; border-radius:var(--r-pill);
   background:var(--surface-2); box-shadow:0 0 0 1px var(--hair);
@@ -572,7 +576,7 @@ a{color:inherit; text-decoration:none}
 .trow:hover{background:var(--surface-2)}
 .trow:hover::before{opacity:1; transform:scaleY(1)}
 .tr-g{
-  font-size:12.5px; font-weight:700; color:var(--ac); letter-spacing:-.02em;
+  font-size:12.5px; font-weight:700; color:var(--at,var(--ac)); letter-spacing:-.02em;   /* --at = 원색이 글자 AA 미달인 칸의 글자 단계(pinned) */
   overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
 .tr-m{display:flex; align-items:center; gap:8px; min-width:0}
@@ -606,6 +610,35 @@ a{color:inherit; text-decoration:none}
 .cta:disabled{cursor:default}
 .tsec-empty{padding:26px 18px; font-size:12.5px; line-height:1.7; color:var(--ink-3)}
 .tsec-empty b{color:var(--ink-2); font-weight:600}
+.tsec-go{margin-left:6px; vertical-align:middle}   /* 육아 주 1회 — 이번 주 육아 판으로 가는 버튼(날짜 페이저 버튼과 같은 어휘 .dpbtn) · 2026-09-18 */
+
+/* ══════════ 홈 — 「주제 비중」 (2026-09-18) ══════════
+   강조형 100% 막대(dataviz «emphasis»): 공략·티어만 잉크, 나머지(소식·기타)는 회색 한 가지. 막대 두께 12px(≤24) ·
+   세그먼트 사이 2px 표면 틈 · 시작(기준선)은 각지고 끝만 4px 둥글게. 목표 50% 는 막대를 가로지르는 눈금(표면 테두리로 어느 면 위에서도 보인다).
+   숫자는 오른쪽 글자(잉크 토큰)로 — 색으로만 전달하지 않는다. 행 전체가 hover·키보드 포커스 표적(툴팁 = 네 갈래 비율). */
+.mx{display:flex; flex-direction:column; gap:2px}
+.mx-row{position:relative; display:grid; grid-template-columns:minmax(0,176px) minmax(0,1fr) auto; align-items:center;
+        gap:16px; padding:9px 8px; border-radius:var(--r-row); transition:background var(--t-fast) var(--e)}
+.mx-row.on{background:var(--surface-2)}
+.mx-l{min-width:0}
+.mx-t{display:block; font-size:13px; font-weight:650; letter-spacing:-.02em; color:var(--ink); white-space:nowrap}
+.mx-s{display:block; font-size:12.5px; color:var(--ink-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.mx-bar{position:relative; display:flex; gap:2px; height:12px}
+.mx-seg{height:100%; min-width:0}
+.mx-seg.g{background:var(--ink)}
+.mx-seg.r{background:var(--seg-off)}
+.mx-seg:last-child{border-radius:0 4px 4px 0}
+.mx-bar::after{content:""; position:absolute; left:calc(50% - 1px); top:-5px; bottom:-5px; width:2px; border-radius:1px;
+               background:var(--ink-2); box-shadow:0 0 0 1.5px var(--surface); pointer-events:none}
+.mx-row.on .mx-bar::after{box-shadow:0 0 0 1.5px var(--surface-2)}
+.mx-v{font-size:12.5px; color:var(--ink-3); white-space:nowrap; text-align:right}
+.mx-v b{font-family:"JetBrains Mono",monospace; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
+.mx-v .mx-n{margin-left:10px}
+.mx-na{font-size:12.5px; color:var(--ink-4)}
+.mx-row .hit{position:absolute; inset:0; border-radius:var(--r-row); cursor:default}
+.legend .mx-tk{width:2px; height:12px; border-radius:1px; background:var(--ink-2)}
+.mx-foot{margin-top:10px; padding-top:10px; border-top:1px solid var(--hair); font-size:12.5px; color:var(--ink-3)}
+.mx-foot b{font-family:"JetBrains Mono",monospace; font-weight:600; color:var(--ink-2); font-variant-numeric:tabular-nums}
 
 /* ══════════ 홈 — 벤토 (비대칭 12열) ══════════ */
 .bento{display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:14px}
@@ -1104,6 +1137,9 @@ html.gs .nt{transition:none !important}
   .tr-g{grid-area:g}
   .tr-m{grid-area:m}
   .cta{grid-area:b; align-self:center}
+  .mx-row{grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"l v" "b b"; gap:8px 10px; padding:10px 8px}   /* 주제 비중 — 이름·숫자 한 줄, 막대는 아래 전폭 */
+  .mx-row.na{grid-template-areas:"l v"}
+  .mx-l{grid-area:l} .mx-v,.mx-na{grid-area:v} .mx-bar{grid-area:b}
   .phead{flex-direction:column; align-items:flex-start; gap:10px}
   .pmeta{padding-bottom:0}
   .tile.w7,.tile.w5{grid-column:span 12}
@@ -1225,6 +1261,7 @@ var I={
   pulse:'<path d="M3 12h4l3-8 4 16 3-8h4"/>',
   image:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>',
   table:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 9.5h18"/><path d="M9.5 9.5V21"/>',
+  book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
   imgEdit:'<path d="M21 11V5.5A2.5 2.5 0 0 0 18.5 3h-13A2.5 2.5 0 0 0 3 5.5v13A2.5 2.5 0 0 0 5.5 21H11"/><circle cx="9" cy="9" r="2"/><path d="m3 17 4.6-4.6a2 2 0 0 1 2.8 0l1.6 1.6"/><path d="M19.2 13.8a1.9 1.9 0 0 1 2.7 2.7L16.6 21.8l-3.6.9.9-3.6Z"/>'
 };
 function svg(n,cls){ return '<svg class="ic'+(cls?' '+cls:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+(I[n]||'')+'</svg>'; }
@@ -1745,12 +1782,15 @@ var usageP=jget('_trend/_usage.json?ts='+Date.now(),null);
 var quotaP=jget('_trend/_quota.json?ts='+Date.now(),null);
 /* 홈 «블로그 활동»(구 «AI 브리핑 인용», 09-06 개명) — _tools/mate-citations.cjs 가 데스크 [E]에서 하루 1회 굽는다(인용·방문자·일자별 글 수) */
 var citeP=jget('_trend/_citations.json?ts='+Date.now(),null);
+/* 홈 «주제 비중»(2026-09-18) — _tools/desk-mix.cjs 가 데스크 [E]에서 하루 1회 굽는다(추천·발주·작성 글의 각도 비중) */
+var mixP=jget('_trend/_desk-mix.json?ts='+Date.now(),null);
 
-Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP]).then(function(r){
+Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP]).then(function(r){
   var posts=r[0]||[], pub=r[1]||{}, trend=r[2]||{}, reqs=r[6];
   USAGE=(r[7]&&Array.isArray(r[7].days))?r[7]:null;
   QUOTA=(r[8]&&(Array.isArray(r[8].limits)||r[8].five_hour))?r[8]:null;
   CITES=(r[9]&&Array.isArray(r[9].writers))?r[9]:null;
+  MIX=(r[11]&&Array.isArray(r[11].bars))?r[11]:null;
   paintQuota();   /* 상단 고정 잔여 사용량 칩(모든 탭) */
 
   ((pub&&pub.publishedRels)||[]).forEach(function(x){ PUBSET[String(x)]=1; });
@@ -1987,7 +2027,7 @@ function observeRise(root){
    네 지표: ①작업 중 = 백엔드 /requests 의 received·processing ②작성자별 주간 사용량 = _trend/_usage.json(데스크·드레이너가 굽는다)
            ③일간 발행 실패율 = /requests 종결 상태(published·failed·skipped)의 일별 비율 ④잔여 사용량 = _trend/_quota.json(이 PC 계정 Max 한도 창).
    숫자는 실측만 — 스냅샷이 없으면 «스냅샷 없음»이지 0 이 아니다. 차트는 얇은 막대·2px 표면 간격·범례·툴팁·표 뷰(sr). */
-var USAGE=null, QUOTA=null, CITES=null, REQS_OK=false;   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
+var USAGE=null, QUOTA=null, CITES=null, MIX=null, REQS_OK=false;   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
 var W_ORDER=PREF.concat(['기타/공용']);
 var LIMIT_LABEL={session:'5시간 창',weekly_all:'7일 전체',weekly_scoped:'7일 모델별'};
 var WD=['일','월','화','수','목','금','토'];
@@ -2223,6 +2263,7 @@ function tileUsage(){
 /* 차트 툴팁 — 하나를 돌려쓴다. 값이 앞, 이름이 뒤. 이름은 textContent 로만 넣는다 */
 var CTIP=null;
 function tipColor(name){
+  if(MIX_TIP[name])return MIX_TIP[name];
   if(name==='발행'||name==='글')return 'var(--ink)';
   if(name==='실패·건너뜀')return 'var(--alert)';
   return wcol(name);
@@ -2402,10 +2443,59 @@ function tileCite(){
     '<div class="tile-b">'+body+'</div></div></section>';
 }
 
+/* ══════════ 홈 — 「주제 비중」 (2026-09-18) ══════════
+   출처 = _trend/_desk-mix.json(_tools/desk-mix.cjs · 데스크 [E] 하루 1회). 막대 3줄 = 트렌드 추천(최근 7판 게임 항목) ·
+   발주(최근 14일 데스크 경유) · 작성 글(최근 14일 봄딩·영도 게임 초안). 사용자 질문(09-18) «추천이 뉴스형뿐이라 공략형 글이 안 쌓인다»를
+   매일 보는 자리 — 그 판정(공략·티어 ≥ 50%)이 CLI 에만 있어 아무도 안 봤던 것이 이 타일의 이유다.
+   ★강조형: 공략·티어 한 묶음만 잉크, 나머지는 회색 하나. 소식 비율은 오른쪽 글자로 따로 싣는다(색 하나로 두 이야기를 하지 않는다).
+   ★발주를 못 읽은 날은 «미연결», 0 건이면 «건 없음» — 0% 막대로 위장하지 않는다. 옛 판(각도 표시 전)은 제목 정규식으로 셌고 그 건수를 툴팁에 적는다. */
+/* 툴팁 견본색 — 툴팁 바탕이 잉크(짙은 색)라 막대의 «잉크 칸»을 잉크로 칠하면 사라진다(09-18 실측).
+   그래서 «진함 대 옅음» 관계를 뒤집어 옮긴다: 공략·티어 = 흰색(진한 칸) · 소식·기타 = 옅은 흰색(회색 칸) · 추정 건수 = 견본 없음 */
+var MIX_TIP={'공략':'#fff','티어·추천':'#fff','소식':'rgba(255,255,255,.34)','기타':'rgba(255,255,255,.34)','제목으로 추정':'transparent'};
+function mixPct(v){ return (Math.round((Number(v)||0)*10)/10).toString().replace(/\.0$/,'')+'%'; }
+function tileMix(){
+  var bars=(MIX&&Array.isArray(MIX.bars))?MIX.bars:[], tgt=(MIX&&MIX.target&&MIX.target.guide)||50, body;
+  if(!bars.length)body='<div class="wl-empty">스냅샷 없음</div>';
+  else{
+    var rows=bars.map(function(b){
+      var head='<span class="mx-l"><span class="mx-t">'+esc(b.label)+'</span><span class="mx-s">'+esc(b.window||'')+(b.n?' · '+b.n+'건':'')+'</span></span>';
+      if(!b.n)return '<div class="mx-row na">'+head+'<span class="mx-na">'+(b.n==null?'미연결':'건 없음')+'</span></div>';
+      var g=Math.max(0,Math.min(100,Number(b.guide)||0));
+      var segs=(g>0?'<span class="mx-seg g" style="flex:0 0 calc('+g+'% - '+(g<100?1:0)+'px)"></span>':'')+
+               (g<100?'<span class="mx-seg r" style="flex:1 1 auto"></span>':'');
+      var tip=[['공략',b.howto],['티어·추천',b.rank],['소식',b.news],['기타',b.info]].map(function(x){ return x[0]+'|'+mixPct(x[1]); });
+      if(b.regex)tip.push('제목으로 추정|'+b.regex+'건');
+      return '<div class="mx-row col">'+head+
+        '<span class="mx-bar" aria-hidden="true">'+segs+'</span>'+
+        '<span class="mx-v">공략·티어 <b>'+mixPct(g)+'</b><span class="mx-n">소식 <b>'+mixPct(b.news)+'</b></span></span>'+
+        '<span class="hit" tabindex="0" data-tip="'+esc(b.label+' · '+(b.window||'')+'|'+b.n+'건||'+tip.join(';'))+'"'+
+          ' aria-label="'+esc(b.label+' '+(b.window||'')+' '+b.n+'건 — 공략 '+mixPct(b.howto)+', 티어·추천 '+mixPct(b.rank)+', 소식 '+mixPct(b.news)+', 기타 '+mixPct(b.info))+'"></span></div>';
+    }).join('');
+    var legend='<div class="legend"><span style="--c:var(--ink)"><i></i>공략·티어</span><span style="--c:var(--seg-off)"><i></i>소식·기타</span>'+
+      '<span><i class="mx-tk"></i>목표 '+tgt+'%</span></div>';
+    var table='<table class="sr"><caption>주제 비중 — 공략·티어·소식·기타(%)</caption><tr><th>구분</th><th>기간</th><th>건수</th><th>공략</th><th>티어·추천</th><th>소식</th><th>기타</th></tr>'+
+      bars.map(function(b){ return '<tr><td>'+esc(b.label)+'</td><td>'+esc(b.window||'')+'</td><td>'+(b.n==null?'미연결':b.n)+'</td>'+
+        (b.n?['howto','rank','news','info'].map(function(k){ return '<td>'+mixPct(b[k])+'</td>'; }).join(''):'<td>—</td><td>—</td><td>—</td><td>—</td>')+'</tr>'; }).join('')+'</table>';
+    /* 발행 후 AI 브리핑 재검(aib-followup.cjs) — 결과가 쌓인 뒤에만 한 줄. 없으면 줄 자체를 두지 않는다 */
+    var f=MIX.followup, foot='';
+    if(f){
+      var parts=[['d7','7일 뒤'],['d14','14일 뒤']].filter(function(x){ return f[x[0]]&&f[x[0]].queries; }).map(function(x){
+        var s=f[x[0]]; return x[1]+' <b>'+s.queries+'</b>질의 중 브리핑 <b>'+(s.shown+s.async)+'</b> · 우리 인용 <b>'+s.cited+'</b>'; });
+      if(parts.length)foot='<div class="mx-foot">발행 후 재검 · '+parts.join(' / ')+'</div>';
+    }
+    body='<div class="chart mx">'+rows+table+'</div>'+legend+foot;
+  }
+  var up=MIX&&MIX.updated?Date.parse(MIX.updated):0;
+  return '<section class="tray tile rise" id="tileMix"><div class="core">'+
+    '<div class="tile-h"><span class="tile-ic">'+svg('book')+'</span><span class="tile-t">주제 비중</span>'+
+      '<span class="tile-d">공략·티어 비중 · 목표 '+tgt+'%</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
+    '<div class="tile-b">'+body+'</div></div></section>';
+}
+
 function renderHome(){
   setTitle('홈');
   setMeta(homeMeta());
-  viewEl.innerHTML='<div class="bento">'+tileWork()+tileUsage()+tileCite()+'</div>';   /* 3타일: 작업 중(5) · 사용량(7) · 블로그 활동(12) — 잔여 사용량은 상단 칩 */
+  viewEl.innerHTML='<div class="bento">'+tileWork()+tileUsage()+tileCite()+tileMix()+'</div>';   /* 4타일: 작업 중(5) · 사용량(7) · 블로그 활동(12) · 주제 비중(12, 09-18) — 잔여 사용량은 상단 칩 */
   observeRise(viewEl);
   bindCharts(viewEl);
   paintNav();
@@ -2703,8 +2793,11 @@ function refreshChipCounts(){
 
 /* ══════════ 트렌드 = 일간 토픽 데스크 ══════════ */
 var DESK_SECTIONS=[
-  {key:'pinned',    label:'꼭 다룰 게임',      desc:'내가 지정한 게임',           icon:'pin',     ac:'var(--s-pinned)',    cap:40},
+  {key:'pinned',    label:'꼭 다룰 게임',      desc:'내가 지정한 게임',           icon:'pin',     ac:'var(--s-pinned)',    at:'var(--s-pinned-t)', cap:40},   /* at = 행 게임명 글자색(원색이 AA 미달인 칸만) */
   {key:'core',      label:'주로 다루는 게임',   desc:'봄딩·영도가 계속 쓰는 게임',  icon:'star',    ac:'var(--s-core)',      cap:10},
+  /* ★2026-09-18 신설 — 최근 신작·업데이트·화제에 오른 게임의 «검색은 있는데 우리 글이 없는» 공략 질문. 상한 8.
+     신작·업데이트·화제의 상한(3/3/2)은 데스크·test-desk §[8] 이 지킨다 — 여기 cap 을 줄이면 지난 판(5건)이 잘려 보여 그대로 둔다 */
+  {key:'guide',     label:'지금 검색되는 공략', desc:'아직 우리 글이 없는 질문', icon:'book', ac:'var(--s-guide)',   cap:8},
   {key:'parenting', label:'육아 제품',         desc:'봄딩 쿠팡 제휴 비교글',      icon:'gift',    ac:'var(--s-parenting)', cap:5},
   {key:'new',       label:'신작 게임',         desc:'막 나왔거나 곧 나오는 게임',  icon:'spark',   ac:'var(--s-new)',       cap:5},
   {key:'update',    label:'최근 업데이트 게임', desc:'화제성 있는 패치·시즌',      icon:'refresh', ac:'var(--s-update)',    cap:5},
@@ -2739,6 +2832,11 @@ function normEditions(raw){
             /* lane = 이 게임을 주로 쓰는 작성자. 발주 모달의 기본 선택값일 뿐 강제가 아니다. */
             lane:(PREF.indexOf(lane)>=0&&INACTIVE.indexOf(lane)<0)?lane:'',
             keywords:(it.keywords||[]).map(String).filter(Boolean),
+            /* ★2026-09-18 — 데스크 신호(_tools/desk-signals.cjs stamp). 목록 행엔 안 보이고 발주 모달·소재 메모에만 실린다.
+               angleType = howto·rank·news·info · demand = {tier,src,ac,game,kw} · aib = {s,n,bd,yd,q}. 옛 판엔 없다(null) */
+            angleType:String(it.angleType||''),
+            demand:(it.demand&&typeof it.demand==='object')?it.demand:null,
+            aib:(it.aib&&typeof it.aib==='object')?it.aib:null,
             sources:(it.sources||[]).filter(function(x){ return x&&x.url; })
               .map(function(x){ return {label:String(x.label||'출처'),url:String(x.url)}; }),
             coverage:(it.coverage||[]).filter(function(c){ return c&&c.writer; })
@@ -2773,10 +2871,36 @@ function deskMaterial(it){
   if(it.detail)p.push('[확인된 사실]\n'+splitLines(it.detail).map(function(s){ return '- '+s; }).join('\n'));
   if(it.angle)p.push('[각도] '+it.angle);
   if(it.keywords.length)p.push('[키워드] '+it.keywords.join(', '));
+  var dl=demandLine(it), al=aibLine(it);
+  if(dl)p.push('[검색 수요] '+dl);
+  if(al)p.push('[AI 브리핑] '+al+(it.aib&&it.aib.q?' («'+it.aib.q+'» 기준)':''));
   if(it.sources.length)p.push('[참고]\n'+it.sources.map(function(s){ return '- '+s.label+' '+s.url; }).join('\n'));
   if(it.coverage.length)p.push('★기존 글 확인 필요: '+it.coverage.map(function(c){ return c.writer+' 「'+c.title+'」'; }).join(' / ')+
     ' — 각도가 겹치면 새 각도로 잡거나 발주를 취소할 것');
   return p.join('\n\n');
+}
+/* 검색 수요 한 줄 — 검색광고 키워드도구(월간 검색수)가 연동돼 있으면 숫자, 아니면 자동완성 개수(0~10 · 검색량 아님).
+   ★자동완성은 «그 말이 실제로 입력된다»까지만 말한다 — 숫자를 검색량처럼 읽지 않게 «검색량 미연동»을 같이 적는다 */
+function demandLine(it){
+  var d=it&&it.demand; if(!d||d.tier==null)return '';
+  var lab=['없음','낮음','보통','높음'][d.tier]||'';
+  if(d.src==='searchad'){
+    if(d.kw&&d.kw.n!=null)return lab+' · 「'+d.kw.q+'」 월 '+Number(d.kw.n).toLocaleString('ko-KR')+'회';
+    if(d.game!=null)return lab+' · 게임명 월 '+Number(d.game).toLocaleString('ko-KR')+'회';
+    return lab;
+  }
+  return lab+' · 자동완성 '+(d.ac==null?'?':d.ac)+'/10 · 검색량 미연동';
+}
+/* AI 브리핑 한 줄 — 발주 전 실검색(aib-check.py) 결과. 뜨는데 우리가 없는 질의가 «쓰면 출처에 들 수 있는 자리» */
+function aibLine(it){
+  var a=it&&it.aib; if(!a||!a.s)return '';
+  if(a.s==='shown'){
+    var mine=[]; if(a.bd)mine.push('봄딩 '+a.bd+'위'); if(a.yd)mine.push('영도 '+a.yd+'위');
+    return '뜸 · 출처 '+(a.n||0)+'곳 · '+(mine.length?mine.join(' · ')+' 인용 중':'우리 글 미인용');
+  }
+  if(a.s==='async')return '뜸 · 출처 미확인';
+  if(a.s==='none')return '안 뜸 — 인용 기대 0';
+  return '확인 실패';
 }
 function deskItemById(id){
   for(var i=0;i<TREND.length;i++){
@@ -2786,7 +2910,8 @@ function deskItemById(id){
   return null;
 }
 
-/* 꼭 다룰 게임 상자 — 여기 적은 게임은 다음 회차 데스크가 주제 3~5개를 만든다 */
+/* 꼭 다룰 게임 상자 — 여기 적은 게임은 다음 회차 데스크가 주제를 최대 5개 만든다
+   (★2026-09-18 사용자 결정: «3건 바닥»은 공략 질의로 채울 수 있을 때만 — 패치 세부로 바닥을 채우지 않는다) */
 function pinBox(){
   var full=PINS.length>=PINS_MAX;
   var chips=PINS.map(function(g,i){
@@ -2857,6 +2982,23 @@ function datePager(dates,cur){
     '<button type="button" class="dpbtn" data-go="newer"'+(i>0?'':' disabled')+'>최신'+svg('chevR')+'</button>'+
     '<span class="dpos">'+(dates.length-i)+'/'+dates.length+'</span></div>';
 }
+/* ★2026-09-18 — 육아 제품은 «주 1회»(그 주에 아직 안 실었으면 싣는다 = 보통 월요일 판). 다른 날 빈 칸은 «없었다»가 아니라 «주기»다.
+   그래서 빈 칸 문구를 바꾸고, 이번 주 육아 판으로 가는 버튼을 단다(불러온 판에서 찾고, 없으면 이번 주 월요일 판). */
+var PAR_WEEKLY_FROM='2026-09-19';
+function parWeekTarget(ed,dates){
+  var d=new Date(ed.date+'T12:00:00Z'), mon=new Date(d.getTime()-((d.getUTCDay()+6)%7)*DAY).toISOString().slice(0,10), hit=null;
+  TREND.forEach(function(e){
+    if(hit||e.date<mon||e.date>=ed.date)return;
+    var s=e.sections.filter(function(x){ return x.key==='parenting'; })[0];
+    if(s&&s.items.length)hit=e.date;
+  });
+  if(!hit&&mon<ed.date&&dates.indexOf(mon)>=0)hit=mon;
+  return hit;
+}
+function parWeeklyTx(ed,dates){
+  var t=parWeekTarget(ed,dates);
+  return '육아 제품은 <b>주 1회</b> 올라와요.'+(t?' <button type="button" class="dpbtn tsec-go" data-godate="'+esc(t)+'">'+esc(mdLabel(t))+' 판 보기'+svg('chevR')+'</button>':'');
+}
 function attachPager(dates){
   function goDate(d){
     if(!d||d===S.trendDate)return;
@@ -2865,6 +3007,9 @@ function attachPager(dates){
     /* 날짜 축은 최신이 오른쪽 — 과거로 가면 왼쪽에서, 최신으로 가면 오른쪽에서 들어온다 */
     renderTrend({dir:j>i?-1:1,top:true});
   }
+  viewEl.querySelectorAll('[data-godate]').forEach(function(b){
+    b.addEventListener('click',function(){ goDate(b.dataset.godate); });
+  });
   viewEl.querySelectorAll('[data-go]').forEach(function(b){
     b.addEventListener('click',function(){
       if(b.disabled)return;
@@ -2882,7 +3027,7 @@ function trendRow(it){
     ? '<span class="tr-warn" title="'+esc(it.coverage.map(function(c){ return c.writer+' 「'+c.title+'」'; }).join(' · '))+
       '" aria-label="이미 다룬 글 '+it.coverage.length+'건">'+svg('alertTri')+it.coverage.length+'</span>'
     : '';
-  return '<div class="trow" style="--ac:'+s.ac+'">'+
+  return '<div class="trow" style="--ac:'+s.ac+(s.at?';--at:'+s.at:'')+'">'+
     '<span class="tr-g">'+esc(it.game||'—')+'</span>'+
     '<span class="tr-m"><span class="tr-h">'+esc(it.title)+'</span>'+warn+'</span>'+
     '<button type="button" class="cta" data-req="'+esc(it.id)+'">발주 요청'+
@@ -2969,11 +3114,13 @@ function renderTrend(o){
 
   var secs=DESK_SECTIONS.map(function(s){
     var items=(ed.sections.filter(function(x){ return x.key===s.key; })[0]||{items:[]}).items;
-    var emptyTx=(s.key!=='pinned')
-      ? '오늘은 이 분류에서 건질 주제가 없었어요.'
-      : (PINS.length
+    var emptyTx=(s.key==='pinned')
+      ? (PINS.length
           ? '지정한 게임 주제는 <b>다음 회차</b>부터 올라와요.'
-          : '위 상자에 게임을 지정하면 <b>게임마다 주제 3~5개</b>가 여기 모여요.');
+          : '위 상자에 게임을 지정하면 <b>게임마다 주제 최대 5개</b>가 여기 모여요.')
+      : (s.key==='parenting'&&ed.date>=PAR_WEEKLY_FROM)
+        ? parWeeklyTx(ed,dates)
+        : '오늘은 이 분류에서 건질 주제가 없었어요.';
     var body=items.length
       ? items.map(trendRow).join('')
       : '<div class="tsec-empty">'+emptyTx+'</div>';
@@ -3130,6 +3277,8 @@ function openOrder(it,opener){
       (it.platform?'<span class="bf-p">'+esc(it.platform)+'</span>':'')+
       (it.when?'<span class="bf-w">'+esc(it.when)+'</span>':'')+heat+'</div>'+
     fld('왜 지금',it.why)+
+    fld('검색 수요',demandLine(it))+
+    fld('AI 브리핑',aibLine(it))+
     (facts.length?'<div class="bf-f"><span class="bf-k">확인된 사실</span><span class="bf-v">'+
       facts.map(function(x){ return '<span class="bf-l">'+esc(x)+'</span>'; }).join('')+'</span></div>':'')+
     fld('각도',it.angle)+

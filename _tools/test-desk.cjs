@@ -85,6 +85,21 @@ if (withCov) ok(mod.deskMaterial(withCov).includes('★기존 글 확인 필요'
 else console.log('  SKIP coverage 경고 — 오늘 판에 경고 붙은 항목 없음');
 if (noCov) ok(mod.deskMaterial(noCov).indexOf('★기존 글') < 0, 'coverage 없으면 경고 미삽입');
 else console.log('  SKIP 무경고 항목 — 오늘 판 전 항목에 경고가 붙음');
+/* ★2026-09-18 — 신호(검색 수요·AI 브리핑)가 소재 메모에 실리는가. 오늘 판에 없을 수 있으니 합성 항목으로 본다 */
+{
+  const syn = mod.normEditions({ editions: [{ date: '2026-09-19', sections: [{ key: 'guide', items: [{
+    id: 'x', game: '팰월드', title: '팰월드 거점 추천', angleType: 'rank', keywords: ['팰월드 거점'],
+    demand: { tier: 2, src: 'ac', ac: 10 }, aib: { s: 'shown', n: 5, bd: null, yd: null, q: '팰월드 거점' },
+    sources: [{ label: '공식', url: 'https://example.com' }] }] }] }] });
+  const it = mod.edItems(syn[0])[0];
+  const mm = mod.deskMaterial(it);
+  ok(it.angleType === 'rank' && it.demand && it.demand.tier === 2 && it.aib && it.aib.s === 'shown', 'normEditions 가 angleType·demand·aib 를 넘긴다');
+  ok(mm.includes('[검색 수요] 보통 · 자동완성 10/10'), '소재 메모에 [검색 수요]');
+  ok(mm.includes('[AI 브리핑] 뜸 · 출처 5곳 · 우리 글 미인용'), '소재 메모에 [AI 브리핑]');
+  const old = mod.normEditions({ editions: [{ date: '2026-09-01', sections: [{ key: 'new', items: [{ title: 't', sources: [{ url: 'https://e.com' }] }] }] }] });
+  const oi = mod.edItems(old[0])[0];
+  ok(oi.demand === null && oi.aib === null && mod.deskMaterial(oi).indexOf('[검색 수요]') < 0, '신호 없는 옛 판은 줄을 만들지 않는다');
+}
 
 console.log('\n[4] 방어 — 깨진/구 스키마 입력');
 ok(mod.normEditions(null).length === 0, 'null → []');
@@ -131,6 +146,81 @@ console.log('\n[7] 경량본(trend-lite.json) 최신성');
   const out = ((r.stdout || '') + (r.stderr || '')).trim();
   if (out) console.log(out.split('\n').map(l => l.replace(/^\s{0,2}/, '  ')).join('\n'));
   ok(r.status === 0, 'trend-lite.json 이 trend.json 과 일치');
+}
+
+/* [8] 거둬내기·신호 계약 — 2026-09-18 사용자 승인(«권고안대로 전부 진행») · 시행 2026-09-19 판부터.
+   정본 = 쓰담/docs/2026-09-18_트렌드_추천방식_검토_수정계획.md §W1·§W6 + SKILL [B-3]. 기계 집행 = _tools/desk-signals.cjs(check·stamp).
+   이 게이트는 «데스크가 stamp 를 건너뛰거나 손으로 판을 고쳐도» 규칙이 새지 않게 막는 마지막 백스톱이다.
+   ★raw(trend.json 그대로)를 본다 — normEditions 는 사이트 상한(5)으로 잘라 버려서 4·5건 초과를 못 본다.
+   ★게이트 자신도 시험한다: 규칙을 지킨 합성 판 = 0건, 어긴 합성 판 = 기대한 위반만 — 빈 게이트가 초록으로 통과하는 일을 막는다. */
+const RULE_FROM = '2026-09-19';
+const CAPS = { new: 3, update: 3, hot: 2, guide: 8 };
+const GAME = ['pinned', 'core', 'guide', 'new', 'update', 'hot'];
+function weekOf(d) { const t = new Date(d + 'T12:00:00Z'); return new Date(t.getTime() - ((t.getUTCDay() + 6) % 7) * 864e5).toISOString().slice(0, 10); }
+function ruleViolations(e, all) {
+  const v = [];
+  const sec = (k) => (((e.sections || []).find((s) => s && s.key === k) || {}).items || []).filter(Boolean);
+  Object.entries(CAPS).forEach(([k, cap]) => { if (sec(k).length > cap) v.push('cap:' + k + ' ' + sec(k).length + '>' + cap); });
+  const game = GAME.flatMap((k) => sec(k).map((it) => ({ k, it })));
+  game.forEach(({ k, it }) => {
+    if (!['howto', 'rank', 'news', 'info'].includes(it.angleType)) v.push('angleType:' + k + ' «' + String(it.title).slice(0, 20) + '»');
+    if (it.demand && ![0, 1, 2, 3, null].includes(it.demand.tier)) v.push('demand.tier:' + k);
+    if (it.aib && !['shown', 'async', 'none', 'unknown'].includes(it.aib.s)) v.push('aib.s:' + k);
+  });
+  const evNews = game.filter((x) => ['new', 'update', 'hot'].includes(x.k) && x.it.angleType === 'news').length;
+  if (evNews > 2) v.push('W1:소식형 ' + evNews + '>2');
+  game.filter((x) => (x.k === 'hot' || x.k === 'core') && x.it.angleType === 'news').forEach((x) => v.push('R2:' + x.k));
+  const pn = {}; game.filter((x) => x.k === 'pinned' && x.it.angleType === 'news').forEach((x) => { pn[x.it.game] = (pn[x.it.game] || 0) + 1; });
+  Object.entries(pn).forEach(([g, n]) => { if (n > 1) v.push('R3:' + g + ' ' + n); });
+  game.filter((x) => x.k === 'new' && x.it.demand && x.it.demand.tier === 0).forEach(() => v.push('R1:new'));
+  game.filter((x) => ['new', 'update', 'hot'].includes(x.k)).forEach(({ k, it }) => {
+    const sa = it.demand && it.demand.src === 'searchad';
+    if (sa ? it.demand.tier === 0 : (Number(it.heat) || 0) <= 1) v.push('R4:' + k);
+  });
+  sec('guide').forEach((it) => { if (!['howto', 'rank'].includes(it.angleType) || !it.demand || !(it.demand.tier >= 1)) v.push('G:guide'); });
+  if (sec('parenting').length) {
+    const wk = weekOf(e.date);
+    const other = (all || []).filter((o) => o && o.date !== e.date && weekOf(o.date) === wk &&
+      ((((o.sections || []).find((s) => s && s.key === 'parenting') || {}).items || []).filter(Boolean).length));
+    if (other.length) v.push('육아 주1회:' + other.map((o) => o.date).join(','));
+  }
+  return v;
+}
+console.log('\n[8] 거둬내기·신호 계약 (시행 ' + RULE_FROM + '~)');
+{
+  const I = (o) => Object.assign({ id: Math.random().toString(36).slice(2), title: 't', heat: 2, sources: [{ url: 'https://e.com' }] }, o);
+  const good = { date: '2026-09-21', sections: [
+    { key: 'pinned', items: [I({ game: '롤토체스', angleType: 'news' }), I({ game: '롤토체스', angleType: 'howto' }), I({ game: '애니모', angleType: 'news' })] },
+    { key: 'core', items: [I({ game: '팰월드', angleType: 'howto' })] },
+    { key: 'guide', items: [I({ game: '메이플', angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
+    { key: 'parenting', items: [I({ game: '아기 가습기' })] },
+    { key: 'new', items: [I({ game: 'A', angleType: 'news', demand: { tier: 1, src: 'ac' } }), I({ game: 'B', angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
+    { key: 'update', items: [I({ game: 'C', angleType: 'news', heat: 3 })] },
+    { key: 'hot', items: [I({ game: 'D', angleType: 'howto' })] }] };
+  const vg = ruleViolations(good, [good, { date: '2026-09-18', sections: [{ key: 'parenting', items: [I({})] }] }]);
+  ok(vg.length === 0, '게이트 자기시험 — 규칙을 지킨 합성 판은 위반 0' + (vg.length ? ' (나온 것: ' + vg.join(' · ') + ')' : ''));
+  const bad = { date: '2026-09-22', sections: [
+    { key: 'pinned', items: [I({ game: '롤토체스', angleType: 'news' }), I({ game: '롤토체스', angleType: 'news' })] },
+    { key: 'core', items: [I({ game: '팰월드', angleType: 'news' })] },
+    { key: 'guide', items: [I({ game: 'X', angleType: 'info', demand: { tier: 2, src: 'ac' } })] },
+    { key: 'parenting', items: [I({ game: '아기 칫솔' })] },
+    { key: 'new', items: [I({ game: 'A', angleType: 'news', demand: { tier: 0, src: 'ac' } }), I({ game: 'B', angleType: 'news' }), I({ game: 'E', angleType: 'howto' }), I({ game: 'F', angleType: 'howto', heat: 1 })] },
+    { key: 'update', items: [] },
+    { key: 'hot', items: [I({ game: 'D', angleType: 'news' })] }] };
+  const vb = ruleViolations(bad, [bad, good]);
+  const want = ['cap:new', 'W1:', 'R2:core', 'R2:hot', 'R3:롤토체스', 'R1:new', 'R4:new', 'G:guide', '육아 주1회'];
+  const miss = want.filter((w) => !vb.some((x) => x.startsWith(w)));
+  ok(miss.length === 0, '게이트 자기시험 — 어긴 합성 판에서 9종 위반을 모두 잡는다' + (miss.length ? ' (놓친 것: ' + miss.join(' · ') + ')' : ''));
+}
+{
+  let checked = 0;
+  for (const e of (raw.editions || [])) {
+    if (!e || !e.date || e.date < RULE_FROM) continue;
+    checked++;
+    const v = ruleViolations(e, raw.editions);
+    ok(v.length === 0, e.date + ' 거둬내기·신호 계약' + (v.length ? ' — 위반: ' + v.join(' · ') : ''));
+  }
+  if (!checked) console.log('  SKIP — 시행일 이후 에디션이 아직 없음(규칙은 ' + RULE_FROM + ' 판부터)');
 }
 
 console.log(fail ? '\n>>> ' + fail + ' FAILED\n' : '\n>>> ALL PASS\n');

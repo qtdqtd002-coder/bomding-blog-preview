@@ -1,0 +1,164 @@
+#!/usr/bin/env node
+/* ============================================================================
+   desk-mix.cjs — 데스크 «주제 비중» 로그 → _trend/_desk-mix.json   (2026-09-18 신설 · LLM 0)
+
+   왜 있나
+     2026-09-13 에 «뉴스형 ≤10% · 공략형 ≥50%» 목표를 세우고 2주 뒤 판정하기로 했지만, 그 수치를 보는 자리가
+     CLI(angle-mix.py) 뿐이라 5일 동안 아무도 안 봤고 그사이 우리 초안의 뉴스형은 34.7% → 46.2% 로 더 나빠졌다.
+     원인은 공급(데스크 추천)이었는데 공급 쪽 비중은 어디에도 기록되지 않았다(2026-09-18 검토 §3).
+     이 도구가 «추천 → 발주 → 작성 글» 세 단계의 각도 비중과 분류별 발주율을 매일 한 파일에 남긴다.
+     홈 「주제 비중」 타일이 이 파일만 읽는다(사이트는 네이버·백엔드를 직접 계산하지 않는다).
+
+   무엇을 재나
+     supply  최근 7판 게임 항목(pinned·core·guide·new·update·hot)의 angleType 비중. angleType 이 없는 옛 판은
+             angle-mix 사다리(제목 정규식)로 대신 센다 — 몇 건을 정규식으로 셌는지 regex 에 남긴다.
+     orders  최근 14일 데스크 경유 발주(백엔드 /requests · source=trend-desk)의 각도 비중. 발주 제목을 그 날 데스크 항목과
+             맞춰 angleType·분류를 가져온다(못 맞추면 정규식). ★백엔드를 못 읽으면 null — 0 으로 위장하지 않는다.
+     drafts  최근 14일 봄딩·영도 초안(posts.json) 중 게임 글의 제목 각도. 육아·임신·출산·취미 분류는 뺀다(게임 레인 지표).
+     secRate 최근 14일 분류별 «추천 → 발주» 비율(2026-09-18 거둬내기 W6 의 검증 지표 — 거둬낸 뒤 이 값이 안 오르면 기준이 틀린 것).
+     days    판마다 한 행(건수·분류별 건수·각도 비중) — 14판.
+     followup 발행 후 D+7·D+14 AI 브리핑 재검 요약(_trend/_aib-followup.json · aib-followup.cjs 가 굽는다). 없으면 null.
+
+   각도 4갈래 = howto(공략·방법·얻는 법·쿠폰) · rank(티어·추천·비교) · news(출시·일정·발표·결과) · info(정리·후기·기타)
+   목표선 = howto+rank ≥ 50%(2026-09-18 계획서 §W4 1차 관문 — 봄딩 P1 «공략·방법·쿠폰형 ≥50%»와 같은 방향).
+
+   사용: node _tools/desk-mix.cjs [--offline] [--print]
+         데스크 [E] 에서 stamp 뒤·커밋 앞에 돈다(하루 1회). 멱등 — 같은 날 다시 돌리면 같은 값으로 덮어쓴다.
+   ========================================================================== */
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const { angleOf, angleTypeOf } = require('./desk-signals.cjs');
+
+const ROOT = path.resolve(__dirname, '..');
+const TREND = path.join(ROOT, '_trend', 'trend.json');
+const POSTS = path.join(ROOT, 'posts.json');
+const OUT = path.join(ROOT, '_trend', '_desk-mix.json');
+const FOLLOW = path.join(ROOT, '_trend', '_aib-followup.json');
+const API = 'https://34.139.184.70.sslip.io';
+const GAME_SECS = ['pinned', 'core', 'guide', 'new', 'update', 'hot'];
+const WRITERS = ['봄딩', '영도'];
+const NOT_GAME = /육아|임신|출산|취미/;
+const DAY = 86400e3;
+
+const argv = process.argv.slice(2);
+const OFFLINE = argv.includes('--offline');
+function readJson(p, d) { try { return JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, '')); } catch (e) { return d; } }
+const norm = (s) => String(s || '').replace(/\s+/g, '').toLowerCase();
+const kst = (ts) => new Date(ts + 9 * 3600e3).toISOString().slice(0, 10);
+const today = kst(Date.now());
+const since = (days) => kst(Date.now() - (days - 1) * DAY);
+function empty() { return { howto: 0, rank: 0, news: 0, info: 0 }; }
+function pct(mix) {
+  const n = Object.values(mix).reduce((a, b) => a + b, 0);
+  const o = { n };
+  Object.keys(mix).forEach((k) => { o[k] = n ? Math.round(mix[k] / n * 1000) / 10 : 0; });
+  o.guide = n ? Math.round((mix.howto + mix.rank) / n * 1000) / 10 : 0;
+  return o;
+}
+
+async function getRequests() {
+  if (OFFLINE) return null;
+  try {
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 20000);
+    const r = await fetch(API + '/requests?ts=' + Date.now(), { signal: ctl.signal });
+    clearTimeout(t);
+    if (r.status !== 200) return null;
+    const j = await r.json();
+    return Array.isArray(j) ? j : null;
+  } catch (e) { return null; }
+}
+
+(async () => {
+  const doc = readJson(TREND, { editions: [] });
+  const eds = (doc.editions || []).filter((e) => e && e.date).sort((a, b) => (a.date < b.date ? 1 : -1));
+  const items = [];                       /* {date, sec, it, type, via} */
+  eds.forEach((e) => (e.sections || []).forEach((s) => {
+    if (!GAME_SECS.includes(s.key)) return;
+    (s.items || []).forEach((it) => { if (it && it.title) items.push({ date: e.date, sec: s.key, it, type: angleTypeOf(it), via: it.angleType ? 'desk' : 'regex' }); });
+  }));
+
+  /* ── 공급(최근 7판) ── */
+  const d7 = eds.slice(0, 7).map((e) => e.date);
+  const sup = empty(); let supRegex = 0;
+  items.filter((x) => d7.includes(x.date)).forEach((x) => { sup[x.type]++; if (x.via === 'regex') supRegex++; });
+
+  /* ── 판별 행(14판) ── */
+  const days = eds.slice(0, 14).map((e) => {
+    const mix = empty(), secs = {};
+    (e.sections || []).forEach((s) => { secs[s.key] = (s.items || []).length; });
+    items.filter((x) => x.date === e.date).forEach((x) => { mix[x.type]++; });
+    return { d: e.date, n: Object.values(secs).reduce((a, b) => a + b, 0), secs, mix: pct(mix) };
+  });
+
+  /* ── 발주(최근 14일) + 분류별 발주율 ── */
+  const reqs = await getRequests();
+  let orders = null, secRate = null;
+  if (reqs) {
+    const from = since(14);
+    const byTitle = new Map(items.map((x) => [norm(x.it.title), x]));
+    const ord = empty(); let matched = 0, n = 0;
+    const ordered = new Set();
+    reqs.filter((r) => r && r.source === 'trend-desk' && r.createdAt && kst(r.createdAt) >= from).forEach((r) => {
+      n++;
+      const hit = byTitle.get(norm(r.topic));
+      if (hit) { matched++; ordered.add(hit); ord[hit.type]++; } else ord[angleOf(r.topic)]++;
+    });
+    orders = Object.assign(pct(ord), { matched });
+    const supplyWin = items.filter((x) => x.date >= from);
+    secRate = GAME_SECS.map((sec) => {
+      const s = supplyWin.filter((x) => x.sec === sec), o = s.filter((x) => ordered.has(x));
+      return { sec, supply: s.length, ordered: o.length, rate: s.length ? Math.round(o.length / s.length * 1000) / 10 : null };
+    });
+  }
+
+  /* ── 작성 글(최근 14일 · 봄딩·영도 게임 초안) ── */
+  const posts = readJson(POSTS, []);
+  const from14 = since(14);
+  const dr = empty(), byW = {};
+  WRITERS.forEach((w) => { byW[w] = empty(); });
+  (Array.isArray(posts) ? posts : []).forEach((p) => {
+    if (!p || !WRITERS.includes(p.author)) return;
+    const c = String(p.created || '').slice(0, 10);
+    if (!c || c < from14 || NOT_GAME.test(p.cat || '')) return;
+    const t = angleOf(p.title);
+    dr[t]++; byW[p.author][t]++;
+  });
+  const drafts = Object.assign(pct(dr), { byWriter: Object.fromEntries(WRITERS.map((w) => [w, pct(byW[w])])) });
+
+  /* ── 발행 후 재검 요약 ── */
+  let followup = null;
+  const f = readJson(FOLLOW, null);
+  if (f && f.posts) {
+    const sum = { posts: Object.keys(f.posts).length };
+    ['d7', 'd14'].forEach((k) => {
+      const rows = Object.values(f.posts).map((p) => p[k]).filter((x) => x && Array.isArray(x.res));
+      const q = rows.flatMap((x) => x.res);
+      sum[k] = { posts: rows.length, queries: q.length, shown: q.filter((x) => x.s === 'shown').length,
+        async: q.filter((x) => x.s === 'async').length, none: q.filter((x) => x.s === 'none').length,
+        cited: q.filter((x) => x.bd || x.yd).length };
+    });
+    sum.updated = f.updated || null;
+    followup = sum;
+  }
+
+  const out = {
+    schema: 1, kind: 'desk-mix', updated: new Date().toISOString(), ruleFrom: '2026-09-19',
+    target: { guide: 50 },
+    bars: [
+      Object.assign({ k: 'supply', label: '트렌드 추천', window: '최근 ' + d7.length + '판', regex: supRegex }, pct(sup)),
+      orders ? Object.assign({ k: 'orders', label: '발주', window: '최근 14일' }, orders) : { k: 'orders', label: '발주', window: '최근 14일', n: null },
+      Object.assign({ k: 'drafts', label: '작성 글', window: '최근 14일' }, drafts),
+    ],
+    secRate, days, followup,
+  };
+  const tmp = OUT + '.tmp-' + process.pid;
+  fs.writeFileSync(tmp, JSON.stringify(out, null, 1) + '\n', 'utf8');
+  fs.renameSync(tmp, OUT);
+
+  const line = (b) => b.n == null ? b.label + ' 미연결' : b.label + ' ' + b.n + '건 — 공략·티어 ' + b.guide + '% (공략 ' + b.howto + ' · 티어 ' + b.rank + ' · 소식 ' + b.news + ' · 기타 ' + b.info + ')';
+  console.log('desk-mix ' + today + ' → ' + path.relative(ROOT, OUT));
+  out.bars.forEach((b) => console.log('  ' + line(b)));
+  if (secRate) console.log('  발주율(14일): ' + secRate.map((s) => s.sec + ' ' + s.ordered + '/' + s.supply).join(' · '));
+  if (followup) console.log('  재검: D+7 ' + followup.d7.queries + '질의(인용 ' + followup.d7.cited + ') · D+14 ' + followup.d14.queries + '질의(인용 ' + followup.d14.cited + ')');
+})().catch((e) => { console.error('desk-mix 실패: ' + (e && e.stack ? e.stack : e)); process.exit(0); });
