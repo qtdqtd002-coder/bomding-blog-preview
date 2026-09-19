@@ -1,0 +1,369 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>팰월드공략순서 레벨별로 정리, 초반부터 레벨 60 프로스탤리온 준비까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<!-- AI브리핑 타깃 질문: "팰월드 공략 순서" / "팰월드 초반 공략" (aib-check 2026-09-19: "팰월드 초반 공략"은 브리핑 발생·출처 6·봄딩 미인용 → 인용 기대 있음. "팰월드 공략 순서"는 async 상태) -->
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* 재서술 음영 */
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+  /* 네이버 붙여넣기 위젯 */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임공략</div>
+    <h1 class="title">팰월드공략순서 레벨별로 정리, 초반부터 레벨 60 프로스탤리온 준비까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>9월 19일</span><span>· 게임</span></div>
+
+    <!-- 도입 — A-4 독자상황·질문형 (직전 팰월드 글 09-12 배그콜라보 A-1과 겹치지 않게 선택) -->
+    <p>팰월드 새로 시작하신 분들, 아니면 예전에 살짝 찍먹만 해보고 던져뒀다가 다시 켜신 분들도 은근 많으실 텐데요, 저도 얼마 전에 오랜만에 접속했다가 뭐부터 손대야 하나 한참 헤맸거든요. 막상 검색해봐도 특정 레이드나 특정 팰 조합 공략만 잔뜩 나오고, 정작 처음부터 순서대로 뭘 하면 되는지 짚어주는 글은 의외로 잘 안 보이더라고요. 그래서 이번엔 레벨 구간별로 지금 뭘 챙기면 되는지 로드맵 형태로 한번 정리해봤습니다. 순서대로만 따라가셔도 초반에 헤매는 시간은 확실히 줄어들 거예요.</p>
+
+    <h2 class="sub">팰월드 시작하고 레벨 20까지는 뭘 챙겨야 하나요?</h2>
+
+    <div class="para-wrap">
+      <p><span class="rev-hl">레벨 1부터 20까지는 운반 무게, 스태미나, 그리고 첫 비행 마운트, 이 세 가지를 먼저 챙기는 구간이라고 생각하시면 돼요.</span> 이 세 개가 갖춰지기 전까진 뭘 해도 좀 답답하게 느껴지는 시기거든요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 초반 로드맵(Lv1-20)</span>
+        <span class="sn-src"><b>OP.GG 팰월드 초보자 진행 가이드</b>가 초반 목표로 운반 무게·비행 탈것 확보·거점 운영 시작을 꼽은 내용을 재서술했어요. (<a href="https://op.gg/palworld/beginner-guide" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 목록형 원문을 "세 가지 챙기는 구간"이라는 한 문장 결론으로 묶어 봄딩 톤으로 풀었어요.</span>
+      </div>
+    </div>
+
+    <ul>
+      <li><b>운반 무게 1000 이상</b> — 초반엔 광석이고 나무고 줍는 족족 무게가 꽉 차서 이동이 답답해지는데요, 1000 정도는 만들어둬야 자원 뺑뺑이 도는 스트레스가 확 줄어들어요.</li>
+      <li><b>스태미나 160~180 확보</b> — 채집·전투·탈것 조작 전부 스태미나를 깎아먹다 보니, 이 정도는 쌓아둬야 숨차서 움직임이 끊기는 일이 줄어들더라고요.</li>
+      <li><b>첫 비행 마운트 획득</b> — 걸어서 맵 도는 거랑 하늘로 넘어가는 거랑 체감 난이도가 완전히 달라지니까, 초반 목표 중에서도 제일 우선순위로 두시는 게 좋습니다.</li>
+    </ul>
+
+    <p>이 세 가지만 어느 정도 갖춰놔도 이후 진행이 훨씬 수월해지는데요, 거점 운영도 이 시기부터 슬슬 손대기 시작하시면 됩니다. 처음부터 거점을 여러 개 벌리기보다는 하나를 안정적으로 굴려보면서 감을 잡는 게 먼저예요.</p>
+
+    <h2 class="sub">레벨 21부터 40까지는 뭐가 달라지나요?</h2>
+
+    <div class="para-wrap">
+      <p><span class="rev-hl">레벨 21~40 구간은 이동 수단, 전투 팰 구성, 거점 인력까지 한 번에 갈아엎는 시기인 셈인데요.</span> 초반에 대충 굴리던 세팅을 이제 본격적으로 다듬어가는 단계라고 생각하시면 편해요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 중반 로드맵(Lv21-40)</span>
+        <span class="sn-src"><b>OP.GG 팰월드 초보자 진행 가이드</b>가 이 구간 목표로 빠른 탈것 확보·전투 팰 교체·기지 인력 보강을 꼽은 내용을 재서술했어요. (<a href="https://op.gg/palworld/beginner-guide" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 원문의 세 항목을 "세팅을 다듬어가는 단계"라는 한 흐름으로 이어 붙였어요.</span>
+      </div>
+    </div>
+
+    <ul>
+      <li><b>더 빠른 이동 수단으로 교체</b> — 초반에 얻은 마운트는 이 시기쯤 되면 속도가 아쉬워지는데요, 더 빠른 개체로 갈아타면 파밍 동선이 확 짧아져요.</li>
+      <li><b>전투 팰 로스터 교체</b> — 초반에 대충 잡은 팰 대신, 스킬 궁합이 맞는 팰로 하나둘 바꿔주시는 게 좋습니다.</li>
+      <li><b>거점 워커(일꾼 팰) 보강</b> — 거점이 늘어나는 시기라 생산·채집을 맡길 일꾼 팰도 같이 늘려야 거점이 놀지 않아요.</li>
+    </ul>
+
+    <p>이 세 가지를 동시에 손대다 보니 정신은 좀 없는데요, 오히려 이 구간을 대충 넘기면 나중에 60까지 가는 길이 더 힘들어지더라고요. 하나씩 순서대로 챙기시면 됩니다.</p>
+
+    <h2 class="sub">레벨 41부터 60까지, 프로스탤리온은 어떻게 준비하나요?</h2>
+
+    <div class="para-wrap">
+      <p><span class="rev-hl">41~60 구간의 핵심은 화염 속성 팰로 로스터를 채워서 프로스탤리온 보스전을 대비하는 것입니다.</span> 여기서부터는 슬슬 후반 콘텐츠 진입을 준비하는 느낌이에요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ③ · 후반 로드맵(Lv41-60)</span>
+        <span class="sn-src"><b>OP.GG 팰월드 초보자 진행 가이드</b>가 이 구간을 "프로스탤리온과 석유를 준비"하는 시기로 짚은 내용을 재서술했어요. (<a href="https://op.gg/palworld/beginner-guide" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ "석유 준비"라는 원문 표현을 빼고 화염 팰·보스전 대비 쪽으로 초점을 좁혀 풀었어요(석유 채취 거점은 아래 거점 문단에서 따로 다룸).</span>
+      </div>
+    </div>
+
+    <p><b>화염 속성 팰이 이 시기 로스터의 핵심입니다.</b> 프로스탤리온이 얼음 속성 기반 보스라 화염 팰로 상성을 잡아두면 전투가 한결 수월해지는데요, 다만 이 시점에 딱 맞는 화염 팰 구성은 패치마다 조금씩 바뀔 수 있으니 <span class="chk">🔍 게임 내 도감·최신 패치 확인</span> 한 번씩 해보시는 걸 추천드려요. 여기에 더해 후반부로 갈수록 생산 설비가 커지면서 석유 같은 고급 자원도 같이 필요해지니까, 거점 역할을 나눠서 운영하는 것도 이 구간에서 함께 챙기시면 좋습니다.</p>
+
+    <h2 class="sub">거점은 어디에 잡는 게 좋을까요?</h2>
+
+    <div class="para-wrap">
+      <p><span class="rev-hl">거점은 평탄지가 유리한데, 예를 들면 골든힐즈(0, -524)나 탐사자의 갈림길 동쪽(-162, -188) 같은 자리가 대표적으로 꼽힙니다.</span> 경사가 있는 땅에 지으면 건물 배치가 삐뚤빼뚤해지고 팰 동선도 꼬이는 경우가 많아서, 평탄지를 우선으로 보시는 게 좋아요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ④ · 거점 위치 추천</span>
+        <span class="sn-src"><b>OP.GG 팰월드 초보자 진행 가이드</b>가 추천한 일반 거점 좌표(골든힐즈·탐사자의 갈림길 동쪽)를 그대로 옮겼어요. (<a href="https://op.gg/palworld/beginner-guide" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 좌표는 그대로 쓰되 "평탄지가 유리하다"는 이유를 앞에 붙여 왜 이 자리인지 납득되게 풀었어요.</span>
+      </div>
+    </div>
+
+    <p>후반에 석유가 필요해지면 햇빛 섬(405, -483)이나 오아시스 섬(910, 194) 같은 석유 채취 전용 거점도 함께 봐두시면 좋습니다. <span class="chk">🔍 패치로 좌표·지형이 바뀔 수 있으니 접속 시 인게임 지도로 최신 상태 확인 권장</span> — 좌표 자체는 지금 기준으로는 확인된 값이지만, 업데이트가 잦은 게임이라 시간이 지나면 조금씩 달라질 수 있어요.</p>
+
+    <h2 class="sub">거점 슬롯은 언제 늘어나나요?</h2>
+
+    <div class="para-wrap">
+      <p><span class="rev-hl">거점 슬롯은 기본 진행에 따라 레벨 8에서 두 번째, 레벨 15에서 세 번째, 레벨 25에서 네 번째로 늘어납니다.</span> 그러니까 레벨 25만 넘어도 거점 네 개를 동시에 굴릴 수 있게 되는 거예요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ⑤ · 거점 슬롯 해금</span>
+        <span class="sn-src"><b>OP.GG 팰월드 초보자 진행 가이드</b>가 명시한 거점 슬롯 해금 레벨(8·15·25)을 그대로 옮겼어요. (<a href="https://op.gg/palworld/beginner-guide" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 원문의 숫자 나열을 "레벨 25만 넘어도"라는 체감형 문장으로 바꿔 붙였어요.</span>
+      </div>
+    </div>
+
+    <ul>
+      <li><b>레벨 8</b> — 두 번째 거점 해금</li>
+      <li><b>레벨 15</b> — 세 번째 거점 해금</li>
+      <li><b>레벨 25</b> — 네 번째 거점 해금</li>
+    </ul>
+
+    <p>거점을 늘릴 때마다 인력(워커 팰)도 같이 배분해야 하니까, 슬롯이 열렸다고 바로 새 거점부터 짓기보다는 지금 있는 거점이 잘 돌아가는지 먼저 확인하시는 걸 추천드려요.</p>
+
+    <h2 class="sub">초반에 어떤 팰부터 챙기면 좋을까요?</h2>
+
+    <div class="para-wrap">
+      <p><span class="rev-hl">초반엔 탈것용 팰, 전투용 팰, 지원용 팰, 거점용 팰을 역할별로 하나씩만 잡아둬도 진행이 훨씬 편해집니다.</span> 굳이 여러 마리를 한꺼번에 모으려고 하지 않으셔도 돼요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ⑥ · 초반 추천 팰</span>
+        <span class="sn-src"><b>OP.GG 팰월드 초보자 진행 가이드</b>가 역할별로 예시로 든 팰 목록을 재서술했어요. (<a href="https://op.gg/palworld/beginner-guide" target="_blank">출처</a>)</span>
+        <span class="sn-mine">→ 팰 이름을 그대로 옮기되 "역할별로 하나씩만"이라는 실전 조언으로 정리했어요.</span>
+      </div>
+    </div>
+
+    <p>가이드에서 예시로 꼽는 조합을 역할별로 정리하면 이렇습니다.</p>
+
+    <ul>
+      <li><b>탈것</b> — 다크울프·베비뇽·나이트윙</li>
+      <li><b>전투</b> — 파이호·베비뇽·펭킹</li>
+      <li><b>지원</b> — 까부냥·모몽파·몽마둥이</li>
+      <li><b>거점 인력</b> — 핑토·미호·불페르노</li>
+    </ul>
+
+    <p>특히 파이호는 하네스를 장착하면 화염방사기처럼 쓸 수 있어서 초반 화염 딜러로 꽤 쓸모가 있습니다. <span class="chk">🔍 추천 조합은 패치마다 밸런스가 바뀔 수 있으니 최신 패치 기준으로 게임 내 도감에서 한 번 더 확인 권장</span> — 지금 나온 이름들이 절대적인 정답은 아니고, 없으면 비슷한 역할을 하는 다른 팰로 대체하셔도 무방해요.</p>
+
+    <h2 class="sub">레벨 구간별 로드맵 한눈에 정리</h2>
+
+    <p>지금까지 나온 내용을 표로 한 번 묶어봤습니다.</p>
+
+    <table class="tbl">
+      <thead>
+        <tr><th>레벨 구간</th><th>핵심 목표</th><th>챙길 것</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>1~20</b></td><td>탐험 편하게 만들기</td><td>운반 무게 1000+ · 스태미나 160~180 · 첫 비행 마운트</td></tr>
+        <tr><td><b>21~40</b></td><td>세팅 본격 다듬기</td><td>빠른 이동수단 교체 · 전투 팰 로스터 교체 · 거점 워커 보강</td></tr>
+        <tr><td><b>41~60</b></td><td>후반 콘텐츠 준비</td><td>화염 속성 팰 확보 · 프로스탤리온 대비 · 석유 등 고급 자원 세팅</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+
+    <p><b>Q. 팰월드 처음 시작하면 순서상 뭐부터 하면 되나요?</b><br>
+    레벨 1~20 구간에서 운반 무게 1000 이상, 스태미나 160~180, 첫 비행 마운트 이 세 가지부터 챙기시고, 그다음 21~40 구간에서 이동수단·전투 팰·거점 인력을 순서대로 다듬어가시면 됩니다. 위 로드맵 순서를 그대로 따라가시면 크게 헤매실 일은 없을 거예요.</p>
+
+    <p><b>Q. 팰월드 거점은 총 몇 개까지 지을 수 있나요?</b><br>
+    기본 진행 기준으로 레벨 8·15·25에서 순서대로 슬롯이 열려서 레벨 25쯤 되면 거점을 네 개까지 운영할 수 있습니다. 슬롯이 열려도 인력이 부족하면 오히려 비효율적이니 하나씩 안정화하면서 늘려가시는 걸 추천드려요.</p>
+
+    <p><b>Q. 팰월드 초반에 스태미나가 왜 그렇게 중요한가요?</b><br>
+    채집, 전투, 탈것 조작까지 대부분의 행동이 스태미나를 소모하기 때문에 스태미나가 부족하면 움직임 자체가 자꾸 끊기게 됩니다. 160~180 정도를 목표로 잡아두시면 초반 답답함이 많이 줄어들어요.</p>
+
+    <p><b>Q. 프로스탤리온 잡으려면 왜 화염 속성 팰이 필요한가요?</b><br>
+    프로스탤리온이 얼음 속성 기반 보스라 화염 속성 팰로 상성을 잡아야 전투가 수월해지기 때문입니다. 41~60 구간에서 화염 팰 로스터를 미리 채워두시면 실제 보스전 진입이 한결 편해져요.</p>
+
+    <p><b>Q. 이 로드맵대로 순서를 꼭 지켜야 하나요?</b><br>
+    꼭 그대로 지켜야 하는 강제 규칙은 아니고, 많은 플레이어들이 헤매지 않고 진행하는 일반적인 흐름이라고 보시면 됩니다. 본인 플레이 스타일에 따라 순서를 조금 바꾸셔도 크게 상관없어요.</p>
+
+    <h2 class="sub">팰월드 공략 순서, 정리하면</h2>
+
+    <p>이렇게 구간별로만 나눠놔도 지금 뭘 해야 할지 훨씬 감이 잡히실 텐데요, 특정 레이드나 특정 팰 하나에 매달리기보다는 이 로드맵대로 순서를 밟아가시는 게 결국 제일 빠른 길이더라고요. 좌표나 추천 팰 구성은 패치가 나올 때마다 조금씩 달라질 수 있으니까, 그건 그때그때 인게임에서 한 번씩 확인하시면서 진행하시면 좋겠습니다. 오늘 정리한 순서대로 하나씩 챙겨가시면서 즐겁게 플레이해보세요.</p>
+
+    <p><b>✔ 팰월드 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224405306267" target="_blank">팰월드1.0.4패치 낚시재조정 팰AI개선 9월 7일 업데이트 총정리</a><br>
+    · <a href="https://blog.naver.com/bomding/224402930613" target="_blank">내 팰이 세계 1위가 될 수 있을까 — 팰월드 글로벌 인기투표 2026 참여법</a><br>
+    · <a href="https://blog.naver.com/bomding/224401664284" target="_blank">팰월드온라인 사전예약 시작 — 가레나 모바일 RPG, 한국이 전 세계 첫 서비스 국가</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://op.gg/palworld/beginner-guide" target="_blank">OP.GG 팰월드 초보자 진행 가이드</a></p>
+
+    <div class="tags">#팰월드 #Palworld #팰월드공략순서 #팰월드초반공략 #팰월드레벨업순서 #팰월드거점위치추천 #팰월드입문가이드</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).<br>
+      <b>4.</b> 이 글은 사진 자리가 따로 없어 텍스트·표만 확인하시면 됩니다.
+      <div class="qbox">⏱ <b>직접 채울 건 사실상 없어요(1분 내):</b> 본문·볼드·리스트·표가 전부 복사로 들어가요. 제목만 따로 붙여넣으시면 됩니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 팰월드공략순서 레벨별로 정리, 초반부터 레벨 60 프로스탤리온 준비까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다</p>
+    <div id="copy">
+      <h3>팰월드 시작하고 레벨 20까지는 뭘 챙겨야 하나요?</h3>
+      <p>레벨 1부터 20까지는 운반 무게, 스태미나, 그리고 첫 비행 마운트, 이 세 가지를 먼저 챙기는 구간이라고 생각하시면 돼요. 이 세 개가 갖춰지기 전까진 뭘 해도 좀 답답하게 느껴지는 시기거든요.</p>
+      <ul>
+        <li><b>운반 무게 1000 이상</b> — 초반엔 광석이고 나무고 줍는 족족 무게가 꽉 차서 이동이 답답해지는데요, 1000 정도는 만들어둬야 자원 뺑뺑이 도는 스트레스가 확 줄어들어요.</li>
+        <li><b>스태미나 160~180 확보</b> — 채집·전투·탈것 조작 전부 스태미나를 깎아먹다 보니, 이 정도는 쌓아둬야 숨차서 움직임이 끊기는 일이 줄어들더라고요.</li>
+        <li><b>첫 비행 마운트 획득</b> — 걸어서 맵 도는 거랑 하늘로 넘어가는 거랑 체감 난이도가 완전히 달라지니까, 초반 목표 중에서도 제일 우선순위로 두시는 게 좋습니다.</li>
+      </ul>
+      <p>이 세 가지만 어느 정도 갖춰놔도 이후 진행이 훨씬 수월해지는데요, 거점 운영도 이 시기부터 슬슬 손대기 시작하시면 됩니다. 처음부터 거점을 여러 개 벌리기보다는 하나를 안정적으로 굴려보면서 감을 잡는 게 먼저예요.</p>
+
+      <h3>레벨 21부터 40까지는 뭐가 달라지나요?</h3>
+      <p>레벨 21~40 구간은 이동 수단, 전투 팰 구성, 거점 인력까지 한 번에 갈아엎는 시기인 셈인데요. 초반에 대충 굴리던 세팅을 이제 본격적으로 다듬어가는 단계라고 생각하시면 편해요.</p>
+      <ul>
+        <li><b>더 빠른 이동 수단으로 교체</b> — 초반에 얻은 마운트는 이 시기쯤 되면 속도가 아쉬워지는데요, 더 빠른 개체로 갈아타면 파밍 동선이 확 짧아져요.</li>
+        <li><b>전투 팰 로스터 교체</b> — 초반에 대충 잡은 팰 대신, 스킬 궁합이 맞는 팰로 하나둘 바꿔주시는 게 좋습니다.</li>
+        <li><b>거점 워커(일꾼 팰) 보강</b> — 거점이 늘어나는 시기라 생산·채집을 맡길 일꾼 팰도 같이 늘려야 거점이 놀지 않아요.</li>
+      </ul>
+      <p>이 세 가지를 동시에 손대다 보니 정신은 좀 없는데요, 오히려 이 구간을 대충 넘기면 나중에 60까지 가는 길이 더 힘들어지더라고요. 하나씩 순서대로 챙기시면 됩니다.</p>
+
+      <h3>레벨 41부터 60까지, 프로스탤리온은 어떻게 준비하나요?</h3>
+      <p>41~60 구간의 핵심은 화염 속성 팰로 로스터를 채워서 프로스탤리온 보스전을 대비하는 것입니다. 여기서부터는 슬슬 후반 콘텐츠 진입을 준비하는 느낌이에요.</p>
+      <p><b>화염 속성 팰이 이 시기 로스터의 핵심입니다.</b> 프로스탤리온이 얼음 속성 기반 보스라 화염 팰로 상성을 잡아두면 전투가 한결 수월해지는데요, 다만 이 시점에 딱 맞는 화염 팰 구성은 패치마다 조금씩 바뀔 수 있으니 게임 내 도감·최신 패치를 한 번씩 확인해보시는 걸 추천드려요. 여기에 더해 후반부로 갈수록 생산 설비가 커지면서 석유 같은 고급 자원도 같이 필요해지니까, 거점 역할을 나눠서 운영하는 것도 이 구간에서 함께 챙기시면 좋습니다.</p>
+
+      <h3>거점은 어디에 잡는 게 좋을까요?</h3>
+      <p>거점은 평탄지가 유리한데, 예를 들면 골든힐즈(0, -524)나 탐사자의 갈림길 동쪽(-162, -188) 같은 자리가 대표적으로 꼽힙니다. 경사가 있는 땅에 지으면 건물 배치가 삐뚤빼뚤해지고 팰 동선도 꼬이는 경우가 많아서, 평탄지를 우선으로 보시는 게 좋아요.</p>
+      <p>후반에 석유가 필요해지면 햇빛 섬(405, -483)이나 오아시스 섬(910, 194) 같은 석유 채취 전용 거점도 함께 봐두시면 좋습니다. 좌표 자체는 지금 기준으로는 확인된 값이지만, 업데이트가 잦은 게임이라 시간이 지나면 조금씩 달라질 수 있으니 접속 시 인게임 지도로 한 번씩 확인해보시는 걸 권장드려요.</p>
+
+      <h3>거점 슬롯은 언제 늘어나나요?</h3>
+      <p>거점 슬롯은 기본 진행에 따라 레벨 8에서 두 번째, 레벨 15에서 세 번째, 레벨 25에서 네 번째로 늘어납니다. 그러니까 레벨 25만 넘어도 거점 네 개를 동시에 굴릴 수 있게 되는 거예요.</p>
+      <ul>
+        <li><b>레벨 8</b> — 두 번째 거점 해금</li>
+        <li><b>레벨 15</b> — 세 번째 거점 해금</li>
+        <li><b>레벨 25</b> — 네 번째 거점 해금</li>
+      </ul>
+      <p>거점을 늘릴 때마다 인력(워커 팰)도 같이 배분해야 하니까, 슬롯이 열렸다고 바로 새 거점부터 짓기보다는 지금 있는 거점이 잘 돌아가는지 먼저 확인하시는 걸 추천드려요.</p>
+
+      <h3>초반에 어떤 팰부터 챙기면 좋을까요?</h3>
+      <p>초반엔 탈것용 팰, 전투용 팰, 지원용 팰, 거점용 팰을 역할별로 하나씩만 잡아둬도 진행이 훨씬 편해집니다. 굳이 여러 마리를 한꺼번에 모으려고 하지 않으셔도 돼요.</p>
+      <p>가이드에서 예시로 꼽는 조합을 역할별로 정리하면 이렇습니다.</p>
+      <ul>
+        <li><b>탈것</b> — 다크울프·베비뇽·나이트윙</li>
+        <li><b>전투</b> — 파이호·베비뇽·펭킹</li>
+        <li><b>지원</b> — 까부냥·모몽파·몽마둥이</li>
+        <li><b>거점 인력</b> — 핑토·미호·불페르노</li>
+      </ul>
+      <p>특히 파이호는 하네스를 장착하면 화염방사기처럼 쓸 수 있어서 초반 화염 딜러로 꽤 쓸모가 있습니다. 추천 조합은 패치마다 밸런스가 바뀔 수 있으니 최신 패치 기준으로 게임 내 도감에서 한 번 더 확인하시는 걸 권장드려요 — 지금 나온 이름들이 절대적인 정답은 아니고, 없으면 비슷한 역할을 하는 다른 팰로 대체하셔도 무방해요.</p>
+
+      <h3>레벨 구간별 로드맵 한눈에 정리</h3>
+      <p>지금까지 나온 내용을 표로 한 번 묶어봤습니다.</p>
+      <table>
+        <thead><tr><th>레벨 구간</th><th>핵심 목표</th><th>챙길 것</th></tr></thead>
+        <tbody>
+          <tr><td class="l">1~20</td><td>탐험 편하게 만들기</td><td>운반 무게 1000+ · 스태미나 160~180 · 첫 비행 마운트</td></tr>
+          <tr><td class="l">21~40</td><td>세팅 본격 다듬기</td><td>빠른 이동수단 교체 · 전투 팰 로스터 교체 · 거점 워커 보강</td></tr>
+          <tr><td class="l">41~60</td><td>후반 콘텐츠 준비</td><td>화염 속성 팰 확보 · 프로스탤리온 대비 · 석유 등 고급 자원 세팅</td></tr>
+        </tbody>
+      </table>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 팰월드 처음 시작하면 순서상 뭐부터 하면 되나요?</b><br>
+      레벨 1~20 구간에서 운반 무게 1000 이상, 스태미나 160~180, 첫 비행 마운트 이 세 가지부터 챙기시고, 그다음 21~40 구간에서 이동수단·전투 팰·거점 인력을 순서대로 다듬어가시면 됩니다. 위 로드맵 순서를 그대로 따라가시면 크게 헤매실 일은 없을 거예요.</p>
+      <p><b>Q. 팰월드 거점은 총 몇 개까지 지을 수 있나요?</b><br>
+      기본 진행 기준으로 레벨 8·15·25에서 순서대로 슬롯이 열려서 레벨 25쯤 되면 거점을 네 개까지 운영할 수 있습니다. 슬롯이 열려도 인력이 부족하면 오히려 비효율적이니 하나씩 안정화하면서 늘려가시는 걸 추천드려요.</p>
+      <p><b>Q. 팰월드 초반에 스태미나가 왜 그렇게 중요한가요?</b><br>
+      채집, 전투, 탈것 조작까지 대부분의 행동이 스태미나를 소모하기 때문에 스태미나가 부족하면 움직임 자체가 자꾸 끊기게 됩니다. 160~180 정도를 목표로 잡아두시면 초반 답답함이 많이 줄어들어요.</p>
+      <p><b>Q. 프로스탤리온 잡으려면 왜 화염 속성 팰이 필요한가요?</b><br>
+      프로스탤리온이 얼음 속성 기반 보스라 화염 속성 팰로 상성을 잡아야 전투가 수월해지기 때문입니다. 41~60 구간에서 화염 팰 로스터를 미리 채워두시면 실제 보스전 진입이 한결 편해져요.</p>
+      <p><b>Q. 이 로드맵대로 순서를 꼭 지켜야 하나요?</b><br>
+      꼭 그대로 지켜야 하는 강제 규칙은 아니고, 많은 플레이어들이 헤매지 않고 진행하는 일반적인 흐름이라고 보시면 됩니다. 본인 플레이 스타일에 따라 순서를 조금 바꾸셔도 크게 상관없어요.</p>
+
+      <h3>팰월드 공략 순서, 정리하면</h3>
+      <p>이렇게 구간별로만 나눠놔도 지금 뭘 해야 할지 훨씬 감이 잡히실 텐데요, 특정 레이드나 특정 팰 하나에 매달리기보다는 이 로드맵대로 순서를 밟아가시는 게 결국 제일 빠른 길이더라고요. 좌표나 추천 팰 구성은 패치가 나올 때마다 조금씩 달라질 수 있으니까, 그건 그때그때 인게임에서 한 번씩 확인하시면서 진행하시면 좋겠습니다. 오늘 정리한 순서대로 하나씩 챙겨가시면서 즐겁게 플레이해보세요.</p>
+      <p><b>✔ 팰월드 같이 보기 좋은 내용</b><br>
+      · <a href="https://blog.naver.com/bomding/224405306267" target="_blank">팰월드1.0.4패치 낚시재조정 팰AI개선 9월 7일 업데이트 총정리</a><br>
+      · <a href="https://blog.naver.com/bomding/224402930613" target="_blank">내 팰이 세계 1위가 될 수 있을까 — 팰월드 글로벌 인기투표 2026 참여법</a><br>
+      · <a href="https://blog.naver.com/bomding/224401664284" target="_blank">팰월드온라인 사전예약 시작 — 가레나 모바일 RPG, 한국이 전 세계 첫 서비스 국가</a></p>
+
+      <p><b>참고한 곳</b><br>
+      · <a href="https://op.gg/palworld/beginner-guide" target="_blank">OP.GG 팰월드 초보자 진행 가이드</a></p>
+
+      <p class="tags-line">#팰월드 #Palworld #팰월드공략순서 #팰월드초반공략 #팰월드레벨업순서 #팰월드거점위치추천 #팰월드입문가이드</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
