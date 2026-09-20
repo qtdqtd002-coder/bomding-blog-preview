@@ -1,0 +1,235 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>팰월드 위치좌표보는법 지도 마커 찍는 순서, 좌표 확인해서 목적지 빠르게 찾아가기</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:8px 0 4px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:0 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">팰월드 위치좌표보는법 지도 마커 찍는 순서, 좌표 확인해서 목적지 빠르게 찾아가기</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 9. 20.</span><span>· 게임</span></div>
+
+    <!-- AI브리핑 타깃 질문: 팰월드 위치 보는법 / 팰월드 좌표 보는법 / 팰월드 좌표 확인 -->
+
+    <p>팰월드 하다가 지도만 켜면 대체 내가 어디 있는지, 상인이나 보스가 어느 쪽에 있는지 감이 안 잡혀서 그냥 방향 감으로 뛰어다니신 분들 많으시죠. 저도 초반엔 목적지를 정해놓고 달리다가 엉뚱한 데로 새는 일이 잦았는데요, 알고 보니 지도 안에 좌표가 버젓이 떠 있는데 그걸 제대로 안 보고 있었던 거더라고요. 이번 글에서는 팰월드 지도 화면에서 좌표를 읽는 법부터, 그 숫자로 '마커'를 찍어서 원하는 곳을 빠르게 찾아가는 순서까지 하나하나 짚어볼게요. 조작법 자체만 알아두면 어디를 가든 두고두고 써먹을 수 있는 내용이라 이번 기회에 챙겨두시면 좋을 것 같아요.</p>
+
+    <!-- 이미지 이유: 도입에 게임을 소개하는 공식 대표 이미지 / 출처: https://store.steampowered.com/app/1623730/Palworld/ / 분류: A형(자동수집) -->
+    <div class="imgwrap"><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1623730/header.jpg" width="460" height="215" alt="팰월드 스팀 헤더 이미지"></div>
+    <p class="cap">이 조작법 하나만 알아도 팰월드에서 헤매는 시간이 확 줄어요.</p>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/1623730/Palworld/" target="_blank">Steam 팰월드 상점 페이지</a></p>
+
+    <h2 class="sub">팰월드 지도 화면, 좌표는 어디에 뜨나요?</h2>
+    <p>M키를 눌러 지도를 열면, 마우스 커서가 가리키는 위치의 좌표가 화면 좌측 하단에 숫자로 표시됩니다. 지도 위에서 커서를 움직이는 대로 그 숫자가 실시간으로 바뀌기 때문에, 궁금한 지점에 마우스를 갖다 대기만 하면 그 자리의 좌표를 바로 확인할 수 있는 구조예요.</p>
+    <p>처음 이걸 몰랐을 땐 지도는 그냥 제가 지금 어디 있나 확인하는 용도로만 썼는데요, 좌측 하단 숫자를 신경 써서 보기 시작하니까 지도 활용도가 완전히 달라지더라고요. 팰월드는 맵이 꽤 넓은 편이라 눈대중으로 위치를 가늠하기가 쉽지 않은데, '좌표' 숫자를 기준으로 삼으면 훨씬 정확하게 움직일 수 있습니다. 지도를 켜둔 채로 커서를 살살 옮겨보면서 원하는 방향의 좌표가 어떻게 바뀌는지 한 번씩 확인해보시는 것도 감을 잡는 데 도움이 됩니다.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 지도 화면 좌측 하단 좌표 표시 부분</span></div>
+    <div class="shoot">📸 직접 촬영 가이드 — <b>어디서</b>: M키로 지도를 연 상태에서 커서를 아무 지점에 올려둔 화면 · <b>무엇이 보이게</b>: 화면 좌측 하단 좌표 숫자가 잘 보이도록 · 비슷한 화면 참고: <a href="https://store.steampowered.com/app/1623730/Palworld/" target="_blank">스팀 상점 페이지</a></div>
+    <p class="cap">여기 숫자만 보면 지금 내가 지도 어디쯤 있는지 바로 알 수 있어요.</p>
+
+    <h2 class="sub">이 좌표로 마커는 어떻게 찍나요?</h2>
+    <p>이미 알고 있는 상인이나 보스 같은 목적지의 좌표를 지도 위 커서 좌표와 대조해서, 그 지점을 클릭하면 지도 위에 빠른이동 마커, 이른바 '웨이포인트'가 찍힙니다.</p>
+    <p>방법 자체는 어렵지 않아요. 우선 가고 싶은 목적지의 좌표를 알아둔 상태로 지도를 켜고, 커서를 이리저리 움직이면서 좌측 하단 숫자가 그 좌표에 가까워지는 자리를 찾아주시면 됩니다. 숫자가 얼추 맞아떨어지는 지점을 찾았으면 그 위치를 클릭해서 마커를 찍고, 지도를 닫으면 그 마커 방향으로 이동 경로가 화면에 표시되는 걸 확인하실 수 있어요.</p>
+    <ul>
+      <li>목적지 좌표 — 상인·보스처럼 이미 알고 있는 지점의 숫자</li>
+      <li>커서 좌표 — 지도 좌측 하단에 실시간으로 뜨는 숫자</li>
+      <li>두 좌표가 맞아떨어지는 지점을 클릭 — 여기서 마커가 완성됩니다</li>
+    </ul>
+    <p>한 번 익혀두면 새로운 지역을 갈 때도 똑같이 적용할 수 있는 방식이라, 이후로는 감으로 헤매는 일이 확실히 줄어들어요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 좌표 대조 후 마커를 찍은 지도 화면</span></div>
+    <div class="shoot">📸 직접 촬영 가이드 — <b>어디서</b>: 목적지 좌표와 커서 좌표를 맞춘 뒤 마커를 찍은 직후 지도 화면 · <b>무엇이 보이게</b>: 찍힌 마커 아이콘과 좌측 하단 좌표 숫자가 함께 보이도록 · 비슷한 화면 참고: <a href="https://store.steampowered.com/app/1623730/Palworld/" target="_blank">스팀 상점 페이지</a></div>
+    <p class="cap">마커 하나 찍어두면 지도를 닫아도 그 방향으로 계속 안내가 떠요.</p>
+
+    <h2 class="sub">마커 찍고 이동했는데, 왜 정확한 위치가 아닐까요?</h2>
+    <p><b>마커 방향으로 빠른이동을 해도 실제 목적지와 완전히 일치하지 않고 약간의 오차가 있을 수 있습니다.</b></p>
+    <p>인벤에서 다룬 팰월드 상인 위치 관련 기사도 딱 이 오차 부분—마커 방향으로 이동했을 때 실제 위치와 살짝 어긋날 수 있다는 점—을 짚고 있었는데요, 저도 실제로 마커 지점에 도착해보면 상인이나 시설이 살짝 옆으로 비켜나 있는 경우를 종종 겪었습니다. 특히 언덕이나 절벽처럼 고도 차가 있는 지형에서는 평면 지도상 좌표랑 실제 위치가 눈에 보이는 것보다 더 벌어져 보일 때도 있고요.</p>
+    <p>그래서 <b>마커가 찍힌 자리에 도착했는데 목적지가 안 보인다고 바로 실망하지 마시고, 주변을 한 바퀴 둘러보는 습관을 들이시는 게 좋습니다.</b> 조금만 걸어보면 대부분 근처에서 찾아지더라고요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷: 마커 지점 도착 후 주변을 둘러보는 화면</span></div>
+    <div class="shoot">📸 직접 촬영 가이드 — <b>어디서</b>: 마커 방향으로 빠른이동해 도착한 직후 화면 · <b>무엇이 보이게</b>: 목적지 시설과 캐릭터 위치가 살짝 어긋나 있는 모습 · 비슷한 화면 참고: <a href="https://store.steampowered.com/app/1623730/Palworld/" target="_blank">스팀 상점 페이지</a></div>
+    <p class="cap">딱 그 자리가 아니어도 조금만 둘러보면 금방 찾아져요.</p>
+
+    <h2 class="sub">지도 안 열고 감으로 찾다가 시간 날리는 실수</h2>
+    <p>가장 흔한 실수는 지도를 아예 안 열고 예전 기억이나 감으로만 이동하다가 엉뚱한 방향으로 시간을 날리는 경우입니다.</p>
+    <ul>
+      <li>지도를 켜지 않고 예전 기억이나 방향 감으로만 이동하는 경우</li>
+      <li>좌표를 대충 어림잡아 마커를 찍고 오차 범위를 신경 안 쓰는 경우</li>
+      <li>목적지 좌표를 미리 챙겨두지 않고 지도부터 켜서 한참 헤매는 경우</li>
+    </ul>
+    <p>저도 초반엔 세 번째 경우가 제일 많았는데요, 목적지 좌표를 먼저 확인하고 지도를 켜는 순서로만 바꿔도 헤매는 시간이 확 줄어들더라고요. 익숙해지기 전까지는 좌표를 메모장이나 스크린샷으로 따로 챙겨두고, 지도를 켤 때마다 대조하는 습관을 들이시는 것도 좋은 방법입니다. 특히 새로 넘어간 지역이라면 그 근처에서 자주 갈 만한 좌표 몇 개를 한꺼번에 적어두는 것도 도움이 되는데요, 그러면 지도를 열고 닫는 걸 반복하지 않아도 돼서 이동이 한결 매끄러워지더라고요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 좌표 숫자가 정확히 뭘 의미하나요?</b><br>정확한 산출 방식까지는 확인이 더 필요한 부분이지만, 지도 위 가로·세로 위치를 숫자로 나타낸 값이라고 이해하시면 편해요. 같은 좌표를 알고 있으면 다른 유저에게 알려줄 때도 똑같은 지점을 정확히 짚을 수 있다는 게 핵심입니다. 예를 들어 같이 플레이하는 친구한테 방향으로만 설명하는 대신 좌표 숫자를 딱 알려주면 훨씬 빠르게 찾아갈 수 있어서, 저는 자주 가는 상인이나 보스 위치는 좌표를 따로 메모해두는 편이에요.</p>
+    <p><b>Q. 마커는 여러 개를 동시에 찍을 수 있나요?</b><br>여러 개를 한꺼번에 찍어서 관리하는 기능은 제가 아직 따로 써보지 못해서 확실하게 말씀드리긴 어렵네요. 우선은 목적지 하나를 찍고, 도착한 뒤 다음 지점을 새로 찍는 방식으로 쓰시는 걸 추천드려요.</p>
+    <p><b>Q. M키를 눌러도 지도가 안 열리면 어떻게 하나요?</b><br>다른 조작에 키가 겹쳐 있을 수 있으니 설정 메뉴에서 키 배치를 한 번 확인해보시는 게 좋습니다. 특별한 이유 없이 안 열린다면 잠깐 시간을 두고 다시 시도해보시는 것도 방법이에요.</p>
+    <p><b>Q. 상인이나 보스 좌표는 어디서 구하나요?</b><br>많은 유저분들이 자주 찾는 상인·보스 위치를 좌표와 함께 정리해두는 경우가 많아서, 그런 정보를 미리 찾아둔 다음 이 글에서 소개한 방법으로 대조하면서 마커를 찍으시면 됩니다.</p>
+    <p><b>Q. 마커를 지우거나 다른 곳으로 옮기고 싶으면 어떻게 하나요?</b><br>새로운 지점을 다시 클릭하면 마커가 그쪽으로 옮겨지는 방식이라, 따로 지우는 기능을 찾지 않아도 자연스럽게 정리가 됩니다.</p>
+
+    <h2 class="sub">팰월드 좌표 보는법 정리</h2>
+    <p>정리하자면, M키로 지도를 켜고 좌측 하단 좌표를 확인하는 것부터가 시작이에요. 그 숫자를 이미 알고 있는 목적지 좌표와 대조해서 마커를 찍고, 도착 후엔 약간의 오차를 감안해 주변을 한 번씩 둘러보는 습관까지 들이시면 팰월드에서 원하는 곳을 찾아가는 게 훨씬 수월해집니다.</p>
+    <p>별거 아닌 조작인데 알고 나면 이동 시간이 확 줄어드는 기능이라, 아직 안 써보셨다면 이번 기회에 한 번 챙겨보시면 좋을 것 같아요.</p>
+
+    <p><b>✔ 팰월드 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224405306267" target="_blank">팰월드1.0.4패치 낚시재조정 팰AI개선 9월 7일 업데이트 총정리</a><br>
+    · <a href="https://blog.naver.com/bomding/224402930613" target="_blank">내 팰이 세계 1위가 될 수 있을까 — 팰월드 글로벌 인기투표 2026 참여법</a><br>
+    · <a href="https://blog.naver.com/bomding/224401664284" target="_blank">팰월드온라인 사전예약 시작 — 가레나 모바일 RPG, 한국이 전 세계 최초 서비스 국가</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.inven.co.kr/webzine/news/?news=292661&site=palworld" target="_blank">인벤 — 팰월드 상인 위치 좌표 총정리</a></p>
+
+    <div class="tags">#팰월드 #팰월드위치 #팰월드좌표 #팰월드좌표보는법 #팰월드지도 #Palworld</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(직접 촬영 표시된 자리는 그 화면을 찍어 업로드).<br>
+      <b>4.</b> 태그는 아래 [태그 복사]로, 제목은 따로 옮겨 적어주세요.
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 6분):</b> 📷 <b>사진 4곳</b>(자동수집 1·직접 촬영 3) 업로드. 나머지 본문·볼드·리스트는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 팰월드 위치좌표보는법 지도 마커 찍는 순서, 좌표 확인해서 목적지 빠르게 찾아가기</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>팰월드 하다가 지도만 켜면 대체 내가 어디 있는지, 상인이나 보스가 어느 쪽에 있는지 감이 안 잡혀서 그냥 방향 감으로 뛰어다니신 분들 많으시죠. 저도 초반엔 목적지를 정해놓고 달리다가 엉뚱한 데로 새는 일이 잦았는데요, 알고 보니 지도 안에 좌표가 버젓이 떠 있는데 그걸 제대로 안 보고 있었던 거더라고요. 이번 글에서는 팰월드 지도 화면에서 좌표를 읽는 법부터, 그 숫자로 '마커'를 찍어서 원하는 곳을 빠르게 찾아가는 순서까지 하나하나 짚어볼게요. 조작법 자체만 알아두면 어디를 가든 두고두고 써먹을 수 있는 내용이라 이번 기회에 챙겨두시면 좋을 것 같아요.</p>
+      <p>📷 〔사진 자리 1〕 팰월드 스팀 헤더 이미지 — 위 미리보기에서 이미지 우클릭 → 복사 → 여기에 Ctrl+V<br>└ 캡션 추천: "이 조작법 하나만 알아도 팰월드에서 헤매는 시간이 확 줄어요."</p>
+      <h3>팰월드 지도 화면, 좌표는 어디에 뜨나요?</h3>
+      <p>M키를 눌러 지도를 열면, 마우스 커서가 가리키는 위치의 좌표가 화면 좌측 하단에 숫자로 표시됩니다. 지도 위에서 커서를 움직이는 대로 그 숫자가 실시간으로 바뀌기 때문에, 궁금한 지점에 마우스를 갖다 대기만 하면 그 자리의 좌표를 바로 확인할 수 있는 구조예요.</p>
+      <p>처음 이걸 몰랐을 땐 지도는 그냥 제가 지금 어디 있나 확인하는 용도로만 썼는데요, 좌측 하단 숫자를 신경 써서 보기 시작하니까 지도 활용도가 완전히 달라지더라고요. 팰월드는 맵이 꽤 넓은 편이라 눈대중으로 위치를 가늠하기가 쉽지 않은데, '좌표' 숫자를 기준으로 삼으면 훨씬 정확하게 움직일 수 있습니다. 지도를 켜둔 채로 커서를 살살 옮겨보면서 원하는 방향의 좌표가 어떻게 바뀌는지 한 번씩 확인해보시는 것도 감을 잡는 데 도움이 됩니다.</p>
+      <p>📷 〔사진 자리 2 · 직접 촬영〕 지도 화면 좌측 하단 좌표 표시 부분 — 커서를 지도 위에 올려둔 상태로 촬영 후 업로드<br>└ 캡션 추천: "여기 숫자만 보면 지금 내가 지도 어디쯤 있는지 바로 알 수 있어요."</p>
+      <h3>이 좌표로 마커는 어떻게 찍나요?</h3>
+      <p>이미 알고 있는 상인이나 보스 같은 목적지의 좌표를 지도 위 커서 좌표와 대조해서, 그 지점을 클릭하면 지도 위에 빠른이동 마커, 이른바 '웨이포인트'가 찍힙니다.</p>
+      <p>방법 자체는 어렵지 않아요. 우선 가고 싶은 목적지의 좌표를 알아둔 상태로 지도를 켜고, 커서를 이리저리 움직이면서 좌측 하단 숫자가 그 좌표에 가까워지는 자리를 찾아주시면 됩니다. 숫자가 얼추 맞아떨어지는 지점을 찾았으면 그 위치를 클릭해서 마커를 찍고, 지도를 닫으면 그 마커 방향으로 이동 경로가 화면에 표시되는 걸 확인하실 수 있어요.</p>
+      <ul>
+        <li>목적지 좌표 — 상인·보스처럼 이미 알고 있는 지점의 숫자</li>
+        <li>커서 좌표 — 지도 좌측 하단에 실시간으로 뜨는 숫자</li>
+        <li>두 좌표가 맞아떨어지는 지점을 클릭 — 여기서 마커가 완성됩니다</li>
+      </ul>
+      <p>한 번 익혀두면 새로운 지역을 갈 때도 똑같이 적용할 수 있는 방식이라, 이후로는 감으로 헤매는 일이 확실히 줄어들어요.</p>
+      <p>📷 〔사진 자리 3 · 직접 촬영〕 좌표 대조 후 마커를 찍은 지도 화면 — 마커 아이콘과 좌측 하단 좌표가 함께 보이게 촬영 후 업로드<br>└ 캡션 추천: "마커 하나 찍어두면 지도를 닫아도 그 방향으로 계속 안내가 떠요."</p>
+      <h3>마커 찍고 이동했는데, 왜 정확한 위치가 아닐까요?</h3>
+      <p><b>마커 방향으로 빠른이동을 해도 실제 목적지와 완전히 일치하지 않고 약간의 오차가 있을 수 있습니다.</b></p>
+      <p>인벤에서 다룬 팰월드 상인 위치 관련 기사도 딱 이 오차 부분—마커 방향으로 이동했을 때 실제 위치와 살짝 어긋날 수 있다는 점—을 짚고 있었는데요, 저도 실제로 마커 지점에 도착해보면 상인이나 시설이 살짝 옆으로 비켜나 있는 경우를 종종 겪었습니다. 특히 언덕이나 절벽처럼 고도 차가 있는 지형에서는 평면 지도상 좌표랑 실제 위치가 눈에 보이는 것보다 더 벌어져 보일 때도 있고요.</p>
+      <p>그래서 <b>마커가 찍힌 자리에 도착했는데 목적지가 안 보인다고 바로 실망하지 마시고, 주변을 한 바퀴 둘러보는 습관을 들이시는 게 좋습니다.</b> 조금만 걸어보면 대부분 근처에서 찾아지더라고요.</p>
+      <p>📷 〔사진 자리 4 · 직접 촬영〕 마커 지점 도착 후 주변을 둘러보는 화면 — 목적지와 캐릭터 위치가 살짝 어긋난 모습을 촬영 후 업로드<br>└ 캡션 추천: "딱 그 자리가 아니어도 조금만 둘러보면 금방 찾아져요."</p>
+      <h3>지도 안 열고 감으로 찾다가 시간 날리는 실수</h3>
+      <p>가장 흔한 실수는 지도를 아예 안 열고 예전 기억이나 감으로만 이동하다가 엉뚱한 방향으로 시간을 날리는 경우입니다.</p>
+      <ul>
+        <li>지도를 켜지 않고 예전 기억이나 방향 감으로만 이동하는 경우</li>
+        <li>좌표를 대충 어림잡아 마커를 찍고 오차 범위를 신경 안 쓰는 경우</li>
+        <li>목적지 좌표를 미리 챙겨두지 않고 지도부터 켜서 한참 헤매는 경우</li>
+      </ul>
+      <p>저도 초반엔 세 번째 경우가 제일 많았는데요, 목적지 좌표를 먼저 확인하고 지도를 켜는 순서로만 바꿔도 헤매는 시간이 확 줄어들더라고요. 익숙해지기 전까지는 좌표를 메모장이나 스크린샷으로 따로 챙겨두고, 지도를 켤 때마다 대조하는 습관을 들이시는 것도 좋은 방법입니다. 특히 새로 넘어간 지역이라면 그 근처에서 자주 갈 만한 좌표 몇 개를 한꺼번에 적어두는 것도 도움이 되는데요, 그러면 지도를 열고 닫는 걸 반복하지 않아도 돼서 이동이 한결 매끄러워지더라고요.</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 좌표 숫자가 정확히 뭘 의미하나요?</b><br>정확한 산출 방식까지는 확인이 더 필요한 부분이지만, 지도 위 가로·세로 위치를 숫자로 나타낸 값이라고 이해하시면 편해요. 같은 좌표를 알고 있으면 다른 유저에게 알려줄 때도 똑같은 지점을 정확히 짚을 수 있다는 게 핵심입니다. 예를 들어 같이 플레이하는 친구한테 방향으로만 설명하는 대신 좌표 숫자를 딱 알려주면 훨씬 빠르게 찾아갈 수 있어서, 저는 자주 가는 상인이나 보스 위치는 좌표를 따로 메모해두는 편이에요.</p>
+      <p><b>Q. 마커는 여러 개를 동시에 찍을 수 있나요?</b><br>여러 개를 한꺼번에 찍어서 관리하는 기능은 제가 아직 따로 써보지 못해서 확실하게 말씀드리긴 어렵네요. 우선은 목적지 하나를 찍고, 도착한 뒤 다음 지점을 새로 찍는 방식으로 쓰시는 걸 추천드려요.</p>
+      <p><b>Q. M키를 눌러도 지도가 안 열리면 어떻게 하나요?</b><br>다른 조작에 키가 겹쳐 있을 수 있으니 설정 메뉴에서 키 배치를 한 번 확인해보시는 게 좋습니다. 특별한 이유 없이 안 열린다면 잠깐 시간을 두고 다시 시도해보시는 것도 방법이에요.</p>
+      <p><b>Q. 상인이나 보스 좌표는 어디서 구하나요?</b><br>많은 유저분들이 자주 찾는 상인·보스 위치를 좌표와 함께 정리해두는 경우가 많아서, 그런 정보를 미리 찾아둔 다음 이 글에서 소개한 방법으로 대조하면서 마커를 찍으시면 됩니다.</p>
+      <p><b>Q. 마커를 지우거나 다른 곳으로 옮기고 싶으면 어떻게 하나요?</b><br>새로운 지점을 다시 클릭하면 마커가 그쪽으로 옮겨지는 방식이라, 따로 지우는 기능을 찾지 않아도 자연스럽게 정리가 됩니다.</p>
+      <h3>팰월드 좌표 보는법 정리</h3>
+      <p>정리하자면, M키로 지도를 켜고 좌측 하단 좌표를 확인하는 것부터가 시작이에요. 그 숫자를 이미 알고 있는 목적지 좌표와 대조해서 마커를 찍고, 도착 후엔 약간의 오차를 감안해 주변을 한 번씩 둘러보는 습관까지 들이시면 팰월드에서 원하는 곳을 찾아가는 게 훨씬 수월해집니다.</p>
+      <p>별거 아닌 조작인데 알고 나면 이동 시간이 확 줄어드는 기능이라, 아직 안 써보셨다면 이번 기회에 한 번 챙겨보시면 좋을 것 같아요.</p>
+      <p><b>✔ 팰월드 같이 보기 좋은 내용</b><br>
+      · <a href="https://blog.naver.com/bomding/224405306267" target="_blank">팰월드1.0.4패치 낚시재조정 팰AI개선 9월 7일 업데이트 총정리</a><br>
+      · <a href="https://blog.naver.com/bomding/224402930613" target="_blank">내 팰이 세계 1위가 될 수 있을까 — 팰월드 글로벌 인기투표 2026 참여법</a><br>
+      · <a href="https://blog.naver.com/bomding/224401664284" target="_blank">팰월드온라인 사전예약 시작 — 가레나 모바일 RPG, 한국이 전 세계 최초 서비스 국가</a></p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://www.inven.co.kr/webzine/news/?news=292661&site=palworld" target="_blank">인벤 — 팰월드 상인 위치 좌표 총정리</a></p>
+      <p class="tags-line">#팰월드 #팰월드위치 #팰월드좌표 #팰월드좌표보는법 #팰월드지도 #Palworld</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
