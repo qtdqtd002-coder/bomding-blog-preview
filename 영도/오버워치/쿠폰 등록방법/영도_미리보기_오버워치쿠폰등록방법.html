@@ -1,0 +1,239 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>오버워치 쿠폰 등록방법, 넥슨 쿠폰이랑 배틀넷 코드는 어디에 넣나요?</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.7;}
+  .guidenote{color:#999;font-size:13px;margin-bottom:18px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post .q{color:var(--pt);}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy h3:first-child{margin-top:0;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy a{color:#1a73e8;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">게임공략</div>
+    <h1 class="title">오버워치 쿠폰 등록방법, 넥슨 쿠폰이랑 배틀넷 코드는 어디에 넣나요?</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026.09.21.</span><span>· 게임</span></div>
+    <div class="guidenote">※ 다른 공략은 댓글을 참고해 주세요.</div>
+
+    <p>오버워치 쿠폰 받았는데 어디다 넣어야 하는지 몰라서 한참 헤맨 적 있으신가요(?) 주인장도 예전에 이벤트로 받은 코드를 배틀넷에 넣어야 하는 줄 알고 한참 헤매다가, 알고 보니 넥슨 쪽 쿠폰이라 전혀 다른 곳에 넣어야 했던 적이 있는데요. 오버워치는 국내에서 넥슨이 퍼블리싱을 맡고 있지만, 게임 자체는 블리자드 배틀넷 계정으로 돌아가는 이원화 구조라 이런 일이 꽤 흔하게 벌어지더라고요. 포털 자동완성에도 '오버워치 쿠폰 등록'이 꾸준히 뜨는 걸 보면, 저만 헷갈렸던 게 아니더라고요. 오늘은 넥슨 쿠폰이랑 배틀넷 코드를 어디서 어떻게 등록하는지, 헷갈리지 않게 딱 정리해 드리겠습니다.</p>
+
+    <h2 class="sec">1. 넥슨 쿠폰이랑 배틀넷 코드, 왜 등록하는 곳이 다른가</h2>
+    <p>오버워치는 국내 서비스를 넥슨이 맡고, 게임 플레이 자체는 블리자드 배틀넷 계정을 쓰는 이원화 구조라서 쿠폰 발급처에 따라 등록하는 곳이 서로 다릅니다.</p>
+    <p>넥슨은 국내 결제·이벤트·쿠폰 지급을 담당하는 퍼블리셔 창구이고, 실제 게임 실행과 계정 데이터는 블리자드 배틀넷이 관리하는 구조인데요. 그래서 쿠폰을 받았을 때 '이게 어느 쪽 쿠폰인지'부터 구분하는 게 첫 단추입니다. 넥슨에서 지급하는 쿠폰(넥슨캐시 등)은 넥슨닷컴 쪽에, 블리자드가 직접 배포하는 코드(전리품 상자 등)는 배틀넷 쪽에 각각 등록해야 하는 건데요. 이번 글 쓰면서 넥슨 오버워치 공식 FAQ 페이지를 다시 열어서 두 경로를 하나하나 짚어봤는데요, 실제로 안내 문구가 아래처럼 딱 나뉘어 있더라고요.</p>
+
+    <h2 class="sec">2. 넥슨 쿠폰 등록 경로</h2>
+    <p>넥슨에서 지급하는 넥슨캐시 등의 쿠폰은 넥슨닷컴에서 등록하면 됩니다.</p>
+    <p>공식 안내에 나온 경로 그대로 옮기면 이렇습니다: <b>"넥슨닷컴 로그인 > 우측 상단 쿠폰함 > 쿠폰등록"</b>. 넥슨닷컴에 로그인한 뒤 우측 상단의 '쿠폰함'으로 들어가서 '쿠폰등록' 메뉴에 코드를 입력하시면 됩니다. 혹시 넥슨 계정이 아직 없으신 분들은 넥슨닷컴에서 회원가입부터 먼저 진행하셔야 쿠폰함 메뉴 자체가 보이니 참고하세요.</p>
+    <!-- 이미지 이유: 넥슨닷컴 쿠폰함 진입 경로를 설명한 바로 위 문단을 시각적으로 뒷받침 / 출처: https://overwatch.nexon.com/support/faq/event / 분류: A형(공식 UI 스크린샷) -->
+    <div class="imgwrap"><img src="img/01-nexon-coupon.png" width="319" height="51" alt="넥슨닷컴 쿠폰함 아이콘"></div>
+    <p class="cap">보시면 로그인 후 우측 상단에 '쿠폰함' 메뉴가 바로 보이는 위치라, 처음 찾는 분들도 크게 헤매지는 않을 것 같습니다.</p>
+    <p class="src">이미지 출처: <a href="https://overwatch.nexon.com/support/faq/event" target="_blank">넥슨 오버워치 공식 FAQ (overwatch.nexon.com/support/faq/event)</a></p>
+
+    <h2 class="sec">3. 배틀넷 쿠폰(코드) 등록 경로</h2>
+    <p>전리품 상자 같은 배틀넷 쿠폰(코드)은 배틀넷 계정 정보 화면에서 등록합니다.</p>
+    <p>공식 안내 경로는 이렇습니다: <b>"배틀넷 로그인 > 우측 상단 계정 정보 > 코드 등록 > 코드 입력 및 등록"</b>. 배틀넷에 로그인한 다음 우측 상단 '계정 정보'로 들어가서 '코드 등록' 메뉴에서 코드를 입력하고 등록하시면 끝입니다. 블리자드 계정이 없으신 분들도 마찬가지로 배틀넷 가입을 먼저 마쳐야 '코드 등록' 메뉴에 접근할 수 있습니다.</p>
+    <!-- 이미지 이유: 배틀넷 코드 등록 메뉴 위치를 설명한 바로 위 문단을 시각적으로 뒷받침 / 출처: https://overwatch.nexon.com/support/faq/event / 분류: A형(공식 UI 스크린샷) -->
+    <div class="imgwrap"><img src="img/02-battlenet-coupon.png" width="318" height="487" alt="배틀넷 코드 등록 메뉴"></div>
+    <p class="cap">지금 보시는 것처럼 넥슨 쿠폰함이랑 이름은 비슷해 보여도, 배틀넷은 '계정 정보' 안에 '코드 등록'이라는 별도 메뉴로 들어가 있다는 점만 기억해 두시면 됩니다.</p>
+    <p class="src">이미지 출처: <a href="https://overwatch.nexon.com/support/faq/event" target="_blank">넥슨 오버워치 공식 FAQ (overwatch.nexon.com/support/faq/event)</a></p>
+
+    <h2 class="sec">4. 넥슨 쿠폰 vs 배틀넷 코드 한눈에 비교</h2>
+    <p>두 경로를 표로 나란히 놓고 보면 훨씬 헷갈리지 않으실 텐데요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>대표 쿠폰 종류</th><th>등록 계정</th><th>등록 경로</th></tr>
+      <tr><td>넥슨 쿠폰</td><td>넥슨캐시 등</td><td>넥슨닷컴 계정</td><td>넥슨닷컴 로그인 &gt; 쿠폰함 &gt; 쿠폰등록</td></tr>
+      <tr><td>배틀넷 코드</td><td>전리품 상자 등</td><td>배틀넷 계정</td><td>배틀넷 로그인 &gt; 계정 정보 &gt; 코드 등록</td></tr>
+    </table>
+
+    <h2 class="sec">5. 지금 등록할 수 있는 쿠폰 코드가 있을까</h2>
+    <p>이 글을 쓰는 시점(2026년 9월 기준)으로 바로 넣을 수 있는 유효한 쿠폰 코드는 확인되지 않습니다.</p>
+    <p>예전에 풀렸던 코드들을 찾아봐도 대부분 기간이 이미 지나 있었는데요, 오버워치 쿠폰은 이벤트마다 새로 풀리고 유효기간도 짧은 편이라 지금 당장 쓸 수 있는 코드를 여기서 알려드리긴 어려울 것 같습니다. 대신 신규 코드가 풀렸을 때 바로 등록할 수 있게, 위에서 정리한 두 경로를 미리 익혀 두시는 게 훨씬 실용적이라고 생각합니다. 새 코드는 넥슨과 배틀넷 공식 채널에서 수시로 풀리니 그쪽을 틈틈이 확인해 두시면 됩니다.</p>
+
+    <h2 class="sec">6. 쿠폰 등록이 안 될 때 체크포인트</h2>
+    <p>등록이 안 될 땐 유효기간이 지나지 않았는지부터 확인하는 게 가장 빠릅니다. 코드를 입력했는데 오류 문구만 뜨고 막히면 어디서부터 잘못된 건지 바로 감이 안 잡히실 텐데, 실제로는 아래 다섯 가지 중 하나에 걸려 있는 경우가 대부분이라 순서대로 짚어보시면 됩니다.</p>
+    <ul>
+      <li>유효기간이 지나지 않았는지 확인하세요 — 넥슨 공식 FAQ도 "쿠폰 사용에 앞서 유효 기간 및 유의사항을 꼭 확인해 주시기 바랍니다"라고 안내하고 있습니다.</li>
+      <li>코드는 복사 붙여넣기로 입력해서 오탈자·대소문자 실수를 줄이세요.</li>
+      <li>넥슨 쿠폰인지 배틀넷 코드인지부터 다시 확인하세요 — 이름이 비슷해 보여도 등록하는 곳은 완전히 다르니, 엉뚱한 쪽에 넣으면 당연히 등록이 안 됩니다.</li>
+      <li>로그인한 계정이 실제로 플레이하는 계정이 맞는지 확인하세요.</li>
+      <li>이미 한 번 등록해서 사용한 코드는 아닌지도 확인해보세요 — 쿠폰은 보통 1회만 사용할 수 있습니다.</li>
+    </ul>
+
+    <h2 class="sec">자주 묻는 질문</h2>
+    <p><b>Q. 쿠폰 등록이 안 될 때는 어디를 확인해야 하나요?</b><br>A. 가장 먼저 유효기간이 지나지 않았는지 확인하시고, 코드는 복사 붙여넣기로 넣어서 오탈자를 줄이시는 게 좋습니다. 그래도 안 되면 넥슨 쿠폰인지 배틀넷 코드인지, 로그인한 계정이 맞는지도 다시 한 번 체크해 보세요.</p>
+    <p><b>Q. 코드를 반대쪽에 잘못 넣으면 어떻게 되나요?</b><br>A. 코드가 인식되지 않거나 오류 메시지가 뜨는 정도로 끝나니 걱정하지 않으셔도 됩니다. 안내에 따라 맞는 쪽에 다시 넣어보시면 됩니다.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://overwatch.nexon.com/support/faq/event" target="_blank">넥슨 오버워치 공식 FAQ — 이벤트·쿠폰 (2026.09.21 기준)</a></p>
+
+    <p><b>▶ 같이 보면 좋은 글</b><br>
+    · <a href="https://blog.naver.com/kkodug9/224254820833" target="_blank">타이탄 G 8K 무선 게이밍 마우스 추천 스펙, 오버워치 게임마우스</a><br>
+    · <a href="https://blog.naver.com/kkodug9/224239923850" target="_blank">2026 오버워치 만우절 영웅별 변경점 옵치 이벤트</a><br>
+    · <a href="https://blog.naver.com/kkodug9/224185526725" target="_blank">오버워치 러브워치 보상 & 큐피드 한조 스킨</a></p>
+
+    <p>이렇게 넥슨 쿠폰이랑 배틀넷 코드 등록 경로를 나란히 놓고 보니, 실제로는 그렇게 복잡한 얘기는 아니었던 것 같습니다. 지금 당장 넣을 쿠폰이 없어도 두 경로만 기억해 두시면, 나중에 새 코드가 풀렸을 때 바로 챙기실 수 있을 거예요. 다음에 이벤트로 새 코드가 풀렸다는 소식 들리면, 그때 이 글부터 다시 열어서 넥슨 쪽인지 배틀넷 쪽인지만 확인하고 바로 등록하시면 됩니다. 등록하다가 막히는 부분 있으면 댓글로 남겨주세요!</p>
+
+    <div class="tags">#오버워치 #오버워치쿠폰 #오버워치쿠폰등록방법 #넥슨쿠폰 #배틀넷코드 #오버워치공략</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 2곳 + 그 아래 출처 2줄:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div class="ti">📌 제목칸에 따로: 오버워치 쿠폰 등록방법, 넥슨 쿠폰이랑 배틀넷 코드는 어디에 넣나요?</div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>※ 다른 공략은 댓글을 참고해 주세요.</p>
+<p>오버워치 쿠폰 받았는데 어디다 넣어야 하는지 몰라서 한참 헤맨 적 있으신가요(?) 주인장도 예전에 이벤트로 받은 코드를 배틀넷에 넣어야 하는 줄 알고 한참 헤매다가, 알고 보니 넥슨 쪽 쿠폰이라 전혀 다른 곳에 넣어야 했던 적이 있는데요. 오버워치는 국내에서 넥슨이 퍼블리싱을 맡고 있지만, 게임 자체는 블리자드 배틀넷 계정으로 돌아가는 이원화 구조라 이런 일이 꽤 흔하게 벌어지더라고요. 포털 자동완성에도 '오버워치 쿠폰 등록'이 꾸준히 뜨는 걸 보면, 저만 헷갈렸던 게 아니더라고요. 오늘은 넥슨 쿠폰이랑 배틀넷 코드를 어디서 어떻게 등록하는지, 헷갈리지 않게 딱 정리해 드리겠습니다.</p>
+<h3>1. 넥슨 쿠폰이랑 배틀넷 코드, 왜 등록하는 곳이 다른가</h3>
+<p>오버워치는 국내 서비스를 넥슨이 맡고, 게임 플레이 자체는 블리자드 배틀넷 계정을 쓰는 이원화 구조라서 쿠폰 발급처에 따라 등록하는 곳이 서로 다릅니다.</p>
+<p>넥슨은 국내 결제·이벤트·쿠폰 지급을 담당하는 퍼블리셔 창구이고, 실제 게임 실행과 계정 데이터는 블리자드 배틀넷이 관리하는 구조인데요. 그래서 쿠폰을 받았을 때 '이게 어느 쪽 쿠폰인지'부터 구분하는 게 첫 단추입니다. 넥슨에서 지급하는 쿠폰(넥슨캐시 등)은 넥슨닷컴 쪽에, 블리자드가 직접 배포하는 코드(전리품 상자 등)는 배틀넷 쪽에 각각 등록해야 하는 건데요. 이번 글 쓰면서 넥슨 오버워치 공식 FAQ 페이지를 다시 열어서 두 경로를 하나하나 짚어봤는데요, 실제로 안내 문구가 아래처럼 딱 나뉘어 있더라고요.</p>
+<h3>2. 넥슨 쿠폰 등록 경로</h3>
+<p>넥슨에서 지급하는 넥슨캐시 등의 쿠폰은 넥슨닷컴에서 등록하면 됩니다.</p>
+<p>공식 안내에 나온 경로 그대로 옮기면 이렇습니다: <b>"넥슨닷컴 로그인 > 우측 상단 쿠폰함 > 쿠폰등록"</b>. 넥슨닷컴에 로그인한 뒤 우측 상단의 '쿠폰함'으로 들어가서 '쿠폰등록' 메뉴에 코드를 입력하시면 됩니다. 혹시 넥슨 계정이 아직 없으신 분들은 넥슨닷컴에서 회원가입부터 먼저 진행하셔야 쿠폰함 메뉴 자체가 보이니 참고하세요.</p>
+<p class="ph">📷 〔사진 자리 1〕 넥슨닷컴 쿠폰함 아이콘 화면 — img/01-nexon-coupon.png 참고해 다운로드 후 업로드</p>
+<p class="phsub">└ 캡션 추천: "보시면 로그인 후 우측 상단에 '쿠폰함' 메뉴가 바로 보이는 위치라, 처음 찾는 분들도 크게 헤매지는 않을 것 같습니다."</p>
+<p class="phsub">└ 출처 표기(필수): 이미지 출처: 넥슨 오버워치 공식 FAQ (overwatch.nexon.com/support/faq/event)</p>
+<h3>3. 배틀넷 쿠폰(코드) 등록 경로</h3>
+<p>전리품 상자 같은 배틀넷 쿠폰(코드)은 배틀넷 계정 정보 화면에서 등록합니다.</p>
+<p>공식 안내 경로는 이렇습니다: <b>"배틀넷 로그인 > 우측 상단 계정 정보 > 코드 등록 > 코드 입력 및 등록"</b>. 배틀넷에 로그인한 다음 우측 상단 '계정 정보'로 들어가서 '코드 등록' 메뉴에서 코드를 입력하고 등록하시면 끝입니다. 블리자드 계정이 없으신 분들도 마찬가지로 배틀넷 가입을 먼저 마쳐야 '코드 등록' 메뉴에 접근할 수 있습니다.</p>
+<p class="ph">📷 〔사진 자리 2〕 배틀넷 코드 등록 메뉴 화면 — img/02-battlenet-coupon.png 참고해 다운로드 후 업로드</p>
+<p class="phsub">└ 캡션 추천: "지금 보시는 것처럼 넥슨 쿠폰함이랑 이름은 비슷해 보여도, 배틀넷은 '계정 정보' 안에 '코드 등록'이라는 별도 메뉴로 들어가 있다는 점만 기억해 두시면 됩니다."</p>
+<p class="phsub">└ 출처 표기(필수): 이미지 출처: 넥슨 오버워치 공식 FAQ (overwatch.nexon.com/support/faq/event)</p>
+<h3>4. 넥슨 쿠폰 vs 배틀넷 코드 한눈에 비교</h3>
+<p>두 경로를 표로 나란히 놓고 보면 훨씬 헷갈리지 않으실 텐데요.</p>
+<table>
+<tr><th>구분</th><th>대표 쿠폰 종류</th><th>등록 계정</th><th>등록 경로</th></tr>
+<tr><td>넥슨 쿠폰</td><td>넥슨캐시 등</td><td>넥슨닷컴 계정</td><td class="l">넥슨닷컴 로그인 &gt; 쿠폰함 &gt; 쿠폰등록</td></tr>
+<tr><td>배틀넷 코드</td><td>전리품 상자 등</td><td>배틀넷 계정</td><td class="l">배틀넷 로그인 &gt; 계정 정보 &gt; 코드 등록</td></tr>
+</table>
+<h3>5. 지금 등록할 수 있는 쿠폰 코드가 있을까</h3>
+<p>이 글을 쓰는 시점(2026년 9월 기준)으로 바로 넣을 수 있는 유효한 쿠폰 코드는 확인되지 않습니다.</p>
+<p>예전에 풀렸던 코드들을 찾아봐도 대부분 기간이 이미 지나 있었는데요, 오버워치 쿠폰은 이벤트마다 새로 풀리고 유효기간도 짧은 편이라 지금 당장 쓸 수 있는 코드를 여기서 알려드리긴 어려울 것 같습니다. 대신 신규 코드가 풀렸을 때 바로 등록할 수 있게, 위에서 정리한 두 경로를 미리 익혀 두시는 게 훨씬 실용적이라고 생각합니다. 새 코드는 넥슨과 배틀넷 공식 채널에서 수시로 풀리니 그쪽을 틈틈이 확인해 두시면 됩니다.</p>
+<h3>6. 쿠폰 등록이 안 될 때 체크포인트</h3>
+<p>등록이 안 될 땐 유효기간이 지나지 않았는지부터 확인하는 게 가장 빠릅니다. 코드를 입력했는데 오류 문구만 뜨고 막히면 어디서부터 잘못된 건지 바로 감이 안 잡히실 텐데, 실제로는 아래 다섯 가지 중 하나에 걸려 있는 경우가 대부분이라 순서대로 짚어보시면 됩니다.</p>
+<ul>
+<li>유효기간이 지나지 않았는지 확인하세요 — 넥슨 공식 FAQ도 "쿠폰 사용에 앞서 유효 기간 및 유의사항을 꼭 확인해 주시기 바랍니다"라고 안내하고 있습니다.</li>
+<li>코드는 복사 붙여넣기로 입력해서 오탈자·대소문자 실수를 줄이세요.</li>
+<li>넥슨 쿠폰인지 배틀넷 코드인지부터 다시 확인하세요 — 이름이 비슷해 보여도 등록하는 곳은 완전히 다르니, 엉뚱한 쪽에 넣으면 당연히 등록이 안 됩니다.</li>
+<li>로그인한 계정이 실제로 플레이하는 계정이 맞는지 확인하세요.</li>
+<li>이미 한 번 등록해서 사용한 코드는 아닌지도 확인해보세요 — 쿠폰은 보통 1회만 사용할 수 있습니다.</li>
+</ul>
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 쿠폰 등록이 안 될 때는 어디를 확인해야 하나요?</b><br>A. 가장 먼저 유효기간이 지나지 않았는지 확인하시고, 코드는 복사 붙여넣기로 넣어서 오탈자를 줄이시는 게 좋습니다. 그래도 안 되면 넥슨 쿠폰인지 배틀넷 코드인지, 로그인한 계정이 맞는지도 다시 한 번 체크해 보세요.</p>
+<p><b>Q. 코드를 반대쪽에 잘못 넣으면 어떻게 되나요?</b><br>A. 코드가 인식되지 않거나 오류 메시지가 뜨는 정도로 끝나니 걱정하지 않으셔도 됩니다. 안내에 따라 맞는 쪽에 다시 넣어보시면 됩니다.</p>
+<p><b>참고한 곳</b><br>
+· <a href="https://overwatch.nexon.com/support/faq/event" target="_blank">넥슨 오버워치 공식 FAQ — 이벤트·쿠폰 (2026.09.21 기준)</a></p>
+<p><b>▶ 같이 보면 좋은 글</b><br>
+· <a href="https://blog.naver.com/kkodug9/224254820833" target="_blank">타이탄 G 8K 무선 게이밍 마우스 추천 스펙, 오버워치 게임마우스</a><br>
+· <a href="https://blog.naver.com/kkodug9/224239923850" target="_blank">2026 오버워치 만우절 영웅별 변경점 옵치 이벤트</a><br>
+· <a href="https://blog.naver.com/kkodug9/224185526725" target="_blank">오버워치 러브워치 보상 & 큐피드 한조 스킨</a></p>
+<p>이렇게 넥슨 쿠폰이랑 배틀넷 코드 등록 경로를 나란히 놓고 보니, 실제로는 그렇게 복잡한 얘기는 아니었던 것 같습니다. 지금 당장 넣을 쿠폰이 없어도 두 경로만 기억해 두시면, 나중에 새 코드가 풀렸을 때 바로 챙기실 수 있을 거예요. 다음에 이벤트로 새 코드가 풀렸다는 소식 들리면, 그때 이 글부터 다시 열어서 넥슨 쪽인지 배틀넷 쪽인지만 확인하고 바로 등록하시면 됩니다. 등록하다가 막히는 부분 있으면 댓글로 남겨주세요!</p>
+<p class="tags-line">#오버워치 #오버워치쿠폰 #오버워치쿠폰등록방법 #넥슨쿠폰 #배틀넷코드 #오버워치공략</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
