@@ -62,6 +62,46 @@ const norm = s => String(s || '')
   .trim();
 const nospace = s => norm(s).replace(/\s/g, '');
 
+/* ★2026-09-20 — 유사도에서 «게임명»을 뺀다.
+   09-18 개편으로 제목이 질의형으로 짧아지자(«림버스 컴퍼니 하는법») 게임명이 제목의 대부분을 차지해,
+   내용이 전혀 다른 지난 추천과도 bigram 0.4·공유어 2 를 넘겨 DROP 됐다(09-19 실측 오탐 2건 — 림버스 하는법·카제나 장비 세팅).
+   게임이 같은지는 `sameGame` 이 따로 보므로, 유사도·공유어는 «게임명을 뺀 나머지»로만 잰다.
+   지우는 것 = 게임명 전체(띄어쓰기 무시) + 그 게임명의 낱말들(«카오스 제로 나이트메어» → 카오스·제로·나이트메어). */
+function stripGame(text, gameRaw) {
+  const src = String(text || '');
+  const gk = nospace(gameRaw);
+  if (!gk || gk.length < 2) return src;
+  const marks = [gk, ...norm(gameRaw).split(' ').map(nospace).filter(w => w.length >= 2)]
+    .filter((w, i, a) => w && a.indexOf(w) === i)
+    .sort((a, b) => b.length - a.length);
+  const chars = [...src];
+  const idx = [];
+  let ns = '';
+  for (let i = 0; i < chars.length; i++) {
+    const n = nospace(chars[i]);
+    if (n) { ns += n; idx.push(i); }
+  }
+  const cut = new Set();
+  for (const m of marks) {
+    let from = 0, at;
+    while ((at = ns.indexOf(m, from)) >= 0) {
+      for (let k = at; k < at + m.length; k++) cut.add(idx[k]);
+      from = at + m.length;
+    }
+  }
+  if (!cut.size) return src;
+  return chars.filter((_, i) => !cut.has(i)).join('');
+}
+
+/* ★2026-09-20 — «앞머리 질의». 개편 뒤 제목 문법이 «<게임> <질의>, <부제>» 라서, 게임명과 흔한 말을 빼고 나면
+   bigram 으로는 어제 낸 같은 질의를 못 잡는다(«리그오브레전드 게임방법, 넥서스…» vs «리그 오브 레전드 게임 방법, 처음…»).
+   첫 쉼표·대시 앞을 질의로 보고, 같은 게임에서 질의가 같거나 한쪽이 다른 쪽을 품으면 재탕으로 본다. */
+function headKey(title, gameRaw) {
+  /* ★구분자에 «·» 를 넣지 않는다 — 한국어 제목에서 가운뎃점은 «그리고»(«위치·좌표 보는 법»)라 절 구분이 아니다. */
+  const head = String(title || '').split(/[,—–]|\s-\s/)[0];
+  return nospace(stripGame(head, gameRaw));
+}
+
 const bigrams = s => { const t = nospace(s), out = new Set(); for (let i = 0; i < t.length - 1; i++) out.add(t.slice(i, i + 2)); return out; };
 const dice = (A, B) => { if (!A.size || !B.size) return 0; let n = 0; for (const x of A) if (B.has(x)) n++; return (2 * n) / (A.size + B.size); };
 
@@ -112,14 +152,22 @@ function loadPast() {
     if (!it || !it.title) continue;
     /* ★ game·title·detail 세 필드를 함께 본다 — L054 처방 그대로.
        제목만 보면 「같은 공지의 다른 조각」(L058 마비노기·쿠키런)이 안 걸린다. */
-    const blob = [it.game, it.title, it.detail, it.angle].filter(Boolean).join(' ');
-    items.push({
-      date: String(ed.date), sec: String(sec.key || ''), game: String(it.game || ''), title: String(it.title || ''),
-      bgT: bigrams(it.title), tokT: tokens(it.title), tokAll: tokens(blob), anc: anchors(blob),
-      gameKey: nospace(it.game)
-    });
+    items.push(pastItem(it, ed.date, sec.key));
   }
   return { items, days: eds.map(e => String(e.date)) };
+}
+
+/* 지난 판 항목 하나 → 판정 재료. ★유사도 재료는 «게임명을 뺀» 제목·본문으로 만든다(2026-09-20 · 게임 일치는 gameKey 가 따로 본다).
+   테스트가 이 함수를 그대로 쓴다 — 적재와 시험이 갈라지지 않게. */
+function pastItem(it, date, sec) {
+  const blob = [it.game, it.title, it.detail, it.angle].filter(Boolean).join(' ');
+  const core = stripGame(it.title, it.game);
+  const coreBlob = [core, stripGame(it.detail, it.game), stripGame(it.angle, it.game)].filter(Boolean).join(' ');
+  return {
+    date: String(date || ''), sec: String(sec || ''), game: String(it.game || ''), title: String(it.title || ''),
+    bgT: bigrams(core), tokT: tokens(core), tokAll: tokens(coreBlob), anc: anchors(blob),
+    gameKey: nospace(it.game), headKey: headKey(it.title, it.game)
+  };
 }
 
 /* 후보의 게임명 추론 — 지난 판에 나온 게임명 중 후보 제목에 통째로 들어 있는 것.
@@ -133,7 +181,9 @@ function guessGame(title, pastGames) {
 
 /* ── 판정 ─────────────────────────────────────────────────────────────────── */
 function judge(cand, past) {
-  const cBg = bigrams(cand.title), cTok = tokens(cand.title + ' ' + (cand.game || '')), cAnc = anchors(cand.title);
+  const cCore = stripGame(cand.title, cand.game);
+  const cHead = headKey(cand.title, cand.game);
+  const cBg = bigrams(cCore), cTok = tokens(cCore), cAnc = anchors(cand.title);
   const cGameKey = nospace(cand.game);
   const hits = [];
   for (const p of past) {
@@ -146,10 +196,17 @@ function judge(cand, past) {
     /* 육아만 다른 규칙 — `game` 이 «제품 카테고리»라 카테고리가 같으면 그 자체로 재탕이다
        (SKILL [A-3]⑷ "봄딩이 이미 쓴 제품군은 금지"). 게임은 반대다: 같은 게임을 여러 번 다루는 게 pinned 의 설계라
        게임명 일치만으로 DROP 하면 안 된다. 그래서 이 한 줄이 parenting 에만 걸린다. */
+    /* ★게임명을 뺀 뒤라, 유사도만으로 DROP 하는 규칙은 «같은 게임»(또는 양쪽 다 게임 추론 실패)일 때만 쓴다.
+       게임이 다르면 «쿠폰 등록하는 법» 처럼 문형이 같아도 다른 글이다(2026-09-20). */
+    const bothGamed = !!(cGameKey && p.gameKey);
+    /* 2글자 질의(«공략»·«쿠폰»·«티어»)도 같은 질의로 본다 — 그 게임에서 그 질의를 최근에 이미 냈다는 뜻이다. */
+    const headSame = !!(cHead && p.headKey && cHead.length >= 2 && p.headKey.length >= 2
+      && (cHead === p.headKey || cHead.includes(p.headKey) || p.headKey.includes(cHead)));
     if (p.sec === 'parenting' && cGameKey && cGameKey === p.gameKey) { verdict = 'DROP'; why = '같은 제품 카테고리(육아는 제품군 재탕 금지)'; }
-    else if (sim >= 0.55) { verdict = 'DROP'; why = `제목 유사도 ${sim.toFixed(2)}`; }
+    else if (sameGame && headSame) { verdict = 'DROP'; why = `같은 게임 + 같은 질의(«${p.headKey}»)`; }
+    else if (sim >= 0.55 && (sameGame || !bothGamed)) { verdict = 'DROP'; why = `제목 유사도 ${sim.toFixed(2)}(게임명 제외)`; }
     else if (sameGame && ancHit.length && (shared >= 1 || sim >= 0.25)) { verdict = 'DROP'; why = `같은 게임 + 같은 앵커(${ancHit.join(',')})`; }
-    else if (sim >= 0.40 && shared >= 2) { verdict = 'DROP'; why = `제목 유사도 ${sim.toFixed(2)} + 공유어 ${shared}`; }
+    else if (sim >= 0.40 && shared >= 2 && (sameGame || !bothGamed)) { verdict = 'DROP'; why = `제목 유사도 ${sim.toFixed(2)} + 공유어 ${shared}(게임명 제외)`; }
     else if (sameGame && shared >= 2) { verdict = 'CHECK'; why = `같은 게임 + 공유어 ${shared}`; }
     else if (sameGame && sharedAll >= 2) { verdict = 'CHECK'; why = `같은 게임 + 본문(detail) 공유어 ${sharedAll}`; }
     else if (!sameGame && sim >= 0.35) { verdict = 'CHECK'; why = `제목 유사도 ${sim.toFixed(2)}`; }
@@ -159,6 +216,9 @@ function judge(cand, past) {
   const verdict = hits.some(h => h.verdict === 'DROP') ? 'DROP' : (hits.length ? 'CHECK' : 'OK');
   return { verdict, hits: hits.slice(0, 5) };
 }
+
+module.exports = { stripGame, judge, pastItem, tokens, bigrams, dice, anchors, nospace, loadPast };
+if (require.main !== module) return;   /* 테스트는 판정 함수만 가져간다(CJS 는 최상위 return 허용) */
 
 /* ── 실행 ─────────────────────────────────────────────────────────────────── */
 const { items: PAST, days: DAYLIST } = loadPast();

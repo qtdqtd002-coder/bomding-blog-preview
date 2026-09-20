@@ -558,8 +558,18 @@ async function cmdQueries() {
   saveCache();
   const ang = { '공략·방법형': 0, '쿠폰형': 1, '추천·티어·비교형': 2 };
   const ranked = cands.map((c, i) => ({ c, k: [-(c.demand.tier == null ? -0.5 : c.demand.tier), aibRank(c.aib), ang[c.angle], i] })).sort((x, y) => cmpKey(x.k, y.k)).map((x) => x.c);
-  const top = ranked.slice(0, Math.max(1, Number(val('--top', '20')) || 20));
-  console.log('\n질의 빈칸 — ' + games.length + '종에서 ' + cands.length + '건(이동형·기존 글·지난달 제외) · 상위 ' + top.length);
+  /* ★게임당 상한(2026-09-20) — 09-19 첫 판에서 상위 20건이 시드 12종 중 6종(메이플 6·오버워치 5·롤 4)에 몰려,
+     공략 조사원이 «같은 게임 2건» 규칙과 부딪혀 6건밖에 못 냈다. 게임을 고루 섞어야 상한만큼 뽑힌다.
+     --games 로 게임을 직접 준 때(지정·주력)는 그 게임 몫을 다 봐야 하므로 기본 상한 없음. */
+  const PERGAME = Math.max(0, Number(val('--per-game', has('--seeds') ? '3' : '0')) || 0);
+  let pool = ranked;
+  if (PERGAME) {
+    const cnt = new Map();
+    pool = ranked.filter((c) => { const k = normKey(c.game), n = cnt.get(k) || 0; if (n >= PERGAME) return false; cnt.set(k, n + 1); return true; });
+  }
+  const top = pool.slice(0, Math.max(1, Number(val('--top', '20')) || 20));
+  const gamesInTop = new Set(top.map((c) => normKey(c.game))).size;
+  console.log('\n질의 빈칸 — ' + games.length + '종에서 ' + cands.length + '건(이동형·기존 글·지난달 제외) · 상위 ' + top.length + '건 / ' + gamesInTop + '종' + (PERGAME ? ' · 게임당 최대 ' + PERGAME : ''));
   top.forEach((c, i) => console.log('  ' + String(i + 1).padStart(2) + '. ' + c.game + ' | ' + c.q + '  [' + c.angle + ' · ' + fmtDemand(c.demand) + (c.aib ? ' · ' + fmtAib(c.aib) : '') + ']'));
   const out = val('--json', null);
   if (out) { writeJson(out, { at: new Date().toISOString(), games, items: top }, 1); console.log('→ ' + out); }
