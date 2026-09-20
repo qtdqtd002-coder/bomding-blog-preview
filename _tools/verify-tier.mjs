@@ -1,6 +1,7 @@
 // verify-tier.mjs — 도구함 「티어표 제작」 v2(_toolbox/tier.js) 헤드리스 검증 (2026-09-07 · v2 작성자 전용 보드)
 //   node _tools/verify-tier.mjs [--out DIR]
 //   · verify-toolbox.mjs 와 같은 하네스(로컬 정적 서버 + 크롬 헤드리스 CDP, 의존성 0). 축하 스플래시 ?cheer=0, 라이브 백엔드 차단.
+//   · (2026-09-20) 묶음이 2종(애니모 86 · 쿠키런 26)이 된 뒤의 기준으로 갱신 — 애니모 = 희귀도 없음 → 포지션 칩 + 스탯 정렬 경로, 쿠키런 = 희귀도 칩 경로.
 //   · 1920×1080: 사이드 레일(≥1620 · 판 1080 전폭) → 도구 로드(폭 693·2배 캔버스) → 작업대(뷰포트 높이·내보내기 줄 보임) → 기본 보드(S~C·빈 슬롯 14)
 //               → 제목·파일명 → 디자인 2종(제목 띠 실색) → 헥스 입력 → 타일 모양 5 → 한 줄 수 → 항목 추가·모노그램 → ▲▼·셀렉트 → 캔버스 드래그(실제 마우스)
 //               → 클릭 선택 → 티어 추가/삭제·되돌리기 → 빈 티어 «+» → 리소스 서랍(목록·필터·클릭 추가·끌어 놓기·재방문 유지) → PNG 2배 → 라벨·포커스·히트존 → 탭 이탈/복귀 → 콘솔 0
@@ -140,7 +141,7 @@ chk('빈 슬롯 그려짐', (await cvVar(96, L0.bands[0].pl.y + 4, 135, 120)) > 
 const resBtn = await ev(`(()=>{const b=document.getElementById('tiResOpen'),t=document.getElementById('tiTitle'),ct=document.querySelector('.tier-ctl');if(!b||!t)return null;const rb=b.getBoundingClientRect(),rt=t.getBoundingClientRect(),rc=ct.getBoundingClientRect();return{h:Math.round(rb.height),w:Math.round(rb.width),ctlInner:Math.round(rc.width)-36,aboveTitle:rb.bottom<=rt.top,inItemHead:!!document.querySelector('.tier-st #tiResOpen'),n:(document.getElementById('tiResN')||{}).textContent||'',bg:getComputedStyle(b).backgroundColor}})()`);
 chk('리소스 불러오기 = 제목 위 · 전폭 · 48px · 잉크 채움', resBtn && resBtn.h === 48 && resBtn.aboveTitle && !resBtn.inItemHead && Math.abs(resBtn.w - resBtn.ctlInner) <= 2 && /rgb\(14, 17, 20\)/.test(resBtn.bg), resBtn);
 chk('리소스 버튼 라벨은 1줄 고정(1920)', await ev(`(()=>{const b=document.querySelector('.tier-res-cta b');return Math.round(b.getBoundingClientRect().height)<=26})()`), await ev(`Math.round(document.querySelector('.tier-res-cta b').getBoundingClientRect().height)`));
-chk('버튼이 묶음을 미리 보여 준다(쿠키런: 크럼블 26)', await waitFor(`/크럼블/.test((document.getElementById('tiResN')||{}).textContent||'')`, 5000), resBtn && resBtn.n);
+chk('버튼이 묶음을 미리 보여 준다(묶음 2종 → «2 게임»)', await waitFor(`/^2 게임$/.test(((document.getElementById('tiResN')||{}).textContent||'').trim())`, 5000), resBtn && resBtn.n);   /* 묶음 1개면 «게임명 개수», 여럿이면 «N 게임» */
 chk('검사 문구에 «양식»·«빈 슬롯 14»', await ev(`(()=>{const t=document.getElementById('tiChk').textContent;return t.includes('양식')&&t.includes('14')})()`), await ev(`document.getElementById('tiChk').textContent`));
 await shot('01-tier-default-1920');
 
@@ -281,8 +282,23 @@ chk('정리 → 4단계', (await state()).board.tiers.length === 4);
 /* 리소스 서랍 */
 await click('#tiResOpen'); await sleep(200);
 await waitFor(`document.querySelectorAll('#tiResG .tier-rc').length>0`, 8000);
-const rs = await ev(`(()=>{const sel=document.getElementById('tiResB');return{hidden:document.getElementById('tiRes').hidden,opts:[...sel.options].map(o=>o.textContent),cards:document.querySelectorAll('#tiResG .tier-rc').length,chips:[...document.querySelectorAll('#tiResF .chip')].map(c=>c.textContent.trim()),firstImgW:document.querySelector('#tiResG .tier-rc img').getBoundingClientRect().width}})()`);
-chk('리소스 서랍 열림 · 쿠키런: 크럼블 26 · 카드 26 · 희귀도 칩', rs && !rs.hidden && rs.opts.length === 1 && rs.opts[0].includes('쿠키런: 크럼블') && rs.cards === 26 && rs.chips.length === 3 && rs.firstImgW === 64, rs);
+const drawer = () => ev(`(()=>{const sel=document.getElementById('tiResB'),ss=document.getElementById('tiResS');return{hidden:document.getElementById('tiRes').hidden,opts:[...sel.options].map(o=>o.textContent),bundle:sel.value,cards:document.querySelectorAll('#tiResG .tier-rc').length,chips:[...document.querySelectorAll('#tiResF .chip')].map(c=>c.textContent.trim()),sortHidden:ss.hidden,sortOpts:[...ss.options].map(o=>o.textContent),firstImgW:document.querySelector('#tiResG .tier-rc img').getBoundingClientRect().width,firstName:document.querySelector('#tiResG .tier-rc b').textContent,firstSub:(document.querySelector('#tiResG .tier-rc i')||{}).textContent||''}})()`);
+/* (2026-09-20) 묶음이 둘 이상이다 — 첫 묶음은 애니모(희귀도 없음 → 포지션 칩 + 스탯 정렬) */
+const ra = await drawer();
+chk('리소스 서랍 열림 · 묶음 2종 · 첫 묶음 애니모 86 · 포지션 칩 6(전체+5)', ra && !ra.hidden && ra.opts.length === 2 && ra.opts[0].includes('애니모') && ra.opts[1].includes('쿠키런: 크럼블') && ra.bundle === 'aniimo' && ra.cards === 86 && ra.chips.length === 6 && ra.firstImgW === 64, ra);
+chk('스탯 있는 묶음 → 정렬 셀렉트 노출 · 카드 아래 줄 = 포지션', ra && !ra.sortHidden && ra.sortOpts.length === 8 && ra.firstName === '탄멍멍' && ra.firstSub === '딜', ra && { sortHidden: ra.sortHidden, sortOpts: ra.sortOpts, firstSub: ra.firstSub });
+await click('#tiResF .chip[data-r="격파"]'); await sleep(300);
+const rb = await drawer();
+chk('포지션 «격파» 필터 → 26장', rb.cards === 26, rb.cards);
+await ev(`(()=>{const s=document.getElementById('tiResS');s.value='atk';s.dispatchEvent(new Event('change'));})()`); await sleep(350);
+const rc2 = await drawer();
+chk('공격 높은 순 정렬 → 격파 1위 볼트밍 100 · 부제에 수치', rc2.firstName === '볼트밍' && rc2.firstSub === '격파 · 100', rc2 && { n: rc2.firstName, s: rc2.firstSub });
+await shot('05a-tier-res-aniimo-1920');
+/* 쿠키런 묶음으로 전환 — 희귀도 칩 경로(정렬 셀렉트 없음) */
+await ev(`(()=>{const s=document.getElementById('tiResB');s.value='cookierun-crumble';s.dispatchEvent(new Event('change'));})()`);
+await waitFor(`document.querySelectorAll('#tiResG .tier-rc').length===26`, 8000);
+const rs = await drawer();
+chk('쿠키런: 크럼블 26 · 카드 26 · 희귀도 칩 · 정렬 셀렉트 숨김', rs && rs.bundle === 'cookierun-crumble' && rs.cards === 26 && rs.chips.length === 3 && rs.sortHidden && rs.firstImgW === 64, rs);
 await shot('05-tier-resources-1920');
 await click('#tiResF .chip[data-r="TSSR"]'); await sleep(300);
 chk('TSSR 필터 → 3장', (await ev(`document.querySelectorAll('#tiResG .tier-rc').length`)) === 3);
@@ -372,7 +388,7 @@ const thHit = await ev(`(()=>{const e=document.querySelector('.tier-th');const r
 chk('항목 그림 버튼 히트존 ≥ 40×40(오른쪽 입력칸 쪽은 안 넓힘)', thHit && thHit.w >= 40 && thHit.h >= 40, thHit);
 await shot('09-tier-390');
 await click('#tiResOpen'); await sleep(300); await waitFor(`document.querySelectorAll('#tiResG .tier-rc').length>0`, 8000);
-chk('모바일 리소스 서랍(정적 배치) 카드 보임', (await ev(`document.querySelectorAll('#tiResG .tier-rc').length`)) === 26 && await ev(`getComputedStyle(document.getElementById('tiRes')).position==='static'`));
+chk('모바일 리소스 서랍(정적 배치) 카드 보임', (await ev(`document.querySelectorAll('#tiResG .tier-rc').length`)) === 86 && await ev(`getComputedStyle(document.getElementById('tiRes')).position==='static'`));   /* 기본 묶음 = index.json 첫 항목(애니모 86) */
 await shot('10-tier-390-res');
 chk('[390] 콘솔 예외 0', logs.length === 0, logs);
 

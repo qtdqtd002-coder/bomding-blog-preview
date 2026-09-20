@@ -13,6 +13,9 @@
  *    ⑦ 작업대 구조 — 판이 뷰포트 높이에 맞고(왼쪽 보드·오른쪽 편집 열이 각자 스크롤), 내보내기는 보드 아래 고정 줄. 항목이 늘어도 화면이 길어지지 않는다.
  *    ⑧ 리소스 묶음 — _toolbox/tier/res/<게임>/manifest.json(+512² webp, _tools/tier-res.mjs 가 생성). «리소스 불러오기» 서랍에서 클릭=선택 티어에 추가, 끌어서 보드에 놓기.
  *       리소스로 넣은 항목은 res 참조가 저장돼 새로고침에도 그림이 남는다(손수 넣은 그림은 메모리만).
+ *       (2026-09-20) **분류 칩은 희귀도가 없으면 포지션(role)으로 떨어진다** — 애니모처럼 희귀도 개념이 없는 묶음도 걸러진다.
+ *       묶음이 `stats`(HP·무력화·공격·마법 방어·물리 방어·에너지 회복·속성치)를 들고 있으면 머리줄에 **정렬 셀렉트**가 뜨고, 카드 아래 줄에 그 수치를 같이 적는다.
+ *       수치 출처는 manifest 의 `stats_source` — 애니모는 공식 위키 도감(출시판) 기준값이라 레벨·잠재력·장착 아이템은 반영 전이다.
  *    ⑨ 티어 프리셋 삭제 — 기본 S·A·B·C 4단계.  ⑩ 부제 삭제 — 제목(게임 이름)은 가운데 정렬 «제목 띠»로 따로 둔다.
  *  v2.2(09-07 4차 지시 «봄딩·영도 프로필을 다른 포즈로 시그니처처럼»): 바닥 오른쪽에 **작성자 시그니처 스티커**(디자인별 1장 · 높이 96 · 구분선 위로 34 걸침).
  *    자산 = tier/sig/<design>.webp — 각 작성자 아바타를 -Ref 로 나노바나나 생성(봄딩=클립보드+윙크 / 영도=팔짱+설명, 축하 스플래시 포즈와 겹치지 않게) 후 배경 키잉.
@@ -718,7 +721,7 @@ function loadJsonFile(f){
 }
 
 /* ── 리소스 묶음 ── */
-var RES={index:null,cache:{},open:false,bundle:'',filter:'',pending:null};
+var RES={index:null,cache:{},open:false,bundle:'',filter:'',sort:'',pending:null};
 function resIndex(){
   if(RES.index)return Promise.resolve(RES.index);
   if(RES.pending)return RES.pending;
@@ -733,12 +736,23 @@ function resBundle(id){
   return fetch(RES_BASE+id+'/manifest.json',{cache:'no-cache'}).then(function(r){ if(!r.ok)throw new Error(r.status); return r.json(); }).then(function(m){
     var chars=(m&&Array.isArray(m.characters)?m.characters:[]).filter(function(c){ return c&&/^[A-Za-z0-9_-]+$/.test(c.id||'')&&/^[A-Za-z0-9_.-]+$/.test(c.file||''); });
     var map={}; chars.forEach(function(c){ map[c.id]=c; });
-    var rar=[]; chars.forEach(function(c){ if(c.rarity&&rar.indexOf(c.rarity)<0)rar.push(c.rarity); });
-    RES.cache[id]={id:id,game:m.game||id,updated:m.updated||'',source:m.source||null,chars:chars,map:map,rarities:rar};
+    /* 분류 칩 = 희귀도가 있으면 희귀도, 없으면 포지션(role). 애니모처럼 희귀도가 없는 묶음도 칩으로 걸러진다 */
+    var rar=[]; chars.forEach(function(c){ var g=resGrp(c); if(g&&rar.indexOf(g)<0)rar.push(g); });
+    var hs=chars.some(function(c){ return c.stats&&typeof c.stats.total==='number'; });
+    RES.cache[id]={id:id,game:m.game||id,updated:m.updated||'',source:m.source||null,chars:chars,map:map,rarities:rar,hasStats:hs,statLabels:(m.stats_source&&m.stats_source.labels)||null};
     return RES.cache[id];
   });
 }
 function usedRes(){ var u={}; ST.tiers.forEach(function(t){ t.items.forEach(function(i){ if(i.res)u[i.res.b+'/'+i.res.c]=1; }); }); return u; }
+/* 카드 아래 줄·칩에 쓰는 분류(희귀도 우선, 없으면 포지션) */
+function resGrp(c){ return (c&&(c.rarity||c.role))||''; }
+/* 정렬 키: '' = 묶음 순서, 그 외 = stats 의 키(내림차순) */
+var RES_SORTS=[['','번호순'],['total','속성치'],['atk','공격'],['break','무력화'],['hp','HP'],['regen','에너지 회복'],['mdef','마법 방어'],['pdef','물리 방어']];
+function resSortOpts(b){
+  var lb=b.statLabels||{};
+  return RES_SORTS.filter(function(s){ return !s[0]||typeof (b.chars[0].stats||{})[s[0]]==='number'; })
+    .map(function(s){ return '<option value="'+esc(s[0])+'"'+(RES.sort===s[0]?' selected':'')+'>'+esc(s[0]?(lb[s[0]]||s[1])+' 높은 순':s[1])+'</option>'; }).join('');
+}
 function openRes(){
   var box=$('tiRes'); if(!box)return; RES.open=true; box.hidden=false;
   var g=$('tiResG'); g.innerHTML='<div class="tier-res-empty">리소스 목록을 읽는 중</div>';
@@ -757,14 +771,18 @@ function loadResGrid(){
   return resBundle(RES.bundle).then(function(b){
     if(!RES.open)return;
     var chips=$('tiResF'); var rar=b.rarities;
-    chips.innerHTML=(rar.length>1?['<button type="button" class="chip'+(RES.filter===''?' on':'')+'" data-r="" aria-pressed="'+(RES.filter==='')+'">전체 <span class="n">'+b.chars.length+'</span></button>'].concat(rar.map(function(r){ var c=b.chars.filter(function(x){ return x.rarity===r; }).length; return '<button type="button" class="chip'+(RES.filter===r?' on':'')+'" data-r="'+esc(r)+'" aria-pressed="'+(RES.filter===r)+'">'+esc(r)+' <span class="n">'+c+'</span></button>'; })).join(''):'');
+    chips.innerHTML=(rar.length>1?['<button type="button" class="chip'+(RES.filter===''?' on':'')+'" data-r="" aria-pressed="'+(RES.filter==='')+'">전체 <span class="n">'+b.chars.length+'</span></button>'].concat(rar.map(function(r){ var c=b.chars.filter(function(x){ return resGrp(x)===r; }).length; return '<button type="button" class="chip'+(RES.filter===r?' on':'')+'" data-r="'+esc(r)+'" aria-pressed="'+(RES.filter===r)+'">'+esc(r)+' <span class="n">'+c+'</span></button>'; })).join(''):'');
     if(RES.filter&&rar.indexOf(RES.filter)<0)RES.filter='';
-    var used=usedRes(), shown=b.chars.filter(function(c){ return !RES.filter||c.rarity===RES.filter; });
+    var sel=$('tiResS');
+    if(sel){ if(b.hasStats){ sel.hidden=false; sel.innerHTML=resSortOpts(b); } else { sel.hidden=true; sel.innerHTML=''; RES.sort=''; } }
+    var used=usedRes(), shown=b.chars.filter(function(c){ return !RES.filter||resGrp(c)===RES.filter; });
+    if(RES.sort&&b.hasStats)shown=shown.slice().sort(function(x,y){ return ((y.stats||{})[RES.sort]||0)-((x.stats||{})[RES.sort]||0); });
     g.innerHTML=shown.length?shown.map(function(c){
-      var k=b.id+'/'+c.id;
-      return '<button type="button" class="tier-rc'+(used[k]?' used':'')+'" data-b="'+esc(b.id)+'" data-c="'+esc(c.id)+'" aria-label="'+esc(c.name+(c.rarity?' · '+c.rarity:'')+(used[k]?' · 보드에 있음':''))+'">'+
-        '<img src="'+esc(RES_BASE+b.id+'/'+c.file)+'" alt="" loading="lazy" draggable="false"><b>'+esc(c.name)+'</b>'+(c.rarity?'<i>'+esc(c.rarity)+'</i>':'')+'</button>';
-    }).join(''):'<div class="tier-res-empty">해당 희귀도 리소스가 없어요</div>';
+      var k=b.id+'/'+c.id, grp=resGrp(c), sv=RES.sort&&c.stats?c.stats[RES.sort]:null;
+      var sub=grp+(typeof sv==='number'?(grp?' · ':'')+sv:'');
+      return '<button type="button" class="tier-rc'+(used[k]?' used':'')+'" data-b="'+esc(b.id)+'" data-c="'+esc(c.id)+'" aria-label="'+esc(c.name+(sub?' · '+sub:'')+(used[k]?' · 보드에 있음':''))+'">'+
+        '<img src="'+esc(RES_BASE+b.id+'/'+c.file)+'" alt="" loading="lazy" draggable="false"><b>'+esc(c.name)+'</b>'+(sub?'<i>'+esc(sub)+'</i>':'')+'</button>';
+    }).join(''):'<div class="tier-res-empty">해당 분류 리소스가 없어요</div>';
     var meta=$('tiResM'); if(meta)meta.textContent=(b.updated?b.updated+' 기준':'')+(shown.length!==b.chars.length?' · '+shown.length+'/'+b.chars.length:'');
   }).catch(function(){ g.innerHTML='<div class="tier-res-empty">묶음을 읽지 못했어요</div>'; });
 }
@@ -874,8 +892,9 @@ function html(){
       '</div>'+
       '<div class="tier-res" id="tiRes" hidden>'+
         '<div class="tier-res-h"><button type="button" class="tier-ib" id="tiResBack" aria-label="편집으로 돌아가기">'+ic('back')+'</button><b>리소스</b>'+
-          '<select class="tier-sel" id="tiResB" aria-label="게임"></select><span class="tier-cnt" id="tiResM"></span></div>'+
-        '<div class="tier-res-f" id="tiResF" role="group" aria-label="희귀도"></div>'+
+          '<select class="tier-sel" id="tiResB" aria-label="게임"></select>'+
+          '<select class="tier-sel" id="tiResS" aria-label="정렬" hidden></select><span class="tier-cnt" id="tiResM"></span></div>'+
+        '<div class="tier-res-f" id="tiResF" role="group" aria-label="분류"></div>'+
         '<div class="tier-res-g" id="tiResG"></div>'+
       '</div>'+
     '</section>'+
@@ -1091,7 +1110,8 @@ function bindEditor(){
   /* 리소스 */
   $('tiResOpen').addEventListener('click',openRes);
   $('tiResBack').addEventListener('click',closeRes);
-  $('tiResB').addEventListener('change',function(){ RES.bundle=this.value; RES.filter=''; loadResGrid(); });
+  $('tiResB').addEventListener('change',function(){ RES.bundle=this.value; RES.filter=''; RES.sort=''; loadResGrid(); });
+  $('tiResS').addEventListener('change',function(){ RES.sort=this.value||''; loadResGrid(); });
   $('tiResF').addEventListener('click',function(e){ var b=e.target.closest('.chip'); if(!b)return; RES.filter=b.dataset.r||''; loadResGrid(); });
   bindResDrag();
   /* 내보내기 */
@@ -1181,7 +1201,7 @@ window.SseudamTools.tier={
     layout:function(){ return LAY?{H:LAY.H,tw:LAY.tw,th:LAY.th,nfs:LAY.nfs,hd:{y:LAY.hd.y,h:LAY.hd.h},ft:{y:LAY.ft.y,h:LAY.ft.h,sig:LAY.ft.sig?{x:LAY.ft.sig.x,y:LAY.ft.sig.y,w:LAY.ft.sig.w,h:LAY.ft.sig.h,rot:LAY.ft.sig.rot||0}:null},bands:LAY.bands.map(function(b){ return {ti:b.ti,y:b.y,h:b.h,tiles:b.tiles.length,pl:b.pl}; })}:null; },
     dropTarget:function(x,y){ return dropTarget(x,y); },
     setImageURL:function(id,url){ return setImageURL(id,url,false); },
-    openRes:function(){ openRes(); return resIndex(); }, closeRes:closeRes, res:function(){ return {open:RES.open,bundle:RES.bundle,filter:RES.filter,bundles:RES.index}; },
+    openRes:function(){ openRes(); return resIndex(); }, closeRes:closeRes, res:function(){ return {open:RES.open,bundle:RES.bundle,filter:RES.filter,sort:RES.sort,bundles:RES.index}; },
     fileName:fileName, paint:function(){ paint(); return LAY&&LAY.H; },
     blob:function(){ return toBlob().then(function(b){ return b?{size:b.size,type:b.type}:null; }); },
     dataURL:function(){ return exportCanvas().toDataURL('image/png'); },
