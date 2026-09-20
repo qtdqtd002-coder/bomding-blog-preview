@@ -1,0 +1,362 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>애니모 진화 조건 총정리, 분기 진화 16계열 갈리는 법과 진화석 얻는 법</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;table-layout:fixed;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:7px 8px;text-align:left;overflow-wrap:anywhere;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13px;table-layout:fixed;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:6px 7px;text-align:center;vertical-align:middle;overflow-wrap:anywhere;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임공략</div>
+    <h1 class="title">애니모 진화 조건 총정리, 분기 진화 16계열 갈리는 법과 진화석 얻는 법</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.09.20</span><span>· 게임</span></div>
+
+    <p>애니모 도감을 채우다 보면 다들 한 번씩 부딪히는 게 분기 진화인데요, 저도 화르랑 키우다가 '이글랑이랑 헬울프 둘 다 갖고 싶은데' 싶어 한참 헤맸거든요. 그래서 계열마다 흩어진 분기 진화 조건을 한 판에 모아봤어요.</p>
+    <p>이번 글은 앞으로 쓸 애니모 진화 글들의 지도예요. 어떤 계열이 어떻게 갈리는지, 진화석은 어디서 구하는지 모아두고, 계열별 심화는 따로 풀어볼게요.</p>
+
+    <h2 class="sub">애니모 진화 조건이 대체 뭐길래 이렇게 헷갈릴까요?</h2>
+    <p><b>애니모 진화 조건은 크게 7가지 유형으로 나눠볼 수 있습니다.</b> Game8이 정리해둔 분류틀인데요<span class="chk">🔍 Game8 분류(비공식)</span>, 비공식이어도 조건 문구는 위키·팬 도감·커뮤니티 교차 확인값이에요.</p>
+    <ul>
+      <li><b>레벨만</b> — 지정 레벨만 채우면 조건 끝</li>
+      <li><b>레벨+진화석</b> — 레벨 채운 뒤 진화석 1개(또는 조합)를 소모</li>
+      <li><b>여정·지하 궁전 클리어</b> — 스토리 퀘스트·던전 클리어</li>
+      <li><b>패시브 어빌리티 습득</b> — 특정 패시브를 미리 배워둬야 함</li>
+      <li><b>시간대</b> — 낮·밤처럼 정해진 시간에 특정 행동을 해야 함</li>
+      <li><b>엘리트·보스 처치</b> — 같은 계열 엘리트·보스급을 직접 잡아야 함</li>
+      <li><b>종 고유의 장소·행동</b> — 특정 지형·자세·파티 구성 같은 그 종만의 조건</li>
+    </ul>
+
+    <h2 class="sub">분기 진화, 두 갈래를 한 마리로 다 가질 수 있을까요?</h2>
+    <p><b>아니요, 못 가져요 — 두 진화체는 순서가 아니라 '평행'이라, 한쪽으로 진화시키면 다른 쪽은 영영 못 얻어요.</b> 화르랑이 이글랑·헬울프로 갈리는 게 대표적인데, 이글랑 다음이 헬울프가 아니라 화르랑에서 곧장 두 갈래로 갈려요.</p>
+    <p><b>둘 다 갖고 싶으면 진화 전 개체를 2마리 준비해 각각 다른 쪽으로 진화시키는 수밖에 없어요.</b> 미리 정해두고, 욕심나면 한 마리 더 챙겨두세요. 이 평행 구조는 해외 공략 사이트 여러 곳이 공통으로 적어 믿을 만해요.</p>
+
+    <h2 class="sub">16계열 분기 진화 조건, 한 판에 정리해봤어요</h2>
+    <p>정리한 표는 공식 위키 진화 루트에 팬 도감 모아니모·해외 확인처를 교차해 채운 조건이에요(9/20 기준·<b>공식 위키는 조건 미기재</b>라 전부 팬 도감·커뮤니티 값). 표의 <b>🔵</b>는 해외 사이트·커뮤니티 여러 곳이 같은 내용을 말하는 항목이고요, <b>✅</b>는 공식·인게임에서 직접 확인한 항목이에요. 표시가 따로 없는 나머지는 한 곳에서만 확인된 값이라고 보시면 돼요.</p>
+    <table class="tbl">
+      <tr><th>계열</th><th>진화체</th><th>레벨</th><th>추가 조건</th><th>소모 아이템</th></tr>
+      <tr><td rowspan="2">화르랑</td><td>이글랑</td><td>20</td><td>이글랑 엘리트 처치</td><td>화염석×1</td></tr>
+      <tr><td>헬울프</td><td>20</td><td>여정 〈투사〉 완료 ✅</td><td>늑대의 영혼×6+어둠석×1</td></tr>
+      <tr><td rowspan="3">호루매기</td><td>롬본이</td><td>18</td><td>HP 후천 어빌리티 6P+, 패시브[신비한 나팔] 습득</td><td>질풍석×1</td></tr>
+      <tr><td>럼펫이</td><td>18</td><td>-</td><td>질풍석×1</td></tr>
+      <tr><td>튜바얌</td><td>18</td><td>튜바얌 엘리트 처치, 무력화 후천 어빌리티 6P+</td><td>질풍석×1</td></tr>
+      <tr><td rowspan="2">장꾸모리</td><td>아이시우스</td><td>20</td><td>-</td><td>물결석×1</td></tr>
+      <tr><td>연잎룡</td><td>20</td><td>연잎룡 엘리트 처치, 서식 연잎 위 위치</td><td>녹초석×1</td></tr>
+      <tr><td rowspan="2">뭉게양</td><td>몽실양</td><td>21</td><td>몽실양 엘리트 처치</td><td>질풍석×1</td></tr>
+      <tr><td>쿨쿨양</td><td>21</td><td>파티 포함, 밤~낮 함께 휴식, 패시브[안식의 선율] 🔵</td><td>어둠석×1</td></tr>
+      <tr><td rowspan="2">삑삑초</td><td>위치햇그라스</td><td>12</td><td>지하 궁전 «비바람» 클리어</td><td>-</td></tr>
+      <tr><td>굴파미</td><td>18</td><td>굴파미 엘리트 처치, 지하궁전에서 1분 뿌리 내리기</td><td>녹초석×1</td></tr>
+      <tr><td rowspan="2">싹크랩</td><td>풀크랩</td><td>21</td><td>풀크랩 엘리트 처치</td><td>빙결석×1</td></tr>
+      <tr><td>스탈크랩</td><td>21</td><td>스탈크랩 엘리트 처치, 성격[T] 보유</td><td>빙결석×1</td></tr>
+      <tr><td rowspan="2">울먹팡</td><td>로즈펜서(위키 표기: 콕콕바라)</td><td>27</td><td>울먹팡 1마리 파티로 로즈펜서 처치</td><td>녹초석×1</td></tr>
+      <tr><td>플로리안</td><td>27</td><td>여정 〈꽃과 가시〉 완료, 성격[F] 보유</td><td>녹초석×1+몽환 장미 꽃술×1</td></tr>
+      <tr><td rowspan="2">라라에그</td><td>붐테일자드</td><td>25</td><td>-</td><td>녹초석×1</td></tr>
+      <tr><td>썬더자드</td><td>25</td><td>[애니모 발견왕] 이벤트 퀘스트 완료 ✅</td><td>번개석×1</td></tr>
+      <tr><td rowspan="2">싹뚜기</td><td>서걱리퍼</td><td>29</td><td>동일 형태 싹뚜기 3마리 연속 처치</td><td>어둠석×1</td></tr>
+      <tr><td>볼트맨티스(위키 표기: 썬더스퀵)</td><td>29</td><td>스팅 소울 아이템 보유 🔵</td><td>번개석×1</td></tr>
+      <tr><td rowspan="2">보글달</td><td>둔둔달</td><td>39</td><td>둔둔달 엘리트 처치</td><td>물결석×1</td></tr>
+      <tr><td>둥실달</td><td>39</td><td>이성 수줍달에게 다가가 따라오게 유도</td><td>물결석×1</td></tr>
+      <tr><td rowspan="2">데굴굴</td><td>모터터</td><td>39</td><td>데구르르 레이스 챌린지 클리어</td><td>대지석×1</td></tr>
+      <tr><td>록볼볼</td><td>39</td><td>록볼볼 엘리트 처치, 패시브[기묘한 암석]</td><td>대지석×1</td></tr>
+      <tr><td rowspan="2">투구누니</td><td>누니용사</td><td>45</td><td>"용기의 검을 뽑아야 합니다." 🔵</td><td>어둠석×1</td></tr>
+      <tr><td>아머누니</td><td>45</td><td>전방위 방어 중 반격으로 처치, 패시브[부동의 성벽]</td><td>어둠석×1</td></tr>
+      <tr><td rowspan="2">갸면뇽</td><td>갸고일</td><td>48</td><td>월드 보물 상자 누적 30개 오픈</td><td>질풍석×1</td></tr>
+      <tr><td>갸갑파이어</td><td>48</td><td>갸갑파이어 보스 처치, 어빌리티 평가 샤이닝 스타</td><td>화염석×1</td></tr>
+      <tr><td rowspan="2">록키</td><td>라바크</td><td>38</td><td>-</td><td>-</td></tr>
+      <tr><td>크리스톤</td><td>38</td><td>-</td><td>-</td></tr>
+    </table>
+    <p>록키 계열은 <b>38레벨만 채우면 라바크나 크리스톤으로 갈라지고 다른 조건은 없어요.</b> 다음 단계에서 라바크는 마그라곤(엘리트 처치+온천욕, 화염석×1), 크리스톤은 크리스바인(엘리트 처치, 대지석×1)으로 한 번 더 진화하는 2단 구조예요.</p>
+    <p>참고로 <b>풀크랩</b>은 땅/풀 속성인데 표엔 빙결석이 필요하다고 나와요. 해외 사이트에는 같은 자리가 <b>대지석</b>으로 적혀 있고 빙결석은 얼음 속성인 스탈크랩 쪽이라, 팬 도감이 두 줄을 같은 돌로 잘못 옮겼을 가능성이 커요 — 빙결석부터 모으지 마시고 진화창에서 한 번 더 확인해보세요.</p>
+    <p>표엔 14계열만 나오는데 사실 분기 계열은 16개예요. 래빗배트·라이트밍 계열이 하나씩 더 있는데, 각각 분기 하나는 위키에 한국어 이름 없이 중국어 원문만 남아 표에서 뺐어요. 다만 래빗배트 쪽 디텍배트는 애니모 25레벨을 채우고 공격 후천 어빌리티를 6포인트 이상 올리면 되고, 라이트밍 쪽 볼트밍도 이름·조건이 모두 확인됐으니 나머지 한쪽씩만 아직인 셈이에요. 디텍배트는 소모 아이템이 팬 도감엔 안 적혀 있는데, 해외 사이트에는 질풍석×1이 든다고 나와 있어요.</p>
+
+    <h2 class="sub">엘리트·보스를 잡아야 갈라지는 조건</h2>
+    <p>가장 흔한 조건이에요. <b>같은 계열 '엘리트'나 '보스'급 개체를 직접 잡아야</b> 진화가 열리는데, 정확한 대상·레벨은 위 표에서 확인하세요.</p>
+
+    <!-- 이미지 이유: 엘리트·보스 처치 조건 절에 어울리는, 대형 보스급 애니모와 실제 전투 중인 장면 / 출처: https://store.steampowered.com/app/4126040 / 분류: A형(스팀 스토어 공개 스크린샷) -->
+    <div class="imgwrap"><img src="img/01_boss_elite_fight.jpg" width="1200" height="675" alt="애니모 밤 유적에서 불과 얼음 날개를 가진 대형 보스급 애니모와 전투 중인 장면, 우측에 파티 애니모 4체 아이콘"></div>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4126040" target="_blank">애니모 스팀 스토어 페이지</a></p>
+    <p class="cap">밤 유적 같은 데서 이런 보스급이랑 마주치면 반갑다기보단 좀 쫄리는데, 진화 조건 채우려고 일부러 찾아다녀야 하는 계열도 꽤 있던데요.</p>
+
+    <h2 class="sub">시간대가 걸리는 조건도 있어요</h2>
+    <p>시간대까지 걸리는 조건은 흔치 않은데, <b>쿨쿨양</b>이 대표적이에요. 파티와 밤부터 낮까지 휴식해야 하는데, 같은 뭉게양의 몽실양은 엘리트만 잡으면 되니 조건이 꽤 달라요.</p>
+
+    <!-- 이미지 이유: 시간대·날씨 조건 절에 어울리는, 비가 내리는 유적에서 보스와 전투하는 장면 / 출처: https://store.steampowered.com/app/4126040 / 분류: A형(스팀 스토어 공개 스크린샷) -->
+    <div class="imgwrap"><img src="img/02_rain_night_boss.jpg" width="1200" height="675" alt="비가 내리는 유적에서 붉은 박쥐형 보스와 빛 검 스킬 이펙트가 펼쳐지는 전투 장면"></div>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4126040" target="_blank">애니모 스팀 스토어 페이지</a></p>
+    <p class="cap">비 오는 날 유적 분위기가 이런 느낌인데, 시간대 조건 채우려고 기다려본 분들은 이 그림이 무슨 뜻인지 아실 거예요.</p>
+
+    <h2 class="sub">종마다 정해진 장소에서만 되는 조건</h2>
+    <p>장소가 정해진 계열도 있어요. <b>연잎룡</b>은 연잎룡 엘리트가 서식하는 거대한 연잎 위에 있어야 하고, <b>볼트밍</b>은 라이트밍 33레벨에 볼트밍 엘리트를 처치하고 뇌전의 숲 뇌전 나무 아래에 서 있어야 하는데, 번개석×1까지 들어요.</p>
+
+    <!-- 이미지 이유: 종 고유의 장소 조건 절에 어울리는, 원소별로 지형이 다른 월드 전경 / 출처: https://store.steampowered.com/app/4126040 / 분류: A형(스팀 스토어 공개 스크린샷) -->
+    <div class="imgwrap"><img src="img/03_world_overview.jpg" width="1200" height="675" alt="애니모 월드 전경 — 설산과 활화산과 숲과 바다가 한 화면에 담긴 모습"></div>
+    <p class="src">이미지: <a href="https://store.steampowered.com/app/4126040" target="_blank">애니모 스팀 스토어 페이지</a></p>
+    <p class="cap">애니모 지역이 이렇게 원소별로 지형이 확 갈리다 보니, 계열마다 '되는 자리'가 다른 게 이해는 가더라고요.</p>
+
+    <h2 class="sub">진화에는 아이템도 든다는 거, 알고 계셨나요?</h2>
+    <p><b>애니모 진화는 대부분 레벨만으로 끝나지 않고 진화석 같은 소모 아이템이 함께 들어요.</b> 9월 18일 패치노트가 '[펀치테일]의 진화에 소모되는 아이템 종류를 조정'했다고 밝혔으니 확실한 사실입니다.<span class="chk">✅ 공식(9/18 패치노트)</span> 대부분 진화석 1개, 몇몇은 특수 재료까지 필요해요.</p>
+
+    <h2 class="sub">진화석 10종, 이렇게 정리돼 있어요</h2>
+    <p>정리해보니 진화석 이름은 이렇게 10종이에요.</p>
+    <ul>
+      <li>화염석 · 물결석 · 질풍석 · 빙결석 · 번개석</li>
+      <li>대지석 · 녹초석 · 어둠석 · 광휘석 · 기원석</li>
+    </ul>
+    <p>이 이름은 팬 도감 표기라 인게임 명칭과 다를 수 있어요.<span class="chk">🔍 팬 도감 표기</span> 구하는 곳은 확실해요 — 「엘리트 도전(진화재료)」에서 같은 원소 엘리트를 처치하면 돼요. 다만 <b>광휘석</b>·<b>기원석</b>은 조건표 53건 어디에도 안 나와요 — 나머지 8종만 등장해요.</p>
+
+    <h2 class="sub">이색 조건 8개, 이건 좀 웃긴데요</h2>
+    <p>'이게 진화 조건이라고?' 싶을 만큼 특이한 것들도 있어요.</p>
+    <ul>
+      <li><b>쿨쿨양</b> — 파티에 넣고 밤부터 낮까지 같이 잠만 자면 돼요</li>
+      <li><b>마그라곤</b> — 온천탕에 들어가서 온천욕을 즐겨야 해요</li>
+      <li><b>둥실달</b> — 이성 수줍달한테 다가가서 따라오게 유도해야 해요</li>
+      <li><b>굴파미</b> — 지하 궁전에서 1분 동안 뿌리 내리기(삑삑초 탐사 스킬 [뿌리 내리기])</li>
+      <li><b>갸고일</b> — 월드 돌아다니며 보물 상자를 누적 30개 열어야 해요</li>
+      <li><b>갸갑파이어</b> — 어빌리티 평가가 '샤이닝 스타'까지 올라가야 해요</li>
+      <li><b>로즈펜서</b> — 울먹팡 한 마리만 편성한 파티로 처치해야 해요</li>
+      <li><b>우스멍</b> — 다른 유저랑 애니모를 1번 교환해야 해요</li>
+    </ul>
+    <p>온천욕이나 같이 잠자기 같은 조건은 처음엔 웃겼는데, 막상 하려니 손이 많이 가겠더라고요 ㅎㅎ.</p>
+
+    <h2 class="sub">앞으로 계열별로 하나씩 더 풀어드릴게요</h2>
+    <p>화르랑→헬울프 갈라지는 조건은 이미 따로 자세히 다뤄뒀어요. 나머지 계열도 파밍처·좌표까지 하나씩 이어서 풀어드릴게요.</p>
+    <p><b>확정된 건 16계열 분기 구조·평행 분기 규칙·진화에 아이템이 든다는 사실</b>이고, <b>아직 확인이 덜 된 건 진화석의 인게임 표기·미공개 분기 2종의 한국어 이름·조건 유형 7분류의 공식 여부</b>예요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 한국어 이름이 아직 없는 분기 계열은 언제 풀리나요?</b><br>래빗배트·라이트밍 계열의 분기 하나씩은 아직 위키에 중국어 이름만 있어서, 정확히 언제 한국어 명칭이 붙을지는 확인이 안 돼요. 로컬라이즈가 더 진행되면 채워질 걸로 보여요.</p>
+    <p><b>Q. 지금 시작해도 웬만한 진화는 다 볼 수 있을까요?</b><br>네, 표에 정리한 레벨 기준이 12레벨부터 48레벨까지 넓게 퍼져 있어서 천천히 키워도 대부분 구경할 수 있어요. 다만 45레벨을 넘는 조건들은 시간이 좀 걸리니까 여유 있게 잡고 가시는 게 좋아요.</p>
+
+    <h2 class="sub">애니모 진화 조건 정리</h2>
+    <p><b>같은 계열의 두 분기는 평행이라 하나를 고르면 다른 하나는 개체를 새로 준비해야 하고, 대부분 레벨+진화석에 엘리트 처치나 특정 행동이 붙는 구조</b>입니다. 표 하나만 저장해두셔도 뭘 준비할지 한눈에 보여요. 천천히 채워가며 참고해보세요!</p>
+
+    <p><b>✔ 애니모 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224416837496" target="_blank">애니모 전투 티어표 정리, 1티어 애니모 추천까지 짚어봤어요</a><br>
+    · <a href="https://blog.naver.com/bomding/224416558171" target="_blank">애니모 캠핑카 생활 티어표 추천, 홈 능력 13종 정리</a><br>
+    · <a href="https://blog.naver.com/bomding/224416350106" target="_blank">애니모 용어 총정리, 천휘 애니모 획득부터 희귀도 평가 차이부터 선천 후천 어빌리티, 옵시디언까지</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://wiki.aniimo.com/ko" target="_blank">애니모 공식 위키</a><br>
+    · <a href="https://www.aniimo.com/ko/main" target="_blank">애니모 공식 홈페이지</a><br>
+    · <a href="https://store.steampowered.com/news/app/4126040" target="_blank">애니모 스팀 공지·패치노트</a></p>
+
+    <div class="tags">#애니모 #Aniimo #애니모진화 #애니모진화조건 #애니모분기진화 #애니모진화석 #애니모공략</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 3분):</b> 📷 <b>사진 3곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 애니모 진화 조건 총정리, 분기 진화 16계열 갈리는 법과 진화석 얻는 법</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>애니모 도감을 채우다 보면 다들 한 번씩 부딪히는 게 분기 진화인데요, 저도 화르랑 키우다가 '이글랑이랑 헬울프 둘 다 갖고 싶은데' 싶어 한참 헤맸거든요. 그래서 계열마다 흩어진 분기 진화 조건을 한 판에 모아봤어요.</p>
+      <p>이번 글은 앞으로 쓸 애니모 진화 글들의 지도예요. 어떤 계열이 어떻게 갈리는지, 진화석은 어디서 구하는지 모아두고, 계열별 심화는 따로 풀어볼게요.</p>
+      <h3>애니모 진화 조건이 대체 뭐길래 이렇게 헷갈릴까요?</h3>
+      <p><b>애니모 진화 조건은 크게 7가지 유형으로 나눠볼 수 있습니다.</b> Game8이 정리해둔 분류틀인데요, 비공식이어도 조건 문구는 위키·팬 도감·커뮤니티 교차 확인값이에요.</p>
+      <ul>
+        <li>레벨만 — 지정 레벨만 채우면 조건 끝</li>
+        <li>레벨+진화석 — 레벨 채운 뒤 진화석 1개(또는 조합)를 소모</li>
+        <li>여정·지하 궁전 클리어 — 스토리 퀘스트·던전 클리어</li>
+        <li>패시브 어빌리티 습득 — 특정 패시브를 미리 배워둬야 함</li>
+        <li>시간대 — 낮·밤처럼 정해진 시간에 특정 행동을 해야 함</li>
+        <li>엘리트·보스 처치 — 같은 계열 엘리트·보스급을 직접 잡아야 함</li>
+        <li>종 고유의 장소·행동 — 특정 지형·자세·파티 구성 같은 그 종만의 조건</li>
+      </ul>
+      <h3>분기 진화, 두 갈래를 한 마리로 다 가질 수 있을까요?</h3>
+      <p><b>아니요, 못 가져요 — 두 진화체는 순서가 아니라 '평행'이라, 한쪽으로 진화시키면 다른 쪽은 영영 못 얻어요.</b> 화르랑이 이글랑·헬울프로 갈리는 게 대표적인데, 이글랑 다음이 헬울프가 아니라 화르랑에서 곧장 두 갈래로 갈려요.</p>
+      <p><b>둘 다 갖고 싶으면 진화 전 개체를 2마리 준비해 각각 다른 쪽으로 진화시키는 수밖에 없어요.</b> 미리 정해두고, 욕심나면 한 마리 더 챙겨두세요. 이 평행 구조는 해외 공략 사이트 여러 곳이 공통으로 적어 믿을 만해요.</p>
+      <h3>16계열 분기 진화 조건, 한 판에 정리해봤어요</h3>
+      <p>정리한 표는 공식 위키 진화 루트에 팬 도감 모아니모·해외 확인처를 교차해 채운 조건이에요(9/20 기준·공식 위키는 조건 미기재라 전부 팬 도감·커뮤니티 값). 표의 🔵는 해외 사이트·커뮤니티 여러 곳이 같은 내용을 말하는 항목이고요, ✅는 공식·인게임에서 직접 확인한 항목이에요. 표시가 따로 없는 나머지는 한 곳에서만 확인된 값이라고 보시면 돼요.</p>
+      <table>
+        <tr><th>계열</th><th>진화체</th><th>레벨</th><th>추가 조건</th><th>소모 아이템</th></tr>
+        <tr><td class="l">화르랑</td><td>이글랑</td><td>20</td><td>이글랑 엘리트 처치</td><td>화염석×1</td></tr>
+        <tr><td class="l">화르랑</td><td>헬울프</td><td>20</td><td>여정 〈투사〉 완료 ✅</td><td>늑대의 영혼×6+어둠석×1</td></tr>
+        <tr><td class="l">호루매기</td><td>롬본이</td><td>18</td><td>HP 후천 어빌리티 6P+, 패시브[신비한 나팔] 습득</td><td>질풍석×1</td></tr>
+        <tr><td class="l">호루매기</td><td>럼펫이</td><td>18</td><td>-</td><td>질풍석×1</td></tr>
+        <tr><td class="l">호루매기</td><td>튜바얌</td><td>18</td><td>튜바얌 엘리트 처치, 무력화 후천 어빌리티 6P+</td><td>질풍석×1</td></tr>
+        <tr><td class="l">장꾸모리</td><td>아이시우스</td><td>20</td><td>-</td><td>물결석×1</td></tr>
+        <tr><td class="l">장꾸모리</td><td>연잎룡</td><td>20</td><td>연잎룡 엘리트 처치, 서식 연잎 위 위치</td><td>녹초석×1</td></tr>
+        <tr><td class="l">뭉게양</td><td>몽실양</td><td>21</td><td>몽실양 엘리트 처치</td><td>질풍석×1</td></tr>
+        <tr><td class="l">뭉게양</td><td>쿨쿨양</td><td>21</td><td>파티 포함, 밤~낮 함께 휴식, 패시브[안식의 선율] 🔵</td><td>어둠석×1</td></tr>
+        <tr><td class="l">삑삑초</td><td>위치햇그라스</td><td>12</td><td>지하 궁전 «비바람» 클리어</td><td>-</td></tr>
+        <tr><td class="l">삑삑초</td><td>굴파미</td><td>18</td><td>굴파미 엘리트 처치, 지하궁전에서 1분 뿌리 내리기</td><td>녹초석×1</td></tr>
+        <tr><td class="l">싹크랩</td><td>풀크랩</td><td>21</td><td>풀크랩 엘리트 처치</td><td>빙결석×1</td></tr>
+        <tr><td class="l">싹크랩</td><td>스탈크랩</td><td>21</td><td>스탈크랩 엘리트 처치, 성격[T] 보유</td><td>빙결석×1</td></tr>
+        <tr><td class="l">울먹팡</td><td>로즈펜서(위키 표기: 콕콕바라)</td><td>27</td><td>울먹팡 1마리 파티로 로즈펜서 처치</td><td>녹초석×1</td></tr>
+        <tr><td class="l">울먹팡</td><td>플로리안</td><td>27</td><td>여정 〈꽃과 가시〉 완료, 성격[F] 보유</td><td>녹초석×1+몽환 장미 꽃술×1</td></tr>
+        <tr><td class="l">라라에그</td><td>붐테일자드</td><td>25</td><td>-</td><td>녹초석×1</td></tr>
+        <tr><td class="l">라라에그</td><td>썬더자드</td><td>25</td><td>[애니모 발견왕] 이벤트 퀘스트 완료 ✅</td><td>번개석×1</td></tr>
+        <tr><td class="l">싹뚜기</td><td>서걱리퍼</td><td>29</td><td>동일 형태 싹뚜기 3마리 연속 처치</td><td>어둠석×1</td></tr>
+        <tr><td class="l">싹뚜기</td><td>볼트맨티스(위키 표기: 썬더스퀵)</td><td>29</td><td>스팅 소울 아이템 보유 🔵</td><td>번개석×1</td></tr>
+        <tr><td class="l">보글달</td><td>둔둔달</td><td>39</td><td>둔둔달 엘리트 처치</td><td>물결석×1</td></tr>
+        <tr><td class="l">보글달</td><td>둥실달</td><td>39</td><td>이성 수줍달에게 다가가 따라오게 유도</td><td>물결석×1</td></tr>
+        <tr><td class="l">데굴굴</td><td>모터터</td><td>39</td><td>데구르르 레이스 챌린지 클리어</td><td>대지석×1</td></tr>
+        <tr><td class="l">데굴굴</td><td>록볼볼</td><td>39</td><td>록볼볼 엘리트 처치, 패시브[기묘한 암석]</td><td>대지석×1</td></tr>
+        <tr><td class="l">투구누니</td><td>누니용사</td><td>45</td><td>"용기의 검을 뽑아야 합니다." 🔵</td><td>어둠석×1</td></tr>
+        <tr><td class="l">투구누니</td><td>아머누니</td><td>45</td><td>전방위 방어 중 반격으로 처치, 패시브[부동의 성벽]</td><td>어둠석×1</td></tr>
+        <tr><td class="l">갸면뇽</td><td>갸고일</td><td>48</td><td>월드 보물 상자 누적 30개 오픈</td><td>질풍석×1</td></tr>
+        <tr><td class="l">갸면뇽</td><td>갸갑파이어</td><td>48</td><td>갸갑파이어 보스 처치, 어빌리티 평가 샤이닝 스타</td><td>화염석×1</td></tr>
+        <tr><td class="l">록키</td><td>라바크</td><td>38</td><td>-</td><td>-</td></tr>
+        <tr><td class="l">록키</td><td>크리스톤</td><td>38</td><td>-</td><td>-</td></tr>
+      </table>
+      <p>록키 계열은 38레벨만 채우면 라바크나 크리스톤으로 갈라지고 다른 조건은 없어요. 다음 단계에서 라바크는 마그라곤(엘리트 처치+온천욕, 화염석×1), 크리스톤은 크리스바인(엘리트 처치, 대지석×1)으로 한 번 더 진화하는 2단 구조예요.</p>
+      <p>참고로 <b>풀크랩</b>은 땅/풀 속성인데 표엔 빙결석이 필요하다고 나와요. 해외 사이트에는 같은 자리가 <b>대지석</b>으로 적혀 있고 빙결석은 얼음 속성인 스탈크랩 쪽이라, 팬 도감이 두 줄을 같은 돌로 잘못 옮겼을 가능성이 커요 — 빙결석부터 모으지 마시고 진화창에서 한 번 더 확인해보세요.</p>
+      <p>표엔 14계열만 나오는데 사실 분기 계열은 16개예요. 래빗배트·라이트밍 계열이 하나씩 더 있는데, 각각 분기 하나는 위키에 한국어 이름 없이 중국어 원문만 남아 표에서 뺐어요. 다만 래빗배트 쪽 디텍배트는 애니모 25레벨을 채우고 공격 후천 어빌리티를 6포인트 이상 올리면 되고, 라이트밍 쪽 볼트밍도 이름·조건이 모두 확인됐으니 나머지 한쪽씩만 아직인 셈이에요. 디텍배트는 소모 아이템이 팬 도감엔 안 적혀 있는데, 해외 사이트에는 질풍석×1이 든다고 나와 있어요.</p>
+      <h3>엘리트·보스를 잡아야 갈라지는 조건</h3>
+      <p>가장 흔한 조건이에요. 같은 계열 '엘리트'나 '보스'급 개체를 직접 잡아야 진화가 열리는데, 정확한 대상·레벨은 위 표에서 확인하세요.</p>
+      <p class="ph">📷 〔사진 자리 1〕 애니모 밤 유적에서 불과 얼음 날개를 가진 대형 보스급 애니모와 전투 중인 장면 — 미리보기의 실제 이미지를 우클릭해서 복사한 뒤 업로드(출처: 애니모 스팀 스토어 페이지)</p>
+      <h3>시간대가 걸리는 조건도 있어요</h3>
+      <p>시간대까지 걸리는 조건은 흔치 않은데, 쿨쿨양이 대표적이에요. 파티와 밤부터 낮까지 휴식해야 하는데, 같은 뭉게양의 몽실양은 엘리트만 잡으면 되니 조건이 꽤 달라요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 비가 내리는 유적에서 붉은 박쥐형 보스와 빛 검 스킬 이펙트가 펼쳐지는 전투 장면 — 미리보기의 실제 이미지를 우클릭해서 복사한 뒤 업로드(출처: 애니모 스팀 스토어 페이지)</p>
+      <h3>종마다 정해진 장소에서만 되는 조건</h3>
+      <p>장소가 정해진 계열도 있어요. 연잎룡은 연잎룡 엘리트가 서식하는 거대한 연잎 위에 있어야 하고, 볼트밍은 라이트밍 33레벨에 볼트밍 엘리트를 처치하고 뇌전의 숲 뇌전 나무 아래에 서 있어야 하는데, 번개석×1까지 들어요.</p>
+      <p class="ph">📷 〔사진 자리 3〕 애니모 월드 전경, 설산과 활화산과 숲과 바다가 한 화면에 담긴 모습 — 미리보기의 실제 이미지를 우클릭해서 복사한 뒤 업로드(출처: 애니모 스팀 스토어 페이지)</p>
+      <h3>진화에는 아이템도 든다는 거, 알고 계셨나요?</h3>
+      <p><b>애니모 진화는 대부분 레벨만으로 끝나지 않고 진화석 같은 소모 아이템이 함께 들어요.</b> 9월 18일 패치노트가 '[펀치테일]의 진화에 소모되는 아이템 종류를 조정'했다고 밝혔으니 확실한 사실입니다. 대부분 진화석 1개, 몇몇은 특수 재료까지 필요해요.</p>
+      <h3>진화석 10종, 이렇게 정리돼 있어요</h3>
+      <p>정리해보니 진화석 이름은 이렇게 10종이에요.</p>
+      <ul>
+        <li>화염석 · 물결석 · 질풍석 · 빙결석 · 번개석</li>
+        <li>대지석 · 녹초석 · 어둠석 · 광휘석 · 기원석</li>
+      </ul>
+      <p>이 이름은 팬 도감 표기라 인게임 명칭과 다를 수 있어요. 구하는 곳은 확실해요 — 「엘리트 도전(진화재료)」에서 같은 원소 엘리트를 처치하면 돼요. 다만 <b>광휘석</b>·<b>기원석</b>은 조건표 53건 어디에도 안 나와요 — 나머지 8종만 등장해요.</p>
+      <h3>이색 조건 8개, 이건 좀 웃긴데요</h3>
+      <p>'이게 진화 조건이라고?' 싶을 만큼 특이한 것들도 있어요.</p>
+      <ul>
+        <li>쿨쿨양 — 파티에 넣고 밤부터 낮까지 같이 잠만 자면 돼요</li>
+        <li>마그라곤 — 온천탕에 들어가서 온천욕을 즐겨야 해요</li>
+        <li>둥실달 — 이성 수줍달한테 다가가서 따라오게 유도해야 해요</li>
+        <li>굴파미 — 지하 궁전에서 1분 동안 뿌리 내리기(삑삑초 탐사 스킬 [뿌리 내리기])</li>
+        <li>갸고일 — 월드 돌아다니며 보물 상자를 누적 30개 열어야 해요</li>
+        <li>갸갑파이어 — 어빌리티 평가가 '샤이닝 스타'까지 올라가야 해요</li>
+        <li>로즈펜서 — 울먹팡 한 마리만 편성한 파티로 처치해야 해요</li>
+        <li>우스멍 — 다른 유저랑 애니모를 1번 교환해야 해요</li>
+      </ul>
+      <p>온천욕이나 같이 잠자기 같은 조건은 처음엔 웃겼는데, 막상 하려니 손이 많이 가겠더라고요 ㅎㅎ.</p>
+      <h3>앞으로 계열별로 하나씩 더 풀어드릴게요</h3>
+      <p>화르랑→헬울프 갈라지는 조건은 이미 따로 자세히 다뤄뒀어요. 나머지 계열도 파밍처·좌표까지 하나씩 이어서 풀어드릴게요.</p>
+      <p>확정된 건 16계열 분기 구조·평행 분기 규칙·진화에 아이템이 든다는 사실이고, 아직 확인이 덜 된 건 진화석의 인게임 표기·미공개 분기 2종의 한국어 이름·조건 유형 7분류의 공식 여부예요.</p>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 한국어 이름이 아직 없는 분기 계열은 언제 풀리나요?</b><br>래빗배트·라이트밍 계열의 분기 하나씩은 아직 위키에 중국어 이름만 있어서, 정확히 언제 한국어 명칭이 붙을지는 확인이 안 돼요. 로컬라이즈가 더 진행되면 채워질 걸로 보여요.</p>
+      <p><b>Q. 지금 시작해도 웬만한 진화는 다 볼 수 있을까요?</b><br>네, 표에 정리한 레벨 기준이 12레벨부터 48레벨까지 넓게 퍼져 있어서 천천히 키워도 대부분 구경할 수 있어요. 다만 45레벨을 넘는 조건들은 시간이 좀 걸리니까 여유 있게 잡고 가시는 게 좋아요.</p>
+      <h3>애니모 진화 조건 정리</h3>
+      <p>같은 계열의 두 분기는 평행이라 하나를 고르면 다른 하나는 개체를 새로 준비해야 하고, 대부분 레벨+진화석에 엘리트 처치나 특정 행동이 붙는 구조입니다. 표 하나만 저장해두셔도 뭘 준비할지 한눈에 보여요. 천천히 채워가며 참고해보세요!</p>
+      <p><b>✔ 애니모 같이 보기 좋은 내용</b><br>
+      · <a href="https://blog.naver.com/bomding/224416837496" target="_blank">애니모 전투 티어표 정리, 1티어 애니모 추천까지 짚어봤어요</a><br>
+      · <a href="https://blog.naver.com/bomding/224416558171" target="_blank">애니모 캠핑카 생활 티어표 추천, 홈 능력 13종 정리</a><br>
+      · <a href="https://blog.naver.com/bomding/224416350106" target="_blank">애니모 용어 총정리, 천휘 애니모 획득부터 희귀도 평가 차이부터 선천 후천 어빌리티, 옵시디언까지</a></p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://wiki.aniimo.com/ko" target="_blank">애니모 공식 위키</a><br>
+      · <a href="https://www.aniimo.com/ko/main" target="_blank">애니모 공식 홈페이지</a><br>
+      · <a href="https://store.steampowered.com/news/app/4126040" target="_blank">애니모 스팀 공지·패치노트</a></p>
+      <p class="tags-line">#애니모 #Aniimo #애니모진화 #애니모진화조건 #애니모분기진화 #애니모진화석 #애니모공략</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
