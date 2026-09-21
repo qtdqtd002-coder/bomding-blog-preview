@@ -287,6 +287,11 @@ await goHome();
 const mob = await ev(`(()=>{const r=document.querySelectorAll('#tileMix .mx-row')[0];const l=r.querySelector('.mx-l').getBoundingClientRect(),b=r.querySelector('.mx-bar').getBoundingClientRect(),v=r.querySelector('.mx-v').getBoundingClientRect(),w=r.getBoundingClientRect();return {barBelow:b.top>=l.bottom-1,barFull:b.width>=w.width-20,vRight:v.right<=w.right+0.5,vTop:Math.abs(v.top-l.top)<14}})()`);
 chk('[390] 이름·숫자 한 줄, 막대는 아래 전폭', mob.barBelow && mob.barFull && mob.vRight && mob.vTop, mob);
 chk('[390 홈] 가로 넘침 없음', await ev(`innerWidth===390&&document.documentElement.scrollWidth<=390`), await ev(`({iw:innerWidth,sw:document.documentElement.scrollWidth})`));
+/* ★09-22 디자인 게이트 🟡 — 타일 바닥 줄이 모바일에서 «8.3%» 만 홀로 다음 줄로 떨어졌다.
+   textContent 비교로는 안 잡힌다(줄바꿈은 글자에 안 남는다) → 값 묶음(.nw)이 쪼개졌는지 Range 로 잰다. */
+/* ★글꼴이 섞인 줄(굵은 숫자 = 모노스페이스)은 같은 줄이어도 rect top 이 1~2px 어긋난다 — 줄 수는 «top 최대-최소»로 본다. */
+const nwSplit = await ev(`[...document.querySelectorAll('#tileMix .mx-foot .nw')].map(s=>{const r=document.createRange();r.selectNodeContents(s);const t=[...r.getClientRects()].map(x=>x.top);return t.length?Math.max(...t)-Math.min(...t):0}).filter(d=>d>6).length`);
+chk('[390] 타일 바닥 값 묶음이 쪼개지지 않는다(숫자 고아줄 없음)', nwSplit === 0, nwSplit);
 await shot('05-home-390', true);
 await goTrend();
 chk('[390] 공략 칸 행이 3개', (await ev(`(()=>{const s=${gsec};return s?s.querySelectorAll('.trow').length:0})()`)) === 3);

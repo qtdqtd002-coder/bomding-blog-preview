@@ -638,6 +638,7 @@ a{color:inherit; text-decoration:none}
 .mx-row .hit{position:absolute; inset:0; border-radius:var(--r-row); cursor:default}
 .legend .mx-tk{width:2px; height:12px; border-radius:1px; background:var(--ink-2)}
 .mx-foot{margin-top:10px; padding-top:10px; border-top:1px solid var(--hair); font-size:12.5px; color:var(--ink-3)}
+.mx-foot .nw{white-space:nowrap}   /* 09-22 디자인 게이트 🟡: 모바일에서 «8.3%» 만 홀로 다음 줄로 떨어졌다 */
 .mx-foot b{font-family:"JetBrains Mono",monospace; font-weight:600; color:var(--ink-2); font-variant-numeric:tabular-nums}
 
 /* ══════════ 홈 — 벤토 (비대칭 12열) ══════════ */
@@ -2480,12 +2481,12 @@ function tileMix(){
     var f=MIX.followup, foot='';
     if(f){
       var parts=[['d7','7일 뒤'],['d14','14일 뒤']].filter(function(x){ return f[x[0]]&&f[x[0]].queries; }).map(function(x){
-        var s=f[x[0]]; return x[1]+' <b>'+s.queries+'</b>질의 중 브리핑 <b>'+(s.shown+s.async)+'</b> · 우리 인용 <b>'+s.cited+'</b>'; });
+        var s=f[x[0]]; return '<span class="nw">'+x[1]+' <b>'+s.queries+'</b>질의</span> 중 <span class="nw">브리핑 <b>'+(s.shown+s.async)+'</b></span> · <span class="nw">우리 인용 <b>'+s.cited+'</b></span>'; });
       if(parts.length)foot='<div class="mx-foot">발행 후 재검 · '+parts.join(' / ')+'</div>';
     }
     /* 깊이(2026-09-21) — «하는 법»도 공략형으로 세는 각도 지표만으로는 기초 쏠림이 안 보인다. 진입형 비중을 따로 싣는다. */
     var dep=bars.filter(function(b){ return b.depth&&b.depth.n; })
-      .map(function(b){ return esc(b.label)+' <b>'+mixPct(b.depth.entry)+'</b>'; });
+      .map(function(b){ return '<span class="nw">'+esc(b.label)+' <b>'+mixPct(b.depth.entry)+'</b></span>'; });
     if(dep.length)foot+='<div class="mx-foot">진입형(설치·가입·하는 법) 비중 · '+dep.join(' / ')+'</div>';
     body='<div class="chart mx">'+rows+table+'</div>'+legend+foot;
   }
