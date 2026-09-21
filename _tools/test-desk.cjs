@@ -65,6 +65,15 @@ console.log('  · ' + ED.date + ' — ' + all.length + '건 ' +
   ED.sections.map(s => s.key + ':' + s.items.length).join(' '));
 ok(all.length > 0, 'edition has at least 1 item');
 ok(all.every(i => i.id && i.title), 'every item has id + title');
+/* ★원본(trend.json)에서도 제목을 본다 — 사이트 normEditions 는 제목 없는 항목을 «걸러 내»므로 위 검사엔 닿지 않는다.
+   09-21 판의 육아 항목이 제목 없이 실려 데이터는 17건인데 화면엔 16건만 그려졌다(조용한 유실). */
+{
+  const noTitle = [];
+  (raw.editions || []).forEach((e) => (e.sections || []).forEach((s) => (s.items || []).forEach((it) => {
+    if (it && !String(it.title || '').trim()) noTitle.push(e.date + ' ' + s.key + ' ' + (it.id || it.game || '?'));
+  })));
+  ok(noTitle.length === 0, '원본 전 판에 제목 없는 항목 0' + (noTitle.length ? ' — ' + noTitle.join(' · ') : ''));
+}
 ok(new Set(all.map(i => i.id)).size === all.length, 'ids unique within edition');
 /* ★분류 키를 여기 나열하지 않는다 — SECKEYS(=index.html DESK_SECTIONS)에서 끌어온다.
    08-15 에 core 를 추가했을 때 이 줄이 옛 4키를 박고 있어 데이터가 아니라 테스트가 먼저 깨졌다(L006 동형 재발). */
