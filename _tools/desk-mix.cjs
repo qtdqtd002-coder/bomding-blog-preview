@@ -22,6 +22,7 @@
               각도 = 글 제목(사다리) · 분류 = aib-followup 이 등록 때 박은 발주 경로(데스크 칸 · direct · briefing · desk? · 없으면 unknown).
 
    각도 4갈래 = howto(공략·방법·얻는 법·쿠폰) · rank(티어·추천·비교) · news(출시·일정·발표·결과) · info(정리·후기·기타)
+   ★깊이 3갈래(2026-09-21) = play(하는 사람의 질의) · entry(설치·가입·하는 법 — 아직 안 하는 사람) · news. 각 막대의 `depth` 에 % 로 싣는다.
    목표선 = howto+rank ≥ 50%(2026-09-18 계획서 §W4 1차 관문 — 봄딩 P1 «공략·방법·쿠폰형 ≥50%»와 같은 방향).
 
    사용: node _tools/desk-mix.cjs [--offline] [--print]
@@ -31,7 +32,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const { angleOf, angleTypeOf, getRequests } = require('./desk-signals.cjs');
+const { angleOf, angleTypeOf, getRequests, depthOf } = require('./desk-signals.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 const TREND = path.join(ROOT, '_trend', 'trend.json');
@@ -52,6 +53,13 @@ const kst = (ts) => new Date(ts + 9 * 3600e3).toISOString().slice(0, 10);
 const today = kst(Date.now());
 const since = (days) => kst(Date.now() - (days - 1) * DAY);
 function empty() { return { howto: 0, rank: 0, news: 0, info: 0 }; }
+/* ★깊이(2026-09-21 · 사용자 «회원가입·설치·하는 법은 너무 기초다») — 각도만으로는 «하는 법»도 공략형이라 개선이 안 보인다.
+   entry = 아직 안 하는 사람의 질의 · play = 하는 사람의 질의 · news = 발표 그 자체. */
+function emptyDepth() { return { play: 0, entry: 0, news: 0 }; }
+function pctDepth(d) {
+  const n = d.play + d.entry + d.news;
+  return { n, play: n ? Math.round(d.play / n * 1000) / 10 : 0, entry: n ? Math.round(d.entry / n * 1000) / 10 : 0, news: n ? Math.round(d.news / n * 1000) / 10 : 0 };
+}
 function pct(mix) {
   const n = Object.values(mix).reduce((a, b) => a + b, 0);
   const o = { n };
@@ -103,8 +111,8 @@ async function main() {
 
   /* ── 공급(최근 7판) ── */
   const d7 = eds.slice(0, 7).map((e) => e.date);
-  const sup = empty(); let supRegex = 0;
-  items.filter((x) => d7.includes(x.date)).forEach((x) => { sup[x.type]++; if (x.via === 'regex') supRegex++; });
+  const sup = empty(), supD = emptyDepth(); let supRegex = 0;
+  items.filter((x) => d7.includes(x.date)).forEach((x) => { sup[x.type]++; supD[depthOf(x.it)]++; if (x.via === 'regex') supRegex++; });
 
   /* ── 판별 행(14판) ── */
   const days = eds.slice(0, 14).map((e) => {
@@ -120,14 +128,15 @@ async function main() {
   if (reqs) {
     const from = since(14);
     const byTitle = new Map(items.map((x) => [norm(x.it.title), x]));
-    const ord = empty(); let matched = 0, n = 0;
+    const ord = empty(), ordD = emptyDepth(); let matched = 0, n = 0;
     const ordered = new Set();
     reqs.filter((r) => r && r.source === 'trend-desk' && r.createdAt && kst(r.createdAt) >= from).forEach((r) => {
       n++;
       const hit = byTitle.get(norm(r.topic));
-      if (hit) { matched++; ordered.add(hit); ord[hit.type]++; } else ord[angleOf(r.topic)]++;
+      if (hit) { matched++; ordered.add(hit); ord[hit.type]++; ordD[depthOf(hit.it)]++; }
+      else { ord[angleOf(r.topic)]++; ordD[depthOf({ title: r.topic })]++; }
     });
-    orders = Object.assign(pct(ord), { matched });
+    orders = Object.assign(pct(ord), { matched, depth: pctDepth(ordD) });
     const supplyWin = items.filter((x) => x.date >= from);
     secRate = GAME_SECS.map((sec) => {
       const s = supplyWin.filter((x) => x.sec === sec), o = s.filter((x) => ordered.has(x));
@@ -138,16 +147,16 @@ async function main() {
   /* ── 작성 글(최근 14일 · 봄딩·영도 게임 초안) ── */
   const posts = readJson(POSTS, []);
   const from14 = since(14);
-  const dr = empty(), byW = {};
+  const dr = empty(), drD = emptyDepth(), byW = {};
   WRITERS.forEach((w) => { byW[w] = empty(); });
   (Array.isArray(posts) ? posts : []).forEach((p) => {
     if (!p || !WRITERS.includes(p.author)) return;
     const c = String(p.created || '').slice(0, 10);
     if (!c || c < from14 || NOT_GAME.test(p.cat || '')) return;
     const t = angleOf(p.title);
-    dr[t]++; byW[p.author][t]++;
+    dr[t]++; byW[p.author][t]++; drD[depthOf({ title: p.title })]++;
   });
-  const drafts = Object.assign(pct(dr), { byWriter: Object.fromEntries(WRITERS.map((w) => [w, pct(byW[w])])) });
+  const drafts = Object.assign(pct(dr), { depth: pctDepth(drD), byWriter: Object.fromEntries(WRITERS.map((w) => [w, pct(byW[w])])) });
 
   /* ── 발행 후 재검 요약 ── */
   const followup = followupSummary(readJson(FOLLOW, null));
@@ -156,7 +165,7 @@ async function main() {
     schema: 1, kind: 'desk-mix', updated: new Date().toISOString(), ruleFrom: '2026-09-19',
     target: { guide: 50 },
     bars: [
-      Object.assign({ k: 'supply', label: '트렌드 추천', window: '최근 ' + d7.length + '판', regex: supRegex }, pct(sup)),
+      Object.assign({ k: 'supply', label: '트렌드 추천', window: '최근 ' + d7.length + '판', regex: supRegex, depth: pctDepth(supD) }, pct(sup)),
       orders ? Object.assign({ k: 'orders', label: '발주', window: '최근 14일' }, orders) : { k: 'orders', label: '발주', window: '최근 14일', n: null },
       Object.assign({ k: 'drafts', label: '작성 글', window: '최근 14일' }, drafts),
     ],
@@ -171,6 +180,7 @@ async function main() {
   const line = (b) => b.n == null ? b.label + ' 미연결' : b.label + ' ' + b.n + '건 — 공략·티어 ' + b.guide + '% (공략 ' + b.howto + ' · 티어 ' + b.rank + ' · 소식 ' + b.news + ' · 기타 ' + b.info + ')';
   console.log('desk-mix ' + today + (PRINT ? ' (--print · 파일은 쓰지 않음)' : ' → ' + path.relative(ROOT, OUT)));
   out.bars.forEach((b) => console.log('  ' + line(b)));
+  out.bars.forEach((b) => { if (b.depth && b.depth.n) console.log('  깊이 ' + b.label + ': 실전 ' + b.depth.play + '% · 진입 ' + b.depth.entry + '% · 소식 ' + b.depth.news + '%'); });
   if (secRate) console.log('  발주율(14일): ' + secRate.map((s) => s.sec + ' ' + s.ordered + '/' + s.supply).join(' · '));
   if (followup) {
     console.log('  재검: D+7 ' + followup.d7.queries + '질의(인용 ' + followup.d7.cited + ') · D+14 ' + followup.d14.queries + '질의(인용 ' + followup.d14.cited + ')');

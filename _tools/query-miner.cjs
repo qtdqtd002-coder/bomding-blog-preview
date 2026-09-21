@@ -23,7 +23,8 @@
 
    무엇을 하나
      ① 시드 = --game 으로 준 게임 / --pins(백엔드 지정 게임) / --from-ledger(원장 상위 게임)
-     ② 확장 = 시드 자체 + 시드+접미 12종(하는 법·얻는 법·쿠폰·티어·추천·조건·비용·초보·세팅·공략·위치·순위)
+     ② 확장 = 시드 자체 + 시드+접미 26종 = 머리 12종(하는 법·얻는 법·쿠폰·티어·추천·조건·비용·초보·세팅·공략·위치·순위)
+        + ★실전 14종(조합·빌드·효율·우선순위·파밍·덱·특성·상성·카운터·확률·드랍·강화·주간·스펙 — 2026-09-21 추가)
               --deep 을 주면 1단 결과를 한 번 더 시드로 굴린다(질의 수 3~5배, 요청도 그만큼).
      ③ 각도 = angle-mix.py 부록 A 사다리(live-ledger.cjs 와 같은 이식본)
      ④ 대조 = _trend/_live-posts.json 의 그 작성자 제목과 맞춰 covered / open 판정
@@ -55,6 +56,10 @@ const API = 'https://34.139.184.70.sslip.io';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 const SUFFIX = ['하는 법', '얻는 법', '쿠폰', '티어', '추천', '조건', '비용', '초보', '세팅', '공략', '위치', '순위'];
+/* ★실전형 접미(2026-09-21 · 사용자 «회원가입·설치·하는 법은 너무 기초다») — 위 12종은 전부 머리·진입 표현이라
+   자동완성이 «아직 안 하는 사람»의 질의만 올려 줬다(09-15~21 공략 칸 13건 중 8건이 진입형).
+   실측 확인: 메이플스토리 «주간보스 결정값·강화코어·스펙 확인 방법», 오버워치 «조합 맞추는법·특성 찍는법·상성·카운터픽»이 실제로 나온다. */
+const PLAY_SUFFIX = ['조합', '빌드', '효율', '우선순위', '파밍', '덱', '특성', '상성', '카운터', '확률', '드랍', '강화', '주간', '스펙'];
 /* 이동형 질의 = «그 사이트로 가고 싶다» — 블로그 글이 답이 될 수 없다(발주 후보에서 제외, 파일에는 남긴다) */
 const NAV = /나무위키|위키|갤러리|디시|인벤|루리웹|카페|사이트|홈페이지|공홈|다운로드|다운받|설치파일|토렌트|apk|스토어|트위치|유튜브|디스코드|\bgg\b|지지/i;
 
@@ -68,7 +73,7 @@ const DEEP = has('--deep');
 let reqCount = 0;
 
 const LADDER = [
-  ['공략·방법형', /하는 ?법|방법|공략|(?<!스)위치|얻는 ?법|만드는 ?법|세팅|스킬트리|조합|루트|파밍|재료|퀘스트|보는 ?법|설정|설치|사용법|치트|명령어|염색코드|코디|기댓값|확률/],
+  ['공략·방법형', /하는 ?법|방법|공략|(?<!스)위치|얻는 ?법|만드는 ?법|세팅|스킬트리|조합|루트|파밍|재료|퀘스트|보는 ?법|설정|설치|사용법|치트|명령어|염색코드|코디|기댓값|확률|빌드|덱|특성|상성|카운터|강화|각성|승급|재련|우선순위|효율|드랍|주간|일일|보상|스펙|스탯|육성/],
   ['쿠폰형', /쿠폰|코드/],
   ['추천·티어·비교형', /티어|추천|순위|BEST|TOP|비교|뭐가 다를|차이/i],
   ['후기·리뷰형', /후기|리뷰|사용기|써본|첫인상/],
@@ -123,7 +128,7 @@ async function mine(game) {
   const base = await ac(game);
   base.forEach((q) => put(q, 1));
   await sleep(GAP);
-  for (const sfx of SUFFIX) {
+  for (const sfx of SUFFIX.concat(PLAY_SUFFIX)) {
     (await ac(game + ' ' + sfx)).forEach((q) => put(q, 1));
     await sleep(GAP);
   }
@@ -260,7 +265,7 @@ async function main() {
   const doc = {
     schema: 1, kind: 'search-query-candidates', updated: new Date().toISOString(),
     source: 'ac.search.naver.com/nx/ac (자동완성 · 순서만 제공, 검색량 아님)',
-    suffixes: SUFFIX, angles: ANGLES, requests: reqCount,
+    suffixes: SUFFIX.concat(PLAY_SUFFIX), angles: ANGLES, requests: reqCount,
     games: [...keep.values()].sort((a, b) => String(a.game).localeCompare(b.game, 'ko')),
   };
   try { fs.writeFileSync(OUT, JSON.stringify(doc, null, 1) + '\n', 'utf8'); }

@@ -28,8 +28,8 @@ const E1 = { date: '2026-09-23', headline: '합성 판 — 수요일', note: ['�
   { key: 'pinned', items: [I('pinned', 1, { game: '롤토체스', title: '롤토체스 초보 덱 추천, 18.2 기준', angleType: 'rank', demand: { tier: 2, src: 'ac', ac: 10 }, aib: { s: 'shown', n: 4, bd: 2, yd: null, q: '롤토체스 초보 덱' } })] },
   { key: 'core', items: [I('core', 1, { game: '팰월드', title: '팰월드 거점 추천 위치', angleType: 'howto', demand: { tier: 1, src: 'searchad', ac: 10, game: 42000, kw: { q: '팰월드 거점', n: 3200 } }, aib: { s: 'async', n: 0, bd: null, yd: null, q: '팰월드 거점' } })] },
   { key: 'guide', items: [
-    I('guide', 1, { game: '메이플스토리', title: '메이플스토리 초보 세팅 방법, 사냥 전에 할 것', angleType: 'howto', demand: { tier: 2, src: 'ac', ac: 9 }, aib: { s: 'shown', n: 5, bd: null, yd: null, q: '메이플 스토리 세팅' } }),
-    I('guide', 2, { game: '리그 오브 레전드', title: '리그 오브 레전드 게임 방법, 처음 하는 사람 기준', angleType: 'howto', demand: { tier: 2, src: 'ac', ac: 10 }, aib: { s: 'none', n: 0, bd: null, yd: null, q: '리그 오브 레전드 게임 방법' } }),
+    I('guide', 1, { game: '메이플스토리', title: '메이플스토리 초보 세팅 방법, 사냥 전에 할 것', angleType: 'howto', depth: 'play', demand: { tier: 2, src: 'ac', ac: 9 }, aib: { s: 'shown', n: 5, bd: null, yd: null, q: '메이플 스토리 세팅' } }),
+    I('guide', 2, { game: '리그 오브 레전드', title: '리그 오브 레전드 게임 방법, 처음 하는 사람 기준', angleType: 'howto', depth: 'entry', entryOk: '09-20 서비스 이관으로 접속 경로 변경', demand: { tier: 2, src: 'ac', ac: 10 }, aib: { s: 'none', n: 0, bd: null, yd: null, q: '리그 오브 레전드 게임 방법' } }),
     I('guide', 3, { game: '뱀피르', title: '뱀피르 쿠폰 9월 입력 방법', angleType: 'howto', demand: { tier: 2, src: 'ac', ac: 8 } })] },
   { key: 'parenting', items: [] },
   { key: 'new', items: [I('new', 1, { angleType: 'news', demand: { tier: 1, src: 'ac', ac: 2 } })] },
@@ -47,9 +47,9 @@ const SECTIONS = ['pinned', 'core', 'guide', 'parenting', 'new', 'update', 'hot'
 const FULL = { schema: 2, kind: 'daily-topic-desk', updated: '2026-09-23T06:40:00+09:00', keepDays: 14, sections: SECTIONS, editions: [E1, E2, E3, E4] };
 const LITE = Object.assign({}, FULL, { lite: true, liteDays: 3, full: '_trend/trend.json', allDates: FULL.editions.map((e) => e.date), editions: [E1, E2, E3] });
 const MIX_A = { schema: 1, kind: 'desk-mix', updated: '2026-09-23T06:45:00+09:00', target: { guide: 50 },
-  bars: [{ k: 'supply', label: '트렌드 추천', window: '최근 7판', regex: 4, n: 20, howto: 40, rank: 15, news: 10, info: 35, guide: 55 },
+  bars: [{ k: 'supply', label: '트렌드 추천', window: '최근 7판', regex: 4, n: 20, howto: 40, rank: 15, news: 10, info: 35, guide: 55, depth: { n: 20, play: 75, entry: 15, news: 10 } },
     { k: 'orders', label: '발주', window: '최근 14일', n: null },
-    { k: 'drafts', label: '작성 글', window: '최근 14일', n: 12, howto: 20, rank: 5, news: 50, info: 25, guide: 25 }],
+    { k: 'drafts', label: '작성 글', window: '최근 14일', n: 12, howto: 20, rank: 5, news: 50, info: 25, guide: 25, depth: { n: 12, play: 50, entry: 8.3, news: 41.7 } }],
   followup: { posts: 17, d7: { posts: 3, queries: 9, shown: 3, async: 2, none: 4, cited: 1 }, d14: { posts: 0, queries: 0, shown: 0, async: 0, none: 0, cited: 0 } } };
 const MIX_B = Object.assign({}, MIX_A, { followup: null, bars: [MIX_A.bars[0], { k: 'orders', label: '발주', window: '최근 14일', n: 0 }, Object.assign({}, MIX_A.bars[2], { guide: 100, howto: 100, rank: 0, news: 0, info: 0 })] });
 let MIX = MIX_A;
@@ -179,6 +179,7 @@ await shot('01-trend-1920', true);
 await click(`[data-req="syn-guide-1"]`);
 chk('발주 모달이 열린다', !!(await waitFor(`!!document.querySelector('.brief')`, 5000)));
 const bf = await ev(`[...document.querySelectorAll('.brief .bf-f')].map(f=>f.querySelector('.bf-k').textContent+'='+f.querySelector('.bf-v').textContent)`);
+chk('모달에 «주제 깊이» 줄(실전형)', bf.some((x) => x === '주제 깊이=실전형 — 이미 하는 사람이 찾는 질의'), bf);
 chk('모달에 «검색 수요» 줄(자동완성 · 검색량 미연동 표기)', bf.some((x) => x === '검색 수요=보통 · 자동완성 9/10 · 검색량 미연동'), bf);
 chk('모달에 «AI 브리핑» 줄(뜸·출처 5곳·우리 글 미인용)', bf.some((x) => x === 'AI 브리핑=뜸 · 출처 5곳 · 우리 글 미인용'), bf);
 const ta = await ev(`document.querySelector('#oMaterial').value`);
@@ -240,6 +241,9 @@ chk('잉크 칸 ↔ 회색 칸 대비 ≥3(비텍스트)', segCr >= 3, segCr);
 chk('범례 3개(공략·티어 · 소식·기타 · 목표 50%)', (await ev(`[...document.querySelectorAll('#tileMix .legend span')].map(s=>s.textContent).join('|')`)) === '공략·티어|소식·기타|목표 50%');
 chk('표 뷰(sr) 3행 + 머리', (await ev(`document.querySelectorAll('#tileMix table.sr tr').length`)) === 4);
 chk('재검 줄(7일 뒤 9질의 · 브리핑 5 · 인용 1)', (await ev(`(()=>{const f=document.querySelector('#tileMix .mx-foot');return f?f.textContent:''})()`)) === '발행 후 재검 · 7일 뒤 9질의 중 브리핑 5 · 우리 인용 1');
+/* ★깊이 줄(2026-09-21) — «하는 법»도 공략으로 세는 각도 지표만으로는 기초 쏠림이 안 보인다 */
+const depFoot = await ev(`(()=>{const f=[...document.querySelectorAll('#tileMix .mx-foot')].map(x=>x.textContent);return f.find(x=>x.indexOf('진입형')>=0)||''})()`);
+chk('진입형 비중 줄(추천 15% · 작성 글 8.3%)', depFoot === '진입형(설치·가입·하는 법) 비중 · 트렌드 추천 15% / 작성 글 8.3%', depFoot);
 await hover('#tileMix .mx-row .hit');
 const tip = await ev(`(()=>{const t=document.querySelector('.ctip.on');return t?[...t.querySelectorAll('.ctip-r')].map(r=>r.textContent).join('|')+'#'+t.querySelector('.ctip-h').textContent:null})()`);
 chk('hover 툴팁 = 네 갈래 + 추정 건수', tip === '공략40%|티어·추천15%|소식10%|기타35%|제목으로 추정4건#트렌드 추천 · 최근 7판20건', tip);
@@ -273,7 +277,7 @@ await goHome();
 const rowsB = await ev(`[...document.querySelectorAll('#tileMix .mx-row')].map(r=>r.querySelector('.mx-t').textContent+'|'+(r.querySelector('.mx-na')?r.querySelector('.mx-na').textContent:'bar'))`);
 chk('발주 0건이면 «건 없음»', rowsB[1] === '발주|건 없음', rowsB);
 chk('100% 이면 회색 칸 없이 잉크 칸 하나 · 끝만 둥글다', await ev(`(()=>{const r=document.querySelectorAll('#tileMix .mx-row')[2];return r.querySelectorAll('.mx-seg').length===1&&!!r.querySelector('.mx-seg.g')&&getComputedStyle(r.querySelector('.mx-seg.g')).borderTopRightRadius==='4px'})()`));
-chk('재검 데이터가 없으면 줄 자체가 없다', await ev(`!document.querySelector('#tileMix .mx-foot')`));
+chk('재검 데이터가 없으면 그 줄 자체가 없다(깊이 줄은 별개)', await ev(`[...document.querySelectorAll('#tileMix .mx-foot')].every(f=>f.textContent.indexOf('발행 후 재검')<0)`));
 chk('[1920 홈 B] 콘솔 예외 0', logs.length === 0, logs);
 MIX = MIX_A;
 

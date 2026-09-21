@@ -157,6 +157,11 @@ const RULE_FROM = '2026-09-19';
 const CAPS = { new: 3, update: 3, hot: 2, guide: 8 };
 const GAME = ['pinned', 'core', 'guide', 'new', 'update', 'hot'];
 function weekOf(d) { const t = new Date(d + 'T12:00:00Z'); return new Date(t.getTime() - ((t.getUTCDay() + 6) % 7) * 864e5).toISOString().slice(0, 10); }
+/* ★R5(2026-09-21 사용자 «회원가입·설치·하는 법은 너무 기초다») — 진입형 질의는 신작이거나 진입 경로가 바뀐 때(entryOk)만.
+   도구(desk-signals)를 불러오지 않고 여기서 따로 판정한다 — 도구가 틀리면 게이트도 같이 틀리는 걸 막는 이 파일의 원칙 그대로. */
+const ENTRY_RE = /하는 ?법|하는법|게임 ?방법|플레이 ?방법|설치|다운로드|회원 ?가입|계정 ?(연동|만들기)|연동 ?(순서|방법)|삭제|제거|언인스톨|사양|요구 ?사항|입문|초보 ?가이드|처음 ?시작|접속 ?오류|한글 ?패치|쿠폰 ?(등록|입력|사용) ?(방법|법)/;
+const qOf = (it) => String(((it.keywords || [])[0]) || it.q || it.title || '');
+const nk = (s) => String(s || '').toLowerCase().replace(/\s/g, '');
 function ruleViolations(e, all) {
   const v = [];
   const sec = (k) => (((e.sections || []).find((s) => s && s.key === k) || {}).items || []).filter(Boolean);
@@ -178,6 +183,17 @@ function ruleViolations(e, all) {
     if (sa ? it.demand.tier === 0 : (Number(it.heat) || 0) <= 1) v.push('R4:' + k);
   });
   sec('guide').forEach((it) => { if (!['howto', 'rank'].includes(it.angleType) || !it.demand || !(it.demand.tier >= 1)) v.push('G:guide'); });
+  /* R5 — 진입형은 최근 14판 «신작» 칸에 오른 게임이거나 entryOk(경로 변경 사유)가 있을 때만.
+     ★시행일 이전 판(09-19~21)은 이 규칙이 없던 때라 검사하지 않는다 — 옛 판을 소급해 빨갛게 만들지 않는다. */
+  const R5_FROM = '2026-09-22';
+  if (String(e.date) >= R5_FROM) {
+  const newG = new Set();
+  (all || []).slice(0, 14).forEach((o) => ((((o.sections || []).find((s) => s && s.key === 'new') || {}).items) || [])
+    .forEach((x) => { if (x && x.game) newG.add(nk(x.game)); }));
+  game.forEach(({ k, it }) => {
+    if (ENTRY_RE.test(qOf(it)) && !String(it.entryOk || '').trim() && !newG.has(nk(it.game))) v.push('R5:' + k + ' «' + qOf(it).slice(0, 16) + '»');
+  });
+  }
   if (sec('parenting').length) {
     const wk = weekOf(e.date);
     const other = (all || []).filter((o) => o && o.date !== e.date && weekOf(o.date) === wk &&
@@ -202,15 +218,16 @@ console.log('\n[8] 거둬내기·신호 계약 (시행 ' + RULE_FROM + '~)');
   const bad = { date: '2026-09-22', sections: [
     { key: 'pinned', items: [I({ game: '롤토체스', angleType: 'news' }), I({ game: '롤토체스', angleType: 'news' })] },
     { key: 'core', items: [I({ game: '팰월드', angleType: 'news' })] },
-    { key: 'guide', items: [I({ game: 'X', angleType: 'info', demand: { tier: 2, src: 'ac' } })] },
+    { key: 'guide', items: [I({ game: 'X', angleType: 'info', demand: { tier: 2, src: 'ac' } }),
+      I({ game: '메이플', title: '메이플 하는법, 회원가입부터', keywords: ['메이플 하는법'], angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
     { key: 'parenting', items: [I({ game: '아기 칫솔' })] },
     { key: 'new', items: [I({ game: 'A', angleType: 'news', demand: { tier: 0, src: 'ac' } }), I({ game: 'B', angleType: 'news' }), I({ game: 'E', angleType: 'howto' }), I({ game: 'F', angleType: 'howto', heat: 1 })] },
     { key: 'update', items: [] },
     { key: 'hot', items: [I({ game: 'D', angleType: 'news' })] }] };
   const vb = ruleViolations(bad, [bad, good]);
-  const want = ['cap:new', 'W1:', 'R2:core', 'R2:hot', 'R3:롤토체스', 'R1:new', 'R4:new', 'G:guide', '육아 주1회'];
+  const want = ['cap:new', 'W1:', 'R2:core', 'R2:hot', 'R3:롤토체스', 'R1:new', 'R4:new', 'G:guide', 'R5:guide', '육아 주1회'];
   const miss = want.filter((w) => !vb.some((x) => x.startsWith(w)));
-  ok(miss.length === 0, '게이트 자기시험 — 어긴 합성 판에서 9종 위반을 모두 잡는다' + (miss.length ? ' (놓친 것: ' + miss.join(' · ') + ')' : ''));
+  ok(miss.length === 0, '게이트 자기시험 — 어긴 합성 판에서 10종 위반을 모두 잡는다' + (miss.length ? ' (놓친 것: ' + miss.join(' · ') + ')' : ''));
 }
 {
   let checked = 0;

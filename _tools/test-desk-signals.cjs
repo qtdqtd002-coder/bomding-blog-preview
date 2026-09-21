@@ -46,7 +46,7 @@ const it = {
   newHow2: I({ sec: 'new', game: 'E', title: 'E 초반 공략', angleType: 'howto', demand: D(1) }),
   newUnk: I({ sec: 'new', game: 'F', title: 'F 사전예약 보상 받는 법', angleType: 'howto', demand: D(null, 'none') }),
   hotNews: I({ sec: 'hot', game: '제우스', title: '매출 1위 비결', angleType: 'news', demand: D(2) }),
-  hotHow: I({ sec: 'hot', game: '제우스', title: '제우스 쿠폰 입력 방법', angleType: 'howto', demand: D(2) }),
+  hotHow: I({ sec: 'hot', game: '제우스', title: '제우스 보스 공략 순서', angleType: 'howto', demand: D(2) }),
   coreNews: I({ sec: 'core', game: '림버스', title: '10장 출시', angleType: 'news', demand: D(2) }),
   pin1: I({ sec: 'pinned', game: '롤토체스', title: '버그 수정', angleType: 'news', demand: D(2), heat: 1 }),
   pin2: I({ sec: 'pinned', game: '롤토체스', title: '특성 변경', angleType: 'news', demand: D(2), heat: 3 }),
@@ -66,6 +66,15 @@ ok(rule(it.newUnk) !== 'R1', 'fail-open: 수요를 못 쟀으면 R1 을 적용�
 eq(S.judge([it.newUnk], false).drop.length, 0, 'fail-open: 혼자 있으면 그대로 남는다');
 eq(rule(it.hotNews), 'R2', 'R2 화제 논평형');
 eq(rule(it.hotHow), 'KEEP', '화제라도 how-to 면 남긴다');
+
+/* ★R5 — 진입형(설치·가입·하는 법·쿠폰 등록)은 신작이거나 진입 경로가 바뀐 때만 (2026-09-21 사용자 지적) */
+const entryItem = (extra) => I(Object.assign({ sec: 'guide', game: '메이플스토리', title: '메이플스토리 하는법, 회원가입부터 설치까지', keywords: ['메이플스토리 하는법'], angleType: 'howto', demand: D(2) }, extra || {}));
+const ruleOf = (item, ctx) => { const d = S.judge([item], false, ctx).drop[0]; return d ? d.rule : 'KEEP'; };
+eq(ruleOf(entryItem()), 'R5', '자리 잡은 게임의 «하는법»은 거둬낸다');
+eq(ruleOf(entryItem({ entryOk: '08-12 넥슨 이관으로 계정 연동 절차가 바뀜' })), 'KEEP', '진입 경로가 바뀐 근거(entryOk)가 있으면 싣는다');
+eq(ruleOf(entryItem(), { newGames: new Set(['메이플스토리']) }), 'KEEP', '최근 14판 신작 칸에 오른 게임이면 싣는다');
+eq(ruleOf(I({ sec: 'guide', game: '메이플스토리', title: '메이플스토리 주간보스 결정값 정리', keywords: ['메이플스토리 주간보스 결정값'], angleType: 'howto', demand: D(2) })), 'KEEP', '실전형 질의는 그대로 통과');
+eq([S.depthOf({ keywords: ['오버워치 카운터픽'] }), S.depthOf({ keywords: ['오버워치 하는법'] }), S.depthOf({ keywords: ['EA FC27 출시일'], angleType: 'news' })], ['play', 'entry', 'news'], '깊이 3갈래');
 eq(rule(it.coreNews), 'R2', 'R2 주력 게임 소식');
 eq([it.pin1, it.pin2, it.pin3].map(rule).filter((x) => x === 'R3').length, 2, 'R3 지정 게임 news 는 게임당 1건');
 eq(rule(it.pin2), 'KEEP', 'R3 는 약한 쪽부터 뺀다(heat 3 생존)');

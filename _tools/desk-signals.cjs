@@ -82,6 +82,7 @@ const API = 'https://34.139.184.70.sslip.io';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 
 const RULE_FROM = '2026-09-19';
+const DEPTH_KO = { entry: '진입형', play: '실전형', news: '소식형' };
 const CAPS = { new: 3, update: 3, hot: 2, guide: 8 };
 const EVENT_SECS = ['new', 'update', 'hot'];
 const NEWS_MAX_EVENT = 2;
@@ -118,7 +119,7 @@ const mentions = (s, needle) => gameRe(needle).test(String(s));
 /* ── 각도(angleType) ───────────────────────────────────────────────────── */
 /* angle-mix.py 부록 A 사다리와 같은 순서(위에서 먼저 맞는 것) → 4갈래로 접는다 */
 const LADDER = [
-  ['howto', /하는 ?법|방법|공략|(?<!스)위치|얻는 ?법|만드는 ?법|세팅|스킬트리|조합|루트|파밍|재료|퀘스트|보는 ?법|설정|설치|사용법|치트|명령어|염색코드|코디|기댓값|확률/],
+  ['howto', /하는 ?법|방법|공략|(?<!스)위치|얻는 ?법|만드는 ?법|세팅|스킬트리|조합|루트|파밍|재료|퀘스트|보는 ?법|설정|설치|사용법|치트|명령어|염색코드|코디|기댓값|확률|빌드|덱|특성|상성|카운터|강화|각성|승급|재련|우선순위|효율|드랍|주간|일일|보상|스펙|스탯|육성/],
   ['howto', /쿠폰|코드/],
   ['rank', /티어|추천|순위|BEST|TOP|비교|뭐가 다를|차이/i],
   ['info', /후기|리뷰|사용기|써본|첫인상/],
@@ -339,7 +340,32 @@ function sortKey(it, idx) {
 }
 function cmpKey(a, b) { for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return a[i] - b[i]; return 0; }
 /* items: [{sec, ...}] (한 에디션 전체 또는 후보 전체). 반환 {keep:[], drop:[{it, rule, why}]} — 입력 순서는 보존 */
-function judge(items, saOn) {
+/* ── 깊이(2026-09-21 · 사용자 «회원가입·설치·하는 법은 너무 기초다») ───────────────────────────
+   entry = 그 게임을 «아직 안 하는 사람»의 질의(설치·가입·계정 연동·삭제·사양·하는 법·초보 가이드)
+   play  = 이미 하는 사람의 질의(공략·빌드·조합·효율·우선순위·티어·확률…)   news = 출시·패치 발표 그 자체
+   판정 대상은 «제목»이 아니라 **타깃 질의(keywords[0])** 다 — 제목의 부제에 «…하는 법»이 붙는 건 흔해서 제목으로 재면 실전형까지 진입형이 된다.
+   실측(09-15~21 · 117건): 진입형 21건의 발주율 14% vs 그 밖 24% — 그리고 발주된 진입형 3건은 전부 신작이거나 진입 경로가 바뀐 경우였다. */
+const ENTRY_RE = /하는\s?법|하는법|게임\s?방법|플레이\s?방법|설치|다운로드|회원\s?가입|계정\s?(연동|만들기)|연동\s?(순서|방법)|삭제|제거|언인스톨|사양|요구\s?사항|입문|초보\s?가이드|처음\s?시작|접속\s?오류|한글\s?패치|쿠폰\s?(등록|입력|사용)\s?(방법|법)/;
+/* ★판정은 기계가만 한다 — 항목이 `depth` 를 스스로 선언해 R5 를 비껴가지 못하게(예외는 `entryOk` 사유 한 곳으로만 연다).
+   test-desk 의 독립 게이트도 같은 규칙이라, 둘이 갈라지지 않는다. */
+function depthOf(it) {
+  const q = String(((it && it.keywords) || [])[0] || (it && it.q) || (it && it.title) || '');
+  if (ENTRY_RE.test(q)) return 'entry';
+  if (angleTypeOf(it || {}) === 'news') return 'news';
+  return 'play';
+}
+/* 진입형을 허용할 게임 = 최근 14판의 «신작» 칸에 올랐던 게임(= 막 나온 게임). 그 밖의 예외는 항목이 `entryOk`(사유)로 들고 온다. */
+function newGamesFrom(doc, days) {
+  const out = new Set();
+  const eds = ((doc && doc.editions) || []).filter((e) => e && e.date).sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, days || 14);
+  eds.forEach((e) => (e.sections || []).forEach((s) => {
+    if (s.key !== 'new') return;
+    (s.items || []).forEach((it) => { if (it && it.game) out.add(normKey(it.game)); });
+  }));
+  return out;
+}
+
+function judge(items, saOn, ctx) {
   const drop = new Map();
   const mark = (it, rule, why) => { if (!drop.has(it)) drop.set(it, { it, rule, why }); };
   items.forEach((it) => {
@@ -354,6 +380,12 @@ function judge(items, saOn) {
     if (sec === 'guide') {
       if (!['howto', 'rank'].includes(a)) mark(it, 'G', '공략 칸인데 각도가 ' + a);
       else if (t === 0) mark(it, 'G', '공략 칸인데 수요 없음');
+    }
+    /* R5 — 진입형은 «신작이거나 진입 경로가 바뀐» 때만. 그 밖엔 이미 그 게임을 하는 사람이 찾지 않는다. */
+    if (depthOf(it) === 'entry') {
+      const newG = (ctx && ctx.newGames) || new Set();
+      const ok = (it.entryOk && String(it.entryOk).trim()) || newG.has(normKey(it.game));
+      if (!ok) mark(it, 'R5', '진입형 질의(설치·가입·하는 법) — 신작도 아니고 진입 경로 변경 근거(entryOk)도 없음');
     }
   });
   const alive = (it) => !drop.has(it);
@@ -426,7 +458,8 @@ async function cmdCheck() {
   if (!items.length) { log('후보가 비었다: ' + inp); process.exit(2); }
   const { saOn } = await computeSignals(items, Number(val('--aib-max', '30')) || 0);
   saveCache();
-  const { drop } = judge(items, saOn);
+  const ctx = { newGames: newGamesFrom(readJson(TREND, null), 14) };
+  const { drop } = judge(items, saOn, ctx);
   const dropSet = new Map(drop.map((d) => [d.it, d]));
   console.log('\n신호 · 판정 — 후보 ' + items.length + '건 · 검색량 ' + (saOn ? '연동' : '미연동(자동완성만)') + ' · 자동완성 요청 ' + acReq + ' · 검색광고 요청 ' + saReq + ' · 브리핑 실검색 ' + aibNet);
   GAME_SECS.concat(['parenting']).forEach((sec) => {
@@ -435,7 +468,7 @@ async function cmdCheck() {
     sortSection(sec, list).forEach((it) => {
       const d = dropSet.get(it);
       console.log('  ' + (d ? 'DROP ' + d.rule.padEnd(3) : 'KEEP    ') + ' ' + String(it.id || '').padEnd(6) + ' ' + (it.game || '') + ' | ' + (it.title || '').slice(0, 48) +
-        (sec === 'parenting' ? '' : '  [' + it.angleType + ' · ' + fmtDemand(it.demand) + (it.aib ? ' · ' + fmtAib(it.aib) : '') + ']') + (d ? '  ← ' + d.why : ''));
+        (sec === 'parenting' ? '' : '  [' + DEPTH_KO[depthOf(it)] + ' · ' + it.angleType + ' · ' + fmtDemand(it.demand) + (it.aib ? ' · ' + fmtAib(it.aib) : '') + ']') + (d ? '  ← ' + d.why : ''));
     });
   });
   const out = val('--json', null);
@@ -457,17 +490,19 @@ async function cmdStamp() {
   const before = JSON.stringify(ed);
   const { saOn } = await computeSignals(items, Number(val('--aib-max', '10')) || 0);
   saveCache();
-  const { drop } = judge(items, saOn);
+  const ctx = { newGames: newGamesFrom(doc, 14) };
+  const { drop } = judge(items, saOn, ctx);
   const dropSet = new Set(drop.map((d) => d.it));
   (ed.sections || []).forEach((s) => {
     s.items = sortSection(s.key, (s.items || []).filter((it) => it && !dropSet.has(it)));
     s.items.forEach((it) => { delete it.sec; });
   });
-  items.forEach((it) => { delete it.sec; });
+  items.forEach((it) => { if (!dropSet.has(it) && it.angleType) it.depth = depthOf(it); delete it.sec; });
   const changed = JSON.stringify(ed) !== before;
-  const mix = {}; items.filter((it) => !dropSet.has(it) && it.angleType).forEach((it) => { mix[it.angleType] = (mix[it.angleType] || 0) + 1; });
+  const mix = {}, dep = {}; items.filter((it) => !dropSet.has(it) && it.angleType).forEach((it) => { mix[it.angleType] = (mix[it.angleType] || 0) + 1; dep[it.depth] = (dep[it.depth] || 0) + 1; });
   console.log('stamp ' + date + ' — 게임 항목 ' + items.filter((it) => it.angleType).length + '건 · 검색량 ' + (saOn ? '연동' : '미연동') +
-    ' · 각도 ' + ANGLE_TYPES.map((k) => k + ' ' + (mix[k] || 0)).join(' / '));
+    ' · 각도 ' + ANGLE_TYPES.map((k) => k + ' ' + (mix[k] || 0)).join(' / ') +
+    ' · 깊이 ' + ['play', 'entry', 'news'].map((k) => DEPTH_KO[k] + ' ' + (dep[k] || 0)).join(' / '));
   if (drop.length) {
     console.log('★BACKSTOP 거둬냄 ' + drop.length + '건 — check 단계에서 빠졌어야 할 항목이다. note 의 «거둬냄» 줄에 합산할 것:');
     drop.forEach((d) => console.log('   - [' + d.rule + '] ' + (d.it.game || '') + ' | ' + String(d.it.title || '').slice(0, 50) + ' ← ' + d.why));
@@ -557,7 +592,10 @@ async function cmdQueries() {
   cands.forEach((c) => { const s = aib.get(c.q) || aibSummary(aibFromCache(c.q)); if (s) c.aib = s; });
   saveCache();
   const ang = { '공략·방법형': 0, '쿠폰형': 1, '추천·티어·비교형': 2 };
-  const ranked = cands.map((c, i) => ({ c, k: [-(c.demand.tier == null ? -0.5 : c.demand.tier), aibRank(c.aib), ang[c.angle], i] })).sort((x, y) => cmpKey(x.k, y.k)).map((x) => x.c);
+  /* ★같은 수요 구간이면 «실전형»을 앞세운다(2026-09-21) — 채굴 순서대로 두면 머리 질의(하는 법·설치)가 늘 위에 와서
+     게임당 상한에 진입형만 남았다(09-21 공략 칸 6건 중 4건). */
+  const ranked = cands.map((c, i) => ({ c, k: [-(c.demand.tier == null ? -0.5 : c.demand.tier), depthOf({ keywords: [c.q], title: c.q }) === 'entry' ? 1 : 0, aibRank(c.aib), ang[c.angle], i] }))
+    .sort((x, y) => cmpKey(x.k, y.k)).map((x) => x.c);
   /* ★게임당 상한(2026-09-20) — 09-19 첫 판에서 상위 20건이 시드 12종 중 6종(메이플 6·오버워치 5·롤 4)에 몰려,
      공략 조사원이 «같은 게임 2건» 규칙과 부딪혀 6건밖에 못 냈다. 게임을 고루 섞어야 상한만큼 뽑힌다.
      --games 로 게임을 직접 준 때(지정·주력)는 그 게임 몫을 다 봐야 하므로 기본 상한 없음. */
@@ -570,7 +608,7 @@ async function cmdQueries() {
   const top = pool.slice(0, Math.max(1, Number(val('--top', '20')) || 20));
   const gamesInTop = new Set(top.map((c) => normKey(c.game))).size;
   console.log('\n질의 빈칸 — ' + games.length + '종에서 ' + cands.length + '건(이동형·기존 글·지난달 제외) · 상위 ' + top.length + '건 / ' + gamesInTop + '종' + (PERGAME ? ' · 게임당 최대 ' + PERGAME : ''));
-  top.forEach((c, i) => console.log('  ' + String(i + 1).padStart(2) + '. ' + c.game + ' | ' + c.q + '  [' + c.angle + ' · ' + fmtDemand(c.demand) + (c.aib ? ' · ' + fmtAib(c.aib) : '') + ']'));
+  top.forEach((c, i) => console.log('  ' + String(i + 1).padStart(2) + '. ' + c.game + ' | ' + c.q + '  [' + DEPTH_KO[depthOf({ keywords: [c.q], title: c.q })] + ' · ' + c.angle + ' · ' + fmtDemand(c.demand) + (c.aib ? ' · ' + fmtAib(c.aib) : '') + ']'));
   const out = val('--json', null);
   if (out) { writeJson(out, { at: new Date().toISOString(), games, items: top }, 1); console.log('→ ' + out); }
   console.log('★질의가 있다 ≠ 지금 쓸 수 있다 — 조사원이 1차 자료(공식·위키)로 답을 확인한 질의만 발주한다.');
@@ -633,7 +671,7 @@ function secOfPost(folder, reqs, items) {
   return 'other';
 }
 
-module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, demandOf, judge, sortSection, sortKey, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, getRequests, deskItems, secOfPost };
+module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, demandOf, judge, sortSection, sortKey, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, getRequests, deskItems, secOfPost, depthOf, newGamesFrom, DEPTH_KO };
 
 if (require.main === module) {
   const cmd = argv[0];
