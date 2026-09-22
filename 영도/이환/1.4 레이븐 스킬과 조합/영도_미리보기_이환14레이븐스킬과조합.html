@@ -1,0 +1,241 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>이환 레이븐 스킬 정리, 조합 방향이랑 출시일까지 1.4 버전 픽업 총정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.7;}
+  .guidenote{color:#999;font-size:13px;margin-bottom:18px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post .q{color:var(--pt);}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  .faq-q{font-weight:800;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy h3:first-child{margin-top:0;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy a{color:#1a73e8;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">이환</div>
+    <h1 class="title">이환 레이븐 스킬 정리, 조합 방향이랑 출시일까지 1.4 버전 픽업 총정리</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026.09.22</span><span>· 게임</span></div>
+
+    <p>안녕하세요. 영원한도시입니다. 9월 16일 밤에 진행된 이환 1.4 버전 특별방송을 챙겨봤는데요, 신캐릭터 발표치고 스킬 설명이 유독 자세하게 나오더라고요. 마침 픽업 시작일이 코앞이라, 오늘은 이번에 공개된 <b>레이븐</b> 스킬이랑 조합 방향, 그리고 픽업 일정까지 한 번에 정리해 보려고 합니다. 아직 게임 안에서 직접 눌러볼 수 있는 캐릭터는 아니라서, 이번 글은 방송에서 공식으로 공개된 범위까지만 다룰게요.</p>
+<h2 class="sec">1. 이환 1.4 버전, 언제 적용되고 레이븐은 언제까지 픽업일까</h2>
+    <p>이환 1.4 버전 '누구를 위하여 기도를 올리나'는 <b>9월 30일(수) 점검 후 적용</b>되고, 신캐릭터 레이븐은 그 직후부터 <b>10월 21일(수) 오전 6시 59분까지</b> 1.4 전반부 픽업으로 확인됐습니다.</p>
+    <p>오늘이 9월 22일(화)이니까 딱 D-8 남은 셈인데요. 1.4 시즌 자체는 9월 30일부터 11월 11일(수)까지 약 6주간 진행되고, 전반부·후반부가 각각 21일씩 나눠 운영된다고 하더라고요(인벤 보도 기준). 레이븐을 노리고 있다면 전반부 3주 안에는 픽업을 마쳐야 한다는 뜻이죠.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>날짜</th></tr>
+      <tr><td>1.4 버전 적용</td><td>9월 30일(수) 점검 후</td></tr>
+      <tr><td>레이븐 전반부 픽업 시작</td><td>9월 30일(수) 점검 후</td></tr>
+      <tr><td>레이븐 전반부 픽업 종료</td><td>10월 21일(수) 06:59</td></tr>
+      <tr><td>1.4 시즌 종료</td><td>11월 11일(수)</td></tr>
+    </table>
+
+    <h2 class="sec">2. 레이븐 기본 정보</h2>
+    <p>레이븐은 <b>S급 혼(魂) 속성</b>의 <b>메인 딜러</b> 캐릭터로, 특성은 '쾌속 사이클'이고 아크는 「죄와 벌」입니다. 이 아크 표기는 인벤의 1.4 특별방송 정리 기사에서도 동일하게 확인된 내용입니다.</p>
+    <p>이번 방송에서 개인적으로 가장 눈에 들어온 지점은 레이븐의 컨셉이었는데요, "주문을 되뇌는 방식으로 상대에게 암시를 걸어 이후 행동에 영향을 준다"는 이능력 설정이거든요. 마녀 컨셉 캐릭터(?)치고 상당히 심리전에 가까운 능력이라 신선하다는 느낌이 들더라고요. 같은 방송에서 또 다른 신캐릭터 '아카네 린'과 신규 섬 '푸카 파라다이스'도 함께 공개됐습니다.</p>
+    <table class="tbl">
+      <tr><th>등급</th><th>속성</th><th>포지션</th><th>특성</th><th>아크</th></tr>
+      <tr><td>S급</td><td>혼(魂)</td><td>메인 딜러</td><td>쾌속 사이클</td><td>「죄와 벌」</td></tr>
+    </table>
+
+    <h2 class="sec">3. 스킬 구성</h2>
+    <p>레이븐의 스킬은 일반공격ㆍ'장송의 깃털'ㆍ울티메이트 '모든 영혼의 안식' 세 축으로 짜여 있습니다.</p>
+    <ul>
+      <li><b>일반공격</b> — 사슬 세 장으로 최대 5단 연속 공격을 가하고, 길게 누르면 이동속도를 낮추는 '귀소'로 이어집니다.</li>
+      <li><b>장송의 깃털</b> — 명중한 목표에게 '실낙의 깃털' 표식을 남기고, 표식이 남아있는 동안 다른 캐릭터가 그 목표를 때리면 '실낙조 협동 공격'이 발동해 범위 피해를 줍니다.</li>
+      <li><b>모든 영혼의 안식(울티메이트)</b> — 발동하면 레이븐이 '구세의 마녀'로 변신해 고위력 피해를 주고, 파티 전체 공격력을 일정 시간 올려줍니다.</li>
+    </ul>
+    <p>정확한 피해 배율ㆍ쿨타임ㆍ표식 최대 중첩 같은 세부 수치는 아직 공식 상세가 공개되지 않았습니다. 방송에서도 컨셉 위주로만 짚고 넘어갔거든요(ㅋㅋ). 1.4 버전이 실제로 열려야 게임 내에서 정확히 확인될 것 같습니다.</p>
+
+    <h2 class="sec">4. 왜 흥미로운 캐릭터인가</h2>
+    <p>레이븐은 평소엔 표식으로 아군 화력을 끌어올리는 서포트 역할을 하다가, 궁극기 순간에는 직접 고위력을 뽑는 메인 딜러로 바뀌는 <b>2단 구조</b>가 핵심입니다.</p>
+    <p>'장송의 깃털'로 표식만 걸어두면 다른 딜러가 알아서 때려도 협동 공격이 따라붙는 구조라, 평소엔 화력을 보태는 쪽에 가깝습니다. 근데 '모든 영혼의 안식'을 쓰는 순간엔 구세의 마녀로 변신해서 본인이 직접 큰 피해를 넣고, 파티 공격력까지 같이 올려주니까 한 캐릭터 안에 서포터랑 메인딜러가 같이 들어있는 셈이죠. 이런 구조면 표식을 꾸준히 받아줄 딜러 축이나, 혼 속성끼리 시너지를 볼 수 있는 아군이랑 맞물릴 것 같은데요, 다만 정식 파티 조합은 아직 확정된 정보가 없어서 이 글에서 단정 짓지는 않을게요. 커뮤니티에 도는 유출 정보도 신뢰도가 낮아서 이번엔 일부러 배제했습니다. 개인적으로는 '평소엔 서포터, 결정적인 순간엔 딜러'라는 설계가 파티 자리 하나로 두 역할을 다 챙길 수 있다는 뜻이라, 조합을 짤 때 운신 폭이 넓어지는 캐릭터가 될 것 같다는 인상을 받았습니다.</p>
+
+    <h2 class="sec">5. 레이븐 말고도 같이 살펴볼 것들</h2>
+    <p>이번 1.4 버전은 레이븐 하나만 공개된 게 아니라, 신캐릭터 '아카네 린'과 신규 섬 '푸카 파라다이스'가 함께 공개됐습니다.</p>
+    <p>푸카 파라다이스는 섬 하나를 통째로 놀이공원 컨셉으로 꾸민 신규 지역이라던데, 이환에서 이런 대형 테마 지역이 나온 건 이번이 처음이라 개인적으로도 기대가 되더라고요. 같은 방송에서 포르쉐 콜라보 2탄 소식도 같이 나왔는데요, 블라인드 박스를 열어서 콜라보 차량을 얻는 방식이라고 합니다. 신캐릭터ㆍ신규 지역ㆍ콜라보가 한 번에 몰려서 나오는 걸 보면, 1.4가 확실히 '고봉밥' 업데이트라는 느낌은 드는데요, 이 부분도 정식 적용 후에 자세히 다시 정리해볼게요.</p>
+
+    <h2 class="sec">자주 묻는 질문</h2>
+    <p><span class="faq-q">Q. 레이븐 스킬 정확한 수치(피해량ㆍ쿨타임)는 공개됐나요?</span><br>
+    아직 공식 상세 수치는 나오지 않았습니다. 1.4 버전이 9월 30일 적용되면 게임 내에서 정확한 배율과 쿨타임을 직접 확인할 수 있을 것 같습니다.</p>
+    <p><span class="faq-q">Q. 레이븐 추천 파티 조합은 있나요?</span><br>
+    공식 추천 조합은 아직 없습니다. 표식으로 협동 공격을 유도하는 구조라 혼 속성 아군이나, 협동 공격을 자주 받아줄 수 있는 딜러 축과 맞물릴 가능성은 있지만, 확정된 조합표는 출시 이후 실제 플레이 데이터가 쌓여야 나올 것 같습니다. 인벤ㆍ나무위키 같은 커뮤니티 채널에도 아직 정립된 조합 정보는 안 보이더라고요.</p>
+    <p><span class="faq-q">Q. '푸카 파라다이스'는 뭔가요?</span><br>
+    이번 1.4 버전과 함께 공개된 신규 섬으로, 신캐릭터 아카네 린과 함께 소개됐습니다. 섬 하나가 통째로 놀이공원 컨셉이라던데, 자세한 콘텐츠는 아직 공식 상세가 나오지 않았습니다. 신규 지역이 나올 때마다 탐사할 거리도 같이 늘어나는 편이라, 저도 1.4가 열리면 레이븐 픽업이랑 같이 챙겨볼 생각입니다.</p>
+
+    <div class="summary"><div class="h">오늘 내용 정리</div>
+    핵심만 추려보면, 레이븐은 9월 30일 1.4 버전 적용과 함께 10월 21일 오전 6시 59분까지 전반부 픽업으로 만날 수 있고, 평소엔 표식으로 서포트하다 궁 각에서 메인딜러로 바뀌는 구조가 특징이에요. 정확한 수치랑 조합은 아직 미공개라 출시 이후에 직접 확인이 필요할 것 같습니다. 1.4 버전이 열리면 주인장이 직접 찍어서 다시 정리해볼게요!!</div>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://nte.perfectworld.com/kr/" target="_blank">이환(NTE) 공식 홈페이지</a><br>
+    · <a href="https://www.youtube.com/watch?v=wUvOmdxcQnY" target="_blank">「이환」 1.4 버전 프리뷰 특별 방송</a></p>
+
+    <p><b>▶ 같이 보면 좋은 글</b><br>
+    · <a href="https://blog.naver.com/kkodug9/224416635826" target="_blank">이환 들녘의 별장 농사 가능한 부동산 후기</a><br>
+    · <a href="https://blog.naver.com/kkodug9/224411337416" target="_blank">이환 링코 파티 조합, 카트리지 드라이브 모듈 세팅, 스킬 순서 공략</a><br>
+    · <a href="https://blog.naver.com/kkodug9/224401719407" target="_blank">이환 등불 야행 빙의종 이상 현상 공략</a></p>
+
+    <div class="tags">#이환 #NTE #이환레이븐 #레이븐스킬 #레이븐조합 #이환1.4버전 #이환레이븐출시일 #할만한모바일게임</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> 이 글은 별도 사진 자리가 없어서 바로 붙여도 됩니다.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 0곳:</b> 이 글은 사진 없이 텍스트·표로만 구성돼 있어서 바로 복붙하면 됩니다.</div>
+      📌 제목칸에 따로: 이환 레이븐 스킬 정리, 조합 방향이랑 출시일까지 1.4 버전 픽업 총정리
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다</p>
+    <div id="copy">
+<p>안녕하세요. 영원한도시입니다. 9월 16일 밤에 진행된 이환 1.4 버전 특별방송을 챙겨봤는데요, 신캐릭터 발표치고 스킬 설명이 유독 자세하게 나오더라고요. 마침 픽업 시작일이 코앞이라, 오늘은 이번에 공개된 <b>레이븐</b> 스킬이랑 조합 방향, 그리고 픽업 일정까지 한 번에 정리해 보려고 합니다. 아직 게임 안에서 직접 눌러볼 수 있는 캐릭터는 아니라서, 이번 글은 방송에서 공식으로 공개된 범위까지만 다룰게요.</p>
+<h3>1. 이환 1.4 버전, 언제 적용되고 레이븐은 언제까지 픽업일까</h3>
+<p>이환 1.4 버전 '누구를 위하여 기도를 올리나'는 <b>9월 30일(수) 점검 후 적용</b>되고, 신캐릭터 레이븐은 그 직후부터 <b>10월 21일(수) 오전 6시 59분까지</b> 1.4 전반부 픽업으로 확인됐습니다.</p>
+<p>오늘이 9월 22일(화)이니까 딱 D-8 남은 셈인데요. 1.4 시즌 자체는 9월 30일부터 11월 11일(수)까지 약 6주간 진행되고, 전반부·후반부가 각각 21일씩 나눠 운영된다고 하더라고요(인벤 보도 기준). 레이븐을 노리고 있다면 전반부 3주 안에는 픽업을 마쳐야 한다는 뜻이죠.</p>
+<table>
+  <tr><th>구분</th><th>날짜</th></tr>
+  <tr><td>1.4 버전 적용</td><td>9월 30일(수) 점검 후</td></tr>
+  <tr><td>레이븐 전반부 픽업 시작</td><td>9월 30일(수) 점검 후</td></tr>
+  <tr><td>레이븐 전반부 픽업 종료</td><td>10월 21일(수) 06:59</td></tr>
+  <tr><td>1.4 시즌 종료</td><td>11월 11일(수)</td></tr>
+</table>
+<h3>2. 레이븐 기본 정보</h3>
+<p>레이븐은 <b>S급 혼(魂) 속성</b>의 <b>메인 딜러</b> 캐릭터로, 특성은 '쾌속 사이클'이고 아크는 「죄와 벌」입니다. 이 아크 표기는 인벤의 1.4 특별방송 정리 기사에서도 동일하게 확인된 내용입니다.</p>
+<p>이번 방송에서 개인적으로 가장 눈에 들어온 지점은 레이븐의 컨셉이었는데요, "주문을 되뇌는 방식으로 상대에게 암시를 걸어 이후 행동에 영향을 준다"는 이능력 설정이거든요. 마녀 컨셉 캐릭터(?)치고 상당히 심리전에 가까운 능력이라 신선하다는 느낌이 들더라고요. 같은 방송에서 또 다른 신캐릭터 '아카네 린'과 신규 섬 '푸카 파라다이스'도 함께 공개됐습니다.</p>
+<table>
+  <tr><th>등급</th><th>속성</th><th>포지션</th><th>특성</th><th>아크</th></tr>
+  <tr><td>S급</td><td>혼(魂)</td><td>메인 딜러</td><td>쾌속 사이클</td><td>「죄와 벌」</td></tr>
+</table>
+<h3>3. 스킬 구성</h3>
+<p>레이븐의 스킬은 일반공격ㆍ'장송의 깃털'ㆍ울티메이트 '모든 영혼의 안식' 세 축으로 짜여 있습니다.</p>
+<ul>
+<li><b>일반공격</b> — 사슬 세 장으로 최대 5단 연속 공격을 가하고, 길게 누르면 이동속도를 낮추는 '귀소'로 이어집니다.</li>
+<li><b>장송의 깃털</b> — 명중한 목표에게 '실낙의 깃털' 표식을 남기고, 표식이 남아있는 동안 다른 캐릭터가 그 목표를 때리면 '실낙조 협동 공격'이 발동해 범위 피해를 줍니다.</li>
+<li><b>모든 영혼의 안식(울티메이트)</b> — 발동하면 레이븐이 '구세의 마녀'로 변신해 고위력 피해를 주고, 파티 전체 공격력을 일정 시간 올려줍니다.</li>
+</ul>
+<p>정확한 피해 배율ㆍ쿨타임ㆍ표식 최대 중첩 같은 세부 수치는 아직 공식 상세가 공개되지 않았습니다. 방송에서도 컨셉 위주로만 짚고 넘어갔거든요(ㅋㅋ). 1.4 버전이 실제로 열려야 게임 내에서 정확히 확인될 것 같습니다.</p>
+<h3>4. 왜 흥미로운 캐릭터인가</h3>
+<p>레이븐은 평소엔 표식으로 아군 화력을 끌어올리는 서포트 역할을 하다가, 궁극기 순간에는 직접 고위력을 뽑는 메인 딜러로 바뀌는 <b>2단 구조</b>가 핵심입니다.</p>
+<p>'장송의 깃털'로 표식만 걸어두면 다른 딜러가 알아서 때려도 협동 공격이 따라붙는 구조라, 평소엔 화력을 보태는 쪽에 가깝습니다. 근데 '모든 영혼의 안식'을 쓰는 순간엔 구세의 마녀로 변신해서 본인이 직접 큰 피해를 넣고, 파티 공격력까지 같이 올려주니까 한 캐릭터 안에 서포터랑 메인딜러가 같이 들어있는 셈이죠. 이런 구조면 표식을 꾸준히 받아줄 딜러 축이나, 혼 속성끼리 시너지를 볼 수 있는 아군이랑 맞물릴 것 같은데요, 다만 정식 파티 조합은 아직 확정된 정보가 없어서 이 글에서 단정 짓지는 않을게요. 커뮤니티에 도는 유출 정보도 신뢰도가 낮아서 이번엔 일부러 배제했습니다. 개인적으로는 '평소엔 서포터, 결정적인 순간엔 딜러'라는 설계가 파티 자리 하나로 두 역할을 다 챙길 수 있다는 뜻이라, 조합을 짤 때 운신 폭이 넓어지는 캐릭터가 될 것 같다는 인상을 받았습니다.</p>
+<h3>5. 레이븐 말고도 같이 살펴볼 것들</h3>
+<p>이번 1.4 버전은 레이븐 하나만 공개된 게 아니라, 신캐릭터 '아카네 린'과 신규 섬 '푸카 파라다이스'가 함께 공개됐습니다.</p>
+<p>푸카 파라다이스는 섬 하나를 통째로 놀이공원 컨셉으로 꾸민 신규 지역이라던데, 이환에서 이런 대형 테마 지역이 나온 건 이번이 처음이라 개인적으로도 기대가 되더라고요. 같은 방송에서 포르쉐 콜라보 2탄 소식도 같이 나왔는데요, 블라인드 박스를 열어서 콜라보 차량을 얻는 방식이라고 합니다. 신캐릭터ㆍ신규 지역ㆍ콜라보가 한 번에 몰려서 나오는 걸 보면, 1.4가 확실히 '고봉밥' 업데이트라는 느낌은 드는데요, 이 부분도 정식 적용 후에 자세히 다시 정리해볼게요.</p>
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 레이븐 스킬 정확한 수치(피해량ㆍ쿨타임)는 공개됐나요?</b><br>
+아직 공식 상세 수치는 나오지 않았습니다. 1.4 버전이 9월 30일 적용되면 게임 내에서 정확한 배율과 쿨타임을 직접 확인할 수 있을 것 같습니다.</p>
+<p><b>Q. 레이븐 추천 파티 조합은 있나요?</b><br>
+공식 추천 조합은 아직 없습니다. 표식으로 협동 공격을 유도하는 구조라 혼 속성 아군이나, 협동 공격을 자주 받아줄 수 있는 딜러 축과 맞물릴 가능성은 있지만, 확정된 조합표는 출시 이후 실제 플레이 데이터가 쌓여야 나올 것 같습니다. 인벤ㆍ나무위키 같은 커뮤니티 채널에도 아직 정립된 조합 정보는 안 보이더라고요.</p>
+<p><b>Q. '푸카 파라다이스'는 뭔가요?</b><br>
+이번 1.4 버전과 함께 공개된 신규 섬으로, 신캐릭터 아카네 린과 함께 소개됐습니다. 섬 하나가 통째로 놀이공원 컨셉이라던데, 자세한 콘텐츠는 아직 공식 상세가 나오지 않았습니다. 신규 지역이 나올 때마다 탐사할 거리도 같이 늘어나는 편이라, 저도 1.4가 열리면 레이븐 픽업이랑 같이 챙겨볼 생각입니다.</p>
+<p><b>오늘 내용 정리</b><br>
+핵심만 추려보면, 레이븐은 9월 30일 1.4 버전 적용과 함께 10월 21일 오전 6시 59분까지 전반부 픽업으로 만날 수 있고, 평소엔 표식으로 서포트하다 궁 각에서 메인딜러로 바뀌는 구조가 특징이에요. 정확한 수치랑 조합은 아직 미공개라 출시 이후에 직접 확인이 필요할 것 같습니다. 1.4 버전이 열리면 주인장이 직접 찍어서 다시 정리해볼게요!!</p>
+<p><b>참고한 곳</b><br>
+· <a href="https://nte.perfectworld.com/kr/" target="_blank">이환(NTE) 공식 홈페이지</a><br>
+· <a href="https://www.youtube.com/watch?v=wUvOmdxcQnY" target="_blank">「이환」 1.4 버전 프리뷰 특별 방송</a></p>
+<p><b>▶ 같이 보면 좋은 글</b><br>
+· <a href="https://blog.naver.com/kkodug9/224416635826" target="_blank">이환 들녘의 별장 농사 가능한 부동산 후기</a><br>
+· <a href="https://blog.naver.com/kkodug9/224411337416" target="_blank">이환 링코 파티 조합, 카트리지 드라이브 모듈 세팅, 스킬 순서 공략</a><br>
+· <a href="https://blog.naver.com/kkodug9/224401719407" target="_blank">이환 등불 야행 빙의종 이상 현상 공략</a></p>
+<p class="tags-line">#이환 #NTE #이환레이븐 #레이븐스킬 #레이븐조합 #이환1.4버전 #이환레이븐출시일 #할만한모바일게임</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
