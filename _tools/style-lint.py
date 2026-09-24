@@ -5,7 +5,8 @@
 #       2) 전 작성자 공통: 발행본에 절대 없어야 하는 'AI 일반 템플릿 면책 박스/초안·QA 잔재'면 실패(exit 2). ← PUBLISH_DENY
 #       3) 작성자 정본 스켈레톤을 안 쓴 '비표준 템플릿' 의심이면 경고(WARN, push는 막지 않음). ← PUBLISH_WARN
 #       ※ 문장 리듬·어미 비율 같은 '산문 톤' 오염, 사실 오류, 문체 부재는 정규식으로 못 잡으므로 QA/검수2(LLM)가 담당.
-#       ※ 🔍·.chk(미확정 마커)는 미리보기(작성자 확인용) 관례라 잡지 않는다 — 네이버/티스토리 붙여넣기 시 제외됨(feedback-log 2026-05-31).
+#       ※ 🔍·.chk(미확정 마커)는 미리보기(작성자 확인용) 관례라 **미리보기 본문에선** 잡지 않는다 — 네이버/티스토리 붙여넣기 시 제외됨(feedback-log 2026-05-31).
+#         ★단 네이버 생존본 `#copy` 안에 남은 🔍·.chk·검증 메타·문말 (?) 는 실게시로 그대로 들어가므로 잡는다(2026-09-23 · 승격 큐 #4·#5 코드화 — 아래 CPY-1·CPY-2).
 # 배경: 2026-06-14, 봄딩 우마무스메 글이 파이프라인(작성 스킬·QA·린트)을 통째로 건너뛰고 'AI 일반 템플릿(.container/.disclaimer/🔍 본문노출)'
 #       으로 발행된 사고. 이 린트가 push마다 자동(pre-push 훅) 실행되도록 강제 + 면책박스류를 전 작성자 공통 금지로 추가.
 import os, re, sys
@@ -199,12 +200,51 @@ def check_sources(author, p, raw, problems, warnings, strict):
         item = (author, rel, "SRC-0 수치·날짜가 있는데 외부 출처 링크 0 — 근거 없이 단정한 값이 없는지 확인", 1)
         (problems if strict else warnings).append(item)
 
+# ===== 네이버 생존본(#copy) 잔존 게이트 — 2026-09-23 신설 (전수조사 C#10 · 승격 큐 #4·#5) =====
+# 배경: lessons/qa.md L120(승격 큐 #4 · hits 7) «미리보기 전용 마커·검증 흔적이 발행 산출물에 잔존 — #copy 에 🔍 리터럴·[확인 안내]·
+#   '나무위키·커뮤니티 교차 확인한 값' 검증 방법론 평문 잔존» / L171(승격 큐 #5 · hits 7) «영도 문말 (?) 가 네이버 붙여넣기본까지 침투».
+#   둘 다 규칙은 output-format §3·§4-2(«#copy 는 🔍·.chk·사이드노트·검증 메타 전부 제거한 생존본»)에 있었고 코드 게이트가 없었다.
+# ★SRC-0 과 같은 원칙: 신규 글이 오는 **인자 모드에서만 DENY**, pre-push 전체 스캔은 **WARN**(과거분이 push 를 영구 차단하면 게이트가 꺼진다).
+# ★#copy 가 없는 글(티스토리 작성자·구형)은 대상 아님. 미리보기 본문(.post)의 🔍 는 종전대로 잡지 않는다(작성자 확인용 관례).
+COPY_RESIDUE = [
+    ("CPY-1 #copy 에 미리보기 마커 🔍 잔존(승격 큐 #4 · output-format §4-2 «생존본에서 제거»)", r"🔍"),
+    ("CPY-1 #copy 에 .chk 칩 잔존(승격 큐 #4)", r'class\s*=\s*["\'][^"\']*\bchk\b'),
+    ("CPY-1 #copy 에 검증 메타 평문 잔존 — [확인 안내]/교차 확인한 값/나무위키·커뮤니티 자료(승격 큐 #4)", r"\[확인\s*안내\]|교차\s*확인한\s*값|나무위키[·ㆍ,]\s*커뮤니티\s*자료|appdetails\s*API"),
+]
+# 문말 (?) = 종결어미(요·다·죠·까·니다·네·군) 바로 뒤에 붙은 (?) — «있으신가요(?)»·«됩니다(?)». 영도의 단어 뒤 (?) 너스레(«전투(?)»·«노동(?)», G장)와 다르다.
+COPY_TAIL_QMARK = re.compile(r"(?:요|다|죠|까|니다|네|군)\s*\(\?\)")
+
+def _copy_html(raw):
+    m = re.search(r'<div[^>]*id\s*=\s*["\']copy["\']', raw)
+    if not m:
+        return ""
+    seg = raw[m.start():]
+    e = re.search(r"<script\b|</body>", seg, re.I)
+    seg = seg[:e.start()] if e else seg
+    return re.sub(r"<!--.*?-->", " ", seg, flags=re.S)
+
+def check_copy_residue(author, p, raw, problems, warnings, strict):
+    seg = _copy_html(raw)
+    if not seg:
+        return
+    rel = os.path.relpath(p, BASE)
+    sink = problems if strict else warnings
+    for label, pat in COPY_RESIDUE:
+        hits = re.findall(pat, seg)
+        if hits:
+            sink.append((author, rel, label, len(hits)))
+    if author == "영도":
+        hits = COPY_TAIL_QMARK.findall(seg)
+        if hits:
+            sink.append((author, rel, "CPY-2 영도 #copy 에 문말 (?) 침투(승격 큐 #5 · G장은 단어 뒤 너스레만, 문장 끝 (?) 는 저자가 안 쓴다)", len(hits)))
+
 def check_file(author, p, problems, warnings, strict=False):
     raw = open(p, encoding="utf-8").read()
     text = strip_html(raw)
     meta = strip_meta(raw)
     rel = os.path.relpath(p, BASE)
     check_sources(author, p, raw, problems, warnings, strict)
+    check_copy_residue(author, p, raw, problems, warnings, strict)
     # 1) 작성자 간 교차오염(본문 텍스트)
     for label, pat in DENY[author]:
         hits = re.findall(pat, text)

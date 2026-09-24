@@ -187,9 +187,9 @@ function ruleViolations(e, all) {
   const pn = {}; game.filter((x) => x.k === 'pinned' && x.it.angleType === 'news').forEach((x) => { pn[x.it.game] = (pn[x.it.game] || 0) + 1; });
   Object.entries(pn).forEach(([g, n]) => { if (n > 1) v.push('R3:' + g + ' ' + n); });
   game.filter((x) => x.k === 'new' && x.it.demand && x.it.demand.tier === 0).forEach(() => v.push('R1:new'));
+  /* R4 — ★2026-09-23 개정: 수요 최저 구간 = tier 0(검색광고·자동완성 경로 공통). heat 는 조사원 주관값이라 판정에서 뺐다(감사 E#7). */
   game.filter((x) => ['new', 'update', 'hot'].includes(x.k)).forEach(({ k, it }) => {
-    const sa = it.demand && it.demand.src === 'searchad';
-    if (sa ? it.demand.tier === 0 : (Number(it.heat) || 0) <= 1) v.push('R4:' + k);
+    if (it.demand && it.demand.tier === 0) v.push('R4:' + k);
   });
   sec('guide').forEach((it) => { if (!['howto', 'rank'].includes(it.angleType) || !it.demand || !(it.demand.tier >= 1)) v.push('G:guide'); });
   /* R5 — 진입형은 최근 14판 «신작» 칸에 오른 게임이거나 entryOk(경로 변경 사유)가 있을 때만.
@@ -220,7 +220,7 @@ console.log('\n[8] 거둬내기·신호 계약 (시행 ' + RULE_FROM + '~)');
     { key: 'guide', items: [I({ game: '메이플', angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
     { key: 'parenting', items: [I({ game: '아기 가습기' })] },
     { key: 'new', items: [I({ game: 'A', angleType: 'news', demand: { tier: 1, src: 'ac' } }), I({ game: 'B', angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
-    { key: 'update', items: [I({ game: 'C', angleType: 'news', heat: 3 })] },
+    { key: 'update', items: [I({ game: 'C', angleType: 'news', heat: 1, demand: { tier: 1, src: 'ac' } })] },   /* ★heat 1 이어도 tier ≥ 1 이면 위반 아님(09-23) */
     { key: 'hot', items: [I({ game: 'D', angleType: 'howto' })] }] };
   const vg = ruleViolations(good, [good, { date: '2026-09-18', sections: [{ key: 'parenting', items: [I({})] }] }]);
   ok(vg.length === 0, '게이트 자기시험 — 규칙을 지킨 합성 판은 위반 0' + (vg.length ? ' (나온 것: ' + vg.join(' · ') + ')' : ''));
@@ -230,7 +230,7 @@ console.log('\n[8] 거둬내기·신호 계약 (시행 ' + RULE_FROM + '~)');
     { key: 'guide', items: [I({ game: 'X', angleType: 'info', demand: { tier: 2, src: 'ac' } }),
       I({ game: '메이플', title: '메이플 하는법, 회원가입부터', keywords: ['메이플 하는법'], angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
     { key: 'parenting', items: [I({ game: '아기 칫솔' })] },
-    { key: 'new', items: [I({ game: 'A', angleType: 'news', demand: { tier: 0, src: 'ac' } }), I({ game: 'B', angleType: 'news' }), I({ game: 'E', angleType: 'howto' }), I({ game: 'F', angleType: 'howto', heat: 1 })] },
+    { key: 'new', items: [I({ game: 'A', angleType: 'news', demand: { tier: 0, src: 'ac' } }), I({ game: 'B', angleType: 'news' }), I({ game: 'E', angleType: 'howto' }), I({ game: 'F', angleType: 'howto', demand: { tier: 0, src: 'ac', q: 'F 공략', acRank: null } })] },
     { key: 'update', items: [] },
     { key: 'hot', items: [I({ game: 'D', angleType: 'news' })] }] };
   const vb = ruleViolations(bad, [bad, good]);

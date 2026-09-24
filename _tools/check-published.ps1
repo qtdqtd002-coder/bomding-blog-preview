@@ -14,15 +14,19 @@
 #   - 어떤 작성자의 블로그 조회가 "통째로 실패"하면 그 작성자의 기존 발행 목록은 건드리지 않는다(오검출로 딤드가 풀리는 사고 방지).
 #   - 매칭 false-negative 로 이미 발행 확인된 글이 빠지지 않도록, 기존 확인분은 합집합(union)으로 보존한다.
 #     (블로그에서 실제로 글이 내려간 드문 경우엔 -Strict 로 재계산만 반영.)
+#   - ★2026-09-23(감사 F#8): ① 네이버 200 + 빈 postList(0제목)는 «성공한 빈 목록»이 아니라 조회 실패다(fetchOk=false → 기존 목록 유지).
+#     ② 새 publishedRels 가 직전 파일 대비 50% 이상 줄면 기록을 거부하고(exit 3) 기존 파일을 유지한다 — 의도된 대량 해제는 -Force 로만.
+#     (영도 본문 n-gram 매칭은 P2 — 여기서 하지 않는다.)
 #
 # 실행:  powershell -ExecutionPolicy Bypass -File _tools\check-published.ps1
-# 옵션:  -Threshold 0.70  -MaxPages 14  -Strict  -DryRun
+# 옵션:  -Threshold 0.70  -MaxPages 14  -Strict  -DryRun  -Force(급감 가드 강행)
 param(
   [double]$Threshold = 0.70,   # 제목 거의 동일만 발행으로 확정(문자 bigram overlap-coefficient)
   [int]$MaxPages = 14,         # 네이버 글목록 API 페이지 수(14p ≈ 약 1년치)
   [switch]$Strict,             # 켜면 매칭 결과만 반영(기존 확인분 union 보존 안 함)
   [switch]$DeepTistory,        # ★켜면 티스토리 RSS(20편)+sitemap 전체 글 og:title 수집(백로그 1회 catch-up용, 글마다 1 fetch라 느림). 기본 OFF=RSS만(빠름).
-  [switch]$DryRun              # 켜면 published.json 을 쓰지 않고 진단만 출력
+  [switch]$DryRun,             # 켜면 published.json 을 쓰지 않고 진단만 출력
+  [switch]$Force               # ★2026-09-23: 발행확인 편수가 직전 파일 대비 절반 아래로 «급감»해도 기록을 강행(의도된 대량 해제일 때만)
 )
 $ErrorActionPreference = "Stop"
 try { $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
@@ -71,6 +75,12 @@ function Scores($a,$b){
   $ovl = if($den -gt 0){ [double]$inter / [double]$den } else { 0.0 }
   return @{ jac=$jac; ovl=$ovl }
 }
+# ★2026-09-23(F#8②) — 급감 가드. 직전 파일에 N편이 있었는데 새 결과가 N×(1-MinDrop) 미만이면 «조회 오류»로 본다(기록 거부).
+#   직전이 비어 있으면(첫 생성) 언제나 통과. 반환 = $true(기록 가능) / $false(거부).
+function Test-RelsPlausible([int]$prevCount,[int]$newCount,[double]$MinDrop=0.5){
+  if($prevCount -le 0){ return $true }
+  return ([double]$newCount -ge ([double]$prevCount * (1.0 - $MinDrop)))
+}
 
 # ── 네이버: 글 제목 전체 수집(카테고리 무관 — categoryNo=0) ──
 function Get-NaverTitles([string]$blogId,[int]$pages){
@@ -82,6 +92,9 @@ function Get-NaverTitles([string]$blogId,[int]$pages){
     if(-not $j.postList -or $j.postList.Count -eq 0){ break }
     foreach($pl in $j.postList){ $titles.Add([System.Web.HttpUtility]::UrlDecode([string]$pl.title)) }
   }
+  # ★2026-09-23(F#8①) — 0제목 fetch 는 실패다. 네이버는 차단·오류 때도 200 + 빈 postList 를 줄 수 있어, 이걸 성공으로 보면
+  #   -Strict 에서 전부 drop · 기본 모드에서도 라이브 제목 스냅샷(_live-titles.json)이 빈 값으로 덮인다. 호출부 catch 가 fetchOk=false 로 받는다.
+  if($titles.Count -eq 0){ throw ("네이버 {0}: 제목 0개(HTTP 200 + 빈 postList) — 조회 실패로 처리" -f $blogId) }
   return $titles
 }
 # ── 티스토리: RSS 제목 수집 (+ -DeepTistory 시 sitemap 전체 글 og:title 보강) ──
@@ -118,6 +131,7 @@ function Get-TistoryTitles([string]$blogId,[bool]$deep=$false){
       Write-Host ("  ↳ [{0}] -DeepTistory: sitemap 글 {1}개 og:title 보강(RSS 합산 {2}개)" -f $blogId, $i, $titles.Count) -ForegroundColor DarkCyan
     } catch { Write-Host "  ⚠ [$blogId] sitemap 보강 실패(무시, RSS만 사용): $($_.Exception.Message)" -ForegroundColor Yellow }
   }
+  if($titles.Count -eq 0){ throw ("티스토리 {0}: RSS 제목 0개 — 조회 실패로 처리(2026-09-23 F#8①)" -f $blogId) }
   return $titles
 }
 
@@ -305,7 +319,18 @@ if(-not $DryRun){
   }
 }
 
-if($DryRun){ Write-Host "`n(DryRun) published.json 미기록." -ForegroundColor Yellow; exit 0 }
+# ── 6.9) 급감 가드(★2026-09-23 F#8②) — 직전 파일 대비 −50% 이상이면 기록 거부·경고(기존 파일 유지) ──
+$plausible = Test-RelsPlausible $prevList.Count $finalRels.Count 0.5
+$dropRatio = $(if($prevList.Count -gt 0){ [double]$finalRels.Count / [double]$prevList.Count } else { 1.0 })
+if($DryRun){
+  if(-not $plausible){ Write-Host ("`n(DryRun) ⛔ 급감 가드에 걸린다: 발행확인 {0}편 → {1}편(직전 대비 {2:P0}) — LIVE 였다면 기록 거부(exit 3)" -f $prevList.Count, $finalRels.Count, $dropRatio) -ForegroundColor Red }
+  else { Write-Host ("`n(DryRun) 급감 가드 통과: {0}편 → {1}편(직전 대비 {2:P0})" -f $prevList.Count, $finalRels.Count, $dropRatio) -ForegroundColor DarkGray }
+  Write-Host "(DryRun) published.json 미기록." -ForegroundColor Yellow; exit 0
+}
+if(-not $Force -and -not $plausible){
+  Write-Host ("`n⛔ published.json 기록 거부: 발행확인 {0}편 → {1}편(직전 대비 {2:P0}) — 절반 아래로 급감한 결과는 조회 오류로 본다. 기존 파일을 유지한다. 의도된 대량 해제면 -Force." -f $prevList.Count, $finalRels.Count, $dropRatio) -ForegroundColor Red
+  exit 3
+}
 
 # ── 7) published.json 기록 ──
 $today = (& git -C $base log -1 --format="%ad" --date=format:"%Y-%m-%d" 2>$null)

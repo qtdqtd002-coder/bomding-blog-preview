@@ -35,6 +35,14 @@ img-lint.py — 글에 박힌 이미지가 «실제로 존재하는가»를 코�
           팰월드 사고의 지문이 정확히 이것이라 따로 표시한다.
   IMG-4 🟡 self-host 이미지의 width/height 가 실제 파일 치수와 다르거나 없다(CLS·정본 §4).
         추정치로 박은 자리를 잡는다(팰월드 글의 600x338 이 이 유형).
+  ── 2026-09-23 추가(전수조사 D#7 — qa-image 축의 결정론 항목을 코드로 옮겨 qa-structure 가 판단만 하게) ──
+  IMG-5 🟡 인접 이미지가 같은 파일(md5 동일 · 또는 src 동일). 09-23 애니모 탐사스킬 글 «02·05 파일 내용 뒤바뀜» 계열 —
+        내용이 같은 두 장이 붙어 있으면 다양성 필터(image-sourcing §1-1) 위반이 사실로 확정된다.
+  IMG-6 🟡 3종 메타 주석(`<!-- 이미지 이유: … / 출처: … / 분류: … -->`) 이 <img> 앞에 없다(output-format §1-1 «검수·크로스체크가 가능하게»).
+        치수는 IMG-4 가 본다. 주석은 이미지 태그 앞 600자 안에서 찾는다.
+  IMG-7 🟡 이미지 밀도 — 본문 한글자수 ÷ 시각 앵커 수(img + B형 촬영박스 .ss) 가 상한(800자/장)을 넘거나,
+        h2 절이 시각 앵커(img·.ss·표·인포그래픽) 없이 연속 2개 이상 비어 있다(output-format §1 «시각 앵커 분산 — 연속 2개 이상 비면 안 된다»).
+        상한 근거: §1 «보통 4~6장» ÷ 봄딩 목표 2,000~2,500자 ≈ 400~600자/장 → 여유 있게 800.
 
 쓰는 법
 -------
@@ -44,7 +52,7 @@ img-lint.py — 글에 박힌 이미지가 «실제로 존재하는가»를 코�
   python img-lint.py --json <경로...>        # 기계 출력
 종료코드: 0 = 위반 없음 · 1 = 🔴 있음 · 2 = 실행 오류
 """
-import sys, os, re, json, glob, struct
+import sys, os, re, json, glob, struct, hashlib
 from urllib.parse import unquote, urlsplit
 
 try:
@@ -69,6 +77,40 @@ DAUM_BLOG_PATH = re.compile(r'^/cfile', re.I)
 
 IMG_TAG = re.compile(r'<img\b[^>]*>', re.I)
 ATTR    = re.compile(r'(\w[\w:-]*)\s*=\s*"([^"]*)"|(\w[\w:-]*)\s*=\s*\'([^\']*)\'')
+META_KEYS = (('이유', r'이유\s*[:：]'), ('출처', r'출처\s*[:：]'), ('분류', r'분류\s*[:：]'))
+DENSITY_MAX = 800      # 본문 한글자수 ÷ 시각 앵커 수 상한(IMG-7)
+META_LOOKBACK = 600    # <img> 앞에서 메타 주석을 찾는 범위(자)
+
+
+def body_before_widget(html):
+    """네이버 위젯(#npBtn·#copy)은 본문의 사본이라 밀도·인접 판단에서 뺀다.
+    ★마커는 <style>/<script>/주석을 같은 길이의 공백으로 가린 사본에서 찾는다 — `<style>` 안의 «네이버 붙여넣기 위젯» 주석 문구에
+    걸려 본문이 0자로 잘리던 버그(09-23 실측). 반환은 원문 슬라이스라 메타 주석(IMG-6)은 그대로 남는다."""
+    def blank(m):
+        return re.sub(r'[^\n]', ' ', m.group(0))
+    masked = re.sub(r'<style\b.*?</style>|<script\b.*?</script>|<!--.*?-->', blank, html, flags=re.S | re.I)
+    cut = len(html)
+    for pat in (r'id\s*=\s*["\']npBtn["\']', r'id\s*=\s*["\']copy["\']', r'네이버 붙여넣기 위젯'):
+        m = re.search(pat, masked)
+        if m and m.start() < cut:
+            cut = m.start()
+    return html[:cut]
+
+
+def korean_chars_of(html):
+    t = re.sub(r'<!--.*?-->', ' ', html, flags=re.S)
+    t = re.sub(r'<(script|style)\b.*?</\1>', ' ', t, flags=re.S | re.I)
+    chunks = re.findall(r'<(?:p|li|h2|h3|td|th)\b[^>]*>(.*?)</(?:p|li|h2|h3|td|th)>', t, flags=re.S | re.I)
+    text = re.sub(r'<[^>]+>', ' ', ' '.join(chunks))
+    return sum(1 for c in text if '가' <= c <= '힣')
+
+
+def file_md5(path):
+    try:
+        with open(path, 'rb') as f:
+            return hashlib.md5(f.read()).hexdigest()
+    except Exception:
+        return None
 
 
 def pages_prefix():
@@ -255,6 +297,73 @@ def check(path, prefix):
     if n_ext and not n_self:
         res["yellow"].append(["IMG-3!", "이 글은 self-host 이미지가 0장이고 외부 핫링크만 %d장입니다 — "
                               "정본 §6 self-host 절차를 건너뛴 신호(2026-09-04 팰월드 사고 유형)" % n_ext, ""])
+
+    # ── IMG-5 · IMG-6 · IMG-7 (2026-09-23) — 위젯(#copy) 앞 본문만 본다
+    body = body_before_widget(html)
+    body_imgs = []
+    for m in IMG_TAG.finditer(body):
+        tag = m.group(0)
+        attrs = {}
+        for a in ATTR.finditer(tag):
+            k = (a.group(1) or a.group(3) or '').lower()
+            attrs[k] = a.group(2) if a.group(2) is not None else a.group(4)
+        if attrs.get('src'):
+            body_imgs.append((attrs, tag, body.count('\n', 0, m.start()) + 1, m.start()))
+
+    # IMG-5 인접 동일
+    prev = None
+    for attrs, tag, line, pos in body_imgs:
+        src = attrs['src']
+        kind, local = classify(src, html_dir, prefix)
+        sig = None
+        if kind in ('local', 'selfhost') and local and os.path.isfile(local):
+            sig = ('md5', file_md5(local))
+        else:
+            sig = ('src', src.strip().lower())
+        if prev and sig and prev[0] and sig[1] and prev[0][1] == sig[1]:
+            res["yellow"].append(["IMG-5", "인접 이미지가 같은 파일입니다(%s 동일) — 다양성 필터(§1-1) 위반 확정, 한 장을 다른 유형으로 교체"
+                                  % sig[0], "%d행 %s" % (line, src if len(src) <= 96 else src[:93] + '...')])
+        prev = (sig, line)
+
+    # IMG-6 3종 메타 주석(이유·출처·분류)
+    for attrs, tag, line, pos in body_imgs:
+        back = body[max(0, pos - META_LOOKBACK):pos]
+        comments = re.findall(r'<!--(.*?)-->', back, flags=re.S)
+        cm = comments[-1] if comments else ''
+        missing = [k for k, rx in META_KEYS if not re.search(rx, cm)]
+        if not comments:
+            res["yellow"].append(["IMG-6", "메타 주석 없음 — `<!-- 이미지 이유: … / 출처: … / 분류: A형 -->` 을 <img> 앞에(§1-1)",
+                                  "%d행 %s" % (line, attrs['src'][:80])])
+        elif missing:
+            res["yellow"].append(["IMG-6", "메타 주석에 %s 없음(이유·출처·분류 3종 · 치수는 IMG-4)" % '·'.join(missing),
+                                  "%d행 %s" % (line, attrs['src'][:80])])
+
+    # IMG-7 밀도 · 연속 h2 무앵커
+    n_ss = len(re.findall(r'class\s*=\s*["\'][^"\']*\bss\b', body))
+    slots = len(body_imgs) + n_ss
+    kch = korean_chars_of(body)
+    res["counts"]["chars"] = kch
+    res["counts"]["slots"] = slots
+    if kch >= 800:
+        per = kch / float(slots) if slots else float('inf')
+        if per > DENSITY_MAX:
+            res["yellow"].append(["IMG-7", "이미지 밀도 — 본문 %d자 ÷ 시각 앵커 %d = %s자/장 (상한 %d · §1 «보통 4~6장»)"
+                                  % (kch, slots, ('%.0f' % per) if slots else '∞', DENSITY_MAX), ""])
+        # h2 절 단위로 시각 앵커(img · .ss · table · 인포그래픽 .ig) 유무 → 연속 2개 이상 빈 절
+        secs = re.split(r'<h2\b', body)[1:]
+        empty_run, worst, first_empty = 0, 0, None
+        for i, s in enumerate(secs):
+            has = bool(re.search(r'<img\b|class\s*=\s*["\'][^"\']*\b(?:ss|tbl|ig-\w+|ig)\b|<table\b', s, re.I))
+            if has:
+                empty_run = 0
+            else:
+                empty_run += 1
+                if empty_run > worst:
+                    worst, first_empty = empty_run, i - empty_run + 2
+        # ★09-24 통합자: 연속 2 기준은 최근 117편 중 86편(74%)에 걸려 잡음 — 린트 경고는 «연속 3 이상»만(정본 §1 규칙 자체는 2 유지 · 판단은 qa-structure)
+        if worst >= 3 and len(secs) >= 4:
+            res["yellow"].append(["IMG-7", "h2 절이 시각 앵커 없이 연속 %d개 비어 있음(%d번째 절부터 · §1 «연속 2개 이상 비면 안 된다» — 표·인포그래픽으로 채운다)"
+                                  % (worst, first_empty), ""])
     return res
 
 
@@ -263,7 +372,7 @@ def targets(argv):
         out = []
         for w in ('봄딩', '영도', '겜더쿠', '연봄', '하루살이'):
             out += glob.glob(os.path.join(ROOT, w, '**', '*.html'), recursive=True)
-        return [p for p in out if os.sep + '_qa' + os.sep not in p]
+        return [p for p in out if os.sep + '_qa' + os.sep not in p and '붙여넣기' not in os.path.basename(p)]
     return [a for a in argv[1:] if not a.startswith('-')]
 
 

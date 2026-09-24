@@ -21,6 +21,10 @@ glossary-lint.py — 용어집 «흔한 오표기» 열을 «코드가» 집행�
   3. 전 게임 공통 패턴(`_COMMON`) → 「N성」·「N티어」처럼 게임 불문 자주 틀리는 표기.
      ★단 **오탐이 나기 쉬운 자리는 코드로 뺀다** — 인용부호 안, 「흔한 오표기」를 설명하는 문장,
        HTML 속성값·URL·클래스명. 늑대 소년이 되면 아무도 안 본다.
+  4. (2026-09-23 · 전수조사 C#13) 그 게임 용어집 헤더가 `버전민감: 예` 인데 `마지막 갱신` 이 30일+ 이면
+     🟡 «재검증 필요» 줄을 리포트 끝에 붙인다 — **차단이 아니다**(종료코드 불변 · JSON 엔 `stale` 목록).
+     신선도 게이트가 산문(«쓰기 전 갱신»)뿐이라 qa-fact 가 읽고 판단할 때만 잡히던 것을 코드가 매 실행 알린다.
+     헤더 파싱 실패(필드 없음·날짜 형식 다름)는 조용히 무시한다.
 
 무엇을 «못» 하나 — 정직하게
 ---------------------------
@@ -35,9 +39,10 @@ glossary-lint.py — 용어집 «흔한 오표기» 열을 «코드가» 집행�
   python glossary-lint.py --all                     # BlogPreview 전 발행글(역전파 점검용)
   python glossary-lint.py --game 롤토체스 <경로>     # 게임 강제 지정
   python glossary-lint.py --json                    # 기계 출력
+  python glossary-lint.py --stale-days 45 <경로>     # 신선도 🟡 임계(기본 30일)
 종료코드: 0 = 위반 없음 · 1 = 위반 있음(발행 게이트에서 막는 용도) · 2 = 실행 오류
 """
-import sys, os, re, json, glob
+import sys, os, re, json, glob, datetime, itertools
 
 ROOT      = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))     # BlogPreview
 CLAUDE    = os.path.dirname(ROOT)                                              # Desktop\Claude
@@ -71,14 +76,21 @@ def game_of(path, games, forced=None):
     for p in parts:
         cand.add(norm(p))
     joined = norm('/'.join(parts))
+    names_of = lambda g: [g['canon']] + list(g.get('aliases', [])) + list(g.get('folders', []))
+    # ★1차: 어느 게임이든 경로 조각과 «정확히 일치»하면 그것이 이긴다(2026-09-23).
+    #   색인이 36→60+ 항목으로 늘면서(glossary-enroll.py) «배틀그라운드 모바일» 폴더가 앞 항목
+    #   «배틀그라운드»의 접두 규칙에 먼저 걸리는 오판이 생길 수 있다 — 정확 일치를 전 항목에서 먼저 본다.
     for g in games:
-        names = [g['canon']] + list(g.get('aliases', [])) + list(g.get('folders', []))
-        for n in names:
+        for n in names_of(g):
+            nn = norm(n)
+            if nn and nn in cand:
+                return g
+    # 2차: 평면 저장 휴리스틱(접두·부분) — 파일 순서대로
+    for g in games:
+        for n in names_of(g):
             nn = norm(n)
             if not nn:
                 continue
-            if nn in cand:
-                return g
             # 평면 저장: 폴더명이 `롤토체스 싸움꾼 마스터 이` 처럼 게임명으로 «시작» 한다
             if len(nn) >= 4 and any(c.startswith(nn) for c in cand):
                 return g
@@ -139,6 +151,29 @@ def parse_glossary(fname):
                     rows.append((w, official))
     return rows
 
+_UPDATED = re.compile(r'마지막 갱신:\s*(\d{4}-\d{2}-\d{2})')
+_VERSENS = re.compile(r'버전민감:\s*(\S+)')
+
+def stale_of(fname, limit_days=30):
+    """
+    (2026-09-23 · C#13) 용어집 헤더가 `버전민감: 예` AND `마지막 갱신` 이 limit_days 를 넘었으면 (갱신일, 경과일).
+    daily-refresh.cjs §3 과 같은 두 정규식·같은 «예|yes» 판정을 쓴다(리포트와 게이트가 다른 답을 내지 않게).
+    헤더 파싱 실패는 None — 신선도는 «알림»이지 «판정»이 아니라 못 읽으면 조용히 넘어간다.
+    """
+    p = os.path.join(GLOSSARY, fname)
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p, encoding='utf-8', errors='replace') as f:
+            head = ''.join(itertools.islice(f, 30))       # 헤더는 파일 머리에 있다 — 본문의 날짜를 오인하지 않게 30줄만
+        vs, up = _VERSENS.search(head), _UPDATED.search(head)
+        if not vs or not up or not re.search(r'예|yes', vs.group(1), re.I):
+            return None
+        age = (datetime.date.today() - datetime.date.fromisoformat(up.group(1))).days
+    except Exception:
+        return None
+    return (up.group(1), age) if age > limit_days else None
+
 def nz(s):
     """공백·문장부호·대소문자를 지운 비교용 형태."""
     return re.sub(r'[\s\-_:·,.()\[\]/]', '', str(s)).lower()
@@ -188,18 +223,21 @@ _EXCUSE = re.compile(
 # 바로 앞에 «구/옛/전» 이 붙으면 옛 이름을 명시한 것이다(`구 엔씨소프트`).
 _FORMER = re.compile(r'(구|옛|이전|전)\s*[,(]?\s*$')
 
-def check_file(path, games, forced=None):
+def check_file(path, games, forced=None, stale_days=30):
     with open(path, encoding='utf-8', errors='replace') as f:
         html = f.read()
     text = visible_text(html)
     g = game_of(path, games, forced)
     out = {'file': os.path.relpath(path, ROOT), 'game': g['canon'] if g else None, 'hits': []}
     if not g:
-        out['skipped'] = '게임 판정 실패 — _aliases.json 에 이 폴더명을 추가하면 검사된다'
+        out['skipped'] = '게임 판정 실패 — _aliases.json 에 이 폴더명을 추가하면 검사된다(또는 `glossary-enroll.py --apply`)'
         return out
     if not g.get('glossary'):
         out['skipped'] = '용어집 없음(%s)' % g['canon']
         return out
+    st = stale_of(g['glossary'], stale_days)
+    if st:
+        out['stale'] = {'glossary': g['glossary'], 'updated': st[0], 'age': st[1]}
 
     for wrong, official in parse_glossary(g['glossary']):
         # ★한국어 단어 경계: 앞뒤가 한글 자모/글자이면 부분 포함으로 오탐 — lookbehind/lookahead로 차단
@@ -230,6 +268,16 @@ def main():
             forced = sys.argv[i + 1]
             if forced in args:
                 args.remove(forced)
+    stale_days = 30
+    if '--stale-days' in sys.argv:
+        i = sys.argv.index('--stale-days')
+        if i + 1 < len(sys.argv):
+            try:
+                stale_days = int(sys.argv[i + 1])
+                if sys.argv[i + 1] in args:
+                    args.remove(sys.argv[i + 1])
+            except ValueError:
+                pass
 
     games = load_aliases()
     if not games:
@@ -242,19 +290,25 @@ def main():
     else:
         targets = args
 
-    results = [check_file(p, games, forced) for p in targets if os.path.isfile(p)]
+    results = [check_file(p, games, forced, stale_days) for p in targets if os.path.isfile(p)]
     # 🔴 틀린 정보만 발행을 막는다. 🟡 표기 흔들림(띄어쓰기·약칭)은 알리되 막지 않는다 — severity() 주석 참조.
     hard = [r for r in results if any(h.get('sev') != 'soft' for h in r['hits'])]
     soft = [r for r in results if r['hits'] and r not in hard]
     skipped = [r for r in results if r.get('skipped')]
+    # 🟡 신선도(2026-09-23): 게임 단위로 한 번만 — 파일마다 같은 줄을 반복하면 아무도 안 읽는다.
+    stale = {}
+    for r in results:
+        if r.get('stale'):
+            s = stale.setdefault(r['game'], dict(r['stale'], game=r['game'], files=0))
+            s['files'] += 1
 
     if as_json:
         print(json.dumps({'checked': len(results), 'blocking': len(hard), 'warnings': len(soft),
-                          'results': results}, ensure_ascii=False, indent=2))
+                          'stale': list(stale.values()), 'results': results}, ensure_ascii=False, indent=2))
         return 1 if hard else 0
 
-    print('[glossary-lint] 검사 %d개 · 🔴차단 %d개 · 🟡경고 %d개 · 대상 아님 %d개(용어집 없는 게임 또는 경로에서 게임 판정 불가 — --verbose 로 목록)'
-          % (len(results), len(hard), len(soft), len(skipped)))
+    print('[glossary-lint] 검사 %d개 · 🔴차단 %d개 · 🟡경고 %d개 · 🟡신선도 %d게임 · 대상 아님 %d개(용어집 없는 게임 또는 경로에서 게임 판정 불가 — --verbose 로 목록)'
+          % (len(results), len(hard), len(soft), len(stale), len(skipped)))
     for r in hard:
         print('\n🔴 %s  (게임: %s)' % (r['file'], r['game']))
         for h in r['hits']:
@@ -268,6 +322,11 @@ def main():
         print('\n🟡 %s  (게임: %s) — 표기 흔들림, 발행은 막지 않는다' % (r['file'], r['game']))
         for h in r['hits']:
             print('   «%s» → 공식은 «%s» (띄어쓰기·약칭 차이라 뜻은 같다 — 제목 표기는 검색 유입 판단)' % (h['wrong'], h['official']))
+    if stale:
+        print('\n🟡 재검증 필요(신선도 · 차단 아님): `버전민감: 예` 용어집이 %d일 넘게 갱신되지 않았다 — 버전 이벤트(패치·시즌·출시) 재확인 후 수치·명칭을 쓸 것'
+              % stale_days)
+        for s in sorted(stale.values(), key=lambda x: -x['age']):
+            print('   - %s: %s 마지막 갱신 %s (%d일 경과) · 이번 검사 글 %d편' % (s['game'], s['glossary'], s['updated'], s['age'], s['files']))
     if skipped and ('--verbose' in sys.argv):
         print('\n건너뜀:')
         for r in skipped:

@@ -15,11 +15,11 @@
      queries  --games "a,b" | --seeds N   [--top 20] [--aib-max 15] [--json out.json] [--no-mine]
               질의 발굴기(query-miner.cjs)로 «질의는 있는데 우리 글이 없는» 칸을 모으고 수요·브리핑을 붙여 순위를 낸다.
               guide 조사원·pinned 조사원에게 넘기는 후보 밭이다.
-     check    --in <후보.json> [--json out.json] [--aib-max 30]
-              조사 후보 [{id,sec,game,title,keywords,angleType,heat,purpose,q?}] 의 신호를 재고 KEEP/DROP 을 판정한다.
-              ★검증 에이전트를 띄우기 «전»에 돈다 — 죽을 항목에 검증 비용을 쓰지 않게.
+     check    --in <후보.json> [--json out.json] [--aib-max 30] [--cross-strict]
+              조사 후보 [{id,sec,game,title,keywords,angleType,purpose,q?,entryOk?}] 의 신호를 재고 KEEP/DROP 을 판정한다.
+              ★상세 조사·검증 에이전트를 띄우기 «전»에 돈다(2단계 조사 [B-0]) — 죽을 항목에 조사·검증 비용을 쓰지 않게.
      stamp    [--date YYYY-MM-DD] [--dry] [--aib-max 10]
-              trend.json 그 날 에디션에 demand·aib·angleType 을 적고, 규칙 위반을 거둬내고(백스톱), 칸 안을 정렬한다. 멱등.
+              trend.json 그 날 에디션에 demand·aib·angleType·depth 를 적고, 규칙 위반을 거둬내고(백스톱), 칸 안을 정렬한다. 멱등.
               ★순서 = [C] trend.json 작성 뒤 · [D] build-trend-lite·test-desk 앞.
      seeds    [--top 12] [--print]
               guide 시드 원장(_trend/_guide-seeds.json · 56일 롤링)을 trend.json 으로 갱신하고 상위 게임을 보여 준다.
@@ -29,30 +29,48 @@
    신호 (항목에 그대로 실린다 — 사이트 발주 모달이 읽는다)
      angleType   howto(공략·방법·얻는 법·쿠폰) · rank(티어·추천·비교) · news(출시·일정·발표·결과·논란·매출) · info(정리·후기·기타)
                  데스크가 적은 값이 우선이고, 비어 있으면 angle-mix 사다리(제목 정규식)로 채운다.
-     demand      { tier, src, ac, game, kw } — tier 0 없음 · 1 낮음 · 2 보통 · 3 높음
-                 · ac   = 네이버 자동완성에 그 게임(또는 키워드)이 실제로 입력되는가. ★순서만 준다(검색량 아님). 0 = 검색 흔적 없음
-                 · game/kw = 네이버 검색광고 키워드도구 월간 검색수(PC+모바일 · 통합검색 최근 30일 · 매일 갱신).
+     demand      { tier, src, ac, q, acRank, qMode, qHit?, acQ?, game?, kw? } — tier 0 없음 · 1 낮음 · 2 보통 · 3 높음
+                 · ★2026-09-23(감사 E#1②) 자동완성 측정 단위 = «게임»이 아니라 **항목의 타깃 질의**(deriveQuery · keywords[0]).
+                   옛 방식(게임당 1회 · 10 포화 · 상한 2)은 개편 후 77건 중 76건이 같은 tier 였다 — 판별력 0.
+                 · q      = 측정한 질의(게임명이 없으면 앞에 붙인다) · acRank = 게임 이름 자동완성 top10 안 순위(1~10) 또는 null
+                 · ac     = 게임 단위 자동완성 제안 수(0~10) — «게임 자체 수요 있음/없음» 보조 신호로만(0 이면 tier 0 확정 · 질의는 재지 않는다)
+                 · qMode  = rank(게임 top10) · full(질의 원문 있음) · short(축약만) · none(없음) · gameonly(질의가 게임명뿐) · game(질의 못 잼 → 게임 단위)
+                 · qHit   = qMode=short 일 때 자동완성에 있던 축약 질의(마지막 내용어를 뗀 것)
+                 · game/kw = 네이버 검색광고 키워드도구 월간 검색수(PC+모바일 · 통합검색 최근 30일). ★키가 있으면 이 경로가 우선(변경 없음).
                    ★사용자 본인 API 키가 있을 때만: %USERPROFILE%\.naver-searchad\credentials.json
                      {"customerId":"…","accessLicense":"…","secretKey":"…"} — 이 도구만 읽는다.
                    ⛔세션·에이전트가 그 파일을 열지 않는다(트랜스크립트가 로그다). 출력·오류 메시지에 키를 싣지 않는다.
-                 · tier 경계: 검색량이 있으면 500 / 5,000 / 50,000. 없으면 자동완성 0 / 1~3 / 4+ (최대 2 — 자동완성은 큰 게임끼리 못 가른다)
-     aib         { s, n, bd, yd } — 네이버 AI 브리핑 실검색(aib-check.py · 24h 캐시 · 8초 간격)
+                 · tier 판정표(자동완성만 · 검색광고 키 없을 때 · tierFromQuery):
+                     3 = 질의가 게임 이름 자동완성 top10 에 있다(그 게임의 대표 질의 · acRank)
+                     2 = 질의 원문을 앞머리로 자동완성 제안이 있다(사람들이 실제로 치는 문장)
+                     1 = 원문은 없고 축약 질의(마지막 내용어 하나 뗀 것)만 있다 · 또는 질의가 게임명뿐(게임 수요만 · ≤1)
+                     0 = 게임 자동완성 0 · 또는 질의·축약 질의 모두 자동완성 없음(지어낸 질의)
+                     null = 못 쟀다(네트워크) → 판정 보류(fail-open). 질의만 못 쟀으면 옛 게임 단위 표(0 / 1~3 / 4+ → 0/1/2)로 대체.
+                   검색광고 연동이면 500 / 5,000 / 50,000(변경 없음).
+     aib         { s, n, bd, yd, q } — 네이버 AI 브리핑 실검색(aib-check.py · 24h 캐시 · 8초 간격)
                  s = shown(출처 열람) · async(뜨지만 출처 미열람) · none(안 뜸) · unknown(차단·오류) · n = 출처 수 · bd/yd = 봄딩·영도 인용 순위
-                 대상 = guide·pinned·core 만(회차당 네트워크 상한 --aib-max · 캐시 적중은 공짜)
+                 대상 = 게임 6칸 전부(★09-23 소식 칸 포함 — how-to 로 뒤집은 질의로) · 회차 네트워크 상한 --aib-max 안에서
+                 우선순위 guide → pinned → core → new → update → hot(캐시 적중은 공짜).
+     depth       entry(진입형) · play(실전형) · news(소식형) — 타깃 질의로 기계가 판정(R5).
 
-   거둬내기 규칙 (2026-09-18 사용자 승인 · 시행 2026-09-19 판부터)
-     R1  new      검색 흔적 없음(자동완성 0 · 검색량 연동이면 게임·키워드 모두 월 500 미만)          → DROP
-     R2  hot      angleType=news(논평·결과·매출·논란 — how-to 로 안 뒤집힌 화제)                   → DROP
-         core     angleType=news(소식은 how-to 로 뒤집힐 때만)                                    → DROP
-     R3  pinned   게임당 news 1건 초과(패치 세부 나열)                                             → DROP(약한 쪽부터)
-     R4  new·update·hot  수요 최저 구간 — 검색량 연동이면 tier 0, 아니면 heat ≤ 1                 → DROP
-     W1  new·update·hot 의 news 합 2건 초과 · 칸 상한 new 3 · update 3 · hot 2 · guide 8           → DROP(약한 쪽부터)
-     G   guide    angleType ∈ {howto, rank} 이고 tier ≥ 1                                          → 아니면 DROP
+   거둬내기 규칙 (2026-09-18 사용자 승인 · 시행 2026-09-19 판부터 · ★09-23 R4 개정 + X·B 신설)
+     B   전 칸     _trend/_blocklist.json 의 {game, angle, until} 에 걸림(angle = 제목·질의 포함 문자열 | angleType | '*')  → DROP
+     X   전 칸     같은 회차 «다른 칸»에 같은 게임 + 같은 angleType 이 상위 칸에 있고 주제가 겹침(desk-dedup 판정 ≠ OK)   → 뒤 칸 DROP
+                  우선권 pinned > core > guide > new > update > hot. --cross-strict 면 주제 겹침 조건 없이 게임+angleType 만으로.
+                  (기본값에 «주제 겹침» 조건을 둔 이유 = 09-20 사용자 승인 «guide 는 게임이 아니라 주제로 양보한다»[[L91]] 와의 충돌 방지)
+     R1  new      검색 흔적 없음(tier 0 · 검색량 연동이면 게임·키워드 모두 월 500 미만)                                    → DROP
+     R2  hot      angleType=news(논평·결과·매출·논란 — how-to 로 안 뒤집힌 화제)                                             → DROP
+         core     angleType=news(소식은 how-to 로 뒤집힐 때만)                                                              → DROP
+     R3  pinned   게임당 news 1건 초과(패치 세부 나열)                                                                       → DROP(약한 쪽부터)
+     R4  new·update·hot  수요 최저 구간 = tier 0(★09-23 — heat 는 조사원 주관값이라 판정·정렬에서 뺐다 · 표시는 남는다)          → DROP
+     R5  전 칸     진입형 질의(설치·가입·하는 법…)인데 신작(최근 14판 new)도 아니고 entryOk 도 없음                            → DROP
+     W1  new·update·hot 의 news 합 2건 초과 · 칸 상한 new 3 · update 3 · hot 2 · guide 8                                     → DROP(약한 쪽부터)
+     G   guide    angleType ∈ {howto, rank} 이고 tier ≥ 1                                                                    → 아니면 DROP
      ★신호를 못 잰 경우(네트워크 실패)는 그 규칙을 적용하지 않는다(fail-open) — «모름»을 «없음»으로 바꾸지 않는다.
      ★parenting 은 건드리지 않는다(게임 축 밖 · 규칙 = SKILL [A-3]).
 
-   정렬 (칸 안)  수요 tier ↓ → 브리핑(뜸·우리 미인용 → 뜸·출처 미열람 → 모름 → 뜸·이미 인용 → 안 뜸) → heat ↓ → 원래 순서.
-                pinned 는 게임 묶음 순서를 지키고 그 안에서만 정렬한다.
+   정렬 (칸 안)  수요 tier ↓ → 브리핑(뜸·우리 미인용 → 뜸·출처 미열람 → 모름 → 뜸·이미 인용 → 안 뜸) → acRank ↑ → 원래 순서.
+                pinned 는 게임 묶음 순서를 지키고 그 안에서만 정렬한다. (heat 는 09-23 부터 정렬에 쓰지 않는다)
 
    ★함정
      - 자동완성은 게임명을 «낱말로» 품은 제안만 센다(«애니모»가 «애니모션텍»을 끌어오던 query-miner 교훈 그대로).
@@ -86,8 +104,11 @@ const DEPTH_KO = { entry: '진입형', play: '실전형', news: '소식형' };
 const CAPS = { new: 3, update: 3, hot: 2, guide: 8 };
 const EVENT_SECS = ['new', 'update', 'hot'];
 const NEWS_MAX_EVENT = 2;
-const AIB_SECS = ['guide', 'pinned', 'core'];
+const AIB_SECS = ['guide', 'pinned', 'core', 'new', 'update', 'hot'];   /* ★09-23 소식 칸 포함 · 순서 = 회차 상한 안 우선순위 */
 const GAME_SECS = ['pinned', 'core', 'guide', 'new', 'update', 'hot'];
+const SEC_PRIORITY = { pinned: 0, core: 1, guide: 2, new: 3, update: 4, hot: 5 };   /* X 규칙 우선권(작을수록 상위 칸) */
+const BLOCKLIST = path.join(ROOT, '_trend', '_blocklist.json');
+const DD = require('./desk-dedup.cjs');   /* X 규칙의 «주제 겹침» 판정 — 재탕 도구와 같은 자로 잰다 */
 const BLOG = { bd: 'bomding', yd: 'kkodug9' };
 const AC_TTL_H = 72, SA_TTL_H = 24, AIB_TTL_H = 24;
 const AC_GAP = 250, SA_GAP = 300;
@@ -175,7 +196,7 @@ async function acCount(needle) {
   const list = await acRaw(needle);
   if (list === null) return null;
   const rel = list.filter((s) => mentions(s, needle));
-  const v = { n: rel.length, top: rel.slice(0, 5), at: new Date().toISOString() };
+  const v = { n: rel.length, top: rel.slice(0, 10), at: new Date().toISOString() };   /* top 10 — 질의 순위(acRank)가 이 목록을 본다(09-23 · 옛 캐시의 5개는 TTL 로 자연 교체) */
   cache().ac[k] = v;
   return v;
 }
@@ -206,6 +227,55 @@ async function acBest(game, keywords) {
     if (best.n >= 4) break;   /* 이미 «보통» 이상 — 요청을 아낀다 */
   }
   return known ? best : null;
+}
+/* ── 질의 단위 자동완성 (2026-09-23 · 감사 E#1② «게임 단위 측정은 판별력 0») ─────────────────────
+   내용어 = 질의에서 게임명 낱말을 뺀 2자 이상 토큰. 측정 3종(캐시 72h · 항목당 최대 2 요청):
+     rank  = 게임 이름 자동완성 top10 안에서 내용어 전부를 품은 첫 제안의 순위(게임 단위 캐시 top 을 재사용 · 요청 0)
+     full  = 질의 원문을 앞머리로 넣었을 때 «질의를 품은» 제안 수(0 = 아무도 그 문장을 안 친다)
+     short = 원문이 0 이고 내용어가 2개 이상일 때, 마지막 내용어를 뗀 축약 질의의 제안 수(근처 수요)
+   null = 세 값을 하나도 못 쟀다(네트워크) · noContent = 질의가 게임명뿐. */
+function contentTokens(q, game) {
+  const gk = normKey(cleanGame(game));
+  const gt = new Set(cleanGame(game).split(' ').map(normKey).filter(Boolean));
+  return cleanGame(q).split(' ').map((t) => t.trim()).filter((t) => { const k = normKey(t); return k && k.length >= 2 && !gt.has(k) && !(gk && gk.includes(k)); });
+}
+function queryWithGame(game, q) {
+  const g = cleanGame(game), qm = cleanGame(q);
+  if (!g || !qm) return qm || g;
+  const gk = normKey(g);
+  const shares = qm.split(' ').some((t) => { const k = normKey(t); return k.length >= 2 && (gk.includes(k) || k.includes(gk)); });
+  return shares ? qm : g + ' ' + qm;
+}
+async function acQuery(game, q, gameAc) {
+  const qm = queryWithGame(game, q);
+  if (!qm) return null;
+  const toks = contentTokens(qm, game);
+  if (!toks.length) return { q: qm, noContent: true, rank: null, full: null, short: null };
+  const out = { q: qm, rank: null, full: null, short: null };
+  if (gameAc && Array.isArray(gameAc.top)) {
+    const i = gameAc.top.findIndex((s) => { const k = normKey(s); return toks.every((t) => k.includes(normKey(t))); });
+    if (i >= 0) out.rank = i + 1;
+  }
+  const f = await acCount(qm);
+  if (f) out.full = { n: f.n };
+  if (f && f.n === 0 && toks.length >= 2) {
+    const last = normKey(toks[toks.length - 1]);
+    const parts = qm.split(' ');
+    let cut = -1; for (let i = parts.length - 1; i >= 0; i--) if (normKey(parts[i]) === last) { cut = i; break; }
+    const sq = (cut > 0 ? parts.slice(0, cut) : parts.slice(0, -1)).join(' ').trim();   /* 마지막 내용어부터 뒤를 뗀다(«애니모 천휘 얻는 법» → «애니모 천휘») */
+    const s = sq ? await acCount(sq) : null;
+    if (s) out.short = { q: sq, n: s.n };
+  }
+  if (out.rank == null && !out.full && !out.short) return null;
+  return out;
+}
+function qModeOf(qa) {
+  if (!qa) return 'game';
+  if (qa.noContent) return 'gameonly';
+  if (qa.rank != null) return 'rank';
+  if (qa.full && qa.full.n > 0) return 'full';
+  if (qa.short && qa.short.n > 0) return 'short';
+  return qa.full ? 'none' : 'game';
 }
 
 /* ── 검색광고 키워드도구(월간 검색수) ──────────────────────────────────── */
@@ -271,10 +341,20 @@ async function saVolumes(words) {
 /* ── 수요 판정 ─────────────────────────────────────────────────────────── */
 function tierFromMonthly(n) { return n >= 50000 ? 3 : n >= 5000 ? 2 : n >= 500 ? 1 : 0; }
 function tierFromAc(n) { return n == null ? null : n <= 0 ? 0 : n <= 3 ? 1 : 2; }
-/* 한 항목의 demand. saMap 은 미리 모아 둔 월간 검색수(없으면 null). */
-function demandOf(acB, sa, game, keywords) {
+/* ★09-23 질의 단위 판정표(파일 머리 주석) — gameN = 게임 단위 제안 수(보조 신호) · qa = acQuery 결과 */
+function tierFromQuery(gameN, qa) {
+  if (gameN == null) return null;                 /* 게임조차 못 쟀다 → 보류 */
+  if (gameN <= 0) return 0;                       /* 게임 자체 검색 흔적 없음 */
+  const m = qModeOf(qa);
+  if (m === 'game') return tierFromAc(gameN);     /* 질의를 못 쟀다 → 옛 게임 단위 표로 fail-open */
+  if (m === 'gameonly') return Math.min(1, tierFromAc(gameN));
+  return m === 'rank' ? 3 : m === 'full' ? 2 : m === 'short' ? 1 : 0;
+}
+/* 한 항목의 demand. saMap 은 미리 모아 둔 월간 검색수(없으면 null). qa = 질의 단위 자동완성(없으면 게임 단위로 대체). */
+function demandOf(acB, sa, game, keywords, qa) {
   const d = { tier: null, src: 'none', ac: acB ? acB.n : null };
   if (acB && acB.q && normKey(acB.q) !== normKey(cleanGame(game))) d.acQ = acB.q;
+  if (qa && qa.q) { d.q = qa.q; d.acRank = qa.rank == null ? null : qa.rank; d.qMode = qModeOf(qa); if (d.qMode === 'short') d.qHit = qa.short.q; }
   if (sa && sa.on) {
     const gk = saKey(cleanGame(game)), gv = sa.map.get(gk);
     let kwBest = null;
@@ -288,7 +368,7 @@ function demandOf(acB, sa, game, keywords) {
       return d;
     }
   }
-  if (acB) { d.src = 'ac'; d.tier = tierFromAc(acB.n); }
+  if (acB) { d.src = 'ac'; d.tier = tierFromQuery(acB.n, qa); if (!d.qMode) d.qMode = qModeOf(qa); }
   return d;
 }
 
@@ -336,7 +416,7 @@ function aibRank(a) {
 }
 function sortKey(it, idx) {
   const d = it.demand || {}, t = d.tier == null ? -0.5 : d.tier;
-  return [-t, aibRank(it.aib), -(Number(it.heat) || 0), idx];
+  return [-t, aibRank(it.aib), d.acRank == null ? 99 : Number(d.acRank), idx];   /* ★09-23 heat 제외(조사원 주관값) · 질의 순위로 대체 */
 }
 function cmpKey(a, b) { for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return a[i] - b[i]; return 0; }
 /* items: [{sec, ...}] (한 에디션 전체 또는 후보 전체). 반환 {keep:[], drop:[{it, rule, why}]} — 입력 순서는 보존 */
@@ -365,18 +445,46 @@ function newGamesFrom(doc, days) {
   return out;
 }
 
+/* ── 블록리스트(09-23 · L95) — _trend/_blocklist.json [{game, angle, until, reason}] · angle = 제목·질의 포함 문자열 | angleType | '*' ── */
+function loadBlocklist() {
+  const j = readJson(BLOCKLIST, null);
+  const arr = Array.isArray(j) ? j : (j && Array.isArray(j.items)) ? j.items : [];
+  return arr.filter((b) => b && b.game);
+}
+const sameGameKey = (a, b) => { const A = normKey(a), B = normKey(b); return !!(A && B && (A === B || A.includes(B) || B.includes(A))); };
+function blockHit(it, list, today) {
+  if (!it || !it.game || !Array.isArray(list) || !list.length) return null;
+  const hay = normKey([it.title, ...((it.keywords || []).map(String)), it.angle, it.q].filter(Boolean).join(' '));
+  for (const b of list) {
+    if (!b || !b.game) continue;
+    if (b.until && String(b.until) < String(today)) continue;   /* until 포함 · 지났으면 무시 */
+    if (!sameGameKey(b.game, it.game)) continue;
+    const a = String(b.angle == null ? '*' : b.angle).trim();
+    if (a === '*' || (ANGLE_TYPES.includes(a) && angleTypeOf(it) === a) || (normKey(a) && hay.includes(normKey(a)))) return b;
+  }
+  return null;
+}
+/* X 규칙의 «주제 겹침» — 상위 칸 항목(up)을 «지난 판 항목»처럼 두고 desk-dedup 으로 잰다(OK 가 아니면 겹침) */
+function crossOverlap(up, it) {
+  try {
+    const past = DD.pastItem({ game: up.game, title: up.title, detail: up.detail, angle: up.angle }, 'today', up.sec);
+    return DD.judge({ game: it.game, title: it.title }, [past]).verdict !== 'OK';
+  } catch (e) { return false; }
+}
+
 function judge(items, saOn, ctx) {
   const drop = new Map();
   const mark = (it, rule, why) => { if (!drop.has(it)) drop.set(it, { it, rule, why }); };
+  const bl = (ctx && ctx.blocklist) || [], today = (ctx && ctx.today) || kstToday();
   items.forEach((it) => {
     const sec = it.sec, a = angleTypeOf(it), d = it.demand || {}, t = d.tier;
     if (!GAME_SECS.includes(sec)) return;
-    if (sec === 'new' && t === 0) mark(it, 'R1', '검색 흔적 없음(' + (d.src === 'searchad' ? '월 500 미만' : '자동완성 0') + ')');
+    const b = blockHit(it, bl, today);
+    if (b) mark(it, 'B', '블록리스트 ' + b.game + ' / ' + (b.angle == null ? '*' : b.angle) + ' (~' + (b.until || '무기한') + ')' + (b.reason ? ' — ' + b.reason : ''));
+    if (sec === 'new' && t === 0) mark(it, 'R1', '검색 흔적 없음(' + (d.src === 'searchad' ? '월 500 미만' : d.ac === 0 ? '게임 자동완성 0' : '질의 자동완성 없음') + ')');
     if ((sec === 'hot' || sec === 'core') && a === 'news') mark(it, 'R2', sec === 'hot' ? '논평·결과형 화제(how-to 아님)' : '주력 게임 소식(how-to 아님)');
-    if (EVENT_SECS.includes(sec)) {
-      if (saOn && d.src === 'searchad' && t === 0) mark(it, 'R4', '수요 최저 구간(월 500 미만)');
-      else if (d.src !== 'searchad' && (Number(it.heat) || 0) <= 1 && it.heat != null) mark(it, 'R4', '화제도 최저(heat ' + (Number(it.heat) || 0) + ')');
-    }
+    /* R4 — 수요 최저 구간 = tier 0(★09-23 heat 제거 · 검색광고 연동이면 월 500 미만 · 아니면 질의·게임 자동완성 없음) */
+    if (EVENT_SECS.includes(sec) && t === 0) mark(it, 'R4', '수요 최저 구간(' + (d.src === 'searchad' ? '월 500 미만' : d.ac === 0 ? '게임 자동완성 0' : '질의 자동완성 없음') + ')');
     if (sec === 'guide') {
       if (!['howto', 'rank'].includes(a)) mark(it, 'G', '공략 칸인데 각도가 ' + a);
       else if (t === 0) mark(it, 'G', '공략 칸인데 수요 없음');
@@ -390,6 +498,22 @@ function judge(items, saOn, ctx) {
   });
   const alive = (it) => !drop.has(it);
   const byKey = (list) => list.map((it) => ({ it, k: sortKey(it, items.indexOf(it)) })).sort((x, y) => cmpKey(x.k, y.k)).map((x) => x.it);
+  /* X — 크로스섹션(09-23 · L89 3회째 승격): 상위 칸(pinned>core>guide>new>update>hot)에 같은 게임+같은 angleType 이 살아 있고
+     주제가 겹치면(desk-dedup ≠ OK · --cross-strict 면 조건 없음) 뒤 칸을 뺀다. 같은 칸끼리는 조사원·dedup 몫. */
+  const strict = !!(ctx && ctx.crossStrict);
+  const ordered = items.map((it, i) => ({ it, i })).filter((x) => GAME_SECS.includes(x.it.sec))
+    .sort((x, y) => (SEC_PRIORITY[x.it.sec] - SEC_PRIORITY[y.it.sec]) || (x.i - y.i));
+  ordered.forEach((x, k) => {
+    if (!alive(x.it)) return;
+    for (let j = 0; j < k; j++) {
+      const up = ordered[j].it;
+      if (!alive(up) || up.sec === x.it.sec) continue;
+      if (!sameGameKey(up.game, x.it.game) || angleTypeOf(up) !== angleTypeOf(x.it)) continue;
+      if (!strict && !crossOverlap(up, x.it)) continue;
+      mark(x.it, 'X', '같은 회차 ' + up.sec + ' 칸에 같은 게임·같은 각도(' + angleTypeOf(up) + (strict ? '' : ')·주제 겹침') + ': «' + String(up.title || '').slice(0, 30) + '»');
+      break;
+    }
+  });
   /* R3 — pinned 게임당 news ≤ 1 */
   const pg = {};
   items.filter((it) => it.sec === 'pinned' && alive(it) && angleTypeOf(it) === 'news').forEach((it) => { (pg[normKey(it.game)] = pg[normKey(it.game)] || []).push(it); });
@@ -416,11 +540,16 @@ function sortSection(key, items) {
 /* ── 신호 계산(공통) ───────────────────────────────────────────────────── */
 async function computeSignals(items, aibBudget) {
   const gameItems = items.filter((it) => GAME_SECS.includes(it.sec));
-  /* ⑴ 자동완성 — 게임 단위로 한 번만 */
+  /* ⑴ 자동완성 — 게임 단위(보조 신호 · 게임당 한 번) + ★질의 단위(항목마다 · 09-23 · 게임 흔적 0 이면 질의는 재지 않는다) */
   const acByGame = new Map();
   for (const it of gameItems) {
     const gk = normKey(it.game); if (!gk || acByGame.has(gk)) continue;
     acByGame.set(gk, await acBest(it.game, it.keywords));
+  }
+  const qaByItem = new Map();
+  for (const it of gameItems) {
+    const gAc = acByGame.get(normKey(it.game)) || null;
+    qaByItem.set(it, (gAc && gAc.n === 0) ? null : await acQuery(it.game, deriveQuery(it), gAc));
   }
   /* ⑵ 검색광고 — 게임명 + keywords 전량을 한 번에 */
   const words = [];
@@ -431,8 +560,11 @@ async function computeSignals(items, aibBudget) {
   const aib = aibLookup(aibItems.map(deriveQuery), aibBudget);
   for (const it of gameItems) {
     it.angleType = angleTypeOf(it);
-    it.demand = demandOf(acByGame.get(normKey(it.game)) || null, sa, it.game, it.keywords);
-    if (AIB_SECS.includes(it.sec)) { const s = aib.get(deriveQuery(it)); if (s) it.aib = Object.assign({ q: deriveQuery(it) }, s); }
+    const q = deriveQuery(it), qa = qaByItem.get(it) || null;
+    it.demand = demandOf(acByGame.get(normKey(it.game)) || null, sa, it.game, it.keywords, qa);
+    if (it.demand.q == null) it.demand.q = (qa && qa.q) || q;         /* 측정 질의는 못 쟀어도 기록한다(stamp 계약) */
+    if (!('acRank' in it.demand)) it.demand.acRank = null;
+    if (AIB_SECS.includes(it.sec)) { const s = aib.get(q); if (s) it.aib = Object.assign({ q }, s); }
     if (it.demand.src === 'searchad' && it.demand.tier != null) it.heat = Math.max(1, Math.min(3, it.demand.tier));   /* 검색량이 있으면 화제도는 기계가 매긴다 */
   }
   return { saOn: sa.on };
@@ -441,7 +573,8 @@ function fmtDemand(d) {
   if (!d || d.tier == null) return '수요 ?';
   const lab = ['없음', '낮음', '보통', '높음'][d.tier];
   if (d.src === 'searchad') return '수요 ' + lab + (d.kw ? ' · «' + d.kw.q + '» 월 ' + d.kw.n.toLocaleString() : d.game != null ? ' · 게임 월 ' + Number(d.game).toLocaleString() : '');
-  return '수요 ' + lab + ' · 자동완성 ' + d.ac + (d.acQ ? '(«' + d.acQ + '»)' : '');
+  const qd = { rank: '질의 top' + d.acRank, full: '질의 있음', short: '축약만«' + (d.qHit || '') + '»', none: '질의 없음', gameonly: '질의=게임명', game: '질의 못 잼' }[d.qMode] || '';
+  return '수요 ' + lab + (qd ? ' · ' + qd : '') + ' · 게임 자동완성 ' + d.ac + (d.acQ ? '(«' + d.acQ + '»)' : '');
 }
 function fmtAib(a) {
   if (!a) return '';
@@ -457,11 +590,12 @@ async function cmdCheck() {
   const items = (Array.isArray(raw) ? raw : (raw && raw.items) || []).filter((x) => x && x.sec);
   if (!items.length) { log('후보가 비었다: ' + inp); process.exit(2); }
   const { saOn } = await computeSignals(items, Number(val('--aib-max', '30')) || 0);
-  saveCache();
-  const ctx = { newGames: newGamesFrom(readJson(TREND, null), 14) };
+  if (!OFFLINE) saveCache();   /* 오프라인 실행은 캐시를 건드리지 않는다(테스트·픽스처 실행 무흔적) */
+  const ctx = { newGames: newGamesFrom(readJson(TREND, null), 14), blocklist: loadBlocklist(), today: kstToday(), crossStrict: has('--cross-strict') };
   const { drop } = judge(items, saOn, ctx);
   const dropSet = new Map(drop.map((d) => [d.it, d]));
-  console.log('\n신호 · 판정 — 후보 ' + items.length + '건 · 검색량 ' + (saOn ? '연동' : '미연동(자동완성만)') + ' · 자동완성 요청 ' + acReq + ' · 검색광고 요청 ' + saReq + ' · 브리핑 실검색 ' + aibNet);
+  console.log('\n신호 · 판정 — 후보 ' + items.length + '건 · 검색량 ' + (saOn ? '연동' : '미연동(자동완성·질의 단위)') + ' · 자동완성 요청 ' + acReq + ' · 검색광고 요청 ' + saReq + ' · 브리핑 실검색 ' + aibNet +
+    ' · 블록리스트 ' + ctx.blocklist.length + '건 · 크로스섹션 ' + (ctx.crossStrict ? 'strict' : '주제 겹침 조건'));
   GAME_SECS.concat(['parenting']).forEach((sec) => {
     const list = items.filter((it) => it.sec === sec); if (!list.length) return;
     console.log('\n[' + sec + '] ' + list.length + '건');
@@ -472,7 +606,7 @@ async function cmdCheck() {
     });
   });
   const out = val('--json', null);
-  if (out) writeJson(out, { checkedAt: new Date().toISOString(), saOn, items: items.map((it) => ({ id: it.id, sec: it.sec, game: it.game, title: it.title, angleType: it.angleType, demand: it.demand, aib: it.aib || null, heat: it.heat, verdict: dropSet.has(it) ? 'DROP' : 'KEEP', rule: dropSet.has(it) ? dropSet.get(it).rule : null, why: dropSet.has(it) ? dropSet.get(it).why : null })) });
+  if (out) writeJson(out, { checkedAt: new Date().toISOString(), saOn, blocklist: ctx.blocklist.length, crossStrict: ctx.crossStrict, items: items.map((it) => ({ id: it.id, sec: it.sec, game: it.game, title: it.title, angleType: it.angleType, depth: GAME_SECS.includes(it.sec) ? depthOf(it) : undefined, demand: it.demand, aib: it.aib || null, heat: it.heat, verdict: dropSet.has(it) ? 'DROP' : 'KEEP', rule: dropSet.has(it) ? dropSet.get(it).rule : null, why: dropSet.has(it) ? dropSet.get(it).why : null })) });
   console.log('\n→ DROP ' + drop.length + '건' + (drop.length ? ' (' + Object.entries(drop.reduce((m, d) => { m[d.rule] = (m[d.rule] || 0) + 1; return m; }, {})).map(([k, v]) => k + ' ' + v).join(' · ') + ')' : '') +
     ' — DROP 은 검증에 넘기지 말고 note 한 줄에 «거둬냄 N건(규칙별)»으로 남긴다.');
 }
@@ -489,8 +623,8 @@ async function cmdStamp() {
   (ed.sections || []).forEach((s) => (s.items || []).forEach((it) => { if (it) { it.sec = s.key; items.push(it); } }));
   const before = JSON.stringify(ed);
   const { saOn } = await computeSignals(items, Number(val('--aib-max', '10')) || 0);
-  saveCache();
-  const ctx = { newGames: newGamesFrom(doc, 14) };
+  if (!OFFLINE) saveCache();
+  const ctx = { newGames: newGamesFrom(doc, 14), blocklist: loadBlocklist(), today: date, crossStrict: has('--cross-strict') };
   const { drop } = judge(items, saOn, ctx);
   const dropSet = new Set(drop.map((d) => d.it));
   (ed.sections || []).forEach((s) => {
@@ -594,7 +728,8 @@ async function cmdQueries() {
   const ang = { '공략·방법형': 0, '쿠폰형': 1, '추천·티어·비교형': 2 };
   /* ★같은 수요 구간이면 «실전형»을 앞세운다(2026-09-21) — 채굴 순서대로 두면 머리 질의(하는 법·설치)가 늘 위에 와서
      게임당 상한에 진입형만 남았다(09-21 공략 칸 6건 중 4건). */
-  const ranked = cands.map((c, i) => ({ c, k: [-(c.demand.tier == null ? -0.5 : c.demand.tier), depthOf({ keywords: [c.q], title: c.q }) === 'entry' ? 1 : 0, aibRank(c.aib), ang[c.angle], i] }))
+  const rankKeyOf = (c, i) => [-(c.demand.tier == null ? -0.5 : c.demand.tier), depthOf({ keywords: [c.q], title: c.q }) === 'entry' ? 1 : 0, aibRank(c.aib), ang[c.angle], i];
+  const ranked = cands.map((c, i) => ({ c, k: rankKeyOf(c, i) }))
     .sort((x, y) => cmpKey(x.k, y.k)).map((x) => x.c);
   /* ★게임당 상한(2026-09-20) — 09-19 첫 판에서 상위 20건이 시드 12종 중 6종(메이플 6·오버워치 5·롤 4)에 몰려,
      공략 조사원이 «같은 게임 2건» 규칙과 부딪혀 6건밖에 못 냈다. 게임을 고루 섞어야 상한만큼 뽑힌다.
@@ -606,6 +741,17 @@ async function cmdQueries() {
     pool = ranked.filter((c) => { const k = normKey(c.game), n = cnt.get(k) || 0; if (n >= PERGAME) return false; cnt.set(k, n + 1); return true; });
   }
   const top = pool.slice(0, Math.max(1, Number(val('--top', '20')) || 20));
+  /* ★09-23 — 상위 후보만 «질의 단위»로 다시 잰다(check 와 같은 자 · ≤top 요청). 채굴된 질의라 원문이 자동완성에 있는 게 정상 → 바닥은 1. */
+  for (const c of top) {
+    const gAc = acByGame.get(normKey(c.game)) || null;
+    const qa = (gAc && gAc.n === 0) ? null : await acQuery(c.game, c.q, gAc);
+    c.demand = demandOf(gAc, sa, c.game, [c.q], qa);
+    if (c.demand.src === 'ac' && c.demand.tier === 0 && gAc && gAc.n > 0) c.demand.tier = 1;
+    if (c.demand.q == null) c.demand.q = c.q;
+  }
+  if (!OFFLINE) saveCache();
+  const topIdx = new Map(top.map((c, i) => [c, i]));
+  top.sort((a, b) => cmpKey(rankKeyOf(a, topIdx.get(a)), rankKeyOf(b, topIdx.get(b))));
   const gamesInTop = new Set(top.map((c) => normKey(c.game))).size;
   console.log('\n질의 빈칸 — ' + games.length + '종에서 ' + cands.length + '건(이동형·기존 글·지난달 제외) · 상위 ' + top.length + '건 / ' + gamesInTop + '종' + (PERGAME ? ' · 게임당 최대 ' + PERGAME : ''));
   top.forEach((c, i) => console.log('  ' + String(i + 1).padStart(2) + '. ' + c.game + ' | ' + c.q + '  [' + DEPTH_KO[depthOf({ keywords: [c.q], title: c.q })] + ' · ' + c.angle + ' · ' + fmtDemand(c.demand) + (c.aib ? ' · ' + fmtAib(c.aib) : '') + ']'));
@@ -671,7 +817,7 @@ function secOfPost(folder, reqs, items) {
   return 'other';
 }
 
-module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, demandOf, judge, sortSection, sortKey, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, getRequests, deskItems, secOfPost, depthOf, newGamesFrom, DEPTH_KO };
+module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, tierFromQuery, qModeOf, contentTokens, queryWithGame, demandOf, judge, sortSection, sortKey, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, SEC_PRIORITY, getRequests, deskItems, secOfPost, depthOf, newGamesFrom, DEPTH_KO, blockHit, loadBlocklist, crossOverlap, sameGameKey };
 
 if (require.main === module) {
   const cmd = argv[0];
