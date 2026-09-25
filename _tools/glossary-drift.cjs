@@ -90,6 +90,10 @@ function recentlyChanged() {
 /* 그 게임의 발행글 경로. `_aliases.json` 의 canon·aliases·folders 를 전부 본다(폴더 표기가 갈려 있어서). */
 function postsOf(g) {
   const names = new Set([g.canon, ...(g.aliases || []), ...(g.folders || [])].filter(Boolean));
+  /* ★2026-09-25: 다른 게임으로 «따로 등재된» 폴더명은 접두 일치에서 뺀다 — «마비노기» 용어집이 바뀌었다고
+     «마비노기 이터니티» 폴더까지 재검 대상에 들면 과포함이다(전수조사 impl-Y ③-2). 정확 일치는 그대로. */
+  const others = new Set(games().filter((x) => x.canon !== g.canon)
+    .flatMap((x) => [x.canon, ...(x.aliases || []), ...(x.folders || [])]).filter(Boolean));
   const out = [];
   for (const writer of fs.readdirSync(ROOT)) {
     const wdir = path.join(ROOT, writer);
@@ -98,7 +102,7 @@ function postsOf(g) {
     try { subs = fs.readdirSync(wdir); } catch { continue; }
     for (const s of subs) {
       if (s.startsWith('_')) continue;
-      const hit = [...names].some((n) => s === n || s.startsWith(n + ' '));
+      const hit = names.has(s) || (!others.has(s) && [...names].some((n) => s.startsWith(n + ' ')));
       if (!hit) continue;
       walk(path.join(wdir, s), out);
     }

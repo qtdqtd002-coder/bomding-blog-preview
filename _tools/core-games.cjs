@@ -81,12 +81,35 @@ const ALIAS_PREFIX = (() => {
   } catch { /* 색인 없으면 이 구제도 없다(기존 동작 그대로) */ }
   return list.sort((a, b) => b[0].length - a[0].length);   // 긴 별칭 먼저 — 부분 일치 사고 방지
 })();
+/* ★2026-09-25: «정확히 등록된 게임 이름»은 접두 규칙보다 먼저 본다.
+   별칭 색인에 «마비노기»(RE:ACTION 원작)·«배틀그라운드»(PC)가 별개 게임으로 등재되자, canon 과 같은
+   폴더명은 ALIAS 표에 안 들어가므로 «마비노기 이터니티»·«배틀그라운드 모바일» 그룹이 위 접두 규칙
+   («마비노기 »·«배틀그라운드 » startsWith)으로 떨어져 다른 게임에 합산됐다(전수조사 impl-Y ③-1).
+   glossary-lint 의 09-23 «정확 일치 1차 패스»와 같은 원리 — 등록된 이름은 그 자체가 답이다. */
+const CANON_BY_NORM = (() => {
+  const m = new Map();
+  try {
+    const p = require('path').join(__dirname, '..', '..', '_glossary', '_aliases.json');
+    for (const g of (JSON.parse(require('fs').readFileSync(p, 'utf8')).games || [])) {
+      const k = norm(g.canon);
+      if (k) m.set(k, g.canon);
+    }
+  } catch { /* 색인이 없으면 이 단계도 없다 */ }
+  return m;
+})();
 function canonGame(group) {
   const raw = String(group == null ? '' : group);
   const byAlias = ALIAS.get(norm(raw));
   if (byAlias) return byAlias;
+  const exact = CANON_BY_NORM.get(norm(raw));
+  if (exact) return exact;
   for (const [pre, canon] of ALIAS_PREFIX) if (raw.startsWith(pre)) return canon;
   return null;
+}
+/* 디버그: node core-games.cjs --canon "마비노기 이터니티" "배틀그라운드 모바일"  → 그룹명이 어느 게임으로 가는지만 찍고 끝(집계·파일 쓰기 없음) */
+if (process.argv.includes('--canon')) {
+  for (const g of process.argv.slice(process.argv.indexOf('--canon') + 1)) console.log(g, '->', canonGame(g));
+  process.exit(0);
 }
 
 const NOW = process.env.CORE_GAMES_TODAY || new Date().toISOString().slice(0, 10);
