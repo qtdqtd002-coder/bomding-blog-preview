@@ -1,0 +1,304 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>컨트롤 레조넌트 디지털 디럭스 얼리 액세스 받는 법, PS5 48시간 조건 정리</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .coupang{display:block;text-align:center;background:#fef2ef;border:1px solid #f3b8a8;color:#c0392b;
+    text-decoration:none;padding:12px;border-radius:8px;font-weight:700;font-size:14.5px;margin:6px 0 22px;}
+  .coupang small{display:block;color:#9a6b62;font-weight:500;font-size:11.5px;margin-top:3px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">컨트롤 레조넌트 디지털 디럭스 얼리 액세스 받는 법, PS5 48시간 조건 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.09.25.</span><span>· 게임</span></div>
+
+    <p>'컨트롤 레조넌트 얼리 액세스 어떻게 받아요?' 하고 검색해서 들어오신 분들이 꽤 있을 것 같은데요, 사실 이 얼리 액세스는 이미 끝난 이벤트예요. 정식 출시가 어제(9월 24일) 오후 11시(23:00)에 이미 지나갔고, 48시간 얼리 액세스도 그보다 이틀 앞선 9월 22일부터 시작됐던 한정 혜택이었거든요. 그래서 오늘 글은 '지금 신청하는 법'이 아니라, 그 얼리 액세스가 정확히 누구한테 어떤 조건으로 주어졌던 건지, 그리고 그 조건이 됐던 PS5 디지털 디럭스 에디션은 대체 뭐가 들었길래 그런 혜택까지 딸려왔는지를 정리해보려고 해요. 이미 정식 출시로 넘어온 지금 시점에서도 디지털 디럭스 구성이랑 가격은 여전히 궁금하실 테니 그 부분도 같이 챙겨드릴게요.</p>
+
+    <h2 class="sub">컨트롤 레조넌트, 언제 어디서 나왔나요</h2>
+    <p><b>컨트롤 레조넌트는 한국시간 9월 24일 오후 11시(23:00)에 PS5·엑스박스 시리즈 X|S·PC(스팀·에픽게임즈 스토어)로 글로벌 동시 출시됐어요.</b> 콘솔이랑 PC 플랫폼을 한 번에 다 챙긴 셈이라, 어느 기기로 하시든 발매일 자체는 똑같다고 보시면 되는데요. 그리고 이 출시일보다 이틀 먼저, 그러니까 9월 22일 오후 11시(23:00)부터 먼저 게임을 시작할 수 있었던 사람들이 있었어요. 그게 바로 오늘 다룰 48시간 얼리 액세스인데, 아무나 받을 수 있었던 건 아니고 조건이 따로 있었거든요. 바로 이어서 그 조건부터 짚어볼게요.</p>
+
+    <div class="imgwrap"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3669870/1e0c76e4253d347bb1304c3f213570251d924edf/header.jpg?t=1790259464" alt="컨트롤 레조넌트 스팀 공식 헤더 이미지" width="460" height="215"></div>
+    <!-- 이미지 이유: 도입부 대표 키비주얼, 스팀 공식 상점 헤더 이미지라 게임 첫인상을 바로 보여주기 좋음 / 출처: https://store.steampowered.com/app/3669870/CONTROL_Resonant/ / 분류: A형 -->
+    <p class="cap">스팀 상점 페이지에 걸린 컨트롤 레조넌트 공식 헤더 이미지예요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">컨트롤 레조넌트 스팀 상점 페이지</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">48시간 얼리 액세스, 어떤 조건이었나요</h2>
+    <p><b>이번 48시간 얼리 액세스는 PS5용 컨트롤 레조넌트 디지털 디럭스 에디션을 구매한 분들만 받을 수 있었던 혜택이에요.</b> 스팀이나 엑스박스에서도 똑같이 디지털 디럭스 에디션을 팔긴 하는데, 그쪽 구매자는 얼리 액세스 대상이 아니었거든요. 정확한 이유까지는 공식적으로 다 밝혀지진 않았지만, 소니랑 맺은 플랫폼 독점 계약 때문인 걸로 알려져 있어요. 조건을 한눈에 정리하면 다음과 같습니다.</p>
+    <ul>
+      <li>PS5 디지털 디럭스 구매자 — 9월 22일 오후 11시(23:00, KST)부터 미리 플레이 가능</li>
+      <li>스팀·엑스박스 디지털 디럭스 구매자 — 의상·아티팩트·아트북·OST 같은 구성은 똑같이 받지만, 얼리 액세스는 없이 정식 출시(9월 24일 오후 11시/23:00)부터 플레이</li>
+      <li>얼리 액세스 시작 시점은 정식 출시 딱 48시간 전으로 계산돼요</li>
+    </ul>
+    <p>다만 '9월 22일 오후 11시(23:00)부터'라는 시각을 레메디나 소니가 직접 공지문에 못박은 문구는 이번 조사에서 못 찾았어요. 국내 매체가 정식 출시 시각에서 48시간을 거꾸로 계산해 안내한 값이라, 얼리 액세스가 실제로 이 시각에 정확히 열렸다는 것보단 '정식 출시 이틀 전부터'라는 큰 틀로 이해하시는 게 안전할 것 같네요.</p>
+
+    <h2 class="sub">PS5 디지털 디럭스는 어떻게 구매하나요</h2>
+    <p><b>PS5 스토어에서 컨트롤 레조넌트 디지털 디럭스 에디션을 구매하면 별다른 절차 없이 그대로 얼리 액세스가 적용되는 것으로 보여요.</b> 절차를 정리하면 다음과 같아요.</p>
+    <ul>
+      <li>① PS5 스토어에서 '컨트롤 레조넌트 디지털 디럭스 에디션'을 검색해 구매(사전구매 포함)</li>
+      <li>② 얼리 액세스 시작 시점부터 라이브러리에서 바로 실행</li>
+    </ul>
+    <p>구매만으로 자동 적용되는 것 같다는 정도로 정리해두시고, 코드 입력이 따로 필요한지 궁금하신 분들은 아래 FAQ에서 조금 더 자세히 다룰게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: PS5 스토어에서 디지털 디럭스 에디션 구매 화면</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — PS5 스토어 앱에서 '컨트롤 레조넌트' 검색 후 에디션 선택 화면을 캡처하시면 돼요. 참고할 곳: <a href="https://www.playstation.com/en-us/games/control-resonant/" target="_blank">PlayStation 공식 게임 페이지</a></div>
+    <p class="cap">디지털 디럭스 에디션 구매 화면은 이렇게 생겼어요.</p>
+
+    <h2 class="sub">디지털 디럭스 에디션엔 뭐가 들어있나요</h2>
+    <p><b>디지털 디럭스 에디션엔 기본 게임에 더해 'AWE 미션' 전용 의상, 전용 아티팩트, 스타터 리소스 번들, 디지털 아트북, 오리지널 사운드트랙 등이 함께 들어가요.</b> 하나씩 보면 이래요.</p>
+    <ul>
+      <li>'AWE 미션' 전용 의상</li>
+      <li>전용 아티팩트</li>
+      <li>스타터 리소스 번들</li>
+      <li>디지털 아트북</li>
+      <li>오리지널 사운드트랙</li>
+    </ul>
+    <p>가격은 경향게임스 보도 기준으로 아래 표에 정리했어요. 다만 판매처마다 표기 가격이 조금씩 다를 수 있어서, 정확한 금액은 구매 전에 각 스토어에서 한 번 더 확인하시는 걸 추천드려요.</p>
+    <table class="tbl">
+      <tr><th>에디션</th><th>가격(경향게임스 보도 기준)</th></tr>
+      <tr><td>스탠다드</td><td>59,800원</td></tr>
+      <tr><td>디지털 디럭스</td><td>64,800원</td></tr>
+    </table>
+
+    <div class="imgwrap"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3669870/bcda7ae5b393697f658d82aa5ffedaac7511130d/page_bg_raw.jpg?t=1790259464" alt="컨트롤 레조넌트 스팀 공식 배경 이미지" width="1438" height="810"></div>
+    <!-- 이미지 이유: 디지털 디럭스 구성·분위기를 보여주는 공식 배경 아트, 앞선 스킨컷과 겹치지 않는 톤으로 배치 / 출처: https://store.steampowered.com/app/3669870/CONTROL_Resonant/ / 분류: A형 -->
+    <p class="cap">스팀 상점 페이지의 공식 배경 아트예요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/app/3669870/CONTROL_Resonant/" target="_blank">컨트롤 레조넌트 스팀 상점 페이지</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">컨트롤 레조넌트는 어떤 게임인가요</h2>
+    <p><b>장르는 액션 어드벤처에 액션 RPG 요소가 섞였고, 전작 '컨트롤'의 조연이었던 초자연 능력자 딜런 페이든이 왜곡되어 멸망 위기에 처한 맨해튼에서 레메디 세계관상 소원해졌던 누나 제시 페이든을 찾아 나서는 이야기예요.</b> 전작에서 조연이었던 캐릭터가 이번엔 직접 주인공으로 나선다는 점이 눈에 띄는 부분이고, 현실을 뒤바꾸는 우주적 위협에 맞서 싸우면서 가족을 찾는다는 서사가 전체 줄기를 이루고 있어요. 개발과 퍼블리싱은 전작들을 만든 레메디 엔터테인먼트가 그대로 맡았어요.</p>
+
+    <h2 class="sub">평가는 어땠나요 — 좋았던 점과 아쉬운 점</h2>
+    <p><b>직접 오래 플레이해본 게 아니라 공개된 리뷰 반응 기준으로 말씀드리면, 세계관과 아트 디렉션·탐험·스토리텔링은 대체로 호평이고, 새로 바뀐 근접 전투 시스템은 매체마다 평가가 크게 갈렸어요.</b> 해외 매체 Push Square는 '몰입감 있고 확신에 찬 연출'이라고 평했던 반면, 근접 전투가 예전과 달라진 부분은 매체마다 좋아하는 쪽과 아쉬워하는 쪽이 뚜렷하게 나뉘더라고요. 정확한 점수는 아래 FAQ에서 마저 짚어드릴게요.</p>
+    <table class="tbl">
+      <tr><th>좋았던 점</th><th>아쉬운 점</th></tr>
+      <tr><td>세계관·아트 디렉션·탐험·스토리텔링 호평 다수</td><td>새로 바뀐 근접 전투 시스템은 매체별 호불호 뚜렷</td></tr>
+    </table>
+
+    <h2 class="sub">이런 분들에게 추천해요</h2>
+    <p>이미 PS5로 디지털 디럭스를 사서 얼리 액세스로 먼저 즐기고 계셨던 분들이라면 이제 정식 버전으로 자연스럽게 넘어가시면 되고요, 아직 안 사신 분들 중에서도 전작 '컨트롤'의 세계관을 좋아했거나 탐험·스토리 중심 액션 어드벤처를 즐기시는 분들이라면 눈여겨볼 만해요. 다만 근접 전투 손맛이 바뀐 부분을 여러 매체가 짚은 만큼, 액션 손맛을 가장 중요하게 보시는 분이라면 평가를 조금 더 지켜보고 결정하시는 것도 방법입니다.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 컨트롤 레조넌트 얼리 액세스, 특별한 코드를 따로 입력해야 받을 수 있나요?</b><br>따로 코드를 입력하거나 별도로 등록하는 절차가 있다는 공식 안내는 이번 조사에서 찾지 못했어요. PS5 스토어에서 디지털 디럭스 에디션을 구매하면 그걸로 자동 적용되는 것으로 보이니, 구매 후에는 라이브러리에 게임이 떠 있는지 확인해보시는 게 가장 확실해요.</p>
+    <p><b>Q. 지포스 나우 같은 클라우드 스트리밍으로도 출시일에 바로 즐길 수 있나요?</b><br>네, 지포스 나우 클라우드 스트리밍도 출시일부터 지원한다고 안내됐네요. 다운로드 없이 스트리밍으로 접속하고 싶으신 분들은 참고하시면 좋겠습니다.</p>
+    <p><b>Q. 아나푸르나 픽처스는 이 게임이랑 무슨 관계인가요?</b><br>레메디 엔터테인먼트가 개발과 퍼블리싱을 맡고, 영화 제작사인 아나푸르나 픽처스가 전략적 파트너로 공동 투자·제작에 참여했는데요. 영화 쪽 제작사가 게임에 이름을 함께 올린 조합이라 눈에 띄는 부분이랍니다.</p>
+    <p><b>Q. 메타크리틱 점수는 정확히 몇 점인가요?</b><br>메타크리틱 기준으로 PS5·PC는 83점, 엑스박스는 81점이에요. 전작 '컨트롤'은 플랫폼별로 점수가 조금씩 달랐는데, PS4판은 82점이었고 PC판은 85점으로 더 높았거든요. 그러니 이번 작품이 전작보다 확실히 올랐다고 단정하긴 어렵고, 플랫폼별로 비교해보시는 게 정확합니다.</p>
+    <p><b>Q. PS5·엑스박스·PC 중 어디서 사는 게 좋나요?</b><br>지금은 얼리 액세스가 이미 끝난 시점이라 세 플랫폼 모두 같은 날 정식 발매됐고, 디지털 디럭스 구성도 동일합니다. 평소 즐겨 쓰시는 플랫폼이나 보유한 라이브러리, 지포스 나우 같은 클라우드 스트리밍 지원 여부를 기준으로 고르시면 충분하겠네요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 메타크리틱 컨트롤 레조넌트 페이지 스크린샷</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 아래 링크에서 최신 점수를 확인하고 캡처하시면 돼요. 참고할 곳: <a href="https://www.metacritic.com/game/control-resonant/" target="_blank">메타크리틱 컨트롤 레조넌트 페이지</a></div>
+    <p class="cap">메타크리틱 점수는 리뷰가 계속 쌓이면서 조금씩 바뀔 수 있어요.</p>
+
+    <h2 class="sub">컨트롤 레조넌트 얼리 액세스 정리</h2>
+    <p>한마디로 정리하면, 48시간 얼리 액세스는 PS5 디지털 디럭스를 미리 구매한 분들만 받을 수 있었던 한정 혜택이었고, 지금은 정식 출시로 넘어와서 누구나 플레이할 수 있는 상태예요. 아직 안 사신 분들은 위에 정리한 디지털 디럭스 구성이랑 평가를 참고해서 천천히 결정해보시면 좋을 것 같아요.</p>
+
+    <p><b>✔ 컨트롤 레조넌트 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224415968478" target="_blank">컨트롤 레조넌트 출시일 PC사양 정리, 사전예약 스팀 위시리스트까지</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://blog.ko.playstation.com/2026/06/03/20260603-control/" target="_blank">PlayStation 공식 블로그 — 컨트롤 레조넌트 소개</a><br>
+    · <a href="https://www.playstation.com/en-us/games/control-resonant/" target="_blank">PlayStation 공식 게임 페이지</a></p>
+
+    <div class="tags">#컨트롤레조넌트 #컨트롤레조넌트디지털디럭스 #컨트롤레조넌트얼리액세스 #PS5신작게임 #레메디엔터테인먼트 #액션어드벤처게임</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 4분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 컨트롤 레조넌트 디지털 디럭스 얼리 액세스 받는 법, PS5 48시간 조건 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy" style="display:none">
+<p><b>컨트롤 레조넌트 디지털 디럭스 얼리 액세스 받는 법, PS5 48시간 조건 정리</b></p>
+<p>'컨트롤 레조넌트 얼리 액세스 어떻게 받아요?' 하고 검색해서 들어오신 분들이 꽤 있을 것 같은데요, 사실 이 얼리 액세스는 이미 끝난 이벤트예요. 정식 출시가 어제(9월 24일) 오후 11시(23:00)에 이미 지나갔고, 48시간 얼리 액세스도 그보다 이틀 앞선 9월 22일부터 시작됐던 한정 혜택이었거든요. 그래서 오늘 글은 '지금 신청하는 법'이 아니라, 그 얼리 액세스가 정확히 누구한테 어떤 조건으로 주어졌던 건지, 그리고 그 조건이 됐던 PS5 디지털 디럭스 에디션은 대체 뭐가 들었길래 그런 혜택까지 딸려왔는지를 정리해보려고 해요. 이미 정식 출시로 넘어온 지금 시점에서도 디지털 디럭스 구성이랑 가격은 여전히 궁금하실 테니 그 부분도 같이 챙겨드릴게요.</p>
+
+<h3>컨트롤 레조넌트, 언제 어디서 나왔나요</h3>
+<p><b>컨트롤 레조넌트는 한국시간 9월 24일 오후 11시(23:00)에 PS5·엑스박스 시리즈 X|S·PC(스팀·에픽게임즈 스토어)로 글로벌 동시 출시됐어요.</b> 콘솔이랑 PC 플랫폼을 한 번에 다 챙긴 셈이라, 어느 기기로 하시든 발매일 자체는 똑같다고 보시면 되는데요. 그리고 이 출시일보다 이틀 먼저, 그러니까 9월 22일 오후 11시(23:00)부터 먼저 게임을 시작할 수 있었던 사람들이 있었어요. 그게 바로 오늘 다룰 48시간 얼리 액세스인데, 아무나 받을 수 있었던 건 아니고 조건이 따로 있었거든요. 바로 이어서 그 조건부터 짚어볼게요.</p>
+<p>📷 〔사진 자리 1〕 컨트롤 레조넌트 공식 키비주얼 — 스팀 상점 페이지에서 저장 후 업로드</p>
+
+<h3>48시간 얼리 액세스, 어떤 조건이었나요</h3>
+<p><b>이번 48시간 얼리 액세스는 PS5용 컨트롤 레조넌트 디지털 디럭스 에디션을 구매한 분들만 받을 수 있었던 혜택이에요.</b> 스팀이나 엑스박스에서도 똑같이 디지털 디럭스 에디션을 팔긴 하는데, 그쪽 구매자는 얼리 액세스 대상이 아니었거든요. 정확한 이유까지는 공식적으로 다 밝혀지진 않았지만, 소니랑 맺은 플랫폼 독점 계약 때문인 걸로 알려져 있어요. 조건을 한눈에 정리하면 다음과 같습니다.</p>
+<ul>
+<li>PS5 디지털 디럭스 구매자 — 9월 22일 오후 11시(23:00, KST)부터 미리 플레이 가능</li>
+<li>스팀·엑스박스 디지털 디럭스 구매자 — 의상·아티팩트·아트북·OST 같은 구성은 똑같이 받지만, 얼리 액세스는 없이 정식 출시(9월 24일 오후 11시/23:00)부터 플레이</li>
+<li>얼리 액세스 시작 시점은 정식 출시 딱 48시간 전으로 계산돼요</li>
+</ul>
+<p>다만 '9월 22일 오후 11시(23:00)부터'라는 시각을 레메디나 소니가 직접 공지문에 못박은 문구는 이번 조사에서 못 찾았어요. 국내 매체가 정식 출시 시각에서 48시간을 거꾸로 계산해 안내한 값이라, 얼리 액세스가 실제로 이 시각에 정확히 열렸다는 것보단 '정식 출시 이틀 전부터'라는 큰 틀로 이해하시는 게 안전할 것 같네요.</p>
+
+<h3>PS5 디지털 디럭스는 어떻게 구매하나요</h3>
+<p><b>PS5 스토어에서 컨트롤 레조넌트 디지털 디럭스 에디션을 구매하면 별다른 절차 없이 그대로 얼리 액세스가 적용되는 것으로 보여요.</b> 절차를 정리하면 다음과 같아요.</p>
+<ul>
+<li>① PS5 스토어에서 '컨트롤 레조넌트 디지털 디럭스 에디션'을 검색해 구매(사전구매 포함)</li>
+<li>② 얼리 액세스 시작 시점부터 라이브러리에서 바로 실행</li>
+</ul>
+<p>구매만으로 자동 적용되는 것 같다는 정도로 정리해두시고, 코드 입력이 따로 필요한지 궁금하신 분들은 아래 FAQ에서 조금 더 자세히 다룰게요.</p>
+<p>📷 〔사진 자리 2〕 PS5 스토어에서 디지털 디럭스 에디션 구매 화면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "디지털 디럭스 에디션 구매 화면은 이렇게 생겼어요."</p>
+
+<h3>디지털 디럭스 에디션엔 뭐가 들어있나요</h3>
+<p><b>디지털 디럭스 에디션엔 기본 게임에 더해 'AWE 미션' 전용 의상, 전용 아티팩트, 스타터 리소스 번들, 디지털 아트북, 오리지널 사운드트랙 등이 함께 들어가요.</b> 하나씩 보면 이래요.</p>
+<ul>
+<li>'AWE 미션' 전용 의상</li>
+<li>전용 아티팩트</li>
+<li>스타터 리소스 번들</li>
+<li>디지털 아트북</li>
+<li>오리지널 사운드트랙</li>
+</ul>
+<p>가격은 경향게임스 보도 기준으로 아래 표에 정리했어요. 다만 판매처마다 표기 가격이 조금씩 다를 수 있어서, 정확한 금액은 구매 전에 각 스토어에서 한 번 더 확인하시는 걸 추천드려요.</p>
+<table>
+<tr><th>에디션</th><th>가격(경향게임스 보도 기준)</th></tr>
+<tr><td>스탠다드</td><td>59,800원</td></tr>
+<tr><td>디지털 디럭스</td><td>64,800원</td></tr>
+</table>
+<p>📷 〔사진 자리 3〕 컨트롤 레조넌트 공식 배경 아트 — 스팀 상점 페이지에서 저장 후 업로드</p>
+
+<h3>컨트롤 레조넌트는 어떤 게임인가요</h3>
+<p><b>장르는 액션 어드벤처에 액션 RPG 요소가 섞였고, 전작 '컨트롤'의 조연이었던 초자연 능력자 딜런 페이든이 왜곡되어 멸망 위기에 처한 맨해튼에서 레메디 세계관상 소원해졌던 누나 제시 페이든을 찾아 나서는 이야기예요.</b> 전작에서 조연이었던 캐릭터가 이번엔 직접 주인공으로 나선다는 점이 눈에 띄는 부분이고, 현실을 뒤바꾸는 우주적 위협에 맞서 싸우면서 가족을 찾는다는 서사가 전체 줄기를 이루고 있어요. 개발과 퍼블리싱은 전작들을 만든 레메디 엔터테인먼트가 그대로 맡았어요.</p>
+
+<h3>평가는 어땠나요 — 좋았던 점과 아쉬운 점</h3>
+<p><b>직접 오래 플레이해본 게 아니라 공개된 리뷰 반응 기준으로 말씀드리면, 세계관과 아트 디렉션·탐험·스토리텔링은 대체로 호평이고, 새로 바뀐 근접 전투 시스템은 매체마다 평가가 크게 갈렸어요.</b> 해외 매체 Push Square는 '몰입감 있고 확신에 찬 연출'이라고 평했던 반면, 근접 전투가 예전과 달라진 부분은 매체마다 좋아하는 쪽과 아쉬워하는 쪽이 뚜렷하게 나뉘더라고요. 정확한 점수는 아래 FAQ에서 마저 짚어드릴게요.</p>
+<table>
+<tr><th>좋았던 점</th><th>아쉬운 점</th></tr>
+<tr><td>세계관·아트 디렉션·탐험·스토리텔링 호평 다수</td><td>새로 바뀐 근접 전투 시스템은 매체별 호불호 뚜렷</td></tr>
+</table>
+
+<h3>이런 분들에게 추천해요</h3>
+<p>이미 PS5로 디지털 디럭스를 사서 얼리 액세스로 먼저 즐기고 계셨던 분들이라면 이제 정식 버전으로 자연스럽게 넘어가시면 되고요, 아직 안 사신 분들 중에서도 전작 '컨트롤'의 세계관을 좋아했거나 탐험·스토리 중심 액션 어드벤처를 즐기시는 분들이라면 눈여겨볼 만해요. 다만 근접 전투 손맛이 바뀐 부분을 여러 매체가 짚은 만큼, 액션 손맛을 가장 중요하게 보시는 분이라면 평가를 조금 더 지켜보고 결정하시는 것도 방법입니다.</p>
+
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 컨트롤 레조넌트 얼리 액세스, 특별한 코드를 따로 입력해야 받을 수 있나요?</b><br>따로 코드를 입력하거나 별도로 등록하는 절차가 있다는 공식 안내는 이번 조사에서 찾지 못했어요. PS5 스토어에서 디지털 디럭스 에디션을 구매하면 그걸로 자동 적용되는 것으로 보이니, 구매 후에는 라이브러리에 게임이 떠 있는지 확인해보시는 게 가장 확실해요.</p>
+<p><b>Q. 지포스 나우 같은 클라우드 스트리밍으로도 출시일에 바로 즐길 수 있나요?</b><br>네, 지포스 나우 클라우드 스트리밍도 출시일부터 지원한다고 안내됐네요. 다운로드 없이 스트리밍으로 접속하고 싶으신 분들은 참고하시면 좋겠습니다.</p>
+<p><b>Q. 아나푸르나 픽처스는 이 게임이랑 무슨 관계인가요?</b><br>레메디 엔터테인먼트가 개발과 퍼블리싱을 맡고, 영화 제작사인 아나푸르나 픽처스가 전략적 파트너로 공동 투자·제작에 참여했는데요. 영화 쪽 제작사가 게임에 이름을 함께 올린 조합이라 눈에 띄는 부분이랍니다.</p>
+<p><b>Q. 메타크리틱 점수는 정확히 몇 점인가요?</b><br>메타크리틱 기준으로 PS5·PC는 83점, 엑스박스는 81점이에요. 전작 '컨트롤'은 플랫폼별로 점수가 조금씩 달랐는데, PS4판은 82점이었고 PC판은 85점으로 더 높았거든요. 그러니 이번 작품이 전작보다 확실히 올랐다고 단정하긴 어렵고, 플랫폼별로 비교해보시는 게 정확합니다.</p>
+<p><b>Q. PS5·엑스박스·PC 중 어디서 사는 게 좋나요?</b><br>지금은 얼리 액세스가 이미 끝난 시점이라 세 플랫폼 모두 같은 날 정식 발매됐고, 디지털 디럭스 구성도 동일합니다. 평소 즐겨 쓰시는 플랫폼이나 보유한 라이브러리, 지포스 나우 같은 클라우드 스트리밍 지원 여부를 기준으로 고르시면 충분하겠네요.</p>
+<p>📷 〔사진 자리 4〕 메타크리틱 컨트롤 레조넌트 페이지 — 네이버에서 직접 업로드<br>└ 캡션 추천: "메타크리틱 점수는 리뷰가 계속 쌓이면서 조금씩 바뀔 수 있어요."</p>
+
+<h3>컨트롤 레조넌트 얼리 액세스 정리</h3>
+<p>한마디로 정리하면, 48시간 얼리 액세스는 PS5 디지털 디럭스를 미리 구매한 분들만 받을 수 있었던 한정 혜택이었고, 지금은 정식 출시로 넘어와서 누구나 플레이할 수 있는 상태예요. 아직 안 사신 분들은 위에 정리한 디지털 디럭스 구성이랑 평가를 참고해서 천천히 결정해보시면 좋을 것 같아요.</p>
+
+<p><b>✔ 컨트롤 레조넌트 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224415968478" target="_blank">컨트롤 레조넌트 출시일 PC사양 정리, 사전예약 스팀 위시리스트까지</a></p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://blog.ko.playstation.com/2026/06/03/20260603-control/" target="_blank">PlayStation 공식 블로그 — 컨트롤 레조넌트 소개</a><br>
+· <a href="https://www.playstation.com/en-us/games/control-resonant/" target="_blank">PlayStation 공식 게임 페이지</a></p>
+
+<p class="tags-line">#컨트롤레조넌트 #컨트롤레조넌트디지털디럭스 #컨트롤레조넌트얼리액세스 #PS5신작게임 #레메디엔터테인먼트 #액션어드벤처게임</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
