@@ -16,17 +16,27 @@
 #     (블로그에서 실제로 글이 내려간 드문 경우엔 -Strict 로 재계산만 반영.)
 #   - ★2026-09-23(감사 F#8): ① 네이버 200 + 빈 postList(0제목)는 «성공한 빈 목록»이 아니라 조회 실패다(fetchOk=false → 기존 목록 유지).
 #     ② 새 publishedRels 가 직전 파일 대비 50% 이상 줄면 기록을 거부하고(exit 3) 기존 파일을 유지한다 — 의도된 대량 해제는 -Force 로만.
-#     (영도 본문 n-gram 매칭은 P2 — 여기서 하지 않는다.)
+#   - ★2026-09-25(전수조사 항목 14 · 09-16 «영도 발주→라이브 전환율 감사» 의 본문 n-gram 판정법 이식): titleRewrite 작성자(영도)는
+#     제목 매칭이 구조적으로 0 에 수렴하므로, **제목에서 안 걸린 초안만** 라이브 최근 -BodyN(20)편 본문(m.blog.naver.com/<id>/<logNo> 의
+#     se-main-container — 영도 fetch-howto §3 과 같은 경로·UA, 새 접근 방식 아님)과 «한글·영숫자만 남긴 정규화 → 글자 -BodyGram(6)-gram
+#     집합 중첩(양방향 = |A∩B|/min)» 으로 2차 판정한다. 임계 -BodyThreshold 0.10 — 감사 실측이 매칭 20.5~34.5% vs 무관 0.2~2.1% 로
+#     갈려 중간값이 없다(n=6). 봄딩 등 다른 작성자는 종전 제목 bigram(Jaccard≥0.70) 그대로. 가산 전용 — 제목 결과를 지우지 않는다.
+#     본문 fetch 실패(HTTP 오류·본문 못 찾음)는 그 편만 건너뛴다(제목 조회 실패와 달리 기존 목록엔 영향 0). -NoBody 로 끌 수 있다.
 #
 # 실행:  powershell -ExecutionPolicy Bypass -File _tools\check-published.ps1
 # 옵션:  -Threshold 0.70  -MaxPages 14  -Strict  -DryRun  -Force(급감 가드 강행)
+#        -BodyN 20  -BodyThreshold 0.10  -BodyGram 6  -NoBody(본문 2차 매칭 끔 · 추가 네트워크 0)   ★2026-09-25
 param(
   [double]$Threshold = 0.70,   # 제목 거의 동일만 발행으로 확정(문자 bigram overlap-coefficient)
   [int]$MaxPages = 14,         # 네이버 글목록 API 페이지 수(14p ≈ 약 1년치)
   [switch]$Strict,             # 켜면 매칭 결과만 반영(기존 확인분 union 보존 안 함)
   [switch]$DeepTistory,        # ★켜면 티스토리 RSS(20편)+sitemap 전체 글 og:title 수집(백로그 1회 catch-up용, 글마다 1 fetch라 느림). 기본 OFF=RSS만(빠름).
   [switch]$DryRun,             # 켜면 published.json 을 쓰지 않고 진단만 출력
-  [switch]$Force               # ★2026-09-23: 발행확인 편수가 직전 파일 대비 절반 아래로 «급감»해도 기록을 강행(의도된 대량 해제일 때만)
+  [switch]$Force,              # ★2026-09-23: 발행확인 편수가 직전 파일 대비 절반 아래로 «급감»해도 기록을 강행(의도된 대량 해제일 때만)
+  [int]$BodyN = 20,            # ★2026-09-25: titleRewrite 작성자(영도)의 라이브 본문 fetch 편수(글목록 최신순 · 네트워크 최소)
+  [double]$BodyThreshold = 0.10, # ★2026-09-25: 본문 n-gram 중첩 임계(09-16 감사: 매칭 20.5~34.5% vs 무관 0.2~2.1% — 10% 로 갈림)
+  [int]$BodyGram = 6,          # ★2026-09-25: 글자 n-gram 길이(감사 기준 n=6)
+  [switch]$NoBody              # ★2026-09-25: 본문 2차 매칭 끄기(제목만 · 추가 네트워크 0)
 )
 $ErrorActionPreference = "Stop"
 try { $OutputEncoding = [System.Text.Encoding]::UTF8; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
@@ -47,6 +57,10 @@ $AUTHORS = @{
   "연봄"   = @{ kind = "tistory"; id = "bom-ding"    }   # 2026-06-11 주소 확정(bom-ding.tistory.com)
   "하루살이" = @{ kind = "naver";   id = "harusale-"  }   # 2026-07-22 신설(blog.naver.com/harusale-)
 }
+
+# ★2026-09-25: 네이버 글목록(PostTitleListAsync)에서 제목과 함께 받은 logNo(페이지 순 = 최신순).
+#   본문 2차 매칭이 «최근 -BodyN 편»을 고를 때 쓴다 — 목록 조회는 이미 하던 것이라 추가 네트워크 0.
+$script:NaverLogNos = @{}
 
 # ── 정규화: 한글/영숫자만 남기고 소문자화(공백·문장부호·이모지 제거) ──
 function Norm([string]$s){
@@ -82,19 +96,76 @@ function Test-RelsPlausible([int]$prevCount,[int]$newCount,[double]$MinDrop=0.5)
   return ([double]$newCount -ge ([double]$prevCount * (1.0 - $MinDrop)))
 }
 
+# ── ★2026-09-25 본문 n-gram 2차 매칭(영도) — 09-16 감사 «본문 n-gram 판정법» 이식 ──
+# 글자 n-gram 집합(정규화 문자열 → 길이 n 창). Bigrams 와 같은 꼴, n 만 다르다.
+function Ngrams([string]$norm,[int]$n){
+  $set = New-Object System.Collections.Generic.HashSet[string]
+  if($norm.Length -lt $n){ return ,$set }   # ★«,$set» — 컬렉션을 그대로 반환하면 파이프라인이 원소로 풀어 Object[] 가 된다(HashSet 유지)
+  $last = $norm.Length - $n
+  for($i=0; $i -le $last; $i++){ [void]$set.Add($norm.Substring($i,$n)) }
+  return ,$set
+}
+# 양방향 중첩 = |A∩B| / min(|A|,|B|) (= max(|A∩B|/|A|, |A∩B|/|B|)). 영도는 초안을 20~35% 만 남기고 재작성하므로 «초안 쪽 포함률»이
+# 신호이고, 라이브가 초안보다 짧게 잘렸을 땐 «라이브 쪽 포함률»이 신호다 — 둘 중 큰 쪽. (New-Object 에 컬렉션을 넘기면 풀리므로 UnionWith 로 복사)
+function BodyOverlap($a,$b){
+  if($a.Count -eq 0 -or $b.Count -eq 0){ return 0.0 }
+  $tmp = New-Object System.Collections.Generic.HashSet[string]
+  $tmp.UnionWith([System.Collections.Generic.HashSet[string]]$a)
+  $tmp.IntersectWith([System.Collections.Generic.HashSet[string]]$b)
+  $den = [Math]::Min($a.Count, $b.Count)
+  return ([double]$tmp.Count / [double]$den)
+}
+# 초안 HTML → .post 본문 정규화 문자열. 네이버 위젯 서랍(#npBtn·#copy·안내문)은 preflight.py WIDGET_MARKS 와 같은 표식에서 자른다.
+function Get-DraftBodyNorm([string]$html){
+  # ★순서가 중요하다 — preflight.py split_post_copy 와 같이 «script·style·주석을 먼저 지우고» 그 다음 위젯 표식에서 자른다.
+  #   초안 <style> 안 주석에 «네이버 붙여넣기 위젯» 이 있어 먼저 자르면 CSS 3KB 만 남는다(2026-09-25 실측 — 초안 정규화 머리가 CSS 토큰이었고 중첩 0.9%).
+  $t = [regex]::Replace($html,'(?is)<(script|style)[^>]*>.*?</\1>',' ')
+  $t = [regex]::Replace($t,'(?s)<!--.*?-->',' ')
+  $cut = $t.Length
+  foreach($mk in @('id="npBtn"',"id='npBtn'",'id="copy"',"id='copy'",'네이버 붙여넣기 위젯')){
+    $i = $t.IndexOf($mk); if($i -ge 0 -and $i -lt $cut){ $cut = $i }
+  }
+  $t = $t.Substring(0,$cut)
+  $t = [regex]::Replace($t,'(?s)<[^>]+>',' ')
+  return (Norm $t)
+}
+# 라이브 글 본문(모바일 페이지 · 로그인 불필요 · 영도 fetch-howto §3 과 같은 URL·UA). se-main-container 부터 공감/공유 영역(social_plugin) 앞까지.
+# 끝 표식이 없으면 나머지 전부를 쓴다(중첩식이 min 분모라 꼬리 잡음은 판정을 흔들지 않는다). 실패는 '' — 호출부가 그 편만 건너뛴다.
+function Get-NaverBodyNorm([string]$blogId,[string]$logNo){
+  $u = "https://m.blog.naver.com/$blogId/$logNo"
+  $r = Invoke-WebRequest -Uri $u -UseBasicParsing -TimeoutSec 25 -Headers @{ "User-Agent"="Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15"; "Referer"="https://m.blog.naver.com/$blogId" }
+  $html = $r.Content
+  $start = $html.IndexOf('class="se-main-container"')
+  if($start -lt 0){ return "" }
+  $start = $html.IndexOf('>',$start); if($start -lt 0){ return "" }
+  $end = $html.Length
+  foreach($mk in @('social_plugin_property','class="_checkVisible','id="footer"','class="post_footer')){
+    $i = $html.IndexOf($mk,$start); if($i -ge 0 -and $i -lt $end){ $end = $i }
+  }
+  $t = $html.Substring($start,$end-$start)
+  $t = [regex]::Replace($t,'(?is)<(script|style)[^>]*>.*?</\1>',' ')
+  $t = [regex]::Replace($t,'(?s)<[^>]+>',' ')
+  return (Norm $t)
+}
+
 # ── 네이버: 글 제목 전체 수집(카테고리 무관 — categoryNo=0) ──
 function Get-NaverTitles([string]$blogId,[int]$pages){
   $titles = New-Object System.Collections.Generic.List[string]
+  $logNos = New-Object System.Collections.Generic.List[string]   # ★2026-09-25: 본문 2차 매칭용(제목과 같은 응답에서)
   for($p=1; $p -le $pages; $p++){
     $api = "https://blog.naver.com/PostTitleListAsync.naver?blogId=$blogId&viewdate=&currentPage=$p&categoryNo=0&countPerPage=30"
     $a = Invoke-WebRequest -Uri $api -UseBasicParsing -TimeoutSec 20 -Headers @{ "User-Agent"="Mozilla/5.0"; "Referer"="https://blog.naver.com/$blogId" }
     $j = $a.Content | ConvertFrom-Json
     if(-not $j.postList -or $j.postList.Count -eq 0){ break }
-    foreach($pl in $j.postList){ $titles.Add([System.Web.HttpUtility]::UrlDecode([string]$pl.title)) }
+    foreach($pl in $j.postList){
+      $titles.Add([System.Web.HttpUtility]::UrlDecode([string]$pl.title))
+      if($pl.logNo){ [void]$logNos.Add([string]$pl.logNo) }
+    }
   }
   # ★2026-09-23(F#8①) — 0제목 fetch 는 실패다. 네이버는 차단·오류 때도 200 + 빈 postList 를 줄 수 있어, 이걸 성공으로 보면
   #   -Strict 에서 전부 drop · 기본 모드에서도 라이브 제목 스냅샷(_live-titles.json)이 빈 값으로 덮인다. 호출부 catch 가 fetchOk=false 로 받는다.
   if($titles.Count -eq 0){ throw ("네이버 {0}: 제목 0개(HTTP 200 + 빈 postList) — 조회 실패로 처리" -f $blogId) }
+  $script:NaverLogNos[$blogId] = $logNos
   return $titles
 }
 # ── 티스토리: RSS 제목 수집 (+ -DeepTistory 시 sitemap 전체 글 og:title 보강) ──
@@ -210,6 +281,47 @@ foreach($pst in $posts){
   $matched[$pst.rel] = @{ jac=$bestJac; ovl=$bestOvl; pub=$pub }
 }
 
+# ── 3.5) ★2026-09-25 본문 n-gram 2차 매칭 — titleRewrite 작성자(영도)만. 제목에서 안 걸린 초안 ↔ 라이브 최근 $BodyN 편 본문 ──
+#   방법 = 쓰담/docs/2026-09-16_영도_발주-라이브발행_전환율_감사.md «방법» 4항 그대로(한글·영숫자 정규화 → 글자 n-gram 집합 중첩 · 양방향).
+#   가산 전용: 여기서 pub=$true 로 뒤집을 뿐 제목 매칭 결과를 지우지 않는다. 본문 fetch 가 통째로 실패해도 §5(b) union 보존은 그대로다.
+$bodyInfo = @{}   # author → @{ tried; fetched; cands; matched; failed }
+if(-not $NoBody){
+  foreach($author in ($posts | Select-Object -ExpandProperty author -Unique)){
+    $meta = $AUTHORS[$author]
+    if(-not $meta -or -not $meta.titleRewrite -or $meta.kind -ne "naver"){ continue }
+    if(-not $fetchOk[$author]){ continue }
+    $logs = @(); if($script:NaverLogNos.ContainsKey($meta.id)){ $logs = @($script:NaverLogNos[$meta.id] | Select-Object -First $BodyN) }
+    $cands = @($posts | Where-Object { $_.author -eq $author -and $matched.ContainsKey($_.rel) -and -not $matched[$_.rel].pub })
+    $info = @{ tried=$logs.Count; fetched=0; cands=$cands.Count; matched=0; failed=@() }
+    if($logs.Count -eq 0 -or $cands.Count -eq 0){ $bodyInfo[$author] = $info; continue }
+    # (a) 라이브 본문 → n-gram 집합 (편당 1 fetch · 300ms 간격 · 200자 미만은 본문 못 찾은 것으로 본다)
+    $live = @()
+    foreach($ln in $logs){
+      try {
+        $nb = Get-NaverBodyNorm $meta.id $ln
+        if($nb.Length -ge 200){ $live += ,@{ logNo=$ln; set=(Ngrams $nb $BodyGram); len=$nb.Length }; $info.fetched = $info.fetched + 1 }
+        else { $info.failed += ("{0}(본문 {1}자)" -f $ln, $nb.Length) }
+      } catch { $info.failed += ("{0}({1})" -f $ln, $_.Exception.Message) }
+      Start-Sleep -Milliseconds 300
+    }
+    # (b) 초안 .post 본문 ↔ 각 라이브 본문 중첩 — 최고점이 임계 이상이면 발행 확정
+    foreach($pst in $cands){
+      $full = Join-Path $base ($pst.rel -replace '/','\')
+      if(-not (Test-Path $full)){ continue }
+      $dn = Get-DraftBodyNorm ([System.IO.File]::ReadAllText($full,[System.Text.Encoding]::UTF8))
+      $ds = Ngrams $dn $BodyGram
+      if($ds.Count -lt 200){ continue }
+      $best = 0.0; $bestNo = ""
+      foreach($lv in $live){ $sc = BodyOverlap $ds $lv.set; if($sc -gt $best){ $best = $sc; $bestNo = $lv.logNo } }
+      $matched[$pst.rel].body = $best; $matched[$pst.rel].logNo = $bestNo
+      if($best -ge $BodyThreshold){ $matched[$pst.rel].pub = $true; $matched[$pst.rel].via = "body"; $info.matched = $info.matched + 1 }
+    }
+    $bodyInfo[$author] = $info
+    Write-Host ("✓ [{0}] 본문 2차 매칭: 라이브 최근 {1}편 중 본문 {2}편 수집 · 제목 미매칭 초안 {3}편 대조 · 본문으로 확정 {4}편 (n={5} · 임계 {6:P0})" -f $author, $info.tried, $info.fetched, $info.cands, $info.matched, $BodyGram, $BodyThreshold) -ForegroundColor Green
+    if($info.failed.Count){ Write-Host ("  ⚠ 본문 못 받은 라이브 글 {0}편: {1}" -f $info.failed.Count, (($info.failed | Select-Object -First 5) -join ', ')) -ForegroundColor Yellow }
+  }
+}
+
 # ── 4) 기존 published.json 로드 ──
 $prev = @{}
 $prevList = @()
@@ -231,7 +343,10 @@ $added = @(); $kept = @(); $dropped = @()
 foreach($rel in $matched.Keys){
   if($matched[$rel].pub){
     [void]$newSet.Add($rel)
-    if(-not $prev.ContainsKey($rel)){ $added += ("{0}  (jac={1:0.00} ovl={2:0.00})" -f $rel, $matched[$rel].jac, $matched[$rel].ovl) }
+    if(-not $prev.ContainsKey($rel)){
+      if($matched[$rel].via -eq "body"){ $added += ("{0}  (본문 {1}-gram={2:P1} ↔ logNo {3})" -f $rel, $BodyGram, $matched[$rel].body, $matched[$rel].logNo) }
+      else { $added += ("{0}  (jac={1:0.00} ovl={2:0.00})" -f $rel, $matched[$rel].jac, $matched[$rel].ovl) }
+    }
   }
 }
 # (b) 기존 확인분 보존 규칙
@@ -255,7 +370,18 @@ $finalRels = @($newSet) | Sort-Object
 
 # ── 6) 진단 출력 ──
 Write-Host "`n── 발행검증 결과 ──" -ForegroundColor Cyan
-Write-Host ("총 글 {0}편 / 발행확인 {1}편 (Jaccard>={2:0.00} 또는 overlap>={3:0.00}&jac>={4:0.00})" -f $posts.Count, $finalRels.Count, $JacTh, $OvlTh, $OvlJacFloor)
+Write-Host ("총 글 {0}편 / 발행확인 {1}편 (Jaccard>={2:0.00} 또는 overlap>={3:0.00}&jac>={4:0.00}{5})" -f $posts.Count, $finalRels.Count, $JacTh, $OvlTh, $OvlJacFloor, $(if($NoBody){""}else{(" · 영도 본문 {0}-gram>={1:0.00}" -f $BodyGram, $BodyThreshold)}))
+# ★2026-09-25: 작성자별 전후(직전 파일 → 이번 결과) — 본문 2차 매칭 효과를 한눈에(-DryRun 보고용 · 기록과 무관).
+$byPrev = @{}; foreach($r in $prevList){ $a0 = ($r -split '/')[0]; if(-not $byPrev.ContainsKey($a0)){ $byPrev[$a0] = 0 }; $byPrev[$a0] = $byPrev[$a0] + 1 }
+$byNew  = @{}; foreach($r in $finalRels){ $a0 = ($r -split '/')[0]; if(-not $byNew.ContainsKey($a0)){ $byNew[$a0] = 0 }; $byNew[$a0] = $byNew[$a0] + 1 }
+$byTot  = @{}; foreach($pst in $posts){ if(-not $byTot.ContainsKey($pst.author)){ $byTot[$pst.author] = 0 }; $byTot[$pst.author] = $byTot[$pst.author] + 1 }
+foreach($a0 in ($byTot.Keys | Sort-Object)){
+  $bi = $bodyInfo[$a0]
+  $tail = if($bi){ (" · 본문 2차: 라이브 {0}편 수집 / 초안 {1}편 대조 / 확정 {2}편" -f $bi.fetched, $bi.cands, $bi.matched) } else { "" }
+  $pv = if($byPrev.ContainsKey($a0)){ $byPrev[$a0] } else { 0 }
+  $nw = if($byNew.ContainsKey($a0)){ $byNew[$a0] } else { 0 }
+  Write-Host ("  {0,-6} 글 {1,4}편 · 발행확인 {2,4} → {3,4}{4}" -f $a0, $byTot[$a0], $pv, $nw, $tail)
+}
 if($added.Count){   Write-Host "`n[새로 발행확인 추가]" -ForegroundColor Green; $added   | ForEach-Object { Write-Host "  + $_" -ForegroundColor Green } }
 if($kept.Count){    Write-Host "`n[기존 유지]" -ForegroundColor DarkGray; $kept    | ForEach-Object { Write-Host "  = $_" -ForegroundColor DarkGray } }
 if($dropped.Count){ Write-Host "`n[발행 해제]" -ForegroundColor Yellow; $dropped | ForEach-Object { Write-Host "  - $_" -ForegroundColor Yellow } }
@@ -271,7 +397,8 @@ $unpub = @(); $undetermined = @()
 foreach($pst in $posts){
   if($fetchOk[$pst.author] -and -not $newSet.Contains($pst.rel)){
     $m=$matched[$pst.rel]
-    $line = ("{0}  (jac={1:0.00} ovl={2:0.00})" -f $pst.rel, $m.jac, $m.ovl)
+    $bodyTag = if($null -ne $m.body){ (" body={0:P1}" -f $m.body) } else { "" }
+    $line = ("{0}  (jac={1:0.00} ovl={2:0.00}{3})" -f $pst.rel, $m.jac, $m.ovl, $bodyTag)
     if($rewriteAuthors -contains $pst.author){ $undetermined += $line } else { $unpub += $line }
   }
 }
@@ -279,6 +406,7 @@ if($unpub.Count){ Write-Host "`n[미발행(블로그 미게시 추정)]" -Foregr
 if($undetermined.Count){
   Write-Host ("`n[판정 보류 — 제목 재작성형 작성자({0}). 이 지표로는 게재 여부를 알 수 없다]" -f ($rewriteAuthors -join ',')) -ForegroundColor Yellow
   Write-Host "  ※ 게재율로 읽지 말 것. 낮은 매칭률은 '안 올렸다'가 아니라 '제목이 달라 못 잰다'는 뜻이다." -ForegroundColor Yellow
+  Write-Host ("  ※ ★2026-09-25 본문 2차 매칭(라이브 최근 {0}편 창)에서도 안 걸린 글이다 — 창 밖(오래된 글)이거나 아직 미게시. body= 는 창 안 최고 중첩률." -f $BodyN) -ForegroundColor Yellow
   $undetermined | ForEach-Object { Write-Host "  ? $_" -ForegroundColor DarkYellow }
 }
 
@@ -338,7 +466,7 @@ if([string]::IsNullOrWhiteSpace($today)){ $today = "" }
 $out = [ordered]@{
   _comment = "실제 블로그(네이버 봄딩=bomding/영도=kkodug9, 티스토리 겜더쿠=quetermoney/연봄=bom-ding) 게시 확인된 글. check-published.ps1 이 발행 시작 시 자동 재생성(작성자별 블로그 제목 조회→정규화 bigram 매칭). 사이트는 딤드+'발행됨' 라벨."
   checkedAt = $today
-  method = ("작성자별 실제 블로그 제목 수집(네이버 PostTitleListAsync 전체 카테고리 + 티스토리 RSS) → 정규화 문자 bigram 매칭. 발행 판정 = Jaccard>={0:0.00} 또는 (overlap-coefficient>={1:0.00} 그리고 Jaccard>={2:0.00}). 제목 거의 동일만 확정 — 프랜차이즈명/일반어만 겹치는 오매칭 차단. 조회 실패 작성자는 기존 확인분 유지." -f $JacTh, $OvlTh, $OvlJacFloor)
+  method = (("작성자별 실제 블로그 제목 수집(네이버 PostTitleListAsync 전체 카테고리 + 티스토리 RSS) → 정규화 문자 bigram 매칭. 발행 판정 = Jaccard>={0:0.00} 또는 (overlap-coefficient>={1:0.00} 그리고 Jaccard>={2:0.00}). 제목 거의 동일만 확정 — 프랜차이즈명/일반어만 겹치는 오매칭 차단. 조회 실패 작성자는 기존 확인분 유지." -f $JacTh, $OvlTh, $OvlJacFloor) + $(if($NoBody){ " 본문 2차 매칭 꺼짐(-NoBody)." } else { (" 제목 재작성형 작성자(영도)는 제목 미매칭 글을 라이브 최근 {0}편 본문(m.blog.naver.com se-main-container)과 정규화 글자 {1}-gram 집합 중첩(양방향 |A∩B|/min)>={2:0.00} 로 2차 확정(2026-09-25 · 09-16 감사 방법)." -f $BodyN, $BodyGram, $BodyThreshold) }))
   publishedRels = $finalRels
 }
 $json = $out | ConvertTo-Json -Depth 5

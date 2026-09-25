@@ -26,10 +26,25 @@
   ★2026-09-24: 분량·h2·표행 계수에서 네이버 위젯 서랍(안내문 h2 «이렇게 쓰세요»·p.np-lbl·qbox·#copy)을 뺀다 —
     봄딩 글은 inject-npaste 주입 «후» 측정되므로(outbox-submit 호출 계약: `preflight.py <html> --writer <작성자>` · 인자 순서 무관).
 
+★2026-09-25 차단 규칙 B5 — «공략·쿠폰·티어 글의 1차 출처 링크 0 = 발행 차단» (전수조사 후속 · 사용자 결정 09-25 항목 12)
+  purpose 가 B5_PURPOSE_KEYS(공략·쿠폰·티어·추천·티어표·순위) 계열인데 본문(.post · #copy 제외)의 **외부 1차 출처 링크가 0개**면 ⛔ exit 1.
+    1차 출처 링크 = `<a href="http…">` 중 ⑴ W3 화이트리스트(REF_WHITELIST ∪ 용어집 소스맵 도메인) 안이고
+                    ⑵ url-verify.py 의 등급(TIER_RULES 를 그대로 import)이 board·fanwiki 가 아니고(= official·press 만 인정)
+                    ⑶ 개인·SNS·제휴·단축(B5_SNS_PERSONAL — blog.naver·tistory·유튜브·X·인스타·쿠팡·pf.kakao…)이 아닌 것.
+    링크 텍스트만 있고 href 가 없는 «참고한 곳» 줄은 0 으로 센다(앵커가 없으면 독자가 못 간다).
+  purpose 입력 = ⑴ `--purpose "<발주 [목적]>"`(파이프라인이 발주 양식의 [목적]을 넘긴다)
+               ⑵ 없으면 `<글폴더>/_qa/` 의 order-form*.md · order*.md · order-and-research.md · research-brief.md 에서
+                  `[목적]`(같은 줄 값 또는 바로 다음 줄들 «1. 게임 공략» 형)·`purpose:` 줄을 찾아 추론(B5_ORDER_GLOBS 순)
+               ⑶ 못 찾으면 규칙 미적용 — 경고 «purpose 미상 — B5 미판정» 1줄(exit 영향 없음).
+  ★«제품 비교·추천»(봄딩 육아·취미 쿠팡 파트너스 레인)은 게임 1차 출처 개념이 없어 B5_PURPOSE_SKIP 으로 뺀다(«추천» 이 걸려도 미적용).
+  `preflight.json` 최상위 `b5:{purpose, purposeSource, applied, primaryLinks, primaryHosts, excluded, blocked}` 기록.
+  B5 검사 자체가 예외로 죽으면 경고만(fail-open — 드레이너 «도구 고장으로 무인 발행을 세우지 않는다» 처방과 동일).
+
 사용
   python preflight.py "<글 HTML 절대경로>" [--writer 봄딩|영도] [--min 2000] [--json] [--strict]
                       [--purpose "<발주 목적>"] [--out-dir <폴더>]
     exit 0 = 통과(경고는 있을 수 있음) · exit 1 = 결함(고쳐서 다시 돌릴 것) · --strict 면 경고도 1
+    차단(exit 1) = ①분량 ②img 치수 ③날짜↔요일 ⑥금지요소 + ★B5 1차 출처 링크 0(purpose 가 공략·쿠폰·티어 계열일 때)
     항상 쓴다: `<글폴더>/_qa/preflight.json` · `<글폴더>/_qa/sensitive.json`
       (--out-dir 를 주면 그 폴더에 쓴다 — 표본 dry-run 이 실제 글 폴더를 건드리지 않게)
   집필·수정 서브가 **결과를 반환하기 전에** 스스로 돌린다. 드레이너 게이트에도 붙일 수 있다.
@@ -98,6 +113,33 @@ REF_WHITELIST = [
     'go.kr', 'or.kr', 'kdca.go.kr', 'mfds.go.kr', 'kca.go.kr',
 ]
 REF_MIN, REF_MAX = 1, 3
+
+# ── B5 1차 출처 링크 게이트(2026-09-25 · 차단) — purpose 매칭 키워드는 «부분 일치»(«게임 공략»·«쿠폰·이벤트»·«티어·추천» 이 걸린다).
+B5_PURPOSE_KEYS = ('공략', '쿠폰', '티어', '추천', '티어표', '순위')
+B5_PURPOSE_SKIP = ('제품 비교', '제품비교')     # 봄딩 육아·취미 «제품 비교·추천»(쿠팡 파트너스 수익형) — 게임 1차 출처 개념이 없다
+B5_ORDER_GLOBS = ('order-form*.md', 'order*.md', 'order-and-research.md', 'research-brief.md')   # <글폴더>/_qa/ 에서 이 순서로
+B5_MIN_LINKS = 1
+# 개인·SNS·제휴·단축·자기 사이트 — 화이트리스트의 넓은 항목(naver.com·kakao.com·youtube.com·coupang.com)에 걸려도 1차 출처가 아니다.
+B5_SNS_PERSONAL = (
+    'blog.naver.com', 'm.blog.naver.com', 'post.naver.com', 'cafe.naver.com', 'tistory.com', 'brunch.co.kr',
+    'youtube.com', 'youtu.be', 'x.com', 'twitter.com', 'instagram.com', 'facebook.com', 'threads.net', 'tiktok.com',
+    'discord.com', 'discord.gg', 'twitch.tv', 'chzzk.naver.com', 'afreecatv.com', 'sooplive.co.kr',
+    'coupang.com', 'link.coupang.com', 'pf.kakao.com', 'open.kakao.com', 'onelink.me', 'naver.me', 'bit.ly',
+    'qtdqtd002-coder.github.io',
+)
+# url-verify.py(정본 — shared/blog-writing/tools)의 tier_of 를 import 해 쓴다. 못 찾을 때만 아래 사본 규칙(2026-09-23 판)을 쓴다.
+URL_VERIFY = os.path.join(os.path.expanduser('~'), '.claude', 'shared', 'blog-writing', 'tools', 'url-verify.py')
+_B5_TIER_FALLBACK = [
+    ('board', re.compile(
+        r'(inven\.co\.kr/board/|dcinside\.com|arca\.live|cafe\.naver\.com|cafe\.daum\.net'
+        r'|bbs\.ruliweb\.com|ruliweb\.com/.*/board/|fmkorea\.com|clien\.net|ppomppu\.co\.kr'
+        r'|theqoo\.net|dogdrip\.net|mlbpark\.donga\.com|instiz\.net|reddit\.com'
+        r'|steamcommunity\.com/app/\d+/discussions|forums?\.|/forum/|/bbs/)', re.I)),
+    ('fanwiki', re.compile(
+        r'(namu\.wiki|\.fandom\.com|\.wiki\.gg|wikipedia\.org|bulbagarden\.net|librewiki\.net'
+        r'|\.miraheze\.org|wiki\.biligame\.com|wikidot\.com)', re.I)),
+]
+_B5_TIER_FN = {'fn': None, 'src': ''}
 
 # ── W6 표↔본문 숫자 대조에 쓰는 단위(같은 단위끼리만 비교한다 — 단위가 다르면 다른 양이다)
 #    날짜·시각 단위(일·월·시간·분·초)는 뺀다 — 일정은 한 글에 여러 날짜가 섞여 «같은 명사 옆 다른 날짜» 가 정상이라 오탐이 됐다(09-23 실측 제우스 5건).
@@ -351,6 +393,141 @@ def whitelisted(host, dyn):
     return False
 
 
+# ────────────────────────────────────────────────────────────── B5 1차 출처 링크(차단)
+def b5_tier_of(url):
+    """url-verify.py 의 tier_of(url, official=()) — board / fanwiki / press. 정본을 import 하고, 실패하면 사본 규칙."""
+    if _B5_TIER_FN['fn'] is None:
+        fn = None
+        try:
+            import importlib.util
+            spec = importlib.util.spec_from_file_location('_url_verify_for_preflight', URL_VERIFY)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            fn = getattr(mod, 'tier_of', None)
+            _B5_TIER_FN['src'] = 'url-verify.py'
+        except Exception:
+            fn = None
+        if fn is None:
+            def fn(u, official=()):
+                h = host_of(u)
+                m = re.match(r'https?://[^/]+(/[^?#]*)?', u.strip(), re.I)
+                hp = h + ((m.group(1) or '') if m else '')
+                for name, rx in _B5_TIER_FALLBACK:
+                    if rx.search(hp):
+                        return name
+                return 'press'
+            _B5_TIER_FN['src'] = 'fallback'
+        _B5_TIER_FN['fn'] = fn
+    try:
+        return _B5_TIER_FN['fn'](url, ())
+    except Exception:
+        return 'press'
+
+
+def is_sns_personal(host):
+    h = (host or '').lower()
+    h = h[4:] if h.startswith('www.') else h
+    return any(h == s or h.endswith('.' + s) for s in B5_SNS_PERSONAL)
+
+
+def purpose_from_text(text):
+    """발주 양식 텍스트에서 [목적] 값. 같은 줄(`[목적] 게임 — 정보형 가이드(공략·티어)…`)이면 그 줄,
+    비어 있으면 바로 다음 줄들(`1. 게임 공략` 형 · 빈 줄이나 다음 `[머리]`/`#` 에서 멈춘다). 없으면 `purpose:` 줄."""
+    lines = text.splitlines()
+    for i, ln in enumerate(lines):
+        m = re.search(r'\[\s*목적\s*\]\s*(.*)$', ln)
+        if not m:
+            continue
+        rest = re.sub(r'^[\s:：\-—*_]+', '', m.group(1)).strip().strip('*').strip()
+        if rest and not rest.startswith('['):
+            return rest[:120]
+        buf = []
+        for nx in lines[i + 1:i + 7]:
+            s = nx.strip()
+            if not s or re.match(r'^\[|^#{1,6}\s|^---', s):
+                break
+            buf.append(re.sub(r'^(?:\d+[.)]|[-*•·])\s*', '', s))
+        if buf:
+            return ' / '.join(buf)[:120]
+    for ln in lines:
+        m = re.match(r'^\s*(?:[-*]\s*)?(?:\*\*)?purpose(?:\*\*)?\s*[:=：]\s*(.+?)\s*$', ln, re.I)
+        if m:
+            return m.group(1).strip('`"\' ')[:120]
+    return ''
+
+
+def resolve_purpose(arg, html_path):
+    """(purpose, source) — source = 'arg' | '_qa/<파일>' | ''(미상)."""
+    if arg and arg.strip():
+        return arg.strip(), 'arg'
+    qa = os.path.join(os.path.dirname(os.path.abspath(html_path)), '_qa')
+    if not os.path.isdir(qa):
+        return '', ''
+    seen = set()
+    for pat in B5_ORDER_GLOBS:
+        for f in sorted(glob.glob(os.path.join(qa, pat))):
+            if f in seen:
+                continue
+            seen.add(f)
+            try:
+                text = io.open(f, encoding='utf-8', errors='replace').read()
+            except Exception:
+                continue
+            pv = purpose_from_text(text)
+            if pv:
+                return pv, '_qa/' + os.path.basename(f)
+    return '', ''
+
+
+def b5_applies(purpose):
+    """None = purpose 미상(미판정) · False = 대상 아님 · True = 공략·쿠폰·티어 계열."""
+    if not purpose:
+        return None
+    if any(k in purpose for k in B5_PURPOSE_SKIP):
+        return False
+    return any(k in purpose for k in B5_PURPOSE_KEYS)
+
+
+def check_primary_links(post, res, purpose, purpose_src):
+    """(issues, warns). 본문(.post · #copy 제외)의 <a href="http…"> 를 1차 출처(official·press ∩ 화이트리스트 − SNS/개인)로 걸러 센다."""
+    urls = re.findall(r'<a\b[^>]*href\s*=\s*["\']([^"\']+)["\']', post, re.I)
+    dyn = glossary_hosts()
+    primary, excluded = [], []
+    for u in urls:
+        u = u.strip()
+        if not re.match(r'https?://', u, re.I):
+            continue                                   # 내부 앵커·상대경로는 출처가 아니다(세지 않는다)
+        h = host_of(u)
+        if is_sns_personal(h):
+            excluded.append({'host': h, 'why': 'sns/personal'})
+            continue
+        tier = b5_tier_of(u)
+        if tier in ('board', 'fanwiki'):
+            excluded.append({'host': h, 'why': tier})
+            continue
+        if not whitelisted(h, dyn):
+            excluded.append({'host': h, 'why': 'not-whitelisted'})
+            continue
+        primary.append({'host': h, 'tier': 'official' if whitelisted(h, dyn) and not whitelisted(h, ()) else tier})
+    applies = b5_applies(purpose)
+    res['b5'] = {
+        'purpose': purpose, 'purposeSource': purpose_src, 'applied': bool(applies),
+        'anchors': len(urls), 'primaryLinks': len(primary),
+        'primaryHosts': sorted(set(x['host'] for x in primary)),
+        'excluded': [dict(t) for t in {tuple(sorted(e.items())) for e in excluded}][:20],
+        'tierSource': _B5_TIER_FN['src'], 'blocked': False,
+        'rule': 'B5(2026-09-25) purpose∈%s(−%s) 이면 1차 출처 링크 ≥%d' % ('·'.join(B5_PURPOSE_KEYS), '·'.join(B5_PURPOSE_SKIP), B5_MIN_LINKS),
+    }
+    if applies is None:
+        return [], ['purpose 미상 — B5 미판정(--purpose 또는 _qa/order-form*.md·order-and-research.md·research-brief.md 의 [목적])']
+    if applies and len(primary) < B5_MIN_LINKS:
+        res['b5']['blocked'] = True
+        ex = ', '.join(sorted(set('%s(%s)' % (e['host'], e['why']) for e in excluded))) or '없음'
+        return ['B5 1차 출처 링크 0 — 공략·쿠폰·티어 글은 공식·매체 출처 링크 ≥1 필수(참고한 곳 R5 또는 본문) · 출처를 넣거나 purpose 를 낮춰라 · 공식 도메인이 화이트리스트 밖이면 용어집 소스맵(_glossary/<게임>.md «소스맵»)에 1행 등재'
+                ' [purpose «%s» ← %s · a href %d개 · 제외 %s]' % (purpose, purpose_src, len(urls), ex)], []
+    return [], []
+
+
 # ────────────────────────────────────────────────────────────── 8종 경고
 def check_faq(post, res):
     sec, body_html = faq_section(post)
@@ -597,7 +774,7 @@ def main():
     ap.add_argument('--min', type=int, default=0)
     ap.add_argument('--json', action='store_true')
     ap.add_argument('--strict', action='store_true', help='8종 경고도 exit 1')
-    ap.add_argument('--purpose', default='', help='발주 [목적] — sensitive ① 결과형 판정에 쓴다')
+    ap.add_argument('--purpose', default='', help='발주 [목적] — sensitive ① 결과형 판정 + B5 1차 출처 게이트에 쓴다(없으면 _qa/order-form*.md 등에서 추론)')
     ap.add_argument('--out-dir', default='', help='preflight.json·sensitive.json 저장 폴더(기본 <글폴더>/_qa)')
     a = ap.parse_args()
 
@@ -671,8 +848,20 @@ def main():
 
     # ⑦ (삭제 2026-09-23) 봄딩 «FAQ Q 5개 미만 경고» — 개수 압력이 본문 재진술 13회 재발의 원인(B#2). W1 이 재진술 자체를 본다.
 
-    # ── 8종 경고(W1~W8) — 경고만. --strict 면 exit 1.
     post, copy, widget = split_post_copy(html, with_widget=True)
+
+    # ── B5 1차 출처 링크(차단 · 2026-09-25) — purpose 가 공략·쿠폰·티어 계열인데 official·press 링크 0 이면 exit 1.
+    #    purpose = --purpose 우선, 없으면 <글폴더>/_qa/order-form*.md 등에서 추론, 그것도 없으면 미판정(경고 1줄).
+    purpose, purpose_src = resolve_purpose(a.purpose, p)
+    try:
+        b5_issues, b5_warns = check_primary_links(post, detail, purpose, purpose_src)
+    except Exception as e:   # 게이트 코드가 죽어도 발행을 세우지 않는다(fail-open · 경고로 남긴다)
+        b5_issues, b5_warns = [], ['B5 검사 내부 오류 — %s' % e]
+        detail.setdefault('b5', {'purpose': purpose, 'purposeSource': purpose_src, 'applied': False, 'blocked': False, 'error': str(e)})
+    issues += b5_issues
+    warns += b5_warns
+
+    # ── 8종 경고(W1~W8) — 경고만. --strict 면 exit 1.
     try:
         warns += check_faq(post, detail)
         warns += check_hedge(post, detail, n)
@@ -692,6 +881,7 @@ def main():
     out = {'ok': ok, 'chars': n, 'floor': floor, 'writer': writer,
            'imgs': len(imgs), 'img_nodim': len(nodim), 'h2': h2n,
            'issues': issues, 'warns': warns, 'checks': detail, 'sensitive': sens['sensitive'],
+           'b5': detail.get('b5', {}),      # 계약(2026-09-25): b5:{purpose, purposeSource, applied, primaryLinks, primaryHosts, excluded, blocked}
            'checkedAt': now, 'file': p}
 
     # ── 항상 쓴다: <글폴더>/_qa/preflight.json · sensitive.json (다른 패키지가 읽는 계약 — 파일명 고정)
@@ -733,6 +923,10 @@ def main():
         print('  W7 1인칭    %s문장' % fp.get('count'))
         if pa:
             print('  W8 문단     %d문단 · 3문장초과 %d · 80자초과 %d · 중앙 %d자' % (pa.get('paras', 0), pa.get('over_3sent', 0), pa.get('over_80chars', 0), pa.get('median_chars', 0)))
+        b5 = detail.get('b5', {})
+        print('  B5 출처     purpose «%s»(%s) · 적용 %s · 1차 링크 %s %s · 제외 %s'
+              % (b5.get('purpose') or '미상', b5.get('purposeSource') or '-', b5.get('applied'), b5.get('primaryLinks'),
+                 b5.get('primaryHosts'), ['%s(%s)' % (e.get('host'), e.get('why')) for e in b5.get('excluded', [])][:6]))
         print('  sensitive = %s %s' % (sens['sensitive'], sens['reasons'] or '(반증 투입 사유 없음)'))
         print('  → %s' % os.path.join(out_dir, 'preflight.json') + (' ⚠ 저장 실패: %s' % write_err if write_err else ''))
         if ok and not warns:
