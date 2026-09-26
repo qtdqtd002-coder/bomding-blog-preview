@@ -6,6 +6,7 @@ preflight.py B6(봄딩·영도 공략형 시각 앵커 ≥2 = 차단) 픽스처 
   python _tools/tests/preflight-b6/run-b6-tests.py        → 전부 PASS 면 exit 0, 하나라도 어긋나면 exit 1
 
 픽스처는 임시 폴더로 복사해 돌리고 preflight.json 도 임시 폴더(--out-dir)에만 쓴다. 분량 등 다른 차단이 끼어들지 않게 --min 1.
+픽스처 확장자는 .htm — pre-push 글 게이트(style·glossary·img-lint)는 push 범위의 *.html 을 «글»로 검사한다. 이 픽스처는 가짜 <img> 를 일부러 담는다.
 B5(공략형 1차 출처 링크)가 같이 걸리지 않도록 모든 픽스처 본문에 공식 링크(aniimo.com) 1개를 둔다.
 
 | 케이스 | 인자 | 앵커 | 기대 |
@@ -33,12 +34,12 @@ PF = os.path.abspath(os.path.join(HERE, '..', '..', 'preflight.py'))
 
 G = ['--purpose', '게임 공략']
 CASES = [
-    ('g1', 'g1-guide-zero.html', ['--writer', '봄딩'] + G, 1, {'blocked': True, 'anchors': 0, 'guide': True}, None),
-    ('g2', 'g2-guide-two.html', ['--writer', '봄딩'] + G, 0, {'blocked': False, 'anchors': 2, 'img': 1, 'ss': 1}, None),
-    ('g3', 'g3-news-zero.html', ['--writer', '봄딩', '--purpose', '출시·첫인상'], 0, {'blocked': False, 'anchors': 0, 'guide': False}, 'W9'),
-    ('g4', 'g4-guide-zero-nowriter.html', G, 0, None, None),
-    ('g5', 'g5-yd-guide-ss2.html', ['--writer', '영도'] + G, 0, {'blocked': False, 'anchors': 2, 'ss': 2}, None),
-    ('g6', 'g6-guide-design-only.html', ['--writer', '봄딩'] + G, 1, {'blocked': True, 'img': 0, 'ss': 1}, None),
+    ('g1', 'g1-guide-zero.htm', ['--writer', '봄딩'] + G, 1, {'blocked': True, 'anchors': 0, 'guide': True}, None),
+    ('g2', 'g2-guide-two.htm', ['--writer', '봄딩'] + G, 0, {'blocked': False, 'anchors': 2, 'img': 1, 'ss': 1}, None),
+    ('g3', 'g3-news-zero.htm', ['--writer', '봄딩', '--purpose', '출시·첫인상'], 0, {'blocked': False, 'anchors': 0, 'guide': False}, 'W9'),
+    ('g4', 'g4-guide-zero-nowriter.htm', G, 0, None, None),
+    ('g5', 'g5-yd-guide-ss2.htm', ['--writer', '영도'] + G, 0, {'blocked': False, 'anchors': 2, 'ss': 2}, None),
+    ('g6', 'g6-guide-design-only.htm', ['--writer', '봄딩'] + G, 1, {'blocked': True, 'img': 0, 'ss': 1}, None),
 ]
 
 
@@ -74,15 +75,15 @@ def run_case(tmp, name, fname, extra, want_exit, want_b6, want_warn):
 B = ['--writer', '봄딩']
 CARRY = [
     # (이름, 픽스처, 직전 b5, 기대 exit, 기대 b6, 기대 경고, 기대 sensitive ①)
-    ('c1', 'g1-guide-zero.html', {'purpose': '게임 공략', 'purposeSource': 'arg'}, 1,
+    ('c1', 'g1-guide-zero.htm', {'purpose': '게임 공략', 'purposeSource': 'arg'}, 1,
      {'blocked': True, 'guide': True, 'purposeSource': '_qa/preflight.json←arg'}, None, None),
-    ('c2', 'g1-guide-zero.html', {'purpose': '게임 공략', 'purposeSource': '_qa/preflight.json←arg'}, 1,
+    ('c2', 'g1-guide-zero.htm', {'purpose': '게임 공략', 'purposeSource': '_qa/preflight.json←arg'}, 1,
      {'blocked': True, 'purposeSource': '_qa/preflight.json←arg'}, None, None),
-    ('c3', 'g1-guide-zero.html', {'purpose': '', 'purposeSource': ''}, 0,
+    ('c3', 'g1-guide-zero.htm', {'purpose': '', 'purposeSource': ''}, 0,
      {'blocked': False, 'guide': None, 'purposeSource': ''}, 'W9', None),
-    ('c4', 'g2-guide-two.html', {'purpose': '순위 결과 정리', 'purposeSource': 'arg'}, 0,
+    ('c4', 'g2-guide-two.htm', {'purpose': '순위 결과 정리', 'purposeSource': 'arg'}, 0,
      {'blocked': False, 'guide': True}, None, True),
-    ('c5', 'g2-guide-two.html', {'purpose': '순위 결과 정리', 'purposeSource': '_qa/research-brief.md'}, 0,
+    ('c5', 'g2-guide-two.htm', {'purpose': '순위 결과 정리', 'purposeSource': '_qa/research-brief.md'}, 0,
      {'blocked': False, 'purposeSource': '_qa/preflight.json←_qa/research-brief.md'}, None, False),
 ]
 
@@ -128,8 +129,8 @@ def run_sequence(tmp):
     """c6 — 파이프라인(--purpose) → 아웃박스(없이) → 재적재(없이). --out-dir 없이 실제 _qa/preflight.json 을 덮어쓰며 돈다(임시 폴더)."""
     d = os.path.join(tmp, 'c6')
     os.makedirs(d, exist_ok=True)
-    dst = os.path.join(d, 'g1-guide-zero.html')
-    shutil.copyfile(os.path.join(HERE, 'g1-guide-zero.html'), dst)
+    dst = os.path.join(d, 'g1-guide-zero.htm')
+    shutil.copyfile(os.path.join(HERE, 'g1-guide-zero.htm'), dst)
     probs, seen = [], []
     for i, extra in enumerate((B + G, B, B)):
         rc, j, _ = pf_run(dst, extra)
