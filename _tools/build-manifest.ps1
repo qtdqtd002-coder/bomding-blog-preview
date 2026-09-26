@@ -123,12 +123,27 @@ foreach($f in $files){
   $map[$f]=[ordered]@{ created=$created; updated=$updated; date=$created; title=$title; cat=$cat; excerpt=$excerpt; author=$author; group=$group; readmin=$readmin; published=$isPub }
 }
 
-# 2) 검증 — 디스크의 모든 글이 manifest에 들어갔는지 (누락=사고)
+# 2) 검증 — «커밋(=발행)됐는데 목록에 안 뜨는 글»을 잡는다(누락=사고)
+#   ★2026-09-26 개정: 예전엔 디스크의 html 을 전부 대조해 _qa\ 기록·_초안_미발행·작성 중/실패 회차의 미커밋 초안까지
+#   «manifest 누락»으로 세었다 → 드레인마다 exit 2(09-26 드레인 로그 62회 연속·통과 0). 경고가 소음이 되어 진짜 사고
+#   (봄딩 카트라이더 시즌41 글: 파일명이 «_미리보기_…» 라 밑줄 규칙에 걸려 09-18 발행 뒤 8일간 목록에서 숨음)를 가렸다.
+#   이제 이렇게 나눈다:
+#     · 폴더가 _ · . 로 시작하는 경로(_qa\ · _초안_미발행 · _소식지 …) = 일부러 숨긴 곳 → 대조하지 않는다(위 수집 규칙과 같은 기준)
+#     · 커밋된 글인데 목록에 없음(파일명이 _ · . 로 시작 등) → ⚠ exit 2 (사고)
+#     · 미커밋 html = 작성 중이거나 실패·중단 회차의 잔여 초안 → ℹ 정보 한 줄(발행된 적이 없으니 목록과 어긋난 게 아니다)
+$trackedSet = New-Object System.Collections.Generic.HashSet[string]
+foreach($f in $files){ [void]$trackedSet.Add([string]$f) }
+$drafts = @()
 $onDisk = (Get-ChildItem -Path (Join-Path $base "봄딩"),(Join-Path $base "영도"),(Join-Path $base "겜더쿠"),(Join-Path $base "연봄"),(Join-Path $base "하루살이") -Recurse -Filter *.html -ErrorAction SilentlyContinue |
            ForEach-Object { $_.FullName.Substring($base.Length).TrimStart('\','/') -replace '\\','/' })
 foreach($d in $onDisk){
   if($d -match '_티스토리_' -or $d -match '_워드프레스_' -or $d -match '붙여넣기'){ continue }   # 붙여넣기·발행 소스는 목록 비대상 → 누락 검증에서 제외
-  if(-not $map.Contains($d)){ $missing += "manifest 누락(디스크에만 존재, 커밋 필요): $d" }
+  if($map.Contains($d)){ continue }
+  $dsegs = @($d -split '/')
+  $dirs = if($dsegs.Count -gt 1){ $dsegs[0..($dsegs.Count-2)] } else { @() }
+  if($dirs | Where-Object { $_ -like '_*' -or $_ -like '.*' }){ continue }   # 일부러 숨긴 폴더
+  if($trackedSet.Contains($d)){ $missing += "커밋된 글인데 목록에 없음(파일명이 _ · . 로 시작하면 숨겨진다 — <작성자>_… 로 바꾸고 _moves.json 에 기록): $d" }
+  else { $drafts += $d }
 }
 
 # ★안전장치: 글이 0편이면(= git ls-files가 환경문제로 빈 결과를 냈을 가능성) manifest를 덮어쓰지 않는다.
@@ -155,9 +170,14 @@ if($arr.Count -le 1){ $json = "[" + ($json -replace '^\s*\[?|\]?\s*$','') + "]" 
 Write-Host ("✓ manifest.json + posts.json 재생성: {0}편" -f $map.Count) -ForegroundColor Green
 $map.GetEnumerator() | ForEach-Object { Write-Host ("   [{0}] {1}" -f $_.Value.created, $_.Key) }
 
+if($drafts.Count){
+  Write-Host ("`nℹ 미커밋 초안 {0}개 — 목록 비대상(작성 중이거나 실패·중단 회차의 잔여):" -f $drafts.Count) -ForegroundColor DarkGray
+  $drafts | Select-Object -First 8 | ForEach-Object { Write-Host "   · $_" -ForegroundColor DarkGray }
+  if($drafts.Count -gt 8){ Write-Host ("   · …외 {0}개" -f ($drafts.Count - 8)) -ForegroundColor DarkGray }
+}
 if($missing.Count){
   Write-Host "`n⚠ 점검 필요 항목:" -ForegroundColor Yellow
   $missing | ForEach-Object { Write-Host "   - $_" -ForegroundColor Yellow }
   exit 2
 }
-Write-Host "`n✓ 검증 통과: 디스크의 모든 글이 manifest에 반영됨." -ForegroundColor Green
+Write-Host "`n✓ 검증 통과: 커밋된 글이 전부 목록(manifest)에 반영됨." -ForegroundColor Green
