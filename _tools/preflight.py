@@ -35,7 +35,9 @@
   purpose 입력 = ⑴ `--purpose "<발주 [목적]>"`(파이프라인이 발주 양식의 [목적]을 넘긴다)
                ⑵ 없으면 `<글폴더>/_qa/` 의 order-form*.md · order*.md · order-and-research.md · research-brief.md 에서
                   `[목적]`(같은 줄 값 또는 바로 다음 줄들 «1. 게임 공략» 형)·`purpose:` 줄을 찾아 추론(B5_ORDER_GLOBS 순)
-               ⑶ 못 찾으면 규칙 미적용 — 경고 «purpose 미상 — B5 미판정» 1줄(exit 영향 없음).
+               ⑶ 그래도 없으면 직전 실행이 남긴 `_qa/preflight.json` 의 b5.purpose 를 이어받는다(2026-09-26 — 아웃박스 게이트는
+                  --purpose 없이 돌며 이 파일을 덮어쓴다 · purposeSource «_qa/preflight.json←arg»)
+               ⑷ 못 찾으면 규칙 미적용 — 경고 «purpose 미상 — B5 미판정» 1줄(exit 영향 없음).
   ★«제품 비교·추천»(봄딩 육아·취미 쿠팡 파트너스 레인)은 게임 1차 출처 개념이 없어 B5_PURPOSE_SKIP 으로 뺀다(«추천» 이 걸려도 미적용).
   `preflight.json` 최상위 `b5:{purpose, purposeSource, applied, primaryLinks, primaryHosts, excluded, blocked}` 기록.
   B5 검사 자체가 예외로 죽으면 경고만(fail-open — 드레이너 «도구 고장으로 무인 발행을 세우지 않는다» 처방과 동일).
@@ -465,8 +467,11 @@ def purpose_from_text(text):
     return ''
 
 
+PREV_PF = '_qa/preflight.json'
+
+
 def resolve_purpose(arg, html_path):
-    """(purpose, source) — source = 'arg' | '_qa/<파일>' | ''(미상)."""
+    """(purpose, source) — source = 'arg' | '_qa/<파일>' | '_qa/preflight.json←<직전 출처>' | ''(미상)."""
     if arg and arg.strip():
         return arg.strip(), 'arg'
     qa = os.path.join(os.path.dirname(os.path.abspath(html_path)), '_qa')
@@ -485,6 +490,18 @@ def resolve_purpose(arg, html_path):
             pv = purpose_from_text(text)
             if pv:
                 return pv, '_qa/' + os.path.basename(f)
+    # ⑶ 직전 실행 기록(2026-09-26) — 아웃박스 게이트(outbox-submit)는 --purpose 없이 돌며 이 파일을 덮어쓴다.
+    #    파이프라인 자가 실행(--purpose 필수 · 09-25)이 남긴 b5.purpose 를 덮어쓰기 «전에» 읽어 이어받는다.
+    #    09-26 실측: PvP·팰월드 — 파이프라인이 «게임 공략» 으로 돌린 뒤 아웃박스 실행이 purpose 없이 덮어써 B5·B6 가 미판정이었다.
+    try:
+        prev = json.load(io.open(os.path.join(qa, 'preflight.json'), encoding='utf-8'))
+        b = prev.get('b5') or {}
+        pv = (b.get('purpose') or '').strip()
+        if pv:
+            src = b.get('purposeSource') or '?'
+            return pv, (src if src.startswith(PREV_PF) else '%s←%s' % (PREV_PF, src))
+    except Exception:
+        pass
     return '', ''
 
 
@@ -528,7 +545,7 @@ def check_primary_links(post, res, purpose, purpose_src):
         'rule': 'B5(2026-09-25) purpose∈%s(−%s) 이면 1차 출처 링크 ≥%d' % ('·'.join(B5_PURPOSE_KEYS), '·'.join(B5_PURPOSE_SKIP), B5_MIN_LINKS),
     }
     if applies is None:
-        return [], ['purpose 미상 — B5 미판정(--purpose 또는 _qa/order-form*.md·order-and-research.md·research-brief.md 의 [목적])']
+        return [], ['purpose 미상 — B5 미판정(--purpose 또는 _qa/order-form*.md·order-and-research.md·research-brief.md 의 [목적] · 직전 _qa/preflight.json)']
     if applies and len(primary) < B5_MIN_LINKS:
         res['b5']['blocked'] = True
         ex = ', '.join(sorted(set('%s(%s)' % (e['host'], e['why']) for e in excluded))) or '없음'
@@ -921,7 +938,9 @@ def main():
     except Exception as e:   # 경고 검사가 죽어도 기존 4항목 판정은 살린다
         warns.append('W? 경고 검사 내부 오류 — %s' % e)
 
-    sens = sensitive_flag(post, a.purpose, title)
+    # sensitive ①(결과형)은 파이프라인과 같은 입력으로 — --purpose 또는 그것을 이어받은 값(←arg)만 쓴다.
+    #   추론값(research-brief 등)을 넣으면 파이프라인이 false 로 정한 글이 드레이너 qa-files-check 에서 refute 필수로 뒤집힐 수 있다.
+    sens = sensitive_flag(post, a.purpose or (purpose if purpose_src.endswith('←arg') else ''), title)
 
     ok = not issues
     now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
