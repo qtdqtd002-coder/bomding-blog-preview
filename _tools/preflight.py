@@ -555,9 +555,18 @@ def check_primary_links(post, res, purpose, purpose_src):
 
 
 def count_visual_anchors(post):
-    """(A형 img, A형 .imgslot, B형 .ss) — `post` = 위젯 서랍·#copy 를 뺀 미리보기 본문(split_post_copy)."""
-    imgs = [t for t in re.findall(r'<img\b[^>]*>', post or '', flags=re.I)
-            if not re.search(r'data:|_design/|\bicon|logo|avatar|profile', t, re.I)]
+    """(A형 img, A형 .imgslot, B형 .ss) — `post` = 위젯 서랍·#copy 를 뺀 미리보기 본문(split_post_copy).
+    img 는 «본문 그림»만 센다 — 사이트 디자인 자산(`_design/`)과 선언 크기(width·height 중 작은 값) 100px 미만 장식은 뺀다.
+    ★2026-09-27: 파일명(icon·logo·avatar·profile)·data: 로 빼던 규칙 폐기 — 봄딩·영도 전수에서 그 규칙이 뺀 10장 중
+    7장이 200px 이상 본문 그림이었다(공식 앱 아이콘 512~600 · 게임 로고 500~960 · 인라인 SVG 도표 680 — 예: 영도 만자천홍 icon 600)."""
+    imgs = []
+    for t in re.findall(r'<img\b[^>]*>', post or '', flags=re.I):
+        if re.search(r'_design/', t, re.I):
+            continue
+        dims = [int(x) for x in re.findall(r'\b(?:width|height)\s*=\s*["\']?(\d+)', t, flags=re.I)]
+        if dims and min(dims) < 100:
+            continue
+        imgs.append(t)
     slots = len(re.findall(r'class\s*=\s*["\'](?:[^"\']*\s)?imgslot(?:\s[^"\']*)?["\']', post or '', flags=re.I))
     ss = len(re.findall(r'<div\b[^>]*class\s*=\s*["\'](?:[^"\']*\s)?ss(?:\s[^"\']*)?["\']', post or '', flags=re.I))
     return len(imgs), slots, ss

@@ -1,7 +1,7 @@
 # inject-npaste.py — 네이버 붙여넣기 위젯(v2 include · 봄딩 위젯 골격) 주입 도구. 멱등.
 #
-# (A) 소급 모드(종전 그대로 · 2026-09-05):
-#   python _tools/inject-npaste.py [--author 봄딩|영도] [--dry] [--skip-lint]
+# (A) 소급 모드(2026-09-05 · ★09-27 부터 --all 필수 — 인자 없이 돌면 사용법만 찍고 exit 2):
+#   python _tools/inject-npaste.py --all [--author 봄딩|영도] [--dry] [--skip-lint]
 #   · 대상: posts.json 의 해당 작성자 미리보기 HTML 중 include(naver-npaste.js / bomding-npaste.js)가 없는 파일.
 #   · 삽입 위치: 이미지함 include(bomding-imagebox.js) 바로 다음 줄, 없으면 </body> 직전.
 #   · style-lint 인자 모드(DENY=exit 2)에 걸리는 파일은 건너뛴다 — pre-push 훅이 push 되는 HTML 을 같은 모드로
@@ -304,7 +304,16 @@ def run_file_mode(path):
     sys.exit(0)
 
 
+if "-h" in sys.argv or "--help" in sys.argv:
+    # ★2026-09-27: --help 가 없어 «인자 없음 = (A) 소급 모드» 로 떨어졌다 — 사용법을 보려던 집필 서브가
+    #   봄딩 글 3편에 include 를 실제로 넣었다(즉시 git checkout 으로 복구). 도움말은 이 파일 머리 주석이다.
+    print(open(__file__, encoding="utf-8").read().split("import io,", 1)[0].rstrip())
+    sys.exit(0)
 if "--file" in sys.argv:
     run_file_mode(sys.argv[sys.argv.index("--file") + 1])
-else:
+elif "--all" in sys.argv:
     run_author_mode()
+else:
+    print("[inject-npaste] 인자가 없다 — 글 1편은 --file <html>, 작성자 전체 소급은 --all [--author 봄딩|영도] [--dry] (도움말 --help).")
+    print("  ★2026-09-27: 소급 모드는 --all 을 적어야만 돈다(인자 없이 실행해 봄딩 글 3편이 바뀐 사고 뒤).")
+    sys.exit(2)

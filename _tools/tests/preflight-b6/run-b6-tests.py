@@ -17,6 +17,8 @@ B5(공략형 1차 출처 링크)가 같이 걸리지 않도록 모든 픽스처 
 | g4 | (작성자 없음 · 임시 경로) --purpose "게임 공략" | 0 | exit 0 · b6 미적용({}) |
 | g5 | --writer 영도 --purpose "게임 공략" | B형 2 | exit 0 · anchors 2 |
 | g6 | --writer 봄딩 --purpose "게임 공략" | _design 자산 img(앵커 아님) + B형 1 | exit 1 · img 0 · ss 1 |
+| g7 | --writer 봄딩 --purpose "게임 공략" | 파일명 «icon» 600px 본문 그림 + B형 1 | exit 0 · img 1 · anchors 2 (09-27 이름 규칙 폐기) |
+| g8 | --writer 봄딩 --purpose "게임 공략" | 24px 장식 img + B형 1 | exit 1 · img 0 · ss 1 |
 
 purpose 이어받기(2026-09-26 — 아웃박스 게이트는 --purpose 없이 돌며 `_qa/preflight.json` 을 덮어쓴다). `_qa/preflight.json` 을 미리 깔고 --purpose 없이 돈다.
 | c1 | 직전 b5 «게임 공략»(arg) · 앵커 0 | exit 1 · purposeSource «_qa/preflight.json←arg» |
@@ -40,6 +42,8 @@ CASES = [
     ('g4', 'g4-guide-zero-nowriter.htm', G, 0, None, None),
     ('g5', 'g5-yd-guide-ss2.htm', ['--writer', '영도'] + G, 0, {'blocked': False, 'anchors': 2, 'ss': 2}, None),
     ('g6', 'g6-guide-design-only.htm', ['--writer', '봄딩'] + G, 1, {'blocked': True, 'img': 0, 'ss': 1}, None),
+    ('g7', 'g7-guide-icon-named.htm', ['--writer', '봄딩'] + G, 0, {'blocked': False, 'img': 1, 'ss': 1, 'anchors': 2}, None),
+    ('g8', 'g8-guide-small-deco.htm', ['--writer', '봄딩'] + G, 1, {'blocked': True, 'img': 0, 'ss': 1}, None),
 ]
 
 
