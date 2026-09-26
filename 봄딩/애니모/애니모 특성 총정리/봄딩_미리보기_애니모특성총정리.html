@@ -1,0 +1,254 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>애니모 특성 총정리, 계열 공유 특성부터 고유 능력 확인법까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">애니모 특성 총정리, 계열 공유 특성부터 고유 능력 확인법까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.09.26</span><span>· 게임</span></div>
+
+    <p>그동안 애니모 도감을 들여다보면서 스탯이 뭘 뜻하는지, 탐사 스킬이 뭐가 있는지를 하나씩 정리해봤는데요, 이번엔 좀 다른 얘기를 해볼까 해요. 바로 애니모 개체마다 하나씩 붙어 있는 <b>특성</b>이에요. 도감 페이지에서 전투 스킬과는 별도로 한 칸을 차지하고 있는 항목인데, 스킬처럼 버튼을 눌러서 쓰는 게 아니라 그냥 늘 켜져 있는 고유 패시브라는 게 특이해요. 애니모는 공식 위키 도감에 오른 <b>86종이 각자 특성을 하나씩</b> 갖고 있는데, 오늘은 이 특성들이 계열별로 어떻게 갈리는지 살펴보고, 내 애니모 특성이 뭔지는 어디서 확인하면 되는지까지 짚어볼게요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 전투 중 특성이 발동되는 순간(예 — 무력화·중첩 이펙트)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 전투 화면에서 무력화·중첩 게이지가 차오르는 이펙트가 뜰 때 캡처하면 좋아요.</div>
+    <p class="cap">특성은 이렇게 조건만 맞으면 알아서 발동하는 패시브라, 따로 스킬 버튼을 누를 필요가 없어요.</p>
+
+    <h2 class="sub">애니모 특성이 대체 뭔가요</h2>
+    <p>애니모 특성은 <b>각 애니모가 원래부터 갖고 태어나는 고유 패시브 능력</b>으로, 스킬처럼 버튼을 눌러 발동하는 게 아니라 조건만 맞으면 자동으로 작동합니다.</p>
+    <p>예전에 정리했던 <b>탐사 스킬</b>이나 <b>스탯</b>이랑은 완전히 다른 항목이에요. 탐사 스킬은 필드에서 이동·탐색할 때 쓰는 능력이고, 스탯은 HP·공격처럼 숫자로 된 값인데, 특성은 그 애니모만의 전투 방식을 결정하는 조건부 버프·디버프인 셈이에요. 도감 페이지에서도 전투 스킬이랑 따로 한 칸을 차지하고 있어요.</p>
+
+    <h2 class="sub">같은 진화 계열은 특성을 대부분 물려받아요</h2>
+    <p>탄멍멍처럼 <b>같은 진화 계열끼리는 대부분 특성 이름과 효과가 동일하게 이어져요.</b> 유년기에서 성장기, 성숙기로 진화해도 대부분 특성이 그대로 유지되는 편인데, 다 그런 건 아니에요. 화르랑은 이글랑으로 가면 그대로 '맹렬한 불꽃'을 물려받지만, 같은 화르랑에서 헬울프 쪽으로 갈리는 분기로 가면 아예 다른 특성인 '충만한 영혼'으로 바뀌거든요. 진화 계열이 갈라지는 분기에서는 특성도 함께 갈릴 수 있다는 뜻이에요.</p>
+    <table class="tbl">
+      <tr><th>진화 계열</th><th>특성</th><th>효과</th></tr>
+      <tr><td>탄멍멍→화르랑→이글랑</td><td>맹렬한 불꽃</td><td>원소 상성 우위 목표에게 주는 피해가 25% 증가합니다.</td></tr>
+      <tr><td>펀치테일→버스트테일</td><td>맹렬한 불꽃</td><td>스킬 사용 후 10초 이내에 다음 일반 공격을 사용하면 마지막 단계 공격이 곧바로 발동되며 위력이 4에서 25로 증가합니다.</td></tr>
+      <tr><td>스타라미→스타저드</td><td>마법의 대가</td><td>스킬 사용 종료 후 5초 동안 일반 공격이 대상에게 명중하면 추가로 6 위력의 피해를 1회 입힙니다.</td></tr>
+      <tr><td>연댕모리→장꾸모리→아이시우스</td><td>물의 정령</td><td>물 환경에 있을 때 모든 스킬의 에너지 소모가 16% 감소합니다.</td></tr>
+      <tr><td>바이티→갸면뇽→갸고일</td><td>리벤지 마스터</td><td>공격을 받으면 무력화 효율이 25% 증가합니다. 10초 지속.</td></tr>
+      <tr><td>록키→크리스톤→크리스바인</td><td>대지 친화</td><td>땅파기 상태에서 스킬을 사용할 수 있으며, 추가로 20%의 무력화 피해를 줍니다.</td></tr>
+    </table>
+    <p>근데 여기서 꼭 짚어야 할 게 있어요. <b>탄멍멍 계열의 '맹렬한 불꽃'과 펀치테일 계열의 '맹렬한 불꽃'은 이름은 똑같은데 효과가 완전히 달라요.</b> 탄멍멍 쪽은 원소 상성 우위일 때 피해가 늘어나는 딜 특성이고, 펀치테일 쪽은 일반 공격 마지막 타격의 위력이 강화되는 격파 특성이거든요. 그래서 특성은 <b>이름만 보고 효과를 짐작하면 안 되고, 그 애니모 행 전체(이름+효과)를 따로 확인</b>하는 게 맞더라고요.</p>
+
+    <h2 class="sub">이 애니모만 가진 유니크 특성도 있어요</h2>
+    <p>유니크 특성은 <b>단일 애니모 또는 소수만 가진, 계열 공유가 아닌 전용 특성</b>이에요. 조건이 복잡하거나 다른 애니모와 연계되는 경우도 있어서, 계열 공유 특성보다 훨씬 개성이 강해요.</p>
+    <table class="tbl">
+      <tr><th>애니모</th><th>특성</th><th>효과</th></tr>
+      <tr><td>헬울프</td><td>충만한 영혼</td><td>전투 중 일반 공격을 8회 사용하면 [충만한 영혼] 상태에 진입, 다음 스킬 위력이 강화되며 그 피해는 일반 공격 피해로 간주됩니다.</td></tr>
+      <tr><td>튜바얌</td><td>승리의 합주</td><td>실드 보유 시 무력화 효율이 40% 증가. 무력화 발동 시 파티 전체 체력 소모를 30% 감소. 악장 계열 버프를 3개 획득하면 모든 악장 효과가 30% 증가합니다.</td></tr>
+      <tr><td>쿨쿨양</td><td>양 세기</td><td>10초마다 다음 스킬이 목표에게 [졸음] 1중첩을 부여하고, 3중첩에 도달하면 [악몽] 상태(20초 지속, 어둠 원소 저항 27% 감소·잠깐 이동과 스킬 시전 불가)에 빠지는데, 피해를 받으면 이 제어 효과가 바로 풀립니다.</td></tr>
+      <tr><td>둥실달</td><td>매력 발산</td><td>파티 내 성별이 서로 다른 모든 애니모의 물 원소 강화가 16% 증가합니다.</td></tr>
+      <tr><td>록볼볼</td><td>암석 강화</td><td>록볼볼이 만든 [암석 더미]는 모터터의 [스톤볼 드리프트] 스킬로 파괴할 수 있고, 파괴하면 대상에게 [붕괴](땅 원소 저항 6% 감소·이동 속도 5% 감소, 20초 지속·최대 6중첩) 효과가 붙습니다.</td></tr>
+    </table>
+    <p>덧붙이자면 <b>투구누니·아머누니</b>는 '무력화 공명'이라는 특성을 갖고 있는데, 위키 원문 그대로 옮기면 <b>"자신의 무력화 수치가 0 증가합니다"</b>라고 적혀 있어요. 숫자가 0이라 오타처럼 보이긴 하는데, 지금 확인 가능한 원문이 이렇게만 나와 있어서 그대로 적어둘게요. 임의로 '무력화가 늘어난다'는 식으로 부풀려 해석하지는 않을게요.</p>
+
+    <h2 class="sub">포지션마다 특성 성향이 좀 다르게 느껴져요</h2>
+    <p>정확한 통계는 아니지만, 표를 쭉 훑어보면 <b>격파 계열은 공격을 받거나 무력화할 때 강해지는 특성이 많고, 딜 계열은 상성 우위·추가 피해형이 많고, 서포터·치유 계열은 환경이나 파티 조건에 따라 버프를 주는 특성이 많은 편</b>이에요.</p>
+    <p>다만 이건 제가 86종 표를 읽으면서 받은 정성적인 인상일 뿐, 공식이 포지션별로 특성 성격을 못 박아 놓은 건 아니에요. 내 애니모가 격파인지 딜인지 서포터인지부터 확인하고 특성을 읽으면 이해가 한결 편해지겠죠.</p>
+
+    <h2 class="sub">내 애니모 특성이 뭔지는 어디서 확인하나요</h2>
+    <p>애니모 도감이나 애니모 정보 화면에서 개체별로 특성을 확인할 수 있습니다.</p>
+    <p>다만 정확히 어느 탭, 어느 버튼을 눌러야 하는지는 이번에 화면으로 직접 확인은 못 했어요. 공식 위키에는 애니모 페이지마다 특성 항목이 따로 있는 걸 보면 인게임에서도 개체 상세 화면 어딘가에 있을 텐데, 정확한 위치는 아래 스샷 자리로 남겨둘게요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 애니모 도감/정보 화면에서 특성 항목이 보이는 위치</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 도감에서 애니모 개체를 눌러 상세 화면으로 들어간 뒤, 특성 항목이 뜨는 탭을 캡처하면 좋아요.</div>
+    <p class="cap">저도 이번엔 어느 탭인지 직접 못 봐서, 실제 화면은 봄딩이 직접 캡처해 채울게요.</p>
+
+    <h2 class="sub">애니모 특성 자주 묻는 질문</h2>
+    <p><b>Q. 분기 진화면 특성도 무조건 갈리나요?</b><br>꼭 그런 건 아니에요. 록키에서 갈라지는 두 갈래를 보면, 크리스톤을 거쳐 크리스바인으로 가는 라인은 록키와 똑같이 '대지 친화'를 그대로 쓰는데, 라바크를 거쳐 마그라곤으로 가는 다른 갈래는 아예 다른 특성인 '활성화'로 바뀌어요. 같은 뿌리에서 갈라져도 어느 쪽으로 진화하느냐에 따라 특성이 유지될 수도, 아예 달라질 수도 있는 거예요.</p>
+    <p><b>Q. 같은 특성 이름인데 최종 진화에서 수치가 더 세지는 경우도 있나요?</b><br>네, 있어요. 클램스타→위즈스타 단계에서는 '물결의 가호'가 물 환경이거나 물을 흡수하면 물 원소 피해가 20% 증가·10초 지속인데, 최종 진화인 나이트스타로 가면 같은 이름인데도 물 원소 강화 25% 증가·20초 지속으로 수치가 더 붙어요. 이름만 보고 '어차피 다 같겠지' 하면 이런 변화를 놓치기 쉬워요.</p>
+    <p><b>Q. 진화하고 나면 효과 설명이 한 줄 더 늘어나는 경우도 있나요?</b><br>데굴굴→모터터 계열이 그런 예예요. 둘 다 특성 이름은 '과부하 엔진'인데, 모터터 쪽 설명에는 '[샌드스톰 스핀]이 즉시 최대 회전 속도에 도달합니다'라는 문장이 하나 더 붙거든요. 수치가 바뀌는 건 아니지만, 완전히 똑같다고는 할 수 없는 사례죠.</p>
+    <p><b>Q. 특성은 탐사 스킬이나 홈 능력이랑 같은 항목인가요?</b><br>아니요, 셋 다 도감에서 별개의 항목이에요. 특성은 전투 중 자동 발동하는 패시브고, 탐사 스킬은 필드 이동용이고, 홈 능력은 또 다른 별개 항목이라 서로 안 겹쳐요.</p>
+
+    <h2 class="sub">애니모 특성 정리</h2>
+    <p>핵심만 추리면, 같은 진화 계열은 대부분 특성을 그대로 물려받지만 화르랑→헬울프처럼 분기에서 아예 갈리는 예외도 있다는 것, 그중에서도 헬울프나 튜바얌처럼 이 애니모만 가진 유니크 특성도 따로 있다는 것, 그리고 이름이 같아도 계열이 다르면 효과가 다를 수 있으니 이름만 보고 넘기지 말아야 한다는 것 정도만 기억해두시면 됩니다. 저도 이번에 표를 쭉 훑으면서 제 파티 애니모들 특성을 다시 한번 챙겨보게 됐는데, 여러분도 도감에서 한 번씩 확인해보시면 좋겠어요.</p>
+
+    <p><b>✔ 애니모 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224422690388" target="_blank">애니모 스탯 보는 법, 브레이크·리젠 뜻과 포지션(역할군) 5종 정리</a><br>
+    · <a href="https://blog.naver.com/bomding/224422630392" target="_blank">애니모 드림쵸 얻는 법, 도감 결번 030번 정체부터 엘리트 트레이닝 조건까지</a><br>
+    · <a href="https://blog.naver.com/bomding/224421372251" target="_blank">애니모 탐사 스킬 19종 총정리, 가속·이륙·은신 뭐가 있나</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://wiki.aniimo.com/ko" target="_blank">애니모 공식 위키(도감)</a><br>
+    · <a href="https://wiki.aniimo.com/ko/item/004/basic-form" target="_blank">애니모 공식 위키 — 헬울프 도감 페이지(충만한 영혼 특성)</a><br>
+    · <a href="https://www.aniimo.com/ko/main" target="_blank">애니모 공식 사이트</a></p>
+
+    <div class="tags">#애니모 #Aniimo #애니모특성 #애니모고유능력 #애니모패시브 #파우프린트스튜디오</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 3분):</b> 📷 <b>사진 2곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 애니모 특성 총정리, 계열 공유 특성부터 고유 능력 확인법까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+  <p>그동안 애니모 도감을 들여다보면서 스탯이 뭘 뜻하는지, 탐사 스킬이 뭐가 있는지를 하나씩 정리해봤는데요, 이번엔 좀 다른 얘기를 해볼까 해요. 바로 애니모 개체마다 하나씩 붙어 있는 <b>특성</b>이에요. 도감 페이지에서 전투 스킬과는 별도로 한 칸을 차지하고 있는 항목인데, 스킬처럼 버튼을 눌러서 쓰는 게 아니라 그냥 늘 켜져 있는 고유 패시브라는 게 특이해요. 애니모는 공식 위키 도감에 오른 <b>86종이 각자 특성을 하나씩</b> 갖고 있는데, 오늘은 이 특성들이 계열별로 어떻게 갈리는지 살펴보고, 내 애니모 특성이 뭔지는 어디서 확인하면 되는지까지 짚어볼게요.</p>
+  <p>📷 〔사진 자리 1〕 전투 중 특성이 발동되는 순간(무력화·중첩 이펙트) — 네이버에서 직접 업로드<br><span class="ph">└ 캡션 추천: "특성은 이렇게 조건만 맞으면 알아서 발동하는 패시브라, 따로 스킬 버튼을 누를 필요가 없어요."</span></p>
+  <h3>애니모 특성이 대체 뭔가요</h3>
+  <p>애니모 특성은 <b>각 애니모가 원래부터 갖고 태어나는 고유 패시브 능력</b>으로, 스킬처럼 버튼을 눌러 발동하는 게 아니라 조건만 맞으면 자동으로 작동합니다.</p>
+  <p>예전에 정리했던 <b>탐사 스킬</b>이나 <b>스탯</b>이랑은 완전히 다른 항목이에요. 탐사 스킬은 필드에서 이동·탐색할 때 쓰는 능력이고, 스탯은 HP·공격처럼 숫자로 된 값인데, 특성은 그 애니모만의 전투 방식을 결정하는 조건부 버프·디버프인 셈이에요. 도감 페이지에서도 전투 스킬이랑 따로 한 칸을 차지하고 있어요.</p>
+  <h3>같은 진화 계열은 특성을 대부분 물려받아요</h3>
+  <p>탄멍멍처럼 <b>같은 진화 계열끼리는 대부분 특성 이름과 효과가 동일하게 이어져요.</b> 유년기에서 성장기, 성숙기로 진화해도 대부분 특성이 그대로 유지되는 편인데, 다 그런 건 아니에요. 화르랑은 이글랑으로 가면 그대로 '맹렬한 불꽃'을 물려받지만, 같은 화르랑에서 헬울프 쪽으로 갈리는 분기로 가면 아예 다른 특성인 '충만한 영혼'으로 바뀌거든요. 진화 계열이 갈라지는 분기에서는 특성도 함께 갈릴 수 있다는 뜻이에요.</p>
+  <table>
+    <tr><th>진화 계열</th><th>특성</th><th>효과</th></tr>
+    <tr><td class="l">탄멍멍→화르랑→이글랑</td><td>맹렬한 불꽃</td><td>원소 상성 우위 목표에게 주는 피해가 25% 증가합니다.</td></tr>
+    <tr><td class="l">펀치테일→버스트테일</td><td>맹렬한 불꽃</td><td>스킬 사용 후 10초 이내에 다음 일반 공격을 사용하면 마지막 단계 공격이 곧바로 발동되며 위력이 4에서 25로 증가합니다.</td></tr>
+    <tr><td class="l">스타라미→스타저드</td><td>마법의 대가</td><td>스킬 사용 종료 후 5초 동안 일반 공격이 대상에게 명중하면 추가로 6 위력의 피해를 1회 입힙니다.</td></tr>
+    <tr><td class="l">연댕모리→장꾸모리→아이시우스</td><td>물의 정령</td><td>물 환경에 있을 때 모든 스킬의 에너지 소모가 16% 감소합니다.</td></tr>
+    <tr><td class="l">바이티→갸면뇽→갸고일</td><td>리벤지 마스터</td><td>공격을 받으면 무력화 효율이 25% 증가합니다. 10초 지속.</td></tr>
+    <tr><td class="l">록키→크리스톤→크리스바인</td><td>대지 친화</td><td>땅파기 상태에서 스킬을 사용할 수 있으며, 추가로 20%의 무력화 피해를 줍니다.</td></tr>
+  </table>
+  <p>근데 여기서 꼭 짚어야 할 게 있어요. <b>탄멍멍 계열의 '맹렬한 불꽃'과 펀치테일 계열의 '맹렬한 불꽃'은 이름은 똑같은데 효과가 완전히 달라요.</b> 탄멍멍 쪽은 원소 상성 우위일 때 피해가 늘어나는 딜 특성이고, 펀치테일 쪽은 일반 공격 마지막 타격의 위력이 강화되는 격파 특성이거든요. 그래서 특성은 <b>이름만 보고 효과를 짐작하면 안 되고, 그 애니모 행 전체(이름+효과)를 따로 확인</b>하는 게 맞더라고요.</p>
+  <h3>이 애니모만 가진 유니크 특성도 있어요</h3>
+  <p>유니크 특성은 <b>단일 애니모 또는 소수만 가진, 계열 공유가 아닌 전용 특성</b>이에요. 조건이 복잡하거나 다른 애니모와 연계되는 경우도 있어서, 계열 공유 특성보다 훨씬 개성이 강해요.</p>
+  <table>
+    <tr><th>애니모</th><th>특성</th><th>효과</th></tr>
+    <tr><td class="l">헬울프</td><td>충만한 영혼</td><td>전투 중 일반 공격을 8회 사용하면 [충만한 영혼] 상태에 진입, 다음 스킬 위력이 강화되며 그 피해는 일반 공격 피해로 간주됩니다.</td></tr>
+    <tr><td class="l">튜바얌</td><td>승리의 합주</td><td>실드 보유 시 무력화 효율이 40% 증가. 무력화 발동 시 파티 전체 체력 소모를 30% 감소. 악장 계열 버프를 3개 획득하면 모든 악장 효과가 30% 증가합니다.</td></tr>
+    <tr><td class="l">쿨쿨양</td><td>양 세기</td><td>10초마다 다음 스킬이 목표에게 [졸음] 1중첩을 부여하고, 3중첩에 도달하면 [악몽] 상태(20초 지속, 어둠 원소 저항 27% 감소·잠깐 이동과 스킬 시전 불가)에 빠지는데, 피해를 받으면 이 제어 효과가 바로 풀립니다.</td></tr>
+    <tr><td class="l">둥실달</td><td>매력 발산</td><td>파티 내 성별이 서로 다른 모든 애니모의 물 원소 강화가 16% 증가합니다.</td></tr>
+    <tr><td class="l">록볼볼</td><td>암석 강화</td><td>록볼볼이 만든 [암석 더미]는 모터터의 [스톤볼 드리프트] 스킬로 파괴할 수 있고, 파괴하면 대상에게 [붕괴](땅 원소 저항 6% 감소·이동 속도 5% 감소, 20초 지속·최대 6중첩) 효과가 붙습니다.</td></tr>
+  </table>
+  <p>덧붙이자면 <b>투구누니·아머누니</b>는 '무력화 공명'이라는 특성을 갖고 있는데, 위키 원문 그대로 옮기면 <b>"자신의 무력화 수치가 0 증가합니다"</b>라고 적혀 있어요. 숫자가 0이라 오타처럼 보이긴 하는데, 지금 확인 가능한 원문이 이렇게만 나와 있어서 그대로 적어둘게요. 임의로 '무력화가 늘어난다'는 식으로 부풀려 해석하지는 않을게요.</p>
+  <h3>포지션마다 특성 성향이 좀 다르게 느껴져요</h3>
+  <p>정확한 통계는 아니지만, 표를 쭉 훑어보면 <b>격파 계열은 공격을 받거나 무력화할 때 강해지는 특성이 많고, 딜 계열은 상성 우위·추가 피해형이 많고, 서포터·치유 계열은 환경이나 파티 조건에 따라 버프를 주는 특성이 많은 편</b>이에요.</p>
+  <p>다만 이건 제가 86종 표를 읽으면서 받은 정성적인 인상일 뿐, 공식이 포지션별로 특성 성격을 못 박아 놓은 건 아니에요. 내 애니모가 격파인지 딜인지 서포터인지부터 확인하고 특성을 읽으면 이해가 한결 편해지겠죠.</p>
+  <h3>내 애니모 특성이 뭔지는 어디서 확인하나요</h3>
+  <p>애니모 도감이나 애니모 정보 화면에서 개체별로 특성을 확인할 수 있습니다.</p>
+  <p>다만 정확히 어느 탭, 어느 버튼을 눌러야 하는지는 이번에 화면으로 직접 확인은 못 했어요. 공식 위키에는 애니모 페이지마다 특성 항목이 따로 있는 걸 보면 인게임에서도 개체 상세 화면 어딘가에 있을 텐데, 정확한 위치는 아래 사진 자리로 남겨둘게요.</p>
+  <p>📷 〔사진 자리 2〕 애니모 도감/정보 화면에서 특성 항목이 보이는 위치 — 네이버에서 직접 업로드<br><span class="ph">└ 캡션 추천: "실제 화면은 직접 캡처해서 채워주세요."</span></p>
+  <h3>애니모 특성 자주 묻는 질문</h3>
+  <p><b>Q. 분기 진화면 특성도 무조건 갈리나요?</b><br>꼭 그런 건 아니에요. 록키에서 갈라지는 두 갈래를 보면, 크리스톤을 거쳐 크리스바인으로 가는 라인은 록키와 똑같이 '대지 친화'를 그대로 쓰는데, 라바크를 거쳐 마그라곤으로 가는 다른 갈래는 아예 다른 특성인 '활성화'로 바뀌어요. 같은 뿌리에서 갈라져도 어느 쪽으로 진화하느냐에 따라 특성이 유지될 수도, 아예 달라질 수도 있는 거예요.</p>
+  <p><b>Q. 같은 특성 이름인데 최종 진화에서 수치가 더 세지는 경우도 있나요?</b><br>네, 있어요. 클램스타→위즈스타 단계에서는 '물결의 가호'가 물 환경이거나 물을 흡수하면 물 원소 피해가 20% 증가·10초 지속인데, 최종 진화인 나이트스타로 가면 같은 이름인데도 물 원소 강화 25% 증가·20초 지속으로 수치가 더 붙어요. 이름만 보고 '어차피 다 같겠지' 하면 이런 변화를 놓치기 쉬워요.</p>
+  <p><b>Q. 진화하고 나면 효과 설명이 한 줄 더 늘어나는 경우도 있나요?</b><br>데굴굴→모터터 계열이 그런 예예요. 둘 다 특성 이름은 '과부하 엔진'인데, 모터터 쪽 설명에는 '[샌드스톰 스핀]이 즉시 최대 회전 속도에 도달합니다'라는 문장이 하나 더 붙거든요. 수치가 바뀌는 건 아니지만, 완전히 똑같다고는 할 수 없는 사례죠.</p>
+  <p><b>Q. 특성은 탐사 스킬이나 홈 능력이랑 같은 항목인가요?</b><br>아니요, 셋 다 도감에서 별개의 항목이에요. 특성은 전투 중 자동 발동하는 패시브고, 탐사 스킬은 필드 이동용이고, 홈 능력은 또 다른 별개 항목이라 서로 안 겹쳐요.</p>
+  <h3>애니모 특성 정리</h3>
+  <p>핵심만 추리면, 같은 진화 계열은 대부분 특성을 그대로 물려받지만 화르랑→헬울프처럼 분기에서 아예 갈리는 예외도 있다는 것, 그중에서도 헬울프나 튜바얌처럼 이 애니모만 가진 유니크 특성도 따로 있다는 것, 그리고 이름이 같아도 계열이 다르면 효과가 다를 수 있으니 이름만 보고 넘기지 말아야 한다는 것 정도만 기억해두시면 됩니다. 저도 이번에 표를 쭉 훑으면서 제 파티 애니모들 특성을 다시 한번 챙겨보게 됐는데, 여러분도 도감에서 한 번씩 확인해보시면 좋겠어요.</p>
+  <p><b>✔ 애니모 같이 보기 좋은 내용</b><br>
+  · <a href="https://blog.naver.com/bomding/224422690388" target="_blank">애니모 스탯 보는 법, 브레이크·리젠 뜻과 포지션(역할군) 5종 정리</a><br>
+  · <a href="https://blog.naver.com/bomding/224422630392" target="_blank">애니모 드림쵸 얻는 법, 도감 결번 030번 정체부터 엘리트 트레이닝 조건까지</a><br>
+  · <a href="https://blog.naver.com/bomding/224421372251" target="_blank">애니모 탐사 스킬 19종 총정리, 가속·이륙·은신 뭐가 있나</a></p>
+  <p><b>참고한 곳</b><br>
+  · <a href="https://wiki.aniimo.com/ko" target="_blank">애니모 공식 위키(도감)</a><br>
+  · <a href="https://wiki.aniimo.com/ko/item/004/basic-form" target="_blank">애니모 공식 위키 — 헬울프 도감 페이지(충만한 영혼 특성)</a><br>
+  · <a href="https://www.aniimo.com/ko/main" target="_blank">애니모 공식 사이트</a></p>
+  <p class="tags-line">#애니모 #Aniimo #애니모특성 #애니모고유능력 #애니모패시브 #파우프린트스튜디오</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
