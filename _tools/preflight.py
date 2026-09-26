@@ -45,6 +45,7 @@
                       [--purpose "<발주 목적>"] [--out-dir <폴더>]
     exit 0 = 통과(경고는 있을 수 있음) · exit 1 = 결함(고쳐서 다시 돌릴 것) · --strict 면 경고도 1
     차단(exit 1) = ①분량 ②img 치수 ③날짜↔요일 ⑥금지요소 + ★B5 1차 출처 링크 0(purpose 가 공략·쿠폰·티어 계열일 때)
+                   + ★B6 시각 앵커 < 2(봄딩·영도 공략형 · A형 img·.imgslot + B형 .ss 합계 · 09-26) — 그 밖 purpose 는 0 일 때 W9 경고만
     항상 쓴다: `<글폴더>/_qa/preflight.json` · `<글폴더>/_qa/sensitive.json`
       (--out-dir 를 주면 그 폴더에 쓴다 — 표본 dry-run 이 실제 글 폴더를 건드리지 않게)
   집필·수정 서브가 **결과를 반환하기 전에** 스스로 돌린다. 드레이너 게이트에도 붙일 수 있다.
@@ -119,6 +120,14 @@ B5_PURPOSE_KEYS = ('공략', '쿠폰', '티어', '추천', '티어표', '순위'
 B5_PURPOSE_SKIP = ('제품 비교', '제품비교')     # 봄딩 육아·취미 «제품 비교·추천»(쿠팡 파트너스 수익형) — 게임 1차 출처 개념이 없다
 B5_ORDER_GLOBS = ('order-form*.md', 'order*.md', 'order-and-research.md', 'research-brief.md')   # <글폴더>/_qa/ 에서 이 순서로
 B5_MIN_LINKS = 1
+# ── B6 시각 앵커 게이트(2026-09-26 · 사용자 결정 «공략형 글은 사진 자리 최소 N곳») — 봄딩·영도만
+#   앵커 = A형 이미지(`<img>` — 위젯·디자인 자산 제외) + A형 저장 자리(`.imgslot`) + B형 촬영 자리(`.ss`). «공략형» 판정은 B5 와 같다(b5_applies).
+#   공략형 < B6_MIN_GUIDE → ⛔ · 기타 purpose(소식·출시 등)·purpose 미상은 0 일 때만 경고(W9).
+#   왜: 09-24~26 헤드리스 글 11편 중 7편이 이미지 0장이었고 4편은 사진 자리도 0 — 파이프라인이 집필 프롬프트에
+#   «이미지 파일이 없으면 자리를 만들지 마라»를 즉석으로 넣었다(image-sourcing §9-2 «봄딩·영도는 못 구하면 B형» 과 정반대).
+#   09-01 이후 공략형 94편 앵커 중앙값 ≈4 · ≥2 가 87% — 2 는 «얇은 글»만 막는 바닥선이다.
+B6_WRITERS = ('봄딩', '영도')
+B6_MIN_GUIDE = 2
 # 개인·SNS·제휴·단축·자기 사이트 — 화이트리스트의 넓은 항목(naver.com·kakao.com·youtube.com·coupang.com)에 걸려도 1차 출처가 아니다.
 B5_SNS_PERSONAL = (
     'blog.naver.com', 'm.blog.naver.com', 'post.naver.com', 'cafe.naver.com', 'tistory.com', 'brunch.co.kr',
@@ -528,6 +537,36 @@ def check_primary_links(post, res, purpose, purpose_src):
     return [], []
 
 
+def count_visual_anchors(post):
+    """(A형 img, A형 .imgslot, B형 .ss) — `post` = 위젯 서랍·#copy 를 뺀 미리보기 본문(split_post_copy)."""
+    imgs = [t for t in re.findall(r'<img\b[^>]*>', post or '', flags=re.I)
+            if not re.search(r'data:|_design/|\bicon|logo|avatar|profile', t, re.I)]
+    slots = len(re.findall(r'class\s*=\s*["\'](?:[^"\']*\s)?imgslot(?:\s[^"\']*)?["\']', post or '', flags=re.I))
+    ss = len(re.findall(r'<div\b[^>]*class\s*=\s*["\'](?:[^"\']*\s)?ss(?:\s[^"\']*)?["\']', post or '', flags=re.I))
+    return len(imgs), slots, ss
+
+
+def check_visual_anchors(post, res, writer, purpose, purpose_src):
+    """B6(2026-09-26) — 봄딩·영도 공략형은 시각 앵커 ≥ B6_MIN_GUIDE(⛔), 그 밖은 0 이면 W9 경고. 반환 (issues, warns)."""
+    if writer not in B6_WRITERS:
+        return [], []
+    ni, nslot, nss = count_visual_anchors(post)
+    total = ni + nslot + nss
+    guide = b5_applies(purpose)
+    res['b6'] = {'writer': writer, 'purpose': purpose, 'purposeSource': purpose_src, 'guide': guide,
+                 'img': ni, 'imgslot': nslot, 'ss': nss, 'anchors': total, 'min': B6_MIN_GUIDE if guide else 1,
+                 'blocked': False, 'rule': 'B6(2026-09-26) 봄딩·영도 공략형 시각 앵커 ≥%d(⛔) · 그 밖 0 이면 경고' % B6_MIN_GUIDE}
+    if guide and total < B6_MIN_GUIDE:
+        res['b6']['blocked'] = True
+        return ['B6 시각 앵커 %d < %d — 공략형(%s) 글은 A형 이미지(`img/` self-host · .imgslot)와 B형 촬영 자리(`.ss`+`.shoot` — 무엇을·어디서·어떻게 찍을지)를'
+                ' 합쳐 %d곳 이상. 이미지를 못 구하면 B형으로 둔다(자리 자체를 없애지 않는다 · image-sourcing §9-2) [img %d · imgslot %d · .ss %d]'
+                % (total, B6_MIN_GUIDE, purpose, B6_MIN_GUIDE, ni, nslot, nss)], []
+    if total == 0:
+        return [], ['W9 시각 앵커 0 — 이미지도 사진 자리도 없다(purpose «%s»). 공식·스토어 이미지(A형) 또는 B형 촬영 자리(.ss)를 1곳 이상 권장 — 독자검수 시각편집 🔴 단골'
+                    % (purpose or '미상')]
+    return [], []
+
+
 # ────────────────────────────────────────────────────────────── 8종 경고
 def check_faq(post, res):
     sec, body_html = faq_section(post)
@@ -861,6 +900,14 @@ def main():
     issues += b5_issues
     warns += b5_warns
 
+    # ── B6 시각 앵커(차단 · 2026-09-26) — 봄딩·영도 공략형 앵커 < 2 면 exit 1 · 그 밖 0 이면 W9 경고. 게이트 코드가 죽어도 발행은 세우지 않는다.
+    try:
+        b6_issues, b6_warns = check_visual_anchors(post, detail, writer, purpose, purpose_src)
+    except Exception as e:
+        b6_issues, b6_warns = [], ['B6 검사 내부 오류 — %s' % e]
+    issues += b6_issues
+    warns += b6_warns
+
     # ── 8종 경고(W1~W8) — 경고만. --strict 면 exit 1.
     try:
         warns += check_faq(post, detail)
@@ -882,6 +929,7 @@ def main():
            'imgs': len(imgs), 'img_nodim': len(nodim), 'h2': h2n,
            'issues': issues, 'warns': warns, 'checks': detail, 'sensitive': sens['sensitive'],
            'b5': detail.get('b5', {}),      # 계약(2026-09-25): b5:{purpose, purposeSource, applied, primaryLinks, primaryHosts, excluded, blocked}
+           'b6': detail.get('b6', {}),      # 계약(2026-09-26): b6:{writer, purpose, guide, img, imgslot, ss, anchors, min, blocked} — 봄딩·영도만
            'checkedAt': now, 'file': p}
 
     # ── 항상 쓴다: <글폴더>/_qa/preflight.json · sensitive.json (다른 패키지가 읽는 계약 — 파일명 고정)
@@ -927,6 +975,11 @@ def main():
         print('  B5 출처     purpose «%s»(%s) · 적용 %s · 1차 링크 %s %s · 제외 %s'
               % (b5.get('purpose') or '미상', b5.get('purposeSource') or '-', b5.get('applied'), b5.get('primaryLinks'),
                  b5.get('primaryHosts'), ['%s(%s)' % (e.get('host'), e.get('why')) for e in b5.get('excluded', [])][:6]))
+        b6 = detail.get('b6', {})
+        if b6:
+            print('  B6 시각앵커  %s곳(img %s · imgslot %s · B형 .ss %s) · 공략형 %s · 최소 %s%s'
+                  % (b6.get('anchors'), b6.get('img'), b6.get('imgslot'), b6.get('ss'), b6.get('guide'), b6.get('min'),
+                     ' · ⛔' if b6.get('blocked') else ''))
         print('  sensitive = %s %s' % (sens['sensitive'], sens['reasons'] or '(반증 투입 사유 없음)'))
         print('  → %s' % os.path.join(out_dir, 'preflight.json') + (' ⚠ 저장 실패: %s' % write_err if write_err else ''))
         if ok and not warns:
