@@ -1,0 +1,300 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>롤토체스 기원자 아리 조합 아이템 정리, 특성 빌드까지 한 번에</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  h3.sub2{font-size:17px;font-weight:800;margin:24px 0 10px;letter-spacing:-.2px;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">롤토체스 기원자 아리 조합 아이템 정리, 특성 빌드까지 한 번에</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.09.26</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: ①롤토체스 기원자 아리 조합 아이템 뭐 껴야 하나 ②기원자 아리 특성 몇 단계까지 올려야 하나 ③기원자 아리 조합 이번 패치로 뜬 덱인가 -->
+
+    <p>요즘 롤토체스 이것저것 돌려보다 보니, 자연스럽게 '기원자 아리' 조합까지 손대게 됐는데요. 딜러 자리에 아리를 세우고 마나 축으로 특성을 엮는 조합이라 처음엔 좀 낯설었는데, 막상 붙잡고 보니 순위표에서 은근 자주 보이는 덱이더라고요. 그런데 이 조합만 딱 집어서 아이템이랑 특성 단계까지 정리해둔 자료는 의외로 찾기가 어렵더라고요. 그래서 오늘은 기원자 아리 조합의 아이템 빌드랑 특성 구성을 하나씩 짚어볼까 해요.</p>
+
+    <h2 class="sub">롤토체스 기원자 아리 조합, 지금 얼마나 강한가요</h2>
+    <p><b>기원자 아리 조합은 패치 18.3(핫픽스 18.3b 포함) 기준 마스터+ 랭크 표본에서 점유율 11.12%로 전체 2위를 차지하고 있는 덱입니다.</b> 순방률(4위 안에 드는 비율)은 50.249%, 평균 등수는 4.5, 승률은 9.497%로 나왔는데요, 이 수치는 2026-09-26 21:30 KST에 전체 표본 129,815판 중 이 덱 표본 14,436판을 기준으로 조회한 값이에요. 8인 게임에서 1등을 잡을 기댓값이 12.5%라는 걸 감안하면 9.497%가 아주 낮은 수치는 아니고요, 점유율만 보면 전체 메타에서 두 번째로 많이 쓰이는 조합인데, 그 정도로 자주 잡히는 덱치고 아이템·특성을 제대로 정리한 글은 드물어서 이번에 한 번 짚어보려고 해요.</p>
+
+    <h2 class="sub">마나 축은 아이템·기원자 특성에 몰려 있어요</h2>
+    <p>이 조합의 핵심은 <b>아리·모르가나·세트·감시자</b> 네 챔피언이고, 넷 다 4코스트라는 공통점이 있어요. 다만 스킬 자체가 마나 위주인 건 아니고, 마나 축은 뒤에 나올 아이템·기원자 특성 쪽에 더 몰려 있거든요. 아리의 스킬 '영혼 폭탄'은 사거리 4칸 안에서 적이 가장 몰려 있는 위치에 던지는 광역 마법 스킬인데, 맞는 자리를 기준으로 반경 3칸까지 퍼지면서 1칸씩 멀어질 때마다 피해가 21%씩 줄어드는 구조예요. 모르가나의 '쇠약의 저주'는 기본적으로 피해흡혈 25%를 깔고 있다가, 스킬을 쓰면 주변 적 3명에게 저주를 걸어 4초 동안 쇠약지대 피해를 쌓는 방식이라 시간이 지날수록 데미지가 불어나는 타입이고요. 세트는 '강펀치'를 쓰는데, 전투마다 처음으로 체력이 최대 체력 40% 아래로 떨어지면 그 순간 마나를 100 얻어서 원뿔 범위로 물리 피해를 내고 체력도 같이 회복하는 근접 스킬이라, 최전방에 세워야 발동 조건을 맞추기 좋거든요. 감시자는 '하늘빛 충격파'로 4초짜리 보호막을 두르고 적이 가장 많은 방향으로 균열을 만들어 마법 피해를 주면서 적에게 마나 강탈까지 거는 탱커형 스킬이에요.</p>
+
+    <h2 class="sub">아이템은 이렇게 맞추면 돼요</h2>
+    <p>코어 아이템은 챔피언마다 방향이 다르게 잡혀 있는데, 아래 표로 정리해봤어요.</p>
+    <table class="tbl">
+      <tr><th>챔피언</th><th>코스트</th><th>코어 아이템 3종</th></tr>
+      <tr><td>아리</td><td>4코스트</td><td>보석 건틀릿 · 쇼진의 창 · 타격대의 철퇴</td></tr>
+      <tr><td>모르가나</td><td>4코스트</td><td>모렐로노미콘 · 라바돈의 죽음모자 · 공허의 지팡이</td></tr>
+      <tr><td>세트</td><td>4코스트</td><td>가고일 돌갑옷×2 · 워모그의 갑옷</td></tr>
+      <tr><td>감시자</td><td>4코스트</td><td>가고일 돌갑옷 · 수호자의 맹세 · 워모그의 갑옷</td></tr>
+    </table>
+
+    <h3 class="sub2">아이템 조합법도 같이 챙겨두세요</h3>
+    <table class="tbl">
+      <tr><th>완성 아이템</th><th>조합 재료</th></tr>
+      <tr><td>보석 건틀릿</td><td>연습용 장갑 + 쓸데없이 큰 지팡이</td></tr>
+      <tr><td>쇼진의 창</td><td>여신의 눈물 + B.F. 대검</td></tr>
+      <tr><td>타격대의 철퇴</td><td>거인의 허리띠 + 연습용 장갑</td></tr>
+      <tr><td>모렐로노미콘</td><td>거인의 허리띠 + 쓸데없이 큰 지팡이</td></tr>
+      <tr><td>라바돈의 죽음모자</td><td>쓸데없이 큰 지팡이×2</td></tr>
+      <tr><td>공허의 지팡이</td><td>곡궁 + 여신의 눈물</td></tr>
+      <tr><td>가고일 돌갑옷</td><td>쇠사슬 조끼 + 음전자 망토</td></tr>
+      <tr><td>워모그의 갑옷</td><td>거인의 허리띠×2</td></tr>
+      <tr><td>수호자의 맹세</td><td>쇠사슬 조끼 + 여신의 눈물</td></tr>
+    </table>
+
+    <h2 class="sub">왜 굳이 이 아이템 조합인가요</h2>
+    <p><b>탱커 두 명(세트·감시자)에는 방어형 아이템만, 딜러 두 명(아리·모르가나)에는 마나·주문력 아이템만 몰아준다는 게 이 조합 아이템 구성의 큰 틀입니다.</b> 세트와 감시자는 스킬 자체가 "버티면서 발동·유지"하는 구조라, 쇠사슬 조끼·음전자 망토·거인의 허리띠 같은 방어형 재료만 들어간 조합이 스킬 활용 빈도를 늘려주는 셈이고요. 아리는 셋 다 마나 획득·재생 계열 아이템(쇼진의 창은 여신의 눈물이 재료, 보석 건틀릿은 연습용 장갑이 재료)으로 맞춰져 있는데, 마침 <b>기원자 특성 자체가 아군 마나재생을 주는 특성</b>이라 아이템 방향성이랑 특성 시너지가 서로 겹치는 구조예요. 그래서 조합 이름부터 '기원자 아리'인 게 아이템·특성이 전부 마나 축으로 모여 있어서 붙은 이름이라고 볼 수 있어요(세트·감시자 스킬에도 마나 요소가 살짝 걸려 있긴 하지만요). 모르가나는 모렐로노미콘·라바돈의 죽음모자·공허의 지팡이로 순수 주문력 극대화+마법관통 조합인데, 지속 피해·저주 중첩 피해가 시간이 지날수록 누적되는 스킬 구조라 주문력을 최대로 올릴수록 이득이 커지는 방향이에요.</p>
+
+    <h2 class="sub">특성은 어디까지 채워야 하나요</h2>
+    <p><b>이 조합이 노리는 특성은 기원자·에메랄드 성위를 포함해 총 일곱 개입니다.</b></p>
+    <table class="tbl">
+      <tr><th>특성</th><th>목표 단계</th></tr>
+      <tr><td>기원자</td><td>3단계 (유닛 3기·실버)</td></tr>
+      <tr><td>에메랄드 성위</td><td>1단계 (골드 1+)</td></tr>
+      <tr><td>개화</td><td>3단계 (유닛 3기·브론즈)</td></tr>
+      <tr><td>협곡야수</td><td>3단계 (유닛 3기·브론즈)</td></tr>
+      <tr><td>싸움꾼</td><td>2단계 (유닛 2기·브론즈)</td></tr>
+      <tr><td>주문술사</td><td>2단계 (유닛 2기·브론즈)</td></tr>
+      <tr><td>선봉대</td><td>2단계 (유닛 2기·브론즈)</td></tr>
+    </table>
+    <p>기원자 특성은 아군 전체 마나재생을 챙겨주면서 기원자 유닛 본인은 능력치를 추가로 받는 특성이고, 에메랄드 성위는 아군 하나를 골라 가장 강한 아군인 타릭과 연결하는 특성인데, 그렇게 연결된 아군이 타릭 스킬로부터 강력한 추가 효과를 받는 방식이에요. 이 조합 저코스트 유닛에 타릭이 끼는 이유도 에메랄드 성위 특성이 타릭을 지목하는 구조이기 때문이라고 이해하면 자연스러워요.</p>
+
+    <h2 class="sub">조약돌·카르마·돌거북·타릭은 왜 아이템이 없나요</h2>
+    <p>이 넷은 통계상 아이템 없이 잡히는데, 정확한 배치 이유까지 데이터로 확정된 건 아니에요. 조약돌·카르마(1코스트)·돌거북(3코스트)·타릭(5코스트)은 특성 구성(개화·협곡야수·싸움꾼·주문술사·선봉대)을 채우는 슬롯으로 쓰이는 것으로 보이지만, 왜 하필 이 네 유닛이어야 하는지까지는 통계가 설명해주지 않아서 확정된 공략처럼 단정하긴 어려워요. 상황에 맞춰 비슷한 특성을 낀 다른 저코스트 유닛으로 유연하게 바꿔도 큰 문제는 없을 걸로 보여요.</p>
+
+    <h2 class="sub">레벨·경제는 어떻게 굴려야 하나요</h2>
+    <p><b>핵심 4명이 전부 4코스트라 이 조합을 완성하려면 레벨 8이 분기점입니다.</b> 코어 4기(아리·모르가나·세트·감시자)에 특성용 저코스트 4기까지 보드 8칸을 다 채우려면 레벨 8이 필요하거든요. 골드 이자와 연승·연패 보너스를 챙기면서 버티다가 레벨업 시점에 한 번에 투자하는 식으로 굴리면 돼요.</p>
+    <table class="tbl">
+      <tr><th>보유 골드</th><th>이자</th></tr>
+      <tr><td>10~19</td><td>+1</td></tr>
+      <tr><td>20~29</td><td>+2</td></tr>
+      <tr><td>30~39</td><td>+3</td></tr>
+      <tr><td>40~49</td><td>+4</td></tr>
+      <tr><td>50 이상</td><td>+5 (상한)</td></tr>
+    </table>
+    <table class="tbl">
+      <tr><th>연승·연패</th><th>보너스</th></tr>
+      <tr><td>2~4연승 / 2~4연패</td><td>+1골드</td></tr>
+      <tr><td>5연승 / 5연패</td><td>+2골드</td></tr>
+      <tr><td>6연승 이상 / 6연패 이상</td><td>+3골드</td></tr>
+    </table>
+    <p>이 조합만의 특수한 경제 원칙이 있는 건 아니고, 시즌18 공통 경제 규칙을 그대로 적용하면서 4코스트 4명 체제를 목표로 레벨업 타이밍만 맞춰주면 돼요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 기원자 아리 조합, 순방률 50%면 실제로 안정적인가요?</b><br>순방률(topRate)은 8명 중 4위 안에 들어온 비율을 뜻하는데요, 이 조합은 최근 2일 마스터+ 표본에서 50.249%를 기록해서 절반 정도는 4위 안에 들어온다고 보면 돼요. 평균 등수가 4.5인 걸 보면 극단적으로 잘 나오거나 못 나오기보다는 중상위권을 꾸준히 유지하는 덱에 가깝다고 볼 수 있어요.</p>
+    <p><b>Q. 아리는 후열에 놓는 게 맞나요, 앞으로 붙여도 되나요?</b><br>아리는 사거리가 4칸이라 4칸 안까지만 닿는 편이라, 완전 뒷줄보다는 중열 정도에 세우는 게 더 안전해요. 굳이 맨 앞으로 붙일 필요는 없고, 근접 교전에 휘말리지 않는 자리에 둬야 스킬을 꾸준히 던질 수 있어요.</p>
+    <p><b>Q. 이 조합, 이번 패치 때문에 갑자기 뜬 덱인가요?</b><br>아니요, 18.3b 변경 목록(검은 가시·카직스·덩굴정령·대상지정 롤백 등)에는 기원자 아리 조합의 핵심 챔피언(아리·모르가나·세트·감시자)이나 핵심 특성(기원자·에메랄드 성위)이 하나도 포함돼 있지 않아요. 그러니 이번 패치로 급하게 떠올랐다기보단, 패치와 무관하게 꾸준히 점유율 2위 자리를 지키고 있는 덱으로 보는 게 맞아요.</p>
+    <p><b>Q. 이 저코스트 유닛들을 대체하고 싶으면 어떤 기준으로 골라야 하나요?</b><br>가장 간단한 기준은 채워야 하는 특성(개화·협곡야수·싸움꾼·주문술사·선봉대)을 그대로 유지하는 다른 저코스트 유닛으로 바꾸는 거예요. 예를 들어 조약돌 자리는 같은 개화 특성을 가진 다른 1코스트 유닛으로 바꿔도 특성 단계가 유지되니, 손에 들어오는 대로 유연하게 채워도 괜찮아요.</p>
+    <p><b>Q. 초반부터 레벨업을 서둘러야 하나요?</b><br>정확한 라운드까지 못 박긴 어렵지만, 초반엔 무리해서 레벨업하지 않고 골드 이자를 챙기며 버티다가 4코스트 유닛이 하나둘 풀리는 시점부터 투자하는 흐름이 이 조합에도 그대로 적용돼요. 서두르다 이자를 놓치면 오히려 완성이 늦어질 수 있어요.</p>
+
+    <h2 class="sub">기원자 아리 조합 정리</h2>
+    <p>짚어보고 나니 이 조합은 화려한 한 방보다는 마나 순환이랑 방어 아이템으로 꾸준히 버티는 쪽에 가깝다는 느낌이 들었어요. 점유율 2위인 만큼 한 번쯤 맞춰볼 만한 조합인 것 같아서, 저도 다음 판에는 직접 한 번 굴려볼 생각이에요.</p>
+
+    <p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224408800272" target="_blank">롤토체스시즌18 싸움꾼 마스터 이 렝가덱 사용법 공략</a><br>
+    · <a href="https://blog.naver.com/bomding/224405228193" target="_blank">롤토체스 사냥꾼 시비르 덱 추천 — 점유율 2위 강세덱, 특성 9개 한 번에 켜는 조합</a><br>
+    · <a href="https://blog.naver.com/bomding/224403015915" target="_blank">롤토체스 18시즌 메타덱 티어 — 순방률로 줄 세워봤더니 점유율 1위 소라카는 중위권</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/enchanted-wilds-overview/" target="_blank">라이엇 게임즈 — 롤토체스 신비의 숲(세트18) 공식 개요</a> (2026-08-24 확인)<br>
+· <a href="https://lolchess.gg/" target="_blank">롤체지지(lolchess.gg)</a> — 점유율·순방률·승률 등 통계 참고</p>
+
+    <div class="tags">#롤토체스 #롤토체스공략 #기원자아리조합 #아리아이템 #TFT세트18</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 0가지(약 1분):</b> 📷 <b>사진 0곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 롤토체스 기원자 아리 조합 아이템 정리, 특성 빌드까지 한 번에</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p><b>롤토체스 기원자 아리 조합 아이템 정리, 특성 빌드까지 한 번에</b></p>
+<p>요즘 롤토체스 이것저것 돌려보다 보니, 자연스럽게 '기원자 아리' 조합까지 손대게 됐는데요. 딜러 자리에 아리를 세우고 마나 축으로 특성을 엮는 조합이라 처음엔 좀 낯설었는데, 막상 붙잡고 보니 순위표에서 은근 자주 보이는 덱이더라고요. 그런데 이 조합만 딱 집어서 아이템이랑 특성 단계까지 정리해둔 자료는 의외로 찾기가 어렵더라고요. 그래서 오늘은 기원자 아리 조합의 아이템 빌드랑 특성 구성을 하나씩 짚어볼까 해요.</p>
+
+<h3>롤토체스 기원자 아리 조합, 지금 얼마나 강한가요</h3>
+<p><b>기원자 아리 조합은 패치 18.3(핫픽스 18.3b 포함) 기준 마스터+ 랭크 표본에서 점유율 11.12%로 전체 2위를 차지하고 있는 덱입니다.</b> 순방률(4위 안에 드는 비율)은 50.249%, 평균 등수는 4.5, 승률은 9.497%로 나왔는데요, 이 수치는 2026-09-26 21:30 KST에 전체 표본 129,815판 중 이 덱 표본 14,436판을 기준으로 조회한 값이에요. 8인 게임에서 1등을 잡을 기댓값이 12.5%라는 걸 감안하면 9.497%가 아주 낮은 수치는 아니고요, 점유율만 보면 전체 메타에서 두 번째로 많이 쓰이는 조합인데, 그 정도로 자주 잡히는 덱치고 아이템·특성을 제대로 정리한 글은 드물어서 이번에 한 번 짚어보려고 해요.</p>
+
+<h3>마나 축은 아이템·기원자 특성에 몰려 있어요</h3>
+<p>이 조합의 핵심은 <b>아리·모르가나·세트·감시자</b> 네 챔피언이고, 넷 다 4코스트라는 공통점이 있어요. 다만 스킬 자체가 마나 위주인 건 아니고, 마나 축은 뒤에 나올 아이템·기원자 특성 쪽에 더 몰려 있거든요. 아리의 스킬 '영혼 폭탄'은 사거리 4칸 안에서 적이 가장 몰려 있는 위치에 던지는 광역 마법 스킬인데, 맞는 자리를 기준으로 반경 3칸까지 퍼지면서 1칸씩 멀어질 때마다 피해가 21%씩 줄어드는 구조예요. 모르가나의 '쇠약의 저주'는 기본적으로 피해흡혈 25%를 깔고 있다가, 스킬을 쓰면 주변 적 3명에게 저주를 걸어 4초 동안 쇠약지대 피해를 쌓는 방식이라 시간이 지날수록 데미지가 불어나는 타입이고요. 세트는 '강펀치'를 쓰는데, 전투마다 처음으로 체력이 최대 체력 40% 아래로 떨어지면 그 순간 마나를 100 얻어서 원뿔 범위로 물리 피해를 내고 체력도 같이 회복하는 근접 스킬이라, 최전방에 세워야 발동 조건을 맞추기 좋거든요. 감시자는 '하늘빛 충격파'로 4초짜리 보호막을 두르고 적이 가장 많은 방향으로 균열을 만들어 마법 피해를 주면서 적에게 마나 강탈까지 거는 탱커형 스킬이에요.</p>
+
+<h3>아이템은 이렇게 맞추면 돼요</h3>
+<p>코어 아이템은 챔피언마다 방향이 다르게 잡혀 있는데, 아래로 정리해봤어요.</p>
+<table><tr><th>챔피언</th><th>코스트</th><th>코어 아이템 3종</th></tr>
+<tr><td>아리</td><td>4코스트</td><td>보석 건틀릿 · 쇼진의 창 · 타격대의 철퇴</td></tr>
+<tr><td>모르가나</td><td>4코스트</td><td>모렐로노미콘 · 라바돈의 죽음모자 · 공허의 지팡이</td></tr>
+<tr><td>세트</td><td>4코스트</td><td>가고일 돌갑옷×2 · 워모그의 갑옷</td></tr>
+<tr><td>감시자</td><td>4코스트</td><td>가고일 돌갑옷 · 수호자의 맹세 · 워모그의 갑옷</td></tr>
+</table>
+<p><b>아이템 조합법도 같이 챙겨두세요</b></p>
+<table><tr><th>완성 아이템</th><th>조합 재료</th></tr>
+<tr><td>보석 건틀릿</td><td>연습용 장갑 + 쓸데없이 큰 지팡이</td></tr>
+<tr><td>쇼진의 창</td><td>여신의 눈물 + B.F. 대검</td></tr>
+<tr><td>타격대의 철퇴</td><td>거인의 허리띠 + 연습용 장갑</td></tr>
+<tr><td>모렐로노미콘</td><td>거인의 허리띠 + 쓸데없이 큰 지팡이</td></tr>
+<tr><td>라바돈의 죽음모자</td><td>쓸데없이 큰 지팡이×2</td></tr>
+<tr><td>공허의 지팡이</td><td>곡궁 + 여신의 눈물</td></tr>
+<tr><td>가고일 돌갑옷</td><td>쇠사슬 조끼 + 음전자 망토</td></tr>
+<tr><td>워모그의 갑옷</td><td>거인의 허리띠×2</td></tr>
+<tr><td>수호자의 맹세</td><td>쇠사슬 조끼 + 여신의 눈물</td></tr>
+</table>
+
+<h3>왜 굳이 이 아이템 조합인가요</h3>
+<p><b>탱커 두 명(세트·감시자)에는 방어형 아이템만, 딜러 두 명(아리·모르가나)에는 마나·주문력 아이템만 몰아준다는 게 이 조합 아이템 구성의 큰 틀입니다.</b> 세트와 감시자는 스킬 자체가 "버티면서 발동·유지"하는 구조라, 쇠사슬 조끼·음전자 망토·거인의 허리띠 같은 방어형 재료만 들어간 조합이 스킬 활용 빈도를 늘려주는 셈이고요. 아리는 셋 다 마나 획득·재생 계열 아이템(쇼진의 창은 여신의 눈물이 재료, 보석 건틀릿은 연습용 장갑이 재료)으로 맞춰져 있는데, 마침 <b>기원자 특성 자체가 아군 마나재생을 주는 특성</b>이라 아이템 방향성이랑 특성 시너지가 서로 겹치는 구조예요. 그래서 조합 이름부터 '기원자 아리'인 게 아이템·특성이 전부 마나 축으로 모여 있어서 붙은 이름이라고 볼 수 있어요(세트·감시자 스킬에도 마나 요소가 살짝 걸려 있긴 하지만요). 모르가나는 모렐로노미콘·라바돈의 죽음모자·공허의 지팡이로 순수 주문력 극대화+마법관통 조합인데, 지속 피해·저주 중첩 피해가 시간이 지날수록 누적되는 스킬 구조라 주문력을 최대로 올릴수록 이득이 커지는 방향이에요.</p>
+
+<h3>특성은 어디까지 채워야 하나요</h3>
+<p><b>이 조합이 노리는 특성은 기원자·에메랄드 성위를 포함해 총 일곱 개입니다.</b></p>
+<table><tr><th>특성</th><th>목표 단계</th></tr>
+<tr><td>기원자</td><td>3단계 (유닛 3기·실버)</td></tr>
+<tr><td>에메랄드 성위</td><td>1단계 (골드 1+)</td></tr>
+<tr><td>개화</td><td>3단계 (유닛 3기·브론즈)</td></tr>
+<tr><td>협곡야수</td><td>3단계 (유닛 3기·브론즈)</td></tr>
+<tr><td>싸움꾼</td><td>2단계 (유닛 2기·브론즈)</td></tr>
+<tr><td>주문술사</td><td>2단계 (유닛 2기·브론즈)</td></tr>
+<tr><td>선봉대</td><td>2단계 (유닛 2기·브론즈)</td></tr>
+</table>
+<p>기원자 특성은 아군 전체 마나재생을 챙겨주면서 기원자 유닛 본인은 능력치를 추가로 받는 특성이고, 에메랄드 성위는 아군 하나를 골라 가장 강한 아군인 타릭과 연결하는 특성인데, 그렇게 연결된 아군이 타릭 스킬로부터 강력한 추가 효과를 받는 방식이에요. 이 조합 저코스트 유닛에 타릭이 끼는 이유도 에메랄드 성위 특성이 타릭을 지목하는 구조이기 때문이라고 이해하면 자연스러워요.</p>
+
+<h3>조약돌·카르마·돌거북·타릭은 왜 아이템이 없나요</h3>
+<p>이 넷은 통계상 아이템 없이 잡히는데, 정확한 배치 이유까지 데이터로 확정된 건 아니에요. 조약돌·카르마(1코스트)·돌거북(3코스트)·타릭(5코스트)은 특성 구성(개화·협곡야수·싸움꾼·주문술사·선봉대)을 채우는 슬롯으로 쓰이는 것으로 보이지만, 왜 하필 이 네 유닛이어야 하는지까지는 통계가 설명해주지 않아서 확정된 공략처럼 단정하긴 어려워요. 상황에 맞춰 비슷한 특성을 낀 다른 저코스트 유닛으로 유연하게 바꿔도 큰 문제는 없을 걸로 보여요.</p>
+
+<h3>레벨·경제는 어떻게 굴려야 하나요</h3>
+<p><b>핵심 4명이 전부 4코스트라 이 조합을 완성하려면 레벨 8이 분기점입니다.</b> 코어 4기(아리·모르가나·세트·감시자)에 특성용 저코스트 4기까지 보드 8칸을 다 채우려면 레벨 8이 필요하거든요. 골드 이자와 연승·연패 보너스를 챙기면서 버티다가 레벨업 시점에 한 번에 투자하는 식으로 굴리면 돼요.</p>
+<table><tr><th>보유 골드</th><th>이자</th></tr>
+<tr><td>10~19</td><td>+1</td></tr>
+<tr><td>20~29</td><td>+2</td></tr>
+<tr><td>30~39</td><td>+3</td></tr>
+<tr><td>40~49</td><td>+4</td></tr>
+<tr><td>50 이상</td><td>+5 (상한)</td></tr>
+</table>
+<table><tr><th>연승·연패</th><th>보너스</th></tr>
+<tr><td>2~4연승 / 2~4연패</td><td>+1골드</td></tr>
+<tr><td>5연승 / 5연패</td><td>+2골드</td></tr>
+<tr><td>6연승 이상 / 6연패 이상</td><td>+3골드</td></tr>
+</table>
+<p>이 조합만의 특수한 경제 원칙이 있는 건 아니고, 시즌18 공통 경제 규칙을 그대로 적용하면서 4코스트 4명 체제를 목표로 레벨업 타이밍만 맞춰주면 돼요.</p>
+
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 기원자 아리 조합, 순방률 50%면 실제로 안정적인가요?</b><br>순방률(topRate)은 8명 중 4위 안에 들어온 비율을 뜻하는데요, 이 조합은 최근 2일 마스터+ 표본에서 50.249%를 기록해서 절반 정도는 4위 안에 들어온다고 보면 돼요. 평균 등수가 4.5인 걸 보면 극단적으로 잘 나오거나 못 나오기보다는 중상위권을 꾸준히 유지하는 덱에 가깝다고 볼 수 있어요.</p>
+<p><b>Q. 아리는 후열에 놓는 게 맞나요, 앞으로 붙여도 되나요?</b><br>아리는 사거리가 4칸이라 4칸 안까지만 닿는 편이라, 완전 뒷줄보다는 중열 정도에 세우는 게 더 안전해요. 굳이 맨 앞으로 붙일 필요는 없고, 근접 교전에 휘말리지 않는 자리에 둬야 스킬을 꾸준히 던질 수 있어요.</p>
+<p><b>Q. 이 조합, 이번 패치 때문에 갑자기 뜬 덱인가요?</b><br>아니요, 18.3b 변경 목록(검은 가시·카직스·덩굴정령·대상지정 롤백 등)에는 기원자 아리 조합의 핵심 챔피언(아리·모르가나·세트·감시자)이나 핵심 특성(기원자·에메랄드 성위)이 하나도 포함돼 있지 않아요. 그러니 이번 패치로 급하게 떠올랐다기보단, 패치와 무관하게 꾸준히 점유율 2위 자리를 지키고 있는 덱으로 보는 게 맞아요.</p>
+<p><b>Q. 이 저코스트 유닛들을 대체하고 싶으면 어떤 기준으로 골라야 하나요?</b><br>가장 간단한 기준은 채워야 하는 특성(개화·협곡야수·싸움꾼·주문술사·선봉대)을 그대로 유지하는 다른 저코스트 유닛으로 바꾸는 거예요. 예를 들어 조약돌 자리는 같은 개화 특성을 가진 다른 1코스트 유닛으로 바꿔도 특성 단계가 유지되니, 손에 들어오는 대로 유연하게 채워도 괜찮아요.</p>
+<p><b>Q. 초반부터 레벨업을 서둘러야 하나요?</b><br>정확한 라운드까지 못 박긴 어렵지만, 초반엔 무리해서 레벨업하지 않고 골드 이자를 챙기며 버티다가 4코스트 유닛이 하나둘 풀리는 시점부터 투자하는 흐름이 이 조합에도 그대로 적용돼요. 서두르다 이자를 놓치면 오히려 완성이 늦어질 수 있어요.</p>
+
+<h3>기원자 아리 조합 정리</h3>
+<p>짚어보고 나니 이 조합은 화려한 한 방보다는 마나 순환이랑 방어 아이템으로 꾸준히 버티는 쪽에 가깝다는 느낌이 들었어요. 점유율 2위인 만큼 한 번쯤 맞춰볼 만한 조합인 것 같아서, 저도 다음 판에는 직접 한 번 굴려볼 생각이에요.</p>
+
+<p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224408800272" target="_blank">롤토체스시즌18 싸움꾼 마스터 이 렝가덱 사용법 공략</a><br>
+· <a href="https://blog.naver.com/bomding/224405228193" target="_blank">롤토체스 사냥꾼 시비르 덱 추천 — 점유율 2위 강세덱, 특성 9개 한 번에 켜는 조합</a><br>
+· <a href="https://blog.naver.com/bomding/224403015915" target="_blank">롤토체스 18시즌 메타덱 티어 — 순방률로 줄 세워봤더니 점유율 1위 소라카는 중위권</a></p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/enchanted-wilds-overview/" target="_blank">라이엇 게임즈 — 롤토체스 신비의 숲(세트18) 공식 개요</a> (2026-08-24 확인)<br>
+· <a href="https://lolchess.gg/" target="_blank">롤체지지(lolchess.gg)</a> — 점유율·순방률·승률 등 통계 참고</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
