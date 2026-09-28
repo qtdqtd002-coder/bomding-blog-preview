@@ -1,0 +1,274 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬고 이브이진화 종류 8가지 만드는법 이름트릭 버디 루어모듈 총정리</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .coupang{display:block;text-align:center;background:#fef2ef;border:1px solid #f3b8a8;color:#c0392b;
+    text-decoration:none;padding:12px;border-radius:8px;font-weight:700;font-size:14.5px;margin:6px 0 22px;}
+  .coupang small{display:block;color:#9a6b62;font-weight:500;font-size:11.5px;margin-top:3px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">포켓몬고 이브이진화 종류 8가지 만드는법 이름트릭 버디 루어모듈 총정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.09.28</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: 이브이 진화 8종류를 원하는 대로 만드는 법 / 에브이 블래키는 왜 낮밤에 따라 갈리나 / 리피아 글레이시아는 루어모듈로 어떻게 만드나 -->
+    <p>포켓몬고 하다 보면 이브이 한 번쯤은 다들 챙겨보셨을 텐데요, 문제는 이 녀석을 그냥 진화시키면 어떤 진화형이 나올지 완전 무작위로 튀어버린다는 거예요. 저도 예전에 아무 생각 없이 사탕만 채워서 진화시켰다가, 원하던 샤미드 대신 전혀 다른 애가 나와서 허탈했던 적이 있는데요. 그 뒤로 조건을 하나하나 찾아보고 나서야 원하는 진화형을 딱딱 맞춰 만들 수 있게 됐습니다. 여덟 가지 방법의 조건을 하나씩 찾아 정리해 봤는데, 이름 트릭 쪽이 확실히 제일 손이 덜 가더라고요. 오늘은 부스터, 쥬피썬더, 샤미드, 에브이, 블래키, 리피아, 글레이시아, 님피아까지 이브이 8가지 진화형을 각각 어떻게 만드는지 순서대로 정리해 드릴게요.</p>
+
+    <h2 class="sub">이브이 진화형이 지금 몇 가지나 있는지 아세요</h2>
+    <p>현재 포켓몬고에서 이브이가 진화할 수 있는 형태는 <b>총 8가지</b>입니다. 물 속성 샤미드부터 전기 쥬피썬더, 불꽃 부스터, 에스퍼 에브이, 악 속성 블래키, 풀 속성 리피아, 얼음 속성 글레이시아, 그리고 페어리 속성 님피아까지가 지금 서비스 중인 전부예요. 최근 올라온 해외 가이드들을 봐도 여기서 더 늘어난 진화형은 아직 없더라고요.</p>
+    <table class="tbl">
+      <tr><th>진화형</th><th>영문명</th><th>속성</th></tr>
+      <tr><td>샤미드</td><td>Vaporeon</td><td>물</td></tr>
+      <tr><td>쥬피썬더</td><td>Jolteon</td><td>전기</td></tr>
+      <tr><td>부스터</td><td>Flareon</td><td>불꽃</td></tr>
+      <tr><td>에브이</td><td>Espeon</td><td>에스퍼</td></tr>
+      <tr><td>블래키</td><td>Umbreon</td><td>악</td></tr>
+      <tr><td>리피아</td><td>Leafeon</td><td>풀</td></tr>
+      <tr><td>글레이시아</td><td>Glaceon</td><td>얼음</td></tr>
+      <tr><td>님피아</td><td>Sylveon</td><td>페어리</td></tr>
+    </table>
+
+    <h2 class="sub">가장 확실한 방법, 이름 트릭이 뭔가요</h2>
+    <p>이브이 닉네임을 정해진 영문 이름으로 바꾸고 사탕 25개로 진화시키면 <b>그 진화형이 거의 확정</b>됩니다. '이름 트릭'이라고 부르는 방법인데, 진화 버튼을 누르기 직전에 닉네임을 바꿔두기만 하면 되니까 여덟 가지 중에서는 제일 간단해요.</p>
+    <table class="tbl">
+      <tr><th>진화형</th><th>닉네임(영문)</th></tr>
+      <tr><td>샤미드</td><td>Rainer</td></tr>
+      <tr><td>쥬피썬더</td><td>Sparky</td></tr>
+      <tr><td>부스터</td><td>Pyro</td></tr>
+      <tr><td>에브이</td><td>Sakura</td></tr>
+      <tr><td>블래키</td><td>Tamao</td></tr>
+      <tr><td>리피아</td><td>Linnea</td></tr>
+      <tr><td>글레이시아</td><td>Rea</td></tr>
+      <tr><td>님피아</td><td>Kira</td></tr>
+    </table>
+    <p>다만 이 방법은 나이언틱이 공식적으로 발표한 기능은 아니고, 오래전부터 유저들 사이에서 통해온 '숨은 규칙'이 지금까지 이어져 오는 거라서 100% 공식 보증까지는 아니라는 점은 알아두시는 게 좋아요. 그리고 나무위키 같은 일부 자료에는 에브이·블래키·님피아 세 진화형만 이름 트릭이 안 통한다는 이야기도 있는데, 최근 갱신된 해외 가이드들은 여전히 세 닉네임 모두 정상 작동한다고 설명하고 있습니다. 혹시 시도했는데 원하는 진화형이 안 나왔다면 아래 버디 조건으로 다시 도전해 보시는 걸 추천드려요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 닉네임을 영문 이름으로 바꾸는 화면</span></div><div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://leekduck.com/posts/how-to-evolve-eevee/" target="_blank">리크덕 이브이 진화 가이드</a> · <a href="https://pokemongohub.net/post/guide/eevee-evolution-tricks/" target="_blank">포켓몬고허브 이름 트릭 가이드</a></div><p class="cap">진화 직전 닉네임 변경 화면</p>
+
+    <h2 class="sub">에브이랑 블래키는 왜 낮에 만들면 다르고 밤에 만들면 다른가요</h2>
+    <p>이브이를 버디로 설정해 10km를 걷고, 진화 버튼을 누르는 순간 게임 속 화면이 낮이면 <b>에브이</b>, 밤이면 <b>블래키</b>로 진화합니다. 이 낮밤 표시는 날씨와는 상관없지만 결국 내가 있는 곳의 현지 시간(일출·일몰)에 연동돼 바뀌는 거라, 현지 해가 진 뒤 맵 화면이 밤으로 바뀐 다음 진화시키면 블래키, 해가 떠 있는 낮 시간에 진화시키면 에브이가 나오는 식이에요. 게임 속 낮/밤 아이콘을 직접 확인하고 그 타이밍에 진화시키면 됩니다. 10km를 걷는 동안은 물론 진화시키는 순간에도 이브이가 파트너로 설정돼 있어야 하니, 10km를 다 채운 뒤 성급하게 버디를 바꾸면 조건이 풀려버릴 수 있어요.</p>
+    <p>사탕은 버디로 10km를 걷는 동안 자연스럽게 2개 이상 쌓이는 편이라 따로 신경 쓰지 않아도 대부분 채워지더라고요. 다만 이브이의 정확한 버디 사탕 거리 기준(1km당인지 3km당인지)까지는 공식적으로 확인되지 않아서, '10km 정도 걸으면 조건이 자연히 맞춰진다' 정도로만 알아두시면 될 것 같아요. 이름 트릭(에브이는 Sakura, 블래키는 Tamao)으로 곧바로 만드는 것도 가능합니다.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 이브이를 버디로 설정한 화면</span></div><div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://pokemongoevents.com/guides/how-to-get-every-eevee-evolution-in-pokemon-go-2026" target="_blank">포켓몬고이벤츠 이브이 진화 가이드</a></div><p class="cap">버디로 설정된 이브이와 하트·거리 UI</p>
+
+    <h2 class="sub">리피아, 글레이시아는 루어모듈로 어떻게 만드나요</h2>
+    <p>포켓스탑에 <b>허브 루어모듈</b>이 켜진 범위 안에서 진화시키면 리피아, <b>아이스 루어모듈</b> 범위 안이면 글레이시아로 진화합니다. 둘 다 상점에서 200 포켓코인이면 구매할 수 있는 아이템이고, 일반 루어모듈이랑은 종류가 다르니 상점에서 헷갈리지 않게 잘 찾아보셔야 해요.</p>
+    <p>루어모듈을 살 여유가 없다면 이름 트릭으로도 우회할 수 있어요. 리피아는 Linnea, 글레이시아는 Rea로 닉네임을 바꾸면 루어모듈 없이 바로 만들 수 있습니다. 다만 그 닉네임을 이미 다른 이브이한테 써버렸다면 직접 루어모듈이 뜬 포켓스탑을 찾아가거나 구매하는 수밖에 없어요.</p>
+
+    <h2 class="sub">님피아는 애정도를 얼마나 채워야 하나요</h2>
+    <p>이브이를 버디로 두고 <b>버디 하트 70개</b>(그레이트 파트너 단계 정도)를 모으면 진화 버튼에서 님피아를 선택할 수 있게 됩니다. 먹이주기, 산책, 사진찍기, 배틀처럼 버디랑 상호작용하는 여러 방법으로 하트가 쌓이는 구조예요.</p>
+    <p>다만 항목별로 정확히 몇 하트씩 오르는지까지는 공식적으로 딱 떨어지게 나온 자료가 없어서, '이것저것 골고루 하다 보면 어느새 70이 채워진다' 정도로 알아두시는 게 안전합니다. 이름 트릭 Kira를 쓰면 하트를 따로 안 모으고도 바로 님피아로 진화시킬 수 있어요.</p>
+
+    <h2 class="sub">사탕은 몇 개씩 필요하고, 여러 마리를 다르게 키울 수 있나요</h2>
+    <p>진화 방법이 뭐든 간에 <b>사탕은 8종 모두 똑같이 25개</b>가 듭니다. 이름 트릭을 쓰든, 버디 조건을 채우든, 루어모듈을 쓰든 사탕 소모량 자체는 차이가 없어요. 대신 이브이를 여러 마리 다른 진화형으로 만들고 싶다면 마리 수만큼 사탕을 따로 모아야 합니다.</p>
+    <ul>
+      <li>에브이·블래키·님피아는 전부 같은 이브이 한 마리를 버디로 두는 동안 조건이 겹쳐서 쌓이니, 밤에 진화시킬지 하트 70을 더 채워 님피아로 갈지 나중에 정할 수 있어요.</li>
+      <li>단, 진화는 한 번뿐이라 한 마리가 두 진화형을 동시에 가질 순 없습니다.</li>
+      <li>리피아·글레이시아는 이름 트릭을 이미 썼다면 루어모듈이 뜬 포켓스탑을 직접 찾아가거나 상점에서 구매하는 쪽으로 넘어가면 돼요.</li>
+    </ul>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 진화 완료 후 결과 화면</span></div><div class="shoot">📸 직접 촬영 권장 — 비슷한 화면 찾을 곳: <a href="https://leekduck.com/posts/how-to-evolve-eevee/" target="_blank">리크덕 이브이 진화 가이드</a></div><p class="cap">진화가 끝난 뒤 확인되는 결과 화면</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 이름 트릭 닉네임을 한 번 썼는데 또 쓰면 어떻게 되나요?</b><br>이미 사용한 닉네임은 계정당 딱 한 번만 유효해요. 예를 들어 Pyro로 부스터를 이미 만들었다면, 다른 이브이에 다시 Pyro를 붙여도 트릭이 발동하지 않고 무작위 진화로 처리됩니다.</p>
+    <p><b>Q. 지금(2026년 9월) 이브이 관련 진행 중인 이벤트가 있나요?</b><br>2025년 7월에 열렸던 이브이 커뮤니티 데이 클래식처럼 기간 한정 이벤트에서는 진화 방법과 상관없이 전용기를 얻는 식으로 조건이 달라지기도 했는데, 2026년 9월 28일 기준으로는 그런 이벤트가 진행되고 있지 않아서 이 글에서 설명한 기본 조건 그대로 적용된다고 보시면 됩니다.</p>
+    <p><b>Q. 이름 트릭이랑 버디 조건을 같이 노려도 되나요?</b><br>네, 이브이를 버디로 걷는 동안엔 버디 하트도 같이 쌓이기 때문에 밤에 진화시키면 블래키, 좀 더 키워서 하트 70을 채우면 님피아처럼 나중에 방향을 고를 수 있어요. 다만 한 마리는 결국 한 번만 진화하니 두 마리를 동시에 얻을 순 없습니다.</p>
+    <p><b>Q. 이름 트릭이랑 루어모듈 중에 뭐가 더 경제적인가요?</b><br>이름 트릭은 계정당 딱 한 번뿐이지만 돈이 안 들고, 루어모듈은 200 포켓코인씩 들지만 몇 번이든 다시 살 수 있어요. 그래서 리피아나 글레이시아를 한 마리만 만들 거면 이름 트릭이 이득이고, 여러 마리를 같은 진화형으로 만들고 싶다면 오히려 루어모듈 쪽이 편할 수 있습니다.</p>
+    <p><b>Q. 여덟 가지 중에 가장 손이 덜 가는 방법은 뭔가요?</b><br>역시 이름 트릭 쪽이 제일 간단해요. 닉네임만 바꾸고 사탕 25개만 채우면 끝나니까요. 다만 앞서 말씀드린 것처럼 나이언틱 공식 기능은 아니라서, 혹시 안 먹히면 버디나 루어모듈 방법을 병행해서 다시 시도해 보시는 게 안전합니다.</p>
+
+    <h2 class="sub">이브이 진화 방법 한 번에 정리하면</h2>
+    <p>샤미드·쥬피썬더·부스터·에브이·블래키·리피아·글레이시아·님피아까지, 결국 핵심은 <b>이름 트릭 8개</b>와 <b>버디 조건(낮밤·애정도)</b>, <b>루어모듈 2종</b> 이 세 가지예요. 이름 트릭은 계정당 한 번씩만 통하니까 여러 마리를 노린다면 순서를 잘 짜서 진화시키는 게 좋고, 헷갈리면 버디로 걸으면서 조건을 자연스럽게 맞춰가는 것도 방법입니다. 오늘 정리해드린 조건대로 하나씩 시도해서 원하는 이브이 진화형 꼭 얻어보시길 바라요.</p>
+
+    <p><b>✔ 포켓몬고 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224413025050" target="_blank">포켓몬고 황혼의여정시즌 업데이트 정리, 신규포켓몬 메가진화 맥스배틀 뭐가 바뀌었나</a><br>
+    · <a href="https://blog.naver.com/bomding/224400102591" target="_blank">포켓몬고 아머드 뮤츠 메가 피날레 레이드 공략 이로치 여부 카운터 추천</a><br>
+    · <a href="https://blog.naver.com/bomding/224372786666" target="_blank">포켓몬고 루나아라레이드 8월19일 이로치루나아라 첫등장 초보자카운터 약점 추천</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://leekduck.com/posts/how-to-evolve-eevee/" target="_blank">리크덕(LeekDuck) 이브이 진화 가이드</a><br>
+    · <a href="https://pokemongohub.net/post/guide/eevee-evolution-tricks/" target="_blank">포켓몬고허브 이름 트릭 가이드</a> (2026.09.28 기준)</p>
+
+    <div class="tags">#포켓몬고 #포켓몬고이브이진화 #이브이진화종류 #샤미드만드는법 #쥬피썬더만드는법 #부스터만드는법 #에브이블래키 #리피아글레이시아 #님피아만드는법 #이름트릭</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 4분):</b> 📷 <b>사진 3곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬고 이브이진화 종류 8가지 만드는법 이름트릭 버디 루어모듈 총정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy"><p><b>포켓몬고 이브이진화 종류 8가지 만드는법 이름트릭 버디 루어모듈 총정리</b></p>
+<p>포켓몬고 하다 보면 이브이 한 번쯤은 다들 챙겨보셨을 텐데요, 문제는 이 녀석을 그냥 진화시키면 어떤 진화형이 나올지 완전 무작위로 튀어버린다는 거예요. 저도 예전에 아무 생각 없이 사탕만 채워서 진화시켰다가, 원하던 샤미드 대신 전혀 다른 애가 나와서 허탈했던 적이 있는데요. 그 뒤로 조건을 하나하나 찾아보고 나서야 원하는 진화형을 딱딱 맞춰 만들 수 있게 됐습니다. 여덟 가지 방법의 조건을 하나씩 찾아 정리해 봤는데, 이름 트릭 쪽이 확실히 제일 손이 덜 가더라고요. 오늘은 부스터, 쥬피썬더, 샤미드, 에브이, 블래키, 리피아, 글레이시아, 님피아까지 이브이 8가지 진화형을 각각 어떻게 만드는지 순서대로 정리해 드릴게요.</p>
+
+<h3>이브이 진화형이 지금 몇 가지나 있는지 아세요</h3>
+<p>현재 포켓몬고에서 이브이가 진화할 수 있는 형태는 <b>총 8가지</b>입니다. 물 속성 샤미드부터 전기 쥬피썬더, 불꽃 부스터, 에스퍼 에브이, 악 속성 블래키, 풀 속성 리피아, 얼음 속성 글레이시아, 그리고 페어리 속성 님피아까지가 지금 서비스 중인 전부예요. 최근 올라온 해외 가이드들을 봐도 여기서 더 늘어난 진화형은 아직 없더라고요.</p>
+<table><tr><td>샤미드</td><td>Vaporeon</td><td>물</td></tr><tr><td>쥬피썬더</td><td>Jolteon</td><td>전기</td></tr><tr><td>부스터</td><td>Flareon</td><td>불꽃</td></tr><tr><td>에브이</td><td>Espeon</td><td>에스퍼</td></tr><tr><td>블래키</td><td>Umbreon</td><td>악</td></tr><tr><td>리피아</td><td>Leafeon</td><td>풀</td></tr><tr><td>글레이시아</td><td>Glaceon</td><td>얼음</td></tr><tr><td>님피아</td><td>Sylveon</td><td>페어리</td></tr></table>
+
+<h3>가장 확실한 방법, 이름 트릭이 뭔가요</h3>
+<p>이브이 닉네임을 정해진 영문 이름으로 바꾸고 사탕 25개로 진화시키면 <b>그 진화형이 거의 확정</b>됩니다. '이름 트릭'이라고 부르는 방법인데, 진화 버튼을 누르기 직전에 닉네임을 바꿔두기만 하면 되니까 여덟 가지 중에서는 제일 간단해요.</p>
+<table><tr><td>샤미드</td><td>Rainer</td></tr><tr><td>쥬피썬더</td><td>Sparky</td></tr><tr><td>부스터</td><td>Pyro</td></tr><tr><td>에브이</td><td>Sakura</td></tr><tr><td>블래키</td><td>Tamao</td></tr><tr><td>리피아</td><td>Linnea</td></tr><tr><td>글레이시아</td><td>Rea</td></tr><tr><td>님피아</td><td>Kira</td></tr></table>
+<p>다만 이 방법은 나이언틱이 공식적으로 발표한 기능은 아니고, 오래전부터 유저들 사이에서 통해온 '숨은 규칙'이 지금까지 이어져 오는 거라서 100% 공식 보증까지는 아니라는 점은 알아두시는 게 좋아요. 그리고 나무위키 같은 일부 자료에는 에브이·블래키·님피아 세 진화형만 이름 트릭이 안 통한다는 이야기도 있는데, 최근 갱신된 해외 가이드들은 여전히 세 닉네임 모두 정상 작동한다고 설명하고 있습니다. 혹시 시도했는데 원하는 진화형이 안 나왔다면 아래 버디 조건으로 다시 도전해 보시는 걸 추천드려요.</p>
+<p>📷 〔사진 자리 1〕 닉네임을 영문 이름으로 바꾸는 화면 — 네이버에서 직접 업로드</p>
+
+<h3>에브이랑 블래키는 왜 낮에 만들면 다르고 밤에 만들면 다른가요</h3>
+<p>이브이를 버디로 설정해 10km를 걷고, 진화 버튼을 누르는 순간 게임 속 화면이 낮이면 <b>에브이</b>, 밤이면 <b>블래키</b>로 진화합니다. 이 낮밤 표시는 날씨와는 상관없지만 결국 내가 있는 곳의 현지 시간(일출·일몰)에 연동돼 바뀌는 거라, 현지 해가 진 뒤 맵 화면이 밤으로 바뀐 다음 진화시키면 블래키, 해가 떠 있는 낮 시간에 진화시키면 에브이가 나오는 식이에요. 게임 속 낮/밤 아이콘을 직접 확인하고 그 타이밍에 진화시키면 됩니다. 10km를 걷는 동안은 물론 진화시키는 순간에도 이브이가 파트너로 설정돼 있어야 하니, 10km를 다 채운 뒤 성급하게 버디를 바꾸면 조건이 풀려버릴 수 있어요.</p>
+<p>사탕은 버디로 10km를 걷는 동안 자연스럽게 2개 이상 쌓이는 편이라 따로 신경 쓰지 않아도 대부분 채워지더라고요. 다만 이브이의 정확한 버디 사탕 거리 기준(1km당인지 3km당인지)까지는 공식적으로 확인되지 않아서, '10km 정도 걸으면 조건이 자연히 맞춰진다' 정도로만 알아두시면 될 것 같아요. 이름 트릭(에브이는 Sakura, 블래키는 Tamao)으로 곧바로 만드는 것도 가능합니다.</p>
+<p>📷 〔사진 자리 2〕 이브이를 버디로 설정한 화면 — 네이버에서 직접 업로드</p>
+
+<h3>리피아, 글레이시아는 루어모듈로 어떻게 만드나요</h3>
+<p>포켓스탑에 <b>허브 루어모듈</b>이 켜진 범위 안에서 진화시키면 리피아, <b>아이스 루어모듈</b> 범위 안이면 글레이시아로 진화합니다. 둘 다 상점에서 200 포켓코인이면 구매할 수 있는 아이템이고, 일반 루어모듈이랑은 종류가 다르니 상점에서 헷갈리지 않게 잘 찾아보셔야 해요.</p>
+<p>루어모듈을 살 여유가 없다면 이름 트릭으로도 우회할 수 있어요. 리피아는 Linnea, 글레이시아는 Rea로 닉네임을 바꾸면 루어모듈 없이 바로 만들 수 있습니다. 다만 그 닉네임을 이미 다른 이브이한테 써버렸다면 직접 루어모듈이 뜬 포켓스탑을 찾아가거나 구매하는 수밖에 없어요.</p>
+
+<h3>님피아는 애정도를 얼마나 채워야 하나요</h3>
+<p>이브이를 버디로 두고 <b>버디 하트 70개</b>(그레이트 파트너 단계 정도)를 모으면 진화 버튼에서 님피아를 선택할 수 있게 됩니다. 먹이주기, 산책, 사진찍기, 배틀처럼 버디랑 상호작용하는 여러 방법으로 하트가 쌓이는 구조예요.</p>
+<p>다만 항목별로 정확히 몇 하트씩 오르는지까지는 공식적으로 딱 떨어지게 나온 자료가 없어서, '이것저것 골고루 하다 보면 어느새 70이 채워진다' 정도로 알아두시는 게 안전합니다. 이름 트릭 Kira를 쓰면 하트를 따로 안 모으고도 바로 님피아로 진화시킬 수 있어요.</p>
+
+<h3>사탕은 몇 개씩 필요하고, 여러 마리를 다르게 키울 수 있나요</h3>
+<p>진화 방법이 뭐든 간에 <b>사탕은 8종 모두 똑같이 25개</b>가 듭니다. 이름 트릭을 쓰든, 버디 조건을 채우든, 루어모듈을 쓰든 사탕 소모량 자체는 차이가 없어요. 대신 이브이를 여러 마리 다른 진화형으로 만들고 싶다면 마리 수만큼 사탕을 따로 모아야 합니다.</p>
+<ul>
+<li>에브이·블래키·님피아는 전부 같은 이브이 한 마리를 버디로 두는 동안 조건이 겹쳐서 쌓이니, 밤에 진화시킬지 하트 70을 더 채워 님피아로 갈지 나중에 정할 수 있어요.</li>
+<li>단, 진화는 한 번뿐이라 한 마리가 두 진화형을 동시에 가질 순 없습니다.</li>
+<li>리피아·글레이시아는 이름 트릭을 이미 썼다면 루어모듈이 뜬 포켓스탑을 직접 찾아가거나 상점에서 구매하는 쪽으로 넘어가면 돼요.</li>
+</ul>
+<p>📷 〔사진 자리 3〕 진화 완료 후 결과 화면 — 네이버에서 직접 업로드</p>
+
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 이름 트릭 닉네임을 한 번 썼는데 또 쓰면 어떻게 되나요?</b><br>이미 사용한 닉네임은 계정당 딱 한 번만 유효해요. 예를 들어 Pyro로 부스터를 이미 만들었다면, 다른 이브이에 다시 Pyro를 붙여도 트릭이 발동하지 않고 무작위 진화로 처리됩니다.</p>
+<p><b>Q. 지금(2026년 9월) 이브이 관련 진행 중인 이벤트가 있나요?</b><br>2025년 7월에 열렸던 이브이 커뮤니티 데이 클래식처럼 기간 한정 이벤트에서는 진화 방법과 상관없이 전용기를 얻는 식으로 조건이 달라지기도 했는데, 2026년 9월 28일 기준으로는 그런 이벤트가 진행되고 있지 않아서 이 글에서 설명한 기본 조건 그대로 적용된다고 보시면 됩니다.</p>
+<p><b>Q. 이름 트릭이랑 버디 조건을 같이 노려도 되나요?</b><br>네, 이브이를 버디로 걷는 동안엔 버디 하트도 같이 쌓이기 때문에 밤에 진화시키면 블래키, 좀 더 키워서 하트 70을 채우면 님피아처럼 나중에 방향을 고를 수 있어요. 다만 한 마리는 결국 한 번만 진화하니 두 마리를 동시에 얻을 순 없습니다.</p>
+<p><b>Q. 이름 트릭이랑 루어모듈 중에 뭐가 더 경제적인가요?</b><br>이름 트릭은 계정당 딱 한 번뿐이지만 돈이 안 들고, 루어모듈은 200 포켓코인씩 들지만 몇 번이든 다시 살 수 있어요. 그래서 리피아나 글레이시아를 한 마리만 만들 거면 이름 트릭이 이득이고, 여러 마리를 같은 진화형으로 만들고 싶다면 오히려 루어모듈 쪽이 편할 수 있습니다.</p>
+<p><b>Q. 여덟 가지 중에 가장 손이 덜 가는 방법은 뭔가요?</b><br>역시 이름 트릭 쪽이 제일 간단해요. 닉네임만 바꾸고 사탕 25개만 채우면 끝나니까요. 다만 앞서 말씀드린 것처럼 나이언틱 공식 기능은 아니라서, 혹시 안 먹히면 버디나 루어모듈 방법을 병행해서 다시 시도해 보시는 게 안전합니다.</p>
+
+<h3>이브이 진화 방법 한 번에 정리하면</h3>
+<p>샤미드·쥬피썬더·부스터·에브이·블래키·리피아·글레이시아·님피아까지, 결국 핵심은 <b>이름 트릭 8개</b>와 <b>버디 조건(낮밤·애정도)</b>, <b>루어모듈 2종</b> 이 세 가지예요. 이름 트릭은 계정당 한 번씩만 통하니까 여러 마리를 노린다면 순서를 잘 짜서 진화시키는 게 좋고, 헷갈리면 버디로 걸으면서 조건을 자연스럽게 맞춰가는 것도 방법입니다. 오늘 정리해드린 조건대로 하나씩 시도해서 원하는 이브이 진화형 꼭 얻어보시길 바라요.</p>
+
+<p><b>✔ 포켓몬고 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224413025050" target="_blank">포켓몬고 황혼의여정시즌 업데이트 정리, 신규포켓몬 메가진화 맥스배틀 뭐가 바뀌었나</a><br>
+· <a href="https://blog.naver.com/bomding/224400102591" target="_blank">포켓몬고 아머드 뮤츠 메가 피날레 레이드 공략 이로치 여부 카운터 추천</a><br>
+· <a href="https://blog.naver.com/bomding/224372786666" target="_blank">포켓몬고 루나아라레이드 8월19일 이로치루나아라 첫등장 초보자카운터 약점 추천</a></p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://leekduck.com/posts/how-to-evolve-eevee/" target="_blank">리크덕(LeekDuck) 이브이 진화 가이드</a><br>
+· <a href="https://pokemongohub.net/post/guide/eevee-evolution-tricks/" target="_blank">포켓몬고허브 이름 트릭 가이드</a> (2026.09.28 기준)</p>
+
+<p>#포켓몬고 #포켓몬고이브이진화 #이브이진화종류 #샤미드만드는법 #쥬피썬더만드는법 #부스터만드는법 #에브이블래키 #리피아글레이시아 #님피아만드는법 #이름트릭</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
