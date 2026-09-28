@@ -112,7 +112,7 @@ const cvToClient = async (x, y) => { const r = await rect('#tiCanvas'); const k 
 console.log('\n[1920×1080]');
 await open(1920, 1080, false);
 await ev(`localStorage.removeItem('sseudam_tier_v2');localStorage.removeItem('sseudam_tier_v1')`);
-chk('탭 4개', (await ev(`[...document.querySelectorAll('.isl-tab')].map(b=>b.dataset.v).join(',')`)) === 'home,posts,trend,tools');
+chk('탭 순서(홈·작성 글·트렌드·도구함 …)', (await ev(`[...document.querySelectorAll('.isl-tab')].map(b=>b.dataset.v).join(',')`)).startsWith('home,posts,trend,tools'));   /* 개수 고정 금지 — 09-28 캘린더 탭 추가로 깨졌던 자리 */
 const t0 = Date.now();
 chk('도구함 진입 → 티어 도구 로드', await gotoTier(), { ms: Date.now() - t0 });
 chk('도구 목록 = 썸네일·티어표가 앞 · 메타 = 도구 수', await ev(`(()=>{const ids=[...document.querySelectorAll('#tbList .tb-item')].map(b=>b.dataset.t);return ids[0]==='thumb'&&ids[1]==='tier'&&document.getElementById('pmeta').textContent.includes(String(ids.length))})()`));   /* 09-12: 도구가 늘 때마다(표 제작 추가·다른 세션 작업) 개수 고정 검사가 먼저 깨졌다 — 순서·개수 일치만 본다 */

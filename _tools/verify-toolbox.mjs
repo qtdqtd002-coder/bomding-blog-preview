@@ -4,7 +4,7 @@
 //     축하 스플래시는 ?cheer=0 으로 끄고, 라이브 백엔드(/requests)는 차단해 화면이 네트워크에 매이지 않게 한다.
 //   · 1920×1080: 탭 진입 → 도구 로드 → 이미지 등록 → 타이틀 → 프리셋 5 → 검사 문구 → 부제 → 색·글꼴 → 확대·드래그
 //               → PNG 저장 파일명 → 미리보기(183×185 · 90×90 · 모바일 3열) → 탭 이탈·복귀(상태 유지)
-//   · 390×844 / 360×740: 섬(탭 4개) 넘침 0 · 단일 열 · 미리보기 축소 배율
+//   · 390×844 / 360×740: 섬(탭 전부 한 줄) 넘침 0 · 단일 열 · 미리보기 축소 배율
 //   · 콘솔 예외 0. 스크린샷은 --out (기본: 임시 폴더) 에 남긴다.
 import { spawn } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync, createReadStream } from 'node:fs';
@@ -102,7 +102,8 @@ const gotoTools = async () => {
 /* ══════════ 1920×1080 ══════════ */
 console.log('\n[1920×1080]');
 await open(1920, 1080, false);
-chk('탭 4개(홈·작성 글·트렌드·도구함)', (await ev(`[...document.querySelectorAll('.isl-tab')].map(b=>b.dataset.v).join(',')`)) === 'home,posts,trend,tools');
+/* ★탭 «개수»가 아니라 «앞 순서»를 본다 — 09-28 캘린더(5번째 탭)가 들어오며 «탭 4개» 고정 검사 세 곳이 한꺼번에 깨졌다(도구 목록 개수 고정과 같은 함정) */
+chk('탭 순서(홈·작성 글·트렌드·도구함 …)', (await ev(`[...document.querySelectorAll('.isl-tab')].map(b=>b.dataset.v).join(',')`)).startsWith('home,posts,trend,tools'));
 const t0 = Date.now();
 chk('도구함 진입 → 썸네일 도구 로드', await gotoTools(), { ms: Date.now() - t0 });
 chk('제목 «도구함»', (await ev(`document.getElementById('ptitle').textContent.trim()`)) === '도구함');
@@ -295,9 +296,10 @@ chk('[1920] 콘솔 예외 0', logs.length === 0, logs);
 console.log('\n[390×844]');
 logs = [];
 await open(390, 844, true);
-const islInfo = () => ev(`(()=>{const i=document.getElementById('island'),s=i.querySelector('.isl-tabs'),b=document.getElementById('bell');const r=i.getBoundingClientRect(),br=b.getBoundingClientRect();const tabs=[...i.querySelectorAll('.isl-tab')].map(t=>{const x=t.getBoundingClientRect();return{v:t.dataset.v,l:Math.round(x.left),r:Math.round(x.right),n:(t.querySelector('.n')||{}).textContent||''}});return{sw:s.scrollWidth,cw:s.clientWidth,r:Math.round(r.right),bell:[Math.round(br.left),Math.round(br.right)],vw:innerWidth,tabs}})()`);
+const islInfo = () => ev(`(()=>{const i=document.getElementById('island'),s=i.querySelector('.isl-tabs'),b=document.getElementById('bell');const r=i.getBoundingClientRect(),br=b.getBoundingClientRect();const tabs=[...i.querySelectorAll('.isl-tab')].map(t=>{const x=t.getBoundingClientRect();return{v:t.dataset.v,l:Math.round(x.left),r:Math.round(x.right),h:Math.round(x.height),n:(t.querySelector('.n')||{}).textContent||''}});return{sw:s.scrollWidth,cw:s.clientWidth,r:Math.round(r.right),bell:[Math.round(br.left),Math.round(br.right)],vw:innerWidth,tabs}})()`);
 const isl = await islInfo();
-chk('섬 넘침 없음(탭 4개 · 탭 줄 스크롤 0)', isl && isl.sw <= isl.cw + 1 && isl.tabs.every(t => t.r <= isl.r + 1), isl);
+/* ★높이(38 = 한 줄)도 본다 — 09-28 탭 5개 첫 판은 넘치지 않고 «글자를 두 줄로 접어» 스크롤 검사를 통과했다 */
+chk('섬 넘침 없음(탭 전부 한 줄 · 탭 줄 스크롤 0)', isl && isl.sw <= isl.cw + 1 && isl.tabs.every(t => t.r <= isl.r + 1 && t.h === 38), isl);
 chk('탭이 종(알림) 밑에 깔리지 않음', isl && isl.tabs.every(t => t.r <= isl.bell[0] - 4), isl);
 chk('도구함 진입(모바일)', await gotoTools());
 chk('모바일 단일 열(.tb)', (await ev(`getComputedStyle(document.querySelector('.tb')).gridTemplateColumns.split(' ').length`)) === 1);

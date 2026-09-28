@@ -177,33 +177,34 @@ if [ -f "$SLINT" ] && [ -s "$LIST" ]; then
 fi
 rm -f "$LIST"
 
-# ---- 도구함 캐시 버스트 게이트 (2026-09-07 신설) ----
-# 도구 본체(_toolbox/<id>.js)를 고쳤는데 index.html 의 그 도구 `?v=` 를 안 올리면,
+# ---- 지연 로드 JS 캐시 버스트 게이트 (2026-09-07 신설 · 09-28 캘린더 _cal/*.js 추가) ----
+# 도구 본체(_toolbox/<id>.js)·캘린더(_cal/cal.js)를 고쳤는데 index.html 의 그 파일 `?v=` 를 안 올리면,
 # 브라우저는 같은 URL 을 캐시(max-age=600)에서 그대로 꺼내 쓴다 → 라이브 파일은 새것인데 화면은 옛것.
 # 2026-09-07 실제로 두 번 났다(HEX 입력·«하늘» 색). 사용자가 «추가된 게 없는데?» 로 먼저 발견.
-# 대상은 이 push 에 _toolbox/*.js 가 실제로 담긴 경우뿐 — 글 발행·드레이너 push 에는 걸리지 않는다.
+# 대상은 이 push 에 그 JS 가 실제로 담긴 경우뿐 — 글 발행·드레이너 push 에는 걸리지 않는다.
+# 판정 = index.html 의 이번 범위 diff 에 «그 파일 경로?v=» 가 +/- 로 등장하는가(경로 전체로 찾는다 — 폴더가 둘이라).
 if [ -s "$RANGES" ]; then
   TBFAIL=""
   while read -r RSHA LSHA; do
     [ -z "$LSHA" ] && continue
     if [ "$RSHA" = "$ZERO" ]; then continue; fi          # 새 브랜치 — 범위를 못 믿으니 건너뛴다
-    CHANGED=$(git diff --name-only --diff-filter=ACM "$RSHA" "$LSHA" -- '_toolbox/*.js' 2>/dev/null)
+    CHANGED=$(git diff --name-only --diff-filter=ACM "$RSHA" "$LSHA" -- '_toolbox/*.js' '_cal/*.js' 2>/dev/null)
     [ -z "$CHANGED" ] && continue
     IDXDIFF=$(git diff "$RSHA" "$LSHA" -- index.html 2>/dev/null)
     for F in $CHANGED; do
-      TID=$(basename "$F" .js)
-      # index.html 의 그 도구 `?v=` 줄이 이 범위에서 바뀌었는가(+/- 어느 쪽이든 등장하면 바뀐 것)
-      if ! printf '%s' "$IDXDIFF" | grep -q "^[+-].*_toolbox/${TID}\.js?v="; then
-        TBFAIL="$TBFAIL $TID"
+      FRX=$(printf '%s' "$F" | sed 's/[.]/\\./g')     # _cal/cal.js → _cal/cal\.js (grep 정규식)
+      # index.html 의 그 파일 `?v=` 줄이 이 범위에서 바뀌었는가(+/- 어느 쪽이든 등장하면 바뀐 것)
+      if ! printf '%s' "$IDXDIFF" | grep -q "^[+-].*${FRX}?v="; then
+        TBFAIL="$TBFAIL $F"
       fi
     done
   done < "$RANGES"
   if [ -n "$TBFAIL" ]; then
     rm -f "$LIST" "$RANGES"
     echo ""
-    echo "[pre-push] ✗ 도구함 캐시 버스트 게이트 실패 — push 중단."
-    echo "           고친 도구:$TBFAIL — index.html 의 그 도구 src 뒤 ?v= 를 같은 push 에서 올리세요."
-    echo "           예) src:'_toolbox/thumb.js?v=20260907b'  →  ?v=20260907c"
+    echo "[pre-push] ✗ 캐시 버스트 게이트 실패 — push 중단."
+    echo "           고친 파일:$TBFAIL — index.html 의 그 파일 src 뒤 ?v= 를 같은 push 에서 올리세요."
+    echo "           예) src:'_toolbox/thumb.js?v=20260907b'  →  ?v=20260907c  /  CAL_SRC='_cal/cal.js?v=20260928a' → ?v=20260928b"
     echo "           안 올리면 라이브 파일만 새것이고 브라우저는 캐시(max-age=600)의 옛 파일을 씁니다."
     exit 1
   fi

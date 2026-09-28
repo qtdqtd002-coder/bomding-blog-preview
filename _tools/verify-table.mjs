@@ -134,7 +134,7 @@ console.log('\n[1920×1080]');
 await open(1920, 1080, false);
 await ev(`localStorage.removeItem('sseudam_table_v1')`);
 await ev(`new Promise(r=>{const q=indexedDB.deleteDatabase('sseudam-table');q.onsuccess=q.onerror=q.onblocked=()=>r(true)})`);
-chk('탭 4개', (await ev(`[...document.querySelectorAll('.isl-tab')].map(b=>b.dataset.v).join(',')`)) === 'home,posts,trend,tools');
+chk('탭 순서(홈·작성 글·트렌드·도구함 …)', (await ev(`[...document.querySelectorAll('.isl-tab')].map(b=>b.dataset.v).join(',')`)).startsWith('home,posts,trend,tools'));   /* 개수 고정 금지 — 09-28 캘린더 탭 추가로 깨졌던 자리 */
 const t0 = Date.now();
 chk('도구함 진입 → 표 도구 로드', await gotoTable(), { ms: Date.now() - t0 });
 const list = await ev(`(()=>{const it=[...document.querySelectorAll('#tbList .tb-item')];const on=document.querySelector('#tbList .tb-item.on');return{ids:it.map(b=>b.dataset.t).join(','),on:on&&on.dataset.t,name:on&&on.textContent.trim(),meta:document.getElementById('pmeta').textContent,svg:!!(on&&on.querySelector('svg rect'))}})()`);
