@@ -800,6 +800,7 @@ a{color:inherit; text-decoration:none}
    도구함 뷰에서만 본문 열(.main.wide)이 1620px 까지 넓어지고, 목록은 그 안 왼쪽 sticky 레일(232), 판이 나머지(1920 에서 1326)를 쓴다.
    홈·작성 글·트렌드는 종전 1080 그대로. 860px 이하는 목록이 가로 줄. */
 .main.wide{max-width:1620px}
+.main.calv{padding-bottom:24px}   /* 캘린더 뷰 — FAB 가 없고(nofab) 창 높이에 맞춰 채우므로(09-29 «페이지 스크롤 없게») 아래 여백은 _cal/cal.js 의 FIT_BOTTOM 과 같은 24 */
 .tb{display:grid; grid-template-columns:232px minmax(0,1fr); gap:14px; align-items:start}
 @media (min-width:861px){
   .tb-side{position:sticky; top:84px}           /* 섬(18 + 50) 아래에 붙어 따라온다 */
@@ -1936,7 +1937,7 @@ window.addEventListener('scroll',function(){
 },{passive:true});
 
 function render(){
-  var mainEl=document.querySelector('.main'); if(mainEl)mainEl.classList.toggle('wide',S.view==='tools'||S.view==='cal');   /* 도구함·캘린더만 넓은 작업 영역(1620) — 09-07 사용자 지시 «1920×1080 기준으로 넓혀서» · 캘린더는 달력+수입 패널 두 열이라 같은 폭(09-28) */
+  var mainEl=document.querySelector('.main'); if(mainEl){ mainEl.classList.toggle('wide',S.view==='tools'||S.view==='cal'); mainEl.classList.toggle('calv',S.view==='cal'); }   /* 도구함·캘린더만 넓은 작업 영역(1620) — 09-07 사용자 지시 «1920×1080 기준으로 넓혀서» · 캘린더는 달력+수입 패널 두 열이라 같은 폭(09-28) */
   if(S.view==='home')renderHome();
   else if(S.view==='trend')renderTrend();
   else if(S.view==='tools')renderTools();
@@ -2026,7 +2027,7 @@ function renderTools(){
    본체는 _cal/cal.js(처음 열 때만 받는다 — index.html 을 키우지 않는다). 정본 = DESIGN.md §Calendar.
    ★cal.js 를 고치면 CAL_SRC 의 ?v= 를 같은 커밋에서 올린다(pre-push 가 막는다 — 안 올리면 브라우저가 옛 파일을 캐시에서 쓴다).
    저장은 백엔드 /cal(암호 잠금). 사이트는 주소(api())만 빌려주고 토큰·원장은 모듈이 다룬다. */
-var CAL_SRC='_cal/cal.js?v=20260928a', CAL_P=null, CAL_ON=null;
+var CAL_SRC='_cal/cal.js?v=20260929a', CAL_P=null, CAL_ON=null;
 function calApi(){
   return {base:api(), openModal:openModal, closeModal:closeModal, toast:toast, MO:MO, esc:esc, setMeta:setMeta};
 }

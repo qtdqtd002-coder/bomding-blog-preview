@@ -14,7 +14,9 @@
    ■ 동시 편집 — 고치기·지우기는 그 일감의 판(updatedAt)을 같이 보내고, 다른 기기가 먼저 고쳤으면 서버가 409 + 최신 판을 준다.
      완료 체크를 연달아 눌러도 일감마다 요청을 한 줄로 세워(OPS) 판이 꼬이지 않는다.
    ■ 공휴일 — 연봄하우스 책력(almanac.js · lunar.js — 한국 음력 KST 표, 2023~2028 공표일 전수 대조)을 그대로 옮겼다.
-     임시공휴일·선거일은 법으로 그때그때 정해져 계산이 안 되므로 EXTRA 에 손으로 넣는다. 음력 날짜·절기 표시는 사용자가 뺐다(09-28). */
+     임시공휴일·선거일은 법으로 그때그때 정해져 계산이 안 되므로 EXTRA 에 손으로 넣는다. 음력 날짜·절기 표시는 사용자가 뺐다(09-28).
+   ■ 화면(09-29 사용자 개정) — 두 열 폭에선 창 높이에 맞춰 페이지 스크롤 없이(applyFit·fitCells) · 칩은 끌어서 다른 날로(마우스·펜)
+     · 메모 있는 일감엔 말풍선 표식 · 칸으로 연 추가 = 게임·업체·단가·메모만 · 업체별 카드 없음. 화면 정본 = DESIGN.md §Calendar. */
 (function(){
 'use strict';
 
@@ -172,7 +174,6 @@ var IC={
   cal:'<rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M16 2.5v4"/><path d="M8 2.5v4"/><path d="M3 10h18"/>',
   lock:'<rect x="4.5" y="10.5" width="15" height="10.5" rx="2.4"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>',
   won:'<rect x="2.5" y="6" width="19" height="12" rx="2.2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01"/><path d="M18 12h.01"/>',
-  biz:'<rect x="4" y="3" width="16" height="18" rx="2.2"/><path d="M9.5 21v-4h5v4"/><path d="M8.5 7.5h.01"/><path d="M12 7.5h.01"/><path d="M15.5 7.5h.01"/><path d="M8.5 11.5h.01"/><path d="M12 11.5h.01"/><path d="M15.5 11.5h.01"/>',
   bars:'<path d="M3 3v18h18"/><path d="M8 16v-4"/><path d="M12.5 16V8"/><path d="M17 16v-6"/>',
   plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',
   check:'<path d="M20 6 9 17l-5-5"/>',
@@ -181,7 +182,8 @@ var IC={
   x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
   trash:'<path d="M3 6h18"/><path d="M8 6V4.5A1.5 1.5 0 0 1 9.5 3h5A1.5 1.5 0 0 1 16 4.5V6"/><path d="M18.5 6l-.8 13.1A2 2 0 0 1 15.7 21H8.3a2 2 0 0 1-2-1.9L5.5 6"/>',
   arrowR:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
-  info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>'
+  info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  memo:'<path d="M20 15.5a2 2 0 0 1-2 2H8l-4 3.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/><path d="M8.5 9h7"/><path d="M8.5 12.5h4.5"/>'
 };
 function ic(n,cls){ return '<svg class="ic'+(cls?' '+cls:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+(IC[n]||'')+'</svg>'; }
 
@@ -229,12 +231,13 @@ var CSS=[
 '.cal-es{display:flex;flex-direction:column;gap:1px}',
 '.cal-e{display:flex;align-items:flex-start;gap:1px;min-width:0;border-radius:7px}',
 '.cal-et{flex:1 1 auto;min-width:0;display:flex;align-items:flex-start;gap:6px;padding:3px 3px 3px 5px;border-radius:7px;text-align:left;font-size:12.5px;line-height:1.42;letter-spacing:-.02em;color:var(--ink);transition:background var(--t-fast) var(--e)}',
-'.cal-et:hover{background:var(--surface);box-shadow:0 0 0 1px var(--hair-2)}',
+/* 칩 어디에 올려도(겹쳐 뜬 체크박스 위 포함) 칩 전체가 흰 면 — 체크박스 흰 면이 칸의 hover 면(surface-3) 위에 모서리째 떠 보이지 않게(09-29 게이트 🟡) */
+'.cal-et:hover,.cal-es>.cal-e:hover>.cal-et{background:var(--surface);box-shadow:0 0 0 1px var(--hair-2)}',
 '.cal-et .dot{flex:none;width:6px;height:6px;margin-top:6px;border-radius:50%;background:var(--ac,var(--ink-3))}',
 /* «게임 (업체)» — 한 줄에 다 들어가면 한 줄, 안 들어가면 업체가 다음 줄로 내려간다(flex-wrap). 게임·업체 각각은 한 줄 말줄임.
    ★둘을 한 덩어리 글로 두고 2줄 자르기(line-clamp)를 하면, 게임명이 혼자 2줄을 채울 때 업체가 0px 로 사라졌다
    («아쿠아랜드:크레이지서바이벌 (플랜비)» → 플랜비 안 보임 · 09-28 디자인 게이트 🟡). 전체 글은 title·모달·모바일 목록에 남는다 */
-'.cal-et .tx{flex:1 1 auto;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:4px}',
+'.cal-et .tx{flex:0 1 auto;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:4px}',
 '.cal-et .tx>*{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
 '.cal-et .g{font-weight:650}',
 '.cal-et .ag{color:var(--ink-3)}',
@@ -243,6 +246,44 @@ var CSS=[
 /* 한 칸에 4건을 넘으면 3건 + «+N건 더»(그날 목록 창) — 몰린 날 하나가 그 주 전체를 늘여 1920 한 화면을 넘기던 것(09-28 게이트 🟡) */
 '.cal-more{align-self:flex-start;margin:1px 0 0 3px;height:24px;padding:0 8px;border-radius:7px;font-size:12.5px;font-weight:650;color:var(--ink-2);letter-spacing:-.01em;transition:background var(--t-fast) var(--e),color var(--t-fast) var(--e)}',
 '.cal-more:hover{background:var(--ink);color:#fff}',
+/* display:flex 가 [hidden] 의 UA 규칙을 이긴다 — 접은 칩·«+N» 을 확실히 숨긴다(사이트 .dz 와 같은 함정) */
+'.cal-e[hidden],.cal-more[hidden]{display:none}',
+'.cal-es{user-select:none;-webkit-user-select:none}',
+/* 메모 표식(09-29 사용자) — 메모를 남긴 일감은 글 바로 뒤에 말풍선 한 개(.tx 가 늘어나지 않아 글 끝에 붙는다 · 칸 끝에 떨어뜨리면 다른 것처럼 읽혔다).
+   내용은 칩 title·고치기 창·그날 목록에 */
+'.cal-et .mm{flex:none;width:12px;height:12px;margin-top:3.5px;color:var(--ink-3);stroke-width:1.7}',
+'.cal-e.done .cal-et .mm{color:var(--ink-4)}',
+/* ── 드래그로 다른 날로 옮기기(09-29 사용자) — 칩을 들면 떠오르고, 놓을 칸은 잉크 링. 마우스·펜만(터치는 스크롤과 싸워서 고치기 창의 날짜로) ── */
+'.cal-e.drag{opacity:.32}',
+'.cal-d.drop{box-shadow:inset 0 0 0 2px var(--ink);background:var(--surface-2)}',
+/* ★선택자는 .cal-e.cal-ghost(0,2,0) — 복제본은 .cal-e 를 그대로 달고 있어, 뒤에 오는 «.cal-e{position:relative}» 류 규칙이 같은 특정성이면
+   fixed 를 덮어써 고스트가 문서 맨 끝(화면 밖 y≈1816)에 그려졌다(09-29 디자인 게이트 🔴 — 자동 게이트는 «있다»만 봐서 통과) */
+'.cal-e.cal-ghost{position:fixed;z-index:70;pointer-events:none;margin:0;border-radius:8px;background:var(--surface);box-shadow:0 0 0 1px var(--hair-2),var(--sh-float);transform-origin:20% 50%;will-change:transform}',
+'.cal-ghost .cal-et{background:none;box-shadow:none}',
+'.cal-ghost .cal-chk{display:none}',
+'body.cal-dragging,body.cal-dragging *{cursor:grabbing !important}',
+/* ── 창 높이 맞춤(fit · 09-29 사용자 «페이지 스크롤이 없었으면») — 두 열 폭(≥1181)·높이 ≥600 에서만.
+   .cal 높이 = 창 높이 − 위 여백 − 24(JS applyFit) · 달력 줄은 그 안을 1fr 로 나눠 갖고, 칸에 못 담은 일감은 fitCells 가 «+N건 더»로 접는다.
+   (그 밖의 폭은 종전처럼 내용 높이 — 태블릿·폰은 달력·목록·수입이 세로로 쌓여 스크롤이 자연스럽다) ── */
+'.cal.fit .cal-body{flex:1 1 auto;min-height:0;align-items:stretch}',
+'.cal.fit .cal-main{min-height:0;display:flex;flex-direction:column}',
+'.cal.fit .cal-main>.core{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}',
+'.cal.fit .cal-grid{flex:1 1 auto;min-height:0;grid-template-rows:repeat(var(--rows,5),minmax(0,1fr));grid-auto-rows:minmax(0,1fr)}',
+'.cal.fit .cal-d{overflow:hidden}',
+/* 촘촘 모드(tight) — 줄이 낮으면(칸 < 120px: 노트북 1366×768·6주 달 등) 날짜 머리·여백을 한 단 줄여 칩 자리를 +12px.
+   (안 줄이면 81px 칸에 두 줄 칩(≈42px)이 한 건도 못 들어가 «+1건» 만 보였다 · 09-29 게이트 실측) */
+'.cal-grid.tight .cal-d{padding:4px 4px 4px}',
+'.cal-grid.tight .cal-dh{min-height:22px;padding-bottom:2px}',
+'.cal-grid.tight .cal-dn{min-width:22px;height:22px;border-radius:11px;font-size:12.5px}',
+'.cal-grid.tight .cal-plus{width:22px;height:22px}',
+'.cal-grid.tight .cal-et{padding:2px 3px 2px 5px}',
+'.cal-grid.tight .cal-chk{height:22px}',
+'.cal-grid.tight .cal-more{height:20px}',
+/* 한 줄 칩(.one · fitCells 가 칸마다 정한다) — 두 줄 칩으로는 그날 일감이 다 안 들어가는 칸만 «게임 (업체)» 를 한 줄로 접는다.
+   줄여야 하면 게임 이름이 먼저 말줄임, 업체는 제 폭(최대 48%)을 지킨다 — 둘이 비례로 줄면 업체가 «(플…» 17px 로 남았다(09-29 게이트 실측) */
+'.cal-d.one .cal-et .tx,.cal-ghost.one .cal-et .tx{flex-wrap:nowrap}',
+'.cal-d.one .cal-et .tx>.ag,.cal-ghost.one .cal-et .tx>.ag{flex:0 0 auto;max-width:48%}',
+'.cal.fit .cal-side{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}',
 '.cal-e.done .cal-et .dot{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink-4)}',
 /* 완료 = 체크박스 모양(빈 칸 ↔ 채운 칸). ✓ 글리프만 두면 «안 한 일»에도 ✓가 보여 완료로 읽힌다(09-28 모바일 실측).
    칸 테두리 ink-4 = 흰 면 4.6:1 · surface-2 4.3:1 — 비텍스트 3:1(WCAG 1.4.11) 통과 */
@@ -254,6 +295,12 @@ var CSS=[
 '.cal-chk[aria-pressed="true"] .bx{background:var(--ink);box-shadow:none}',
 '.cal-chk[aria-pressed="true"] .bx .ic{opacity:1}',
 '.cal-e:hover .cal-chk,.cal-chk:focus-visible,.cal-e.done .cal-chk{opacity:1}',
+/* 안 한 일의 체크박스는 hover 때만 보이니 자리를 비워 두지 않는다 — 칩 오른쪽 끝에 겹쳐 뜬다.
+   좁은 칸(1366 · 136px)에서 보이지도 않는 24px 를 늘 비워 두니 «던전… (픽셀…» 처럼 이름부터 잘렸다(09-29).
+   완료(늘 보임)·터치(hover 없음 — 늘 보임)는 종전처럼 제자리를 갖는다 */
+'@media (hover:hover){ .cal-es>.cal-e{position:relative} .cal-es>.cal-e:not(.done)>.cal-chk{position:absolute;top:0;right:0;background:var(--surface);box-shadow:-6px 0 6px -1px var(--surface)} }',
+/* 끌 수 있다는 단서 — 마우스(정밀 포인터)에선 칩 위 커서가 «잡기»(누르고 끌면 «잡는 중»). 살짝 누르고 떼면 여전히 고치기 창 */
+'@media (hover:hover) and (pointer:fine){ .cal-es .cal-et{cursor:grab} }',
 '.cal-dots{display:none}',
 '.cal-ag{display:none}',
 /* 그날 목록 줄 — 모바일 달력 아래(.cal-ag)와 데스크톱 «+N건 더» 창(.cal-dayl)이 같은 어휘를 쓴다 */
@@ -269,7 +316,12 @@ var CSS=[
 '.cal-art .t .ag{color:var(--ink-3)}',
 '.cal-art .p{flex:none;font-size:13px;color:var(--ink-2);white-space:nowrap}',
 '.cal-art .p.z{color:var(--ink-3)}',
-'.cal-ar.done .cal-art .t{color:var(--ink-3);text-decoration:line-through}',
+'.cal-ar.done .cal-art .t .nm{color:var(--ink-3);text-decoration:line-through}',
+'.cal-art .t .nm{display:block}',
+/* 메모 줄 — 그날 목록(모바일·«+N건 더» 창)엔 hover 가 없어 내용을 한 줄로 보여 준다 */
+'.cal-art .t .mo{display:flex;align-items:center;gap:5px;margin-top:1px;font-size:12.5px;line-height:1.4;color:var(--ink-3);white-space:nowrap;overflow:hidden}',
+'.cal-art .t .mo span{min-width:0;overflow:hidden;text-overflow:ellipsis}',
+'.cal-art .t .mo .ic{flex:none;width:12px;height:12px;stroke-width:1.7}',
 '.cal-dayl{margin:-6px -10px -8px}',
 '.cal-dayl .cal-ag-l{padding:0}',
 '.cal-dayl .cal-ar:first-child{border-top:0}',
@@ -279,27 +331,19 @@ var CSS=[
 /* 사이트 .tile-m 은 11.5px 모노(홈 타일의 시각·숫자용)라 한글이 섞이는 여기서는 본문 서체 12.5px 로 — 숫자만 모노 */
 '.cal-card .tile-m{font-family:inherit;font-size:12.5px;letter-spacing:-.01em}',
 '.cal-card .tile-m b{font-family:"JetBrains Mono",monospace;font-weight:600;color:var(--ink)}',
-'.cal-sum{padding:14px 16px 14px}',
-'.cal-net{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:12px;margin-bottom:8px;border-bottom:1px solid var(--hair)}',
+'.cal-sum{padding:12px 16px 12px}',
+'.cal-net{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:10px;margin-bottom:6px;border-bottom:1px solid var(--hair)}',
 '.cal-net .k{font-size:13px;font-weight:650;color:var(--ink-2)}',
 '.cal-net .v{white-space:nowrap}',
 '.cal-net .v .num{font-size:26px;font-weight:700;letter-spacing:-.035em;color:var(--ink)}',
 '.cal-net .u{margin-left:3px;font-size:14px;font-weight:650;color:var(--ink-2)}',
-'.cal-kv{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:13px;line-height:1.95;color:var(--ink-3)}',
+'.cal-kv{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:13px;line-height:1.85;color:var(--ink-3)}',
 '.cal-kv .num{font-weight:600;color:var(--ink)}',
 '.cal-kv.warn,.cal-kv.warn .num{color:var(--alert)}',
 '.cal-kv.tot{color:var(--ink-2);font-weight:650}',
 '.cal-kv.tot .num{font-weight:700}',
-'.cal-agl{display:flex;flex-direction:column;padding:6px 8px 8px}',
-'.cal-agr{display:grid;grid-template-columns:minmax(0,1fr) auto 96px;align-items:baseline;gap:10px;padding:6px 8px;border-radius:9px;font-size:13px}',
-'.cal-agr+.cal-agr{border-top:1px solid var(--hair)}',
-'.cal-agr .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;color:var(--ink)}',
-'.cal-agr .nm.none{color:var(--ink-3);font-weight:500}',
-'.cal-agr .c{color:var(--ink-3);white-space:nowrap}',
-'.cal-agr .v{text-align:right;color:var(--ink);white-space:nowrap}',
-'.cal-empty{padding:14px 16px 16px;font-size:13px;color:var(--ink-3)}',
 '.cal-yr{display:flex;flex-direction:column;padding:5px 8px 6px}',
-'.cal-yrow{display:grid;grid-template-columns:32px minmax(0,1fr) 96px;align-items:center;gap:10px;width:100%;min-height:26px;padding:0 8px;border-radius:8px;text-align:left;font-size:12.5px;color:var(--ink-3);transition:background var(--t-fast) var(--e)}',
+'.cal-yrow{display:grid;grid-template-columns:32px minmax(0,1fr) 96px;align-items:center;gap:10px;width:100%;min-height:24px;padding:0 8px;border-radius:8px;text-align:left;font-size:12.5px;color:var(--ink-3);transition:background var(--t-fast) var(--e)}',
 '.cal-yrow:hover,.cal-yrow.on{background:var(--surface-2)}',
 '.cal-yrow.on{color:var(--ink)}',
 '.cal-yrow .mo{font-weight:650}',
@@ -309,8 +353,8 @@ var CSS=[
 '.cal-yrow .v{text-align:right;color:var(--ink-2)}',
 '.cal-yrow.on .v{color:var(--ink);font-weight:650}',
 '.cal-yrow .v.z{color:var(--ink-3)}',
-'.cal-yf{padding:6px 16px 8px;border-top:1px solid var(--hair);background:var(--surface-2)}',
-'.cal-yf .cal-kv{line-height:1.8}',
+'.cal-yf{padding:5px 16px 7px;border-top:1px solid var(--hair);background:var(--surface-2)}',
+'.cal-yf .cal-kv{line-height:1.75}',
 '.pmeta .cal-mv{font-style:normal;font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}',
 /* 잠금 */
 '.cal-lk{max-width:440px;margin:28px auto 0}',
@@ -323,33 +367,30 @@ var CSS=[
 '.cal-lk .mdl-msg:empty{display:none}',
 '.cal-lk-go{margin-top:16px;display:flex;justify-content:flex-end}',
 '.cal-lk-go .cta{height:38px}',
-/* 편집 모달 */
-'.cal-f2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 12px}',
-/* 사이트 .f-l:first-of-type{margin-top:0} 이 두 칸 줄의 라벨마다 걸려 윗칸에 붙는다(칸마다 «첫 라벨»이라서) — 줄 사이를 직접 준다 */
-'.cal-f2+.cal-f2,.cal-f2+.f-l{margin-top:14px}',
-'.cal-f2 .f-hint{margin-top:6px}',
+/* 편집 모달 — 첫 줄 = 게임 · 외주업체 · 단가(세 칸) · 둘째 줄 = [날짜] + 메모(선택).
+   ★날짜 칸은 «날짜를 모를 때»만 — 칸을 눌러 연 추가 창은 날짜가 머리에 이미 있어 빼고(09-29 사용자 «게임·업체·단가만»),
+   툴바 «일감 추가»와 고치기(다른 달로 옮기는 유일한 길)에만 둔다. 완료는 칩·목록의 체크박스가 맡아 창에서 뺐다 */
+'.cal-f3{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.95fr);gap:0 12px}',
+'.cal-f3 .memo{grid-column:1/-1}',
+'.cal-f3 .date+.memo{grid-column:2/-1}',
+/* 사이트 .f-l:first-of-type{margin-top:0} 이 칸마다 걸려 윗줄에 붙는다(칸마다 «첫 라벨»이라서) — 줄 사이를 직접 준다 */
+'.cal-f3 .r2{margin-top:14px}',
+'.cal-f3 .f-hint{margin-top:6px}',
 '.cal-won{position:relative}',
 '.cal-won .f-i{padding-right:34px;text-align:right;font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums}',
 '.cal-won span{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:13.5px;color:var(--ink-3);pointer-events:none}',
 '.cal-net-h{min-height:20px}',
-'.cal-tg{margin-top:16px;display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 15px 0 11px;border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink-2);font-size:13.5px;font-weight:650;box-shadow:0 0 0 1px var(--hair-2);transition:background var(--t-fast) var(--e),color var(--t-fast) var(--e),transform var(--t-fast) var(--e)}',
-'.cal-tg .bx{width:18px;height:18px;border-radius:6px;display:grid;place-items:center;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--ink-4)}',
-'.cal-tg .bx .ic{width:12px;height:12px;stroke-width:2.4;opacity:0}',
-'.cal-tg:hover{color:var(--ink)}',
-'.cal-tg:active{transform:scale(.97)}',
-'.cal-tg[aria-pressed="true"]{background:var(--ink);color:#fff;box-shadow:0 0 0 1px var(--ink)}',
-'.cal-tg[aria-pressed="true"] .bx{background:#fff;box-shadow:none;color:var(--ink)}',
-'.cal-tg[aria-pressed="true"] .bx .ic{opacity:1}',
 '.cal-del{color:var(--alert)}',
 '.cal-del:hover{color:var(--alert);box-shadow:0 0 0 1px var(--alert)}',
 '.cal-fsp{flex:1 1 auto}',
 '.cal-mf .cta{margin-left:0}',
 '.cal-mf .mdl-msg:empty{display:none}',
-/* 넓은 폭 → 가운데 폭: 패널을 달력 아래 세 칸으로 */
+/* 넓은 폭 → 가운데 폭: 패널을 달력 아래 두 칸으로(업체별 카드는 09-29 삭제) */
 '@media (max-width:1180px) and (min-width:861px){',
 '  .cal-body{grid-template-columns:minmax(0,1fr)}',
-'  .cal-side{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}',
+'  .cal-side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}',
 '}',
+'@media (max-height:900px){ .cal-yrow{min-height:22px} .cal-net .v .num{font-size:24px} }',   /* 노트북 높이 — 해 카드가 패널 안에 들어가게 한 단 촘촘히 */
 /* 모바일 — 칸엔 점만, 고른 날의 일감은 달력 아래 목록 */
 '@media (max-width:860px){',
 '  .cal-body{grid-template-columns:minmax(0,1fr)}',
@@ -376,7 +417,9 @@ var CSS=[
 '  .cal-ag-h .cal-hn{display:inline}',
 '  .cal-ag-h .ghost{margin-left:auto;height:40px}',
 '  .cal-ag-e{padding:4px 16px 16px;font-size:13px;color:var(--ink-3)}',
-'  .cal-f2{grid-template-columns:minmax(0,1fr)}',
+'  .cal-f3{grid-template-columns:minmax(0,1fr)}',
+'  .cal-f3>div+div{margin-top:12px}',
+'  .cal-f3 .memo,.cal-f3 .date+.memo{grid-column:auto}',
 '  .cal-lk{margin-top:8px}',
 '}',
 '@media (max-width:400px){ .cal-add .tx{display:none} .cal-add{padding:0;width:40px;justify-content:center} }',   /* 글자를 접어도 손가락 표적은 40px */
@@ -493,6 +536,7 @@ function paint(){
       '<aside class="cal-side" id="calSide" aria-label="수입">'+sideHtml()+'</aside>'+
     '</div></div>';
   bindAll();
+  applyFit();
   paintMeta();
   countIn(HOST.querySelector('#calSide'),null);
   if(A.MO&&A.MO.rise)A.MO.rise(HOST.querySelectorAll('.cal-side .tray'),{amount:.16});
@@ -517,7 +561,7 @@ function barHtml(){
   '</div>';
 }
 function monthEntries(ym){ return list().filter(function(e){ return e.date.slice(0,7)===ym; }); }
-var CHIP_MAX=4;   /* 한 칸 칩 상한 — 넘으면 3건 + «+N건 더»(그날 목록 창) */
+var CHIP_MAX=4;   /* 내용 높이 모드(태블릿)의 한 칸 칩 상한 — 넘으면 3건 + «+N건 더». 창 높이 맞춤(fit)에선 fitCells 가 칸 높이를 재서 정한다 */
 function mainHtml(){
   var y=+S.ym.slice(0,4), m=+S.ym.slice(5,7), n=daysIn(y,m), first=new Date(Date.UTC(y,m-1,1)).getUTCDay();
   var today=todayStr(), by={}, cells=[], total=Math.ceil((first+n)/7)*7;
@@ -526,21 +570,81 @@ function mainHtml(){
   for(var i=0;i<total;i++){
     var d=i-first+1, wd=i%7, lastw=i>=total-7;
     if(d<1||d>n){ cells.push('<div class="cal-d out'+(lastw?' lastw':'')+'" aria-hidden="true"></div>'); continue; }
-    var ds=S.ym+'-'+p2(d), hol=holidayNames(ds), es=by[ds]||[], shown=es.length>CHIP_MAX?es.slice(0,CHIP_MAX-1):es;
+    var ds=S.ym+'-'+p2(d), hol=holidayNames(ds), es=by[ds]||[];
     var cls='cal-d'+(wd===0||wd===6?' wkend':'')+(wd===0?' sun':'')+(hol.length?' hol':'')+(ds===today?' today':'')+(ds===S.sel?' sel':'')+(lastw?' lastw':'');
+    /* 칩은 전부 그려 두고, 몇 개를 보일지는 fitCells 가 정한다(«+N건 더» 는 숨긴 채로 자리만) */
     cells.push('<div class="'+cls+'" data-d="'+ds+'">'+
       '<div class="cal-dh"><span class="cal-dn">'+d+'</span>'+
         (hol.length?'<span class="cal-hn" title="'+esc(hol.join(' · '))+'">'+esc(hol.join(' · '))+'</span>':'')+
         '<button type="button" class="cal-plus" data-add="'+ds+'" aria-label="'+dLabel(ds)+' 일감 추가">'+ic('plus')+'</button></div>'+
-      '<div class="cal-es">'+shown.map(chipHtml).join('')+
-        (es.length>shown.length?'<button type="button" class="cal-more" data-day="'+ds+'" aria-label="'+dLabel(ds)+' 일감 '+es.length+'건 모두 보기">+'+(es.length-shown.length)+'건 더</button>':'')+
+      '<div class="cal-es">'+es.map(chipHtml).join('')+
+        (es.length?'<button type="button" class="cal-more" data-day="'+ds+'" hidden></button>':'')+
       '</div>'+
       dotsHtml(es)+
     '</div>');
   }
   return '<div class="cal-wk" aria-hidden="true">'+WD.map(function(x,i){ return '<span'+(i===0?' class="sun"':'')+'>'+x+'</span>'; }).join('')+'</div>'+
-    '<div class="cal-grid'+(total>35?' r6':'')+'" id="calGrid">'+cells.join('')+'</div>'+
+    '<div class="cal-grid'+(total>35?' r6':'')+'" id="calGrid" style="--rows:'+(total/7)+'">'+cells.join('')+'</div>'+
     '<div class="cal-ag" id="calAg">'+agendaHtml()+'</div>';
+}
+
+/* ══════════ 창 높이 맞춤(fit) — «페이지 스크롤이 없었으면»(09-29 사용자) ══════════
+   두 열 폭(≥1181)·높이 ≥600 에서 .cal 을 창 바닥까지 채우고(아래 여백 24), 달력 줄은 그 안을 똑같이 나눠 갖는다.
+   ★위치는 getBoundingClientRect 가 아니라 offsetTop 사슬로 잰다 — 탭 전환 모션(transform) 중에 재면 그만큼 어긋나 1px 라도 넘치면 스크롤이 생긴다 */
+var FIT_BOTTOM=24, ROW_MIN=64;
+function fitMode(){ return window.innerWidth>=1181&&window.innerHeight>=600; }
+function applyFit(){
+  if(!HOST)return;
+  var cal=HOST.querySelector('.cal'); if(!cal)return;
+  var on=fitMode();
+  cal.classList.toggle('fit',on);
+  if(on){
+    var t=0, el=cal; while(el){ t+=el.offsetTop; el=el.offsetParent; }
+    var h=Math.floor(window.innerHeight-t-FIT_BOTTOM), grid=cal.querySelector('#calGrid');
+    cal.style.height=h+'px';
+    /* 줄 하한 ROW_MIN(한 줄 칩 1건이 들어가는 높이) — 짧은 노트북 창(1366 실제 창 ≈630)의 6주 달은 줄이 57px 로 줄어 칸마다 «+N건»만 남는다.
+       그땐 판을 모자란 만큼만 늘리고 페이지가 그만큼만 스크롤되게 둔다(이름을 못 읽는 «스크롤 0» 보다 낫다) */
+    if(grid){
+      var rows=parseInt(grid.style.getPropertyValue('--rows'),10)||5, need=rows*ROW_MIN-grid.clientHeight;
+      if(need>0)cal.style.height=(h+need)+'px';
+    }
+  }else cal.style.height='';
+  fitCells();
+}
+/* 칸마다 보일 칩 수 — fit 은 칸의 실제 높이를 재서(칩은 한 줄·두 줄로 키가 다르다), 그 밖은 CHIP_MAX 규칙. 모바일(점)은 손대지 않는다 */
+var TIGHT_H=120;
+function fitCells(){
+  if(!HOST)return;
+  var grid=HOST.querySelector('#calGrid'), cal=HOST.querySelector('.cal'); if(!grid||!cal)return;
+  var fit=cal.classList.contains('fit'), small=compact();
+  /* 줄 높이는 fit 에선 모두 같다(1fr) — 한 칸만 재서 촘촘 모드를 정한다 */
+  var c0=grid.querySelector('.cal-d'), tight=fit&&!small&&!!c0&&c0.clientHeight<TIGHT_H;
+  grid.classList.toggle('tight',tight);
+  var PAD_B=tight?4:6, MORE_H=tight?21:26;
+  Array.prototype.forEach.call(grid.querySelectorAll('.cal-d[data-d]'),function(cell){
+    var es=cell.querySelector('.cal-es'), more=es&&es.querySelector('.cal-more'); if(!more)return;
+    var chips=es.querySelectorAll('.cal-e'), n=chips.length, k=n, i;
+    for(i=0;i<n;i++)chips[i].hidden=false;
+    more.hidden=true;
+    cell.classList.remove('one');
+    if(small||!n)return;
+    if(fit){
+      var top=es.getBoundingClientRect().top, lim=cell.getBoundingClientRect().bottom-PAD_B-top;
+      var over=function(){ return chips[n-1].getBoundingClientRect().bottom-top>lim; };
+      /* 두 줄 칩(업체가 다음 줄)으로 다 들어가면 그대로 — 안 들어가면 이 칸만 한 줄 칩으로 접고 다시 잰다 */
+      if(over()){ cell.classList.add('one'); }
+      if(over()){
+        k=0;
+        for(i=0;i<n;i++){ if(chips[i].getBoundingClientRect().bottom-top+MORE_H<=lim)k=i+1; else break; }
+      }
+    }else if(n>CHIP_MAX)k=CHIP_MAX-1;
+    if(k>=n)return;
+    for(i=k;i<n;i++)chips[i].hidden=true;
+    var ds=cell.getAttribute('data-d');
+    more.hidden=false;
+    more.textContent='+'+(n-k)+'건'+(k?' 더':'');
+    more.setAttribute('aria-label',dLabel(ds)+' 일감 '+n+'건 모두 보기');
+  });
 }
 function tipText(e){
   var t=title(e)+(e.game&&e.agency?' ('+e.agency+')':'');
@@ -555,9 +659,10 @@ function nameHtml(e){
 function chipHtml(e){
   var done=isDone(e);
   return '<div class="cal-e'+(done?' done':'')+'" data-id="'+esc(e.id)+'">'+
-    '<button type="button" class="cal-et" data-edit="'+esc(e.id)+'" title="'+esc(tipText(e))+'" aria-label="'+esc(dLabel(e.date)+' · '+tipText(e).replace(/\n/g,' · '))+'">'+
+    '<button type="button" class="cal-et" data-edit="'+esc(e.id)+'" title="'+esc(tipText(e))+'" aria-label="'+esc(dLabel(e.date)+' · '+tipText(e).replace(/\n/g,' · ')+(e.memo?' (메모 있음)':''))+'">'+
       '<span class="dot" aria-hidden="true"></span><span class="tx"><b class="g">'+esc(title(e))+'</b>'+
-        (e.game&&e.agency?'<span class="ag">('+esc(e.agency)+')</span>':'')+'</span></button>'+
+        (e.game&&e.agency?'<span class="ag">('+esc(e.agency)+')</span>':'')+'</span>'+
+      (e.memo?ic('memo','mm'):'')+'</button>'+
     '<button type="button" class="cal-chk" data-chk="'+esc(e.id)+'" aria-pressed="'+(done?'true':'false')+'" aria-label="'+esc(title(e))+' 완료"><span class="bx">'+ic('check')+'</span></button>'+
   '</div>';
 }
@@ -574,7 +679,8 @@ function dayRowsHtml(ds){
     var done=isDone(e);
     return '<div class="cal-ar'+(done?' done':'')+'" data-id="'+esc(e.id)+'">'+
       '<button type="button" class="cal-chk" data-chk="'+esc(e.id)+'" aria-pressed="'+(done?'true':'false')+'" aria-label="'+esc(title(e))+' 완료"><span class="bx">'+ic('check')+'</span></button>'+
-      '<button type="button" class="cal-art" data-edit="'+esc(e.id)+'"><span class="t">'+nameHtml(e)+'</span>'+
+      '<button type="button" class="cal-art" data-edit="'+esc(e.id)+'"><span class="t"><span class="nm">'+nameHtml(e)+'</span>'+
+        (e.memo?'<span class="mo">'+ic('memo')+'<span>'+esc(e.memo)+'</span></span>':'')+'</span>'+
         '<span class="p'+(e.price==null?' z':'')+'">'+(e.price==null?'단가 —':'<span class="num">'+won(e.price)+'</span>원')+'</span></button>'+
     '</div>';
   }).join('')+'</div>':'<div class="cal-ag-e">일감 없음</div>';
@@ -604,23 +710,8 @@ function yearStats(y){
 function wonCell(k,v,cls){ return '<span class="num'+(cls?' '+cls:'')+'" data-k="'+k+'" data-v="'+v+'">'+won(v)+'</span>'; }
 function sideHtml(){
   var m=+S.ym.slice(5,7), y=+S.ym.slice(0,4), ms=statsOf(monthEntries(S.ym)), ys=yearStats(y);
-  /* 업체별 — 세전(달 합계와 1원까지 맞는 쪽). 업체를 안 적은 일감은 한 줄로 모은다 */
-  var ag=Object.create(null), keys=[];   /* 키 = 사용자가 적은 업체명 — 일반 객체면 «constructor» 같은 이름이 상속 속성과 부딪친다 */
-  monthEntries(S.ym).forEach(function(e){
-    var k=e.agency||''; if(!ag[k]){ ag[k]={n:0,gross:0}; keys.push(k); }
-    ag[k].n++; ag[k].gross+=priceOf(e);
-  });
-  keys.sort(function(a,b){ return (ag[b].gross-ag[a].gross)||(ag[b].n-ag[a].n)||(a<b?-1:a>b?1:0); });
   var maxNet=0; ys.months.forEach(function(x){ if(x.net>maxNet)maxNet=x.net; });
-
-  /* 순서 = 이달 → 해 → 업체별. 해 수입은 요청의 핵심이라 1920×1080 첫 화면 안에 둔다(업체별은 길이가 달마다 달라 맨 아래) */
-  var agencyCard='<section class="tray cal-card" aria-label="'+m+'월 업체별"><div class="core">'+
-      '<div class="tile-h"><span class="tile-ic">'+ic('biz')+'</span><span class="tile-t">'+m+'월 업체별</span><span class="tile-m">세전</span></div>'+
-      (keys.length?'<div class="cal-agl">'+keys.map(function(k){
-        return '<div class="cal-agr"><span class="nm'+(k?'':' none')+'">'+(k?esc(k):'업체 미입력')+'</span>'+
-          '<span class="c"><span class="num">'+ag[k].n+'</span>건</span><span class="v num">'+won(ag[k].gross)+'</span></div>';
-      }).join('')+'</div>':'<div class="cal-empty">이달 일감 없음</div>')+
-    '</div></section>';
+  /* 패널 = 이달 수입 → 해 수입 두 장. «업체별» 카드는 09-29 사용자 지시로 뺐다(«필요한 정보가 아니니까») — 창 높이 맞춤에서 스크롤을 만든 주범이기도 했다 */
   return '<section class="tray cal-card" aria-label="'+m+'월 수입"><div class="core">'+
       '<div class="tile-h"><span class="tile-ic">'+ic('won')+'</span><span class="tile-t">'+m+'월 수입</span>'+
         '<span class="tile-m"><b>'+ms.n+'</b>건 · 완료 <b>'+ms.done+'</b></span></div>'+
@@ -645,8 +736,7 @@ function sideHtml(){
         '<div class="cal-kv"><span>원천징수 3.3%</span>'+wonCell('ytax',-ys.tax)+'</div>'+
         '<div class="cal-kv tot"><span>실수령 합계</span>'+wonCell('ynet',ys.net)+'</div>'+
       '</div>'+
-    '</div></section>'+
-    agencyCard;
+    '</div></section>';
 }
 function paintMeta(){
   if(S.st!=='ready'){ A.setMeta(''); return; }
@@ -677,7 +767,8 @@ function refreshBody(focusSel,animate,dir){
   Array.prototype.forEach.call(side.querySelectorAll('[data-k]'),function(n){ old[n.getAttribute('data-k')]=Number(n.getAttribute('data-v')); });
   var ymEl=HOST.querySelector('#calYm'); if(ymEl)ymEl.textContent=ymLabel(S.ym);
   var tb=HOST.querySelector('.cal-nav .dpbtn[data-go="today"]'); if(tb)tb.disabled=(S.ym===ymOf(todayStr()));
-  var draw=function(){ main.innerHTML=mainHtml(); bindMain(); };
+  /* applyFit — 5주 ↔ 6주 달로 넘어가면 줄 수가 바뀌어 줄 하한(ROW_MIN)을 다시 재야 한다(fitCells 만 부르면 1366×630 6주 달이 57px 로 남았다) */
+  var draw=function(){ main.innerHTML=mainHtml(); bindMain(); applyFit(); };
   if(dir&&A.MO&&A.MO.swap)A.MO.swap(main,{dir:dir},draw); else draw();
   side.innerHTML=sideHtml(); bindSide();
   countIn(side,animate?null:old);
@@ -687,7 +778,8 @@ function refreshBody(focusSel,animate,dir){
   /* 포커스는 문서 전체에서 찾는다 — 그날 목록 창(모달)은 HOST 밖(body)에 있다. 후보를 여럿 받아 처음 있는 것으로 */
   if(focusSel){
     var sels=[].concat(focusSel);
-    for(var i=0;i<sels.length;i++){ var f=document.querySelector(sels[i]); if(f){ try{ f.focus({preventScroll:true}); }catch(e){ f.focus(); } break; } }
+    /* 숨은 요소(칸에 못 담아 접힌 칩)는 건너뛴다 — focus() 가 조용히 실패해 포커스가 허공이 된다 */
+    for(var i=0;i<sels.length;i++){ var f=document.querySelector(sels[i]); if(f&&f.offsetParent!==null){ try{ f.focus({preventScroll:true}); }catch(e){ f.focus(); } break; } }
   }
 }
 
@@ -793,14 +885,17 @@ function bindAll(){
   });
   HOST.querySelector('#calAdd').addEventListener('click',function(){
     var ds=(S.sel&&S.sel.slice(0,7)===S.ym)?S.sel:(ymOf(todayStr())===S.ym?todayStr():S.ym+'-01');
-    openEditor(null,ds,this);
+    openEditor(null,ds,this,true);   /* 툴바에서 연 추가 창만 날짜 칸을 둔다 — 칸을 눌러 연 창은 날짜를 이미 안다 */
   });
   bindMain(); bindSide();
 }
 function bindMain(){
   var main=HOST&&HOST.querySelector('#calMain'); if(!main||main.__b)return;
   main.__b=1;
+  main.addEventListener('pointerdown',dragDown);
   main.addEventListener('click',function(e){
+    /* 끌어서 놓은 직후 따라오는 click(같은 칩 위에 놓으면 칩에 떨어진다)은 삼킨다 — 안 그러면 고치기 창이 열린다 */
+    if(Date.now()-DRAG_END<400){ e.preventDefault(); e.stopPropagation(); return; }
     var t=e.target;
     var chk=t.closest('[data-chk]'); if(chk){ toggleDone(chk.getAttribute('data-chk'),chk.closest('#calAg')?'#calAg':'#calGrid'); return; }
     var ed=t.closest('[data-edit]'); if(ed){ var en=findE(ed.getAttribute('data-edit')); if(en)openEditor(en,null,ed); return; }
@@ -877,6 +972,96 @@ function toggleDone(id,where){
   });
 }
 function cssEsc(s){ return String(s).replace(/["\\]/g,'\\$&'); }
+
+/* ══════════ 끌어서 다른 날로 옮기기(09-29 사용자) ══════════
+   마우스·펜만 — 터치는 페이지 스크롤과 다투고, 폰(≤860)은 칸에 칩이 없다(점). 키보드·터치는 고치기 창의 «날짜»로 옮긴다.
+   6px 넘게 움직여야 «끌기»가 시작된다(그 전에 떼면 평소처럼 click = 고치기 창). 놓을 곳 = 이 달의 다른 날짜 칸. Esc = 취소.
+   옮기기는 낙관적으로 먼저 그리고(판 updatedAt 은 서버 것을 그대로 들고) PUT — 실패하면 제자리로, 409 면 서버 판으로. */
+var DRAG=null, DRAG_END=0;
+function dragDown(e){
+  if(e.button!==0||(e.pointerType!=='mouse'&&e.pointerType!=='pen')||compact())return;
+  var et=e.target.closest('.cal-et'); if(!et)return;
+  var chip=et.closest('.cal-e'), cell=chip&&chip.closest('.cal-d[data-d]'); if(!chip||!cell)return;
+  DRAG={id:chip.getAttribute('data-id'),chip:chip,from:cell.getAttribute('data-d'),sx:e.clientX,sy:e.clientY,pid:e.pointerId,on:false,over:null,ghost:null};
+  document.addEventListener('pointermove',dragMove);
+  document.addEventListener('pointerup',dragUp);
+  document.addEventListener('pointercancel',dragCancel);
+  document.addEventListener('keydown',dragKey,true);
+}
+function dragStart(){
+  var r=DRAG.chip.getBoundingClientRect(), g=DRAG.chip.cloneNode(true);
+  g.classList.add('cal-ghost'); g.removeAttribute('data-id'); g.setAttribute('aria-hidden','true');
+  if(DRAG.chip.closest('.cal-d.one'))g.classList.add('one');   /* 한 줄 칩 칸에서 들었으면 고스트도 한 줄(칸 밖이라 .cal-d.one 문맥을 잃는다) */
+  Array.prototype.forEach.call(g.querySelectorAll('[data-edit],[data-chk],[id]'),function(n){ n.removeAttribute('data-edit'); n.removeAttribute('data-chk'); n.removeAttribute('id'); });
+  g.style.left=r.left+'px'; g.style.top=r.top+'px'; g.style.width=r.width+'px';
+  document.body.appendChild(g);
+  DRAG.ghost=g; DRAG.on=true;
+  DRAG.chip.classList.add('drag');
+  document.body.classList.add('cal-dragging');
+  hideTip();
+}
+function dragMove(e){
+  if(!DRAG||e.pointerId!==DRAG.pid)return;
+  var dx=e.clientX-DRAG.sx, dy=e.clientY-DRAG.sy;
+  if(!DRAG.on){ if(Math.abs(dx)+Math.abs(dy)<6)return; dragStart(); }
+  e.preventDefault();
+  DRAG.ghost.style.transform='translate('+dx+'px,'+dy+'px) rotate(-1.5deg) scale(1.04)';   /* 들어 올린 칩 — 살짝 기울고 커진다 */
+  var el=document.elementFromPoint(e.clientX,e.clientY), cell=el&&el.closest?el.closest('#calGrid .cal-d[data-d]'):null;
+  if(cell&&cell.getAttribute('data-d')===DRAG.from)cell=null;
+  if(cell!==DRAG.over){
+    if(DRAG.over)DRAG.over.classList.remove('drop');
+    DRAG.over=cell;
+    if(cell)cell.classList.add('drop');
+  }
+}
+function dragEnd(commit){
+  var d=DRAG; DRAG=null;
+  document.removeEventListener('pointermove',dragMove);
+  document.removeEventListener('pointerup',dragUp);
+  document.removeEventListener('pointercancel',dragCancel);
+  document.removeEventListener('keydown',dragKey,true);
+  if(!d||!d.on)return;                 /* 6px 안에서 뗐다 = 평소 click(고치기 창)이 그대로 간다 */
+  DRAG_END=Date.now();
+  document.body.classList.remove('cal-dragging');
+  if(d.over)d.over.classList.remove('drop');
+  var gr=d.ghost.getBoundingClientRect();
+  if(d.ghost.parentNode)d.ghost.parentNode.removeChild(d.ghost);
+  if(d.chip)d.chip.classList.remove('drag');
+  if(commit&&d.over)moveEntry(d.id,d.over.getAttribute('data-d'),gr);
+}
+function dragUp(e){ if(DRAG&&e.pointerId===DRAG.pid)dragEnd(true); }
+function dragCancel(){ dragEnd(false); }
+function dragKey(e){ if(e.key==='Escape'&&DRAG&&DRAG.on){ e.preventDefault(); e.stopPropagation(); dragEnd(false); } }
+/* 옮긴 칩이 놓인 자리에서 새 칸으로 «내려앉는다»(FLIP) — 칸에 못 담겨 접혔으면 그 칸의 «+N» 이 한 번 눌린다 */
+function flipIn(id,fromRect){
+  if(!fromRect||!(A.MO&&A.MO.live&&A.MO.live()))return;
+  var nc=document.querySelector('#calGrid .cal-e[data-id="'+cssEsc(id)+'"]');
+  if(!nc)return;
+  if(nc.offsetParent===null){ var m=nc.parentNode&&nc.parentNode.querySelector('.cal-more'); if(m&&A.MO.pulse)A.MO.pulse(m,null); return; }
+  var r=nc.getBoundingClientRect();
+  A.MO.g.fromTo(nc,{x:fromRect.left-r.left,y:fromRect.top-r.top,scale:1.04,rotation:-1.5},
+    {x:0,y:0,scale:1,rotation:0,duration:.5,ease:'expo.out',clearProps:'transform'});
+}
+function moveEntry(id,ds,fromRect,undo){
+  var e=findE(id); if(!e||e.date===ds)return;
+  var from=e.date;
+  e.date=ds; sortList(list()); cachePut(S.w,list());
+  refreshBody();
+  flipIn(id,fromRect);
+  chainOp(id,function(){
+    var cur=findE(id); if(!cur)return null;
+    return putE(cur,{date:ds},false).then(function(r){
+      if(r.ok){
+        refreshBody();
+        if(!undo)A.toast(dLabel(ds)+'로 옮겼어요',{action:'되돌리기',onAction:function(){ moveEntry(id,from,null,true); }});
+        return;
+      }
+      if(!r.stale){ var c2=findE(id); if(c2){ c2.date=from; sortList(list()); cachePut(S.w,list()); } }   /* 409 는 putE 가 서버 판으로 이미 바꿨다 */
+      refreshBody();
+      if(r.s!==401)A.toast(r.stale?'다른 기기에서 먼저 고친 일감이라 옮기지 못했어요':'옮기지 못했어요 — '+(r.err||''),{kind:'err'});
+    });
+  });
+}
 /* 저장 뒤 포커스 — 방금 고친 일감(데스크톱은 칸의 칩, 모바일은 목록 줄). 칸에 못 담겨 «+N건 더» 뒤에 숨었으면 그 버튼, 그것도 없으면 «일감 추가» */
 function entrySel(id){
   var e=findE(id), out=[(compact()?'#calAg':'#calGrid')+' [data-edit="'+cssEsc(id)+'"]'];
@@ -908,8 +1093,10 @@ function parsePrice(v){
   if(!/^\d+$/.test(s))return NaN;
   return Number(s);
 }
-function openEditor(entry,ds,opener){
-  var isNew=!entry, w=wOf(S.w), sg=suggestions();
+/* askDate = 툴바에서 연 추가 창(날짜를 모른다). 칸·목록에서 연 추가 창은 날짜를 머리에만 보이고 칸은 두지 않는다(09-29 사용자 «게임·업체·단가만»).
+   고치기 창은 늘 날짜 칸을 둔다 — 다른 «달»로 옮기는 유일한 길이다(같은 달 안은 끌어서 옮긴다) */
+function openEditor(entry,ds,opener,askDate){
+  var isNew=!entry, w=wOf(S.w), sg=suggestions(), showDate=isNew?!!askDate:true;
   var e0=entry||{id:newId(),date:ds||todayStr(),game:'',agency:'',price:null,done:false,memo:''};
   var base=entry?entry.updatedAt:null;
   var inner=
@@ -917,17 +1104,14 @@ function openEditor(entry,ds,opener){
       '<div class="mdl-hs" id="cfSub">'+esc(w.n)+' · '+dLabel(e0.date)+'</div></div>'+
       '<button type="button" class="mdl-x" data-close aria-label="닫기">'+ic('x')+'</button></div>'+
     '<div class="mdl-b"><form id="cfForm" novalidate autocomplete="off">'+
-      '<div class="cal-f2">'+
+      '<div class="cal-f3">'+
         '<div><label class="f-l" for="cfGame">게임</label><input class="f-i" id="cfGame" list="cfGames" maxlength="60" value="'+esc(e0.game)+'" autocomplete="off"></div>'+
         '<div><label class="f-l" for="cfAgency">외주업체</label><input class="f-i" id="cfAgency" list="cfAgencies" maxlength="40" value="'+esc(e0.agency)+'" autocomplete="off"></div>'+
-      '</div>'+
-      '<div class="cal-f2">'+
         '<div><label class="f-l" for="cfPrice">단가</label><div class="cal-won"><input class="f-i" id="cfPrice" inputmode="numeric" maxlength="13" value="'+(e0.price==null?'':won(e0.price))+'" autocomplete="off"><span>원</span></div>'+
           '<div class="f-hint cal-net-h" id="cfNet" aria-live="polite"></div></div>'+
-        '<div><label class="f-l" for="cfDate">날짜</label><input class="f-i" id="cfDate" type="date" value="'+esc(e0.date)+'" min="2000-01-01" max="2100-12-31"></div>'+
+        (showDate?'<div class="r2 date"><label class="f-l" for="cfDate">날짜</label><input class="f-i" id="cfDate" type="date" value="'+esc(e0.date)+'" min="2000-01-01" max="2100-12-31"></div>':'')+
+        '<div class="r2 memo"><label class="f-l" for="cfMemo">메모 <span class="f-opt">선택</span></label><input class="f-i" id="cfMemo" maxlength="200" value="'+esc(e0.memo)+'" autocomplete="off"></div>'+
       '</div>'+
-      '<label class="f-l" for="cfMemo">메모 <span class="f-opt">선택</span></label><input class="f-i" id="cfMemo" maxlength="200" value="'+esc(e0.memo)+'" autocomplete="off">'+
-      '<button type="button" class="cal-tg" id="cfDone" aria-pressed="'+(e0.done?'true':'false')+'"><span class="bx">'+ic('check')+'</span>완료</button>'+
       '<datalist id="cfGames">'+sg.games.map(function(x){ return '<option value="'+esc(x)+'">'; }).join('')+'</datalist>'+
       '<datalist id="cfAgencies">'+sg.agencies.map(function(x){ return '<option value="'+esc(x)+'">'; }).join('')+'</datalist>'+
       '<button type="submit" hidden tabindex="-1" aria-hidden="true"></button>'+
@@ -941,7 +1125,7 @@ function openEditor(entry,ds,opener){
     '</div>';
   var back=A.openModal(inner,opener,isNew?'일감 추가':'일감 고치기');
   var $=function(id){ return back.querySelector('#'+id); };
-  var fGame=$('cfGame'), fAg=$('cfAgency'), fPrice=$('cfPrice'), fDate=$('cfDate'), fMemo=$('cfMemo'), fDone=$('cfDone'),
+  var fGame=$('cfGame'), fAg=$('cfAgency'), fPrice=$('cfPrice'), fDate=$('cfDate'), fMemo=$('cfMemo'),
       fNet=$('cfNet'), fMsg=$('cfMsg'), fSave=$('cfSave'), fSub=$('cfSub');
   var touched={agency:!!e0.agency,price:e0.price!=null};
   function net(){
@@ -972,8 +1156,7 @@ function openEditor(entry,ds,opener){
   }
   fGame.addEventListener('change',autofill);
   fGame.addEventListener('input',function(ev){ if(ev.inputType==='insertReplacementText'||!ev.inputType)autofill(); });
-  fDate.addEventListener('change',function(){ if(/^\d{4}-\d{2}-\d{2}$/.test(fDate.value))fSub.textContent=w.n+' · '+dLabel(fDate.value); });
-  fDone.addEventListener('click',function(){ fDone.setAttribute('aria-pressed',fDone.getAttribute('aria-pressed')==='true'?'false':'true'); });
+  if(fDate)fDate.addEventListener('change',function(){ if(/^\d{4}-\d{2}-\d{2}$/.test(fDate.value))fSub.textContent=w.n+' · '+dLabel(fDate.value); });
   back.querySelector('#cfForm').addEventListener('submit',function(ev){ ev.preventDefault(); save(); });
   [fGame,fAg,fPrice,fMemo].forEach(function(n){ n.addEventListener('keydown',function(ev){ if(ev.key==='Enter'&&!ev.isComposing){ ev.preventDefault(); save(); } }); });
   fSave.addEventListener('click',save);
@@ -986,11 +1169,12 @@ function openEditor(entry,ds,opener){
     if(busy)return;
     fMsg.textContent='';
     var game=fGame.value.replace(/\s+/g,' ').trim(), ag=fAg.value.replace(/\s+/g,' ').trim(), memo=fMemo.value.replace(/\s+/g,' ').trim();
-    var date=fDate.value, price=parsePrice(fPrice.value);
+    var date=fDate?fDate.value:e0.date, price=parsePrice(fPrice.value);
     if(!game&&!ag)return fail('게임 이름이나 외주업체 중 하나는 적어 주세요',fGame);
-    if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||+date.slice(0,4)<2000||+date.slice(0,4)>2100)return fail('날짜를 골라 주세요',fDate);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||+date.slice(0,4)<2000||+date.slice(0,4)>2100)return fail('날짜를 골라 주세요',fDate||fGame);
     if(price!==null&&(isNaN(price)||price>PRICE_MAX))return fail('단가는 1억 원 이하의 숫자로 적어 주세요',fPrice);
-    var done=fDone.getAttribute('aria-pressed')==='true';
+    /* 완료는 창에서 고르지 않는다 — 새 일감은 «안 함», 고치기는 지금 상태(체크박스로 막 누른 것 포함) 그대로 */
+    var done=isNew?false:isDone(e0);
     var next={id:e0.id,date:date,game:game,agency:ag,price:price,done:done,memo:memo,updatedAt:base};
     busy=true; fSave.disabled=true;
     delete WANT[e0.id];
@@ -1072,18 +1256,25 @@ function onVis(){
   if(Date.now()-(S.at[S.w]||0)>15000)load(S.w,false);
 }
 function on(t,ev,fn){ t.addEventListener(ev,fn); LIS.push([t,ev,fn]); }
+var FIT_T=0;
+function onResize(){ hideTip(); clearTimeout(FIT_T); FIT_T=setTimeout(applyFit,90); }   /* 창 크기가 바뀌면 높이·칸 접기를 다시 잰다 */
 function mount(host,api){
   A=api; HOST=host; GEN++;
   if(!document.getElementById('calCss')){ var st=document.createElement('style'); st.id='calCss'; st.textContent=CSS; document.head.appendChild(st); }
   if(!S.w){ var sw=ls(W_LS,'bomding'); S.w=(sw==='yeongdo')?'yeongdo':'bomding'; }
   if(!S.ym)S.ym=ymOf(todayStr());
   on(document,'visibilitychange',onVis);
-  on(window,'resize',hideTip);
+  on(window,'resize',onResize);
   on(window,'scroll',hideTip);
   boot();
+  /* 웹 글꼴이 늦게 오면 제목·칩 키가 바뀐다 — 다 온 뒤 한 번 더 잰다 */
+  var g=GEN;
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){ if(g===GEN)applyFit(); });
 }
 function unmount(){
   GEN++;
+  if(DRAG)dragEnd(false);
+  clearTimeout(FIT_T);
   LIS.forEach(function(x){ x[0].removeEventListener(x[1],x[2]); }); LIS=[];
   hideTip();
   HOST=null;
