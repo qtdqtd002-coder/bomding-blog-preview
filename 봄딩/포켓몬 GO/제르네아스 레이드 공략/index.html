@@ -1,0 +1,275 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬고 제르네아스 레이드 공략 약점 정리, 졸업스킬 카운터 포획 팁까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">포켓몬고 제르네아스 레이드 공략 약점 정리, 졸업스킬 카운터 포획 팁까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.01</span><span>· 게임</span></div>
+
+    <!-- AI브리핑 타깃 질문: ①제르네아스 레이드 약점 타입은? ②제르네아스 졸업스킬·카운터 조합은? ③제르네아스 포획 팁은? -->
+
+    <p>어제 9월 30일 수요일 오전 5시부터 포켓몬고 5성 레이드에 전설의 포켓몬 '제르네아스'가 등장했는데요, 10월 6일 화요일 오후 9시까지 진행되는 로테이션이라 아직 못 잡으신 분들도 여유 있게 도전해보실 수 있어요. 저도 어제 알림 보자마자 바로 레이드를 돌면서 약점이랑 카운터 조합을 자료로 정리해봤는데, 오늘은 그 내용을 약점 타입부터 졸업스킬 조합, 포획 팁까지 한 번에 정리해드릴게요.</p>
+
+    <h2 class="sub">제르네아스, 어떤 포켓몬인가요</h2>
+    <p>제르네아스는 페어리 단일 타입의 전설의 포켓몬으로, 이번 로테이션 동안 5성 레이드 보스로 등장해요. 칼로스 지방 전설답게 생김새부터 화려한데, 실제로 보면 뿔에서 뿜어져 나오는 빛 연출이 꽤 인상적이더라고요. 날씨가 흐림일 때 등장하면 날씨 부스트까지 받아서 포획 CP가 더 높게 나오니, 이 부분은 뒤에서 포획 팁과 같이 짚어드릴게요.</p>
+    <!-- 이미지 이유: 도입부에서 제르네아스가 어떤 포켓몬인지 보여주는 대표 비주얼 / 출처: https://www.serebii.net/art/th/716.png / 분류: A형 -->
+    <div class="imgwrap"><img src="img/xerneas-serebii.png" width="140" height="187" alt="제르네아스 공식 아트웍"></div>
+    <p class="cap">페어리 타입의 전설의 포켓몬, 제르네아스예요.</p>
+    <p class="src">이미지 출처: <a href="https://www.serebii.net/art/th/716.png" target="_blank">Serebii.net</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">제르네아스 약점 타입이 뭘까요</h2>
+    <p>제르네아스는 <b>강철·독 타입 공격에 1.6배 피해</b>를 받아요. 페어리 단일 타입이다 보니 상성이 꽤 뚜렷한 편이라, 조합만 맞추면 생각보다 빠르게 체력을 깎을 수 있더라고요. 반대로 아래 세 가지 타입은 효과가 덜한 편이니 참고하시면 좋습니다.</p>
+    <ul>
+      <li>약점 — 강철·독 타입 공격 1.6배 피해</li>
+      <li>내성 — 드래곤 타입 공격 39.1% 감소</li>
+      <li>내성 — 벌레·악·격투 타입 공격 62.5% 감소</li>
+    </ul>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 레이드 배틀 중 강철·독 타입 기술로 공격해 "효과가 굉장했다!"가 뜨는 순간</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 레이드 참가 후 강철·독 타입 기술 사용 직후 체력바가 크게 깎이는 화면을 캡처 · 참고 화면: <a href="https://poketory.com/pokemongo-raid-xerneas/" target="_blank">포케토리 제르네아스 공략</a></div>
+    <p class="cap">약점 타입을 맞추면 체력바가 확 줄어드는 게 눈에 보여요.</p>
+
+    <h2 class="sub">졸업스킬(최적 2차기술) 카운터 총정리</h2>
+    <p>제르네아스를 가장 빠르게 잡으려면 <b>강철이나 독 타입의 1차·2차 기술을 모두 갖춘 포켓몬</b>을 쓰는 게 제일 효율이 좋아요. 졸업스킬(최적 2차기술) 조합을 자료로 찾아 표로 정리했는데, 이름이 비슷한 기술끼리 헷갈리기 쉬우니(코멧펀치와 메테오드라이브는 완전히 다른 기술이에요) 아래 표 그대로 확인해보시는 게 제일 빠를 거예요.</p>
+    <table class="tbl">
+      <tr><th>포켓몬</th><th>1차 기술</th><th>2차 기술(졸업스킬)</th></tr>
+      <tr><td>자시안(검왕의 모습)</td><td>메탈클로</td><td>거수참(전용기)</td></tr>
+      <tr><td>자마젠타(방패왕의 모습)</td><td>메탈클로</td><td>거수탄(전용기)</td></tr>
+      <tr><td>네크로즈마(황혼의 갈기)</td><td>메탈클로</td><td>메테오드라이브(전용기)</td></tr>
+      <tr><td>그림자 메타그로스</td><td>불릿펀치</td><td>코멧펀치</td></tr>
+      <tr><td>메가 루카리오</td><td>불릿펀치</td><td>코멧펀치</td></tr>
+      <tr><td>메가 팬텀</td><td>핥기</td><td>오물폭탄</td></tr>
+      <tr><td>메가 독침붕</td><td>독찌르기</td><td>오물폭탄</td></tr>
+      <tr><td>그림자 몰드류</td><td>메탈클로</td><td>아이언헤드</td></tr>
+    </table>
+
+    <h2 class="sub">카운터 뭐부터 써야 하나요</h2>
+    <p>표에 있는 여덟 마리를 다 보유한 분은 거의 없을 테니, 저라면 아래 순서로 우선순위를 잡아봤어요. 자시안·자마젠타·네크로즈마는 그 자체가 전설의 포켓몬이라 평소에 보유 중인 분이 많지 않은데, 갖고 계시면 최우선으로 쓰시고 없으면 그림자·메가 포켓몬 조합으로도 충분히 공략할 수 있습니다.</p>
+    <ul>
+      <li>1순위 — 자시안·자마젠타·네크로즈마(황혼의 갈기) 중 보유한 포켓몬이 있다면 최우선 투입</li>
+      <li>2순위 — 메가 루카리오(코멧펀치는 일반 습득 기술이라 접근성 좋은 강철 딜러). 그림자 메타그로스도 코멧펀치를 쓰지만, 이건 「대단한 기술머신」이 있어야 배우는 레거시 기술이라 아무 개체나 바로 그 조합을 만들 수 있는 건 아니에요</li>
+      <li>3순위 — 메가 독침붕(독찌르기+오물폭탄 모두 일반 습득 기술이라 메가 진화만 하면 충분). 메가 팬텀은 1차가 고스트 타입 핥기인데 이것도 「대단한 기술머신」이 필요한 레거시 기술이라 바로 배우긴 어렵고, 2차 오물폭탄만 독 타입이에요</li>
+      <li>보조 — 그림자 몰드류(메탈클로+아이언헤드 조합도 무난)</li>
+    </ul>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 보유 포켓몬 상세 화면에서 CP·기술 조합이 보이는 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 포켓몬 상세 화면에서 CP와 1·2차 기술이 함께 보이도록 캡처 · 참고 화면: <a href="https://db.pokemongohub.net/pokemon/716" target="_blank">Pokémon GO Hub 카운터 랭킹</a></div>
+    <p class="cap">제가 보유한 카운터 조합이 표랑 맞는지 이렇게 확인해보시면 돼요.</p>
+
+    <h2 class="sub">포획 팁, CP랑 커브볼까지</h2>
+    <p>제르네아스를 이기고 나면 포획 화면에서 CP가 뜨는데, <b>날씨 조건에 따라 포획 CP 범위가 꽤 차이</b> 나요. 흐림 날씨일 때 레이드를 돌면 날씨 부스트가 붙어서 더 높은 CP로 잡히니, 가능하면 흐린 날 일정을 맞춰보시는 것도 방법이에요.</p>
+    <ul>
+      <li>일반 포획 CP — 개체값에 따라 2073~2160</li>
+      <li>흐림 날씨 부스트 포획 CP — 개체값에 따라 2591~2701</li>
+      <li>최대 CP(레벨50·100% 개체값) — 4275</li>
+      <li>포켓몬 레벨 40 기준 CP — 3781</li>
+    </ul>
+    <p>포획 확률을 높이고 싶으시면 <b>골든 라즈베리를 먹이고 엑설런트 커브볼</b>로 던지는 게 가장 안정적이에요. 커브볼이 익숙하지 않으시면 나이스 정도만 노리셔도 골든 라즈베리 효과로 충분히 잡히는 편이니 너무 부담 갖지 않으셔도 됩니다. 이로치(색이 다른 개체) 제르네아스도 등장은 가능한데, 정확한 확률은 나이언틱이 공식 발표한 적이 없고 커뮤니티에서는 전설 레이드 공통으로 대략 5% 안팎으로 추정하는 수준이라 참고만 해주시면 좋겠어요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 레이드 승리 후 포획 화면, 골든 라즈베리 사용 중이거나 커브볼 조준 중인 장면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 레이드 클리어 직후 포획 시도 화면에서 볼 조준 링이 보이는 타이밍에 캡처 · 참고 화면: <a href="https://leekduck.com/raid-bosses/" target="_blank">Leek Duck 레이드 보스 목록</a></div>
+    <p class="cap">조준 링이 작아질 때 던지면 커브볼 성공률이 올라가요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 제르네아스 레이드, 최소 몇 명이면 깰 수 있나요?</b><br>최상위 카운터와 날씨 부스트가 맞아떨어지면 2명부터도 도전해볼 수 있지만, 일반적으로는 4명 이상이 모여야 안정적으로 깰 수 있는 난이도랍니다.</p>
+    <p><b>Q. 그림자 포켓몬이랑 일반 포켓몬, 카운터로 쓸 때 뭐가 다른가요?</b><br>그림자 포켓몬은 그림자 보너스로 공격력이 더 높아져서 딜량 자체는 센 편이에요. 다만 방어력이 낮아지는 편이라 다루기가 조금 번거로운데, 이번처럼 짧게 끝내고 싶은 레이드라면 그림자 메타그로스·그림자 몰드류 위주로 편성하는 게 유리해요. 참고로 제르네아스 레이드 자체는 일반 5성 레이드라 리모트 레이드 패스로도 참여할 수 있어요(원격 참여 제한은 그림자 레이드 보스에만 해당하는 얘기예요).</p>
+    <p><b>Q. 코멧펀치랑 메테오드라이브, 헷갈리는데 뭐가 다른가요?</b><br>이름이 비슷해서 헷갈리기 쉬운데, 코멧펀치는 메가 루카리오·그림자 메타그로스 같은 강철 타입이 주로 쓰는 2차 기술이고, 메테오드라이브는 네크로즈마(황혼의 갈기)·솔가레오 전용기로 완전히 다른 기술이에요. 이번 글 표에서 메타그로스·루카리오 조합에 적은 기술이 코멧펀치가 맞습니다.</p>
+    <p><b>Q. 포획한 제르네아스는 어떤 기술 조합으로 키우면 되나요?</b><br>레이드 카운터용이 아니라 포획 후 실제로 운용하실 때는 2차 기술로 문포스·기가임팩트·메가혼 조합이 비슷하게 평가되는 편이에요. 다만 1차 지오컨트롤은 「대단한 기술머신 노말」이 있어야 배울 수 있는 레거시 전용기라, 방금 포획한 개체로는 바로 그 조합을 만들 수 없다는 점은 참고해주세요.</p>
+    <p><b>Q. 강철·독 타입이 없으면 레이드 공략이 아예 안 되나요?</b><br>아예 안 되는 건 아니에요. 다른 타입으로도 참여는 가능하지만 효율이 떨어져서 시간이 더 걸리고 체력 소모도 커지는 편이니, 가능하면 표에 있는 강철·독 조합을 먼저 챙겨보세요.</p>
+
+    <p>이번 제르네아스 레이드는 10월 6일 화요일 오후 9시까지 진행되니, 아직 시간 여유가 있는 분들은 약점·졸업스킬 챙겨서 한 번 도전해보시면 좋을 것 같네요. 저도 아직 이로치는 못 만났는데, 남은 기간 동안 몇 판 더 돌면서 운을 더 걸어볼 생각이에요 ㅎㅎ</p>
+
+    <p><b>✔ 포켓몬 GO 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224425057264" target="_blank">포켓몬고 이브이진화 종류 8가지 만드는법 이름트릭 버디 루어모듈 총정리</a><br>
+    · <a href="https://blog.naver.com/bomding/224424495553" target="_blank">포켓몬GO 체리버 진화조건, 포켓몬고 체리꼬 네거폼·포지폼 결정법까지</a><br>
+    · <a href="https://blog.naver.com/bomding/224413025050" target="_blank">포켓몬고 황혼의여정시즌 업데이트 정리, 신규포켓몬 메가진화 맥스배틀 뭐가 바뀌었나</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://leekduck.com/raid-bosses/" target="_blank">Leek Duck 레이드 보스 목록</a><br>
+    · <a href="https://db.pokemongohub.net/pokemon/716" target="_blank">Pokémon GO Hub 제르네아스 도감</a></p>
+
+    <div class="tags">#포켓몬GO #포켓몬고제르네아스 #제르네아스레이드공략 #제르네아스약점 #포켓몬고졸업스킬 #포켓몬고공략</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 4분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬고 제르네아스 레이드 공략 약점 정리, 졸업스킬 카운터 포획 팁까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p><b>포켓몬고 제르네아스 레이드 공략 약점 정리, 졸업스킬 카운터 포획 팁까지</b></p>
+<p>어제 9월 30일 수요일 오전 5시부터 포켓몬고 5성 레이드에 전설의 포켓몬 '제르네아스'가 등장했는데요, 10월 6일 화요일 오후 9시까지 진행되는 로테이션이라 아직 못 잡으신 분들도 여유 있게 도전해보실 수 있어요. 저도 어제 알림 보자마자 바로 레이드를 돌면서 약점이랑 카운터 조합을 자료로 정리해봤는데, 오늘은 그 내용을 약점 타입부터 졸업스킬 조합, 포획 팁까지 한 번에 정리해드릴게요.</p>
+<h3>제르네아스, 어떤 포켓몬인가요</h3>
+<p>제르네아스는 페어리 단일 타입의 전설의 포켓몬으로, 이번 로테이션 동안 5성 레이드 보스로 등장해요. 칼로스 지방 전설답게 생김새부터 화려한데, 실제로 보면 뿔에서 뿜어져 나오는 빛 연출이 꽤 인상적이더라고요. 날씨가 흐림일 때 등장하면 날씨 부스트까지 받아서 포획 CP가 더 높게 나오니, 이 부분은 뒤에서 포획 팁과 같이 짚어드릴게요.</p>
+<p>📷 〔사진 자리 1〕 제르네아스 공식 아트웍 — 네이버에서 직접 업로드<br>└ 캡션 추천: "페어리 타입의 전설의 포켓몬, 제르네아스예요."</p>
+<h3>제르네아스 약점 타입이 뭘까요</h3>
+<p>제르네아스는 <b>강철·독 타입 공격에 1.6배 피해</b>를 받아요. 페어리 단일 타입이다 보니 상성이 꽤 뚜렷한 편이라, 조합만 맞추면 생각보다 빠르게 체력을 깎을 수 있더라고요. 반대로 아래 세 가지 타입은 효과가 덜한 편이니 참고하시면 좋습니다.</p>
+<ul>
+<li>약점 — 강철·독 타입 공격 1.6배 피해</li>
+<li>내성 — 드래곤 타입 공격 39.1% 감소</li>
+<li>내성 — 벌레·악·격투 타입 공격 62.5% 감소</li>
+</ul>
+<p>📷 〔사진 자리 2〕 레이드 배틀 중 강철·독 타입 기술로 공격하는 순간 — 네이버에서 직접 업로드<br>└ 캡션 추천: "약점 타입을 맞추면 체력바가 확 줄어드는 게 눈에 보여요."</p>
+<h3>졸업스킬(최적 2차기술) 카운터 총정리</h3>
+<p>제르네아스를 가장 빠르게 잡으려면 <b>강철이나 독 타입의 1차·2차 기술을 모두 갖춘 포켓몬</b>을 쓰는 게 제일 효율이 좋아요. 졸업스킬(최적 2차기술) 조합을 자료로 찾아 표로 정리했는데, 이름이 비슷한 기술끼리 헷갈리기 쉬우니(코멧펀치와 메테오드라이브는 완전히 다른 기술이에요) 아래 표 그대로 확인해보시는 게 제일 빠를 거예요.</p>
+<table border="1">
+<tr><th>포켓몬</th><th>1차 기술</th><th>2차 기술(졸업스킬)</th></tr>
+<tr><td>자시안(검왕의 모습)</td><td>메탈클로</td><td>거수참(전용기)</td></tr>
+<tr><td>자마젠타(방패왕의 모습)</td><td>메탈클로</td><td>거수탄(전용기)</td></tr>
+<tr><td>네크로즈마(황혼의 갈기)</td><td>메탈클로</td><td>메테오드라이브(전용기)</td></tr>
+<tr><td>그림자 메타그로스</td><td>불릿펀치</td><td>코멧펀치</td></tr>
+<tr><td>메가 루카리오</td><td>불릿펀치</td><td>코멧펀치</td></tr>
+<tr><td>메가 팬텀</td><td>핥기</td><td>오물폭탄</td></tr>
+<tr><td>메가 독침붕</td><td>독찌르기</td><td>오물폭탄</td></tr>
+<tr><td>그림자 몰드류</td><td>메탈클로</td><td>아이언헤드</td></tr>
+</table>
+<h3>카운터 뭐부터 써야 하나요</h3>
+<p>표에 있는 여덟 마리를 다 보유한 분은 거의 없을 테니, 저라면 아래 순서로 우선순위를 잡아봤어요. 자시안·자마젠타·네크로즈마는 그 자체가 전설의 포켓몬이라 평소에 보유 중인 분이 많지 않은데, 갖고 계시면 최우선으로 쓰시고 없으면 그림자·메가 포켓몬 조합으로도 충분히 공략할 수 있습니다.</p>
+<ul>
+<li>1순위 — 자시안·자마젠타·네크로즈마(황혼의 갈기) 중 보유한 포켓몬이 있다면 최우선 투입</li>
+<li>2순위 — 메가 루카리오(코멧펀치는 일반 습득 기술이라 접근성 좋은 강철 딜러). 그림자 메타그로스도 코멧펀치를 쓰지만, 이건 「대단한 기술머신」이 있어야 배우는 레거시 기술이라 아무 개체나 바로 그 조합을 만들 수 있는 건 아니에요</li>
+<li>3순위 — 메가 독침붕(독찌르기+오물폭탄 모두 일반 습득 기술이라 메가 진화만 하면 충분). 메가 팬텀은 1차가 고스트 타입 핥기인데 이것도 「대단한 기술머신」이 필요한 레거시 기술이라 바로 배우긴 어렵고, 2차 오물폭탄만 독 타입이에요</li>
+<li>보조 — 그림자 몰드류(메탈클로+아이언헤드 조합도 무난)</li>
+</ul>
+<p>📷 〔사진 자리 3〕 보유 포켓몬 상세 화면에서 CP·기술 조합이 보이는 화면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "제가 보유한 카운터 조합이 표랑 맞는지 이렇게 확인해보시면 돼요."</p>
+<h3>포획 팁, CP랑 커브볼까지</h3>
+<p>제르네아스를 이기고 나면 포획 화면에서 CP가 뜨는데, <b>날씨 조건에 따라 포획 CP 범위가 꽤 차이</b> 나요. 흐림 날씨일 때 레이드를 돌면 날씨 부스트가 붙어서 더 높은 CP로 잡히니, 가능하면 흐린 날 일정을 맞춰보시는 것도 방법이에요.</p>
+<ul>
+<li>일반 포획 CP — 개체값에 따라 2073~2160</li>
+<li>흐림 날씨 부스트 포획 CP — 개체값에 따라 2591~2701</li>
+<li>최대 CP(레벨50·100% 개체값) — 4275</li>
+<li>포켓몬 레벨 40 기준 CP — 3781</li>
+</ul>
+<p>포획 확률을 높이고 싶으시면 <b>골든 라즈베리를 먹이고 엑설런트 커브볼</b>로 던지는 게 가장 안정적이에요. 커브볼이 익숙하지 않으시면 나이스 정도만 노리셔도 골든 라즈베리 효과로 충분히 잡히는 편이니 너무 부담 갖지 않으셔도 됩니다. 이로치(색이 다른 개체) 제르네아스도 등장은 가능한데, 정확한 확률은 나이언틱이 공식 발표한 적이 없고 커뮤니티에서는 전설 레이드 공통으로 대략 5% 안팎으로 추정하는 수준이라 참고만 해주시면 좋겠어요.</p>
+<p>📷 〔사진 자리 4〕 레이드 승리 후 포획 화면, 골든 라즈베리·커브볼 조준 장면 — 네이버에서 직접 업로드<br>└ 캡션 추천: "조준 링이 작아질 때 던지면 커브볼 성공률이 올라가요."</p>
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 제르네아스 레이드, 최소 몇 명이면 깰 수 있나요?</b><br>최상위 카운터와 날씨 부스트가 맞아떨어지면 2명부터도 도전해볼 수 있지만, 일반적으로는 4명 이상이 모여야 안정적으로 깰 수 있는 난이도랍니다.</p>
+<p><b>Q. 그림자 포켓몬이랑 일반 포켓몬, 카운터로 쓸 때 뭐가 다른가요?</b><br>그림자 포켓몬은 그림자 보너스로 공격력이 더 높아져서 딜량 자체는 센 편이에요. 다만 방어력이 낮아지는 편이라 다루기가 조금 번거로운데, 이번처럼 짧게 끝내고 싶은 레이드라면 그림자 메타그로스·그림자 몰드류 위주로 편성하는 게 유리해요. 참고로 제르네아스 레이드 자체는 일반 5성 레이드라 리모트 레이드 패스로도 참여할 수 있어요(원격 참여 제한은 그림자 레이드 보스에만 해당하는 얘기예요).</p>
+<p><b>Q. 코멧펀치랑 메테오드라이브, 헷갈리는데 뭐가 다른가요?</b><br>이름이 비슷해서 헷갈리기 쉬운데, 코멧펀치는 메가 루카리오·그림자 메타그로스 같은 강철 타입이 주로 쓰는 2차 기술이고, 메테오드라이브는 네크로즈마(황혼의 갈기)·솔가레오 전용기로 완전히 다른 기술이에요. 이번 글 표에서 메타그로스·루카리오 조합에 적은 기술이 코멧펀치가 맞습니다.</p>
+<p><b>Q. 포획한 제르네아스는 어떤 기술 조합으로 키우면 되나요?</b><br>레이드 카운터용이 아니라 포획 후 실제로 운용하실 때는 2차 기술로 문포스·기가임팩트·메가혼 조합이 비슷하게 평가되는 편이에요. 다만 1차 지오컨트롤은 「대단한 기술머신 노말」이 있어야 배울 수 있는 레거시 전용기라, 방금 포획한 개체로는 바로 그 조합을 만들 수 없다는 점은 참고해주세요.</p>
+<p><b>Q. 강철·독 타입이 없으면 레이드 공략이 아예 안 되나요?</b><br>아예 안 되는 건 아니에요. 다른 타입으로도 참여는 가능하지만 효율이 떨어져서 시간이 더 걸리고 체력 소모도 커지는 편이니, 가능하면 표에 있는 강철·독 조합을 먼저 챙겨보세요.</p>
+<p>이번 제르네아스 레이드는 10월 6일 화요일 오후 9시까지 진행되니, 아직 시간 여유가 있는 분들은 약점·졸업스킬 챙겨서 한 번 도전해보시면 좋을 것 같네요. 저도 아직 이로치는 못 만났는데, 남은 기간 동안 몇 판 더 돌면서 운을 더 걸어볼 생각이에요 ㅎㅎ</p>
+<p><b>✔ 포켓몬 GO 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224425057264" target="_blank">포켓몬고 이브이진화 종류 8가지 만드는법 이름트릭 버디 루어모듈 총정리</a><br>
+· <a href="https://blog.naver.com/bomding/224424495553" target="_blank">포켓몬GO 체리버 진화조건, 포켓몬고 체리꼬 네거폼·포지폼 결정법까지</a><br>
+· <a href="https://blog.naver.com/bomding/224413025050" target="_blank">포켓몬고 황혼의여정시즌 업데이트 정리, 신규포켓몬 메가진화 맥스배틀 뭐가 바뀌었나</a></p>
+<p><b>참고한 곳</b><br>
+· <a href="https://leekduck.com/raid-bosses/" target="_blank">Leek Duck 레이드 보스 목록</a><br>
+· <a href="https://db.pokemongohub.net/pokemon/716" target="_blank">Pokémon GO Hub 제르네아스 도감</a></p>
+<p class="tags-line">#포켓몬GO #포켓몬고제르네아스 #제르네아스레이드공략 #제르네아스약점 #포켓몬고졸업스킬 #포켓몬고공략</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
