@@ -9,7 +9,7 @@
 #         ★단 네이버 생존본 `#copy` 안에 남은 🔍·.chk·검증 메타·문말 (?) 는 실게시로 그대로 들어가므로 잡는다(2026-09-23 · 승격 큐 #4·#5 코드화 — 아래 CPY-1·CPY-2).
 # 배경: 2026-06-14, 봄딩 우마무스메 글이 파이프라인(작성 스킬·QA·린트)을 통째로 건너뛰고 'AI 일반 템플릿(.container/.disclaimer/🔍 본문노출)'
 #       으로 발행된 사고. 이 린트가 push마다 자동(pre-push 훅) 실행되도록 강제 + 면책박스류를 전 작성자 공통 금지로 추가.
-import os, re, sys
+import os, re, sys, glob, json
 
 # Windows 기본 콘솔(cp949)에서 이모지(⚠ ✗)·한글 출력이 UnicodeEncodeError로 크래시 → pre-push 훅이 통째로 죽던 버그 수정(2026-06-14).
 try:
@@ -238,6 +238,43 @@ def check_copy_residue(author, p, raw, problems, warnings, strict):
         if hits:
             sink.append((author, rel, "CPY-2 영도 #copy 에 문말 (?) 침투(승격 큐 #5 · G장은 단어 뒤 너스레만, 문장 끝 (?) 는 저자가 안 쓴다)", len(hits)))
 
+# ===== 조사 과정 메타 문구 게이트 — 2026-10-02 신설 (봄딩 애니모 생활 티어표 사용자 지적) =====
+# 배경: 티어표 이미지 스탬프에 «출시판 정본 능력표 직접 대조»·«조사가 정본 수치를 직접 대조해 찾아낸 조합»,
+#   전투 재정리 스탬프에 «creatures.json 09-20 · 밸런스 변경 없음 확인», 본문에 «이번 조사가 직접 찾아낸»·«교차 확인은 안 된 상태»가 그대로 나갔다.
+#   «AI 티가 너무 많이 난다»(사용자). 06-01 «검증 메타 푸터 금지»·08-16 «표 셀 메타 금지»가 산문 규칙뿐이라 이미지(보드 JSON)로 새어 나갔다.
+#   원인 하나는 output-format.md 티어표 규칙 ⑵가 stamp 에 «근거(교차)»를 넣으라고 지시한 것 — 그 규칙도 같이 고쳤다.
+# 대상 = 봄딩·영도 본문 텍스트 + 같은 글 폴더 _qa/*.board.json 의 title·stamp·label·note·name(이미지에 찍히는 글자).
+# SRC-0 과 같은 원칙: 인자 모드(이번 발행 글)=DENY, 전체 스캔=WARN.
+RESEARCH_META = re.compile(
+    r"이번\s*조사|(?<![가-힣])조사가\s|정본|직접\s*대조|교차\s*(?:확인|수치|검증|대조)|데이터가\s*(?:따로\s*)?수집|수집되지\s*않"
+    r"|확인된\s*범위|공식\s*추천\s*아님|기성\s*추천|실측이\s*아니|[A-Za-z_-]+\.json|변경\s*없음\s*확인")
+
+def _board_texts(p):
+    out = []
+    for bj in glob.glob(os.path.join(os.path.dirname(p), "_qa", "*.board.json")):
+        try:
+            b = json.load(open(bj, encoding="utf-8")).get("board", {})
+        except Exception:
+            continue
+        vals = [b.get("title", ""), b.get("stamp", "")]
+        for t in b.get("tiers", []):
+            vals += [t.get("label", ""), t.get("note", "")] + [i.get("name", "") for i in t.get("items", [])]
+        out.append((os.path.basename(bj), " ".join(v for v in vals if v)))
+    return out
+
+def check_research_meta(author, p, text, problems, warnings, strict):
+    if author not in ("봄딩", "영도"):
+        return
+    rel = os.path.relpath(p, BASE)
+    sink = problems if strict else warnings
+    hits = RESEARCH_META.findall(text)
+    if hits:
+        sink.append((author, rel, "META-1 본문에 조사 과정 메타 문구(%s) — 독자 말로 바꾼다(정본·대조·교차 확인·이번 조사·파일명 금지)" % "/".join(sorted(set(hits))[:4]), len(hits)))
+    for name, t in _board_texts(p):
+        hits = RESEARCH_META.findall(t)
+        if hits:
+            sink.append((author, rel, "META-2 티어표 %s 에 조사 과정 메타 문구(%s) — 이미지에 그대로 찍힌다, stamp=기준일·판·모드만" % (name, "/".join(sorted(set(hits))[:4])), len(hits)))
+
 def check_file(author, p, problems, warnings, strict=False):
     raw = open(p, encoding="utf-8").read()
     text = strip_html(raw)
@@ -245,6 +282,7 @@ def check_file(author, p, problems, warnings, strict=False):
     rel = os.path.relpath(p, BASE)
     check_sources(author, p, raw, problems, warnings, strict)
     check_copy_residue(author, p, raw, problems, warnings, strict)
+    check_research_meta(author, p, text, problems, warnings, strict)
     # 1) 작성자 간 교차오염(본문 텍스트)
     for label, pat in DENY[author]:
         hits = re.findall(pat, text)
