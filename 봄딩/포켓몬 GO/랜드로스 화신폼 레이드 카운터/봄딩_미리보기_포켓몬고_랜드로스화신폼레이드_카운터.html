@@ -1,0 +1,254 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬고 그림자 랜드로스 화신폼 레이드 카운터 공략, 졸업스킬 약점 총정리까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 6px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">포켓몬고 그림자 랜드로스 화신폼 레이드 카운터 공략, 졸업스킬 약점 총정리까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.01</span><span>· 게임</span></div>
+
+    <p>2026년 10월 7일 수요일부터, 포켓몬GO 그림자 레이드에 <b>랜드로스(화신폼)</b>이 등장할 예정이에요. 레이드 알림 탭을 켜놨다가 다음 로테이션 소식을 보고 바로 체크해뒀는데, 그림자 레이드는 로켓단이 점령한 체육관에서만 열리는 특수한 형태라 일반 레이드랑 준비물부터 조금 다르더라고요. 그래서 오늘은 그림자 랜드로스 화신폼 레이드를 미리 준비하는 분들을 위해 등장 일정이랑 약점, 데려갈 카운터, 그리고 포획 후에 딜러로 쓸 때의 졸업스킬까지 한 번에 정리해볼게요.</p>
+
+    <div class="imgwrap"><img src="img/landorus-art.png" width="140" height="169" alt="랜드로스 화신폼 공식 일러스트"></div>
+    <p class="cap">랜드로스 화신폼 공식 아트워크예요. ⓒNiantic/Pokémon</p>
+    <p class="src">이미지 출처: <a href="https://www.serebii.net/art/th/645.png" target="_blank">Serebii.net</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 글 대표(인트로) 이미지로 랜드로스 화신폼을 먼저 보여줌 / 출처: https://www.serebii.net/art/th/645.png / 분류: A형(B+, 2차 팬 DB 호스팅·저작권 표기 병기) -->
+
+    <h2 class="sub">그림자 랜드로스 화신폼 레이드, 언제부터 열리나요?</h2>
+    <p><b>그림자 랜드로스(화신폼) 레이드는 2026년 10월 7일(수) 06:00부터 11월 3일(화) 22:00까지, 주말마다 등장하는 걸로 확인됐어요.</b> 포켓몬GO 소식을 꾸준히 모아주는 해외 사이트 리크덕(leekduck)이 공개한 레이드 로테이션 기준으로 확인한 내용인데, 직전까지는 그림자 썬더러스(화신폼)이 9월 9일부터 10월 6일까지 자리를 지키고 있었고 그 바통을 랜드로스가 이어받는 구조예요. <b>오늘(10월 1일) 기준으로는 아직 레이드가 시작 전</b>이라 체육관에 가도 당장은 랜드로스가 안 보이니, 10월 7일 이후 주말 일정에 맞춰 움직이시는 게 좋겠습니다.</p>
+
+    <h2 class="sub">그림자 레이드는 일반 레이드랑 뭐가 다른가요?</h2>
+    <p>그림자 레이드는 <b>로켓단이 점령한 체육관에서만 열리고, 전투 중 특정 시점이 되면 보스가 '폭주' 상태가 되어 쓰러뜨리기 더 어려워지는 레이드</b>예요. 일반 전설 레이드와 가장 크게 갈리는 지점이 두 가지인데, 하나는 원격 레이드 패스를 쓸 수 없다는 거고(무조건 체육관까지 직접 가야 해요), 다른 하나는 팀 보너스로 주는 프리미어볼이 없다는 거예요. 전투 중 보스가 '폭주' 상태가 되면 공격력·방어력이 더 세지는데, 이때 정화 크리스탈을 던지면 폭주를 가라앉힐 수 있다고 하니 참고해두시면 좋을 것 같아요.</p>
+
+    <h2 class="sub">그림자 랜드로스 화신폼 타입이랑 약점부터 짚어볼게요</h2>
+    <p>그림자 랜드로스(화신폼)은 <b>땅/비행 복합 타입이라 얼음 기술에 2.56배, 물 기술에 1.6배로 크게 약해요.</b> 얼음·물 둘 다 챙기기 애매하면 얼음 기술 하나만 확실히 갖춰도 효율이 꽤 잘 나오는 편입니다.</p>
+    <table class="tbl">
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>타입</td><td>땅 / 비행</td></tr>
+      <tr><td>가장 강한 약점</td><td>얼음 기술 (2.56배)</td></tr>
+      <tr><td>두 번째 약점</td><td>물 기술 (1.6배)</td></tr>
+    </table>
+    <div class="imgwrap"><img src="img/landorus-sprite.png" width="120" height="120" alt="랜드로스 화신폼 인게임 스프라이트"></div>
+    <p class="cap">인게임에 등록된 랜드로스 화신폼 모습이에요. ⓒNiantic/Pokémon</p>
+    <p class="src">이미지 출처: <a href="https://www.serebii.net/pokemongo/pokemon/645.png" target="_blank">Serebii.net</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 타입·약점 설명 직후 포켓몬 모습 확인용 / 출처: https://www.serebii.net/pokemongo/pokemon/645.png / 분류: A형(B+) -->
+    <p>참고로 종족값은 해외 데이터베이스 dittobase 기준으로 공격 261·방어 182·체력 205(총합 648)로 집계돼 있어요. 이건 레이드 난이도 얘기가 아니라 포획 후 딜러로 쓸 때 얘긴데, 국내 팬사이트 poketory에 따르면 <b>화신폼은 영물폼보다 공격력이 낮고, 대지의힘보다 더 강력한 전용기(레거시) 열사의폭풍을 배우지 못해 딜러 성능은 영물폼보다 다소 떨어진다</b>고 해요(체력은 양쪽 다 205로 동일).</p>
+
+    <h2 class="sub">레이드 카운터는 누구를 데려가야 하나요?</h2>
+    <p><b>약점인 얼음·물 기술을 쓰는 포켓몬 위주로 데려가는 게 좋은데, 정확한 인원 공식은 공개돼 있지 않지만 그림자 버프 때문에 일반 레이드보다 체감 난이도가 높으니 최소 3명 이상, 가능하면 더 모아서 가는 걸 추천해요.</b> 국내 팬사이트 poketory가 정리한 추천 조합을 기준으로 추려보면 아래와 같습니다.</p>
+    <table class="tbl">
+      <tr><th>포켓몬</th><th>빠른기술</th><th>차지기술</th></tr>
+      <tr><td>가라르 불비달마</td><td>얼음엄니</td><td>눈사태</td></tr>
+      <tr><td>(그림자) 맘모꾸리</td><td>눈싸라기</td><td>눈사태</td></tr>
+      <tr><td>그림자 뮤츠</td><td>사이코커터</td><td>냉동빔</td></tr>
+      <tr><td>메가 얼음귀신</td><td>얼음숨결</td><td>눈사태</td></tr>
+      <tr><td>글레이시아</td><td>얼음숨결</td><td>얼음뭉치 / 눈사태</td></tr>
+      <tr><td>원시 가이오가</td><td>폭포오르기</td><td>눈보라</td></tr>
+    </table>
+    <p>3명 이상 모이는 자리라면 (그림자) 맘모꾸리를 한 마리 더 세우거나, <b>레지아이스·메가 레쿠쟈·라프라스</b>까지 섞어서 화력을 더 끌어올릴 수 있어요. 얼음 기술 포켓몬이 부족하면 물 타입으로도 1.6배는 받으니, 손에 있는 파티로 먼저 맞춰보시는 것도 방법입니다.</p>
+
+    <h2 class="sub">포획한 그림자 랜드로스, 졸업스킬은 뭘로 맞추나요?</h2>
+    <p>여기서부터는 카운터가 아니라, <b>레이드에서 잡은 그림자 랜드로스 자체를 내 딜러로 키울 때의 얘기</b>예요. <b>빠른기술 '머드샷'에 차지기술 '대지의힘' 조합이 졸업스킬로 꼽힙니다.</b> dittobase 기준 DPS 27.39·TDO 312로 보유 기술 중 가장 효율이 좋다고 집계돼 있고, 그 외에도 차지기술 두어 가지를 더 배울 수 있지만 효율은 머드샷+대지의힘 조합이 가장 좋더라고요.</p>
+    <p>참고로 그림자 포켓몬은 공격이 20% 오르고 방어가 20% 내려가는 보정이 붙는다고 알려져 있는데, 이건 나이언틱이 수치를 직접 공지한 공식 발표라기보다는 여러 커뮤니티 자료에서 오랫동안 일관되게 쓰이는 <b>커뮤니티 검증 수치</b>라는 점은 참고해두시면 좋겠습니다. 포획 CP는 일반 날씨면 1897~2050(Lv20), 날씨부스트가 걸리면 2372~2563(Lv25) 사이로 나온다고 하니(dittobase 기준), 포획 직후 CP만 보고 당황하지 않으셔도 돼요.</p>
+    <p>리크덕 공식 이벤트 페이지 기준으로 이로치(색다른 개체) 랜드로스도 등장 가능하다고 안내돼 있어요. 랜드로스 화신폼 자체도 원래부터 이로치가 존재하는 포켓몬이니, 혹시 색이 다른 개체가 보이면 놓치지 마세요.</p>
+    <div class="imgwrap"><img src="img/landorus-shiny.png" width="120" height="120" alt="이로치 랜드로스 화신폼 스프라이트"></div>
+    <p class="cap">색이 다른 이로치(색다른) 개체 모습이에요. ⓒNiantic/Pokémon</p>
+    <p class="src">이미지 출처: <a href="https://www.serebii.net/pokemongo/pokemon/shiny/645.png" target="_blank">Serebii.net</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <!-- 이미지 이유: 이로치 등장 안내 문단 바로 아래에서 이로치 모습을 보여줌 / 출처: https://www.serebii.net/pokemongo/pokemon/shiny/645.png / 분류: A형(B+) -->
+
+    <h2 class="sub">헷갈리기 쉬운 포인트 — '강철의 결심' 이벤트랑은 다른 거예요</h2>
+    <p>지난 봄(4월 말~5월 초쯤) 진행됐던 '강철의 결심: 점령' 이벤트에서도 그림자 랜드로스 얘기가 나왔었는데, <b>이번 10월 그림자 레이드랑은 완전히 다른 콘텐츠예요.</b> 그때는 슈퍼 로켓레이더로 지오바니를 찾아가서 구출하는 방식이었고, 이번엔 체육관에서 직접 레이드로 싸워 잡는 방식이라 등장 경로 자체가 달라요. '어? 전에 봤던 그 그림자 랜드로스 아니야?' 싶으실 수 있는데~ 서로 다른 이벤트니까 헷갈리지 않으셨으면 해요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 그림자 랜드로스 화신폼, 혼자서도 깰 수 있나요?</b><br>그림자 레이드는 폭주 상태 때문에 체감 난이도가 올라가서, 솔로 공략은 거의 불가능하다고 보고 최소 3명은 맞춰 가시는 게 좋아요.</p>
+    <p><b>Q. 친구한테 레이드 패스를 받아서 원격으로 같이 할 수는 없나요?</b><br>안 돼요. 그림자 레이드는 처음부터 원격 레이드 패스 자체가 적용되지 않는 구조라, 반드시 체육관까지 직접 가야 참가할 수 있어요.</p>
+    <p><b>Q. 잡고 나서 꼭 정화해야 하나요?</b><br>정화하면 강화·진화·새 기술 습득에 필요한 별모래·사탕 개수가 줄고 전용기 '은혜갚기'를 배우게 돼요. 다만 공략용 딜러로 쓰고 싶다면 오히려 공격력 보정이 붙은 그림자 상태 그대로 키우는 경우도 많아요. 육성 효율 목적이면 정화, 화력 목적이면 비정화로 갈리는 편이에요.</p>
+    <p><b>Q. 직전에 있던 그림자 썬더러스 화신폼이랑 같이 나오는 건 아니죠?</b><br>맞아요, 같이 나오지 않아요. 그림자 썬더러스(화신폼)은 9월 9일부터 10월 6일까지였고, 그 자리를 10월 7일부터 랜드로스가 그대로 이어받는 순차 로테이션이에요.</p>
+    <p><b>Q. 이번 로테이션이 끝나면 그림자 랜드로스는 다시 볼 수 없나요?</b><br>정확히 언제 다시 돌아올지는 공식 발표가 없어서 알 수 없지만, 그림자 레이드 보스가 보통 몇 주~몇 달 간격으로 로테이션되는 걸 보면 또 기회가 올 가능성은 있어요.</p>
+
+    <h2 class="sub">그림자 랜드로스 화신폼 레이드 정리</h2>
+    <p>한 줄로 줄이면, 그림자 랜드로스 화신폼은 10월 7일부터 주말마다 열리는 레이드니까 얼음·물 카운터 미리 챙겨두시고 여유 있게 준비하시면 좋을 것 같아요. 정화 보상 같은 세부 내용은 공식 공지가 더 나오면 그때 업데이트해서 다시 정리해볼게요.</p>
+
+    <p><b>✔ 포켓몬고 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224425057264" target="_blank">포켓몬고 이브이진화 종류 8가지 만드는법 이름트릭 버디 루어모듈 총정리</a><br>
+    · <a href="https://blog.naver.com/bomding/224424495553" target="_blank">포켓몬GO 체리버 진화조건, 포켓몬고 체리꼬 네거폼·포지폼 결정법까지</a><br>
+    · <a href="https://blog.naver.com/bomding/224413025050" target="_blank">포켓몬고 황혼의여정시즌 업데이트 정리, 신규포켓몬 메가진화 맥스배틀 뭐가 바뀌었나</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://niantic.helpshift.com/hc/ko/6-pokemon-go/faq/4054-what-are-shadow-raids/" target="_blank">나이언틱 공식 도움말 — 그림자 레이드란?</a><br>
+    · <a href="https://pokemongo.com/news/shadow-raids" target="_blank">포켓몬GO 공식 블로그 — Shadow Raids</a></p>
+
+    <div class="tags">#포켓몬고 #그림자랜드로스 #랜드로스화신폼 #포켓몬고공략 #레이드카운터</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 4분):</b> 📷 <b>사진 3곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬고 그림자 랜드로스 화신폼 레이드 카운터 공략, 졸업스킬 약점 총정리까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy" style="border:2px dashed #2e7d32;background:#f3fbf4;border-radius:8px;padding:18px 20px;margin:24px auto;max-width:720px;font-size:15px;line-height:1.9;">
+<p><b>포켓몬고 그림자 랜드로스 화신폼 레이드 카운터 공략, 졸업스킬 약점 총정리까지</b></p>
+<p>2026년 10월 7일 수요일부터, 포켓몬GO 그림자 레이드에 <b>랜드로스(화신폼)</b>이 등장할 예정이에요. 레이드 알림 탭을 켜놨다가 다음 로테이션 소식을 보고 바로 체크해뒀는데, 그림자 레이드는 로켓단이 점령한 체육관에서만 열리는 특수한 형태라 일반 레이드랑 준비물부터 조금 다르더라고요. 그래서 오늘은 그림자 랜드로스 화신폼 레이드를 미리 준비하는 분들을 위해 등장 일정이랑 약점, 데려갈 카운터, 그리고 포획 후에 딜러로 쓸 때의 졸업스킬까지 한 번에 정리해볼게요.</p>
+<p>📷 〔사진 자리 1〕 랜드로스 화신폼 공식 아트워크 — Serebii.net에서 받아 업로드</p>
+<h3>그림자 랜드로스 화신폼 레이드, 언제부터 열리나요?</h3>
+<p><b>그림자 랜드로스(화신폼) 레이드는 2026년 10월 7일(수) 06:00부터 11월 3일(화) 22:00까지, 주말마다 등장하는 걸로 확인됐어요.</b> 포켓몬GO 소식을 꾸준히 모아주는 해외 사이트 리크덕(leekduck)이 공개한 레이드 로테이션 기준으로 확인한 내용인데, 직전까지는 그림자 썬더러스(화신폼)이 9월 9일부터 10월 6일까지 자리를 지키고 있었고 그 바통을 랜드로스가 이어받는 구조예요. <b>오늘(10월 1일) 기준으로는 아직 레이드가 시작 전</b>이라 체육관에 가도 당장은 랜드로스가 안 보이니, 10월 7일 이후 주말 일정에 맞춰 움직이시는 게 좋겠습니다.</p>
+<h3>그림자 레이드는 일반 레이드랑 뭐가 다른가요?</h3>
+<p>그림자 레이드는 <b>로켓단이 점령한 체육관에서만 열리고, 전투 중 특정 시점이 되면 보스가 '폭주' 상태가 되어 쓰러뜨리기 더 어려워지는 레이드</b>예요. 일반 전설 레이드와 가장 크게 갈리는 지점이 두 가지인데, 하나는 원격 레이드 패스를 쓸 수 없다는 거고(무조건 체육관까지 직접 가야 해요), 다른 하나는 팀 보너스로 주는 프리미어볼이 없다는 거예요. 전투 중 보스가 '폭주' 상태가 되면 공격력·방어력이 더 세지는데, 이때 정화 크리스탈을 던지면 폭주를 가라앉힐 수 있다고 하니 참고해두시면 좋을 것 같아요.</p>
+<h3>그림자 랜드로스 화신폼 타입이랑 약점부터 짚어볼게요</h3>
+<p>그림자 랜드로스(화신폼)은 <b>땅/비행 복합 타입이라 얼음 기술에 2.56배, 물 기술에 1.6배로 크게 약해요.</b> 얼음·물 둘 다 챙기기 애매하면 얼음 기술 하나만 확실히 갖춰도 효율이 꽤 잘 나오는 편입니다.</p>
+<table border="1" cellpadding="6" style="border-collapse:collapse;width:100%;">
+<tr><th>항목</th><th>내용</th></tr>
+<tr><td>타입</td><td>땅 / 비행</td></tr>
+<tr><td>가장 강한 약점</td><td>얼음 기술 (2.56배)</td></tr>
+<tr><td>두 번째 약점</td><td>물 기술 (1.6배)</td></tr>
+</table>
+<p>📷 〔사진 자리 2〕 랜드로스 화신폼 인게임 스프라이트 — Serebii.net에서 받아 업로드</p>
+<p>참고로 종족값은 해외 데이터베이스 dittobase 기준으로 공격 261·방어 182·체력 205(총합 648)로 집계돼 있어요. 이건 레이드 난이도 얘기가 아니라 포획 후 딜러로 쓸 때 얘긴데, 국내 팬사이트 poketory에 따르면 <b>화신폼은 영물폼보다 공격력이 낮고, 대지의힘보다 더 강력한 전용기(레거시) 열사의폭풍을 배우지 못해 딜러 성능은 영물폼보다 다소 떨어진다</b>고 해요(체력은 양쪽 다 205로 동일).</p>
+<h3>레이드 카운터는 누구를 데려가야 하나요?</h3>
+<p><b>약점인 얼음·물 기술을 쓰는 포켓몬 위주로 데려가는 게 좋은데, 정확한 인원 공식은 공개돼 있지 않지만 그림자 버프 때문에 일반 레이드보다 체감 난이도가 높으니 최소 3명 이상, 가능하면 더 모아서 가는 걸 추천해요.</b> 국내 팬사이트 poketory가 정리한 추천 조합을 기준으로 추려보면 아래와 같습니다.</p>
+<table border="1" cellpadding="6" style="border-collapse:collapse;width:100%;">
+<tr><th>포켓몬</th><th>빠른기술</th><th>차지기술</th></tr>
+<tr><td>가라르 불비달마</td><td>얼음엄니</td><td>눈사태</td></tr>
+<tr><td>(그림자) 맘모꾸리</td><td>눈싸라기</td><td>눈사태</td></tr>
+<tr><td>그림자 뮤츠</td><td>사이코커터</td><td>냉동빔</td></tr>
+<tr><td>메가 얼음귀신</td><td>얼음숨결</td><td>눈사태</td></tr>
+<tr><td>글레이시아</td><td>얼음숨결</td><td>얼음뭉치 / 눈사태</td></tr>
+<tr><td>원시 가이오가</td><td>폭포오르기</td><td>눈보라</td></tr>
+</table>
+<p>3명 이상 모이는 자리라면 (그림자) 맘모꾸리를 한 마리 더 세우거나, <b>레지아이스·메가 레쿠쟈·라프라스</b>까지 섞어서 화력을 더 끌어올릴 수 있어요. 얼음 기술 포켓몬이 부족하면 물 타입으로도 1.6배는 받으니, 손에 있는 파티로 먼저 맞춰보시는 것도 방법입니다.</p>
+<h3>포획한 그림자 랜드로스, 졸업스킬은 뭘로 맞추나요?</h3>
+<p>여기서부터는 카운터가 아니라, <b>레이드에서 잡은 그림자 랜드로스 자체를 내 딜러로 키울 때의 얘기</b>예요. <b>빠른기술 '머드샷'에 차지기술 '대지의힘' 조합이 졸업스킬로 꼽힙니다.</b> dittobase 기준 DPS 27.39·TDO 312로 보유 기술 중 가장 효율이 좋다고 집계돼 있고, 그 외에도 차지기술 두어 가지를 더 배울 수 있지만 효율은 머드샷+대지의힘 조합이 가장 좋더라고요.</p>
+<p>참고로 그림자 포켓몬은 공격이 20% 오르고 방어가 20% 내려가는 보정이 붙는다고 알려져 있는데, 이건 나이언틱이 수치를 직접 공지한 공식 발표라기보다는 여러 커뮤니티 자료에서 오랫동안 일관되게 쓰이는 <b>커뮤니티 검증 수치</b>라는 점은 참고해두시면 좋겠습니다. 포획 CP는 일반 날씨면 1897~2050(Lv20), 날씨부스트가 걸리면 2372~2563(Lv25) 사이로 나온다고 하니(dittobase 기준), 포획 직후 CP만 보고 당황하지 않으셔도 돼요.</p>
+<p>리크덕 공식 이벤트 페이지 기준으로 이로치(색다른 개체) 랜드로스도 등장 가능하다고 안내돼 있어요. 랜드로스 화신폼 자체도 원래부터 이로치가 존재하는 포켓몬이니, 혹시 색이 다른 개체가 보이면 놓치지 마세요.</p>
+<p>📷 〔사진 자리 3〕 이로치 랜드로스 화신폼 스프라이트 — Serebii.net에서 받아 업로드</p>
+<h3>헷갈리기 쉬운 포인트 — '강철의 결심' 이벤트랑은 다른 거예요</h3>
+<p>지난 봄(4월 말~5월 초쯤) 진행됐던 '강철의 결심: 점령' 이벤트에서도 그림자 랜드로스 얘기가 나왔었는데, <b>이번 10월 그림자 레이드랑은 완전히 다른 콘텐츠예요.</b> 그때는 슈퍼 로켓레이더로 지오바니를 찾아가서 구출하는 방식이었고, 이번엔 체육관에서 직접 레이드로 싸워 잡는 방식이라 등장 경로 자체가 달라요. '어? 전에 봤던 그 그림자 랜드로스 아니야?' 싶으실 수 있는데~ 서로 다른 이벤트니까 헷갈리지 않으셨으면 해요.</p>
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 그림자 랜드로스 화신폼, 혼자서도 깰 수 있나요?</b><br>그림자 레이드는 폭주 상태 때문에 체감 난이도가 올라가서, 솔로 공략은 거의 불가능하다고 보고 최소 3명은 맞춰 가시는 게 좋아요.</p>
+<p><b>Q. 친구한테 레이드 패스를 받아서 원격으로 같이 할 수는 없나요?</b><br>안 돼요. 그림자 레이드는 처음부터 원격 레이드 패스 자체가 적용되지 않는 구조라, 반드시 체육관까지 직접 가야 참가할 수 있어요.</p>
+<p><b>Q. 잡고 나서 꼭 정화해야 하나요?</b><br>정화하면 강화·진화·새 기술 습득에 필요한 별모래·사탕 개수가 줄고 전용기 '은혜갚기'를 배우게 돼요. 다만 공략용 딜러로 쓰고 싶다면 오히려 공격력 보정이 붙은 그림자 상태 그대로 키우는 경우도 많아요. 육성 효율 목적이면 정화, 화력 목적이면 비정화로 갈리는 편이에요.</p>
+<p><b>Q. 직전에 있던 그림자 썬더러스 화신폼이랑 같이 나오는 건 아니죠?</b><br>맞아요, 같이 나오지 않아요. 그림자 썬더러스(화신폼)은 9월 9일부터 10월 6일까지였고, 그 자리를 10월 7일부터 랜드로스가 그대로 이어받는 순차 로테이션이에요.</p>
+<p><b>Q. 이번 로테이션이 끝나면 그림자 랜드로스는 다시 볼 수 없나요?</b><br>정확히 언제 다시 돌아올지는 공식 발표가 없어서 알 수 없지만, 그림자 레이드 보스가 보통 몇 주~몇 달 간격으로 로테이션되는 걸 보면 또 기회가 올 가능성은 있어요.</p>
+<h3>그림자 랜드로스 화신폼 레이드 정리</h3>
+<p>한 줄로 줄이면, 그림자 랜드로스 화신폼은 10월 7일부터 주말마다 열리는 레이드니까 얼음·물 카운터 미리 챙겨두시고 여유 있게 준비하시면 좋을 것 같아요. 정화 보상 같은 세부 내용은 공식 공지가 더 나오면 그때 업데이트해서 다시 정리해볼게요.</p>
+<p><b>✔ 포켓몬고 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224425057264" target="_blank">포켓몬고 이브이진화 종류 8가지 만드는법 이름트릭 버디 루어모듈 총정리</a><br>
+· <a href="https://blog.naver.com/bomding/224424495553" target="_blank">포켓몬GO 체리버 진화조건, 포켓몬고 체리꼬 네거폼·포지폼 결정법까지</a><br>
+· <a href="https://blog.naver.com/bomding/224413025050" target="_blank">포켓몬고 황혼의여정시즌 업데이트 정리, 신규포켓몬 메가진화 맥스배틀 뭐가 바뀌었나</a></p>
+<p><b>참고한 곳</b><br>
+· <a href="https://niantic.helpshift.com/hc/ko/6-pokemon-go/faq/4054-what-are-shadow-raids/" target="_blank">나이언틱 공식 도움말 — 그림자 레이드란?</a><br>
+· <a href="https://pokemongo.com/news/shadow-raids" target="_blank">포켓몬GO 공식 블로그 — Shadow Raids</a></p>
+<p>#포켓몬고 #그림자랜드로스 #랜드로스화신폼 #포켓몬고공략 #레이드카운터</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
