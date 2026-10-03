@@ -1,0 +1,402 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>브롤스타즈 거스 찾기 공략, 입구 퍼즐부터 복도 데미안 핀까지 브롤로윈 2026</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: "브롤스타즈 거스 찾기 공략 어떻게 하나요" / "브롤스타즈 거스 찾기 복도 안 열리는 이유" / "브롤스타즈 거스 찾기 비밀 스타 드롭 얻는 법" -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임공략</div>
+    <h1 class="title">브롤스타즈 거스 찾기 공략, 입구 퍼즐부터 복도 데미안 핀까지 브롤로윈 2026</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 10. 4.</span><span>· 게임</span></div>
+
+<p>브롤로윈 이벤트에 <b>거스 찾기(#FindGus)</b> 퍼즐이 열렸는데요, 입구 화면에 단서가 사방에 흩어져 있어서 순서 없이 이것저것 누르다 보면 어디까지 했는지 금방 헷갈리잖아요. 그래서 입구(Entrance)부터 복도(Hallway)의 데미안 핀까지, 필요한 것만 순서대로 모아 정리해 봤습니다. 퍼즐 해법은 인게임 콘텐츠라 해외 팬 공략에서 나온 얘기가 많고, 손에 든 화면과 다르면 인게임 화면이 정답이에요.</p>
+<h2 class="sub">거스 찾기 공략, 순서만 먼저 보면 이렇게 풀려요</h2>
+<p>입구 퍼즐은 <b>삽을 완성해 무덤을 파고, GUS 무덤을 다시 파서 정문 열쇠를 얻는 순서</b>로 풀려요.</p>
+<ol>
+  <li>삽 부품 3개를 모아 삽을 완성합니다.</li>
+  <li>호박을 부숴 열쇠와 글자를 얻습니다.</li>
+  <li>숨은 글자로 단어를 철자해 무덤을 팝니다.</li>
+  <li>나온 돌조각으로 거스 무덤을 복원하고 GUS를 철자합니다.</li>
+  <li>삽으로 GUS 무덤을 파서 열쇠를 꺼냅니다.</li>
+  <li>열쇠로 정문(중앙 문)을 열면 카오스 드롭과 함께 입구 클리어예요.</li>
+</ol>
+<table class="tbl">
+  <thead><tr><th>어디서</th><th>받는 것</th></tr></thead>
+  <tbody>
+    <tr><td>왼쪽 잠긴 상자</td><td>100코인</td></tr>
+    <tr><td>입구 정문(중앙 문)</td><td>카오스 드롭</td></tr>
+    <tr><td>숨겨진 비밀 4종</td><td>스타 드롭</td></tr>
+    <tr><td>복도 클리어</td><td>카오스 드롭</td></tr>
+    <tr><td>복도 4색 금고(별도 보너스 퍼즐)</td><td>데미안 핀</td></tr>
+  </tbody>
+</table>
+<h2 class="sub">거스 찾기는 어떤 이벤트인가요</h2>
+<p>거스 찾기는 브롤로윈 기간에 단계별로 열리는 퍼즐 이벤트로, 공식 소식에서 말한 <b>한 달 내내 이어지는 거스의 이야기</b> 가운데 퍼즐 단계에 해당해요. 공식 8월 릴리스 노트는 이 이벤트를 퍼즐과 커뮤니티 초이스, 크리에이터가 이끄는 커뮤니티 경험, 이 모든 요소가 어우러지는 피날레로 소개했습니다.</p>
+<!-- 이미지 이유: 입구 전경으로 퍼즐 구도 소개 / 분류: B형(직접 캡처) -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 거스 찾기 입구 퍼즐 전경</span></div>
+<div class="shoot">📸 직접 촬영 가이드 — <b>어디서</b>: 거스 찾기 입구 화면 진입 직후 · <b>무엇이 보이게</b>: 삽 부품 자리, 호박, 정문, 간판이 한 화면에 최대한 같이 · 위치 참고: <a href="https://brawlnetwork.com/guides/mortis-mortuary/" target="_blank">Brawl Network — Mortis' Mortuary</a></div>
+<p class="cap">입구에 들어서면 단서가 이렇게 흩어져 있어요.</p>
+<p>해외 공략 사이트 기준으로 입구 퍼즐은 10월 1일부터 열렸고, 복도는 10월 3일에 해금됐어요. 공식 노트에 정확한 종료일은 적혀 있지 않아서 남은 기간은 이벤트 탭에서 확인하는 게 가장 정확합니다. 퍼즐과 별개로 로비의 루니도 챙기면 든든하죠.</p>
+<ul>
+  <li>루니는 일일 승리를 최대 6회 채우면 스타 드롭이나 카오스 드롭을 줘요.</li>
+  <li>스타 드롭은 하루 0~2개가 나와요.</li>
+  <li>루니를 길게 눌러야 받고, 못 받았다면 다음 날 자동으로 수령돼요.</li>
+</ul>
+<h2 class="sub">삽 3부품은 어디서 찾나요</h2>
+<p>삽은 <b>손잡이, 랜턴, 삽날</b> 세 부분을 모으면 완성돼요. 무덤을 파기 전에 이 세 가지부터 끝내 두면 편합니다.</p>
+<ul>
+  <li>손잡이: 왼쪽 나무 옆 박쥐를 치우면 나옵니다(말뚝이라고 부르는 곳도 있어요).</li>
+  <li>랜턴: 왼쪽 아래 호박 뒤에 있어요.</li>
+  <li>삽날: 오른쪽 우편함에서 꺼냅니다.</li>
+</ul>
+<!-- 이미지 이유: 삽 부품 3개 위치를 바로 위 목록과 연결 / 분류: B형(직접 캡처) -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 삽 부품 3곳 위치</span></div>
+<div class="shoot">📸 직접 촬영 가이드 — <b>어디서</b>: 입구 화면 왼쪽 나무와 박쥐, 왼쪽 아래 호박, 오른쪽 우편함 · <b>무엇이 보이게</b>: 세 곳을 한 장씩 또는 번호를 붙인 한 장으로, 부품이 보이는 상태 · 위치 참고: <a href="https://brawlnetwork.com/guides/mortis-mortuary/" target="_blank">Brawl Network — Mortis' Mortuary</a></div>
+<p class="cap">박쥐 아래, 호박 뒤, 우편함 순서로 챙기면 편해요.</p>
+<h2 class="sub">호박을 부수면 뭐가 나오나요</h2>
+<p>호박을 부수면 <b>왼쪽 잠긴 상자를 여는 열쇠와 글자 N</b>이 나와요. 열쇠로 왼쪽 문 뒤 상자를 열면 100코인을 받고요. 이 글자 N은 뒤에서 DYNAMIKE를 철자할 때 쓰이니까 부수고 나서 눈여겨봐 두면 좋겠습니다.</p>
+<!-- 이미지 이유: 호박 부순 결과(열쇠·N·100코인) 증빙 / 분류: B형(직접 캡처) -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 호박을 부순 뒤 나온 열쇠와 N</span></div>
+<div class="shoot">📸 직접 촬영 가이드 — <b>어디서</b>: 호박을 부순 직후 화면 · <b>무엇이 보이게</b>: 열쇠와 글자 N, 이어서 왼쪽 상자에서 100코인을 받는 장면 · 위치 참고: <a href="https://theclick.gg/brawl-stars-find-gus-puzzle" target="_blank">The Click — Find Gus Puzzle</a></div>
+<p class="cap">호박 하나에 열쇠와 글자가 같이 나와요.</p>
+<h2 class="sub">DYNAMIKE 글자는 어디에 숨어 있나요</h2>
+<p>DYNAMIKE는 글자 8개를 모아 철자하는 단어예요. 간판 밖에 숨은 글자는 D, N, K, E 네 개이고, <b>글자마다 위치가 달라요</b>.</p>
+<table class="tbl">
+  <thead><tr><th>글자</th><th>어디서 나오나</th></tr></thead>
+  <tbody>
+    <tr><td>D</td><td>왼쪽 위 달</td></tr>
+    <tr><td>Y, A, M, I</td><td>MORTIS MORTUARY(Mortis' Mortuary) 간판</td></tr>
+    <tr><td>N</td><td>부순 호박</td></tr>
+    <tr><td>K</td><td>삽으로 왼쪽 문을 부수면 나와요</td></tr>
+    <tr><td>E</td><td>오른쪽 문 위 EXIT 간판 옆 꺼진 E</td></tr>
+  </tbody>
+</table>
+<p>숨은 글자로 TOMAR, YOU, DYNAMIKE를 철자하면 무덤을 팔 수 있어요. 철자는 간판이나 달 같은 글자 자리를 눌러 점등시키는 방식이고, 삽이 완성돼 있어야 파진다는 점만 기억하세요. TOMAR와 YOU는 간판의 MORTIS MORTUARY 글자로 철자하니, 간판 글자를 눌러 점등시키며 맞춰 보세요.</p>
+<!-- 이미지 이유: DYNAMIKE 글자 출처 위치(앵커) / 분류: B형(직접 캡처) -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 간판·달·EXIT 글자 위치</span></div>
+<div class="shoot">📸 직접 촬영 가이드 — <b>어디서</b>: 입구 화면의 달, MORTIS MORTUARY 간판, 오른쪽 문 위 EXIT 간판 · <b>무엇이 보이게</b>: D, Y·A·M·I, E가 보이도록 부위별로 또는 한 화면에 모아서 · 위치 참고: <a href="https://brawlnetwork.com/guides/mortis-mortuary/" target="_blank">Brawl Network — Mortis' Mortuary</a></div>
+<p class="cap">글자가 흩어져 있어서 위치를 먼저 눈에 익히면 빨라요.</p>
+<h2 class="sub">GUS 무덤을 복원하면 정문 열쇠가 나와요</h2>
+<p>무덤을 파면 돌조각이 나오는데, <b>이 조각으로 거스 무덤을 복원하고 GUS를 철자한 다음 삽으로 GUS 무덤을 다시 파면 열쇠</b>가 나와요. 그 열쇠로 정문(중앙 문)을 열면 카오스 드롭을 받고 입구 클리어입니다. 정문은 하나뿐이라 헷갈릴 일은 없어요.</p>
+<!-- 이미지 이유: 입구 클리어 결과(무덤·열쇠·카오스 드롭) / 분류: B형(직접 캡처) -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: GUS 무덤과 정문 열쇠, 카오스 드롭 수령</span></div>
+<div class="shoot">📸 직접 촬영 가이드 — <b>어디서</b>: 무덤 복원이 끝난 화면과 정문 개방 직후 · <b>무엇이 보이게</b>: 복원된 무덤, 정문 열쇠, 카오스 드롭 수령 화면을 차례로 · 위치 참고: <a href="https://brawlnetwork.com/guides/mortis-mortuary/" target="_blank">Brawl Network — Mortis' Mortuary</a></div>
+<p class="cap">무덤이 복원되고 문이 열리면 입구 클리어예요.</p>
+<h2 class="sub">숨겨진 스타 드롭 비밀 4종은 뭔가요</h2>
+<p>입구에는 <b>스타 드롭을 주는 숨겨진 비밀 4종</b>이 있어요. 입구를 클리어한 뒤 다시 들어와서도 도전할 수 있으니, 첫 판에 다 못 찾아도 괜찮습니다.</p>
+<table class="tbl">
+  <thead><tr><th>비밀</th><th>하는 법</th></tr></thead>
+  <tbody>
+    <tr><td>① 간판 점등</td><td>간판의 M R T S와 M O R T A Y를 점등시켜요</td></tr>
+    <tr><td>② MONSTER</td><td>간판 글자에 호박 N, EXIT의 E를 더해 MONSTER를 철자하고 삽으로 왼쪽 나무를 파요</td></tr>
+    <tr><td>③ DYNAMIKE 재도전</td><td>DYNAMIKE를 한 번 더 점등시키고 다시 파요</td></tr>
+    <tr><td>④ MORTIS와 모티스 모자</td><td>MORTIS를 철자한 뒤 왼쪽 창을 한 번 두드리고, 모티스 모자와 EXIT 위 오른쪽 창을 반복해서 탭해요. 창에 모티스가 나타나면 옆의 스타 드롭을 받아요</td></tr>
+  </tbody>
+</table>
+<p>④의 앞 단계는 자료에 따라 왼쪽 창 두드리기라고도, 모티스 모자 제거라고도 적혀 있어서 둘 다 시도해 볼 만해요.</p>
+<!-- 이미지 이유: 숨겨진 비밀 보상 수령 증빙 / 분류: B형(직접 캡처) -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 6: 비밀을 풀고 스타 드롭을 받는 순간</span></div>
+<div class="shoot">📸 직접 촬영 가이드 — <b>어디서</b>: 비밀 4종 중 하나를 완료한 직후 화면 · <b>무엇이 보이게</b>: 스타 드롭 수령 알림이나 열리는 연출 · 위치 참고: <a href="https://brawlnetwork.com/guides/mortis-mortuary/" target="_blank">Brawl Network — Mortis' Mortuary</a></div>
+<p class="cap">비밀을 풀면 스타 드롭이 따라와요.</p>
+<h2 class="sub">복도는 언제 열리고 데미안 핀은 어떻게 받나요</h2>
+<p>복도(Hallway)는 해외 공략 사이트 기준으로 10월 3일에 해금됐고, <b>입구 클리어와 전투 3승</b>을 채워야 들어갈 수 있어요. 복도가 안 열린다면 날짜보다 이 두 조건부터 보면 됩니다. 단서가 길게 이어지는 구성이라, 순서를 줄여서 옮기면 이렇습니다.</p>
+<ol>
+  <li>오른쪽 아래에서 드라이버를 챙겨요.</li>
+  <li>드라이버로 작은 캐비닛의 고정쇠를 풀어 열고, 안의 손잡이를 위쪽 잭인더박스에 끼워요.</li>
+  <li>잭인더박스 손잡이를 반복해서 돌려요.</li>
+  <li>프라이팬으로 데미안을 진정시켜요.</li>
+  <li>오른쪽 옷장을 반복해서 여닫으면 데미안이 놀라는데, 생선으로 진정시킨 뒤 옷장을 다시 열어 셰이드를 꺼내요.</li>
+  <li>옷장 안의 추를 괘종시계에 달고 12시로 맞춰요.</li>
+  <li>시계 장면 뒤에는 삽으로 데미안을 진정시켜요.</li>
+  <li>부서진 시계 아래칸에서 안테나를 꺼내 라디오에 끼우고, 드라이버로 조여야 작동해요.</li>
+  <li>라디오를 5번 채널에 맞추고, 드라이버로 데미안을 진정시켜요.</li>
+  <li>떨어진 초상화 뒤에서 해골 열쇠를 얻어 옷장 금고에서 심벌즈를 꺼내요.</li>
+  <li>셰이드에게 전달하고 탭하면 클리어예요.</li>
+</ol>
+<p>여기까지 하면 복도 클리어로 카오스 드롭을 받아요. 각 단계의 자세한 자리는 인게임 화면으로 확인하는 게 좋아요. 데미안 핀은 복도 클리어 보상이 아니라 <b>별도 보너스 퍼즐인 4색 금고</b>를 열어야 받고, 금고를 안 열어도 복도 클리어는 되거든요.</p>
+<p>금고는 라디오 아래 천을 걷어내면 나오는데, 해골 로고를 탭하면 모습을 드러내요. 각 모서리를 탭하면 색이 바뀌고, 아래 색에 맞추면 됩니다. 오른쪽 위는 주황이 아니라 노랑이에요. 색이 맞아 금고가 열리면 안에서 핀을 탭해 수령하는데, 복도 카오스 드롭을 받은 뒤에 돌아와서 해도 괜찮네요.</p>
+<table class="tbl">
+  <thead><tr><th>금고 위치</th><th>색</th></tr></thead>
+  <tbody>
+    <tr><td>왼쪽 위</td><td>보라</td></tr>
+    <tr><td>오른쪽 위</td><td>노랑</td></tr>
+    <tr><td>왼쪽 아래</td><td>초록</td></tr>
+    <tr><td>오른쪽 아래</td><td>빨강</td></tr>
+  </tbody>
+</table>
+<!-- 이미지 이유: 복도 4색 금고와 데미안 핀 결과(앵커) / 분류: B형(직접 캡처) -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 7: 복도 4색 금고와 핀 수령</span></div>
+<div class="shoot">📸 직접 촬영 가이드 — <b>어디서</b>: 복도의 라디오 아래 금고, 그리고 핀 수령 화면 · <b>무엇이 보이게</b>: 보라·노랑·초록·빨강 4색 금고와 수령한 데미안 핀이 보이게 · 위치 참고: <a href="https://brawlnetwork.com/guides/find-gus-hallway/" target="_blank">Brawl Network — Find Gus Hallway</a></div>
+<p class="cap">해골 로고를 탭해야 금고가 나타나요.</p>
+<h2 class="sub">막힐 때 점검할 것들</h2>
+<p>글자가 모자라면 삽 부품보다 D, K, E 자리부터 다시 훑어보세요. 무덤이 안 파진다면 삽 3부품이 다 모였는지부터 확인하고, 무덤 복원 전에는 정문이 열리지 않으니 순서를 건너뛰지 않는 게 좋아요. 복도가 안 열리면 전투 승리 횟수를 세어 보시고, 글자 위치가 안 맞으면 이 글보다 인게임 화면을 우선해 주세요.</p>
+<h2 class="sub">자주 묻는 질문</h2>
+<p><b>Q. 전투에서 지면 퍼즐 진행도가 날아가나요?</b><br>해외 공략 사이트 기준으로 패배해도 진행도가 지워지지는 않는다고 해요. 3승은 이기는 만큼 쌓인다고 알려져 있어서 연패해도 처음부터 다시 하실 필요는 없을 거예요.</p>
+<p><b>Q. 비밀 4종을 입구 클리어 전에 다 풀어야 하나요?</b><br>클리어한 뒤에 다시 들어와서도 획득할 수 있어요. 급하게 한 번에 끝내려고 무리하지 않으셔도 됩니다.</p>
+<p><b>Q. 오른쪽 잠긴 상자 열쇠는 어디 있나요?</b><br>오른쪽 잠긴 상자의 열쇠가 어디 있는지는 아직 알려진 게 없어요.</p>
+<p><b>Q. 복도 다음 단계는 언제 열리나요?</b><br>지금 확인되는 건 입구와 복도까지예요. 3단계가 열리는 대로 이 글에 이어서 추가하겠습니다.</p>
+<h2 class="sub">브롤스타즈 거스 찾기 정리</h2>
+<p>정리하면 <b>삽 3부품, 호박, 숨은 글자, GUS 무덤, 정문 열쇠 순서로 입구를 깨고, 전투 3승으로 복도를 열어 카오스 드롭까지 받은 뒤 4색 금고로 데미안 핀을 챙기는 길</b>이에요. 글자 자리만 눈에 익혀 두면 입구는 금방 끝나죠. 비밀 4종과 금고는 시간 날 때 천천히 이어가도 보상을 놓치지 않으니까, 즐겁게 달려 보자고요~</p>
+<p><b>참고한 곳</b> (2026.10.04 기준)<br>
+· <a href="https://supercell.com/en/games/brawlstars/ko/blog/release-notes/2026%EB%85%84-8%EC%9B%94-%EB%A6%B4%EB%A6%AC%EC%8A%A4-%EB%85%B8%ED%8A%B8/" target="_blank">브롤스타즈 공식 블로그 — 2026년 8월 릴리스 노트</a></p>
+<p><b>해외 공략 사이트</b><br>
+· <a href="https://brawlnetwork.com/guides/mortis-mortuary/" target="_blank">Brawl Network — Mortis' Mortuary</a><br>
+· <a href="https://brawlnetwork.com/guides/find-gus-hallway/" target="_blank">Brawl Network — Find Gus Hallway</a><br>
+· <a href="https://theclick.gg/brawl-stars-find-gus-puzzle" target="_blank">The Click — Find Gus Puzzle</a><br>
+· <a href="https://www.sportsdunia.com/gaming/brawl-stars-gus-secrets-solutions-list" target="_blank">Sportsdunia — Gus Secrets</a><br>
+· 관련 영상: <a href="https://youtu.be/9FKkWe7JHu0" target="_blank">브롤스타즈 복잡한 거스 찾기 공략 이런식 하시면 됩니다! (숨겨진 보상 포함)</a></p>
+<p><b>✔ 브롤스타즈 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224115848524" target="_blank">브롤스타즈 쿠폰 신화 스타 드롭, 랜덤 스타 드롭 나눔</a><br>
+· <a href="https://blog.naver.com/bomding/223331734892" target="_blank">브롤스타즈 키트 가젯 기어 스타파워 공략 귀여움만큼 꿀잼!</a><br>
+· <a href="https://blog.naver.com/bomding/223259658567" target="_blank">슈팅게임 브롤스타즈 신규 브롤러 찰리 시즌21 기묘한 서커스를 통해 합류</a></p>
+
+    <div class="btns">
+      <a href="https://supercell.com/en/games/brawlstars/ko/blog/release-notes/2026%EB%85%84-8%EC%9B%94-%EB%A6%B4%EB%A6%AC%EC%8A%A4-%EB%85%B8%ED%8A%B8/" target="_blank">공식 8월 릴리스 노트</a>
+    </div>
+
+    <div class="tags">#브롤스타즈 #브롤스타즈거스찾기 #거스찾기공략 #브롤로윈 #브롤스타즈할로윈 #브롤스타즈데미안 #데미안핀 #브롤스타즈이벤트 #브롤스타즈2026</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 7가지(약 7분):</b> 📷 <b>사진 7곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 브롤스타즈 거스 찾기 공략, 입구 퍼즐부터 복도 데미안 핀까지 브롤로윈 2026</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>브롤로윈 이벤트에 <b>거스 찾기(#FindGus)</b> 퍼즐이 열렸는데요, 입구 화면에 단서가 사방에 흩어져 있어서 순서 없이 이것저것 누르다 보면 어디까지 했는지 금방 헷갈리잖아요. 그래서 입구(Entrance)부터 복도(Hallway)의 데미안 핀까지, 필요한 것만 순서대로 모아 정리해 봤습니다. 퍼즐 해법은 인게임 콘텐츠라 해외 팬 공략에서 나온 얘기가 많고, 손에 든 화면과 다르면 인게임 화면이 정답이에요.</p>
+<h3>거스 찾기 공략, 순서만 먼저 보면 이렇게 풀려요</h3>
+<p>입구 퍼즐은 <b>삽을 완성해 무덤을 파고, GUS 무덤을 다시 파서 정문 열쇠를 얻는 순서</b>로 풀려요.</p>
+<ol>
+  <li>삽 부품 3개를 모아 삽을 완성합니다.</li>
+  <li>호박을 부숴 열쇠와 글자를 얻습니다.</li>
+  <li>숨은 글자로 단어를 철자해 무덤을 팝니다.</li>
+  <li>나온 돌조각으로 거스 무덤을 복원하고 GUS를 철자합니다.</li>
+  <li>삽으로 GUS 무덤을 파서 열쇠를 꺼냅니다.</li>
+  <li>열쇠로 정문(중앙 문)을 열면 카오스 드롭과 함께 입구 클리어예요.</li>
+</ol>
+<table>
+  <thead><tr><th>어디서</th><th>받는 것</th></tr></thead>
+  <tbody>
+    <tr><td>왼쪽 잠긴 상자</td><td>100코인</td></tr>
+    <tr><td>입구 정문(중앙 문)</td><td>카오스 드롭</td></tr>
+    <tr><td>숨겨진 비밀 4종</td><td>스타 드롭</td></tr>
+    <tr><td>복도 클리어</td><td>카오스 드롭</td></tr>
+    <tr><td>복도 4색 금고(별도 보너스 퍼즐)</td><td>데미안 핀</td></tr>
+  </tbody>
+</table>
+<h3>거스 찾기는 어떤 이벤트인가요</h3>
+<p>거스 찾기는 브롤로윈 기간에 단계별로 열리는 퍼즐 이벤트로, 공식 소식에서 말한 <b>한 달 내내 이어지는 거스의 이야기</b> 가운데 퍼즐 단계에 해당해요. 공식 8월 릴리스 노트는 이 이벤트를 퍼즐과 커뮤니티 초이스, 크리에이터가 이끄는 커뮤니티 경험, 이 모든 요소가 어우러지는 피날레로 소개했습니다.</p>
+<p class="ph">📷 〔사진 1〕 거스 찾기 입구 퍼즐 전경 — 직접 캡처 후 업로드</p>
+<p>해외 공략 사이트 기준으로 입구 퍼즐은 10월 1일부터 열렸고, 복도는 10월 3일에 해금됐어요. 공식 노트에 정확한 종료일은 적혀 있지 않아서 남은 기간은 이벤트 탭에서 확인하는 게 가장 정확합니다. 퍼즐과 별개로 로비의 루니도 챙기면 든든하죠.</p>
+<ul>
+  <li>루니는 일일 승리를 최대 6회 채우면 스타 드롭이나 카오스 드롭을 줘요.</li>
+  <li>스타 드롭은 하루 0~2개가 나와요.</li>
+  <li>루니를 길게 눌러야 받고, 못 받았다면 다음 날 자동으로 수령돼요.</li>
+</ul>
+<h3>삽 3부품은 어디서 찾나요</h3>
+<p>삽은 <b>손잡이, 랜턴, 삽날</b> 세 부분을 모으면 완성돼요. 무덤을 파기 전에 이 세 가지부터 끝내 두면 편합니다.</p>
+<ul>
+  <li>손잡이: 왼쪽 나무 옆 박쥐를 치우면 나옵니다(말뚝이라고 부르는 곳도 있어요).</li>
+  <li>랜턴: 왼쪽 아래 호박 뒤에 있어요.</li>
+  <li>삽날: 오른쪽 우편함에서 꺼냅니다.</li>
+</ul>
+<p class="ph">📷 〔사진 2〕 삽 부품 3곳 위치 — 직접 캡처 후 업로드</p>
+<h3>호박을 부수면 뭐가 나오나요</h3>
+<p>호박을 부수면 <b>왼쪽 잠긴 상자를 여는 열쇠와 글자 N</b>이 나와요. 열쇠로 왼쪽 문 뒤 상자를 열면 100코인을 받고요. 이 글자 N은 뒤에서 DYNAMIKE를 철자할 때 쓰이니까 부수고 나서 눈여겨봐 두면 좋겠습니다.</p>
+<p class="ph">📷 〔사진 3〕 호박을 부순 뒤 나온 열쇠와 N — 직접 캡처 후 업로드</p>
+<h3>DYNAMIKE 글자는 어디에 숨어 있나요</h3>
+<p>DYNAMIKE는 글자 8개를 모아 철자하는 단어예요. 간판 밖에 숨은 글자는 D, N, K, E 네 개이고, <b>글자마다 위치가 달라요</b>.</p>
+<table>
+  <thead><tr><th>글자</th><th>어디서 나오나</th></tr></thead>
+  <tbody>
+    <tr><td>D</td><td>왼쪽 위 달</td></tr>
+    <tr><td>Y, A, M, I</td><td>MORTIS MORTUARY(Mortis' Mortuary) 간판</td></tr>
+    <tr><td>N</td><td>부순 호박</td></tr>
+    <tr><td>K</td><td>삽으로 왼쪽 문을 부수면 나와요</td></tr>
+    <tr><td>E</td><td>오른쪽 문 위 EXIT 간판 옆 꺼진 E</td></tr>
+  </tbody>
+</table>
+<p>숨은 글자로 TOMAR, YOU, DYNAMIKE를 철자하면 무덤을 팔 수 있어요. 철자는 간판이나 달 같은 글자 자리를 눌러 점등시키는 방식이고, 삽이 완성돼 있어야 파진다는 점만 기억하세요. TOMAR와 YOU는 간판의 MORTIS MORTUARY 글자로 철자하니, 간판 글자를 눌러 점등시키며 맞춰 보세요.</p>
+<p class="ph">📷 〔사진 4〕 간판·달·EXIT 글자 위치 — 직접 캡처 후 업로드</p>
+<h3>GUS 무덤을 복원하면 정문 열쇠가 나와요</h3>
+<p>무덤을 파면 돌조각이 나오는데, <b>이 조각으로 거스 무덤을 복원하고 GUS를 철자한 다음 삽으로 GUS 무덤을 다시 파면 열쇠</b>가 나와요. 그 열쇠로 정문(중앙 문)을 열면 카오스 드롭을 받고 입구 클리어입니다. 정문은 하나뿐이라 헷갈릴 일은 없어요.</p>
+<p class="ph">📷 〔사진 5〕 GUS 무덤과 정문 열쇠, 카오스 드롭 수령 — 직접 캡처 후 업로드</p>
+<h3>숨겨진 스타 드롭 비밀 4종은 뭔가요</h3>
+<p>입구에는 <b>스타 드롭을 주는 숨겨진 비밀 4종</b>이 있어요. 입구를 클리어한 뒤 다시 들어와서도 도전할 수 있으니, 첫 판에 다 못 찾아도 괜찮습니다.</p>
+<table>
+  <thead><tr><th>비밀</th><th>하는 법</th></tr></thead>
+  <tbody>
+    <tr><td>① 간판 점등</td><td>간판의 M R T S와 M O R T A Y를 점등시켜요</td></tr>
+    <tr><td>② MONSTER</td><td>간판 글자에 호박 N, EXIT의 E를 더해 MONSTER를 철자하고 삽으로 왼쪽 나무를 파요</td></tr>
+    <tr><td>③ DYNAMIKE 재도전</td><td>DYNAMIKE를 한 번 더 점등시키고 다시 파요</td></tr>
+    <tr><td>④ MORTIS와 모티스 모자</td><td>MORTIS를 철자한 뒤 왼쪽 창을 한 번 두드리고, 모티스 모자와 EXIT 위 오른쪽 창을 반복해서 탭해요. 창에 모티스가 나타나면 옆의 스타 드롭을 받아요</td></tr>
+  </tbody>
+</table>
+<p>④의 앞 단계는 자료에 따라 왼쪽 창 두드리기라고도, 모티스 모자 제거라고도 적혀 있어서 둘 다 시도해 볼 만해요.</p>
+<p class="ph">📷 〔사진 6〕 비밀을 풀고 스타 드롭을 받는 순간 — 직접 캡처 후 업로드</p>
+<h3>복도는 언제 열리고 데미안 핀은 어떻게 받나요</h3>
+<p>복도(Hallway)는 해외 공략 사이트 기준으로 10월 3일에 해금됐고, <b>입구 클리어와 전투 3승</b>을 채워야 들어갈 수 있어요. 복도가 안 열린다면 날짜보다 이 두 조건부터 보면 됩니다. 단서가 길게 이어지는 구성이라, 순서를 줄여서 옮기면 이렇습니다.</p>
+<ol>
+  <li>오른쪽 아래에서 드라이버를 챙겨요.</li>
+  <li>드라이버로 작은 캐비닛의 고정쇠를 풀어 열고, 안의 손잡이를 위쪽 잭인더박스에 끼워요.</li>
+  <li>잭인더박스 손잡이를 반복해서 돌려요.</li>
+  <li>프라이팬으로 데미안을 진정시켜요.</li>
+  <li>오른쪽 옷장을 반복해서 여닫으면 데미안이 놀라는데, 생선으로 진정시킨 뒤 옷장을 다시 열어 셰이드를 꺼내요.</li>
+  <li>옷장 안의 추를 괘종시계에 달고 12시로 맞춰요.</li>
+  <li>시계 장면 뒤에는 삽으로 데미안을 진정시켜요.</li>
+  <li>부서진 시계 아래칸에서 안테나를 꺼내 라디오에 끼우고, 드라이버로 조여야 작동해요.</li>
+  <li>라디오를 5번 채널에 맞추고, 드라이버로 데미안을 진정시켜요.</li>
+  <li>떨어진 초상화 뒤에서 해골 열쇠를 얻어 옷장 금고에서 심벌즈를 꺼내요.</li>
+  <li>셰이드에게 전달하고 탭하면 클리어예요.</li>
+</ol>
+<p>여기까지 하면 복도 클리어로 카오스 드롭을 받아요. 각 단계의 자세한 자리는 인게임 화면으로 확인하는 게 좋아요. 데미안 핀은 복도 클리어 보상이 아니라 <b>별도 보너스 퍼즐인 4색 금고</b>를 열어야 받고, 금고를 안 열어도 복도 클리어는 되거든요.</p>
+<p>금고는 라디오 아래 천을 걷어내면 나오는데, 해골 로고를 탭하면 모습을 드러내요. 각 모서리를 탭하면 색이 바뀌고, 아래 색에 맞추면 됩니다. 오른쪽 위는 주황이 아니라 노랑이에요. 색이 맞아 금고가 열리면 안에서 핀을 탭해 수령하는데, 복도 카오스 드롭을 받은 뒤에 돌아와서 해도 괜찮네요.</p>
+<table>
+  <thead><tr><th>금고 위치</th><th>색</th></tr></thead>
+  <tbody>
+    <tr><td>왼쪽 위</td><td>보라</td></tr>
+    <tr><td>오른쪽 위</td><td>노랑</td></tr>
+    <tr><td>왼쪽 아래</td><td>초록</td></tr>
+    <tr><td>오른쪽 아래</td><td>빨강</td></tr>
+  </tbody>
+</table>
+<p class="ph">📷 〔사진 7〕 복도 4색 금고와 핀 수령 — 직접 캡처 후 업로드</p>
+<h3>막힐 때 점검할 것들</h3>
+<p>글자가 모자라면 삽 부품보다 D, K, E 자리부터 다시 훑어보세요. 무덤이 안 파진다면 삽 3부품이 다 모였는지부터 확인하고, 무덤 복원 전에는 정문이 열리지 않으니 순서를 건너뛰지 않는 게 좋아요. 복도가 안 열리면 전투 승리 횟수를 세어 보시고, 글자 위치가 안 맞으면 이 글보다 인게임 화면을 우선해 주세요.</p>
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 전투에서 지면 퍼즐 진행도가 날아가나요?</b><br>해외 공략 사이트 기준으로 패배해도 진행도가 지워지지는 않는다고 해요. 3승은 이기는 만큼 쌓인다고 알려져 있어서 연패해도 처음부터 다시 하실 필요는 없을 거예요.</p>
+<p><b>Q. 비밀 4종을 입구 클리어 전에 다 풀어야 하나요?</b><br>클리어한 뒤에 다시 들어와서도 획득할 수 있어요. 급하게 한 번에 끝내려고 무리하지 않으셔도 됩니다.</p>
+<p><b>Q. 오른쪽 잠긴 상자 열쇠는 어디 있나요?</b><br>오른쪽 잠긴 상자의 열쇠가 어디 있는지는 아직 알려진 게 없어요.</p>
+<p><b>Q. 복도 다음 단계는 언제 열리나요?</b><br>지금 확인되는 건 입구와 복도까지예요. 3단계가 열리는 대로 이 글에 이어서 추가하겠습니다.</p>
+<h3>브롤스타즈 거스 찾기 정리</h3>
+<p>정리하면 <b>삽 3부품, 호박, 숨은 글자, GUS 무덤, 정문 열쇠 순서로 입구를 깨고, 전투 3승으로 복도를 열어 카오스 드롭까지 받은 뒤 4색 금고로 데미안 핀을 챙기는 길</b>이에요. 글자 자리만 눈에 익혀 두면 입구는 금방 끝나죠. 비밀 4종과 금고는 시간 날 때 천천히 이어가도 보상을 놓치지 않으니까, 즐겁게 달려 보자고요~</p>
+<p><b>참고한 곳</b> (2026.10.04 기준)<br>
+· <a href="https://supercell.com/en/games/brawlstars/ko/blog/release-notes/2026%EB%85%84-8%EC%9B%94-%EB%A6%B4%EB%A6%AC%EC%8A%A4-%EB%85%B8%ED%8A%B8/" target="_blank">브롤스타즈 공식 블로그 — 2026년 8월 릴리스 노트</a></p>
+<p><b>해외 공략 사이트</b><br>
+· <a href="https://brawlnetwork.com/guides/mortis-mortuary/" target="_blank">Brawl Network — Mortis' Mortuary</a><br>
+· <a href="https://brawlnetwork.com/guides/find-gus-hallway/" target="_blank">Brawl Network — Find Gus Hallway</a><br>
+· <a href="https://theclick.gg/brawl-stars-find-gus-puzzle" target="_blank">The Click — Find Gus Puzzle</a><br>
+· <a href="https://www.sportsdunia.com/gaming/brawl-stars-gus-secrets-solutions-list" target="_blank">Sportsdunia — Gus Secrets</a><br>
+· 관련 영상: <a href="https://youtu.be/9FKkWe7JHu0" target="_blank">브롤스타즈 복잡한 거스 찾기 공략 이런식 하시면 됩니다! (숨겨진 보상 포함)</a></p>
+<p><b>✔ 브롤스타즈 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224115848524" target="_blank">브롤스타즈 쿠폰 신화 스타 드롭, 랜덤 스타 드롭 나눔</a><br>
+· <a href="https://blog.naver.com/bomding/223331734892" target="_blank">브롤스타즈 키트 가젯 기어 스타파워 공략 귀여움만큼 꿀잼!</a><br>
+· <a href="https://blog.naver.com/bomding/223259658567" target="_blank">슈팅게임 브롤스타즈 신규 브롤러 찰리 시즌21 기묘한 서커스를 통해 합류</a></p>
+<p class="tags-line">#브롤스타즈 #브롤스타즈거스찾기 #거스찾기공략 #브롤로윈 #브롤스타즈할로윈 #브롤스타즈데미안 #데미안핀 #브롤스타즈이벤트 #브롤스타즈2026</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
