@@ -1,0 +1,273 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>도깨비의세계 사전 다운로드·사양 정리, 10월 6일 11시 PC 모바일 최소 권장</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post ul{margin:0 0 18px;padding-left:20px;font-size:15.5px;line-height:1.95;word-break:keep-all;}
+  .post li{margin:4px 0;}
+  .post b{font-weight:800;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td.l{text-align:left;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy h3:first-child{margin-top:0;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy a{color:#1a73e8;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">게임 정보·소식 · 도깨비의세계</div>
+    <h1 class="title">도깨비의세계 사전 다운로드·사양 정리, 10월 6일 11시 PC 모바일 최소 권장</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026.10.04</span><span>· 게임</span></div>
+
+    <p><b>도깨비의세계</b> 사전 다운로드가 이번 화요일, <b>10월 6일 11시</b>에 열려요. 주인장도 날짜가 다가오니 슬슬 마음이 급해지는데요. 내 PC와 폰이 문턱을 넘는지 한눈에 보시라고 최소·권장 사양을 표로 묶어 봤어요.</p>
+    <p>정식 출시는 <b>10월 8일</b>로 안내돼 있어서, 사전 다운로드는 그보다 이틀 앞선 6일이네요. 사양 수치는 9월 30일 공식 포럼 공지 기준이에요. 사전예약 혜택 같은 건 이미 정리한 글이 있으니 맨 아래 링크로 넘어가 주세요.</p>
+
+    <h2 class="sec">1. 사전 다운로드 일정, 10월 6일(화) 11:00 시작</h2>
+    <p>사전 다운로드는 <b>10월 6일(화) 오전 11시</b>부터 시작하는데요, Android(구글)·iOS(애플)·PC 버전 모두 미리 받을 수 있어요.</p>
+    <ul>
+      <li>시작 : 10월 6일(화) 11:00</li>
+      <li>대상 : Android · iOS · PC 전 플랫폼</li>
+      <li>정식 출시 : 10월 8일</li>
+    </ul>
+    <p>다만 <b>다운로드 경로</b>는 아직 공개되지 않았어요. 공지에는 시작 시점인 6일 11시에 해당 공지를 통해 경로를 안내할 예정이라고 되어 있습니다. 반면 용량(GB)과 PC 다운로드 방식, 모바일 저장공간은 지금 공지에 없고 공개 시점도 정해지지 않았더라고요. 11시 전에는 아래 사양 표와 내 기기를 대조해 두시면 됩니다. 사전예약 마감은 10월 5일(월) 23:59라서 다운로드 시작 전날 밤이니, 아직이라면 그 전에 신청부터 마쳐 두세요.</p>
+
+    <h2 class="sec">2. PC 최소·권장 사양 비교</h2>
+    <p>PC는 최소 사양이 Windows 10(64bit)에 메모리 16GB·GTX 1660인데요, 권장 사양은 Windows 11(64bit)에 메모리 32GB·RTX 3060으로 올라가네요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>최소</th><th>권장</th></tr>
+      <tr><td>운영체제</td><td>Windows 10 (64bit)</td><td>Windows 11 (64bit)</td></tr>
+      <tr><td>CPU</td><td class="l">AMD Ryzen 3-3300X (4C/8T) 이상<br>Intel Core i5-10400F (6C/12T) 이상</td><td class="l">AMD Ryzen 7 3700X (8C/16T) 이상<br>Intel Core i9-9900K (8C/16T) 이상</td></tr>
+      <tr><td>메모리</td><td>16GB 이상</td><td>32GB 이상</td></tr>
+      <tr><td>하드디스크 여유공간</td><td>30GB (SSD)</td><td>30GB (SSD)</td></tr>
+      <tr><td>그래픽카드</td><td>NVIDIA GeForce GTX 1660</td><td>NVIDIA GeForce RTX 3060</td></tr>
+      <tr><td>DirectX</td><td>DirectX 11 이상</td><td>DirectX 12 이상</td></tr>
+    </table>
+    <p>CPU는 AMD 계열과 인텔 계열 기준이 나란히 적혀 있는데요, 내가 쓰는 CPU 쪽 줄과 비교해 보시면 됩니다. 개인적으로 제일 먼저 눈에 들어온 건 메모리였어요. 최소부터 <b>16GB</b>고 권장은 <b>32GB</b>라서, 모자라면 이쪽부터 확인해 보시는 게 빠를 것 같아요. 운영체제도 최소·권장 모두 64bit로 적혀 있으니 설치된 윈도우가 64비트인지부터 봐 두시면 좋겠네요.</p>
+<p>그래픽카드는 GTX 1660에서 RTX 3060으로 올라가는데요, 공지에 적힌 모델 이름 기준이라 다른 모델을 쓰신다면 직접 비교해 보셔야 하거든요. DirectX도 최소 11, 권장 12이니 dxdiag 결과와 같이 보세요.</p>
+    <p>저장공간은 최소·권장 모두 30GB(SSD)로 똑같이 적혀 있네요. 다만 이건 여유공간 요구치라 실제 다운로드 용량과 같다고 볼 수는 없어서, 용량은 아직 알 수 없어요.</p>
+    <p>그러면 최소와 권장 사이 어디쯤인지도 중요한데요. 표를 줄 세워 보면 최소에서 권장으로 갈 때 OS는 Windows 10에서 11로, CPU는 4코어·6코어급(4C/8T, 6C/12T)에서 8코어(8C/16T)로, 메모리는 16GB에서 32GB로, 그래픽카드는 GTX 1660에서 RTX 3060으로, DirectX는 11에서 12로 한 칸씩 올라가네요. 내 PC가 이 사이 어디쯤인지만 감을 잡아 두시면 되고, 해상도별 프레임이나 옵션 성능은 공지에 없어서 거기까지는 말씀드릴 수 없어요.</p>
+
+    <h2 class="sec">3. 모바일 최소·권장 사양 (Android · iOS)</h2>
+    <p>모바일 최소 사양은 Galaxy S20(8GB)과 iPhone 14(6GB), 권장 사양은 Galaxy S23(8GB)과 iPhone 15 Pro(8GB)이고, 최소 OS는 Android 10 이상·iOS 16 이상이에요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>최소</th><th>권장</th><th>최소 OS</th></tr>
+      <tr><td>Android(구글)</td><td>Galaxy S20 (8GB)</td><td>Galaxy S23 (8GB)</td><td>Android 10 이상</td></tr>
+      <tr><td>iOS(애플)</td><td>iPhone 14 (6GB)</td><td>iPhone 15 Pro (8GB)</td><td>iOS 16 이상</td></tr>
+    </table>
+    <p>모바일은 CPU 대신 <b>기기명과 메모리 용량</b>으로 적혀 있는 게 특징이에요. Android는 최소·권장 모두 8GB로 같고 기기 세대만 달라지는 반면, iOS는 6GB에서 8GB로 올라가요. 개인적으로는 Android 최소가 8GB로 적혀 있다는 점이 제일 눈에 띄었는데요. 최소와 권장 모두 구체적인 기기명이 적혀 있고 권장 쪽이 더 최근 모델이라, 내 폰이 어느 세대쯤인지가 가늠 기준이 돼요. 그 외에 기종별 지원 여부나 옵션별 성능 같은 건 이번 공지에 나와 있지 않아요.</p>
+<p>폰이 표에 나온 기기와 똑같은 분은 의외로(?) 많지 않을 텐데요. 이럴 땐 내 기기가 표의 기기와 같은 세대인지, 한참 이전 세대인지부터 가늠하고 메모리 용량을 나란히 놓고 보시면 됩니다. 다만 공지에 적힌 건 기기명·메모리·OS 기준뿐이라, 같은 메모리라고 해서 통과한다는 보장까지는 없어요. 애매하다면 6일 11시에 다운로드가 되는지 직접 받아 보는 게 가장 확실하겠네요 ㅋㅋ</p>
+
+    <h2 class="sec">4. 내 기기 확인법</h2>
+    <p>세 군데만 보면 돼요. PC는 윈도우 '설정 &gt; 시스템 &gt; 정보'와 dxdiag, Android는 '설정 &gt; 휴대전화 정보', 아이폰은 '설정 &gt; 일반 &gt; 정보'에서 모델과 OS 버전이 나오거든요.</p>
+    <ul>
+      <li><b>PC</b> : '설정 &gt; 시스템 &gt; 정보'에서 프로세서, 설치된 RAM, 시스템 종류(64비트인지)를 보세요. 이어서 Win+R로 'dxdiag'를 실행하면 시스템 탭에서 DirectX 버전, 디스플레이 탭에서 그래픽카드 이름이 나옵니다.</li>
+      <li><b>Android</b> : '설정 &gt; 휴대전화 정보'에서 모델명과 Android 버전을 확인하세요. 메모리 용량이 표시되는 위치는 제조사마다 달라서, 모델명으로 스펙을 한 번 찾아보는 쪽이 빠릅니다.</li>
+      <li><b>iPhone</b> : '설정 &gt; 일반 &gt; 정보'의 모델 이름과 iOS 버전을 표의 iPhone 14 · 15 Pro 줄과 대조해 보세요.</li>
+    </ul>
+    <p>윈도우 버전만 빠르게 보고 싶다면 Win+R로 'winver'를 실행해도 됩니다. 노트북이라면 dxdiag 디스플레이 탭이 내장·외장 두 개로 나뉘어 있을 수 있으니 둘 다 열어 보세요. 순서는 OS·64비트부터, 그다음 메모리, 마지막이 그래픽카드(폰은 모델명)로 보시면 가장 덜 헷갈리더라고요.</p>
+    <!-- 이미지 이유: 위 목록의 PC 확인 경로(설정 > 시스템 > 정보)를 보여주는 실제 화면 / 분류: B형(직접 촬영, 공식 화면 아님) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 윈도우 설정 &gt; 시스템 &gt; 정보 화면 (프로세서 · 설치된 RAM · 시스템 종류)</span></div>
+    <div class="shoot">📸 직접 촬영 — 작성자 본인 PC에서 '설정 &gt; 시스템 &gt; 정보'를 열고 프로세서·설치된 RAM·시스템 종류가 한 화면에 보이게 캡처. 그래픽카드·DirectX 버전은 Win+R &rarr; dxdiag 의 시스템·디스플레이 탭을 한 장 더 붙여도 좋음(개인정보인 PC 이름·장치 ID는 가리기).</div>
+    <p class="cap">보시는 것처럼 '시스템 &gt; 정보'에서 프로세서와 설치된 RAM이 바로 나옵니다 :)</p>
+    <!-- 이미지 이유: 위 목록의 Android 확인 경로 / 분류: B형(직접 촬영, 공식 화면 아님) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: Android 설정 &gt; 휴대전화 정보 (모델명 · Android 버전)</span></div>
+    <div class="shoot">📸 직접 촬영 — 작성자 갤럭시(또는 Android 폰)에서 '설정 &gt; 휴대전화 정보' 첫 화면 캡처. 일련번호·IMEI·전화번호는 가리기.</div>
+    <p class="cap">지금 보시는 화면처럼 모델명과 Android 버전이 한 화면에 나오면 표와 바로 비교할 수 있어요</p>
+    <!-- 이미지 이유: 위 목록의 iPhone 확인 경로, 스샷 2와 OS·화면 구성이 달라 인접 중복 아님 / 분류: B형(직접 촬영, 공식 화면 아님) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 아이폰 설정 &gt; 일반 &gt; 정보 (모델 이름 · iOS 버전)</span></div>
+    <div class="shoot">📸 직접 촬영 — 아이폰에서 '설정 &gt; 일반 &gt; 정보' 캡처(모델 이름·소프트웨어 버전이 보이게). 일련번호·IMEI는 가리기. 아이폰이 없으면 이 장은 생략.</div>
+    <p class="cap">아이폰은 모델 이름과 iOS 버전 두 줄만 보면 끝!</p>
+
+    <h2 class="sec">5. 놓치기 쉬운 것, 사전예약 마감과 사양 변경</h2>
+    <p>사전예약은 10월 5일(월) 23:59에 마감되고, 안내된 사양은 추후 바뀔 수 있어요. 최소사양 이하 일부 모바일 기기는 다운로드가 안 되거나 플레이가 원활하지 않을 수도 있고요.</p>
+    <ul>
+      <li><b>사전예약 마감</b> : 이 글을 쓰는 10월 4일 기준으로 마감까지 하루 남짓이에요. 아직이라면 아래 버튼으로 들어가세요.</li>
+      <li><b>사양 변경 가능</b> : 공지에 '추후 변경될 수 있다'고 적혀 있으니, 출시 전에 이 공지를 한 번 더 열어 보세요.</li>
+      <li><b>최소사양 이하 모바일</b> : 공지 주의사항에 최소사양 이하 등의 일부 모바일 기기는 다운로드가 불가하거나 플레이가 원활하지 않을 수 있다고 적혀 있어요. 내 폰이 표보다 아래라면 6일 전에 기기 확인부터 해 두는 게 좋겠죠.</li>
+      </ul>
+    <p>참고로 다운로드는 시작 일시 이후부터 가능하다고 적혀 있어서, 6일 11시 전에는 받을 수 없어요. 그 전까지는 사양 확인과 사전예약 마감 챙기기가 전부예요. 사양 확인은 금방 끝나니 사전예약을 마친 뒤 바로 해 두시길 권해요. 시간이 없다면 메모리와 그래픽카드가 최소선에 걸쳐 있는지만 먼저 보셔도 충분해요.</p>
+<p>그리고 개인 팁인데요, PC는 SSD 여유공간을 넉넉히 비워 두고 폰은 와이파이 환경부터 챙겨 두시면 6일 11시에 한결 수월할 거예요. 미리 정리해 둬서 손해 볼 일은 없으니까요 :)</p>
+
+    <div class="summary"><div class="h">마무리</div>정리하면 챙길 건 두 가지예요. 6일 11시에 안내될 다운로드 경로를 확인하는 것, 그리고 내 PC·폰이 표의 최소선 위인지 미리 보는 것. 용량은 공개되면 그때 보시면 되고요. 사양은 출시 전에 바뀔 수도 있으니 8일 정식 출시 전까지 공지를 한 번 더 확인해 두시고요. 사양 체크만 끝내 두면 출시일에는 한결 마음 편하게 들어가실 수 있을 거예요!</div>
+
+    <p>사전예약 : <a href="https://game.kakao.com/ar/YaMnV9?rtc=atb_K-GAM02MZ117" target="_blank">https://game.kakao.com/ar/YaMnV9?rtc=atb_K-GAM02MZ117</a> (10월 5일 23:59까지)</p>
+
+    <div class="btns"><a href="https://game.kakao.com/ar/YaMnV9?rtc=atb_K-GAM02MZ117" target="_blank">사전예약 (10/5 23:59까지)</a><a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=3544" target="_blank">공식 포럼 공지</a></div>
+
+    <p style="margin-top:24px"><b>참고한 곳</b><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=3544" target="_blank">도깨비의세계 공식 포럼 공지 「10월 6일(화) 11:00 사전 다운로드 시작 및 최소/권장 사양 안내」</a> (2026.10.04 기준)</p>
+
+    <p><b>▶ 같이 보면 좋은 글</b><br>
+    · <a href="https://blog.naver.com/kkodug9/224392309330" target="_blank">도깨비의세계 사전예약 프리뷰 장인 정신 돋보이는 동양풍 도깨비 MMORPG</a></p>
+
+    <div class="tags">#도깨비의세계 #도깨비의세계사전다운로드 #도깨비의세계사양 #도깨비의세계최소사양 #도깨비의세계권장사양 #도깨비의세계사전예약 #모바일MMORPG #PC게임사양</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 직접 찍은 화면을 올리고 오른쪽 라이브러리에 뜨는지 확인.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳:</b> 모두 작성자 본인 PC·폰 화면 직접 촬영(출처 표기 불필요). 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <span class="ti">📌 제목칸에 따로: 도깨비의세계 사전 다운로드·사양 정리, 10월 6일 11시 PC 모바일 최소 권장</span>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p><b>도깨비의세계</b> 사전 다운로드가 이번 화요일, <b>10월 6일 11시</b>에 열려요. 주인장도 날짜가 다가오니 슬슬 마음이 급해지는데요. 내 PC와 폰이 문턱을 넘는지 한눈에 보시라고 최소·권장 사양을 표로 묶어 봤어요.</p>
+<p>정식 출시는 <b>10월 8일</b>로 안내돼 있어서, 사전 다운로드는 그보다 이틀 앞선 6일이네요. 사양 수치는 9월 30일 공식 포럼 공지 기준이에요. 사전예약 혜택 같은 건 이미 정리한 글이 있으니 맨 아래 링크로 넘어가 주세요.</p>
+<h3>1. 사전 다운로드 일정, 10월 6일(화) 11:00 시작</h3>
+<p>사전 다운로드는 <b>10월 6일(화) 오전 11시</b>부터 시작하는데요, Android(구글)·iOS(애플)·PC 버전 모두 미리 받을 수 있어요.</p>
+<ul>
+<li>시작 : 10월 6일(화) 11:00</li>
+<li>대상 : Android · iOS · PC 전 플랫폼</li>
+<li>정식 출시 : 10월 8일</li>
+</ul>
+<p>다만 <b>다운로드 경로</b>는 아직 공개되지 않았어요. 공지에는 시작 시점인 6일 11시에 해당 공지를 통해 경로를 안내할 예정이라고 되어 있습니다. 반면 용량(GB)과 PC 다운로드 방식, 모바일 저장공간은 지금 공지에 없고 공개 시점도 정해지지 않았더라고요. 11시 전에는 아래 사양 표와 내 기기를 대조해 두시면 됩니다. 사전예약 마감은 10월 5일(월) 23:59라서 다운로드 시작 전날 밤이니, 아직이라면 그 전에 신청부터 마쳐 두세요.</p>
+<h3>2. PC 최소·권장 사양 비교</h3>
+<p>PC는 최소 사양이 Windows 10(64bit)에 메모리 16GB·GTX 1660인데요, 권장 사양은 Windows 11(64bit)에 메모리 32GB·RTX 3060으로 올라가네요.</p>
+<table>
+<tr><th>구분</th><th>최소</th><th>권장</th></tr>
+<tr><td>운영체제</td><td>Windows 10 (64bit)</td><td>Windows 11 (64bit)</td></tr>
+<tr><td>CPU</td><td class="l">AMD Ryzen 3-3300X (4C/8T) 이상<br>Intel Core i5-10400F (6C/12T) 이상</td><td class="l">AMD Ryzen 7 3700X (8C/16T) 이상<br>Intel Core i9-9900K (8C/16T) 이상</td></tr>
+<tr><td>메모리</td><td>16GB 이상</td><td>32GB 이상</td></tr>
+<tr><td>하드디스크 여유공간</td><td>30GB (SSD)</td><td>30GB (SSD)</td></tr>
+<tr><td>그래픽카드</td><td>NVIDIA GeForce GTX 1660</td><td>NVIDIA GeForce RTX 3060</td></tr>
+<tr><td>DirectX</td><td>DirectX 11 이상</td><td>DirectX 12 이상</td></tr>
+</table>
+<p>CPU는 AMD 계열과 인텔 계열 기준이 나란히 적혀 있는데요, 내가 쓰는 CPU 쪽 줄과 비교해 보시면 됩니다. 개인적으로 제일 먼저 눈에 들어온 건 메모리였어요. 최소부터 <b>16GB</b>고 권장은 <b>32GB</b>라서, 모자라면 이쪽부터 확인해 보시는 게 빠를 것 같아요. 운영체제도 최소·권장 모두 64bit로 적혀 있으니 설치된 윈도우가 64비트인지부터 봐 두시면 좋겠네요.</p>
+<p>그래픽카드는 GTX 1660에서 RTX 3060으로 올라가는데요, 공지에 적힌 모델 이름 기준이라 다른 모델을 쓰신다면 직접 비교해 보셔야 하거든요. DirectX도 최소 11, 권장 12이니 dxdiag 결과와 같이 보세요.</p>
+<p>저장공간은 최소·권장 모두 30GB(SSD)로 똑같이 적혀 있네요. 다만 이건 여유공간 요구치라 실제 다운로드 용량과 같다고 볼 수는 없어서, 용량은 아직 알 수 없어요.</p>
+<p>그러면 최소와 권장 사이 어디쯤인지도 중요한데요. 표를 줄 세워 보면 최소에서 권장으로 갈 때 OS는 Windows 10에서 11로, CPU는 4코어·6코어급(4C/8T, 6C/12T)에서 8코어(8C/16T)로, 메모리는 16GB에서 32GB로, 그래픽카드는 GTX 1660에서 RTX 3060으로, DirectX는 11에서 12로 한 칸씩 올라가네요. 내 PC가 이 사이 어디쯤인지만 감을 잡아 두시면 되고, 해상도별 프레임이나 옵션 성능은 공지에 없어서 거기까지는 말씀드릴 수 없어요.</p>
+<h3>3. 모바일 최소·권장 사양 (Android · iOS)</h3>
+<p>모바일 최소 사양은 Galaxy S20(8GB)과 iPhone 14(6GB), 권장 사양은 Galaxy S23(8GB)과 iPhone 15 Pro(8GB)이고, 최소 OS는 Android 10 이상·iOS 16 이상이에요.</p>
+<table>
+<tr><th>구분</th><th>최소</th><th>권장</th><th>최소 OS</th></tr>
+<tr><td>Android(구글)</td><td>Galaxy S20 (8GB)</td><td>Galaxy S23 (8GB)</td><td>Android 10 이상</td></tr>
+<tr><td>iOS(애플)</td><td>iPhone 14 (6GB)</td><td>iPhone 15 Pro (8GB)</td><td>iOS 16 이상</td></tr>
+</table>
+<p>모바일은 CPU 대신 <b>기기명과 메모리 용량</b>으로 적혀 있는 게 특징이에요. Android는 최소·권장 모두 8GB로 같고 기기 세대만 달라지는 반면, iOS는 6GB에서 8GB로 올라가요. 개인적으로는 Android 최소가 8GB로 적혀 있다는 점이 제일 눈에 띄었는데요. 최소와 권장 모두 구체적인 기기명이 적혀 있고 권장 쪽이 더 최근 모델이라, 내 폰이 어느 세대쯤인지가 가늠 기준이 돼요. 그 외에 기종별 지원 여부나 옵션별 성능 같은 건 이번 공지에 나와 있지 않아요.</p>
+<p>폰이 표에 나온 기기와 똑같은 분은 의외로(?) 많지 않을 텐데요. 이럴 땐 내 기기가 표의 기기와 같은 세대인지, 한참 이전 세대인지부터 가늠하고 메모리 용량을 나란히 놓고 보시면 됩니다. 다만 공지에 적힌 건 기기명·메모리·OS 기준뿐이라, 같은 메모리라고 해서 통과한다는 보장까지는 없어요. 애매하다면 6일 11시에 다운로드가 되는지 직접 받아 보는 게 가장 확실하겠네요 ㅋㅋ</p>
+<h3>4. 내 기기 확인법</h3>
+<p>세 군데만 보면 돼요. PC는 윈도우 '설정 &gt; 시스템 &gt; 정보'와 dxdiag, Android는 '설정 &gt; 휴대전화 정보', 아이폰은 '설정 &gt; 일반 &gt; 정보'에서 모델과 OS 버전이 나오거든요.</p>
+<ul>
+<li><b>PC</b> : '설정 &gt; 시스템 &gt; 정보'에서 프로세서, 설치된 RAM, 시스템 종류(64비트인지)를 보세요. 이어서 Win+R로 'dxdiag'를 실행하면 시스템 탭에서 DirectX 버전, 디스플레이 탭에서 그래픽카드 이름이 나옵니다.</li>
+<li><b>Android</b> : '설정 &gt; 휴대전화 정보'에서 모델명과 Android 버전을 확인하세요. 메모리 용량이 표시되는 위치는 제조사마다 달라서, 모델명으로 스펙을 한 번 찾아보는 쪽이 빠릅니다.</li>
+<li><b>iPhone</b> : '설정 &gt; 일반 &gt; 정보'의 모델 이름과 iOS 버전을 표의 iPhone 14 · 15 Pro 줄과 대조해 보세요.</li>
+</ul>
+<p>윈도우 버전만 빠르게 보고 싶다면 Win+R로 'winver'를 실행해도 됩니다. 노트북이라면 dxdiag 디스플레이 탭이 내장·외장 두 개로 나뉘어 있을 수 있으니 둘 다 열어 보세요. 순서는 OS·64비트부터, 그다음 메모리, 마지막이 그래픽카드(폰은 모델명)로 보시면 가장 덜 헷갈리더라고요.</p>
+<p class="ph">📷 〔사진 자리 1〕 윈도우 설정 &gt; 시스템 &gt; 정보 화면(프로세서·설치된 RAM·시스템 종류) — 직접 촬영해 네이버에서 업로드</p>
+<p class="phsub">└ 캡션 추천: "보시는 것처럼 '시스템 &gt; 정보'에서 프로세서와 설치된 RAM이 바로 나옵니다 :)"</p>
+<p class="ph">📷 〔사진 자리 2〕 Android 설정 &gt; 휴대전화 정보 (모델명·Android 버전) — 직접 촬영해 네이버에서 업로드</p>
+<p class="phsub">└ 캡션 추천: "지금 보시는 화면처럼 모델명과 Android 버전이 한 화면에 나오면 표와 바로 비교할 수 있어요"</p>
+<p class="ph">📷 〔사진 자리 3〕 아이폰 설정 &gt; 일반 &gt; 정보 (모델 이름·iOS 버전) — 직접 촬영해 네이버에서 업로드</p>
+<p class="phsub">└ 캡션 추천: "아이폰은 모델 이름과 iOS 버전 두 줄만 보면 끝!"</p>
+<h3>5. 놓치기 쉬운 것, 사전예약 마감과 사양 변경</h3>
+<p>사전예약은 10월 5일(월) 23:59에 마감되고, 안내된 사양은 추후 바뀔 수 있어요. 최소사양 이하 일부 모바일 기기는 다운로드가 안 되거나 플레이가 원활하지 않을 수도 있고요.</p>
+<ul>
+<li><b>사전예약 마감</b> : 이 글을 쓰는 10월 4일 기준으로 마감까지 하루 남짓이에요. 아직이라면 아래 버튼으로 들어가세요.</li>
+<li><b>사양 변경 가능</b> : 공지에 '추후 변경될 수 있다'고 적혀 있으니, 출시 전에 이 공지를 한 번 더 열어 보세요.</li>
+<li><b>최소사양 이하 모바일</b> : 공지 주의사항에 최소사양 이하 등의 일부 모바일 기기는 다운로드가 불가하거나 플레이가 원활하지 않을 수 있다고 적혀 있어요. 내 폰이 표보다 아래라면 6일 전에 기기 확인부터 해 두는 게 좋겠죠.</li>
+</ul>
+<p>참고로 다운로드는 시작 일시 이후부터 가능하다고 적혀 있어서, 6일 11시 전에는 받을 수 없어요. 그 전까지는 사양 확인과 사전예약 마감 챙기기가 전부예요. 사양 확인은 금방 끝나니 사전예약을 마친 뒤 바로 해 두시길 권해요. 시간이 없다면 메모리와 그래픽카드가 최소선에 걸쳐 있는지만 먼저 보셔도 충분해요.</p>
+<p>그리고 개인 팁인데요, PC는 SSD 여유공간을 넉넉히 비워 두고 폰은 와이파이 환경부터 챙겨 두시면 6일 11시에 한결 수월할 거예요. 미리 정리해 둬서 손해 볼 일은 없으니까요 :)</p>
+<p><b>마무리</b><br>정리하면 챙길 건 두 가지예요. 6일 11시에 안내될 다운로드 경로를 확인하는 것, 그리고 내 PC·폰이 표의 최소선 위인지 미리 보는 것. 용량은 공개되면 그때 보시면 되고요. 사양은 출시 전에 바뀔 수도 있으니 8일 정식 출시 전까지 공지를 한 번 더 확인해 두시고요. 사양 체크만 끝내 두면 출시일에는 한결 마음 편하게 들어가실 수 있을 거예요!</p>
+<p>사전예약 : <a href="https://game.kakao.com/ar/YaMnV9?rtc=atb_K-GAM02MZ117" target="_blank">https://game.kakao.com/ar/YaMnV9?rtc=atb_K-GAM02MZ117</a> (10월 5일 23:59까지)</p>
+<p><b>참고한 곳</b><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=3544" target="_blank">도깨비의세계 공식 포럼 공지 「10월 6일(화) 11:00 사전 다운로드 시작 및 최소/권장 사양 안내」</a> (2026.10.04 기준)</p>
+<p><b>▶ 같이 보면 좋은 글</b><br>
+· <a href="https://blog.naver.com/kkodug9/224392309330" target="_blank">도깨비의세계 사전예약 프리뷰 장인 정신 돋보이는 동양풍 도깨비 MMORPG</a></p>
+<p class="tags-line">#도깨비의세계 #도깨비의세계사전다운로드 #도깨비의세계사양 #도깨비의세계최소사양 #도깨비의세계권장사양 #도깨비의세계사전예약 #모바일MMORPG #PC게임사양</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
