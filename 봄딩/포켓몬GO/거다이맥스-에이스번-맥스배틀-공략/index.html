@@ -1,0 +1,390 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬고 거다이맥스 에이스번 맥스배틀 공략 졸업스킬 정리, 카운터 약점 복기까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 20px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .gap .skel{margin-top:8px;width:100%;border-collapse:collapse;font-size:13px;}
+  .gap .skel th,.gap .skel td{border:1px dashed #e6c64d;padding:6px 8px;text-align:left;color:#9a7b15;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: "포켓몬고 거다이맥스 에이스번 약점이 뭔가요" / "포켓몬고 거다이맥스 에이스번 카운터 뭐가 좋나요" / "포켓몬고 맥스배틀 졸업스킬은 뭔가요" -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임공략</div>
+    <h1 class="title">포켓몬고 거다이맥스 에이스번 맥스배틀 공략 졸업스킬 정리, 카운터 약점 복기까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 10. 4.</span><span>· 게임</span></div>
+
+<p>토요일 오후 2시부터 5시까지, 딱 세 시간만 열렸던 거다이맥스 에이스번 맥스배틀 데이가 어제(10월 3일)로 끝났는데요, 시간대가 빠듯해서 놓치셨거나 몇 판 못 돌고 아쉬웠던 분들이 꽤 계시더라고요. 다음에 다시 열릴 때 허둥대지 않도록 제가 <b>에이스번 약점, 카운터 순위, 졸업스킬 조합, 파티 짜는 순서</b>를 한 번에 정리해 봤어요~</p>
+
+<h2 class="sub">이번 거다이맥스 에이스번 맥스배틀 데이는 어떤 이벤트였나요</h2>
+
+<div class="imgwrap"><!-- 이미지 이유: 이벤트 대표 그래픽으로 도입부에서 거다이맥스 에이스번 모습을 보여줌 / 출처: 포켓몬GO 공식 이벤트 그래픽(LeekDuck 게재) / 분류: A형 --><img src="img/gmax-cinderace-event.jpg" width="1280" height="720" alt="거다이맥스 에이스번 맥스배틀 데이 대표 이미지, 거대한 불꽃 구체 위에 선 에이스번"></div>
+<p class="src">이미지 출처: <a href="https://pokemongo.com/ko/news/gigantamax-cinderace-max-battle-day-2026" target="_blank">포켓몬GO 공식 뉴스</a> · <a href="https://leekduck.com/events/gigantamax-cinderace-max-battle-day-2026/" target="_blank">LeekDuck</a></p>
+
+<p><b>거다이맥스 에이스번 맥스배틀 데이는 한국시간 2026년 10월 3일(토) 14:00~17:00에 열린 별6 맥스배틀 이벤트였고, 운이 좋으면 포켓몬GO 최초로 등장한 색이 다른 거다이맥스 에이스번을 만날 수 있었어요.</b> 이벤트 중에 붙었던 보너스는 이랬습니다.</p>
+
+
+
+<ul>
+  <li>맥스 파티클 수집 상한 1,600개</li>
+  <li>모든 파워스폿에서 거다이맥스 포켓몬 등장, 파워스폿에서 얻는 맥스 파티클 8배</li>
+  <li>일일 특별한 교환 최대 3회</li>
+  <li>리모트 레이드 일일 상한 10회에서 20회로 상향(10월 4일 12:00까지)</li>
+</ul>
+<p>10월 4일 12시 이후로는 전부 끝난 보너스라 쓸 수 없지만, 어떤 판이었는지 알아두면 다음에 같은 이벤트가 열렸을 때 준비 순서를 잡기 훨씬 편하답니다.</p>
+
+<h2 class="sub">거다이맥스 에이스번 약점과 능력치, 보스 기술은 뭔가요</h2>
+
+<p><b>거다이맥스 에이스번은 불꽃 단일 타입이라서 땅·바위·물 기술이 각각 160%로 가장 잘 들어갑니다.</b> 능력치와 상성은 이렇게 정리됩니다.</p>
+
+<div class="imgwrap"><!-- 이미지 이유: 에이스번 외형을 능력치 표 바로 위에서 확인 / 출처: 포켓토리 썸네일 / 분류: A형 --><img src="img/cinderace.jpg" width="720" height="415" alt="포켓몬고 거다이맥스 에이스번 모습, 몬스터볼 앞의 불꽃 구체와 에이스번"></div>
+<p class="src">이미지 출처: <a href="https://poketory.com/pokemongo-max-battle-gigantamax-cinderace/" target="_blank">포켓토리</a></p>
+
+<table class="tbl">
+  <thead>
+    <tr><th>항목</th><th>내용</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>타입</td><td>불꽃 단일</td></tr>
+    <tr><td>능력치</td><td>공격 238 / 방어 163 / HP 190</td></tr>
+    <tr><td>최대 CP</td><td>레벨 50 기준 3,412 · 레벨 40 기준 3,018</td></tr>
+    <tr><td>잡을 때(포획) 레벨 20 최대 CP</td><td>1,724</td></tr>
+    <tr><td>약점 (160%)</td><td>땅 · 바위 · 물</td></tr>
+    <tr><td>내성 (62.5%)</td><td>벌레 · 페어리 · 불꽃 · 풀 · 얼음 · 강철</td></tr>
+  </tbody>
+</table>
+
+<p>보스일 때 쓰는 기술은 노말이 회오리불꽃·몸통박치기, 스페셜이 화염볼·화염방사·니트로차지·기합구슬·블라스트번이에요. 포켓토리 공략에서는 <b>블라스트번·화염볼·화염방사</b>를 위력이 높은 기술로 짚었으니, 버티는 쪽에선 이런 기술이 걸렸을 때 조심하는 편이 좋아요.</p>
+
+<h2 class="sub">거다이맥스 에이스번 카운터 TOP은 누구인가요</h2>
+
+<p><b>거다이맥스 에이스번 카운터 1위는 효율 100%의 거다이맥스 인텔리레온이고, 2위는 92%의 거다이맥스 킹크랩이에요.</b> 포켓토리와 Pokémon GO Hub의 카운터 순위를 맞춰 본 결과예요. 3위부터는 다이맥스 쪽으로 이어지는데 물과 땅 타입이 줄줄이 올라와요.</p>
+
+<div class="imgwrap"><!-- 이미지 이유: 카운터 순위 출처인 Pokémon GO Hub 도감 페이지의 타이틀 카드(카운터 수치 없음)를 순위 표 앞에서 출처 표시용으로 보여줌 / 출처: Pokémon GO Hub / 분류: A형 --><img src="img/gmax-card.jpg" width="1080" height="565" alt="Pokémon GO Hub 거다이맥스 에이스번 815번 도감 페이지 타이틀 카드, 카운터 순위의 출처"></div>
+<p class="src">이미지 출처: <a href="https://db.pokemongohub.net/pokemon/815-Gigantamax/counters-max-battles" target="_blank">Pokémon GO Hub</a></p>
+
+<table class="tbl">
+  <thead>
+    <tr><th>순위</th><th>포켓몬</th><th>노말 기술 + 맥스 기술</th><th>효율</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>거다이맥스 인텔리레온</td><td>물대포 + 거다이저격</td><td>100%</td></tr>
+    <tr><td>2</td><td>거다이맥스 킹크랩</td><td>거품 + 거다이포말</td><td>92%</td></tr>
+    <tr><td>3</td><td>인텔리레온(다이맥스)</td><td>물대포 + 물 타입 맥스 기술</td><td>78%</td></tr>
+    <tr><td>4</td><td>몰드류</td><td>진흙뿌리기·머드샷 + 땅 타입 맥스 기술</td><td>76%</td></tr>
+    <tr><td>5</td><td>우라오스(연격의 태세)</td><td>폭포오르기 + 물 타입 맥스 기술</td><td>76%</td></tr>
+    <tr><td>6</td><td>거대코뿌리</td><td>떨어뜨리기 + 바위 타입 맥스 기술(진흙뿌리기를 쓰면 땅 타입)</td><td>70%대</td></tr>
+  </tbody>
+</table>
+
+
+
+<p>거다이맥스 인텔리레온이나 킹크랩이 없으면 어쩌죠? 걱정은 덜어도 돼요. 4위 몰드류와 5위 우라오스가 같은 76%로 바짝 따라오고, 갸라도스(폭포오르기)도 70%대라서 가진 포켓몬 안에서 맞출 길은 꽤 넓거든요.</p>
+
+<h2 class="sub">맥스배틀 졸업스킬은 어떻게 정리하나요</h2>
+
+<p><b>맥스배틀의 졸업스킬은 공식 용어가 아니라, 보스에게 가장 높은 피해를 내는 노말 기술과 맥스 기술의 조합, 그리고 그 맥스 기술을 올려둘 목표 레벨을 가리키는 말로 쓰고 있어요.</b> 역할별로 나누면 기준이 이래요.</p>
+<p>어태커는 위 표의 기술 조합에 맥스 기술 레벨을 3까지 올려 주시면 됩니다(포켓토리 정리에 따르면 거다이맥스 기술은 1레벨이 다이맥스 기술 3레벨에 맞먹는다고 알려져 있어요). 탱커는 다이월(피해 감소)과 다이리커버리(HP 회복)를 최대 레벨까지 올리는 게 기준이고요, 노말 기술은 스페셜 기술보다 0.5초짜리 빠른 노말 기술이 에너지 충전에 효율적이거든요.</p>
+
+<div class="ss"><span class="ico">📷</span><span class="lbl">맥스 기술 레벨 화면 — 인텔리레온·킹크랩의 맥스 기술 레벨이 보이는 포켓몬 상세 화면</span></div>
+<div class="shoot">📸 촬영 가이드: 포켓몬 상세 화면의 맥스 기술 칸이 보이게 캡처 · 캡션 추천: "맥스 기술 레벨은 여기서 올려요"</div>
+
+<p>에이스번을 직접 어태커로 세우는 경우도 있을 텐데요, 이때는 <b>회오리불꽃 + 거다이맥스 기술(영문명 G-Max Fireball)</b> 조합이 최적으로 꼽히고, Pokémon GO Hub에서는 불꽃 타입 맥스배틀 어태커 중 S티어 1위로 평가했어요. 아래 기술 수치도 Pokémon GO Hub 기준이에요. 다만 에이스번 보스가 불꽃 내성이라 에이스번끼리 맞붙을 땐 피해가 깎인다는 점은 기억해 두세요.</p>
+
+<table class="tbl">
+  <thead>
+    <tr><th>에이스번 기술</th><th>위력</th><th>에너지</th><th>시간</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>회오리불꽃</td><td>13</td><td>9</td><td>1.0초</td></tr>
+    <tr><td>몸통박치기</td><td>5</td><td>5</td><td>0.5초</td></tr>
+    <tr><td>G-Max Fireball</td><td>350</td><td>100</td><td>2.5초</td></tr>
+  </tbody>
+</table>
+
+<div class="gap"><b>✍️ 직접 조사·입력 필요</b> — 거다이맥스 에이스번의 G-Max Fireball 한글 기술명, 재등장 일정, 색이 다른 에이스번 확률, 맥스배틀 최소 필요 인원<br>
+확인 위치: 포켓몬GO 공식 뉴스(pokemongo.com/ko) · 인게임 맥스배틀 화면 · 확인되면 해당 문장으로 채워주세요.
+  <table class="skel"><tr><th>항목</th><th>값(확인 후 입력)</th></tr><tr><td>G-Max Fireball 한글명</td><td>—</td></tr><tr><td>재등장 일정</td><td>—</td></tr><tr><td>색이 다른 확률</td><td>—</td></tr><tr><td>최소 필요 인원</td><td>—</td></tr></table>
+</div>
+
+<h2 class="sub">맥스배틀은 어떻게 진행되고 파티는 어떻게 짜나요</h2>
+
+<p><b>맥스배틀은 파워스폿에서만 열리고, 거다이맥스 맥스배틀은 10~40명이 최대 4명씩 그룹을 나눠 도전하는데, 탱커로 맥스 미터를 채운 뒤 어태커로 바꿔 맥스 기술을 넣는 흐름이에요.</b> 전투 중에 알아둘 규칙은 이렇습니다.</p>
+<ul>
+  <li>보스는 3초에 한 번 단일 또는 전체 공격을 해요</li>
+  <li>대상을 노리는 공격은 피해가 2배인데, 2초 동안 줄 3개가 뜰 때 스와이프로 피할 수 있어요</li>
+  <li>시간 제한은 없지만 6분이 지나면 보스 공격력이 크게 오른다고 알려져 있어요</li>
+  <li>전원이 기절해도 탭 응원으로 맥스 미터를 채울 수 있어요</li>
+</ul>
+
+<p>이 규칙대로 파티를 한 줄씩 체크하면 이렇게 됩니다.</p>
+<ul>
+  <li><b>탱커 1마리</b>는 레지락(록온 + 스톤에지) · 암스타(물대포 + 하이드로펌프) · 스이쿤(물대포 + 하이드로펌프) · 라티아스(용의숨결 + 파동탄) 중에서 골라요</li>
+  <li><b>백업</b>으로는 해피너스(막치기 + 파괴광선)는 다이월 담당이 따로 있을 때, 투구푸스(머드샷 + 스톤에지)는 다이월을 같이 쓸 때 세워요</li>
+  <li><b>어태커</b>는 카운터 표에서 가진 순서대로 위에서부터 채워요</li>
+</ul>
+
+<div class="ss"><span class="ico">📷</span><span class="lbl">맥스배틀 파티 편성 화면 — 탱커 1 + 백업 + 어태커가 한눈에 보이는 화면</span></div>
+<div class="shoot">📸 촬영 가이드: 파티 편성 화면 전체가 나오게 캡처 · 캡션 추천: "탱커를 맨 앞에 두는 편성이에요"</div>
+
+<p>이기고 나면 에이스번을 잡는 포획 단계로 넘어가요. 맥스배틀에서 이기고 이어서 포획하는 방식은 공식 안내에도 나와 있답니다.</p>
+
+<h2 class="sub">자주 묻는 질문</h2>
+
+<p><b>Q. 보스 기술이 마음에 안 들면 다시 들어가도 되나요?</b><br>
+입장할 때마다 에이스번이 쓰는 기술이 랜덤으로 정해져서, 까다로운 기술이 걸렸다면 나갔다가 다시 입장해서 쉬운 기술이 나오는 판을 골라 도전할 수 있어요.</p>
+
+<p><b>Q. 다이버섯은 어떤 아이템인가요?</b><br>
+맥스배틀에서 내 피해를 2배로 올려 주는 아이템이에요. 계정당 한 번 5분 동안 체험해 볼 수 있다고 알려져 있어서, 처음이라면 이 체험판부터 써보는 분들이 많더라고요.</p>
+
+<p><b>Q. 다음 재등장 일정이 나왔나요?</b><br>
+현재 확인된 공식 안내 기준으로는 거다이맥스 에이스번 맥스배틀의 다음 재등장 일정이 나온 게 없어요. 10월 4일 기준 공식 뉴스에서 확인되는 건 10월 3일 하루짜리 일정뿐이라서, 새 소식이 나오면 그때 다시 정리해 드릴게요.</p>
+
+<h2 class="sub">거다이맥스 에이스번 맥스배틀 정리</h2>
+
+<p>정리하면 에이스번은 땅·바위·물이 약점이라 거다이맥스 인텔리레온과 킹크랩이 1·2위 카운터고, 졸업스킬은 표의 노말 기술과 맥스 기술 조합에 맥스 기술 레벨 3까지 올려두는 걸 기준으로 보면 돼요. 탱커 한 마리에 백업, 어태커 순서만 미리 챙겨 두면 다음 판은 훨씬 여유로울 거예요. 놓치셨던 분들도 다음 기회에는 느긋하게 도전해 보시길 바랄게요, 즐거운 맥스배틀 되세요!</p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://pokemongo.com/ko/news/gigantamax-cinderace-max-battle-day-2026" target="_blank">포켓몬GO 공식 뉴스 — 거다이맥스 에이스번 맥스배틀 데이 2026</a><br>
+· <a href="https://pokemongo.com/ko/max-pokemon-battle" target="_blank">포켓몬GO 공식 — 맥스배틀 안내</a><br>
+· <a href="https://db.pokemongohub.net/pokemon/815-Gigantamax/counters-max-battles" target="_blank">Pokémon GO Hub — 거다이맥스 에이스번 맥스배틀 카운터</a><br>
+· <a href="https://poketory.com/pokemongo-max-battle-gigantamax-cinderace/" target="_blank">포켓토리 — 거다이맥스 에이스번 맥스배틀 공략</a><br>
+· <a href="https://leekduck.com/events/gigantamax-cinderace-max-battle-day-2026/" target="_blank">LeekDuck — 이벤트 안내</a></p>
+
+<p><b>✔ 포켓몬GO 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224430706508" target="_blank">포켓몬고 과사삭벌레 진화 애프룡 단지래플 과미르 사과 사탕 총정리, 과미드라 조건까지</a><br>
+· <a href="https://blog.naver.com/bomding/224430682279" target="_blank">포켓몬GO 다투곰 진화조건, 포켓몬고 링곰 깜지곰사탕 100개 보름달 타이밍까지</a><br>
+· <a href="https://blog.naver.com/bomding/224430219734" target="_blank">포켓몬고 제르네아스 레이드 공략 약점 정리, 졸업스킬 카운터 포획 팁까지</a></p>
+
+    <div class="btns">
+      <a href="https://pokemongo.com/ko" target="_blank">포켓몬GO 공식 사이트</a>
+    </div>
+
+    <div class="tags">#포켓몬고 #거다이맥스에이스번 #에이스번 #맥스배틀 #맥스배틀공략 #에이스번카운터 #포켓몬고졸업스킬 #거다이맥스인텔리레온 #거다이맥스킹크랩 #포켓몬고레이드</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 5곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬고 거다이맥스 에이스번 맥스배틀 공략 졸업스킬 정리, 카운터 약점 복기까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>토요일 오후 2시부터 5시까지, 딱 세 시간만 열렸던 거다이맥스 에이스번 맥스배틀 데이가 어제(10월 3일)로 끝났는데요, 시간대가 빠듯해서 놓치셨거나 몇 판 못 돌고 아쉬웠던 분들이 꽤 계시더라고요. 다음에 다시 열릴 때 허둥대지 않도록 제가 <b>에이스번 약점, 카운터 순위, 졸업스킬 조합, 파티 짜는 순서</b>를 한 번에 정리해 봤어요~</p>
+
+<h3>이번 거다이맥스 에이스번 맥스배틀 데이는 어떤 이벤트였나요</h3>
+<p class="ph">📷 〔사진 자리 1〕 거다이맥스 에이스번 맥스배틀 데이 대표 이미지 — 미리보기에서 이미지 복사 후 업로드</p>
+<p><b>거다이맥스 에이스번 맥스배틀 데이는 한국시간 2026년 10월 3일(토) 14:00~17:00에 열린 별6 맥스배틀 이벤트였고, 운이 좋으면 포켓몬GO 최초로 등장한 색이 다른 거다이맥스 에이스번을 만날 수 있었어요.</b> 이벤트 중에 붙었던 보너스는 이랬습니다.</p>
+<ul>
+  <li>맥스 파티클 수집 상한 1,600개</li>
+  <li>모든 파워스폿에서 거다이맥스 포켓몬 등장, 파워스폿에서 얻는 맥스 파티클 8배</li>
+  <li>일일 특별한 교환 최대 3회</li>
+  <li>리모트 레이드 일일 상한 10회에서 20회로 상향(10월 4일 12:00까지)</li>
+</ul>
+<p>10월 4일 12시 이후로는 전부 끝난 보너스라 쓸 수 없지만, 어떤 판이었는지 알아두면 다음에 같은 이벤트가 열렸을 때 준비 순서를 잡기 훨씬 편하답니다.</p>
+
+<h3>거다이맥스 에이스번 약점과 능력치, 보스 기술은 뭔가요</h3>
+<p><b>거다이맥스 에이스번은 불꽃 단일 타입이라서 땅·바위·물 기술이 각각 160%로 가장 잘 들어갑니다.</b> 능력치와 상성은 이렇게 정리됩니다.</p>
+<p class="ph">📷 〔사진 자리 2〕 포켓몬고 거다이맥스 에이스번 모습 — 미리보기에서 이미지 복사 후 업로드</p>
+<table>
+  <thead><tr><th>항목</th><th>내용</th></tr></thead>
+  <tbody>
+    <tr><td>타입</td><td>불꽃 단일</td></tr>
+    <tr><td>능력치</td><td>공격 238 / 방어 163 / HP 190</td></tr>
+    <tr><td>최대 CP</td><td>레벨 50 기준 3,412 · 레벨 40 기준 3,018</td></tr>
+    <tr><td>잡을 때(포획) 레벨 20 최대 CP</td><td>1,724</td></tr>
+    <tr><td>약점 (160%)</td><td>땅 · 바위 · 물</td></tr>
+    <tr><td>내성 (62.5%)</td><td>벌레 · 페어리 · 불꽃 · 풀 · 얼음 · 강철</td></tr>
+  </tbody>
+</table>
+<p>보스일 때 쓰는 기술은 노말이 회오리불꽃·몸통박치기, 스페셜이 화염볼·화염방사·니트로차지·기합구슬·블라스트번이에요. 포켓토리 공략에서는 <b>블라스트번·화염볼·화염방사</b>를 위력이 높은 기술로 짚었으니, 버티는 쪽에선 이런 기술이 걸렸을 때 조심하는 편이 좋아요.</p>
+
+<h3>거다이맥스 에이스번 카운터 TOP은 누구인가요</h3>
+<p><b>거다이맥스 에이스번 카운터 1위는 효율 100%의 거다이맥스 인텔리레온이고, 2위는 92%의 거다이맥스 킹크랩이에요.</b> 포켓토리와 Pokémon GO Hub의 카운터 순위를 맞춰 본 결과예요. 3위부터는 다이맥스 쪽으로 이어지는데 물과 땅 타입이 줄줄이 올라와요.</p>
+<p class="ph">📷 〔사진 자리 3〕 Pokémon GO Hub 거다이맥스 에이스번 도감 페이지 카드(카운터 순위 출처) — 미리보기에서 이미지 복사 후 업로드</p>
+<table>
+  <thead><tr><th>순위</th><th>포켓몬</th><th>노말 기술 + 맥스 기술</th><th>효율</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>거다이맥스 인텔리레온</td><td>물대포 + 거다이저격</td><td>100%</td></tr>
+    <tr><td>2</td><td>거다이맥스 킹크랩</td><td>거품 + 거다이포말</td><td>92%</td></tr>
+    <tr><td>3</td><td>인텔리레온(다이맥스)</td><td>물대포 + 물 타입 맥스 기술</td><td>78%</td></tr>
+    <tr><td>4</td><td>몰드류</td><td>진흙뿌리기·머드샷 + 땅 타입 맥스 기술</td><td>76%</td></tr>
+    <tr><td>5</td><td>우라오스(연격의 태세)</td><td>폭포오르기 + 물 타입 맥스 기술</td><td>76%</td></tr>
+    <tr><td>6</td><td>거대코뿌리</td><td>떨어뜨리기 + 바위 타입 맥스 기술(진흙뿌리기를 쓰면 땅 타입)</td><td>70%대</td></tr>
+  </tbody>
+</table>
+<p>거다이맥스 인텔리레온이나 킹크랩이 없으면 어쩌죠? 걱정은 덜어도 돼요. 4위 몰드류와 5위 우라오스가 같은 76%로 바짝 따라오고, 갸라도스(폭포오르기)도 70%대라서 가진 포켓몬 안에서 맞출 길은 꽤 넓거든요.</p>
+
+<h3>맥스배틀 졸업스킬은 어떻게 정리하나요</h3>
+<p><b>맥스배틀의 졸업스킬은 공식 용어가 아니라, 보스에게 가장 높은 피해를 내는 노말 기술과 맥스 기술의 조합, 그리고 그 맥스 기술을 올려둘 목표 레벨을 가리키는 말로 쓰고 있어요.</b> 역할별로 나누면 기준이 이래요.</p>
+<p>어태커는 위 표의 기술 조합에 맥스 기술 레벨을 3까지 올려 주시면 됩니다(포켓토리 정리에 따르면 거다이맥스 기술은 1레벨이 다이맥스 기술 3레벨에 맞먹는다고 알려져 있어요). 탱커는 다이월(피해 감소)과 다이리커버리(HP 회복)를 최대 레벨까지 올리는 게 기준이고요, 노말 기술은 스페셜 기술보다 0.5초짜리 빠른 노말 기술이 에너지 충전에 효율적이거든요.</p>
+<p class="ph">📷 〔사진 자리 4〕 맥스 기술 레벨 화면 — 인텔리레온·킹크랩의 맥스 기술 레벨이 보이는 포켓몬 상세 화면</p>
+<p>에이스번을 직접 어태커로 세우는 경우도 있을 텐데요, 이때는 <b>회오리불꽃 + 거다이맥스 기술(영문명 G-Max Fireball)</b> 조합이 최적으로 꼽히고, Pokémon GO Hub에서는 불꽃 타입 맥스배틀 어태커 중 S티어 1위로 평가했어요. 아래 기술 수치도 Pokémon GO Hub 기준이에요. 다만 에이스번 보스가 불꽃 내성이라 에이스번끼리 맞붙을 땐 피해가 깎인다는 점은 기억해 두세요.</p>
+<table>
+  <thead><tr><th>에이스번 기술</th><th>위력</th><th>에너지</th><th>시간</th></tr></thead>
+  <tbody>
+    <tr><td>회오리불꽃</td><td>13</td><td>9</td><td>1.0초</td></tr>
+    <tr><td>몸통박치기</td><td>5</td><td>5</td><td>0.5초</td></tr>
+    <tr><td>G-Max Fireball</td><td>350</td><td>100</td><td>2.5초</td></tr>
+  </tbody>
+</table>
+
+<h3>맥스배틀은 어떻게 진행되고 파티는 어떻게 짜나요</h3>
+<p><b>맥스배틀은 파워스폿에서만 열리고, 거다이맥스 맥스배틀은 10~40명이 최대 4명씩 그룹을 나눠 도전하는데, 탱커로 맥스 미터를 채운 뒤 어태커로 바꿔 맥스 기술을 넣는 흐름이에요.</b> 전투 중에 알아둘 규칙은 이렇습니다.</p>
+<ul>
+  <li>보스는 3초에 한 번 단일 또는 전체 공격을 해요</li>
+  <li>대상을 노리는 공격은 피해가 2배인데, 2초 동안 줄 3개가 뜰 때 스와이프로 피할 수 있어요</li>
+  <li>시간 제한은 없지만 6분이 지나면 보스 공격력이 크게 오른다고 알려져 있어요</li>
+  <li>전원이 기절해도 탭 응원으로 맥스 미터를 채울 수 있어요</li>
+</ul>
+<p>이 규칙대로 파티를 한 줄씩 체크하면 이렇게 됩니다.</p>
+<ul>
+  <li><b>탱커 1마리</b>는 레지락(록온 + 스톤에지) · 암스타(물대포 + 하이드로펌프) · 스이쿤(물대포 + 하이드로펌프) · 라티아스(용의숨결 + 파동탄) 중에서 골라요</li>
+  <li><b>백업</b>으로는 해피너스(막치기 + 파괴광선)는 다이월 담당이 따로 있을 때, 투구푸스(머드샷 + 스톤에지)는 다이월을 같이 쓸 때 세워요</li>
+  <li><b>어태커</b>는 카운터 표에서 가진 순서대로 위에서부터 채워요</li>
+</ul>
+<p class="ph">📷 〔사진 자리 5〕 맥스배틀 파티 편성 화면 — 탱커 1 + 백업 + 어태커가 한눈에 보이는 화면</p>
+<p>이기고 나면 에이스번을 잡는 포획 단계로 넘어가요. 맥스배틀에서 이기고 이어서 포획하는 방식은 공식 안내에도 나와 있답니다.</p>
+
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 보스 기술이 마음에 안 들면 다시 들어가도 되나요?</b><br>
+입장할 때마다 에이스번이 쓰는 기술이 랜덤으로 정해져서, 까다로운 기술이 걸렸다면 나갔다가 다시 입장해서 쉬운 기술이 나오는 판을 골라 도전할 수 있어요.</p>
+<p><b>Q. 다이버섯은 어떤 아이템인가요?</b><br>
+맥스배틀에서 내 피해를 2배로 올려 주는 아이템이에요. 계정당 한 번 5분 동안 체험해 볼 수 있다고 알려져 있어서, 처음이라면 이 체험판부터 써보는 분들이 많더라고요.</p>
+<p><b>Q. 다음 재등장 일정이 나왔나요?</b><br>
+현재 확인된 공식 안내 기준으로는 거다이맥스 에이스번 맥스배틀의 다음 재등장 일정이 나온 게 없어요. 10월 4일 기준 공식 뉴스에서 확인되는 건 10월 3일 하루짜리 일정뿐이라서, 새 소식이 나오면 그때 다시 정리해 드릴게요.</p>
+
+<h3>거다이맥스 에이스번 맥스배틀 정리</h3>
+<p>정리하면 에이스번은 땅·바위·물이 약점이라 거다이맥스 인텔리레온과 킹크랩이 1·2위 카운터고, 졸업스킬은 표의 노말 기술과 맥스 기술 조합에 맥스 기술 레벨 3까지 올려두는 걸 기준으로 보면 돼요. 탱커 한 마리에 백업, 어태커 순서만 미리 챙겨 두면 다음 판은 훨씬 여유로울 거예요. 놓치셨던 분들도 다음 기회에는 느긋하게 도전해 보시길 바랄게요, 즐거운 맥스배틀 되세요!</p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://pokemongo.com/ko/news/gigantamax-cinderace-max-battle-day-2026" target="_blank">포켓몬GO 공식 뉴스 — 거다이맥스 에이스번 맥스배틀 데이 2026</a><br>
+· <a href="https://pokemongo.com/ko/max-pokemon-battle" target="_blank">포켓몬GO 공식 — 맥스배틀 안내</a><br>
+· <a href="https://db.pokemongohub.net/pokemon/815-Gigantamax/counters-max-battles" target="_blank">Pokémon GO Hub — 거다이맥스 에이스번 맥스배틀 카운터</a><br>
+· <a href="https://poketory.com/pokemongo-max-battle-gigantamax-cinderace/" target="_blank">포켓토리 — 거다이맥스 에이스번 맥스배틀 공략</a><br>
+· <a href="https://leekduck.com/events/gigantamax-cinderace-max-battle-day-2026/" target="_blank">LeekDuck — 이벤트 안내</a></p>
+
+<p><b>✔ 포켓몬GO 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224430706508" target="_blank">포켓몬고 과사삭벌레 진화 애프룡 단지래플 과미르 사과 사탕 총정리, 과미드라 조건까지</a><br>
+· <a href="https://blog.naver.com/bomding/224430682279" target="_blank">포켓몬GO 다투곰 진화조건, 포켓몬고 링곰 깜지곰사탕 100개 보름달 타이밍까지</a><br>
+· <a href="https://blog.naver.com/bomding/224430219734" target="_blank">포켓몬고 제르네아스 레이드 공략 약점 정리, 졸업스킬 카운터 포획 팁까지</a></p>
+
+<p class="tags-line">#포켓몬고 #거다이맥스에이스번 #에이스번 #맥스배틀 #맥스배틀공략 #에이스번카운터 #포켓몬고졸업스킬 #거다이맥스인텔리레온 #거다이맥스킹크랩 #포켓몬고레이드</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
