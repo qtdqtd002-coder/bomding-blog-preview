@@ -1,0 +1,322 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>리니지M 속성 코어 휘장 사용법, 이그니스 운디네 실프 클레이 4속성 뭐가 좋을까? 선택 기준 정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .guidenote{color:#999;font-size:13px;margin-bottom:18px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post ul,.post ol{font-size:15.5px;line-height:1.95;margin:0 0 18px;padding-left:22px;word-break:keep-all;}
+  .post li{margin:4px 0;}
+  .post b{font-weight:800;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;vertical-align:top;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td.l{text-align:left;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">게임 &gt; 리니지M 공략</div>
+    <h1 class="title">리니지M 속성 코어 휘장 사용법, 이그니스 운디네 실프 클레이 4속성 뭐가 좋을까? 선택 기준 정리</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026.10.05</span><span>· 게임</span></div>
+    <div class="guidenote">※ 다른 공략은 댓글을 참고해 주세요.</div>
+
+    <p>속성 코어, 4종 중에 어느 걸 골라야 할지 막막하시죠. 먼저 솔직하게 말씀드리면, 제가 확인한 범위에서 <b>공식 공지(인벤 전재본 기준)에도 <a href="https://www.inven.co.kr/board/lineagem/5056/26907" target="_blank">유저 정보글</a>에도 '이 속성이 정답'이라는 내용은 없었습니다.</b> 그래서 이 글은 정답을 찍어 드리는 대신, 확인된 사용 방법과 코어 기능에서 읽히는 선택 기준(제 의견)을 나눠서 정리했어요.</p>
+    <p>기준은 <b>2026년 6월 24일 PHOENIX 패치</b>, 내용을 다시 확인한 날은 <b>2026년 10월 5일</b>입니다. 이후에 속성 코어가 개편됐는지는 확인하지 못했어요.</p>
+
+    <h2 class="sec">1. 속성 코어(휘장)란, 핵심은 속성 관통</h2>
+    <p>속성 코어는 6월 24일 PHOENIX 업데이트에서 휘장 전용으로 들어온 '속성 제련'에 쓰는 재료이고, 불ㆍ물ㆍ바람ㆍ땅 4속성 중 하나의 제련 효과를 휘장에 붙여 줍니다.</p>
+    <p>핵심은 새로 생긴 스탯 <b>'속성 관통'</b>이에요. 공식 공지 기준으로 속성 관통 수치만큼 맞은 캐릭터의 <b>같은 속성 저항</b>이 깎이고, 관통이 저항을 넘으면 속성 대미지가 증폭됩니다. 상대 저항이 방어막이라면 관통은 그 막을 깎아 내는 송곳 같은 거죠. 반대로 관통이 저항에 못 미치면 증폭까지는 못 간다고 읽히는데, 이건 공식 문구에서 제가 풀어 본 해석이에요. 물ㆍ불ㆍ바람ㆍ땅 속성 관통은 스탯 정보창에서 확인할 수 있어요.</p>
+    <!-- 이미지 이유: 바로 위 문단이 말한 '속성 관통' 스탯이 실제로 어떻게 보이는지 / 출처: 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 스탯 정보창의 속성 관통 항목</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 스탯 정보창에서 물ㆍ불ㆍ바람ㆍ땅 속성 관통 항목이 한 화면에 보이게 캡처. 패치 내용 확인: <a href="https://lineagem.plaync.com/board/update/view?articleId=6a3adeb8f7d5e442c498b78d" target="_blank">리니지M 공식 업데이트 공지</a></div>
+    <p class="cap">스탯 정보창을 보시면 속성 관통 항목이 따로 잡혀 있습니다.</p>
+
+    <h2 class="sec">2. 속성 코어 획득처, 방어전 주화 40개</h2>
+    <p>속성 코어는 요정 숲 방어전 시즌 상점에서 방어전 주화 40개로 '속성 코어(휘장) 선택 상자 (이벤트)'를 사서 4종 중 1종을 고르는 방식이 6월 24일 패치 기준으로 확인된 획득 경로입니다.</p>
+    <ul>
+      <li>요정 숲 방어전 시즌 상점: 방어전 주화 40개 → '선택 상자' → 4종 중 1종 선택(계정당 50회)</li>
+      <li>방어전 주화는 요정 숲 방어전과 듀펠게넌 잔당 토벌의 보상으로 모아서 같은 시즌 상점에서 씁니다</li>
+    </ul>
+    <p>시즌 상점 판매 기간은 2026년 6월 24일부터 7월 15일 정기점검 전까지였고, 이 상자에서 나오는 코어는 '(이벤트)'가 붙은 코어라 이 코어로 제련하면 기간제 효과가 부여됩니다. 10월 5일 현재 같은 상자를 아직 파는지는 확인하지 못했어요. 선택 상자는 말 그대로 하나만 고르는 거라, 뭘 받느냐가 곧 속성 선택이에요. 고르기 전에 아래 5번 항목의 기준을 한 번 보고 오세요.</p>
+    <!-- 이미지 이유: 획득처 문단이 말한 시즌 상점 선택 상자 화면 / 출처: 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 방어전 시즌 상점의 속성 코어 선택 상자</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 시즌 상점 목록에서 '속성 코어(휘장) 선택 상자'와 방어전 주화 40개 가격이 같이 보이게 캡처.</div>
+    <p class="cap">상점 목록에서 선택 상자 가격(주화 40개)을 같이 잡아 두면 좋아요.</p>
+
+    <h2 class="sec">3. 사용 순서, 축복받은 휘장 먼저 그다음 제련</h2>
+    <p>속성 제련은 축복받은 휘장을 먼저 만든 뒤에 하는 게 안전한데, 축복받은 휘장을 만들면 재료로 쓴 휘장의 속성 제련 효과가 전부 삭제되기 때문입니다.</p>
+    <ol>
+      <li>같은 휘장 2개로 축복받은 휘장을 만든다(공식 공지 기준 +3 이상)</li>
+      <li>축복받은 휘장에 속성 제련을 한다</li>
+      <li>다시 제련하면 기존 옵션을 지우고 새 옵션으로 덮어쓴다</li>
+    </ol>
+    <!-- 이미지 이유: 사용 순서 2단계(속성 제련) 화면 / 출처: 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 축복받은 휘장 속성 제련 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 축복받은 휘장을 올려 둔 속성 제련 화면 전체. 제련 전 화면과 후 화면을 나란히 쓰면 흐름이 보입니다.</div>
+    <p class="cap">보시는 것처럼 축복받은 휘장을 먼저 만들고 나서 이 화면으로 오시면 됩니다.</p>
+    <p>축복받은 지휘관의 휘장은 +6부터 '레벨에 의한 스킬 성공 확률 1단계 상승'(+7은 2단계)이 붙고 +7부터 스턴 시간 감소(1초)가 더해집니다. 축복받은 사냥꾼의 휘장은 +6부터 확률 대미지 리덕션, +7부터 '발동: 미티어 스트라이크'가 붙으니 이쪽도 같이 보고 만드세요.</p>
+<p><b>▶ 순서 한 줄 요약</b> 선택 상자(주화 40개) → 코어 1종 선택 → 축복받은 휘장 제작 → 속성 제련 → 마음에 안 들면 재제련</p>
+    <p>제련 옵션은 인챈트 단계별 확률로 붙고, 종류는 이렇습니다.</p>
+    <ul>
+      <li>속성 치명타, 속성 치명타 저항</li>
+      <li>속성 추가 대미지, 속성 대미지 리덕션</li>
+      <li>속성 저항, 속성 관통 등</li>
+    </ul>
+    <p>휘장 강화도에 따라 붙는 옵션 그룹도 갈립니다.</p>
+    <table class="tbl">
+      <tr><th>휘장 강화도</th><th>붙는 옵션 그룹</th></tr>
+      <tr><td>+4 이하</td><td>1그룹 확정</td></tr>
+      <tr><td>+5 이상</td><td>1ㆍ2그룹 확정</td></tr>
+      <tr><td>+7 이상</td><td>1ㆍ2그룹 확정 + 3그룹 확률</td></tr>
+    </table>
+    <!-- 이미지 이유: 표가 말한 제련 결과 옵션이 실제 어떻게 붙는지 / 출처: 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 속성 제련 결과로 붙은 옵션</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 제련을 마친 휘장의 옵션 목록이 전부 보이게 캡처(강화도가 같이 보이면 위 표와 대조하기 좋아요).</div>
+    <p class="cap">지금 보시는 화면처럼 강화도와 옵션 줄을 같이 담아 두세요.</p>
+
+    <h2 class="sec">4. 4속성 한눈에, 이그니스ㆍ운디네ㆍ실프ㆍ클레이</h2>
+    <p>속성 코어는 이그니스(불), 운디네(물), 실프(바람), 클레이(땅) 4종이고, 공지에서 확인되는 차이는 제련 속성이 불ㆍ물ㆍ바람ㆍ땅으로 갈린다는 점입니다. 속성 관통은 제련 때 확률로 붙는 6종 옵션 중 하나라서, 코어를 쓴다고 그 속성 관통이 꼭 붙는 건 아니에요.</p>
+    <table class="tbl">
+      <tr><th>코어</th><th>속성</th><th>제련 속성</th></tr>
+      <tr><td>이그니스</td><td>불</td><td>불 속성 제련</td></tr>
+      <tr><td>운디네</td><td>물</td><td>물 속성 제련</td></tr>
+      <tr><td>실프</td><td>바람</td><td>바람 속성 제련</td></tr>
+      <tr><td>클레이</td><td>땅</td><td>땅 속성 제련</td></tr>
+    </table>
+    <!-- 이미지 이유: 4종 비교 표 다음, 코어 4종 툴팁을 나란히 보여 주기 위해 / 출처: 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 코어 4종 툴팁 비교</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 이그니스ㆍ운디네ㆍ실프ㆍ클레이 툴팁을 같은 배율로 한 장씩 찍어 2×2로 이어 붙이기.</div>
+    <p class="cap">코어 4종 툴팁을 같은 배율로 나란히 놓은 화면입니다.</p>
+    <p>이 4종은 요정 숲 방어전의 '정령의 가호'(파티장이 이그니스ㆍ운디네ㆍ실프ㆍ클레이 중 선택)와 이름이 같고, 방어전에서는 속성 상성이 PvE 이득과 PvP 우위에 관여한다고 해요. 다만 휘장 코어와 이 정령이 직접 이어진다는 규칙은 확인하지 못했습니다. 이름이 같다고 정령에 맞춰 고르면 된다고는 단정하기 어려워요.</p>
+
+    <h2 class="sec">5. 어느 속성이 추천? 정답은 없고 기준만 있다</h2>
+    <p>제가 확인한 범위에서는 어느 속성이 제일 낫다는 정답이 공식 공지(인벤 전재본 기준)에도, <a href="https://www.inven.co.kr/board/lineagem/5056/26907" target="_blank">유저 정보글</a>에도 없었습니다.</p>
+    <p>아래는 확인된 사실이 아니라 <b>코어 기능에서 읽은 제 의견</b>이고, <b>관통이 붙었을 때 기준</b>입니다. 관통이 상대의 같은 속성 저항을 깎는 구조니까, 고르는 기준도 '누구를 상대하느냐'에서 나올 수밖에 없다고 봅니다.</p>
+    <table class="tbl">
+      <tr><th>내 상황</th><th>제 의견</th></tr>
+      <tr><td>자주 가는 사냥터가 정해져 있다</td><td class="l">그 몬스터의 속성 저항부터 살펴보고, 저항이 낮은 속성 쪽 관통이 증폭 구간에 닿기 쉬울 것 같아요</td></tr>
+      <tr><td>PvP 상대가 정해져 있다</td><td class="l">상대 캐릭터의 속성 저항을 보고 같은 논리로 고르세요</td></tr>
+      <tr><td>아직 기준이 없다</td><td class="l">코어를 고르기 전에 상대할 곳부터 정하세요</td></tr>
+    </table>
+    <p>코어는 한 번에 1종만 고르는 구조라, 관통이 붙더라도 고른 속성 하나에만 해당해요. 상대가 그 속성 저항을 두껍게 두르고 있으면 관통이 저항을 넘기 어려울 수 있으니, '무슨 속성이 강하냐'보다 '내 상대가 어느 속성에 허술하냐'를 먼저 묻는 게 맞아 보입니다.</p>
+    <p>참고로 예전 <a href="https://www.inven.co.kr/webzine/news/?news=181779&site=lineagem" target="_blank">무기 속성 인챈트 기사</a>에는 물&gt;불&gt;땅&gt;바람&gt;물 상성이 있었는데요, 이건 구형 무기 속성 기준이고 휘장 코어가 같은 상성이라고 확인된 바는 없습니다. 그대로 대입하진 마세요. 주인장이라면 코어 고르기 전에 자주 가는 사냥터 몬스터 이름부터 적어 볼 것 같네요 ㅋㅋ</p>
+
+    <h2 class="sec">6. 헷갈리기 쉬운 실수와 아직 모르는 것</h2>
+    <ul>
+      <li>속성 제련을 먼저 하고 축복받은 휘장을 만들면 제련 효과가 전부 사라집니다</li>
+      <li>다시 제련하면 기존 옵션이 덮어써지니, 마음에 드는 옵션이 붙었다면 재제련 전에 한 번 더 고민하세요</li>
+      <li>3그룹 옵션은 +7 이상 휘장에서만 확률로 붙습니다</li>
+<li>속성 제련은 강화 UI에서 하고 속성 코어(휘장) 1개가 필요합니다(공식 공지 기준)</li>
+<li>코어 이름이 방어전 정령과 같다고 해서 정령 속성에 맞춰 고르는 건 근거가 없으니 조심하세요(직접 연동은 확인되지 않았어요)</li>
+    </ul>
+    <p>아직 모르는 건 옵션별 수치와 확률, 그룹별 옵션 목록, 몬스터별 속성 저항, 4종의 속성 외 고유 효과, 지금도 시즌 상점에서 이 상자를 파는지예요. 공지와 정보글에 나와 있지 않아서 이 글에는 적지 않았고, 새로 나오면 추후 정리해서 알려드릴게요.</p>
+    <div class="summary"><div class="h">핵심만</div>순서는 <b>축복받은 휘장 먼저, 속성 제련은 그다음</b>이고, 4종 중에서는 <b>상대할 대상의 저항 속성</b>을 기준으로 고르는 게 제 의견입니다(관통이 붙었을 때 기준). 6월 24일 패치 기준이에요.</div>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://lineagem.plaync.com/board/update/view?articleId=6a3adeb8f7d5e442c498b78d" target="_blank">리니지M 공식 업데이트 공지(PHOENIX, 2026.06.24 기준)</a><br>
+    · <a href="https://www.inven.co.kr/board/lineagem/5019/739471" target="_blank">리니지M 6월 24일 패치 노트 전문(인벤 전재)</a><br>
+    · <a href="https://www.inven.co.kr/board/lineagem/5056/26907" target="_blank">인벤 리니지M 유저 정보글</a></p>
+    <p><b>▶ 같이 보면 좋은 글</b><br>
+    · <a href="https://blog.naver.com/kkodug9/224429674879" target="_blank">리니지M 요정의 숲 방어전 꿀팁 &amp; 주의할 클래스 TOP3</a><br>
+    · <a href="https://blog.naver.com/kkodug9/224420242393" target="_blank">신규 복귀 유저 기준 리니지M 직업 추천 TOP4</a><br>
+    · <a href="https://blog.naver.com/kkodug9/224412741338" target="_blank">리니지M 신서버 기란 하이네 오픈! 투사 리부트 및 클래스 체인지까지</a></p>
+    <div class="tags">#리니지M #리니지M속성코어 #리니지M휘장 #속성제련 #피닉스업데이트 #이그니스 #운디네 #실프 #클레이 #속성관통 #리니지M공략</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 직접 캡처한 화면을 그 자리에 올리시면 됩니다.<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 5곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 리니지M 속성 코어 휘장 사용법, 이그니스 운디네 실프 클레이 4속성 뭐가 좋을까? 선택 기준 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>※ 다른 공략은 댓글을 참고해 주세요.</p>
+
+<p>속성 코어, 4종 중에 어느 걸 골라야 할지 막막하시죠. 먼저 솔직하게 말씀드리면, 제가 확인한 범위에서 <b>공식 공지(인벤 전재본 기준)에도 <a href="https://www.inven.co.kr/board/lineagem/5056/26907" target="_blank">유저 정보글</a>에도 '이 속성이 정답'이라는 내용은 없었습니다.</b> 그래서 이 글은 정답을 찍어 드리는 대신, 확인된 사용 방법과 코어 기능에서 읽히는 선택 기준(제 의견)을 나눠서 정리했어요.</p>
+<p>기준은 <b>2026년 6월 24일 PHOENIX 패치</b>, 내용을 다시 확인한 날은 <b>2026년 10월 5일</b>입니다. 이후에 속성 코어가 개편됐는지는 확인하지 못했어요.</p>
+
+<h3>1. 속성 코어(휘장)란, 핵심은 속성 관통</h3>
+<p>속성 코어는 6월 24일 PHOENIX 업데이트에서 휘장 전용으로 들어온 '속성 제련'에 쓰는 재료이고, 불ㆍ물ㆍ바람ㆍ땅 4속성 중 하나의 제련 효과를 휘장에 붙여 줍니다.</p>
+<p>핵심은 새로 생긴 스탯 <b>'속성 관통'</b>이에요. 공식 공지 기준으로 속성 관통 수치만큼 맞은 캐릭터의 <b>같은 속성 저항</b>이 깎이고, 관통이 저항을 넘으면 속성 대미지가 증폭됩니다. 상대 저항이 방어막이라면 관통은 그 막을 깎아 내는 송곳 같은 거죠. 반대로 관통이 저항에 못 미치면 증폭까지는 못 간다고 읽히는데, 이건 공식 문구에서 제가 풀어 본 해석이에요. 물ㆍ불ㆍ바람ㆍ땅 속성 관통은 스탯 정보창에서 확인할 수 있어요.</p>
+<p class="ph">📷 〔사진 자리 1〕 스탯 정보창의 속성 관통 항목 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "스탯 정보창을 보시면 속성 관통 항목이 따로 잡혀 있습니다."</p>
+
+<h3>2. 속성 코어 획득처, 방어전 주화 40개</h3>
+<p>속성 코어는 요정 숲 방어전 시즌 상점에서 방어전 주화 40개로 '속성 코어(휘장) 선택 상자 (이벤트)'를 사서 4종 중 1종을 고르는 방식이 6월 24일 패치 기준으로 확인된 획득 경로입니다.</p>
+<ul>
+<li>요정 숲 방어전 시즌 상점: 방어전 주화 40개 → '선택 상자' → 4종 중 1종 선택(계정당 50회)</li>
+<li>방어전 주화는 요정 숲 방어전과 듀펠게넌 잔당 토벌의 보상으로 모아서 같은 시즌 상점에서 씁니다</li>
+</ul>
+<p>시즌 상점 판매 기간은 2026년 6월 24일부터 7월 15일 정기점검 전까지였고, 이 상자에서 나오는 코어는 '(이벤트)'가 붙은 코어라 이 코어로 제련하면 기간제 효과가 부여됩니다. 10월 5일 현재 같은 상자를 아직 파는지는 확인하지 못했어요. 선택 상자는 말 그대로 하나만 고르는 거라, 뭘 받느냐가 곧 속성 선택이에요. 고르기 전에 아래 5번 항목의 기준을 한 번 보고 오세요.</p>
+<p class="ph">📷 〔사진 자리 2〕 방어전 시즌 상점의 속성 코어 선택 상자 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "상점 목록에서 선택 상자 가격(주화 40개)을 같이 잡아 두면 좋아요."</p>
+
+<h3>3. 사용 순서, 축복받은 휘장 먼저 그다음 제련</h3>
+<p>속성 제련은 축복받은 휘장을 먼저 만든 뒤에 하는 게 안전한데, 축복받은 휘장을 만들면 재료로 쓴 휘장의 속성 제련 효과가 전부 삭제되기 때문입니다.</p>
+<ol>
+<li>같은 휘장 2개로 축복받은 휘장을 만든다(공식 공지 기준 +3 이상)</li>
+<li>축복받은 휘장에 속성 제련을 한다</li>
+<li>다시 제련하면 기존 옵션을 지우고 새 옵션으로 덮어쓴다</li>
+</ol>
+<p class="ph">📷 〔사진 자리 3〕 축복받은 휘장 속성 제련 화면 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "보시는 것처럼 축복받은 휘장을 먼저 만들고 나서 이 화면으로 오시면 됩니다."</p>
+<p>축복받은 지휘관의 휘장은 +6부터 '레벨에 의한 스킬 성공 확률 1단계 상승'(+7은 2단계)이 붙고 +7부터 스턴 시간 감소(1초)가 더해집니다. 축복받은 사냥꾼의 휘장은 +6부터 확률 대미지 리덕션, +7부터 '발동: 미티어 스트라이크'가 붙으니 이쪽도 같이 보고 만드세요.</p>
+<p><b>▶ 순서 한 줄 요약</b> 선택 상자(주화 40개) → 코어 1종 선택 → 축복받은 휘장 제작 → 속성 제련 → 마음에 안 들면 재제련</p>
+<p>제련 옵션은 인챈트 단계별 확률로 붙고, 종류는 이렇습니다.</p>
+<ul>
+<li>속성 치명타, 속성 치명타 저항</li>
+<li>속성 추가 대미지, 속성 대미지 리덕션</li>
+<li>속성 저항, 속성 관통 등</li>
+</ul>
+<p>휘장 강화도에 따라 붙는 옵션 그룹도 갈립니다.</p>
+<table>
+<tr><th>휘장 강화도</th><th>붙는 옵션 그룹</th></tr>
+<tr><td>+4 이하</td><td>1그룹 확정</td></tr>
+<tr><td>+5 이상</td><td>1ㆍ2그룹 확정</td></tr>
+<tr><td>+7 이상</td><td>1ㆍ2그룹 확정 + 3그룹 확률</td></tr>
+</table>
+<p class="ph">📷 〔사진 자리 4〕 속성 제련 결과로 붙은 옵션 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "지금 보시는 화면처럼 강화도와 옵션 줄을 같이 담아 두세요."</p>
+
+<h3>4. 4속성 한눈에, 이그니스ㆍ운디네ㆍ실프ㆍ클레이</h3>
+<p>속성 코어는 이그니스(불), 운디네(물), 실프(바람), 클레이(땅) 4종이고, 공지에서 확인되는 차이는 제련 속성이 불ㆍ물ㆍ바람ㆍ땅으로 갈린다는 점입니다. 속성 관통은 제련 때 확률로 붙는 6종 옵션 중 하나라서, 코어를 쓴다고 그 속성 관통이 꼭 붙는 건 아니에요.</p>
+<table>
+<tr><th>코어</th><th>속성</th><th>제련 속성</th></tr>
+<tr><td>이그니스</td><td>불</td><td>불 속성 제련</td></tr>
+<tr><td>운디네</td><td>물</td><td>물 속성 제련</td></tr>
+<tr><td>실프</td><td>바람</td><td>바람 속성 제련</td></tr>
+<tr><td>클레이</td><td>땅</td><td>땅 속성 제련</td></tr>
+</table>
+<p class="ph">📷 〔사진 자리 5〕 코어 4종 툴팁 비교 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "코어 4종 툴팁을 같은 배율로 나란히 놓은 화면입니다."</p>
+<p>이 4종은 요정 숲 방어전의 '정령의 가호'(파티장이 이그니스ㆍ운디네ㆍ실프ㆍ클레이 중 선택)와 이름이 같고, 방어전에서는 속성 상성이 PvE 이득과 PvP 우위에 관여한다고 해요. 다만 휘장 코어와 이 정령이 직접 이어진다는 규칙은 확인하지 못했습니다. 이름이 같다고 정령에 맞춰 고르면 된다고는 단정하기 어려워요.</p>
+
+<h3>5. 어느 속성이 추천? 정답은 없고 기준만 있다</h3>
+<p>제가 확인한 범위에서는 어느 속성이 제일 낫다는 정답이 공식 공지(인벤 전재본 기준)에도, <a href="https://www.inven.co.kr/board/lineagem/5056/26907" target="_blank">유저 정보글</a>에도 없었습니다.</p>
+<p>아래는 확인된 사실이 아니라 <b>코어 기능에서 읽은 제 의견</b>이고, <b>관통이 붙었을 때 기준</b>입니다. 관통이 상대의 같은 속성 저항을 깎는 구조니까, 고르는 기준도 '누구를 상대하느냐'에서 나올 수밖에 없다고 봅니다.</p>
+<table>
+<tr><th>내 상황</th><th>제 의견</th></tr>
+<tr><td>자주 가는 사냥터가 정해져 있다</td><td class="l">그 몬스터의 속성 저항부터 살펴보고, 저항이 낮은 속성 쪽 관통이 증폭 구간에 닿기 쉬울 것 같아요</td></tr>
+<tr><td>PvP 상대가 정해져 있다</td><td class="l">상대 캐릭터의 속성 저항을 보고 같은 논리로 고르세요</td></tr>
+<tr><td>아직 기준이 없다</td><td class="l">코어를 고르기 전에 상대할 곳부터 정하세요</td></tr>
+</table>
+<p>코어는 한 번에 1종만 고르는 구조라, 관통이 붙더라도 고른 속성 하나에만 해당해요. 상대가 그 속성 저항을 두껍게 두르고 있으면 관통이 저항을 넘기 어려울 수 있으니, '무슨 속성이 강하냐'보다 '내 상대가 어느 속성에 허술하냐'를 먼저 묻는 게 맞아 보입니다.</p>
+<p>참고로 예전 <a href="https://www.inven.co.kr/webzine/news/?news=181779&site=lineagem" target="_blank">무기 속성 인챈트 기사</a>에는 물&gt;불&gt;땅&gt;바람&gt;물 상성이 있었는데요, 이건 구형 무기 속성 기준이고 휘장 코어가 같은 상성이라고 확인된 바는 없습니다. 그대로 대입하진 마세요. 주인장이라면 코어 고르기 전에 자주 가는 사냥터 몬스터 이름부터 적어 볼 것 같네요 ㅋㅋ</p>
+
+<h3>6. 헷갈리기 쉬운 실수와 아직 모르는 것</h3>
+<ul>
+<li>속성 제련을 먼저 하고 축복받은 휘장을 만들면 제련 효과가 전부 사라집니다</li>
+<li>다시 제련하면 기존 옵션이 덮어써지니, 마음에 드는 옵션이 붙었다면 재제련 전에 한 번 더 고민하세요</li>
+<li>3그룹 옵션은 +7 이상 휘장에서만 확률로 붙습니다</li>
+<li>속성 제련은 강화 UI에서 하고 속성 코어(휘장) 1개가 필요합니다(공식 공지 기준)</li>
+<li>코어 이름이 방어전 정령과 같다고 해서 정령 속성에 맞춰 고르는 건 근거가 없으니 조심하세요(직접 연동은 확인되지 않았어요)</li>
+</ul>
+<p>아직 모르는 건 옵션별 수치와 확률, 그룹별 옵션 목록, 몬스터별 속성 저항, 4종의 속성 외 고유 효과, 지금도 시즌 상점에서 이 상자를 파는지예요. 공지와 정보글에 나와 있지 않아서 이 글에는 적지 않았고, 새로 나오면 추후 정리해서 알려드릴게요.</p>
+<p><b>핵심만</b><br>순서는 <b>축복받은 휘장 먼저, 속성 제련은 그다음</b>이고, 4종 중에서는 <b>상대할 대상의 저항 속성</b>을 기준으로 고르는 게 제 의견입니다(관통이 붙었을 때 기준). 6월 24일 패치 기준이에요.</p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://lineagem.plaync.com/board/update/view?articleId=6a3adeb8f7d5e442c498b78d" target="_blank">리니지M 공식 업데이트 공지(PHOENIX, 2026.06.24 기준)</a><br>
+    · <a href="https://www.inven.co.kr/board/lineagem/5019/739471" target="_blank">리니지M 6월 24일 패치 노트 전문(인벤 전재)</a><br>
+    · <a href="https://www.inven.co.kr/board/lineagem/5056/26907" target="_blank">인벤 리니지M 유저 정보글</a></p>
+<p><b>▶ 같이 보면 좋은 글</b><br>
+· <a href="https://blog.naver.com/kkodug9/224429674879" target="_blank">리니지M 요정의 숲 방어전 꿀팁 &amp; 주의할 클래스 TOP3</a><br>
+· <a href="https://blog.naver.com/kkodug9/224420242393" target="_blank">신규 복귀 유저 기준 리니지M 직업 추천 TOP4</a><br>
+· <a href="https://blog.naver.com/kkodug9/224412741338" target="_blank">리니지M 신서버 기란 하이네 오픈! 투사 리부트 및 클래스 체인지까지</a></p>
+<p class="tags-line">#리니지M #리니지M속성코어 #리니지M휘장 #속성제련 #피닉스업데이트 #이그니스 #운디네 #실프 #클레이 #속성관통 #리니지M공략</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
