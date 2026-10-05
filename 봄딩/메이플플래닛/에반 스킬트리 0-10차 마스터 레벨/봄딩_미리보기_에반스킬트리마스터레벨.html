@@ -1,0 +1,367 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메이플플래닛 에반 스킬트리 0~10차 마스터 레벨 32종, 드래곤 소울 선행조건 초보자 정리</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.6;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .post ul{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="pvbar">✍️ <b>옆 메모</b>는 공식 자료에 없는 부분을 어떻게 처리했는지 적은 거예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b></div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">직업·스킬</div>
+    <h1 class="title">메이플플래닛 에반 스킬트리 0~10차 마스터 레벨 32종, 드래곤 소울 선행조건 초보자 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.06</span><span>· 게임</span></div>
+<!-- AI브리핑 타깃 질문: 메이플플래닛 에반 스킬 마스터 레벨 / 에반 드래곤 소울 선행 스킬 / 에반 스킬트리 총 몇 종 -->
+<p>메이플플래닛에 신규 직업군 에반이 <b>10월 1일 패치</b>로 들어왔는데요, 공식 패치노트를 열어 보니 0차부터 10차까지 차수가 유난히 길고 스킬마다 마스터 레벨이 따로 적혀 있어서, 키우기 전에 한 번 정리해두면 두고두고 쓰겠더라고요. 이 글은 <b>2026년 10월 6일 기준</b> 공식 패치노트를 바탕으로 했어요. 에반 스킬은 원작을 기준 삼아 일부 손본 것이라 원작 공략 숫자를 그대로 가져다 쓰기엔 조심스러워요.</p>
+<!-- 이미지 이유: 도입 문단이 말한 에반 출시 공식 키비주얼 / 출처: https://mapleplanet.co.kr/news/updates/733 / 분류: A형 -->
+<div class="imgwrap"><img src="img/evan-launch-hero-733.webp" alt="메이플플래닛 신규 직업 에반 출시 공식 키비주얼" width="800" height="866"></div>
+<p class="cap">에반과 아기 드래곤이 나란히 앉은 출시 키비주얼이에요. 출처: 메이플플래닛 공식 © Planet Games·NEXON</p>
+<p class="src">이미지 출처: <a href="https://mapleplanet.co.kr/news/updates/733" target="_blank">메이플플래닛 공식 패치노트 733</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+<h2 class="sub">에반 스킬은 0차부터 10차까지 몇 종이고 마스터 레벨은 어떻게 되나요</h2>
+<p>에반 스킬은 0차부터 10차까지 <b>총 32종</b>이고, 마스터 레벨을 전부 더하면 <b>631</b>이에요.</p><p>마스터 레벨과 효과 수치는 공식 표기 그대로 적었고, 효과는 마스터 레벨 기준이에요. 1~5차는 차수마다 두 스킬이 전부 20이고, 6차부터는 스킬이 네 개로 늘어요. 6차에는 15짜리가 섞이고, 10짜리는 7차(매직 레지스턴스)부터 나옵니다.</p><table class="tbl">
+<tr><th>차수</th><th>스킬</th><th>마스터</th><th>핵심 효과(마스터 레벨 기준)</th></tr>
+<tr><td>0차</td><td>영웅의 메아리</td><td>1</td><td>40분간 물리·마법 공격력 4% 향상, 재사용 2시간</td></tr>
+<tr><td>1차</td><td>드래곤 소울</td><td>20</td><td>마력 20 향상, 필요 스킬 매직 미사일 10레벨 이상</td></tr>
+<tr><td>1차</td><td>매직 미사일</td><td>20</td><td>원거리의 적을 두 번 공격, MP 18</td></tr>
+<tr><td>2차</td><td>파이어 서클</td><td>20</td><td>불속성 공격, 최대 4마리</td></tr>
+<tr><td>2차</td><td>텔레포트</td><td>20</td><td>방향키로 이동, 이동거리 150</td></tr>
+<tr><td>3차</td><td>라이트닝 볼트</td><td>20</td><td>낙뢰로 최대 4마리 공격, MP 24</td></tr>
+<tr><td>3차</td><td>매직 가드</td><td>20</td><td>300초간 받는 피해의 70%를 MP로 대신</td></tr>
+<tr><td>4차</td><td>아이스 브레스</td><td>20</td><td>냉기를 모아 최대 6마리 공격, 결빙 확률 90%</td></tr>
+<tr><td>4차</td><td>엘리멘탈 리셋</td><td>20</td><td>300초간 공격 속성을 무속성으로 변환</td></tr>
+<tr><td>5차</td><td>매직 플레어</td><td>20</td><td>적 한 마리 공격, 기본 공격력 120</td></tr>
+<tr><td>5차</td><td>매직 실드</td><td>20</td><td>파티원 피해 30% 흡수, 재사용 40초</td></tr>
+<tr><td>6차</td><td>크리티컬 매직</td><td>15</td><td>크리티컬 확률 30%, 크리티컬 데미지 50% 상승</td></tr>
+<tr><td>6차</td><td>드래곤 쓰러스트</td><td>20</td><td>최대 6마리 밀어내기, 재사용 대기시간 공식 미기재</td></tr>
+<tr><td>6차</td><td>매직 부스터</td><td>15</td><td>300초간 마법 공격 속도 3단계 향상</td></tr>
+<tr><td>6차</td><td>슬로우</td><td>15</td><td>60% 확률로 12초간 이동속도 -40</td></tr>
+<tr><td>7차</td><td>매직 엠플리피케이션</td><td>15</td><td>소비 MP 180% 증가, 공격 마법 데미지 135% 증가(온오프)</td></tr>
+<tr><td>7차</td><td>브레스</td><td>20</td><td>화염을 모아 최대 6마리 공격, 스턴 확률 30%</td></tr>
+<tr><td>7차</td><td>킬링 윙</td><td>20</td><td>원거리 적 한 마리를 공격, 기본 공격력 150</td></tr>
+<tr><td>7차</td><td>매직 레지스턴스</td><td>10</td><td>150초간 마법 공격 내성 20% 증가</td></tr>
+<tr><td>8차</td><td>드래곤 퓨리</td><td>10</td><td>MP 50~80%일 때 데미지 110%</td></tr>
+<tr><td>8차</td><td>어스퀘이크</td><td>20</td><td>최대 8마리 공격, MP 31</td></tr>
+<tr><td>8차</td><td>고스트 레터링</td><td>20</td><td>저주를 걸어 5초간 더 많은 데미지를 받게 함</td></tr>
+<tr><td>8차</td><td>리커버리 오로라</td><td>15</td><td>30초간 파티 MP 회복, 재사용 1분</td></tr>
+<tr><td>9차</td><td>매직 마스터리</td><td>30</td><td>마법 숙련도 90% 상승, 마력 15 상승</td></tr>
+<tr><td>9차</td><td>메이플 용사</td><td>30</td><td>900초간 파티원 모든 스탯 15% 향상</td></tr>
+<tr><td>9차</td><td>일루전</td><td>30</td><td>드래곤 분신이 한 마리를 4번 공격</td></tr>
+<tr><td>9차</td><td>플레임 휠</td><td>30</td><td>불 속성으로 최대 6마리 공격, 기본 공격력 200</td></tr>
+<tr><td>9차</td><td>용사의 의지</td><td>5</td><td>유혹 상태 이상 해제, 재사용 6분</td></tr>
+<tr><td>10차</td><td>오닉스의 축복</td><td>30</td><td>1분간 물리·마법 방어력 100, 마법 공격력 50 증가, 재사용 2분</td></tr>
+<tr><td>10차</td><td>블레이즈</td><td>30</td><td>불 속성 공격, 주변 적에게 추가 데미지, 최대 6마리</td></tr>
+<tr><td>10차</td><td>다크포그</td><td>30</td><td>최대 15마리 공격, MP 4500 소비(공식 표기)※, 재사용 30초</td></tr>
+<tr><td>10차</td><td>소울스톤</td><td>20</td><td>죽은 자리에서 바로 부활, 파티원 2명, 재사용 10분</td></tr>
+</table>
+<p>※ 다크포그의 MP 4500 소비는 공식 표기 그대로 적었어요. 표에 적힌 다른 스킬의 MP 소비가 18~31인 것과 자릿수가 달라서 오기일 가능성이 있으니 인게임 스킬창 수치를 같이 보세요.</p>
+<h2 class="sub">드래곤 소울은 무엇을 먼저 찍어야 열리나요</h2>
+<p>드래곤 소울은 <b>매직 미사일 10레벨 이상</b>이어야 올릴 수 있고, 1차 두 스킬은 마스터 레벨이 모두 20이에요.</p><p>1차에는 이 두 스킬뿐이라 첫 SP를 어디에 넣을지가 곧 이 조건이고, 공식 설명에 선행 스킬로 못 박힌 것도 이 하나예요. 드래곤 소울은 마력을 20 올려주고 매직 미사일은 MP 18을 쓰는 첫 공격기라서, 결국 둘 다 20까지 같이 키우게 되는 구조더라고요.</p><p><b>★작성자 판단</b> · 여기부터는 공식에 없는 제 생각이에요. 원작 에반 공략을 보면 1차는 매직 미사일로 소울을 먼저 열고, 2차는 텔레포트, 3차는 매직 가드를 먼저 챙기자는 순서가 나오는데요, 플래닛에서 검증된 순서는 아니라서 참고만 해주세요.</p>
+<h2 class="sub">마스터 레벨이 15 이하인 스킬은 뭐고 30은 언제부터 나오나요</h2>
+<p>마스터 레벨이 15 이하인 스킬은 아홉 개이고, 30짜리는 <b>9차부터</b> 처음 나와요.</p><ul>
+<li>영웅의 메아리(0차) 1</li>
+<li>용사의 의지(9차) 5</li>
+<li>매직 레지스턴스(7차) 10</li>
+<li>드래곤 퓨리(8차) 10</li>
+<li>크리티컬 매직(6차) 15</li>
+<li>슬로우(6차) 15</li>
+<li>매직 부스터(6차) 15</li>
+<li>매직 엠플리피케이션(7차) 15</li>
+<li>리커버리 오로라(8차) 15</li>
+</ul>
+<p>9차에서 매직 마스터리·메이플 용사·일루전·플레임 휠이 30이고, 10차에서는 오닉스의 축복·블레이즈·다크포그가 30, 소울스톤만 20이에요. 같은 9차인 용사의 의지가 5라서 한 차수 안에서도 편차가 꽤 크네요.</p>
+<h2 class="sub">전직 퀘스트와 에반 퀘스트 142종은 어떻게 나뉘나요</h2>
+<p>전직은 <b>«드래곤 마스터 1차 ~ 10차 전직»</b> 퀘스트 10종이고, 에반 관련 퀘스트는 총 142종이 한꺼번에 추가됐어요.</p><div class="para-wrap">
+<p>142종은 필수 12, 전직 10, 아기 드래곤 15, 왕연해의 수련장 7, 페리온 경비병 11, 커닝시티 도둑 사건 21, 장로 스탄의 의뢰 6, 비밀단체와 오닉스 드래곤 39, 드래곤 라이딩 14, 훈장 7로 묶여 있어요. 퀘스트 이름만 훑어봐도 아기 드래곤 돌보기에서 시작해 오닉스 드래곤 이야기와 라이딩 안장 만들기까지 흐름이 이어져 보여요.</p>
+<div class="sidenote"><span class="sn-h">✍️ 공식 미기재 · 전직 레벨·SP</span><span class="sn-src">공식 패치노트 733은 «드래곤 마스터 1차 ~ 10차 전직» 퀘스트 이름만 싣고 전직 레벨·SP 소요는 적지 않았어요. (<a href="https://mapleplanet.co.kr/news/updates/733" target="_blank">출처</a>)</span><span class="sn-mine">→ 원작 수치를 끌어오지 않고 아래 박스 한 곳에서만 «공식 미기재»로 처리했어요.</span></div>
+</div>
+<div class="gap"><b>공식 미기재</b> · 드래곤 마스터 몇 차 전직을 몇 레벨에 하는지, 마스터 레벨을 다 올리는 데 SP가 총 얼마나 드는지는 패치노트에 적혀 있지 않아요. 원작 메이플스토리의 전직 레벨을 플래닛에 그대로 맞춰 볼 수 없어서, 이 두 가지는 인게임 퀘스트 창과 스킬창에서 확인하셔야 해요.</div>
+<h2 class="sub">10월 3일 패치로 에반 쪽은 뭐가 고쳐졌나요</h2>
+<p>10월 3일 패치(738번)에서는 에반 스킬 적중 오류와 펫 버프 등록 오류, 그리고 퀘스트·입장 조건이 손봐졌어요.</p><ul>
+<li>매직 미사일·라이트닝 볼트·매직 플레어·고스트 레터링이 라이딩에서 내린 직후 가끔 적중하지 않던 오류 수정</li>
+<li>아이스 브레스·브레스·고스트 레터링이 펫 버프에 등록되던 오류 수정</li>
+<li>왕연해의 수련증표 다시 받기는 18레벨 이상이면 가능(35레벨 이하 제한 삭제)</li>
+<li>왕연해의 수련장 30레벨 이하 입장 조건 삭제</li>
+<li>위기의 머쉬킹 왕국은 «페리온 경비병의 다섯 번째 일» 완료 후 시작 가능에 표시</li>
+<li>‘굳은 의지’ 퀘스트를 진행하는 중에 일그러진 차원에 들어가지 못하던 오류 수정</li>
+<li>‘책의 행방은’ 퀘스트의 2~4번째 단계도 앞 퀘스트를 끝내면 시작 가능 목록에 보이도록 개선</li>
+</ul>
+<h2 class="sub">에반 스텝업 &amp; 버닝 부스터 이벤트는 언제까지고 보상은 어떤가요</h2>
+<p>플래닛 에반 스텝업 &amp; 버닝 부스터 이벤트는 <b>2026년 10월 1일 10시부터 11월 5일 점검 전까지</b> 진행돼요.</p><!-- 이미지 이유: 스텝업 보상 구간 문단이 말한 이벤트 보상 창 / 출처: https://mapleplanet.co.kr/news/events/734 / 분류: A형 -->
+<div class="imgwrap"><img src="img/evt734-stepup-ui.png" alt="에반 스텝업 이벤트 레벨 구간별 보상 수령 창" width="1120" height="1100"></div>
+<p class="cap">Lv.10·30·60·100·120 보상 칸이 나란히 있어요. 공식 이벤트 이미지 기준 · 메이플플래닛 공식 © Planet Games·NEXON</p>
+<p class="src">이미지 출처: <a href="https://mapleplanet.co.kr/news/events/734" target="_blank">메이플플래닛 공식 이벤트 734</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+<p>이벤트 이미지를 보면 보상 칸이 Lv.10·30·60·100·120 다섯 구간이고, 계정당 한 번만 참여하되 구간마다 한 번씩 받는 방식이에요. 경험치 쿠폰은 전 구간에 있고(10·30 구간은 100%, 60 구간부터 200%), 엘릭서는 100·120 구간(Lv.100 엘릭서, Lv.120 파워 엘릭서)에만 있어요. 10레벨 구간에는 공식 이벤트 이미지 기준으로 드래곤의 알과 메이플 스태프가 보여요. 같이 시작된 버닝 부스터는 별도 이벤트예요.</p>
+<h2 class="sub">내 에반 SP 배분 체크 표는 이렇게 쓰시면 돼요</h2>
+<p>공식 마스터 레벨 기준으로 차수마다 체크 칸을 만들어 두었으니, 마스터까지 올린 차수에 표시하면서 내 진행도를 보시면 돼요.</p><table class="tbl">
+<tr><th>체크</th><th>차수</th><th>스킬 수</th><th>마스터 합</th><th>누적</th></tr>
+<tr><td>☐</td><td>0차</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>☐</td><td>1차</td><td>2</td><td>40</td><td>41</td></tr>
+<tr><td>☐</td><td>2차</td><td>2</td><td>40</td><td>81</td></tr>
+<tr><td>☐</td><td>3차</td><td>2</td><td>40</td><td>121</td></tr>
+<tr><td>☐</td><td>4차</td><td>2</td><td>40</td><td>161</td></tr>
+<tr><td>☐</td><td>5차</td><td>2</td><td>40</td><td>201</td></tr>
+<tr><td>☐</td><td>6차</td><td>4</td><td>65</td><td>266</td></tr>
+<tr><td>☐</td><td>7차</td><td>4</td><td>65</td><td>331</td></tr>
+<tr><td>☐</td><td>8차</td><td>4</td><td>65</td><td>396</td></tr>
+<tr><td>☐</td><td>9차</td><td>5</td><td>125</td><td>521</td></tr>
+<tr><td>☐</td><td>10차</td><td>4</td><td>110</td><td>631</td></tr>
+<tr><td></td><td>합계</td><td>32</td><td>631</td><td></td></tr>
+</table>
+<p>다만 여기 <b>631은 마스터 레벨의 합일 뿐 SP 총량이 아니에요.</b> 레벨 하나를 올리는 데 SP가 얼마 드는지는 공식에 없어서, 이 표는 «어느 차수까지 마스터했나»를 적어두는 용도로만 쓰시길 권합니다.</p>
+<h2 class="sub">자주 묻는 질문</h2>
+<p><b>Q. 원작 메이플스토리 에반 수치로 스킬 계획을 세워도 되나요?</b><br>공식은 원작을 기준으로 일부 수정했다고만 밝혔고 어디가 달라졌는지는 적지 않았어요. 같은 이름의 스킬이어도 수치가 다를 수 있으니, 이 글 표처럼 플래닛 패치노트 수치를 기준으로 삼는 게 편해요.</p>
+<p><b>Q. 표에 적힌 효과 수치는 몇 레벨 기준인가요?</b><br>공식이 마스터 레벨 기준 수치만 적어둔 거라 표도 같은 기준이에요. 낮은 레벨의 수치는 공식 문서에 따로 나와 있지 않아요.</p>
+<p><b>Q. 스텝업 이벤트는 에반이 아닌 직업도 받을 수 있나요?</b><br>이벤트 이미지에 에반 캐릭터만 수령할 수 있다고 적혀 있어요. 버닝 부스터는 이벤트가 따로라 조건이 달라요.</p>
+<h2 class="sub">메이플플래닛 에반 스킬트리 정리</h2>
+<p>에반은 0~10차 32종에 마스터 레벨 합이 631이고, 드래곤 소울은 매직 미사일 10레벨 이상이어야 열려요. 9차부터 30이 등장하는 만큼 뒤로 갈수록 숫자가 확 커지니, 체크 표 하나 옆에 두고 차근차근 올리시길 권합니다. 11월 5일 점검 전까지 스텝업 보상도 챙기면서 즐겁게 달려봐요 ㅎㅎ</p>
+<p><b>✔ 메이플플래닛 같이 보기 좋은 내용</b><br>
+· 메이플플래닛 신규직업 에반 예고 드래곤 미르와 함께 크는 마법사<br>
+· <a href="https://blog.naver.com/bomding/224415421739" target="_blank">메이플플래닛 가을운동회 이벤트4종 총정리, 핫타임쿠폰 받는법부터 데일리기프트까지</a><br>
+· <a href="https://blog.naver.com/bomding/224404155134" target="_blank">메이플플래닛 소림사의 구원자 칭호 얻는 법 — 요괴 대사 처치 퀘스트 완전 정리</a><br>
+· <a href="https://blog.naver.com/bomding/224392397705" target="_blank">메이플플래닛 AP초기화권 사용조건 변경 전직별 사용 가능 레벨 총정리</a></p>
+<p><b>참고한 곳</b><br>
+· <a href="https://mapleplanet.co.kr/news/updates/733" target="_blank">메이플플래닛 공식 패치노트 2026.10.01 (733)</a><br>
+· <a href="https://mapleplanet.co.kr/news/updates/738" target="_blank">메이플플래닛 공식 패치노트 2026.10.03 (738)</a><br>
+· <a href="https://mapleplanet.co.kr/news/events/734" target="_blank">플래닛 에반 스텝업 &amp; 버닝 부스터 이벤트 (2026.10.01~11.05 점검 전)</a></p>
+    <div class="tags">#메이플플래닛 #메이플플래닛에반 #메이플플래닛에반스킬트리 #에반마스터레벨 #드래곤소울 #에반전직 #메이플플래닛패치노트 #메이플플래닛게임정보</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 2가지(약 3분):</b> 📷 <b>사진 2곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플플래닛 에반 스킬트리 0~10차 마스터 레벨 32종, 드래곤 소울 선행조건 초보자 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>메이플플래닛에 신규 직업군 에반이 <b>10월 1일 패치</b>로 들어왔는데요, 공식 패치노트를 열어 보니 0차부터 10차까지 차수가 유난히 길고 스킬마다 마스터 레벨이 따로 적혀 있어서, 키우기 전에 한 번 정리해두면 두고두고 쓰겠더라고요. 이 글은 <b>2026년 10월 6일 기준</b> 공식 패치노트를 바탕으로 했어요. 에반 스킬은 원작을 기준 삼아 일부 손본 것이라 원작 공략 숫자를 그대로 가져다 쓰기엔 조심스러워요.</p>
+<p class="ph">📷 〔사진 1〕 에반 출시 공식 키비주얼 — 미리보기에서 이미지 복사해 붙여넣기 (출처: 메이플플래닛 공식 © Planet Games·NEXON)</p>
+<h3>에반 스킬은 0차부터 10차까지 몇 종이고 마스터 레벨은 어떻게 되나요</h3>
+<p>에반 스킬은 0차부터 10차까지 <b>총 32종</b>이고, 마스터 레벨을 전부 더하면 <b>631</b>이에요.</p><p>마스터 레벨과 효과 수치는 공식 표기 그대로 적었고, 효과는 마스터 레벨 기준이에요. 1~5차는 차수마다 두 스킬이 전부 20이고, 6차부터는 스킬이 네 개로 늘어요. 6차에는 15짜리가 섞이고, 10짜리는 7차(매직 레지스턴스)부터 나옵니다.</p><table>
+<tr><th>차수</th><th>스킬</th><th>마스터</th><th>핵심 효과(마스터 레벨 기준)</th></tr>
+<tr><td class="l">0차</td><td>영웅의 메아리</td><td>1</td><td>40분간 물리·마법 공격력 4% 향상, 재사용 2시간</td></tr>
+<tr><td class="l">1차</td><td>드래곤 소울</td><td>20</td><td>마력 20 향상, 필요 스킬 매직 미사일 10레벨 이상</td></tr>
+<tr><td class="l">1차</td><td>매직 미사일</td><td>20</td><td>원거리의 적을 두 번 공격, MP 18</td></tr>
+<tr><td class="l">2차</td><td>파이어 서클</td><td>20</td><td>불속성 공격, 최대 4마리</td></tr>
+<tr><td class="l">2차</td><td>텔레포트</td><td>20</td><td>방향키로 이동, 이동거리 150</td></tr>
+<tr><td class="l">3차</td><td>라이트닝 볼트</td><td>20</td><td>낙뢰로 최대 4마리 공격, MP 24</td></tr>
+<tr><td class="l">3차</td><td>매직 가드</td><td>20</td><td>300초간 받는 피해의 70%를 MP로 대신</td></tr>
+<tr><td class="l">4차</td><td>아이스 브레스</td><td>20</td><td>냉기를 모아 최대 6마리 공격, 결빙 확률 90%</td></tr>
+<tr><td class="l">4차</td><td>엘리멘탈 리셋</td><td>20</td><td>300초간 공격 속성을 무속성으로 변환</td></tr>
+<tr><td class="l">5차</td><td>매직 플레어</td><td>20</td><td>적 한 마리 공격, 기본 공격력 120</td></tr>
+<tr><td class="l">5차</td><td>매직 실드</td><td>20</td><td>파티원 피해 30% 흡수, 재사용 40초</td></tr>
+<tr><td class="l">6차</td><td>크리티컬 매직</td><td>15</td><td>크리티컬 확률 30%, 크리티컬 데미지 50% 상승</td></tr>
+<tr><td class="l">6차</td><td>드래곤 쓰러스트</td><td>20</td><td>최대 6마리 밀어내기, 재사용 대기시간 공식 미기재</td></tr>
+<tr><td class="l">6차</td><td>매직 부스터</td><td>15</td><td>300초간 마법 공격 속도 3단계 향상</td></tr>
+<tr><td class="l">6차</td><td>슬로우</td><td>15</td><td>60% 확률로 12초간 이동속도 -40</td></tr>
+<tr><td class="l">7차</td><td>매직 엠플리피케이션</td><td>15</td><td>소비 MP 180% 증가, 공격 마법 데미지 135% 증가(온오프)</td></tr>
+<tr><td class="l">7차</td><td>브레스</td><td>20</td><td>화염을 모아 최대 6마리 공격, 스턴 확률 30%</td></tr>
+<tr><td class="l">7차</td><td>킬링 윙</td><td>20</td><td>원거리 적 한 마리를 공격, 기본 공격력 150</td></tr>
+<tr><td class="l">7차</td><td>매직 레지스턴스</td><td>10</td><td>150초간 마법 공격 내성 20% 증가</td></tr>
+<tr><td class="l">8차</td><td>드래곤 퓨리</td><td>10</td><td>MP 50~80%일 때 데미지 110%</td></tr>
+<tr><td class="l">8차</td><td>어스퀘이크</td><td>20</td><td>최대 8마리 공격, MP 31</td></tr>
+<tr><td class="l">8차</td><td>고스트 레터링</td><td>20</td><td>저주를 걸어 5초간 더 많은 데미지를 받게 함</td></tr>
+<tr><td class="l">8차</td><td>리커버리 오로라</td><td>15</td><td>30초간 파티 MP 회복, 재사용 1분</td></tr>
+<tr><td class="l">9차</td><td>매직 마스터리</td><td>30</td><td>마법 숙련도 90% 상승, 마력 15 상승</td></tr>
+<tr><td class="l">9차</td><td>메이플 용사</td><td>30</td><td>900초간 파티원 모든 스탯 15% 향상</td></tr>
+<tr><td class="l">9차</td><td>일루전</td><td>30</td><td>드래곤 분신이 한 마리를 4번 공격</td></tr>
+<tr><td class="l">9차</td><td>플레임 휠</td><td>30</td><td>불 속성으로 최대 6마리 공격, 기본 공격력 200</td></tr>
+<tr><td class="l">9차</td><td>용사의 의지</td><td>5</td><td>유혹 상태 이상 해제, 재사용 6분</td></tr>
+<tr><td class="l">10차</td><td>오닉스의 축복</td><td>30</td><td>1분간 물리·마법 방어력 100, 마법 공격력 50 증가, 재사용 2분</td></tr>
+<tr><td class="l">10차</td><td>블레이즈</td><td>30</td><td>불 속성 공격, 주변 적에게 추가 데미지, 최대 6마리</td></tr>
+<tr><td class="l">10차</td><td>다크포그</td><td>30</td><td>최대 15마리 공격, MP 4500 소비(공식 표기)※, 재사용 30초</td></tr>
+<tr><td class="l">10차</td><td>소울스톤</td><td>20</td><td>죽은 자리에서 바로 부활, 파티원 2명, 재사용 10분</td></tr>
+</table>
+<p>※ 다크포그의 MP 4500 소비는 공식 표기 그대로 적었어요. 표에 적힌 다른 스킬의 MP 소비가 18~31인 것과 자릿수가 달라서 오기일 가능성이 있으니 인게임 스킬창 수치를 같이 보세요.</p>
+<h3>드래곤 소울은 무엇을 먼저 찍어야 열리나요</h3>
+<p>드래곤 소울은 <b>매직 미사일 10레벨 이상</b>이어야 올릴 수 있고, 1차 두 스킬은 마스터 레벨이 모두 20이에요.</p><p>1차에는 이 두 스킬뿐이라 첫 SP를 어디에 넣을지가 곧 이 조건이고, 공식 설명에 선행 스킬로 못 박힌 것도 이 하나예요. 드래곤 소울은 마력을 20 올려주고 매직 미사일은 MP 18을 쓰는 첫 공격기라서, 결국 둘 다 20까지 같이 키우게 되는 구조더라고요.</p><p><b>★작성자 판단</b> · 여기부터는 공식에 없는 제 생각이에요. 원작 에반 공략을 보면 1차는 매직 미사일로 소울을 먼저 열고, 2차는 텔레포트, 3차는 매직 가드를 먼저 챙기자는 순서가 나오는데요, 플래닛에서 검증된 순서는 아니라서 참고만 해주세요.</p>
+<h3>마스터 레벨이 15 이하인 스킬은 뭐고 30은 언제부터 나오나요</h3>
+<p>마스터 레벨이 15 이하인 스킬은 아홉 개이고, 30짜리는 <b>9차부터</b> 처음 나와요.</p><ul>
+<li>영웅의 메아리(0차) 1</li>
+<li>용사의 의지(9차) 5</li>
+<li>매직 레지스턴스(7차) 10</li>
+<li>드래곤 퓨리(8차) 10</li>
+<li>크리티컬 매직(6차) 15</li>
+<li>슬로우(6차) 15</li>
+<li>매직 부스터(6차) 15</li>
+<li>매직 엠플리피케이션(7차) 15</li>
+<li>리커버리 오로라(8차) 15</li>
+</ul>
+<p>9차에서 매직 마스터리·메이플 용사·일루전·플레임 휠이 30이고, 10차에서는 오닉스의 축복·블레이즈·다크포그가 30, 소울스톤만 20이에요. 같은 9차인 용사의 의지가 5라서 한 차수 안에서도 편차가 꽤 크네요.</p>
+<h3>전직 퀘스트와 에반 퀘스트 142종은 어떻게 나뉘나요</h3>
+<p>전직은 <b>«드래곤 마스터 1차 ~ 10차 전직»</b> 퀘스트 10종이고, 에반 관련 퀘스트는 총 142종이 한꺼번에 추가됐어요.</p><p>142종은 필수 12, 전직 10, 아기 드래곤 15, 왕연해의 수련장 7, 페리온 경비병 11, 커닝시티 도둑 사건 21, 장로 스탄의 의뢰 6, 비밀단체와 오닉스 드래곤 39, 드래곤 라이딩 14, 훈장 7로 묶여 있어요. 퀘스트 이름만 훑어봐도 아기 드래곤 돌보기에서 시작해 오닉스 드래곤 이야기와 라이딩 안장 만들기까지 흐름이 이어져 보여요.</p>
+<p><b>공식 미기재</b> · 드래곤 마스터 몇 차 전직을 몇 레벨에 하는지, 마스터 레벨을 다 올리는 데 SP가 총 얼마나 드는지는 패치노트에 적혀 있지 않아요. 원작 메이플스토리의 전직 레벨을 플래닛에 그대로 맞춰 볼 수 없어서, 이 두 가지는 인게임 퀘스트 창과 스킬창에서 확인하셔야 해요.</p>
+<h3>10월 3일 패치로 에반 쪽은 뭐가 고쳐졌나요</h3>
+<p>10월 3일 패치(738번)에서는 에반 스킬 적중 오류와 펫 버프 등록 오류, 그리고 퀘스트·입장 조건이 손봐졌어요.</p><ul>
+<li>매직 미사일·라이트닝 볼트·매직 플레어·고스트 레터링이 라이딩에서 내린 직후 가끔 적중하지 않던 오류 수정</li>
+<li>아이스 브레스·브레스·고스트 레터링이 펫 버프에 등록되던 오류 수정</li>
+<li>왕연해의 수련증표 다시 받기는 18레벨 이상이면 가능(35레벨 이하 제한 삭제)</li>
+<li>왕연해의 수련장 30레벨 이하 입장 조건 삭제</li>
+<li>위기의 머쉬킹 왕국은 «페리온 경비병의 다섯 번째 일» 완료 후 시작 가능에 표시</li>
+<li>‘굳은 의지’ 퀘스트를 진행하는 중에 일그러진 차원에 들어가지 못하던 오류 수정</li>
+<li>‘책의 행방은’ 퀘스트의 2~4번째 단계도 앞 퀘스트를 끝내면 시작 가능 목록에 보이도록 개선</li>
+</ul>
+<h3>에반 스텝업 &amp; 버닝 부스터 이벤트는 언제까지고 보상은 어떤가요</h3>
+<p>플래닛 에반 스텝업 &amp; 버닝 부스터 이벤트는 <b>2026년 10월 1일 10시부터 11월 5일 점검 전까지</b> 진행돼요.</p><p class="ph">📷 〔사진 2〕 에반 스텝업 이벤트 보상 창(공식 이벤트 이미지 기준) — 미리보기에서 이미지 복사해 붙여넣기 (출처: 메이플플래닛 공식 © Planet Games·NEXON)</p>
+<p>이벤트 이미지를 보면 보상 칸이 Lv.10·30·60·100·120 다섯 구간이고, 계정당 한 번만 참여하되 구간마다 한 번씩 받는 방식이에요. 경험치 쿠폰은 전 구간에 있고(10·30 구간은 100%, 60 구간부터 200%), 엘릭서는 100·120 구간(Lv.100 엘릭서, Lv.120 파워 엘릭서)에만 있어요. 10레벨 구간에는 공식 이벤트 이미지 기준으로 드래곤의 알과 메이플 스태프가 보여요. 같이 시작된 버닝 부스터는 별도 이벤트예요.</p>
+<h3>내 에반 SP 배분 체크 표는 이렇게 쓰시면 돼요</h3>
+<p>공식 마스터 레벨 기준으로 차수마다 체크 칸을 만들어 두었으니, 마스터까지 올린 차수에 표시하면서 내 진행도를 보시면 돼요.</p><table>
+<tr><th>체크</th><th>차수</th><th>스킬 수</th><th>마스터 합</th><th>누적</th></tr>
+<tr><td>☐</td><td class="l">0차</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>☐</td><td class="l">1차</td><td>2</td><td>40</td><td>41</td></tr>
+<tr><td>☐</td><td class="l">2차</td><td>2</td><td>40</td><td>81</td></tr>
+<tr><td>☐</td><td class="l">3차</td><td>2</td><td>40</td><td>121</td></tr>
+<tr><td>☐</td><td class="l">4차</td><td>2</td><td>40</td><td>161</td></tr>
+<tr><td>☐</td><td class="l">5차</td><td>2</td><td>40</td><td>201</td></tr>
+<tr><td>☐</td><td class="l">6차</td><td>4</td><td>65</td><td>266</td></tr>
+<tr><td>☐</td><td class="l">7차</td><td>4</td><td>65</td><td>331</td></tr>
+<tr><td>☐</td><td class="l">8차</td><td>4</td><td>65</td><td>396</td></tr>
+<tr><td>☐</td><td class="l">9차</td><td>5</td><td>125</td><td>521</td></tr>
+<tr><td>☐</td><td class="l">10차</td><td>4</td><td>110</td><td>631</td></tr>
+<tr><td></td><td class="l">합계</td><td>32</td><td>631</td><td></td></tr>
+</table>
+<p>다만 여기 <b>631은 마스터 레벨의 합일 뿐 SP 총량이 아니에요.</b> 레벨 하나를 올리는 데 SP가 얼마 드는지는 공식에 없어서, 이 표는 «어느 차수까지 마스터했나»를 적어두는 용도로만 쓰시길 권합니다.</p>
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 원작 메이플스토리 에반 수치로 스킬 계획을 세워도 되나요?</b><br>공식은 원작을 기준으로 일부 수정했다고만 밝혔고 어디가 달라졌는지는 적지 않았어요. 같은 이름의 스킬이어도 수치가 다를 수 있으니, 이 글 표처럼 플래닛 패치노트 수치를 기준으로 삼는 게 편해요.</p>
+<p><b>Q. 표에 적힌 효과 수치는 몇 레벨 기준인가요?</b><br>공식이 마스터 레벨 기준 수치만 적어둔 거라 표도 같은 기준이에요. 낮은 레벨의 수치는 공식 문서에 따로 나와 있지 않아요.</p>
+<p><b>Q. 스텝업 이벤트는 에반이 아닌 직업도 받을 수 있나요?</b><br>이벤트 이미지에 에반 캐릭터만 수령할 수 있다고 적혀 있어요. 버닝 부스터는 이벤트가 따로라 조건이 달라요.</p>
+<h3>메이플플래닛 에반 스킬트리 정리</h3>
+<p>에반은 0~10차 32종에 마스터 레벨 합이 631이고, 드래곤 소울은 매직 미사일 10레벨 이상이어야 열려요. 9차부터 30이 등장하는 만큼 뒤로 갈수록 숫자가 확 커지니, 체크 표 하나 옆에 두고 차근차근 올리시길 권합니다. 11월 5일 점검 전까지 스텝업 보상도 챙기면서 즐겁게 달려봐요 ㅎㅎ</p>
+<p><b>✔ 메이플플래닛 같이 보기 좋은 내용</b><br>
+· 메이플플래닛 신규직업 에반 예고 드래곤 미르와 함께 크는 마법사<br>
+· <a href="https://blog.naver.com/bomding/224415421739" target="_blank">메이플플래닛 가을운동회 이벤트4종 총정리, 핫타임쿠폰 받는법부터 데일리기프트까지</a><br>
+· <a href="https://blog.naver.com/bomding/224404155134" target="_blank">메이플플래닛 소림사의 구원자 칭호 얻는 법 — 요괴 대사 처치 퀘스트 완전 정리</a><br>
+· <a href="https://blog.naver.com/bomding/224392397705" target="_blank">메이플플래닛 AP초기화권 사용조건 변경 전직별 사용 가능 레벨 총정리</a></p>
+<p><b>참고한 곳</b><br>
+· <a href="https://mapleplanet.co.kr/news/updates/733" target="_blank">메이플플래닛 공식 패치노트 2026.10.01 (733)</a><br>
+· <a href="https://mapleplanet.co.kr/news/updates/738" target="_blank">메이플플래닛 공식 패치노트 2026.10.03 (738)</a><br>
+· <a href="https://mapleplanet.co.kr/news/events/734" target="_blank">플래닛 에반 스텝업 &amp; 버닝 부스터 이벤트 (2026.10.01~11.05 점검 전)</a></p>
+<p class="tags-line">#메이플플래닛 #메이플플래닛에반 #메이플플래닛에반스킬트리 #에반마스터레벨 #드래곤소울 #에반전직 #메이플플래닛패치노트 #메이플플래닛게임정보</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
