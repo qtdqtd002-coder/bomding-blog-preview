@@ -415,6 +415,17 @@ def collect(dirs):
     return reports, sorted(set(mainfix))
 
 
+def v2_autopilot_writers():
+    """쓰담v2 config 의 writers.autopilot. 못 읽으면 빈 목록(= 기존 v1 규칙 그대로)."""
+    cfg = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '쓰담v2', 'canon', 'config.json')
+    try:
+        with open(cfg, encoding='utf-8') as f:
+            w = json.load(f).get('writers', {}).get('autopilot', [])
+        return [x for x in w if isinstance(x, str)]
+    except (OSError, ValueError):
+        return []
+
+
 def analyze(target, sensitive=False, post_publish=False, touched=None):
     base, dirs = qa_dirs(target)
     post_rel = post_rel_of(base)
@@ -447,6 +458,11 @@ def analyze(target, sensitive=False, post_publish=False, touched=None):
         glossary = None
 
     need = list(REQUIRED) + (['refute'] if (sensitive or sens_flag) else [])
+    # ★2026-10-07 쓰담v2 자동 운영 작성자(config.writers.autopilot — 현재 겜더쿠): v2 는 LLM 검수가 «사실» 한 축뿐이고
+    #   문체·구조는 v2 코드 게이트(G1·G2·G2b·G3), 부재 단정 반증은 사실감사관이 겸한다(쓰담v2/canon/config.json qaLoop).
+    #   그래서 필수 차원 = fact 하나. 리포트 자체가 없으면 여전히 BLOCK 이다(검수 없이 나가지 않는다). 봄딩·영도는 그대로.
+    if writer in v2_autopilot_writers():
+        need = ['fact']
     blocks, warnings = [], []
     dims_out = {}
     per = {}
