@@ -1,0 +1,327 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>포켓몬고 GPS 안 잡힐때 해결방법 위치를 감지하지 못했습니다 오류, 안드로이드 아이폰 순서대로 체크</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: "포켓몬고 GPS 안 잡힐 때 어떻게 해야 하나요" / "포켓몬고 위치를 감지하지 못했습니다 해결" / "포켓몬고 모의 위치 앱 해제 방법" -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임공략</div>
+    <h1 class="title">포켓몬고 GPS 안 잡힐때 해결방법 위치를 감지하지 못했습니다 오류, 안드로이드 아이폰 순서대로 체크</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 10. 6.</span><span>· 게임</span></div>
+
+<p>레이드 시간에 맞춰 밖에 나왔는데 포켓몬고를 켜자마자 '위치를 감지하지 못했습니다' 팝업이 뜨고 내 캐릭터가 지도에 안 나오면, 진짜 당황스럽죠~ 이 팝업이 뜨면 한참 멈칫하게 되고, 원인이 한두 가지가 아니라서 어디부터 만져야 할지 막막하잖아요. 그래서 오늘은 포켓몬 GO 공식 지원센터의 GPS 안내를 기준 삼아, <b>기기 → 신호 → 주변 환경 → 위치 설정 → 앱 권한 → 모의 위치 설정</b> 순으로 하나씩 따라 할 수 있게 풀어 볼게요.</p>
+
+<h2 class="sub">포켓몬고 GPS가 안 잡힐 때는 어떤 순서로 보면 되나요</h2>
+
+<p><b>포켓몬고 GPS가 안 잡힐 때는 기기, 신호, 주변 환경, 위치 설정, 앱 위치 권한, 모의 위치 설정 순서로 점검하면 돼요.</b> 순서만 먼저 보면 이래요.</p>
+
+<ol>
+  <li>GPS를 잡을 수 있는 기기인지 보기</li>
+  <li>Wi-Fi와 모바일 데이터 번갈아 써 보기</li>
+  <li>고층 건물이 많은 곳에서는 위치가 튈 수 있다는 점 알아 두기</li>
+  <li>안드로이드는 위치 정확도 개선 켜기</li>
+  <li>포켓몬고 앱의 위치 권한 확인하기</li>
+  <li>개발자 옵션의 모의 위치 앱 선택 확인하기</li>
+  <li>그래도 안 되면 재시작 같은 마지막 방법</li>
+</ol>
+
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 포켓몬GO 위치 오류 팝업 — '위치를 감지하지 못했습니다' 안내가 뜬 화면</span></div>
+<div class="shoot">📸 촬영 가이드: 팝업이 재현되면 그대로 캡처, 재현이 어려우면 기기 위치를 끈 상태로 포켓몬GO를 실행해 뜨는 화면을 캡처 · 캡션 추천: "이 팝업이 떴다면 위 순서대로 가 봐요"</div>
+<p class="cap">이 팝업이 떴다면 위 순서대로 가 봐요</p>
+<!-- 이미지 이유: 독자가 자기 오류와 같은 화면인지 바로 대조 / 공식 스크린샷 URL 미확보 / 분류: B형(내 기기 화면) -->
+
+<p>위에서부터 하나 해 보고 오류가 사라졌는지 확인하면 되고, 중간에 해결되면 아래는 안 보셔도 된답니다ㅎㅎ</p>
+
+<h2 class="sub">먼저 확인할 기기와 신호와 주변 환경은 어떻게 보나요</h2>
+
+<p><b>기기, 신호, 주변 환경은 설정을 건드리기 전에 1분이면 확인할 수 있는 항목이에요.</b></p>
+
+<p>기기는 폰이 아니라 태블릿으로 켜고 있다면 아래 자주 묻는 질문의 첫 번째 답을 먼저 보시고, 신호는 Wi-Fi와 모바일 데이터를 번갈아 써 보면서 어느 쪽에서 내 위치가 더 잘 잡히는지 비교해 보세요. 환경은 공식 안내에서도 고층 건물이 많은 도시 지역에서는 GPS가 다른 장소로 튈 수 있다고 짚어 주니, 위치 점이 이상하게 찍힐 때 같이 떠올려 두면 돼요.</p>
+
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 건물 사이에서 위치 점이 옆 블록으로 튄 지도 화면과, 탁 트인 곳에서 제자리로 돌아온 같은 지도 화면 2컷</span></div>
+<div class="shoot">📸 촬영 가이드: 건물 사이에서 지도 화면 1컷, 탁 트인 곳으로 나와 같은 지도 화면 1컷 · 캡션 추천: "위치 점이 옆 블록으로 튀어 있으면 이 경우예요"</div>
+<p class="cap">위치 점이 옆 블록으로 튀어 있으면 이 경우예요</p>
+<!-- 이미지 이유: 건물·환경에 따라 위치 점이 튀는 모습을 시각화 / 분류: B형(내 위치 지도 화면) -->
+
+<p>건물 사이에서 위치 점이 옆 블록으로 튀면 괜히 폰 탓부터 하게 되잖아요. 이럴 땐 몇 걸음이라도 하늘이 보이는 쪽으로 나가 보는 게 제일 빨라요.</p>
+
+<h2 class="sub">안드로이드에서 위치 정확도 개선은 어디서 켜나요</h2>
+
+<p><b>안드로이드에서는 설정의 위치 서비스 안에 있는 '위치 정확도 개선'을 켜면 GPS뿐 아니라 Wi-Fi, 모바일 네트워크, 센서 정보까지 같이 써서 위치를 잡아요.</b> 안드로이드 버전에 따라 경로가 둘로 갈려요.</p>
+
+<ul>
+  <li>Android 12 이상: 설정 &gt; 위치 &gt; 위치 서비스 &gt; 위치 정확도 &gt; '위치 정확도 개선' 사용</li>
+  <li>Android 11 이전: 설정 &gt; 위치 &gt; 고급 &gt; 위치 정확도</li>
+</ul>
+
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 안드로이드 설정 &gt; 위치 &gt; 위치 서비스 &gt; 위치 정확도 화면, '위치 정확도 개선'을 켠 상태</span></div>
+<div class="shoot">📸 촬영 가이드: 위치 정확도 화면 전체가 나오게 캡처 · 캡션 추천: "여기 스위치가 켜져 있는지 보세요"</div>
+<p class="cap">여기 스위치가 켜져 있는지 보세요</p>
+<!-- 이미지 이유: 메뉴 위치를 직관적으로 보여줌 / 분류: B형(내 기기 설정 화면) -->
+
+<p>공식 지원센터 안내에도 '위치 정확도 개선'이라는 이름으로 나와 있는데, 기종마다 메뉴 이름이 조금씩 달라서 '위치 정확도'가 들어간 메뉴가 그 자리예요. 켠 다음엔 포켓몬고를 완전히 닫았다가 다시 열어 보세요.</p>
+
+<h2 class="sub">아이폰은 위치 서비스에서 포켓몬고 권한을 어떻게 보나요</h2>
+
+<p><b>아이폰은 설정 &gt; 개인정보 보호 및 보안 &gt; 위치 서비스에서 Pokémon GO를 골라 위치 접근을 '앱을 사용하는 동안'이나 '항상'으로 맞추면 돼요.</b> 위치 서비스 자체가 꺼져 있으면 앱별 설정도 소용이 없으니 그것부터 보시고요. 안드로이드는 설정 &gt; 앱에서 포켓몬 GO를 눌러 위치 권한이 허용돼 있는지 보면 되고, 기종마다 메뉴 이름이 조금 달라요.</p>
+
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 아이폰 설정 &gt; 개인정보 보호 및 보안 &gt; 위치 서비스 &gt; Pokémon GO 화면</span></div>
+<div class="shoot">📸 촬영 가이드: Pokémon GO를 누르면 나오는 위치 접근 선택 화면이 보이게 캡처(안드로이드는 앱의 위치 권한 화면) · 캡션 추천: "여기서 허용 상태를 확인해요"</div>
+<p class="cap">여기서 허용 상태를 확인해요</p>
+<!-- 이미지 이유: 실기기에 뜨는 라벨을 그대로 보여주기 위함 / 분류: B형(내 기기 권한 화면) -->
+
+<h2 class="sub">개발자 옵션의 모의 위치 앱 선택 때문에도 안 열리나요</h2>
+
+<p><b>개발자 옵션에서 모의 위치 앱이 선택돼 있으면 포켓몬고 실행이 막히고 '위치를 감지하지 못했습니다' 오류가 날 수 있어요.</b> 경로는 설정 &gt; 시스템 &gt; 고급 &gt; 개발자 옵션 &gt; '모의 위치 앱 선택'이고, 선택된 앱이 없는 상태여야 정상이에요. 실수로 켜 둔 설정이었다면 여기서 해제하시면 됩니다.</p>
+
+<p>한 가지만 짚고 갈게요. 기기 위치를 일부러 바꾸거나 조작하는 행위는 포켓몬고 <a href="https://explore.scopely.com/terms?hl=ko" target="_blank">서비스 이용약관(Scopely Explore)</a>상 부정행위에 해당하고, 의심되면 접근이 중단되거나 계정이 해지될 수도 있어요. 그래서 이 글은 가짜 위치 앱 쓰는 법 같은 건 다루지 않고, 실수로 켜 둔 설정을 푸는 데만 쓰시라고 적은 거랍니다.</p>
+
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 5: 개발자 옵션 &gt; '모의 위치 앱 선택'에서 선택된 앱이 없는 상태</span></div>
+<div class="shoot">📸 촬영 가이드: 개발자 모드를 켠 기기에서 해당 항목이 '선택 안 됨'으로 보이게 캡처 · 캡션 추천: "여기가 비어 있어야 정상이에요"</div>
+<p class="cap">여기가 비어 있어야 정상이에요</p>
+<!-- 이미지 이유: 해제 상태를 눈으로 확인시키기 위함 / 분류: B형(개발자 모드 기기 화면) -->
+
+<h2 class="sub">다 해 봤는데도 안 될 땐 어떻게 하나요</h2>
+
+<p><b>위 순서를 다 거쳤는데도 안 잡히면 기기를 재시작하고, 지도 앱에서 내 위치가 제대로 나오는지 본 뒤 다시 들어가 보는 방법을 많이들 써요.</b> 공식 안내에 있는 방법은 아니라서 위 순서를 먼저 다 해 보시고 마지막에 써 보시는 걸 추천드려요. 재시작은 1분도 안 걸리는 일이라 부담이 없고, 지도 앱에서 내 위치 점이 맞게 나온다면 폰 자체의 위치 기능은 살아 있다는 뜻이니 앞의 설정 쪽을 다시 짚어 보는 게 순서예요.</p>
+
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 6: 해결된 뒤 포켓몬GO 맵에서 내 캐릭터가 제 위치에 정상 표시되는 화면</span></div>
+<div class="shoot">📸 촬영 가이드: 설정을 바로잡은 뒤 포켓몬GO를 다시 열어 캐릭터와 주변 포켓몬이 보이는 맵을 캡처 · 캡션 추천: "이렇게 내 위치가 잡히면 끝이에요"</div>
+<p class="cap">이렇게 내 위치가 잡히면 끝이에요</p>
+<!-- 이미지 이유: 해결 결과로 글을 마무리 / 분류: B형(내 맵 화면) -->
+
+<h2 class="sub">자주 묻는 질문</h2>
+
+<p><b>Q. 셀룰러가 없는 태블릿으로도 포켓몬고 위치가 잘 잡히나요?</b><br>
+공식 지원센터 안내에 따르면 셀룰러(3G·4G·5G)가 없는 태블릿은 GPS 센서가 없을 수 있어서, 사람이 몰리는 지역이나 이벤트 현장에서는 GPS를 유지하기 어려울 수 있어요. 그래서 이벤트에 나갈 땐 폰으로 켜 두는 쪽이 마음 편하죠.</p>
+
+<p><b>Q. 신호 막대는 꽉 찼는데 왜 위치는 안 잡히나요?</b><br>
+신호 막대가 꽉 차 있어도 안정적인 연결이 보장되는 건 아니라고 공식 지원센터가 안내하고 있거든요. 막대 모양보다는 지도에서 내 위치 점이 제자리에 있는지를 보는 쪽이 정확합니다.</p>
+
+<p><b>Q. 개발자 옵션 메뉴 자체가 안 보이는데 어떡하나요?</b><br>
+개발자 옵션 메뉴가 안 보이면 그 단계는 넘어가고 다른 항목부터 확인해도 돼요. 공식 안내가 짚는 건 개발자 옵션에서 모의 위치 앱이 선택돼 있는 경우거든요.</p>
+
+<p><b>Q. 아이폰 위치 권한은 '앱을 사용하는 동안'과 '항상' 중 뭘 골라야 하나요?</b><br>
+둘 다 위치 접근을 허용하는 선택지라서 둘 중 하나면 돼요. 앱을 켜 둔 동안만 위치를 쓰게 하려면 '앱을 사용하는 동안', 앱을 닫아 둔 때도 허용하려면 '항상'이랍니다.</p>
+
+<p><b>Q. 공식 안내는 어디서 볼 수 있나요?</b><br>
+포켓몬 GO 공식 지원센터에 'GPS 문제 해결 가이드'가 따로 있어요. 기기 확인, 신호 강도, 도시 지역 주의, 위치 정확도 개선, '위치를 감지하지 못했습니다' 오류 대응까지 다섯 단계로 나뉘어 있어요.</p>
+
+<h2 class="sub">포켓몬고 GPS 안 잡힐때 해결 순서 정리</h2>
+
+<p>한마디로 기기·신호·환경부터 보고, 안드로이드는 위치 정확도 개선, 두 기종 모두 앱 위치 권한, 마지막으로 모의 위치 앱 선택 순서로 가시면 돼요. 한 줄씩 따라 하다 보면 어디서 막혔는지 금방 보이거든요. 레이드나 이벤트 직전에 당황하지 않도록 설정 화면을 미리 한 번 열어 두면 마음이 편해요~ 다들 즐겜하세요!</p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://niantic.helpshift.com/hc/ko/6-pokemon-go/faq/2520-gps-troubleshooting-guide/" target="_blank">포켓몬 GO 공식 지원센터 — GPS 문제 해결 가이드</a><br>
+· <a href="https://support.google.com/accounts/answer/3467281?hl=ko" target="_blank">Google 고객센터 — Android 위치 정확도 개선</a><br>
+· <a href="https://support.apple.com/ko-kr/102515" target="_blank">Apple 지원 — iPhone 위치 서비스</a><br>
+· <a href="https://niantic.helpshift.com/hc/ko/6-pokemon-go/faq/2045-troubleshooting-adventure-sync/" target="_blank">포켓몬 GO 공식 지원센터 — 위치 접근 &#39;항상&#39; 설정 안내</a></p>
+
+<p><b>✔ 포켓몬GO 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224430706508" target="_blank">포켓몬고 과사삭벌레 진화 애프룡 단지래플 과미르 사과 사탕 총정리, 과미드라 조건까지</a><br>
+· <a href="https://blog.naver.com/bomding/224430682279" target="_blank">포켓몬GO 다투곰 진화조건, 포켓몬고 링곰 깜지곰사탕 100개 보름달 타이밍까지</a><br>
+· <a href="https://blog.naver.com/bomding/224430219734" target="_blank">포켓몬고 제르네아스 레이드 공략 약점 정리, 졸업스킬 카운터 포획 팁까지</a></p>
+
+    <div class="btns">
+      <a href="https://niantic.helpshift.com/hc/ko/6-pokemon-go/faq/2520-gps-troubleshooting-guide/" target="_blank">포켓몬 GO 공식 지원센터 GPS 가이드</a>
+    </div>
+
+    <div class="tags">#포켓몬고 #포켓몬고GPS #포켓몬고GPS안잡힘 #포켓몬고위치오류 #위치를감지하지못했습니다 #포켓몬고위치정확도 #포켓몬고모의위치 #포켓몬GO해결방법</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 6가지(약 6분):</b> 📷 <b>사진 6곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 포켓몬고 GPS 안 잡힐때 해결방법 위치를 감지하지 못했습니다 오류, 안드로이드 아이폰 순서대로 체크</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>레이드 시간에 맞춰 밖에 나왔는데 포켓몬고를 켜자마자 '위치를 감지하지 못했습니다' 팝업이 뜨고 내 캐릭터가 지도에 안 나오면, 진짜 당황스럽죠~ 이 팝업이 뜨면 한참 멈칫하게 되고, 원인이 한두 가지가 아니라서 어디부터 만져야 할지 막막하잖아요. 그래서 오늘은 포켓몬 GO 공식 지원센터의 GPS 안내를 기준 삼아, <b>기기 → 신호 → 주변 환경 → 위치 설정 → 앱 권한 → 모의 위치 설정</b> 순으로 하나씩 따라 할 수 있게 풀어 볼게요.</p>
+
+<h3>포켓몬고 GPS가 안 잡힐 때는 어떤 순서로 보면 되나요</h3>
+<p><b>포켓몬고 GPS가 안 잡힐 때는 기기, 신호, 주변 환경, 위치 설정, 앱 위치 권한, 모의 위치 설정 순서로 점검하면 돼요.</b> 순서만 먼저 보면 이래요.</p>
+<ol>
+  <li>GPS를 잡을 수 있는 기기인지 보기</li>
+  <li>Wi-Fi와 모바일 데이터 번갈아 써 보기</li>
+  <li>고층 건물이 많은 곳에서는 위치가 튈 수 있다는 점 알아 두기</li>
+  <li>안드로이드는 위치 정확도 개선 켜기</li>
+  <li>포켓몬고 앱의 위치 권한 확인하기</li>
+  <li>개발자 옵션의 모의 위치 앱 선택 확인하기</li>
+  <li>그래도 안 되면 재시작 같은 마지막 방법</li>
+</ol>
+<p class="ph">📷 〔사진 자리 1〕 포켓몬GO 위치 오류 팝업 — 네이버에서 직접 업로드</p>
+<p class="cap">이 팝업이 떴다면 위 순서대로 가 봐요</p>
+<p>위에서부터 하나 해 보고 오류가 사라졌는지 확인하면 되고, 중간에 해결되면 아래는 안 보셔도 된답니다ㅎㅎ</p>
+
+<h3>먼저 확인할 기기와 신호와 주변 환경은 어떻게 보나요</h3>
+<p><b>기기, 신호, 주변 환경은 설정을 건드리기 전에 1분이면 확인할 수 있는 항목이에요.</b></p>
+<p>기기는 폰이 아니라 태블릿으로 켜고 있다면 아래 자주 묻는 질문의 첫 번째 답을 먼저 보시고, 신호는 Wi-Fi와 모바일 데이터를 번갈아 써 보면서 어느 쪽에서 내 위치가 더 잘 잡히는지 비교해 보세요. 환경은 공식 안내에서도 고층 건물이 많은 도시 지역에서는 GPS가 다른 장소로 튈 수 있다고 짚어 주니, 위치 점이 이상하게 찍힐 때 같이 떠올려 두면 돼요.</p>
+<p class="ph">📷 〔사진 자리 2〕 건물 사이에서 위치 점이 옆 블록으로 튄 지도 화면과, 탁 트인 곳에서 제자리로 돌아온 같은 지도 화면 2컷 — 네이버에서 직접 업로드</p>
+<p class="cap">위치 점이 옆 블록으로 튀어 있으면 이 경우예요</p>
+<p>건물 사이에서 위치 점이 옆 블록으로 튀면 괜히 폰 탓부터 하게 되잖아요. 이럴 땐 몇 걸음이라도 하늘이 보이는 쪽으로 나가 보는 게 제일 빨라요.</p>
+
+<h3>안드로이드에서 위치 정확도 개선은 어디서 켜나요</h3>
+<p><b>안드로이드에서는 설정의 위치 서비스 안에 있는 '위치 정확도 개선'을 켜면 GPS뿐 아니라 Wi-Fi, 모바일 네트워크, 센서 정보까지 같이 써서 위치를 잡아요.</b> 안드로이드 버전에 따라 경로가 둘로 갈려요.</p>
+<ul>
+  <li>Android 12 이상: 설정 &gt; 위치 &gt; 위치 서비스 &gt; 위치 정확도 &gt; '위치 정확도 개선' 사용</li>
+  <li>Android 11 이전: 설정 &gt; 위치 &gt; 고급 &gt; 위치 정확도</li>
+</ul>
+<p class="ph">📷 〔사진 자리 3〕 안드로이드 설정 &gt; 위치 &gt; 위치 서비스 &gt; 위치 정확도 화면, '위치 정확도 개선'을 켠 상태 — 네이버에서 직접 업로드</p>
+<p class="cap">여기 스위치가 켜져 있는지 보세요</p>
+<p>공식 지원센터 안내에도 '위치 정확도 개선'이라는 이름으로 나와 있는데, 기종마다 메뉴 이름이 조금씩 달라서 '위치 정확도'가 들어간 메뉴가 그 자리예요. 켠 다음엔 포켓몬고를 완전히 닫았다가 다시 열어 보세요.</p>
+
+<h3>아이폰은 위치 서비스에서 포켓몬고 권한을 어떻게 보나요</h3>
+<p><b>아이폰은 설정 &gt; 개인정보 보호 및 보안 &gt; 위치 서비스에서 Pokémon GO를 골라 위치 접근을 '앱을 사용하는 동안'이나 '항상'으로 맞추면 돼요.</b> 위치 서비스 자체가 꺼져 있으면 앱별 설정도 소용이 없으니 그것부터 보시고요. 안드로이드는 설정 &gt; 앱에서 포켓몬 GO를 눌러 위치 권한이 허용돼 있는지 보면 되고, 기종마다 메뉴 이름이 조금 달라요.</p>
+<p class="ph">📷 〔사진 자리 4〕 아이폰 설정 &gt; 개인정보 보호 및 보안 &gt; 위치 서비스 &gt; Pokémon GO 화면 — 네이버에서 직접 업로드</p>
+<p class="cap">여기서 허용 상태를 확인해요</p>
+
+<h3>개발자 옵션의 모의 위치 앱 선택 때문에도 안 열리나요</h3>
+<p><b>개발자 옵션에서 모의 위치 앱이 선택돼 있으면 포켓몬고 실행이 막히고 '위치를 감지하지 못했습니다' 오류가 날 수 있어요.</b> 경로는 설정 &gt; 시스템 &gt; 고급 &gt; 개발자 옵션 &gt; '모의 위치 앱 선택'이고, 선택된 앱이 없는 상태여야 정상이에요. 실수로 켜 둔 설정이었다면 여기서 해제하시면 됩니다.</p>
+<p>한 가지만 짚고 갈게요. 기기 위치를 일부러 바꾸거나 조작하는 행위는 포켓몬고 <a href="https://explore.scopely.com/terms?hl=ko" target="_blank">서비스 이용약관(Scopely Explore)</a>상 부정행위에 해당하고, 의심되면 접근이 중단되거나 계정이 해지될 수도 있어요. 그래서 이 글은 가짜 위치 앱 쓰는 법 같은 건 다루지 않고, 실수로 켜 둔 설정을 푸는 데만 쓰시라고 적은 거랍니다.</p>
+<p class="ph">📷 〔사진 자리 5〕 개발자 옵션 &gt; '모의 위치 앱 선택'에서 선택된 앱이 없는 상태 — 네이버에서 직접 업로드</p>
+<p class="cap">여기가 비어 있어야 정상이에요</p>
+
+<h3>다 해 봤는데도 안 될 땐 어떻게 하나요</h3>
+<p><b>위 순서를 다 거쳤는데도 안 잡히면 기기를 재시작하고, 지도 앱에서 내 위치가 제대로 나오는지 본 뒤 다시 들어가 보는 방법을 많이들 써요.</b> 공식 안내에 있는 방법은 아니라서 위 순서를 먼저 다 해 보시고 마지막에 써 보시는 걸 추천드려요. 재시작은 1분도 안 걸리는 일이라 부담이 없고, 지도 앱에서 내 위치 점이 맞게 나온다면 폰 자체의 위치 기능은 살아 있다는 뜻이니 앞의 설정 쪽을 다시 짚어 보는 게 순서예요.</p>
+<p class="ph">📷 〔사진 자리 6〕 해결된 뒤 포켓몬GO 맵에서 내 캐릭터가 제 위치에 정상 표시되는 화면 — 네이버에서 직접 업로드</p>
+<p class="cap">이렇게 내 위치가 잡히면 끝이에요</p>
+
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 셀룰러가 없는 태블릿으로도 포켓몬고 위치가 잘 잡히나요?</b><br>
+공식 지원센터 안내에 따르면 셀룰러(3G·4G·5G)가 없는 태블릿은 GPS 센서가 없을 수 있어서, 사람이 몰리는 지역이나 이벤트 현장에서는 GPS를 유지하기 어려울 수 있어요. 그래서 이벤트에 나갈 땐 폰으로 켜 두는 쪽이 마음 편하죠.</p>
+<p><b>Q. 신호 막대는 꽉 찼는데 왜 위치는 안 잡히나요?</b><br>
+신호 막대가 꽉 차 있어도 안정적인 연결이 보장되는 건 아니라고 공식 지원센터가 안내하고 있거든요. 막대 모양보다는 지도에서 내 위치 점이 제자리에 있는지를 보는 쪽이 정확합니다.</p>
+<p><b>Q. 개발자 옵션 메뉴 자체가 안 보이는데 어떡하나요?</b><br>
+개발자 옵션 메뉴가 안 보이면 그 단계는 넘어가고 다른 항목부터 확인해도 돼요. 공식 안내가 짚는 건 개발자 옵션에서 모의 위치 앱이 선택돼 있는 경우거든요.</p>
+<p><b>Q. 아이폰 위치 권한은 '앱을 사용하는 동안'과 '항상' 중 뭘 골라야 하나요?</b><br>
+둘 다 위치 접근을 허용하는 선택지라서 둘 중 하나면 돼요. 앱을 켜 둔 동안만 위치를 쓰게 하려면 '앱을 사용하는 동안', 앱을 닫아 둔 때도 허용하려면 '항상'이랍니다.</p>
+<p><b>Q. 공식 안내는 어디서 볼 수 있나요?</b><br>
+포켓몬 GO 공식 지원센터에 'GPS 문제 해결 가이드'가 따로 있어요. 기기 확인, 신호 강도, 도시 지역 주의, 위치 정확도 개선, '위치를 감지하지 못했습니다' 오류 대응까지 다섯 단계로 나뉘어 있어요.</p>
+
+<h3>포켓몬고 GPS 안 잡힐때 해결 순서 정리</h3>
+<p>한마디로 기기·신호·환경부터 보고, 안드로이드는 위치 정확도 개선, 두 기종 모두 앱 위치 권한, 마지막으로 모의 위치 앱 선택 순서로 가시면 돼요. 한 줄씩 따라 하다 보면 어디서 막혔는지 금방 보이거든요. 레이드나 이벤트 직전에 당황하지 않도록 설정 화면을 미리 한 번 열어 두면 마음이 편해요~ 다들 즐겜하세요!</p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://niantic.helpshift.com/hc/ko/6-pokemon-go/faq/2520-gps-troubleshooting-guide/" target="_blank">포켓몬 GO 공식 지원센터 — GPS 문제 해결 가이드</a><br>
+· <a href="https://support.google.com/accounts/answer/3467281?hl=ko" target="_blank">Google 고객센터 — Android 위치 정확도 개선</a><br>
+· <a href="https://support.apple.com/ko-kr/102515" target="_blank">Apple 지원 — iPhone 위치 서비스</a><br>
+· <a href="https://niantic.helpshift.com/hc/ko/6-pokemon-go/faq/2045-troubleshooting-adventure-sync/" target="_blank">포켓몬 GO 공식 지원센터 — 위치 접근 &#39;항상&#39; 설정 안내</a></p>
+
+<p><b>✔ 포켓몬GO 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224430706508" target="_blank">포켓몬고 과사삭벌레 진화 애프룡 단지래플 과미르 사과 사탕 총정리, 과미드라 조건까지</a><br>
+· <a href="https://blog.naver.com/bomding/224430682279" target="_blank">포켓몬GO 다투곰 진화조건, 포켓몬고 링곰 깜지곰사탕 100개 보름달 타이밍까지</a><br>
+· <a href="https://blog.naver.com/bomding/224430219734" target="_blank">포켓몬고 제르네아스 레이드 공략 약점 정리, 졸업스킬 카운터 포획 팁까지</a></p>
+
+<p class="tags-line">#포켓몬고 #포켓몬고GPS #포켓몬고GPS안잡힘 #포켓몬고위치오류 #위치를감지하지못했습니다 #포켓몬고위치정확도 #포켓몬고모의위치 #포켓몬GO해결방법</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
