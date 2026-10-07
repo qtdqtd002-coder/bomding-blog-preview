@@ -1,0 +1,243 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>도깨비의세계 PC 설치 6단계, 이 게임을 열 수 없음 뜰 때 Google Play Games 재실행하는 법</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 20px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: 도깨비의세계 PC 설치 방법 / 도깨비의세계 이 게임을 열 수 없음 / 도깨비의세계 PC 재실행 방법 -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">도깨비의세계 PC 설치 6단계, 이 게임을 열 수 없음 뜰 때 Google Play Games 재실행하는 법</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.07</span><span>· 게임</span></div>
+
+    <p>도깨비의세계 PC 버전을 깔다가 '이 게임을 열 수 없음' 팝업이 떠서 멈칫하신 분들이 계실 것 같은데요. 사전 다운로드는 10월 6일 오전 11시부터 PC와 모바일 모두 열렸고, 정식 서비스를 앞두고 설치하는 분들이 몰리는 때이기도 하잖아요.</p>
+    <p>카카오게임즈 공식 포럼에 올라온 PC 설치·재실행 공지를 한 줄씩 읽어 봤습니다. 그래서 오늘은 설치 6단계와 이 팝업이 떴을 때 공지가 안내하는 내용만 정리해 볼게요~ 사양은 따로 쓴 글이 있어서 맨 아래 링크로 넘기겠습니다.</p>
+    <h2 class="sub">설치 전에 어떤 계정이 필요한가요?</h2>
+    <p>도깨비의세계 PC 설치에는 <b>구글 계정과 카카오 계정이 둘 다 필요</b>해요.</p>
+    <p>구글 계정은 Google Play Games에 로그인할 때 쓰고, 카카오 계정은 전용 런처에 로그인할 때 쓰는 구조랍니다. 카카오 쪽은 사전예약에 참여했던 계정이나 앞으로 플레이할 계정 둘 중 하나로 들어가면 되니, 쓰실 계정을 미리 정해 두시면 중간에 헤매지 않아요.</p>
+    <p>구글 계정 로그인은 2단계, 카카오 계정 로그인은 4단계에서 만나게 돼요. 카카오 계정으로 로그인할 때는 인증을 요청받을 수 있다고 공지에 적혀 있으니, 인증 요청이 오더라도 당황하지 않으셔도 됩니다.</p>
+    <h2 class="sub">도깨비의세계 PC 버전 설치는 어떤 순서로 하나요?</h2>
+    <p>도깨비의세계 PC 버전은 <b>Google Play Games를 통해 설치</b>하고, 공지 기준으로 모두 6단계를 거쳐요.</p>
+    <ol>
+      <li>구글 플레이 웹의 도깨비의세계 페이지에서 <b>[Windows에 설치]</b>를 눌러요. Google Play Games가 설치되어 있지 않으면 Google Play Games 설치 파일이 먼저 내려받아져요.</li>
+      <li>Google Play Games를 실행해 구글 계정으로 로그인해요. 처음 실행하면 구글 로그인과 약관 동의가 함께 진행되고, 이미 로그인되어 있다면 생략돼요.</li>
+      <li>Google Play Games 안의 도깨비의세계 페이지에서 <b>[설치]</b>를 누르면 전용 런처 설치 창이 나타나요. 설치를 진행할 때 원하는 설치 경로를 고를 수 있어요.</li>
+      <li>전용 런처 설치가 끝나면 사전예약에 참여한 카카오 계정이나 플레이할 카카오 계정으로 로그인해요. 자동 로그인에 체크하면 이후 로그인 창은 생략돼요.</li>
+      <li>게임을 다시 켜야 할 때는 라이브러리의 [플레이] 버튼을 누르거나 바탕화면 아이콘을 더블클릭해요. 자세한 방법은 아래 재실행 절에서 풀어 둘게요.</li>
+      <li>런처 메인 화면의 <b>[게임 실행]</b>을 눌러 추가 리소스까지 받으면 모든 설치가 끝나요.</li>
+    </ol>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">구글 플레이 웹 도깨비의세계 페이지 — [Windows에 설치] 버튼 위치</span></div>
+    <div class="shoot">촬영 안내 · PC 브라우저로 구글 플레이 웹의 도깨비의세계 페이지를 열고, [Windows에 설치] 버튼이 보이게 화면 전체를 캡처해 이 자리에 넣어주세요.</div>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">Google Play Games 안 도깨비의세계 페이지 — [설치]를 눌렀을 때 뜨는 전용 런처 설치 창</span></div>
+    <div class="shoot">촬영 안내 · Google Play Games에서 도깨비의세계 페이지의 [설치]를 누른 직후, 설치 경로를 고르는 런처 설치 창이 뜬 장면을 캡처해 이 자리에 넣어주세요.</div>
+    <p>공지는 재실행을 5번, 게임 실행을 6번으로 번호를 매겨 안내하고 있어요. 5번의 재실행은 아래 절에 따로 묶었답니다. 눈여겨볼 건 마지막 6번이에요. 런처만 설치했다고 끝이 아니라, [게임 실행]으로 추가 리소스까지 받아야 모든 설치가 완료되는 구조거든요.</p>
+    <h2 class="sub">이 게임을 열 수 없음 팝업은 왜 뜨나요?</h2>
+    <p>'이 게임을 열 수 없음'은 <b>설치를 마치고 게임을 실행하기 전에 Google Play Games에 로그인되어 있지 않을 때</b> 뜨는 팝업이에요.</p>
+    <p>공지에 나온 순서는 이래요. 설치를 마치면 게임을 실행하기 전에 Google Play Games에 로그인되어 있는지 확인하고, 로그인이 안 되어 있다면 이 팝업이 노출되면서 구글 계정 로그인으로 이동돼요. 그래서 설치가 끝났다면 게임부터 누르기 전에 로그인 상태를 한 번 살펴보세요. 로그인을 마친 뒤의 동작까지는 공지에 나와 있지 않아서, 이 글도 거기까지만 적어 둘게요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">[이 게임을 열 수 없음] 팝업 — 구글 계정 로그인으로 이동하는 화면</span></div>
+    <div class="shoot">촬영 안내 · Google Play Games에서 로그아웃한 상태로 도깨비의세계를 실행해 팝업이 뜬 장면을 캡처해 이 자리에 넣어주세요. 계정 정보가 보이면 가려 주세요.</div>
+    <h2 class="sub">도깨비의세계 재실행은 어떻게 하나요?</h2>
+    <p>공지가 안내하는 재실행 방법은 두 가지로, <b>Google Play Games 라이브러리의 도깨비의세계 페이지에서 [플레이]를 클릭하거나, 바탕화면에 설치된 앱 아이콘을 더블클릭</b>하는 거예요.</p>
+    <p>[플레이]를 누르면 전용 런처가 자동으로 실행된답니다. 다만 [플레이]를 반복해서 클릭하면 '[이미 런처가 실행 중입니다.]' 팝업이 노출될 수 있으니 유의해 달라고 공지에 적혀 있거든요. 그러니 [플레이]는 한 번만 눌러 두시는 편이 좋겠습니다.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">재실행 두 가지 — Google Play Games 라이브러리의 [플레이] 버튼 / 바탕화면 도깨비의세계 아이콘</span></div>
+    <div class="shoot">촬영 안내 · Google Play Games 라이브러리의 도깨비의세계 페이지에서 [플레이] 위치를 한 장, 바탕화면의 도깨비의세계 앱 아이콘을 한 장 찍어 한 컷으로 묶어 이 자리에 넣어주세요.</div>
+    <p>런처가 켜지면 남는 건 메인 화면의 [게임 실행]이에요. 앞의 6단계가 바로 이 버튼이랍니다~</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">전용 런처 메인 화면 — [게임 실행] 버튼</span></div>
+    <div class="shoot">촬영 안내 · 전용 런처 메인 화면에서 [게임 실행] 버튼이 보이도록 캡처해 이 자리에 넣어주세요.</div>
+    <h2 class="sub">설치를 마친 뒤 알아둘 점이 있나요?</h2>
+    <p>설치를 마쳐도 <b>접속은 10월 8일(목) 오전 11시 정식 오픈 이후부터</b> 가능해요. 설치를 일찍 마쳐 두더라도 그 시간 전에는 게임에 들어갈 수 없다는 뜻이죠.</p>
+    <p>다운로드 일정과 최소·권장 사양은 공지가 별도 글로 나누어 안내하고 있어서, 이 글에서는 다루지 않고 맨 아래 같이 보기의 사양 글로 대신합니다. 그리고 오픈 이후에는 화면이나 문구가 지금 설명한 것과 조금 달라질 수 있어요.</p>
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 전용 런처 말고 PC 앱 플레이어로도 설치할 수 있나요?</b><br>
+    공지는 전용 런처 외에 별도 PC 앱 플레이어는 지원하지 않는다고 밝히고 있어요. 그러니 Google Play Games와 전용 런처로 진행하시는 쪽이 공지에 맞는 길이랍니다.</p>
+    <p><b>Q. [Windows에 설치]를 눌렀더니 파일이 내려받아지는데 맞나요?</b><br>
+    설치 파일이 먼저 내려받아지는 건 PC에 Google Play Games가 없을 때의 이야기예요. 공지는 이 경우를 1단계 안내에 따로 적어 두었답니다.</p>
+    <p><b>Q. 설치 위치를 바꿀 수 있나요?</b><br>
+    네, 설치를 진행할 때 원하는 설치 경로를 선택할 수 있어요. 기본 위치가 마음에 안 드는 분들은 이때 정하시면 됩니다.</p>
+    <p><b>Q. 카카오 로그인은 켤 때마다 해야 하나요?</b><br>
+    로그인 창에서 자동 로그인에 체크해 두시면 이후에는 로그인 창이 생략된답니다. 매번 입력하기 번거로운 분들은 처음 로그인할 때 체크해 두시면 훨씬 수월해요.</p>
+    <h2 class="sub">도깨비의세계 PC 설치 정리</h2>
+    <p>구글 플레이 웹에서 시작해 Google Play Games 로그인, 전용 런처 설치, 카카오 로그인, [게임 실행] 순서로 이어지고, 다시 켤 때는 [플레이]나 바탕화면 아이콘을 쓰라고 공지가 안내하고 있어요. 구글 계정과 카카오 계정이 둘 다 필요하다는 점만 기억해 두시면 됩니다. 오늘은 설치까지만 마쳐 두고 10월 8일(목) 오전 11시 오픈 시간에 맞춰 들어가 보면 좋겠습니다. 다들 즐겜하세요!</p>
+
+    <p><b>✔ 도깨비의세계 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224431472493" target="_blank">도깨비의세계 사전 다운로드 10월 6일 11시, PC 모바일 최소 권장 사양 한눈에</a><br>
+    · <a href="https://blog.naver.com/bomding/224428692218" target="_blank">도깨비의세계 출시에 없는 콘텐츠 정리, 낚시 채집 결혼은 언제 오나</a><br>
+    · <a href="https://blog.naver.com/bomding/224427515700" target="_blank">도깨비의세계 PvP 콘텐츠 4종 총정리, 낙화의 전장 차원점령전 차이부터 미혹의 정원 신기쟁탈전까지</a></p>
+
+    <p><b>참고한 곳</b> (2026.10.06 공지 기준)<br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=5512" target="_blank">도깨비의세계 공식 포럼 공지(PC 버전 설치 및 재실행 방법 안내)</a><br>
+    · <a href="https://www.khgames.co.kr/news/articleView.html?idxno=309040" target="_blank">경향게임스 도깨비의세계 사전 다운로드·정식 서비스 일정 기사</a></p>
+
+    <div class="tags">#도깨비의세계 #도깨비의세계PC #도깨비의세계설치 #도깨비의세계재실행 #GooglePlayGames #이게임을열수없음 #카카오게임즈 #봄딩</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 5곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 도깨비의세계 PC 설치 6단계, 이 게임을 열 수 없음 뜰 때 Google Play Games 재실행하는 법</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+  <p>도깨비의세계 PC 버전을 깔다가 '이 게임을 열 수 없음' 팝업이 떠서 멈칫하신 분들이 계실 것 같은데요. 사전 다운로드는 10월 6일 오전 11시부터 PC와 모바일 모두 열렸고, 정식 서비스를 앞두고 설치하는 분들이 몰리는 때이기도 하잖아요.</p>
+  <p>카카오게임즈 공식 포럼에 올라온 PC 설치·재실행 공지를 한 줄씩 읽어 봤습니다. 그래서 오늘은 설치 6단계와 이 팝업이 떴을 때 공지가 안내하는 내용만 정리해 볼게요~ 사양은 따로 쓴 글이 있어서 맨 아래 링크로 넘기겠습니다.</p>
+  <h3>설치 전에 어떤 계정이 필요한가요?</h3>
+  <p>도깨비의세계 PC 설치에는 <b>구글 계정과 카카오 계정이 둘 다 필요</b>해요.</p>
+  <p>구글 계정은 Google Play Games에 로그인할 때 쓰고, 카카오 계정은 전용 런처에 로그인할 때 쓰는 구조랍니다. 카카오 쪽은 사전예약에 참여했던 계정이나 앞으로 플레이할 계정 둘 중 하나로 들어가면 되니, 쓰실 계정을 미리 정해 두시면 중간에 헤매지 않아요.</p>
+  <p>구글 계정 로그인은 2단계, 카카오 계정 로그인은 4단계에서 만나게 돼요. 카카오 계정으로 로그인할 때는 인증을 요청받을 수 있다고 공지에 적혀 있으니, 인증 요청이 오더라도 당황하지 않으셔도 됩니다.</p>
+  <h3>도깨비의세계 PC 버전 설치는 어떤 순서로 하나요?</h3>
+  <p>도깨비의세계 PC 버전은 <b>Google Play Games를 통해 설치</b>하고, 공지 기준으로 모두 6단계를 거쳐요.</p>
+  <ol>
+    <li>구글 플레이 웹의 도깨비의세계 페이지에서 <b>[Windows에 설치]</b>를 눌러요. Google Play Games가 설치되어 있지 않으면 Google Play Games 설치 파일이 먼저 내려받아져요.</li>
+    <li>Google Play Games를 실행해 구글 계정으로 로그인해요. 처음 실행하면 구글 로그인과 약관 동의가 함께 진행되고, 이미 로그인되어 있다면 생략돼요.</li>
+    <li>Google Play Games 안의 도깨비의세계 페이지에서 <b>[설치]</b>를 누르면 전용 런처 설치 창이 나타나요. 설치를 진행할 때 원하는 설치 경로를 고를 수 있어요.</li>
+    <li>전용 런처 설치가 끝나면 사전예약에 참여한 카카오 계정이나 플레이할 카카오 계정으로 로그인해요. 자동 로그인에 체크하면 이후 로그인 창은 생략돼요.</li>
+    <li>게임을 다시 켜야 할 때는 라이브러리의 [플레이] 버튼을 누르거나 바탕화면 아이콘을 더블클릭해요. 자세한 방법은 아래 재실행 절에서 풀어 둘게요.</li>
+    <li>런처 메인 화면의 <b>[게임 실행]</b>을 눌러 추가 리소스까지 받으면 모든 설치가 끝나요.</li>
+  </ol>
+  <p class="ph">📷 〔사진 자리 1〕 구글 플레이 웹 도깨비의세계 페이지 — [Windows에 설치] 버튼 위치 — 네이버에서 직접 업로드</p>
+  <p class="ph">📷 〔사진 자리 2〕 Google Play Games 안 도깨비의세계 페이지 — [설치]를 눌렀을 때 뜨는 전용 런처 설치 창 — 네이버에서 직접 업로드</p>
+  <p>공지는 재실행을 5번, 게임 실행을 6번으로 번호를 매겨 안내하고 있어요. 5번의 재실행은 아래 절에 따로 묶었답니다. 눈여겨볼 건 마지막 6번이에요. 런처만 설치했다고 끝이 아니라, [게임 실행]으로 추가 리소스까지 받아야 모든 설치가 완료되는 구조거든요.</p>
+  <h3>이 게임을 열 수 없음 팝업은 왜 뜨나요?</h3>
+  <p>'이 게임을 열 수 없음'은 <b>설치를 마치고 게임을 실행하기 전에 Google Play Games에 로그인되어 있지 않을 때</b> 뜨는 팝업이에요.</p>
+  <p>공지에 나온 순서는 이래요. 설치를 마치면 게임을 실행하기 전에 Google Play Games에 로그인되어 있는지 확인하고, 로그인이 안 되어 있다면 이 팝업이 노출되면서 구글 계정 로그인으로 이동돼요. 그래서 설치가 끝났다면 게임부터 누르기 전에 로그인 상태를 한 번 살펴보세요. 로그인을 마친 뒤의 동작까지는 공지에 나와 있지 않아서, 이 글도 거기까지만 적어 둘게요.</p>
+  <p class="ph">📷 〔사진 자리 3〕 [이 게임을 열 수 없음] 팝업 — 구글 계정 로그인으로 이동하는 화면 — 네이버에서 직접 업로드</p>
+  <h3>도깨비의세계 재실행은 어떻게 하나요?</h3>
+  <p>공지가 안내하는 재실행 방법은 두 가지로, <b>Google Play Games 라이브러리의 도깨비의세계 페이지에서 [플레이]를 클릭하거나, 바탕화면에 설치된 앱 아이콘을 더블클릭</b>하는 거예요.</p>
+  <p>[플레이]를 누르면 전용 런처가 자동으로 실행된답니다. 다만 [플레이]를 반복해서 클릭하면 '[이미 런처가 실행 중입니다.]' 팝업이 노출될 수 있으니 유의해 달라고 공지에 적혀 있거든요. 그러니 [플레이]는 한 번만 눌러 두시는 편이 좋겠습니다.</p>
+  <p class="ph">📷 〔사진 자리 4〕 재실행 두 가지 — Google Play Games 라이브러리의 [플레이] 버튼 / 바탕화면 도깨비의세계 아이콘 — 네이버에서 직접 업로드</p>
+  <p>런처가 켜지면 남는 건 메인 화면의 [게임 실행]이에요. 앞의 6단계가 바로 이 버튼이랍니다~</p>
+  <p class="ph">📷 〔사진 자리 5〕 전용 런처 메인 화면 — [게임 실행] 버튼 — 네이버에서 직접 업로드</p>
+  <h3>설치를 마친 뒤 알아둘 점이 있나요?</h3>
+  <p>설치를 마쳐도 <b>접속은 10월 8일(목) 오전 11시 정식 오픈 이후부터</b> 가능해요. 설치를 일찍 마쳐 두더라도 그 시간 전에는 게임에 들어갈 수 없다는 뜻이죠.</p>
+  <p>다운로드 일정과 최소·권장 사양은 공지가 별도 글로 나누어 안내하고 있어서, 이 글에서는 다루지 않고 맨 아래 같이 보기의 사양 글로 대신합니다. 그리고 오픈 이후에는 화면이나 문구가 지금 설명한 것과 조금 달라질 수 있어요.</p>
+  <h3>자주 묻는 질문</h3>
+  <p><b>Q. 전용 런처 말고 PC 앱 플레이어로도 설치할 수 있나요?</b><br>
+  공지는 전용 런처 외에 별도 PC 앱 플레이어는 지원하지 않는다고 밝히고 있어요. 그러니 Google Play Games와 전용 런처로 진행하시는 쪽이 공지에 맞는 길이랍니다.</p>
+  <p><b>Q. [Windows에 설치]를 눌렀더니 파일이 내려받아지는데 맞나요?</b><br>
+  설치 파일이 먼저 내려받아지는 건 PC에 Google Play Games가 없을 때의 이야기예요. 공지는 이 경우를 1단계 안내에 따로 적어 두었답니다.</p>
+  <p><b>Q. 설치 위치를 바꿀 수 있나요?</b><br>
+  네, 설치를 진행할 때 원하는 설치 경로를 선택할 수 있어요. 기본 위치가 마음에 안 드는 분들은 이때 정하시면 됩니다.</p>
+  <p><b>Q. 카카오 로그인은 켤 때마다 해야 하나요?</b><br>
+  로그인 창에서 자동 로그인에 체크해 두시면 이후에는 로그인 창이 생략된답니다. 매번 입력하기 번거로운 분들은 처음 로그인할 때 체크해 두시면 훨씬 수월해요.</p>
+  <h3>도깨비의세계 PC 설치 정리</h3>
+  <p>구글 플레이 웹에서 시작해 Google Play Games 로그인, 전용 런처 설치, 카카오 로그인, [게임 실행] 순서로 이어지고, 다시 켤 때는 [플레이]나 바탕화면 아이콘을 쓰라고 공지가 안내하고 있어요. 구글 계정과 카카오 계정이 둘 다 필요하다는 점만 기억해 두시면 됩니다. 오늘은 설치까지만 마쳐 두고 10월 8일(목) 오전 11시 오픈 시간에 맞춰 들어가 보면 좋겠습니다. 다들 즐겜하세요!</p>
+  <p><b>✔ 도깨비의세계 같이 보기 좋은 내용</b><br>
+  · <a href="https://blog.naver.com/bomding/224431472493" target="_blank">도깨비의세계 사전 다운로드 10월 6일 11시, PC 모바일 최소 권장 사양 한눈에</a><br>
+  · <a href="https://blog.naver.com/bomding/224428692218" target="_blank">도깨비의세계 출시에 없는 콘텐츠 정리, 낚시 채집 결혼은 언제 오나</a><br>
+  · <a href="https://blog.naver.com/bomding/224427515700" target="_blank">도깨비의세계 PvP 콘텐츠 4종 총정리, 낙화의 전장 차원점령전 차이부터 미혹의 정원 신기쟁탈전까지</a></p>
+  <p><b>참고한 곳</b> (2026.10.06 공지 기준)<br>
+  · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=5512" target="_blank">도깨비의세계 공식 포럼 공지(PC 버전 설치 및 재실행 방법 안내)</a><br>
+  · <a href="https://www.khgames.co.kr/news/articleView.html?idxno=309040" target="_blank">경향게임스 도깨비의세계 사전 다운로드·정식 서비스 일정 기사</a></p>
+  <p class="tags-line">#도깨비의세계 #도깨비의세계PC #도깨비의세계설치 #도깨비의세계재실행 #GooglePlayGames #이게임을열수없음 #카카오게임즈 #봄딩</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
