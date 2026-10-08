@@ -153,7 +153,7 @@ _B5_TIER_FALLBACK = [
 # 정본 OFFICIAL_BOARD_RULES 사본 — 공식 커뮤니티 운영자 게시판(host+path+query)은 board 보다 먼저 official 로 본다.
 _B5_OFFICIAL_FALLBACK = re.compile(
     r'^forum\.kakaogames\.com/[^/?]+/post(?:View|List)/?\?(?:[^#]*&)?'
-    r'code=(?:notice|library|event|guide|event_winner)(?:&|#|$)', re.I)
+    r'code=(?:notice|library|event|event_winner|update|guide|tip|prob)(?:&|#|$)', re.I)
 _B5_TIER_FN = {'fn': None, 'src': ''}
 
 # ── W6 표↔본문 숫자 대조에 쓰는 단위(같은 단위끼리만 비교한다 — 단위가 다르면 다른 양이다)
