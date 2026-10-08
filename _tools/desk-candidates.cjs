@@ -18,11 +18,16 @@
            FLAG = dedup CHECK(각도 차이를 상세 단계 angle 에 적는다) · classify review(→ coverage[] = {writer, title: matchedTitle})
            출력 survivors.json = { date, total, kept:[항목 + flags + coverage + dedupHits + demand/aib/depth], dropped:[{id,sec,game,title,by,rule,why}], note:[초안 줄] }
 
+   ★2026-10-08 지정 우선 출처: `_trend/_game-sources.json`(game-sources.cjs)에 등재된 게임(도깨비의세계 → 깨비지지)은
+     merge 가 항목에 prioritySources 를 붙이고, 주제(title·keywords)가 원장 topicKeywords 에 걸리는데 sources 에 우선 출처가 없으면
+     경고 + prioritySourceMissing. gate 는 그 항목에 FLAG «source:지정출처미참조» 만 단다(KEEP/DROP 판정은 바꾸지 않는다).
+
    ⛔ 이 도구는 판정 규칙을 새로 만들지 않는다 — 세 도구의 판정을 «합치는» 일만 한다(규칙은 각 도구와 SKILL 이 정본).
    ========================================================================== */
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const gameSources = require('./game-sources.cjs');
 
 const argv = process.argv.slice(2);
 const has = (f) => argv.includes(f);
@@ -62,6 +67,15 @@ function mergeCands(files) {
       if (!Array.isArray(it.keywords) || !it.keywords.length) warnings.push(it.id + ': keywords[0](타깃 질의) 없음 — 제목 첫 절로 잰다');
       if (it.sec !== 'parenting' && !it.angleType) warnings.push(it.id + ': angleType 없음 — 제목 사다리로 채운다');
       if (!Array.isArray(it.sources) || !it.sources.length) warnings.push(it.id + ': sources 없음(1단계도 출처 1개는 필수)');
+      const gs = gameSources.sourcesFor(it.game);
+      if (gs) {
+        it.prioritySources = gameSources.brief(gs);
+        const hits = gameSources.topicHits(it.title + ' ' + (Array.isArray(it.keywords) ? it.keywords.join(' ') : ''), gs);
+        if (hits.length && !gameSources.citesPriority(it.sources, gs)) {
+          it.prioritySourceMissing = true;
+          warnings.push(it.id + ': ' + gs.game + ' «' + hits.slice(0, 3).join('·') + '» 주제인데 지정 우선 출처(' + it.prioritySources.map((x) => x.label + ' ' + x.host).join(', ') + ') 미참조 — 먼저 보고 sources 에 넣을 것');
+        }
+      }
       items.push(it);
     });
   }
@@ -110,6 +124,7 @@ function gateItems(cands, dedup, classify, signals) {
       ['angleType', 'demand', 'aib', 'depth'].forEach((k) => { if (s[k] != null) it[k] = s[k]; });
       if (s.verdict === 'DROP' && s.rule) tally['rule:' + s.rule] = (tally['rule:' + s.rule] || 0) + 1;
     } else if (it.sec !== 'parenting' && sres.size) flags.push('signals:미대조');
+    if (it.prioritySourceMissing) flags.push('source:지정출처미참조');
     if (drop) dropped.push({ id: it.id, sec: it.sec, game: it.game, title: it.title, by: drop.by, rule: drop.rule, why: drop.why, also: reasons });
     else kept.push(Object.assign({}, it, { flags, coverage }));
   });

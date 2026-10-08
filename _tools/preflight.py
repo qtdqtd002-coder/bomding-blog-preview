@@ -42,6 +42,12 @@
   `preflight.json` 최상위 `b5:{purpose, purposeSource, applied, primaryLinks, primaryHosts, excluded, blocked}` 기록.
   B5 검사 자체가 예외로 죽으면 경고만(fail-open — 드레이너 «도구 고장으로 무인 발행을 세우지 않는다» 처방과 동일).
 
+★2026-10-08 지정 우선 출처(사용자 지정 «도깨비의세계 글은 깨비지지를 우선 참고») — 정본 = `_trend/_game-sources.json`
+  ⑴ 원장 priority 도메인(kkaebigg.com)을 REF_WHITELIST 에 더한다 → W3 «참고한 곳»·B5 1차 출처 링크로 인정(등급은 url-verify 판정 그대로).
+  ⑵ W10(경고만): 글 게임(경로 폴더 또는 <title>/h1)이 원장에 있고 제목이 topicKeywords(도술·빌드·버프·탈것…)에 걸리는데
+     본문(.post · #copy 제외)에 우선 출처 링크가 0 이면 경고. 쿠폰·일정 글처럼 주제가 안 걸리면 조용하다.
+     `preflight.json` 최상위 `priority_src:{game, topicHits, hosts, cited, applied}`.
+
 사용
   python preflight.py "<글 HTML 절대경로>" [--writer 봄딩|영도] [--min 2000] [--json] [--strict]
                       [--purpose "<발주 목적>"] [--out-dir <폴더>]
@@ -116,6 +122,21 @@ REF_WHITELIST = [
     'go.kr', 'or.kr', 'kdca.go.kr', 'mfds.go.kr', 'kca.go.kr',
 ]
 REF_MIN, REF_MAX = 1, 3
+
+# ── 게임별 지정 우선 출처(2026-10-08) — 정본 `_trend/_game-sources.json`(game-sources.cjs 와 같은 파일). 못 읽으면 빈 목록(검사만 꺼진다).
+GAME_SOURCES = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '_trend', '_game-sources.json')
+
+
+def load_game_sources():
+    try:
+        g = json.load(io.open(GAME_SOURCES, encoding='utf-8-sig')).get('games', [])
+        return g if isinstance(g, list) else []
+    except Exception:
+        return []
+
+
+GAMES_PRIORITY = load_game_sources()
+REF_WHITELIST += [str(x['host']).lower() for g in GAMES_PRIORITY for x in g.get('priority', []) if x.get('host')]
 
 # ── B5 1차 출처 링크 게이트(2026-09-25 · 차단) — purpose 매칭 키워드는 «부분 일치»(«게임 공략»·«쿠폰·이벤트»·«티어·추천» 이 걸린다).
 B5_PURPOSE_KEYS = ('공략', '쿠폰', '티어', '추천', '티어표', '순위')
@@ -640,6 +661,40 @@ def check_hedge(post, res, body_chars=0):
     return []
 
 
+def _gnorm(s):
+    return re.sub(r'\s+', '', s or '').lower()
+
+
+def game_entry(path, title):
+    """원장 항목 | None — 경로 폴더명(봄딩/<게임>/<주제>) 우선, 없으면 <title>/h1 에 게임 이름이 들어 있는지."""
+    parts = {_gnorm(x) for x in re.split(r'[\\/]', path or '') if x}
+    t = _gnorm(title)
+    for g in GAMES_PRIORITY:
+        names = {_gnorm(n) for n in [g.get('game', '')] + list(g.get('aliases', [])) if n}
+        if parts & names or any(n in t for n in names):
+            return g
+    return None
+
+
+def check_priority_source(post, res, path, title):
+    """W10 — 지정 우선 출처 미인용(경고만). 주제가 원장 topicKeywords 에 걸릴 때만 본다."""
+    g = game_entry(path, title)
+    if not g:
+        return []
+    hosts = [str(x.get('host', '')).lower() for x in g.get('priority', []) if x.get('host')]
+    hits = [k for k in g.get('topicKeywords', []) if _gnorm(k) and _gnorm(k) in _gnorm(title)]
+    urls = re.findall(r'<a\b[^>]*href\s*=\s*["\']([^"\']+)["\']', post, re.I)
+    linked = {re.sub(r'^www\.', '', host_of(u)) for u in urls}
+    cited = any(h == w or h.endswith('.' + w) for h in linked if h for w in hosts)
+    applied = bool(hits) and bool(hosts)
+    res['priority_src'] = {'game': g.get('game'), 'topicHits': hits, 'hosts': hosts, 'cited': cited, 'applied': applied}
+    if applied and not cited:
+        labels = ', '.join('%s(%s)' % (x.get('label'), x.get('host')) for x in g.get('priority', []))
+        return ['W10 지정 우선 출처 미인용 — %s «%s» 주제는 %s 를 먼저 조사하고 «참고한 곳»이나 본문 링크로 남길 것(해당 자료가 없으면 무시)'
+                % (g.get('game'), '·'.join(hits[:3]), labels)]
+    return []
+
+
 def check_refs(post, res, writer):
     m = re.search(r'<p\b[^>]*>\s*(?:<b>|<strong>)?\s*참고한\s*곳', post)
     has_faq = bool(re.search(r'자주\s*묻는\s*질문|FAQ', post, re.I))
@@ -944,6 +999,7 @@ def main():
         warns += check_table_numbers(post, detail)
         warns += check_first_person(post, detail)
         warns += check_para_len(post, detail, writer)
+        warns += check_priority_source(post, detail, p, title)
     except Exception as e:   # 경고 검사가 죽어도 기존 4항목 판정은 살린다
         warns.append('W? 경고 검사 내부 오류 — %s' % e)
 
@@ -958,6 +1014,7 @@ def main():
            'issues': issues, 'warns': warns, 'checks': detail, 'sensitive': sens['sensitive'],
            'b5': detail.get('b5', {}),      # 계약(2026-09-25): b5:{purpose, purposeSource, applied, primaryLinks, primaryHosts, excluded, blocked}
            'b6': detail.get('b6', {}),      # 계약(2026-09-26): b6:{writer, purpose, guide, img, imgslot, ss, anchors, min, blocked} — 봄딩·영도만
+           'priority_src': detail.get('priority_src', {}),   # 계약(2026-10-08): {game, topicHits, hosts, cited, applied} — 원장 등재 게임만
            'checkedAt': now, 'file': p}
 
     # ── 항상 쓴다: <글폴더>/_qa/preflight.json · sensitive.json (다른 패키지가 읽는 계약 — 파일명 고정)
@@ -1008,6 +1065,10 @@ def main():
             print('  B6 시각앵커  %s곳(img %s · imgslot %s · B형 .ss %s) · 공략형 %s · 최소 %s%s'
                   % (b6.get('anchors'), b6.get('img'), b6.get('imgslot'), b6.get('ss'), b6.get('guide'), b6.get('min'),
                      ' · ⛔' if b6.get('blocked') else ''))
+        ps = detail.get('priority_src', {})
+        if ps:
+            print('  W10 지정출처 %s · 주제 %s · %s %s' % (ps.get('game'), ps.get('topicHits') or '해당 없음', ps.get('hosts'),
+                                                   '인용함' if ps.get('cited') else ('미인용' if ps.get('applied') else '-')))
         print('  sensitive = %s %s' % (sens['sensitive'], sens['reasons'] or '(반증 투입 사유 없음)'))
         print('  → %s' % os.path.join(out_dir, 'preflight.json') + (' ⚠ 저장 실패: %s' % write_err if write_err else ''))
         if ok and not warns:
