@@ -1,0 +1,341 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>도깨비의세계 쿠폰 4종 정리, 코드 입력하는 법과 마감일 한눈에</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post img{display:block;max-width:100%;height:auto;margin:6px auto 8px;border:1px solid var(--line);border-radius:6px;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: 도깨비의세계 쿠폰 코드 모음 / 도깨비의세계 쿠폰 입력 어디서 / 도깨비의세계 쿠폰 기한 -->
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">도깨비의세계 쿠폰 4종 정리, 코드 입력하는 법과 마감일 한눈에</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.08</span><span>· 게임</span></div>
+
+    <p>오늘 오전 11시에 정식 출시가 열리고 나서 포럼에 쿠폰 공지가 하루 사이 여러 번 올라왔는데요, 어느 코드가 아직 살아 있는지 헷갈리시는 분이 많더라고요. 저도 공지를 하나씩 열어 보다 보니 코드로 넣는 쿠폰이 있고 카카오톡으로만 오는 쿠폰이 따로 있어서 머리가 좀 복잡했거든요. 그래서 2026년 10월 8일 오후 기준으로 한 장에 모아 봤어요.</p>
+    <!-- 이미지 이유: 출시일 맥락을 보여주는 도입 카드 / 출처: 도깨비의세계 공식 포럼 / 분류: A형 -->
+    <img src="img/launch-card.jpg" width="693" height="427" alt="도깨비의세계 10월 8일 목요일 11시 정식 출시 안내 카드">
+    <div class="cap">출처: 도깨비의세계 공식 포럼</div>
+
+    <h2 class="sub">도깨비의세계 쿠폰 코드는 모두 몇 개인가요?</h2>
+    <p>공지에 코드가 공개된 쿠폰은 <b>도깨비1008 · 칭호나와라뚝딱 · 구글1위잔치로구나 · 애플1위풍악을울려라</b> 이렇게 4종이에요. 코드는 공식 포럼 공지 9112(사전예약 보상·쿠폰 안내), 구글 1위 기념 공지 10503, 앱스토어 1위 기념 공지 9200에 나와 있어요.</p>
+    <p>구글 플레이 기프트코드 프로모션(컬쳐랜드 구매) 쿠폰은 구매·등록하면 휴대폰으로 코드가 따로 발송되고(공지 9133), 치지직&amp;SOOP 드롭스 쿠폰은 공지 본문에 코드가 적혀 있지 않고 쿠폰 입력 링크로 안내돼요. 이 둘은 공지에 공개된 코드가 없는 별도 쿠폰이라 4종에는 세지 않았어요.</p>
+    <table class="tbl">
+      <tr><th>코드</th><th>보상</th><th>기한</th><th>횟수</th></tr>
+      <tr><td>도깨비1008</td><td>꿀떡 무기 외형</td><td>11월 5일(목) 23:59</td><td>-</td></tr>
+      <tr><td>칭호나와라뚝딱</td><td>칭호 [타바로 소식통], 엽전 100,000개</td><td>개별 기한 표기 없음</td><td>-</td></tr>
+      <tr><td>구글1위잔치로구나</td><td>염색약 선택 상자, 엽전 111,111개, 1위 기념 도술 조각 선택 상자</td><td>10월 8일 ~ 11월 11일 23:59</td><td>계정당 1회</td></tr>
+      <tr><td>애플1위풍악을울려라</td><td>염색약 선택 상자, 엽전 111,111개, 1위 기념 도술 조각 선택 상자(구성은 구글과 같음)</td><td>10월 8일 10:00 ~ 11월 11일 23:59</td><td>계정당 1회</td></tr>
+    </table>
+    <p>표에서 &quot;-&quot;는 공지에 적혀 있지 않다는 뜻이에요. 도깨비1008과 칭호나와라뚝딱은 사용 횟수가 따로 안내되어 있지 않아요.</p>
+
+    <h2 class="sub">쿠폰 코드는 게임 어디에 입력하나요?</h2>
+    <p>PC와 안드로이드는 <b>메뉴 &gt; 설정 &gt; 계정 탭 &gt; 쿠폰등록</b> 순서로 들어가서 코드를 넣으면 돼요(가이드 7733).</p>
+    <ul>
+      <li>메인 화면 오른쪽 위 [메뉴]에서 시스템 카테고리의 [설정]을 엽니다</li>
+      <li>[계정] 탭 아래쪽의 [쿠폰등록] 버튼을 누릅니다</li>
+      <li>쿠폰코드 입력 창에 직접 치거나 복사해 붙여넣고 [확인]을 누르면 보상이 우편함으로 와요</li>
+    </ul>
+    <!-- 이미지 이유: 쿠폰등록 버튼 위치 단계 / 출처: 도깨비의세계 공식 포럼 / 분류: A형 -->
+    <img src="img/coupon-register-button.png" width="693" height="389" alt="도깨비의세계 설정 화면 계정 탭에서 쿠폰등록 버튼 위치">
+    <div class="cap">출처: 도깨비의세계 공식 포럼</div>
+    <!-- 이미지 이유: 입력 창 모습 / 출처: 도깨비의세계 공식 포럼 / 분류: A형 -->
+    <img src="img/coupon-code-input.png" width="693" height="389" alt="도깨비의세계 쿠폰코드 입력 창">
+    <div class="cap">출처: 도깨비의세계 공식 포럼</div>
+    <p>아이폰은 게임 안 입력창 대신 쿠폰 사이트에서 <b>회원번호와 쿠폰 코드</b>를 넣고 [쿠폰 사용]을 눌러요. 회원번호는 같은 [설정] 계정 탭의 게임 회원번호에서 볼 수 있고, 사이트 주소는 공지 속 쿠폰 입력 링크로 들어가시면 됩니다.</p>
+    <!-- 이미지 이유: iOS 회원번호 위치 / 출처: 도깨비의세계 공식 포럼 / 분류: A형 -->
+    <img src="img/ios-member-number.png" width="693" height="389" alt="도깨비의세계 계정 탭의 게임 회원번호 위치">
+    <div class="cap">출처: 도깨비의세계 공식 포럼</div>
+    <p>보상을 받는 캐릭터도 입력 방법에 따라 달라요. 게임 안에서 넣으면 <b>입력한 캐릭터</b>의 우편함으로, 쿠폰 사이트에서 넣으면 <b>최초 접속 캐릭터나 접속 중인 캐릭터</b>의 우편함으로 가더라고요.</p>
+
+    <h2 class="sub">도깨비1008과 칭호나와라뚝딱은 뭘 주나요?</h2>
+    <p><b>도깨비1008</b>은 9월 18일 라이브 시연회 감사 쿠폰으로 꿀떡 무기 외형을 주고, 11월 5일(목) 23:59까지 쓸 수 있어요. 종료일까지 쓰지 않은 쿠폰은 따로 도와드리기 어렵다는 안내도 붙어 있어요.</p>
+    <!-- 이미지 이유: 도깨비1008 보상 외형 / 출처: 도깨비의세계 공식 포럼 / 분류: A형 -->
+    <img src="img/kkultteok-weapon.png" width="350" height="227" alt="도깨비의세계 꿀떡 무기 외형을 든 남녀 캐릭터 도트 일러스트">
+    <div class="cap">출처: 도깨비의세계 공식 포럼</div>
+    <p><b>칭호나와라뚝딱</b>은 카카오톡 채널과 공식 유튜브 구독 보상이 바뀐 쿠폰이에요. 칭호에 능력치가 붙어서 모두가 조건 없이 받도록 전체 공지 쿠폰이 됐고, 보상은 칭호 [타바로 소식통](방어력 +3)과 엽전 100,000개예요. 개별 기한은 공지에 따로 적혀 있지 않아요. 사전예약 보상 공통 문구(11월 7일 23:59까지)에 같이 묶여 있을 수 있지만 SNS 구독 쿠폰의 개별 기한은 표기가 없으니, 인게임과 공지에서 한 번 더 확인하세요.</p>
+
+    <h2 class="sub">1위 기념 쿠폰 2종은 마켓마다 코드가 다른가요?</h2>
+    <p>구글과 애플 1위 기념 쿠폰은 마켓별로 <b>코드가 서로 달라요.</b> 구성은 같고 귀속 표기만 공지마다 달라요.</p>
+    <ul>
+      <li>구글1위잔치로구나: 10월 8일 ~ 11월 11일 23:59</li>
+      <li>애플1위풍악을울려라: 10월 8일 10:00 ~ 11월 11일 23:59</li>
+      <li>구성: 염색약 선택 상자(40종 중 택1), 엽전 111,111개, 도술 조각 100개를 고르는 상자예요</li>
+    </ul>
+    <p>귀속은 구글 공지에서는 염색약 상자·엽전·도술 조각 상자 모두 귀속이라고 되어 있고, 애플 공지에서는 엽전에 귀속 표기가 없고 염색약 상자와 도술 조각 상자만 귀속이에요. 다른 마켓 계정에서 쓸 수 있는지는 아직 알려진 게 없어요.</p>
+
+    <h2 class="sub">공개 코드 없이 카카오톡으로 오는 쿠폰 2종은 뭔가요?</h2>
+    <p>갓 선택 상자와 탈것 선택 상자는 공개 코드가 없고 <b>카카오톡 채널 메시지로 개별 발송</b>돼서 위의 4종에는 세지 않았어요. 탈것 선택 상자는 룰렛 당첨자 보상이고, 상자를 열면 탈것 6종 중 택1이에요(이벤트 18).</p>
+    <ul>
+      <li>갓(투구) 선택 상자: 카카오게임 사전예약 보상, 계정당 4회 사용, 거래 불가</li>
+      <li>탈것 선택 상자: 룰렛 당첨자 보상, 계정당 6회 사용, 거래 불가</li>
+    </ul>
+    <p>갓 선택 상자는 카카오게임즈 사전예약 채널의 출시 알림 메시지에서 쿠폰을 받는데, 10월 8일 11시부터 순차 발송이라 도착 시각이 사람마다 달라요. 알림톡을 차단해 두면 못 받고, 사전예약한 카카오 계정으로 로그인해야 지급돼요.</p>
+
+    <h2 class="sub">90% 할인 쿠폰은 코드를 넣나요?</h2>
+    <p>Google Play Games 90% 할인은 코드가 아니라 쿠폰 배너의 <b>[저장] 버튼</b>을 누르는 결제 할인 쿠폰이에요(공지 5533).</p>
+    <!-- 이미지 이유: 저장 버튼이 있는 실제 배너 / 출처: 도깨비의세계 공식 포럼 / 분류: A형 -->
+    <img src="img/gpg-90-banner.png" width="533" height="250" alt="PC용 도깨비의세계 90% 할인 쿠폰 저장 배너">
+    <div class="cap">출처: 도깨비의세계 공식 포럼</div>
+    <ul>
+      <li>기간: 10월 8일 11:00 ~ 10월 17일(토) 23:59, 최대 9,900원 할인</li>
+      <li>PC의 Google Play Games 결제에만 적용되고 모바일 결제는 안 돼요</li>
+      <li>선착순이라 일찍 끝날 수 있고, 만든 지 30일 안 된 구글 계정에는 배너가 안 보여요</li>
+    </ul>
+    <p>배너가 안 뜰 때는 구글 계정이 만든 지 30일이 지났는지, Play 맞춤 설정과 기기 세부 정보가 켜져 있는지를 보라는 안내가 있었어요(공지 9994). 그래도 안 되면 고객센터로 문의하는 수밖에 없다네요.</p>
+
+    <h2 class="sub">쿠폰 마감은 어떤 순서로 오나요?</h2>
+    <p>가장 먼저 끝나는 건 10월 17일 90% 할인이고, 마지막은 11월 18일 기프트코드 쿠폰 등록이에요. 구분 열이 &quot;4종&quot;이 아닌 행은 위에서 센 코드 4종 밖의 쿠폰이에요.</p>
+    <table class="tbl">
+      <tr><th>마감</th><th>쿠폰</th><th>구분</th></tr>
+      <tr><td>10월 17일(토) 23:59</td><td>구글 90% 할인 [저장]</td><td>4종 밖(결제 할인)</td></tr>
+      <tr><td>10월 28일 점검 전까지(이벤트 진행 기준)</td><td>치지직&amp;SOOP 드롭스 쿠폰(쿠폰 사용 기한은 공지 본문에 없어 확인 불가)</td><td>4종 밖(공지에 코드 없음)</td></tr>
+      <tr><td>11월 5일(목) 23:59</td><td>도깨비1008</td><td>4종</td></tr>
+      <tr><td>개별 표기 없음(11월 7일 가능성)</td><td>칭호나와라뚝딱</td><td>4종</td></tr>
+      <tr><td>11월 7일(토) 23:59</td><td>갓·탈것 선택 상자(사전예약 보상 전체)</td><td>4종 밖(카카오톡 발송)</td></tr>
+      <tr><td>11월 11일(수) 23:59</td><td>구글·애플 1위 기념 쿠폰</td><td>4종</td></tr>
+      <tr><td>11월 18일(수) 23:59</td><td>기프트코드 쿠폰 등록(프로모션 구매는 10월 18일까지)</td><td>4종 밖(공지에 코드 없음)</td></tr>
+    </table>
+    <p>드롭스는 공식 이벤트 안내(이벤트 9285)에 10월 28일 점검 전까지 진행되는 이벤트로 나와 있어요. 드롭스 공지(이벤트 9217)에는 쿠폰 사용 기한이 적혀 있지 않으니 그 부분은 직접 확인해 주세요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 코드를 여러 개 같이 써도 되나요?</b><br>공지와 가이드에 중복 제한 안내가 없어요. 1위 기념 쿠폰 두 개를 함께 넣어도 되는지, 계정당 1회가 쿠폰별인지 합산인지도 적혀 있지 않아요.</p>
+    <p><b>Q. 코드를 넣었는데 보상이 안 보여요.</b><br>보상은 우편함으로 가고 지급이 늦어질 수 있다고 해요. 사용 횟수를 다 쓴 쿠폰은 등록 자체가 안 된다는 안내도 있어요.</p>
+    <p><b>Q. 잘못 받은 보상은 되돌릴 수 있나요?</b><br>가이드에 복구가 안 된다고 적혀 있어요. 1위 기념 쿠폰은 기간 안에 수령하지 않은 보상이 삭제되고 복구되지 않는다는 문구도 있어요.</p>
+    <p><b>Q. 출시 전에 본 채널 구독 보상 상자는 어떻게 됐나요?</b><br>칭호나와라뚝딱으로 바뀌었어요. 이미 구독해 두신 분들께 양해를 구한다는 공식 문구도 있었어요.</p>
+
+    <h2 class="sub">도깨비의세계 쿠폰 정리</h2>
+    <p>공지에 코드가 공개된 쿠폰은 4종이고, 급한 건 10월 17일 90% 할인과 11월 5일 도깨비1008이에요. 쿠폰은 계속 추가될 수 있잖아요, 그러니 공식 공지를 한 번씩 열어 보시면 좋아요. 저는 마감이 가장 빠른 90% 할인부터 챙겨 두려고요. 다들 쿠폰 챙겨서 꿀떡 무기 들고 즐겜하세요~</p>
+
+    <p><b>✔ 도깨비의세계 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224434662295" target="_blank">도깨비의세계 PC 설치 6단계, 이 게임을 열 수 없음 뜰 때 Google Play Games 재실행하는 법</a><br>
+    · <a href="https://blog.naver.com/bomding/224434403734" target="_blank">도깨비의세계 서버 추천 전에 볼 서버 선택 구조, 같은 서버는 같은 편이고 거래소는 매칭 서버끼리</a><br>
+    · <a href="https://blog.naver.com/bomding/224431472493" target="_blank">도깨비의세계 사전 다운로드 10월 6일 11시, PC 모바일 최소 권장 사양 한눈에</a></p>
+
+    <p><b>참고한 곳</b> (2026.10.08 오후 기준)<br>
+    · <a href="https://dokkaebi.kakaogames.com" target="_blank">도깨비의세계 공식 홈페이지</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=9112" target="_blank">공지 9112: 사전예약 보상·쿠폰 안내</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=10503" target="_blank">공지 10503: 구글 1위 기념 쿠폰</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=9200" target="_blank">공지 9200: 앱스토어 1위 기념 쿠폰</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7733" target="_blank">가이드 7733: 쿠폰 등록</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=5533" target="_blank">공지 5533: 구글 90% 할인</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=9994" target="_blank">공지 9994: 90% 할인 쿠폰 미노출 확인</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=9133" target="_blank">공지 9133: 기프트코드 쿠폰</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=event&amp;id=9217" target="_blank">이벤트 9217: 치지직&amp;SOOP 드롭스</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=event&amp;id=9285" target="_blank">이벤트 9285: 이벤트 한눈에 보기</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=event&amp;id=18" target="_blank">이벤트 18: 룰렛 보상</a></p>
+
+    <div class="tags">#도깨비의세계 #도깨비의세계쿠폰 #도깨비의세계쿠폰코드 #도깨비1008 #칭호나와라뚝딱 #카카오게임즈 #봄딩</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 6가지(약 6분):</b> 📷 <b>사진 6곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 도깨비의세계 쿠폰 4종 정리, 코드 입력하는 법과 마감일 한눈에</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+  <p>오늘 오전 11시에 정식 출시가 열리고 나서 포럼에 쿠폰 공지가 하루 사이 여러 번 올라왔는데요, 어느 코드가 아직 살아 있는지 헷갈리시는 분이 많더라고요. 저도 공지를 하나씩 열어 보다 보니 코드로 넣는 쿠폰이 있고 카카오톡으로만 오는 쿠폰이 따로 있어서 머리가 좀 복잡했거든요. 그래서 2026년 10월 8일 오후 기준으로 한 장에 모아 봤어요.</p>
+    <p class="ph">📷 〔사진 자리 1〕 도깨비의세계 10월 8일 목요일 11시 정식 출시 안내 카드 — 네이버에서 직접 업로드</p>
+
+    <h3>도깨비의세계 쿠폰 코드는 모두 몇 개인가요?</h3>
+    <p>공지에 코드가 공개된 쿠폰은 <b>도깨비1008 · 칭호나와라뚝딱 · 구글1위잔치로구나 · 애플1위풍악을울려라</b> 이렇게 4종이에요. 코드는 공식 포럼 공지 9112(사전예약 보상·쿠폰 안내), 구글 1위 기념 공지 10503, 앱스토어 1위 기념 공지 9200에 나와 있어요.</p>
+    <p>구글 플레이 기프트코드 프로모션(컬쳐랜드 구매) 쿠폰은 구매·등록하면 휴대폰으로 코드가 따로 발송되고(공지 9133), 치지직&amp;SOOP 드롭스 쿠폰은 공지 본문에 코드가 적혀 있지 않고 쿠폰 입력 링크로 안내돼요. 이 둘은 공지에 공개된 코드가 없는 별도 쿠폰이라 4종에는 세지 않았어요.</p>
+    <table>
+      <tr><th>코드</th><th>보상</th><th>기한</th><th>횟수</th></tr>
+      <tr><td>도깨비1008</td><td>꿀떡 무기 외형</td><td>11월 5일(목) 23:59</td><td>-</td></tr>
+      <tr><td>칭호나와라뚝딱</td><td>칭호 [타바로 소식통], 엽전 100,000개</td><td>개별 기한 표기 없음</td><td>-</td></tr>
+      <tr><td>구글1위잔치로구나</td><td>염색약 선택 상자, 엽전 111,111개, 1위 기념 도술 조각 선택 상자</td><td>10월 8일 ~ 11월 11일 23:59</td><td>계정당 1회</td></tr>
+      <tr><td>애플1위풍악을울려라</td><td>염색약 선택 상자, 엽전 111,111개, 1위 기념 도술 조각 선택 상자(구성은 구글과 같음)</td><td>10월 8일 10:00 ~ 11월 11일 23:59</td><td>계정당 1회</td></tr>
+    </table>
+    <p>표에서 &quot;-&quot;는 공지에 적혀 있지 않다는 뜻이에요. 도깨비1008과 칭호나와라뚝딱은 사용 횟수가 따로 안내되어 있지 않아요.</p>
+
+    <h3>쿠폰 코드는 게임 어디에 입력하나요?</h3>
+    <p>PC와 안드로이드는 <b>메뉴 &gt; 설정 &gt; 계정 탭 &gt; 쿠폰등록</b> 순서로 들어가서 코드를 넣으면 돼요(가이드 7733).</p>
+    <ul>
+      <li>메인 화면 오른쪽 위 [메뉴]에서 시스템 카테고리의 [설정]을 엽니다</li>
+      <li>[계정] 탭 아래쪽의 [쿠폰등록] 버튼을 누릅니다</li>
+      <li>쿠폰코드 입력 창에 직접 치거나 복사해 붙여넣고 [확인]을 누르면 보상이 우편함으로 와요</li>
+    </ul>
+    <p class="ph">📷 〔사진 자리 2〕 도깨비의세계 설정 화면 계정 탭에서 쿠폰등록 버튼 위치 — 네이버에서 직접 업로드</p>
+    <p class="ph">📷 〔사진 자리 3〕 도깨비의세계 쿠폰코드 입력 창 — 네이버에서 직접 업로드</p>
+    <p>아이폰은 게임 안 입력창 대신 쿠폰 사이트에서 <b>회원번호와 쿠폰 코드</b>를 넣고 [쿠폰 사용]을 눌러요. 회원번호는 같은 [설정] 계정 탭의 게임 회원번호에서 볼 수 있고, 사이트 주소는 공지 속 쿠폰 입력 링크로 들어가시면 됩니다.</p>
+    <p class="ph">📷 〔사진 자리 4〕 도깨비의세계 계정 탭의 게임 회원번호 위치 — 네이버에서 직접 업로드</p>
+    <p>보상을 받는 캐릭터도 입력 방법에 따라 달라요. 게임 안에서 넣으면 <b>입력한 캐릭터</b>의 우편함으로, 쿠폰 사이트에서 넣으면 <b>최초 접속 캐릭터나 접속 중인 캐릭터</b>의 우편함으로 가더라고요.</p>
+
+    <h3>도깨비1008과 칭호나와라뚝딱은 뭘 주나요?</h3>
+    <p><b>도깨비1008</b>은 9월 18일 라이브 시연회 감사 쿠폰으로 꿀떡 무기 외형을 주고, 11월 5일(목) 23:59까지 쓸 수 있어요. 종료일까지 쓰지 않은 쿠폰은 따로 도와드리기 어렵다는 안내도 붙어 있어요.</p>
+    <p class="ph">📷 〔사진 자리 5〕 도깨비의세계 꿀떡 무기 외형을 든 남녀 캐릭터 도트 일러스트 — 네이버에서 직접 업로드</p>
+    <p><b>칭호나와라뚝딱</b>은 카카오톡 채널과 공식 유튜브 구독 보상이 바뀐 쿠폰이에요. 칭호에 능력치가 붙어서 모두가 조건 없이 받도록 전체 공지 쿠폰이 됐고, 보상은 칭호 [타바로 소식통](방어력 +3)과 엽전 100,000개예요. 개별 기한은 공지에 따로 적혀 있지 않아요. 사전예약 보상 공통 문구(11월 7일 23:59까지)에 같이 묶여 있을 수 있지만 SNS 구독 쿠폰의 개별 기한은 표기가 없으니, 인게임과 공지에서 한 번 더 확인하세요.</p>
+
+    <h3>1위 기념 쿠폰 2종은 마켓마다 코드가 다른가요?</h3>
+    <p>구글과 애플 1위 기념 쿠폰은 마켓별로 <b>코드가 서로 달라요.</b> 구성은 같고 귀속 표기만 공지마다 달라요.</p>
+    <ul>
+      <li>구글1위잔치로구나: 10월 8일 ~ 11월 11일 23:59</li>
+      <li>애플1위풍악을울려라: 10월 8일 10:00 ~ 11월 11일 23:59</li>
+      <li>구성: 염색약 선택 상자(40종 중 택1), 엽전 111,111개, 도술 조각 100개를 고르는 상자예요</li>
+    </ul>
+    <p>귀속은 구글 공지에서는 염색약 상자·엽전·도술 조각 상자 모두 귀속이라고 되어 있고, 애플 공지에서는 엽전에 귀속 표기가 없고 염색약 상자와 도술 조각 상자만 귀속이에요. 다른 마켓 계정에서 쓸 수 있는지는 아직 알려진 게 없어요.</p>
+
+    <h3>공개 코드 없이 카카오톡으로 오는 쿠폰 2종은 뭔가요?</h3>
+    <p>갓 선택 상자와 탈것 선택 상자는 공개 코드가 없고 <b>카카오톡 채널 메시지로 개별 발송</b>돼서 위의 4종에는 세지 않았어요. 탈것 선택 상자는 룰렛 당첨자 보상이고, 상자를 열면 탈것 6종 중 택1이에요(이벤트 18).</p>
+    <ul>
+      <li>갓(투구) 선택 상자: 카카오게임 사전예약 보상, 계정당 4회 사용, 거래 불가</li>
+      <li>탈것 선택 상자: 룰렛 당첨자 보상, 계정당 6회 사용, 거래 불가</li>
+    </ul>
+    <p>갓 선택 상자는 카카오게임즈 사전예약 채널의 출시 알림 메시지에서 쿠폰을 받는데, 10월 8일 11시부터 순차 발송이라 도착 시각이 사람마다 달라요. 알림톡을 차단해 두면 못 받고, 사전예약한 카카오 계정으로 로그인해야 지급돼요.</p>
+
+    <h3>90% 할인 쿠폰은 코드를 넣나요?</h3>
+    <p>Google Play Games 90% 할인은 코드가 아니라 쿠폰 배너의 <b>[저장] 버튼</b>을 누르는 결제 할인 쿠폰이에요(공지 5533).</p>
+    <p class="ph">📷 〔사진 자리 6〕 PC용 도깨비의세계 90% 할인 쿠폰 저장 배너 — 네이버에서 직접 업로드</p>
+    <ul>
+      <li>기간: 10월 8일 11:00 ~ 10월 17일(토) 23:59, 최대 9,900원 할인</li>
+      <li>PC의 Google Play Games 결제에만 적용되고 모바일 결제는 안 돼요</li>
+      <li>선착순이라 일찍 끝날 수 있고, 만든 지 30일 안 된 구글 계정에는 배너가 안 보여요</li>
+    </ul>
+    <p>배너가 안 뜰 때는 구글 계정이 만든 지 30일이 지났는지, Play 맞춤 설정과 기기 세부 정보가 켜져 있는지를 보라는 안내가 있었어요(공지 9994). 그래도 안 되면 고객센터로 문의하는 수밖에 없다네요.</p>
+
+    <h3>쿠폰 마감은 어떤 순서로 오나요?</h3>
+    <p>가장 먼저 끝나는 건 10월 17일 90% 할인이고, 마지막은 11월 18일 기프트코드 쿠폰 등록이에요. 구분 열이 &quot;4종&quot;이 아닌 행은 위에서 센 코드 4종 밖의 쿠폰이에요.</p>
+    <table>
+      <tr><th>마감</th><th>쿠폰</th><th>구분</th></tr>
+      <tr><td>10월 17일(토) 23:59</td><td>구글 90% 할인 [저장]</td><td>4종 밖(결제 할인)</td></tr>
+      <tr><td>10월 28일 점검 전까지(이벤트 진행 기준)</td><td>치지직&amp;SOOP 드롭스 쿠폰(쿠폰 사용 기한은 공지 본문에 없어 확인 불가)</td><td>4종 밖(공지에 코드 없음)</td></tr>
+      <tr><td>11월 5일(목) 23:59</td><td>도깨비1008</td><td>4종</td></tr>
+      <tr><td>개별 표기 없음(11월 7일 가능성)</td><td>칭호나와라뚝딱</td><td>4종</td></tr>
+      <tr><td>11월 7일(토) 23:59</td><td>갓·탈것 선택 상자(사전예약 보상 전체)</td><td>4종 밖(카카오톡 발송)</td></tr>
+      <tr><td>11월 11일(수) 23:59</td><td>구글·애플 1위 기념 쿠폰</td><td>4종</td></tr>
+      <tr><td>11월 18일(수) 23:59</td><td>기프트코드 쿠폰 등록(프로모션 구매는 10월 18일까지)</td><td>4종 밖(공지에 코드 없음)</td></tr>
+    </table>
+    <p>드롭스는 공식 이벤트 안내(이벤트 9285)에 10월 28일 점검 전까지 진행되는 이벤트로 나와 있어요. 드롭스 공지(이벤트 9217)에는 쿠폰 사용 기한이 적혀 있지 않으니 그 부분은 직접 확인해 주세요.</p>
+
+    <h3>자주 묻는 질문</h3>
+    <p><b>Q. 코드를 여러 개 같이 써도 되나요?</b><br>공지와 가이드에 중복 제한 안내가 없어요. 1위 기념 쿠폰 두 개를 함께 넣어도 되는지, 계정당 1회가 쿠폰별인지 합산인지도 적혀 있지 않아요.</p>
+    <p><b>Q. 코드를 넣었는데 보상이 안 보여요.</b><br>보상은 우편함으로 가고 지급이 늦어질 수 있다고 해요. 사용 횟수를 다 쓴 쿠폰은 등록 자체가 안 된다는 안내도 있어요.</p>
+    <p><b>Q. 잘못 받은 보상은 되돌릴 수 있나요?</b><br>가이드에 복구가 안 된다고 적혀 있어요. 1위 기념 쿠폰은 기간 안에 수령하지 않은 보상이 삭제되고 복구되지 않는다는 문구도 있어요.</p>
+    <p><b>Q. 출시 전에 본 채널 구독 보상 상자는 어떻게 됐나요?</b><br>칭호나와라뚝딱으로 바뀌었어요. 이미 구독해 두신 분들께 양해를 구한다는 공식 문구도 있었어요.</p>
+
+    <h3>도깨비의세계 쿠폰 정리</h3>
+    <p>공지에 코드가 공개된 쿠폰은 4종이고, 급한 건 10월 17일 90% 할인과 11월 5일 도깨비1008이에요. 쿠폰은 계속 추가될 수 있잖아요, 그러니 공식 공지를 한 번씩 열어 보시면 좋아요. 저는 마감이 가장 빠른 90% 할인부터 챙겨 두려고요. 다들 쿠폰 챙겨서 꿀떡 무기 들고 즐겜하세요~</p>
+    <p><b>✔ 도깨비의세계 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224434662295" target="_blank">도깨비의세계 PC 설치 6단계, 이 게임을 열 수 없음 뜰 때 Google Play Games 재실행하는 법</a><br>
+    · <a href="https://blog.naver.com/bomding/224434403734" target="_blank">도깨비의세계 서버 추천 전에 볼 서버 선택 구조, 같은 서버는 같은 편이고 거래소는 매칭 서버끼리</a><br>
+    · <a href="https://blog.naver.com/bomding/224431472493" target="_blank">도깨비의세계 사전 다운로드 10월 6일 11시, PC 모바일 최소 권장 사양 한눈에</a></p>
+
+    <p><b>참고한 곳</b> (2026.10.08 오후 기준)<br>
+    · <a href="https://dokkaebi.kakaogames.com" target="_blank">도깨비의세계 공식 홈페이지</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=9112" target="_blank">공지 9112: 사전예약 보상·쿠폰 안내</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=10503" target="_blank">공지 10503: 구글 1위 기념 쿠폰</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=9200" target="_blank">공지 9200: 앱스토어 1위 기념 쿠폰</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7733" target="_blank">가이드 7733: 쿠폰 등록</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=5533" target="_blank">공지 5533: 구글 90% 할인</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=9994" target="_blank">공지 9994: 90% 할인 쿠폰 미노출 확인</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=9133" target="_blank">공지 9133: 기프트코드 쿠폰</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=event&amp;id=9217" target="_blank">이벤트 9217: 치지직&amp;SOOP 드롭스</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=event&amp;id=9285" target="_blank">이벤트 9285: 이벤트 한눈에 보기</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=event&amp;id=18" target="_blank">이벤트 18: 룰렛 보상</a></p>
+  <p class="tags-line">#도깨비의세계 #도깨비의세계쿠폰 #도깨비의세계쿠폰코드 #도깨비1008 #칭호나와라뚝딱 #카카오게임즈 #봄딩</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
