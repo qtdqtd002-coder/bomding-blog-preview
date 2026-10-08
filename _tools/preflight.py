@@ -138,7 +138,7 @@ B5_SNS_PERSONAL = (
     'coupang.com', 'link.coupang.com', 'pf.kakao.com', 'open.kakao.com', 'onelink.me', 'naver.me', 'bit.ly',
     'qtdqtd002-coder.github.io',
 )
-# url-verify.py(정본 — shared/blog-writing/tools)의 tier_of 를 import 해 쓴다. 못 찾을 때만 아래 사본 규칙(2026-09-23 판)을 쓴다.
+# url-verify.py(정본 — shared/blog-writing/tools)의 tier_of 를 import 해 쓴다. 못 찾을 때만 아래 사본 규칙(2026-10-08 판)을 쓴다.
 URL_VERIFY = os.path.join(os.path.expanduser('~'), '.claude', 'shared', 'blog-writing', 'tools', 'url-verify.py')
 _B5_TIER_FALLBACK = [
     ('board', re.compile(
@@ -148,8 +148,12 @@ _B5_TIER_FALLBACK = [
         r'|steamcommunity\.com/app/\d+/discussions|forums?\.|/forum/|/bbs/)', re.I)),
     ('fanwiki', re.compile(
         r'(namu\.wiki|\.fandom\.com|\.wiki\.gg|wikipedia\.org|bulbagarden\.net|librewiki\.net'
-        r'|\.miraheze\.org|wiki\.biligame\.com|wikidot\.com)', re.I)),
+        r'|\.miraheze\.org|wiki\.biligame\.com|wikidot\.com|kkaebigg\.com)', re.I)),
 ]
+# 정본 OFFICIAL_BOARD_RULES 사본 — 공식 커뮤니티 운영자 게시판(host+path+query)은 board 보다 먼저 official 로 본다.
+_B5_OFFICIAL_FALLBACK = re.compile(
+    r'^forum\.kakaogames\.com/[^/?]+/post(?:View|List)/?\?(?:[^#]*&)?'
+    r'code=(?:notice|library|event|guide|event_winner)(?:&|#|$)', re.I)
 _B5_TIER_FN = {'fn': None, 'src': ''}
 
 # ── W6 표↔본문 숫자 대조에 쓰는 단위(같은 단위끼리만 비교한다 — 단위가 다르면 다른 양이다)
@@ -406,7 +410,7 @@ def whitelisted(host, dyn):
 
 # ────────────────────────────────────────────────────────────── B5 1차 출처 링크(차단)
 def b5_tier_of(url):
-    """url-verify.py 의 tier_of(url, official=()) — board / fanwiki / press. 정본을 import 하고, 실패하면 사본 규칙."""
+    """url-verify.py 의 tier_of(url, official=()) — official(공식 커뮤니티 운영자 게시판) / board / fanwiki / press. 정본을 import 하고, 실패하면 사본 규칙."""
     if _B5_TIER_FN['fn'] is None:
         fn = None
         try:
@@ -421,8 +425,10 @@ def b5_tier_of(url):
         if fn is None:
             def fn(u, official=()):
                 h = host_of(u)
-                m = re.match(r'https?://[^/]+(/[^?#]*)?', u.strip(), re.I)
+                m = re.match(r'https?://[^/?#]+(/[^?#]*)?(\?[^#]*)?', u.strip(), re.I)
                 hp = h + ((m.group(1) or '') if m else '')
+                if _B5_OFFICIAL_FALLBACK.search(hp + ((m.group(2) or '') if m else '')):
+                    return 'official'
                 for name, rx in _B5_TIER_FALLBACK:
                     if rx.search(hp):
                         return name
