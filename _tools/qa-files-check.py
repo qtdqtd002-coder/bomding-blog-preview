@@ -21,6 +21,7 @@ QA 리포트 실측 게이트 — «전 차원 PASS» 를 파일로 증명한다
     exit 2 = WARN  경고(적재 허용) — 🟡 잔존 · 판정줄 없음 · research-brief/용어집/editorial 부재 · 검수 대상 표기 없음
     exit 1 = BLOCK 적재 거부 — ⒜필수 차원 부재 ⒝최종 라운드 FAIL 또는 🔴≥1 ⒞FAIL 뒤 재검 없음
                                 ⒟fact 최종 리포트에 «확인 불가|확인 필요|미확인|검증 불가» 지적 잔존
+                                ⒢fact·refute 최종 리포트에 «그림/이미지 … 미판독» 잔존(★2026-10-09 — 그림을 열어 확인해야 풀린다)
                                 ⒠«검수 대상:» 경로가 글 폴더와 다름 ⒡mainfix 뒤 차원 재검 없음
   ⚠ exit 계약이 바뀌었다: 예전 «2 = FAIL 재검 없음(차단)» 은 이제 **1(BLOCK)** 이고, 2 는 **경고(적재 허용)** 다.
     호출부는 «exit 0 또는 2 = 진행 · 1 = 재검(--fail-dims 로 차원 확인)» 으로 읽는다.
@@ -113,6 +114,12 @@ UNV_RESOLVED = re.compile(r'해소|해결|정정|삭제|헤지|고지|반영|제
 UNV_SKIP = re.compile(r'_glossary|\(참고\)')     # 용어집 행 서술·참고 메모는 글의 지적이 아니다
 UNV_NEGATED = re.compile(r'(?:확인\s*불가|확인\s*필요|미확인|검증\s*불가)\s*(?:항목|사항|건|표시|처리)?\s*(?:은|는|이|가|도|을|를)?\s*'
                          r'(?:없음|없다|없었|0\s*건|아님|아니)')
+# ── «그림 미판독» 잔존(fact·refute 최종 리포트 · 2026-10-09 봄딩 도깨비의세계 «낙화의 전장 일정 미공개» 사고) ──
+#   검수가 «가이드 이미지 속 글자는 미판독»이라고 적고도 부재 문장을 통과시켰다(값은 플래너 삽화에 있었다).
+#   «그림을 안 봤다»는 «확인 불가»와 같은 말이다 — 그림을 열어 확인했다는 표기가 같은 줄에 없으면 차단한다.
+IMG_UNREAD = re.compile(r'(?:이미지|그림|삽화|스크린샷|스샷|캡처)[^\n]{0,30}?(?:미판독|판독\s*(?:하지|은|을)?\s*(?:않|못|안)|열지\s*(?:않|못)|열어\s*보지\s*(?:않|못))')
+IMG_READ_DONE = re.compile(r'해소|육안|열어\s*(?:서\s*)?(?:확인|봤|보았|판독)|판독\s*(?:완료|함|했)|직접\s*(?:확인|판독)')
+IMG_UNREAD_NEG = re.compile(r'미판독\s*(?:인\s*)?(?:그림|이미지|항목|건)?\s*(?:은|는|이|가)?\s*(?:없음|없다|0\s*[건장])')
 ISSUE_LINE = re.compile(r'^\s*(?:[-*+]\s+|\d+[.)]\s+)?(?:\*\*)?\s*(?:🔴|🟡|⚠)')
 LIST_LINE = re.compile(r'^\s*-\s+')
 # ── 검수 대상 머리표기 ──
@@ -277,6 +284,21 @@ def counts_of(text, rnd):
         return r, y, 'marker'
     sr, sy, src = s
     return (sr if sr is not None else r), (sy if sy is not None else y), src
+
+
+def img_unread_of(text, rnd):
+    """fact·refute 리포트에서 «그림/이미지 … 미판독·판독하지 않음» 이 있고 같은 줄에 «열어 확인·육안·해소» 가 없는 줄(표 행 포함)."""
+    hits = []
+    for ln in text.split('\n'):
+        m = IMG_UNREAD.search(ln)
+        if not m:
+            continue
+        if BACKREF.search(ln) or RULE_LINE.search(ln) or round_ref_before(ln, m.start(), rnd):
+            continue
+        if IMG_READ_DONE.search(ln) or IMG_UNREAD_NEG.search(ln):
+            continue
+        hits.append(re.sub(r'\s+', ' ', ln.strip())[:110])
+    return hits
 
 
 def unverified_of(text, rnd):
@@ -477,6 +499,7 @@ def analyze(target, sensitive=False, post_publish=False, touched=None):
         v = verdict_of(text, last)
         red, yellow, src = counts_of(text, last)
         unv = unverified_of(text, last) if dim == 'fact' else []
+        imgun = img_unread_of(text, last) if dim in ('fact', 'refute') else []
         tkind, tval = target_of(text)
         tmatch = target_matches(tkind, tval, base, post_rel) if tkind else 'none'
         if v == 'FAIL' or red > 0:
@@ -486,7 +509,7 @@ def analyze(target, sensitive=False, post_publish=False, touched=None):
         else:
             final = 'PASS'
         per[dim] = {'rounds': rounds, 'last': last, 'verdict': v, 'red': red, 'yellow': yellow, 'src': src,
-                    'unverified': unv, 'file': os.path.basename(path), 'final': final,
+                    'unverified': unv, 'imgUnread': imgun, 'file': os.path.basename(path), 'final': final,
                     'tkind': tkind, 'tval': tval, 'tmatch': tmatch}
 
     # ── 판정 ──
@@ -522,6 +545,11 @@ def analyze(target, sensitive=False, post_publish=False, touched=None):
                           % (len(info['unverified']), ' ‖ '.join(info['unverified'][:3])))
             if 'fact' not in fail_dims:
                 fail_dims.append('fact')
+        if info.get('imgUnread'):
+            blocks.append('%s 에 «그림 미판독» 이 남아 있음 — 그 글의 그림을 열어 눈으로 확인한 뒤 재검(같은 줄에 «그림 열어 확인» 또는 «해소» 표기) · %d줄: %s'
+                          % (label, len(info['imgUnread']), ' ‖ '.join(info['imgUnread'][:2])))
+            if dim not in fail_dims:
+                fail_dims.append(dim)
         if info['tmatch'] == 'mismatch':
             blocks.append('검수 대상 경로 불일치: %s «%s» ≠ 글 폴더 «%s»' % (label, info['tval'], post_rel))
         elif info['tmatch'] in ('none', 'unknown'):
