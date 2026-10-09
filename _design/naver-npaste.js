@@ -443,6 +443,7 @@
     ".np2-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:13px;color:#445;}" +
     ".np2-lbl{font-size:12px;color:#889;font-weight:700;}" +
     ".np2-titletxt{flex:1 1 220px;font-weight:700;color:#222;font-size:13.5px;line-height:1.4;}" +
+    ".np2-tagtxt{flex:1 1 220px;color:#1d6b3e;font-size:13px;line-height:1.55;}.np2-tagtxt span{display:inline-block;white-space:nowrap;}" +
     ".np2-head button{background:#fff;border:1px solid #cfd6dd;border-radius:7px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;color:#234;}" +
     ".np2-head button.np2-main{background:#03c75a;border-color:#03c75a;color:#fff;padding:9px 18px;font-size:14px;}" +
     ".np2-head button.done{background:#1d6b3e;color:#fff;border-color:#1d6b3e;}" +
@@ -552,8 +553,9 @@
   head.innerHTML =
     '<div class="np2-title"><span class="np2-t">📋 네이버 붙여넣기</span><button type="button" class="np2-x" aria-label="닫기">✕</button></div>' +
     '<div class="np2-row"><span class="np2-lbl">제목</span><span class="np2-titletxt">' + esc(TITLE) + '</span><button type="button" data-act="title">제목 복사</button></div>' +
+    /* 태그는 복사 본문 밖이지만 «보고 입력»할 수 있게 글자로도 보여 준다(2026-10-09 사용자 요청) */
+    (TAGS ? '<div class="np2-row"><span class="np2-lbl">태그</span><span class="np2-tagtxt">' + tagsHtml() + '</span><button type="button" data-act="tags">태그 복사</button></div>' : "") +
     '<div class="np2-row"><button type="button" class="np2-main" data-act="body">본문 복사</button>' +
-    (TAGS ? '<button type="button" data-act="tags">태그 복사</button>' : "") +
     '<span class="np2-stat">' + statLine() + "</span></div>" +
     '<div class="np2-row np2-opts">' +
     (ITEMS.length ? '<span class="np2-lbl">사진</span>' +
@@ -564,6 +566,9 @@
     '<label><input type="radio" name="np2head" value="quote"' + (headMode === "quote" ? " checked" : "") + '> 인용구(실험)</label>' +
     "</div>";
 
+  function tagsHtml() {   /* 태그 하나가 «#» 뒤에서 줄바꿈되지 않게 낱개로 묶는다 */
+    return TAGS.split(/\s+/).map(function (t) { return "<span>" + esc(t) + "</span>"; }).join(" ");
+  }
   function statLine() {
     var s = [];
     s.push("사진 " + STATS.photos + "곳" + (STATS.imgs && STATS.spots ? "(" + STATS.imgs + "장 있음·" + STATS.spots + "곳 직접)" : STATS.spots ? "(직접)" : STATS.imgs ? "(있음)" : ""));
