@@ -1,0 +1,319 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>스타세이비어 에밀리 스킬 운용법, 장비 세팅과 아르카나 추천 정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.7;}
+  .guidenote{color:#999;font-size:13px;margin-bottom:18px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post .q{color:var(--pt);}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  .vbox{background:#f7f8fa;border:1px solid var(--line);border-left:4px solid #14b8a6;border-radius:6px;margin:8px 0 22px;padding:14px 16px;font-size:14.5px;line-height:1.85;}
+  .vbox .h{font-weight:800;color:#0f766e;margin-bottom:6px;}
+  .vbox ul{margin:6px 0 0;padding-left:20px;}
+  .vbox li{margin:4px 0;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .post ul,.post ol{font-size:15.5px;line-height:1.95;margin:0 0 18px;padding-left:22px;word-break:keep-all;}
+  .post li{margin:4px 0;}
+  .post .tbl td.l{text-align:left;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy h3:first-child{margin-top:0;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy a{color:#1a73e8;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;}
+  .imgrow{display:flex;gap:8px;justify-content:center;align-items:flex-start;}
+  .imgrow img{max-width:24%;height:auto;}
+  .imgrow.three img{max-width:32%;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">게임공략</div>
+    <h1 class="title">스타세이비어 에밀리 스킬 운용법, 장비 세팅과 아르카나 추천 정리</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026.10.09.</span><span>· 게임</span></div>
+<div class="guidenote">※ 다른 공략은 댓글을 참고해 주세요.</div>
+<p>에밀리는 맞을수록 궁극기가 빨리 돌아오는 달 속성 디펜더라서, 스킬 순서를 외우기 전에 '최대 HP'에 붙은 효과가 무엇인지부터 잡아 두면 훨씬 편합니다.</p>
+<p>이 글은 영문 가이드 두 곳(LDShop·AllClash)과 한국어 가이드 두 곳(VortexGaming·BlueStacks), 나무위키 검색 요약을 교차해 정리했습니다. 한국어 스킬명은 나무위키 검색 요약 표기이고 장비 세트와 아르카나는 영문 표기 그대로라서, 인게임 화면과 한 번만 대조해 보세요. LDShop 가이드는 3월 말에 올라온 글이라 이후 에밀리 개편이 있었다면 달라질 수 있고, 수치가 한 곳뿐인 건 '가이드에 따르면'이라고 밝혀 두겠습니다.</p>
+<!-- 이미지 이유: 도입부에서 에밀리가 어떤 캐릭터인지 얼굴을 먼저 보여주는 자리 / 글 주제의 인물 컷 / 출처: https://www.allclash.com/best-emilly-builds-in-star-savior-arcana-gear-stats-training/ / 분류: A형(self-host) -->
+    <div class="imgwrap"><img src="img/emily-allclash.webp" width="280" height="425" alt="스타세이비어 에밀리 일러스트, 은발에 메이드 헤드드레스를 쓴 모습"></div>
+    <p class="cap">올클래시 가이드에 실린 에밀리 일러스트입니다. 은발에 메이드 차림이 이 캐릭터의 첫인상이죠.</p>
+    <p class="src">이미지 출처: <a href="https://www.allclash.com/best-emilly-builds-in-star-savior-arcana-gear-stats-training/" target="_blank">올클래시 에밀리 빌드 가이드</a></p>
+<div class="vbox"><div class="h">📜 QUEST LOG ┃ 글 한눈에 보기</div><p>1. 스킬 구성 → 2. 스킬 레벨업 순서 → 3. 운용 순서 → 4. 장비 세팅 → 5. 아르카나 추천</p></div>
+<h2 class="sec">1. 에밀리 스킬 구성, 최대 HP 비례가 핵심</h2>
+<p>에밀리는 스킬 피해량과 배리어가 모두 최대 HP에 비례하는 달 속성 디펜더입니다.</p>
+<p>한 줄로 줄이면 '맞아서 쿨타임을 돌리는 메이드'입니다. 맞을 때마다 스탬프가 찍히는 포인트 카드를 떠올리시면 쉬운데요, 패시브가 피격 때마다 궁극기 쿨타임을 깎아 주기 때문입니다. 배리어는 전투 시작 때 패시브로 한 번, 그리고 특수기로 아군에게 한 번 붙습니다.</p>
+<table class="tbl">
+<tr><th>구분</th><th>이름</th><th>효과</th><th>쿨타임</th></tr>
+<tr><td>패시브</td><td>'준비된 메이드'(Ready Maid)</td><td class="l">최초 전투 시작 시 자신에게 1턴 배리어 · 피격 후 '턴 다운 서비스' 쿨타임 1턴 감소 · 전체공격을 맞으면 1턴 추가 감소</td><td>상시</td></tr>
+<tr><td>기본기</td><td>Commence Combat Cleanup</td><td class="l">단일 적 공격 · 냉각 1스택 획득</td><td>확인 불가</td></tr>
+<tr><td>특수기</td><td>'클리닝 서비스'(Cleaning Service)</td><td class="l">아군 대상 3턴 공격력 증가와 배리어 · 자신은 냉각 3스택과 추가 턴</td><td>5턴(나무위키 요약 기준)</td></tr>
+<tr><td>궁극기</td><td>'턴 다운 서비스'(Turn-Down Service)</td><td class="l">적 전체 공격 · 아군 전체 방어력 증가 · 해제 불가 'Awakened Memory' 1스택 · 냉각이 최대 스택이면 냉각을 전부 지우고 자신의 쿨타임 2턴 감소</td><td>확인 불가</td></tr>
+</table>
+<p>LDShop 가이드에 따르면 전체공격을 맞았을 때 50% 확률로 냉각 1스택도 붙고, 궁극기의 아군 방어력 증가는 2턴입니다. 피해량은 전부 최대 HP 비례라서 HP를 올리는 쪽이 곧 화력과 배리어를 같이 올리는 길입니다. 궁극기에 붙는 해제 불가 'Awakened Memory' 1스택은 구체적인 효과까지는 가이드에서 확인하지 못했습니다.</p>
+<!-- 이미지 이유: 표 바로 위 문단에서 말한 패시브·기본기·특수기·궁극기 네 스킬을 아이콘으로 보여주는 자리 / 표 행 순서와 같은 순서 / 출처: https://www.ldshop.gg/blog/starsavior/emilly-build-guide.html / 분류: A형(self-host) -->
+    <div class="imgwrap"><div class="imgrow four"><img src="img/emily-skill-passive.png" width="256" height="221" alt="에밀리 패시브 스킬 아이콘 '준비된 메이드'"><img src="img/emily-skill-basic.png" width="256" height="221" alt="에밀리 기본기 스킬 아이콘"><img src="img/emily-skill-special.png" width="254" height="221" alt="에밀리 특수기 스킬 아이콘 '클리닝 서비스'"><img src="img/emily-skill-ultimate.png" width="256" height="221" alt="에밀리 궁극기 스킬 아이콘 '턴 다운 서비스'"></div></div>
+    <p class="cap">왼쪽부터 패시브, 기본기, 특수기, 궁극기 아이콘입니다. 위 표와 같은 순서예요.</p>
+    <p class="src">이미지 출처: <a href="https://www.ldshop.gg/blog/starsavior/emilly-build-guide.html" target="_blank">LDShop 에밀리 빌드 가이드</a></p>
+<div class="gap"><b>✍️ 직접 조사·입력 필요</b> · 기본기 한국어 이름, 기본기·궁극기 기본 쿨타임, 냉각 최대 스택 수, 스킬별 피해 배율(%)<br>
+      확인 위치: 인게임 에밀리 상세 &gt; 스킬 화면 · 공식 공지 · 확인되면 이 박스를 실제 값으로 교체해 주세요.</div>
+<h2 class="sec">2. 스킬 레벨업 순서, 특수기와 궁극기는 높게</h2>
+<p>스킬 레벨은 특수기와 궁극기를 높게, 기본기는 낮게 가져가는 쪽이 두 가이드가 겹치는 지점입니다. 다만 표현 방식은 출처마다 다릅니다.</p>
+<table class="tbl">
+<tr><th>출처</th><th>서술 방식</th><th>내용</th></tr>
+<tr><td>LDShop</td><td>목표 레벨</td><td class="l">기본기 Lv.3 · 특수기 Lv.6 · 궁극기 Lv.6</td></tr>
+<tr><td>AllClash</td><td>우선순위</td><td class="l">특수기(최우선) &gt; 궁극기 &gt; 기본기(가장 낮음)</td></tr>
+</table>
+<p>레벨 숫자는 LDShop 쪽에만 있습니다. LDShop 가이드에 따르면 특수기와 궁극기는 Lv.6까지, 기본기는 Lv.3까지가 목표입니다. AllClash는 숫자 없이 서열만 주는데, 특수기가 최우선이고 기본기가 가장 뒤입니다. 재료가 모자라면 기본기보다 특수기와 궁극기에 먼저 쓰세요. 패시브에 레벨을 투자하라는 근거는 두 곳 어디에서도 찾지 못했습니다.</p>
+<p>스킬과 같이 챙길 것이 여정(Stalla Archives) 훈련인데요, 두 가이드가 같은 순서를 줍니다.</p>
+<ul>
+<li><b>체력</b>을 먼저 올립니다. 실패 확률이 높아질 때까지 체력부터 채우세요.</li>
+<li>그다음 <b>힘</b>(공격)을 올립니다.</li>
+<li><b>인내</b>는 마지막입니다.</li>
+</ul>
+<h2 class="sec">3. 운용 순서, 효과를 이어 붙여 본 로테이션</h2>
+<p>에밀리의 운용은 기본기로 냉각을 쌓고, 특수기로 냉각과 배리어를 채운 뒤, 냉각이 최대일 때 궁극기를 쓰는 흐름으로 읽힙니다.</p>
+<p>어느 가이드에도 로테이션 예시는 없어서, 아래는 스킬 효과를 이어 붙여 만든 추론이라는 점만 알고 보세요.</p>
+<ol>
+<li><b>기본기</b>로 적 한 명을 치면서 냉각 1스택을 받습니다.</li>
+<li><b>특수기 '클리닝 서비스'</b>로 아군에게 공격력 증가와 배리어를 주고, 자신은 냉각 3스택에 추가 턴을 받습니다. 나무위키 요약 기준 쿨타임이 5턴이라 자주 쓰지는 못합니다.</li>
+<li>냉각이 최대 스택까지 찼다면 <b>궁극기 '턴 다운 서비스'</b>를 씁니다. 냉각이 전부 지워지면서 쿨타임이 2턴 줄기 때문입니다.</li>
+<li>그 사이에 맞을 때마다 '턴 다운 서비스'가 한 턴씩 빨리 돌아오고, 전체공격을 맞으면 한 턴이 더 당겨집니다.</li>
+</ol>
+<p>여기서 놓치기 쉬운 함정은 냉각이 차기 전에 궁극기부터 던지는 것입니다. 효과 문구대로라면 냉각이 최대 스택일 때만 냉각 소거와 쿨타임 2턴 감소가 붙는 것으로 읽힙니다. 다만 냉각이 몇 스택에서 최대인지는 끝내 못 찾아서, 특수기 3스택만으로 최대에 닿는지는 주인장도 모르겠네요(ㅋㅋ). 인게임에서 냉각 표시가 가득 찼는지 보고 쓰시는 게 안전합니다.</p>
+<h2 class="sec">4. 장비 세팅, 목걸이 속도와 반지 HP</h2>
+<p>장비는 목걸이 메인을 속도로, 반지 메인을 HP 계열로 맞추는 것이 두 가이드의 공통점입니다.</p>
+<table class="tbl">
+<tr><th>슬롯</th><th>메인 스탯</th><th>근거</th></tr>
+<tr><td>무기</td><td>ATK</td><td>AllClash</td></tr>
+<tr><td>방어구</td><td>DEF</td><td>AllClash</td></tr>
+<tr><td>장갑</td><td>HP</td><td>AllClash</td></tr>
+<tr><td>목걸이</td><td>속도(SPD)</td><td>LDShop·AllClash 일치</td></tr>
+<tr><td>반지</td><td>HP(LDShop) / HP%(AllClash)</td><td>두 가이드가 갈림</td></tr>
+<tr><td>신발</td><td>SPD</td><td>AllClash</td></tr>
+</table>
+<p>세트는 두 가이드의 표기 체계가 달라서 따로 적습니다. 배리어가 에밀리의 핵심 스킬이다 보니 AllClash 구성에는 세 가지 모두 Barrier가 붙어 있다는 점이 눈에 띕니다. PvE 위주면 Health+Barrier, PvP까지 같이 보신다면 Speed+Barrier 쪽으로 갈린다고 보시면 됩니다.</p>
+<ul>
+<li>LDShop은 'Preses Set'을 권하고, 4세트는 HP% &gt; Insight &gt; Turn Speed 순, 2세트는 HP%와 Effect Evade입니다.</li>
+<li>AllClash는 PvE에서 Health+Barrier, 혼합 콘텐츠에서 Insight+Barrier, PvP에서 Speed+Barrier를 권합니다.</li>
+</ul>
+<p>서브옵션은 LDShop 기준 속도 &gt; HP &gt; 방어 &gt; 치명확률 &gt; 치명피해 &gt; 공격 순입니다. AllClash는 무기와 장갑만 공개했는데 SPD, HP%, 치명확률, ATK% 순으로 적었고, 속도와 HP를 앞에 둔다는 점은 두 곳이 같습니다. 장비 칸으로 풀면 속도는 목걸이와 신발에, HP는 장갑과 반지에 걸리는 셈이라 메인 스탯 표만 따라가도 방향은 잡힙니다.</p>
+<div class="gap"><b>✍️ 직접 조사·입력 필요</b> · 장비 세트의 한국어 이름과 반지 메인 스탯(HP인지 HP%인지)<br>
+      확인 위치: 인게임 장비 화면 &gt; 세트 효과 · 공식 공지 · 확인되면 이 박스를 실제 값으로 교체해 주세요.</div>
+<h2 class="sec">5. 아르카나 추천, 두 가이드가 겹치는 세 장</h2>
+<p>아르카나는 A Knight's Oath, The Perfect Bunny Girl, A Quiet Moment Of Rest 세 장이 LDShop과 AllClash 추천에 모두 들어 있습니다.</p>
+<!-- 이미지 이유: 아르카나 문단에서 말한 공통 추천 세 장의 카드 일러스트를 보여주는 자리 / 앞 이미지(스킬 아이콘·캐릭터 컷)와 구성이 다름 / 출처: https://www.ldshop.gg/blog/starsavior/emilly-build-guide.html / 분류: A형(self-host) -->
+    <div class="imgwrap"><div class="imgrow three"><img src="img/arcana-knights-oath.jpeg" width="400" height="747" alt="아르카나 카드 A Knight's Oath"><img src="img/arcana-bunny-girl.jpeg" width="400" height="747" alt="아르카나 카드 The Perfect Bunny Girl"><img src="img/arcana-quiet-rest.jpeg" width="400" height="747" alt="아르카나 카드 A Quiet Moment Of Rest"></div></div>
+    <p class="cap">왼쪽부터 A Knight's Oath, The Perfect Bunny Girl, A Quiet Moment Of Rest입니다. 두 가이드가 같이 꼽은 세 장이에요.</p>
+    <p class="src">이미지 출처: <a href="https://www.ldshop.gg/blog/starsavior/emilly-build-guide.html" target="_blank">LDShop 에밀리 빌드 가이드</a></p>
+<table class="tbl">
+<tr><th>출처</th><th>추천 아르카나</th></tr>
+<tr><td>LDShop(1순위)</td><td class="l">No Pain No Gain · A Knight's Oath · The Perfect Bunny Girl · A Quiet Moment Of Rest · Made By Petra</td></tr>
+<tr><td>AllClash</td><td class="l">A White Moon Shines With the Sun's Warmth(메인) · A Quiet Moment Of Rest · The Perfect Bunny Girl · Young Lady of Stranis · Death for the Flowers (대안으로 A Knight's Oath)</td></tr>
+</table>
+<p>두 표에서 겹치는 세 장부터 맞추시고, 나머지는 보유 상황에 맞춰 고르면 됩니다. 세 장 말고는 가이드마다 고르는 카드가 갈립니다. 나무위키 요약에는 에밀리의 아르카나 유무가 성능 차이를 크게 만든다고 적혀 있고, 한국어 가이드 VortexGaming은 에밀리를 아르카나 육성 목표 T1에, BlueStacks 한국어 티어표는 S+에 올렸습니다. AllClash는 SSR 아르카나의 활성 특성만 쓸 만하다고 봅니다. 주인장이라면 겹치는 세 장부터 맞추고, 나머지는 가진 카드를 보고 고를 것 같아요.</p>
+<div class="gap"><b>✍️ 직접 조사·입력 필요</b> · 아르카나 한국어 카드명<br>
+      확인 위치: 인게임 아르카나 도감 · 공식 공지 · 확인되면 이 박스를 실제 값으로 교체해 주세요.</div>
+<p><b>참고한 곳</b><br>
+· <a href="https://www.ldshop.gg/blog/starsavior/emilly-build-guide.html" target="_blank">LDShop, 스타세이비어 에밀리 빌드 가이드 (확인일 2026.10.09 · 가이드 게재 2026.03.28)</a><br>
+· <a href="https://www.allclash.com/best-emilly-builds-in-star-savior-arcana-gear-stats-training/" target="_blank">AllClash, 에밀리 아르카나·장비·훈련 빌드 가이드</a><br>
+· <a href="https://www.studiobside.com/games/pageinfo/ct/kr/snm/starsavior" target="_blank">스튜디오비사이드, 스타세이비어 공식 게임 페이지</a></p>
+<p><b>▶ 같이 보면 좋은 글</b><br>
+· <a href="https://blog.naver.com/kkodug9/224430850184" target="_blank">스타세이비어 그웬 스킬, 장비, 파티 조합 공략</a></p>
+<div class="summary"><div class="h">지금까지 에밀리 요약</div>짧게 추리면 특수기와 궁극기는 높게, 기본기는 낮게 잡고, 목걸이는 속도, 반지는 HP 계열, 아르카나는 겹치는 세 장부터입니다. 막히는 부분은 댓글로 남겨 주세요~!</div>
+
+    <div class="tags">#스타세이비어 #스타세이비어에밀리 #에밀리스킬 #에밀리장비세팅 #에밀리아르카나 #스타세이비어공략</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 3곳 + 그 아래 출처 3줄:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <div class="ti">📌 제목칸에 따로: 스타세이비어 에밀리 스킬 운용법, 장비 세팅과 아르카나 추천 정리</div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>※ 다른 공략은 댓글을 참고해 주세요.</p>
+<p>에밀리는 맞을수록 궁극기가 빨리 돌아오는 달 속성 디펜더라서, 스킬 순서를 외우기 전에 '최대 HP'에 붙은 효과가 무엇인지부터 잡아 두면 훨씬 편합니다.</p>
+<p>이 글은 영문 가이드 두 곳(LDShop·AllClash)과 한국어 가이드 두 곳(VortexGaming·BlueStacks), 나무위키 검색 요약을 교차해 정리했습니다. 한국어 스킬명은 나무위키 검색 요약 표기이고 장비 세트와 아르카나는 영문 표기 그대로라서, 인게임 화면과 한 번만 대조해 보세요. LDShop 가이드는 3월 말에 올라온 글이라 이후 에밀리 개편이 있었다면 달라질 수 있고, 수치가 한 곳뿐인 건 '가이드에 따르면'이라고 밝혀 두겠습니다.</p>
+<p class="ph">📷 〔사진 자리〕 에밀리 일러스트(올클래시 가이드) · img/ 폴더 참고해 업로드</p>
+<p class="phsub">└ 캡션 추천: "올클래시 가이드에 실린 에밀리 일러스트입니다. 은발에 메이드 차림이 이 캐릭터의 첫인상이죠."</p>
+<p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "이미지: 올클래시 에밀리 빌드 가이드 제공" 한 줄을 같이 적어주세요.</p>
+<p><b>📜 QUEST LOG ┃ 글 한눈에 보기</b><br>1. 스킬 구성 → 2. 스킬 레벨업 순서 → 3. 운용 순서 → 4. 장비 세팅 → 5. 아르카나 추천</p>
+<h3>1. 에밀리 스킬 구성, 최대 HP 비례가 핵심</h3>
+<p>에밀리는 스킬 피해량과 배리어가 모두 최대 HP에 비례하는 달 속성 디펜더입니다.</p>
+<p>한 줄로 줄이면 '맞아서 쿨타임을 돌리는 메이드'입니다. 맞을 때마다 스탬프가 찍히는 포인트 카드를 떠올리시면 쉬운데요, 패시브가 피격 때마다 궁극기 쿨타임을 깎아 주기 때문입니다. 배리어는 전투 시작 때 패시브로 한 번, 그리고 특수기로 아군에게 한 번 붙습니다.</p>
+<table>
+<tr><th>구분</th><th>이름</th><th>효과</th><th>쿨타임</th></tr>
+<tr><td>패시브</td><td>'준비된 메이드'(Ready Maid)</td><td class="l">최초 전투 시작 시 자신에게 1턴 배리어 · 피격 후 '턴 다운 서비스' 쿨타임 1턴 감소 · 전체공격을 맞으면 1턴 추가 감소</td><td>상시</td></tr>
+<tr><td>기본기</td><td>Commence Combat Cleanup</td><td class="l">단일 적 공격 · 냉각 1스택 획득</td><td>확인 불가</td></tr>
+<tr><td>특수기</td><td>'클리닝 서비스'(Cleaning Service)</td><td class="l">아군 대상 3턴 공격력 증가와 배리어 · 자신은 냉각 3스택과 추가 턴</td><td>5턴(나무위키 요약 기준)</td></tr>
+<tr><td>궁극기</td><td>'턴 다운 서비스'(Turn-Down Service)</td><td class="l">적 전체 공격 · 아군 전체 방어력 증가 · 해제 불가 'Awakened Memory' 1스택 · 냉각이 최대 스택이면 냉각을 전부 지우고 자신의 쿨타임 2턴 감소</td><td>확인 불가</td></tr>
+</table>
+<p>LDShop 가이드에 따르면 전체공격을 맞았을 때 50% 확률로 냉각 1스택도 붙고, 궁극기의 아군 방어력 증가는 2턴입니다. 피해량은 전부 최대 HP 비례라서 HP를 올리는 쪽이 곧 화력과 배리어를 같이 올리는 길입니다. 궁극기에 붙는 해제 불가 'Awakened Memory' 1스택은 구체적인 효과까지는 가이드에서 확인하지 못했습니다.</p>
+<p class="ph">📷 〔사진 자리〕 스킬 아이콘 4종(LDShop 가이드) · img/ 폴더 참고해 업로드</p>
+<p class="phsub">└ 캡션 추천: "왼쪽부터 패시브, 기본기, 특수기, 궁극기 아이콘입니다. 위 표와 같은 순서예요."</p>
+<p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "이미지: LDShop 에밀리 빌드 가이드 제공" 한 줄을 같이 적어주세요.</p>
+
+<h3>2. 스킬 레벨업 순서, 특수기와 궁극기는 높게</h3>
+<p>스킬 레벨은 특수기와 궁극기를 높게, 기본기는 낮게 가져가는 쪽이 두 가이드가 겹치는 지점입니다. 다만 표현 방식은 출처마다 다릅니다.</p>
+<table>
+<tr><th>출처</th><th>서술 방식</th><th>내용</th></tr>
+<tr><td>LDShop</td><td>목표 레벨</td><td class="l">기본기 Lv.3 · 특수기 Lv.6 · 궁극기 Lv.6</td></tr>
+<tr><td>AllClash</td><td>우선순위</td><td class="l">특수기(최우선) &gt; 궁극기 &gt; 기본기(가장 낮음)</td></tr>
+</table>
+<p>레벨 숫자는 LDShop 쪽에만 있습니다. LDShop 가이드에 따르면 특수기와 궁극기는 Lv.6까지, 기본기는 Lv.3까지가 목표입니다. AllClash는 숫자 없이 서열만 주는데, 특수기가 최우선이고 기본기가 가장 뒤입니다. 재료가 모자라면 기본기보다 특수기와 궁극기에 먼저 쓰세요. 패시브에 레벨을 투자하라는 근거는 두 곳 어디에서도 찾지 못했습니다.</p>
+<p>스킬과 같이 챙길 것이 여정(Stalla Archives) 훈련인데요, 두 가이드가 같은 순서를 줍니다.</p>
+<ul>
+<li><b>체력</b>을 먼저 올립니다. 실패 확률이 높아질 때까지 체력부터 채우세요.</li>
+<li>그다음 <b>힘</b>(공격)을 올립니다.</li>
+<li><b>인내</b>는 마지막입니다.</li>
+</ul>
+<h3>3. 운용 순서, 효과를 이어 붙여 본 로테이션</h3>
+<p>에밀리의 운용은 기본기로 냉각을 쌓고, 특수기로 냉각과 배리어를 채운 뒤, 냉각이 최대일 때 궁극기를 쓰는 흐름으로 읽힙니다.</p>
+<p>어느 가이드에도 로테이션 예시는 없어서, 아래는 스킬 효과를 이어 붙여 만든 추론이라는 점만 알고 보세요.</p>
+<ol>
+<li><b>기본기</b>로 적 한 명을 치면서 냉각 1스택을 받습니다.</li>
+<li><b>특수기 '클리닝 서비스'</b>로 아군에게 공격력 증가와 배리어를 주고, 자신은 냉각 3스택에 추가 턴을 받습니다. 나무위키 요약 기준 쿨타임이 5턴이라 자주 쓰지는 못합니다.</li>
+<li>냉각이 최대 스택까지 찼다면 <b>궁극기 '턴 다운 서비스'</b>를 씁니다. 냉각이 전부 지워지면서 쿨타임이 2턴 줄기 때문입니다.</li>
+<li>그 사이에 맞을 때마다 '턴 다운 서비스'가 한 턴씩 빨리 돌아오고, 전체공격을 맞으면 한 턴이 더 당겨집니다.</li>
+</ol>
+<p>여기서 놓치기 쉬운 함정은 냉각이 차기 전에 궁극기부터 던지는 것입니다. 효과 문구대로라면 냉각이 최대 스택일 때만 냉각 소거와 쿨타임 2턴 감소가 붙는 것으로 읽힙니다. 다만 냉각이 몇 스택에서 최대인지는 끝내 못 찾아서, 특수기 3스택만으로 최대에 닿는지는 주인장도 모르겠네요(ㅋㅋ). 인게임에서 냉각 표시가 가득 찼는지 보고 쓰시는 게 안전합니다.</p>
+<h3>4. 장비 세팅, 목걸이 속도와 반지 HP</h3>
+<p>장비는 목걸이 메인을 속도로, 반지 메인을 HP 계열로 맞추는 것이 두 가이드의 공통점입니다.</p>
+<table>
+<tr><th>슬롯</th><th>메인 스탯</th><th>근거</th></tr>
+<tr><td>무기</td><td>ATK</td><td>AllClash</td></tr>
+<tr><td>방어구</td><td>DEF</td><td>AllClash</td></tr>
+<tr><td>장갑</td><td>HP</td><td>AllClash</td></tr>
+<tr><td>목걸이</td><td>속도(SPD)</td><td>LDShop·AllClash 일치</td></tr>
+<tr><td>반지</td><td>HP(LDShop) / HP%(AllClash)</td><td>두 가이드가 갈림</td></tr>
+<tr><td>신발</td><td>SPD</td><td>AllClash</td></tr>
+</table>
+<p>세트는 두 가이드의 표기 체계가 달라서 따로 적습니다. 배리어가 에밀리의 핵심 스킬이다 보니 AllClash 구성에는 세 가지 모두 Barrier가 붙어 있다는 점이 눈에 띕니다. PvE 위주면 Health+Barrier, PvP까지 같이 보신다면 Speed+Barrier 쪽으로 갈린다고 보시면 됩니다.</p>
+<ul>
+<li>LDShop은 'Preses Set'을 권하고, 4세트는 HP% &gt; Insight &gt; Turn Speed 순, 2세트는 HP%와 Effect Evade입니다.</li>
+<li>AllClash는 PvE에서 Health+Barrier, 혼합 콘텐츠에서 Insight+Barrier, PvP에서 Speed+Barrier를 권합니다.</li>
+</ul>
+<p>서브옵션은 LDShop 기준 속도 &gt; HP &gt; 방어 &gt; 치명확률 &gt; 치명피해 &gt; 공격 순입니다. AllClash는 무기와 장갑만 공개했는데 SPD, HP%, 치명확률, ATK% 순으로 적었고, 속도와 HP를 앞에 둔다는 점은 두 곳이 같습니다. 장비 칸으로 풀면 속도는 목걸이와 신발에, HP는 장갑과 반지에 걸리는 셈이라 메인 스탯 표만 따라가도 방향은 잡힙니다.</p>
+
+<h3>5. 아르카나 추천, 두 가이드가 겹치는 세 장</h3>
+<p>아르카나는 A Knight's Oath, The Perfect Bunny Girl, A Quiet Moment Of Rest 세 장이 LDShop과 AllClash 추천에 모두 들어 있습니다.</p>
+<p class="ph">📷 〔사진 자리〕 아르카나 카드 3종(LDShop 가이드) · img/ 폴더 참고해 업로드</p>
+<p class="phsub">└ 캡션 추천: "왼쪽부터 A Knight's Oath, The Perfect Bunny Girl, A Quiet Moment Of Rest입니다. 두 가이드가 같이 꼽은 세 장이에요."</p>
+<p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "이미지: LDShop 에밀리 빌드 가이드 제공" 한 줄을 같이 적어주세요.</p>
+<table>
+<tr><th>출처</th><th>추천 아르카나</th></tr>
+<tr><td>LDShop(1순위)</td><td class="l">No Pain No Gain · A Knight's Oath · The Perfect Bunny Girl · A Quiet Moment Of Rest · Made By Petra</td></tr>
+<tr><td>AllClash</td><td class="l">A White Moon Shines With the Sun's Warmth(메인) · A Quiet Moment Of Rest · The Perfect Bunny Girl · Young Lady of Stranis · Death for the Flowers (대안으로 A Knight's Oath)</td></tr>
+</table>
+<p>두 표에서 겹치는 세 장부터 맞추시고, 나머지는 보유 상황에 맞춰 고르면 됩니다. 세 장 말고는 가이드마다 고르는 카드가 갈립니다. 나무위키 요약에는 에밀리의 아르카나 유무가 성능 차이를 크게 만든다고 적혀 있고, 한국어 가이드 VortexGaming은 에밀리를 아르카나 육성 목표 T1에, BlueStacks 한국어 티어표는 S+에 올렸습니다. AllClash는 SSR 아르카나의 활성 특성만 쓸 만하다고 봅니다. 주인장이라면 겹치는 세 장부터 맞추고, 나머지는 가진 카드를 보고 고를 것 같아요.</p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://www.ldshop.gg/blog/starsavior/emilly-build-guide.html" target="_blank">LDShop, 스타세이비어 에밀리 빌드 가이드 (확인일 2026.10.09 · 가이드 게재 2026.03.28)</a><br>
+· <a href="https://www.allclash.com/best-emilly-builds-in-star-savior-arcana-gear-stats-training/" target="_blank">AllClash, 에밀리 아르카나·장비·훈련 빌드 가이드</a><br>
+· <a href="https://www.studiobside.com/games/pageinfo/ct/kr/snm/starsavior" target="_blank">스튜디오비사이드, 스타세이비어 공식 게임 페이지</a></p>
+<p><b>▶ 같이 보면 좋은 글</b><br>
+· <a href="https://blog.naver.com/kkodug9/224430850184" target="_blank">스타세이비어 그웬 스킬, 장비, 파티 조합 공략</a></p>
+<p><b>지금까지 에밀리 요약</b><br>짧게 추리면 특수기와 궁극기는 높게, 기본기는 낮게 잡고, 목걸이는 속도, 반지는 HP 계열, 아르카나는 겹치는 세 장부터입니다. 막히는 부분은 댓글로 남겨 주세요~!</p>
+
+<p class="tags-line">#스타세이비어 #스타세이비어에밀리 #에밀리스킬 #에밀리장비세팅 #에밀리아르카나 #스타세이비어공략</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
