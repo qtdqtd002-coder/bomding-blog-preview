@@ -1780,8 +1780,12 @@ var S={ view:'home', writer:'', q:'', page:1, trendDate:'', tool:'' };
 var viewEl=el('view'), titleEl=el('ptitle'), metaEl=el('pmeta');
 
 /* 목록에 남는 글 = 아직 «끝났다»는 신호가 하나도 없는 글.
-   끝났다는 신호 세 갈래: ① 자동 게시확인(published.json) ② 수동 발행완료(/mpub) ③ 아카이브(/hidden) */
-function isLive(p){ return !p.published && !MPUB[p.rel] && !HIDDEN[p.rel]; }
+   끝났다는 신호 세 갈래: ① 자동 게시확인(published.json) ② 수동 발행완료(/mpub) ③ 아카이브(/hidden)
+   ★예외 한 갈래(2026-10-09) — «다시 꺼낸 글»(reopen.json): 이미 올린 글인데 개선본이 나가 작성자가 블로그에 다시 옮겨야 하는 글.
+     ①②를 이긴다. ③은 못 이긴다 — 다시 옮긴 뒤 닫는 버튼이 아카이브라서다. 실게시 사실(published.json)은 건드리지 않는다
+     (원장·중복 판정이 그 파일을 «올라간 글»로 읽는다). 목록에 적힌 rel 만 되살아난다 — 파일이 없거나 깨지면 예외 0건. */
+var REOPEN=Object.create(null);
+function isLive(p){ return (REOPEN[p.rel] || (!p.published && !MPUB[p.rel])) && !HIDDEN[p.rel]; }
 
 /* ══════════ 데이터 로드 ══════════ */
 function jget(u,fb){ return fetch(u).then(function(r){ return r.ok?r.json():fb; }).catch(function(){ return fb; }); }
@@ -1808,8 +1812,10 @@ var quotaP=jget('_trend/_quota.json?ts='+Date.now(),null);
 var citeP=jget('_trend/_citations.json?ts='+Date.now(),null);
 /* 홈 «주제 비중»(2026-09-18) — _tools/desk-mix.cjs 가 데스크 [E]에서 하루 1회 굽는다(추천·발주·작성 글의 각도 비중) */
 var mixP=jget('_trend/_desk-mix.json?ts='+Date.now(),null);
+/* «다시 꺼낸 글» — 손으로 적는 작은 목록(위 isLive 주석). 없어도 화면은 뜬다 */
+var reopenP=jget('reopen.json?ts='+Date.now(),null);
 
-Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP]).then(function(r){
+Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP]).then(function(r){
   var posts=r[0]||[], pub=r[1]||{}, trend=r[2]||{}, reqs=r[6];
   POSTS_OK=Array.isArray(r[0]); POSTS_AT=Date.now();
   posts.forEach(function(p){ if(p&&p.rel)RELSET[p.rel]=1; });
@@ -1820,6 +1826,10 @@ Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,m
   paintQuota();   /* 상단 고정 잔여 사용량 칩(모든 탭) */
 
   ((pub&&pub.publishedRels)||[]).forEach(function(x){ PUBSET[String(x)]=1; });
+  ((r[12]&&Array.isArray(r[12].rels))?r[12].rels:[]).forEach(function(x){
+    var rel=(x&&typeof x==='object')?x.rel:x;
+    if(rel&&typeof rel==='string')REOPEN[rel]=1;
+  });
 
   /* 발주일자 = 그 글을 만든 요청의 createdAt(postRel 로 조인). 요청 없이 만든 글은 작성일로 폴백. */
   if(Array.isArray(reqs)){
@@ -2491,7 +2501,8 @@ function placeCaps(cands,dots,poly,bars,lo,hi){
 }
 function citeWriters(){ return CITES?CITES.writers.filter(function(w){ return w&&PREF.indexOf(w.name)>=0; }):[]; }
 function rowMap(w){ var m={}; (w.rows||[]).forEach(function(r){ if(r&&r.d)m[r.d]=r; }); return m; }
-/* 대기 초안 = 그 작성자 글 중 실블로그에 아직 안 올라간 것(isLive). 사이트 「작성 글」 목록의 기준과 같다 */
+/* 대기 초안 = 그 작성자 글 중 실블로그에 아직 안 올라간 것(isLive). 사이트 「작성 글」 목록의 기준과 같다
+   (그래서 «다시 꺼낸 글»(reopen.json)도 다시 옮길 일감으로 같이 센다) */
 function waitN(name){ var n=0; POSTS.forEach(function(p){ if(p.author===name&&isLive(p))n++; }); return n; }
 /* 14일 창의 하루 최대 발행 수 — 집계된 날이 하나도 없으면 null(0 으로 위장하지 않는다) */
 function maxDay(w){ var rm=rowMap(w), mx=null; citeDays(14).forEach(function(d){ var r=rm[d]; if(r&&r.postsDay!=null)mx=Math.max(mx==null?0:mx,Number(r.postsDay)); }); return mx; }
@@ -2531,7 +2542,7 @@ function citeRow(w){
     '<span><span class="ks-k">'+ymLabel(tm)+' 글</span><b class="ks-v'+(mThis?'':' pend')+'">'+(mThis?fmtPosts(mThis.posts):'—')+'</b></span>'+
     '<span><span class="ks-k">'+ymLabel(pm)+' 글'+(mPrev&&!mPrev.full?' *':'')+'</span><b class="ks-v'+(mPrev?'':' pend')+'">'+(mPrev?fmtPosts(mPrev.posts):'—')+'</b></span>'+
     '<span><span class="ks-k">총 글</span><b class="ks-v'+(L.posts==null?' pend':'')+'">'+(L.posts==null?'—':fmtKo(L.posts)+'편')+'</b></span>'+
-    /* ★발행 리듬(2026-09-14) — 대기 = 아직 실블로그에 안 올린 초안(isLive = published·mpub·hidden 어디에도 없는 것) ·
+    /* ★발행 리듬(2026-09-14) — 대기 = 아직 실블로그에 안 올린 초안(isLive = published·mpub·hidden 어디에도 없는 것 + reopen.json 에 적힌 «다시 꺼낸 글») ·
        최다·일 = 14일 창의 하루 최대 발행 수. 봄딩은 하루 최대 9편·4편 이상인 날이 42일이었고(09-13 진단), 골격이 같은
        몰아치기는 네이버가 말한 «동일·유사 템플릿 대량 발행»과 겹쳐 보인다. ★단 네이버가 공표한 «하루 몇 편» 상한은
        없으므로 임계선을 그리지 않고 실측만 적는다(없는 기준을 지어내지 않는다). */
