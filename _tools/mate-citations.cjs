@@ -22,8 +22,12 @@
         실제 글의 날짜라 백필·삭제에 흔들리지 않는다. 홈 「블로그 활동」 타일의 글 축.
 
    일별 값의 뜻 (★해석 규칙 — 사이트 툴팁·문서와 같아야 한다)
-     rows[i].citations = rows[i+1].cum − rows[i].cum  → «그 날짜 행에서 다음 스냅샷까지» 늘어난 인용 = 사실상 그 날의 인용.
-       매일 06:00 데스크 [E] 에서 1회 찍으므로 «어제 행»까지만 값이 있고 오늘 행은 내일 아침에 채워진다(pending).
+     rows[i].citations = rows[i+1].cum − rows[i].cum  → «그 날짜»의 인용.
+       ★네이버는 인용 누적을 하루 한 번, 아침 배치로 «전날 몫»만큼 올린다(계단식 · 2026-10-11 로그로 확정 — 10-01 아침 배치
+         41,860 은 9월 값에 들어갔고 10월 값은 10-02 아침 배치 38,325 부터 쌓였다 · 벤치 2곳도 같은 날 같은 모양).
+         그래서 행의 cum 이 «그날 아침 배치가 반영된 뒤» 값이어야 위 차분이 그 날짜의 인용이 된다.
+         배치는 대개 06:00 을 조금 넘겨 들어온다 — 06:00 표본 14회(09-24~10-11) 중 11회가 배치 «전»이었다.
+       «어제 행»까지만 값이 있고 오늘 행은 내일 아침 배치 뒤에 채워진다(pending) — 네이버가 오늘 몫을 내일 아침에 주기 때문이다.
      rows[i].visitors  = XML 의 그 달력일 값(src:"xml")  |  없으면 누적 방문자 차분(src:"diff", 06:00→06:00 창)
      span = 다음 스냅샷까지 일수(하루를 건너뛰면 2 — 그 증분은 이틀치다. 사이트가 «n일 합»으로 표시).
      rows[i].postsDay  = 그 달력일에 «발행 시각이 찍힌» 글 수(0 도 0 으로 적는다 — 빈칸은 «모름»과 다르다).
@@ -32,14 +36,19 @@
      writers[].postsFrom = 글 수를 신뢰할 수 있는 첫 날짜.
 
    운영 규칙
-     - 하루 1행. 오늘 행이 이미 있으면 **덮어쓰지 않는다**(표본 시각을 지키려고). 강제=`--force`.
+     - 하루 1행. 오늘 행이 이미 있으면 **덮어쓰지 않는다**(표본 시각을 지키려고 — 방문자 차분은 06:00→06:00 창이다). 강제=`--force`.
        단 latest(지금 값)·XML 과거일 백필·차분 재계산은 매번 한다.
+     - ★예외 하나(2026-10-11): **인용 누적(cum·month·sel)만은 같은 날 재실행에서 올랐으면 올린다**(그 시각 = cumAt).
+       계단식이라 배치 뒤 아무 때나 읽어도 같은 값이고, 06:00 표본이 배치보다 이르면 이 재실행 없이는 어제 인용이
+       «하루 늦게 · 하루 밀린 날짜로» 찍힌다(09-24~10-11 실사고 — 09-23 에 표본을 회차 끝(06:30~06:55)에서 START(06:00)로
+       옮긴 뒤부터 · 사용자 지적 10-11). 그래서 데스크는 START(표본 시각 고정)와 [E](배치 반영) 두 번 돌린다.
+       방문자·표본 시각(at)은 첫 표본 그대로 둔다.
      - 실패해도 exit 0 (데스크 발행을 막지 않는다). 그 블로그는 `error` 를 남기고 지난 행을 보존한다. 파일을 못 쓰면 exit 1.
      - 벤치마크(게임인포·쿠치토 = 게임 주제 스페셜 메이트)도 같이 적는다 — 7월이 전원 피크였듯 시즌 효과를 가르는 기준선.
        사이트는 그리지 않는다(사용자 요청 범위 = 봄딩·영도). `--no-bench` 로 끌 수 있다.
      - 60일 보관. 소비자 = index.html tileCite() = 홈 「블로그 활동」 타일 (14일 창 + 월별 글 수).
 
-   실행  node _tools/mate-citations.cjs            # 데스크 [E] 매일 06:00 (usage-daily·quota 와 같은 자리)
+   실행  node _tools/mate-citations.cjs            # 데스크 START(06:00 · 표본) + [E](발행 직전 · 인용 배치 반영)
          node _tools/mate-citations.cjs --print    # 사람이 보는 표
          node _tools/mate-citations.cjs --force    # 오늘 행 재수집(표본 시각이 바뀐다 — 평소엔 쓰지 말 것)
    ========================================================================== */
@@ -154,7 +163,7 @@ function findOrMake(list, b) {
 }
 function row(rows, d) {
   let r = rows.find((x) => x.d === d);
-  if (!r) { r = { d, at: null, cum: null, month: null, monthNo: null, sel: null, selMonth: null, totalVisitors: null, dayVisitors: null, posts: null, postsDay: null, citations: null, span: null, visitors: null, visitorsSrc: null }; rows.push(r); }
+  if (!r) { r = { d, at: null, cum: null, month: null, monthNo: null, sel: null, selMonth: null, totalVisitors: null, dayVisitors: null, posts: null, postsDay: null, citations: null, span: null, visitors: null, visitorsSrc: null, cumAt: null }; rows.push(r); }
   return r;
 }
 /* 차분 재계산 — 행 전체를 날짜순으로 훑어 «다음 스냅샷과의 차»를 앞 행에 적는다 */
@@ -196,7 +205,16 @@ async function snapshot(entry, b, withXml, today, nowIso) {
   if (!exists || FORCE) {
     const r = row(entry.rows, today);
     Object.assign(r, { at: nowIso, cum: entry.latest.cum, month: entry.latest.month, monthNo: entry.latest.monthNo, sel: entry.latest.sel, selMonth: entry.latest.selMonth,
-      totalVisitors: p.totalVisitors, dayVisitors: p.dayVisitors, posts: p.posts });
+      totalVisitors: p.totalVisitors, dayVisitors: p.dayVisitors, posts: p.posts, cumAt: null });
+  } else {
+    /* ★인용 누적만은 같은 날 재실행에서 올린다(2026-10-11 · 머리 주석 «예외 하나») — 06:00 표본이 네이버 아침 배치보다 이르면
+       오늘 행이 «배치 전» 값으로 굳어 어제 인용이 하루 늦게·하루 밀린 날짜로 찍힌다. 방문자·표본 시각(at)은 건드리지 않는다 */
+    const r = row(entry.rows, today), L = entry.latest;
+    if (L.cum != null && (r.cum == null || L.cum > r.cum)) {
+      const up = r.cum == null ? null : L.cum - r.cum;
+      Object.assign(r, { cum: L.cum, month: L.month, monthNo: L.monthNo, sel: L.sel, selMonth: L.selMonth, cumAt: nowIso });
+      note = '오늘 행 인용 갱신(' + (up == null ? '신규 공개' : '+' + up) + ' · 네이버 배치 반영)';
+    }
   }
   /* 일자별 글 작성 수 — 인용 스냅샷과 «같은 타이밍»에 함께 기록한다(사용자 지시 09-06). 오늘 행도 그날 몫까지 채운다 */
   if (withXml) {
@@ -231,7 +249,7 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString('ko-KR'); 
   const prev = readPrev() || {};
   const doc = {
     schema: 1, updated: null, keep: KEEP,
-    method: '공개 프로필 JSON(mateCitations·totalVisitorCount) 일별 스냅샷 + 누적 차분 = 일별 값. 인용수는 메이트 선정 블로그만 공개(미선정=비공개). 영도 방문자=NVisitorgp4Ajax 달력일 XML.',
+    method: '공개 프로필 JSON(mateCitations·totalVisitorCount) 일별 스냅샷 + 누적 차분 = 일별 값. 인용수는 메이트 선정 블로그만 공개(미선정=비공개). 인용 누적은 네이버 아침 배치(전날 몫) 반영 뒤 값으로 적는다(같은 날 재실행에서 오르면 갱신 · cumAt). 영도 방문자=NVisitorgp4Ajax 달력일 XML.',
     writers: Array.isArray(prev.writers) ? prev.writers : [],
     bench: Array.isArray(prev.bench) ? prev.bench : []
   };
