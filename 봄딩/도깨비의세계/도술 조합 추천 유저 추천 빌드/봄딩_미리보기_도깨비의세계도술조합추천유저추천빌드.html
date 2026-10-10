@@ -1,0 +1,306 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>도깨비의세계 도술 조합 추천 유저 추천 빌드 7개, 암습 빌드 시전 순서와 도술 슬롯 해금 조건</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .post p.cap{font-size:13px;line-height:1.6;margin:0 0 18px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .post p.src{font-size:12px;line-height:1.6;margin:4px 0 24px;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 8px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:middle;word-break:keep-all;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td.c,.tbl th.c{text-align:center;}
+  .tbl td.mk{text-align:center;color:#D63E7A;font-weight:800;}
+  .ic{width:34px;height:34px;border-radius:6px;border:1px solid var(--line);background:#2b2430;vertical-align:middle;margin-right:7px;}
+  .chip{display:inline-block;white-space:nowrap;margin:3px 10px 3px 0;}
+  .post p.flow{display:flex;flex-wrap:wrap;gap:8px 2px;align-items:flex-start;margin:6px 0 8px;padding:16px 12px 10px;border:2px solid #EC5C92;border-radius:14px;background:#fff;box-shadow:1px 3px 10px rgba(236,92,146,.12);line-height:1.3;}
+  .flow .st{display:inline-flex;flex-direction:column;align-items:center;width:72px;font-size:12.5px;font-weight:800;color:#4a4047;text-align:center;line-height:1.3;word-break:keep-all;}
+  .flow .st .fi{width:46px;height:46px;border-radius:9px;border:2px solid #F58AB4;background:#2b2430;margin:0 0 4px;}
+  .flow .st.ult .fi{border-color:#C93C7C;box-shadow:0 0 0 3px #FFEFF5;}
+  .flow .st .sty{display:block;font-size:11px;font-weight:700;color:#C93C7C;}
+  .flow .st .n{display:inline-block;width:20px;height:20px;line-height:20px;border-radius:50%;background:#EC5C92;color:#fff;font-size:11px;font-weight:800;margin-bottom:4px;}
+  .flow .ar{color:#D63E7A;font-weight:800;align-self:center;margin-top:-6px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">도깨비의세계 도술 조합 추천 유저 추천 빌드 7개, 암습 빌드 시전 순서와 도술 슬롯 해금 조건</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.10</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: 도깨비의세계 도술 조합 추천 / 도깨비의세계 도술 추천 / 도깨비의세계 암습 빌드 -->
+    <p>도술이 스타일 12개에 걸쳐 줄줄이 나오다 보니 어떤 걸 어느 칸에 넣을지 막막하시죠~ 저도 그래서 깨비지지 도술 빌더의 '유저 추천' 탭을 열어 보니, 많이 눌러 둔 조합이 한쪽으로 확 쏠려 있더라고요.</p>
+    <p>결론부터 말씀드리면 세 가지입니다.</p>
+    <ul><li>유저 추천 1위는 «10초암습 궁빌드_절명,저격»으로, 절명 도술 3개와 저격 도술 4개를 넣고 궁극기 암습을 쓰는 구성이에요.</li><li>상위 7개 안에서는 1~5위가 전부 절명 3개에 저격 2~4개를 섞은 암습 구성이고, 암습이 아닌 건 6위와 7위 둘뿐이에요.</li><li>1위 빌드도 도술 7칸이 필요해서, 기본 5칸만으로는 그대로 따라 할 수 없어요.</li></ul>
+    <p>기준은 10월 10일 낮 12시 무렵 <a href="https://kkaebigg.com/deck/" target="_blank">깨비지지 도술 빌더</a>의 유저 추천 탭(총 23건)이고, 추천 수는 계속 바뀌는데요, 출시 이틀 안팎이라 메타가 굳기 전이고 표본도 짧아요. 깨비지지는 10월 5일에 열린 카카오게임즈·슈퍼캣과 무관한 비공식 팬 사이트라 이용자가 직접 등록한 빌드가 올라오는 곳이고, 추천 수도 '많이들 눌렀다'는 인기 지표일 뿐 성능을 확인한 값은 아니랍니다.</p>
+    <!-- 이미지 이유: 직업 대신 도술 스타일 조합이 곧 빌드라는 전제를 보여 주는 공식 삽화 / 출처: https://dokkaebi.kakaogames.com/preregister / 분류: A형 -->
+    <div class="imgwrap"><img src="img/dosul-12styles-01.png" width="524" height="564" alt="도깨비의세계 공식 도술 소개 삽화, 정해진 직업은 없다는 문구"></div>
+    <p class="cap">사전예약 때 공개된 공식 도술 소개 삽화예요. 정해진 직업 없이 도술을 골라 담는 게임이라 스타일 조합이 곧 빌드가 돼요.</p>
+    <p class="src">이미지: <a href="https://dokkaebi.kakaogames.com/preregister" target="_blank">도깨비의세계 공식 홈페이지(사전예약 페이지)</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <h2 class="sub">유저 추천 상위 7개 빌드는 한눈에 어떻게 생겼나요?</h2>
+    <p>10월 10일 낮 12시 무렵 유저 추천 인기순 1~5위는 전부 궁극기 암습 빌드이고, 6위는 파멸 도술 중심, 7위는 궁극기가 비어 있는 것으로 올라온 저격 은신 구성이에요.</p>
+    <table class="tbl"><tr><th>순위</th><th>빌드 이름(등록자 표기)</th><th>추천 수</th><th>스타일 구성</th><th>궁극기</th><th>도술 칸</th></tr><tr><td class="c">1</td><td>10초암습 궁빌드_절명,저격</td><td class="c">280</td><td>절명 3 · 저격 4</td><td class="c">암습</td><td class="c">7</td></tr><tr><td class="c">2</td><td>10.68k 저격17 절명7 허수아비 1:26초 44만</td><td class="c">54</td><td>절명 3 · 저격 4</td><td class="c">암습</td><td class="c">7</td></tr><tr><td class="c">3</td><td>암습10초사냥용</td><td class="c">31</td><td>절명 3 · 저격 3 · 헌신 1</td><td class="c">암습</td><td class="c">7</td></tr><tr><td class="c">4</td><td>7초암습 최종빌드(보스,PVP용)</td><td class="c">17</td><td>절명 3 · 저격 4 · 연타 1</td><td class="c">암습</td><td class="c">8</td></tr><tr><td class="c">5</td><td>고급 스킬 뺀 절명 궁트리</td><td class="c">10</td><td>절명 3 · 연타 2 · 저격 2</td><td class="c">암습</td><td class="c">7</td></tr><tr><td class="c">6</td><td>불굴 분출 사냥</td><td class="c">7</td><td>파멸 5 · 헌신 1</td><td class="c">대폭발</td><td class="c">6</td></tr><tr><td class="c">7</td><td>은신 저격궁</td><td class="c">5</td><td>저격 3 · 절명·제압·파멸·강인·기동 각 1</td><td class="c">없음</td><td class="c">8</td></tr></table>
+    <p class="cap">깨비지지 유저 추천 탭 인기순 · 2026년 10월 10일 낮 12시 무렵 조회 · 이름은 등록자가 붙인 그대로예요</p>
+    <p>도술 칸은 궁극기를 뺀 개수예요. 8위부터는 추천 수가 2 이하로 너무 적어서 뺐어요.</p>
+    <h2 class="sub">1위 빌드는 도술을 어떻게 채우고 어떤 순서로 쓰는지 볼까요?</h2>
+    <p>유저 추천 1위 «10초암습 궁빌드_절명,저격»은 저격 도술 4개와 절명 도술 3개를 도술 7칸에 채우고, 궁극기 칸에는 암습을 놓은 구성인데요, 등록자가 적은 시전 순서는 아래 그림 그대로예요. 암습이 여섯 번째로 들어가는 점이 눈에 띄네요.</p>
+    <p class="flow"><span class="st"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="fi" src="img/icon-jeogyeok-03.png" width="128" height="128" alt="사격 도술 아이콘"><span class="n">1</span>사격<span class="sty">(저격)</span></span><span class="ar">→</span><span class="st"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="fi" src="img/icon-jeogyeok-04.png" width="128" height="128" alt="쇠뇌 사격 도술 아이콘"><span class="n">2</span>쇠뇌 사격<span class="sty">(저격)</span></span><span class="ar">→</span><span class="st"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="fi" src="img/icon-jeogyeok-10.png" width="128" height="128" alt="꿰뚫는 저격 도술 아이콘"><span class="n">3</span>꿰뚫는 저격<span class="sty">(저격)</span></span><span class="ar">→</span><span class="st"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="fi" src="img/icon-jeolmyeong-04.png" width="128" height="128" alt="기습 도술 아이콘"><span class="n">4</span>기습<span class="sty">(절명)</span></span><span class="ar">→</span><span class="st"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="fi" src="img/icon-jeolmyeong-01.png" width="128" height="128" alt="연속 찌르기 도술 아이콘"><span class="n">5</span>연속 찌르기<span class="sty">(절명)</span></span><span class="ar">→</span><span class="st ult"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="fi" src="img/icon-jeolmyeong-10.png" width="128" height="128" alt="암습 도술 아이콘"><span class="n">6</span>암습<span class="sty">(절명)</span></span><span class="ar">→</span><span class="st"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="fi" src="img/icon-jeolmyeong-02.png" width="128" height="128" alt="삼단 찌르기 도술 아이콘"><span class="n">7</span>삼단 찌르기<span class="sty">(절명)</span></span><span class="ar">→</span><span class="st"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="fi" src="img/icon-jeogyeok-06.png" width="128" height="128" alt="이중 사격 도술 아이콘"><span class="n">8</span>이중 사격<span class="sty">(저격)</span></span></p>
+    <p class="cap">1위 빌드 시전 순서(등록자 표기) · 6번 암습이 궁극기이고 나머지 7개가 도술 칸이에요</p>
+    <p class="src">이미지: 도술 아이콘 <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3415" target="_blank">서고 3415</a>·<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3431" target="_blank">3431</a>·<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3433" target="_blank">3433</a> (출시 전 서고 캡처) · 네이버 본문엔 받아서 재업로드 권장</p>
+    <div class="para-wrap">
+      <p>등록자 설명을 풀어 쓰면 핵심은 쿨타임이 짧은 저격 도술을 자주 써서 암습 쿨타임을 빨리 돌리는 거예요. <span class="rev-hl">순서대로 쓰면 5스택을 채운 암습에 마무리 딜까지 이어진다고 적었어요.</span></p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 1위 빌드 등록자 설명</span>
+        <span class="sn-src"><b>깨비지지 유저 추천 탭</b> 1위 빌드 설명란이 쿨 짧은 저격 도술로 암습 쿨을 빨리 돌린다는 취지로 적어 뒀어요. (<a href="https://kkaebigg.com/deck/" target="_blank">조회처</a>)</span>
+        <span class="sn-mine">→ 등록자 줄임말을 공식 도술 이름으로 풀고 제 말투로 다시 썼어요.</span>
+      </div>
+    </div>
+    <p>공식 문구와 맞닿는 곳은 절명의 신식 개방이에요. 출시판 공식 도술 가이드는 이렇게 적어 뒀어요.</p>
+    <ul><li>1단계는 도술이 적중하면 [검의 형상]을 얻어요.</li><li>2단계는 [검의 형상]이 3개 이상일 때 궁극기를 쓰면 전부 소모되며 궁극기 피해량이 늘어요.</li><li>3단계는 [검의 형상]이 최대치일 때 더 얻으면 궁극기 재사용 대기 시간이 줄어요.</li></ul>
+    <p>1단계가 '도술 적중 시'라서 많이 맞힐수록 형상이 쌓이는 구조로 읽혀요. 다만 등록자가 말한 '암습 쿨을 빨리 돌린다'가 3단계(재사용 대기 시간 감소)를 뜻하는지는 공식 글로 확인되지 않았어요. 피해량·감소 수치는 가이드엔 없고 출시 전 서고도 X%로 가려 뒀어요.</p>
+    <!-- 이미지 이유: 절명 신식 개방 3단계를 보여 주는 공식 화면 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=library&id=3415 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/sinsik-jeolmyeong.gif" width="360" height="160" alt="도깨비의세계 절명 신식 개방 3단계 화면"></div>
+    <p class="cap">출시 전 공식 도깨비 서고 캡처예요. 서고에는 [단검]으로 적혀 있고 출시판 도술 가이드는 같은 구조를 [검의 형상]으로 안내해요.</p>
+    <p class="src">이미지: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3415" target="_blank">도깨비의세계 공식 서고 3415</a> (출시 전 서고 캡처) · 네이버 본문엔 받아서 재업로드 권장</p>
+    <h2 class="sub">사냥용·보스용이라 이름 붙은 빌드는 1위 빌드와 뭐가 다른가요?</h2>
+    <p>3위(등록자 표기 사냥용)는 1위에서 기습·꿰뚫는 저격을 빼고 내려찍기·생명의 흐름을 넣었고, 4위(등록자 표기 보스·PvP용)는 1위에 묵직한 주먹을 더해 도술 8칸을 써요. 표의 ●는 그 빌드에 들어간 도술이고, 도술 칸은 궁극기를 뺀 개수예요.</p>
+    <table class="tbl"><tr><th>도술명</th><th>스타일</th><th>1위</th><th>2위</th><th>3위</th><th>4위</th><th>5위</th></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeolmyeong-10.png" width="128" height="128" alt="암습 도술 아이콘">암습</td><td class="c">절명(궁극기)</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeolmyeong-04.png" width="128" height="128" alt="기습 도술 아이콘">기습</td><td class="c">절명</td><td class="mk">●</td><td class="mk"></td><td class="mk"></td><td class="mk">●</td><td class="mk"></td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeolmyeong-01.png" width="128" height="128" alt="연속 찌르기 도술 아이콘">연속 찌르기</td><td class="c">절명</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeolmyeong-02.png" width="128" height="128" alt="삼단 찌르기 도술 아이콘">삼단 찌르기</td><td class="c">절명</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeolmyeong-03.png" width="128" height="128" alt="내려찍기 도술 아이콘">내려찍기</td><td class="c">절명</td><td class="mk"></td><td class="mk">●</td><td class="mk">●</td><td class="mk"></td><td class="mk">●</td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeogyeok-03.png" width="128" height="128" alt="사격 도술 아이콘">사격</td><td class="c">저격</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeogyeok-04.png" width="128" height="128" alt="쇠뇌 사격 도술 아이콘">쇠뇌 사격</td><td class="c">저격</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk"></td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeogyeok-06.png" width="128" height="128" alt="이중 사격 도술 아이콘">이중 사격</td><td class="c">저격</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td><td class="mk">●</td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeogyeok-10.png" width="128" height="128" alt="꿰뚫는 저격 도술 아이콘">꿰뚫는 저격</td><td class="c">저격</td><td class="mk">●</td><td class="mk">●</td><td class="mk"></td><td class="mk">●</td><td class="mk"></td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-heonsin-04.png" width="128" height="128" alt="생명의 흐름 도술 아이콘">생명의 흐름</td><td class="c">헌신</td><td class="mk"></td><td class="mk"></td><td class="mk">●</td><td class="mk"></td><td class="mk"></td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-yeonta-03.png" width="128" height="128" alt="묵직한 주먹 도술 아이콘">묵직한 주먹</td><td class="c">연타</td><td class="mk"></td><td class="mk"></td><td class="mk"></td><td class="mk">●</td><td class="mk"></td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-yeonta-02.png" width="128" height="128" alt="휘둘러 내려치기 도술 아이콘">휘둘러 내려치기</td><td class="c">연타</td><td class="mk"></td><td class="mk"></td><td class="mk"></td><td class="mk"></td><td class="mk">●</td></tr><tr><td><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-yeonta-01.png" width="128" height="128" alt="주먹 지르기 도술 아이콘">주먹 지르기</td><td class="c">연타</td><td class="mk"></td><td class="mk"></td><td class="mk"></td><td class="mk"></td><td class="mk">●</td></tr><tr><td>도술 칸</td><td></td><td class="c">7</td><td class="c">7</td><td class="c">7</td><td class="c">8</td><td class="c">7</td></tr></table>
+    <p class="cap">유저 추천 1~5위 도술 구성 비교 · ●가 들어간 도술이에요 · 도술 칸은 궁극기를 뺀 개수예요</p>
+    <p class="src">이미지: 도술 아이콘 <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3415" target="_blank">서고 3415</a>·<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3431" target="_blank">3431</a>·<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3433" target="_blank">3433</a> (출시 전 서고 캡처) · 네이버 본문엔 받아서 재업로드 권장</p>
+    <p>빌드별 순서와 용도는 이래요.</p>
+    <div class="para-wrap">
+      <ul><li><b>2위 «10.68k 저격17 절명7 허수아비 1:26초 44만»(추천 54)</b>는 기습 자리에 내려찍기가 들어간 1위 변형이에요. 순서는 암습 → 쇠뇌 사격 → 꿰뚫는 저격 → 삼단 찌르기 → 내려찍기 → 사격 → 이중 사격 → 연속 찌르기이고, 이름의 허수아비 기록은 등록자 표기예요.</li><li><b>3위 «암습10초사냥용»(추천 31)</b>은 생명의 흐름으로 회복을 챙긴 구성이고, 등록자가 사냥용이라고 이름 붙였어요. <span class="rev-hl">등록자는 연속 찌르기 다음 이중 사격 정도만 지키면 쿨마다 알아서 돌아간다고 적었어요.</span></li><li><b>4위 «7초암습 최종빌드(보스,PVP용)»(추천 17)</b>은 등록자가 보스·PvP용 최종 빌드라고 밝힌 8칸 구성이에요. 순서는 사격 → 꿰뚫는 저격 → 기습 → 묵직한 주먹 → 암습 → 삼단 찌르기 → 연속 찌르기 → 이중 사격 → 쇠뇌 사격이고, 'DPS 6316 / 1분 총딜량 40만'과 '7초 암습'은 등록자 표기예요.</li><li><b>5위 «고급 스킬 뺀 절명 궁트리»(추천 10)</b>은 절명 3·연타 2·저격 2로 채운 절명 위주 변형이에요. 순서는 휘둘러 내려치기 → 이중 사격 → 사격 → 암습 → 주먹 지르기 → 삼단 찌르기 → 내려찍기 → 연속 찌르기예요.</li></ul>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ② · 2~5위 등록자 설명</span>
+        <span class="sn-src"><b>깨비지지 유저 추천 탭</b> 2~5위 빌드 설명란에 적힌 순서와 한마디를 옮겼어요. (<a href="https://kkaebigg.com/deck/" target="_blank">조회처</a>)</span>
+        <span class="sn-mine">→ 띄어쓰기·줄임말은 공식 도술 이름으로 고치고 수치는 등록자 표기로만 남겼어요.</span>
+      </div>
+    </div>
+    <h2 class="sub">암습 말고 다른 길은 없을까요?</h2>
+    <p>암습 말고는 파멸 도술 5개에 헌신 도술 불굴을 더한 6위 «불굴 분출 사냥»과, 궁극기가 비어 있는 것으로 올라온 7위 «은신 저격궁»이 유저 추천 상위에 올라 있어요.</p>
+    <table class="tbl"><tr><th>빌드</th><th>도술 구성</th><th>궁극기</th></tr><tr><td>6위 불굴 분출 사냥</td><td><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-pamyeol-08.png" width="128" height="128" alt="요혼격 도술 아이콘">요혼격</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-pamyeol-03.png" width="128" height="128" alt="번개 폭풍 도술 아이콘">번개 폭풍</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-pamyeol-01.png" width="128" height="128" alt="낙뢰 도술 아이콘">낙뢰</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-pamyeol-10.png" width="128" height="128" alt="화염구 도술 아이콘">화염구</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-pamyeol-09.png" width="128" height="128" alt="화염 분출 도술 아이콘">화염 분출</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-heonsin-01.png" width="128" height="128" alt="불굴 도술 아이콘">불굴</span></td><td class="c">대폭발</td></tr><tr><td>7위 은신 저격궁</td><td><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeolmyeong-09.png" width="128" height="128" alt="은신 도술 아이콘">은신</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeap-04.png" width="128" height="128" alt="얼음 감옥 도술 아이콘">얼음 감옥</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeogyeok-09.png" width="128" height="128" alt="폭발하는 화살 도술 아이콘">폭발하는 화살</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeogyeok-04.png" width="128" height="128" alt="쇠뇌 사격 도술 아이콘">쇠뇌 사격</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-jeogyeok-07.png" width="128" height="128" alt="일점 저격 도술 아이콘">일점 저격</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-pamyeol-05.png" width="128" height="128" alt="서리의 잔향 도술 아이콘">서리의 잔향</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-gangin-06.png" width="128" height="128" alt="전투의 함성 도술 아이콘">전투의 함성</span><span class="chip"><!-- 이미지 이유: 도술 이름 옆 아이콘 / 출처: 서고 3415·3431·3433(출시 전) / 분류: A형 --><img class="ic" src="img/icon-gidong-04.png" width="128" height="128" alt="후퇴 사격 도술 아이콘">후퇴 사격</span></td><td class="c">없음</td></tr></table>
+    <p class="cap">6·7위 도술 구성 · 이름은 등록자가 붙인 그대로예요</p>
+    <p class="src">이미지: 도술 아이콘 <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3415" target="_blank">서고 3415</a>·<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3431" target="_blank">3431</a>·<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3433" target="_blank">3433</a> (출시 전 서고 캡처) · 네이버 본문엔 받아서 재업로드 권장</p>
+    <ul><li><b>6위 «불굴 분출 사냥»(추천 7)</b>은 이름 그대로 사냥용이고 도술 6칸에 궁극기는 대폭발이에요. 파멸 도술을 5개 몰아 담아 같은 스타일 3개 이상이라는 조건을 넉넉히 넘겨요.</li><li><b>7위 «은신 저격궁»(추천 5)</b>는 도술 8칸에 스타일이 여섯 갈래로 퍼져 있고 궁극기 칸이 비어 있는 것으로 올라왔어요. 빌더 데이터에는 저격 도술 3개가 들어 있지만 이 3개가 8칸 중 어디에(하단 5칸 안인지) 놓였는지는 빌더 표기로 알 수 없어 비어 있는 이유는 확인하지 못했어요. 가이드는 '하단 슬롯 5칸에 같은 스타일 3개 이상'이라고 적어 두었어요.</li></ul>
+    <h2 class="sub">따라 하기 전에 알아둘 점이 뭔가요?</h2>
+    <p>상위 빌드는 도술 6~8칸을 쓰고 도술마다 조각 100개를 모아 배워야 해서, 따라 하기 전에 칸 수와 보유 도술부터 맞춰야 해요.</p>
+    <ul><li><b>칸 수</b>는 도술 슬롯이 총 8개로 기본 5개에 잠금 3개이고, 잠금은 영기 수련 5-1 완료·전투 멤버십 구매·협력 수련 '산군의 석등' 3-1 완료로 풀려요. 1·2·3·5위는 잠금 2개, 6위는 잠금 1개, 8칸인 4·7위는 3개를 모두 풀어야 해요.</li><li><b>보유 도술</b>은 도술마다 조각 100개를 모아 '배우기'를 눌러야 하고, 조각은 금전 상점·상자·각종 콘텐츠에서 얻어요. 상인회 가이드(<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7988" target="_blank">공식 상인회 가이드</a>)에는 도경의 도술 상점이 파멸·강타·연타·저격 조각을 판다고 적혀 있고, 라심·미누 상점은 다른 도술 조각도 판다고 해요. 절명 조각은 공식 재화 안내(<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=tip&amp;id=8076" target="_blank">공식 TIP</a>)에 문파 상점의 '용맹의 도술 조각 선택 상자'(절명 포함)로 나와요.</li><li><b>강화 단위</b>는 강화가 같은 스타일 도술이 한꺼번에 올라서 절명 3개를 몰아 담는 빌드와 잘 맞아 보여요. 각성은 도술마다 따로 하고, 돌파가 어느 단위로 오르는지는 제가 본 공식 성장 가이드에 적혀 있지 않아요.</li><li><b>효과 차이</b>는 10월 8일 오류 안내에 '일부 도술의 돌파·신식 개방 효과가 툴팁과 다르게 적용되는 현상'이 올라 있고 어느 도술인지는 없어요.</li></ul>
+    <!-- 이미지 이유: 도술 슬롯 기본 5칸과 잠금 3칸 구조를 보여 주는 공식 가이드 화면 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7834 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/slot-ui.png" width="1000" height="562" alt="도깨비의세계 도술 화면, 위쪽 잠금 슬롯 3칸과 아래쪽 기본 슬롯 5칸"></div>
+    <p class="cap">공식 가이드 화면이에요. 아래쪽 5칸이 기본 슬롯, 위쪽 자물쇠 3칸이 잠금 슬롯이고 오른쪽 육각 칸이 궁극기예요.</p>
+    <p class="src">이미지: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7834" target="_blank">도깨비의세계 공식 도술 가이드</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+    <p>제가 본 출시판 도술 가이드에는 저격 신식 설명이 없고, 출시 전 서고에만 있어요. [화살촉]이 1개 이상이면 저격을 뺀 도술 피해량이 늘고, 소모하면 저격 도술 피해량이 늘면서 [조준]이 발동해요.</p>
+    <p>저격 신식 문구와 도술 이름은 출시 전 서고(9월 29일 게시) 기준이라 인게임과 다를 수 있어요. 도술 아이콘은 미리보기 화면에만 넣었고 네이버 본문엔 도술 이름만 적었어요.</p>
+    <!-- 이미지 이유: 저격 신식 개방 구조를 보여 주는 공식 화면 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=library&id=3431 / 분류: A형 -->
+    <div class="imgwrap"><img src="img/sinsik-jeogyeok.gif" width="360" height="160" alt="도깨비의세계 저격 신식 개방 3단계 화면"></div>
+    <p class="cap">출시 전 서고 캡처예요.</p>
+    <p class="src">이미지: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3431" target="_blank">도깨비의세계 공식 서고 3431</a> (출시 전 서고 캡처) · 네이버 본문엔 받아서 재업로드 권장</p>
+    <p>제가 본 공식 글(도술 가이드·성장 가이드·서고)에서는 확인하지 못한 것도 있어요.</p>
+    <ul><li>절명 3개와 저격 4개처럼 두 스타일이 모두 3개 이상일 때 어느 궁극기가 등록되는지는, 도술 가이드가 3개 이상이면 자동 등록된다는 데까지만 적었어요.</li><li>저격 도술의 적중도 [검의 형상]으로 세는지는 도술 가이드에 따로 적혀 있지 않았어요.</li><li>신식 개방이 다른 스타일을 섞어도 유지되는지는 사전예약 때 <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=1132" target="_blank">공식 라이브 시연회 QnA 종합 안내</a>가 답했지만 출시 후 글에서는 다시 확인되지 않았어요.</li></ul>
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 도깨비의세계 도술 조합 추천, 도술 칸이 5개뿐이면 뭘 따라 해야 하나요?</b><br>상위 7개 중 5칸으로 그대로 따라 할 수 있는 빌드는 없어요. 가이드 문구대로면 하단 기본 5칸에 절명 3개만 채워도 암습이 켜지니 거기에 저격 2개를 얹은 5칸이 출발점이 될 수 있는데, 유저 추천에 오른 구성이 아니라 가이드 문구로 맞춘 거예요.</p>
+    <p><b>Q. 도깨비의세계 도술 추천, 어떤 도술이 제일 많이 겹쳤나요?</b><br>암습 5개 빌드 모두에 사격·이중 사격·연속 찌르기·삼단 찌르기가 들어갔고, 쇠뇌 사격은 4개, 꿰뚫는 저격과 내려찍기는 3개, 기습은 2개에 있었어요.</p>
+    <p><b>Q. 도깨비의세계 암습 빌드는 어떻게 켜나요?</b><br>암습은 절명 스타일의 궁극기라서, 가이드 기준으로 하단 기본 슬롯 5칸에 절명 도술을 3개 이상 넣어야 궁극기 칸에 자동으로 올라오거든요. 빌더 데이터상 7위는 절명이 1개뿐이고 궁극기 칸이 비어 있어요. 저격 도술 3개가 8칸 중 어디에(하단 5칸 안인지) 들어갔는지는 빌더 표기로 알 수 없어서, 비어 있는 이유는 확인하지 못했어요.</p>
+    <h2 class="sub">도깨비의세계 도술 조합 정리</h2>
+    <p>순서만 잡으면 덜 헤매요. 칸 수를 먼저 맞추고 절명 3개를 채운 뒤 남는 칸을 저격으로 메우시되, 직접 DPS를 재 보며 내 장비에 맞는 쪽을 고르시면 좋겠습니다.</p>
+    <p><b>✔ 도깨비의세계 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224436635818" target="_blank">도깨비의세계 필드보스 시간 요일별 일정표, 신기 쟁탈전 미혹의 정원 문파전 시간까지 한 장으로</a><br>
+    · <a href="https://blog.naver.com/bomding/224435703797" target="_blank">도깨비의세계 보물상자 위치 정리, 지역 19곳 상자 91개 미니맵 번호 핀과 상자별 보상</a><br>
+    · <a href="https://blog.naver.com/bomding/224435538933" target="_blank">도깨비의세계 쿠폰 4종 정리, 코드 입력하는 법과 마감일 한눈에</a></p>
+    <p><b>참고한 곳</b><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7834" target="_blank">공식 가이드 — 도술(7834)</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7739" target="_blank">공식 가이드 — 성장(7739)</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=10859" target="_blank">공식 오류 안내(10859)</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7988" target="_blank">공식 가이드 — 상인회(7988 · 도술 상점 항목)</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=tip&amp;id=8076" target="_blank">공식 TIP — 재화 획득처(8076)</a><br>
+    · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=1132" target="_blank">공식 공지 — 라이브 시연회 QnA 종합 안내(1132 · 사전예약 기간)</a><br>
+    · 공식 서고(출시 전 자료) <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3415" target="_blank">3415</a>·<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3431" target="_blank">3431</a>·<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3433" target="_blank">3433</a></p>
+    <p><b>조회한 곳(팬 사이트·비공식)</b><br>
+    · <a href="https://kkaebigg.com/deck/" target="_blank">깨비지지 도술 빌더 유저 추천 탭 — 2026년 10월 10일 낮 12시 무렵 조회</a></p>
+    <div class="tags">#도깨비의세계 #도깨비의세계도술조합추천 #도깨비의세계도술추천 #도깨비의세계암습빌드 #유저추천빌드 #절명 #저격</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 4분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 도깨비의세계 도술 조합 추천 유저 추천 빌드 7개, 암습 빌드 시전 순서와 도술 슬롯 해금 조건</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>도술이 스타일 12개에 걸쳐 줄줄이 나오다 보니 어떤 걸 어느 칸에 넣을지 막막하시죠~ 저도 그래서 깨비지지 도술 빌더의 '유저 추천' 탭을 열어 보니, 많이 눌러 둔 조합이 한쪽으로 확 쏠려 있더라고요.</p>
+      <p>결론부터 말씀드리면 세 가지입니다.</p>
+      <ul><li>유저 추천 1위는 «10초암습 궁빌드_절명,저격»으로, 절명 도술 3개와 저격 도술 4개를 넣고 궁극기 암습을 쓰는 구성이에요.</li><li>상위 7개 안에서는 1~5위가 전부 절명 3개에 저격 2~4개를 섞은 암습 구성이고, 암습이 아닌 건 6위와 7위 둘뿐이에요.</li><li>1위 빌드도 도술 7칸이 필요해서, 기본 5칸만으로는 그대로 따라 할 수 없어요.</li></ul>
+      <p>기준은 10월 10일 낮 12시 무렵 <a href="https://kkaebigg.com/deck/" target="_blank">깨비지지 도술 빌더</a>의 유저 추천 탭(총 23건)이고, 추천 수는 계속 바뀌는데요, 출시 이틀 안팎이라 메타가 굳기 전이고 표본도 짧아요. 깨비지지는 10월 5일에 열린 카카오게임즈·슈퍼캣과 무관한 비공식 팬 사이트라 이용자가 직접 등록한 빌드가 올라오는 곳이고, 추천 수도 '많이들 눌렀다'는 인기 지표일 뿐 성능을 확인한 값은 아니랍니다.</p>
+      <p class="ph">📷 〔사진 자리 1〕 도깨비의세계 공식 도술 소개 삽화 — 네이버에서 직접 업로드</p>
+      <p>사전예약 때 공개된 공식 도술 소개 삽화예요. 정해진 직업 없이 도술을 골라 담는 게임이라 스타일 조합이 곧 빌드가 돼요.</p>
+      <h3>유저 추천 상위 7개 빌드는 한눈에 어떻게 생겼나요?</h3>
+      <p>10월 10일 낮 12시 무렵 유저 추천 인기순 1~5위는 전부 궁극기 암습 빌드이고, 6위는 파멸 도술 중심, 7위는 궁극기가 비어 있는 것으로 올라온 저격 은신 구성이에요.</p>
+      <table><tr><th>순위</th><th>빌드 이름(등록자 표기)</th><th>추천 수</th><th>스타일 구성</th><th>궁극기</th><th>도술 칸</th></tr><tr><td>1</td><td>10초암습 궁빌드_절명,저격</td><td>280</td><td>절명 3 · 저격 4</td><td>암습</td><td>7</td></tr><tr><td>2</td><td>10.68k 저격17 절명7 허수아비 1:26초 44만</td><td>54</td><td>절명 3 · 저격 4</td><td>암습</td><td>7</td></tr><tr><td>3</td><td>암습10초사냥용</td><td>31</td><td>절명 3 · 저격 3 · 헌신 1</td><td>암습</td><td>7</td></tr><tr><td>4</td><td>7초암습 최종빌드(보스,PVP용)</td><td>17</td><td>절명 3 · 저격 4 · 연타 1</td><td>암습</td><td>8</td></tr><tr><td>5</td><td>고급 스킬 뺀 절명 궁트리</td><td>10</td><td>절명 3 · 연타 2 · 저격 2</td><td>암습</td><td>7</td></tr><tr><td>6</td><td>불굴 분출 사냥</td><td>7</td><td>파멸 5 · 헌신 1</td><td>대폭발</td><td>6</td></tr><tr><td>7</td><td>은신 저격궁</td><td>5</td><td>저격 3 · 절명·제압·파멸·강인·기동 각 1</td><td>없음</td><td>8</td></tr></table>
+      <p>깨비지지 유저 추천 탭 인기순 · 2026년 10월 10일 낮 12시 무렵 조회 · 이름은 등록자가 붙인 그대로예요</p>
+      <p>도술 칸은 궁극기를 뺀 개수예요. 8위부터는 추천 수가 2 이하로 너무 적어서 뺐어요.</p>
+      <h3>1위 빌드는 도술을 어떻게 채우고 어떤 순서로 쓰는지 볼까요?</h3>
+      <p>유저 추천 1위 «10초암습 궁빌드_절명,저격»은 저격 도술 4개와 절명 도술 3개를 도술 7칸에 채우고, 궁극기 칸에는 암습을 놓은 구성인데요, 등록자가 적은 시전 순서는 아래 순서 그대로예요. 암습이 여섯 번째로 들어가는 점이 눈에 띄네요.</p>
+      <p>1) 사격(저격) → 2) 쇠뇌 사격(저격) → 3) 꿰뚫는 저격(저격) → 4) 기습(절명) → 5) 연속 찌르기(절명) → 6) 암습(절명, 궁극기) → 7) 삼단 찌르기(절명) → 8) 이중 사격(저격)</p>
+      <p>1위 빌드 시전 순서(등록자 표기) · 6번 암습이 궁극기이고 나머지 7개가 도술 칸이에요</p>
+      <p>등록자 설명을 풀어 쓰면 핵심은 쿨타임이 짧은 저격 도술을 자주 써서 암습 쿨타임을 빨리 돌리는 거예요. 순서대로 쓰면 5스택을 채운 암습에 마무리 딜까지 이어진다고 적었어요.</p>
+      <p>공식 문구와 맞닿는 곳은 절명의 신식 개방이에요. 출시판 공식 도술 가이드는 이렇게 적어 뒀어요.</p>
+      <ul><li>1단계는 도술이 적중하면 [검의 형상]을 얻어요.</li><li>2단계는 [검의 형상]이 3개 이상일 때 궁극기를 쓰면 전부 소모되며 궁극기 피해량이 늘어요.</li><li>3단계는 [검의 형상]이 최대치일 때 더 얻으면 궁극기 재사용 대기 시간이 줄어요.</li></ul>
+      <p>1단계가 '도술 적중 시'라서 많이 맞힐수록 형상이 쌓이는 구조로 읽혀요. 다만 등록자가 말한 '암습 쿨을 빨리 돌린다'가 3단계(재사용 대기 시간 감소)를 뜻하는지는 공식 글로 확인되지 않았어요. 피해량·감소 수치는 가이드엔 없고 출시 전 서고도 X%로 가려 뒀어요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 절명 신식 개방 3단계 화면(공식 서고 3415 · 출시 전 캡처) — 네이버에서 직접 업로드</p>
+      <p>출시 전 공식 도깨비 서고 캡처예요. 서고에는 [단검]으로 적혀 있고 출시판 도술 가이드는 같은 구조를 [검의 형상]으로 안내해요.</p>
+      <h3>사냥용·보스용이라 이름 붙은 빌드는 1위 빌드와 뭐가 다른가요?</h3>
+      <p>3위(등록자 표기 사냥용)는 1위에서 기습·꿰뚫는 저격을 빼고 내려찍기·생명의 흐름을 넣었고, 4위(등록자 표기 보스·PvP용)는 1위에 묵직한 주먹을 더해 도술 8칸을 써요. 표의 ●는 그 빌드에 들어간 도술이고, 도술 칸은 궁극기를 뺀 개수예요.</p>
+      <table><tr><th>도술명</th><th>스타일</th><th>1위</th><th>2위</th><th>3위</th><th>4위</th><th>5위</th></tr><tr><td>암습</td><td>절명(궁극기)</td><td>●</td><td>●</td><td>●</td><td>●</td><td>●</td></tr><tr><td>기습</td><td>절명</td><td>●</td><td></td><td></td><td>●</td><td></td></tr><tr><td>연속 찌르기</td><td>절명</td><td>●</td><td>●</td><td>●</td><td>●</td><td>●</td></tr><tr><td>삼단 찌르기</td><td>절명</td><td>●</td><td>●</td><td>●</td><td>●</td><td>●</td></tr><tr><td>내려찍기</td><td>절명</td><td></td><td>●</td><td>●</td><td></td><td>●</td></tr><tr><td>사격</td><td>저격</td><td>●</td><td>●</td><td>●</td><td>●</td><td>●</td></tr><tr><td>쇠뇌 사격</td><td>저격</td><td>●</td><td>●</td><td>●</td><td>●</td><td></td></tr><tr><td>이중 사격</td><td>저격</td><td>●</td><td>●</td><td>●</td><td>●</td><td>●</td></tr><tr><td>꿰뚫는 저격</td><td>저격</td><td>●</td><td>●</td><td></td><td>●</td><td></td></tr><tr><td>생명의 흐름</td><td>헌신</td><td></td><td></td><td>●</td><td></td><td></td></tr><tr><td>묵직한 주먹</td><td>연타</td><td></td><td></td><td></td><td>●</td><td></td></tr><tr><td>휘둘러 내려치기</td><td>연타</td><td></td><td></td><td></td><td></td><td>●</td></tr><tr><td>주먹 지르기</td><td>연타</td><td></td><td></td><td></td><td></td><td>●</td></tr><tr><td>도술 칸</td><td></td><td>7</td><td>7</td><td>7</td><td>8</td><td>7</td></tr></table>
+      <p>유저 추천 1~5위 도술 구성 비교 · ●가 들어간 도술이에요 · 도술 칸은 궁극기를 뺀 개수예요</p>
+      <p>빌드별 순서와 용도는 이래요.</p>
+      <ul><li><b>2위 «10.68k 저격17 절명7 허수아비 1:26초 44만»(추천 54)</b>는 기습 자리에 내려찍기가 들어간 1위 변형이에요. 순서는 암습 → 쇠뇌 사격 → 꿰뚫는 저격 → 삼단 찌르기 → 내려찍기 → 사격 → 이중 사격 → 연속 찌르기이고, 이름의 허수아비 기록은 등록자 표기예요.</li><li><b>3위 «암습10초사냥용»(추천 31)</b>은 생명의 흐름으로 회복을 챙긴 구성이고, 등록자가 사냥용이라고 이름 붙였어요. 등록자는 연속 찌르기 다음 이중 사격 정도만 지키면 쿨마다 알아서 돌아간다고 적었어요.</li><li><b>4위 «7초암습 최종빌드(보스,PVP용)»(추천 17)</b>은 등록자가 보스·PvP용 최종 빌드라고 밝힌 8칸 구성이에요. 순서는 사격 → 꿰뚫는 저격 → 기습 → 묵직한 주먹 → 암습 → 삼단 찌르기 → 연속 찌르기 → 이중 사격 → 쇠뇌 사격이고, 'DPS 6316 / 1분 총딜량 40만'과 '7초 암습'은 등록자 표기예요.</li><li><b>5위 «고급 스킬 뺀 절명 궁트리»(추천 10)</b>은 절명 3·연타 2·저격 2로 채운 절명 위주 변형이에요. 순서는 휘둘러 내려치기 → 이중 사격 → 사격 → 암습 → 주먹 지르기 → 삼단 찌르기 → 내려찍기 → 연속 찌르기예요.</li></ul>
+      <h3>암습 말고 다른 길은 없을까요?</h3>
+      <p>암습 말고는 파멸 도술 5개에 헌신 도술 불굴을 더한 6위 «불굴 분출 사냥»과, 궁극기가 비어 있는 것으로 올라온 7위 «은신 저격궁»이 유저 추천 상위에 올라 있어요.</p>
+      <table><tr><th>빌드</th><th>도술 구성</th><th>궁극기</th></tr><tr><td>6위 불굴 분출 사냥</td><td>요혼격 · 번개 폭풍 · 낙뢰 · 화염구 · 화염 분출 · 불굴</td><td>대폭발</td></tr><tr><td>7위 은신 저격궁</td><td>은신 · 얼음 감옥 · 폭발하는 화살 · 쇠뇌 사격 · 일점 저격 · 서리의 잔향 · 전투의 함성 · 후퇴 사격</td><td>없음</td></tr></table>
+      <p>6·7위 도술 구성 · 이름은 등록자가 붙인 그대로예요</p>
+      <ul><li><b>6위 «불굴 분출 사냥»(추천 7)</b>은 이름 그대로 사냥용이고 도술 6칸에 궁극기는 대폭발이에요. 파멸 도술을 5개 몰아 담아 같은 스타일 3개 이상이라는 조건을 넉넉히 넘겨요.</li><li><b>7위 «은신 저격궁»(추천 5)</b>는 도술 8칸에 스타일이 여섯 갈래로 퍼져 있고 궁극기 칸이 비어 있는 것으로 올라왔어요. 빌더 데이터에는 저격 도술 3개가 들어 있지만 이 3개가 8칸 중 어디에(하단 5칸 안인지) 놓였는지는 빌더 표기로 알 수 없어 비어 있는 이유는 확인하지 못했어요. 가이드는 '하단 슬롯 5칸에 같은 스타일 3개 이상'이라고 적어 두었어요.</li></ul>
+      <h3>따라 하기 전에 알아둘 점이 뭔가요?</h3>
+      <p>상위 빌드는 도술 6~8칸을 쓰고 도술마다 조각 100개를 모아 배워야 해서, 따라 하기 전에 칸 수와 보유 도술부터 맞춰야 해요.</p>
+      <ul><li><b>칸 수</b>는 도술 슬롯이 총 8개로 기본 5개에 잠금 3개이고, 잠금은 영기 수련 5-1 완료·전투 멤버십 구매·협력 수련 '산군의 석등' 3-1 완료로 풀려요. 1·2·3·5위는 잠금 2개, 6위는 잠금 1개, 8칸인 4·7위는 3개를 모두 풀어야 해요.</li><li><b>보유 도술</b>은 도술마다 조각 100개를 모아 '배우기'를 눌러야 하고, 조각은 금전 상점·상자·각종 콘텐츠에서 얻어요. 상인회 가이드(<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7988" target="_blank">공식 상인회 가이드</a>)에는 도경의 도술 상점이 파멸·강타·연타·저격 조각을 판다고 적혀 있고, 라심·미누 상점은 다른 도술 조각도 판다고 해요. 절명 조각은 공식 재화 안내(<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=tip&amp;id=8076" target="_blank">공식 TIP</a>)에 문파 상점의 '용맹의 도술 조각 선택 상자'(절명 포함)로 나와요.</li><li><b>강화 단위</b>는 강화가 같은 스타일 도술이 한꺼번에 올라서 절명 3개를 몰아 담는 빌드와 잘 맞아 보여요. 각성은 도술마다 따로 하고, 돌파가 어느 단위로 오르는지는 제가 본 공식 성장 가이드에 적혀 있지 않아요.</li><li><b>효과 차이</b>는 10월 8일 오류 안내에 '일부 도술의 돌파·신식 개방 효과가 툴팁과 다르게 적용되는 현상'이 올라 있고 어느 도술인지는 없어요.</li></ul>
+      <p class="ph">📷 〔사진 자리 3〕 공식 가이드 7834 도술 화면(잠금 슬롯 3칸·기본 슬롯 5칸) — 네이버에서 직접 업로드</p>
+      <p>공식 가이드 화면이에요. 아래쪽 5칸이 기본 슬롯, 위쪽 자물쇠 3칸이 잠금 슬롯이고 오른쪽 육각 칸이 궁극기예요.</p>
+      <p>제가 본 출시판 도술 가이드에는 저격 신식 설명이 없고, 출시 전 서고에만 있어요. [화살촉]이 1개 이상이면 저격을 뺀 도술 피해량이 늘고, 소모하면 저격 도술 피해량이 늘면서 [조준]이 발동해요.</p>
+      <p>저격 신식 문구와 도술 이름은 출시 전 서고(9월 29일 게시) 기준이라 인게임과 다를 수 있어요. 도술 아이콘은 미리보기 화면에만 넣었고 네이버 본문엔 도술 이름만 적었어요.</p>
+      <p class="ph">📷 〔사진 자리 4〕 저격 신식 개방 3단계 화면(공식 서고 3431 · 출시 전 캡처) — 네이버에서 직접 업로드</p>
+      <p>출시 전 서고 캡처예요.</p>
+      <p>제가 본 공식 글(도술 가이드·성장 가이드·서고)에서는 확인하지 못한 것도 있어요.</p>
+      <ul><li>절명 3개와 저격 4개처럼 두 스타일이 모두 3개 이상일 때 어느 궁극기가 등록되는지는, 도술 가이드가 3개 이상이면 자동 등록된다는 데까지만 적었어요.</li><li>저격 도술의 적중도 [검의 형상]으로 세는지는 도술 가이드에 따로 적혀 있지 않았어요.</li><li>신식 개방이 다른 스타일을 섞어도 유지되는지는 사전예약 때 <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=1132" target="_blank">공식 라이브 시연회 QnA 종합 안내</a>가 답했지만 출시 후 글에서는 다시 확인되지 않았어요.</li></ul>
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. 도깨비의세계 도술 조합 추천, 도술 칸이 5개뿐이면 뭘 따라 해야 하나요?</b><br>상위 7개 중 5칸으로 그대로 따라 할 수 있는 빌드는 없어요. 가이드 문구대로면 하단 기본 5칸에 절명 3개만 채워도 암습이 켜지니 거기에 저격 2개를 얹은 5칸이 출발점이 될 수 있는데, 유저 추천에 오른 구성이 아니라 가이드 문구로 맞춘 거예요.</p>
+      <p><b>Q. 도깨비의세계 도술 추천, 어떤 도술이 제일 많이 겹쳤나요?</b><br>암습 5개 빌드 모두에 사격·이중 사격·연속 찌르기·삼단 찌르기가 들어갔고, 쇠뇌 사격은 4개, 꿰뚫는 저격과 내려찍기는 3개, 기습은 2개에 있었어요.</p>
+      <p><b>Q. 도깨비의세계 암습 빌드는 어떻게 켜나요?</b><br>암습은 절명 스타일의 궁극기라서, 가이드 기준으로 하단 기본 슬롯 5칸에 절명 도술을 3개 이상 넣어야 궁극기 칸에 자동으로 올라오거든요. 빌더 데이터상 7위는 절명이 1개뿐이고 궁극기 칸이 비어 있어요. 저격 도술 3개가 8칸 중 어디에(하단 5칸 안인지) 들어갔는지는 빌더 표기로 알 수 없어서, 비어 있는 이유는 확인하지 못했어요.</p>
+      <h3>도깨비의세계 도술 조합 정리</h3>
+      <p>순서만 잡으면 덜 헤매요. 칸 수를 먼저 맞추고 절명 3개를 채운 뒤 남는 칸을 저격으로 메우시되, 직접 DPS를 재 보며 내 장비에 맞는 쪽을 고르시면 좋겠습니다.</p>
+      <p><b>✔ 도깨비의세계 같이 보기 좋은 내용</b><br>
+      · <a href="https://blog.naver.com/bomding/224436635818" target="_blank">도깨비의세계 필드보스 시간 요일별 일정표, 신기 쟁탈전 미혹의 정원 문파전 시간까지 한 장으로</a><br>
+      · <a href="https://blog.naver.com/bomding/224435703797" target="_blank">도깨비의세계 보물상자 위치 정리, 지역 19곳 상자 91개 미니맵 번호 핀과 상자별 보상</a><br>
+      · <a href="https://blog.naver.com/bomding/224435538933" target="_blank">도깨비의세계 쿠폰 4종 정리, 코드 입력하는 법과 마감일 한눈에</a></p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7834" target="_blank">공식 가이드 — 도술(7834)</a><br>
+      · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7739" target="_blank">공식 가이드 — 성장(7739)</a><br>
+      · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=10859" target="_blank">공식 오류 안내(10859)</a><br>
+      · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7988" target="_blank">공식 가이드 — 상인회(7988 · 도술 상점 항목)</a><br>
+      · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=tip&amp;id=8076" target="_blank">공식 TIP — 재화 획득처(8076)</a><br>
+      · <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=1132" target="_blank">공식 공지 — 라이브 시연회 QnA 종합 안내(1132 · 사전예약 기간)</a><br>
+      · 공식 서고(출시 전 자료) <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3415" target="_blank">3415</a>·<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3431" target="_blank">3431</a>·<a href="https://forum.kakaogames.com/dokkaebi/postView/?code=library&amp;id=3433" target="_blank">3433</a></p>
+      <p><b>조회한 곳(팬 사이트·비공식)</b><br>
+      · <a href="https://kkaebigg.com/deck/" target="_blank">깨비지지 도술 빌더 유저 추천 탭 — 2026년 10월 10일 낮 12시 무렵 조회</a></p>
+      <p class="tags-line">#도깨비의세계 #도깨비의세계도술조합추천 #도깨비의세계도술추천 #도깨비의세계암습빌드 #유저추천빌드 #절명 #저격</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
