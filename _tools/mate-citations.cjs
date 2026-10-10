@@ -51,6 +51,10 @@
    실행  node _tools/mate-citations.cjs            # 데스크 START(06:00 · 표본) + [E](발행 직전 · 인용 배치 반영)
          node _tools/mate-citations.cjs --print    # 사람이 보는 표
          node _tools/mate-citations.cjs --force    # 오늘 행 재수집(표본 시각이 바뀐다 — 평소엔 쓰지 말 것)
+         node _tools/mate-citations.cjs --if-raised  # ★2026-10-11 게이트 09:10·12:00 슬롯(.bc-locks/cite-refresh.ps1 · LLM 0) —
+                                                     #   프로필만 먼저 읽어 «오늘 행의 인용 누적이 오를 블로그»도 «오늘 행이 없는 블로그»도
+                                                     #   없으면 파일을 쓰지 않는다(커밋·배포를 만들지 않으려고). 있으면 평소대로 전부 수집.
+                                                     #   배치가 데스크 [E] 보다 늦게 들어온 날(36일 중 3일)을 줍는 용도.
    ========================================================================== */
 'use strict';
 const fs = require('fs');
@@ -71,6 +75,7 @@ const argv = process.argv.slice(2);
 const FORCE = argv.includes('--force');
 const PRINT = argv.includes('--print');
 const NOBENCH = argv.includes('--no-bench');
+const IFRAISED = argv.includes('--if-raised');
 
 function kstYmd(ms) {
   const d = new Date(ms + 9 * 3600e3), p = (n) => String(n).padStart(2, '0');
@@ -254,6 +259,25 @@ function fmt(n) { return n == null ? '—' : Number(n).toLocaleString('ko-KR'); 
     bench: Array.isArray(prev.bench) ? prev.bench : []
   };
   const now = Date.now(), nowIso = new Date(now).toISOString(), today = kstYmd(now);
+  /* --if-raised — 쓸 일이 있는지 프로필만으로 먼저 본다. 못 읽은 블로그는 «변동 없음»으로 친다(실패를 파일에 적어 커밋하지 않는다) */
+  if (IFRAISED) {
+    const why = [];
+    for (const [list, b] of WRITERS.map((x) => [doc.writers, x]).concat(NOBENCH ? [] : BENCH.map((x) => [doc.bench, x]))) {
+      const e = list.find((x) => x && x.id === b.id);
+      const r = e && Array.isArray(e.rows) ? e.rows.find((x) => x.d === today && x.at) : null;
+      try {
+        const res = await get('https://m.blog.naver.com/' + b.id);
+        if (res.status !== 200) continue;
+        const p = parseProfile(res.text);
+        if (!p.found) continue;
+        const cum = p.cites ? p.cites.cumulativeCount : null;
+        if (!r) why.push(b.name + ' 오늘 행 없음');
+        else if (cum != null && (r.cum == null || cum > r.cum)) why.push(b.name + (r.cum == null ? ' 신규 공개' : ' +' + (cum - r.cum)));
+      } catch (e2) { /* 변동 없음으로 친다 */ }
+    }
+    if (!why.length) { console.log('[citations] ' + today + ' --if-raised: 변동 없음 — 파일 안 씀'); process.exit(0); }
+    console.log('[citations] --if-raised: ' + why.join(' · ') + ' → 전체 수집');
+  }
   const lines = [];
   for (const b of WRITERS) lines.push('[' + b.name + '] ' + await snapshot(findOrMake(doc.writers, b), b, true, today, nowIso));
   if (!NOBENCH) for (const b of BENCH) lines.push('[벤치 ' + b.name + '] ' + await snapshot(findOrMake(doc.bench, b), b, false, today, nowIso));
