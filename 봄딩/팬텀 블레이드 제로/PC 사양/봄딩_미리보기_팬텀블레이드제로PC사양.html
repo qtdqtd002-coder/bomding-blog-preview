@@ -1,0 +1,355 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>팬텀 블레이드 제로 사양 총정리, 최소 GTX 1660 6GB와 SSD 필수</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;word-break:keep-all;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">팬텀 블레이드 제로 사양 총정리, 최소 GTX 1660 6GB와 SSD 필수</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.11</span><span>· 게임</span></div>
+
+<!-- AI브리핑 타깃 질문: 팬텀 블레이드 제로 사양 / 팬텀 블레이드 제로 최소 사양 GTX 1660 되나 / 팬텀 블레이드 제로 SSD 필수 용량 -->
+<!-- 도입유형=A-3 자조·솔직 훅 / 마무리유형=B-1 추천 종결형·첫어구="사전 구매 버튼을" -->
+<p>팬텀 블레이드 제로 사양을 찾다가 스팀 사양란만 보고 "GTX 1660이면 되겠네" 하고 넘어갈 뻔했는데요. 공식 사이트 사양 페이지를 열어 두 페이지를 나란히 놓고 직접 비교해 보니 표가 2단이 아니라 <b>4단</b>이라 멈칫하게 되더라고요. 스팀에는 최소와 권장만 있고, 레이 트레이싱 권장과 패스 트레이싱 권장 두 단은 공식 사이트에만 올라와 있거든요.</p>
+<p><b>결론부터 말하면 최소 사양은 GTX 1660 6GB, 목표는 업스케일링을 켠 1080p 30FPS이고 설치는 SSD가 필수예요.</b> 이 글은 스팀 상점과 공식 사이트 사양 페이지를 10월 11일 기준으로 옮겨 적었어요.</p>
+<p>팬텀 블레이드 제로는 S-GAME이 개발하고 언리얼 엔진 5로 만든 다크 무협 ARPG인데요, 그 PC 사양이 어떻게 갈리는지부터 차근차근 풀어 볼게요.</p>
+<!-- 이미지 이유: 처음 보는 독자에게 어떤 게임인지 한 컷으로 알려주려고 / 출처: https://store.steampowered.com/app/4115450/ (스팀 상점 헤더 이미지) / 분류: A형 -->
+<div class="imgwrap"><img src="img/pbz-header.jpg" width="460" height="215" alt="팬텀 블레이드 제로 스팀 상점 대표 이미지, 삿갓을 쓴 주인공과 타이틀 로고"></div>
+<p class="cap">삿갓을 쓴 주인공과 타이틀 로고가 보이는 스팀 상점 대표 이미지예요</p>
+<p class="src">이미지 출처: <a href="https://store.steampowered.com/app/4115450/" target="_blank">스팀 상점 – Phantom Blade Zero</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+<h2 class="sub">팬텀 블레이드 제로 사양은 4단인데, 스팀에 없는 두 단은 뭔가요?</h2>
+<p><b>팬텀 블레이드 제로 PC 사양은 최소·권장·레이 트레이싱 권장·패스 트레이싱 권장의 4단이고, 스팀 사양란에는 앞의 두 단만 올라와 있어요.</b></p>
+<table class="tbl">
+<tr><th>단</th><th>NVIDIA</th><th>AMD</th><th>목표 (업스케일링 사용)</th></tr>
+<tr><td>최소</td><td>GeForce GTX 1660 6GB</td><td>Radeon RX 5500 XT 8GB</td><td>1080p / 30FPS</td></tr>
+<tr><td>권장</td><td>GeForce RTX 3060 Ti 8GB</td><td>Radeon RX 6700 XT 12GB</td><td>1440p / 60FPS</td></tr>
+<tr><td>레이 트레이싱 권장</td><td>GeForce RTX 5060 8GB</td><td>공식 표에 없음</td><td>1080p / 60FPS</td></tr>
+<tr><td>패스 트레이싱 권장</td><td>GeForce RTX 5080 16GB</td><td>공식 표에 없음</td><td>2160p / 60FPS</td></tr>
+<tr><td>저장 공간</td><td colspan="3">SSD 설치 필수 (설치 용량 GB 숫자는 공식 미공개)</td></tr>
+</table>
+<p>네 단 모두 공식 표기가 "업스케일링 사용" 전제라서, 위 해상도와 프레임은 네이티브가 아니라 업스케일링을 켰을 때의 목표치로 읽어야 해요.</p>
+
+<h2 class="sub">팬텀 블레이드 제로 CPU와 램은 최소와 권장에서 얼마나 달라지나요?</h2>
+<p><b>램은 최소와 권장 모두 16GB로 같고, 달라지는 건 CPU와 GPU예요.</b></p>
+<table class="tbl">
+<tr><th>항목</th><th>최소</th><th>권장</th></tr>
+<tr><td>운영체제</td><td>Windows 10/11 64bit</td><td>Windows 10/11 64bit</td></tr>
+<tr><td>CPU</td><td>Intel Core i7-8700K / AMD Ryzen 5 3600</td><td>Intel Core i5-10600K / AMD Ryzen 5 5600X</td></tr>
+<tr><td>램</td><td>16GB</td><td>16GB</td></tr>
+<tr><td>그래픽 API</td><td>DirectX 12</td><td>DirectX 12</td></tr>
+</table>
+<p>CPU 칸에 적힌 두 개는 인텔 쪽 하나, AMD 쪽 하나를 나란히 적은 거라 내 CPU가 어느 쪽이든 맞는 줄을 보면 돼요.</p>
+
+<h2 class="sub">GTX 1660 6GB 최소 사양은 어떤 화면을 목표로 하나요?</h2>
+<p><b>최소 단의 목표는 업스케일링을 켠 상태의 1080p, 30FPS이고, GPU는 GTX 1660 6GB 또는 RX 5500 XT 8GB예요.</b></p>
+<!-- 이미지 이유: 업스케일링을 켜고 1080p 30FPS를 목표로 하는 최소 단에서 만나게 될 일반 필드 전투 장면을 보여주려고 / 출처: https://store.steampowered.com/app/4115450/ (스팀 상점 스크린샷 5) / 분류: A형 -->
+<div class="imgwrap"><img src="img/pbz-ss5.jpg" width="1920" height="1080" alt="안개 낀 계곡 마을에서 거구의 적을 향해 몸을 날리는 팬텀 블레이드 제로 전투 장면"></div>
+<p class="cap">안개 낀 계곡 마을에서 거구의 적을 향해 몸을 날리는 장면이에요</p>
+<p class="src">이미지 출처: <a href="https://store.steampowered.com/app/4115450/" target="_blank">스팀 상점 – Phantom Blade Zero</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+<p>스팀 영문 사양란에는 "1080p / 30 FPS with upscaling enabled"라고 적혀 있고, 공식 한국어판에는 "1080p / 30 FPS(업스케일링 사용)"라고 나와요. 그러니까 <b>네이티브 1080p에서 30프레임이 나온다는 뜻이 아니라</b> 업스케일링을 켜야 닿는 목표라는 얘기죠. 그래서 최소 단은 "쾌적하게 즐긴다"가 아니라 "이 선에서 목표치를 노려 볼 수 있다" 정도로 받아들이는 게 맞아요.</p>
+
+<h2 class="sub">RTX 3060 Ti 권장 사양은 어디까지가 목표인가요?</h2>
+<p><b>권장 단은 업스케일링을 켠 1440p, 60FPS가 목표이고, GPU는 RTX 3060 Ti 8GB 또는 RX 6700 XT 12GB예요.</b></p>
+<!-- 이미지 이유: 해상도·프레임 목표가 올라가는 권장 단을 비·다수 적이 있는 장면으로 시각화하려고(캡션은 RT 적용 여부를 말하지 않음) / 출처: https://store.steampowered.com/app/4115450/ (스팀 상점 스크린샷 1) / 분류: A형 -->
+<div class="imgwrap"><img src="img/pbz-ss1.jpg" width="1920" height="1080" alt="비 내리는 기와 마당에서 여러 적과 맞붙는 팬텀 블레이드 제로 전투 장면"></div>
+<p class="cap">비 내리는 기와 마당에서 여러 적과 맞붙는 장면이에요</p>
+<p class="src">이미지 출처: <a href="https://store.steampowered.com/app/4115450/" target="_blank">스팀 상점 – Phantom Blade Zero</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+<p>최소와 견주면 해상도가 1080p에서 1440p로, 프레임이 30에서 60으로 한꺼번에 올라가는 단인데요. 표에 적힌 GPU도 NVIDIA 쪽이 6GB에서 8GB로, AMD 쪽이 8GB에서 12GB로 커지네요. 램 16GB는 그대로라서 최소에서 권장으로 넘어갈 때 손볼 부품은 사실상 CPU와 그래픽카드 둘이랍니다.</p>
+
+<h2 class="sub">레이 트레이싱 단과 패스 트레이싱 단은 어떤 카드가 기준인가요?</h2>
+<p><b>레이 트레이싱 권장은 RTX 5060 8GB의 1080p 60FPS, 패스 트레이싱 권장은 RTX 5080 16GB의 2160p 60FPS이고, 두 단 모두 NVIDIA 카드만 올라와 있어요.</b></p>
+<ul>
+<li>업스케일링 기술명은 사양표에 안 적혀 있는데, 공식 사이트 뉴스(2025년 8월)는 레이 트레이싱과 DLSS 4, Multi Frame Generation으로 출시한다고 밝혔고, 올해 5월 NVIDIA 뉴스는 DLSS 4.5로 올려 출시한다고 적었어요</li>
+<li>NVIDIA 뉴스는 출시 첫날부터 DLSS Super Resolution과 Multi Frame Generation을 지원하고, PC 전용으로 레이 트레이싱 반사·그림자·카우스틱(caustics)이 들어간다고 적었어요</li>
+<li>공식 사양 페이지·공식 사이트 뉴스·스팀 상점에서는 FSR과 XeSS 언급을 찾지 못했어요</li>
+</ul>
+<p>표만 놓고 보면 권장 단이 1440p인데 레이 트레이싱 단은 1080p로 내려와요. 그러니까 레이 트레이싱을 얹는 대신 목표 해상도를 한 칸 낮추는 구조로 읽히네요. 패스 트레이싱 단은 2160p로 올라가는 대신 GPU가 RTX 5080 16GB로 확 뛰고요.</p>
+
+<h2 class="sub">내 그래픽카드는 4단 표에서 어느 단에 해당하나요?</h2>
+<p><b>내 GPU 이름을 아래 표에 그대로 대 보면 어느 단인지 바로 나오고, 표에 없는 모델은 공식 기준으로 판정할 수 없어요.</b></p>
+<table class="tbl">
+<tr><th>내 GPU</th><th>해당 단</th><th>목표 (업스케일링 사용)</th></tr>
+<tr><td>GTX 1660 6GB · RX 5500 XT 8GB</td><td>최소</td><td>1080p / 30FPS</td></tr>
+<tr><td>RTX 3060 Ti 8GB · RX 6700 XT 12GB</td><td>권장</td><td>1440p / 60FPS</td></tr>
+<tr><td>RTX 5060 8GB</td><td>레이 트레이싱 권장</td><td>1080p / 60FPS</td></tr>
+<tr><td>RTX 5080 16GB</td><td>패스 트레이싱 권장</td><td>2160p / 60FPS</td></tr>
+<tr><td>GTX 1650 · GTX 1660 Super 등 표에 없는 모델</td><td>판정 불가</td><td>—</td></tr>
+</table>
+<ol>
+<li>작업 관리자 성능 탭에서 내 GPU 이름부터 확인해요</li>
+<li>위 표에서 같은 이름을 찾고, 램이 16GB인지 봐요</li>
+<li>게임을 설치할 드라이브가 SSD인지 마지막으로 봐요</li>
+</ol>
+<p>모니터 해상도로 보면 더 간단해요. 1080p 모니터라면 최소 단과 레이 트레이싱 단의 목표 해상도와 맞고, 1440p 모니터라면 권장 단의 목표와 맞아요. 2160p 모니터는 패스 트레이싱 단이 유일하게 맞는 줄입니다.</p>
+
+<h2 class="sub">SSD 설치 필수라는데, 설치 용량은 몇 GB인가요?</h2>
+<p><b>공식 한국어 표기는 "SSD 필수"뿐이고, 설치 용량 GB 숫자는 스팀과 공식 사이트 어디에도 아직 공개되지 않았어요.</b></p>
+<p>공식 문구가 SSD 필수까지라서, SSD에 설치하는 걸 전제로 잡는 게 안전합니다. 용량 숫자는 상점 페이지에 올라오면 그때 빈 공간과 비교하면 되고요.</p>
+
+<h2 class="sub">팬텀 블레이드 제로 한국어 지원은 어디까지인가요?</h2>
+<p><b>한국어는 인터페이스와 자막을 지원하고, 음성은 영어와 중국어 간체만 지원해요.</b></p>
+<table class="tbl">
+<tr><th>언어</th><th>인터페이스</th><th>음성</th><th>자막</th></tr>
+<tr><td>한국어</td><td>✔</td><td>✘</td><td>✔</td></tr>
+<tr><td>영어</td><td>✔</td><td>✔</td><td>✔</td></tr>
+<tr><td>중국어 간체</td><td>✔</td><td>✔</td><td>✔</td></tr>
+</table>
+<p>한글 더빙은 없고, 한글 화면과 한글 자막으로 영어나 중국어 음성을 들으며 즐기는 구성이네요. 위 표는 스팀 지원 언어표를 10월 11일 기준으로 옮긴 거예요.</p>
+
+<h2 class="sub">출시일이 10월 28일과 29일로 갈리는 이유는 뭔가요?</h2>
+<p><b>스팀은 10월 28일, 공식 사이트는 10월 29일로 적고 있는데, 같은 시점을 시간대만 달리 읽은 걸로 보이고 스팀의 출시 시각 값을 한국 시간으로 바꾸면 29일 오전 11시쯤이에요.</b></p>
+<table class="tbl">
+<tr><th>어디</th><th>표기</th></tr>
+<tr><td>스팀 상점</td><td>2026년 10월 28일 출시 예정</td></tr>
+<tr><td>공식 사이트(영문)</td><td>RELEASE DATE 10/29/2026</td></tr>
+<tr><td>공식 사이트(한국어)</td><td>발매 날짜 2026/10/29</td></tr>
+</table>
+<p>스팀 상점 페이지 안에 들어 있는 출시 시각 값은 UTC로 10월 29일 02:00이에요. 한국 시간(UTC+9)으로 바꾸면 10월 29일 오전 11시, 미국 서부 시간으로는 10월 28일 저녁 7시라서 스팀의 28일이 그쪽 날짜로 보여요. 다만 공식이 "한국 11시"라고 따로 발표한 건 아니고 제가 환산한 값이라 '11시경' 정도로만 잡아 두세요ㅎㅎ</p>
+<p>사전 구매는 8월 12일부터 열렸고, 스팀 표기 가격은 일반판 69,800원, 디럭스 79,800원이에요.</p>
+
+<h2 class="sub">자주 묻는 질문</h2>
+<p><b>Q. 팬텀 블레이드 제로 체험판이나 데모는 있나요?</b><br>
+집에서 받아 해 볼 수 있는 체험판은 스팀 상점에 없어요. 공식 사이트의 데모 소식은 2024년 게임쇼 월드 투어, 2025년 S-Party 같은 오프라인 시연회와 실기 영상이에요.</p>
+<p class="src">출처: <a href="https://pbz.s-game.com/ko-KR/news/first-gameplay-trailer/" target="_blank">공식 사이트 – 게임쇼 월드 투어 소식</a> · <a href="https://pbz.s-game.com/ko-KR/news/s-party-2025-hands-on/" target="_blank">공식 사이트 – S-Party 2025 소식</a></p>
+<p><b>Q. 스팀 말고 다른 곳에서도 살 수 있나요?</b><br>
+공식 사이트 뉴스에 따르면 8월 12일 사전 구매가 PS5, 스팀, 에픽에서 함께 열렸어요.</p>
+<p><b>Q. 맥이나 리눅스에서도 돌릴 수 있나요?</b><br>
+스팀 상점에 지원 플랫폼으로 Windows만 표기돼 있어요.</p>
+<p><b>Q. 스팀 상점에 DRM 표기가 있나요?</b><br>
+타사 DRM으로 Denuvo가 표기돼 있어요.</p>
+
+<h2 class="sub">팬텀 블레이드 제로 사양 정리</h2>
+<p>사전 구매 버튼을 누르기 전에 내 GPU가 위 표의 어느 단인지, 그 단의 목표치가 내 모니터와 맞는지만 확인하면 끝이에요. 아직 출시 전이라 사양이 바뀔 수 있으니 구매 직전에 <a href="https://store.steampowered.com/app/4115450/" target="_blank">스팀 상점 사양란</a>을 한 번 더 열어 보세요~</p>
+
+<p><b>참고한 곳</b> (2026.10.11 기준)<br>
+· <a href="https://store.steampowered.com/app/4115450/" target="_blank">스팀 상점 – Phantom Blade Zero</a><br>
+· <a href="https://pbz.s-game.com/ko-KR/news/system-requirements/" target="_blank">팬텀 블레이드 제로 공식 사이트 – 시스템 요구 사양</a><br>
+· <a href="https://www.nvidia.com/en-us/geforce/news/dlss-4-5-ray-reconstruction-1000-rtx-games-apps-out-now/" target="_blank">NVIDIA GeForce 뉴스 – DLSS 지원 게임</a><br>
+· <a href="https://pbz.s-game.com/en-US/news/pre-orders-now-available/" target="_blank">팬텀 블레이드 제로 공식 사이트 – 사전 구매 뉴스</a><br>
+· <a href="https://pbz.s-game.com/en-US/news/return-to-pangzhen-rtx-reveal/" target="_blank">팬텀 블레이드 제로 공식 사이트 – RTX·DLSS 4 뉴스</a></p>
+
+    <div class="tags">#팬텀블레이드제로 #팬텀블레이드제로사양 #팬텀블레이드제로PC사양 #팬텀블레이드제로최소사양 #팬텀블레이드제로권장사양 #팬텀블레이드제로출시일 #팬텀블레이드제로한국어 #팬텀블레이드제로레이트레이싱 #PhantomBladeZero #GTX1660 #RTX3060Ti #게임사양</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 3분):</b> 📷 <b>사진 3곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 팬텀 블레이드 제로 사양 총정리, 최소 GTX 1660 6GB와 SSD 필수</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>팬텀 블레이드 제로 사양을 찾다가 스팀 사양란만 보고 "GTX 1660이면 되겠네" 하고 넘어갈 뻔했는데요. 공식 사이트 사양 페이지를 열어 두 페이지를 나란히 놓고 직접 비교해 보니 표가 2단이 아니라 <b>4단</b>이라 멈칫하게 되더라고요. 스팀에는 최소와 권장만 있고, 레이 트레이싱 권장과 패스 트레이싱 권장 두 단은 공식 사이트에만 올라와 있거든요.</p>
+<p><b>결론부터 말하면 최소 사양은 GTX 1660 6GB, 목표는 업스케일링을 켠 1080p 30FPS이고 설치는 SSD가 필수예요.</b> 이 글은 스팀 상점과 공식 사이트 사양 페이지를 10월 11일 기준으로 옮겨 적었어요.</p>
+<p>팬텀 블레이드 제로는 S-GAME이 개발하고 언리얼 엔진 5로 만든 다크 무협 ARPG인데요, 그 PC 사양이 어떻게 갈리는지부터 차근차근 풀어 볼게요.</p>
+<p class="ph">📷 〔사진 자리 1〕 스팀 상점 대표 이미지(삿갓을 쓴 주인공과 타이틀 로고) — 네이버에서 직접 업로드</p>
+<p>▲ 삿갓을 쓴 주인공과 타이틀 로고가 보이는 스팀 상점 대표 이미지예요</p>
+<p>이미지 출처: <a href="https://store.steampowered.com/app/4115450/" target="_blank">스팀 상점 – Phantom Blade Zero</a></p>
+<h3>팬텀 블레이드 제로 사양은 4단인데, 스팀에 없는 두 단은 뭔가요?</h3>
+<p><b>팬텀 블레이드 제로 PC 사양은 최소·권장·레이 트레이싱 권장·패스 트레이싱 권장의 4단이고, 스팀 사양란에는 앞의 두 단만 올라와 있어요.</b></p>
+<table>
+<tr><th>단</th><th>NVIDIA</th><th>AMD</th><th>목표 (업스케일링 사용)</th></tr>
+<tr><td>최소</td><td>GeForce GTX 1660 6GB</td><td>Radeon RX 5500 XT 8GB</td><td>1080p / 30FPS</td></tr>
+<tr><td>권장</td><td>GeForce RTX 3060 Ti 8GB</td><td>Radeon RX 6700 XT 12GB</td><td>1440p / 60FPS</td></tr>
+<tr><td>레이 트레이싱 권장</td><td>GeForce RTX 5060 8GB</td><td>공식 표에 없음</td><td>1080p / 60FPS</td></tr>
+<tr><td>패스 트레이싱 권장</td><td>GeForce RTX 5080 16GB</td><td>공식 표에 없음</td><td>2160p / 60FPS</td></tr>
+<tr><td>저장 공간</td><td colspan="3">SSD 설치 필수 (설치 용량 GB 숫자는 공식 미공개)</td></tr>
+</table>
+<p>네 단 모두 공식 표기가 "업스케일링 사용" 전제라서, 위 해상도와 프레임은 네이티브가 아니라 업스케일링을 켰을 때의 목표치로 읽어야 해요.</p>
+<h3>팬텀 블레이드 제로 CPU와 램은 최소와 권장에서 얼마나 달라지나요?</h3>
+<p><b>램은 최소와 권장 모두 16GB로 같고, 달라지는 건 CPU와 GPU예요.</b></p>
+<table>
+<tr><th>항목</th><th>최소</th><th>권장</th></tr>
+<tr><td>운영체제</td><td>Windows 10/11 64bit</td><td>Windows 10/11 64bit</td></tr>
+<tr><td>CPU</td><td>Intel Core i7-8700K / AMD Ryzen 5 3600</td><td>Intel Core i5-10600K / AMD Ryzen 5 5600X</td></tr>
+<tr><td>램</td><td>16GB</td><td>16GB</td></tr>
+<tr><td>그래픽 API</td><td>DirectX 12</td><td>DirectX 12</td></tr>
+</table>
+<p>CPU 칸에 적힌 두 개는 인텔 쪽 하나, AMD 쪽 하나를 나란히 적은 거라 내 CPU가 어느 쪽이든 맞는 줄을 보면 돼요.</p>
+<h3>GTX 1660 6GB 최소 사양은 어떤 화면을 목표로 하나요?</h3>
+<p><b>최소 단의 목표는 업스케일링을 켠 상태의 1080p, 30FPS이고, GPU는 GTX 1660 6GB 또는 RX 5500 XT 8GB예요.</b></p>
+<p class="ph">📷 〔사진 자리 2〕 안개 낀 계곡 마을 전투 장면 — 네이버에서 직접 업로드</p>
+<p>▲ 안개 낀 계곡 마을에서 거구의 적을 향해 몸을 날리는 장면이에요</p>
+<p>이미지 출처: <a href="https://store.steampowered.com/app/4115450/" target="_blank">스팀 상점 – Phantom Blade Zero</a></p>
+<p>스팀 영문 사양란에는 "1080p / 30 FPS with upscaling enabled"라고 적혀 있고, 공식 한국어판에는 "1080p / 30 FPS(업스케일링 사용)"라고 나와요. 그러니까 <b>네이티브 1080p에서 30프레임이 나온다는 뜻이 아니라</b> 업스케일링을 켜야 닿는 목표라는 얘기죠. 그래서 최소 단은 "쾌적하게 즐긴다"가 아니라 "이 선에서 목표치를 노려 볼 수 있다" 정도로 받아들이는 게 맞아요.</p>
+<h3>RTX 3060 Ti 권장 사양은 어디까지가 목표인가요?</h3>
+<p><b>권장 단은 업스케일링을 켠 1440p, 60FPS가 목표이고, GPU는 RTX 3060 Ti 8GB 또는 RX 6700 XT 12GB예요.</b></p>
+<p class="ph">📷 〔사진 자리 3〕 비 내리는 기와 마당 전투 장면 — 네이버에서 직접 업로드</p>
+<p>▲ 비 내리는 기와 마당에서 여러 적과 맞붙는 장면이에요</p>
+<p>이미지 출처: <a href="https://store.steampowered.com/app/4115450/" target="_blank">스팀 상점 – Phantom Blade Zero</a></p>
+<p>최소와 견주면 해상도가 1080p에서 1440p로, 프레임이 30에서 60으로 한꺼번에 올라가는 단인데요. 표에 적힌 GPU도 NVIDIA 쪽이 6GB에서 8GB로, AMD 쪽이 8GB에서 12GB로 커지네요. 램 16GB는 그대로라서 최소에서 권장으로 넘어갈 때 손볼 부품은 사실상 CPU와 그래픽카드 둘이랍니다.</p>
+<h3>레이 트레이싱 단과 패스 트레이싱 단은 어떤 카드가 기준인가요?</h3>
+<p><b>레이 트레이싱 권장은 RTX 5060 8GB의 1080p 60FPS, 패스 트레이싱 권장은 RTX 5080 16GB의 2160p 60FPS이고, 두 단 모두 NVIDIA 카드만 올라와 있어요.</b></p>
+<ul>
+<li>업스케일링 기술명은 사양표에 안 적혀 있는데, 공식 사이트 뉴스(2025년 8월)는 레이 트레이싱과 DLSS 4, Multi Frame Generation으로 출시한다고 밝혔고, 올해 5월 NVIDIA 뉴스는 DLSS 4.5로 올려 출시한다고 적었어요</li>
+<li>NVIDIA 뉴스는 출시 첫날부터 DLSS Super Resolution과 Multi Frame Generation을 지원하고, PC 전용으로 레이 트레이싱 반사·그림자·카우스틱(caustics)이 들어간다고 적었어요</li>
+<li>공식 사양 페이지·공식 사이트 뉴스·스팀 상점에서는 FSR과 XeSS 언급을 찾지 못했어요</li>
+</ul>
+<p>표만 놓고 보면 권장 단이 1440p인데 레이 트레이싱 단은 1080p로 내려와요. 그러니까 레이 트레이싱을 얹는 대신 목표 해상도를 한 칸 낮추는 구조로 읽히네요. 패스 트레이싱 단은 2160p로 올라가는 대신 GPU가 RTX 5080 16GB로 확 뛰고요.</p>
+<h3>내 그래픽카드는 4단 표에서 어느 단에 해당하나요?</h3>
+<p><b>내 GPU 이름을 아래 표에 그대로 대 보면 어느 단인지 바로 나오고, 표에 없는 모델은 공식 기준으로 판정할 수 없어요.</b></p>
+<table>
+<tr><th>내 GPU</th><th>해당 단</th><th>목표 (업스케일링 사용)</th></tr>
+<tr><td>GTX 1660 6GB · RX 5500 XT 8GB</td><td>최소</td><td>1080p / 30FPS</td></tr>
+<tr><td>RTX 3060 Ti 8GB · RX 6700 XT 12GB</td><td>권장</td><td>1440p / 60FPS</td></tr>
+<tr><td>RTX 5060 8GB</td><td>레이 트레이싱 권장</td><td>1080p / 60FPS</td></tr>
+<tr><td>RTX 5080 16GB</td><td>패스 트레이싱 권장</td><td>2160p / 60FPS</td></tr>
+<tr><td>GTX 1650 · GTX 1660 Super 등 표에 없는 모델</td><td>판정 불가</td><td>—</td></tr>
+</table>
+<ol>
+<li>작업 관리자 성능 탭에서 내 GPU 이름부터 확인해요</li>
+<li>위 표에서 같은 이름을 찾고, 램이 16GB인지 봐요</li>
+<li>게임을 설치할 드라이브가 SSD인지 마지막으로 봐요</li>
+</ol>
+<p>모니터 해상도로 보면 더 간단해요. 1080p 모니터라면 최소 단과 레이 트레이싱 단의 목표 해상도와 맞고, 1440p 모니터라면 권장 단의 목표와 맞아요. 2160p 모니터는 패스 트레이싱 단이 유일하게 맞는 줄입니다.</p>
+<h3>SSD 설치 필수라는데, 설치 용량은 몇 GB인가요?</h3>
+<p><b>공식 한국어 표기는 "SSD 필수"뿐이고, 설치 용량 GB 숫자는 스팀과 공식 사이트 어디에도 아직 공개되지 않았어요.</b></p>
+<p>공식 문구가 SSD 필수까지라서, SSD에 설치하는 걸 전제로 잡는 게 안전합니다. 용량 숫자는 상점 페이지에 올라오면 그때 빈 공간과 비교하면 되고요.</p>
+<h3>팬텀 블레이드 제로 한국어 지원은 어디까지인가요?</h3>
+<p><b>한국어는 인터페이스와 자막을 지원하고, 음성은 영어와 중국어 간체만 지원해요.</b></p>
+<table>
+<tr><th>언어</th><th>인터페이스</th><th>음성</th><th>자막</th></tr>
+<tr><td>한국어</td><td>✔</td><td>✘</td><td>✔</td></tr>
+<tr><td>영어</td><td>✔</td><td>✔</td><td>✔</td></tr>
+<tr><td>중국어 간체</td><td>✔</td><td>✔</td><td>✔</td></tr>
+</table>
+<p>한글 더빙은 없고, 한글 화면과 한글 자막으로 영어나 중국어 음성을 들으며 즐기는 구성이네요. 위 표는 스팀 지원 언어표를 10월 11일 기준으로 옮긴 거예요.</p>
+<h3>출시일이 10월 28일과 29일로 갈리는 이유는 뭔가요?</h3>
+<p><b>스팀은 10월 28일, 공식 사이트는 10월 29일로 적고 있는데, 같은 시점을 시간대만 달리 읽은 걸로 보이고 스팀의 출시 시각 값을 한국 시간으로 바꾸면 29일 오전 11시쯤이에요.</b></p>
+<table>
+<tr><th>어디</th><th>표기</th></tr>
+<tr><td>스팀 상점</td><td>2026년 10월 28일 출시 예정</td></tr>
+<tr><td>공식 사이트(영문)</td><td>RELEASE DATE 10/29/2026</td></tr>
+<tr><td>공식 사이트(한국어)</td><td>발매 날짜 2026/10/29</td></tr>
+</table>
+<p>스팀 상점 페이지 안에 들어 있는 출시 시각 값은 UTC로 10월 29일 02:00이에요. 한국 시간(UTC+9)으로 바꾸면 10월 29일 오전 11시, 미국 서부 시간으로는 10월 28일 저녁 7시라서 스팀의 28일이 그쪽 날짜로 보여요. 다만 공식이 "한국 11시"라고 따로 발표한 건 아니고 제가 환산한 값이라 '11시경' 정도로만 잡아 두세요ㅎㅎ</p>
+<p>사전 구매는 8월 12일부터 열렸고, 스팀 표기 가격은 일반판 69,800원, 디럭스 79,800원이에요.</p>
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 팬텀 블레이드 제로 체험판이나 데모는 있나요?</b><br>
+집에서 받아 해 볼 수 있는 체험판은 스팀 상점에 없어요. 공식 사이트의 데모 소식은 2024년 게임쇼 월드 투어, 2025년 S-Party 같은 오프라인 시연회와 실기 영상이에요.</p>
+<p>출처: <a href="https://pbz.s-game.com/ko-KR/news/first-gameplay-trailer/" target="_blank">공식 사이트 – 게임쇼 월드 투어 소식</a> · <a href="https://pbz.s-game.com/ko-KR/news/s-party-2025-hands-on/" target="_blank">공식 사이트 – S-Party 2025 소식</a></p>
+<p><b>Q. 스팀 말고 다른 곳에서도 살 수 있나요?</b><br>
+공식 사이트 뉴스에 따르면 8월 12일 사전 구매가 PS5, 스팀, 에픽에서 함께 열렸어요.</p>
+<p><b>Q. 맥이나 리눅스에서도 돌릴 수 있나요?</b><br>
+스팀 상점에 지원 플랫폼으로 Windows만 표기돼 있어요.</p>
+<p><b>Q. 스팀 상점에 DRM 표기가 있나요?</b><br>
+타사 DRM으로 Denuvo가 표기돼 있어요.</p>
+<h3>팬텀 블레이드 제로 사양 정리</h3>
+<p>사전 구매 버튼을 누르기 전에 내 GPU가 위 표의 어느 단인지, 그 단의 목표치가 내 모니터와 맞는지만 확인하면 끝이에요. 아직 출시 전이라 사양이 바뀔 수 있으니 구매 직전에 <a href="https://store.steampowered.com/app/4115450/" target="_blank">스팀 상점 사양란</a>을 한 번 더 열어 보세요~</p>
+<p><b>참고한 곳</b> (2026.10.11 기준)<br>
+· <a href="https://store.steampowered.com/app/4115450/" target="_blank">스팀 상점 – Phantom Blade Zero</a><br>
+· <a href="https://pbz.s-game.com/ko-KR/news/system-requirements/" target="_blank">팬텀 블레이드 제로 공식 사이트 – 시스템 요구 사양</a><br>
+· <a href="https://www.nvidia.com/en-us/geforce/news/dlss-4-5-ray-reconstruction-1000-rtx-games-apps-out-now/" target="_blank">NVIDIA GeForce 뉴스 – DLSS 지원 게임</a><br>
+· <a href="https://pbz.s-game.com/en-US/news/pre-orders-now-available/" target="_blank">팬텀 블레이드 제로 공식 사이트 – 사전 구매 뉴스</a><br>
+· <a href="https://pbz.s-game.com/en-US/news/return-to-pangzhen-rtx-reveal/" target="_blank">팬텀 블레이드 제로 공식 사이트 – RTX·DLSS 4 뉴스</a></p>
+<p class="tags-line">#팬텀블레이드제로 #팬텀블레이드제로사양 #팬텀블레이드제로PC사양 #팬텀블레이드제로최소사양 #팬텀블레이드제로권장사양 #팬텀블레이드제로출시일 #팬텀블레이드제로한국어 #팬텀블레이드제로레이트레이싱 #PhantomBladeZero #GTX1660 #RTX3060Ti #게임사양</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
