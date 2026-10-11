@@ -6,7 +6,7 @@
 //     소재 메모 · 신호 없는 옛 항목엔 줄이 없는가 · 육아 주 1회 빈 칸 문구와 «판 보기» 이동 · 지정 게임 문구 ·
 //     홈 타일 막대 비율(그려진 픽셀)·목표 눈금·미연결 표기·툴팁·표 뷰·재검 줄 · 1920/390/360 넘침 0 · 칸 머리 한 줄(390·360) · hover 캡션 대비 · 콘솔 0 · CSS 구조
 import { spawn } from 'node:child_process';
-import { writeFileSync, mkdirSync, existsSync, statSync, createReadStream, readFileSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync, statSync, createReadStream, readFileSync, readdirSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { resolve, join, dirname, extname, normalize } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -26,11 +26,16 @@ const src = (n) => [{ label: '공식', url: 'https://example.com/' + n }];
 const I = (sec, n, o) => Object.assign({ id: 'syn-' + sec + '-' + n, game: 'G' + n, title: sec + ' 주제 ' + n, purpose: '게임 공략', why: '왜 지금', detail: '확인된 사실 한 줄', angle: '각도', heat: 2, keywords: ['G' + n + ' 공략'], sources: src(sec + n) }, o);
 const E1 = { date: '2026-09-23', headline: '합성 판 — 수요일', note: ['★육아 제품은 주 1회(월요일 판)'], sections: [
   { key: 'pinned', items: [I('pinned', 1, { game: '롤토체스', title: '롤토체스 초보 덱 추천, 18.2 기준', angleType: 'rank', demand: { tier: 2, src: 'ac', ac: 10 }, aib: { s: 'shown', n: 4, bd: 2, yd: null, q: '롤토체스 초보 덱' } })] },
-  { key: 'core', items: [I('core', 1, { game: '팰월드', title: '팰월드 거점 추천 위치', angleType: 'howto', demand: { tier: 1, src: 'searchad', ac: 10, game: 42000, kw: { q: '팰월드 거점', n: 3200 } }, aib: { s: 'async', n: 0, bd: null, yd: null, q: '팰월드 거점' } })] },
+  { key: 'core', items: [I('core', 1, { game: '팰월드', title: '팰월드 거점 추천 위치', coverage: [{ writer: '봄딩', title: '팰월드 거점 어디에 지을까, 평지 넓은 자리 5곳', words: ['거점'] }], angleType: 'howto', demand: { tier: 1, src: 'searchad', ac: 10, game: 42000, kw: { q: '팰월드 거점', n: 3200 } }, aib: { s: 'async', n: 0, bd: null, yd: null, q: '팰월드 거점' } })] },
   { key: 'guide', items: [
     I('guide', 1, { game: '메이플스토리', title: '메이플스토리 초보 세팅 방법, 사냥 전에 할 것', angleType: 'howto', depth: 'play', demand: { tier: 2, src: 'ac', ac: 9 }, aib: { s: 'shown', n: 5, bd: null, yd: null, q: '메이플 스토리 세팅' } }),
     I('guide', 2, { game: '리그 오브 레전드', title: '리그 오브 레전드 게임 방법, 처음 하는 사람 기준', angleType: 'howto', depth: 'entry', entryOk: '09-20 서비스 이관으로 접속 경로 변경', demand: { tier: 2, src: 'ac', ac: 10 }, aib: { s: 'none', n: 0, bd: null, yd: null, q: '리그 오브 레전드 게임 방법' } }),
-    I('guide', 3, { game: '뱀피르', title: '뱀피르 쿠폰 9월 입력 방법', angleType: 'howto', demand: { tier: 2, src: 'ac', ac: 8 } })] },
+    /* ★guide-3 은 «실제 판만큼 긴» 항목이다(사실 3문장 + ★주의 + 긴 각도) — 요약 카드가 길어야 작은 창에서 모달 본문이 넘치고,
+       그래야 «주제 칸 포커스가 본문을 끌어내리는가» 검사가 옛 결함을 잡는다(짧은 합성 항목으로는 변이 시험에서 못 잡았다 · 10-11) */
+    I('guide', 3, { game: '뱀피르', title: '뱀피르 쿠폰 9월 입력 방법', coverage: [{ writer: '봄딩', title: '뱀피르 쿠폰 모음, 8월 코드 정리', words: ['쿠폰'] }, { writer: '영도', title: '뱀피르 쿠폰 입력하는 곳' }], angleType: 'howto', demand: { tier: 2, src: 'ac', ac: 8 },
+      why: '9월 쿠폰 3종이 한꺼번에 풀렸고 입력 경로가 설정 메뉴로 옮겨져 «뱀피르 쿠폰 입력» 검색이 몰린다',
+      detail: '공식 공지에 따르면 9월 쿠폰 3종은 9월 30일 23시 59분까지 쓸 수 있고 계정당 한 번만 등록된다.\n입력 경로는 9월 12일 패치로 우편함에서 설정 > 계정 > 쿠폰 등록으로 옮겨졌고 iOS 는 웹 쿠폰 페이지에서만 된다.\n보상은 쿠폰마다 다르며 가장 큰 것은 고급 소환권 10장과 강화석 300개다.\n★iOS 웹 쿠폰 페이지 주소는 공지에 링크로만 있어 본문에 직접 적지 못했다 — 확인 필요',
+      angle: '기존 봄딩 «뱀피르 쿠폰 모음, 8월 코드 정리»가 코드 목록을 다룬 것과 달리 9월 패치 뒤 바뀐 입력 경로와 iOS 예외를 순서대로 다룬다. 영도 «쿠폰 입력하는 곳»은 패치 전 경로다.' })] },
   { key: 'parenting', items: [] },
   { key: 'new', items: [I('new', 1, { angleType: 'news', demand: { tier: 1, src: 'ac', ac: 2 } })] },
   { key: 'update', items: [I('update', 1, { angleType: 'howto', demand: { tier: 2, src: 'ac', ac: 10 } })] },
@@ -173,6 +178,20 @@ chk('모든 칸 게임명 대비 ≥4.5(흰 면·hover 면)', Array.isArray(crs)
 chk('꼭 다룰 게임 글자 = 글자 단계(#8F610D) · 아이콘은 원색(#A8720F)', await ev(`(()=>{const s=[...document.querySelectorAll('.tsec')].find(x=>x.querySelector('.tsec-t').textContent==='꼭 다룰 게임');return getComputedStyle(s.querySelector('.tr-g')).color==='rgb(143, 97, 13)'&&getComputedStyle(s.querySelector('.tsec-ic')).color==='rgb(168, 114, 15)'})()`));
 chk('★행에 신호가 새지 않는다(게임·주제·발주 3요소 그대로)', await ev(`(()=>{const s=${gsec};const r=s.querySelector('.trow');return r.children.length===3&&!/수요|브리핑|자동완성/.test(r.textContent)})()`));
 chk('지정 게임 0종 문구 = «최대 5개»', (await ev(`(()=>{const s=[...document.querySelectorAll('.tsec')].find(x=>x.querySelector('.tsec-t').textContent==='꼭 다룰 게임');return s?s.textContent:''})()`)).includes('게임마다 주제 최대 5개') || (await ev(`document.querySelectorAll('.tsec')[0].querySelectorAll('.trow').length`)) > 0);
+/* 관련 글 표식(2026-10-11) — 옛 빨간 느낌표(.tr-warn)가 «발주해도 되나»를 헷갈리게 해서 중립 태그로 바꿨다.
+   색·글자·자리·대비를 «그려진 값»으로 잰다. 합성 판 = core-1(1건 · 겹친 말 있음) · guide-3(2건 · 둘째는 겹친 말 없는 옛 형식) */
+const REL = `(id)=>{const b=document.querySelector('[data-req="'+id+'"]');const r=b&&b.closest('.trow');const t=r&&r.querySelector('.tr-rel');if(!t)return null;const cs=getComputedStyle(t),tb=t.getBoundingClientRect(),cb=b.getBoundingClientRect(),rb=r.getBoundingClientRect(),hb=r.querySelector('.tr-h').getBoundingClientRect();return {tx:t.textContent,title:t.getAttribute('title')||'',color:cs.color,bg:cs.backgroundColor,fs:parseFloat(cs.fontSize),svg:t.querySelectorAll('svg').length,kids:r.children.length,inRow:tb.left>=rb.left-0.5&&tb.right<=rb.right+0.5&&tb.top>=rb.top-0.5&&tb.bottom<=rb.bottom+0.5,clearOfCta:tb.right<=cb.left+0.5||tb.bottom<=cb.top+0.5,below:tb.top>=hb.bottom-0.5,hw:Math.round(hb.width),w:Math.round(tb.width),h:Math.round(tb.height)}}`;
+const rel1 = await ev(`(${REL})('syn-core-1')`);
+chk('관련 글 표식 = 글자 «관련 글»(느낌표 아이콘 없음) · 행은 3요소 그대로', rel1 && rel1.tx === '관련 글' && rel1.svg === 0 && rel1.kids === 3, rel1);
+chk('관련 글 표식 = 중립색(ink-3 글자 · surface-3 면) — alert 색이 아니다', rel1 && rel1.color === 'rgb(95, 102, 111)' && rel1.bg === 'rgb(239, 241, 244)', rel1);
+const relCr = rel1 ? await ev(`(${CONTRAST})(${JSON.stringify(rel1.color)},${JSON.stringify(rel1.bg)})`) : 0;
+chk('관련 글 표식 글자 ≥12.5px · 대비 ≥4.5', rel1 && rel1.fs >= 12.5 && relCr >= 4.5, { fs: rel1 && rel1.fs, cr: relCr });
+chk('관련 글 표식이 행 안에 있고 발주 버튼과 안 겹친다', rel1 && rel1.inRow && rel1.clearOfCta, rel1);
+chk('툴팁 = 기존 글 제목 + 겹친 말', rel1 && rel1.title.includes('봄딩 「팰월드 거점 어디에 지을까') && rel1.title.includes('겹친 말: 거점'), rel1 && rel1.title);
+const rel2 = await ev(`(${REL})('syn-guide-3')`);
+chk('2건이면 수를 붙인다(«관련 글 2») · 겹친 말 없는 옛 항목은 제목만', rel2 && rel2.tx === '관련 글 2' && rel2.title.includes('영도 「뱀피르 쿠폰 입력하는 곳」') && !/입력하는 곳」 — 겹친 말/.test(rel2.title), rel2);
+chk('옛 빨간 느낌표(.tr-warn)·«이미 다룬 글» 문구가 화면에 없다', await ev(`document.querySelectorAll('.tr-warn').length===0&&!/이미 다룬 글/.test(document.querySelector('#view').textContent)`));
+chk('관련 글이 없는 행엔 표식이 없다', (await ev(`(${REL})('syn-guide-1')`)) === null);
 await shot('01-trend-1920', true);
 
 /* 발주 모달 — 신호 줄 */
@@ -191,6 +210,16 @@ await click(`[data-req="syn-core-1"]`); await waitFor(`!!document.querySelector(
 const bf2 = await ev(`[...document.querySelectorAll('.brief .bf-f')].map(f=>f.querySelector('.bf-k').textContent+'='+f.querySelector('.bf-v').textContent)`);
 chk('검색량 연동 항목 = 키워드·월 검색수 표기', bf2.includes('검색 수요=낮음 · 「팰월드 거점」 월 3,200회'), bf2);
 chk('출처 미열람 표기', bf2.includes('AI 브리핑=뜸 · 출처 미확인'), bf2);
+/* 관련 글 줄(2026-10-11) — 옛 문구는 작성자 칩 아래 빨간 «이미 다룬 글 … 같은 각도면 발주하지 마세요»였다(1080 창에서도 모달을 내려야 보였다).
+   요약 카드의 한 줄로 올렸다. ★«있다»가 아니라 «모달을 내리지 않고 보이는가»(seen)까지 잰다 */
+const RELM = `(()=>{const f=document.querySelector('.brief .bf-f.bf-rel');if(!f)return null;const mb=document.querySelector('.mdl-b').getBoundingClientRect(),fb=f.getBoundingClientRect(),v=f.querySelector('.bf-v');return {k:f.querySelector('.bf-k').textContent,li:[...f.querySelectorAll('.bf-l')].map(x=>x.textContent),color:getComputedStyle(v).color,note:getComputedStyle(f.querySelector('.bf-n')).color,hint:document.querySelectorAll('.mdl .f-hint.warn,.mdl .f-hint.rel').length,inside:fb.right<=mb.right+0.5&&fb.left>=mb.left-0.5,seen:fb.top>=mb.top-0.5&&fb.bottom<=mb.bottom+0.5}})()`;
+const relM = await ev(RELM);
+chk('모달 요약 카드에 «관련 글» 줄 = 값 글자색(ink-2) · 경고색 힌트 없음 · 모달을 내리지 않아도 보인다', relM && relM.k === '관련 글' && relM.hint === 0 && relM.color === 'rgb(73, 79, 87)' && relM.inside && relM.seen, relM);
+chk('관련 글 줄 = 기존 글 제목 + 겹친 말 · 끝에 «발주해도 돼요»(ink-3)', relM && relM.li.length === 2 && relM.li[0] === '봄딩 「팰월드 거점 어디에 지을까, 평지 넓은 자리 5곳」 · 겹친 말 거점' && relM.li[1].startsWith('발주해도 돼요') && relM.note === 'rgb(95, 102, 111)', relM && relM.li);
+const taRel = await ev(`document.querySelector('#oMaterial').value`);
+chk('소재 메모 = «★기존 글 확인 필요 …(겹친 말: 거점) — 겹치지 않는 각도로» · «취소» 문구 없음', taRel.includes('★기존 글 확인 필요: 봄딩 「팰월드 거점 어디에 지을까, 평지 넓은 자리 5곳」(겹친 말: 거점) — 이 글과 겹치지 않는 각도로 쓸 것') && !taRel.includes('취소'), taRel.slice(-220));
+chk('관련 글 줄이 있어도 모달 본문 가로 넘침 없음', await ev(`(()=>{const b=document.querySelector('.mdl-b');return b.scrollWidth<=b.clientWidth+1})()`));
+await shot('02b-modal-rel-1920');
 await ev(`document.querySelector('.mdl [data-close]').click()`); await sleep(450);
 await click(`[data-req="syn-pinned-1"]`); await waitFor(`!!document.querySelector('.brief')`, 5000);
 chk('이미 인용 중이면 «봄딩 2위 인용 중»', (await ev(`document.querySelector('.brief').textContent`)).includes('봄딩 2위 인용 중'));
@@ -281,6 +310,20 @@ chk('재검 데이터가 없으면 그 줄 자체가 없다(깊이 줄은 별개
 chk('[1920 홈 B] 콘솔 예외 0', logs.length === 0, logs);
 MIX = MIX_A;
 
+/* ═════ 실제 창 — 발주 모달 «관련 글» 줄(10-11 디자인 게이트 🟡) ═════
+   1920×1080 만 재면 작은 창을 놓친다 — 주제 칸 자동 포커스가 모달 본문을 끌어내려 요약 카드가 위로 밀려났다(1366×630 에서 4건 중 1건만 보였다).
+   작업표시줄·탭·주소창을 뺀 «실제 창» 세 가지에서, 열자마자(0.6초 뒤) 줄 전체가 보이고 본문이 내려가 있지 않은지 잰다 */
+for (const [w, h] of [[1920, 940], [1536, 730], [1366, 630]]) {
+  await open(w, h, false); logs = [];
+  await goTrend();
+  await click(`[data-req="syn-guide-3"]`); await waitFor(`!!document.querySelector('.brief')`, 5000); await sleep(600);
+  const rs = await ev(RELM);
+  const st = await ev(`document.querySelector('.mdl-b').scrollTop`);
+  chk(`[${w}×${h}] 발주 모달을 열자마자 «관련 글» 줄(2건+한마디)이 다 보인다 · 본문이 내려가 있지 않다`, rs && rs.seen && rs.li.length === 3 && st === 0, { seen: rs && rs.seen, li: rs && rs.li.length, scrollTop: st });
+  chk(`[${w}×${h}] 주제 칸 포커스는 그대로 간다 · 콘솔 예외 0`, (await ev(`!!document.activeElement&&document.activeElement.id==='oTopic'`)) && logs.length === 0, logs);
+  await ev(`document.querySelector('.mdl [data-close]').click()`); await sleep(450);
+}
+
 /* ═════ 390 — 모바일 ═════ */
 await open(390, 844, true); logs = [];
 await goHome();
@@ -295,6 +338,11 @@ chk('[390] 타일 바닥 값 묶음이 쪼개지지 않는다(숫자 고아줄 �
 await shot('05-home-390', true);
 await goTrend();
 chk('[390] 공략 칸 행이 3개', (await ev(`(()=>{const s=${gsec};return s?s.querySelectorAll('.trow').length:0})()`)) === 3);
+/* ★좁은 폭에선 표식을 주제 아랫줄로 내린다 — 같은 줄에 두면 주제 글자가 5자쯤 더 잘린다. «있다»가 아니라 자리(아랫줄·행 안·버튼과 안 겹침)와 주제 폭을 잰다 */
+const relMob = await ev(`(${REL})('syn-guide-3')`);
+const noRelMob = await ev(`(()=>{const b=document.querySelector('[data-req="syn-guide-1"]');const h=b.closest('.trow').querySelector('.tr-h').getBoundingClientRect();return Math.round(h.width)})()`);
+chk('[390] 관련 글 표식 = 주제 아랫줄 · 행 안 · 발주 버튼과 안 겹침', relMob && relMob.tx === '관련 글 2' && relMob.below && relMob.inRow && relMob.clearOfCta, relMob);
+chk('[390] 표식이 붙어도 주제 폭이 줄지 않는다(표식 없는 행과 같은 폭)', relMob && Math.abs(relMob.hw - noRelMob) <= 1, { withRel: relMob && relMob.hw, without: noRelMob });
 const parMob = await ev(`(()=>{const b=document.querySelector('.tsec-go');if(!b)return null;const r=b.getBoundingClientRect(),c=b.closest('.core').getBoundingClientRect();return {inside:r.right<=c.right+0.5&&r.left>=c.left-0.5,h:Math.round(r.height)}})()`);
 chk('[390] 판 보기 버튼이 칸 안에 들어간다', parMob && parMob.inside, parMob);
 /* ★칸 머리 줄바꿈 — flex 자식은 blockify 돼 getClientRects 가 늘 1 이다. 글자 Range 의 줄 top 개수로 센다(09-19 게이트 발견) */
@@ -306,6 +354,10 @@ await shot('06-trend-390', true);
 await click(`[data-req="syn-guide-1"]`); await waitFor(`!!document.querySelector('.brief')`, 5000);
 const mm = await ev(`(()=>{const f=[...document.querySelectorAll('.brief .bf-f')].find(x=>x.querySelector('.bf-k').textContent==='검색 수요');if(!f)return null;const v=f.querySelector('.bf-v').getBoundingClientRect(),b=document.querySelector('.brief').getBoundingClientRect();return {inside:v.right<=b.right+0.5,oneCol:getComputedStyle(f).gridTemplateColumns.split(' ').length===1}})()`);
 chk('[390] 모달 신호 줄이 한 열로 접히고 넘치지 않는다', mm && mm.inside && mm.oneCol, mm);
+await ev(`document.querySelector('.mdl [data-close]').click()`); await sleep(450);
+await click(`[data-req="syn-guide-3"]`); await waitFor(`!!document.querySelector('.brief')`, 5000);
+const relMm = await ev(RELM);
+chk('[390] 모달 «관련 글» 줄 2건 + 한마디 · 카드 안 · 겹친 말 없는 항목은 제목만', relMm && relMm.li.length === 3 && relMm.inside && relMm.li[1] === '영도 「뱀피르 쿠폰 입력하는 곳」' && relMm.li[0].endsWith('· 겹친 말 쿠폰'), relMm);
 await shot('07-modal-390');
 chk('[390 모달] 가로 넘침 없음', await ev(`innerWidth===390&&document.documentElement.scrollWidth<=390`));
 chk('[390] 콘솔 예외 0', logs.length === 0, logs);
@@ -326,6 +378,24 @@ const CSSSRC = readFileSync(join(ROOT, 'index.html'), 'utf8');
 const CSSBODY = CSSSRC.slice(CSSSRC.indexOf('<style'), CSSSRC.indexOf('</style>'));
 chk('CSS 주석이 전부 닫혀 있다', (CSSBODY.match(/\/\*/g) || []).length === (CSSBODY.match(/\*\//g) || []).length);
 chk('CSS 중괄호가 맞는다', (CSSBODY.match(/\{/g) || []).length === (CSSBODY.match(/\}/g) || []).length);
+
+/* 아이콘 사전 — 쓰는 이름이 전부 I{} 에 있는가(10-11 디자인 게이트 🔴).
+   index.html 에서 안 쓰게 된 alertTri 를 지웠더니 도구함 제목 검사기(_toolbox/title.js)의 «bad» 신호 아이콘이 빈 svg 가 됐다.
+   svg() 는 없는 이름에 빈 그림을 돌려줘서 에러 0·콘솔 0 — 그 화면을 열어야만 보였다. 그래서 «쓰는 이름»을 정적으로 모아 사전과 대조한다:
+   index.html 의 svg('이름')·icon:'이름' + 지연 로드 스크립트(_toolbox·_cal)의 api.svg('이름')·icon:'이름'·«var icon = 조건?'이름':…» */
+const ICON_KEYS = new Set([...CSSSRC.slice(CSSSRC.indexOf('var I={'), CSSSRC.indexOf('function svg(')).matchAll(/^ {2}([A-Za-z]\w*):'/gm)].map((m) => m[1]));
+const LAZY = ['_toolbox', '_cal'].flatMap((d) => existsSync(join(ROOT, d)) ? readdirSync(join(ROOT, d)).filter((f) => f.endsWith('.js')).map((f) => d + '/' + f) : []);
+const iconUses = new Map();
+const scanIcons = (file, txt, callRe) => {
+  for (const m of txt.matchAll(callRe)) iconUses.set(m[1], file);
+  for (const m of txt.matchAll(/\bicon\s*:\s*'([A-Za-z]\w*)'/g)) iconUses.set(m[1], file);
+  for (const line of txt.split(/\r?\n/)) if (/\bvar icon\s*=/.test(line)) for (const m of line.matchAll(/[?:]\s*'([A-Za-z]\w*)'/g)) iconUses.set(m[1], file);
+};
+scanIcons('index.html', CSSSRC, /\bsvg\(\s*'([A-Za-z]\w*)'/g);
+for (const f of LAZY) scanIcons(f, readFileSync(join(ROOT, f), 'utf8'), /\bapi\.svg\(\s*'([A-Za-z]\w*)'/g);
+const missingIcons = [...iconUses].filter(([n]) => !ICON_KEYS.has(n));
+chk('쓰는 아이콘 이름이 전부 아이콘 사전(I{})에 있다(index.html + _toolbox·_cal ' + LAZY.length + '파일 · 이름 ' + iconUses.size + '개)', ICON_KEYS.size > 20 && iconUses.size > 10 && missingIcons.length === 0, { missing: missingIcons, keys: ICON_KEYS.size });
+chk('★도구함 제목 검사기의 신호 아이콘 넷(alertTri·alert·check·info)이 사전에 있다', ['alertTri', 'alert', 'check', 'info'].every((n) => ICON_KEYS.has(n) && iconUses.has(n)), ['alertTri', 'alert', 'check', 'info'].map((n) => n + ':' + ICON_KEYS.has(n) + '/' + iconUses.has(n)));
 
 console.log(`\n${R.length - fail}/${R.length} PASS${fail ? ' · FAIL ' + fail : ''} · 스크린샷 ${OUT}`);
 try { ws.close(); } catch { }
