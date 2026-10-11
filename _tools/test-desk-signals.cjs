@@ -258,7 +258,7 @@ console.log('\n[13] ★desk-candidates merge · gate (2026-09-23 · [B-0] 접착
     { game: '아기 가습기', title: '아기 가습기 추천', verdict: 'OK', hits: [] },
   ] };
   const classify = [{ writer: '봄딩', results: [
-    { raw: '팰월드 | 팰월드 거점 추천', status: 'review', matchedTitle: '팰월드 거점 어디에', reason: 'r' },
+    { raw: '팰월드 | 팰월드 거점 추천', status: 'review', matchedTitle: '팰월드 거점 어디에', sharedWords: ['거점'], reason: 'r' },
     { raw: '메이플 | 메이플 하는법', status: 'new' },
     { raw: 'A | A 출시일', status: 'new' },
     { raw: '이환 | 이환 레이븐 세팅', status: 'carried', reason: '이월' },
@@ -273,7 +273,11 @@ console.log('\n[13] ★desk-candidates merge · gate (2026-09-23 · [B-0] 접착
   const g = C.gateItems(cands, dedup, classify, signals);
   eq(g.kept.map((x) => x.id), ['guide-1'], '통과 = dedup CHECK + classify review + signals KEEP 만');
   eq(g.kept[0].flags, ['dedup:CHECK', 'classify:review(봄딩)'], 'FLAG 가 남는다');
-  eq(g.kept[0].coverage, [{ writer: '봄딩', title: '팰월드 거점 어디에' }], 'coverage = matchedTitle 그대로(L078)');
+  eq(g.kept[0].coverage, [{ writer: '봄딩', title: '팰월드 거점 어디에', words: ['거점'] }], 'coverage = matchedTitle 그대로(L078) + 겹친 말(words · 10-11)');
+  {
+    const g2 = C.gateItems([cands[0]], { results: [] }, [{ writer: '봄딩', results: [{ raw: classify[0].results[0].raw, status: 'review', matchedTitle: '팰월드 거점 어디에' }] }], { items: [] });
+    eq(g2.kept[0].coverage, [{ writer: '봄딩', title: '팰월드 거점 어디에' }], 'sharedWords 가 없는 결과는 words 키를 만들지 않는다');
+  }
   eq([g.kept[0].demand, g.kept[0].depth], [{ tier: 2 }, 'play'], 'signals 의 demand·depth 가 통과 항목에 실린다');
   eq(g.dropped.map((x) => x.id + ':' + x.by), ['guide-2:dedup', 'new-1:signals', 'core-1:classify', 'par-1:classify'], 'DROP 사유 = 먼저 걸린 축(dedup > classify > signals) · carried·published 는 DROP');
   eq(g.dropped.find((x) => x.id === 'guide-2').also, ['signals R5'], '뒤에 걸린 축도 also 에 남긴다');

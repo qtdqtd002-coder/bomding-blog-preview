@@ -34,6 +34,21 @@
 #   구분자 없는 옛 줄은 종전 규칙 그대로 돈다(⑴만 적용).
 #   검증 = 지난 13판(306항목) × 봄딩·영도를 옛/새 버전으로 돌려 한 줄씩 대조 + 회귀 게이트 _tools/test-classify-picks.cjs.
 #
+# ★2026-10-11 v3 — 🟡review(사이트 «관련 글» 표시) 기준 상향 (사용자: «느낌표가 너무 많아 발주해도 되는지 헷갈린다»)
+#   10-11 판 21건 중 10건에 표시가 붙었고, 지난 14판을 다시 돌린 89건 가운데 낱말 «하나»가 겹친 것이 대부분이었다
+#   (도술·신기·조건·기한·구간 … 그리고 «13일부터» 의 «일부터», «갈 수 있나» 의 «있나»).
+#   원인 = «드문 내용어» 가 «우리 제목에 드물게 나왔나» 만 재서, 기존 글 한 편에만 있으면 어떤 말이든 통과했다.
+#   고친 것(✅published·❌failed·🔄carried 판정은 그대로 — 🟡 와 🆕 사이만 움직인다).
+#   ⑴ 근거로 세지 않는 말 = 서술어 꼬리(있나·없다…) · 날짜 조각(일부터) ·
+#      일반어(서로 다른 게임 $DESK_GENERIC_GAMES 종 이상의 글 제목에 나오는 말 — 조건·사양·육성…).
+#   ⑵ 🟡 는 다음 중 하나일 때만 —
+#      · 공유어 2개 이상
+#      · 공유어 1개가 «양쪽 제목의 앞머리»(첫 쉼표·대시 앞 = 그 글의 주제 자리 · 폴더 글은 폴더명 포함)에 같이 있다
+#      · 같은 유형어(HARD)
+#      · «게임당 한 편» 유형의 같은 말(티어↔티어 · 쿠폰↔쿠폰 · 사양↔사양)이 양쪽 앞머리에 있다(「픽업」 소식 ↔ 「티어표」는 아니다)
+#   ⑶ sharedWords = 근거가 된 말만 → 데스크 coverage[].words 로 실려 화면에 «겹친 말»로 보인다.
+#   검증 = 지난 14판(184항목) × 봄딩·영도 전후 대조(🟡 89 → 47 · 제외 판정 이동 0) + 회귀 게이트 _tools/test-classify-picks.cjs.
+#
 # 실행:
 #   powershell -ExecutionPolicy Bypass -File _tools\classify-picks.ps1 -Writer 봄딩 -CandidatesFile cand.txt
 #   (CandidatesFile = 한 줄에 하나. 데스크는 «게임 | 제목». 옛 형식은 상태 이모지·[목적라벨]·괄호 메모 자동 제거)
@@ -172,6 +187,7 @@ function Franchise-Of([string]$candNorm){
 #   데스크 후보 «게임 | 제목» 전용. 옛 줄(구분자 없음)은 아래 도구를 쓰지 않는다.
 $DESK_DF_MAX   = 2      # 같은 게임 글 가운데 이 수 이하에만 나오는 낱말 = «내용어»
 $DESK_DF_RATIO = 0.2    #   …또는 그 게임 글의 20% 이하에만 나오는 낱말(「스킬트리」처럼 직업 글마다 나오는 말은 제외된다)
+$DESK_GENERIC_GAMES = 3   # ★v3: 서로 다른 게임 이 수 이상의 글 제목에 나오는 낱말 = «일반어»(조건·사양·육성…) — 🟡review 근거로 세지 않는다
 
 # 게임 별칭 색인 — core-games.cjs·glossary-lint.py 와 같은 파일. 없거나 깨지면 정규화 이름으로만 비교한다.
 $script:GameAlias  = @{}                                              # Norm(표기·폴더) → Norm(표준명)
@@ -313,6 +329,7 @@ function Category-Core([string]$cat){
 $script:DeskDocs   = New-Object System.Collections.Generic.List[object]
 $script:DocsByGame = @{}
 $script:DFgame     = @{}
+$script:DFcross    = @{}   # ★v3: 낱말 → 그 낱말이 제목에 나온 게임 키 집합(일반어 판정)
 function Is-Distinct([string]$tok, [string]$gk){
   $b = $null; if($gk -and $script:DFgame.ContainsKey($gk)){ $b = $script:DFgame[$gk] }
   if($null -eq $b){ return $true }
@@ -338,6 +355,63 @@ function Shared-Content($ct, $dt, [string]$gk, [string]$candNos, [string]$docNos
   if($docNos){ foreach($t in $ct.singles){ if(($t.Length -ge 4) -and -not $single.Contains($t) -and -not $extra.Contains($t) -and $docNos.Contains($t) -and -not (Is-StopCompound $t) -and (Is-Distinct $t $gk)){ [void]$extra.Add($t) } } }
   return ,([string[]](@($single) + @($extra)))
 }
+# ── ★v3(2026-10-11) 🟡review 근거 판정 도우미 ──
+#   · 꼬리·조각 = 서술어 꼬리(「갈 수 있나」의 「있나」) · 날짜 조각(「13일부터」의 「일부터」 — 숫자를 뗀 나머지)
+#   · 일반어 = 서로 다른 게임 $DESK_GENERIC_GAMES 종 이상의 글 제목에 나오는 말(조건·사양·육성…)
+$script:WEAK = New-Object System.Collections.Generic.HashSet[string]
+foreach($w in ('있나 없나 있다 없다 오나 되나 하나 같은 다른' -split '\s+')){ if($w){ [void]$script:WEAK.Add($w) } }
+function Is-JunkWord([string]$tok){
+  if([string]::IsNullOrEmpty($tok)){ return $true }
+  if($script:WEAK.Contains($tok)){ return $true }
+  return ($tok -match '^(년|월|일|시|분|주)(부터|까지|마다)$')
+}
+function Is-GenericWord([string]$tok){
+  return ($script:DFcross.ContainsKey($tok) -and ($script:DFcross[$tok].Count -ge $DESK_GENERIC_GAMES))
+}
+# 제목의 «앞머리» — 첫 쉼표·대시 앞(데스크 제목은 앞머리가 타깃 질의이고 뒤는 근거 나열이다. 블로그 제목도 주제가 앞에 온다).
+#   게임명을 빼고 4자 미만이면 다음 마디까지 잇는다(「애니모, 천휘 알 얻는 법」).
+function Head-Text([string]$title, [string[]]$gameWords){
+  $acc = ''
+  if([string]::IsNullOrWhiteSpace($title)){ return $acc }
+  $t = [System.Net.WebUtility]::HtmlDecode($title)
+  foreach($s in [regex]::Split($t, ',|，|\s[-–—]\s|[–—]')){
+    if([string]::IsNullOrWhiteSpace($s)){ continue }
+    $acc = ($acc + ' ' + $s).Trim()
+    if((Strip-GameNorm (Norm $acc) $gameWords).Length -ge 4){ break }
+  }
+  return $acc
+}
+# 앞머리의 내용어(낱말·짝)와 붙여 쓴 문자열. 폴더 글은 폴더명(그 글의 주제 그 자체)을 더한다.
+function Head-Of([string]$title, [string]$topic, [string[]]$gameWords){
+  $txt = Head-Text $title $gameWords
+  if($topic){ $txt = ($txt + ' ' + $topic).Trim() }
+  return [pscustomobject]@{ tok=(Content-Tokens $txt $gameWords); nos=(Norm $txt) }
+}
+# 그 말이 앞머리에 «낱말로» 있는가 — 2~3글자 말은 낱말이 같아야 한다(「메가」 ≠ 「메가썬더볼트」).
+#   4글자 이상은 붙여 쓴 복합어 안에 있어도 인정한다(「캐릭터명」 ⊂ 「캐릭터명선점」 — Shared-Content 와 같은 규칙).
+function In-Head([string]$w, $head){
+  if([string]::IsNullOrEmpty($w) -or ($null -eq $head)){ return $false }
+  if($head.tok.singles.Contains($w) -or $head.tok.pairs.ContainsKey($w)){ return $true }
+  return (($w.Length -ge 4) -and ([string]$head.nos).Contains($w))
+}
+# «게임당 한 편» 유형의 같은 말이 양쪽 앞머리에 있는가 — 그 말을 돌려준다(없으면 빈 문자열).
+#   짧은 말부터 본다(「티어」가 「티어표」·「티어리스트」를 함께 잡는다). 「픽업」 소식과 「티어표」는 같은 유형이 아니다.
+#   「사양」은 🟡 에서만 단일유형으로 본다(일반어라 낱말로는 안 세지만 「… PC 사양」 ↔ 「… 출시일 PC사양 정리」 는 같은 글감이다).
+#   ✅published 판정(Family-Match · $SINGLETON_FAMILIES)에는 넣지 않는다.
+$REVIEW_FAMILIES = $SINGLETON_FAMILIES + @(,@('사양'))
+function Family-HeadWord($candHead, $docHead){
+  if(($null -eq $candHead) -or ($null -eq $docHead)){ return '' }
+  $cn = [string]$candHead.nos; $dn = [string]$docHead.nos
+  if([string]::IsNullOrEmpty($cn) -or [string]::IsNullOrEmpty($dn)){ return '' }
+  foreach($fam in $REVIEW_FAMILIES){
+    foreach($w in @($fam | Sort-Object -Property Length)){
+      $wn = Norm ([string]$w)
+      if(($wn.Length -ge 2) -and $cn.Contains($wn) -and $dn.Contains($wn)){ return [string]$w }
+    }
+  }
+  return ''
+}
+
 # 라이브 제목의 게임 = 제목에서 가장 앞에 나오는 게임 표기(같은 자리면 긴 것 — 「두근두근타운 데이브더다이버 콜라보」는 두근두근타운).
 #   3글자 이하 표기는 낱말 머리에서만 인정(「이환」이 「…이 환영」에 걸리지 않게).
 $script:KnownGameKeys = @()
@@ -632,7 +706,11 @@ if($deskCount -gt 0){
     $keys = New-Object System.Collections.Generic.HashSet[string]
     foreach($t in $d.tok.singles){ [void]$keys.Add($t) }
     foreach($t in @($d.tok.pairs.Keys)){ [void]$keys.Add([string]$t) }
-    foreach($t in $keys){ if($b.df.ContainsKey($t)){ $b.df[$t] = [int]$b.df[$t] + 1 } else { $b.df[$t] = 1 } }
+    foreach($t in $keys){
+      if($b.df.ContainsKey($t)){ $b.df[$t] = [int]$b.df[$t] + 1 } else { $b.df[$t] = 1 }
+      if(-not $script:DFcross.ContainsKey($t)){ $script:DFcross[$t] = New-Object System.Collections.Generic.HashSet[string] }
+      [void]$script:DFcross[$t].Add([string]$d.gk)
+    }
   }
 }
 
@@ -653,7 +731,9 @@ function Classify-Desk($dk, [string]$raw){
   #  · 게임: 같은 게임 글과 대조.
   #    ✅published = 제목 유사도≥0.45, 또는 제목 유사도≥0.25 이면서 (드문 내용어 2+ · 내용어 1 + 같은 유형어/단일유형)
   #                  ★제목이 안 닮았으면 공유어가 많아도 «사실상 같은 글»로 올리지 않는다(도감 «구조 읽는 법» ≠ 도감 «속성치 비교»)
-  #    🟡review    = 드문 내용어 1 · 같은 유형어(스킬트리·사냥터 등) · 단일유형(티어/쿠폰/허브)
+  #    🟡review    = ★v3: 공유어 2+ · 공유어 1개가 양쪽 «앞머리»에 · 같은 유형어(스킬트리·사냥터 등)
+  #                  · «게임당 한 편» 유형의 같은 말(티어·쿠폰·사양)이 양쪽 앞머리에 — 뒤쪽 나열에서 낱말 하나 겹친 것은 달지 않는다
+  #                  (공유어 셈에서 서술어 꼬리·날짜 조각·일반어는 뺀다)
   #  · 육아: 제품군 핵심이 글 제목에 통째로 들어 있으면 🟡review(제목까지 거의 같으면 ✅published). 게임 글은 보지 않는다.
   $best = $null
   if($isCat){
@@ -673,20 +753,44 @@ function Classify-Desk($dk, [string]$raw){
   } else {
     $ctok = Content-Tokens $ctitle $cgw
     $cnos = Norm $ctitle
+    $chead = Head-Of $htitle '' $cgw         # ★v3 후보 앞머리(«—»·쉼표 앞 = 타깃 질의 자리)
     foreach($d in (Docs-ForGame $cgk)){
       $sh = Shared-Content $ctok $d.tok ([string]$d.gk) $cnos ([string]$d.nos)
       $jj = JacOvl $d.bg $cbgT
       $hard = @(Shared-Hard $d.kw $ckwT)
       $fam = Family-Match $ctn $d.tnorm
       $tier = 'none'
+      $words = $sh
       if(($jj.jac -ge 0.45) -or (($jj.jac -ge 0.25) -and (($sh.Count -ge 2) -or (($sh.Count -ge 1) -and (($hard.Count -ge 1) -or $fam))))){ $tier = 'published' }
-      elseif(($sh.Count -ge 1) -or ($hard.Count -ge 1) -or $fam){ $tier = 'review' }
+      elseif(($sh.Count -ge 1) -or ($hard.Count -ge 1) -or $fam){
+        # ★v3 🟡review — 낱말 하나가 겹쳤다는 것만으로는 달지 않는다(머리 주석 ⑵)
+        $strong = New-Object System.Collections.Generic.List[string]     # 서술어 꼬리·날짜 조각·일반어를 뺀 공유어
+        foreach($w in @($sh)){
+          if(($null -eq $w) -or (Is-JunkWord ([string]$w)) -or (Is-GenericWord ([string]$w))){ continue }
+          [void]$strong.Add([string]$w)
+        }
+        $basis = ''; $pick = $null
+        if($strong.Count -ge 2){ $basis = 'words'; $pick = $strong }
+        elseif($hard.Count -ge 1){
+          $basis = 'type'; $pick = $strong
+          if($pick.Count -eq 0){ foreach($hw in @($hard)){ if($null -ne $hw){ [void]$pick.Add([string]$hw) } } }
+        }
+        else {
+          $dhead = Head-Of ([string]$d.title) ([string]$d.topic) (Get-GameWords ([string]$d.gk))
+          if(($strong.Count -eq 1) -and (In-Head $strong[0] $chead) -and (In-Head $strong[0] $dhead)){ $basis = 'head'; $pick = $strong }
+          else {
+            $fw = Family-HeadWord $chead $dhead
+            if($fw){ $basis = 'family'; $pick = New-Object System.Collections.Generic.List[string]; [void]$pick.Add($fw) }
+          }
+        }
+        if($basis){ $tier = 'review'; $words = [string[]]$pick.ToArray() }
+      }
       if($tier -eq 'none'){ continue }
       # 같은 등급이면: 공유 내용어(고유 이름) > 단일유형(티어·쿠폰·허브) > 유형어 > 제목 유사도
       #   ★단일유형 가산은 내용어 1개보다 작게 — 「픽업」 같은 흔한 유형어가 「호토리」 같은 고유 이름을 이기지 않게
-      $rank = $(if($tier -eq 'published'){ 2000 } else { 1000 }) + ($sh.Count * 100) + $(if($fam){ 80 } else { 0 }) + $(if($hard.Count -ge 1){ 60 } else { 0 }) + [int][Math]::Round($jj.jac * 19) + $(if($d.kind -eq 'folder'){ 0.5 } else { 0 })
+      $rank = $(if($tier -eq 'published'){ 2000 } else { 1000 }) + (@($words).Count * 100) + $(if($fam){ 80 } else { 0 }) + $(if($hard.Count -ge 1){ 60 } else { 0 }) + [int][Math]::Round($jj.jac * 19) + $(if($d.kind -eq 'folder'){ 0.5 } else { 0 })
       if(($null -eq $best) -or ($rank -gt $best.rank)){
-        $best = [pscustomobject]@{ doc=$d; tier=$tier; shared=$sh; hard=$hard; fam=$fam; jac=[Math]::Round($jj.jac,2); rank=$rank }
+        $best = [pscustomobject]@{ doc=$d; tier=$tier; shared=[string[]]@($words); hard=$hard; fam=$fam; jac=[Math]::Round($jj.jac,2); rank=$rank }
       }
     }
   }
@@ -918,7 +1022,7 @@ $summary = [ordered]@{
   failedBlocklist = @($failedTopics | ForEach-Object { $_.topic })
   results = $results
   diversity = $diversity
-  rule = "❌failed=이미 발행요청 실패한 주제(하드 드롭·재추천 금지) · ✅발행완료=추천 제외(→최근발행, 라이브 제목 직접대조+published.json 폴더대조) · 🟡review=기본 제외(새 각도 근거시 채택) · 🔄이월/🆕신규=추천 가능. failed-requests+published.json+_live-titles.json+trend.json 결정론 대조. + 게임다양성: 트랙별 같은 게임 ≤2개(over2 비면 OK). ★«게임 | 제목» 줄=데스크 모드: 같은 게임 글과만 대조(별칭 색인) · 드문 내용어(sharedWords)로 판정 · 육아는 제품군 핵심으로 대조 · matchedTitle=coverage 에 그대로 쓸 실제 글 제목."
+  rule = "❌failed=이미 발행요청 실패한 주제(하드 드롭·재추천 금지) · ✅발행완료=추천 제외(→최근발행, 라이브 제목 직접대조+published.json 폴더대조) · 🟡review=기본 제외(새 각도 근거시 채택) · 🔄이월/🆕신규=추천 가능. failed-requests+published.json+_live-titles.json+trend.json 결정론 대조. + 게임다양성: 트랙별 같은 게임 ≤2개(over2 비면 OK). ★«게임 | 제목» 줄=데스크 모드: 같은 게임 글과만 대조(별칭 색인) · 드문 내용어(sharedWords)로 판정 · 육아는 제품군 핵심으로 대조 · matchedTitle=coverage 에 그대로 쓸 실제 글 제목. ★v3(10-11) 🟡review=공유어 2+ 또는 공유어 1개가 양쪽 제목 앞머리에 또는 같은 단일유형(티어·쿠폰·사양)이 양쪽 앞머리에(서술어 꼬리·날짜 조각·일반어는 안 센다) · sharedWords=근거가 된 말(coverage[].words)."
 }
 $json = $summary | ConvertTo-Json -Depth 6
 Write-Output $json

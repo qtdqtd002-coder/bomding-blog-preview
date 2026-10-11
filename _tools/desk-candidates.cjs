@@ -15,7 +15,7 @@
      gate  --cand _tmp/candidates.json --dedup _tmp/dedup.json --signals _tmp/signals.json [--classify "_tmp/classify-*.json"] --out _tmp/survivors.json
            세 도구 출력을 항목마다 짝지어 KEEP/DROP 을 확정한다. 짝짓기 키 = dedup: 순번(+제목 대조) · classify: raw(= candidates.txt 줄) · signals: id.
            DROP = dedup DROP · classify published/failed/carried(어느 작성자든 · SKILL [B] «carried 는 기본 DROP» L060) · signals DROP(R1~R5·W1·G·X·B)
-           FLAG = dedup CHECK(각도 차이를 상세 단계 angle 에 적는다) · classify review(→ coverage[] = {writer, title: matchedTitle})
+           FLAG = dedup CHECK(각도 차이를 상세 단계 angle 에 적는다) · classify review(→ coverage[] = {writer, title: matchedTitle, words: sharedWords})
            출력 survivors.json = { date, total, kept:[항목 + flags + coverage + dedupHits + demand/aib/depth], dropped:[{id,sec,game,title,by,rule,why}], note:[초안 줄] }
 
    ⛔ 이 도구는 판정 규칙을 새로 만들지 않는다 — 세 도구의 판정을 «합치는» 일만 한다(규칙은 각 도구와 SKILL 이 정본).
@@ -99,7 +99,11 @@ function gateItems(cands, dedup, classify, signals) {
         else reasons.push('classify ' + c.writer + ' ' + r.status);
       } else if (r.status === 'review') {
         flags.push('classify:review(' + c.writer + ')');
-        if (r.matchedTitle) coverage.push({ writer: c.writer, title: String(r.matchedTitle) });
+        if (r.matchedTitle) {
+          /* ★2026-10-11 words = 분류기가 근거로 삼은 «겹친 말»(sharedWords · 최대 3) — 사이트 «관련 글» 표시가 같이 보여 준다 */
+          const words = [].concat(r.sharedWords || []).map(String).filter(Boolean).slice(0, 3);
+          coverage.push(words.length ? { writer: c.writer, title: String(r.matchedTitle), words } : { writer: c.writer, title: String(r.matchedTitle) });
+        }
       }
     }
     /* ⑶ signals — id 로 */
