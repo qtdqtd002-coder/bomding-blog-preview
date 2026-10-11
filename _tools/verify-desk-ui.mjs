@@ -5,6 +5,9 @@
 //   · 보는 것: 7칸 순서·공략 칸 색/아이콘 · 행에 신호가 새지 않는가(행 = 게임·주제·발주 그대로) · 모달 «검색 수요»·«AI 브리핑» 줄과
 //     소재 메모 · 신호 없는 옛 항목엔 줄이 없는가 · 육아 주 1회 빈 칸 문구와 «판 보기» 이동 · 지정 게임 문구 ·
 //     홈 타일 막대 비율(그려진 픽셀)·목표 눈금·미연결 표기·툴팁·표 뷰·재검 줄 · 1920/390/360 넘침 0 · 칸 머리 한 줄(390·360) · hover 캡션 대비 · 콘솔 0 · CSS 구조
+//   · ★2026-10-12 홈 「블로그 활동」 방문자 막대 — 인용이 비공개인 작성자(영도) 칸의 막대 수·높이 비(그려진 픽셀)·색·축 단위·스탯·툴팁·표 ·
+//     두 칸 차트 정렬 · 방문자가 없을 때의 예전 모양(선 하나). 데이터는 «합성 판»(_citations.json 가로채기 · 날짜는 실행일 기준 상대값).
+//   · `--index FILE` = 그 파일을 index.html 로 서빙한다(커밋 전 판·변이 판으로 «새 검사가 옛 결함을 잡는가»를 볼 때. 평소엔 쓰지 않는다)
 import { spawn } from 'node:child_process';
 import { writeFileSync, mkdirSync, existsSync, statSync, createReadStream, readFileSync, readdirSync } from 'node:fs';
 import { createServer } from 'node:http';
@@ -18,6 +21,7 @@ const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const args = process.argv.slice(2);
 const val = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const OUT = val('--out', join(tmpdir(), '_deskui-out'));
+const INDEX = val('--index', null) ? resolve(val('--index', null)) : join(ROOT, 'index.html');
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 mkdirSync(OUT, { recursive: true });
 
@@ -59,6 +63,42 @@ const MIX_A = { schema: 1, kind: 'desk-mix', updated: '2026-09-23T06:45:00+09:00
 const MIX_B = Object.assign({}, MIX_A, { followup: null, bars: [MIX_A.bars[0], { k: 'orders', label: '발주', window: '최근 14일', n: 0 }, Object.assign({}, MIX_A.bars[2], { guide: 100, howto: 100, rank: 0, news: 0, info: 0 })] });
 let MIX = MIX_A;
 
+/* ── 합성 «블로그 활동» 판(2026-10-12) ── 운영 _citations.json 은 날마다 달라 검사 기준이 못 된다.
+   날짜는 실행일 기준 상대값(사이트가 «어제까지 14일»을 그리므로) — 자정을 걸친 실행에도 어긋나지 않게 요청 때마다 만든다.
+   봄딩 = 인용 공개(막대 = 인용) · 영도 = 인용 비공개 + 달력일 방문자(막대 = 방문자). VIS: n일 전 → 방문자(없으면 3,000) —
+   1일 전 5,000(최대) · 2일 전 2,500(높이 비 0.5) · 4일 전 0명(막대 없음 · «0명») · 5일 전 값 없음(막대 없음 · «집계 전») */
+const p2 = (n) => String(n).padStart(2, '0');
+const dayAgo = (n) => { const d = new Date(Date.now() - n * 86400000); return d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()); };
+const md = (ymd) => Number(ymd.slice(5, 7)) + '.' + Number(ymd.slice(8, 10));
+const VIS = { 1: 5000, 2: 2500, 3: 3200, 4: 0, 5: null, 6: 4100 };
+const citeDoc = (withVisitors) => {
+  const rb = [], ry = [], now = new Date().toISOString();
+  for (let n = 20; n >= 0; n--) {
+    const d = dayAgo(n), at = new Date(Date.now() - n * 86400000).toISOString();
+    rb.push({ d, at, cum: 4000000 + (20 - n) * 40000, citations: n ? 40000 : null, span: n ? 1 : null, postsDay: 3, visitors: null, visitorsSrc: null });
+    const v = (n === 0 || !withVisitors) ? null : (n in VIS ? VIS[n] : 3000);
+    ry.push({ d, at, cum: null, citations: null, span: n ? 1 : null, postsDay: n % 3, visitors: v, visitorsSrc: v == null ? null : 'xml' });
+  }
+  const latest = (o) => Object.assign({ at: now, selected: false, cum: null, month: null, monthNo: null, sel: null, selMonth: null, totalVisitors: null, dayVisitors: 0, posts: 100 }, o);
+  const w = (name, id, L, rows) => ({ name, id, mate: null, latest: latest(L), error: null, postsError: null, postsFrom: dayAgo(20), months: [], rows });
+  return { schema: 1, updated: now, keep: 60, writers: [
+    w('봄딩', 'bomding', { cum: 4800000, month: 360000, monthNo: 10, sel: 750000, selMonth: 8, totalVisitors: 16000000, posts: 4858 }, rb),
+    w('영도', 'kkodug9', { totalVisitors: 17878443, posts: 6885 }, ry)], bench: [] };
+};
+let CITE_VIS = true;
+/* 기대값 — 사이트와 따로 센다(만 단위는 소수 첫째자리 «버림»). 달 합 = 그 달 일별 값의 합, 재야 할 구간에 빈 날이 있으면 라벨에 « *» */
+const ko = (n) => n >= 1e4 ? (Math.floor(n / 1e3) / 10).toFixed(1).replace(/\.0$/, '') + '만' : n.toLocaleString('ko-KR');
+const citeExpect = () => {
+  const y = citeDoc(true).writers[1], tm = dayAgo(0).slice(0, 7), Y = +tm.slice(0, 4), M = +tm.slice(5, 7), pm = M === 1 ? (Y - 1) + '-12' : Y + '-' + p2(M - 1);
+  const cell = (ym, whole, none) => {
+    const rs = y.rows.filter((r) => r.d.startsWith(ym) && r.visitors != null), lab = Number(ym.slice(5, 7)) + '월 방문자';
+    if (!rs.length) return lab + '=' + none;
+    const dim = new Date(+ym.slice(0, 4), +ym.slice(5, 7), 0).getDate(), last = Math.max(...rs.map((r) => +r.d.slice(8, 10)));
+    return lab + (rs.length < (whole ? dim : last) ? ' *' : '') + '=' + ko(rs.reduce((a, r) => a + r.visitors, 0));
+  };
+  return [md(dayAgo(1)) + ' 방문자=5,000', cell(tm, false, '집계 전'), cell(pm, true, '—'), '누적 방문자=1787.8만'];
+};
+
 /* ── 가짜 백엔드 ── */
 const api = createServer((req, res) => {
   const u = req.url.split('?')[0];
@@ -80,10 +120,11 @@ const srv = createServer((req, res) => {
   if (p === '/_trend/trend-lite.json') return json(LITE);
   if (p === '/_trend/trend.json') return json(FULL);
   if (p === '/_trend/_desk-mix.json') return json(MIX);
+  if (p === '/_trend/_citations.json') return json(citeDoc(CITE_VIS));
   const abs = normalize(join(ROOT, p));
   if (!existsSync(abs) || statSync(abs).isDirectory()) { res.writeHead(404); res.end('nope'); return; }
   if (p === '/index.html') {
-    let html = readFileSync(abs, 'utf8');
+    let html = readFileSync(INDEX, 'utf8');
     html = html.replace(/API_BASE\s*:\s*'[^']*'/, "API_BASE:'http://127.0.0.1:" + AP + "'");
     res.writeHead(200, { 'Content-Type': MIME['.html'] }); res.end(html); return;
   }
@@ -295,14 +336,66 @@ chk('키보드 포커스에도 같은 툴팁', await ev(`!!document.querySelecto
 const ring = await ev(`(()=>{const a=document.activeElement;const s=getComputedStyle(a);return {fv:a.matches(':focus-visible'),w:s.outlineWidth,st:s.outlineStyle,c:s.outlineColor}})()`);
 chk('포커스 링이 보인다(2px 잉크)', ring && ring.fv && ring.w === '2px' && ring.st === 'solid' && ring.c === 'rgb(14, 17, 20)', ring);
 await ev(`document.activeElement.blur()`);
+
+/* ═════ 1920 — 홈 「블로그 활동」 방문자 막대 (2026-10-12) ═════
+   인용이 비공개인 작성자(영도)는 막대 자리에 일별 방문자를 그린다. ★«있다»가 아니라 그려진 막대의 수·높이 비·색을 잰다 —
+   값 없는 날을 0 으로 그리거나(0 위장) 봄딩 칸까지 방문자로 바꾸거나 두 칸 차트가 어긋나면 여기서 걸린다.
+   칸 번호: 차트는 «14일 전 ~ 어제» 14칸 → n일 전 = 14−n 번째(0 부터). 어제 13 · 2일 전 12 · 4일 전 10 · 5일 전 9 */
+await ev(`document.querySelector('#tileCite').scrollIntoView({block:'center'})`); await sleep(2600);   /* 등장 + 막대 성장 모션이 끝난 뒤에 잰다 */
+const CR = `(i)=>{const cr=document.querySelectorAll('#tileCite .cr')[i],svg=cr.querySelector('svg'),sb=svg.getBoundingClientRect(),cols=[...svg.querySelectorAll('g.col')];
+  return {bars:cols.map(g=>{const r=g.querySelector('rect:not(.hit)');return r?Math.round(r.getBoundingClientRect().height*10)/10:null}),
+    fill:[...new Set([...svg.querySelectorAll('g.col rect:not(.hit)')].map(r=>getComputedStyle(r).fill))],dot:getComputedStyle(cr.querySelector('.cr-dot')).backgroundColor,
+    units:[...svg.querySelectorAll('text.axis.unit')].map(t=>t.textContent),tips:cols.map(g=>g.querySelector('.hit').getAttribute('data-tip')),
+    legend:[...cr.querySelectorAll('.legend span')].map(s=>s.textContent),
+    stats:[...cr.querySelector('.ks-stats').children].map(s=>s.querySelector('.ks-k').textContent+'='+s.querySelector('.ks-v').textContent),
+    th:[...cr.querySelectorAll('table.sr th')].map(t=>t.textContent),line:svg.querySelectorAll('path.ln').length,
+    w:Math.round(sb.width*10)/10,top:Math.round(sb.top*10)/10,
+    noteBelow:(()=>{const n=cr.querySelector('.cr-state'),l=cr.querySelector('.legend');return n&&l?n.getBoundingClientRect().top>=l.getBoundingClientRect().bottom-0.5:null})()}}`;
+/* 사이트가 그 칸을 못 그리면(예외) ev 가 {__err} 를 돌려준다 — 그때는 null 로 받아 아래 검사들이 «FAIL» 로 남게 한다(게이트가 죽지 않게) */
+const V = (x) => (x && !x.__err) ? x : null;
+const cb = V(await ev(`(${CR})(0)`)), cy = V(await ev(`(${CR})(1)`));
+const D1 = md(dayAgo(1)), D4 = md(dayAgo(4)), D5 = md(dayAgo(5));
+chk('[블로그 활동] 영도 칸 막대 = 값이 있는 날만 12개 · 값 없는 날·0명인 날엔 막대 없음(0 위장 금지)', cy && Array.isArray(cy.bars) && cy.bars.filter((h) => h != null).length === 12 && cy.bars[9] == null && cy.bars[10] == null, cy && cy.bars);
+chk('[블로그 활동] ★그려진 픽셀: 막대 높이 비 = 방문자 비(2,500 ÷ 5,000 = 0.5 ±0.02)', cy && cy.bars[13] > 20 && Math.abs(cy.bars[12] / cy.bars[13] - 0.5) <= 0.02, cy && [cy.bars[12], cy.bars[13]]);
+chk('[블로그 활동] 막대 색 = 그 칸 작성자 색 하나(영도 ≠ 봄딩)', cy && cb && cy.fill.length === 1 && cy.fill[0] === cy.dot && cb.fill.length === 1 && cb.fill[0] === cb.dot && cy.fill[0] !== cb.fill[0], { y: cy && cy.fill, b: cb && cb.fill });
+chk('[블로그 활동] 축 머리 단위 = 방문자·편 (봄딩 칸은 인용·편 그대로)', cy && cb && cy.units.join('|') === '방문자|편' && cb.units.join('|') === '인용|편', { y: cy && cy.units, b: cb && cb.units });
+chk('[블로그 활동] 범례 = 방문자 14일 합 + 글 (봄딩 = 인용 + 글)', cy && cb && cy.legend.length === 2 && cy.legend[0] === '방문자3.8만' && cy.legend[1].startsWith('글') && cb.legend[0] === '인용56만', { y: cy && cy.legend, b: cb && cb.legend });
+const expStats = citeExpect();
+chk('[블로그 활동] 방문자 스탯 4칸(마지막 날 · 이번 달 · 지난달 · 누적) — 달 합 = 일별 합, 빈 날이 있으면 «*»', cy && cb && JSON.stringify(cy.stats) === JSON.stringify(expStats) && cb.stats[3] === '누적 인용=480만', { got: cy && cy.stats, exp: expStats, bomding: cb && cb.stats });
+chk('[블로그 활동] 툴팁 = «날짜 | N명» + 글 · 달력일 값엔 스냅샷 줄 없음 · 0명 «0명» · 값 없는 날 «집계 전»', cy && cy.tips[13] === D1 + '|5,000명||글|1편' && cy.tips[10] === D4 + '|0명||글|1편' && cy.tips[9] === D5 + '|집계 전||글|2편', cy && [cy.tips[13], cy.tips[10], cy.tips[9]]);
+chk('[블로그 활동] 봄딩 칸 툴팁은 그대로(인용 증분 · 누적 · 스냅샷)', cb && /^\d+\.\d+\|\+4만\|\|글\|3편;누적\|[\d.]+만;스냅샷\|\d\d:\d\d$/.test(cb.tips[13]), cb && cb.tips[13]);
+/* ★여기선 hover() 를 쓰지 않는다 — 그 안의 scrollIntoView(center) 가 타일 코어(.core · overflow:hidden · 안에 sr 표가 있다)를 밀어
+   타일 머리가 사라진 채 스크린샷이 찍힌다(10-12 디자인 게이트가 짚은 하네스 함정). 타일은 이미 화면 가운데라 좌표만 구해 옮긴다 */
+const hr = await rect('#tileCite .cr:nth-child(2) svg g.col:nth-of-type(14) .hit');
+if (hr) { await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: hr.cx, y: hr.cy, button: 'none' }); await sleep(300); }
+const vtip = await ev(`(()=>{const t=document.querySelector('.ctip.on');return t?t.querySelector('.ctip-h').textContent+'#'+[...t.querySelectorAll('.ctip-r')].map(r=>r.textContent).join('|'):null})()`);
+chk('[블로그 활동] hover 툴팁(영도 어제 칸) = 날짜·방문자 + 글 한 줄', vtip === D1 + '5,000명#글1편', vtip);
+await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 2, y: 2, button: 'none' }); await sleep(250);
+chk('[블로그 활동] 표 뷰 머리 = 날짜·방문자·글 (봄딩 = 날짜·인용 증분·누적 인용·글)', cy && cb && cy.th.join('|') === '날짜|방문자|글' && cb.th.join('|') === '날짜|인용 증분|누적 인용|글', { y: cy && cy.th, b: cb && cb.th });
+chk('[블로그 활동] 글 선은 두 칸 모두 그대로(막대 위 꺾은선 1개)', cy && cb && cy.line === 1 && cb.line === 1, { y: cy && cy.line, b: cb && cb.line });
+chk('[블로그 활동] 두 칸 차트의 폭·위 좌표가 같다(나란한 축이 어긋나지 않는다)', cy && cb && Math.abs(cb.w - cy.w) <= 0.5 && Math.abs(cb.top - cy.top) <= 0.5, { b: cb && [cb.w, cb.top], y: cy && [cy.w, cy.top] });
+chk('[블로그 활동] «인용수 비공개» 줄은 범례 아래(차트를 밀어내지 않는다) · 인용 공개 칸엔 없다', cy && cb && cy.noteBelow === true && cb.noteBelow === null, { y: cy && cy.noteBelow, b: cb && cb.noteBelow });
+/* x축 날짜 라벨 — 이웃 라벨 사이 틈(그려진 픽셀). ★10-12 디자인 게이트 🟡: «칸 폭 30 미만이면 하루 걸러»는 4자 라벨 기준이라
+   10~12월의 5자 라벨(«10.10»·«10.11»)이 1920 에서 1.7px · 600 에서 0.2px · 360 에서 1.1px 로 붙었다(사용량·블로그 활동 공용 결함).
+   운영 날짜로 그리므로 1~9월 실행엔 느슨한 검사다 — 그래도 주기 공식이 깨지면 여기서 걸린다 */
+const XGAP = `(()=>{const g=svg=>{const xs=[...svg.querySelectorAll('text.axis')].filter(t=>t.getAttribute('text-anchor')==='middle').map(t=>t.getBoundingClientRect()).sort((a,b)=>a.left-b.left);let m=999;for(let i=1;i<xs.length;i++)m=Math.min(m,xs[i].left-xs[i-1].right);return {n:xs.length,min:Math.round(m*10)/10}};return [...document.querySelectorAll('#tileCite .cr svg, #tileUsage .chart svg')].map(g)})()`;
+const xgOk = (a) => Array.isArray(a) && a.length >= 2 && a.every((x) => x.n >= 2 && x.min >= 3);
+const coreTop = await ev(`(()=>{const c=document.querySelector('#tileCite .core'),h=document.querySelector('#tileCite .tile-h').getBoundingClientRect(),b=c.getBoundingClientRect();return {st:c.scrollTop,head:Math.round(h.top-b.top)}})()`);
+chk('[블로그 활동] 타일 머리가 제자리(코어가 밀리지 않았다 — 밀리면 스크린샷에서 머리가 사라진다)', coreTop && coreTop.st === 0 && coreTop.head >= 0 && coreTop.head <= 2, coreTop);
+const xg1920 = await ev(XGAP);
+chk('[1920] 차트 x축 날짜 라벨이 붙지 않는다(이웃 틈 ≥ 3px · 블로그 활동 두 칸 + 사용량)', xgOk(xg1920), xg1920);
+await ev(`window.scrollTo(0,0)`); await sleep(300);
 await shot('04-home-1920', true);
 chk('[1920 홈] 가로 넘침 없음', await ev(`document.documentElement.scrollWidth<=innerWidth`));
 chk('[1920 홈] 콘솔 예외 0', logs.length === 0, logs);
 
 /* 두 번째 데이터 — 발주 0건(«건 없음»)·100% 막대·재검 없음 */
-MIX = MIX_B;
+MIX = MIX_B; CITE_VIS = false;   /* 영도 방문자 전무(카운터를 닫았거나 수집 실패) */
 await open(1920, 1080, false); logs = [];
 await goHome();
+const cyB = V(await ev(`(${CR})(1)`));
+chk('[블로그 활동 B] 방문자가 없으면 막대 없이 글 선 하나(예전 모양 · 빈 막대·0 위장 금지)', cyB && cyB.bars.every((h) => h == null) && cyB.line === 1 && cyB.units.join('|') === '편' && cyB.legend.length === 1 && cyB.legend[0].startsWith('글') && cyB.th.join('|') === '날짜|글' && cyB.stats[0].startsWith('어제 글=') && cyB.noteBelow === true, cyB);
+CITE_VIS = true;
 const rowsB = await ev(`[...document.querySelectorAll('#tileMix .mx-row')].map(r=>r.querySelector('.mx-t').textContent+'|'+(r.querySelector('.mx-na')?r.querySelector('.mx-na').textContent:'bar'))`);
 chk('발주 0건이면 «건 없음»', rowsB[1] === '발주|건 없음', rowsB);
 chk('100% 이면 회색 칸 없이 잉크 칸 하나 · 끝만 둥글다', await ev(`(()=>{const r=document.querySelectorAll('#tileMix .mx-row')[2];return r.querySelectorAll('.mx-seg').length===1&&!!r.querySelector('.mx-seg.g')&&getComputedStyle(r.querySelector('.mx-seg.g')).borderTopRightRadius==='4px'})()`));
@@ -335,6 +428,14 @@ chk('[390 홈] 가로 넘침 없음', await ev(`innerWidth===390&&document.docum
 /* ★글꼴이 섞인 줄(굵은 숫자 = 모노스페이스)은 같은 줄이어도 rect top 이 1~2px 어긋난다 — 줄 수는 «top 최대-최소»로 본다. */
 const nwSplit = await ev(`[...document.querySelectorAll('#tileMix .mx-foot .nw')].map(s=>{const r=document.createRange();r.selectNodeContents(s);const t=[...r.getClientRects()].map(x=>x.top);return t.length?Math.max(...t)-Math.min(...t):0}).filter(d=>d>6).length`);
 chk('[390] 타일 바닥 값 묶음이 쪼개지지 않는다(숫자 고아줄 없음)', nwSplit === 0, nwSplit);
+/* 「블로그 활동」 — 좁은 폭에선 한 열로 쌓인다: 첫 칸의 오른쪽 여백(두 열일 때 폭 맞춤용)이 남아 있으면 첫 차트만 좁아진다 */
+const citeMob = await ev(`(()=>{const over=[...document.querySelectorAll('#tileCite .ks-stats > span')].filter(s=>{const rg=document.createRange();rg.selectNodeContents(s.querySelector('.ks-v'));return rg.getBoundingClientRect().width>s.getBoundingClientRect().width+0.5}).map(s=>s.textContent);return {over,svgs:[...document.querySelectorAll('#tileCite .cr svg')].map(s=>Math.round(s.getBoundingClientRect().width)),crs:[...document.querySelectorAll('#tileCite .cr')].map(c=>Math.round(c.getBoundingClientRect().width))}})()`);
+chk('[390] 블로그 활동 — 스탯 값이 칸을 넘지 않고 두 차트가 제 칸 폭을 채운다', citeMob && citeMob.over.length === 0 && citeMob.svgs.length === 2 && citeMob.svgs.every((w, i) => Math.abs(w - citeMob.crs[i]) <= 1) && citeMob.svgs[0] === citeMob.svgs[1], citeMob);
+const xg390 = await ev(XGAP);
+chk('[390] 차트 x축 날짜 라벨이 붙지 않는다(이웃 틈 ≥ 3px)', xgOk(xg390), xg390);
+/* 부제 — 긴 문구(«인용·방문자 막대 · 글 선 · 14일» 140px)는 390 에서 잘려 «선 · 14일» 이 사라졌다(10-12 디자인 게이트 🟡) → ≤520px 은 짧은 문구 */
+const sub390 = await ev(`(()=>{const e=document.querySelector('#tileCite .tile-d');return {cut:e.scrollWidth>e.clientWidth+0.5,t:[...e.children].filter(c=>getComputedStyle(c).display!=='none').map(c=>c.textContent).join('/')}})()`);
+chk('[390] 블로그 활동 부제가 잘리지 않는다(좁은 폭 문구 한 벌만 보인다)', sub390 && !sub390.__err && !sub390.cut && sub390.t === '인용·방문자·글 · 14일', sub390);
 await shot('05-home-390', true);
 await goTrend();
 chk('[390] 공략 칸 행이 3개', (await ev(`(()=>{const s=${gsec};return s?s.querySelectorAll('.trow').length:0})()`)) === 3);
@@ -371,10 +472,12 @@ chk('[360 트렌드] 가로 넘침 없음', await ev(`innerWidth===360&&document
 await shot('08-trend-360', true);
 await goHome();
 chk('[360 홈] 가로 넘침 없음', await ev(`innerWidth===360&&document.documentElement.scrollWidth<=360`));
+const xg360 = await ev(XGAP);
+chk('[360] 차트 x축 날짜 라벨이 붙지 않는다(이웃 틈 ≥ 3px)', xgOk(xg360), xg360);
 chk('[360] 콘솔 예외 0', logs.length === 0, logs);
 
 /* CSS 구조 — 주석·중괄호(09-14 사고: 닫지 않은 주석 하나가 모바일 규칙 전체를 죽였다) */
-const CSSSRC = readFileSync(join(ROOT, 'index.html'), 'utf8');
+const CSSSRC = readFileSync(INDEX, 'utf8');
 const CSSBODY = CSSSRC.slice(CSSSRC.indexOf('<style'), CSSSRC.indexOf('</style>'));
 chk('CSS 주석이 전부 닫혀 있다', (CSSBODY.match(/\/\*/g) || []).length === (CSSBODY.match(/\*\//g) || []).length);
 chk('CSS 중괄호가 맞는다', (CSSBODY.match(/\{/g) || []).length === (CSSBODY.match(/\}/g) || []).length);
