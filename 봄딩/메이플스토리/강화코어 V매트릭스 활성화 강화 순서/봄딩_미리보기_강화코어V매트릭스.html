@@ -1,0 +1,334 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메이플스토리 강화코어 V매트릭스 활성화 강화 순서, V POINT 얻는 법부터 초기화까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pink:#EC5C92;--pinkd:#D63E7A;--pinks:#FFEFF5;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;word-break:keep-all;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 봄딩 스크랩북·포스트잇 도해 (B형 CSS 도해 2종) ===== */
+  .pn-cmp{display:flex;gap:16px;flex-wrap:wrap;margin:8px 0 24px;padding-top:6px;}
+  .pn-card{position:relative;flex:1 1 230px;min-width:0;background:var(--pinks);border:2px solid var(--pink);border-radius:12px;padding:22px 16px 14px;box-shadow:1px 3px 10px rgba(236,92,146,.12);}
+  .pn-card.l{transform:rotate(-1.2deg);}
+  .pn-card.r{transform:rotate(1.2deg);background:#fff;}
+  .pn-tape{position:absolute;top:-10px;left:50%;margin-left:-34px;width:68px;height:18px;background:rgba(236,92,146,.35);border-radius:2px;transform:rotate(-3deg);}
+  .pn-tag{display:block;font-size:12.5px;font-weight:800;color:var(--pinkd);margin-bottom:4px;}
+  .pn-big{display:block;font-size:17px;font-weight:800;color:#4a4047;line-height:1.55;word-break:keep-all;}
+  .pn-sm{display:block;font-size:13.5px;color:#4a4047;line-height:1.6;margin-top:6px;word-break:keep-all;}
+  .pn-flow{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin:8px 0 24px;padding-top:6px;}
+  .pn-step{position:relative;flex:1 1 150px;min-width:0;background:#fff;border:2px dashed var(--pink);border-radius:12px;padding:18px 14px 12px;}
+  .pn-step.s2{background:var(--pinks);border-style:solid;}
+  .pn-num{position:absolute;top:-13px;left:12px;width:26px;height:26px;border-radius:50%;background:var(--pink);color:#fff;font-weight:800;font-size:14px;line-height:26px;text-align:center;}
+  .pn-arrow{align-self:center;color:var(--pinkd);font-weight:800;font-size:20px;}
+  @media(max-width:520px){.pn-arrow{display:none;}.pn-card.l,.pn-card.r{transform:none;}}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">메이플스토리 강화코어 V매트릭스 활성화 강화 순서, V POINT 얻는 법부터 초기화까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.13</span><span>· 게임</span></div>
+
+<!-- AI브리핑 타깃 질문: 메이플스토리 강화코어가 뭔가요 / 강화코어 활성화 강화 순서는 어떻게 되나요 / V POINT 초기화 되돌릴 수 있나요 -->
+<p>5차 전직을 마치고 V 매트릭스 창을 처음 열면 칸이 한가득이라, <b>메이플스토리 강화코어</b>가 대체 뭔지, 어떤 순서로 눌러야 하는지 막막하잖아요. 게다가 6차 HEXA 매트릭스에도 같은 이름의 '강화 코어'가 있어서 더 헷갈리고요. 그래서 오늘은 V 매트릭스의 강화 코어를 여는 곳부터 재료, 활성화와 강화 순서, 초기화까지 한 번에 묶어 봤어요. 내용은 메이플스토리 공식 가이드 기준이고, <b>기준일은 2026년 10월 13일</b>입니다.</p>
+
+<h2 class="sub">메이플스토리 V매트릭스, 5차 전직하면 어디서 여나요</h2>
+<p><b>V 매트릭스는 5차 전직을 완료한 캐릭터가 스킬창(기본 단축키 K)의 5차 스킬 탭에서 여는 시스템이에요.</b></p>
+<p>V 코어를 한곳에서 관리하는 창이라서, 5차 전직 전에는 이용할 수가 없어요. 열어 보면 맨 위에 보유한 V POINT가 표시되고 옆에 [초기화]와 [변환] 버튼이 붙어 있는데요, 처음에는 대부분 코어 칸이 잠겨 있는 상태로 보여요.</p>
+<h2 class="sub">메이플스토리 강화코어는 어떤 스킬을 올려 주는 코어인가요</h2>
+<p><b>강화 코어는 캐릭터의 1차~4차 스킬과 하이퍼 액티브 스킬을 강화하는 코어예요.</b></p>
+<p>V 코어는 네 종류인데, 화면에서는 이런 자리에 놓여 있어요.</p>
+<ul>
+  <li><b>① 직업 코어</b> — 화면 맨 위 구역이에요</li>
+  <li><b>② 강화 코어</b> — 그 바로 아래 구역으로, 1~4차 스킬과 하이퍼 액티브 스킬을 맡아요</li>
+  <li><b>③ 공용 코어</b> — 그 아래 가장 넓은 구역이에요</li>
+  <li><b>④ 특수 코어</b> — 오른쪽 패널에 따로 있고, 장착한 뒤 7일 동안 쓰다가 우클릭으로 기간을 연장해요</li>
+</ul>
+<!-- 이미지 이유: 코어 4종이 화면 어디에 있는지 구역 번호로 짚어주려 / 출처: https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404 (메이플스토리 공식 가이드 삽화) / 분류: A형 -->
+<div class="imgwrap"><img src="img/v5-2-4981074929827971281.png" width="584" height="558" alt="V 매트릭스 ①직업 ②강화 ③공용 ④특수 코어 구역"></div>
+<p class="cap">②번 구역이 강화 코어예요. 공식 예시 화면 기준이라 칸 수는 내 화면과 다를 수 있어요</p>
+<p class="src">이미지 출처: <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404" target="_blank">메이플스토리 공식 가이드 [스킬] 5차 스킬</a></p>
+<p>예시 화면의 강화 코어 구역에는 코어가 6칸 들어 있고, 칸마다 '01/60'처럼 적혀 있어요. 6칸이 각각 어느 스킬인지는 캐릭터마다 달라서, 내 매트릭스 화면에서 보시는 게 가장 정확하답니다.</p>
+
+<h2 class="sub">강화코어 재료 V POINT는 어떻게 얻나요</h2>
+<p><b>V POINT는 코어 젬스톤 아이템을 사용하면 얻고, 코어 젬스톤 1개당 V POINT 1이 들어와요.</b></p>
+<p>코어 젬스톤은 이런 곳에서 구할 수 있어요.</p>
+<ul>
+  <li>아케인리버 및 일부 그란디스 지역 필드 사냥</li>
+  <li>콘텐츠 완료 보상</li>
+  <li>이벤트 보상</li>
+  <li>용사님들 간의 교환 또는 메이플 옥션 구매</li>
+</ul>
+<p>이렇게 모은 V POINT를 V 매트릭스 상단에서 코어 활성화와 강화에 나눠 써요. 사용은 아이템을 더블클릭하면 되고, 툴팁에는 200레벨 이상이면서 5차 전직을 마친 캐릭터만 쓸 수 있다고 적혀 있어요. 보유 가능한 V POINT 수량이 9999에 닿으면 더는 사용할 수 없다는 문구도 있어서, 젬스톤을 한꺼번에 많이 모아 두셨다면 이 상한에 걸릴 수 있거든요.</p>
+<!-- 이미지 이유: 재료인 코어 젬스톤 아이템 툴팁(사용 조건·상한)을 보여주려 / 출처: https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404 (메이플스토리 공식 가이드 삽화) / 분류: A형 -->
+<div class="imgwrap"><img src="img/v5-5-5629591936139528684.png" width="353" height="186" alt="코어 젬스톤 아이템 설명, 1 V POINT 획득"></div>
+<p class="cap">코어 젬스톤 툴팁이에요, 1 V POINT를 얻을 수 있다고 적혀 있어요</p>
+<p class="src">이미지 출처: <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404" target="_blank">메이플스토리 공식 가이드 [스킬] 5차 스킬</a></p>
+
+<h2 class="sub">강화코어 활성화가 먼저, 강화는 그다음이에요</h2>
+<p><b>강화 코어는 V POINT로 활성화를 먼저 해야 강화할 수 있어서, 순서는 활성화 → 강화 → 효과 확인이에요.</b></p>
+<div class="pn-flow">
+  <div class="pn-step"><span class="pn-num">1</span><span class="pn-tag">활성화</span><span class="pn-big">코어를 먼저 열기</span><span class="pn-sm">V POINT를 써서 잠긴 코어를 깨워요</span></div>
+  <span class="pn-arrow">→</span>
+  <div class="pn-step s2"><span class="pn-num">2</span><span class="pn-tag">강화</span><span class="pn-big">코어 클릭 → [강화하기]</span><span class="pn-sm">활성화한 코어의 등급을 올려요</span></div>
+  <span class="pn-arrow">→</span>
+  <div class="pn-step"><span class="pn-num">3</span><span class="pn-tag">효과</span><span class="pn-big">스킬이 강해져요</span><span class="pn-sm">최종 데미지 상승, 재사용 대기시간 감소 등</span></div>
+</div>
+<p>누르는 방법은 생각보다 어렵지 않네요. 활성화든 강화든 같은 흐름이에요.</p>
+<ol>
+  <li>V 매트릭스에서 활성화하거나 강화하려는 코어를 클릭해요</li>
+  <li>뜨는 창에서 보유 V POINT와 필요 V POINT, 올라갈 등급을 확인해요. 올릴 등급은 [1등급 추가]나 [최대 추가] 버튼으로 정하는 화면이에요</li>
+  <li>[강화하기]를 누르면 끝이에요. 마음이 바뀌면 [취소]를 누르면 되고요</li>
+</ol>
+<!-- 이미지 이유: 코어를 눌렀을 때 뜨는 강화 창과 [강화하기] 버튼 위치를 보여주려(직업 코어 예시) / 출처: https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404 (메이플스토리 공식 가이드 삽화) / 분류: A형 -->
+<div class="imgwrap"><img src="img/v5-6-5557535523217604874.png" width="635" height="533" alt="코어를 눌러 강화하기 버튼으로 등급을 올리는 화면"></div>
+<p class="cap">직업 코어를 눌러 본 예시 화면이에요. 강화 코어도 같은 방식으로 누르지만, 이 화면 속 필요 V POINT 숫자는 직업 코어 기준 값이에요</p>
+<p class="src">이미지 출처: <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404" target="_blank">메이플스토리 공식 가이드 [스킬] 5차 스킬</a></p>
+<p>강화가 쌓일수록 각 스킬의 최종 데미지가 오르고 재사용 대기시간이 줄어드는 식으로 효과가 붙어요. 레벨별 필요 포인트는 강화 창에 뜨는 필요 V POINT를 보면서 올리시면 돼요.</p>
+<p>그럼 6칸 중 어디부터 올릴지가 궁금하실 텐데요, 정해진 정답 순서는 없죠. 저라면 사냥이든 보스든 가장 자주 쓰는 스킬에 해당하는 코어부터 활성화해 두고, V POINT가 모이는 만큼 다음 칸으로 넘어가는 쪽으로 판단할 것 같아요.</p>
+
+<h2 class="sub">강화코어 V POINT 초기화와 변환, 되돌릴 수 있나요</h2>
+<p><b>활성화와 강화에 쓴 V POINT는 천만 메소를 내고 [초기화]로 되돌릴 수 있지만, 직업 코어와 특수 코어에 쓴 포인트는 초기화되지 않아요.</b></p>
+<p>[초기화] 버튼은 V 매트릭스 상단에 있어요. 강화 코어와 공용 코어에 쓴 포인트는 돌려받는 구조라서 순서를 잘못 잡았다 싶을 때 다시 배분할 수 있지만, 직업 코어 쪽에 쓴 포인트는 돌아오지 않으니 그쪽에 쓸 때는 한 번 더 생각해 보시길 권합니다.</p>
+<p>남는 포인트는 [변환] 버튼으로 처리해요. 쓰지 않는 V POINT를 나의 캐릭터 간 이동만 가능한 코어 젬스톤으로 바꿔 주는 기능이라, 이 캐릭터엔 포인트가 남고 저 캐릭터는 모자랄 때 옮겨 쓸 수 있어요. 정리하면 [초기화]는 이미 쓴 포인트를 돌려받는 버튼이고 [변환]은 아직 쓰지 않은 포인트를 바꾸는 버튼이라서, 쓰는 때가 서로 다르답니다.</p>
+<!-- 이미지 이유: [변환] 버튼 위치와 변환 창 모양을 보여주려 / 출처: https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404 (메이플스토리 공식 가이드 삽화) / 분류: A형 -->
+<div class="imgwrap"><img src="img/v5-8-5269305237260206325.png" width="669" height="542" alt="V 매트릭스 변환 버튼과 코어 젬스톤 변환 창"></div>
+<p class="cap">[변환]을 누르면 오른쪽 같은 변환 창이 떠요</p>
+<p class="src">이미지 출처: <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404" target="_blank">메이플스토리 공식 가이드 [스킬] 5차 스킬</a></p>
+
+<h2 class="sub">6차 HEXA 매트릭스의 강화 코어는 뭐가 다른가요</h2>
+<p><b>6차 HEXA 매트릭스의 강화 코어는 5차 스킬을 강화하는 코어라서, 1~4차 스킬을 올리는 V 매트릭스의 강화 코어와는 다른 시스템이에요.</b></p>
+<div class="pn-cmp">
+  <div class="pn-card l"><span class="pn-tape"></span><span class="pn-tag">V 매트릭스 · 강화 코어</span><span class="pn-big">1차~4차 스킬<br>하이퍼 액티브 스킬</span><span class="pn-sm">5차 전직 후 열리는 쪽이에요</span></div>
+  <div class="pn-card r"><span class="pn-tape"></span><span class="pn-tag">HEXA 매트릭스 · 강화 코어</span><span class="pn-big">5차 스킬</span><span class="pn-sm">6차 전직 후 열리는 쪽이에요</span></div>
+</div>
+<table class="tbl">
+  <tr><th>구분</th><th>V 매트릭스 강화 코어</th><th>HEXA 매트릭스 강화 코어</th></tr>
+  <tr><td><b>여는 곳</b></td><td>K &gt; 5차 스킬 탭</td><td>K &gt; 6차 스킬 탭</td></tr>
+  <tr><td><b>재료</b></td><td>V POINT(코어 젬스톤)</td><td>솔 에르다, 솔 에르다 조각</td></tr>
+  <tr><td><b>활성화 조건</b></td><td>V POINT를 써서 코어 활성화</td><td>특정 5차 스킬이 일정 레벨 이상으로 강화됐을 때</td></tr>
+</table>
+<p>이 글에서 다룬 V POINT와 코어 젬스톤은 6차 쪽 재료가 아니에요. 5차 스킬을 올리고 싶다면 V 매트릭스가 아니라 HEXA 매트릭스를 열어야 합니다. 출발점도 달라서, V 매트릭스는 V POINT로 코어를 활성화하는 데서 시작하지만 HEXA 쪽 강화 코어는 대상인 5차 스킬이 일정 레벨까지 올라와 있어야 활성화할 수 있어요.</p>
+
+<h2 class="sub">자주 묻는 질문</h2>
+<p><b>Q. HEXA 매트릭스에는 어떤 코어가 있나요?</b><br>스킬 코어, 마스터리 코어, 강화 코어, 공용 코어 네 종류가 있어요. 4차 이하 스킬을 대체하거나 강화하는 건 마스터리 코어 몫으로 안내돼 있답니다.</p>
+<p><b>Q. 변환한 아이템은 얼마나 쓸 수 있나요?</b><br>변환 창 예시 화면에는 비율 아이콘이 2 대 1로 표시돼 있고, 변환해서 만든 아이템은 일주일간 사용할 수 있다는 문구가 함께 떠요.</p>
+
+<h2 class="sub">메이플스토리 강화코어 정리</h2>
+<p>칸 순서에 정답은 없으니 평소 가장 자주 쓰는 스킬 쪽부터 잡으시면 부담이 덜합니다. 5차 전직 후 V POINT가 모이는 대로 하나씩 열어 보시길 추천드려요.</p>
+
+<p><b>✔ 메이플스토리 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224424202592" target="_blank">메이플스토리 퍼스널 버닝 켜는 법, 레벨대별 사냥터 4단계 총정리</a><br>
+· <a href="https://blog.naver.com/bomding/224409707477" target="_blank">메이플스토리 캐치! 티니핑 콜라보 판매기간·아이템 총정리</a><br>
+· <a href="https://blog.naver.com/bomding/224408601404" target="_blank">메이플스토리 홍대 방탈출카페 '이스케이프' 오픈 일정·테마·예약 총정리</a></p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404" target="_blank">메이플스토리 공식 가이드 — [스킬] 5차 스킬</a><br>
+· <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/405" target="_blank">메이플스토리 공식 가이드 — [스킬] 6차 스킬</a></p>
+
+    <div class="tags">#메이플스토리 #메이플스토리강화코어 #V매트릭스 #강화코어 #브이포인트 #코어젬스톤 #6차HEXA #메이플공략</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플스토리 강화코어 V매트릭스 활성화 강화 순서, V POINT 얻는 법부터 초기화까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>5차 전직을 마치고 V 매트릭스 창을 처음 열면 칸이 한가득이라, <b>메이플스토리 강화코어</b>가 대체 뭔지, 어떤 순서로 눌러야 하는지 막막하잖아요. 게다가 6차 HEXA 매트릭스에도 같은 이름의 '강화 코어'가 있어서 더 헷갈리고요. 그래서 오늘은 V 매트릭스의 강화 코어를 여는 곳부터 재료, 활성화와 강화 순서, 초기화까지 한 번에 묶어 봤어요. 내용은 메이플스토리 공식 가이드 기준이고, <b>기준일은 2026년 10월 13일</b>입니다.</p>
+
+<h3>메이플스토리 V매트릭스, 5차 전직하면 어디서 여나요</h3>
+<p><b>V 매트릭스는 5차 전직을 완료한 캐릭터가 스킬창(기본 단축키 K)의 5차 스킬 탭에서 여는 시스템이에요.</b></p>
+<p>V 코어를 한곳에서 관리하는 창이라서, 5차 전직 전에는 이용할 수가 없어요. 열어 보면 맨 위에 보유한 V POINT가 표시되고 옆에 [초기화]와 [변환] 버튼이 붙어 있는데요, 처음에는 대부분 코어 칸이 잠겨 있는 상태로 보여요.</p>
+<h3>메이플스토리 강화코어는 어떤 스킬을 올려 주는 코어인가요</h3>
+<p><b>강화 코어는 캐릭터의 1차~4차 스킬과 하이퍼 액티브 스킬을 강화하는 코어예요.</b></p>
+<p>V 코어는 네 종류인데, 화면에서는 이런 자리에 놓여 있어요.</p>
+<ul>
+<li><b>① 직업 코어</b> — 화면 맨 위 구역이에요</li>
+<li><b>② 강화 코어</b> — 그 바로 아래 구역으로, 1~4차 스킬과 하이퍼 액티브 스킬을 맡아요</li>
+<li><b>③ 공용 코어</b> — 그 아래 가장 넓은 구역이에요</li>
+<li><b>④ 특수 코어</b> — 오른쪽 패널에 따로 있고, 장착한 뒤 7일 동안 쓰다가 우클릭으로 기간을 연장해요</li>
+</ul>
+<p class="ph">📷 〔사진 자리 1〕 V 매트릭스 ①직업 ②강화 ③공용 ④특수 코어 구역 번호 화면 — 네이버에서 직접 업로드</p>
+<p>▲ ②번 구역이 강화 코어예요. 공식 예시 화면 기준이라 칸 수는 내 화면과 다를 수 있어요</p>
+<p>이미지 출처: <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404" target="_blank">메이플스토리 공식 가이드 [스킬] 5차 스킬</a></p>
+<p>예시 화면의 강화 코어 구역에는 코어가 6칸 들어 있고, 칸마다 '01/60'처럼 적혀 있어요. 6칸이 각각 어느 스킬인지는 캐릭터마다 달라서, 내 매트릭스 화면에서 보시는 게 가장 정확하답니다.</p>
+
+<h3>강화코어 재료 V POINT는 어떻게 얻나요</h3>
+<p><b>V POINT는 코어 젬스톤 아이템을 사용하면 얻고, 코어 젬스톤 1개당 V POINT 1이 들어와요.</b></p>
+<p>코어 젬스톤은 이런 곳에서 구할 수 있어요.</p>
+<ul>
+<li>아케인리버 및 일부 그란디스 지역 필드 사냥</li>
+<li>콘텐츠 완료 보상</li>
+<li>이벤트 보상</li>
+<li>용사님들 간의 교환 또는 메이플 옥션 구매</li>
+</ul>
+<p>이렇게 모은 V POINT를 V 매트릭스 상단에서 코어 활성화와 강화에 나눠 써요. 사용은 아이템을 더블클릭하면 되고, 툴팁에는 200레벨 이상이면서 5차 전직을 마친 캐릭터만 쓸 수 있다고 적혀 있어요. 보유 가능한 V POINT 수량이 9999에 닿으면 더는 사용할 수 없다는 문구도 있어서, 젬스톤을 한꺼번에 많이 모아 두셨다면 이 상한에 걸릴 수 있거든요.</p>
+<p class="ph">📷 〔사진 자리 2〕 코어 젬스톤 아이템 툴팁 — 네이버에서 직접 업로드</p>
+<p>▲ 코어 젬스톤 툴팁이에요, 1 V POINT를 얻을 수 있다고 적혀 있어요</p>
+<p>이미지 출처: <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404" target="_blank">메이플스토리 공식 가이드 [스킬] 5차 스킬</a></p>
+
+<h3>강화코어 활성화가 먼저, 강화는 그다음이에요</h3>
+<p><b>강화 코어는 V POINT로 활성화를 먼저 해야 강화할 수 있어서, 순서는 활성화 → 강화 → 효과 확인이에요.</b></p>
+<ul>
+<li><b>① 활성화</b> — 코어를 먼저 열기. V POINT를 써서 잠긴 코어를 깨워요</li>
+<li><b>② 강화</b> — 코어 클릭 → [강화하기]. 활성화한 코어의 등급을 올려요</li>
+<li><b>③ 효과</b> — 스킬이 강해져요. 최종 데미지 상승, 재사용 대기시간 감소 등</li>
+</ul>
+<p>누르는 방법은 생각보다 어렵지 않네요. 활성화든 강화든 같은 흐름이에요.</p>
+<ol>
+<li>V 매트릭스에서 활성화하거나 강화하려는 코어를 클릭해요</li>
+<li>뜨는 창에서 보유 V POINT와 필요 V POINT, 올라갈 등급을 확인해요. 올릴 등급은 [1등급 추가]나 [최대 추가] 버튼으로 정하는 화면이에요</li>
+<li>[강화하기]를 누르면 끝이에요. 마음이 바뀌면 [취소]를 누르면 되고요</li>
+</ol>
+<p class="ph">📷 〔사진 자리 3〕 코어를 눌러 강화하기 버튼으로 등급을 올리는 화면(직업 코어 예시) — 네이버에서 직접 업로드</p>
+<p>▲ 직업 코어를 눌러 본 예시 화면이에요. 강화 코어도 같은 방식으로 누르지만, 이 화면 속 필요 V POINT 숫자는 직업 코어 기준 값이에요</p>
+<p>이미지 출처: <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404" target="_blank">메이플스토리 공식 가이드 [스킬] 5차 스킬</a></p>
+<p>강화가 쌓일수록 각 스킬의 최종 데미지가 오르고 재사용 대기시간이 줄어드는 식으로 효과가 붙어요. 레벨별 필요 포인트는 강화 창에 뜨는 필요 V POINT를 보면서 올리시면 돼요.</p>
+<p>그럼 6칸 중 어디부터 올릴지가 궁금하실 텐데요, 정해진 정답 순서는 없죠. 저라면 사냥이든 보스든 가장 자주 쓰는 스킬에 해당하는 코어부터 활성화해 두고, V POINT가 모이는 만큼 다음 칸으로 넘어가는 쪽으로 판단할 것 같아요.</p>
+
+<h3>강화코어 V POINT 초기화와 변환, 되돌릴 수 있나요</h3>
+<p><b>활성화와 강화에 쓴 V POINT는 천만 메소를 내고 [초기화]로 되돌릴 수 있지만, 직업 코어와 특수 코어에 쓴 포인트는 초기화되지 않아요.</b></p>
+<p>[초기화] 버튼은 V 매트릭스 상단에 있어요. 강화 코어와 공용 코어에 쓴 포인트는 돌려받는 구조라서 순서를 잘못 잡았다 싶을 때 다시 배분할 수 있지만, 직업 코어 쪽에 쓴 포인트는 돌아오지 않으니 그쪽에 쓸 때는 한 번 더 생각해 보시길 권합니다.</p>
+<p>남는 포인트는 [변환] 버튼으로 처리해요. 쓰지 않는 V POINT를 나의 캐릭터 간 이동만 가능한 코어 젬스톤으로 바꿔 주는 기능이라, 이 캐릭터엔 포인트가 남고 저 캐릭터는 모자랄 때 옮겨 쓸 수 있어요. 정리하면 [초기화]는 이미 쓴 포인트를 돌려받는 버튼이고 [변환]은 아직 쓰지 않은 포인트를 바꾸는 버튼이라서, 쓰는 때가 서로 다르답니다.</p>
+<p class="ph">📷 〔사진 자리 4〕 V 매트릭스 [변환] 버튼과 코어 젬스톤 변환 창 — 네이버에서 직접 업로드</p>
+<p>▲ [변환]을 누르면 오른쪽 같은 변환 창이 떠요</p>
+<p>이미지 출처: <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404" target="_blank">메이플스토리 공식 가이드 [스킬] 5차 스킬</a></p>
+
+<h3>6차 HEXA 매트릭스의 강화 코어는 뭐가 다른가요</h3>
+<p><b>6차 HEXA 매트릭스의 강화 코어는 5차 스킬을 강화하는 코어라서, 1~4차 스킬을 올리는 V 매트릭스의 강화 코어와는 다른 시스템이에요.</b></p>
+<ul>
+<li><b>V 매트릭스 · 강화 코어</b> — 1차~4차 스킬, 하이퍼 액티브 스킬 (5차 전직 후 열리는 쪽)</li>
+<li><b>HEXA 매트릭스 · 강화 코어</b> — 5차 스킬 (6차 전직 후 열리는 쪽)</li>
+</ul>
+<table>
+<tr><th>구분</th><th>V 매트릭스 강화 코어</th><th>HEXA 매트릭스 강화 코어</th></tr>
+<tr><td class="l">여는 곳</td><td>K &gt; 5차 스킬 탭</td><td>K &gt; 6차 스킬 탭</td></tr>
+<tr><td class="l">재료</td><td>V POINT(코어 젬스톤)</td><td>솔 에르다, 솔 에르다 조각</td></tr>
+<tr><td class="l">활성화 조건</td><td>V POINT를 써서 코어 활성화</td><td>특정 5차 스킬이 일정 레벨 이상으로 강화됐을 때</td></tr>
+</table>
+<p>이 글에서 다룬 V POINT와 코어 젬스톤은 6차 쪽 재료가 아니에요. 5차 스킬을 올리고 싶다면 V 매트릭스가 아니라 HEXA 매트릭스를 열어야 합니다. 출발점도 달라서, V 매트릭스는 V POINT로 코어를 활성화하는 데서 시작하지만 HEXA 쪽 강화 코어는 대상인 5차 스킬이 일정 레벨까지 올라와 있어야 활성화할 수 있어요.</p>
+
+<h3>자주 묻는 질문</h3>
+<p><b>Q. HEXA 매트릭스에는 어떤 코어가 있나요?</b><br>스킬 코어, 마스터리 코어, 강화 코어, 공용 코어 네 종류가 있어요. 4차 이하 스킬을 대체하거나 강화하는 건 마스터리 코어 몫으로 안내돼 있답니다.</p>
+<p><b>Q. 변환한 아이템은 얼마나 쓸 수 있나요?</b><br>변환 창 예시 화면에는 비율 아이콘이 2 대 1로 표시돼 있고, 변환해서 만든 아이템은 일주일간 사용할 수 있다는 문구가 함께 떠요.</p>
+
+<h3>메이플스토리 강화코어 정리</h3>
+<p>칸 순서에 정답은 없으니 평소 가장 자주 쓰는 스킬 쪽부터 잡으시면 부담이 덜합니다. 5차 전직 후 V POINT가 모이는 대로 하나씩 열어 보시길 추천드려요.</p>
+
+<p><b>✔ 메이플스토리 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224424202592" target="_blank">메이플스토리 퍼스널 버닝 켜는 법, 레벨대별 사냥터 4단계 총정리</a><br>
+· <a href="https://blog.naver.com/bomding/224409707477" target="_blank">메이플스토리 캐치! 티니핑 콜라보 판매기간·아이템 총정리</a><br>
+· <a href="https://blog.naver.com/bomding/224408601404" target="_blank">메이플스토리 홍대 방탈출카페 '이스케이프' 오픈 일정·테마·예약 총정리</a></p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/404" target="_blank">메이플스토리 공식 가이드 — [스킬] 5차 스킬</a><br>
+· <a href="https://maplestory.nexon.com/Guide/N23GameInformation/Articles/405" target="_blank">메이플스토리 공식 가이드 — [스킬] 6차 스킬</a></p>
+
+<p class="tags-line">#메이플스토리 #메이플스토리강화코어 #V매트릭스 #강화코어 #브이포인트 #코어젬스톤 #6차HEXA #메이플공략</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
