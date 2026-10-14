@@ -1,0 +1,362 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>도깨비의세계 전투력 올리는 방법과 자동사냥 효율 세팅, 오프라인 모드 켜는 법까지 꿀팁 정리</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;word-break:keep-all;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul,#copy ol{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">도깨비의세계 전투력 올리는 방법과 자동사냥 효율 세팅, 오프라인 모드 켜는 법까지 꿀팁 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.14</span><span>· 게임</span></div>
+<!-- AI브리핑 타깃 질문: 도깨비의세계 전투력 올리는 방법 / 도깨비의세계 자동사냥 돌리는 법 / 도깨비의세계 오프라인 모드 켜는 법 -->
+<p>도깨비의세계를 하다 보면 전투력은 제자리인데 사냥터는 점점 버거워지는 날이 오는데요. 저는 그럴 때마다 성장 메뉴와 자동 사냥 설정을 한 번씩 다시 손봤거든요. 그걸 <b>권장 전투력 37,000~135,000 구간</b>에 맞춰 10월 14일 점검까지 반영해 정리했으니 결론부터 보여드리겠습니다.</p>
+<table class="tbl">
+<tr><th>전투력 올리기</th><th>자동 사냥 세팅</th></tr>
+<tr><td>길라잡이 권장 전투력으로 구간 잡기</td><td>설정 네 군데 먼저 맞추기</td></tr>
+<tr><td>영기 수련 끊기지 않게 걸어 두기</td><td>사냥터는 권장 전투력으로 고르기</td></tr>
+<tr><td>임무·보스·분해로 재료 모으기</td><td>오프라인은 시험해 보고 켜기</td></tr>
+</table>
+
+<h2 class="sub">도깨비의세계 전투력 올리는 방법, 뭐부터 손대면 되나요?</h2>
+<p><b>전투력은 길라잡이 권장 전투력으로 구간을 잡고, 영기 수련을 끊지 않고 돌리면서 임무와 보스로 재료를 채우면 올라가요.</b></p>
+<!-- 이미지 이유: 길라잡이 권장 전투력 이정표를 한 장으로 보여주려 / 분류: A형 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=tip&id=8063 (도깨비의세계 공식 포럼 TIP 8063(길라잡이)) -->
+<div class="imgwrap"><img src="img/dk-guide-map.png" width="1000" height="562" alt="도깨비의세계 길라잡이 추천 사냥터 지도, 사냥터마다 권장 전투력이 적혀 있고 오른쪽에 달성 보상과 사냥터 바로가기 버튼이 있는 화면"></div>
+<p class="cap">길라잡이 추천 사냥터 지도예요, 사냥터마다 권장 전투력이 적혀 있어요. 그림 속 내 전투력 수치는 촬영 당시 값이에요</p>
+<p class="src">이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=tip&id=8063" target="_blank">도깨비의세계 공식 포럼 TIP 8063(길라잡이)</a></p>
+<p>길라잡이는 권장 전투력을 채우면 달성 보상을 캐릭터당 한 번 받고 사냥터 바로가기도 엽전 없이 쓸 수 있거든요. 그래서 아래 숫자가 사냥터 이정표가 됩니다.</p>
+<table class="tbl">
+<tr><th>권장 전투력</th><th>사냥터</th><th>달성 보상</th></tr>
+<tr><td>37,000</td><td>안개 기슭 1</td><td>요혼석 20개</td></tr>
+<tr><td>68,000</td><td>산신의 영역 1</td><td>요혼석 20개</td></tr>
+<tr><td>135,000</td><td>황무지 마을 1</td><td>영웅 강화 재료 선택 상자 5개</td></tr>
+</table>
+<p>위 숫자는 10월 7일 길라잡이 안내 기준이고, 10월 14일 점검 뒤에는 진행도가 낮은 콘텐츠부터 안내하는 [맞춤 추천] 탭이 생겼으니 길라잡이부터 열어 보면 편해요.</p>
+<!-- 이미지 이유: 공식 그림이 없는 화면이라 직접 촬영 / 분류: B형 -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 길라잡이 [맞춤 추천] 탭</span></div>
+<div class="shoot">📸 직접 촬영 권장 — 어디서: 메인 화면 길라잡이 아이콘 → [맞춤 추천] 탭 · 무엇을: 추천 콘텐츠 목록이 한 화면에 다 보이게 · 어떻게: 길라잡이 창을 연 상태로 캡처하고 닉네임·채팅창은 가려서 저장</div>
+<p class="cap">[맞춤 추천] 탭에는 진행도가 낮은 콘텐츠가 먼저 떠요</p>
+<p>본편이 막히면 서사 임무로 넘어가는데, 메뉴(三) → 임무 → 서사 탭에서 외전 임무의 권장 전투력을 미리 볼 수 있습니다. 영기 수련은 내기, 외기, 진기 순서로만 이어지는데 걸리는 시간이 실제 시간이잖아요. 그래서 수련이 끝나 있으면 접속을 끊기 전에 다음 단계를 시작해 두는 게 편하답니다. 문파에 가입하면 문파원 도움으로 시간을 줄일 수 있는데 하루 최대 100회예요.</p>
+<!-- 이미지 이유: 내면의 길이 열리는 지점을 보여주려 / 분류: A형 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7843 (도깨비의세계 공식 포럼 가이드 7843(내면의 길)) -->
+<div class="imgwrap"><img src="img/dk-inner-path.png" width="1000" height="562" alt="도깨비의세계 영기 수련 화면, 28-1 내면의 길 개방 노드가 강조된 모습"></div>
+<p class="cap">영기 수련 트리의 28-1 '내면의 길 개방' 노드예요, 여기를 끝내면 내면의 길이 열려요</p>
+<p class="src">이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7843" target="_blank">도깨비의세계 공식 포럼 가이드 7843(내면의 길)</a></p>
+<p>기운 발현은 10월 14일 기준으로 알려진 문제에 연출 중에도 [발현] 버튼이 눌려 연속으로 진행되는 오류가 올라와 있어서, 연출이 끝난 뒤에 누르는 게 깔끔해요. 재료는 이 세 곳에서 챙기시면 됩니다.</p>
+<ul>
+<li><b>장비 분해</b> 희귀 등급 이상 장비를 분해하면 엽전을 뺀 일반 강화 재료를 100% 돌려받아요</li>
+<li><b>필드 보스</b> 월·수·금·일은 산신 산군대호, 화·목·토는 해골장군이 저녁 8시부터 5분간 나와요. 피해량 보상은 참여한 모든 도사에게 누적 피해량 단계별로 나가서 저는 한 번은 꼭 들어가요</li>
+<li><b>비경 탐험</b> 강화 비경 '영험한 청산 지하동굴'은 1단계 권장 전투력이 38,500이고 장비 강화 비법서·가호의 정수·도술 강화 요령서가 나와요</li>
+</ul>
+<!-- 이미지 이유: 비경 단계와 권장 전투력을 보여주려 / 분류: A형 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7943 (도깨비의세계 공식 포럼 가이드 7943(비경 탐험)) -->
+<div class="imgwrap"><img src="img/dk-secret-realm.png" width="1000" height="562" alt="도깨비의세계 비경 탐험 화면, 영험한 청산 지하동굴 1단계부터 5단계까지 권장 전투력과 기본 시간이 보이는 모습"></div>
+<p class="cap">비경 탐험 화면이에요, 단계별 권장 전투력과 기본 시간이 한 화면에 보여요</p>
+<p class="src">이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7943" target="_blank">도깨비의세계 공식 포럼 가이드 7943(비경 탐험)</a></p>
+<p>도술은 10월 21일 정기 점검에서 강화·돌파가 초기화될 예정이라, 영기 수련 5-1로 슬롯만 늘려 두고 강화엔 크게 쓰지 않는 게 좋겠네요.</p>
+
+<h2 class="sub">도깨비의세계 자동사냥 돌리는 법, 어떤 설정부터 맞추나요?</h2>
+<p><b>자동 사냥은 자율 수행 설정·물약 사용 설정·도술별 자동 조작·자동 획득 등급 네 군데를 먼저 맞추고, 사냥터는 권장 전투력으로 고르면 돼요.</b></p>
+<!-- 이미지 이유: 자율 수행 설정 항목을 실화면으로 보여주려 / 분류: A형 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7833 (도깨비의세계 공식 포럼 가이드 7833(주요 UI 소개)) -->
+<div class="imgwrap"><img src="img/dk-auto-setting.png" width="1000" height="562" alt="도깨비의세계 자율 수행 설정 창, 공격 우선순위와 프리셋 1~3, 매너 모드, 자율 수행 범위 슬라이더가 보이는 화면"></div>
+<p class="cap">자율 수행 설정 창이에요, 공격 우선순위·매너 모드·자율 수행 범위가 한 화면에 있어요. 화면 속 선택 값은 예시예요</p>
+<p class="src">이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7833" target="_blank">도깨비의세계 공식 포럼 가이드 7833(주요 UI 소개)</a></p>
+<ul>
+<li><b>자율 수행 설정</b> 프리셋 1~3과 공격 우선순위 여섯 대상의 순서, 매너 모드, 자율 수행 범위를 정해요. 매너 모드는 다른 도사가 공격 중인 요귀를 건드리지 않게 해 줘서 붐비는 곳에선 켜 둬요</li>
+<li><b>물약 사용 설정</b> 사냥 때 체력 물약을 자동으로 쓸 체력 비율과 등급별 사용 순서를 정해요. 물약은 주로 엽전으로 사다 보니 비율을 낮게 두고 시작하게 되네요</li>
+<li><b>도술별 자동 조작</b> 도술마다 수동·자동을 고르고 자동이면 체력 조건(예: 체력 80% 이하)과 사용 가능 개수 조건을 걸어요. 회복·보호막 도술에는 체력 조건부터 걸어 두는 식이에요</li>
+<li><b>자동 획득 등급</b> 설정 > 전투 > 획득에서 장비 아이템과 물약을 모두·희귀 이상·영웅 이상·전설 이상으로 나눠 받아요</li>
+</ul>
+<!-- 이미지 이유: 도술별 체력 조건 설정 위치를 보여주려 / 분류: A형 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7834 (도깨비의세계 공식 포럼 가이드 7834(도술)) -->
+<div class="imgwrap"><img src="img/dk-dosul-auto.png" width="1000" height="562" alt="도깨비의세계 도술 사용 순서 설정 창, 자동 조작에서 사용 가능 개수 조건과 체력 조건 80%를 거는 화면"></div>
+<p class="cap">도술 사용 순서 설정 창이에요, 자동 조작을 켜면 체력 조건을 걸 수 있어요. 화면 속 수치는 예시예요</p>
+<p class="src">이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7834" target="_blank">도깨비의세계 공식 포럼 가이드 7834(도술)</a></p>
+<p>참고로 자동 반격은 이동·지면 터치·도술 직접 사용을 하면 중단되고 그 전투가 끝날 때까지 다시 시작되지 않습니다. 물약 없이 버티는 사냥터는 길라잡이 권장 전투력 구간에서 먼저 돌려 보고, 효율은 10분으로 판단하지 말고 20~40분은 돌려 본 다음에 비교하는 게 좋죠.</p>
+<p>사냥 보상은 기여도가 가장 높은 도사에게 가니까, 도착 지점이 붐비면 조금 벗어난 곳이나 다른 사냥 공간으로 옮기는 게 나아요. 인원이 가득 찬 지역은 다른 채널로 배정되는데, 저는 영기 수련 9-1을 열어 두고 도깨비 수련장에 들어갔다 나오며 채널을 바꿔 봐요. 사람마다 방법이 달라서 인게임에서 한 번 해 보세요.</p>
+
+<h2 class="sub">도깨비의세계 오프라인 모드 켜는 법, 시간은 얼마나 쓸 수 있나요?</h2>
+<p><b>오프라인 모드는 메뉴 [나가기]를 눌러 뜨는 '게임 종료' 창에서 [오프라인 모드]를 누르면 켜지고, 게임을 꺼도 그 자리에서 하루 최대 8시간 자동 사냥이 이어져요.</b></p>
+<!-- 이미지 이유: 오프라인 모드를 켜는 위치와 남은 시간 표시를 보여주려 / 분류: A형 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7833 (도깨비의세계 공식 포럼 가이드 7833(주요 UI 소개)) -->
+<div class="imgwrap"><img src="img/dk-offline-popup.png" width="1000" height="562" alt="도깨비의세계 게임 종료 창, 시작 화면으로 가기 버튼과 오프라인 모드 남은 시간 08:00:00 그리고 오프라인 모드 버튼이 보이는 화면"></div>
+<p class="cap">메뉴 [나가기]를 누르면 뜨는 '게임 종료' 창이에요, [오프라인 모드] 버튼 위에 남은 시간이 보여요</p>
+<p class="src">이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7833" target="_blank">도깨비의세계 공식 포럼 가이드 7833(주요 UI 소개)</a></p>
+<ul>
+<li><b>이용 시간</b> 하루 최대 8시간이고, 성장 멤버십이면 일일 제한이 풀려서 접속할 때마다 최대 8시간씩 쓸 수 있어요</li>
+<li><b>초기화와 범위</b> 출시 전 안내 기준으로는 매일 05:00에 초기화되고, 필드 사냥 말고 다른 콘텐츠는 대부분 직접 들어가야 해요</li>
+<li><b>알려진 문제</b> 10월 14일 기준 목록에는 오프라인으로 넘어갈 때 자동 조작을 꺼 둔 도술이 쓰이고 사냥 범위가 마지막 위치 기준으로 바뀌는 현상이 올라와 있어요</li>
+<li><b>점검</b> 점검이 시작되면 게임이 강제 종료될 수 있어서, 점검 시간과 겹치게 켜 두지는 않아요</li>
+</ul>
+<p>그래서 저는 오프라인 전에 한 단계 안전한 사냥터에서 몇 분 먼저 돌려 보고, 죽지 않는지 물약이 평소보다 빨리 줄지 않는지 본 뒤에 켜요. 절전 모드는 켜 둔 채 쓰는 기능으로, 10월 14일 점검부터 메인 화면에 단축 버튼이 생겼고 설정 > 기능 > 편의에서 진입 시간(5분·10분·30분)과 피격 시 해제를 정할 수 있답니다.</p>
+<!-- 이미지 이유: 절전모드 설정 위치를 보여주려 / 분류: A형 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7747 (도깨비의세계 공식 포럼 가이드 7747(설정)) -->
+<div class="imgwrap"><img src="img/dk-saving-setting.png" width="1000" height="562" alt="도깨비의세계 설정 기능 편의 화면, 절전모드 해제와 절전모드 진입 시간 사용 안 함 5분 10분 30분 항목"></div>
+<p class="cap">설정 > 기능 > 편의 화면이에요, 절전모드 진입 시간과 피격 시 해제 옵션이 여기 있어요</p>
+<p class="src">이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7747" target="_blank">도깨비의세계 공식 포럼 가이드 7747(설정)</a></p>
+<!-- 이미지 이유: 공식 그림이 없는 화면이라 직접 촬영 / 분류: B형 -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 절전 모드에 들어간 화면</span></div>
+<div class="shoot">📸 직접 촬영 권장 — 어디서: 사냥터에서 메인 화면의 절전 모드 단축 버튼을 누른 직후 · 무엇을: 절전 화면에 나오는 표시가 전부 보이게 · 어떻게: 보이는 그대로만 찍고, 화면에 오프라인 모드 버튼이 있으면 같이 담기</div>
+<p class="cap">단축 버튼으로 절전 모드에 들어간 화면이에요</p>
+
+<h2 class="sub">도깨비의세계 전투력 올릴 때 놓치기 쉬운 것들</h2>
+<ul>
+<li><b>거래소</b> 일반·희귀 장비는 한 번이라도 강화하거나 각성하면 거래소에 못 팔아요. 팔 장비는 강화 전에 정해 두세요</li>
+<li><b>비경 시간</b> 기본 시간은 모든 비경을 합쳐 하루 1시간이라 한 곳에서 쓰면 다른 곳 시간이 줄고, 매일 05시에 초기화돼요</li>
+</ul>
+<!-- 이미지 이유: 비경 기본 시간이 먼저 차감되는 걸 보여주려 / 분류: A형 / 출처: https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7943 (도깨비의세계 공식 포럼 가이드 7943(비경 탐험)) -->
+<div class="imgwrap"><img src="img/dk-secret-popup.png" width="1000" height="562" alt="도깨비의세계 비경 입장 확인 창, 기본 시간 01:00:00과 추가 시간이 보이고 기본 시간 차감 후 추가 시간이 차감된다는 문구가 있는 화면"></div>
+<p class="cap">비경 입장 확인 창이에요, 기본 시간을 먼저 쓰고 그다음에 추가 시간이 차감돼요</p>
+<p class="src">이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7943" target="_blank">도깨비의세계 공식 포럼 가이드 7943(비경 탐험)</a></p>
+
+<h2 class="sub">자주 묻는 질문</h2>
+<p><b>Q. 도깨비의세계 자동 사냥이 모바일에서 끊기는 이유가 뭔가요?</b><br>Wi-Fi와 셀룰러 데이터가 서로 전환될 때 자동 사냥과 매칭, 접속 대기열 연결이 끊길 수 있다고 알려져 있어요. 연결이 바뀐 뒤엔 자동 사냥이 켜져 있는지 보세요.</p>
+<p><b>Q. 자동 사냥을 오래 돌렸더니 프레임이 떨어져요, 어떻게 하나요?</b><br>장시간 유지하면 프레임이 점차 떨어질 수 있고, 게임을 재시작하면 일시적으로 나아진다고 안내돼 있어요. 설정 > 환경 > 그래픽의 '저사양 모드'는 재시작한 뒤에 적용돼요.</p>
+<p><b>Q. 절전 모드가 설정한 시간이 지나도 저절로 안 켜져요.</b><br>10월 14일 기준 알려진 문제 목록에 같은 현상이 올라와 있어요. 그때는 메인 화면의 절전 모드 단축 버튼이나 메뉴로 직접 켜면 돼요.</p>
+
+<h2 class="sub">도깨비의세계 전투력 올리는 제 하루 순서</h2>
+<p>저는 하루를 이 순서로 돌려요.</p>
+<ol>
+<li>접속하면 영기 수련이 끝나 있는지 보고, 끝났으면 다음 단계를 시작해요</li>
+<li>일일 임무 10번(주간 임무는 주 10번)을 챙기고 길라잡이에서 [보상 받기]가 켜졌는지 봐요</li>
+<li>비경 탐험은 하루 기본 1시간 안에서 들어가요</li>
+<li>저녁 8시에는 그날 요일의 필드 보스에 한 번 참여해요</li>
+</ol>
+<p>도술은 10월 21일 초기화 이후 달라지는 게 있으면 다시 정리해서 올릴게요~</p>
+
+<p><b>✔ 도깨비의세계 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224437843831" target="_blank">도깨비의세계 무기 추천, 무기 5종 고르는 기준과 장비 강화 개방 돌파 각성 순서</a><br>
+· <a href="https://blog.naver.com/bomding/224439576199" target="_blank">도깨비의세계 가호 세트 효과 정리, 토끼 연꽃 도깨비 나비 봉황 등급별 수치와 세트 점수 10·30·50·70</a><br>
+· <a href="https://blog.naver.com/bomding/224438223933" target="_blank">도깨비의세계 전래동화 꼭 해야 하는 이유, 별의 조각 얻는 법과 미누 상점 교환</a></p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=tip&id=8063" target="_blank">도깨비의세계 공식 포럼 — 빠른 성장의 지름길, 길라잡이를 활용하세요!</a><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7833" target="_blank">도깨비의세계 공식 포럼 — 주요 UI 소개 가이드</a><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=update&id=18403" target="_blank">도깨비의세계 공식 포럼 — 10월 14일 업데이트 안내</a></p>
+
+    <div class="tags">#도깨비의세계 #도깨비의세계전투력 #도깨비의세계자동사냥 #도깨비의세계오프라인모드 #도깨비의세계꿀팁 #카카오게임즈 #봄딩</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 10가지(약 10분):</b> 📷 <b>사진 10곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 도깨비의세계 전투력 올리는 방법과 자동사냥 효율 세팅, 오프라인 모드 켜는 법까지 꿀팁 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>도깨비의세계를 하다 보면 전투력은 제자리인데 사냥터는 점점 버거워지는 날이 오는데요. 저는 그럴 때마다 성장 메뉴와 자동 사냥 설정을 한 번씩 다시 손봤거든요. 그걸 <b>권장 전투력 37,000~135,000 구간</b>에 맞춰 10월 14일 점검까지 반영해 정리했으니 결론부터 보여드리겠습니다.</p>
+<table>
+<tr><th>전투력 올리기</th><th>자동 사냥 세팅</th></tr>
+<tr><td>길라잡이 권장 전투력으로 구간 잡기</td><td>설정 네 군데 먼저 맞추기</td></tr>
+<tr><td>영기 수련 끊기지 않게 걸어 두기</td><td>사냥터는 권장 전투력으로 고르기</td></tr>
+<tr><td>임무·보스·분해로 재료 모으기</td><td>오프라인은 시험해 보고 켜기</td></tr>
+</table>
+
+<h3>도깨비의세계 전투력 올리는 방법, 뭐부터 손대면 되나요?</h3>
+<p><b>전투력은 길라잡이 권장 전투력으로 구간을 잡고, 영기 수련을 끊지 않고 돌리면서 임무와 보스로 재료를 채우면 올라가요.</b></p>
+<p class="ph">📷 〔사진 자리 1〕 도깨비의세계 길라잡이 추천 사냥터 지도, 사냥터마다 권장 전투력이 적혀 있고 오른쪽에 달성 보상과 사냥터 바로가기 버튼이 있는 화면 — 네이버에서 직접 업로드</p>
+<p>▲ 길라잡이 추천 사냥터 지도예요, 사냥터마다 권장 전투력이 적혀 있어요. 그림 속 내 전투력 수치는 촬영 당시 값이에요</p>
+<p>이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=tip&id=8063" target="_blank">도깨비의세계 공식 포럼 TIP 8063(길라잡이)</a></p>
+<p>길라잡이는 권장 전투력을 채우면 달성 보상을 캐릭터당 한 번 받고 사냥터 바로가기도 엽전 없이 쓸 수 있거든요. 그래서 아래 숫자가 사냥터 이정표가 됩니다.</p>
+<table>
+<tr><th>권장 전투력</th><th>사냥터</th><th>달성 보상</th></tr>
+<tr><td>37,000</td><td>안개 기슭 1</td><td>요혼석 20개</td></tr>
+<tr><td>68,000</td><td>산신의 영역 1</td><td>요혼석 20개</td></tr>
+<tr><td>135,000</td><td>황무지 마을 1</td><td>영웅 강화 재료 선택 상자 5개</td></tr>
+</table>
+<p>위 숫자는 10월 7일 길라잡이 안내 기준이고, 10월 14일 점검 뒤에는 진행도가 낮은 콘텐츠부터 안내하는 [맞춤 추천] 탭이 생겼으니 길라잡이부터 열어 보면 편해요.</p>
+<p class="ph">📷 〔사진 자리 2〕 길라잡이 [맞춤 추천] 탭 — 직접 촬영해 업로드</p>
+<p>▲ [맞춤 추천] 탭에는 진행도가 낮은 콘텐츠가 먼저 떠요</p>
+<p>본편이 막히면 서사 임무로 넘어가는데, 메뉴(三) → 임무 → 서사 탭에서 외전 임무의 권장 전투력을 미리 볼 수 있습니다. 영기 수련은 내기, 외기, 진기 순서로만 이어지는데 걸리는 시간이 실제 시간이잖아요. 그래서 수련이 끝나 있으면 접속을 끊기 전에 다음 단계를 시작해 두는 게 편하답니다. 문파에 가입하면 문파원 도움으로 시간을 줄일 수 있는데 하루 최대 100회예요.</p>
+<p class="ph">📷 〔사진 자리 3〕 도깨비의세계 영기 수련 화면, 28-1 내면의 길 개방 노드가 강조된 모습 — 네이버에서 직접 업로드</p>
+<p>▲ 영기 수련 트리의 28-1 '내면의 길 개방' 노드예요, 여기를 끝내면 내면의 길이 열려요</p>
+<p>이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7843" target="_blank">도깨비의세계 공식 포럼 가이드 7843(내면의 길)</a></p>
+<p>기운 발현은 10월 14일 기준으로 알려진 문제에 연출 중에도 [발현] 버튼이 눌려 연속으로 진행되는 오류가 올라와 있어서, 연출이 끝난 뒤에 누르는 게 깔끔해요. 재료는 이 세 곳에서 챙기시면 됩니다.</p>
+<ul>
+<li><b>장비 분해</b> 희귀 등급 이상 장비를 분해하면 엽전을 뺀 일반 강화 재료를 100% 돌려받아요</li>
+<li><b>필드 보스</b> 월·수·금·일은 산신 산군대호, 화·목·토는 해골장군이 저녁 8시부터 5분간 나와요. 피해량 보상은 참여한 모든 도사에게 누적 피해량 단계별로 나가서 저는 한 번은 꼭 들어가요</li>
+<li><b>비경 탐험</b> 강화 비경 '영험한 청산 지하동굴'은 1단계 권장 전투력이 38,500이고 장비 강화 비법서·가호의 정수·도술 강화 요령서가 나와요</li>
+</ul>
+<p class="ph">📷 〔사진 자리 4〕 도깨비의세계 비경 탐험 화면, 영험한 청산 지하동굴 1단계부터 5단계까지 권장 전투력과 기본 시간이 보이는 모습 — 네이버에서 직접 업로드</p>
+<p>▲ 비경 탐험 화면이에요, 단계별 권장 전투력과 기본 시간이 한 화면에 보여요</p>
+<p>이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7943" target="_blank">도깨비의세계 공식 포럼 가이드 7943(비경 탐험)</a></p>
+<p>도술은 10월 21일 정기 점검에서 강화·돌파가 초기화될 예정이라, 영기 수련 5-1로 슬롯만 늘려 두고 강화엔 크게 쓰지 않는 게 좋겠네요.</p>
+
+<h3>도깨비의세계 자동사냥 돌리는 법, 어떤 설정부터 맞추나요?</h3>
+<p><b>자동 사냥은 자율 수행 설정·물약 사용 설정·도술별 자동 조작·자동 획득 등급 네 군데를 먼저 맞추고, 사냥터는 권장 전투력으로 고르면 돼요.</b></p>
+<p class="ph">📷 〔사진 자리 5〕 도깨비의세계 자율 수행 설정 창, 공격 우선순위와 프리셋 1~3, 매너 모드, 자율 수행 범위 슬라이더가 보이는 화면 — 네이버에서 직접 업로드</p>
+<p>▲ 자율 수행 설정 창이에요, 공격 우선순위·매너 모드·자율 수행 범위가 한 화면에 있어요. 화면 속 선택 값은 예시예요</p>
+<p>이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7833" target="_blank">도깨비의세계 공식 포럼 가이드 7833(주요 UI 소개)</a></p>
+<ul>
+<li><b>자율 수행 설정</b> 프리셋 1~3과 공격 우선순위 여섯 대상의 순서, 매너 모드, 자율 수행 범위를 정해요. 매너 모드는 다른 도사가 공격 중인 요귀를 건드리지 않게 해 줘서 붐비는 곳에선 켜 둬요</li>
+<li><b>물약 사용 설정</b> 사냥 때 체력 물약을 자동으로 쓸 체력 비율과 등급별 사용 순서를 정해요. 물약은 주로 엽전으로 사다 보니 비율을 낮게 두고 시작하게 되네요</li>
+<li><b>도술별 자동 조작</b> 도술마다 수동·자동을 고르고 자동이면 체력 조건(예: 체력 80% 이하)과 사용 가능 개수 조건을 걸어요. 회복·보호막 도술에는 체력 조건부터 걸어 두는 식이에요</li>
+<li><b>자동 획득 등급</b> 설정 > 전투 > 획득에서 장비 아이템과 물약을 모두·희귀 이상·영웅 이상·전설 이상으로 나눠 받아요</li>
+</ul>
+<p class="ph">📷 〔사진 자리 6〕 도깨비의세계 도술 사용 순서 설정 창, 자동 조작에서 사용 가능 개수 조건과 체력 조건 80%를 거는 화면 — 네이버에서 직접 업로드</p>
+<p>▲ 도술 사용 순서 설정 창이에요, 자동 조작을 켜면 체력 조건을 걸 수 있어요. 화면 속 수치는 예시예요</p>
+<p>이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7834" target="_blank">도깨비의세계 공식 포럼 가이드 7834(도술)</a></p>
+<p>참고로 자동 반격은 이동·지면 터치·도술 직접 사용을 하면 중단되고 그 전투가 끝날 때까지 다시 시작되지 않습니다. 물약 없이 버티는 사냥터는 길라잡이 권장 전투력 구간에서 먼저 돌려 보고, 효율은 10분으로 판단하지 말고 20~40분은 돌려 본 다음에 비교하는 게 좋죠.</p>
+<p>사냥 보상은 기여도가 가장 높은 도사에게 가니까, 도착 지점이 붐비면 조금 벗어난 곳이나 다른 사냥 공간으로 옮기는 게 나아요. 인원이 가득 찬 지역은 다른 채널로 배정되는데, 저는 영기 수련 9-1을 열어 두고 도깨비 수련장에 들어갔다 나오며 채널을 바꿔 봐요. 사람마다 방법이 달라서 인게임에서 한 번 해 보세요.</p>
+
+<h3>도깨비의세계 오프라인 모드 켜는 법, 시간은 얼마나 쓸 수 있나요?</h3>
+<p><b>오프라인 모드는 메뉴 [나가기]를 눌러 뜨는 '게임 종료' 창에서 [오프라인 모드]를 누르면 켜지고, 게임을 꺼도 그 자리에서 하루 최대 8시간 자동 사냥이 이어져요.</b></p>
+<p class="ph">📷 〔사진 자리 7〕 도깨비의세계 게임 종료 창, 시작 화면으로 가기 버튼과 오프라인 모드 남은 시간 08:00:00 그리고 오프라인 모드 버튼이 보이는 화면 — 네이버에서 직접 업로드</p>
+<p>▲ 메뉴 [나가기]를 누르면 뜨는 '게임 종료' 창이에요, [오프라인 모드] 버튼 위에 남은 시간이 보여요</p>
+<p>이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7833" target="_blank">도깨비의세계 공식 포럼 가이드 7833(주요 UI 소개)</a></p>
+<ul>
+<li><b>이용 시간</b> 하루 최대 8시간이고, 성장 멤버십이면 일일 제한이 풀려서 접속할 때마다 최대 8시간씩 쓸 수 있어요</li>
+<li><b>초기화와 범위</b> 출시 전 안내 기준으로는 매일 05:00에 초기화되고, 필드 사냥 말고 다른 콘텐츠는 대부분 직접 들어가야 해요</li>
+<li><b>알려진 문제</b> 10월 14일 기준 목록에는 오프라인으로 넘어갈 때 자동 조작을 꺼 둔 도술이 쓰이고 사냥 범위가 마지막 위치 기준으로 바뀌는 현상이 올라와 있어요</li>
+<li><b>점검</b> 점검이 시작되면 게임이 강제 종료될 수 있어서, 점검 시간과 겹치게 켜 두지는 않아요</li>
+</ul>
+<p>그래서 저는 오프라인 전에 한 단계 안전한 사냥터에서 몇 분 먼저 돌려 보고, 죽지 않는지 물약이 평소보다 빨리 줄지 않는지 본 뒤에 켜요. 절전 모드는 켜 둔 채 쓰는 기능으로, 10월 14일 점검부터 메인 화면에 단축 버튼이 생겼고 설정 > 기능 > 편의에서 진입 시간(5분·10분·30분)과 피격 시 해제를 정할 수 있답니다.</p>
+<p class="ph">📷 〔사진 자리 8〕 도깨비의세계 설정 기능 편의 화면, 절전모드 해제와 절전모드 진입 시간 사용 안 함 5분 10분 30분 항목 — 네이버에서 직접 업로드</p>
+<p>▲ 설정 > 기능 > 편의 화면이에요, 절전모드 진입 시간과 피격 시 해제 옵션이 여기 있어요</p>
+<p>이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7747" target="_blank">도깨비의세계 공식 포럼 가이드 7747(설정)</a></p>
+<p class="ph">📷 〔사진 자리 9〕 절전 모드에 들어간 화면 — 직접 촬영해 업로드</p>
+<p>▲ 단축 버튼으로 절전 모드에 들어간 화면이에요</p>
+
+<h3>도깨비의세계 전투력 올릴 때 놓치기 쉬운 것들</h3>
+<ul>
+<li><b>거래소</b> 일반·희귀 장비는 한 번이라도 강화하거나 각성하면 거래소에 못 팔아요. 팔 장비는 강화 전에 정해 두세요</li>
+<li><b>비경 시간</b> 기본 시간은 모든 비경을 합쳐 하루 1시간이라 한 곳에서 쓰면 다른 곳 시간이 줄고, 매일 05시에 초기화돼요</li>
+</ul>
+<p class="ph">📷 〔사진 자리 10〕 도깨비의세계 비경 입장 확인 창, 기본 시간 01:00:00과 추가 시간이 보이고 기본 시간 차감 후 추가 시간이 차감된다는 문구가 있는 화면 — 네이버에서 직접 업로드</p>
+<p>▲ 비경 입장 확인 창이에요, 기본 시간을 먼저 쓰고 그다음에 추가 시간이 차감돼요</p>
+<p>이미지 출처: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7943" target="_blank">도깨비의세계 공식 포럼 가이드 7943(비경 탐험)</a></p>
+
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 도깨비의세계 자동 사냥이 모바일에서 끊기는 이유가 뭔가요?</b><br>Wi-Fi와 셀룰러 데이터가 서로 전환될 때 자동 사냥과 매칭, 접속 대기열 연결이 끊길 수 있다고 알려져 있어요. 연결이 바뀐 뒤엔 자동 사냥이 켜져 있는지 보세요.</p>
+<p><b>Q. 자동 사냥을 오래 돌렸더니 프레임이 떨어져요, 어떻게 하나요?</b><br>장시간 유지하면 프레임이 점차 떨어질 수 있고, 게임을 재시작하면 일시적으로 나아진다고 안내돼 있어요. 설정 > 환경 > 그래픽의 '저사양 모드'는 재시작한 뒤에 적용돼요.</p>
+<p><b>Q. 절전 모드가 설정한 시간이 지나도 저절로 안 켜져요.</b><br>10월 14일 기준 알려진 문제 목록에 같은 현상이 올라와 있어요. 그때는 메인 화면의 절전 모드 단축 버튼이나 메뉴로 직접 켜면 돼요.</p>
+
+<h3>도깨비의세계 전투력 올리는 제 하루 순서</h3>
+<p>저는 하루를 이 순서로 돌려요.</p>
+<ol>
+<li>접속하면 영기 수련이 끝나 있는지 보고, 끝났으면 다음 단계를 시작해요</li>
+<li>일일 임무 10번(주간 임무는 주 10번)을 챙기고 길라잡이에서 [보상 받기]가 켜졌는지 봐요</li>
+<li>비경 탐험은 하루 기본 1시간 안에서 들어가요</li>
+<li>저녁 8시에는 그날 요일의 필드 보스에 한 번 참여해요</li>
+</ol>
+<p>도술은 10월 21일 초기화 이후 달라지는 게 있으면 다시 정리해서 올릴게요~</p>
+
+<p><b>✔ 도깨비의세계 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224437843831" target="_blank">도깨비의세계 무기 추천, 무기 5종 고르는 기준과 장비 강화 개방 돌파 각성 순서</a><br>
+· <a href="https://blog.naver.com/bomding/224439576199" target="_blank">도깨비의세계 가호 세트 효과 정리, 토끼 연꽃 도깨비 나비 봉황 등급별 수치와 세트 점수 10·30·50·70</a><br>
+· <a href="https://blog.naver.com/bomding/224438223933" target="_blank">도깨비의세계 전래동화 꼭 해야 하는 이유, 별의 조각 얻는 법과 미누 상점 교환</a></p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=tip&id=8063" target="_blank">도깨비의세계 공식 포럼 — 빠른 성장의 지름길, 길라잡이를 활용하세요!</a><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&id=7833" target="_blank">도깨비의세계 공식 포럼 — 주요 UI 소개 가이드</a><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=update&id=18403" target="_blank">도깨비의세계 공식 포럼 — 10월 14일 업데이트 안내</a></p>
+
+<p class="tags-line">#도깨비의세계 #도깨비의세계전투력 #도깨비의세계자동사냥 #도깨비의세계오프라인모드 #도깨비의세계꿀팁 #카카오게임즈 #봄딩</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
