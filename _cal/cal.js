@@ -428,13 +428,20 @@ var CSS=[
 ].join('\n');
 
 /* ══════════ 백엔드 ══════════ */
+/* ★읽기(GET)는 «응답 머리»를 HEAD_MS 안에 못 받으면 포기한다(2026-10-15 · index.html apiGet 과 같은 규칙).
+   VM 이 꺼져 서버가 «무응답»이 되자 이 탭만 «캘린더를 여는 중»에 영구히 머물렀다(게이트 실측 30초+).
+   포기하면 {s:0} → 기존 «불러오지 못했어요 / 다시 시도» 화면이 뜬다. 머리가 오면 타이머를 풀어 본문은 끝까지 받는다.
+   쓰기(PUT·POST·DELETE)에는 걸지 않는다 — 늦게 성공한 쓰기를 실패로 보이면 사람이 다시 눌러 같은 일을 두 번 한다. */
+var HEAD_MS=8000;
 function req(method,path,body,auth){
   var h={};
   if(body!=null)h['Content-Type']='application/json';
   if(auth){ var t=getTok(); if(t)h['X-Cal-Token']=t; }
-  return fetch(A.base+path,{method:method,headers:h,body:body!=null?JSON.stringify(body):undefined,cache:'no-store'})
-    .then(function(res){ return res.json().catch(function(){ return null; }).then(function(j){ return {s:res.status,j:j}; }); })
-    .catch(function(){ return {s:0,j:null}; });
+  var o={method:method,headers:h,body:body!=null?JSON.stringify(body):undefined,cache:'no-store'}, tm=null;
+  if(method==='GET'&&typeof AbortController==='function'){ var c=new AbortController(); o.signal=c.signal; tm=setTimeout(function(){ c.abort(); },HEAD_MS); }
+  return fetch(A.base+path,o)
+    .then(function(res){ clearTimeout(tm); return res.json().catch(function(){ return null; }).then(function(j){ return {s:res.status,j:j}; }); })
+    .catch(function(){ clearTimeout(tm); return {s:0,j:null}; });
 }
 function errText(r){
   if(!r||!r.s)return '서버에 닿지 못했어요 — 연결을 확인해 주세요';

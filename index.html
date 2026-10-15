@@ -1300,6 +1300,20 @@ var CFG={
   ACCEPT:'.docx,.xlsx,.pdf,.txt,.hwpx,application/pdf,text/plain'
 };
 var api=function(){ return (CFG.API_BASE||'').replace(/\/$/,''); };
+/* ★백엔드 GET 은 «응답 머리»를 API_HEAD_MS 안에 못 받으면 포기한다(2026-10-15).
+   왜: VM 이 꺼지면(GCP 결제 닫힘 사고) 서버가 거부하지 않고 «무응답»이 된다 — fetch 가 실패하지 않고 매달려
+   부팅 Promise.all 이 끝나지 않았고, 사이트 전체가 «불러오는 중»에 멈춰 탭 전환도 안 됐다(실측 3분+).
+   ★상한은 «전체 시간»이 아니라 «머리 도착»까지다 — 정상일 때 /requests 는 1.5MB·5.3초라 전체 시간을 자르면
+   느린 회선에서 멀쩡한 서버를 끊는다. 머리가 오면 타이머를 풀고 본문은 끝까지 받는다.
+   쓰기(POST)에는 걸지 않는다 — 늦게 성공한 쓰기를 «실패»로 보여 주면 사용자가 다시 눌러 중복이 생긴다. */
+var API_HEAD_MS=8000;
+function apiGet(path){
+  var c=(typeof AbortController==='function')?new AbortController():null, t=null;
+  if(c)t=setTimeout(function(){ c.abort(); },API_HEAD_MS);
+  return fetch(api()+path,c?{signal:c.signal}:undefined).then(function(r){ clearTimeout(t); return r; },
+    function(e){ clearTimeout(t); throw e; });
+}
+function bget(path,fb){ return apiGet(path).then(function(r){ return r.ok?r.json():fb; }).catch(function(){ return fb; }); }
 
 var PREF=['봄딩','영도','겜더쿠','연봄','하루살이'];
 /* 휴면 작성자 — 기존 글은 그대로 보이되 '새 글 요청' 대상에서만 뺀다.
@@ -1596,7 +1610,7 @@ var RequestService={
   /* 백엔드 상태로 내 요청 라벨 갱신 + 발행 완료분은 목록에서 제거 */
   syncStatuses:function(){
     if(!this.isConnected())return Promise.resolve(false);
-    return fetch(api()+'/requests').then(function(r){ return r.ok?r.json():null; }).then(function(remote){
+    return apiGet('/requests').then(function(r){ return r.ok?r.json():null; }).then(function(remote){
       if(!Array.isArray(remote))return false;
       var byId={}; remote.forEach(function(x){ if(x&&x.id)byId[x.id]=x; });
       var all=reqLoad(), changed=false, kept=[];
@@ -1623,7 +1637,7 @@ var HiddenSvc={
   isConnected:function(){ return !!CFG.API_BASE; },
   load:function(){
     if(!this.isConnected())return Promise.resolve();
-    return fetch(api()+'/hidden?ts='+Date.now()).then(function(r){ return r.ok?r.json():null; })
+    return apiGet('/hidden?ts='+Date.now()).then(function(r){ return r.ok?r.json():null; })
       .then(function(d){ HIDDEN=Object.create(null); ((d&&d.rels)||[]).forEach(function(x){ HIDDEN[String(x)]=1; }); })
       .catch(function(){});
   },
@@ -1655,7 +1669,7 @@ var MpubSvc={
   isConnected:function(){ return !!CFG.API_BASE; },
   load:function(){
     if(!this.isConnected())return Promise.resolve();
-    return fetch(api()+'/mpub?ts='+Date.now()).then(function(r){ return r.ok?r.json():null; })
+    return apiGet('/mpub?ts='+Date.now()).then(function(r){ return r.ok?r.json():null; })
       .then(function(d){ MPUB=Object.create(null); ((d&&d.rels)||[]).forEach(function(x){ MPUB[String(x)]=1; }); })
       .catch(function(){});
   }
@@ -1673,7 +1687,7 @@ var WhySvc={
   isConnected:function(){ return !!CFG.API_BASE; },
   load:function(){
     if(!this.isConnected())return Promise.resolve();
-    return fetch(api()+'/why?ts='+Date.now()).then(function(r){ return r.ok?r.json():null; })
+    return apiGet('/why?ts='+Date.now()).then(function(r){ return r.ok?r.json():null; })
       .then(function(d){
         WHY=Object.create(null); WHY_REASONS=(d&&Array.isArray(d.reasons))?d.reasons:[];
         ((d&&d.items)||[]).forEach(function(x){ if(x&&x.rel)WHY[String(x.rel)]=String(x.reason||''); });
@@ -1724,7 +1738,7 @@ var PinSvc={
     if(Array.isArray(a))PINS=a.map(String).slice(0,PINS_MAX); }catch(e){} },
   load:function(){
     if(!this.isConnected())return Promise.resolve();
-    return fetch(api()+'/pins?ts='+Date.now()).then(function(r){ return r.ok?r.json():null; })
+    return apiGet('/pins?ts='+Date.now()).then(function(r){ return r.ok?r.json():null; })
       .then(function(d){ if(!d||!Array.isArray(d.games))return;
         PINS=d.games.map(String).slice(0,PINS_MAX); lset(PIN_LS,JSON.stringify(PINS)); })
       .catch(function(){});
@@ -1811,7 +1825,7 @@ PinSvc.loadCache();
 var pinP=PinSvc.load();
 /* 발주일자·실패 알림의 단일 출처. 실패해도 화면은 뜬다(발주일은 작성일로 폴백). */
 var reqsP=CFG.API_BASE
-  ? jget(api()+'/requests?ts='+Date.now(),null)
+  ? bget('/requests?ts='+Date.now(),null)
   : Promise.resolve(null);
 /* 홈 타일 스냅샷 2종 — 데스크 [E] 가 하루 1회 굽는다(09-05 드레이너 갱신 철회). 없으면 «스냅샷 없음»(0 위장 금지) */
 var usageP=jget('_trend/_usage.json?ts='+Date.now(),null);
@@ -2045,7 +2059,7 @@ function renderTools(){
    본체는 _cal/cal.js(처음 열 때만 받는다 — index.html 을 키우지 않는다). 정본 = DESIGN.md §Calendar.
    ★cal.js 를 고치면 CAL_SRC 의 ?v= 를 같은 커밋에서 올린다(pre-push 가 막는다 — 안 올리면 브라우저가 옛 파일을 캐시에서 쓴다).
    저장은 백엔드 /cal(암호 잠금). 사이트는 주소(api())만 빌려주고 토큰·원장은 모듈이 다룬다. */
-var CAL_SRC='_cal/cal.js?v=20260929a', CAL_P=null, CAL_ON=null;
+var CAL_SRC='_cal/cal.js?v=20261015a', CAL_P=null, CAL_ON=null;
 function calApi(){
   return {base:api(), openModal:openModal, closeModal:closeModal, toast:toast, MO:MO, esc:esc, setMeta:setMeta};
 }
@@ -2750,7 +2764,7 @@ setInterval(function(){ if(document.visibilityState==='visible')paintQuota(); },
 /* 홈을 보고 있는 동안 1분마다 큐를 다시 읽는다(GET 1회) */
 setInterval(function(){
   if(document.visibilityState!=='visible'||S.view!=='home'||!CFG.API_BASE)return;
-  jget(api()+'/requests?ts='+Date.now(),null).then(function(rs){
+  bget('/requests?ts='+Date.now(),null).then(function(rs){
     if(!Array.isArray(rs))return;
     REQS=rs; REQS_OK=true; buildNotifs(); paintHomeLive();
   });
@@ -3833,7 +3847,7 @@ if('serviceWorker' in navigator){
 /* 탭으로 돌아오면 실패 알림·발주일자를 다시 맞춘다 */
 document.addEventListener('visibilitychange',function(){
   if(document.visibilityState!=='visible'||!CFG.API_BASE)return;
-  jget(api()+'/requests?ts='+Date.now(),null).then(function(rs){
+  bget('/requests?ts='+Date.now(),null).then(function(rs){
     if(!Array.isArray(rs))return;
     REQS=rs; REQS_OK=true; buildNotifs(); paintHomeLive();
   });
