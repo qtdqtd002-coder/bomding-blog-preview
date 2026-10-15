@@ -38,8 +38,12 @@ fi
 #      (2026-08-14 연봄하우스가 /etc/caddy/conf.d/yeonbom-house.caddy 로 붙어 있음)
 echo "▶ Caddyfile 작성 (conf.d 드롭인 보존)"
 sudo mkdir -p /etc/caddy/conf.d
+#    ★2026-10-15 응답 압축(encode) — GET /requests 가 1.5MB 비압축이라 사이트 부팅이 매번 수 초 걸렸다.
+#      Caddy 는 클라이언트가 Accept-Encoding 을 보낼 때만, 압축할 만한 Content-Type(json·text 등)만 압축한다
+#      → 브라우저는 받고, PC 러너(PowerShell Invoke-WebRequest · 헤더 안 보냄)는 지금처럼 원문을 받는다.
 sudo tee /etc/caddy/Caddyfile >/dev/null <<EOF
 ${HOST_TLS} {
+    encode zstd gzip
     reverse_proxy localhost:${BACKEND_PORT}
 }
 
