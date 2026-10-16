@@ -1,0 +1,394 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>롤토체스 장로 드래곤 드레이븐 덱 공략, 레벨업 스테이지·아이템·수호령·증강을 가이드 기준으로 모았어요</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .icrow{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:6px 0 6px;}
+  .icrow img{width:64px;height:64px;border-radius:8px;border:1px solid var(--line);display:block;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:middle;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl img.ic{width:36px;height:36px;border-radius:6px;vertical-align:middle;margin-right:4px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">롤토체스 장로 드래곤 드레이븐 덱 공략, 레벨업 스테이지·아이템·수호령·증강을 가이드 기준으로 모았어요</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.16</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: ①롤토체스 장로 드래곤 드레이븐 덱은 몇 레벨에 어느 스테이지에서 올리나 ②이 덱은 5~8레벨에서 9레벨로 어떻게 갈아타나 ③장로 드래곤 드레이븐 덱 아이템은 누구에게 주나 -->
+
+    <p>롤토체스 세트18에서 장로 드래곤 드레이븐 덱을 잡았는데 몇 레벨에 올려야 하는지, 아이템은 누구에게 줘야 하는지 헷갈리셨나요? 롤체지지 덱 빌더 가이드 한 편(제작자 작성, 라이엇 공식 아님)을 바탕으로 레벨업, 5~8레벨 초반 라인, 9레벨 완성형, 아이템, 수호령과 증강을 순서대로 풀었답니다ㅎㅎ</p>
+    <p>장로 드래곤 드레이븐은 가이드 제작자가 붙인 덱 이름이라 공식 명칭은 아니에요. 롤체지지 라이브 목록에선 같은 8기가 협곡야수 드레이븐으로 올라 있는데요, 통계 비교는 「롤토체스 추천메타 협곡야수 드레이븐 덱, 점유 상위 12덱 중 평균등수 3.97로 가장 낮아요」와 「롤토체스 드레이븐 덱 vs 장로 드래곤 덱, 5코 주인공 덱 5종의 평균등수는 4.06~4.76이었어요」 글에서 먼저 다뤘답니다.</p>
+
+    <!-- 이미지 이유: 9레벨 완성형의 5코스트 타릭 대표컷(앞 두 글과 다른 캐릭터) / 출처: Riot Games · Teamfight Tactics(CommunityDragon) / 분류: A형 -->
+    <div class="imgwrap"><img src="img/cdragon_taric_splash.png" width="1024" height="512" alt="롤토체스 세트18 타릭 일러스트"></div>
+    <p class="cap">9레벨 완성형 8기에 들어가는 5코스트 타릭이에요.</p>
+    <p class="src">이미지 출처: <a href="https://raw.communitydragon.org/latest/game/assets/characters/tft18_taric/skins/base/images/tft18_taric_splash_centered_1.png" target="_blank">Riot Games · Teamfight Tactics (CommunityDragon)</a></p>
+
+    <h2 class="sub">장로 드래곤 드레이븐 덱은 9레벨에 5코 6기와 4코 2기가 모여요</h2>
+    <p><b>이 덱의 9레벨 완성형은 5코스트 6기와 4코스트 2기, 전원 2성 8기예요.</b></p>
+    <!-- 이미지 이유: 8기 구성을 글자 나열 대신 아이콘 한 줄로 / 출처: Riot Games · Teamfight Tactics(CommunityDragon) / 분류: A형 -->
+    <div class="icrow">
+      <img src="img/cdragon_sq_taric.png" width="128" height="128" alt="타릭 챔피언 아이콘">
+      <img src="img/cdragon_sq_sentinel.png" width="128" height="128" alt="파수꾼 챔피언 아이콘">
+      <img src="img/cdragon_sq_amumu.png" width="128" height="128" alt="아무무 챔피언 아이콘">
+      <img src="img/cdragon_sq_maokai.png" width="128" height="128" alt="마오카이 챔피언 아이콘">
+      <img src="img/cdragon_sq_kennen.png" width="128" height="128" alt="케넨 챔피언 아이콘">
+      <img src="img/cdragon_sq_elderdragon.png" width="128" height="128" alt="장로 드래곤 챔피언 아이콘">
+      <img src="img/cdragon_sq_ivern.png" width="128" height="128" alt="아이번 챔피언 아이콘">
+      <img src="img/cdragon_sq_draven.png" width="128" height="128" alt="드레이븐 챔피언 아이콘">
+    </div>
+    <p class="cap">타릭, 파수꾼, 아무무, 마오카이, 케넨, 장로 드래곤, 아이번, 드레이븐 순이에요.</p>
+    <p class="src">챔피언 아이콘 출처: <a href="https://raw.communitydragon.org/latest/game/assets/characters/" target="_blank">Riot Games · Teamfight Tactics (CommunityDragon)</a></p>
+    <table class="tbl">
+      <tr><th>코스트</th><th>유닛</th><th>코스트 합</th></tr>
+      <tr><td>5코스트 6기</td><td>타릭·마오카이·케넨·장로 드래곤·아이번·드레이븐</td><td>30</td></tr>
+      <tr><td>4코스트 2기</td><td>파수꾼·아무무</td><td>8</td></tr>
+    </table>
+    <p>코스트 합 38에 2성은 카드 3장씩이라 38×3=114, 롤체지지 가이드 목록의 비용 114와 같거든요. 난이도는 «어려움»이라고 가이드에 적혀 있고, 파수꾼은 롤체지지에 감시자로 올라 있어요.</p>
+    <p>라이브에서 같은 8기인 협곡야수 드레이븐 덱은 점유율 7.62%(2위), 1위 비율 24.1%, 순방 54.1%, 평균등수 4.12예요. 덱 표본은 34,331판(전체 450,333판)이고, 조회 2026-10-16 15:07 KST · 패치 18.4b · 마스터+ 랭크 최근 2일 기준이에요.</p>
+
+    <h2 class="sub">레벨업은 2-1~2-3의 4레벨에서 4-5~5-1의 9레벨까지 순서가 정해져 있어요</h2>
+    <p><b>레벨업은 4-5~5-1에 9레벨을 찍는 빠른 일정을 가이드가 권해요.</b> 스테이지별로 올릴 레벨은 아래와 같아요.</p>
+    <table class="tbl">
+      <tr><th>스테이지</th><th>올리는 레벨</th><th>가이드 빌더 화면</th></tr>
+      <tr><td>2-1~2-3</td><td><b>4레벨</b></td><td>없음</td></tr>
+      <tr><td>2-5</td><td><b>5레벨</b></td><td>보드 5기(협곡야수 5)</td></tr>
+      <tr><td>3-2</td><td><b>6레벨</b></td><td>보드 6기(협곡야수 5)</td></tr>
+      <tr><td>3-5~3-7</td><td><b>7레벨</b></td><td>보드 7기(협곡야수 7)</td></tr>
+      <tr><td>4-2</td><td><b>8레벨</b></td><td>보드 8기(협곡야수 7)</td></tr>
+      <tr><td>4-5~5-1</td><td><b>9레벨</b></td><td>5코 중심 완성형 8기</td></tr>
+      <tr><td>여유 골드가 있을 때</td><td><b>10레벨</b></td><td>완성형 8기 + 모르가나</td></tr>
+    </table>
+    <p>골드나 경험치를 주는 증강으로 빠르게 9레벨에 닿은 뒤 2성을 완성하라는 게 가이드의 조언인데요, 이 스테이지에 이 레벨인 이유까지는 설명하지 않아요.</p>
+
+    <h2 class="sub">5~8레벨은 협곡야수 라인으로 보드를 채워 가요</h2>
+    <p><b>5~8레벨 빌더 화면은 돌거북·바위 게·어스름늑대·조약돌·불타는 묘목을 뼈대로 레벨마다 한두 기씩 붙이는 구성이에요.</b></p>
+    <!-- 이미지 이유: 레벨 5→8에서 보드를 채우는 협곡야수 라인 유닛을 아이콘으로 / 출처: Riot Games · Teamfight Tactics(CommunityDragon) / 분류: A형 -->
+    <div class="icrow">
+      <img src="img/cdragon_sq_krug.png" width="128" height="128" alt="돌거북 챔피언 아이콘">
+      <img src="img/cdragon_sq_scuttlecrab.png" width="128" height="128" alt="바위 게 챔피언 아이콘">
+      <img src="img/cdragon_sq_murkwolf.png" width="128" height="128" alt="어스름늑대 챔피언 아이콘">
+      <img src="img/cdragon_sq_sentry.png" width="128" height="128" alt="조약돌 챔피언 아이콘">
+      <img src="img/cdragon_sq_cinderling.png" width="128" height="128" alt="불타는 묘목 챔피언 아이콘">
+      <img src="img/cdragon_sq_kobuko.png" width="128" height="128" alt="코부코 챔피언 아이콘">
+      <img src="img/cdragon_sq_gromp.png" width="128" height="128" alt="심술두꺼비 챔피언 아이콘">
+      <img src="img/cdragon_sq_sentinel.png" width="128" height="128" alt="파수꾼 챔피언 아이콘">
+    </div>
+    <p class="cap">돌거북, 바위 게, 어스름늑대, 조약돌, 불타는 묘목, 코부코, 심술두꺼비, 파수꾼 순이에요.</p>
+    <p class="src">챔피언 아이콘 출처: <a href="https://raw.communitydragon.org/latest/game/assets/characters/" target="_blank">Riot Games · Teamfight Tactics (CommunityDragon)</a></p>
+    <table class="tbl">
+      <tr><th>레벨</th><th>보드 구성</th><th>협곡야수 활성 수</th></tr>
+      <tr><td>5레벨</td><td>돌거북 1성, 나머지 2성</td><td>5</td></tr>
+      <tr><td>6레벨</td><td>돌거북이 2성이 되고 코부코가 합류해 6기</td><td>5</td></tr>
+      <tr><td>7레벨</td><td>코부코가 빠지고 파수꾼(1성)·심술두꺼비가 들어와 7기</td><td>7</td></tr>
+      <tr><td>8레벨</td><td>7레벨 구성에 코부코가 다시 합류해 8기</td><td>7</td></tr>
+      <tr><td>9레벨</td><td>5코 중심 완성형 8기</td><td>4</td></tr>
+    </table>
+    <p>코부코는 협곡야수가 아니라 날렵이·싸움꾼이라 6·8레벨엔 보드 수보다 협곡야수가 하나 적어요. 이 단계 아이템은 빌더 화면 기준 돌거북에 가고일 돌갑옷·워모그의 갑옷·정령의 형상, 불타는 묘목에 구인수의 격노검·최후의 속삭임·무한의 대검이에요. 9레벨 화면에선 방어 아이템 3종이 마오카이로, 무한의 대검·최후의 속삭임이 장로 드래곤으로, 구인수의 격노검이 드레이븐으로 옮겨 가는 모양새더라고요.</p>
+
+    <h2 class="sub">9레벨에서는 5코 8기로 갈아타고 배치는 앞줄 4기, 뒷줄 2기로 읽혀요</h2>
+    <p><b>9레벨 빌더 화면은 협곡야수 라인을 접고 5코 중심 8기로 갈아탄 모습이에요.</b> 가이드가 전환이라 부르진 않지만, 협곡야수가 7에서 4로 줄어 7에서 열리던 성장 효과는 완성형에선 꺼지고, 배치는 아래 순서로 추정돼요.</p>
+    <ul>
+      <li><b>앞줄 4기</b>: 타릭·파수꾼·아무무·마오카이</li>
+      <li><b>둘째 줄 2기</b>: 케넨·장로 드래곤</li>
+      <li><b>맨 뒷줄 2기</b>: 아이번·드레이븐</li>
+    </ul>
+    <!-- 이미지 이유: «뒤쪽에 둔다»를 글자 대신 7칸×4줄 배치도로 / 분류: B형(봄딩 양식으로 다시 그림) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 9레벨 8기 배치도 (7칸×4줄, 앞줄 4기·둘째 줄 2기·맨 뒷줄 2기)</span></div>
+    <div class="shoot">📸 제작 가이드 — <b>무엇이 보이게</b>: 7칸×4줄 보드에 슬롯 2·3·4·5(앞줄), 10·11(둘째 줄), 21·27(맨 뒷줄)로 8기 아이콘을 얹고 «추정 배치» 라벨을 붙여 주세요 · <b>어떻게</b>: 롤체지지 빌더 화면은 캡처하지 말고 봄딩 양식으로 다시 그려 주세요 · 아이콘은 위 8기 줄과 같은 파일을 써요.</div>
+    <p class="cap">9레벨 추정 배치예요.</p>
+    <p>드레이븐을 뒤쪽에 두면 적 딜러를 먼저 노린다는 게 가이드의 설명이에요.</p>
+    <div class="gap"><b>드레이븐 사거리는 숫자를 비웠어요</b> — 가이드 본문은 5칸이라 적고 게임 데이터 표기는 6이라 서로 달라요. 칸 수는 인게임 챔피언 정보창에서 직접 확인해 맞춰 주세요.</div>
+    <p>10레벨 빌더는 8기에 4코스트 모르가나를 더한 모습이에요. 가이드는 AD 아이템이 장로 드래곤 3종과 드레이븐 것까지 갖춰지지 않았다면 AP 럭스와 모르가나를 활용하라고 해요(럭스는 5코스트예요).</p>
+
+    <h2 class="sub">아이템은 딜러 둘에 공격 아이템, 마오카이와 타릭에 방어 아이템이에요</h2>
+    <p><b>아이템은 드레이븐과 장로 드래곤에게 공격 아이템을, 마오카이와 타릭에게 방어 아이템을 몰아주는 구성이에요.</b> 대체 아이템은 가이드 목록 그대로예요.</p>
+    <!-- 이미지 이유: 표 둘째 열에서 아이템 이름만 있는 표보다 아이콘으로 구분 / 출처: Riot Games · Teamfight Tactics(CommunityDragon) / 분류: A형 -->
+    <table class="tbl">
+      <tr><th>유닛</th><th>주요 아이템</th><th>대체 아이템</th></tr>
+      <tr><td><img class="ic" src="img/cdragon_sq_draven.png" width="128" height="128" alt="드레이븐 챔피언 아이콘">드레이븐</td><td><img class="ic" src="img/cdragon_item_guinsoos.png" width="128" height="128" alt="구인수의 격노검 아이템 아이콘">구인수의 격노검<br><img class="ic" src="img/cdragon_item_kraken.png" width="64" height="64" alt="크라켄의 분노 아이템 아이콘">크라켄의 분노</td><td>명멸검 / 생선대가리 / 고속 연사포 / 황금 징수의 총(유물)<br>처형자 상징 / 무한의 대검<br>죽음의 검 / 거인 학살자</td></tr>
+      <tr><td><img class="ic" src="img/cdragon_sq_elderdragon.png" width="128" height="128" alt="장로 드래곤 챔피언 아이콘">장로 드래곤</td><td><img class="ic" src="img/cdragon_item_infinityedge.png" width="128" height="128" alt="무한의 대검 아이템 아이콘">무한의 대검<br><img class="ic" src="img/cdragon_item_lastwhisper.png" width="128" height="128" alt="최후의 속삭임 아이템 아이콘">최후의 속삭임<br><img class="ic" src="img/cdragon_item_strikers.png" width="128" height="128" alt="타격대의 철퇴 아이템 아이콘">타격대의 철퇴</td><td>거대한 히드라 / 은빛 여명(유물)<br>스테락의 도전 / 정의의 손길<br>죽음의 검 / 거인 학살자</td></tr>
+      <tr><td><img class="ic" src="img/cdragon_sq_maokai.png" width="128" height="128" alt="마오카이 챔피언 아이콘">마오카이·<img class="ic" src="img/cdragon_sq_taric.png" width="128" height="128" alt="타릭 챔피언 아이콘">타릭</td><td><img class="ic" src="img/cdragon_item_gargoyle.png" width="128" height="128" alt="가고일 돌갑옷 아이템 아이콘">가고일 돌갑옷<br><img class="ic" src="img/cdragon_item_warmog.png" width="128" height="128" alt="워모그의 갑옷 아이템 아이콘">워모그의 갑옷<br><img class="ic" src="img/cdragon_item_spirit.png" width="128" height="128" alt="정령의 형상 아이템 아이콘">정령의 형상</td><td>덤불 조끼 / 용의 발톱<br>태양불꽃 망토 / 저녁갑주</td></tr>
+      <tr><td><img class="ic" src="img/cdragon_sq_kennen.png" width="128" height="128" alt="케넨 챔피언 아이콘">케넨</td><td><img class="ic" src="img/cdragon_item_thief.png" width="128" height="128" alt="도적의 장갑 아이템 아이콘">도적의 장갑</td><td>보석 건틀릿 / 타격대의 철퇴<br>밤의 끝자락 / 정의의 손길</td></tr>
+    </table>
+    <p class="src">아이템 아이콘 출처: <a href="https://raw.communitydragon.org/latest/game/assets/maps/tft/icons/items/hexcore/" target="_blank">Riot Games · Teamfight Tactics (CommunityDragon)</a></p>
+        <p>빌더 화면에선 드레이븐이 크라켄의 분노를 하나 더 들어 세 칸을 채우고, 타릭은 아이템 없이 마오카이에게만 방어 아이템 3종이 몰려 있어요. 라이브 덱 카드는 장로 드래곤의 세 번째가 스테락의 도전, 케넨이 밤의 끝자락이라 가이드와 다르고요.</p>
+
+    <h2 class="sub">수호령은 경험치 쪽으로, 증강은 빌더에 박힌 후반 성장·폭발적인 성장·초월이에요</h2>
+    <p><b>가이드가 고른 수호령 5종 가운데 4종은 경험치를 주고, 남은 하나는 팀 능력치를 올려요.</b></p>
+    <table class="tbl">
+      <tr><th>수호령</th><th>효과</th></tr>
+      <tr><td>숙련자</td><td>경험치 2</td></tr>
+      <tr><td>동수저</td><td>경험치 4</td></tr>
+      <tr><td>성장</td><td>경험치 10</td></tr>
+      <tr><td>느긋한 학습</td><td>살아남은 아군 한 명당 경험치</td></tr>
+      <tr><td>남작의 도움</td><td>아군이 내셔 남작 효과를 얻어 능력치 상승</td></tr>
+    </table>
+    <!-- 이미지 이유: 수호령 5종 이름·효과를 한 장에서 구분 / 분류: B형(봄딩 양식 카드) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 수호령 5종 카드 (숙련자·동수저·성장·느긋한 학습·남작의 도움)</span></div>
+    <div class="shoot">📸 제작 가이드 — <b>무엇이 보이게</b>: 위 표의 이름과 효과 문구만 담은 카드 5장 · <b>어떻게</b>: 인게임 수호령 상점 화면을 직접 찍을 수 있으면 이름과 효과가 한 화면에 보이게, 못 찍으면 봄딩 양식 텍스트 카드로 그려 주세요.</div>
+    <p class="cap">경험치 수호령을 한눈에 구분하는 카드예요.</p>
+    <p>증강은 가이드의 등급별 추천 중 빌더에 박힌 3개(후반 성장·폭발적인 성장·초월)를 골랐어요. 셋 다 골드 등급인데, 앞의 둘은 경험치를 주는 증강이고 초월은 전투 시작 12초 후 피해 증폭 35%를 주는 전투 증강이에요.</p>
+    <table class="tbl">
+      <tr><th>증강</th><th>효과(롤체지지 표기)</th></tr>
+      <tr><td>후반 성장</td><td>매 전투 라운드 시작 시 경험치 2, 5코 아군 체력·공격 속도 12%</td></tr>
+      <tr><td>폭발적인 성장</td><td>즉시 및 다음 3라운드 시작 시 경험치 7</td></tr>
+      <tr><td>초월</td><td>전투 시작 12초 후 아군 피해 증폭 35%</td></tr>
+    </table>
+    <p>프리즘 등급 목록의 레벨 업!은 경험치를 살 때 경험치가 2 더 붙고, 출세가도는 경험치 구매 비용이 1 줄어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 18.4 패치에서 이 덱에 닿은 변경은 뭔가요?</b><br>공식 노트에서 이 덱과 겹치는 변경이에요. 가이드가 어느 패치 기준인지는 밝혀 두지 않았어요.</p>
+    <ul>
+      <li>드레이븐: 도끼가 적에게 한 명도 맞지 않으면 마나 50% 환급(신규), 출혈 피해가 공격력 140/210에서 150/225로 상향</li>
+      <li>아이번: 자연의 아버지 칸 피해 증폭·추가 체력이 8/12%에서 6/10%로 하향, 같은 칸 방어력 및 마법 저항력은 8/12에서 10/14로 상향</li>
+      <li>케넨: 보호막 흡수량이 주문력 250/350에서 230/300으로 하향</li>
+      <li>정령의 형상: 내구력 8%에서 10%로 상향</li>
+    </ul>
+    <p><b>Q. 4~8레벨도 꼭 협곡야수 라인이어야 하나요?</b><br>빌더 화면에서 우두머리 협곡야수로 지정된 유닛은 5레벨 불타는 묘목, 6~8레벨 돌거북, 9·10레벨 장로 드래곤이에요.</p>
+    <p><b>Q. 수호령은 언제 나오나요?</b><br>공식 개요에 따르면 상점을 새로고침할 때 두 번마다 한 번씩 등장해요. 18.4 노트에는 체력이 20 미만이면 일부 수호령이 나오지 않는다고 적혀 있어요.</p>
+
+    <p>어려움 덱이라 레벨업 표부터 익혀 두고 올리시길 추천드립니다. 롤체지지는 라이브 트래커라 덱 통계와 가이드가 몇 시간 단위로 바뀌잖아요. 그러니 올리기 전에 롤체지지 덱 목록과 가이드에서 최신 값을 한 번 더 보고 가세요. 즐겜하세요~</p>
+
+    <p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224423457827" target="_blank">롤토체스 기원자 아리 조합 아이템 정리, 특성 빌드까지 한 번에</a><br>
+· <a href="https://blog.naver.com/bomding/224408800272" target="_blank">롤토체스시즌18 싸움꾼 마스터 이 렝가덱 사용법 공략</a><br>
+· <a href="https://blog.naver.com/bomding/224405228193" target="_blank">롤토체스 사냥꾼 시비르 덱 추천 — 점유율 2위 강세덱, 특성 9개 한 번에 켜는 조합</a></p>
+
+    <p><b>참고한 곳</b><br>
+· <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-4/" target="_blank">라이엇 게임즈 — 전략적 팀 전투 패치 노트 18.4</a><br>
+· <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/enchanted-wilds-overview/" target="_blank">라이엇 게임즈 — 전략적 팀 전투 신비의 숲(세트18) 공식 개요</a><br>
+· <a href="https://lolchess.gg/builder/guide/64dc7e7863cf1d86a0ebdd92be8bcd2807d5680c?type=guide" target="_blank">롤체지지 덱 빌더 가이드(제작자 작성, 라이엇 공식 아님)</a><br>
+· <a href="https://lolchess.gg/decks" target="_blank">롤체지지 덱 목록(덱 통계)</a><br>
+· 이미지 출처: Riot Games · Teamfight Tactics (CommunityDragon)</p>
+
+    <div class="tags">#롤토체스 #장로드래곤드레이븐덱 #롤토체스드레이븐덱 #협곡야수 #롤토체스18.4 #TFT세트18</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 5곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 롤토체스 장로 드래곤 드레이븐 덱 공략, 레벨업 스테이지·아이템·수호령·증강을 가이드 기준으로 모았어요</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p><b>롤토체스 장로 드래곤 드레이븐 덱 공략, 레벨업 스테이지·아이템·수호령·증강을 가이드 기준으로 모았어요</b></p>
+<p>롤토체스 세트18에서 장로 드래곤 드레이븐 덱을 잡았는데 몇 레벨에 올려야 하는지, 아이템은 누구에게 줘야 하는지 헷갈리셨나요? 롤체지지 덱 빌더 가이드 한 편(제작자 작성, 라이엇 공식 아님)을 바탕으로 레벨업, 5~8레벨 초반 라인, 9레벨 완성형, 아이템, 수호령과 증강을 순서대로 풀었답니다ㅎㅎ</p>
+<p>장로 드래곤 드레이븐은 가이드 제작자가 붙인 덱 이름이라 공식 명칭은 아니에요. 롤체지지 라이브 목록에선 같은 8기가 협곡야수 드레이븐으로 올라 있는데요, 통계 비교는 「롤토체스 추천메타 협곡야수 드레이븐 덱, 점유 상위 12덱 중 평균등수 3.97로 가장 낮아요」와 「롤토체스 드레이븐 덱 vs 장로 드래곤 덱, 5코 주인공 덱 5종의 평균등수는 4.06~4.76이었어요」 글에서 먼저 다뤘답니다.</p>
+<p class="ph">📷 〔사진 자리 1〕 타릭 일러스트 — 미리보기 이미지를 복사해 이 자리에 붙여넣기<br>└ 캡션 추천: "9레벨 완성형 8기에 들어가는 5코스트 타릭이에요."</p>
+
+<h3>장로 드래곤 드레이븐 덱은 9레벨에 5코 6기와 4코 2기가 모여요</h3>
+<p><b>이 덱의 9레벨 완성형은 5코스트 6기와 4코스트 2기, 전원 2성 8기예요.</b></p>
+<p class="ph">📷 〔사진 자리 2〕 9레벨 완성형 8기 챔피언 아이콘 한 줄 — 타릭, 파수꾼, 아무무, 마오카이, 케넨, 장로 드래곤, 아이번, 드레이븐 — 미리보기 이미지를 복사해 이 자리에 붙여넣기<br>└ 캡션 추천: "타릭, 파수꾼, 아무무, 마오카이, 케넨, 장로 드래곤, 아이번, 드레이븐 순이에요."</p>
+<table><tr><th>코스트</th><th>유닛</th><th>코스트 합</th></tr>
+<tr><td>5코스트 6기</td><td>타릭·마오카이·케넨·장로 드래곤·아이번·드레이븐</td><td>30</td></tr>
+<tr><td>4코스트 2기</td><td>파수꾼·아무무</td><td>8</td></tr>
+</table>
+<p>코스트 합 38에 2성은 카드 3장씩이라 38×3=114, 롤체지지 가이드 목록의 비용 114와 같거든요. 난이도는 «어려움»이라고 가이드에 적혀 있고, 파수꾼은 롤체지지에 감시자로 올라 있어요.</p>
+<p>라이브에서 같은 8기인 협곡야수 드레이븐 덱은 점유율 7.62%(2위), 1위 비율 24.1%, 순방 54.1%, 평균등수 4.12예요. 덱 표본은 34,331판(전체 450,333판)이고, 조회 2026-10-16 15:07 KST · 패치 18.4b · 마스터+ 랭크 최근 2일 기준이에요.</p>
+
+<h3>레벨업은 2-1~2-3의 4레벨에서 4-5~5-1의 9레벨까지 순서가 정해져 있어요</h3>
+<p><b>레벨업은 4-5~5-1에 9레벨을 찍는 빠른 일정을 가이드가 권해요.</b> 스테이지별로 올릴 레벨은 아래와 같아요.</p>
+<table><tr><th>스테이지</th><th>올리는 레벨</th><th>가이드 빌더 화면</th></tr>
+<tr><td>2-1~2-3</td><td><b>4레벨</b></td><td>없음</td></tr>
+<tr><td>2-5</td><td><b>5레벨</b></td><td>보드 5기(협곡야수 5)</td></tr>
+<tr><td>3-2</td><td><b>6레벨</b></td><td>보드 6기(협곡야수 5)</td></tr>
+<tr><td>3-5~3-7</td><td><b>7레벨</b></td><td>보드 7기(협곡야수 7)</td></tr>
+<tr><td>4-2</td><td><b>8레벨</b></td><td>보드 8기(협곡야수 7)</td></tr>
+<tr><td>4-5~5-1</td><td><b>9레벨</b></td><td>5코 중심 완성형 8기</td></tr>
+<tr><td>여유 골드가 있을 때</td><td><b>10레벨</b></td><td>완성형 8기 + 모르가나</td></tr>
+</table>
+<p>골드나 경험치를 주는 증강으로 빠르게 9레벨에 닿은 뒤 2성을 완성하라는 게 가이드의 조언인데요, 이 스테이지에 이 레벨인 이유까지는 설명하지 않아요.</p>
+
+<h3>5~8레벨은 협곡야수 라인으로 보드를 채워 가요</h3>
+<p><b>5~8레벨 빌더 화면은 돌거북·바위 게·어스름늑대·조약돌·불타는 묘목을 뼈대로 레벨마다 한두 기씩 붙이는 구성이에요.</b></p>
+<p class="ph">📷 〔사진 자리 3〕 협곡야수 라인 유닛 아이콘 한 줄 — 돌거북, 바위 게, 어스름늑대, 조약돌, 불타는 묘목, 코부코, 심술두꺼비, 파수꾼 — 미리보기 이미지를 복사해 이 자리에 붙여넣기<br>└ 캡션 추천: "돌거북, 바위 게, 어스름늑대, 조약돌, 불타는 묘목, 코부코, 심술두꺼비, 파수꾼 순이에요."</p>
+<table><tr><th>레벨</th><th>보드 구성</th><th>협곡야수 활성 수</th></tr>
+<tr><td>5레벨</td><td>돌거북 1성, 나머지 2성</td><td>5</td></tr>
+<tr><td>6레벨</td><td>돌거북이 2성이 되고 코부코가 합류해 6기</td><td>5</td></tr>
+<tr><td>7레벨</td><td>코부코가 빠지고 파수꾼(1성)·심술두꺼비가 들어와 7기</td><td>7</td></tr>
+<tr><td>8레벨</td><td>7레벨 구성에 코부코가 다시 합류해 8기</td><td>7</td></tr>
+<tr><td>9레벨</td><td>5코 중심 완성형 8기</td><td>4</td></tr>
+</table>
+<p>코부코는 협곡야수가 아니라 날렵이·싸움꾼이라 6·8레벨엔 보드 수보다 협곡야수가 하나 적어요. 이 단계 아이템은 빌더 화면 기준 돌거북에 가고일 돌갑옷·워모그의 갑옷·정령의 형상, 불타는 묘목에 구인수의 격노검·최후의 속삭임·무한의 대검이에요. 9레벨 화면에선 방어 아이템 3종이 마오카이로, 무한의 대검·최후의 속삭임이 장로 드래곤으로, 구인수의 격노검이 드레이븐으로 옮겨 가는 모양새더라고요.</p>
+
+<h3>9레벨에서는 5코 8기로 갈아타고 배치는 앞줄 4기, 뒷줄 2기로 읽혀요</h3>
+<p><b>9레벨 빌더 화면은 협곡야수 라인을 접고 5코 중심 8기로 갈아탄 모습이에요.</b> 가이드가 전환이라 부르진 않지만, 협곡야수가 7에서 4로 줄어 7에서 열리던 성장 효과는 완성형에선 꺼지고, 배치는 아래 순서로 추정돼요.</p>
+<ul>
+<li><b>앞줄 4기</b>: 타릭·파수꾼·아무무·마오카이</li>
+<li><b>둘째 줄 2기</b>: 케넨·장로 드래곤</li>
+<li><b>맨 뒷줄 2기</b>: 아이번·드레이븐</li>
+</ul>
+<p class="ph">📷 〔사진 자리 4〕 9레벨 8기 배치도(7칸×4줄, 앞줄 4기·둘째 줄 2기·맨 뒷줄 2기) — 봄딩 양식으로 그린 도해를 업로드<br>└ 캡션 추천: "9레벨 추정 배치예요."</p>
+<p>드레이븐을 뒤쪽에 두면 적 딜러를 먼저 노린다는 게 가이드의 설명이에요.</p>
+<p>드레이븐 사거리는 숫자를 비웠어요. 가이드 본문은 5칸이라 적고 게임 데이터 표기는 6이라 서로 달라요. 칸 수는 인게임 챔피언 정보창에서 직접 확인해 맞춰 주세요.</p>
+<p>10레벨 빌더는 8기에 4코스트 모르가나를 더한 모습이에요. 가이드는 AD 아이템이 장로 드래곤 3종과 드레이븐 것까지 갖춰지지 않았다면 AP 럭스와 모르가나를 활용하라고 해요(럭스는 5코스트예요).</p>
+
+<h3>아이템은 딜러 둘에 공격 아이템, 마오카이와 타릭에 방어 아이템이에요</h3>
+<p><b>아이템은 드레이븐과 장로 드래곤에게 공격 아이템을, 마오카이와 타릭에게 방어 아이템을 몰아주는 구성이에요.</b> 대체 아이템은 가이드 목록 그대로예요.</p>
+<table><tr><th>유닛</th><th>주요 아이템</th><th>대체 아이템</th></tr>
+<tr><td>드레이븐</td><td>구인수의 격노검<br>크라켄의 분노</td><td>명멸검 / 생선대가리 / 고속 연사포 / 황금 징수의 총(유물)<br>처형자 상징 / 무한의 대검<br>죽음의 검 / 거인 학살자</td></tr>
+<tr><td>장로 드래곤</td><td>무한의 대검<br>최후의 속삭임<br>타격대의 철퇴</td><td>거대한 히드라 / 은빛 여명(유물)<br>스테락의 도전 / 정의의 손길<br>죽음의 검 / 거인 학살자</td></tr>
+<tr><td>마오카이·타릭</td><td>가고일 돌갑옷<br>워모그의 갑옷<br>정령의 형상</td><td>덤불 조끼 / 용의 발톱<br>태양불꽃 망토 / 저녁갑주</td></tr>
+<tr><td>케넨</td><td>도적의 장갑</td><td>보석 건틀릿 / 타격대의 철퇴<br>밤의 끝자락 / 정의의 손길</td></tr>
+</table>
+<p>빌더 화면에선 드레이븐이 크라켄의 분노를 하나 더 들어 세 칸을 채우고, 타릭은 아이템 없이 마오카이에게만 방어 아이템 3종이 몰려 있어요. 라이브 덱 카드는 장로 드래곤의 세 번째가 스테락의 도전, 케넨이 밤의 끝자락이라 가이드와 다르고요.</p>
+
+<h3>수호령은 경험치 쪽으로, 증강은 빌더에 박힌 후반 성장·폭발적인 성장·초월이에요</h3>
+<p><b>가이드가 고른 수호령 5종 가운데 4종은 경험치를 주고, 남은 하나는 팀 능력치를 올려요.</b></p>
+<table><tr><th>수호령</th><th>효과</th></tr>
+<tr><td>숙련자</td><td>경험치 2</td></tr>
+<tr><td>동수저</td><td>경험치 4</td></tr>
+<tr><td>성장</td><td>경험치 10</td></tr>
+<tr><td>느긋한 학습</td><td>살아남은 아군 한 명당 경험치</td></tr>
+<tr><td>남작의 도움</td><td>아군이 내셔 남작 효과를 얻어 능력치 상승</td></tr>
+</table>
+<p class="ph">📷 〔사진 자리 5〕 수호령 5종 카드(숙련자·동수저·성장·느긋한 학습·남작의 도움) — 봄딩 양식 카드 또는 인게임 수호령 상점 화면을 업로드<br>└ 캡션 추천: "경험치 수호령을 한눈에 구분하는 카드예요."</p>
+<p>증강은 가이드의 등급별 추천 중 빌더에 박힌 3개(후반 성장·폭발적인 성장·초월)를 골랐어요. 셋 다 골드 등급인데, 앞의 둘은 경험치를 주는 증강이고 초월은 전투 시작 12초 후 피해 증폭 35%를 주는 전투 증강이에요.</p>
+<table><tr><th>증강</th><th>효과(롤체지지 표기)</th></tr>
+<tr><td>후반 성장</td><td>매 전투 라운드 시작 시 경험치 2, 5코 아군 체력·공격 속도 12%</td></tr>
+<tr><td>폭발적인 성장</td><td>즉시 및 다음 3라운드 시작 시 경험치 7</td></tr>
+<tr><td>초월</td><td>전투 시작 12초 후 아군 피해 증폭 35%</td></tr>
+</table>
+<p>프리즘 등급 목록의 레벨 업!은 경험치를 살 때 경험치가 2 더 붙고, 출세가도는 경험치 구매 비용이 1 줄어요.</p>
+
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 18.4 패치에서 이 덱에 닿은 변경은 뭔가요?</b><br>공식 노트에서 이 덱과 겹치는 변경이에요. 가이드가 어느 패치 기준인지는 밝혀 두지 않았어요.</p>
+<ul>
+<li>드레이븐: 도끼가 적에게 한 명도 맞지 않으면 마나 50% 환급(신규), 출혈 피해가 공격력 140/210에서 150/225로 상향</li>
+<li>아이번: 자연의 아버지 칸 피해 증폭·추가 체력이 8/12%에서 6/10%로 하향, 같은 칸 방어력 및 마법 저항력은 8/12에서 10/14로 상향</li>
+<li>케넨: 보호막 흡수량이 주문력 250/350에서 230/300으로 하향</li>
+<li>정령의 형상: 내구력 8%에서 10%로 상향</li>
+</ul>
+<p><b>Q. 4~8레벨도 꼭 협곡야수 라인이어야 하나요?</b><br>빌더 화면에서 우두머리 협곡야수로 지정된 유닛은 5레벨 불타는 묘목, 6~8레벨 돌거북, 9·10레벨 장로 드래곤이에요.</p>
+<p><b>Q. 수호령은 언제 나오나요?</b><br>공식 개요에 따르면 상점을 새로고침할 때 두 번마다 한 번씩 등장해요. 18.4 노트에는 체력이 20 미만이면 일부 수호령이 나오지 않는다고 적혀 있어요.</p>
+
+<p>어려움 덱이라 레벨업 표부터 익혀 두고 올리시길 추천드립니다. 롤체지지는 라이브 트래커라 덱 통계와 가이드가 몇 시간 단위로 바뀌잖아요. 그러니 올리기 전에 롤체지지 덱 목록과 가이드에서 최신 값을 한 번 더 보고 가세요. 즐겜하세요~</p>
+
+<p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+· 롤토체스 기원자 아리 조합 아이템 정리, 특성 빌드까지 한 번에<br>
+· 롤토체스시즌18 싸움꾼 마스터 이 렝가덱 사용법 공략<br>
+· 롤토체스 사냥꾼 시비르 덱 추천 — 점유율 2위 강세덱, 특성 9개 한 번에 켜는 조합</p>
+
+<p><b>참고한 곳</b><br>
+· 라이엇 게임즈 — 전략적 팀 전투 패치 노트 18.4<br>
+· 라이엇 게임즈 — 전략적 팀 전투 신비의 숲(세트18) 공식 개요<br>
+· 롤체지지 덱 빌더 가이드(제작자 작성, 라이엇 공식 아님)<br>
+· 롤체지지 덱 목록(덱 통계)<br>
+· 이미지 출처: Riot Games · Teamfight Tactics (CommunityDragon)</p>
+
+<p class="tags-line">#롤토체스 #장로드래곤드레이븐덱 #롤토체스드레이븐덱 #협곡야수 #롤토체스18.4 #TFT세트18</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
