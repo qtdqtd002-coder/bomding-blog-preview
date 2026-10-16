@@ -1,0 +1,282 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>글로벌 클래식 메이플(글클메) VPN 없이 플레이 될까? 가입 구간과 실행 구간, 현재 확인된 것만 정리</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .post img{display:block;max-width:100%;height:auto;margin:6px auto 8px;border:1px solid var(--line);border-radius:6px;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 6px;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:0 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:middle;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  .rev-hl{background:#fff3bf;box-shadow:inset 0 -2px 0 #f0c419;border-radius:2px;padding:0 1px;}
+  .para-wrap{position:relative;}
+  .sidenote{position:absolute;top:0;left:calc(100% + 36px);width:215px;background:#fffbe6;border:1px solid #f0d264;border-left:3px solid #f0b429;border-radius:6px;padding:10px 12px;font-size:12px;line-height:1.6;color:#6b5a2e;text-align:left;}
+  .sidenote .sn-h{display:block;font-weight:800;color:#8a6d1f;font-size:11.5px;margin-bottom:5px;}
+  .sidenote .sn-src{color:#9a7b2e;}
+  .sidenote .sn-mine{display:block;margin-top:6px;color:#0a7d3c;font-weight:600;}
+  .sidenote a{color:#1a73e8;text-decoration:none;}
+  @media (max-width:1240px){ .sidenote{position:static;width:auto;left:auto;margin:10px 0 6px;} }
+  .pvbar{max-width:720px;margin:24px auto 0;background:#fffbe6;border:1px solid #f0d264;border-radius:6px;padding:9px 14px;font-size:12px;color:#8a6d1f;line-height:1.6;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<!-- AI브리핑 타깃 질문: 1 글클메 VPN 없이 플레이 가능해? / 2 글로벌 클래식 메이플 가입 방법 한국에서 / 3 글로벌 클래식 메이플 정식 출시일 한국시간 -->
+<div class="pvbar">✍️ <b>노란 음영</b> = 출처 표현을 봄딩 식으로 바꿔 쓴 자리, <b>오른쪽 메모</b> = 그 출처와 바꾼 이유예요. <b>미리보기 전용이라 네이버엔 본문만 복사하세요.</b> (화면이 좁으면 메모가 본문 아래로 접힙니다)</div>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">글로벌 클래식 메이플(글클메) VPN 없이 플레이 될까? 가입 구간과 실행 구간, 현재 확인된 것만 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.16</span><span>· 게임</span></div>
+    <p>글클메 가입하려는데 VPN 없이 되는지 검색해 보신 분들 많으시죠. <b>2026년 10월 16일 기준으로, 글클메를 VPN 없이 플레이할 수 있다고 확인된 근거는 없습니다.</b> 가입 방법을 적은 커뮤니티 후기 1건이 있긴 한데, 그 후기도 런처 실행과 접속에는 VPN이 필요하다고 적혀 있더라고요. 그래서 '가입 구간'과 '실행 구간'을 나눠서 어디까지 알려졌고 어디부터 아직 모르는지 정리해 볼게요.</p>
+    <p>먼저 위험부터 짚고 갈게요. 글클메 계정은 본 메이플스토리와 공유돼서 한쪽이 제재를 받으면 양쪽에 적용돼요. 지역 설정을 바꿔 가입하거나 VPN을 쓰는 일이 약관에서 어떻게 다뤄지는지는 아직 알려진 게 없어서, 가능하다고도 안전하다고도 말씀드릴 수 없어요.</p>
+
+    <h2 class="sub">글클메는 언제 열리나요?</h2>
+    <p>글로벌 클래식 메이플(Global MapleStory Classic World, 글클메)은 10월 6일에 Founder's Access가 시작됐고, <b>정식 출시는 10월 21일(수)</b>입니다. 현지 11:00 PDT 기준이라 한국시간으로는 다음 날 새벽 3시예요.</p>
+    <ul>
+      <li>Founder's Access: 현지 10월 6일(화) 11:00, 한국시간 10월 7일 03:00</li>
+      <li>정식 출시(Grand Launch): 현지 10월 21일(수) 11:00, 한국시간 10월 22일 03:00</li>
+      </ul>
+    <!-- 이미지 이유: 일정 문단 바로 아래 한국시간 환산 타임라인 / 출처: 자체 제작 도해(일정은 넥슨 공지 인용 팬 DB) / 분류: B형 자체 제작 -->
+    <img src="img/timeline.png" width="1386" height="600" alt="글클메 일정 타임라인, Founder's Access 10월 6일, 패키지 판매 종료 10월 14일, 정식 출시 10월 21일과 한국시간 환산">
+    <p class="cap">현지 시각과 한국시간을 같이 놓은 일정이에요</p>
+    <p class="src">도해: 직접 제작 · 일정 데이터는 <a href="https://meowdb.com/msclassic/ko/news/classic-world-opening-time-confirmed" target="_blank">넥슨 공지를 인용한 팬 DB</a> 기준</p>
+
+    <h2 class="sub">설치 경로는 어떻게 되나요?</h2>
+    <p><b>설치 경로는 Nexon Launcher와 Steam 두 가지</b>이고, 넥슨 공지를 인용한 팬 DB 기준으로 둘 다 Windows와 macOS를 지원해요. 넥슨 쪽은 런처의 MapleStory 라이브러리에서 Classic World 토글을 켠 뒤 내려받고, Steam 쪽은 Steam의 MapleStory 항목에 묶인 빌드로 실행하면서 넥슨 계정을 Steam 프로필에 연동해야 해요. 여기서 헷갈리기 쉬운 게 있는데요, 두 경로가 공식이라는 것과 한국 계정·한국 IP에서 된다는 건 서로 다른 이야기예요. Steam도 넥슨 계정을 거치니 Steam으로 받으면 VPN이 필요 없는지, 한국에서 결제와 지역 가격이 어떻게 적용되는지는 알려진 게 없어요.</p>
+
+    <h2 class="sub">왜 VPN 이야기가 따라붙나요?</h2>
+    <p>일반 글로벌 메이플스토리는 한국을 포함한 일부 지역이 VPN 없이는 접속되지 않는다는 <a href="https://mapleatlas.notion.site/Setup-Guide-9e0eb59aa27e4edd9f4bf01059583e88" target="_blank">비공식 팬 가이드</a>가 있어서, <b>글클메도 같을 거라는 짐작이 도는 거예요.</b> 다만 그 가이드는 2022년에 갱신된 것이고, 클래식 월드에 같은 제한이 걸리는지는 확인된 게 없어요. <a href="https://www.gearupbooster.com/ko/blog/south-korea-play-global-maplestory.html" target="_blank">VPN·부스터 업체 글</a>도 한국 접속이 막혀 있다고 쓰지만 판매 목적이라 근거로 삼기는 어렵습니다.</p>
+
+    <h2 class="sub">커뮤니티에서 도는 가입 방법은 어떤가요?</h2>
+    <p>이 절은 2025년 10월 28일에 올라온 디시인사이드 후기 1건의 내용이에요. 정식 출시보다 1년쯤 앞선 당시 후기라 지금은 가입 화면이 달라졌을 수도 있고, 직접 해 본 후기가 아니라 커뮤니티에서 도는 얘기라 참고만 해 주세요. 시도하기 전에 계정 공유와 약관 문제부터 다시 떠올려 주세요.</p>
+    <div class="para-wrap">
+      <p><span class="rev-hl"><b>가입 구간만 놓고 보면</b></span>, 당시 후기는 VPN을 끈 채 엣지 브라우저로 넥슨 아메리카 영문 가입 페이지에 들어가 국가를 United States로 고르라고 적혀 있더라고요. 한국을 고르면 가입이 안 된다는 안내가 뜬다고 하고요.</p>
+      <div class="sidenote">
+        <span class="sn-h">✍️ 재서술 ① · 가입 절차</span>
+        <span class="sn-src"><b>2025.10.28 디시인사이드 글로벌 클래식 메이플 마이너 갤러리 733번 글</b>(클로즈드 테스트 시기)의 가입 순서를 정리한 자리예요. (<a href="https://gall.dcinside.com/mgallery/board/view/?id=maplestoryclassworld&amp;no=733&amp;page=1" target="_blank">출처</a>) 개인 게시물이라 캡처·원문 문구는 쓰지 않았어요.</span>
+        <span class="sn-mine">→ 순서·국가·인증 방식만 뽑아 제 말로 다시 썼고, 출처는 '2025년 10월 말 커뮤니티 후기 1건'으로 표기했어요.</span>
+      </div>
+    </div>
+    <ul>
+      <li>브라우저는 크롬이 아니라 엣지를 쓴다고 해요(크롬은 안 된다는 주장이에요)</li>
+      <li>구글·페이스북·애플 소셜 가입 버튼 말고 이메일 가입(CONTINUE)으로 하라고 하고, 소셜 가입은 로그인할 때마다 브라우저에 VPN을 켜야 한다고 적었어요</li>
+      <li>생년월일과 이메일을 넣는데 Gmail을 권하고, 영문 이름은 아무거나 괜찮다고 해요</li>
+      <li>두 번째 약관 칸을 체크하고, 메일로 온 6자리 인증 코드를 VERIFY에 넣으면 끝나요</li>
+      <li>마지막으로 런처를 설치해요</li>
+    </ul>
+    <p>눈여겨볼 점은 그 후기가 왜 가입할 때만 VPN을 끄는지, 한국을 고르면 막히는 게 IP 때문인지 국가 항목 때문인지를 따로 설명하지 않는다는 거예요. 그래서 이 순서가 한국에서 VPN 없이 통한다는 뜻인지, 그냥 가입 화면만 통과하는 요령인지는 갈라서 볼 수 없어요.</p>
+    <!-- 이미지 이유: 가입 단계 나열 직후 가입 vs 실행 흐름도 / 출처: 자체 제작 도해 / 분류: B형 자체 제작 -->
+    <img src="img/flow.png" width="1386" height="724" alt="가입 구간과 실행 구간 흐름도, 가입은 VPN을 끄고 국가를 United States로 이메일 가입, 실행은 같은 후기가 VPN 필요라고 적음">
+    <p class="cap">가입 구간과 실행 구간을 나눠 본 흐름이에요</p>
+    <p class="src">도해: 직접 제작 · 단계 내용은 <a href="https://gall.dcinside.com/mgallery/board/view/?id=maplestoryclassworld&amp;no=733&amp;page=1" target="_blank">2025년 10월 28일 디시인사이드 글 1건</a> 기준</p>
+    <p><b>중요한 건 그 후기가 런처 실행과 접속은 VPN을 설정한 뒤에 하라고 적었다는 점이에요.</b> 그러니까 'VPN 없이 가입'은 이렇게들 한다더라 하는 이야기일 뿐, 'VPN 없이 플레이'의 근거가 아니에요. '가입은 미국 설정, 실행은 VPN'도 제가 권하는 방법이 아니라 그렇게 한다는 후기 1건입니다.</p>
+
+    <h2 class="sub">그래서 VPN 없이 플레이는 확인됐나요?</h2>
+    <p><b>VPN 없이 플레이할 수 있다는 확인은 지금 없고, 안 된다는 공식 확인도 없습니다.</b> 한국 IP에서 가입·접속이 되는지를 다룬 공식 문구는 아직 확인된 게 없어요. 방법별로 나누면 이렇게 돼요.</p>
+    <table class="tbl">
+      <tr><th>방법</th><th>구분</th><th>판단</th></tr>
+      <tr><td>미국 설정 가입 후 런처는 VPN으로 실행</td><td>비공식(2025년 10월 후기 1건)</td><td>근거 약함</td></tr>
+      <tr><td>가입만 VPN 없이, 실행은 VPN</td><td>비공식(후기 1건)</td><td>근거 약함, VPN 없는 플레이 아님</td></tr>
+      <tr><td>Steam으로 받아 실행</td><td>공식 판매·실행 경로</td><td>한국 계정·IP는 판단 불가</td></tr>
+      <tr><td>한국 IP로 VPN 없이 접속</td><td>공식 근거 없음</td><td>가능이라고 쓸 수 없음</td></tr>
+    </table>
+    <!-- 이미지 이유: 방법 구분표 다음 확인됨/미확인 신호등 / 출처: 자체 제작 도해 / 분류: B형 자체 제작 -->
+    <img src="img/status.png" width="1386" height="970" alt="지금 확인된 것과 아닌 것, 출시 일정과 계정 공유는 확인, 미국 설정 가입은 1건, 한국 IP 접속과 약관과 출시 후 차단은 미확인">
+    <p class="cap">초록은 공지를 인용한 팬 DB, 노랑은 후기 1건, 분홍은 아직 모르는 것이에요</p>
+    <p class="src">도해: 직접 제작 · 넥슨 공지를 인용한 <a href="https://meowdb.com/msclassic/ko/news/classic-world-opening-time-confirmed" target="_blank">팬 DB</a>와 2025년 10월 후기 1건 기준</p>
+    <p>정식 출시는 아직이지만, Founder's Access가 열린 지금도 VPN 서버 지역에 따라 로그인이 막혔다는 커뮤니티 글이 올라오고 있어요. 넥슨의 공식 설명은 아직 없고, 지역 정책은 출시 전후로 바뀔 수 있어서 이 글의 기준일은 10월 16일로 못 박아 둘게요.</p>
+
+    <h2 class="sub">계정 제재는 어떻게 되나요?</h2>
+    <p><b>글클메와 본 메이플스토리는 계정을 공유해서, 한쪽에서 받은 제재가 양쪽에 적용돼요.</b> 넥슨 FAQ를 인용한 팬 DB에 나와 있는 내용이고, 본 메이플 계정으로 같이 들어가는 분들은 이 점이 제일 무겁습니다.</p>
+    <table class="tbl"><tr><th>항목</th><th>글클메와 본 메이플스토리</th></tr><tr><td>계정</td><td>하나를 같이 씀</td></tr><tr><td>제재</td><td>한쪽에서 받으면 양쪽에 적용</td></tr><tr><td>NX 잔액</td><td>공유</td></tr></table>
+    <p>선례도 하나 있어요. 2026년 4월 22일, 넥슨은 허가 없이 폐쇄 테스트에 들어간 계정을 영구 정지했다고 알렸어요. 경위나 VPN과의 관계는 알려진 게 없어서 지금 상황과 바로 이어 붙이긴 어렵지만, 계정 제재가 실제로 나온 적이 있다는 건 알아 둘 만합니다.</p>
+  <p>일반론으로는 서비스의 지역 제한을 우회하는 행위가 약관 위반이 될 수 있다고 VPN 업체들의 안내 글에서 설명해요. 다만 이건 어디까지나 일반적인 이야기라서, 넥슨 약관에 조항이 어떻게 적혀 있는지와는 따로 봐야 합니다.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p>Q. 정식 출시 뒤에도 Founder's Package를 사야 하나요?<br>팬 DB가 옮긴 넥슨 공지 기준으로, 정식 출시는 무료라 패키지가 필요 없어요. 패키지는 Nexon 웹스토어와 Steam에서 팔았고 판매는 10월 14일 현지 23:59(한국시간 10월 15일 15:59)에 끝났으며, 가격은 지역마다 달랐어요.</p>
+    <p>Q. 출시 때 3차 전직이나 엘나스도 즐길 수 있나요?<br>출시 시점에는 3차 전직과 엘나스, 오르비스가 없고 출시 후에 추가될 예정이라고 해요.</p>
+  <p>Q. 모바일이나 콘솔로도 할 수 있나요?<br>지금까지 발표된 건 Windows와 macOS뿐이고 모바일·콘솔 계획은 나온 게 없어요.</p>
+    <p>Q. 한국어로 즐길 수 있나요?<br>공식 언어는 영어이고 스페인어가 베타로 제공돼요. 한국어는 발표된 게 없습니다.</p>
+
+    <h2 class="sub">글클메 VPN 없이 플레이, 직접 볼 곳 체크리스트</h2>
+    <p>순서를 잡자면, 가입 방법 몇 줄을 따라 하기 전에 아래를 공식에서 먼저 읽는 쪽이 안전해요.</p>
+    <ul>
+      <li>공식 FAQ(Classic World Frequently Asked Questions)의 지역·국가 관련 문구</li>
+      <li>넥슨 이용약관의 VPN·프록시·지역 우회 조항</li>
+      <li>가입 화면 국가 목록에 한국이 있는지</li>
+      <li>Steam 상점 페이지의 지역·결제 안내</li>
+      <li>출시일(한국시간 10월 22일 03:00) 이후 올라오는 접속·제재 공지</li>
+    </ul>
+    <p>서두르기보다 공식 문구가 나온 뒤에 움직이셔도 늦지 않아요. 출시일에 다들 즐겁게 모험 떠나시길 바랄게요.</p>
+    <p><b>참고한 곳</b> (2026.10.16 기준)<br>
+· <a href="https://www.nexon.com/maplestory/news/general/45385/classic-world-frequently-asked-questions" target="_blank">넥슨 메이플스토리 Classic World FAQ</a><br>
+· <a href="https://x.com/MapleStory/status/2092409243362115901" target="_blank">메이플스토리 공식 X 계정 정식 출시 공지</a><br>
+· <a href="https://meowdb.com/msclassic/ko/news/classic-world-opening-time-confirmed" target="_blank">넥슨 공지를 인용한 팬 DB, 오픈 시간 확정</a><br>
+· <a href="https://meowdb.com/msclassic/guides/maplestory-classic-worlds-release-date" target="_blank">팬 DB, 출시일·설치 경로 가이드</a><br>
+· <a href="https://meowdb.com/msclassic/ko/news/ossyria-report-confirms-october-launch" target="_blank">팬 DB, 출시 시점 콘텐츠 정리</a><br>
+· <a href="https://meowdb.com/msclassic/news/unauthorized-access-bans" target="_blank">팬 DB, 무단 접속 영구 정지 소식</a><br>
+· <a href="https://gall.dcinside.com/mgallery/board/view/?id=maplestoryclassworld&amp;no=733&amp;page=1" target="_blank">디시인사이드 글클메 갤러리 733번 글(2025.10.28)</a><br>
+· <a href="https://gall.dcinside.com/mgallery/board/view/?id=maplestoryclassworld&amp;no=4822" target="_blank">디시인사이드 글클메 갤러리 4822번 글(2026.10.16)</a></p>
+    <div class="tags">#글로벌클래식메이플 #글클메 #글클메VPN #클래식월드 #메이플스토리 #글클메가입 #넥슨 #봄딩</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 3가지(약 4분):</b> 📷 <b>사진 3곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 글로벌 클래식 메이플(글클메) VPN 없이 플레이 될까? 가입 구간과 실행 구간, 현재 확인된 것만 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+  <p>글클메 가입하려는데 VPN 없이 되는지 검색해 보신 분들 많으시죠. <b>2026년 10월 16일 기준으로, 글클메를 VPN 없이 플레이할 수 있다고 확인된 근거는 없습니다.</b> 가입 방법을 적은 커뮤니티 후기 1건이 있긴 한데, 그 후기도 런처 실행과 접속에는 VPN이 필요하다고 적혀 있더라고요. 그래서 '가입 구간'과 '실행 구간'을 나눠서 어디까지 알려졌고 어디부터 아직 모르는지 정리해 볼게요.</p>
+  <p>먼저 위험부터 짚고 갈게요. 글클메 계정은 본 메이플스토리와 공유돼서 한쪽이 제재를 받으면 양쪽에 적용돼요. 지역 설정을 바꿔 가입하거나 VPN을 쓰는 일이 약관에서 어떻게 다뤄지는지는 아직 알려진 게 없어서, 가능하다고도 안전하다고도 말씀드릴 수 없어요.</p>
+  <h3>글클메는 언제 열리나요?</h3>
+  <p>글로벌 클래식 메이플(Global MapleStory Classic World, 글클메)은 10월 6일에 Founder's Access가 시작됐고, <b>정식 출시는 10월 21일(수)</b>입니다. 현지 11:00 PDT 기준이라 한국시간으로는 다음 날 새벽 3시예요.</p>
+  <ul><li>Founder's Access: 현지 10월 6일(화) 11:00, 한국시간 10월 7일 03:00</li><li>정식 출시(Grand Launch): 현지 10월 21일(수) 11:00, 한국시간 10월 22일 03:00</li></ul>
+  <p class="ph">📷 〔사진 자리 1〕 글클메 일정 타임라인(10월 6일·14일·21일과 한국시간 환산) — 네이버에서 직접 업로드</p>
+  <p>└ 캡션 추천: "현지 시각과 한국시간을 같이 놓은 일정이에요"</p>
+  <p>도해: 직접 제작 · 일정 데이터는 넥슨 공지를 인용한 팬 DB 기준 (https://meowdb.com/msclassic/ko/news/classic-world-opening-time-confirmed)</p>
+  <h3>설치 경로는 어떻게 되나요?</h3>
+  <p><b>설치 경로는 Nexon Launcher와 Steam 두 가지</b>이고, 넥슨 공지를 인용한 팬 DB 기준으로 둘 다 Windows와 macOS를 지원해요. 넥슨 쪽은 런처의 MapleStory 라이브러리에서 Classic World 토글을 켠 뒤 내려받고, Steam 쪽은 Steam의 MapleStory 항목에 묶인 빌드로 실행하면서 넥슨 계정을 Steam 프로필에 연동해야 해요. 여기서 헷갈리기 쉬운 게 있는데요, 두 경로가 공식이라는 것과 한국 계정·한국 IP에서 된다는 건 서로 다른 이야기예요. Steam도 넥슨 계정을 거치니 Steam으로 받으면 VPN이 필요 없는지, 한국에서 결제와 지역 가격이 어떻게 적용되는지는 알려진 게 없어요.</p>
+
+  <h3>왜 VPN 이야기가 따라붙나요?</h3>
+  <p>일반 글로벌 메이플스토리는 한국을 포함한 일부 지역이 VPN 없이는 접속되지 않는다는 <a href="https://mapleatlas.notion.site/Setup-Guide-9e0eb59aa27e4edd9f4bf01059583e88" target="_blank">비공식 팬 가이드</a>가 있어서, <b>글클메도 같을 거라는 짐작이 도는 거예요.</b> 다만 그 가이드는 2022년에 갱신된 것이고, 클래식 월드에 같은 제한이 걸리는지는 확인된 게 없어요. <a href="https://www.gearupbooster.com/ko/blog/south-korea-play-global-maplestory.html" target="_blank">VPN·부스터 업체 글</a>도 한국 접속이 막혀 있다고 쓰지만 판매 목적이라 근거로 삼기는 어렵습니다.</p>
+  <h3>커뮤니티에서 도는 가입 방법은 어떤가요?</h3>
+  <p>이 절은 2025년 10월 28일에 올라온 디시인사이드 후기 1건의 내용이에요. 정식 출시보다 1년쯤 앞선 당시 후기라 지금은 가입 화면이 달라졌을 수도 있고, 직접 해 본 후기가 아니라 커뮤니티에서 도는 얘기라 참고만 해 주세요. 시도하기 전에 계정 공유와 약관 문제부터 다시 떠올려 주세요.</p>
+  <p><b>가입 구간만 놓고 보면</b>, 당시 후기는 VPN을 끈 채 엣지 브라우저로 넥슨 아메리카 영문 가입 페이지에 들어가 국가를 United States로 고르라고 적혀 있더라고요. 한국을 고르면 가입이 안 된다는 안내가 뜬다고 하고요.</p>
+  <ul><li>브라우저는 크롬이 아니라 엣지를 쓴다고 해요(크롬은 안 된다는 주장이에요)</li><li>구글·페이스북·애플 소셜 가입 버튼 말고 이메일 가입(CONTINUE)으로 하라고 하고, 소셜 가입은 로그인할 때마다 브라우저에 VPN을 켜야 한다고 적었어요</li><li>생년월일과 이메일을 넣는데 Gmail을 권하고, 영문 이름은 아무거나 괜찮다고 해요</li><li>두 번째 약관 칸을 체크하고, 메일로 온 6자리 인증 코드를 VERIFY에 넣으면 끝나요</li><li>마지막으로 런처를 설치해요</li></ul>
+    <p>눈여겨볼 점은 그 후기가 왜 가입할 때만 VPN을 끄는지, 한국을 고르면 막히는 게 IP 때문인지 국가 항목 때문인지를 따로 설명하지 않는다는 거예요. 그래서 이 순서가 한국에서 VPN 없이 통한다는 뜻인지, 그냥 가입 화면만 통과하는 요령인지는 갈라서 볼 수 없어요.</p>
+  <p class="ph">📷 〔사진 자리 2〕 가입 구간과 실행 구간 흐름도 — 네이버에서 직접 업로드</p>
+  <p>└ 캡션 추천: "가입 구간과 실행 구간을 나눠 본 흐름이에요"</p>
+  <p>도해: 직접 제작 · 단계 내용은 2025년 10월 28일 디시인사이드 글 1건 기준 (https://gall.dcinside.com/mgallery/board/view/?id=maplestoryclassworld&amp;no=733&amp;page=1)</p>
+  <p><b>중요한 건 그 후기가 런처 실행과 접속은 VPN을 설정한 뒤에 하라고 적었다는 점이에요.</b> 그러니까 'VPN 없이 가입'은 이렇게들 한다더라 하는 이야기일 뿐, 'VPN 없이 플레이'의 근거가 아니에요. '가입은 미국 설정, 실행은 VPN'도 제가 권하는 방법이 아니라 그렇게 한다는 후기 1건입니다.</p>
+  <h3>그래서 VPN 없이 플레이는 확인됐나요?</h3>
+  <p><b>VPN 없이 플레이할 수 있다는 확인은 지금 없고, 안 된다는 공식 확인도 없습니다.</b> 한국 IP에서 가입·접속이 되는지를 다룬 공식 문구는 아직 확인된 게 없어요. 방법별로 나누면 이렇게 돼요.</p>
+  <table><tr><th>방법</th><th>구분</th><th>판단</th></tr><tr><td>미국 설정 가입 후 런처는 VPN으로 실행</td><td>비공식(2025년 10월 후기 1건)</td><td>근거 약함</td></tr><tr><td>가입만 VPN 없이, 실행은 VPN</td><td>비공식(후기 1건)</td><td>근거 약함, VPN 없는 플레이 아님</td></tr><tr><td>Steam으로 받아 실행</td><td>공식 판매·실행 경로</td><td>한국 계정·IP는 판단 불가</td></tr><tr><td>한국 IP로 VPN 없이 접속</td><td>공식 근거 없음</td><td>가능이라고 쓸 수 없음</td></tr></table>
+  <p class="ph">📷 〔사진 자리 3〕 지금 확인된 것과 아닌 것 — 네이버에서 직접 업로드</p>
+  <p>└ 캡션 추천: "초록은 공지를 인용한 팬 DB, 노랑은 후기 1건, 분홍은 아직 모르는 것이에요"</p>
+  <p>도해: 직접 제작 · 넥슨 공지를 인용한 팬 DB와 2025년 10월 후기 1건 기준 (https://meowdb.com/msclassic/ko/news/classic-world-opening-time-confirmed)</p>
+  <p>정식 출시는 아직이지만, Founder's Access가 열린 지금도 VPN 서버 지역에 따라 로그인이 막혔다는 커뮤니티 글이 올라오고 있어요. 넥슨의 공식 설명은 아직 없고, 지역 정책은 출시 전후로 바뀔 수 있어서 이 글의 기준일은 10월 16일로 못 박아 둘게요.</p>
+  <h3>계정 제재는 어떻게 되나요?</h3>
+  <p><b>글클메와 본 메이플스토리는 계정을 공유해서, 한쪽에서 받은 제재가 양쪽에 적용돼요.</b> 넥슨 FAQ를 인용한 팬 DB에 나와 있는 내용이고, 본 메이플 계정으로 같이 들어가는 분들은 이 점이 제일 무겁습니다.</p>
+  <table><tr><th>항목</th><th>글클메와 본 메이플스토리</th></tr><tr><td>계정</td><td>하나를 같이 씀</td></tr><tr><td>제재</td><td>한쪽에서 받으면 양쪽에 적용</td></tr><tr><td>NX 잔액</td><td>공유</td></tr></table>
+  <p>선례도 하나 있어요. 2026년 4월 22일, 넥슨은 허가 없이 폐쇄 테스트에 들어간 계정을 영구 정지했다고 알렸어요. 경위나 VPN과의 관계는 알려진 게 없어서 지금 상황과 바로 이어 붙이긴 어렵지만, 계정 제재가 실제로 나온 적이 있다는 건 알아 둘 만합니다.</p>
+  <p>일반론으로는 서비스의 지역 제한을 우회하는 행위가 약관 위반이 될 수 있다고 VPN 업체들의 안내 글에서 설명해요. 다만 이건 어디까지나 일반적인 이야기라서, 넥슨 약관에 조항이 어떻게 적혀 있는지와는 따로 봐야 합니다.</p>
+  <h3>자주 묻는 질문</h3>
+  <p>Q. 정식 출시 뒤에도 Founder's Package를 사야 하나요?<br>팬 DB가 옮긴 넥슨 공지 기준으로, 정식 출시는 무료라 패키지가 필요 없어요. 패키지는 Nexon 웹스토어와 Steam에서 팔았고 판매는 10월 14일 현지 23:59(한국시간 10월 15일 15:59)에 끝났으며, 가격은 지역마다 달랐어요.</p>
+  <p>Q. 출시 때 3차 전직이나 엘나스도 즐길 수 있나요?<br>출시 시점에는 3차 전직과 엘나스, 오르비스가 없고 출시 후에 추가될 예정이라고 해요.</p>
+  <p>Q. 모바일이나 콘솔로도 할 수 있나요?<br>지금까지 발표된 건 Windows와 macOS뿐이고 모바일·콘솔 계획은 나온 게 없어요.</p>
+  <p>Q. 한국어로 즐길 수 있나요?<br>공식 언어는 영어이고 스페인어가 베타로 제공돼요. 한국어는 발표된 게 없습니다.</p>
+  <h3>글클메 VPN 없이 플레이, 직접 볼 곳 체크리스트</h3>
+  <p>순서를 잡자면, 가입 방법 몇 줄을 따라 하기 전에 아래를 공식에서 먼저 읽는 쪽이 안전해요.</p>
+  <ul><li>공식 FAQ(Classic World Frequently Asked Questions)의 지역·국가 관련 문구</li><li>넥슨 이용약관의 VPN·프록시·지역 우회 조항</li><li>가입 화면 국가 목록에 한국이 있는지</li><li>Steam 상점 페이지의 지역·결제 안내</li><li>출시일(한국시간 10월 22일 03:00) 이후 올라오는 접속·제재 공지</li></ul>
+  <p>서두르기보다 공식 문구가 나온 뒤에 움직이셔도 늦지 않아요. 출시일에 다들 즐겁게 모험 떠나시길 바랄게요.</p>
+  <p><b>참고한 곳</b> (2026.10.16 기준)<br>
+· <a href="https://www.nexon.com/maplestory/news/general/45385/classic-world-frequently-asked-questions" target="_blank">넥슨 메이플스토리 Classic World FAQ</a><br>
+· <a href="https://x.com/MapleStory/status/2092409243362115901" target="_blank">메이플스토리 공식 X 계정 정식 출시 공지</a><br>
+· <a href="https://meowdb.com/msclassic/ko/news/classic-world-opening-time-confirmed" target="_blank">넥슨 공지를 인용한 팬 DB, 오픈 시간 확정</a><br>
+· <a href="https://meowdb.com/msclassic/guides/maplestory-classic-worlds-release-date" target="_blank">팬 DB, 출시일·설치 경로 가이드</a><br>
+· <a href="https://meowdb.com/msclassic/ko/news/ossyria-report-confirms-october-launch" target="_blank">팬 DB, 출시 시점 콘텐츠 정리</a><br>
+· <a href="https://meowdb.com/msclassic/news/unauthorized-access-bans" target="_blank">팬 DB, 무단 접속 영구 정지 소식</a><br>
+· <a href="https://gall.dcinside.com/mgallery/board/view/?id=maplestoryclassworld&amp;no=733&amp;page=1" target="_blank">디시인사이드 글클메 갤러리 733번 글(2025.10.28)</a><br>
+· <a href="https://gall.dcinside.com/mgallery/board/view/?id=maplestoryclassworld&amp;no=4822" target="_blank">디시인사이드 글클메 갤러리 4822번 글(2026.10.16)</a></p>
+  <p class="tags-line">#글로벌클래식메이플 #글클메 #글클메VPN #클래식월드 #메이플스토리 #글클메가입 #넥슨 #봄딩</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
