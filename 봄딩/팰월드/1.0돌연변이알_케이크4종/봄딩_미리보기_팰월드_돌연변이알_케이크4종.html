@@ -1,0 +1,303 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>팰월드 돌연변이 알 나오는 법, 팰월드 교배 케이크 4종 효과 비교와 고유 패시브 5종까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:middle;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td img{display:block;margin:0 auto 4px;border:0;width:56px;height:56px;}
+  .tbl td.ic{text-align:center;font-weight:700;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">팰월드 돌연변이 알 나오는 법, 팰월드 교배 케이크 4종 효과 비교와 고유 패시브 5종까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.16</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: 팰월드 돌연변이 알은 어떻게 나오나 / 팰월드 교배 케이크 중 돌연변이 확률을 올리는 건 뭐냐 / 돌연변이 패시브는 뭐가 있나 -->
+
+    <p>팰월드 1.0 업데이트 노트를 다시 읽다가 팰 항목에 '돌연변이'라는 새 메커니즘이 생긴 걸 보게 됐는데요, 같이 추가된 케이크가 네 종류나 돼서 뭐가 뭔지 헷갈리기 딱 좋더라고요. 그래서 오늘은 교배 조합표가 아니라 돌연변이가 어떤 구조로 나오는지, 케이크마다 효과가 어떻게 다른지를 2026년 10월 16일 기준 최신 버전인 v1.0.5까지 묶어서 풀어 볼게요.</p>
+
+    <!-- 이미지 이유: 도입부에서 1.0 정식 출시 변경목록 맥락을 잡는 공식 이미지 / 출처: 공식 Steam v1.0 변경목록 공지 / 분류: A형(공식 보도자료 이미지, 가로 1280으로 줄여 저장) -->
+    <div class="imgwrap"><img src="img/steam_v10_pals.jpg" alt="팰월드 v1.0 공식 변경목록 공지에 실린 신규 팰 소개 이미지" width="1280" height="720"></div>
+    <p class="cap">1.0 정식 출시 공지에 실린 팰 소개 이미지예요. 돌연변이는 이 공지의 'Pals!' 절에서 처음 나왔어요.</p>
+    <p class="src">이미지 출처: <a href="https://store.steampowered.com/news/app/1623730/view/686383649529010623" target="_blank">Steam 팰월드 v1.0 변경목록 공지(Pocketpair)</a> · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">팰월드 돌연변이 알은 뭐고, 어떻게 나오나요?</h2>
+    <p>돌연변이는 v1.0에서 새로 추가된 교배 메커니즘으로, 낮은 확률로 일반 결과보다 능력치가 높고 고유 패시브가 붙은 팰이 태어나요. 2026년 7월 10일에 올라온 v1.0 변경목록이 알려 주는 건 딱 이 정도고요, <b>돌연변이 알에서 태어난 팰은 더 높은 능력치에 고유 패시브까지 챙긴다</b>는 게 핵심이에요.</p>
+    <p>반대로 공식 공지에 없는 부분도 분명해요. 돌연변이 알의 겉모습이 어떤지, 도감 어디에 표시되는지, 능력치가 정확히 얼마나 오르는지는 공식 공지 어디에도 나와 있지 않아요. 알 수 있는 건 여기까지예요.</p>
+
+    <h2 class="sub">팰월드 교배 케이크 4종, 뭐가 다른가요?</h2>
+    <p>케이크 네 종류 중 돌연변이 확률을 올려 주는 건 <b>호화 야채 케이크 하나뿐</b>이에요. 나머지 셋은 능력치, 알 개수, 패시브 계승 쪽을 건드려요.</p>
+    <!-- 이미지 이유: 비교표 첫 열에서 케이크 4종을 한눈에 구분 / 출처: PALDB 게임 아이콘(권리자 Pocketpair) / 분류: A-형 표 아이콘 -->
+    <table class="tbl">
+      <tr><th>케이크</th><th>공식 영문명</th><th>효과(공식 문구 기준)</th><th>필요 기술·시설(PALDB)</th></tr>
+      <tr><td class="ic"><img src="img/cake02.webp" alt="버섯 케이크 아이콘" width="256" height="256">버섯 케이크</td><td>Mushroom Cake</td><td>새로 태어난 팰의 능력치가 높을 가능성이 소폭 증가</td><td>기술 Lv.30</td></tr>
+      <!-- 이미지 이유: 야채 케이크 구분용 표 아이콘 / 출처: PALDB 게임 아이콘(권리자 Pocketpair) / 분류: A-형 표 아이콘 -->
+      <tr><td class="ic"><img src="img/cake03.webp" alt="야채 케이크 아이콘" width="256" height="256">야채 케이크</td><td>Vegetable Cake</td><td>팰 알을 2개 동시에 생산</td><td>기술 Lv.47</td></tr>
+      <!-- 이미지 이유: 호화 야채 케이크 구분용 표 아이콘 / 출처: PALDB 게임 아이콘(권리자 Pocketpair) / 분류: A-형 표 아이콘 -->
+      <tr><td class="ic"><img src="img/cake04.webp" alt="호화 야채 케이크 아이콘" width="256" height="256">호화 야채 케이크</td><td>Deluxe Vegetable Cake</td><td><b>돌연변이 확률 증가</b>, 능력치 성장 가능성도 증가</td><td>기술 Lv.60, 대형 부엌 이상</td></tr>
+      <!-- 이미지 이유: 스페셜 케이크 구분용 표 아이콘 / 출처: PALDB 게임 아이콘(권리자 Pocketpair) / 분류: A-형 표 아이콘 -->
+      <tr><td class="ic"><img src="img/cake05.webp" alt="스페셜 케이크 아이콘" width="256" height="256">스페셜 케이크</td><td>Special Cake</td><td>부모 패시브를 여러 개 물려받을 확률 증가</td><td>기술 Lv.74, 고대 문명 부엌</td></tr>
+    </table>
+    <p class="src">케이크 아이콘 출처: <a href="https://paldb.cc/ko/Mushroom_Cake" target="_blank">PALDB 케이크 아이템 페이지</a>(게임 내 아이콘, 권리는 Pocketpair) · 기술 Lv·시설·재료는 비공식 데이터 사이트 PALDB 기준</p>
+    <p>한글 이름은 데이터 사이트 표기를 따랐고 게임 안 표기와 조금 다를 수 있어요. 호화 야채 케이크는 공식 영문이 Deluxe Vegetable Cake인데 일부 데이터 사이트엔 Extravagant로 올라 있거든요. 같은 케이크랍니다. 재료는 이렇게 들어가요.</p>
+    <ul>
+<li><b>버섯 케이크</b> — 밀가루 5 · 버섯 5 · 동굴 버섯 3 · 알 8 · 벌꿀 2</li>
+<li><b>야채 케이크</b> — 밀가루 8 · 토마토 8 · 양상추 7 · 알 8 · 벌꿀 4</li>
+<li><b>호화 야채 케이크</b> — 밀가루 12 · 솜사탕 8 · 감자 10 · 양파 6 · 당근 8</li>
+<li><b>스페셜 케이크</b> — 밀가루 20 · 캐러멜 솜사탕 8 · 우유 15 · 알 15 · 그린모스의 거대 고기 2</li>
+</ul>
+
+    <h2 class="sub">팰월드 돌연변이 확률은 얼마나 되나요?</h2>
+    <p>공식은 확률 수치를 밝히지 않았고, 해외 데이터 사이트 정리 기준으로는 기본 약 1%에 호화 야채 케이크를 쓰면 약 3%예요. 공식 수치가 아니니 참고용으로만 봐 주세요.</p>
+    <p>배합 목장은 케이크가 있어야 돌아가는데, 호화 야채 케이크가 아닌 일반 케이크로도 돌연변이는 나올 수 있어요. 호화 야채 케이크는 문을 열어 주는 열쇠가 아니라 확률을 끌어올리는 보조 쪽이거든요. 제가 확인한 v1.0·v1.0.4·v1.0.5 공지 범위에서는 이 확률이 바뀌었다는 내용이 없었답니다. 케이크를 고르는 입장에선 숫자보다 방향이 중요하죠. 나머지 세 종류는 돌연변이 확률과 상관없는 효과라는 구분만 잡아 두시면 돼요.</p>
+
+    <h2 class="sub">돌연변이 팰에게 붙는 고유 패시브가 궁금해요</h2>
+    <p>현재 확인된 돌연변이 전용 패시브는 베이비시터·중장갑·특이 체질·불사신·하늘 뛰기 5종이에요(데이터 사이트 기준).</p>
+    <table class="tbl">
+      <tr><th>패시브</th><th>효과</th></tr>
+      <tr><td>베이비시터</td><td>거점에 있는 동안 배합 목장 배치 팰의 알 생산 속도 +30%, 부화 속도 +30%</td></tr>
+      <tr><td>중장갑</td><td>폭발 피해 무효</td></tr>
+      <tr><td>특이 체질</td><td>팰·플레이어 HP 자연 회복량 +50%, 방어력 +25%, 독·화상 피해 무효</td></tr>
+      <tr><td>불사신</td><td>준 피해의 5%를 흡수해 HP 회복, 팰 HP 자연 회복량 +100%, 공격력 +15%</td></tr>
+      <tr><td>하늘 뛰기</td><td>탑승 중 점프 횟수 +2</td></tr>
+    </table>
+    <p>쓰임새로 나누면 목장을 굴릴 때는 베이비시터, 탈것으로 돌아다닐 때는 하늘 뛰기, 전투에서 버티는 쪽은 중장갑·특이 체질·불사신이 눈에 들어와요. 공식 공지는 '고유 패시브'라고만 적었거든요. 그래서 이 다섯 종이 전부인지, 효과 수치가 그대로인지는 패치에 따라 달라질 수 있어요.</p>
+
+    <h2 class="sub">패치로 달라진 건 없나요? v1.0.4와 v1.0.5</h2>
+    <p>v1.0.4에서 특이 체질 패시브 미발동과 소름냥이(Grintale) 패시브로 늘어난 알의 능력치 반영 오류가 고쳐졌고, v1.0.5에는 돌연변이 관련 변경이 없어요.</p>
+    <ul>
+      <li><b>v1.0.4, 2026년 9월 7일</b> — 특이 체질 돌연변이 패시브가 제대로 발동하지 않던 문제 수정</li>
+      <li><b>v1.0.4</b> — 소름냥이 패시브로 늘어난 돌연변이 알이 돌연변이 능력치 값을 반영하지 않던 문제 수정</li>
+      <li><b>v1.0.5, 2026년 9월 15일</b> — 지형·건물 텍스처 해상도 저하와 지도 아이콘 필터가 리스폰 뒤 꺼지는 문제만 수정</li>
+    </ul>
+<p>앞의 두 수정은 모두 돌연변이 효과가 제대로 적용되지 않던 문제를 바로잡은 거라, v1.0.4 이후 버전이라면 신경 쓰지 않으셔도 됩니다.</p>
+
+    <h2 class="sub">그래서 어떤 케이크를 언제 쓰면 될까요?</h2>
+    <p>어떤 케이크를 쓸지는 목장에서 뭘 노리느냐로 갈려요.</p>
+    <ul>
+      <li><b>돌연변이를 노린다면</b> 호화 야채 케이크 — 돌연변이 확률과 능력치 성장 가능성이 같이 올라요</li>
+      <li><b>알 수를 늘리고 싶다면</b> 야채 케이크 — 알이 2개 동시에 나와요</li>
+      <li><b>패시브를 많이 물려주고 싶다면</b> 스페셜 케이크 — 부모 패시브 다중 계승 확률이 올라요</li>
+      <li><b>능력치를 조금 챙기고 싶다면</b> 버섯 케이크 — 소폭 증가예요</li>
+    </ul>
+    <p>돌연변이가 목표인데 호화 야채 케이크가 기술 Lv.60에 대형 부엌 이상을 요구하니까, 케이크 재료 모으기 전에 해금부터 확인해 두는 쪽이 덜 돌아가는 길이거든요~</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 케이크는 어디에 넣어 두면 되나요?</b><br>배합 목장 상자에 넣어 두면 팰이 먹고 알을 낳아요. 호화 야채 케이크는 만드는 것부터 대형 부엌 이상이 있어야 하고요.</p>
+    <p><b>Q. 돌연변이 패시브는 자식에게 물려줄 수 있나요?</b><br>데이터 사이트 주석에는 교배로 유전될 수 있다고 적혀 있지만 공식 공지에서는 확인하지 못해서 확정은 아니에요.</p>
+    <p><b>Q. 알 말고 돌연변이 패시브를 얻는 방법도 있나요?</b><br>공식 v1.0 변경목록에도 일회용 이식이 나와요. 수술대에서 쓰면 소모되고 더 강한 패시브를 줄 수 있는 아이템이라고요. 다만 돌연변이 패시브 5종을 부여하는지는 데이터 사이트 한 곳에만 적혀 있어서 참고만 해 주세요.</p>
+  <p><b>Q. 모바일 팰월드 온라인 내용이랑 섞어 봐도 되나요?</b><br>안 돼요. 이 글은 포켓페어 PC 본편(Steam) 기준이고, 팰월드 온라인은 별개 게임이라 케이크 효과나 돌연변이 정보를 그대로 옮겨 적용하면 틀릴 수 있어요.</p>
+
+    <h2 class="sub">팰월드 돌연변이 케이크 정리</h2>
+    <p>돌연변이는 낮은 확률로 터지는 보너스예요. 목장 목표부터 정하고 고르시면 선택은 금방 끝납니다. 느긋하게 돌리시면서 고유 패시브 달린 팰이 나오길 기대해 보세요~ 즐겜하세요!</p>
+
+    <p><b>✔ 팰월드 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224424135849" target="_blank">팰월드 속성 조합 파티 추천, 국룰 팰로 맞추는 볼젝스 코스모디얼 고정세팅까지</a><br>
+    · <a href="https://blog.naver.com/bomding/224420206754" target="_blank">팰월드공략순서 레벨별로 정리, 초반부터 레벨 60 프로스탤리온 준비까지</a><br>
+    · <a href="https://blog.naver.com/bomding/224420134548" target="_blank">팰월드 제로버스 공략, 봉인의 전당 입장조건부터 미사일·날개 패턴 대처법까지</a></p>
+
+    <p><b>참고한 곳</b> (2026.10.16 기준)<br>
+    · <a href="https://store.steampowered.com/news/app/1623730/view/686383649529010623" target="_blank">Steam 팰월드 v1.0 변경목록 공지</a><br>
+    · <a href="https://store.steampowered.com/news/app/1623730/view/695397189431592456" target="_blank">Steam 팰월드 v1.0.4 패치 공지</a><br>
+    · <a href="https://store.steampowered.com/news/app/1623730/view/1843481262703464" target="_blank">Steam 팰월드 v1.0.5 패치 공지</a><br>
+    · <a href="https://paldb.cc/ko/Mutation" target="_blank">PALDB 돌연변이 페이지</a> (비공식 데이터 사이트, 케이크 재료·기술 Lv·패시브·확률 참고)</p>
+
+    <div class="tags">#팰월드 #팰월드돌연변이 #팰월드교배 #팰월드케이크 #호화야채케이크 #팰월드1.0 #Palworld</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 2분):</b> 📷 <b>사진 1곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 팰월드 돌연변이 알 나오는 법, 팰월드 교배 케이크 4종 효과 비교와 고유 패시브 5종까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+  <p>팰월드 1.0 업데이트 노트를 다시 읽다가 팰 항목에 '돌연변이'라는 새 메커니즘이 생긴 걸 보게 됐는데요, 같이 추가된 케이크가 네 종류나 돼서 뭐가 뭔지 헷갈리기 딱 좋더라고요. 그래서 오늘은 교배 조합표가 아니라 돌연변이가 어떤 구조로 나오는지, 케이크마다 효과가 어떻게 다른지를 2026년 10월 16일 기준 최신 버전인 v1.0.5까지 묶어서 풀어 볼게요.</p>
+  <p class="ph">📷 〔사진 자리 1〕 팰월드 v1.0 공식 변경목록 공지의 팰 소개 이미지 — Steam 팰월드 v1.0 변경목록 공지에서 저장 후 업로드<br>└ 캡션 추천: "1.0 정식 출시 공지에 실린 팰 소개 이미지예요. 돌연변이는 이 공지의 'Pals!' 절에서 처음 나왔어요."<br>└ 출처: Steam 팰월드 v1.0 변경목록 공지(Pocketpair)</p>
+
+  <h3>팰월드 돌연변이 알은 뭐고, 어떻게 나오나요?</h3>
+  <p>돌연변이는 v1.0에서 새로 추가된 교배 메커니즘으로, 낮은 확률로 일반 결과보다 능력치가 높고 고유 패시브가 붙은 팰이 태어나요. 2026년 7월 10일에 올라온 v1.0 변경목록이 알려 주는 건 딱 이 정도고요, <b>돌연변이 알에서 태어난 팰은 더 높은 능력치에 고유 패시브까지 챙긴다</b>는 게 핵심이에요.</p>
+  <p>반대로 공식 공지에 없는 부분도 분명해요. 돌연변이 알의 겉모습이 어떤지, 도감 어디에 표시되는지, 능력치가 정확히 얼마나 오르는지는 공식 공지 어디에도 나와 있지 않아요. 알 수 있는 건 여기까지예요.</p>
+
+  <h3>팰월드 교배 케이크 4종, 뭐가 다른가요?</h3>
+  <p>케이크 네 종류 중 돌연변이 확률을 올려 주는 건 <b>호화 야채 케이크 하나뿐</b>이에요. 나머지 셋은 능력치, 알 개수, 패시브 계승 쪽을 건드려요.</p>
+  <table>
+    <tr><th>케이크</th><th>공식 영문명</th><th>효과(공식 문구 기준)</th><th>필요 기술·시설(PALDB)</th></tr>
+    <tr><td class="l">버섯 케이크</td><td>Mushroom Cake</td><td>새로 태어난 팰의 능력치가 높을 가능성이 소폭 증가</td><td>기술 Lv.30</td></tr>
+    <tr><td class="l">야채 케이크</td><td>Vegetable Cake</td><td>팰 알을 2개 동시에 생산</td><td>기술 Lv.47</td></tr>
+    <tr><td class="l">호화 야채 케이크</td><td>Deluxe Vegetable Cake</td><td><b>돌연변이 확률 증가</b>, 능력치 성장 가능성도 증가</td><td>기술 Lv.60, 대형 부엌 이상</td></tr>
+    <tr><td class="l">스페셜 케이크</td><td>Special Cake</td><td>부모 패시브를 여러 개 물려받을 확률 증가</td><td>기술 Lv.74, 고대 문명 부엌</td></tr>
+  </table>
+  <p>케이크 아이콘 출처: PALDB 케이크 아이템 페이지(게임 내 아이콘, 권리는 Pocketpair) · 기술 Lv·시설·재료는 비공식 데이터 사이트 PALDB 기준</p>
+  <p>한글 이름은 데이터 사이트 표기를 따랐고 게임 안 표기와 조금 다를 수 있어요. 호화 야채 케이크는 공식 영문이 Deluxe Vegetable Cake인데 일부 데이터 사이트엔 Extravagant로 올라 있거든요. 같은 케이크랍니다. 재료는 이렇게 들어가요.</p>
+  <ul>
+<li><b>버섯 케이크</b> — 밀가루 5 · 버섯 5 · 동굴 버섯 3 · 알 8 · 벌꿀 2</li>
+<li><b>야채 케이크</b> — 밀가루 8 · 토마토 8 · 양상추 7 · 알 8 · 벌꿀 4</li>
+<li><b>호화 야채 케이크</b> — 밀가루 12 · 솜사탕 8 · 감자 10 · 양파 6 · 당근 8</li>
+<li><b>스페셜 케이크</b> — 밀가루 20 · 캐러멜 솜사탕 8 · 우유 15 · 알 15 · 그린모스의 거대 고기 2</li>
+</ul>
+
+  <h3>팰월드 돌연변이 확률은 얼마나 되나요?</h3>
+  <p>공식은 확률 수치를 밝히지 않았고, 해외 데이터 사이트 정리 기준으로는 기본 약 1%에 호화 야채 케이크를 쓰면 약 3%예요. 공식 수치가 아니니 참고용으로만 봐 주세요.</p>
+  <p>배합 목장은 케이크가 있어야 돌아가는데, 호화 야채 케이크가 아닌 일반 케이크로도 돌연변이는 나올 수 있어요. 호화 야채 케이크는 문을 열어 주는 열쇠가 아니라 확률을 끌어올리는 보조 쪽이거든요. 제가 확인한 v1.0·v1.0.4·v1.0.5 공지 범위에서는 이 확률이 바뀌었다는 내용이 없었답니다. 케이크를 고르는 입장에선 숫자보다 방향이 중요하죠. 나머지 세 종류는 돌연변이 확률과 상관없는 효과라는 구분만 잡아 두시면 돼요.</p>
+
+  <h3>돌연변이 팰에게 붙는 고유 패시브가 궁금해요</h3>
+  <p>현재 확인된 돌연변이 전용 패시브는 베이비시터·중장갑·특이 체질·불사신·하늘 뛰기 5종이에요(데이터 사이트 기준).</p>
+  <table>
+    <tr><th>패시브</th><th>효과</th></tr>
+    <tr><td class="l">베이비시터</td><td>거점에 있는 동안 배합 목장 배치 팰의 알 생산 속도 +30%, 부화 속도 +30%</td></tr>
+    <tr><td class="l">중장갑</td><td>폭발 피해 무효</td></tr>
+    <tr><td class="l">특이 체질</td><td>팰·플레이어 HP 자연 회복량 +50%, 방어력 +25%, 독·화상 피해 무효</td></tr>
+    <tr><td class="l">불사신</td><td>준 피해의 5%를 흡수해 HP 회복, 팰 HP 자연 회복량 +100%, 공격력 +15%</td></tr>
+    <tr><td class="l">하늘 뛰기</td><td>탑승 중 점프 횟수 +2</td></tr>
+  </table>
+  <p>쓰임새로 나누면 목장을 굴릴 때는 베이비시터, 탈것으로 돌아다닐 때는 하늘 뛰기, 전투에서 버티는 쪽은 중장갑·특이 체질·불사신이 눈에 들어와요. 공식 공지는 '고유 패시브'라고만 적었거든요. 그래서 이 다섯 종이 전부인지, 효과 수치가 그대로인지는 패치에 따라 달라질 수 있어요.</p>
+
+  <h3>패치로 달라진 건 없나요? v1.0.4와 v1.0.5</h3>
+  <p>v1.0.4에서 특이 체질 패시브 미발동과 소름냥이(Grintale) 패시브로 늘어난 알의 능력치 반영 오류가 고쳐졌고, v1.0.5에는 돌연변이 관련 변경이 없어요.</p>
+  <ul>
+    <li><b>v1.0.4, 2026년 9월 7일</b> — 특이 체질 돌연변이 패시브가 제대로 발동하지 않던 문제 수정</li>
+    <li><b>v1.0.4</b> — 소름냥이 패시브로 늘어난 돌연변이 알이 돌연변이 능력치 값을 반영하지 않던 문제 수정</li>
+    <li><b>v1.0.5, 2026년 9월 15일</b> — 지형·건물 텍스처 해상도 저하와 지도 아이콘 필터가 리스폰 뒤 꺼지는 문제만 수정</li>
+  </ul>
+<p>앞의 두 수정은 모두 돌연변이 효과가 제대로 적용되지 않던 문제를 바로잡은 거라, v1.0.4 이후 버전이라면 신경 쓰지 않으셔도 됩니다.</p>
+
+  <h3>그래서 어떤 케이크를 언제 쓰면 될까요?</h3>
+  <p>어떤 케이크를 쓸지는 목장에서 뭘 노리느냐로 갈려요.</p>
+  <ul>
+    <li><b>돌연변이를 노린다면</b> 호화 야채 케이크 — 돌연변이 확률과 능력치 성장 가능성이 같이 올라요</li>
+    <li><b>알 수를 늘리고 싶다면</b> 야채 케이크 — 알이 2개 동시에 나와요</li>
+    <li><b>패시브를 많이 물려주고 싶다면</b> 스페셜 케이크 — 부모 패시브 다중 계승 확률이 올라요</li>
+    <li><b>능력치를 조금 챙기고 싶다면</b> 버섯 케이크 — 소폭 증가예요</li>
+  </ul>
+  <p>돌연변이가 목표인데 호화 야채 케이크가 기술 Lv.60에 대형 부엌 이상을 요구하니까, 케이크 재료 모으기 전에 해금부터 확인해 두는 쪽이 덜 돌아가는 길이거든요~</p>
+
+  <h3>자주 묻는 질문</h3>
+  <p><b>Q. 케이크는 어디에 넣어 두면 되나요?</b><br>배합 목장 상자에 넣어 두면 팰이 먹고 알을 낳아요. 호화 야채 케이크는 만드는 것부터 대형 부엌 이상이 있어야 하고요.</p>
+  <p><b>Q. 돌연변이 패시브는 자식에게 물려줄 수 있나요?</b><br>데이터 사이트 주석에는 교배로 유전될 수 있다고 적혀 있지만 공식 공지에서는 확인하지 못해서 확정은 아니에요.</p>
+  <p><b>Q. 알 말고 돌연변이 패시브를 얻는 방법도 있나요?</b><br>공식 v1.0 변경목록에도 일회용 이식이 나와요. 수술대에서 쓰면 소모되고 더 강한 패시브를 줄 수 있는 아이템이라고요. 다만 돌연변이 패시브 5종을 부여하는지는 데이터 사이트 한 곳에만 적혀 있어서 참고만 해 주세요.</p>
+  <p><b>Q. 모바일 팰월드 온라인 내용이랑 섞어 봐도 되나요?</b><br>안 돼요. 이 글은 포켓페어 PC 본편(Steam) 기준이고, 팰월드 온라인은 별개 게임이라 케이크 효과나 돌연변이 정보를 그대로 옮겨 적용하면 틀릴 수 있어요.</p>
+
+  <h3>팰월드 돌연변이 케이크 정리</h3>
+  <p>돌연변이는 낮은 확률로 터지는 보너스예요. 목장 목표부터 정하고 고르시면 선택은 금방 끝납니다. 느긋하게 돌리시면서 고유 패시브 달린 팰이 나오길 기대해 보세요~ 즐겜하세요!</p>
+
+  <p><b>✔ 팰월드 같이 보기 좋은 내용</b><br>
+  · <a href="https://blog.naver.com/bomding/224424135849" target="_blank">팰월드 속성 조합 파티 추천, 국룰 팰로 맞추는 볼젝스 코스모디얼 고정세팅까지</a><br>
+  · <a href="https://blog.naver.com/bomding/224420206754" target="_blank">팰월드공략순서 레벨별로 정리, 초반부터 레벨 60 프로스탤리온 준비까지</a><br>
+  · <a href="https://blog.naver.com/bomding/224420134548" target="_blank">팰월드 제로버스 공략, 봉인의 전당 입장조건부터 미사일·날개 패턴 대처법까지</a></p>
+
+  <p><b>참고한 곳</b> (2026.10.16 기준)<br>
+  · <a href="https://store.steampowered.com/news/app/1623730/view/686383649529010623" target="_blank">Steam 팰월드 v1.0 변경목록 공지</a><br>
+  · <a href="https://store.steampowered.com/news/app/1623730/view/695397189431592456" target="_blank">Steam 팰월드 v1.0.4 패치 공지</a><br>
+  · <a href="https://store.steampowered.com/news/app/1623730/view/1843481262703464" target="_blank">Steam 팰월드 v1.0.5 패치 공지</a><br>
+  · <a href="https://paldb.cc/ko/Mutation" target="_blank">PALDB 돌연변이 페이지</a> (비공식 데이터 사이트, 케이크 재료·기술 Lv·패시브·확률 참고)</p>
+
+  <p class="tags-line">#팰월드 #팰월드돌연변이 #팰월드교배 #팰월드케이크 #호화야채케이크 #팰월드1.0 #Palworld</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
