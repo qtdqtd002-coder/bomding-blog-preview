@@ -25,6 +25,8 @@ spec.json (경로는 spec 파일 기준 상대경로 또는 절대경로)
 출력: 폭 693 × scale(기본 2 = 1386px — 네이버 본문 실폭의 2배, 도구함 이미지와 같은 규격) · 높이 자동.
   확장자가 .jpg 면 JPEG(quality), .png 면 PNG. 끝에 «<file> <W>x<H> <bytes>» 를 한 줄씩 찍고
   spec 옆에 <spec 이름>.out.json(파일별 치수 — 글의 width/height 속성에 그대로 쓴다)을 남긴다.
+  ★2026-10-19: out.json 에 핀별 위치 낱말 `pins:[{n, pos:"지도 왼쪽 위"}]`(좌표 3×3 칸)을 함께 남긴다 —
+  글 표의 «위치» 열로 옮긴다(ai-briefing R9 «그림의 핵심은 본문에도»).
 
 ★출처 줄(`source`)은 비우지 못한다 — 디자인은 봄딩 것이어도 바탕 그림·좌표의 출처는 그대로다.
 ★이미지에 찍히는 글자에 조사 과정(«교차 확인»·파일명 등)을 넣지 않는다(output-format §1-8 ⑵와 같은 이유).
@@ -173,6 +175,19 @@ def shoot(work, mh, scale):
     raise SystemExit('렌더 실패: 카드가 창보다 길다(mh=%d)' % mh)
 
 
+POS_GRID = {('위', '왼'): '지도 왼쪽 위', ('위', '중'): '지도 위쪽 가운데', ('위', '오'): '지도 오른쪽 위',
+            ('중', '왼'): '지도 왼쪽 가운데', ('중', '중'): '지도 한가운데', ('중', '오'): '지도 오른쪽 가운데',
+            ('아', '왼'): '지도 왼쪽 아래', ('아', '중'): '지도 아래쪽 가운데', ('아', '오'): '지도 오른쪽 아래'}
+
+
+def pos_word(x, y):
+    """핀 좌표(바탕 그림 기준 %) → 3×3 칸 위치 낱말. 글 본문 «위치» 열용(ai-briefing R9 · 2026-10-19).
+    좌표만으로 정하므로 지명을 지어내지 않는다 — 지형지물은 조사에 있을 때만 작성 서브가 덧붙인다."""
+    row = '위' if float(y) < 100 / 3.0 else ('중' if float(y) < 200 / 3.0 else '아')
+    col = '왼' if float(x) < 100 / 3.0 else ('중' if float(x) < 200 / 3.0 else '오')
+    return POS_GRID[(row, col)]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--spec', required=True)
@@ -212,7 +227,8 @@ def main():
             else:
                 im.save(out)
             done[c['file']] = {'id': str(c['id']), 'w': im.size[0], 'h': im.size[1], 'bytes': os.path.getsize(out), 'tight': tight,
-                               'minGap': None if gap > 1e8 else round(gap, 1)}
+                               'minGap': None if gap > 1e8 else round(gap, 1),
+                               'pins': [{'n': p['n'], 'pos': pos_word(p['x'], p['y'])} for p in c['pins']]}
             print('%s %dx%d %d%s' % (c['file'], im.size[0], im.size[1], os.path.getsize(out), ' (작은 핀)' if tight else ''))
         finally:
             shutil.rmtree(work, ignore_errors=True)

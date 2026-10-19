@@ -16,6 +16,8 @@
 #       ⑴ §4-3 위젯 CSS  → 첫 </style> 앞            (판별 `#npBtn{`)         템플릿 templates/npaste-widget.css
 #       ⑵ §4-3 위젯 HTML+JS → </body> 앞, 집필 서브의 #copy 요소를 서랍 안으로 옮겨 감싼다 (판별 id="npBtn"/"npDrawer")
 #            guide 의 {{N}}·{{M}}·{{제목}}·쿠팡 조건문은 #copy 안 〔사진 자리〕·〔제품컷〕·〔쿠팡 링크 자리〕 수와 h1.title 로 채운다.
+#            ★2026-10-19: 본문 .gap 칸도 «직접 채울 것»에 센다 — .gap.mine = ✍️ 한 줄(ai-briefing R7 · 고르기만) / 그 밖 .gap = 직접 조사·입력
+#            (10-03~05 «.gap 이 np-guide 안내에 없다» 3회 재발 해소). 템플릿은 무변경 — «곳</b> 업로드» 뒤에 덧붙인다.
 #            #copy 가 없으면 exit 3 — output-format §4-0 «생존본 생략 금지»의 코드 게이트(파일 무변경).
 #       ⑶ v2 include naver-npaste.js → </body> 앞   (봄딩·영도 공용)        템플릿 templates/npaste-include.html
 #       ⑷ 이미지함 include bomding-imagebox.js → </body> 앞 (★봄딩만 — §6 전파 금지) 템플릿 templates/imagebox-include.html
@@ -139,9 +141,12 @@ def article_part(raw):
     return raw[:m.start()] if m else raw
 
 
-def fill_chrome(tpl, copy_el, photos, coupang, title):
-    total = photos + coupang
-    minutes = total + 1 if total <= 3 else total          # 최근 8편 관례(1→2·3→4·4→4·5→5·6→6) 에 맞춘 어림
+def fill_chrome(tpl, copy_el, photos, coupang, title, mine=0, gaps=0):
+    base = photos + coupang + gaps
+    minutes = base + 1 if base <= 3 else base             # 최근 8편 관례(1→2·3→4·4→4·5→5·6→6) 에 맞춘 어림
+    if mine:
+        minutes += 1                                      # 한 줄 칸은 고르기만 — 몇 곳이든 약 1분(2026-10-19 비교안)
+    total = base + mine
     out = tpl
     out = out.replace("{{ · 👉 쿠팡 링크 {{N}}곳 본인 파트너스 URL}}",
                       (" · 👉 쿠팡 링크 %d곳 본인 파트너스 URL" % coupang) if coupang else "")
@@ -149,6 +154,15 @@ def fill_chrome(tpl, copy_el, photos, coupang, title):
                       ", 👉 쿠팡 링크는 본인 파트너스 URL 연결" if coupang else "")
     out = out.replace("직접 채울 건 {{N}}가지(약 {{M}}분)", "직접 채울 건 %d가지(약 %d분)" % (total, minutes))
     out = out.replace("사진 {{N}}곳", "사진 %d곳" % photos)
+    extra = ""
+    if mine:
+        extra += " · ✍️ <b>한 줄 %d곳</b>(골라서 하나만 남기기 · 안 쓰면 그 줄 지우기)" % mine
+    if gaps:
+        extra += " · ✍️ 직접 조사·입력 %d곳" % gaps
+    if extra:
+        if out.count("곳</b> 업로드") != 1:
+            die(2, "템플릿 npaste-widget.html 의 «사진 N곳</b> 업로드» 자리를 찾지 못했다(.gap 개수 표기)")
+        out = out.replace("곳</b> 업로드", "곳</b> 업로드" + extra, 1)
     out = out.replace("{{제목}}", title)
     slot = find_div_by_id(out, "copy")
     if not slot:
@@ -232,14 +246,23 @@ def run_file_mode(path):
                 photos = len(re.findall(r'class\s*=\s*["\'](?:ss|imgslot(?:\s+mini)?|imgwrap)["\']', art))
             if coupang == 0:
                 coupang = len(re.findall(r'class\s*=\s*["\']coupang["\']', art))
+            # ★2026-10-19: 본문 .gap 칸 — .gap.mine = ✍️ 한 줄(ai-briefing R7) · 그 밖 .gap = 직접 조사·입력
+            mine = gaps = 0
+            for cls in re.findall(r'class\s*=\s*["\']([^"\']*)["\']', art):
+                toks = cls.split()
+                if "gap" in toks:
+                    if "mine" in toks:
+                        mine += 1
+                    else:
+                        gaps += 1
             h1 = re.search(r'<h1\b[^>]*class\s*=\s*["\']title["\'][^>]*>(.*?)</h1>', art, re.S)
             title = strip_tags(h1.group(1)) if h1 else strip_tags((re.search(r"<title>(.*?)</title>", raw, re.S) or [None, ""])[1])
-            chrome = fill_chrome(tpl("npaste-widget.html"), copy_el, photos, coupang, title)
+            chrome = fill_chrome(tpl("npaste-widget.html"), copy_el, photos, coupang, title, mine, gaps)
             out = insert_before_first(new, "</body>", chrome, nl)
             if out is None:
                 die(2, "</body> 가 없다")
             new = out
-            status["chrome"] = "+(사진 %d·쿠팡 %d)" % (photos, coupang)
+            status["chrome"] = "+(사진 %d·쿠팡 %d·한 줄 %d·조사 %d)" % (photos, coupang, mine, gaps)
     else:
         status["chrome"] = "-"
 
