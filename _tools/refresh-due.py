@@ -8,10 +8,13 @@ refresh-due.py — 갱신 약속이 기한에 닿은 글 목록 (2026-10-19 신�
   글 폴더에 `_qa/refresh.json` 을 남긴다. 이 도구는 그 기록을 모아 «지금 갱신할 글»을 보여 준다.
   갱신 자체는 같은 주소 개선본 경로(-Kind improve)가 한다 — 이 도구는 아무 파일도 고치지 않는다.
 
-  python _tools/refresh-due.py [--days N] [--all] [--json]
+  python _tools/refresh-due.py [--days N] [--all] [--json] [--out <path>]
     --days N : 오늘부터 N일 안에 기한이 오는 것까지 포함(기본 0 = 오늘까지 기한이 지난 것만)
     --all    : 기한과 무관하게 기록 전부
     --json   : 사람용 표 대신 JSON 배열
+    --out P  : JSON 을 파일로 쓴다(updated 시각 포함) — ★사이트 홈 «갱신할 글» 타일의 스냅샷
+               `--all --out _trend/_refresh.json` 을 데스크 [E](매일 06:00) 가 하루 1회 굽는다(2026-10-19 사용자 지시).
+               항목의 rel = 글 폴더의 미리보기 HTML(사이트 링크용).
 
 refresh.json 형식(하나 또는 배열):
   {"due": "YYYY-MM-DD", "why": "10-21 정기 점검 도술 강화·돌파 초기화", "fix": ["도술 문단", "하루 순서"]}
@@ -32,15 +35,18 @@ DATE_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 
 
 def title_of(folder):
+    """(제목, 미리보기 HTML 의 ROOT 기준 경로) — 글 1편 = 글 폴더 HTML 1개(07_교훈)."""
     for f in sorted(glob.glob(os.path.join(folder, '*.html'))):
         try:
             raw = io.open(f, encoding='utf-8', errors='replace').read()
         except OSError:
             continue
+        rel = os.path.relpath(f, ROOT).replace('\\', '/')
         m = re.search(r'<h1\b[^>]*>(.*?)</h1>', raw, re.S) or re.search(r'<title>(.*?)</title>', raw, re.S)
         if m:
-            return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', m.group(1))).strip()
-    return os.path.basename(folder)
+            return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', m.group(1))).strip(), rel
+        return os.path.basename(folder), rel
+    return os.path.basename(folder), ''
 
 
 def load(path):
@@ -57,6 +63,7 @@ def main():
     ap.add_argument('--days', type=int, default=0)
     ap.add_argument('--all', action='store_true')
     ap.add_argument('--json', action='store_true')
+    ap.add_argument('--out', default='')
     a = ap.parse_args()
     today = datetime.date.today()
     limit = today + datetime.timedelta(days=max(a.days, 0))
@@ -77,13 +84,23 @@ def main():
                 due = datetime.date.fromisoformat(it['due'])
                 if not a.all and due > limit:
                     continue
-                rows.append({'writer': w, 'post': rel, 'title': title_of(folder), 'due': it['due'],
+                title, html_rel = title_of(folder)
+                rows.append({'writer': w, 'post': rel, 'rel': html_rel, 'title': title, 'due': it['due'],
                              'late': (today - due).days, 'why': it.get('why', ''), 'fix': it.get('fix', [])})
     rows.sort(key=lambda r: r['due'])
 
+    doc = {'today': today.isoformat(), 'items': rows, 'bad': [{'post': p, 'error': e} for p, e in bad]}
+    if a.out:
+        doc = dict(doc, updated=datetime.datetime.now().astimezone().isoformat(timespec='seconds'))
+        out = a.out if os.path.isabs(a.out) else os.path.join(ROOT, a.out)
+        tmp = out + '.tmp'
+        io.open(tmp, 'w', encoding='utf-8', newline='\n').write(json.dumps(doc, ensure_ascii=False, indent=1) + '\n')
+        os.replace(tmp, out)
+        print('[refresh-due] %s · %d건%s' % (os.path.relpath(out, ROOT).replace('\\', '/'), len(rows),
+                                            (' · 형식 오류 %d' % len(bad)) if bad else ''))
+        return 0
     if a.json:
-        print(json.dumps({'today': today.isoformat(), 'items': rows, 'bad': [{'post': p, 'error': e} for p, e in bad]},
-                         ensure_ascii=False, indent=1))
+        print(json.dumps(doc, ensure_ascii=False, indent=1))
         return 0
     print('[refresh-due] 오늘 %s · %s · %d건%s' % (today.isoformat(), '전체' if a.all else ('%d일 안' % a.days if a.days else '기한 지난 것'),
                                                len(rows), (' · 형식 오류 %d' % len(bad)) if bad else ''))

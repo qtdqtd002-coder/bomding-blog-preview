@@ -694,6 +694,22 @@ a{color:inherit; text-decoration:none}
 .wl-pt{font-weight:600; color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .wl-pn{font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap; flex:none}
 .wl-empty{padding:30px 16px; font-size:13px; color:var(--ink-3)}
+/* 갱신할 글(2026-10-19) — «작업 중» 목록 행을 그대로 쓰고, 둘째 줄(사유·고칠 곳)만 더한다.
+   기한 상태는 색 + 글자(«2일 지남»·«오늘»·«3일 남음») 두 겹으로 나른다 — 색만으로 말하지 않는다. */
+.rf-row{position:relative; padding-top:10px; padding-bottom:10px; row-gap:3px}
+a.rf-t{color:inherit; text-decoration:none}
+a.rf-t::after{content:""; position:absolute; inset:0}   /* 행 전체가 링크 표적(모바일 22px → 행 높이 · 게이트 🟡5). 포커스 링은 제목 글자에 그대로 */
+.rf-row:hover a.rf-t{text-decoration:underline; text-underline-offset:3px}
+.rf-s{display:inline-grid; grid-template-columns:3.6em 5.8em; align-items:baseline; column-gap:6px;
+      font-size:12.5px; color:var(--ink-3); white-space:nowrap}   /* 날짜·상태 고정 폭 두 칸(게이트 🟡3) · 12.5px = Readable-Floor */
+.rf-s b{font-family:"JetBrains Mono",monospace; font-weight:500; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.rf-s.today span{color:var(--ink); font-weight:700}
+.rf-s.late span{color:var(--alert); font-weight:700}
+.rf-why{grid-column:2/-1; position:relative; z-index:1;   /* 행 링크 오버레이(::after) 위로 — 사유 글자 선택·title 툴팁이 살아 있게(재검 🟡1) */
+        min-width:0; font-size:12.5px; color:var(--ink-3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; word-break:keep-all}
+#tileRefresh .wl-f{font-size:12.5px}   /* Readable-Floor — «작업 중» 바닥 줄(12px)은 옛 값 그대로(10-19 게이트 🟡4 · 고칠 땐 같이) */
+.rf-bad{color:var(--alert)}
+#tileRefresh .rf-bad b{color:var(--alert)}
 .wl-f{display:flex; flex-wrap:wrap; gap:6px 16px; padding:11px 16px; border-top:1px solid var(--hair);
       background:var(--surface-2); font-size:12px; color:var(--ink-3)}
 .wl-f b{color:var(--ink); font-weight:600; font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums}
@@ -1161,6 +1177,8 @@ html.gs .nt{transition:none !important}
   .wl-t{grid-area:t}
   .wl-w{grid-area:w}
   .wl-s{grid-area:s; align-self:center}
+  .rf-s{grid-area:s; align-self:center; grid-template-columns:auto; justify-items:end; row-gap:1px}   /* 갱신할 글 — 날짜 위·상태 아래로 쌓아 오른쪽 칸을 좁게 */
+  .rf-why{grid-column:1/-1; white-space:normal; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2}   /* «고칠 곳»까지 읽히게 두 줄(게이트 🟡2) */
   .qchip{top:66px; right:12px; height:34px; padding:0 11px 0 10px; gap:6px;
          transition:color var(--t-fast) var(--e), box-shadow var(--t-fast) var(--e), opacity var(--t-fast) var(--e), transform var(--t-fast) var(--e-out)}   /* 모바일: 섬이 전폭이라 종 줄엔 자리가 없다 → 그 아래 줄 */
   .qchip.tuck{opacity:0; pointer-events:none; transform:translateY(-10px)}   /* 스크롤을 내리면 접힌다(섬과 같은 규칙) — 고정 칩이 목록 행을 가리지 않게 */
@@ -1836,8 +1854,10 @@ var citeP=jget('_trend/_citations.json?ts='+Date.now(),null);
 var mixP=jget('_trend/_desk-mix.json?ts='+Date.now(),null);
 /* «다시 꺼낸 글» — 손으로 적는 작은 목록(위 isLive 주석). 없어도 화면은 뜬다 */
 var reopenP=jget('reopen.json?ts='+Date.now(),null);
+/* 홈 «갱신할 글»(2026-10-19) — _tools/refresh-due.py 가 데스크 [E]에서 하루 1회 굽는다(글 폴더 _qa/refresh.json 모음) */
+var refreshP=jget('_trend/_refresh.json?ts='+Date.now(),null);
 
-Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP]).then(function(r){
+Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP,refreshP]).then(function(r){
   var posts=r[0]||[], pub=r[1]||{}, trend=r[2]||{}, reqs=r[6];
   POSTS_OK=Array.isArray(r[0]); POSTS_AT=Date.now();
   posts.forEach(function(p){ if(p&&p.rel)RELSET[p.rel]=1; });
@@ -1845,6 +1865,7 @@ Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,m
   QUOTA=(r[8]&&(Array.isArray(r[8].limits)||r[8].five_hour))?r[8]:null;
   CITES=(r[9]&&Array.isArray(r[9].writers))?r[9]:null;
   MIX=(r[11]&&Array.isArray(r[11].bars))?r[11]:null;
+  REFRESH=(r[13]&&Array.isArray(r[13].items))?r[13]:null;
   paintQuota();   /* 상단 고정 잔여 사용량 칩(모든 탭) */
 
   ((pub&&pub.publishedRels)||[]).forEach(function(x){ PUBSET[String(x)]=1; });
@@ -2127,7 +2148,7 @@ function observeRise(root){
            ③발행 편수 = posts.json 의 created(사이트에 실제로 올라간 글) · 실패율 = /requests 의 failed·skipped ÷ 종결
            ④잔여 사용량 = _trend/_quota.json(이 PC 계정 Max 한도 창).
    숫자는 실측만 — 스냅샷이 없으면 «스냅샷 없음»이지 0 이 아니다. 차트는 얇은 막대·2px 표면 간격·범례·툴팁·표 뷰(sr). */
-var USAGE=null, QUOTA=null, CITES=null, MIX=null, REQS_OK=false;   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
+var USAGE=null, QUOTA=null, CITES=null, MIX=null, REFRESH=null, REQS_OK=false;   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
 var W_ORDER=PREF.concat(['기타/공용']);
 var LIMIT_LABEL={session:'5시간 창',weekly_all:'7일 전체',weekly_scoped:'7일 모델별'};
 var WD=['일','월','화','수','목','금','토'];
@@ -2724,10 +2745,60 @@ function tileMix(){
     '<div class="tile-b">'+body+'</div></div></section>';
 }
 
+/* ══════════ 홈 — 「갱신할 글」 (2026-10-19 사용자 지시) ══════════
+   출처 = _trend/_refresh.json(_tools/refresh-due.py --all · 데스크 [E] 하루 1회) = 글 폴더 _qa/refresh.json 모음.
+   글에 «다시 정리해서 올릴게요»·예정된 변경 날짜가 있으면 작성 서브가 기록을 남긴다(작성자 ai-briefing R10 · 네이버 가이드 원칙 ⑤ «정보가 바뀌면 글을 수정»).
+   남은 날은 스냅샷 값이 아니라 «지금» 날짜로 다시 센다(스냅샷은 06:00 하루 1회라 낮에 열면 하루 어긋난다).
+   상태는 색만이 아니라 글자로도 나른다(«2일 지남»·«오늘»·«3일 남음»). 스냅샷이 없으면 «스냅샷 없음», 기록이 없으면 «갱신할 글 없음» — 0 위장 금지. */
+var RF_MAX=6;
+function rfLeft(due){
+  var a=Date.parse(String(due)+'T00:00:00'), b=Date.parse(kstDay(Date.now())+'T00:00:00');
+  return (isNaN(a)||isNaN(b))?null:Math.round((a-b)/86400000);
+}
+function tileRefresh(){
+  var items=(REFRESH&&REFRESH.items)||[], bad=(REFRESH&&Array.isArray(REFRESH.bad))?REFRESH.bad.length:0, body, foot='';
+  var rows=items.map(function(it){ return {it:it, left:rfLeft(it.due)}; })
+    .sort(function(x,y){ return String(x.it.due).localeCompare(String(y.it.due)); });
+  /* 형식이 깨져 못 읽은 기록(bad)은 «없음»에 섞지 않는다 — 0 위장 금지(10-19 게이트 🟡1) */
+  var badTx=bad?'<span class="rf-bad">읽지 못한 기록 <b>'+bad+'</b>건</span>':'';
+  if(!REFRESH)body='<div class="wl-empty">스냅샷 없음</div>';
+  else if(!rows.length){
+    body='<div class="wl-empty">갱신할 글 없음</div>';
+    if(bad)foot='<div class="wl-f rf-f">'+badTx+'</div>';
+  }
+  else{
+    body=rows.slice(0,RF_MAX).map(function(x){
+      var it=x.it, w=it.writer||'', L=x.left, d=String(it.due||'').split('-');
+      var st=L==null?'':(L<0?'late':(L===0?'today':'soon'));
+      var stx=L==null?'':(L<0?(-L)+'일 지남':(L===0?'오늘':L+'일 남음'));
+      var md=d.length===3?(Number(d[1])+'.'+Number(d[2])):esc(it.due||'');
+      var fix=Array.isArray(it.fix)&&it.fix.length?' · 고칠 곳 '+it.fix.join(' / '):'';
+      var t=esc(it.title||it.post||''), why=esc((it.why||'')+fix);
+      return '<div class="wl-row rf-row" style="--ac:'+(w?wac(w):'var(--ink-4)')+'">'+
+        '<span class="wl-w"><span class="dot"></span><span>'+esc(w||'—')+'</span></span>'+
+        (it.rel?'<a class="wl-t rf-t" href="'+encRel(it.rel)+'" target="_blank" rel="noopener" title="'+t+'">'+t+'</a>'
+               :'<span class="wl-t" title="'+t+'">'+t+'</span>')+
+        /* 날짜 칸·상태 칸을 고정 폭 두 칸으로 — 행마다 날짜 x 가 같아야 기한순 목록을 훑을 수 있다(게이트 🟡3) */
+        '<span class="rf-s '+st+'"><b>'+md+'</b><span>'+stx+'</span></span>'+
+        '<span class="rf-why" title="'+why+'">'+why+'</span>'+   /* ★마지막 자식 — .wl-row 그리드 자동배치(스텝퍼 줄과 같은 규칙) */
+      '</div>';
+    }).join('');
+    var late=rows.filter(function(x){ return x.left!=null&&x.left<=0; }).length,
+        week=rows.filter(function(x){ return x.left!=null&&x.left>0&&x.left<=7; }).length;
+    foot='<div class="wl-f rf-f"><span>기한 지남·오늘 <b>'+late+'</b></span><span>7일 안 <b>'+week+'</b></span><span>전체 <b>'+rows.length+'</b></span>'+
+      (rows.length>RF_MAX?'<span>외 <b>'+(rows.length-RF_MAX)+'</b>건</span>':'')+badTx+'</div>';
+  }
+  var up=REFRESH&&REFRESH.updated?Date.parse(REFRESH.updated):0;
+  return '<section class="tray tile rise" id="tileRefresh"><div class="core">'+
+    '<div class="tile-h"><span class="tile-ic">'+svg('refresh')+'</span><span class="tile-t">갱신할 글</span>'+
+      '<span class="tile-d">갱신 약속 · 기한순</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
+    '<div class="wl">'+body+'</div>'+foot+'</div></section>';
+}
+
 function renderHome(){
   setTitle('홈');
   setMeta(homeMeta());
-  viewEl.innerHTML='<div class="bento">'+tileWork()+tileUsage()+tileCite()+tileMix()+'</div>';   /* 4타일: 작업 중(5) · 사용량(7) · 블로그 활동(12) · 주제 비중(12, 09-18) — 잔여 사용량은 상단 칩 */
+  viewEl.innerHTML='<div class="bento">'+tileWork()+tileUsage()+tileCite()+tileMix()+tileRefresh()+'</div>';   /* 5타일: 작업 중(5) · 사용량(7) · 블로그 활동(12) · 주제 비중(12, 09-18) · 갱신할 글(12, 10-19) — 잔여 사용량은 상단 칩 */
   observeRise(viewEl);
   bindCharts(viewEl);
   paintNav();
@@ -2735,7 +2806,7 @@ function renderHome(){
 /* 새 데이터가 오면 «작업 중»·«일간 발행» 타일만 제자리에서 교체한다(전체 재렌더·재애니메이션 금지) */
 function paintHomeLive(){
   if(S.view!=='home')return;
-  [['tileWork',tileWork],['tileUsage',tileUsage]].forEach(function(t){
+  [['tileWork',tileWork],['tileUsage',tileUsage],['tileRefresh',tileRefresh]].forEach(function(t){   /* 갱신할 글 = 자정을 넘기면 «오늘/N일 남음»이 바뀐다(10-19) */
     var old=el(t[0]); if(!old)return;
     var tmp=document.createElement('div'); tmp.innerHTML=t[1]();
     var nu=tmp.firstElementChild.querySelector('.core'), core=old.querySelector('.core');
