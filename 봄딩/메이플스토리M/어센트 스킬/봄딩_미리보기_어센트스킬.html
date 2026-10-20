@@ -1,0 +1,240 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메이플스토리M 어센트 스킬, HEXA 스킬에서 확인하는 곳과 해금 조건·재료 정리</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap.mine{border-color:#7aa2e8;background:#eef4ff;color:#1a4fa0;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">메이플스토리M 어센트 스킬, HEXA 스킬에서 확인하는 곳과 해금 조건·재료 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.20</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: 메이플스토리M 어센트 스킬 어디서 확인 / 메이플스토리M 어센트 스킬 재료 / 메이플스토리M 어센트 스킬 해금 조건 -->
+<p>메이플스토리M 10주년을 맞아 나온 업데이트로 HEXA 스킬에 어센트 스킬 코어가 추가됐어요. 어디서 열고 뭐가 필요한지 헷갈리는 분, 특히 250레벨 안팎에서 코어가 보이는지 궁금하신 분께 맞춘 글이에요.</p>
+<p>저는 공식 10주년 이벤트 페이지와 게임메카·샌드이코노미 보도를 먼저 읽어 봤고, 인게임 체험은 아직 못 했어요. 기준 시점은 2026년 10월 20일입니다.</p>
+<ul><li><b>확인하는 곳</b>은 HEXA매트릭스 창의 HEXA 스킬 탭이에요. 공식 소개에 어센트 스킬 코어가 HEXA 스킬에 추가됐다고 적혀 있어요.</li><li><b>해금 조건</b>은 공식 문구가 '250레벨 달성'과 '[6차] 새로운 힘 퀘스트 완료' 둘로 달라서, 내 화면에서 확인이 필요해요.</li><li><b>필요한 재료</b>는 솔 에르다와 솔 에르다 조각이고, 이 둘로 어센트 스킬을 활성화하고 강화합니다.</li><li><b>효과</b>는 넓은 범위의 적을 공격하는 기술이고, 보스전에서는 재사용 대기시간 없이 최대 3회까지 쓸 수 있다고 보도됐어요.</li></ul>
+<p>재료 소모량이나 강화 최대 레벨, 데미지 같은 숫자는 이번에 확인한 공식 이벤트 페이지와 보도에는 없어서 수치 표는 넣지 못했어요. 대신 인게임에서 직접 볼 체크리스트를 맨 아래에 붙여 놨습니다.</p>
+<!-- 이미지 이유: 글 머리 대표, 어센트 스킬 섹션 공식 타이틀 / 출처: https://lwi.nexon.com/m_maplestorym/event/2026/1013_10th_5B844FB73CC71EE5/ascent/title.png (흰 글씨 투명 PNG를 어두운 배경에 합성) / 분류: A형 -->
+<div class="imgwrap"><img src="img/title-on-dark.png" width="860" height="447" alt="메이플스토리M 신규 스킬 코어 어센트 스킬 공식 타이틀 이미지, 메이플스토리M에 찾아온 또 하나의 강력한 힘, 2026.10.15(목) 점검 후 표기"></div>
+<p class="cap">공식 10주년 이벤트 페이지의 어센트 스킬 소개 타이틀이에요.</p>
+<p class="src">이미지 출처: <a href="https://maplestorym.nexon.com/event/2026/1013_10th" target="_blank">메이플스토리M 10주년 이벤트 페이지</a> (저작권 넥슨) · 네이버 본문엔 받아서 재업로드 권장</p>
+<h2 class="sub">메이플스토리M 어센트 스킬은 어디서 확인하나요?</h2>
+<p>어센트 스킬은 HEXA 스킬에 새로 추가된 '신규 스킬 코어'라서, HEXA매트릭스 창의 HEXA 스킬 탭에서 코어를 확인하는 구조예요.</p>
+<p>공식 페이지는 이 기능을 '신규 스킬 코어 어센트 스킬', '메이플스토리M에 찾아온 또 하나의 강력한 힘'이라는 문구로 소개해요. 게임메카는 오리진 스킬에 이어 추가된 광범위 공격 스킬이라고 설명했는데요, 그래서 어센트 스킬을 찾으실 때는 HEXA매트릭스 창의 HEXA 스킬 탭부터 열어 보시는 게 가장 빨라요.</p>
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: HEXA매트릭스 창 HEXA 스킬 탭에서 어센트 스킬 코어가 보이는 자리</span></div>
+<div class="shoot">📸 직접 촬영 권장 — HEXA매트릭스 창의 HEXA 스킬 탭에서 코어 목록 중 어센트 스킬이 표시된 부분이 나오게 찍어 주세요 · 비슷한 화면 찾을 곳: <a href="https://maplestorym.nexon.com/event/2026/1013_10th" target="_blank">공식 10주년 이벤트 페이지</a></div>
+<p class="cap">HEXA 스킬 탭에서 어센트 스킬 코어가 놓인 모습이에요.</p>
+<div class="gap mine"><b>✍️ 봄딩 한 줄</b> — 하나만 남기고 지우기 · 안 쓰면 이 줄 통째로 지우기<br>제 HEXA 스킬 화면에서 어센트 스킬 코어는 〔바로 보였어요 / 아직 보이지 않았어요〕.</div>
+<h2 class="sub">어센트 스킬 활성화와 강화에는 무엇이 필요한가요?</h2>
+<p>활성화와 강화 재료는 솔 에르다와 솔 에르다 조각 두 가지예요.</p>
+<p>공식 그림 문구에 '솔 에르다와 솔 에르다 조각을 재료로 사용하여 어센트 스킬을 활성화하고 강화할 수 있다'고 적혀 있거든요. 한 번 열면 끝이 아니라 활성화로 시작해서 같은 재료로 강화까지 이어지는 구조라는 뜻이에요.</p>
+<p><b>재료 앞에서 이럴 땐 이렇게</b><br>
+· 필요 개수가 화면에 보이면 → 솔 에르다와 조각이 각각 몇 개씩 드는지 먼저 적어 두시면 좋아요. 지금으로선 내 화면에 뜬 값이 가장 확실한 기준이거든요.<br>
+· 재료가 모자라 보이면 → 둘 중 어느 쪽이 모자란지부터 가르는 게 좋아요. 공식 문구에 두 재료가 나란히 적혀 있어서, 한쪽만 모으기보다 수량을 같이 보는 편이 안전해요.<br>
+· 코어 자체가 안 보이면 → 재료 이전에 아래 해금 조건부터 살펴보시면 됩니다.</p>
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 어센트 스킬 코어 상세 화면의 재료·활성화 버튼</span></div>
+<div class="shoot">📸 직접 촬영 권장 — 코어를 눌러 들어간 상세 화면에서 솔 에르다·솔 에르다 조각 필요 개수, 보유 수량, 활성화(또는 강화) 버튼이 한 컷에 나오게 찍어 주세요 · 비슷한 화면 찾을 곳: <a href="https://maplestorym.nexon.com/event/2026/1013_10th" target="_blank">공식 10주년 이벤트 페이지</a></div>
+<p class="cap">코어 상세 화면에서 솔 에르다와 솔 에르다 조각을 확인하는 모습이에요. 필요 개수가 보인다면 이 화면에서 바로 확인할 수 있어요.</p>
+<div class="gap mine"><b>✍️ 봄딩 한 줄</b> — 하나만 남기고 지우기 · 안 쓰면 이 줄 통째로 지우기<br>활성화 화면에서 더 모자랐던 재료는 〔솔 에르다 / 솔 에르다 조각 / 둘 다 충분했어요〕.</div>
+<h2 class="sub">어센트 스킬의 보스전 효과는 뭔가요?</h2>
+<p>넓은 범위의 적을 공격하는 기술이고, 보스 전투에서는 재사용 대기시간 없이 최대 3회까지 쓸 수 있다고 알려졌어요.</p>
+<p>이 내용은 게임메카와 샌드이코노미 두 곳이 똑같이 전하고 있는데요, 공식 페이지 문구가 아니라 보도를 기준으로 한 설명이라는 점은 알고 보시는 게 좋겠습니다.</p>
+<p>게임메카 보도에 따르면 스킬을 쓰는 동안 무적 상태가 적용돼 생존성이 올라간다고 해요. 이쪽은 한 곳만 전한 내용이라, 샌드이코노미 기사에는 무적 언급이 없었어요.</p>
+<h2 class="sub">어센트 스킬 해금 조건은 250레벨인가요, 퀘스트 완료인가요?</h2>
+<p>공식 페이지 안에서도 조건 문구가 둘로 갈려서, 250레벨 달성과 '[6차] 새로운 힘' 퀘스트 완료 중 어느 쪽이 기준인지 이 글에서는 확정하지 않을게요.</p>
+<!-- 이미지 이유: 해금 조건·재료 원문 문구 증거(충돌값 설명용) / 출처: https://lwi.nexon.com/m_maplestorym/event/2026/1013_10th_5B844FB73CC71EE5/ascent/desc.png (흰 글씨 투명 PNG를 어두운 배경에 합성) / 분류: A형 -->
+<div class="imgwrap"><img src="img/desc-on-dark.png" width="819" height="344" alt="메이플스토리M 어센트 스킬 공식 안내 그림 문구, 250레벨을 달성한 캐릭터로 HEXA 스킬에 추가된 어센트 스킬 코어를 확인할 수 있고 솔 에르다와 솔 에르다 조각을 재료로 활성화하고 강화할 수 있다는 내용"></div>
+<p class="cap">공식 이벤트 페이지에 실린 안내 그림이에요. 그림에는 '250레벨'이 보라색으로 강조돼 있어요.</p>
+<p class="src">이미지 출처: <a href="https://maplestorym.nexon.com/event/2026/1013_10th" target="_blank">메이플스토리M 10주년 이벤트 페이지</a> (저작권 넥슨) · 네이버 본문엔 받아서 재업로드 권장</p>
+<table class="tbl"><tr><th>표기된 곳</th><th>조건 문구</th></tr><tr><td>안내 그림 속 문구</td><td>'250레벨을 달성한 캐릭터'로 HEXA 스킬의 어센트 스킬 코어를 확인</td></tr><tr><td>공식 이벤트 페이지의 다른 소개 문구</td><td>'[6차] 새로운 힘' 퀘스트를 완료한 캐릭터로 HEXA 스킬의 어센트 스킬 코어를 확인</td></tr></table>
+<p>두 문구가 둘 다 필요하다는 뜻인지, 한쪽만 맞아도 되는 건지, 같은 조건을 다르게 적은 것뿐인지는 공식 이벤트 페이지만으로는 가려지지 않아요. 그래서 내 캐릭터로 레벨과 퀘스트 목록을 같이 보시고, 코어가 안 보이면 둘 중 못 채운 쪽부터 챙기시면 됩니다. 레벨이 이미 250을 넘긴 캐릭터라면 퀘스트 완료 여부를, 퀘스트를 끝낸 캐릭터라면 레벨을 따로 보시는 쪽이 원인을 좁히기 쉬워요.</p>
+<p>적용 시점은 공식 이벤트 페이지 표기상 2026.10.15(목) 점검 후부터예요.</p>
+<h2 class="sub">인게임에서 직접 확인할 체크리스트는 뭔가요?</h2>
+<p>HEXA 스킬 탭의 코어 표시, 해금 조건, 재료 수량, 강화 한도, 보스전 3회까지 순서대로 보시면 돼요.</p>
+<table class="tbl"><tr><th>순서</th><th>볼 곳</th><th>확인할 것</th></tr><tr><td>1</td><td>HEXA매트릭스 창 HEXA 스킬 탭</td><td>어센트 스킬 코어가 떠 있는지</td></tr><tr><td>2</td><td>캐릭터 레벨·퀘스트 목록</td><td>레벨 250 이상인지, '[6차] 새로운 힘' 퀘스트가 완료로 떠 있는지 (코어가 안 보이면 둘 다 살펴보시면 좋아요)</td></tr><tr><td>3</td><td>코어 상세 화면</td><td>활성화에 드는 솔 에르다·솔 에르다 조각 개수와 내 보유량 (나란히 메모해 두면 편해요)</td></tr><tr><td>4</td><td>강화 화면</td><td>오를 수 있는 레벨 한도와 단계마다 달라지는 효과 문구</td></tr><tr><td>5</td><td>보스전</td><td>재사용 대기시간 없이 연달아 3번 나가는지, 사용 중 무적 표시가 있는지 직접 비교해 보시는 걸 추천드려요</td></tr></table>
+<h2 class="sub">자주 묻는 질문</h2>
+<p><b>Q. 어센트 스킬 해금에 282레벨이 필요한가요?</b><br>아니에요. 282레벨은 같은 업데이트에서 소개된 신규 지역 '아르테리아'의 입장 조건으로 보도된 값이고, 어센트 스킬 쪽 조건과는 별개예요. 어센트 스킬은 위에서 본 두 가지 문구만 공식 페이지에 적혀 있습니다.</p>
+<p><b>Q. 어센트 스킬 공식 시연 영상은 어디서 보나요?</b><br>공식 10주년 이벤트 페이지의 어센트 스킬 섹션에 시연 영상 3개가 올라와 있어요. 영상 속 스킬 모양까지는 이 글에서 확인하지 못해서 적지 않았고요, 궁금하시면 그쪽에서 바로 보시는 게 빠릅니다.</p>
+<p><b>Q. PC 메이플스토리의 어센트 스킬과 같은 건가요?</b><br>이 글은 모바일 메이플스토리M 10주년 소개만 기준으로 했어요. 서비스가 따로 도는 게임이라 PC 쪽 자료에 나온 숫자나 직업 조건을 모바일에 그대로 가져다 쓰시면 안 돼요.</p>
+<h2 class="sub">메이플스토리M 어센트 스킬 정리</h2>
+<p><b>HEXA 스킬 탭에서 코어를 찾고, 솔 에르다와 솔 에르다 조각으로 열어서, 보스전에서 3회 써 보는 순서</b>로 보시면 됩니다. 적용 직업은 이번에 확인한 공식 이벤트 페이지와 보도에 나와 있지 않았고, 업데이트 직후라 조건이나 수치가 나중에 정정될 수도 있어요. 화면에 뜬 값은 따로 적어 두고 나중에 비교해 보세요. 모두 즐겜하세요~</p>
+<p><b>참고한 곳</b><br>
+· <a href="https://maplestorym.nexon.com/event/2026/1013_10th" target="_blank">메이플스토리M 10주년 이벤트 페이지 — 어센트 스킬 섹션</a></p>
+<p><b>함께 본 기사(공식 아님·보도)</b><br>
+· <a href="https://www.gamemeca.com/view.php?gid=1781902" target="_blank">게임메카 — 메이플스토리M 10주년 업데이트 기사</a><br>
+· <a href="https://sateconomy.co.kr/news/view/1065602163225399" target="_blank">샌드이코노미 — 메이플스토리M 10주년 업데이트 기사</a></p>
+<p>기준 시점 2026.10.20</p>
+    <div class="tags">#메이플스토리M #메이플스토리M어센트스킬 #어센트스킬 #HEXA스킬 #솔에르다 #솔에르다조각 #메이플스토리M10주년 #6차새로운힘</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 6가지(약 5분):</b> 📷 <b>사진 4곳</b> 업로드 · ✍️ <b>한 줄 2곳</b>(골라서 하나만 남기기 · 안 쓰면 그 줄 지우기). 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플스토리M 어센트 스킬, HEXA 스킬에서 확인하는 곳과 해금 조건·재료 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>메이플스토리M 10주년을 맞아 나온 업데이트로 HEXA 스킬에 어센트 스킬 코어가 추가됐어요. 어디서 열고 뭐가 필요한지 헷갈리는 분, 특히 250레벨 안팎에서 코어가 보이는지 궁금하신 분께 맞춘 글이에요.</p>
+<p>저는 공식 10주년 이벤트 페이지와 게임메카·샌드이코노미 보도를 먼저 읽어 봤고, 인게임 체험은 아직 못 했어요. 기준 시점은 2026년 10월 20일입니다.</p>
+<ul><li><b>확인하는 곳</b>은 HEXA매트릭스 창의 HEXA 스킬 탭이에요. 공식 소개에 어센트 스킬 코어가 HEXA 스킬에 추가됐다고 적혀 있어요.</li><li><b>해금 조건</b>은 공식 문구가 '250레벨 달성'과 '[6차] 새로운 힘 퀘스트 완료' 둘로 달라서, 내 화면에서 확인이 필요해요.</li><li><b>필요한 재료</b>는 솔 에르다와 솔 에르다 조각이고, 이 둘로 어센트 스킬을 활성화하고 강화합니다.</li><li><b>효과</b>는 넓은 범위의 적을 공격하는 기술이고, 보스전에서는 재사용 대기시간 없이 최대 3회까지 쓸 수 있다고 보도됐어요.</li></ul>
+<p>재료 소모량이나 강화 최대 레벨, 데미지 같은 숫자는 이번에 확인한 공식 이벤트 페이지와 보도에는 없어서 수치 표는 넣지 못했어요. 대신 인게임에서 직접 볼 체크리스트를 맨 아래에 붙여 놨습니다.</p>
+<p class="ph">📷 〔사진 자리 1〕 어센트 스킬 공식 타이틀 이미지(공식 10주년 이벤트 페이지 title.png) — 네이버에서 직접 업로드</p>
+<p>공식 10주년 이벤트 페이지의 어센트 스킬 소개 타이틀이에요.</p>
+<h3>메이플스토리M 어센트 스킬은 어디서 확인하나요?</h3>
+<p>어센트 스킬은 HEXA 스킬에 새로 추가된 '신규 스킬 코어'라서, HEXA매트릭스 창의 HEXA 스킬 탭에서 코어를 확인하는 구조예요.</p>
+<p>공식 페이지는 이 기능을 '신규 스킬 코어 어센트 스킬', '메이플스토리M에 찾아온 또 하나의 강력한 힘'이라는 문구로 소개해요. 게임메카는 오리진 스킬에 이어 추가된 광범위 공격 스킬이라고 설명했는데요, 그래서 어센트 스킬을 찾으실 때는 HEXA매트릭스 창의 HEXA 스킬 탭부터 열어 보시는 게 가장 빨라요.</p>
+<p class="ph">📷 〔사진 자리 2〕 HEXA매트릭스 창 HEXA 스킬 탭에서 어센트 스킬 코어가 보이는 자리 — 직접 촬영해서 네이버에서 업로드</p>
+<p>HEXA 스킬 탭에서 어센트 스킬 코어가 놓인 모습이에요.</p>
+<p class="ph">✍️ 〔봄딩 한 줄 — 하나만 남기기〕 제 HEXA 스킬 화면에서 어센트 스킬 코어는 〔바로 보였어요 / 아직 보이지 않았어요〕.</p>
+<h3>어센트 스킬 활성화와 강화에는 무엇이 필요한가요?</h3>
+<p>활성화와 강화 재료는 솔 에르다와 솔 에르다 조각 두 가지예요.</p>
+<p>공식 그림 문구에 '솔 에르다와 솔 에르다 조각을 재료로 사용하여 어센트 스킬을 활성화하고 강화할 수 있다'고 적혀 있거든요. 한 번 열면 끝이 아니라 활성화로 시작해서 같은 재료로 강화까지 이어지는 구조라는 뜻이에요.</p>
+<p><b>재료 앞에서 이럴 땐 이렇게</b><br>
+· 필요 개수가 화면에 보이면 → 솔 에르다와 조각이 각각 몇 개씩 드는지 먼저 적어 두시면 좋아요. 지금으로선 내 화면에 뜬 값이 가장 확실한 기준이거든요.<br>
+· 재료가 모자라 보이면 → 둘 중 어느 쪽이 모자란지부터 가르는 게 좋아요. 공식 문구에 두 재료가 나란히 적혀 있어서, 한쪽만 모으기보다 수량을 같이 보는 편이 안전해요.<br>
+· 코어 자체가 안 보이면 → 재료 이전에 아래 해금 조건부터 살펴보시면 됩니다.</p>
+<p class="ph">📷 〔사진 자리 3〕 어센트 스킬 코어 상세 화면의 재료·활성화 버튼 — 직접 촬영해서 네이버에서 업로드</p>
+<p>코어 상세 화면에서 솔 에르다와 솔 에르다 조각을 확인하는 모습이에요. 필요 개수가 보인다면 이 화면에서 바로 확인할 수 있어요.</p>
+<p class="ph">✍️ 〔봄딩 한 줄 — 하나만 남기기〕 활성화 화면에서 더 모자랐던 재료는 〔솔 에르다 / 솔 에르다 조각 / 둘 다 충분했어요〕.</p>
+<h3>어센트 스킬의 보스전 효과는 뭔가요?</h3>
+<p>넓은 범위의 적을 공격하는 기술이고, 보스 전투에서는 재사용 대기시간 없이 최대 3회까지 쓸 수 있다고 알려졌어요.</p>
+<p>이 내용은 게임메카와 샌드이코노미 두 곳이 똑같이 전하고 있는데요, 공식 페이지 문구가 아니라 보도를 기준으로 한 설명이라는 점은 알고 보시는 게 좋겠습니다.</p>
+<p>게임메카 보도에 따르면 스킬을 쓰는 동안 무적 상태가 적용돼 생존성이 올라간다고 해요. 이쪽은 한 곳만 전한 내용이라, 샌드이코노미 기사에는 무적 언급이 없었어요.</p>
+<h3>어센트 스킬 해금 조건은 250레벨인가요, 퀘스트 완료인가요?</h3>
+<p>공식 페이지 안에서도 조건 문구가 둘로 갈려서, 250레벨 달성과 '[6차] 새로운 힘' 퀘스트 완료 중 어느 쪽이 기준인지 이 글에서는 확정하지 않을게요.</p>
+<p class="ph">📷 〔사진 자리 4〕 공식 이벤트 페이지의 어센트 스킬 안내 그림(250레벨 문구, desc.png) — 네이버에서 직접 업로드</p>
+<p>공식 이벤트 페이지에 실린 안내 그림이에요. 그림에는 '250레벨'이 보라색으로 강조돼 있어요.</p>
+<table><tr><th>표기된 곳</th><th>조건 문구</th></tr><tr><td>안내 그림 속 문구</td><td>'250레벨을 달성한 캐릭터'로 HEXA 스킬의 어센트 스킬 코어를 확인</td></tr><tr><td>공식 이벤트 페이지의 다른 소개 문구</td><td>'[6차] 새로운 힘' 퀘스트를 완료한 캐릭터로 HEXA 스킬의 어센트 스킬 코어를 확인</td></tr></table>
+<p>두 문구가 둘 다 필요하다는 뜻인지, 한쪽만 맞아도 되는 건지, 같은 조건을 다르게 적은 것뿐인지는 공식 이벤트 페이지만으로는 가려지지 않아요. 그래서 내 캐릭터로 레벨과 퀘스트 목록을 같이 보시고, 코어가 안 보이면 둘 중 못 채운 쪽부터 챙기시면 됩니다. 레벨이 이미 250을 넘긴 캐릭터라면 퀘스트 완료 여부를, 퀘스트를 끝낸 캐릭터라면 레벨을 따로 보시는 쪽이 원인을 좁히기 쉬워요.</p>
+<p>적용 시점은 공식 이벤트 페이지 표기상 2026.10.15(목) 점검 후부터예요.</p>
+<h3>인게임에서 직접 확인할 체크리스트는 뭔가요?</h3>
+<p>HEXA 스킬 탭의 코어 표시, 해금 조건, 재료 수량, 강화 한도, 보스전 3회까지 순서대로 보시면 돼요.</p>
+<table><tr><th>순서</th><th>볼 곳</th><th>확인할 것</th></tr><tr><td>1</td><td>HEXA매트릭스 창 HEXA 스킬 탭</td><td>어센트 스킬 코어가 떠 있는지</td></tr><tr><td>2</td><td>캐릭터 레벨·퀘스트 목록</td><td>레벨 250 이상인지, '[6차] 새로운 힘' 퀘스트가 완료로 떠 있는지 (코어가 안 보이면 둘 다 살펴보시면 좋아요)</td></tr><tr><td>3</td><td>코어 상세 화면</td><td>활성화에 드는 솔 에르다·솔 에르다 조각 개수와 내 보유량 (나란히 메모해 두면 편해요)</td></tr><tr><td>4</td><td>강화 화면</td><td>오를 수 있는 레벨 한도와 단계마다 달라지는 효과 문구</td></tr><tr><td>5</td><td>보스전</td><td>재사용 대기시간 없이 연달아 3번 나가는지, 사용 중 무적 표시가 있는지 직접 비교해 보시는 걸 추천드려요</td></tr></table>
+<h3>자주 묻는 질문</h3>
+<p><b>Q. 어센트 스킬 해금에 282레벨이 필요한가요?</b><br>아니에요. 282레벨은 같은 업데이트에서 소개된 신규 지역 '아르테리아'의 입장 조건으로 보도된 값이고, 어센트 스킬 쪽 조건과는 별개예요. 어센트 스킬은 위에서 본 두 가지 문구만 공식 페이지에 적혀 있습니다.</p>
+<p><b>Q. 어센트 스킬 공식 시연 영상은 어디서 보나요?</b><br>공식 10주년 이벤트 페이지의 어센트 스킬 섹션에 시연 영상 3개가 올라와 있어요. 영상 속 스킬 모양까지는 이 글에서 확인하지 못해서 적지 않았고요, 궁금하시면 그쪽에서 바로 보시는 게 빠릅니다.</p>
+<p><b>Q. PC 메이플스토리의 어센트 스킬과 같은 건가요?</b><br>이 글은 모바일 메이플스토리M 10주년 소개만 기준으로 했어요. 서비스가 따로 도는 게임이라 PC 쪽 자료에 나온 숫자나 직업 조건을 모바일에 그대로 가져다 쓰시면 안 돼요.</p>
+<h3>메이플스토리M 어센트 스킬 정리</h3>
+<p><b>HEXA 스킬 탭에서 코어를 찾고, 솔 에르다와 솔 에르다 조각으로 열어서, 보스전에서 3회 써 보는 순서</b>로 보시면 됩니다. 적용 직업은 이번에 확인한 공식 이벤트 페이지와 보도에 나와 있지 않았고, 업데이트 직후라 조건이나 수치가 나중에 정정될 수도 있어요. 화면에 뜬 값은 따로 적어 두고 나중에 비교해 보세요. 모두 즐겜하세요~</p>
+<p><b>참고한 곳</b><br>
+· <a href="https://maplestorym.nexon.com/event/2026/1013_10th" target="_blank">메이플스토리M 10주년 이벤트 페이지 — 어센트 스킬 섹션</a></p>
+<p><b>함께 본 기사(공식 아님·보도)</b><br>
+· <a href="https://www.gamemeca.com/view.php?gid=1781902" target="_blank">게임메카 — 메이플스토리M 10주년 업데이트 기사</a><br>
+· <a href="https://sateconomy.co.kr/news/view/1065602163225399" target="_blank">샌드이코노미 — 메이플스토리M 10주년 업데이트 기사</a></p>
+<p>기준 시점 2026.10.20</p>
+<div class="tags-line">#메이플스토리M #메이플스토리M어센트스킬 #어센트스킬 #HEXA스킬 #솔에르다 #솔에르다조각 #메이플스토리M10주년 #6차새로운힘</div>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
