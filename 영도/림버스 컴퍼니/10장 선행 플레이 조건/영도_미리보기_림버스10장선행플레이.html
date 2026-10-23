@@ -1,0 +1,258 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>림버스 컴퍼니 10장 선행 플레이 조건, 1장 클리어 후 먼저 하면 잠기는 콘텐츠 정리</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .guidenote{color:#999;font-size:13px;margin-bottom:6px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post ul{font-size:15.5px;line-height:1.95;margin:0 0 18px;padding-left:22px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px 8px 0 0;margin:6px 0 0;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:0 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td.l{text-align:left;}
+  .box{background:#eef4ff;border:1px solid #cfe0ff;border-radius:8px;padding:16px 18px;margin:6px 0 22px;font-size:15px;line-height:1.9;}
+  .box .h{font-weight:800;color:#2d6cdf;margin-bottom:6px;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  .refs{margin-top:18px;font-size:13.5px;line-height:1.9;color:#444;}
+  .refs a{color:#1a73e8;text-decoration:none;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">게임공략</div>
+    <h1 class="title">림버스 컴퍼니 10장 선행 플레이 조건, 1장 클리어 후 먼저 하면 잠기는 콘텐츠 정리</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026. 10. 23.</span><span>· 게임</span></div>
+    <div class="guidenote">※ 다른 공략은 댓글을 참고해 주세요.</div>
+    <div class="guidenote">※ 스포일러 주의: 10장 진행 내용 일부를 언급합니다.</div>
+
+    <p>1장만 깨고 10장부터 달려도 되나 싶어서 찾아보는 분들이 꽤 있으실 텐데요, 결론부터 말하면 됩니다. 다만 10장을 깼다고 2~9장이 같이 끝나는 건 아니라서, 이전 스토리가 있어야 열리는 콘텐츠는 그대로 잠겨 있어요.</p>
+    <p>이 글은 프로젝트문 공지 내용 기준으로 정리했습니다. 인게임 한글 표기를 확인 못 한 이름은 영문을 괄호로 같이 적었고, 공지에 설명이 없는 부분은 <b>인게임에서 확인해 보셔야 해요</b>라고 짚어 뒀어요.</p>
+    <div class="box"><div class="h">📜 QUEST LOG ┃ 글 한눈에 보기</div>1. 열리는 범위 → 2. 잠기는 콘텐츠 → 3. 선행 때 알아둘 점 → 4. 순차냐 선행이냐 → 5. 하편 보스 조정과 모바일 사양</div>
+
+    <h2 class="sec">1. 1장 클리어로 열리는 범위</h2>
+    <p>1장을 클리어하면 열리는 건 메인 스토리 10장 하나뿐이고, 2~9장은 건너뛰고 바로 들어갈 수 있어요.</p>
+    <table class="tbl">
+<tr><th>항목</th><th>내용</th></tr>
+<tr><td>필요 조건</td><td class="l">1장(Canto 1) 클리어</td></tr>
+<tr><td>열리는 것</td><td class="l">10장만, 2~9장 클리어 여부는 상관없음</td></tr>
+<tr><td>10장 클리어 후</td><td class="l">2~9장이 자동으로 완료 처리되지 않음</td></tr>
+    </table>
+    <!-- 이미지 이유: 1번 섹션 — 조건 표 직후, 실제 장 선택 화면으로 확인하는 자리 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 1장만 클리어한 계정의 메인 스토리 장 선택 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장: 진행도가 낮은 계정(또는 1장만 깬 상태)에서 장 선택 목록을 열어 10장 버튼과 2~9장 상태가 한 화면에 들어오게 캡처</div>
+    <p class="cap">1장만 깬 계정에서 장 선택 화면을 열면 10장 쪽이 어떻게 표시되는지 직접 비교해 보세요.</p>
+    <p>Steam 뉴스 기준으로 10장은 9월 17일 상편, 24일 중편, 10월 1일 하편으로 나뉘어 공개됐고, 오늘 기준으로 세 편 다 열려 있어요.</p>
+    <p>게임메카 보도로는 업데이트 뒤 스팀 기준 하루 최대 동시접속자가 12만 5,872명까지 올라 두 달 만에 10만 명대를 넘겼다고 하니, 지금 막 들어오는 분이 많은 것도 이해가 갑니다. 디렉터 공지에 적힌 도입 의도는, 신규 관리자가 10장의 새 플레이 방식을 일찍 맛보고 마음에 들면 2장부터 돌아오라는 쪽이에요.</p>
+    <h2 class="sec">2. 선행해도 잠기는 콘텐츠</h2>
+    <p>메인 스토리 진행이 필요한 콘텐츠는 10장을 먼저 깨도 이전 스토리를 클리어하기 전까지 이용할 수 없어요.</p>
+    <ul><li><b>거울 던전</b>(Mirror Dungeon)</li><li><b>굴절 철도</b>(Refraction Railway)</li><li><b>룩스카베이션</b>(Luxcavation)</li><li><b>리플렉트리얼</b>(Reflectrial)</li></ul>
+    <p>위 네 가지가 공지에서 예로 든 이름이고, 이전 메인 스토리를 깨야 열린다고 적혀 있어요. 신규 분이 제일 먼저 부딪힐 곳은 거울 던전 쪽일 텐데, 10장 맛보기로 시작했다면 이쪽은 한동안 구경만 하게 될 수 있습니다. 한글 명칭 전체 목록과 잠기는 콘텐츠의 정확한 범위는 인게임에서 확인해 보셔야 해요.</p>
+    <p>그럼 나중에 이전 장을 깨면 어떻게 되느냐인데, 공지 내용으로는 자동 해금이 아니라 콘텐츠별로 여는 방식이에요. 잠겨 있던 콘텐츠마다 요구하는 선행 조건이 따로 있고, 그 조건을 하나씩 채워야 콘텐츠도 하나씩 열립니다.</p>
+    <p>그러니 콘텐츠마다 열리는 시점이 다를 수 있다고 보시는 게 안전해요. 공지가 방향만 알려 주는 수준이라 콘텐츠별 조건표는 인게임에서 확인해 보셔야 하고, 10장 선행 기록이 2~9장 진행에 반영되는지, 보상이 겹치는지도 공지에 설명이 없습니다.</p>
+    <p>앞으로 새로 나올 콘텐츠 중 10장 클리어를 선행 조건으로 거는 것은 10장에 더해 스테이지 9.5-26까지 깨야 열린다고 안내돼 있어요. 문구가 '앞으로'의 콘텐츠를 가리키고 있어서 지금 있는 콘텐츠에 적용되는지는 알 수 없고, 뒤에서 다룰 스포일러 지점(Intervallo VII-2)과는 별개 문장입니다. 실제 적용처는 인게임에서 확인해 보셔야 해요.</p>
+    <!-- 이미지 이유: 2번 섹션 — 잠기는 콘텐츠 설명 직후, 실제 잠금 안내 화면으로 대조하는 자리 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 거울 던전 등 콘텐츠 입장 시 뜨는 잠금 안내 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장: 10장만 연 상태에서 거울 던전, 굴절 철도, 룩스카베이션 입장 시 뜨는 안내 창을 콘텐츠별로 1장씩 캡처(한 장으로 합쳐도 됨)</div>
+    <p class="cap">잠금 안내 창이 뜨면 거기 적힌 문구를 그대로 확인해 두세요.</p>
+    <h2 class="sec">3. 선행할 때 알아둘 점</h2>
+    <p>선행하면 진입할 때 스포일러 경고가 뜨고, 10장 동안은 아군 인격이 최소 동기화(업티, Uptie) 3으로 보장돼요.</p>
+    <ul><li><b>스포일러</b>: 10장은 Intervallo VII-2(9.5장 후반 파트)까지의 내용을 품고 있어서, 그 지점을 안 본 분은 들어갈 때 경고 팝업이 나와요.</li><li><b>업티 보장</b>: 10장 동안 쓰는 인격은 뫼르소를 포함해 최소 업티 3으로 맞춰지고, E.G.O 쓰레드스피닝(Threadspinning) 단계는 그대로예요.</li></ul>
+    <!-- 이미지 이유: 3번 섹션 — 스포일러 경고 설명 직후, 팝업 화면으로 확인하는 자리 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 10장 입장 시 뜨는 스포일러 경고 팝업</span></div>
+    <div class="shoot">📸 직접 촬영 권장: Intervallo VII-2 지점을 보지 않은 계정에서 10장 입장 시 뜨는 경고 팝업을 캡처</div>
+    <p class="cap">이 팝업이 뜨면 스포일러가 싫은 분은 여기서 순차 진행으로 돌아가세요.</p>
+    <p>뫼르소는 일부 서포트 인격과 E.G.O를 업티·쓰레드스피닝 4단계 기준으로 씁니다. 쓰레드스피닝은 영문 Threadspinning을 그대로 옮긴 표기이고, 인게임 한글 공식명은 확인하지 못했어요.</p>
+    <p>인격이 덜 모인 신규 분을 위한 안전장치라고 보면 되는데요, 공지 도입부는 10장 앞부분(Part 1)까지는 강화 없이 즐기게 하는 것이 목표라고 밝혀요. 그 뒤 구간은 전투 기믹을 이해하고 강화된 편성을 갖춰야 한다는 안내가 붙어 있으니, 막히면 편성부터 손보세요. 10장에서 받는 보상이 정규 진행과 다른지는 공지에 언급이 없어서 인게임에서 확인해 보셔야 해요.</p>
+    <!-- 이미지 이유: 3번 섹션 — 업티 보장 설명 직후, 편성 화면으로 대조하는 자리 / 분류: B형(직접 캡처) -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 10장 편성 화면, 인격 카드의 업티 표시</span></div>
+    <div class="shoot">📸 직접 촬영 권장: 10장 편성 화면에서 인격 카드의 업티 표시가 읽히게 캡처</div>
+    <p class="cap">편성 화면에서 인격 업티가 어떻게 표시되는지 확인해 보세요.</p>
+    <h2 class="sec">4. 순차냐 선행이냐</h2>
+    <p>스토리 순서를 지키고 싶다면 순차 진행이, 10장의 새 플레이를 먼저 맛보고 싶다면 선행이 맞아요.</p>
+    <table class="tbl">
+<tr><th>선택</th><th>열리는 콘텐츠</th><th>스포일러</th></tr>
+<tr><td>순차 진행</td><td class="l">진행하는 만큼 순서대로 해금</td><td class="l">장 순서대로 접함</td></tr>
+<tr><td>1장 후 10장 선행</td><td class="l">10장만, 거울 던전 등은 잠김</td><td class="l">9.5장 후반 파트(Intervallo VII-2)까지 먼저 접함</td></tr>
+    </table>
+    <p>스토리를 천천히 즐기는 편이라면 순차 진행하세요. 선행하면 뒤 이야기를 먼저 알아버립니다. 10장 전투가 궁금해서 들어왔다면 선행하시면 되고, 업티 보장 덕에 시작하기 쉬워요.</p>
+    <p>주인장은 10장을 눈으로 한 번 보고 마음에 들면 2장으로 돌아가는 쪽입니다. 어차피 거울 던전 같은 반복 콘텐츠는 이전 스토리를 깬 뒤에야 열리니, 10장을 먼저 봐도 손해가 크지 않다고 보기 때문이에요. 다만 성장 속도를 올리고 싶다면 결국 2장 이후를 밟아야 합니다.</p>
+    <h2 class="sec">5. 하편 보스 조정과 모바일 사양</h2>
+    <p>모바일로 들어올 분은 사양도 한 번 보세요. 10장 상편 업데이트 뒤 iOS 권장 사양이 RAM 6GB 이상, iOS 26 이상으로 올라갔고, 4GB 이하 기기는 10장 일부 구간에서 멈추거나 튕길 수 있다고 안내됐어요.</p>
+    <p>설치와 이전 콘텐츠 플레이는 가능하니, 그런 기기라면 1장 이후 이전 스토리를 먼저 밟는 쪽이 오히려 마음 편할 수 있습니다. 안드로이드 권장 사양은 달라지지 않았어요.</p>
+    <p>10장 하편(Part 3) 5층 보스는 10월 8일과 15일 두 차례에 걸쳐 조정됐어요. 공식 설문에서는 응답자의 83%가 보스를 깼고, 게임 기록상으로는 직전 보스를 깬 관리자 기준 클리어 비율이 92.9%였다고 공지에 실렸습니다. 조정 항목은 보스의 일부 위력과 받는 피해 관련 효과, 출혈 부여량 쪽이에요. 10월 15일 이전에 쓰인 후기는 지금 난이도와 다를 수 있으니 날짜를 확인하세요. 보스 공략은 이 글에서 다루지 않습니다.</p>
+
+    <div class="summary"><div class="h">오늘 내용 정리</div>1장을 깨면 10장만 열리고, 10장을 깨도 2~9장은 완료 처리되지 않아요. 거울 던전 같은 연동 콘텐츠는 이전 장을 깨야 열리고, 앞으로 10장을 요구하는 콘텐츠는 9.5-26까지 필요하다고 안내돼 있습니다.</div>
+
+    <p><b>▶ 같이 보면 좋은 글</b><br>
+    · <a href="https://blog.naver.com/kkodug9/224442844964" target="_blank">림버스컴퍼니 거울던전 시즌8 5층 등반 가호, 고난 선택 공략</a><br>
+    · <a href="https://blog.naver.com/kkodug9/224436736279" target="_blank">림버스 컴퍼니 오트쿠튀르 수선실 로쟈(수료쟈, 수선쟈, 가위쟈) 운영 공략</a><br>
+    · <a href="https://blog.naver.com/kkodug9/224429989139" target="_blank">림버스컴퍼니 신발슈, 르누슈, 오트쿠튀르 르누아르 신발관 료슈 운영법 공략</a></p>
+
+    <p class="refs"><b>참고한 곳</b><br>
+      · <a href="https://www.gamemeca.com/view.php?gid=1780723" target="_blank">게임메카 — 림버스 컴퍼니 시즌8 푼크툼 업데이트 보도</a><br>
+      · <a href="https://steamcommunity.com/games/1973530/announcements/detail/705530923042472433" target="_blank">Steam 뉴스 공지(공식) — 주요 이야기 10장 선행 플레이에 대한 임시 추가 안내, 디렉터 김지훈</a><br>
+· Steam 뉴스 공지(공식) — 10월 8일·15일 정기 업데이트(하편 5층 보스 조정), iOS 권장 사양 안내</p>
+
+    <div class="tags">#림버스_컴퍼니 #림버스10장 #10장선행플레이 #림버스공략 #림버스뉴비 #림버스복귀 #거울던전 #시즌8푼크툼</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 4곳:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <span class="ti">📌 제목칸에 따로: 림버스 컴퍼니 10장 선행 플레이 조건, 1장 클리어 후 먼저 하면 잠기는 콘텐츠 정리</span>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>※ 다른 공략은 댓글을 참고해 주세요.</p>
+<p>※ 스포일러 주의: 10장 진행 내용 일부를 언급합니다.</p>
+<p>1장만 깨고 10장부터 달려도 되나 싶어서 찾아보는 분들이 꽤 있으실 텐데요, 결론부터 말하면 됩니다. 다만 10장을 깼다고 2~9장이 같이 끝나는 건 아니라서, 이전 스토리가 있어야 열리는 콘텐츠는 그대로 잠겨 있어요.</p>
+<p>이 글은 프로젝트문 공지 내용 기준으로 정리했습니다. 인게임 한글 표기를 확인 못 한 이름은 영문을 괄호로 같이 적었고, 공지에 설명이 없는 부분은 <b>인게임에서 확인해 보셔야 해요</b>라고 짚어 뒀어요.</p>
+<p>📜 QUEST LOG ┃ 글 한눈에 보기<br>1. 열리는 범위 → 2. 잠기는 콘텐츠 → 3. 선행 때 알아둘 점 → 4. 순차냐 선행이냐 → 5. 하편 보스 조정과 모바일 사양</p>
+<h3>1. 1장 클리어로 열리는 범위</h3>
+<p>1장을 클리어하면 열리는 건 메인 스토리 10장 하나뿐이고, 2~9장은 건너뛰고 바로 들어갈 수 있어요.</p>
+<table>
+<tr><th>항목</th><th>내용</th></tr>
+<tr><td>필요 조건</td><td class="l">1장(Canto 1) 클리어</td></tr>
+<tr><td>열리는 것</td><td class="l">10장만, 2~9장 클리어 여부는 상관없음</td></tr>
+<tr><td>10장 클리어 후</td><td class="l">2~9장이 자동으로 완료 처리되지 않음</td></tr>
+</table>
+<p class="ph">📷 〔사진 자리 1〕 1장만 클리어한 계정의 메인 스토리 장 선택 화면 · 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "1장만 깬 계정에서 장 선택 화면을 열면 10장 쪽이 어떻게 표시되는지 직접 비교해 보세요."</p>
+<p>Steam 뉴스 기준으로 10장은 9월 17일 상편, 24일 중편, 10월 1일 하편으로 나뉘어 공개됐고, 오늘 기준으로 세 편 다 열려 있어요.</p>
+<p>게임메카 보도로는 업데이트 뒤 스팀 기준 하루 최대 동시접속자가 12만 5,872명까지 올라 두 달 만에 10만 명대를 넘겼다고 하니, 지금 막 들어오는 분이 많은 것도 이해가 갑니다. 디렉터 공지에 적힌 도입 의도는, 신규 관리자가 10장의 새 플레이 방식을 일찍 맛보고 마음에 들면 2장부터 돌아오라는 쪽이에요.</p>
+<h3>2. 선행해도 잠기는 콘텐츠</h3>
+<p>메인 스토리 진행이 필요한 콘텐츠는 10장을 먼저 깨도 이전 스토리를 클리어하기 전까지 이용할 수 없어요.</p>
+<ul><li><b>거울 던전</b>(Mirror Dungeon)</li><li><b>굴절 철도</b>(Refraction Railway)</li><li><b>룩스카베이션</b>(Luxcavation)</li><li><b>리플렉트리얼</b>(Reflectrial)</li></ul>
+<p>위 네 가지가 공지에서 예로 든 이름이고, 이전 메인 스토리를 깨야 열린다고 적혀 있어요. 신규 분이 제일 먼저 부딪힐 곳은 거울 던전 쪽일 텐데, 10장 맛보기로 시작했다면 이쪽은 한동안 구경만 하게 될 수 있습니다. 한글 명칭 전체 목록과 잠기는 콘텐츠의 정확한 범위는 인게임에서 확인해 보셔야 해요.</p>
+<p>그럼 나중에 이전 장을 깨면 어떻게 되느냐인데, 공지 내용으로는 자동 해금이 아니라 콘텐츠별로 여는 방식이에요. 잠겨 있던 콘텐츠마다 요구하는 선행 조건이 따로 있고, 그 조건을 하나씩 채워야 콘텐츠도 하나씩 열립니다.</p>
+<p>그러니 콘텐츠마다 열리는 시점이 다를 수 있다고 보시는 게 안전해요. 공지가 방향만 알려 주는 수준이라 콘텐츠별 조건표는 인게임에서 확인해 보셔야 하고, 10장 선행 기록이 2~9장 진행에 반영되는지, 보상이 겹치는지도 공지에 설명이 없습니다.</p>
+<p>앞으로 새로 나올 콘텐츠 중 10장 클리어를 선행 조건으로 거는 것은 10장에 더해 스테이지 9.5-26까지 깨야 열린다고 안내돼 있어요. 문구가 '앞으로'의 콘텐츠를 가리키고 있어서 지금 있는 콘텐츠에 적용되는지는 알 수 없고, 뒤에서 다룰 스포일러 지점(Intervallo VII-2)과는 별개 문장입니다. 실제 적용처는 인게임에서 확인해 보셔야 해요.</p>
+<p class="ph">📷 〔사진 자리 2〕 거울 던전 등 콘텐츠 입장 시 뜨는 잠금 안내 화면 · 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "잠금 안내 창이 뜨면 거기 적힌 문구를 그대로 확인해 두세요."</p>
+<h3>3. 선행할 때 알아둘 점</h3>
+<p>선행하면 진입할 때 스포일러 경고가 뜨고, 10장 동안은 아군 인격이 최소 동기화(업티, Uptie) 3으로 보장돼요.</p>
+<ul><li><b>스포일러</b>: 10장은 Intervallo VII-2(9.5장 후반 파트)까지의 내용을 품고 있어서, 그 지점을 안 본 분은 들어갈 때 경고 팝업이 나와요.</li><li><b>업티 보장</b>: 10장 동안 쓰는 인격은 뫼르소를 포함해 최소 업티 3으로 맞춰지고, E.G.O 쓰레드스피닝(Threadspinning) 단계는 그대로예요.</li></ul>
+<p class="ph">📷 〔사진 자리 3〕 10장 입장 시 뜨는 스포일러 경고 팝업 · 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "이 팝업이 뜨면 스포일러가 싫은 분은 여기서 순차 진행으로 돌아가세요."</p>
+<p>뫼르소는 일부 서포트 인격과 E.G.O를 업티·쓰레드스피닝 4단계 기준으로 씁니다. 쓰레드스피닝은 영문 Threadspinning을 그대로 옮긴 표기이고, 인게임 한글 공식명은 확인하지 못했어요.</p>
+<p>인격이 덜 모인 신규 분을 위한 안전장치라고 보면 되는데요, 공지 도입부는 10장 앞부분(Part 1)까지는 강화 없이 즐기게 하는 것이 목표라고 밝혀요. 그 뒤 구간은 전투 기믹을 이해하고 강화된 편성을 갖춰야 한다는 안내가 붙어 있으니, 막히면 편성부터 손보세요. 10장에서 받는 보상이 정규 진행과 다른지는 공지에 언급이 없어서 인게임에서 확인해 보셔야 해요.</p>
+<p class="ph">📷 〔사진 자리 4〕 10장 편성 화면, 인격 카드의 업티 표시 · 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "편성 화면에서 인격 업티가 어떻게 표시되는지 확인해 보세요."</p>
+<h3>4. 순차냐 선행이냐</h3>
+<p>스토리 순서를 지키고 싶다면 순차 진행이, 10장의 새 플레이를 먼저 맛보고 싶다면 선행이 맞아요.</p>
+<table>
+<tr><th>선택</th><th>열리는 콘텐츠</th><th>스포일러</th></tr>
+<tr><td>순차 진행</td><td class="l">진행하는 만큼 순서대로 해금</td><td class="l">장 순서대로 접함</td></tr>
+<tr><td>1장 후 10장 선행</td><td class="l">10장만, 거울 던전 등은 잠김</td><td class="l">9.5장 후반 파트(Intervallo VII-2)까지 먼저 접함</td></tr>
+</table>
+<p>스토리를 천천히 즐기는 편이라면 순차 진행하세요. 선행하면 뒤 이야기를 먼저 알아버립니다. 10장 전투가 궁금해서 들어왔다면 선행하시면 되고, 업티 보장 덕에 시작하기 쉬워요.</p>
+<p>주인장은 10장을 눈으로 한 번 보고 마음에 들면 2장으로 돌아가는 쪽입니다. 어차피 거울 던전 같은 반복 콘텐츠는 이전 스토리를 깬 뒤에야 열리니, 10장을 먼저 봐도 손해가 크지 않다고 보기 때문이에요. 다만 성장 속도를 올리고 싶다면 결국 2장 이후를 밟아야 합니다.</p>
+<h3>5. 하편 보스 조정과 모바일 사양</h3>
+<p>모바일로 들어올 분은 사양도 한 번 보세요. 10장 상편 업데이트 뒤 iOS 권장 사양이 RAM 6GB 이상, iOS 26 이상으로 올라갔고, 4GB 이하 기기는 10장 일부 구간에서 멈추거나 튕길 수 있다고 안내됐어요.</p>
+<p>설치와 이전 콘텐츠 플레이는 가능하니, 그런 기기라면 1장 이후 이전 스토리를 먼저 밟는 쪽이 오히려 마음 편할 수 있습니다. 안드로이드 권장 사양은 달라지지 않았어요.</p>
+<p>10장 하편(Part 3) 5층 보스는 10월 8일과 15일 두 차례에 걸쳐 조정됐어요. 공식 설문에서는 응답자의 83%가 보스를 깼고, 게임 기록상으로는 직전 보스를 깬 관리자 기준 클리어 비율이 92.9%였다고 공지에 실렸습니다. 조정 항목은 보스의 일부 위력과 받는 피해 관련 효과, 출혈 부여량 쪽이에요. 10월 15일 이전에 쓰인 후기는 지금 난이도와 다를 수 있으니 날짜를 확인하세요. 보스 공략은 이 글에서 다루지 않습니다.</p>
+<p><b>오늘 내용 정리</b><br>1장을 깨면 10장만 열리고, 10장을 깨도 2~9장은 완료 처리되지 않아요. 거울 던전 같은 연동 콘텐츠는 이전 장을 깨야 열리고, 앞으로 10장을 요구하는 콘텐츠는 9.5-26까지 필요하다고 안내돼 있습니다.</p>
+<p><b>▶ 같이 보면 좋은 글</b><br>
+· <a href="https://blog.naver.com/kkodug9/224442844964" target="_blank">림버스컴퍼니 거울던전 시즌8 5층 등반 가호, 고난 선택 공략</a><br>
+· <a href="https://blog.naver.com/kkodug9/224436736279" target="_blank">림버스 컴퍼니 오트쿠튀르 수선실 로쟈(수료쟈, 수선쟈, 가위쟈) 운영 공략</a><br>
+· <a href="https://blog.naver.com/kkodug9/224429989139" target="_blank">림버스컴퍼니 신발슈, 르누슈, 오트쿠튀르 르누아르 신발관 료슈 운영법 공략</a></p>
+<p><b>참고한 곳</b><br>
+· <a href="https://www.gamemeca.com/view.php?gid=1780723" target="_blank">게임메카 — 림버스 컴퍼니 시즌8 푼크툼 업데이트 보도</a><br>
+· <a href="https://steamcommunity.com/games/1973530/announcements/detail/705530923042472433" target="_blank">Steam 뉴스 공지(공식) — 주요 이야기 10장 선행 플레이에 대한 임시 추가 안내, 디렉터 김지훈</a><br>
+· Steam 뉴스 공지(공식) — 10월 8일·15일 정기 업데이트(하편 5층 보스 조정), iOS 권장 사양 안내</p>
+<p class="tags-line">#림버스_컴퍼니 #림버스10장 #10장선행플레이 #림버스공략 #림버스뉴비 #림버스복귀 #거울던전 #시즌8푼크툼</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
