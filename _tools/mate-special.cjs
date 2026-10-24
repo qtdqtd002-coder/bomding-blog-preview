@@ -27,12 +27,16 @@
        (네이버 아침 배치가 06:00 을 조금 넘겨 들어오는 날을 잡는 용도 — mate-citations.cjs --if-raised 와 같은 생각).
      - 실패해도 exit 0(루틴을 막지 않는다). 못 읽은 블로그는 errors 에 적고 그 블로그만 빈 채로 둔다. 파일을 못 쓰면 exit 1.
      - 대상 = 스페셜 명단 ∪ 취미 분야 메이트 ∪ 고정(봄딩·영도·게임인포·겟따비므). 명단이 바뀌면(월 교체) 그날부터 자동으로 따라간다.
+     - ★10-24 추가: 25주제 «이달의 메이트» 전체 명단(10-24 실측 2,111곳)을 주제별로 읽어 `roster` 에 적는다 — 단 매일 전체를 쓰면 하루 100KB 가 늘므로
+       **구성원(id 집합)이 바뀐 날에만 전체(id·cum·new)를 쓰고, 안 바뀐 날은 `{hash, n, same:true}` 만** 남긴다(월 교체일에 자동으로 전체가 한 번 남는다).
+       취미 분야 3주제는 전과 같이 `mates` 에도 전체를 쓴다(비교 리포트가 읽는 자리).
 
    실행
      node _tools/mate-special.cjs              # 오늘 줄 수집(있으면 유지)
      node _tools/mate-special.cjs --refresh    # 누적이 올랐으면 오늘 줄 교체
      node _tools/mate-special.cjs --print      # 마지막 줄 요약(사람이 보는 표)
      node _tools/mate-special.cjs --dry        # 네트워크만, 파일 안 씀
+     node _tools/mate-special.cjs --force      # 오늘 줄 무조건 교체(명단 기준선 재설정 때만)
    호출 = Windows 작업 sseudam-mate-special(매일 06:00 · .bc-locks/mate-special.ps1 → 이 파일 1개 커밋·push). 정본 = 쓰담 06_자동화.
    함정 = 프로필 요청 170곳 × 0.35초 ≈ 1~2분. 403 이 오면 20초 쉬고 1회 재시도(aib-check 와 같은 예절). 병렬 금지.
    ========================================================================== */
@@ -52,6 +56,7 @@ const argv = process.argv.slice(2);
 const REFRESH = argv.includes('--refresh');
 const PRINT = argv.includes('--print');
 const DRY = argv.includes('--dry');
+const FORCE = argv.includes('--force');   /* 오늘 줄을 무조건 교체(명단 스냅샷 기준선을 다시 잡을 때만 · 표본 시각이 바뀐다) */
 
 function kstYmd(ms) {
   const d = new Date(ms + 9 * 3600e3), p = (n) => String(n).padStart(2, '0');
@@ -99,6 +104,36 @@ async function fetchMates() {
   });
   return out;
 }
+/* ②-b 25주제 전체 명단 — 구성원 해시가 전날과 같으면 요약만 */
+const ALL_TOPICS = Array.from({ length: 25 }, (_, i) => 'TOPIC_' + String(i + 1).padStart(3, '0'));
+function hashIds(ids) { let h = 0; for (const s of ids.slice().sort()) for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h.toString(16).padStart(8, '0') + '-' + ids.length; }
+async function fetchRoster(prev) {
+  const out = {};
+  for (const t of ALL_TOPICS) {
+    await sleep(GAP_MS);
+    try {
+      const r = await get('https://m.blog.naver.com/api/v1/topic-contributors?topicIds=' + t + '&countPerTopic=1000', { 'Accept': 'application/json', 'Referer': 'https://mate.naver.com/' });
+      if (r.status !== 200) throw new Error('HTTP ' + r.status);
+      const j = JSON.parse(r.text); const res = (j && j.result || [])[0] || {};
+      const list = (res.contributors || []).map((c) => { const p = c.profile || {}; return { id: idOf(p.contributorHomePcUrl), name: p.displayName || '', cum: p.cumulativeAibViewCount == null ? null : Number(p.cumulativeAibViewCount), new: !!p.isNewContributor }; }).filter((c) => c.id);
+      const h = hashIds(list.map((c) => c.id));
+      const pv = prev && prev[t];
+      if (pv && pv.hash === h) out[t] = { name: res.topicName || '', hash: h, n: list.length, same: true };
+      else out[t] = { name: res.topicName || '', hash: h, n: list.length, same: false, list };
+    } catch (e) { out[t] = { error: String(e.message || e) }; }
+  }
+  return out;
+}
+/* 어제까지의 줄에서 주제별 마지막 해시(전체가 적힌 줄의 해시도 포함)를 찾는다 */
+function lastRoster(lines, today) {
+  const out = {};
+  for (const l of lines) {
+    if (!l.roster || l.d === today) continue;
+    for (const [t, v] of Object.entries(l.roster)) if (v && v.hash) out[t] = { hash: v.hash };
+  }
+  return out;
+}
+
 /* ③ 프로필 */
 function parseProfile(html) {
   const num = (k) => { const m = html.match(new RegExp('"' + k + '":(\\d+)')); return m ? Number(m[1]) : null; };
@@ -140,6 +175,8 @@ function summary(line) {
   const fmt = (v) => v == null ? '-' : (v / 10000).toFixed(1) + '만';
   const out = ['[mate-special] ' + line.d + ' 스페셜 ' + sp.length + '곳(1000만 ' + sp.filter((e) => e.type === 'SPECIAL_1000').length + ') · 취미 분야 메이트 ' + Object.values(line.mates || {}).reduce((a, l) => a + l.length, 0) + '곳 · 프로필 ' + Object.keys(bl).length + ' · 오류 ' + Object.keys(line.errors || {}).length];
   out.push('  취미 분야 스페셜(선정 월 인용 순): ' + hob.map((e) => e.name + '(' + e.id + ')' + fmt(e.prev) + (e.type === 'SPECIAL_1000' ? '★' : '') + (bl[e.id] && bl[e.id].mate === false ? '⛔비메이트' : '')).join(' · '));
+  const ro = line.roster || {}; const rk = Object.keys(ro);
+  if (rk.length) out.push('  25주제 명단: ' + rk.reduce((a, t) => a + (ro[t].n || 0), 0) + '곳 · 전체 기록 ' + rk.filter((t) => ro[t].list).length + '주제 · 변동 없음 ' + rk.filter((t) => ro[t].same).length + '주제 · 오류 ' + rk.filter((t) => ro[t].error).length);
   const b = bl.bomding; if (b) out.push('  봄딩: mate=' + b.mate + ' cum=' + fmt(b.cum) + ' mon=' + fmt(b.mon) + '(' + b.monNo + '월) sel=' + fmt(b.sel) + '(' + b.selMo + '월) posts=' + b.posts);
   return out.join('\n');
 }
@@ -149,12 +186,13 @@ function summary(line) {
   const lines = readLines();
   if (PRINT) { const last = lines[lines.length - 1]; console.log(last ? summary(last) : '[mate-special] 기록 없음'); process.exit(0); }
   const existing = lines.find((l) => l.d === today);
-  if (existing && !REFRESH && !DRY) { console.log('[mate-special] ' + today + ' 오늘 줄 있음(유지) — --refresh 로 교체'); process.exit(0); }
+  if (existing && !REFRESH && !FORCE && !DRY) { console.log('[mate-special] ' + today + ' 오늘 줄 있음(유지) — --refresh 로 교체'); process.exit(0); }
 
   const line = { d: today, at: nowIso, special: [], mates: {}, blogs: {}, errors: {}, n: {} };
   try { line.special = await fetchSpecial(); } catch (e) { line.errors['_special'] = String(e.message || e); }
   await sleep(GAP_MS);
   try { line.mates = await fetchMates(); } catch (e) { line.errors['_mates'] = String(e.message || e); }
+  line.roster = await fetchRoster(lastRoster(lines, today));
 
   const ids = new Map();
   FIXED.forEach((f) => ids.set(f.id, f.name));
@@ -165,12 +203,12 @@ function summary(line) {
     try { const p = await profile(id); line.blogs[id] = Object.assign({ n: name }, p); }
     catch (e) { line.errors[id] = String(e.message || e); }
   }
-  line.n = { special: line.special.length, mates: Object.values(line.mates).reduce((a, l) => a + l.length, 0), blogs: Object.keys(line.blogs).length, errors: Object.keys(line.errors).length };
+  line.n = { special: line.special.length, mates: Object.values(line.mates).reduce((a, l) => a + l.length, 0), roster: Object.values(line.roster || {}).reduce((a, v) => a + (v.n || 0), 0), blogs: Object.keys(line.blogs).length, errors: Object.keys(line.errors).length };
 
   if (DRY) { console.log(summary(line)); console.log('[mate-special] --dry: 파일 안 씀'); process.exit(0); }
-  if (existing && REFRESH) {
+  if (existing && (REFRESH || FORCE)) {
     const raised = Object.keys(line.blogs).some((id) => { const a = existing.blogs && existing.blogs[id], b = line.blogs[id]; return a && b && a.cum != null && b.cum != null && b.cum > a.cum; });
-    if (!raised) { console.log('[mate-special] ' + today + ' --refresh: 누적 인용 변동 없음 — 파일 안 씀'); process.exit(0); }
+    if (!raised && !FORCE) { console.log('[mate-special] ' + today + ' --refresh: 누적 인용 변동 없음 — 파일 안 씀'); process.exit(0); }
     const idx = lines.indexOf(existing); lines[idx] = line;
   } else lines.push(line);
   try { writeLines(lines); } catch (e) { console.error('[mate-special] 파일 쓰기 실패: ' + e.message); process.exit(1); }
