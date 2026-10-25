@@ -226,7 +226,22 @@ chk('공략 칸 색 = --s-guide(#5A6E14)', (await ev(`(()=>{const s=${gsec};retu
 /* ★10-25 업데이트 챙길 게임 — 칸 색·행 · 상자 두 칸(나란히) · 추가 → 칩 · 두 목록 겹침 차단 */
 const wsec = `[...document.querySelectorAll('.tsec')].find(s=>s.querySelector('.tsec-t').textContent==='업데이트 챙길 게임')`;
 chk('업데이트 챙길 게임 칸 색 = --s-watch(#8E2F7E) · 행 1개', await ev(`(()=>{const s=${wsec};return !!s&&getComputedStyle(s.querySelector('.tsec-ic')).color==='rgb(142, 47, 126)'&&s.querySelectorAll('.trow').length===1})()`));
-chk('상자 = 두 칸(꼭 다룰 게임 | 업데이트 챙길 게임) · 넓은 창은 나란히', await ev(`(()=>{const p=document.querySelector('.pinbox [data-box="pin"]'),w=document.querySelector('.pinbox [data-box="watch"]');if(!p||!w)return false;const a=p.getBoundingClientRect(),b=w.getBoundingClientRect();return Math.abs(a.top-b.top)<2&&b.left>=a.right-1&&w.querySelector('.pin-t').textContent==='업데이트 챙길 게임'})()`));
+/* ★10-25 1920 개편 — 1440 이상은 2열: 왼쪽 레일(오늘 판 요약·칸 바로가기·지정 게임 상자) + 오른쪽 목록. 상자 두 칸은 레일 안에서 위아래 */
+chk('[1920] 상자 = 두 칸(꼭 다룰 게임 위 · 업데이트 챙길 게임 아래) · 왼쪽 레일 안', await ev(`(()=>{const p=document.querySelector('.trail .pinbox [data-box="pin"]'),w=document.querySelector('.trail .pinbox [data-box="watch"]');if(!p||!w)return false;const a=p.getBoundingClientRect(),b=w.getBoundingClientRect();return b.top>=a.bottom-1&&Math.abs(a.left-b.left)<2&&w.querySelector('.pin-t').textContent==='업데이트 챙길 게임'})()`));
+const lay1920 = await ev(`(()=>{const r=document.querySelector('.trail'),m=document.querySelector('.tmain'),t=document.querySelector('.tsec'),mn=document.querySelector('.main');if(!r||!m||!t)return null;const a=r.getBoundingClientRect(),b=m.getBoundingClientRect(),c=t.getBoundingClientRect(),d=mn.getBoundingClientRect();return {railR:Math.round(a.right),mainL:Math.round(b.left),railW:Math.round(a.width),sec1Top:Math.round(c.top),mainW:Math.round(d.width),sticky:getComputedStyle(r).position}})()`);
+chk('[1920] 트렌드 2열 — 레일(안쪽 320 · 링 여백 ±1) 오른쪽에 목록 · 본문 1620 · 레일 고정(sticky) · 첫 칸 머리가 첫 화면 위쪽(≤ 220px)', lay1920 && (lay1920.railW === 320 || lay1920.railW === 322) && lay1920.mainL >= lay1920.railR + 16 && lay1920.mainW === 1620 && lay1920.sticky === 'sticky' && lay1920.sec1Top <= 220, lay1920);
+const memo = await ev(`(()=>{const d=document.querySelector('.trail .mh-more');if(!d)return {none:true,notes:document.querySelectorAll('.mh-note li').length};const li=d.querySelector('li');return {open:d.open,vis:li?li.checkVisibility({contentVisibilityAuto:true}):false,n:d.querySelectorAll("li").length}})()`);
+chk('[1920] 데스크 메모는 접혀 있다(기본 닫힘 · 메모 줄이 안 보인다)', memo && !memo.none && memo.open === false && memo.vis === false && memo.n >= 1, memo);
+chk('[1920] 칸 머리에 설명문이 없다(.tsec-d 0개 · 지정 상자 부제 0개)', await ev(`document.querySelectorAll('.tsec-d,.pin-note').length===0`));
+await ev(`(()=>{const b=document.querySelector('.trail [data-jump="tier"]');b.click();return true})()`); await sleep(1200);
+const jump = await ev(`(()=>{const t=document.getElementById('ts-tier');return t?{top:Math.round(t.getBoundingClientRect().top),focus:document.activeElement===t}:null})()`);
+chk('[1920] 칸 바로가기 — «티어표 추천»을 누르면 그 칸이 섬 아래(84±12)로 오고 포커스가 간다', jump && Math.abs(jump.top - 84) <= 12 && jump.focus, jump);
+await ev(`window.scrollTo(0,0)`); await sleep(400);
+/* ★10-25 게이트 🟡3 — 검색 중엔 칸 구역이 없어 레일의 바로가기·건수가 죽은 버튼이 됐다 → 요약을 숨긴다 */
+await ev(`(()=>{const q=document.getElementById('tq');q.value='뱀피르';q.dispatchEvent(new Event('input',{bubbles:true}));return true})()`); await sleep(900);
+chk('[1920] 검색 중엔 레일 요약(칸 바로가기)이 숨는다 · 지정 게임 상자는 남는다', await ev(`(()=>{const m=document.querySelector('.tmast');return (!m||getComputedStyle(m).display==='none')&&!!document.querySelector('.trail .pinbox')})()`));
+await ev(`(()=>{const q=document.getElementById('tq');q.value='';q.dispatchEvent(new Event('input',{bubbles:true}));return true})()`); await sleep(900);
+chk('[1920] 검색을 지우면 요약이 돌아온다', await ev(`(()=>{const m=document.querySelector('.tmast');return !!m&&getComputedStyle(m).display!=='none'})()`));
 await ev(`(()=>{const i=document.querySelector('.pinbox [data-box="watch"] .pin-i');i.value='원신';i.form.requestSubmit();return true})()`);
 chk('업데이트 챙길 게임에 추가하면 칩이 생긴다(POST /watch)', !!(await waitFor(`[...document.querySelectorAll('.pinbox [data-box="watch"] .pin-chip')].some(c=>c.textContent.includes('원신'))`, 5000)) && WATCH_FAKE.includes('원신'), WATCH_FAKE);
 await ev(`(()=>{const i=document.querySelector('.pinbox [data-box="pin"] .pin-i');i.value='원 신';i.form.requestSubmit();return true})()`); await sleep(400);
@@ -497,6 +512,14 @@ chk('[1920] 차트 x축 날짜 라벨이 붙지 않는다(이웃 틈 ≥ 3px · 
 await ev(`window.scrollTo(0,0)`); await sleep(300);
 await shot('04-home-1920', true);
 chk('[1920 홈] 가로 넘침 없음', await ev(`document.documentElement.scrollWidth<=innerWidth`));
+/* ★10-25 1920 개편 — 벤토 3줄: 작업 중(4)|갱신할 글(8) · 사용량(5)|블로그 활동(7) · 주제 비중(12). 같은 줄 타일은 위·아래 끝이 같다 */
+const bento = await ev(`(()=>{const r=id=>{const e=document.getElementById(id);if(!e)return null;const b=e.getBoundingClientRect();return {t:Math.round(b.top),b:Math.round(b.bottom),l:Math.round(b.left),w:Math.round(b.width)}};return {work:r('tileWork'),ref:r('tileRefresh'),use:r('tileUsage'),cite:r('tileCite'),mix:r('tileMix')}})()`);
+chk('[1920 홈] 1줄 작업 중|갱신할 글 · 2줄 사용량|블로그 활동 · 3줄 주제 비중 — 같은 줄 위·아래 끝 일치', bento && bento.work && bento.ref && bento.work.t === bento.ref.t && bento.work.b === bento.ref.b && bento.ref.l > bento.work.l &&
+  bento.use.t === bento.cite.t && bento.use.b === bento.cite.b && bento.use.t > bento.work.b && bento.mix.t > bento.use.b && bento.mix.w > bento.cite.w, bento);
+/* ★10-25 게이트 🟡8 — 값 열이 auto 라 줄마다 막대 끝·50% 눈금이 흔들렸다 */
+const mxAl = await ev(`(()=>{return [...document.querySelectorAll('#tileMix .mx-bar')].map(b=>{const r=b.getBoundingClientRect();return [Math.round(r.left),Math.round(r.right)]})})()`);
+chk('[1920 홈] 주제 비중 막대 세 줄의 시작·끝이 같다(50% 눈금 정렬)', Array.isArray(mxAl) && mxAl.length >= 2 && mxAl.every((x) => x[0] === mxAl[0][0] && x[1] === mxAl[0][1]), mxAl);
+chk('[1920 홈] 타일 부제 = 기간(«14일»)만 · 마크 설명문 없음', await ev(`[...document.querySelectorAll('.tile-d')].every(e=>e.textContent==='14일')`), await ev(`[...document.querySelectorAll('.tile-d')].map(e=>e.textContent)`));
 chk('[1920 홈] 콘솔 예외 0', logs.length === 0, logs);
 
 /* 두 번째 데이터 — 발주 0건(«건 없음»)·100% 막대·재검 없음 */
@@ -519,12 +542,24 @@ MIX = MIX_A;
 for (const [w, h] of [[1920, 940], [1536, 730], [1366, 630]]) {
   await open(w, h, false); logs = [];
   await goTrend();
+  /* ★10-25 게이트 🟡4 — 한 열(1366×630)에서 레일(요약+상자)이 첫 화면을 다 먹어 첫 발주 버튼이 창 밖이었다 → 상자는 목록 뒤 */
+  const firstCta = await ev(`(()=>{const b=document.querySelector('.tsec .cta');if(!b)return null;const r=b.getBoundingClientRect();return {bottom:Math.round(r.bottom),ih:innerHeight}})()`);
+  chk(`[${w}×${h}] 첫 화면에 첫 발주 버튼이 다 보인다`, firstCta && firstCta.bottom <= firstCta.ih, firstCta);
+  /* ★2차 🟡2 — 한 열(≤1439)에서 상자를 CSS order 로 목록 뒤에 «보이게»만 하면 Tab 이 목록을 건너뛰었다. DOM 순서 = 보이는 순서 */
+  const pinOrd = await ev(`(()=>{const pb=document.querySelector('.pinbox'),t=document.querySelector('.tsec');if(!pb||!t)return null;const after=!!(t.compareDocumentPosition(pb)&Node.DOCUMENT_POSITION_FOLLOWING);const below=pb.getBoundingClientRect().top>t.getBoundingClientRect().top;return {after,below,inRail:!!pb.closest('.trail')}})()`);
+  chk(`[${w}×${h}] 지정 게임 상자 자리 — ${w >= 1440 ? '레일 안' : '목록 뒤(DOM·화면 모두)'}`, pinOrd && (w >= 1440 ? pinOrd.inRail : (pinOrd.after && pinOrd.below && !pinOrd.inRail)), pinOrd);
   await click(`[data-req="syn-guide-3"]`); await waitFor(`!!document.querySelector('.brief')`, 5000); await sleep(600);
   const rs = await ev(RELM);
   const st = await ev(`document.querySelector('.mdl-b').scrollTop`);
   chk(`[${w}×${h}] 발주 모달을 열자마자 «관련 글» 줄(2건+한마디)이 다 보인다 · 본문이 내려가 있지 않다`, rs && rs.seen && rs.li.length === 3 && st === 0, { seen: rs && rs.seen, li: rs && rs.li.length, scrollTop: st });
   chk(`[${w}×${h}] 주제 칸 포커스는 그대로 간다 · 콘솔 예외 0`, (await ev(`!!document.activeElement&&document.activeElement.id==='oTopic'`)) && logs.length === 0, logs);
   await ev(`document.querySelector('.mdl [data-close]').click()`); await sleep(450);
+  /* ★10-25 1920 개편 — 본문이 1620 까지 넓어지자 FAB(새 글 요청)가 목록 오른쪽 끝의 발주 버튼을 덮었다(1366 실측). 화면에 보이는 발주 버튼·칩 어느 것도 FAB 와 겹치지 않는다 */
+  const fabHit = await ev(`(()=>{const f=document.getElementById('fab').getBoundingClientRect();const hit=[...document.querySelectorAll('.cta,.tr-chip,.tr-wr,.fsearch')].filter(e=>{const b=e.getBoundingClientRect();return b.width&&b.bottom>f.top&&b.top<f.bottom&&b.right>f.left&&b.left<f.right});const dl=document.querySelector('.tsec .trow:last-child');if(dl)dl.scrollIntoView({block:'end'});return {fab:[Math.round(f.left),Math.round(f.width)],hit:hit.length}})()`);
+  await sleep(300);
+  const fabHit2 = await ev(`(()=>{const f=document.getElementById('fab').getBoundingClientRect();return [...document.querySelectorAll('.cta,.tr-chip,.tr-wr')].filter(e=>{const b=e.getBoundingClientRect();return b.width&&b.bottom>f.top&&b.top<f.bottom&&b.right>f.left&&b.left<f.right}).length})()`);
+  chk(`[${w}×${h}] FAB 가 발주 버튼·칩을 덮지 않는다(첫 화면 · 행을 FAB 높이까지 내린 뒤)`, fabHit && fabHit.hit === 0 && fabHit2 === 0, { fabHit, fabHit2 });
+  await ev(`window.scrollTo(0,0)`); await sleep(300);
 }
 
 /* ═════ 390 — 모바일 ═════ */
@@ -544,10 +579,14 @@ chk('[390] 블로그 활동 — 스탯 값이 칸을 넘지 않고 두 차트가
 const xg390 = await ev(XGAP);
 chk('[390] 차트 x축 날짜 라벨이 붙지 않는다(이웃 틈 ≥ 3px)', xgOk(xg390), xg390);
 /* 부제 — 긴 문구(«인용·방문자 막대 · 글 선 · 14일» 140px)는 390 에서 잘려 «선 · 14일» 이 사라졌다(10-12 디자인 게이트 🟡) → ≤520px 은 짧은 문구 */
-const sub390 = await ev(`(()=>{const e=document.querySelector('#tileCite .tile-d');return {cut:e.scrollWidth>e.clientWidth+0.5,t:[...e.children].filter(c=>getComputedStyle(c).display!=='none').map(c=>c.textContent).join('/')}})()`);
-chk('[390] 블로그 활동 부제가 잘리지 않는다(좁은 폭 문구 한 벌만 보인다)', sub390 && !sub390.__err && !sub390.cut && sub390.t === '인용·방문자·글 · 14일', sub390);
+/* ★10-25 1920 개편 — 타일 부제는 기간(«14일»)만 남겼다(마크 설명 «인용·방문자 막대 · 글 선»은 범례가 이미 말한다) */
+const sub390 = await ev(`(()=>{const e=document.querySelector('#tileCite .tile-d');return e?{cut:e.scrollWidth>e.clientWidth+0.5,t:e.textContent}:null})()`);
+chk('[390] 블로그 활동 부제 = «14일» · 잘리지 않는다', sub390 && !sub390.__err && !sub390.cut && sub390.t === '14일', sub390);
 await shot('05-home-390', true);
 await goTrend();
+/* ★10-25 디자인 게이트 🔴1 — 좁은 폭에서 검색창이 날짜 이동 묶음(«최신 ›»·n/N)을 덮었다(.tbar nowrap). 검색은 다음 줄 */
+const tbar390 = await ev(`(()=>{const p=document.querySelector('.tpg .dpager'),f=document.querySelector('.tbar .fsearch');if(!p||!f)return null;const a=p.getBoundingClientRect(),b=f.getBoundingClientRect();const btns=[...p.querySelectorAll('.dpbtn,.dpsel')].map(e=>e.getBoundingClientRect());return {below:b.top>=a.bottom-1,inView:a.right<=innerWidth+0.5,oneLine:btns.every(r=>Math.abs(r.top-btns[0].top)<2)}})()`);
+chk('[390] 날짜 이동 묶음과 검색창이 겹치지 않는다(검색 = 다음 줄 · 날짜 묶음 한 줄·창 안)', tbar390 && tbar390.below && tbar390.inView && tbar390.oneLine, tbar390);
 chk('[390] 공략 칸 행이 3개', (await ev(`(()=>{const s=${gsec};return s?s.querySelectorAll('.trow').length:0})()`)) === 3);
 chk('[390] 상자 두 칸은 위아래로 쌓인다(업데이트 챙길 게임이 아래 · 가로 넘침 없음)', await ev(`(()=>{const p=document.querySelector('.pinbox [data-box="pin"]'),w=document.querySelector('.pinbox [data-box="watch"]');if(!p||!w)return false;return w.getBoundingClientRect().top>=p.getBoundingClientRect().bottom-1&&document.documentElement.scrollWidth<=innerWidth})()`));
 /* ★좁은 폭에선 표식을 주제 아랫줄로 내린다 — 같은 줄에 두면 주제 글자가 5자쯤 더 잘린다. «있다»가 아니라 자리(아랫줄·행 안·버튼과 안 겹침)와 주제 폭을 잰다 */
@@ -576,7 +615,7 @@ chk('[390] 티어표 리소스 칩이 행 안에 들어간다(10-25)', Array.isA
 const HDR = `(()=>{const lines=el=>{const rg=document.createRange();rg.selectNodeContents(el);return new Set([...rg.getClientRects()].map(r=>Math.round(r.top))).size};return [...document.querySelectorAll('.tsec-h')].map(h=>{const t=h.querySelector('.tsec-t'),d=h.querySelector('.tsec-d');return {k:t?t.textContent:'',h:Math.round(h.getBoundingClientRect().height),t:t?lines(t):0,d:d?lines(d):0,cut:d?d.scrollWidth>d.clientWidth+1:false}})})()`;
 const hdr390 = await ev(HDR);
 chk('[390] 칸 머리 전부 한 줄 · 높이 같음(09-19 🟡: «공/략» 고아 줄바꿈)', hdr390.length >= 6 && hdr390.every((x) => x.t === 1 && x.d <= 1) && new Set(hdr390.map((x) => x.h)).size === 1, hdr390);
-chk('[390] 공략 칸 설명이 잘리지 않는다', (hdr390.find((x) => x.k === '지금 검색되는 공략') || {}).cut === false, hdr390.find((x) => x.k === '지금 검색되는 공략'));
+chk('[390] 칸 머리 = 아이콘·이름·건수뿐(설명문 없음 · 10-25)', hdr390.every((x) => x.d === 0), hdr390.map((x) => x.d));
 await shot('06-trend-390', true);
 await click(`[data-req="syn-guide-1"]`); await waitFor(`!!document.querySelector('.brief')`, 5000);
 const mm = await ev(`(()=>{const f=[...document.querySelectorAll('.brief .bf-f')].find(x=>x.querySelector('.bf-k').textContent==='검색 수요');if(!f)return null;const v=f.querySelector('.bf-v').getBoundingClientRect(),b=document.querySelector('.brief').getBoundingClientRect();return {inside:v.right<=b.right+0.5,oneCol:getComputedStyle(f).gridTemplateColumns.split(' ').length===1}})()`);

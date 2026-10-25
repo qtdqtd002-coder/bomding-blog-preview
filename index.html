@@ -82,7 +82,7 @@
   --s-watch:#8E2F7E;   /* 「업데이트 챙길 게임」(2026-10-25) — 플럼. 흰 면 7.35:1 · surface-2 6.85:1 · tray 5.93:1(글자 AA) · 기존 8색·봄딩·영도와 최소 ΔE2000 11.5 · 적색맹 모의 9.3(빈 색상 구간 h≈330°) */
   --s-refresh:#7A4F10;   /* 「갱신할 글」(2026-10-25 결정서 7번) — 앰버 브라운. 표면 7.2:1 · surface-2 6.7:1(글자 AA) */
   /* ── 그림자: 확산이 넓고 아주 옅게 ── */
-  --sh-rest:0 1px 2px rgba(14,17,20,.04), 0 6px 18px -10px rgba(14,17,20,.10);
+  --sh-rest:0 0 #0000;   /* ★2026-10-25 쉬고 있는 면에 그림자 없음(테두리 1px 만) — 그림자는 떠 있는 것(메뉴·팝오버·모달·섬)에만 */
   --sh-lift:0 1px 2px rgba(14,17,20,.05), 0 12px 30px -12px rgba(14,17,20,.16), 0 40px 72px -40px rgba(14,17,20,.20);
   --sh-float:0 2px 6px rgba(14,17,20,.06), 0 20px 48px -18px rgba(14,17,20,.20), 0 60px 110px -50px rgba(14,17,20,.24);
   /* ── 반경: 동심원 (트레이 − 패딩 = 코어) ── */
@@ -91,7 +91,7 @@
   --e:cubic-bezier(.32,.72,0,1);
   --e-out:cubic-bezier(.16,1,.3,1);
   --t-fast:220ms; --t:420ms; --t-slow:720ms;
-  --maxw:1080px;
+  --maxw:1620px;   /* ★2026-10-25 1920 개편 — 모든 탭 1620(옛 1080 = 1920 화면에서 좌우 420px 이 비었다 · 도구함·캘린더와 같은 폭) */
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -102,13 +102,7 @@ body{
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   overflow-y:scroll;
 }
-/* 바탕에 아주 옅은 광원 — 면이 평평해 보이지 않게. 고정·pointer-events 없음 */
-body::before{
-  content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
-  background:
-    radial-gradient(900px 520px at 12% -10%, rgba(255,255,255,.9), transparent 60%),
-    radial-gradient(760px 480px at 96% 4%, rgba(255,255,255,.7), transparent 62%);
-}
+
 button,input,select,textarea{font:inherit; color:inherit; letter-spacing:inherit}
 button{cursor:pointer; background:none; border:0; padding:0}
 a{color:inherit; text-decoration:none}
@@ -118,6 +112,8 @@ a{color:inherit; text-decoration:none}
      letter-spacing:-.02em}
 :focus-visible{outline:2px solid var(--ink); outline-offset:2px; border-radius:6px}
 .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+table.sr td,table.sr th{text-align:right; font-variant-numeric:tabular-nums}   /* 차트 표 뷰(읽기 도구용) — 숫자 칸 오른쪽 정렬 */
+table.sr td:first-child,table.sr th:first-child{text-align:left}
 
 /* ══════════ 플루이드 아일랜드 내비 ══════════ */
 .island{
@@ -125,8 +121,7 @@ a{color:inherit; text-decoration:none}
   transform:translateX(-50%) translateY(0);
   display:flex; align-items:center; gap:4px; padding:6px;
   border-radius:var(--r-pill);
-  background:rgba(255,255,255,.72);
-  backdrop-filter:blur(20px) saturate(1.7); -webkit-backdrop-filter:blur(20px) saturate(1.7);
+  background:var(--surface);   /* ★10-25 불투명(옛 유리 블러 폐기) — 떠 있는 내비라 그림자는 남긴다 */
   box-shadow:0 0 0 1px var(--hair), var(--sh-lift);
   transition:transform var(--t) var(--e), box-shadow var(--t) var(--e);
   will-change:transform;
@@ -168,12 +163,10 @@ a{color:inherit; text-decoration:none}
   position:fixed; top:18px; right:20px; z-index:61;
   width:44px; height:44px; border-radius:var(--r-pill);
   display:grid; place-items:center; color:var(--ink-2);
-  background:rgba(255,255,255,.72);
-  backdrop-filter:blur(20px) saturate(1.7); -webkit-backdrop-filter:blur(20px) saturate(1.7);
-  box-shadow:0 0 0 1px var(--hair), var(--sh-rest);
-  transition:transform var(--t-fast) var(--e), color var(--t-fast) var(--e), box-shadow var(--t-fast) var(--e);
+  background:var(--surface); border:1px solid var(--hair-2);   /* ★10-25 불투명 면 + 테두리(옛 유리 블러·그림자 폐기) */
+  transition:transform var(--t-fast) var(--e), color var(--t-fast) var(--e), border-color var(--t-fast) var(--e);
 }
-.bell:hover{color:var(--ink); box-shadow:0 0 0 1px var(--hair-2), var(--sh-lift)}
+.bell:hover{color:var(--ink); border-color:var(--hair-3)}
 .bell:active{transform:scale(.94)}
 .bell .ic{width:18px; height:18px}
 .bell-dot{
@@ -247,20 +240,20 @@ a{color:inherit; text-decoration:none}
 /* ══════════ 셸 ══════════ */
 .main{
   position:relative; z-index:1; max-width:var(--maxw); margin:0 auto;
-  padding:96px 24px 128px;
+  padding:88px 24px 112px;
 }
-/* 페이지 머리 — 큰 타입 왼쪽, 메타 오른쪽(에디토리얼 스플릿) */
+/* 페이지 머리 — 앱 화면 제목(28px · ★10-25 옛 42px 은 랜딩 페이지 크기라 1080 창에서 세로 100px 을 먹었다) 왼쪽, 메타 오른쪽 */
 .phead{
-  display:flex; align-items:flex-end; justify-content:space-between; gap:24px;
-  margin-bottom:22px;
+  display:flex; align-items:baseline; justify-content:space-between; gap:24px;
+  margin-bottom:16px;
 }
 .ptitle{
-  margin:0; font-size:clamp(30px,4.6vw,42px); font-weight:800;
-  letter-spacing:-.042em; line-height:1.06;
+  margin:0; font-size:28px; font-weight:800;
+  letter-spacing:-.035em; line-height:1.15;
 }
 .pmeta{
-  display:flex; align-items:center; gap:14px; padding-bottom:6px;
-  font-size:12.5px; color:var(--ink-3); white-space:nowrap;
+  display:flex; align-items:center; gap:14px;
+  font-size:13px; color:var(--ink-3); white-space:nowrap;
 }
 .pmeta b{color:var(--ink); font-weight:700}
 
@@ -270,13 +263,13 @@ a{color:inherit; text-decoration:none}
 
 /* ══════════ 이중 베젤 ══════════ */
 .tray{
-  background:linear-gradient(180deg, var(--tray) 0%, var(--tray-2) 100%);
+  background:var(--tray);   /* ★10-25 평면(옛 세로 그라데이션 폐기) */
   border-radius:var(--r-tray); padding:6px;
-  box-shadow:0 0 0 1px var(--hair), var(--sh-rest);
+  box-shadow:0 0 0 1px var(--hair);
 }
 .core{
   background:var(--surface); border-radius:var(--r-core); overflow:hidden;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 0 0 1px rgba(14,17,20,.05);
+  box-shadow:0 0 0 1px rgba(14,17,20,.05);
 }
 
 /* ══════════ 필터 칩 ══════════ */
@@ -296,7 +289,7 @@ a{color:inherit; text-decoration:none}
 .chip:hover{color:var(--ink); transform:translateY(-1px);
             box-shadow:0 0 0 1px var(--hair-2), var(--sh-lift)}
 .chip:active{transform:scale(.97)}
-.chip.on{background:var(--ink); color:#fff; box-shadow:0 0 0 1px var(--ink), var(--sh-lift)}
+.chip.on{background:var(--ink); color:#fff; box-shadow:0 0 0 1px var(--ink)}
 .chip.on .n{color:rgba(255,255,255,.55)}
 .chip.on .dot{transform:scale(1.2); box-shadow:0 0 0 3px rgba(255,255,255,.16)}
 .fsearch{
@@ -317,7 +310,7 @@ a{color:inherit; text-decoration:none}
 .rows{display:flex; flex-direction:column; position:relative}   /* FLIP 으로 나가는 행이 absolute 가 될 기준 */
 .row{
   position:relative; display:grid; align-items:center;
-  grid-template-columns:104px minmax(0,1fr) 128px 62px 88px 36px;
+  grid-template-columns:104px minmax(0,1fr) clamp(128px,13vw,240px) 62px 88px 36px;   /* ★10-25 분류 칸이 넓은 창에서 240 까지 — 1620 본문에서 제목 끝과 분류 사이 400px 공백이 생겼다 */
   gap:14px; padding:0 12px 0 16px; min-height:56px;
   border-bottom:1px solid var(--hair);
   transition:background var(--t-fast) var(--e), transform var(--t) var(--e), opacity 240ms var(--e);
@@ -385,7 +378,7 @@ a{color:inherit; text-decoration:none}
 .whyb.on:hover{background:var(--ink); color:#fff}
 .row-a{gap:6px}
 /* 버튼이 둘이 되는 목록에서만 마지막 칸을 넓힌다 — 봄딩만 보는 목록은 36px 그대로 */
-.rows.has-why .row{grid-template-columns:104px minmax(0,1fr) 128px 62px 88px 78px}   /* 32+6+32 + 여유 8 */
+.rows.has-why .row{grid-template-columns:104px minmax(0,1fr) clamp(128px,13vw,240px) 62px 88px 78px}   /* 32+6+32 + 여유 8 */
 @media (max-width:860px){ .rows.has-why .row{grid-template-columns:minmax(0,1fr) 92px} }   /* 40+6+40 — 모바일 표적 40px 기준 */
 /* 사유 태그 — NEW 배지와 같은 자리(제목 칸). 그 행이 «왜 안 올라갔는지»는 스쳐 지나갈 정보가 아니라 행의 상태다.
    제목 칸은 minmax(0,1fr) 이라 길어져도 우아하게 줄어든다(마지막 칸에 넣었다가 잘렸다 — 09-14 실측). */
@@ -418,6 +411,7 @@ a{color:inherit; text-decoration:none}
 @media (hover:none){ .arch,.whyb{opacity:1; transform:none} }
 
 .more{display:flex; justify-content:center; padding:16px 0 0}
+.more[hidden]{display:none}   /* ★10-25 — display:flex 가 [hidden] 을 이겨 남은 글이 0 인데도 «더 보기 0» 이 떠 있었다(라이브 실측) */
 .more button{
   display:inline-flex; align-items:center; gap:8px; height:38px; padding:0 20px;
   border-radius:var(--r-pill); background:var(--surface); color:var(--ink-2);
@@ -459,11 +453,40 @@ a{color:inherit; text-decoration:none}
 }
 
 /* ══════════ 트렌드 ══════════ */
+/* ★10-25 1920 개편 — 2열(레일 320 · 틈 20 · 목록 나머지 = 1920 에서 1232). 레일 = 오늘 판 요약(칸 바로가기) + 지정 게임 상자, 창 높이 안에서 고정.
+   옛 한 열은 1920×940 창에서 첫 추천 행이 y=858(첫 화면 2줄)이었다 → 목록이 머리 바로 아래에서 시작한다 */
+.tlay{display:grid; grid-template-columns:320px minmax(0,1fr); gap:20px; align-items:start}
+.tmain{min-width:0}
+.trail{position:sticky; top:84px; max-height:calc(100vh - 100px); overflow-y:auto;
+       display:flex; flex-direction:column; gap:14px; scrollbar-width:thin; border-radius:var(--r-tray); margin:-1px; padding:1px}   /* margin −1·padding 1 = 트레이 바깥 1px 링이 overflow 에 잘리지 않게, 안쪽 폭은 320 그대로(padding 만 주면 칩이 한 줄 더 꺾여 1920×940 에서 레일 끝이 잘렸다 · 2차 🟡1) · overscroll 은 페이지로 이어진다(contain 이면 레일 위 휠이 페이지를 못 내렸다 · 게이트 🟡2) */
+.trail .pinbox{margin:0}
+.trail .pin-grid{grid-template-columns:minmax(0,1fr)}
+.trail .pin-grid>.pin-in+.pin-in{box-shadow:inset 0 1px 0 var(--hair)}
+.tbar{flex-wrap:nowrap}
+@media (max-width:860px){ .tbar{flex-wrap:wrap} }   /* 좁은 폭 = 검색이 다음 줄 전폭(.fsearch order:9) — nowrap 이면 검색창이 날짜 묶음을 덮었다(게이트 🔴1) */
+.tpg{display:flex; align-items:center; min-width:0; flex:none}
+.tlay.searching .tmast{display:none}   /* 검색 중엔 칸 구역이 없어 바로가기·건수·헤드라인이 거짓이 된다(게이트 🟡3) */
+.tpg:empty{display:none}
+.tpg .dpager{margin:0}
+.tpins:empty{display:none}
+.tpins .pinbox{margin:14px 0 0}
+.tpg .dpos{margin-left:10px}
+.tsec{scroll-margin-top:84px}
+.tsec:focus{outline:none}
+.tsec:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
+@media (max-width:1439px){   /* 2열은 1440 부터 — 1366 에서 목록 열이 960 으로 줄어 주제가 옛 한 열(1032)보다 더 잘렸다 */
+  .tlay{grid-template-columns:minmax(0,1fr); gap:14px}
+  .trail{position:static; max-height:none; overflow:visible; margin:0; padding:0}
+  /* 한 열: 요약(바로가기) → 목록 → 지정 게임 상자. 상자가 위면 1366×630 첫 화면에 추천 행이 없었다(1차 🟡4).
+     ★상자는 CSS order 가 아니라 DOM 으로 옮긴다(placePins) — order 로 바꾸면 Tab 이 목록을 건너뛰고 상자로 2500px 점프했다(2차 🟡2 · WCAG 2.4.3) */
+  .trail .pin-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .trail .pin-grid>.pin-in+.pin-in{box-shadow:inset 1px 0 0 var(--hair)}
+}
 .pinbox{margin-bottom:14px}
 /* 꼭 다룰 게임 | 업데이트 챙길 게임(2026-10-25) — 한 트레이 안 두 칸. 넓으면 나란히, 좁으면 위아래(헤어라인으로 나눔) */
 .pin-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .pin-grid>.pin-in+.pin-in{box-shadow:inset 1px 0 0 var(--hair)}
-@media (max-width:860px){ .pin-grid{grid-template-columns:minmax(0,1fr)} .pin-grid>.pin-in+.pin-in{box-shadow:inset 0 1px 0 var(--hair)} }
+@media (max-width:860px){ .pin-grid,.trail .pin-grid{grid-template-columns:minmax(0,1fr)} .pin-grid>.pin-in+.pin-in,.trail .pin-grid>.pin-in+.pin-in{box-shadow:inset 0 1px 0 var(--hair)} }
 .pin-in{padding:14px 16px 16px; display:flex; flex-direction:column}   /* 두 칸 입력 줄 높이 맞춤 — 핀 칸에만 추천 줄이 있다(게이트 10-25 🟡1) */
 .pin-h{display:flex; align-items:center; gap:8px; margin-bottom:12px}
 .pin-ic{color:var(--s-pinned); display:flex}
@@ -513,17 +536,39 @@ a{color:inherit; text-decoration:none}
 .pin-go:active{transform:scale(.97)}
 .pin-go:disabled{opacity:.35; cursor:default; transform:none}
 
-.masthead{padding:20px 20px 18px}
-.mh-t{font-size:19px; font-weight:750; letter-spacing:-.035em; line-height:1.32}
-.mh-stats{display:flex; flex-wrap:wrap; gap:5px; margin-top:13px}
+.masthead{padding:16px 16px 14px}
+.mh-t{font-size:15px; font-weight:700; letter-spacing:-.025em; line-height:1.45; word-break:keep-all}
+/* 칸 바로가기(★10-25 · 옛 칩 줄 = 누를 수 없는 숫자 알약) — 레일에선 세로 목록, 한 열 폭에선 칩 줄 */
+.mh-stats{display:flex; flex-direction:column; gap:1px; margin:12px -8px 0}
 .mh-stat{
-  display:inline-flex; align-items:center; gap:6px; height:25px; padding:0 10px;
-  border-radius:var(--r-pill); background:var(--surface-2);
-  box-shadow:0 0 0 1px var(--hair);
-  font-size:11.5px; font-weight:600; color:var(--ink-2);
+  display:flex; align-items:center; gap:8px; height:32px; padding:0 8px;
+  border-radius:8px; font-size:13px; font-weight:600; color:var(--ink-2); text-align:left;
+  transition:background var(--t-fast) var(--e), color var(--t-fast) var(--e);
 }
-.mh-stat::before{content:""; width:5px; height:5px; border-radius:50%; background:var(--cc,var(--ink-4))}
-.mh-stat b{font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; color:var(--ink)}
+.mh-stat::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--cc,var(--ink-4)); flex:none}
+.mh-stat .mh-l{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.mh-stat b{margin-left:auto; font-family:"JetBrains Mono",monospace; font-weight:600; font-variant-numeric:tabular-nums; color:var(--ink)}
+.mh-stat.zero, .mh-stat.zero b{color:var(--ink-3)}
+.mh-stat:hover{background:var(--surface-2); color:var(--ink)}
+.mh-more{margin-top:10px; padding-top:10px; border-top:1px solid var(--hair)}
+.mh-more summary{cursor:pointer; font-size:12.5px; font-weight:600; color:var(--ink-3); list-style:none; display:flex; align-items:center; gap:6px; min-height:28px}
+.mh-more summary::-webkit-details-marker{display:none}
+.mh-more summary::before{content:""; width:6px; height:6px; border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor; transform:rotate(-45deg); transition:transform var(--t-fast) var(--e)}
+.mh-more[open] summary::before{transform:rotate(45deg)}
+.mh-more summary b{font-family:"JetBrains Mono",monospace; font-weight:600; color:var(--ink-2)}
+.mh-more summary:hover{color:var(--ink)}
+.mh-more .mh-note{margin-top:8px}
+@media (max-width:860px){
+  .mh-stat{position:relative}
+  .tmast .mh-stats{row-gap:12px}   /* 특정성 ↑ — 뒤에 오는 ≤1439 규칙의 gap 단축 속성이 row-gap 을 덮었다(3차 ⚪1) */
+  .mh-stat::after{content:""; position:absolute; inset:-6px -2px}   /* 터치 표적 40px(시각 28 + 위아래 6 · 줄 사이 12 라 이웃 히트존과 안 겹친다 · 칩 사이 5px 라 좌우 2) — 게이트 🟡5 */
+  .mh-more summary{min-height:40px}
+}
+@media (max-width:1439px){
+  .mh-stats{flex-direction:row; flex-wrap:wrap; gap:5px; margin:12px 0 0}
+  .mh-stat{display:inline-flex; height:28px; padding:0 10px; border-radius:var(--r-pill); background:var(--surface-2); box-shadow:0 0 0 1px var(--hair); font-size:12.5px; gap:6px}
+  .mh-stat b{margin-left:2px}
+}
 .mh-note{margin:14px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px}
 .mh-note li{
   position:relative; padding-left:14px; font-size:12.5px; line-height:1.6; color:var(--ink-2);
@@ -661,7 +706,7 @@ a{color:inherit; text-decoration:none}
    세그먼트 사이 2px 표면 틈 · 시작(기준선)은 각지고 끝만 4px 둥글게. 목표 50% 는 막대를 가로지르는 눈금(표면 테두리로 어느 면 위에서도 보인다).
    숫자는 오른쪽 글자(잉크 토큰)로 — 색으로만 전달하지 않는다. 행 전체가 hover·키보드 포커스 표적(툴팁 = 네 갈래 비율). */
 .mx{display:flex; flex-direction:column; gap:2px}
-.mx-row{position:relative; display:grid; grid-template-columns:minmax(0,176px) minmax(0,1fr) auto; align-items:center;
+.mx-row{position:relative; display:grid; grid-template-columns:minmax(0,176px) minmax(0,1fr) 184px;   /* ★10-25 값 열 고정 — auto 면 줄마다 막대 끝·50% 눈금이 8~15px 흔들렸다(디자인 게이트 🟡8) */ align-items:center;
         gap:16px; padding:9px 8px; border-radius:var(--r-row); transition:background var(--t-fast) var(--e)}
 .mx-row.on{background:var(--surface-2)}
 .mx-l{min-width:0}
@@ -688,8 +733,11 @@ a{color:inherit; text-decoration:none}
 /* ══════════ 홈 — 벤토 (비대칭 12열) ══════════ */
 .bento{display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:14px}
 .tile{grid-column:span 12; min-width:0; display:flex; flex-direction:column}
+.tile.w8{grid-column:span 8}
 .tile.w7{grid-column:span 7}
 .tile.w5{grid-column:span 5}
+.tile.w4{grid-column:span 4}
+@media (max-width:1439px){ .tile.w8,.tile.w7,.tile.w5,.tile.w4{grid-column:span 12} }   /* ★10-25 — 1440 미만은 타일마다 전폭(1181~1300 에서 블로그 활동 7/12 스탯이 잘리고 작업 제목이 6글자였다 · 디자인 게이트 🟡7 · 트렌드 2열 기준과 같은 1440) */
 .tile > .core{flex:1 1 auto; display:flex; flex-direction:column}   /* 같은 줄의 타일과 키를 맞춰 흰 코어가 트레이를 채운다 */
 .tile .wl,.tile .tile-b{flex:1 1 auto}
 .tile-h{display:flex; align-items:center; gap:9px; padding:13px 16px 12px; border-bottom:1px solid var(--hair)}
@@ -737,6 +785,11 @@ a{color:inherit; text-decoration:none}
 .wl-pt{font-weight:600; color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .wl-pn{font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap; flex:none}
 .wl-empty{padding:30px 16px; font-size:13px; color:var(--ink-3)}
+.wl-empty:has(+ .wl-sub:not([hidden])){padding:16px 16px 4px}
+.wl-sub[hidden],.wl-rec[hidden]{display:none}
+.wl-sub{padding:10px 16px 6px; font-size:12.5px; font-weight:600; color:var(--ink-3); border-bottom:1px solid var(--hair)}
+.wl-rec .wl-t{color:inherit; text-decoration:none}
+.wl-rec .wl-t:hover{text-decoration:underline; text-underline-offset:3px}
 /* 갱신할 글(2026-10-19) — «작업 중» 목록 행을 그대로 쓰고, 둘째 줄(사유·고칠 곳)만 더한다.
    기한 상태는 색 + 글자(«2일 지남»·«오늘»·«3일 남음») 두 겹으로 나른다 — 색만으로 말하지 않는다. */
 .rf-row{position:relative; padding-top:10px; padding-bottom:10px; row-gap:3px}
@@ -761,12 +814,10 @@ a.rf-t::after{content:""; position:absolute; inset:0}   /* 행 전체가 링크 
 .qchip{
   position:fixed; top:18px; right:74px; z-index:61; height:44px; padding:0 15px 0 13px; border-radius:var(--r-pill);
   display:flex; align-items:center; gap:8px; color:var(--ink-2); font-size:12.5px; white-space:nowrap; cursor:default;
-  background:rgba(255,255,255,.72);
-  backdrop-filter:blur(20px) saturate(1.7); -webkit-backdrop-filter:blur(20px) saturate(1.7);
-  box-shadow:0 0 0 1px var(--hair), var(--sh-rest);
-  transition:color var(--t-fast) var(--e), box-shadow var(--t-fast) var(--e);
+  background:var(--surface); border:1px solid var(--hair-2);   /* ★10-25 불투명 면 + 테두리(종과 같은 어휘) */
+  transition:color var(--t-fast) var(--e), border-color var(--t-fast) var(--e);
 }
-.qchip:hover,.qchip:focus-visible{color:var(--ink); box-shadow:0 0 0 1px var(--hair-2), var(--sh-lift)}
+.qchip:hover,.qchip:focus-visible{color:var(--ink); border-color:var(--hair-3)}
 .qchip:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
 .qchip .ic{width:16px; height:16px; color:var(--ink-3)}
 .qchip .qk{color:var(--ink-3)}
@@ -775,8 +826,8 @@ a.rf-t::after{content:""; position:absolute; inset:0}   /* 행 전체가 링크 
 .qchip .low b{color:var(--alert)}
 .qchip[hidden]{display:none}
 /* 남음 <10% — 칩 전체가 경고색(흰 글자 5.2:1). 아이콘·라벨·숫자·구분선 전부 흰색 계열 */
-.qchip.warn{background:var(--alert); color:#fff; box-shadow:0 0 0 1px var(--alert), var(--sh-rest)}
-.qchip.warn:hover,.qchip.warn:focus-visible{color:#fff; box-shadow:0 0 0 1px var(--alert), var(--sh-lift)}
+.qchip.warn{background:var(--alert); color:#fff; border-color:var(--alert)}
+.qchip.warn:hover,.qchip.warn:focus-visible{color:#fff; border-color:var(--alert)}
 .qchip.warn .ic,.qchip.warn .qk,.qchip.warn b{color:#fff}
 .qchip.warn .qsep{background:rgba(255,255,255,.35)}
 /* 칩 상세 패널 — 칩 바로 아래 고정(top 70 · right 74), 폭 344px 고정, 3열 그리드(창 · 남음 · 초기화)에 줄바꿈 없음 */
@@ -841,9 +892,6 @@ a.rf-t::after{content:""; position:absolute; inset:0}   /* 행 전체가 링크 
 .legend i.pt{width:8px; height:8px; border-radius:50%}
 @media (max-width:860px){ .cr-grid{grid-template-columns:1fr} .cr:first-child{padding-right:0} .cr+.cr{border-left:0; padding-left:0; margin-top:12px; padding-top:12px; border-top:1px solid var(--hair)} }
 @media (max-width:520px){ .ks-stats{grid-template-columns:repeat(2,minmax(0,1fr))} }
-/* 타일 부제 두 벌 — 넓은 폭 문구(.td-w)와 좁은 폭 문구(.td-n). 지금은 「블로그 활동」만 쓴다 */
-.tile-d .td-n{display:none}
-@media (max-width:520px){ .tile-d .td-w{display:none} .tile-d .td-n{display:inline} }
 .ctip{
   position:fixed; z-index:95; pointer-events:none; min-width:150px; max-width:260px; padding:10px 12px;
   border-radius:12px; background:rgba(14,17,20,.94); color:#fff; box-shadow:var(--sh-float);
@@ -948,6 +996,15 @@ a.rf-t::after{content:""; position:absolute; inset:0}   /* 행 전체가 링크 
 .fab:hover{transform:translateY(-2px)}
 .fab:hover .knob{transform:rotate(-8deg) scale(1.06); background:rgba(255,255,255,.24)}
 .fab:active{transform:scale(.97)}
+/* ★10-25 1920 개편 — 본문이 1620 까지 넓어지자 1880 아래 폭에선 FAB(140px)가 목록 오른쪽 끝(발주 버튼·분류 칸)을 덮었다.
+   그 폭에선 FAB 를 아이콘 원(48)으로 접고 본문 오른쪽 여백을 FAB 자리만큼(20+48+16) 비운다 — 떠 있는 버튼은 아무것도 덮지 않는다.
+   ★도구함·캘린더(.wide)는 빼다 — 도구함 판이 1366 에서 60px 줄면 티어표·표 보드가 실제 크기(693)를 못 낸다(verify-tier·table). 도구 화면은 길어 컨트롤이 FAB 밑을 지나갈 뿐이다 */
+@media (min-width:861px) and (max-width:1879px){
+  body:not(.nofab) .main:not(.wide){padding-right:84px}
+  .fab{padding:0 6px; gap:0}
+  .fab .fab-tx{display:none}
+  body.toolsv .fab{right:auto; left:20px}   /* 도구함 오른쪽 편집 열(크기 입력·글꼴 select)을 덮었다(게이트 🟡6) — 왼쪽 아래는 도구 목록 레일(위쪽 sticky) 밑의 빈자리 */
+}
 /* 캘린더 탭에선 «새 글 요청»을 거둔다(09-28) — 1366 폭에서 오른쪽 수입 패널의 금액을 가렸고, 그 탭의 주 동작(«일감 추가»)과 헷갈린다 */
 body.nofab .fab{opacity:0; visibility:hidden; pointer-events:none; transform:translateY(14px) scale(.96);
   transition:transform var(--t) var(--e), opacity 200ms var(--e), visibility 0s linear 200ms}
@@ -963,7 +1020,7 @@ body.nofab .fab{opacity:0; visibility:hidden; pointer-events:none; transform:tra
 .back.on{opacity:1}
 .mdl{
   width:min(620px,100%); border-radius:var(--r-tray); padding:6px; margin:auto;
-  background:linear-gradient(180deg, var(--tray) 0%, var(--tray-2) 100%);
+  background:var(--tray);
   box-shadow:0 0 0 1px rgba(255,255,255,.5), var(--sh-float);
   transform:translateY(22px) scale(.97); opacity:0;
   transition:transform 520ms var(--e), opacity 320ms var(--e);
@@ -1244,7 +1301,7 @@ html.gs .nt{transition:none !important}
   .mx-l{grid-area:l} .mx-v,.mx-na{grid-area:v} .mx-bar{grid-area:b}
   .phead{flex-direction:column; align-items:flex-start; gap:10px}
   .pmeta{padding-bottom:0}
-  .tile.w7,.tile.w5{grid-column:span 12}
+  .tile.w8,.tile.w7,.tile.w5,.tile.w4{grid-column:span 12}
   .wl-row{grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"t s" "w s"; gap:2px 10px; padding:10px 14px; min-height:0}
   .wl-t{grid-area:t}
   .wl-w{grid-area:w}
@@ -1333,7 +1390,7 @@ html.gs .nt{transition:none !important}
   <div class="view" id="view"><div class="tray"><div class="core"><div class="skel" role="status" aria-live="polite"><span class="sr">불러오는 중</span><div class="skel-row"><i></i><i></i><i></i><i></i></div><div class="skel-row"><i></i><i></i><i></i><i></i></div><div class="skel-row"><i></i><i></i><i></i><i></i></div><div class="skel-row"><i></i><i></i><i></i><i></i></div><div class="skel-row"><i></i><i></i><i></i><i></i></div><div class="skel-row"><i></i><i></i><i></i><i></i></div></div></div></div></div>
 </main>
 
-<button class="fab" id="fab" type="button" aria-label="새 글 요청">
+<button class="fab" id="fab" type="button" aria-label="새 글 요청" title="새 글 요청">
   <span class="fab-tx">새 글 요청</span>
   <span class="knob"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
 </button>
@@ -2080,7 +2137,8 @@ function go(v){
   if(S.view==='tools')unmountTool();   /* 도구의 문서 단위 리스너(붙여넣기·키)를 떼고 나간다 */
   if(S.view==='cal')unmountCal();      /* 캘린더도 같다(탭 복귀 새로고침·툴팁 리스너) */
   S.view=v; S.q=''; S.page=1;
-  document.body.classList.toggle('nofab',v==='cal');   /* 캘린더 탭만 «새 글 요청» FAB 를 거둔다 */
+  document.body.classList.toggle('nofab',v==='cal');
+  document.body.classList.toggle('toolsv',v==='tools');   /* 도구함 — 861~1879 에선 FAB 를 왼쪽 아래로(오른쪽 편집 열을 덮지 않게 · 아래 FAB 규칙) */   /* 캘린더 탭만 «새 글 요청» FAB 를 거둔다 */
   tabsEl.querySelectorAll('.isl-tab').forEach(function(b){
     var on=b.dataset.v===v;
     b.classList.toggle('on',on); b.setAttribute('aria-selected',on?'true':'false');
@@ -2103,7 +2161,7 @@ window.addEventListener('scroll',function(){
 },{passive:true});
 
 function render(){
-  var mainEl=document.querySelector('.main'); if(mainEl){ mainEl.classList.toggle('wide',S.view==='tools'||S.view==='cal'); mainEl.classList.toggle('calv',S.view==='cal'); }   /* 도구함·캘린더만 넓은 작업 영역(1620) — 09-07 사용자 지시 «1920×1080 기준으로 넓혀서» · 캘린더는 달력+수입 패널 두 열이라 같은 폭(09-28) */
+  var mainEl=document.querySelector('.main'); if(mainEl){ mainEl.classList.toggle('wide',S.view==='tools'||S.view==='cal'); mainEl.classList.toggle('calv',S.view==='cal'); }   /* .wide = 옛 «도구함·캘린더만 1620» 표식(09-07) — ★10-25 v5.2 부터 --maxw 가 모든 탭 1620 이라 폭 차이는 없다(도구함 레일·캘린더 fit 이 이 클래스를 읽어 남겨 둔다) */
   if(S.view==='home')renderHome();
   else if(S.view==='trend')renderTrend();
   else if(S.view==='tools')renderTools();
@@ -2319,6 +2377,40 @@ function provisional(r){
   return !!(r&&r.status==='published'&&r.postRel&&r.statusAt>=POSTS_AT&&!RELSET[r.postRel]);
 }
 /* 마지막 발행 시각 — 사이트 글의 첫 커밋 중 가장 늦은 것(잠정 발행이 더 늦으면 그 보고 시각) */
+/* 「작업 중」 아래 «최근 발행»(posts.json created 순 · 실데이터 · 최대 5). ★10-25 1920 개편: 옆 「갱신할 글」과 한 줄(1440+)이라
+   작업 행이 적으면 타일이 그 높이만큼 늘어나 빈 띠가 됐다(작업 1건 = 341px · 디자인 게이트 🟡1) → 남는 높이만큼만 보인다(balanceHome) */
+function recentPubRows(){
+  if(!POSTS_OK)return '';
+  var list=POSTS.filter(function(p){ return p.pubAt>0; }).sort(function(a,b){ return b.pubAt-a.pubAt; }).slice(0,5);
+  if(!list.length)return '';
+  return '<div class="wl-sub" hidden>최근 발행</div>'+list.map(function(p){
+    var t=esc(p.title);
+    return '<div class="wl-row wl-rec" hidden style="--ac:'+wac(p.author)+'">'+
+      '<span class="wl-w"><span class="dot"></span><span>'+esc(p.author)+'</span></span>'+
+      '<a class="wl-t" href="'+encRel(p.rel)+'" target="_blank" rel="noopener" title="'+t+'">'+t+'</a>'+
+      '<span class="wl-s"><b>'+esc(dayTime(p.pubAt))+'</b></span></div>';
+  }).join('');
+}
+/* 1줄(작업 중 | 갱신할 글) 키 맞춤 — 두 타일의 «자연 높이»(코어 자식 높이 합)를 재고, 작업 중이 짧으면 최근 발행을 남는 만큼만 보인다.
+   1440 미만은 타일이 전폭으로 쌓여 늘어날 빈 띠가 없으므로 숨긴 채 둔다 */
+function balanceHome(){
+  var w=el('tileWork'), r=el('tileRefresh'); if(!w||!r)return;
+  var sub=w.querySelector('.wl-sub'), recs=w.querySelectorAll('.wl-rec');
+  if(sub)sub.hidden=true; recs.forEach(function(x){ x.hidden=true; });
+  if(!sub||!recs.length||!window.matchMedia('(min-width:1440px)').matches)return;
+  /* 자연 높이 — .wl 은 flex:1 로 늘어나 있으니 그 «자식» 높이를 더한다. offsetHeight = 레이아웃 값(뷰 전환 모션의 transform 무관) */
+  var nat=function(t){ var c=t.querySelector('.core'), h=0; if(!c)return 0;
+    Array.prototype.forEach.call(c.children,function(k){
+      if(k.classList.contains('wl'))Array.prototype.forEach.call(k.children,function(x){ h+=x.offsetHeight; });
+      else h+=k.offsetHeight;
+    }); return h; };
+  var room=nat(r)-nat(w);
+  sub.hidden=false; var sh=sub.offsetHeight; sub.hidden=true;
+  recs[0].hidden=false; var rh=recs[0].offsetHeight; recs[0].hidden=true;
+  if(!rh||room<sh+rh)return;
+  var k=Math.min(recs.length,Math.floor((room-sh)/rh));
+  sub.hidden=false; for(var i=0;i<k;i++)recs[i].hidden=false;
+}
 function lastPubAt(){
   var t=0;
   POSTS.forEach(function(p){ if(p.pubAt>t)t=p.pubAt; });
@@ -2363,11 +2455,12 @@ function tileWork(){
       (proc?stageLine(r,now):'')+
     '</div>';
   }).join(''):'<div class="wl-empty">'+(REQS_OK?'지금 돌아가는 작업이 없어요':'백엔드 미연결')+'</div>';
+  rows+=recentPubRows();   /* 최근 발행 — 늘 그려 두고 balanceHome() 이 옆 타일과 키가 맞을 만큼만 보인다 */
   /* 푸터 — 발행·마지막 발행은 사이트 글(posts.json), 실패는 큐(/requests). 못 읽은 쪽은 0 으로 위장하지 않고 칸을 뺀다 */
   var lastPub=lastPubAt();
-  return '<section class="tray tile w5 rise" id="tileWork"><div class="core">'+
+  return '<section class="tray tile w4 rise" id="tileWork"><div class="core">'+
     '<div class="tile-h"><span class="tile-ic">'+svg('activity')+'</span><span class="tile-t">작업 중</span>'+
-      '<span class="tile-d">큐에서 돌아가는 글</span><span class="tile-m">'+list.length+'</span></div>'+
+      '<span class="tile-m">'+list.length+'</span></div>'+
     '<div class="wl">'+rows+'</div>'+
     ((POSTS_OK||REQS_OK)?'<div class="wl-f">'+
       (POSTS_OK?'<span>오늘 발행 <b>'+today.p+'</b></span>':'')+
@@ -2400,6 +2493,16 @@ function resetTx(ts){
 /* 차트 폭 — 좁은 폭에선 viewBox 를 화면에 맞춰 글자가 줄어들지 않게 한다(리사이즈 시 다시 그림) */
 function chartW(desktop){
   return window.innerWidth<=860 ? Math.max(280, window.innerWidth-76) : desktop;
+}
+/* ★10-25 1920 개편 — 데스크톱 차트 폭 = 그 타일 안쪽 폭(벤토 12열 · 틈 14 · 트레이 6×2 · 본문 16×2)을 창 폭에서 계산한다.
+   viewBox 를 고정 560 으로 두면 좁은 칸(블로그 활동 7/12 한 칸 ≈420)에서 글자가 0.75배로 줄고, 넓은 칸에선 커진다 — 글자는 늘 11px 이어야 한다.
+   1440 미만은 타일이 전폭(.tile.w* 미디어)이라 span 12 로 센다. 폭이 바뀌면 resize 처리기가 두 차트 타일을 다시 그린다 */
+function tileInnerW(span){
+  var vw=document.documentElement.clientWidth||window.innerWidth;
+  if(vw<1440)span=12;
+  var fabGap=window.matchMedia&&window.matchMedia('(min-width:861px) and (max-width:1879px)').matches;   /* FAB 자리 오른쪽 여백 84(아래 FAB 규칙) */
+  var content=Math.min(vw,1620)-24-(fabGap?84:24), col=(content-11*14)/12;
+  return Math.floor(col*span+(span-1)*14-12-32);
 }
 function tierLabel(t){ t=String(t||''); var m=t.match(/max_(\d+)x/); return m?('Max '+m[1]+'x'):(t.indexOf('pro')>=0?'Pro':'이 PC 계정'); }
 /* 스냅샷 시각 — 하루 1회(데스크 06:00) 갱신이라 «n시간 전»보다 시각 자체가 읽기 쉽다. 오늘이면 시각만, 아니면 날짜까지 */
@@ -2459,7 +2562,7 @@ function tileUsage(){
     var series=W_ORDER.filter(function(w){ return tot[w]>0; });
     var tokOf=function(d){ return Number((tok[d]||{}).tok)||0; };
     var max=Math.max.apply(null,dates.map(tokOf).concat([1]));
-    var W=chartW(560),H=200,padL=46,padR=(CNT?34:8),padT=22,padB=26,pw=W-padL-padR,ph=H-padT-padB,slot=pw/dates.length,bw=Math.min(24,slot*.55);
+    var W=window.innerWidth<=860?chartW(560):tileInnerW(5),H=window.matchMedia('(min-width:1440px)').matches?300:200,padL=46,padR=(CNT?34:8),padT=22,padB=26,pw=W-padL-padR,ph=H-padT-padB,slot=pw/dates.length,bw=Math.min(24,slot*.55);
     var step=niceStep(max), grid='';
     for(var v=0;v<=max;v+=step){
       var gy=padT+ph-(v/max)*ph;
@@ -2539,9 +2642,9 @@ function tileUsage(){
     body=stats+'<div class="chart"><svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true">'+grid+raxis+cols+line+marks+caps+'</svg>'+table+'</div>'+legend;
   }
   var up=USAGE&&USAGE.updated?Date.parse(USAGE.updated):0;
-  return '<section class="tray tile w7 rise" id="tileUsage"><div class="core">'+
+  return '<section class="tray tile w5 rise" id="tileUsage"><div class="core">'+
     '<div class="tile-h"><span class="tile-ic">'+svg('layers')+'</span><span class="tile-t">사용량</span>'+
-      '<span class="tile-d">토큰 막대 · 발행 선 · 14일</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
+      '<span class="tile-d">14일</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
     '<div class="tile-b">'+body+'</div></div></section>';
 }
 
@@ -2824,7 +2927,7 @@ function citeRow(w){
   var barsOn=hasC||hasV, lineOn=hasP, combo=barsOn&&lineOn, lcol=combo?'var(--ink)':col;
   var bv=hasC?cv:vv, bname=hasC?'인용':'방문자';   /* 막대가 재는 값과 그 이름 */
   var bfmt=function(n){ return hasC?fmtKo(n,true):fmtKo(n); };   /* 인용 = 누적의 증분이라 «+» · 방문자 = 그 날의 수라 부호 없음 */
-  var W=chartW(560),H=combo?178:156,padL=44,padR=combo?26:8,padT=22,padB=26,pw=W-padL-padR,ph=H-padT-padB,slot=pw/days.length,bw=Math.min(24,slot*.5);
+  var W=window.innerWidth<=860?chartW(560):Math.floor((tileInnerW(7)-29)/2)-14,H=combo?178:156,padL=44,padR=combo?26:8,padT=22,padB=26,pw=W-padL-padR,ph=H-padT-padB,slot=pw/days.length,bw=Math.min(24,slot*.5);
   var lv=barsOn?bv:pv;   /* 왼쪽 축이 재는 값 */
   var max=Math.max.apply(null,lv.map(function(v){ return v||0; }).concat([1])), step=niceStep(max), grid='';
   for(var v=0;v<=max;v+=step){ var gy=padT+ph-(v/max)*ph;
@@ -2884,10 +2987,10 @@ function citeRow(w){
 function tileCite(){
   var ws=citeWriters(), body=ws.length?'<div class="cr-grid">'+ws.map(citeRow).join('')+'</div>':'<div class="wl-empty">스냅샷 없음</div>';
   var up=CITES&&CITES.updated?Date.parse(CITES.updated):0;
-  return '<section class="tray tile rise" id="tileCite"><div class="core">'+
+  return '<section class="tray tile w7 rise" id="tileCite"><div class="core">'+
     '<div class="tile-h"><span class="tile-ic">'+svg('spark')+'</span><span class="tile-t">블로그 활동</span>'+
       /* 부제는 폭에 따라 두 벌(10-12 게이트 🟡) — 긴 문구(140px)는 390 에서 «…글…» 로 잘려 «선 · 14일» 이 사라졌다. ≤520px 은 짧은 문구(세 계열 이름 + 기간) */
-      '<span class="tile-d"><span class="td-w">인용·방문자 막대 · 글 선 · 14일</span><span class="td-n">인용·방문자·글 · 14일</span></span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
+      '<span class="tile-d">14일</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
     '<div class="tile-b">'+body+'</div></div></section>';
 }
 
@@ -2940,7 +3043,7 @@ function tileMix(){
   var up=MIX&&MIX.updated?Date.parse(MIX.updated):0;
   return '<section class="tray tile rise" id="tileMix"><div class="core">'+
     '<div class="tile-h"><span class="tile-ic">'+svg('book')+'</span><span class="tile-t">주제 비중</span>'+
-      '<span class="tile-d">공략·티어 비중 · 목표 '+tgt+'%</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
+      ''+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
     '<div class="tile-b">'+body+'</div></div></section>';
 }
 
@@ -2988,16 +3091,18 @@ function tileRefresh(){
       (rows.length>RF_MAX?'<span>외 <b>'+(rows.length-RF_MAX)+'</b>건</span>':'')+badTx+'</div>';
   }
   var up=REFRESH&&REFRESH.updated?Date.parse(REFRESH.updated):0;
-  return '<section class="tray tile rise" id="tileRefresh"><div class="core">'+
+  return '<section class="tray tile w8 rise" id="tileRefresh"><div class="core">'+
     '<div class="tile-h"><span class="tile-ic">'+svg('refresh')+'</span><span class="tile-t">갱신할 글</span>'+
-      '<span class="tile-d">갱신 약속 · 기한순</span>'+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
+      ''+(up?'<span class="tile-m">'+esc(fmtStamp(up))+'</span>':'')+'</div>'+
     '<div class="wl">'+body+'</div>'+foot+'</div></section>';
 }
 
 function renderHome(){
   setTitle('홈');
   setMeta(homeMeta());
-  viewEl.innerHTML='<div class="bento">'+tileWork()+tileUsage()+tileCite()+tileMix()+tileRefresh()+'</div>';   /* 5타일: 작업 중(5) · 사용량(7) · 블로그 활동(12) · 주제 비중(12, 09-18) · 갱신할 글(12, 10-19) — 잔여 사용량은 상단 칩 */
+  viewEl.innerHTML='<div class="bento">'+tileWork()+tileRefresh()+tileUsage()+tileCite()+tileMix()+'</div>';
+  balanceHome();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){ if(S.view==='home')balanceHome(); });   /* 글꼴이 늦게 오면 행 높이가 바뀐다 */   /* ★10-25 1920 개편 — 1행 할 일 둘(작업 중 4 · 갱신할 글 8) · 2행 지표(사용량 5 · 블로그 활동 7) · 3행 주제 비중 12. 잔여 사용량은 상단 칩 */
   observeRise(viewEl);
   bindCharts(viewEl);
   paintNav();
@@ -3010,7 +3115,7 @@ function paintHomeLive(){
     var tmp=document.createElement('div'); tmp.innerHTML=t[1]();
     var nu=tmp.firstElementChild.querySelector('.core'), core=old.querySelector('.core');
     if(!nu||!core||nu.innerHTML===core.innerHTML)return;
-    MO.swap(core,{dir:0,top:false},function(){ core.innerHTML=nu.innerHTML; bindCharts(old); });
+    MO.swap(core,{dir:0,top:false},function(){ core.innerHTML=nu.innerHTML; bindCharts(old); balanceHome(); });
   });
   setMeta(homeMeta());
   paintNav();
@@ -3021,6 +3126,7 @@ window.addEventListener('resize',function(){
   if(S.view!=='home')return;
   clearTimeout(homeRsT);
   homeRsT=setTimeout(function(){
+    balanceHome();
     if(window.innerWidth===homeRsW)return; homeRsW=window.innerWidth;
     [['tileUsage',tileUsage],['tileCite',tileCite]].forEach(function(t){
       var old=el(t[0]); if(!old)return;
@@ -3581,7 +3687,7 @@ function listPanel(k){
   return '<div class="pin-in pin-'+k+'" data-box="'+k+'">'+
     '<div class="pin-h"><span class="pin-ic">'+svg(b.icon)+'</span>'+
       '<span class="pin-t">'+esc(b.t)+'</span>'+
-      '<span class="pin-note">'+esc(b.note)+'</span>'+
+
       '<span class="pin-n'+(full?' full':'')+'">'+items.length+' / '+b.max+'</span></div>'+
     (items.length?'<div class="pin-chips">'+chips+'</div>':'')+
     (k==='pin'?pinSugHtml(full):'')+
@@ -3595,7 +3701,7 @@ function listPanel(k){
 function pinSugHtml(full){
   var games=((PINSUG&&Array.isArray(PINSUG.games))?PINSUG.games:[]).filter(function(g){ return g&&g.game&&!PinSvc.has(g.game)&&!WatchSvc.has(g.game); }).slice(0,4);
   if(!games.length)return '';
-  return '<div class="pin-sug"><span class="pin-sug-l">추천 · 브리핑 출처로 잡힌 게임</span>'+games.map(function(g){
+  return '<div class="pin-sug"><span class="pin-sug-l">추천</span>'+games.map(function(g){
     return '<button type="button" data-add="'+esc(g.game)+'"'+(full?' disabled':'')+' aria-label="'+esc(g.game)+' 핀에 추가 — 브리핑 출처 '+Number(g.hits||0)+'회"'+
       itipAttr('pin:'+g.game,{h:g.game,k:'핀 추천',p:'봄딩 글이 AI 브리핑 출처로 잡힌 게임이에요. 누르면 꼭 다룰 게임에 넣어요.',
         rows:[['브리핑 출처',Number(g.hits||0)+'회']].concat(g.last?[['최근',String(g.last)]]:[])})+' data-itip-act>+ '+esc(g.game)+'<b aria-hidden="true">'+Number(g.hits||0)+'</b></button>';
@@ -3713,9 +3819,17 @@ function renderTrend(o){
   itipHide(true);
   setTitle('트렌드');
   var fresh=!(el('tq')&&el('tbody'));
-  if(fresh){ viewEl.innerHTML=trendSearchBar()+'<div id="tbody"></div>'; bindTrendSearch(); }
+  /* ★10-25 1920 개편 — 2열: 왼쪽 고정 레일(오늘 판 요약·칸 바로가기·지정 게임 상자) + 오른쪽(날짜·검색 한 줄 + 칸 목록).
+     ≤1180 은 한 열(레일이 위). 레일·날짜 칸은 본문과 따로 칠한다(본문만 미끄러진다) */
+  if(fresh){ viewEl.innerHTML='<div class="tlay"><aside class="trail" id="trail" aria-label="오늘 판 요약·지정 게임"></aside>'+
+    '<div class="tmain">'+trendSearchBar()+'<div id="tbody"></div><div class="tpins" id="tpins"></div></div></div>'; bindTrendSearch(); }
   var body=el('tbody');
-  function paint(html,after){
+  var lay=viewEl.querySelector('.tlay'); if(lay)lay.classList.toggle('searching',!!S.q);
+  /* rail = 레일 HTML(null 이면 그대로 둔다) · pg = 날짜 칸 HTML(검색 중엔 빈칸) */
+  function paint(html,after,rail,pg){
+    var tr=el('trail'), tp=el('tpg');
+    if(rail!=null&&tr){ itipHide(true); var tpn=el('tpins'); if(tpn)tpn.innerHTML=''; tr.innerHTML=rail; placePins(); }
+    if(tp)tp.innerHTML=pg||'';
     if(fresh||!MO.live()){
       body.innerHTML=html; if(after)after();
       if(o.top&&!fresh)window.scrollTo({top:0,behavior:'auto'});
@@ -3726,9 +3840,9 @@ function renderTrend(o){
 
   if(!TREND.length){
     setMeta('');
-    paint(pinBox()+'<div class="tray"><div class="core"><div class="empty">'+
+    paint('<div class="tray"><div class="core"><div class="empty">'+
       '<div class="empty-t">아직 데스크 판이 없어요</div>'+
-      '<div class="empty-s">매일 아침 6시에 그날 주제가 올라와요</div></div></div></div>', bindPinBox);
+      '<div class="empty-s">매일 아침 6시에 그날 주제가 올라와요</div></div></div></div>', bindPinBox, pinBox(), '');
     return;
   }
   var dates=TREND_DATES.length?TREND_DATES:TREND.map(function(e){ return e.date; });
@@ -3737,13 +3851,13 @@ function renderTrend(o){
   /* 경량본만 있는데 3일 밖 날짜를 고르면 여기서만 전량을 받는다 */
   var edHit=TREND.filter(function(e){ return e.date===S.trendDate; })[0];
   if(!edHit&&!TREND_FULL){
-    paint(pinBox()+datePager(dates,S.trendDate)+skel(4),function(){ bindPinBox(); attachPager(dates); });
+    paint(skel(4),function(){ bindPinBox(); attachPager(dates); }, pinBox(), datePager(dates,S.trendDate));
     ensureFullTrend().then(function(){ if(S.view==='trend')renderTrend(); });
     return;
   }
   /* 검색은 전체 판 횡단 — 경량본만 있으면 3일치만 뒤지고 «없다»고 거짓말하게 된다. 먼저 전량을 받는다. */
   if(S.q&&!TREND_FULL){
-    paint(skel(4));
+    paint(skel(4),null,null,'');
     ensureFullTrend().then(function(){ if(S.view==='trend')renderTrend(); });
     return;
   }
@@ -3760,7 +3874,7 @@ function renderTrend(o){
     paint('<div class="tray"><div class="core">'+
       (hits.length?hits.map(trendRow).join('')
         :'<div class="empty"><div class="empty-t">해당하는 주제가 없어요</div></div>')+
-      '</div></div>', bindOrderButtons);
+      '</div></div>', function(){ bindOrderButtons(); if(fresh)bindPinBox(); }, fresh?pinBox():null, '');
     return;
   }
 
@@ -3771,14 +3885,15 @@ function renderTrend(o){
   var rItems=refreshItems();   /* 「갱신할 글」 — 에디션 밖(스냅샷 파일)에서 */
   var stats=DESK_SECTIONS.map(function(s){
     var n=(s.key==='refresh')?rItems.length:(ed.sections.filter(function(x){ return x.key===s.key; })[0]||{items:[]}).items.length;
-    return '<span class="mh-stat" style="--cc:'+s.ac+'"><b>'+n+'</b>'+esc(s.label)+'</span>';
+    return '<button type="button" class="mh-stat'+(n?'':' zero')+'" data-jump="'+s.key+'" style="--cc:'+s.ac+'"><span class="mh-l">'+esc(s.label)+'</span><b>'+n+'</b></button>';
   }).join('');
-  var mast='<section class="tray rise"><div class="core"><div class="masthead">'+
+  /* 데스크 노트(작업 기록 · 전부 ★ 말머리) — ★10-25: «데스크 메모 N» 으로 접는다(기본 닫힘 · 화면 설명문 금지 규칙).
+     항목별 주의는 발주 모달의 ★ 줄이 따로 나른다 */
+  var mast='<section class="tray tmast"><div class="core"><div class="masthead">'+
     '<div class="mh-t">'+esc(ed.headline||'오늘의 게임 주제')+'</div>'+
-    '<div class="mh-stats">'+stats+'</div>'+
-    (ed.note.length?'<ul class="mh-note">'+ed.note.map(function(n){
-      return '<li'+(isCaution(n)?' class="warn"':'')+'>'+esc(n.replace(/^★+\s*/,''))+'</li>';
-    }).join('')+'</ul>':'')+
+    '<nav class="mh-stats" aria-label="칸 바로가기">'+stats+'</nav>'+
+    (ed.note.length?'<details class="mh-more"><summary>데스크 메모 <b>'+ed.note.length+'</b></summary><ul class="mh-note">'+ed.note.map(function(n){
+      return '<li>'+esc(n.replace(/^★+\s*/,''))+'</li>'; }).join('')+'</ul></details>':'')+
     '</div></div></section>';
 
   var secs=DESK_SECTIONS.map(function(s){
@@ -3786,35 +3901,54 @@ function renderTrend(o){
     var emptyTx=(s.key==='pinned')
       ? (PINS.length
           ? '지정한 게임 주제는 <b>다음 회차</b>부터 올라와요.'
-          : '위 상자에 게임을 지정하면 <b>게임마다 주제 최대 5개</b>가 여기 모여요.')
+          : '게임을 지정하면 <b>게임마다 주제 최대 5개</b>가 여기 모여요.')
       : (s.key==='watch')
         ? (ed.date<WATCH_FROM ? '이 칸은 <b>10월 26일 판</b>부터 채워져요.'
-          : WATCH.length ? '지정한 게임에 <b>새 업데이트가 없었어요</b>. 업데이트가 잡히면 정리·공략이 여기 모여요.'
-          : '위 상자에 게임을 지정하면 <b>업데이트가 있을 때마다</b> 정리 1~2편과 공략이 여기 모여요.')
+          : WATCH.length ? '지정한 게임에 <b>새 업데이트가 없었어요</b>.'
+          : '게임을 지정하면 <b>업데이트가 있을 때만</b> 정리·공략이 여기 모여요.')
       : (s.key==='refresh')
-        ? (REFRESH?'갱신할 약속이 없어요. 효자 글 제안은 <b>매월 1일</b> 올라와요.':'갱신 스냅샷이 아직 없어요.')
+        ? (REFRESH?'갱신할 약속이 없어요.':'갱신 스냅샷이 아직 없어요.')
       : (s.key==='tier'&&ed.date<TIER_FROM)
         ? '이 칸은 <b>10월 26일 판</b>부터 채워져요.'
-        : '오늘은 이 분류에서 건질 주제가 없었어요.';
+        : '오늘은 주제가 없어요.';
     /* 갱신 칸 — 읽지 못한 refresh.json(bad[])은 0 으로 위장하지 않는다(홈 타일과 같은 규칙 · 검수 🟡) */
     var rbad=(s.key==='refresh'&&REFRESH&&Array.isArray(REFRESH.bad))?REFRESH.bad.length:0;
     var body=(items.length
       ? items.map(trendRow).join('')
       : '<div class="tsec-empty">'+emptyTx+'</div>')+
       (rbad?'<div class="tsec-empty rf-bad">읽지 못한 갱신 기록 <b>'+rbad+'</b>건 — 글 폴더 _qa/refresh.json 형식 확인</div>':'');
-    return '<section class="tray tsec rise" style="--ac:'+s.ac+'"><div class="core">'+
+    return '<section class="tray tsec rise" id="ts-'+s.key+'" tabindex="-1" style="--ac:'+s.ac+'"><div class="core">'+
       '<div class="tsec-h"><span class="tsec-ic">'+svg(s.icon)+'</span>'+
-        '<span class="tsec-t">'+esc(s.label)+'</span><span class="tsec-d">'+esc(s.desc)+'</span>'+
+        '<span class="tsec-t">'+esc(s.label)+'</span>'+
         '<span class="tsec-n">'+items.length+'</span></div>'+
       body+'</div></section>';
   }).join('');
 
-  paint(pinBox()+mast+datePager(dates,S.trendDate)+secs,function(){
-    observeRise(body); bindPinBox(); attachPager(dates); bindOrderButtons();
+  paint(secs,function(){
+    observeRise(body); bindPinBox(); attachPager(dates); bindOrderButtons(); bindJump();
+  }, mast+pinBox(), datePager(dates,S.trendDate));
+}
+/* 지정 게임 상자 자리 — 1440+ = 레일(요약 아래) · 한 열 = 목록 뒤(#tpins). DOM 을 옮겨 Tab 순서 = 보이는 순서 */
+var PINS_MQ=window.matchMedia?window.matchMedia('(min-width:1440px)'):null;
+function placePins(){
+  var pb=viewEl.querySelector('.pinbox'), tr=el('trail'), tp=el('tpins'); if(!pb||!tr||!tp)return;
+  var to=(!PINS_MQ||PINS_MQ.matches)?tr:tp;
+  if(pb.parentNode!==to){ itipHide(true); to.appendChild(pb); }
+}
+if(PINS_MQ){ var onPinsMq=function(){ if(S.view==='trend')placePins(); };
+  if(PINS_MQ.addEventListener)PINS_MQ.addEventListener('change',onPinsMq); else if(PINS_MQ.addListener)PINS_MQ.addListener(onPinsMq); }
+/* 칸 바로가기 — 레일의 칸 이름을 누르면 그 칸으로 스크롤하고 칸에 포커스(키보드 다음 Tab = 그 칸의 첫 발주 버튼) */
+function bindJump(){
+  viewEl.querySelectorAll('[data-jump]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=el('ts-'+b.dataset.jump); if(!t)return;
+      t.scrollIntoView({behavior:MO.live()?'smooth':'auto',block:'start'});
+      try{ t.focus({preventScroll:true}); }catch(e){}
+    });
   });
 }
 function trendSearchBar(){
-  return '<div class="filters"><span class="fsearch">'+svg('search')+
+  return '<div class="filters tbar"><span class="tpg" id="tpg"></span><span class="fsearch">'+svg('search')+
     '<input id="tq" type="search" placeholder="주제 검색 (전체 판)" autocomplete="off" aria-label="주제 검색" value="'+esc(S.q)+'">'+
     '</span></div>';
 }

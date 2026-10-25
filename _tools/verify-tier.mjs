@@ -120,7 +120,7 @@ const rail = await ev(`(()=>{const tb=document.querySelector('.tb'),side=documen
 chk('도구함 뷰 = 넓은 작업 영역(.main.wide 1620) · 목록은 왼쪽 sticky 레일(top 84)', rail && rail.wide && rail.mainMax === '1620px' && rail.mW === 1620 && rail.pos === 'sticky' && rail.top === '84px' && rail.ml === '0px', rail);
 chk('1920: 도구 판 폭 1326(1620 − 패딩 48 − 레일 232 − 간격 14)', rail && rail.panelW === 1326 && rail.sideW === 232, rail);
 await click('.isl-tab[data-v="home"]'); await sleep(700);
-chk('홈으로 가면 본문 열 1080 복귀(.wide 해제)', await ev(`(()=>{const m=document.querySelector('.main');return !m.classList.contains('wide')&&Math.round(m.getBoundingClientRect().width)===1080})()`), await ev(`Math.round(document.querySelector('.main').getBoundingClientRect().width)`));
+chk('홈으로 가면 .wide 해제 · 본문 열 1620(★10-25 v5.2 — 모든 탭 1620)', await ev(`(()=>{const m=document.querySelector('.main');return !m.classList.contains('wide')&&Math.round(m.getBoundingClientRect().width)===1620})()`), await ev(`Math.round(document.querySelector('.main').getBoundingClientRect().width)`));
 await gotoTier();
 await T('reset()'); await sleep(350);
 const s0 = await state();
