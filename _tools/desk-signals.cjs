@@ -23,8 +23,7 @@
               ★순서 = [C] trend.json 작성 뒤 · [D] build-trend-lite·test-desk 앞.
      seeds    [--top 12] [--print]
               guide 시드 원장(_trend/_guide-seeds.json · 56일 롤링)을 trend.json 으로 갱신하고 상위 게임을 보여 준다.
-     parenting [--date YYYY-MM-DD]
-              육아 칸 «주 1회» 판정 — 그 주(월~일)에 육아가 실린 판이 이미 있으면 SKIP, 없으면 DUE.
+     (parenting 명령은 2026-10-25 육아 칸 폐지와 함께 없앴다 — 그 자리 = 「티어표 추천」(tier))
 
    신호 (항목에 그대로 실린다 — 사이트 발주 모달이 읽는다)
      angleType   howto(공략·방법·얻는 법·쿠폰) · rank(티어·추천·비교) · news(출시·일정·발표·결과·논란·매출) · info(정리·후기·기타)
@@ -68,8 +67,9 @@
      R5  전 칸     진입형 질의(설치·가입·하는 법…)인데 신작(최근 14판 new)도 아니고 entryOk 도 없음                            → DROP
      W1  new·update·hot 의 news 합 2건 초과 · 칸 상한 new 3 · update 3 · hot 2 · guide 8                                     → DROP(약한 쪽부터)
      G   guide    angleType ∈ {howto, rank} 이고 tier ≥ 1                                                                    → 아니면 DROP
+     T   tier     angleType = rank 이고 tier ≥ 1 · 게임당 1건 · 칸 상한 3(2026-10-25 사용자 «육아 자리에 티어표 추천»)          → 아니면 DROP
      ★신호를 못 잰 경우(네트워크 실패)는 그 규칙을 적용하지 않는다(fail-open) — «모름»을 «없음»으로 바꾸지 않는다.
-     ★parenting 은 건드리지 않는다(게임 축 밖 · 규칙 = SKILL [A-3]).
+     ★parenting(육아) 칸은 2026-10-25 폐지 — 옛 판 항목은 판정하지 않는다(게임 축 밖).
 
    정렬 (칸 안)  수요 tier ↓ → 브리핑(뜸·우리 미인용 → 뜸·출처 미열람 → 모름 → 뜸·이미 인용 → 안 뜸) → acRank ↑ → 원래 순서.
                 pinned·watch 는 게임 묶음 순서를 지키고 그 안에서만 정렬한다. (heat 는 09-23 부터 정렬에 쓰지 않는다)
@@ -103,12 +103,12 @@ const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 
 const RULE_FROM = '2026-09-19';
 const DEPTH_KO = { entry: '진입형', play: '실전형', news: '소식형' };
-const CAPS = { new: 3, update: 3, hot: 2, guide: 8 };
+const CAPS = { new: 3, update: 3, hot: 2, guide: 8, tier: 3 };
 const EVENT_SECS = ['new', 'update', 'hot'];
 const NEWS_MAX_EVENT = 2;
-const AIB_SECS = ['guide', 'pinned', 'watch', 'core', 'new', 'update', 'hot'];   /* ★09-23 소식 칸 포함 · 순서 = 회차 상한 안 우선순위 */
-const GAME_SECS = ['pinned', 'watch', 'core', 'guide', 'new', 'update', 'hot'];
-const SEC_PRIORITY = { pinned: 0, watch: 1, core: 2, guide: 3, new: 4, update: 5, hot: 6 };   /* X 규칙 우선권(작을수록 상위 칸) · watch = 업데이트 챙길 게임(10-25) */
+const AIB_SECS = ['guide', 'pinned', 'watch', 'tier', 'core', 'new', 'update', 'hot'];   /* ★09-23 소식 칸 포함 · 순서 = 회차 상한 안 우선순위 */
+const GAME_SECS = ['pinned', 'watch', 'tier', 'core', 'guide', 'new', 'update', 'hot'];
+const SEC_PRIORITY = { pinned: 0, watch: 1, tier: 2, core: 3, guide: 4, new: 5, update: 6, hot: 7 };   /* X 규칙 우선권(작을수록 상위 칸) · watch = 업데이트 챙길 게임 · tier = 티어표 추천(10-25 · 같은 게임 티어 주제는 주력·공략 칸에서 이 칸으로 모인다) */
 const WATCH_MAX = { recap: 2, guide: 5 };   /* R6 — watch 게임당 정리(news·info) · 공략(howto·rank) 상한(2026-10-25 사용자) */
 const BLOCKLIST = path.join(ROOT, '_trend', '_blocklist.json');
 const DD = require('./desk-dedup.cjs');   /* X 규칙의 «주제 겹침» 판정 — 재탕 도구와 같은 자로 잰다 */
@@ -490,6 +490,11 @@ function judge(items, saOn, ctx) {
     if ((sec === 'hot' || sec === 'core') && a === 'news') mark(it, 'R2', sec === 'hot' ? '논평·결과형 화제(how-to 아님)' : '주력 게임 소식(how-to 아님)');
     /* R4 — 수요 최저 구간 = tier 0(★09-23 heat 제거 · 검색광고 연동이면 월 500 미만 · 아니면 질의·게임 자동완성 없음) */
     if (EVENT_SECS.includes(sec) && t === 0) mark(it, 'R4', '수요 최저 구간(' + (d.src === 'searchad' ? '월 500 미만' : d.ac === 0 ? '게임 자동완성 0' : '질의 자동완성 없음') + ')');
+    /* T — 티어표 추천(2026-10-25) = 티어·순위 각도이고 찾는 사람이 있어야 한다(도구함 티어표로 그릴 주제) */
+    if (sec === 'tier') {
+      if (a !== 'rank') mark(it, 'T', '티어표 칸인데 각도가 ' + a);
+      else if (t === 0) mark(it, 'T', '티어표 칸인데 수요 없음');
+    }
     if (sec === 'guide') {
       if (!['howto', 'rank'].includes(a)) mark(it, 'G', '공략 칸인데 각도가 ' + a);
       else if (t === 0) mark(it, 'G', '공략 칸인데 수요 없음');
@@ -530,6 +535,10 @@ function judge(items, saOn, ctx) {
     const k = kind + ':' + normKey(it.game); (wg[k] = wg[k] || { kind, list: [] }).list.push(it);
   });
   Object.values(wg).forEach(({ kind, list }) => byKey(list).slice(WATCH_MAX[kind]).forEach((it) => mark(it, 'R6', '업데이트 챙길 게임은 게임당 ' + (kind === 'recap' ? '정리 ' : '공략 ') + WATCH_MAX[kind] + '건까지')));
+  /* T — 티어표 칸은 게임당 1건(같은 게임 티어표 두 장은 한 글이다) */
+  const tg = {};
+  items.filter((it) => it.sec === 'tier' && alive(it)).forEach((it) => { (tg[normKey(it.game)] = tg[normKey(it.game)] || []).push(it); });
+  Object.values(tg).forEach((list) => byKey(list).slice(1).forEach((it) => mark(it, 'T', '티어표 추천은 게임당 1건')));
   /* W1 — new·update·hot news 합 ≤ 2 */
   byKey(items.filter((it) => EVENT_SECS.includes(it.sec) && alive(it) && angleTypeOf(it) === 'news')).slice(NEWS_MAX_EVENT)
     .forEach((it) => mark(it, 'W1', '소식형은 신작·업데이트·화제 합쳐 하루 ' + NEWS_MAX_EVENT + '건까지'));
@@ -540,7 +549,7 @@ function judge(items, saOn, ctx) {
 }
 /* 칸 안 정렬 — pinned·watch 는 게임 묶음 순서 유지 */
 function sortSection(key, items) {
-  if (key === 'parenting' || items.length < 2) return items;
+  if (items.length < 2) return items;
   const idx = new Map(items.map((it, i) => [it, i]));
   const cmp = (a, b) => cmpKey(sortKey(a, idx.get(a)), sortKey(b, idx.get(b)));
   if (key !== 'pinned' && key !== 'watch') return items.slice().sort(cmp);
@@ -608,13 +617,13 @@ async function cmdCheck() {
   const dropSet = new Map(drop.map((d) => [d.it, d]));
   console.log('\n신호 · 판정 — 후보 ' + items.length + '건 · 검색량 ' + (saOn ? '연동' : '미연동(자동완성·질의 단위)') + ' · 자동완성 요청 ' + acReq + ' · 검색광고 요청 ' + saReq + ' · 브리핑 실검색 ' + aibNet +
     ' · 블록리스트 ' + ctx.blocklist.length + '건 · 크로스섹션 ' + (ctx.crossStrict ? 'strict' : '주제 겹침 조건'));
-  GAME_SECS.concat(['parenting']).forEach((sec) => {
+  GAME_SECS.forEach((sec) => {
     const list = items.filter((it) => it.sec === sec); if (!list.length) return;
     console.log('\n[' + sec + '] ' + list.length + '건');
     sortSection(sec, list).forEach((it) => {
       const d = dropSet.get(it);
       console.log('  ' + (d ? 'DROP ' + d.rule.padEnd(3) : 'KEEP    ') + ' ' + String(it.id || '').padEnd(6) + ' ' + (it.game || '') + ' | ' + (it.title || '').slice(0, 48) +
-        (sec === 'parenting' ? '' : '  [' + DEPTH_KO[depthOf(it)] + ' · ' + it.angleType + ' · ' + fmtDemand(it.demand) + (it.aib ? ' · ' + fmtAib(it.aib) : '') + ']') + (d ? '  ← ' + d.why : ''));
+        '  [' + DEPTH_KO[depthOf(it)] + ' · ' + it.angleType + ' · ' + fmtDemand(it.demand) + (it.aib ? ' · ' + fmtAib(it.aib) : '') + ']' + (d ? '  ← ' + d.why : ''));
     });
   });
   const out = val('--json', null);
@@ -772,22 +781,6 @@ async function cmdQueries() {
   console.log('★질의가 있다 ≠ 지금 쓸 수 있다 — 조사원이 1차 자료(공식·위키)로 답을 확인한 질의만 발주한다.');
 }
 
-/* ── 명령: parenting — 육아 칸 «주 1회» 판정 ─────────────────────────────────
-   그 주(월~일, KST)에 육아 칸이 실린 판이 이미 있으면 SKIP, 없으면 DUE. 보통 월요일 판이 DUE 가 되고,
-   월요일 회차가 죽었으면 그 주 다음 판이 이어받는다(요일을 사람이 계산하지 않게 — 규칙 = SKILL [A-3]).
-   --date 로 «오늘»을 바꿔 시험할 수 있다. 출력 첫 낱말이 DUE|SKIP 이고 exit 0. */
-function cmdParenting() {
-  const doc = readJson(TREND, { editions: [] });
-  const today = val('--date', null) || kstToday();
-  const t = new Date(today + 'T12:00:00Z');
-  const mon = new Date(t.getTime() - ((t.getUTCDay() + 6) % 7) * 86400e3).toISOString().slice(0, 10);
-  const hit = (doc.editions || []).filter((e) => e && e.date >= mon && e.date <= today && e.date !== (has('--include-today') ? '' : today) &&
-    ((((e.sections || []).find((s) => s && s.key === 'parenting') || {}).items || []).filter(Boolean).length));
-  if (hit.length) console.log('SKIP 이번 주(' + mon + '~) 육아 판 있음: ' + hit.map((e) => e.date).join(', ') + ' — 오늘 판 육아 칸은 0건(note 줄 불필요 · 사이트가 «주 1회»를 그린다)');
-  else console.log('DUE 이번 주(' + mon + '~) 육아 판 없음 — 오늘 판에 육아 3픽(SKILL [A-3])');
-  return Promise.resolve();
-}
-
 /* ── 진입 ─────────────────────────────────────────────────────────────── */
 /* ── 글 → 발주 경로(칸)  (aib-followup · 2026-09-19 · 계획서 W4-1 «분류·각도별 브리핑 진입률») ─────────────
    글 폴더 = 백엔드 요청 postRel 에서 파일명을 뺀 것. trend-desk 요청은 발주 제목(topic)을 데스크 항목 제목과 맞춰 칸 키를 얻는다.
@@ -833,7 +826,7 @@ module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromA
 
 if (require.main === module) {
   const cmd = argv[0];
-  const run = { check: cmdCheck, stamp: cmdStamp, seeds: () => cmdSeeds({}), queries: cmdQueries, parenting: cmdParenting }[cmd];
-  if (!run) { log('사용: desk-signals.cjs <queries|check|stamp|seeds|parenting> … (파일 머리 주석 참조)'); process.exit(2); }
+  const run = { check: cmdCheck, stamp: cmdStamp, seeds: () => cmdSeeds({}), queries: cmdQueries }[cmd];
+  if (!run) { log('사용: desk-signals.cjs <queries|check|stamp|seeds> … (파일 머리 주석 참조)'); process.exit(2); }
   run().catch((e) => { log('실패: ' + (e && e.stack ? e.stack : e)); process.exit(1); });
 }

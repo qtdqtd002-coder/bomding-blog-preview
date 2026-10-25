@@ -75,7 +75,7 @@
   --s-core:#AE3468;
   --s-guide:#5A6E14;   /* 「지금 검색되는 공략」(2026-09-18) — 올리브. 표면 5.71:1 · surface-2 5.33:1 · tray 4.62:1(글자 AA) ·
                           기존 6색·봄딩·영도와 최소 ΔE2000 5.7(적색맹 모의 · pinned) — 기존 6색끼리 최저 3.5 보다 멀다. 빈 색상 구간(Lab h≈115°)을 골랐다 */
-  --s-parenting:#6E4FBF;
+  --s-tier:#6E4FBF;   /* 「티어표 추천」(2026-10-25 · 육아 칸 자리 · 옛 --s-parenting 색을 물려받음 — 표면 대비 검증값 그대로) */
   --s-new:#1F5FA8;
   --s-update:#1F7458;
   --s-hot:#B93F14;
@@ -589,6 +589,8 @@ a{color:inherit; text-decoration:none}
   overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
 .tr-m{display:flex; align-items:center; gap:8px; min-width:0}
+/* 칩·라벨이 4개 이상인 행은 중간 폭(861~1040)에서 주제가 7자까지 깎였다(게이트 10-25 🟡 · 861px 주제 107px) — 그 행만 칩을 주제 아랫줄로 */
+@media (min-width:861px) and (max-width:1040px){ .tr-m.many{flex-wrap:wrap; row-gap:5px} .tr-m.many .tr-h{flex:1 1 100%} }
 .tr-h{font-size:14.5px; font-weight:500; letter-spacing:-.022em;
       overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 /* 관련 글 작성자 라벨(2026-10-25 사용자 요청 · 10-11 «관련 글» 표식을 대신한다) — 글자 «관련 글» 대신 그 글을 쓴 작성자 이름.
@@ -616,6 +618,8 @@ a{color:inherit; text-decoration:none}
 .tr-chip.aib-off{color:var(--ink-3)}   /* ink-4 는 surface-2 위 4.47:1 미달(검수 10-25 · 네 번째 재발 패턴) */
 .tr-chip.rf{color:var(--s-refresh); border-color:color-mix(in oklab,var(--s-refresh) 40%,var(--hair-2))}        /* 갱신 — N일 남음 */
 .tr-chip.rf-late{color:var(--alert); border-color:color-mix(in oklab,var(--alert) 40%,var(--hair-2))}           /* 갱신 — 기한 지남 */
+.tr-chip.res-on{color:var(--s-tier); border-color:color-mix(in oklab,var(--s-tier) 40%,var(--hair-2))}          /* 티어표 — 도구함 리소스 묶음 있음 */
+.tr-chip.res-off{color:var(--ink-3)}                                                                              /* 티어표 — 묶음 없음(발주 때 만든다) */
 .tsec-empty.rf-bad b{color:var(--alert)}
 /* 핀 상자 «추천»(2026-10-25 결정서 5번) — 봄딩 글이 브리핑 출처로 잡힌 게임. 누르면 핀에 추가(지정은 사용자) */
 .pin-sug{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:9px 0; font-size:12.5px; color:var(--ink-3)}   /* 아래 마진 = 입력 줄과 포커스 링 간섭 방지 */
@@ -651,7 +655,6 @@ a{color:inherit; text-decoration:none}
 .cta:disabled{cursor:default}
 .tsec-empty{padding:26px 18px; font-size:12.5px; line-height:1.7; color:var(--ink-3)}
 .tsec-empty b{color:var(--ink-2); font-weight:600}
-.tsec-go{margin-left:6px; vertical-align:middle}   /* 육아 주 1회 — 이번 주 육아 판으로 가는 버튼(날짜 페이저 버튼과 같은 어휘 .dpbtn) · 2026-09-18 */
 
 /* ══════════ 홈 — 「주제 비중」 (2026-09-18) ══════════
    강조형 100% 막대(dataviz «emphasis»): 공략·티어만 잉크, 나머지(소식·기타)는 회색 한 가지. 막대 두께 12px(≤24) ·
@@ -1960,8 +1963,10 @@ var refreshP=jget('_trend/_refresh.json?ts='+Date.now(),null);
 var pinSugP=jget('_trend/_pin-suggest.json?ts='+Date.now(),null);
 var gameCatsP=jget('_trend/_game-cats.json?ts='+Date.now(),null);
 var heroP=jget('_trend/_hero.json?ts='+Date.now(),null);
+var tierResP=jget('_toolbox/tier/res/index.json?ts='+Date.now(),null);   /* 티어표 리소스 묶음 색인(10-25 · 티어표 칸 «리소스 있음/없음») */
 
-Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP,refreshP,pinSugP,gameCatsP,heroP,watchP]).then(function(r){
+Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP,refreshP,pinSugP,gameCatsP,heroP,watchP,tierResP]).then(function(r){
+  TIERRES=(r[18]&&Array.isArray(r[18].bundles))?r[18].bundles:null;
   PINSUG=(r[14]&&Array.isArray(r[14].games))?r[14]:null;
   GAMECATS=(r[15]&&r[15].games&&typeof r[15].games==='object')?r[15]:null;
   HERO=(r[16]&&Array.isArray(r[16].top))?r[16]:null;
@@ -2257,7 +2262,7 @@ function observeRise(root){
            ④잔여 사용량 = _trend/_quota.json(이 PC 계정 Max 한도 창).
    숫자는 실측만 — 스냅샷이 없으면 «스냅샷 없음»이지 0 이 아니다. 차트는 얇은 막대·2px 표면 간격·범례·툴팁·표 뷰(sr). */
 var USAGE=null, QUOTA=null, CITES=null, MIX=null, REFRESH=null, REQS_OK=false;
-var PINSUG=null, GAMECATS=null, HERO=null;   /* 2026-10-25 결정서 — 핀 추천 · 게임별 네이버 카테고리 · 월간 효자 글 */   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
+var PINSUG=null, GAMECATS=null, HERO=null, TIERRES=null;   /* 2026-10-25 결정서 — 핀 추천 · 게임별 네이버 카테고리 · 월간 효자 글 */   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
 var W_ORDER=PREF.concat(['기타/공용']);
 var LIMIT_LABEL={session:'5시간 창',weekly_all:'7일 전체',weekly_scoped:'7일 모델별'};
 var WD=['일','월','화','수','목','금','토'];
@@ -3310,7 +3315,9 @@ var DESK_SECTIONS=[
      cap 56 = 8종 × 7 · 게임당 상한은 데스크(desk-signals R6)·test-desk §[8] 이 지킨다 */
   {key:'watch',     label:'업데이트 챙길 게임', desc:'업데이트 있을 때만',         icon:'bell',    ac:'var(--s-watch)',     cap:56},
   {key:'core',      label:'주로 다루는 게임',   desc:'봄딩·영도가 계속 쓰는 게임',  icon:'star',    ac:'var(--s-core)',      cap:10},
-  {key:'parenting', label:'육아 제품',         desc:'봄딩 쿠팡 제휴 비교글',      icon:'gift',    ac:'var(--s-parenting)', cap:5},
+  /* ★2026-10-25 사용자 지시 — 육아 제품 칸을 없애고 그 자리에 «티어표 추천»(매일 최대 3 · 게임당 1 · 각도 rank · 수요 tier ≥ 1).
+     그리는 건 도구함 「티어표 제작」(_toolbox/tier.js) · 캐릭터 그림 = 리소스 묶음(_toolbox/tier/res) — 없으면 발주 처리 때 공식 홈·나무위키에서 만든다. */
+  {key:'tier',      label:'티어표 추천',       desc:'도구함 티어표로 그릴 주제',   icon:'layers',  ac:'var(--s-tier)',      cap:3},
   {key:'new',       label:'신작 게임',         desc:'막 나왔거나 곧 나오는 게임',  icon:'spark',   ac:'var(--s-new)',       cap:5},
   {key:'update',    label:'최근 업데이트 게임', desc:'화제성 있는 패치·시즌',      icon:'refresh', ac:'var(--s-update)',    cap:5},
   {key:'hot',       label:'최근 화제되는 게임', desc:'지금 검색·화제가 몰리는 쪽',  icon:'flame',   ac:'var(--s-hot)',       cap:5},
@@ -3397,6 +3404,14 @@ function deskMaterial(it){
   if(it.aib&&Array.isArray(it.aib.top)&&it.aib.top.length)p.push('[경쟁 출처] '+it.aib.top.map(String).join(' · ')+' — 이 글들이 이미 출처에 있다. 같은 각도면 더 구체적인 질문에 답할 것');
   if(it.refreshRel)p.push('[리프레시] 기존 글: '+it.refreshRel+' — 제목·네이버 URL 유지, 변동값만 새로('+(it.lane==='영도'?'영도: order-form «글 성격: 효자 리프레시»':'봄딩: bomding-blog-writer 1.5 분기 · output-format §1-6')+') · 같은 폴더·같은 파일명에 덮어쓰고 적재는 outbox-submit -Kind improve');
   else if(it.sec==='refresh')p.push('[리프레시] 사이트에 초안 폴더가 없는 라이브 글 — 제목 유지, 새 폴더에 작성 뒤 봄딩이 기존 네이버 글을 수정해 올린다');
+  if(it.sec==='tier'){
+    /* 색인을 못 읽었으면(TIERRES=null) «없음»으로 단정하지 않는다 — 있는 묶음을 다시 만들게 된다(게이트 10-25 🟡 · 못 읽음≠없음 3번째) */
+    var rb=TIERRES?tierResOf(it.game):null; if(rb&&!(Number(rb.count)>0))rb=null;
+    p.push('[티어표] 도구함 「티어표 제작」으로 그린다(tier-render.mjs · 작성자 디자인) — 리소스 묶음: '+
+      (!TIERRES?'확인 못 함 → 발주 처리 때 _toolbox/tier/res/index.json 을 직접 확인'
+        :rb?rb.id+'('+Number(rb.count)+'종)':'없음 → 발주 처리 때 공식 홈·나무위키에서 묶음부터 만든다(tier-res.mjs)')+
+      ' · 배치 근거 출처를 본문에 적고 보드 JSON 을 글 폴더에 남긴다(정본 shared/blog-writing/tier-board.md)');
+  }
   if(it.sources.length)p.push('[참고]\n'+it.sources.map(function(s){ return '- '+s.label+' '+s.url; }).join('\n'));
   if(it.coverage.length)p.push('★기존 글 확인 필요: '+it.coverage.map(function(c){
       return c.writer+' 「'+c.title+'」'+(c.words.length?'(겹친 말: '+c.words.join('·')+')':''); }).join(' / ')+
@@ -3441,6 +3456,15 @@ var ANGLE_LABEL={howto:'공략',rank:'티어·추천',news:'소식',info:'정보
 /* 각도 뜻 = 데스크 정본(daily-topic-desk SKILL «angleType») 그대로 */
 var ANGLE_DESC={howto:'공략·방법·얻는 법·쿠폰을 묻는 질의',rank:'티어·추천·비교를 묻는 질의',news:'출시·일정·발표·결과 소식',info:'정리·후기 등 그 밖의 정보'};
 /* 칩 마우스 오버 = 정보 카드(2026-10-25 · 옛 title 툴팁 대신) — 키 = «행 id + 칩 종류» */
+/* 티어표 리소스 묶음 찾기(2026-10-25) — «쿠키런: 크럼블»=«쿠키런 크럼블». 묶음 manifest 의 aliases 도 본다(tier-res.mjs spec.aliases) */
+function tierResKey(s){ return String(s||'').toLowerCase().replace(/[\s:·\-_'".,!?()（）\[\]]/g,''); }
+function tierResOf(game){
+  if(!TIERRES||!game)return null;
+  var k=tierResKey(game), i, b;
+  for(i=0;i<TIERRES.length;i++){ b=TIERRES[i];
+    if([b.game,b.id].concat(Array.isArray(b.aliases)?b.aliases:[]).some(function(n){ return n&&tierResKey(n)===k; }))return b; }
+  return null;
+}
 function trChips(it){
   var out='', k='chip:'+it.id+':';
   /* tabindex 0 = 키보드로도 카드를 연다(검수 10-25 🟡 — 옛 title 처럼 마우스 전용이면 안 된다) */
@@ -3463,6 +3487,13 @@ function trChips(it){
     else if(a.s==='async')out+=chip('','브리핑 뜸',{h:'브리핑 뜸',k:'AI 브리핑',p:'AI 브리핑은 뜨지만 출처는 아직 확인하지 못했어요.',rows:rows},'aib');
     else if(a.s==='none')out+=chip('aib-off','브리핑 없음',{h:'브리핑 없음',k:'AI 브리핑',p:'이 질의엔 AI 브리핑이 뜨지 않아요. 인용 기대 0.',rows:rows},'aib');
   }
+  if(it.sec==='tier'&&TIERRES){
+    var rb=tierResOf(it.game); if(rb&&!(Number(rb.count)>0))rb=null;
+    out+=rb
+      ?chip('res-on','리소스 '+Number(rb.count||0)+'종',{h:'티어표 리소스 있음',k:'도구함 티어표',p:'도구함 «리소스 불러오기»에 이 게임 묶음이 있어요. 발주하면 이 그림으로 티어표를 그려요.',
+         rows:[['묶음',String(rb.game||rb.id)],['캐릭터',Number(rb.count||0)+'종']].concat(rb.updated?[['갱신',String(rb.updated)]]:[])},'res')
+      :chip('res-off','리소스 없음',{h:'티어표 리소스 없음',k:'도구함 티어표',p:'발주하면 공식 홈·나무위키에서 캐릭터 그림을 모아 묶음부터 만들고 티어표를 그려요.'},'res');
+  }
   if(it.sec==='refresh'){
     var hero=it.refreshKind==='hero', lab=hero?'효자 글':(it.rfSt||'기한');
     /* 머리가 이미 «N일 남음»·«효자 글»이라 본문은 접두를 뺀 사유(rfWhy)로 — why 를 정규식으로 자르지 않는다(접두가 바뀌면 사유가 잘린다 · 게이트 2차 🟢) */
@@ -3478,8 +3509,7 @@ function trWriters(it){
   if(!it.coverage.length)return '';
   var by={}, order=[], act=PREF.filter(function(w){ return INACTIVE.indexOf(w)<0; });
   it.coverage.forEach(function(c){ if(!by[c.writer]){ by[c.writer]=[]; order.push(c.writer); } by[c.writer].push(c); });
-  /* 육아 칸은 봄딩 쿠팡 제휴 전용 — 다른 작성자에게 «발주할 수 있어요»를 권하지 않는다(검수 10-25 🟡) */
-  var free=(it.sec==='parenting')?[]:act.filter(function(w){ return !by[w]; });
+  var free=act.filter(function(w){ return !by[w]; });
   return order.map(function(w){
     var cs=by[w];
     var tip={c:wac(w),h:w,k:'관련 글 '+cs.length+'편',
@@ -3639,24 +3669,8 @@ function datePager(dates,cur){
     '<button type="button" class="dpbtn" data-go="newer"'+(i>0?'':' disabled')+'>최신'+svg('chevR')+'</button>'+
     '<span class="dpos">'+(dates.length-i)+'/'+dates.length+'</span></div>';
 }
-/* ★2026-09-18 — 육아 제품은 «주 1회»(그 주에 아직 안 실었으면 싣는다 = 보통 월요일 판). 다른 날 빈 칸은 «없었다»가 아니라 «주기»다.
-   그래서 빈 칸 문구를 바꾸고, 이번 주 육아 판으로 가는 버튼을 단다(불러온 판에서 찾고, 없으면 이번 주 월요일 판). */
-var PAR_WEEKLY_FROM='2026-09-19';
+var TIER_FROM='2026-10-26';    /* 티어표 추천 칸이 처음 채워지는 판(10-25 신설 · 육아 칸 폐지) */
 var WATCH_FROM='2026-10-26';   /* 업데이트 챙길 게임 칸이 처음 채워지는 판(10-25 신설 · 그 전 판의 빈 칸은 «없었다»가 아니다) */
-function parWeekTarget(ed,dates){
-  var d=new Date(ed.date+'T12:00:00Z'), mon=new Date(d.getTime()-((d.getUTCDay()+6)%7)*DAY).toISOString().slice(0,10), hit=null;
-  TREND.forEach(function(e){
-    if(hit||e.date<mon||e.date>=ed.date)return;
-    var s=e.sections.filter(function(x){ return x.key==='parenting'; })[0];
-    if(s&&s.items.length)hit=e.date;
-  });
-  if(!hit&&mon<ed.date&&dates.indexOf(mon)>=0)hit=mon;
-  return hit;
-}
-function parWeeklyTx(ed,dates){
-  var t=parWeekTarget(ed,dates);
-  return '육아 제품은 <b>주 1회</b> 올라와요.'+(t?' <button type="button" class="dpbtn tsec-go" data-godate="'+esc(t)+'">'+esc(mdLabel(t))+' 판 보기'+svg('chevR')+'</button>':'');
-}
 function attachPager(dates){
   function goDate(d){
     if(!d||d===S.trendDate)return;
@@ -3665,9 +3679,6 @@ function attachPager(dates){
     /* 날짜 축은 최신이 오른쪽 — 과거로 가면 왼쪽에서, 최신으로 가면 오른쪽에서 들어온다 */
     renderTrend({dir:j>i?-1:1,top:true});
   }
-  viewEl.querySelectorAll('[data-godate]').forEach(function(b){
-    b.addEventListener('click',function(){ goDate(b.dataset.godate); });
-  });
   viewEl.querySelectorAll('[data-go]').forEach(function(b){
     b.addEventListener('click',function(){
       if(b.disabled)return;
@@ -3684,7 +3695,8 @@ function trendRow(it){
   /* 관련 글 작성자 라벨 — 진짜 같은 글은 데스크가 판에 싣기 전에 뺀다. 여기 남는 것은 «같은 주제 자리의 기존 글»이라 발주를 막지 않는다 */
   return '<div class="trow" style="--ac:'+s.ac+(s.at?';--at:'+s.at:'')+'">'+
     '<span class="tr-g">'+esc(it.game||'—')+'</span>'+
-    '<span class="tr-m"><span class="tr-h">'+esc(it.title)+'</span>'+trChips(it)+trWriters(it)+'</span>'+
+    (function(){ var cx=trChips(it)+trWriters(it), n=(cx.match(/class="tr-(chip|wr)/g)||[]).length;
+      return '<span class="tr-m'+(n>=4?' many':'')+'"><span class="tr-h">'+esc(it.title)+'</span>'+cx+'</span>'; })()+
     '<button type="button" class="cta" data-req="'+esc(it.id)+'">'+(it.sec==='refresh'?'갱신 발주':'발주 요청')+
       '<span class="knob">'+svg('arrowR')+'</span></button>'+
   '</div>';
@@ -3781,8 +3793,8 @@ function renderTrend(o){
           : '위 상자에 게임을 지정하면 <b>업데이트가 있을 때마다</b> 정리 1~2편과 공략이 여기 모여요.')
       : (s.key==='refresh')
         ? (REFRESH?'갱신할 약속이 없어요. 효자 글 제안은 <b>매월 1일</b> 올라와요.':'갱신 스냅샷이 아직 없어요.')
-      : (s.key==='parenting'&&ed.date>=PAR_WEEKLY_FROM)
-        ? parWeeklyTx(ed,dates)
+      : (s.key==='tier'&&ed.date<TIER_FROM)
+        ? '이 칸은 <b>10월 26일 판</b>부터 채워져요.'
         : '오늘은 이 분류에서 건질 주제가 없었어요.';
     /* 갱신 칸 — 읽지 못한 refresh.json(bad[])은 0 으로 위장하지 않는다(홈 타일과 같은 규칙 · 검수 🟡) */
     var rbad=(s.key==='refresh'&&REFRESH&&Array.isArray(REFRESH.bad))?REFRESH.bad.length:0;

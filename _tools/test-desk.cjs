@@ -164,8 +164,9 @@ console.log('\n[7] 경량본(trend-lite.json) 최신성');
    ★raw(trend.json 그대로)를 본다 — normEditions 는 사이트 상한(5)으로 잘라 버려서 4·5건 초과를 못 본다.
    ★게이트 자신도 시험한다: 규칙을 지킨 합성 판 = 0건, 어긴 합성 판 = 기대한 위반만 — 빈 게이트가 초록으로 통과하는 일을 막는다. */
 const RULE_FROM = '2026-09-19';
-const CAPS = { new: 3, update: 3, hot: 2, guide: 8 };
-const GAME = ['pinned', 'watch', 'core', 'guide', 'new', 'update', 'hot'];
+const CAPS = { new: 3, update: 3, hot: 2, guide: 8, tier: 3 };
+const GAME = ['pinned', 'watch', 'tier', 'core', 'guide', 'new', 'update', 'hot'];
+const PAR_END = '2026-10-26';   /* 육아 칸 폐지(10-25 사용자 «육아 제품은 항목에서 없애줘») — 이 날 판부터 parenting 항목이 있으면 위반 */
 function weekOf(d) { const t = new Date(d + 'T12:00:00Z'); return new Date(t.getTime() - ((t.getUTCDay() + 6) % 7) * 864e5).toISOString().slice(0, 10); }
 /* ★R5(2026-09-21 사용자 «회원가입·설치·하는 법은 너무 기초다») — 진입형 질의는 신작이거나 진입 경로가 바뀐 때(entryOk)만.
    도구(desk-signals)를 불러오지 않고 여기서 따로 판정한다 — 도구가 틀리면 게이트도 같이 틀리는 걸 막는 이 파일의 원칙 그대로. */
@@ -196,6 +197,10 @@ function ruleViolations(e, all) {
     if (it.demand && it.demand.tier === 0) v.push('R4:' + k);
   });
   sec('guide').forEach((it) => { if (!['howto', 'rank'].includes(it.angleType) || !it.demand || !(it.demand.tier >= 1)) v.push('G:guide'); });
+  /* T(2026-10-25 사용자 «육아 자리에 티어표 추천») — 티어·순위 각도 · 수요 tier ≥ 1 · 게임당 1건. 도구(desk-signals T)와 따로 센다 */
+  sec('tier').forEach((it) => { if (it.angleType !== 'rank' || !it.demand || !(it.demand.tier >= 1)) v.push('T:각도·수요 «' + String(it.title).slice(0, 16) + '»'); });
+  const tn = {}; sec('tier').forEach((it) => { tn[nk(it.game)] = (tn[nk(it.game)] || 0) + 1; });
+  Object.entries(tn).forEach(([g, n]) => { if (n > 1) v.push('T:게임당1 ' + g + ' ' + n); });
   /* R5 — 진입형은 최근 14판 «신작» 칸에 오른 게임이거나 entryOk(경로 변경 사유)가 있을 때만.
      ★시행일 이전 판(09-19~21)은 이 규칙이 없던 때라 검사하지 않는다 — 옛 판을 소급해 빨갛게 만들지 않는다. */
   const R5_FROM = '2026-09-22';
@@ -207,12 +212,7 @@ function ruleViolations(e, all) {
     if (ENTRY_RE.test(qOf(it)) && !String(it.entryOk || '').trim() && !newG.has(nk(it.game))) v.push('R5:' + k + ' «' + qOf(it).slice(0, 16) + '»');
   });
   }
-  if (sec('parenting').length) {
-    const wk = weekOf(e.date);
-    const other = (all || []).filter((o) => o && o.date !== e.date && weekOf(o.date) === wk &&
-      ((((o.sections || []).find((s) => s && s.key === 'parenting') || {}).items || []).filter(Boolean).length));
-    if (other.length) v.push('육아 주1회:' + other.map((o) => o.date).join(','));
-  }
+  if (String(e.date) >= PAR_END && sec('parenting').length) v.push('육아 폐지:' + sec('parenting').length + '건');
   return v;
 }
 console.log('\n[8] 거둬내기·신호 계약 (시행 ' + RULE_FROM + '~)');
@@ -224,24 +224,26 @@ console.log('\n[8] 거둬내기·신호 계약 (시행 ' + RULE_FROM + '~)');
       I({ game: '원신', angleType: 'howto' }), I({ game: '원신', angleType: 'rank' }), I({ game: '원신', angleType: 'howto' }), I({ game: '원신', angleType: 'howto' })] },   /* 정리 2 + 공략 5 · tier 0 이어도 R4 아님 */
     { key: 'core', items: [I({ game: '팰월드', angleType: 'howto' })] },
     { key: 'guide', items: [I({ game: '메이플', angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
-    { key: 'parenting', items: [I({ game: '아기 가습기' })] },
+    { key: 'tier', items: [I({ game: '쿠키런: 킹덤', angleType: 'rank', demand: { tier: 2, src: 'ac' } }), I({ game: '애니모', angleType: 'rank', demand: { tier: 1, src: 'ac' } })] },
     { key: 'new', items: [I({ game: 'A', angleType: 'news', demand: { tier: 1, src: 'ac' } }), I({ game: 'B', angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
     { key: 'update', items: [I({ game: 'C', angleType: 'news', heat: 1, demand: { tier: 1, src: 'ac' } })] },   /* ★heat 1 이어도 tier ≥ 1 이면 위반 아님(09-23) */
     { key: 'hot', items: [I({ game: 'D', angleType: 'howto' })] }] };
-  const vg = ruleViolations(good, [good, { date: '2026-09-18', sections: [{ key: 'parenting', items: [I({})] }] }]);
+  const vg = ruleViolations(good, [good, { date: '2026-09-18', sections: [{ key: 'parenting', items: [I({})] }] }]);   /* 옛 판 육아는 위반 아님 */
   ok(vg.length === 0, '게이트 자기시험 — 규칙을 지킨 합성 판은 위반 0' + (vg.length ? ' (나온 것: ' + vg.join(' · ') + ')' : ''));
-  const bad = { date: '2026-09-22', sections: [
+  const bad = { date: '2026-10-26', sections: [
     { key: 'pinned', items: [I({ game: '롤토체스', angleType: 'news' }), I({ game: '롤토체스', angleType: 'news' })] },
     { key: 'watch', items: [I({ game: '원신', angleType: 'news' }), I({ game: '원신', angleType: 'news' }), I({ game: '원신', angleType: 'info' })] },
     { key: 'core', items: [I({ game: '팰월드', angleType: 'news' })] },
     { key: 'guide', items: [I({ game: 'X', angleType: 'info', demand: { tier: 2, src: 'ac' } }),
       I({ game: '메이플', title: '메이플 하는법, 회원가입부터', keywords: ['메이플 하는법'], angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
-    { key: 'parenting', items: [I({ game: '아기 칫솔' })] },
+    { key: 'parenting', items: [I({ game: '아기 칫솔' })] },   /* 폐지 뒤 판에 육아 */
+    { key: 'tier', items: [I({ game: '쿠키런: 킹덤', angleType: 'rank', demand: { tier: 2, src: 'ac' } }), I({ game: '쿠키런:킹덤', title: '쿠키런 킹덤 덱 티어', angleType: 'rank', demand: { tier: 1, src: 'ac' } }),
+      I({ game: '애니모', title: '애니모 얻는 법', angleType: 'howto', demand: { tier: 2, src: 'ac' } }), I({ game: '팰월드', title: '팰월드 팰 티어', angleType: 'rank', demand: { tier: 0, src: 'ac' } })] },
     { key: 'new', items: [I({ game: 'A', angleType: 'news', demand: { tier: 0, src: 'ac' } }), I({ game: 'B', angleType: 'news' }), I({ game: 'E', angleType: 'howto' }), I({ game: 'F', angleType: 'howto', demand: { tier: 0, src: 'ac', q: 'F 공략', acRank: null } })] },
     { key: 'update', items: [] },
     { key: 'hot', items: [I({ game: 'D', angleType: 'news' })] }] };
   const vb = ruleViolations(bad, [bad, good]);
-  const want = ['cap:new', 'W1:', 'R2:core', 'R2:hot', 'R3:롤토체스', 'R6:정리 원신', 'R1:new', 'R4:new', 'G:guide', 'R5:guide', '육아 주1회'];
+  const want = ['cap:new', 'cap:tier', 'W1:', 'R2:core', 'R2:hot', 'R3:롤토체스', 'R6:정리 원신', 'R1:new', 'R4:new', 'G:guide', 'R5:guide', 'T:각도·수요 «애니모', 'T:각도·수요 «팰월드', 'T:게임당1', '육아 폐지'];
   const miss = want.filter((w) => !vb.some((x) => x.startsWith(w)));
   ok(miss.length === 0, '게이트 자기시험 — 어긴 합성 판에서 ' + want.length + '종 위반을 모두 잡는다' + (miss.length ? ' (놓친 것: ' + miss.join(' · ') + ')' : ''));
 }

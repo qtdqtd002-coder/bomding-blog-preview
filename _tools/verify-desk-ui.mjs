@@ -1,9 +1,9 @@
-// verify-desk-ui.mjs — 트렌드 탭 「지금 검색되는 공략」·발주 모달 신호·육아 주 1회 + 홈 「주제 비중」 헤드리스 검증 (2026-09-18)
+// verify-desk-ui.mjs — 트렌드 탭 「지금 검색되는 공략」·발주 모달 신호·티어표 추천(10-25 · 육아 칸 자리) + 홈 「주제 비중」 헤드리스 검증 (2026-09-18)
 //   node _tools/verify-desk-ui.mjs [--out DIR]
 //   · verify-why.mjs 와 같은 하네스. ★백엔드는 가짜 서버, 트렌드·주제 비중 데이터는 «합성 판»으로 가로챈다 —
 //     운영 trend.json 에는 아직 guide 칸·신호가 없고(첫 판 = 09-19 06:00), 운영 데이터를 고쳐 시험하지 않는다.
 //   · 보는 것: 7칸 순서·공략 칸 색/아이콘 · 행에 신호가 새지 않는가(행 = 게임·주제·발주 그대로) · 모달 «검색 수요»·«AI 브리핑» 줄과
-//     소재 메모 · 신호 없는 옛 항목엔 줄이 없는가 · 육아 주 1회 빈 칸 문구와 «판 보기» 이동 · 지정 게임 문구 ·
+//     소재 메모 · 신호 없는 옛 항목엔 줄이 없는가 · 티어표 칸 리소스 칩·소재 메모·시행 전 빈 칸 문구 · 지정 게임 문구 ·
 //     홈 타일 막대 비율(그려진 픽셀)·목표 눈금·미연결 표기·툴팁·표 뷰·재검 줄 · 1920/390/360 넘침 0 · 칸 머리 한 줄(390·360) · hover 캡션 대비 · 콘솔 0 · CSS 구조
 //   · ★2026-10-12 홈 「블로그 활동」 방문자 막대 — 인용이 비공개인 작성자(영도) 칸의 막대 수·높이 비(그려진 픽셀)·색·축 단위·스탯·툴팁·표 ·
 //     두 칸 차트 정렬 · 방문자가 없을 때의 예전 모양(선 하나). 데이터는 «합성 판»(_citations.json 가로채기 · 날짜는 실행일 기준 상대값).
@@ -28,7 +28,7 @@ mkdirSync(OUT, { recursive: true });
 /* ── 합성 판 ── */
 const src = (n) => [{ label: '공식', url: 'https://example.com/' + n }];
 const I = (sec, n, o) => Object.assign({ id: 'syn-' + sec + '-' + n, game: 'G' + n, title: sec + ' 주제 ' + n, purpose: '게임 공략', why: '왜 지금', detail: '확인된 사실 한 줄', angle: '각도', heat: 2, keywords: ['G' + n + ' 공략'], sources: src(sec + n) }, o);
-const E1 = { date: '2026-09-23', headline: '합성 판 — 수요일', note: ['★육아 제품은 주 1회(월요일 판)'], sections: [
+const E1 = { date: '2026-09-23', headline: '합성 판 — 수요일', note: ['★티어표 추천은 10월 26일 판부터'], sections: [
   { key: 'pinned', items: [I('pinned', 1, { game: '롤토체스', title: '롤토체스 초보 덱 추천, 18.2 기준', angleType: 'rank', demand: { tier: 2, src: 'ac', ac: 10 }, aib: { s: 'shown', n: 4, bd: 2, yd: null, q: '롤토체스 초보 덱' } })] },
   { key: 'core', items: [I('core', 1, { game: '팰월드', title: '팰월드 거점 추천 위치', coverage: [{ writer: '봄딩', title: '팰월드 거점 어디에 지을까, 평지 넓은 자리 5곳', words: ['거점'] }], angleType: 'howto', demand: { tier: 1, src: 'searchad', ac: 10, game: 42000, kw: { q: '팰월드 거점', n: 3200 } }, aib: { s: 'async', n: 0, bd: null, yd: null, q: '팰월드 거점' } })] },
   { key: 'guide', items: [
@@ -42,19 +42,20 @@ const E1 = { date: '2026-09-23', headline: '합성 판 — 수요일', note: ['�
       detail: '공식 공지에 따르면 9월 쿠폰 3종은 9월 30일 23시 59분까지 쓸 수 있고 계정당 한 번만 등록된다.\n입력 경로는 9월 12일 패치로 우편함에서 설정 > 계정 > 쿠폰 등록으로 옮겨졌고 iOS 는 웹 쿠폰 페이지에서만 된다.\n보상은 쿠폰마다 다르며 가장 큰 것은 고급 소환권 10장과 강화석 300개다.\n★iOS 웹 쿠폰 페이지 주소는 공지에 링크로만 있어 본문에 직접 적지 못했다 — 확인 필요',
       angle: '기존 봄딩 «뱀피르 쿠폰 모음, 8월 코드 정리»가 코드 목록을 다룬 것과 달리 9월 패치 뒤 바뀐 입력 경로와 iOS 예외를 순서대로 다룬다. 영도 «쿠폰 입력하는 곳»은 패치 전 경로다.' })] },
   { key: 'watch', items: [I('watch', 1, { game: '원신', title: '원신 6.2 업데이트 정리, 바뀐 것 5가지', purpose: '업데이트·패치', angleType: 'news', demand: { tier: 2, src: 'ac', ac: 10 } })] },   /* ★10-25 업데이트 챙길 게임 */
-  { key: 'parenting', items: [] },
+  /* ★10-25 티어표 추천(육아 칸 자리) — 쿠키런: 크럼블 = 실제 리소스 묶음(_toolbox/tier/res · 26종) · 림버스 = 묶음 없음 */
+  { key: 'tier', items: [I('tier', 1, { game: '쿠키런 크럼블', title: '쿠키런 크럼블 쿠키 티어, 10월 기준', purpose: '티어·추천', angleType: 'rank', demand: { tier: 2, src: 'ac', ac: 9 } }),
+    I('tier', 2, { game: '림버스 컴퍼니', title: '림버스 컴퍼니 인격 티어, 10장 기준', purpose: '티어·추천', angleType: 'rank', demand: { tier: 1, src: 'ac', ac: 4 } })] },
   { key: 'new', items: [I('new', 1, { angleType: 'news', demand: { tier: 1, src: 'ac', ac: 2 } })] },
   { key: 'update', items: [I('update', 1, { angleType: 'howto', demand: { tier: 2, src: 'ac', ac: 10 } })] },
   { key: 'hot', items: [I('hot', 1, { angleType: 'howto', demand: { tier: 2, src: 'ac', ac: 10 } })] }] };
 const E2 = { date: '2026-09-22', headline: '합성 판 — 화요일', note: [], sections: [
-  { key: 'core', items: [I('core', 2, {})] }, { key: 'parenting', items: [] }] };
+  { key: 'core', items: [I('core', 2, {})] }, { key: 'tier', items: [] }] };
 const E3 = { date: '2026-09-21', headline: '합성 판 — 월요일', note: [], sections: [
   { key: 'guide', items: [I('guide', 9, { angleType: 'rank', demand: { tier: 1, src: 'ac', ac: 3 } })] },
-  { key: 'parenting', items: [I('parenting', 1, { game: '아기 가습기', title: '아기 가습기 추천 5종', purpose: '제품 비교·추천', lane: '봄딩', coverage: [{ writer: '봄딩', title: '아기 가습기 3종 비교, 가열식이랑 초음파식', words: ['가습기'] }] }),
-    I('parenting', 2, { game: '아기 칫솔', title: '아기 칫솔 비교', purpose: '제품 비교·추천', lane: '봄딩' })] }] };
+  { key: 'parenting', items: [I('parenting', 1, { game: '아기 가습기', title: '아기 가습기 추천 5종', purpose: '제품 비교·추천', lane: '봄딩' })] }] };   /* 폐지된 칸 — 옛 판에 남아 있어도 그리지 않는다 */
 const E4 = { date: '2026-09-18', headline: '합성 판 — 옛 판', note: [], sections: [
-  { key: 'new', items: [I('new', 7, { title: '옛 판 항목(신호 없음)' })] }, { key: 'parenting', items: [] }] };
-const SECTIONS = ['pinned', 'watch', 'core', 'guide', 'parenting', 'new', 'update', 'hot'].map((k) => ({ key: k, label: k }));
+  { key: 'new', items: [I('new', 7, { title: '옛 판 항목(신호 없음)' })] }, { key: 'tier', items: [] }] };
+const SECTIONS = ['pinned', 'watch', 'tier', 'core', 'guide', 'new', 'update', 'hot'].map((k) => ({ key: k, label: k }));
 const FULL = { schema: 2, kind: 'daily-topic-desk', updated: '2026-09-23T06:40:00+09:00', keepDays: 14, sections: SECTIONS, editions: [E1, E2, E3, E4] };
 const LITE = Object.assign({}, FULL, { lite: true, liteDays: 3, full: '_trend/trend.json', allDates: FULL.editions.map((e) => e.date), editions: [E1, E2, E3] });
 const MIX_A = { schema: 1, kind: 'desk-mix', updated: '2026-09-23T06:45:00+09:00', target: { guide: 50 },
@@ -217,7 +218,7 @@ chk('트렌드 탭이 뜬다', !!(await goTrend()));
 const secs = await ev(`[...document.querySelectorAll('.tsec .tsec-t')].map(e=>e.textContent)`);
 /* ★10-25 결정서 — 8칸(「갱신할 글」 신설) · 공략 칸은 핀 바로 다음(2번째)으로 올렸다. 옛 검사(7칸 · 3번째)는 그날 개편 뒤 FAIL 로 남아 있었다 */
 /* ★10-25 업데이트 챙길 게임 칸 추가 → 9칸(공략 칸 2번째 유지 · 새 칸 3번째) */
-chk('9칸 · 공략 칸이 «꼭 다룰 게임» 바로 다음 · «업데이트 챙길 게임»(10-25)이 그다음', Array.isArray(secs) && secs.length === 9 && secs[1] === '지금 검색되는 공략' && secs[2] === '업데이트 챙길 게임' && secs[8] === '갱신할 글', secs);
+chk('9칸 · 공략 칸이 «꼭 다룰 게임» 바로 다음 · «업데이트 챙길 게임»(10-25)이 그다음 · 5번째 = «티어표 추천»(육아 자리)', Array.isArray(secs) && secs.length === 9 && secs[1] === '지금 검색되는 공략' && secs[2] === '업데이트 챙길 게임' && secs[4] === '티어표 추천' && secs[8] === '갱신할 글', secs);
 const gsec = `[...document.querySelectorAll('.tsec')].find(s=>s.querySelector('.tsec-t').textContent==='지금 검색되는 공략')`;
 chk('공략 칸 아이콘이 그려진다(책 — 경로 2개)', (await ev(`(()=>{const s=${gsec};return s?s.querySelectorAll('.tsec-ic svg path').length:0})()`)) === 2);
 chk('공략 칸 색 = --s-guide(#5A6E14)', (await ev(`(()=>{const s=${gsec};return getComputedStyle(s.querySelector('.tsec-ic')).color})()`)) === 'rgb(90, 110, 20)',
@@ -369,26 +370,30 @@ await click(`[data-req="syn-guide-2"]`); await waitFor(`!!document.querySelector
 chk('브리핑이 안 뜨면 «인용 기대 0»', (await ev(`document.querySelector('.brief').textContent`)).includes('안 뜸 — 인용 기대 0'));
 await ev(`document.querySelector('.mdl [data-close]').click()`); await sleep(450);
 
-/* 육아 주 1회 — 수요일 판(빈 칸) → 월요일 판으로 */
-const parSec = `[...document.querySelectorAll('.tsec')].find(s=>s.querySelector('.tsec-t').textContent==='육아 제품')`;
-const parTx = await ev(`(()=>{const s=${parSec};return s?s.querySelector('.tsec-empty').textContent:null})()`);
-chk('육아 빈 칸 = «주 1회» + 월요일 판 버튼', typeof parTx === 'string' && parTx.includes('주 1회') && parTx.includes('9.21 판 보기'), parTx);
-chk('판 보기 버튼 = 날짜 페이저와 같은 어휘(.dpbtn · 32px)', (await ev(`(()=>{const b=document.querySelector('.tsec-go');return b?Math.round(b.getBoundingClientRect().height):0})()`)) === 32);
-await shot('03-parenting-weekly', false);
-await click('.tsec-go');
-await sleep(900);
-chk('버튼을 누르면 9.21 판으로 간다', (await ev(`document.querySelector('#dpsel').value`)) === '2026-09-21');
-chk('월요일 판엔 육아 행이 있다', (await ev(`(()=>{const s=${parSec};return s?s.querySelectorAll('.trow').length:0})()`)) === 2);
-/* ★육아 칸 = 봄딩 쿠팡 제휴 전용 — 카드가 «영도는 겹침 없이 발주할 수 있어요»를 권하면 안 된다(10-25 디자인 게이트 🟡 · 실데이터 10-19 «아기 가습기») */
-await hover(`.trow:has([data-req="syn-parenting-1"]) .tr-wr`);
-const tpp = await ev(TIP);
-chk('[정보 카드] 육아 칸 라벨은 다른 작성자에게 발주를 권하지 않는다', tpp && tpp.h === '봄딩' && tpp.n === '봄딩으로 보내면 이 글과 겹치지 않게 쓰라는 요청이 같이 나가요.', tpp && tpp.n);
+/* ★10-25 티어표 추천(육아 칸 자리) — 칸 · 리소스 칩(실제 묶음 색인) · 소재 메모 [티어표] · 육아 칸은 어디에도 없다 */
+const tierSec = `[...document.querySelectorAll('.tsec')].find(s=>s.querySelector('.tsec-t').textContent==='티어표 추천')`;
+chk('티어표 추천 칸 = 행 2개 · 색 --s-tier(#6E4FBF)', await ev(`(()=>{const s=${tierSec};return !!s&&s.querySelectorAll('.trow').length===2&&getComputedStyle(s.querySelector('.tsec-ic')).color==='rgb(110, 79, 191)'})()`));
+chk('육아 제품 칸은 없다(폐지 · 옛 판 데이터가 있어도)', await ev(`![...document.querySelectorAll('.tsec .tsec-t')].some(e=>e.textContent==='육아 제품')`));
+const resChips = await ev(`[...document.querySelectorAll('.trow')].filter(r=>r.querySelector('[data-req^="syn-tier"]')).map(r=>{const c=r.querySelector('.tr-chip.res-on,.tr-chip.res-off');return c?c.className.replace('tr-chip ','')+':'+c.textContent:null})`);
+chk('리소스 칩 — 묶음 있는 게임 «리소스 26종»(공백·쌍점 무시 매칭) · 없는 게임 «리소스 없음»', JSON.stringify(resChips) === JSON.stringify(['res-on:리소스 26종', 'res-off:리소스 없음']), resChips);
+await hover(`.trow:has([data-req="syn-tier-1"]) .tr-chip.res-on`);
+const trc = await ev(TIP);
+chk('[정보 카드] 리소스 칩 = 묶음·캐릭터 수', trc && trc.h === '티어표 리소스 있음' && JSON.stringify(trc.rows || '').includes('26종'), trc);
 await away();
+await click(`[data-req="syn-tier-1"]`); await waitFor(`!!document.querySelector('#oMaterial')`, 5000);
+const tm1 = await ev(`document.querySelector('#oMaterial').value`);
+chk('소재 메모 [티어표] — 묶음 id·종 수가 실린다', /\[티어표\] 도구함 「티어표 제작」/.test(tm1) && tm1.includes('cookierun-crumble(26종)'), tm1.slice(0, 160));
+await ev(`document.querySelector('.mdl [data-close]').click()`); await sleep(450);
+await click(`[data-req="syn-tier-2"]`); await waitFor(`!!document.querySelector('#oMaterial')`, 5000);
+const tm2 = await ev(`document.querySelector('#oMaterial').value`);
+chk('소재 메모 [티어표] — 묶음 없으면 «발주 처리 때 묶음부터»', tm2.includes('없음 → 발주 처리 때 공식 홈·나무위키에서 묶음부터'), tm2.slice(0, 160));
+await ev(`document.querySelector('.mdl [data-close]').click()`); await sleep(450);
+await shot('03-tier-section', false);
 /* 옛 판(시행 전) 빈 칸은 종전 문구 */
 await ev(`(()=>{const s=document.querySelector('#dpsel');s.value='2026-09-18';s.dispatchEvent(new Event('change'))})()`);
 await waitFor(`document.querySelector('#dpsel')&&document.querySelector('#dpsel').value==='2026-09-18'&&!!document.querySelector('.tsec')`, 9000);
 await sleep(700);
-chk('시행 전 판의 육아 빈 칸은 종전 문구', (await ev(`(()=>{const s=${parSec};return s?s.querySelector('.tsec-empty').textContent:''})()`)) === '오늘은 이 분류에서 건질 주제가 없었어요.');
+chk('시행 전 판의 티어표 빈 칸 = «10월 26일 판부터»', (await ev(`(()=>{const s=${tierSec};return s?s.querySelector('.tsec-empty').textContent:''})()`)) === '이 칸은 10월 26일 판부터 채워져요.');
 await click(`[data-req="syn-new-7"]`); await waitFor(`!!document.querySelector('.brief')`, 5000);
 const oldTx = await ev(`document.querySelector('.brief').textContent+'|'+document.querySelector('#oMaterial').value`);
 chk('신호 없는 옛 항목엔 «검색 수요»·«AI 브리핑» 줄이 없다', !/검색 수요|AI 브리핑/.test(oldTx), oldTx.slice(0, 200));
@@ -565,8 +570,8 @@ chk('[390] 칩도 탭으로 뜬다', ((await ev(TIP)) || {}).h === '브리핑 �
 await touch(`.trow:has([data-req="syn-guide-1"]) .tr-g`);
 chk('[390] 다른 곳을 탭하면 닫힌다', (await ev(TIP)) === null);
 await send('Emulation.setTouchEmulationEnabled', { enabled: false });
-const parMob = await ev(`(()=>{const b=document.querySelector('.tsec-go');if(!b)return null;const r=b.getBoundingClientRect(),c=b.closest('.core').getBoundingClientRect();return {inside:r.right<=c.right+0.5&&r.left>=c.left-0.5,h:Math.round(r.height)}})()`);
-chk('[390] 판 보기 버튼이 칸 안에 들어간다', parMob && parMob.inside, parMob);
+const tierMob = await ev(`(()=>{const cs=[...document.querySelectorAll('.tr-chip.res-on,.tr-chip.res-off')];if(!cs.length)return null;return cs.map(c=>{const r=c.getBoundingClientRect(),w=c.closest('.trow').getBoundingClientRect();return r.left>=w.left-0.5&&r.right<=w.right+0.5&&r.height>=19})})()`);
+chk('[390] 티어표 리소스 칩이 행 안에 들어간다(10-25)', Array.isArray(tierMob) && tierMob.length === 2 && tierMob.every(Boolean), tierMob);
 /* ★칸 머리 줄바꿈 — flex 자식은 blockify 돼 getClientRects 가 늘 1 이다. 글자 Range 의 줄 top 개수로 센다(09-19 게이트 발견) */
 const HDR = `(()=>{const lines=el=>{const rg=document.createRange();rg.selectNodeContents(el);return new Set([...rg.getClientRects()].map(r=>Math.round(r.top))).size};return [...document.querySelectorAll('.tsec-h')].map(h=>{const t=h.querySelector('.tsec-t'),d=h.querySelector('.tsec-d');return {k:t?t.textContent:'',h:Math.round(h.getBoundingClientRect().height),t:t?lines(t):0,d:d?lines(d):0,cut:d?d.scrollWidth>d.clientWidth+1:false}})})()`;
 const hdr390 = await ev(HDR);

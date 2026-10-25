@@ -234,6 +234,24 @@ console.log('\n[11-2] ★업데이트 챙길 게임 watch (2026-10-25) — 게�
   eq(sorted.map((x) => x.title), ['A2', 'A1', 'B1'], 'watch 칸 정렬은 게임 묶음 순서 유지(그 안에서만 수요순)');
 }
 
+console.log('\n[11-3] ★티어표 추천 tier (2026-10-25 · 육아 칸 자리) — 각도 rank · 수요 tier ≥ 1 · 게임당 1 · 칸 상한 3 · 우선권 watch > tier > core');
+{
+  const T = (o) => I(Object.assign({ sec: 'tier', angleType: 'rank', demand: D(2) }, o));
+  const rx = (list) => { const r = S.judge(list, false); return list.map((x) => { const d = r.drop.find((y) => y.it === x); return d ? d.rule : 'KEEP'; }); };
+  eq(rx([T({ game: '쿠키런: 킹덤', title: '쿠키런 킹덤 쿠키 티어' })]), ['KEEP'], '티어·순위 각도 + 수요 있음 = 산다');
+  eq(rx([T({ game: '애니모', title: '애니모 얻는 법', angleType: 'howto' })]), ['T'], 'T 티어표 칸인데 how-to 각도 → 뺀다');
+  eq(rx([T({ game: '팰월드', title: '팰월드 팰 티어', demand: D(0) })]), ['T'], 'T 수요 tier 0 → 뺀다');
+  eq(rx([T({ game: '팰월드', title: '팰월드 팰 티어', demand: D(null) })]), ['KEEP'], 'fail-open: 수요를 못 쟀으면 T 수요 규칙을 적용하지 않는다');
+  eq(rx([T({ game: '쿠키런: 킹덤', title: '쿠키 티어', demand: D(1) }), T({ game: '쿠키런:킹덤', title: '덱 티어', demand: D(3) })]), ['T', 'KEEP'], 'T 게임당 1건 — 수요 낮은 쪽부터');
+  eq(rx(['a', 'b', 'c', 'd'].map((g, k) => T({ game: g, title: g + ' 티어', demand: D(k === 3 ? 1 : 2) }))), ['KEEP', 'KEEP', 'KEEP', 'W1'], '칸 상한 3');
+  const pr = [
+    I({ sec: 'core', game: '림버스', title: '림버스 인격 티어 순위', angleType: 'rank', demand: D(2), keywords: ['림버스 인격 티어'] }),
+    T({ game: '림버스', title: '림버스 인격 티어 순위 정리', keywords: ['림버스 인격 티어'] }),
+  ];
+  eq(rx(pr), ['X', 'KEEP'], '우선권 tier > core — 같은 게임 티어 주제는 티어표 칸으로 모인다');
+  eq(S.CAPS.tier, 3, 'CAPS.tier = 3');
+}
+
 console.log('\n[12] ★블록리스트 B (2026-09-23 · L95) — _trend/_blocklist.json {game, angle, until}');
 {
   const bl = [
