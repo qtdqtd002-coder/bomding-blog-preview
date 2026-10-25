@@ -33,7 +33,8 @@ const E1 = { date: '2026-09-23', headline: '합성 판 — 수요일', note: ['�
   { key: 'core', items: [I('core', 1, { game: '팰월드', title: '팰월드 거점 추천 위치', coverage: [{ writer: '봄딩', title: '팰월드 거점 어디에 지을까, 평지 넓은 자리 5곳', words: ['거점'] }], angleType: 'howto', demand: { tier: 1, src: 'searchad', ac: 10, game: 42000, kw: { q: '팰월드 거점', n: 3200 } }, aib: { s: 'async', n: 0, bd: null, yd: null, q: '팰월드 거점' } })] },
   { key: 'guide', items: [
     I('guide', 1, { game: '메이플스토리', title: '메이플스토리 초보 세팅 방법, 사냥 전에 할 것', angleType: 'howto', depth: 'play', demand: { tier: 2, src: 'ac', ac: 9 }, aib: { s: 'shown', n: 5, bd: null, yd: null, q: '메이플 스토리 세팅' } }),
-    I('guide', 2, { game: '리그 오브 레전드', title: '리그 오브 레전드 게임 방법, 처음 하는 사람 기준', angleType: 'howto', depth: 'entry', entryOk: '09-20 서비스 이관으로 접속 경로 변경', demand: { tier: 2, src: 'ac', ac: 10 }, aib: { s: 'none', n: 0, bd: null, yd: null, q: '리그 오브 레전드 게임 방법' } }),
+    I('guide', 2, { game: '리그 오브 레전드', title: '리그 오브 레전드 게임 방법, 처음 하는 사람 기준', angleType: 'howto',
+      coverage: [{ writer: '봄딩', title: '롤 처음 시작하는 법, 계정 만들기부터', words: ['처음', '방법'] }, { writer: '봄딩', title: '리그 오브 레전드 튜토리얼 보상 정리', words: ['리그', '레전드'] }], depth: 'entry', entryOk: '09-20 서비스 이관으로 접속 경로 변경', demand: { tier: 2, src: 'ac', ac: 10 }, aib: { s: 'none', n: 0, bd: null, yd: null, q: '리그 오브 레전드 게임 방법' } }),
     /* ★guide-3 은 «실제 판만큼 긴» 항목이다(사실 3문장 + ★주의 + 긴 각도) — 요약 카드가 길어야 작은 창에서 모달 본문이 넘치고,
        그래야 «주제 칸 포커스가 본문을 끌어내리는가» 검사가 옛 결함을 잡는다(짧은 합성 항목으로는 변이 시험에서 못 잡았다 · 10-11) */
     I('guide', 3, { game: '뱀피르', title: '뱀피르 쿠폰 9월 입력 방법', coverage: [{ writer: '봄딩', title: '뱀피르 쿠폰 모음, 8월 코드 정리', words: ['쿠폰'] }, { writer: '영도', title: '뱀피르 쿠폰 입력하는 곳' }], angleType: 'howto', demand: { tier: 2, src: 'ac', ac: 8 },
@@ -48,7 +49,7 @@ const E2 = { date: '2026-09-22', headline: '합성 판 — 화요일', note: [],
   { key: 'core', items: [I('core', 2, {})] }, { key: 'parenting', items: [] }] };
 const E3 = { date: '2026-09-21', headline: '합성 판 — 월요일', note: [], sections: [
   { key: 'guide', items: [I('guide', 9, { angleType: 'rank', demand: { tier: 1, src: 'ac', ac: 3 } })] },
-  { key: 'parenting', items: [I('parenting', 1, { game: '아기 가습기', title: '아기 가습기 추천 5종', purpose: '제품 비교·추천', lane: '봄딩' }),
+  { key: 'parenting', items: [I('parenting', 1, { game: '아기 가습기', title: '아기 가습기 추천 5종', purpose: '제품 비교·추천', lane: '봄딩', coverage: [{ writer: '봄딩', title: '아기 가습기 3종 비교, 가열식이랑 초음파식', words: ['가습기'] }] }),
     I('parenting', 2, { game: '아기 칫솔', title: '아기 칫솔 비교', purpose: '제품 비교·추천', lane: '봄딩' })] }] };
 const E4 = { date: '2026-09-18', headline: '합성 판 — 옛 판', note: [], sections: [
   { key: 'new', items: [I('new', 7, { title: '옛 판 항목(신호 없음)' })] }, { key: 'parenting', items: [] }] };
@@ -206,7 +207,8 @@ const CONTRAST = `(a,b)=>{const p=s=>s.match(/\\d+(\\.\\d+)?/g).slice(0,3).map(N
 await open(1920, 1080, false); logs = [];
 chk('트렌드 탭이 뜬다', !!(await goTrend()));
 const secs = await ev(`[...document.querySelectorAll('.tsec .tsec-t')].map(e=>e.textContent)`);
-chk('7칸 · 공략 칸이 «주로 다루는 게임» 바로 다음', Array.isArray(secs) && secs.length === 7 && secs[2] === '지금 검색되는 공략', secs);
+/* ★10-25 결정서 — 8칸(「갱신할 글」 신설) · 공략 칸은 핀 바로 다음(2번째)으로 올렸다. 옛 검사(7칸 · 3번째)는 그날 개편 뒤 FAIL 로 남아 있었다 */
+chk('8칸 · 공략 칸이 «꼭 다룰 게임» 바로 다음', Array.isArray(secs) && secs.length === 8 && secs[1] === '지금 검색되는 공략' && secs[7] === '갱신할 글', secs);
 const gsec = `[...document.querySelectorAll('.tsec')].find(s=>s.querySelector('.tsec-t').textContent==='지금 검색되는 공략')`;
 chk('공략 칸 아이콘이 그려진다(책 — 경로 2개)', (await ev(`(()=>{const s=${gsec};return s?s.querySelectorAll('.tsec-ic svg path').length:0})()`)) === 2);
 chk('공략 칸 색 = --s-guide(#5A6E14)', (await ev(`(()=>{const s=${gsec};return getComputedStyle(s.querySelector('.tsec-ic')).color})()`)) === 'rgb(90, 110, 20)',
@@ -217,22 +219,101 @@ chk('공략 칸 행 3개', (await ev(`(()=>{const s=${gsec};return s.querySelect
 const crs = await ev(`[...document.querySelectorAll('.tsec')].map(s=>{const g=s.querySelector('.trow .tr-g');if(!g)return null;const c=getComputedStyle(g).color;return {sec:s.querySelector('.tsec-t').textContent,w:+(${CONTRAST})(c,'rgb(255, 255, 255)').toFixed(2),h:+(${CONTRAST})(c,'rgb(246, 247, 249)').toFixed(2)}}).filter(Boolean)`);
 chk('모든 칸 게임명 대비 ≥4.5(흰 면·hover 면)', Array.isArray(crs) && crs.length >= 5 && crs.every((x) => x.w >= 4.5 && x.h >= 4.5), crs);
 chk('꼭 다룰 게임 글자 = 글자 단계(#8F610D) · 아이콘은 원색(#A8720F)', await ev(`(()=>{const s=[...document.querySelectorAll('.tsec')].find(x=>x.querySelector('.tsec-t').textContent==='꼭 다룰 게임');return getComputedStyle(s.querySelector('.tr-g')).color==='rgb(143, 97, 13)'&&getComputedStyle(s.querySelector('.tsec-ic')).color==='rgb(168, 114, 15)'})()`));
-chk('★행에 신호가 새지 않는다(게임·주제·발주 3요소 그대로)', await ev(`(()=>{const s=${gsec};const r=s.querySelector('.trow');return r.children.length===3&&!/수요|브리핑|자동완성/.test(r.textContent)})()`));
+/* ★10-25 결정서 4번 — 각도·브리핑 «칩»은 행에 선다(주제 셀 안). 검색 수요 숫자는 여전히 모달에만 */
+chk('★행은 3요소 그대로(게임·주제·발주) · 검색 수요는 행에 새지 않는다', await ev(`(()=>{const s=${gsec};const r=s.querySelector('.trow');return r.children.length===3&&!/수요|자동완성/.test(r.textContent)})()`));
 chk('지정 게임 0종 문구 = «최대 5개»', (await ev(`(()=>{const s=[...document.querySelectorAll('.tsec')].find(x=>x.querySelector('.tsec-t').textContent==='꼭 다룰 게임');return s?s.textContent:''})()`)).includes('게임마다 주제 최대 5개') || (await ev(`document.querySelectorAll('.tsec')[0].querySelectorAll('.trow').length`)) > 0);
-/* 관련 글 표식(2026-10-11) — 옛 빨간 느낌표(.tr-warn)가 «발주해도 되나»를 헷갈리게 해서 중립 태그로 바꿨다.
-   색·글자·자리·대비를 «그려진 값»으로 잰다. 합성 판 = core-1(1건 · 겹친 말 있음) · guide-3(2건 · 둘째는 겹친 말 없는 옛 형식) */
-const REL = `(id)=>{const b=document.querySelector('[data-req="'+id+'"]');const r=b&&b.closest('.trow');const t=r&&r.querySelector('.tr-rel');if(!t)return null;const cs=getComputedStyle(t),tb=t.getBoundingClientRect(),cb=b.getBoundingClientRect(),rb=r.getBoundingClientRect(),hb=r.querySelector('.tr-h').getBoundingClientRect();return {tx:t.textContent,title:t.getAttribute('title')||'',color:cs.color,bg:cs.backgroundColor,fs:parseFloat(cs.fontSize),svg:t.querySelectorAll('svg').length,kids:r.children.length,inRow:tb.left>=rb.left-0.5&&tb.right<=rb.right+0.5&&tb.top>=rb.top-0.5&&tb.bottom<=rb.bottom+0.5,clearOfCta:tb.right<=cb.left+0.5||tb.bottom<=cb.top+0.5,below:tb.top>=hb.bottom-0.5,hw:Math.round(hb.width),w:Math.round(tb.width),h:Math.round(tb.height)}}`;
-const rel1 = await ev(`(${REL})('syn-core-1')`);
-chk('관련 글 표식 = 글자 «관련 글»(느낌표 아이콘 없음) · 행은 3요소 그대로', rel1 && rel1.tx === '관련 글' && rel1.svg === 0 && rel1.kids === 3, rel1);
-chk('관련 글 표식 = 중립색(ink-3 글자 · surface-3 면) — alert 색이 아니다', rel1 && rel1.color === 'rgb(95, 102, 111)' && rel1.bg === 'rgb(239, 241, 244)', rel1);
-const relCr = rel1 ? await ev(`(${CONTRAST})(${JSON.stringify(rel1.color)},${JSON.stringify(rel1.bg)})`) : 0;
-chk('관련 글 표식 글자 ≥12.5px · 대비 ≥4.5', rel1 && rel1.fs >= 12.5 && relCr >= 4.5, { fs: rel1 && rel1.fs, cr: relCr });
-chk('관련 글 표식이 행 안에 있고 발주 버튼과 안 겹친다', rel1 && rel1.inRow && rel1.clearOfCta, rel1);
-chk('툴팁 = 기존 글 제목 + 겹친 말', rel1 && rel1.title.includes('봄딩 「팰월드 거점 어디에 지을까') && rel1.title.includes('겹친 말: 거점'), rel1 && rel1.title);
-const rel2 = await ev(`(${REL})('syn-guide-3')`);
-chk('2건이면 수를 붙인다(«관련 글 2») · 겹친 말 없는 옛 항목은 제목만', rel2 && rel2.tx === '관련 글 2' && rel2.title.includes('영도 「뱀피르 쿠폰 입력하는 곳」') && !/입력하는 곳」 — 겹친 말/.test(rel2.title), rel2);
+/* 관련 글 작성자 라벨(2026-10-25 사용자 요청) — 10-11 의 중립 태그 «관련 글»(누구 글인지 안 보였다)을 그 글을 쓴 작성자 이름 + 6px 작성자 색 점으로 바꿨다.
+   중복은 작성자 단위라 라벨이 없는 작성자는 겹침 없이 발주한다. 자세한 것은 정보 카드(.itip · 옛 title 툴팁 대신).
+   색·글자·자리·대비를 «그려진 값»으로 잰다. 합성 판 = core-1(봄딩 1 · 겹친 말 있음) · guide-2(봄딩 2편) · guide-3(봄딩 1 + 영도 1 · 영도는 겹친 말 없는 옛 형식) */
+const WR = `(id)=>{const b=document.querySelector('[data-req="'+id+'"]');const r=b&&b.closest('.trow');if(!r)return null;const cb=b.getBoundingClientRect(),rb=r.getBoundingClientRect(),hb=r.querySelector('.tr-h').getBoundingClientRect();
+  return {kids:r.children.length,rel:r.querySelectorAll('.tr-rel').length,hw:Math.round(hb.width),labels:[...r.querySelectorAll('.tr-wr')].map(t=>{const cs=getComputedStyle(t),tb=t.getBoundingClientRect(),dot=t.querySelector('i');
+    return {tx:t.textContent,tag:t.tagName,aria:t.getAttribute('aria-label'),title:t.getAttribute('title'),color:cs.color,bg:cs.backgroundColor,fs:parseFloat(cs.fontSize),svg:t.querySelectorAll('svg').length,
+      dot:dot?getComputedStyle(dot).backgroundColor:null,dotW:dot?Math.round(dot.getBoundingClientRect().width):0,
+      inRow:tb.left>=rb.left-0.5&&tb.right<=rb.right+0.5&&tb.top>=rb.top-0.5&&tb.bottom<=rb.bottom+0.5,clearOfCta:tb.right<=cb.left+0.5||tb.bottom<=cb.top+0.5,below:tb.top>=hb.bottom-0.5,h:Math.round(tb.height)}})}}`;
+/* 떠 있는 정보 카드 — 내용 · 글자 크기(가장 작은 글자) · 창 안 · 기준 요소에 붙었나(아래 8px 또는 위 8px) */
+const TIP = `(()=>{const t=document.querySelector('.itip.on');if(!t)return null;const b=t.getBoundingClientRect(),cs=getComputedStyle(t),a=document.querySelector('[aria-describedby="itip"]'),ab=a?a.getBoundingClientRect():null,q=s=>{const e=t.querySelector(s);return e?e.textContent:''};
+  const txt=[...t.querySelectorAll('*')].filter(e=>[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim()));
+  return {h:q('.itip-hn'),k:q('.itip-hk'),p:q('.itip-p'),n:q('.itip-n'),list:[...t.querySelectorAll('.itip-l li')].map(li=>({t:li.querySelector('.itip-t').textContent,w:[...li.querySelectorAll('.itip-w b')].map(x=>x.textContent)})),
+    rows:[...t.querySelectorAll('.itip-rk')].map(x=>x.textContent+'='+x.nextElementSibling.textContent),dot:t.querySelector('.itip-h i')?getComputedStyle(t.querySelector('.itip-h i')).backgroundColor:null,
+    minFs:Math.min(...txt.map(e=>parseFloat(getComputedStyle(e).fontSize))),colors:[...new Set(txt.map(e=>getComputedStyle(e).color))],bg:cs.backgroundColor,
+    inView:b.left>=0&&b.top>=0&&b.right<=document.documentElement.clientWidth+0.5&&b.bottom<=innerHeight+0.5,w:Math.round(b.width),
+    near:ab?(Math.abs(b.top-ab.bottom-8)<=1.5||Math.abs(ab.top-b.bottom-8)<=1.5):false,anchor:a?a.textContent:null}})()`;
+/* 짙은 반투명 면 위 반투명 흰 글자의 «실제» 대비 — 둘 다 흰 바탕(사이트 면)에 합성한 뒤 잰다 */
+const mixOn = (fg, bg) => { const p = (s) => { const m = s.match(/[\d.]+/g).map(Number); return { c: m.slice(0, 3), a: m.length > 3 ? m[3] : 1 }; }; const B = p(bg), F = p(fg);
+  const bgc = B.c.map((v) => v * B.a + 255 * (1 - B.a)), fgc = F.c.map((v, i) => v * F.a + bgc[i] * (1 - F.a)); return ['rgb(' + fgc.map(Math.round).join(', ') + ')', 'rgb(' + bgc.map(Math.round).join(', ') + ')']; };
+const tipMinCr = async (tp) => { let m = 99; for (const c of (tp && tp.colors) || []) { const [f, g] = mixOn(c, tp.bg); m = Math.min(m, await ev(`(${CONTRAST})(${JSON.stringify(f)},${JSON.stringify(g)})`)); } return Math.round(m * 100) / 100; };
+const away = async () => { await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 2, y: 600, button: 'none' }); await sleep(420); };
+const wr1 = await ev(`(${WR})('syn-core-1')`), w1 = wr1 && wr1.labels[0];
+chk('관련 글 라벨 = 작성자 이름 + «글»(«봄딩 글») · 버튼 · 아이콘 없음 · 행은 3요소 그대로 · 옛 «관련 글» 태그 없음', wr1 && wr1.labels.length === 1 && w1.tx === '봄딩 글' && w1.tag === 'BUTTON' && w1.svg === 0 && wr1.kids === 3 && wr1.rel === 0 && w1.aria === '봄딩 관련 글 1편', wr1);
+chk('라벨 점 = 작성자 색(봄딩 #C43D63) 6px · 글자는 중립(ink-2 · surface-3 면) — alert 색이 아니다', w1 && w1.dot === 'rgb(196, 61, 99)' && w1.dotW === 6 && w1.color === 'rgb(73, 79, 87)' && w1.bg === 'rgb(239, 241, 244)', w1);
+const relCr = w1 ? await ev(`(${CONTRAST})(${JSON.stringify(w1.color)},${JSON.stringify(w1.bg)})`) : 0;
+chk('라벨 글자 ≥12.5px · 대비 ≥4.5', w1 && w1.fs >= 12.5 && relCr >= 4.5, { fs: w1 && w1.fs, cr: relCr });
+chk('라벨이 행 안에 있고 발주 버튼과 안 겹친다', w1 && w1.inRow && w1.clearOfCta, w1);
+chk('★브라우저 title 툴팁이 남아 있지 않다(라벨·칩 전부)', await ev(`[...document.querySelectorAll('#view .tr-wr,#view .tr-chip,#view .pin-sug button')].every(e=>!e.hasAttribute('title'))&&document.querySelectorAll('#view .tr-wr').length>=4`));
+await hover(`[data-req="syn-core-1"]`); await away();
+await hover(`.trow:has([data-req="syn-core-1"]) .tr-wr`);
+const tp1 = await ev(TIP);
+chk('[정보 카드] 라벨에 마우스를 올리면 뜬다 · 머리 = 작성자 점·이름 + «관련 글 1편»', tp1 && tp1.h === '봄딩' && tp1.k === '관련 글 1편' && tp1.dot === 'rgb(196, 61, 99)', tp1);
+chk('[정보 카드] 기존 글 제목 + 겹친 말 낱말 칩', tp1 && tp1.list.length === 1 && tp1.list[0].t === '팰월드 거점 어디에 지을까, 평지 넓은 자리 5곳' && tp1.list[0].w.join('|') === '거점', tp1 && tp1.list);
+chk('[정보 카드] 끝 한마디 = 라벨 없는 작성자는 겹침 없이 발주 · 이 작성자로 보내면 겹치지 않게 쓰라는 요청', tp1 && tp1.n === '영도는 겹침 없이 발주할 수 있어요. 봄딩으로 보내면 이 글과 겹치지 않게 쓰라는 요청이 같이 나가요.', tp1 && tp1.n);
+const cr1 = await tipMinCr(tp1);
+chk('[정보 카드] 가독성 — 가장 작은 글자 ≥12.5px · 가장 옅은 글자 대비 ≥4.5(짙은 면 합성값) · 창 안 · 라벨에 붙어 있다', tp1 && tp1.minFs >= 12.5 && cr1 >= 4.5 && tp1.inView && tp1.near, { minFs: tp1 && tp1.minFs, cr: cr1, inView: tp1 && tp1.inView, near: tp1 && tp1.near });
+await shot('01b-itip-label-1920');
+await away();
+chk('[정보 카드] 마우스가 떠나면 닫힌다', (await ev(TIP)) === null);
+const wr2 = await ev(`(${WR})('syn-guide-2')`);
+chk('같은 작성자 글 2편 = 라벨 하나 «봄딩 글 2»', wr2 && wr2.labels.length === 1 && wr2.labels[0].tx === '봄딩 글2' && wr2.labels[0].aria === '봄딩 관련 글 2편', wr2 && wr2.labels);
+const wr3 = await ev(`(${WR})('syn-guide-3')`);
+chk('작성자 둘이면 라벨 둘(봄딩·영도) · 점 색이 각자', wr3 && wr3.labels.map((x) => x.tx).join('|') === '봄딩 글|영도 글' && wr3.labels[1].dot === 'rgb(15, 124, 134)', wr3 && wr3.labels);
+await hover(`.trow:has([data-req="syn-guide-3"]) .tr-wr:nth-of-type(2)`);
+const tp3 = await ev(TIP);
+chk('[정보 카드] 영도 라벨 = 영도 글만 · 겹친 말 없는 옛 항목은 제목만 · 두 작성자 다 있으면 «겹침 없이» 문구 없음', tp3 && tp3.h === '영도' && tp3.list.length === 1 && tp3.list[0].t === '뱀피르 쿠폰 입력하는 곳' && tp3.list[0].w.length === 0 && tp3.n === '영도로 보내면 이 글과 겹치지 않게 쓰라는 요청이 같이 나가요.', tp3);
+await away();
 chk('옛 빨간 느낌표(.tr-warn)·«이미 다룬 글» 문구가 화면에 없다', await ev(`document.querySelectorAll('.tr-warn').length===0&&!/이미 다룬 글/.test(document.querySelector('#view').textContent)`));
-chk('관련 글이 없는 행엔 표식이 없다', (await ev(`(${REL})('syn-guide-1')`)) === null);
+chk('관련 글이 없는 행엔 라벨이 없다', ((await ev(`(${WR})('syn-guide-1')`)) || {}).labels?.length === 0);
+/* 칩 정보 카드 — 옛 title 문장을 «머리 + 설명 + 값 줄»로 */
+await hover(`.trow:has([data-req="syn-guide-1"]) .tr-chip.aib-on`);
+const tpc = await ev(TIP);
+chk('[정보 카드] 브리핑 칩 = 머리·설명 + 기준 질의·출처·우리 글 줄', tpc && tpc.h === '브리핑 뜸·미인용' && tpc.k === 'AI 브리핑' && tpc.p.startsWith('AI 브리핑이 뜨는데') && tpc.rows.join('|') === '기준 질의=«메이플 스토리 세팅»|출처=5곳|우리 글=출처에 없음', tpc);
+await shot('01c-itip-chip-1920');
+await away();
+await hover(`.trow:has([data-req="syn-guide-1"]) .tr-chip:not([class*="aib"])`);
+const tpa = await ev(TIP);
+chk('[정보 카드] 각도 칩 = 각도 뜻(데스크 정본)', tpa && tpa.h === '공략' && tpa.k === '데스크 각도' && tpa.p === '공략·방법·얻는 법·쿠폰을 묻는 질의', tpa);
+await away();
+/* 키보드 — 라벨은 버튼이라 Tab 으로 닿고, 포커스에 카드가 뜨고 Esc 로 닫힌다(옛 title 은 키보드로 못 봤다) */
+await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Shift', code: 'ShiftLeft', windowsVirtualKeyCode: 16 });
+await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Shift', code: 'ShiftLeft', windowsVirtualKeyCode: 16 });
+await ev(`document.querySelector('.trow:has([data-req="syn-core-1"]) .tr-wr').focus()`); await sleep(300);
+const tpk = await ev(TIP);
+chk('[정보 카드] 키보드 포커스에도 뜬다 · aria-describedby 로 이어진다', tpk && tpk.h === '봄딩' && tpk.anchor === '봄딩 글', tpk);
+await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 }); await sleep(300);
+chk('[정보 카드] Esc 로 닫힌다 · 연결도 풀린다', (await ev(TIP)) === null && (await ev(`document.querySelectorAll('[aria-describedby="itip"]').length`)) === 0);
+/* 칩도 키보드로 닿는다(10-25 디자인 게이트 🟡 — 처음 판은 span 이라 라벨만 됐다) */
+chk('[정보 카드] 카드가 달린 칩은 전부 Tab 으로 닿는다(tabindex 0)', await ev(`(()=>{const c=[...document.querySelectorAll('#view .tr-chip[data-itip]')];return c.length>=8&&c.every(e=>e.tabIndex===0)})()`));
+await ev(`document.querySelector('.trow:has([data-req="syn-guide-1"]) .tr-chip.aib-on').focus()`); await sleep(300);
+chk('[정보 카드] 칩 키보드 포커스에도 뜬다', ((await ev(TIP)) || {}).h === '브리핑 뜸·미인용');
+/* 스크롤 — 카드(fixed)가 제자리에 남아 아래 행 위에 걸리면 안 된다(10-25 디자인 게이트 🟡). 조금 스크롤 = 따라간다 · 기준이 화면 밖 = 닫힌다.
+   ★닫기만 하면 Tab 이 화면 밖 라벨에 닿을 때 브라우저 자동 스크롤이 방금 연 카드를 닫는다 → «따라간다»를 잰다 */
+await ev(`document.querySelector('.trow:has([data-req="syn-core-1"]) .tr-wr').scrollIntoView({block:'center'})`); await sleep(300);
+await ev(`document.querySelector('.trow:has([data-req="syn-core-1"]) .tr-wr').focus()`); await sleep(300);
+await ev(`window.scrollBy(0,120)`); await sleep(350);
+const tps = await ev(TIP);
+chk('[정보 카드] 조금 스크롤하면 카드가 라벨을 따라간다(떨어져 남지 않는다)', tps && tps.h === '봄딩' && tps.near, tps && { near: tps.near });
+await ev(`window.scrollBy(0,4000)`); await sleep(350);
+chk('[정보 카드] 라벨이 화면 밖으로 나가면 닫힌다', (await ev(TIP)) === null);
+await ev(`document.activeElement.blur()`); await ev(`window.scrollTo(0,0)`); await sleep(300);
+/* ★마우스로 연 카드 + 휠 — 커서가 라벨에서 벗어나면 닫혀야 한다(디자인 게이트 2차 🟡: 따라가기가 itipShow 를 불러 닫기 예약을 지워 카드가 고아로 남았다) */
+await hover(`.trow:has([data-req="syn-core-1"]) .tr-wr`);
+const wh = await rect(`.trow:has([data-req="syn-core-1"]) .tr-wr`);
+chk('[정보 카드] (휠 시험 준비) 마우스로 연 카드', ((await ev(TIP)) || {}).h === '봄딩');
+await send('Input.dispatchMouseEvent', { type: 'mouseWheel', x: wh.cx, y: wh.cy, deltaX: 0, deltaY: 150, button: 'none' }); await sleep(250);
+await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: wh.cx, y: wh.cy + 1, button: 'none' }); await sleep(500);
+const wtp = await ev(TIP), stillOn = await ev(`(()=>{const a=document.querySelector('.trow:has([data-req="syn-core-1"]) .tr-wr');return a.matches(':hover')})()`);
+chk('[정보 카드] 휠로 커서가 라벨을 벗어나면 카드가 닫힌다(고아 카드 없음)', !stillOn && wtp === null, { stillOn, tip: wtp && wtp.h });
+await away(); await ev(`window.scrollTo(0,0)`); await sleep(300);
+chk('라벨 숫자(«봄딩 글 2»의 2)도 ≥12.5px(Readable-Floor)', (await ev(`parseFloat(getComputedStyle(document.querySelector('.trow:has([data-req="syn-guide-2"]) .tr-wr b')).fontSize)`)) >= 12.5);
 await shot('01-trend-1920', true);
 
 /* 발주 모달 — 신호 줄 */
@@ -279,6 +360,11 @@ await click('.tsec-go');
 await sleep(900);
 chk('버튼을 누르면 9.21 판으로 간다', (await ev(`document.querySelector('#dpsel').value`)) === '2026-09-21');
 chk('월요일 판엔 육아 행이 있다', (await ev(`(()=>{const s=${parSec};return s?s.querySelectorAll('.trow').length:0})()`)) === 2);
+/* ★육아 칸 = 봄딩 쿠팡 제휴 전용 — 카드가 «영도는 겹침 없이 발주할 수 있어요»를 권하면 안 된다(10-25 디자인 게이트 🟡 · 실데이터 10-19 «아기 가습기») */
+await hover(`.trow:has([data-req="syn-parenting-1"]) .tr-wr`);
+const tpp = await ev(TIP);
+chk('[정보 카드] 육아 칸 라벨은 다른 작성자에게 발주를 권하지 않는다', tpp && tpp.h === '봄딩' && tpp.n === '봄딩으로 보내면 이 글과 겹치지 않게 쓰라는 요청이 같이 나가요.', tpp && tpp.n);
+await away();
 /* 옛 판(시행 전) 빈 칸은 종전 문구 */
 await ev(`(()=>{const s=document.querySelector('#dpsel');s.value='2026-09-18';s.dispatchEvent(new Event('change'))})()`);
 await waitFor(`document.querySelector('#dpsel')&&document.querySelector('#dpsel').value==='2026-09-18'&&!!document.querySelector('.tsec')`, 9000);
@@ -440,10 +526,25 @@ await shot('05-home-390', true);
 await goTrend();
 chk('[390] 공략 칸 행이 3개', (await ev(`(()=>{const s=${gsec};return s?s.querySelectorAll('.trow').length:0})()`)) === 3);
 /* ★좁은 폭에선 표식을 주제 아랫줄로 내린다 — 같은 줄에 두면 주제 글자가 5자쯤 더 잘린다. «있다»가 아니라 자리(아랫줄·행 안·버튼과 안 겹침)와 주제 폭을 잰다 */
-const relMob = await ev(`(${REL})('syn-guide-3')`);
+const relMob = await ev(`(${WR})('syn-guide-3')`);
 const noRelMob = await ev(`(()=>{const b=document.querySelector('[data-req="syn-guide-1"]');const h=b.closest('.trow').querySelector('.tr-h').getBoundingClientRect();return Math.round(h.width)})()`);
-chk('[390] 관련 글 표식 = 주제 아랫줄 · 행 안 · 발주 버튼과 안 겹침', relMob && relMob.tx === '관련 글 2' && relMob.below && relMob.inRow && relMob.clearOfCta, relMob);
-chk('[390] 표식이 붙어도 주제 폭이 줄지 않는다(표식 없는 행과 같은 폭)', relMob && Math.abs(relMob.hw - noRelMob) <= 1, { withRel: relMob && relMob.hw, without: noRelMob });
+chk('[390] 작성자 라벨 둘 = 주제 아랫줄 · 행 안 · 발주 버튼과 안 겹침', relMob && relMob.labels.length === 2 && relMob.labels.every((x) => x.below && x.inRow && x.clearOfCta), relMob);
+chk('[390] 라벨이 붙어도 주제 폭이 줄지 않는다(라벨 없는 행과 같은 폭)', relMob && Math.abs(relMob.hw - noRelMob) <= 1, { withRel: relMob && relMob.hw, without: noRelMob });
+/* 손가락 탭 — 터치엔 hover 가 없다. 탭하면 열리고, 다시 탭하거나 다른 곳을 탭하면 닫힌다. 카드는 좁은 창 안(좌우 12px)에 든다 */
+await send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 1 });
+const touch = async (sel) => { await ev(`(()=>{const e=document.querySelector(${JSON.stringify(sel)});if(e)e.scrollIntoView({block:'center'});return true})()`); await sleep(200); const r = await rect(sel); if (!r) return false;
+  await send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: r.cx, y: r.cy }] }); await send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await sleep(400); return true; };
+await touch(`.trow:has([data-req="syn-guide-3"]) .tr-wr`);
+const tpm = await ev(TIP);
+chk('[390] 라벨을 탭하면 정보 카드가 뜬다 · 창 안(좌우 12px) · 라벨에 붙어 있다', tpm && tpm.h === '봄딩' && tpm.inView && tpm.w <= 390 - 24 && tpm.near, tpm);
+await shot('06b-itip-390');
+await touch(`.trow:has([data-req="syn-guide-3"]) .tr-wr`);
+chk('[390] 같은 라벨을 다시 탭하면 닫힌다', (await ev(TIP)) === null);
+await touch(`.trow:has([data-req="syn-guide-1"]) .tr-chip.aib-on`);
+chk('[390] 칩도 탭으로 뜬다', ((await ev(TIP)) || {}).h === '브리핑 뜸·미인용');
+await touch(`.trow:has([data-req="syn-guide-1"]) .tr-g`);
+chk('[390] 다른 곳을 탭하면 닫힌다', (await ev(TIP)) === null);
+await send('Emulation.setTouchEmulationEnabled', { enabled: false });
 const parMob = await ev(`(()=>{const b=document.querySelector('.tsec-go');if(!b)return null;const r=b.getBoundingClientRect(),c=b.closest('.core').getBoundingClientRect();return {inside:r.right<=c.right+0.5&&r.left>=c.left-0.5,h:Math.round(r.height)}})()`);
 chk('[390] 판 보기 버튼이 칸 안에 들어간다', parMob && parMob.inside, parMob);
 /* ★칸 머리 줄바꿈 — flex 자식은 blockify 돼 getClientRects 가 늘 1 이다. 글자 Range 의 줄 top 개수로 센다(09-19 게이트 발견) */

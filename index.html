@@ -583,13 +583,20 @@ a{color:inherit; text-decoration:none}
 .tr-m{display:flex; align-items:center; gap:8px; min-width:0}
 .tr-h{font-size:14.5px; font-weight:500; letter-spacing:-.022em;
       overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-/* 관련 글 표식(2026-10-11) — «막는 경고»가 아니라 «같은 주제 자리의 기존 글이 있다»는 참고다.
-   그래서 alert 색·느낌표를 쓰지 않는다(옛 .tr-warn 은 빨간 느낌표였고 «발주해도 되나»를 헷갈리게 했다). 중립 태그 = .tag-why 와 같은 어휘 */
-.tr-rel{
-  flex:none; height:20px; padding:0 7px; border-radius:5px;
-  background:var(--surface-3); color:var(--ink-3); border:1px solid var(--hair-2);
-  font-size:12.5px; font-weight:600; line-height:18px; white-space:nowrap;
+/* 관련 글 작성자 라벨(2026-10-25 사용자 요청 · 10-11 «관련 글» 표식을 대신한다) — 글자 «관련 글» 대신 그 글을 쓴 작성자 이름.
+   중복은 작성자 단위로 본다 → 라벨이 없는 작성자는 겹침 없이 발주한다. 자세한 것(기존 글 제목·겹친 말)은 정보 카드(.itip).
+   «막는 경고»가 아니라 참고라서 alert 색·느낌표를 쓰지 않는다. 작성자 색은 6px 점에만(Author-Color Rule — 이름 글자와 늘 같이) */
+.tr-wr{
+  flex:none; display:inline-flex; align-items:center; gap:5px; height:20px; padding:0 7px 0 6px; border-radius:5px;
+  background:var(--surface-3); color:var(--ink-2); border:1px solid var(--hair-2);
+  font-size:12.5px; font-weight:600; line-height:18px; white-space:nowrap; cursor:help;
+  transition:border-color var(--t-fast) var(--e), background var(--t-fast) var(--e);
 }
+.tr-wr i{width:6px; height:6px; border-radius:50%; background:var(--c,var(--w-fallback)); flex:none}
+.tr-wr b{font-family:"JetBrains Mono",monospace; font-size:12.5px; font-weight:600; color:var(--ink-3)}   /* 12.5 = Readable-Floor(검수 10-25 🟡) */
+.tr-wr:hover,.tr-wr[aria-describedby]{border-color:var(--hair-3); background:var(--surface)}
+.tr-chip[data-itip]{cursor:help}
+.tr-chip[aria-describedby]{border-color:var(--hair-3)}
 /* 데스크 행 칩(2026-10-25 결정서 4번) — 각도·AI 브리핑을 열지 않고 본다. 관련 글 표식과 같은 체급, 색만 다르다 */
 .tr-chip{
   flex:none; height:20px; padding:0 7px; border-radius:5px;
@@ -838,6 +845,33 @@ a.rf-t::after{content:""; position:absolute; inset:0}   /* 행 전체가 링크 
 .ctip-r{display:flex; align-items:center; gap:7px; line-height:1.75}
 .ctip-r i{width:10px; height:2px; border-radius:1px; background:var(--c,rgba(255,255,255,.5)); flex:none}
 .ctip-r b{margin-left:auto; padding-left:12px; font-family:"JetBrains Mono",monospace; font-weight:600; font-variant-numeric:tabular-nums}
+/* 정보 카드(2026-10-25 사용자 «마우스 오버 정보 가독성») — 브라우저 기본 title 툴팁(작은 회색 글자 · 1초 지연 · 줄 구조 없음 · 터치·키보드 불가)을 대신한다.
+   어휘 = 차트 툴팁(.ctip)·한도 패널(.qpop)과 같은 짙은 면. 기준 요소 «아래»에 붙고(마우스 위치 무관), 창 아래가 모자라면 위로 뒤집는다.
+   글자 13px(값)·12.5px(라벨) — Readable-Floor. 흰 글자 .62 단계도 짙은 면 위 7:1 이상 */
+.itip{
+  position:fixed; z-index:95; left:0; top:0; width:max-content; max-width:min(340px, calc(100vw - 24px)); padding:11px 14px 12px;
+  border-radius:12px; background:rgba(14,17,20,.95); color:#fff; box-shadow:var(--sh-float);
+  font-size:13px; line-height:1.55; letter-spacing:-.012em; word-break:keep-all; overflow-wrap:anywhere;
+  pointer-events:none; opacity:0; transform:translateY(-3px);
+  transition:opacity var(--t-fast) var(--e), transform var(--t-fast) var(--e);
+}
+.itip.up{transform:translateY(3px)}
+.itip.on{opacity:1; transform:none}
+.itip-h{display:flex; align-items:center; gap:7px; font-size:13.5px; font-weight:700; letter-spacing:-.02em; line-height:1.4}
+.itip-h i{width:7px; height:7px; border-radius:50%; background:var(--c,#fff); flex:none}
+.itip-hk{margin-left:auto; padding-left:16px; font-size:12.5px; font-weight:500; color:rgba(255,255,255,.62); white-space:nowrap}
+.itip-p{margin-top:6px; color:rgba(255,255,255,.86)}
+.itip-l{list-style:none; margin:8px 0 0; padding:0}
+.itip-l li{padding:8px 0 0; border-top:1px solid rgba(255,255,255,.12)}
+.itip-l li+li{margin-top:8px}
+.itip-t{display:block; font-weight:500}
+.itip-w{display:flex; flex-wrap:wrap; align-items:center; gap:4px; margin-top:5px; font-size:12.5px}
+.itip-w em{font-style:normal; color:rgba(255,255,255,.62); margin-right:2px}
+.itip-w b{height:20px; padding:0 6px; border-radius:5px; background:rgba(255,255,255,.12); font-weight:600; line-height:20px}
+.itip-g{display:grid; grid-template-columns:auto minmax(0,1fr); gap:3px 12px; margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,.12)}
+.itip-rk{font-size:12.5px; color:rgba(255,255,255,.62); white-space:nowrap; line-height:1.65}
+.itip-rv{font-weight:500}
+.itip-n{margin-top:9px; padding-top:8px; border-top:1px solid rgba(255,255,255,.12); font-size:12.5px; color:rgba(255,255,255,.78)}
 
 /* ══════════ 도구함 — 좌측 도구 목록 + 우측 도구 판 (2026-09-06 · ★09-07 사이드 레일) ══════════
    도구는 _toolbox/<id>.js 로 분리해 처음 열 때만 받는다(index.html 을 키우지 않는다).
@@ -1191,6 +1225,8 @@ html.gs .nt{transition:none !important}
   .tr-g{grid-area:g}
   .tr-m{grid-area:m; flex-wrap:wrap; row-gap:5px}
   .tr-h{flex:1 1 100%}   /* 관련 글 표식은 주제 아랫줄로 내린다 — 좁은 폭에서 주제 글자를 깎지 않는다(2026-10-11) */
+  .tr-wr,.tr-chip[data-itip]{position:relative}
+  .tr-wr::after,.tr-chip[data-itip]::after{content:""; position:absolute; inset:-10px -3px}   /* 터치 표적 40px(시각 20 + 위아래 10) · 옆 칩 사이 8px 라 좌우는 3px 만 */
   .cta{grid-area:b; align-self:center}
   .mx-row{grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"l v" "b b"; gap:8px 10px; padding:10px 8px}   /* 주제 비중 — 이름·숫자 한 줄, 막대는 아래 전폭 */
   .mx-row.na{grid-template-areas:"l v"}
@@ -2496,6 +2532,91 @@ function showTip(hit,x,y,anchor){
   CTIP.classList.add('on');
 }
 function hideTip(){ if(CTIP)CTIP.classList.remove('on'); }
+
+/* 정보 카드(2026-10-25) — data-itip="키" 를 단 요소에 마우스 hover · 키보드 포커스 · 손가락 탭으로 뜬다(title 툴팁 대신).
+   내용 = ITIPS[키] 객체 — {c:점 색, h:머리, k:머리 오른쪽 작은 글자, p:본문 한 줄, list:[{t:제목, w:[겹친 말]}], rows:[[라벨,값]], n:끝 한마디}.
+   글자는 전부 textContent 로만 넣는다. 키는 «행 id + 종류»라 다시 그려도 늘지 않는다. data-itip-act = 누르면 따로 하는 일이 있는 버튼(탭엔 안 띄운다) */
+var ITIPS={}, ITIP=null, ITIP_AT=null, ITIP_T=0, ITIP_PT='mouse';
+function itipAttr(k,o){ ITIPS[k]=o; return ' data-itip="'+esc(k)+'"'; }
+function itipShow(a){
+  var o=ITIPS[a.getAttribute('data-itip')]; if(!o)return;
+  clearTimeout(ITIP_T);
+  if(!ITIP){ ITIP=document.createElement('div'); ITIP.className='itip'; ITIP.id='itip'; ITIP.setAttribute('role','tooltip'); document.body.appendChild(ITIP); }
+  if(ITIP_AT&&ITIP_AT!==a)ITIP_AT.removeAttribute('aria-describedby');
+  function add(p,tag,cls,txt){ var e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; p.appendChild(e); return e; }
+  ITIP.textContent='';
+  var h=add(ITIP,'div','itip-h');
+  if(o.c)add(h,'i').style.setProperty('--c',o.c);
+  add(h,'span','itip-hn',o.h||'');
+  if(o.k)add(h,'span','itip-hk',o.k);
+  if(o.p)add(ITIP,'div','itip-p',o.p);
+  if(o.list&&o.list.length){
+    var ul=add(ITIP,'ul','itip-l');
+    o.list.forEach(function(x){
+      var li=add(ul,'li'); add(li,'span','itip-t',x.t);
+      if(x.w&&x.w.length){ var w=add(li,'span','itip-w'); add(w,'em',null,'겹친 말'); x.w.forEach(function(s){ add(w,'b',null,s); }); }
+    });
+  }
+  if(o.rows&&o.rows.length){
+    var g=add(ITIP,'div','itip-g');
+    o.rows.forEach(function(r){ add(g,'span','itip-rk',r[0]); add(g,'span','itip-rv',r[1]); });
+  }
+  if(o.n)add(ITIP,'div','itip-n',o.n);
+  ITIP_AT=a; a.setAttribute('aria-describedby','itip');
+  itipPlace(a);
+  ITIP.classList.add('on');
+}
+/* 자리 — 기준 요소 왼쪽 끝에 맞춰 아래로. 창 밖으로 나가면 좌우를 12px 안으로 당기고, 아래가 모자라면 위로 뒤집는다.
+   ★타이머를 건드리지 않는 재배치 전용 — 스크롤 따라가기가 itipShow 를 부르면 그 첫 줄 clearTimeout 이 pointerout 의 «닫기 예약»을 지워 카드가 남았다(디자인 게이트 2차 🟡) */
+function itipPlace(a){
+  var rc=a.getBoundingClientRect(), vw=document.documentElement.clientWidth, vh=window.innerHeight,
+      tw=ITIP.offsetWidth, th=ITIP.offsetHeight, x=Math.max(12,Math.min(vw-tw-12,rc.left)), y=rc.bottom+8, up=false;
+  if(y+th>vh-12&&rc.top-th-8>=12){ y=rc.top-th-8; up=true; }
+  else if(y+th>vh-12)y=Math.max(12,vh-th-12);   /* 위아래 다 모자라면(긴 카드·작은 창) 창 안으로 당긴다 */
+  ITIP.classList.toggle('up',up);
+  ITIP.style.left=Math.round(x)+'px'; ITIP.style.top=Math.round(y)+'px';
+}
+function itipHide(now){
+  clearTimeout(ITIP_T);
+  function go(){ if(ITIP)ITIP.classList.remove('on'); if(ITIP_AT)ITIP_AT.removeAttribute('aria-describedby'); ITIP_AT=null; }
+  if(now)go(); else ITIP_T=setTimeout(go,90);   /* 이웃 칩으로 옮겨 가는 사이 깜빡이지 않게 */
+}
+function itipOf(e){ return (e.target&&e.target.closest)?e.target.closest('[data-itip]'):null; }
+document.addEventListener('pointerdown',function(e){ ITIP_PT=e.pointerType||'mouse'; },true);
+document.addEventListener('pointerover',function(e){ if(e.pointerType==='touch')return; var a=itipOf(e); if(a)itipShow(a); });
+document.addEventListener('pointerout',function(e){
+  if(e.pointerType==='touch')return;
+  var a=itipOf(e); if(!a||(e.relatedTarget&&a.contains(e.relatedTarget)))return;
+  if(document.activeElement===a&&a.matches(':focus-visible'))return;   /* 키보드로 연 카드는 마우스가 지나가도 둔다 */
+  itipHide();
+});
+/* 포커스는 «키보드»일 때만 — 손가락 탭도 버튼에 포커스를 주므로, 그때까지 띄우면 바로 이어지는 click 이 카드를 도로 닫는다 */
+document.addEventListener('focusin',function(e){ var a=itipOf(e); if(a&&a.matches(':focus-visible'))itipShow(a); });
+document.addEventListener('focusout',function(e){ var a=itipOf(e); if(a&&a===ITIP_AT)itipHide(true); });
+document.addEventListener('click',function(e){
+  var a=itipOf(e);
+  if(a&&ITIP_PT==='touch'){
+    if(a.hasAttribute('data-itip-act'))return;
+    if(a===ITIP_AT&&ITIP&&ITIP.classList.contains('on'))itipHide(true); else itipShow(a);
+    return;
+  }
+  if(!a&&ITIP_AT)itipHide(true);
+});
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&ITIP_AT)itipHide(true); });
+/* 스크롤하면 카드가 기준 요소를 따라간다 — 옛 판은 카드(fixed)가 제자리에 남아 아래 행 위에 걸렸다(키보드로 연 뒤 휠·PageDown · 검수 10-25 🟡).
+   닫지 않고 따라가는 이유 = Tab 으로 화면 밖 라벨에 닿으면 브라우저가 스스로 스크롤한다(닫으면 방금 연 카드가 바로 사라진다). 기준이 화면을 벗어나면 닫는다 */
+var ITIP_RAF=0;
+window.addEventListener('scroll',function(){
+  if(!ITIP_AT||ITIP_RAF)return;
+  ITIP_RAF=requestAnimationFrame(function(){
+    ITIP_RAF=0; if(!ITIP_AT)return;
+    var a=ITIP_AT, r=a.getBoundingClientRect();
+    /* 따라가는 건 «아직 그 요소를 보고 있는» 카드뿐 — 키보드 포커스 · 손가락으로 연 카드 · 마우스가 아직 위에 있는 카드. 마우스가 스크롤로 벗어났으면 닫는다 */
+    var held=(document.activeElement===a&&a.matches(':focus-visible'))||ITIP_PT==='touch'||a.matches(':hover');
+    if(!a.isConnected||r.bottom<0||r.top>window.innerHeight||!held)itipHide(true); else itipPlace(a);
+  });
+},{passive:true});
+window.addEventListener('resize',function(){ if(ITIP_AT)itipHide(true); });
 function bindCharts(root){
   root.querySelectorAll('.chart .hit').forEach(function(hit){
     var col=hit.parentNode;
@@ -3274,19 +3395,57 @@ function aibLine(it){
 }
 /* 데스크 행 칩(2026-10-25 결정서 4번) — 각도(데스크 stamp angleType)·브리핑 상태를 열지 않고 본다 */
 var ANGLE_LABEL={howto:'공략',rank:'티어·추천',news:'소식',info:'정보'};
+/* 각도 뜻 = 데스크 정본(daily-topic-desk SKILL «angleType») 그대로 */
+var ANGLE_DESC={howto:'공략·방법·얻는 법·쿠폰을 묻는 질의',rank:'티어·추천·비교를 묻는 질의',news:'출시·일정·발표·결과 소식',info:'정리·후기 등 그 밖의 정보'};
+/* 칩 마우스 오버 = 정보 카드(2026-10-25 · 옛 title 툴팁 대신) — 키 = «행 id + 칩 종류» */
 function trChips(it){
-  var out='';
-  if(it.angleType&&ANGLE_LABEL[it.angleType])out+='<span class="tr-chip" title="데스크 각도 분류">'+ANGLE_LABEL[it.angleType]+'</span>';
+  var out='', k='chip:'+it.id+':';
+  /* tabindex 0 = 키보드로도 카드를 연다(검수 10-25 🟡 — 옛 title 처럼 마우스 전용이면 안 된다) */
+  function chip(cls,label,tip,kind){ return '<span class="tr-chip'+(cls?' '+cls:'')+'" tabindex="0"'+itipAttr(k+kind,tip)+'>'+esc(label)+'</span>'; }
+  if(it.angleType&&ANGLE_LABEL[it.angleType])
+    out+=chip('',ANGLE_LABEL[it.angleType],{h:ANGLE_LABEL[it.angleType],k:'데스크 각도',p:ANGLE_DESC[it.angleType]},'angle');
   var a=it.aib;
   if(a&&a.s){
+    var rows=[];
+    if(a.q)rows.push(['기준 질의','«'+a.q+'»']);
+    if(a.s==='shown'){
+      rows.push(['출처',(a.n||0)+'곳']);
+      var mine=[]; if(a.bd)mine.push('봄딩 '+a.bd+'위'); if(a.yd)mine.push('영도 '+a.yd+'위');
+      rows.push(['우리 글',mine.length?mine.join(' · '):'출처에 없음']);
+      if(Array.isArray(a.top)&&a.top.length)rows.push(['출처 상위',a.top.map(String).join(' · ')]);
+    }
     if(a.s==='shown')out+=(a.bd||a.yd)
-      ?'<span class="tr-chip aib-mine" title="AI 브리핑에 우리 글이 이미 출처">브리핑 인용 중</span>'
-      :'<span class="tr-chip aib-on" title="AI 브리핑이 뜨는데 우리 글은 출처에 없다 — 쓰면 출처에 들 수 있는 자리">브리핑 뜸·미인용</span>';
-    else if(a.s==='async')out+='<span class="tr-chip" title="브리핑이 뜨지만 출처는 못 봤다">브리핑 뜸</span>';
-    else if(a.s==='none')out+='<span class="tr-chip aib-off" title="이 질의엔 AI 브리핑이 안 뜬다 — 인용 기대 0">브리핑 없음</span>';
+      ?chip('aib-mine','브리핑 인용 중',{h:'브리핑 인용 중',k:'AI 브리핑',p:'우리 글이 이미 AI 브리핑 출처에 들어 있어요.',rows:rows},'aib')
+      :chip('aib-on','브리핑 뜸·미인용',{h:'브리핑 뜸·미인용',k:'AI 브리핑',p:'AI 브리핑이 뜨는데 우리 글은 출처에 없어요. 쓰면 출처에 들 수 있는 자리예요.',rows:rows},'aib');
+    else if(a.s==='async')out+=chip('','브리핑 뜸',{h:'브리핑 뜸',k:'AI 브리핑',p:'AI 브리핑은 뜨지만 출처는 아직 확인하지 못했어요.',rows:rows},'aib');
+    else if(a.s==='none')out+=chip('aib-off','브리핑 없음',{h:'브리핑 없음',k:'AI 브리핑',p:'이 질의엔 AI 브리핑이 뜨지 않아요. 인용 기대 0.',rows:rows},'aib');
   }
-  if(it.sec==='refresh')out+='<span class="tr-chip '+(it.refreshKind==='hero'?'aib-mine':(it.rfLate?'rf-late':'rf'))+'">'+(it.refreshKind==='hero'?'효자 글':esc(it.rfSt||'기한'))+'</span>';
+  if(it.sec==='refresh'){
+    var hero=it.refreshKind==='hero', lab=hero?'효자 글':(it.rfSt||'기한');
+    /* 머리가 이미 «N일 남음»·«효자 글»이라 본문은 접두를 뺀 사유(rfWhy)로 — why 를 정규식으로 자르지 않는다(접두가 바뀌면 사유가 잘린다 · 게이트 2차 🟢) */
+    out+=chip(hero?'aib-mine':(it.rfLate?'rf-late':'rf'),lab,{h:lab,k:hero?'월간 효자 글':'갱신 약속',p:it.rfWhy||it.why,rows:it.when?[['기한',it.when.replace(/^기한\s*/,'')]]:[]},'rf');
+  }
   return out;
+}
+/* 받침 따라 조사(봄딩은·영도는 / 봄딩으로·영도로) — 받침 ㄹ 은 «로» */
+function jo(w,a,b){ var c=String(w).charCodeAt(String(w).length-1), t=(c>=0xAC00&&c<=0xD7A3)?(c-0xAC00)%28:0; return w+((t&&!(a==='으로'&&t===8))?a:b); }
+/* 관련 글 작성자 라벨(2026-10-25 사용자 요청) — 작성자마다 하나(같은 작성자 글 여러 편이면 수를 붙인다). 중복 판단은 작성자 단위라
+   라벨이 없는 현역 작성자는 겹침 없이 발주할 수 있다 — 카드 끝 한마디가 그걸 말한다 */
+function trWriters(it){
+  if(!it.coverage.length)return '';
+  var by={}, order=[], act=PREF.filter(function(w){ return INACTIVE.indexOf(w)<0; });
+  it.coverage.forEach(function(c){ if(!by[c.writer]){ by[c.writer]=[]; order.push(c.writer); } by[c.writer].push(c); });
+  /* 육아 칸은 봄딩 쿠팡 제휴 전용 — 다른 작성자에게 «발주할 수 있어요»를 권하지 않는다(검수 10-25 🟡) */
+  var free=(it.sec==='parenting')?[]:act.filter(function(w){ return !by[w]; });
+  return order.map(function(w){
+    var cs=by[w];
+    var tip={c:wac(w),h:w,k:'관련 글 '+cs.length+'편',
+      list:cs.map(function(c){ return {t:c.title||'(제목 없음)',w:c.words}; }),
+      n:(free.length?jo(free.join('·'),'은','는')+' 겹침 없이 발주할 수 있어요. ':'')+jo(w,'으로','로')+' 보내면 이 글과 겹치지 않게 쓰라는 요청이 같이 나가요.'};
+    return '<button type="button" class="tr-wr"'+itipAttr('wr:'+it.id+':'+w,tip)+' aria-label="'+esc(w+' 관련 글 '+cs.length+'편')+'">'+
+      /* «봄딩 글» — 이름만 두면 «배정·발주할 작성자»로 읽혔다(검수 10-25 🟡). «글» 한 자로 «이미 쓴 글이 있다»가 첫눈에 보인다 */
+      '<i style="--c:'+wac(w)+'"></i>'+esc(w)+' 글'+(cs.length>1?'<b>'+cs.length+'</b>':'')+'</button>';
+  }).join('');
 }
 /* 「갱신할 글」 칸(2026-10-25 결정서 7번) — _refresh.json(기한 도래) + _hero.json(월간 효자 3편)을 데스크 행 모양으로 */
 var REFRESH_ITEMS=[];
@@ -3297,7 +3456,7 @@ function mkRefreshItem(o){
     why:String(o.why||''), detail:o.detail||[], angle:'기존 글 갱신 — 제목·네이버 URL 유지, 변동값만 새로', when:String(o.when||''), heat:0,
     lane:(PREF.indexOf(lane)>=0&&INACTIVE.indexOf(lane)<0)?lane:'', keywords:[], angleType:'', depth:'', entryOk:'',
     demand:null, aib:null, sources:[], coverage:[], refreshRel:String(o.rel||''), refreshKind:o.kind||'due',
-    rfSt:String(o.rfSt||''), rfLate:!!o.rfLate};
+    rfSt:String(o.rfSt||''), rfLate:!!o.rfLate, rfWhy:String(o.rfWhy||'')};   /* rfWhy = 칩 카드 본문(머리와 같은 «N일 남음»·«효자 글» 접두를 뺀 사유) */
 }
 function refreshItems(){
   var out=[];
@@ -3307,12 +3466,13 @@ function refreshItems(){
     var left=rfLeft(x.due), late=(left==null)?Number(x.late):-left;
     var st=isNaN(late)?('기한 '+String(x.due||'')):(late>0?late+'일 지남':(late===0?'오늘 기한':(-late)+'일 남음'));
     out.push(mkRefreshItem({id:'refresh-'+rel+'@'+String(x.due||''), game:parts[1]||'', title:unescHtml(x.title||parts[2]||''), lane:x.writer,
-      why:st+' — '+String(x.why||''), detail:(Array.isArray(x.fix)?x.fix:[]).map(function(f){ return '고칠 곳: '+f; }),
+      why:st+' — '+String(x.why||''), rfWhy:String(x.why||''), detail:(Array.isArray(x.fix)?x.fix:[]).map(function(f){ return '고칠 곳: '+f; }),
       when:'기한 '+String(x.due||''), rel:rel, kind:'due', rfSt:(isNaN(late)?'기한':(late>0?late+'일 지남':(late===0?'오늘':(-late)+'일 남음'))), rfLate:(!isNaN(late)&&late>0)}));
   });
   ((HERO&&Array.isArray(HERO.top))?HERO.top:[]).forEach(function(x){
     out.push(mkRefreshItem({id:'hero-'+String(x.n||x.t), game:x.g||'', title:String(x.t||''), lane:'봄딩',
       why:'효자 글 — 라이브 제목 질의에서 봄딩 글이 브리핑 출처 '+(x.hits||1)+'회'+(HERO.month?' ('+HERO.month+' 배치)':''),
+      rfWhy:'라이브 제목 질의에서 봄딩 글이 브리핑 출처 '+(x.hits||1)+'회'+(HERO.month?' ('+HERO.month+' 배치)':''),
       detail:['네이버 글 logNo '+String(x.n||'')+(x.query?' · 질의 «'+x.query+'»':'')+(x.rank?' · 출처 '+x.rank+'위':'')],
       when:'월 1회 제안', rel:String(x.rel||''), kind:'hero'}));
   });
@@ -3352,11 +3512,14 @@ function pinSugHtml(full){
   var games=((PINSUG&&Array.isArray(PINSUG.games))?PINSUG.games:[]).filter(function(g){ return g&&g.game&&!PinSvc.has(g.game); }).slice(0,4);
   if(!games.length)return '';
   return '<div class="pin-sug"><span class="pin-sug-l">추천 · 브리핑 출처로 잡힌 게임</span>'+games.map(function(g){
-    return '<button type="button" data-add="'+esc(g.game)+'"'+(full?' disabled':'')+' aria-label="'+esc(g.game)+' 핀에 추가 — 브리핑 출처 '+Number(g.hits||0)+'회" title="봄딩 글이 AI 브리핑 출처에 든 횟수 '+Number(g.hits||0)+' · 최근 '+esc(g.last||'')+'">+ '+esc(g.game)+'<b aria-hidden="true">'+Number(g.hits||0)+'</b></button>';
+    return '<button type="button" data-add="'+esc(g.game)+'"'+(full?' disabled':'')+' aria-label="'+esc(g.game)+' 핀에 추가 — 브리핑 출처 '+Number(g.hits||0)+'회"'+
+      itipAttr('pin:'+g.game,{h:g.game,k:'핀 추천',p:'봄딩 글이 AI 브리핑 출처로 잡힌 게임이에요. 누르면 꼭 다룰 게임에 넣어요.',
+        rows:[['브리핑 출처',Number(g.hits||0)+'회']].concat(g.last?[['최근',String(g.last)]]:[])})+' data-itip-act>+ '+esc(g.game)+'<b aria-hidden="true">'+Number(g.hits||0)+'</b></button>';
   }).join('')+'</div>';
 }
 function repaintPinBox(focus){
   var old=viewEl.querySelector('.pinbox'); if(!old)return;
+  itipHide(true);   /* 기준 버튼이 갈아끼워지면 카드가 허공에 남는다 */
   var tmp=document.createElement('div'); tmp.innerHTML=pinBox();
   old.replaceWith(tmp.firstElementChild);
   bindPinBox();
@@ -3459,15 +3622,10 @@ function attachPager(dates){
 
 function trendRow(it){
   var s=DESK_SEC[it.sec]||DESK_SECTIONS[0];
-  /* 관련 글 표식 — 진짜 같은 글은 데스크가 판에 싣기 전에 뺀다. 여기 남는 것은 «같은 주제 자리의 기존 글»이라 발주를 막지 않는다 */
-  var warn=it.coverage.length
-    ? '<span class="tr-rel" title="'+esc(it.coverage.map(function(c){
-        return c.writer+' 「'+c.title+'」'+(c.words.length?' — 겹친 말: '+c.words.join('·'):''); }).join('\n'))+
-      '">관련 글'+(it.coverage.length>1?' '+it.coverage.length:'')+'</span>'
-    : '';
+  /* 관련 글 작성자 라벨 — 진짜 같은 글은 데스크가 판에 싣기 전에 뺀다. 여기 남는 것은 «같은 주제 자리의 기존 글»이라 발주를 막지 않는다 */
   return '<div class="trow" style="--ac:'+s.ac+(s.at?';--at:'+s.at:'')+'">'+
     '<span class="tr-g">'+esc(it.game||'—')+'</span>'+
-    '<span class="tr-m"><span class="tr-h">'+esc(it.title)+'</span>'+trChips(it)+warn+'</span>'+
+    '<span class="tr-m"><span class="tr-h">'+esc(it.title)+'</span>'+trChips(it)+trWriters(it)+'</span>'+
     '<button type="button" class="cta" data-req="'+esc(it.id)+'">'+(it.sec==='refresh'?'갱신 발주':'발주 요청')+
       '<span class="knob">'+svg('arrowR')+'</span></button>'+
   '</div>';
@@ -3481,6 +3639,7 @@ function skel(n){
    날짜 이동은 방향(o.dir)을 갖고 미끄러진다. 셸이 방금 생겼으면(탭 전환) 즉시 그린다 — 뷰 전환이 이미 보간 중이라서. */
 function renderTrend(o){
   o=o||{};
+  itipHide(true);
   setTitle('트렌드');
   var fresh=!(el('tq')&&el('tbody'));
   if(fresh){ viewEl.innerHTML=trendSearchBar()+'<div id="tbody"></div>'; bindTrendSearch(); }
