@@ -1,0 +1,321 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>롤토체스 지옥불 특성 효과, 화상·상처 3초 적용과 중첩 문구 정리</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:23px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:22px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl img{width:48px;height:48px;vertical-align:middle;border-radius:6px;margin-right:8px;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;font-weight:700;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">롤토체스 지옥불 특성 효과, 화상·상처 3초 적용과 중첩 문구 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.25</span><span>· 게임</span></div>
+
+    <!-- AI브리핑 타깃 질문: ①롤토체스 지옥불 특성이 뭘 하나요 ②지옥불 화상은 다른 화상이랑 중첩되나요 ③지옥불 챔피언·상징은 뭐가 있나요 -->
+
+    <p>롤토체스 지옥불 특성 설명을 읽다 보면 다른 화상 효과와 중첩된다는 문장에서 한 번쯤 멈칫하게 되는데요. 이 한 줄이 대체 무슨 뜻인지, 오늘은 그 문장부터 풀어 볼게요. <b>패치 18.5b 기준(2026.10.25 조회)</b>으로 지옥불이 적에게 뭘 걸어 주는지, 붉은 덩굴정령 같은 다른 화상이랑은 어떤 관계인지 차근차근 짚어 볼 거예요.</p>
+
+    <h2 class="sub">롤토체스 지옥불 특성, 단계와 효과 한눈에</h2>
+    <p>지옥불은 <b>2·3~4·5~6·7 이상</b> 네 구간으로 켜지는 특성이고, 지옥불 챔피언이 피해를 입히면 적에게 <b>3초 동안 화상과 상처</b>를 적용해요. 롤체지지에서는 이 네 구간을 동·은·금·금 색으로 구분해서 보여 줘요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 인게임 지옥불 특성 툴팁 — 단계별 설명이 보이는 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 전투 준비 화면에서 지옥불 아이콘에 마우스를 올리면 설명이 떠요.</div>
+    <p class="cap">특성 아이콘에 올려 보면 구간별 설명을 바로 볼 수 있어요.</p>
+
+    <p>화상은 매초 대상 최대 체력의 일정 비율만큼 고정 피해를 주는 효과고, 상처는 대상의 체력 회복량을 줄이는 효과예요. 지옥불 챔피언이 피해를 입히면 이 둘이 한 묶음으로 붙기 때문에, 특성 설명에도 화상과 상처가 같이 적혀 있어요.</p>
+
+    <h2 class="sub">지옥불 화상 중첩, 붉은 덩굴정령과 같이 걸리면</h2>
+    <p>지옥불 화상은 게임 안 특성 설명(툴팁)에 <b>«지옥불 화상 효과는 다른 화상 효과와 중첩됩니다»</b>라고 적혀 있어요.</p>
+    <p>붉은 덩굴정령(곡궁 + 곡궁)은 기본 공격과 스킬로 적에게 화상과 상처를 거는 아이템이에요. 저는 이 아이템이 문장 속 다른 화상 효과의 대표 사례라고 읽었어요. 먼저 지속시간이 달라요. 지옥불은 3초, 붉은 덩굴정령은 5초예요. 걸리는 조건도 달라서 지옥불은 피해를 입힐 때, 붉은 덩굴정령은 기본 공격과 스킬이 닿을 때 걸려요.</p>
+    <!-- 이미지 이유: 중첩 대상 아이템 시각 확인 / 출처: CommunityDragon(라이엇 게임 데이터) / 분류: A형 -->
+    <div class="imgwrap"><img src="img/redbuff.png" alt="붉은 덩굴정령 아이템 아이콘 — 붉게 타오르는 소용돌이 속 덩굴 문양" width="128" height="128"></div>
+    <p class="cap">붉은 덩굴정령 아이콘이에요.</p>
+    <p class="src">이미지 출처: 라이엇 게임 데이터(CommunityDragon) · 네이버 본문엔 받아서 재업로드 권장</p>
+    <p>정리하면 지옥불은 피해를 입히면 3초 동안 화상·상처를 적용하고, 붉은 덩굴정령은 기본 공격·스킬로 5초 동안 화상 1%·상처 33%를 걸어요. 찬란한 붉은 덩굴정령은 같은 5초에 화상이 2%로 올라가고 상처는 33% 그대로예요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 지옥불 챔피언이 싸우는 전투 화면 — 적 유닛에 화상 효과가 붙은 장면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 지옥불이 켜진 판에서 전투 중 적 유닛 위에 화상 표시가 뜬 순간을 찍으면 돼요.</div>
+    <p class="cap">화상이 붙은 적 유닛은 전투 화면에서 바로 눈에 띄어요.</p>
+
+    <p>두 화상이 한 대상에 겹친다는 것까지는 문장으로 알 수 있어요. 다만 아래 네 가지는 아직 확인되지 않아서 합산 수치는 적지 않을게요.</p>
+    <div class="gap"><b>아직 확인되지 않은 부분</b><br>
+    · 중첩이 정확히 어떻게 계산되는지(피해 합산인지, 지속시간 갱신인지, 붉은 덩굴정령과 동시에 걸리면 어떻게 되는지)<br>
+    · 화상 피해 1/1/3/4%가 2·3~4·5~6·7+ 구간에 각각 어떻게 맞는지(패치노트에는 이 순서로만 나와 있어요)<br>
+    · 구간별 상처 %<br>
+    · 3·5·7 구간 상점 슬롯 점화 개수는 아직 숫자가 안 나왔어요<br>
+    확인되면 값을 채워 넣을게요.</div>
+
+    <h2 class="sub">롤토체스 지옥불 챔피언 6종과 상징·아이템 정리</h2>
+    <p>지옥불 챔피언은 <b>아칼리·바루스·쉔·아무무·케넨·럭스(지옥불)</b> 여섯이고, 상징은 <b>뒤집개 + 곡궁</b>으로 만들어 장착하면 지옥불을 얻어요. 아래 표는 게임 데이터 기준이에요.</p>
+    <table class="tbl">
+  <tr><th>이름</th><th>코스트·조합</th><th>함께 붙은 특성·효과</th></tr>
+  <!-- 이미지 이유: 챔피언·상징·아이템 한 장 표 / 출처: CommunityDragon / 분류: A형(표 안 소형) -->
+  <tr><td><img src="img/akali.png" alt="아칼리 초상" width="48" height="48">아칼리</td><td>1코스트</td><td>지옥불·적응가·약탈자</td></tr>
+  <tr><td><img src="img/varus.png" alt="바루스 초상" width="48" height="48">바루스</td><td>1코스트</td><td>지옥불·속사포</td></tr>
+  <tr><td><img src="img/shen.png" alt="쉔 초상" width="48" height="48">쉔</td><td>2코스트</td><td>지옥불·엄호대</td></tr>
+  <tr><td><img src="img/amumu.png" alt="아무무 초상" width="48" height="48">아무무</td><td>4코스트</td><td>지옥불·전쟁기계</td></tr>
+  <tr><td><img src="img/kennen.png" alt="케넨 초상" width="48" height="48">케넨</td><td>5코스트</td><td>지옥불·처형자</td></tr>
+  <tr><td><img src="img/lux.png" alt="럭스(지옥불) 초상" width="48" height="48">럭스(지옥불)</td><td>5코스트</td><td>지옥불·화신. 스킬은 최후의 섬광이고, 지옥불 추가 효과로 처치 관여당 마나 10을 회복해요</td></tr>
+  <tr><td><img src="img/emblem_inferno.png" alt="지옥불 상징 초상" width="48" height="48">지옥불 상징</td><td>뒤집개 + 곡궁</td><td>장착 시 지옥불 특성 획득</td></tr>
+  <tr><td><img src="img/redbuff.png" alt="붉은 덩굴정령 초상" width="48" height="48">붉은 덩굴정령</td><td>곡궁 + 곡궁</td><td>5초 동안 화상 1%·상처 33%</td></tr>
+    </table>
+    <p class="src">이미지 출처: 라이엇 게임 데이터(CommunityDragon) · 네이버 본문엔 받아서 재업로드 권장</p>
+    <p>코스트는 1·1·2에 4·5·5라서 낮은 쪽과 높은 쪽이 딱 반반이에요.</p>
+<p>재료는 곡궁에서 갈려요. 손에 곡궁이 하나뿐이고 뒤집개가 있다면 지옥불 상징 쪽으로 가세요. 곡궁이 두 개 모였다면 붉은 덩굴정령을 만들어 화상 아이템 쪽으로 가는 길도 있어요. 그래서 조합하기 전에 곡궁 수부터 세어 보시는 걸 추천드려요.</p>
+
+    <h2 class="sub">지옥불 패치 변화, 18.2 상향과 18.3 하향</h2>
+    <p>지옥불의 화상 피해는 패치 18.2에서 올랐다가 18.3에서 다시 내려가서 지금은 <b>1/1/3/4%</b>예요.</p>
+    <table class="tbl">
+  <tr><th>패치</th><th>적용일(롤체지지 표기)</th><th>지옥불 화상 피해</th></tr>
+  <tr><td>18.2</td><td>2026.09.10</td><td>1/1/3/3.5% → 1/1/3.5/4.5%</td></tr>
+  <tr><td>18.3</td><td>2026.09.23</td><td>1/1/3.5/4.5% → 1/1/3/4%</td></tr>
+  <tr><td>18.3b~18.5b</td><td>—</td><td>공식 패치노트에서 지옥불 변경 항목은 찾지 못했어요</td></tr>
+    </table>
+    <p><a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-2/" target="_blank">18.2 공식 노트</a>에는 «지옥불의 높은 구간도 상향되니, 지옥불 리롤 조합을 한번 노려보세요»라는 문장이 있었어요. 올려 준 쪽이 높은 구간이라 리롤로 지옥불을 높게 키우는 조합을 권한 거예요. 이어 <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-3/" target="_blank">18.3 공식 노트</a>는 «사냥꾼, 엄호대, 기원자 그리고 지옥불 하향은 모두 최고 특성 구간에 적용됩니다»라고 적었어요. 패치노트에는 네 값이 1/1/3/4% 순서로만 나와요. 높은 구간에서 한 번 오르고 한 번 깎인 흐름이라고 보시면 돼요. 같은 18.3 노트에서 엄호대도 하향됐는데, 쉔이 지옥불과 엄호대를 함께 갖고 있어서 쉔은 두 특성이 한 노트에서 같이 하향된 챔피언이기도 해요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 붉은 덩굴정령 말고 화상을 거는 게 또 있나요?</b><br>4코스트 챔피언 덩굴정령의 우두머리 표식(롤체지지 표기는 레드 버프)이 기본 공격 때 적에게 1% 화상을 적용해요. 체력 회복량 4%도 같이 붙어 있는데, 18.5 본편에서 4%에서 5%로 올렸다가 18.5b(10월 23일 추가 패치)에서 5%에서 4%로 되돌렸어요.</p>
+    <p><b>Q. 럭스는 전부 지옥불 챔피언인가요?</b><br>아니에요. 지옥불 특성이 붙는 건 럭스(지옥불) 하나뿐이고, 다른 변형 럭스는 지옥불이 아닌 다른 특성을 가져요. 럭스(지옥불)는 스킬 최후의 섬광에 처치 관여당 마나 10 회복이라는 지옥불 전용 추가 효과가 붙어 있어요.</p>
+    <p><b>Q. 지옥불 손도끼도 지옥불 특성이랑 관련 있나요?</b><br>지옥불 손도끼는 별개의 유물이에요. 설명은 기본 공격 시 장착 유닛 최대 체력의 3% 추가 물리 피해, 그리고 잃은 체력 1%당 공격 속도 1.5%가 전부고 화상·상처 문구는 없어요.</p>
+    <p><b>Q. 지옥불 화상 이펙트가 안 보이던 건 버그였나요?</b><br>패치 18.2 버그 수정에 «지옥불 유닛의 화상 시각 효과가 이제 정상적으로 표시됩니다»라는 항목이 있었어요. 표시 문제는 그 패치에서 고쳐졌다고 보시면 돼요.</p>
+    <p><b>Q. 지옥불은 지금 얼마나 쓰이고, 성적은 어떤가요?</b><br>롤체지지에서 마스터 이상 랭크 판을 최근 이틀 치로 모아 보니 2단계가 가장 많이 쓰였어요. 패치 18.5b 판이고 10월 25일 기준이에요. 5·7단계는 표본이 작아 참고치로만 보세요.</p>
+    <table class="tbl">
+  <tr><th>지옥불 단계</th><th>등장률</th><th>평균 등수</th><th>표본</th></tr>
+  <tr><td>2</td><td>20.00%</td><td>4.31</td><td>65,109</td></tr>
+  <tr><td>3</td><td>2.83%</td><td>4.27</td><td>9,222</td></tr>
+  <tr><td>5</td><td>0.60%</td><td>4.08</td><td>1,958</td></tr>
+  <tr><td>7</td><td>0.15%</td><td>3.58</td><td>487</td></tr>
+    </table>
+
+    <h2 class="sub">지옥불 켤 때 볼 것</h2>
+    <p>제 해석으로는 지옥불이 혼자 완결되는 특성이라기보다 다른 화상과 겹친다는 문장이 핵심이에요. 그래서 붉은 덩굴정령 같은 화상 아이템이 손에 들어온 판이라면 지옥불과 같이 생각해 볼 만하고, 그런 아이템이 없다면 통계의 평균 등수를 먼저 보는 게 좋아요. 2단계가 20%로 제일 많이 쓰이는데 평균 등수는 4.31이라, 많이 보인다고 강하다는 뜻은 아니에요. 7단계는 평균 3.58로 가장 좋아 보이지만 표본이 487판뿐이라 아직 결론 내기엔 일러요. 다음 패치에서 1/1/3/4%가 그대로인지만 한 번 더 봐 주세요. 패치 바뀌면 다시 정리해 둘게요~</p>
+
+    <p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224423457827" target="_blank">롤토체스 기원자 아리 조합 아이템 정리, 특성 빌드까지 한 번에</a><br>
+    · <a href="https://blog.naver.com/bomding/224408800272" target="_blank">롤토체스시즌18 싸움꾼 마스터 이 렝가덱 사용법 공략</a><br>
+    · <a href="https://blog.naver.com/bomding/224405228193" target="_blank">롤토체스 사냥꾼 시비르 덱 추천 — 점유율 2위 강세덱, 특성 9개 한 번에 켜는 조합</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-2/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 패치 18.2 노트</a><br>
+    · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-3/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 패치 18.3 노트 (조회 2026.10.25)</a><br>
+    · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-5/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 패치 18.5 노트 (18.5b 추가 패치 포함)</a><br>
+    · 롤체지지(lolchess.gg) 통계·게임 데이터 — 공식 아님, 조회 2026.10.25</p>
+
+    <div class="tags">#롤토체스 #롤토체스지옥불 #지옥불특성 #세트18 #붉은덩굴정령 #화상중첩</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 4가지(약 4분):</b> 📷 <b>사진 4곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 롤토체스 지옥불 특성 효과, 화상·상처 3초 적용과 중첩 문구 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+  <p>롤토체스 지옥불 특성 설명을 읽다 보면 다른 화상 효과와 중첩된다는 문장에서 한 번쯤 멈칫하게 되는데요. 이 한 줄이 대체 무슨 뜻인지, 오늘은 그 문장부터 풀어 볼게요. <b>패치 18.5b 기준(2026.10.25 조회)</b>으로 지옥불이 적에게 뭘 걸어 주는지, 붉은 덩굴정령 같은 다른 화상이랑은 어떤 관계인지 차근차근 짚어 볼 거예요.</p>
+
+  <h3>롤토체스 지옥불 특성, 단계와 효과 한눈에</h3>
+  <p>지옥불은 <b>2·3~4·5~6·7 이상</b> 네 구간으로 켜지는 특성이고, 지옥불 챔피언이 피해를 입히면 적에게 <b>3초 동안 화상과 상처</b>를 적용해요. 롤체지지에서는 이 네 구간을 동·은·금·금 색으로 구분해서 보여 줘요.</p>
+
+  <p class="ph">📷 〔사진 자리 1〕 인게임 지옥불 특성 툴팁 화면(단계별 설명이 보이는 장면) — 직접 촬영 후 이 자리에 Ctrl+V</p>
+
+  <p>화상은 매초 대상 최대 체력의 일정 비율만큼 고정 피해를 주는 효과고, 상처는 대상의 체력 회복량을 줄이는 효과예요. 지옥불 챔피언이 피해를 입히면 이 둘이 한 묶음으로 붙기 때문에, 특성 설명에도 화상과 상처가 같이 적혀 있어요.</p>
+
+  <h3>지옥불 화상 중첩, 붉은 덩굴정령과 같이 걸리면</h3>
+  <p>지옥불 화상은 게임 안 특성 설명(툴팁)에 <b>«지옥불 화상 효과는 다른 화상 효과와 중첩됩니다»</b>라고 적혀 있어요.</p>
+  <p>붉은 덩굴정령(곡궁 + 곡궁)은 기본 공격과 스킬로 적에게 화상과 상처를 거는 아이템이에요. 저는 이 아이템이 문장 속 다른 화상 효과의 대표 사례라고 읽었어요. 먼저 지속시간이 달라요. 지옥불은 3초, 붉은 덩굴정령은 5초예요. 걸리는 조건도 달라서 지옥불은 피해를 입힐 때, 붉은 덩굴정령은 기본 공격과 스킬이 닿을 때 걸려요.</p>
+  <p class="ph">📷 〔사진 자리 2〕 붉은 덩굴정령 아이템 아이콘 — 미리보기에서 이미지 우클릭 → 복사 → 이 자리에 Ctrl+V</p>
+  <p>정리하면 지옥불은 피해를 입히면 3초 동안 화상·상처를 적용하고, 붉은 덩굴정령은 기본 공격·스킬로 5초 동안 화상 1%·상처 33%를 걸어요. 찬란한 붉은 덩굴정령은 같은 5초에 화상이 2%로 올라가고 상처는 33% 그대로예요.</p>
+  <p class="ph">📷 〔사진 자리 3〕 지옥불 챔피언이 싸우는 전투 화면(적 유닛에 화상 효과가 붙은 장면) — 직접 촬영 후 이 자리에 Ctrl+V</p>
+
+  <p>두 화상이 한 대상에 겹친다는 것까지는 문장으로 알 수 있어요. 다만 아래 네 가지는 아직 확인되지 않아서 합산 수치는 적지 않을게요.</p>
+  <ul>
+  <li>중첩이 정확히 어떻게 계산되는지(피해 합산인지, 지속시간 갱신인지, 붉은 덩굴정령과 동시에 걸리면 어떻게 되는지)</li>
+  <li>화상 피해 1/1/3/4%가 2·3~4·5~6·7+ 구간에 각각 어떻게 맞는지(패치노트에는 이 순서로만 나와 있어요)</li>
+  <li>구간별 상처 %</li>
+  <li>3·5·7 구간 상점 슬롯 점화 개수는 아직 숫자가 안 나왔어요</li>
+  </ul>
+
+  <h3>롤토체스 지옥불 챔피언 6종과 상징·아이템 정리</h3>
+  <p>지옥불 챔피언은 <b>아칼리·바루스·쉔·아무무·케넨·럭스(지옥불)</b> 여섯이고, 상징은 <b>뒤집개 + 곡궁</b>으로 만들어 장착하면 지옥불을 얻어요. 아래 표는 게임 데이터 기준이에요.</p>
+  <p class="ph">📷 〔사진 자리 4〕 챔피언 초상 6장·지옥불 상징·붉은 덩굴정령 아이콘 — 미리보기 표에서 이미지 우클릭 → 복사 → 표 위나 아래에 Ctrl+V</p>
+  <table>
+  <tr><th>이름</th><th>코스트·조합</th><th>함께 붙은 특성·효과</th></tr>
+  <tr><td class="l">아칼리</td><td>1코스트</td><td>지옥불·적응가·약탈자</td></tr>
+  <tr><td class="l">바루스</td><td>1코스트</td><td>지옥불·속사포</td></tr>
+  <tr><td class="l">쉔</td><td>2코스트</td><td>지옥불·엄호대</td></tr>
+  <tr><td class="l">아무무</td><td>4코스트</td><td>지옥불·전쟁기계</td></tr>
+  <tr><td class="l">케넨</td><td>5코스트</td><td>지옥불·처형자</td></tr>
+  <tr><td class="l">럭스(지옥불)</td><td>5코스트</td><td>지옥불·화신. 스킬은 최후의 섬광이고, 지옥불 추가 효과로 처치 관여당 마나 10을 회복해요</td></tr>
+  <tr><td class="l">지옥불 상징</td><td>뒤집개 + 곡궁</td><td>장착 시 지옥불 특성 획득</td></tr>
+  <tr><td class="l">붉은 덩굴정령</td><td>곡궁 + 곡궁</td><td>5초 동안 화상 1%·상처 33%</td></tr>
+  </table>
+  <p>코스트는 1·1·2에 4·5·5라서 낮은 쪽과 높은 쪽이 딱 반반이에요.</p>
+<p>재료는 곡궁에서 갈려요. 손에 곡궁이 하나뿐이고 뒤집개가 있다면 지옥불 상징 쪽으로 가세요. 곡궁이 두 개 모였다면 붉은 덩굴정령을 만들어 화상 아이템 쪽으로 가는 길도 있어요. 그래서 조합하기 전에 곡궁 수부터 세어 보시는 걸 추천드려요.</p>
+
+  <h3>지옥불 패치 변화, 18.2 상향과 18.3 하향</h3>
+  <p>지옥불의 화상 피해는 패치 18.2에서 올랐다가 18.3에서 다시 내려가서 지금은 <b>1/1/3/4%</b>예요.</p>
+  <table>
+  <tr><th>패치</th><th>적용일(롤체지지 표기)</th><th>지옥불 화상 피해</th></tr>
+  <tr><td>18.2</td><td>2026.09.10</td><td>1/1/3/3.5% → 1/1/3.5/4.5%</td></tr>
+  <tr><td>18.3</td><td>2026.09.23</td><td>1/1/3.5/4.5% → 1/1/3/4%</td></tr>
+  <tr><td>18.3b~18.5b</td><td>—</td><td>공식 패치노트에서 지옥불 변경 항목은 찾지 못했어요</td></tr>
+  </table>
+  <p><a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-2/" target="_blank">18.2 공식 노트</a>에는 «지옥불의 높은 구간도 상향되니, 지옥불 리롤 조합을 한번 노려보세요»라는 문장이 있었어요. 올려 준 쪽이 높은 구간이라 리롤로 지옥불을 높게 키우는 조합을 권한 거예요. 이어 <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-3/" target="_blank">18.3 공식 노트</a>는 «사냥꾼, 엄호대, 기원자 그리고 지옥불 하향은 모두 최고 특성 구간에 적용됩니다»라고 적었어요. 패치노트에는 네 값이 1/1/3/4% 순서로만 나와요. 높은 구간에서 한 번 오르고 한 번 깎인 흐름이라고 보시면 돼요. 같은 18.3 노트에서 엄호대도 하향됐는데, 쉔이 지옥불과 엄호대를 함께 갖고 있어서 쉔은 두 특성이 한 노트에서 같이 하향된 챔피언이기도 해요.</p>
+
+  <h3>자주 묻는 질문</h3>
+  <p><b>Q. 붉은 덩굴정령 말고 화상을 거는 게 또 있나요?</b><br>4코스트 챔피언 덩굴정령의 우두머리 표식(롤체지지 표기는 레드 버프)이 기본 공격 때 적에게 1% 화상을 적용해요. 체력 회복량 4%도 같이 붙어 있는데, 18.5 본편에서 4%에서 5%로 올렸다가 18.5b(10월 23일 추가 패치)에서 5%에서 4%로 되돌렸어요.</p>
+  <p><b>Q. 럭스는 전부 지옥불 챔피언인가요?</b><br>아니에요. 지옥불 특성이 붙는 건 럭스(지옥불) 하나뿐이고, 다른 변형 럭스는 지옥불이 아닌 다른 특성을 가져요. 럭스(지옥불)는 스킬 최후의 섬광에 처치 관여당 마나 10 회복이라는 지옥불 전용 추가 효과가 붙어 있어요.</p>
+  <p><b>Q. 지옥불 손도끼도 지옥불 특성이랑 관련 있나요?</b><br>지옥불 손도끼는 별개의 유물이에요. 설명은 기본 공격 시 장착 유닛 최대 체력의 3% 추가 물리 피해, 그리고 잃은 체력 1%당 공격 속도 1.5%가 전부고 화상·상처 문구는 없어요.</p>
+  <p><b>Q. 지옥불 화상 이펙트가 안 보이던 건 버그였나요?</b><br>패치 18.2 버그 수정에 «지옥불 유닛의 화상 시각 효과가 이제 정상적으로 표시됩니다»라는 항목이 있었어요. 표시 문제는 그 패치에서 고쳐졌다고 보시면 돼요.</p>
+  <p><b>Q. 지옥불은 지금 얼마나 쓰이고, 성적은 어떤가요?</b><br>롤체지지에서 마스터 이상 랭크 판을 최근 이틀 치로 모아 보니 2단계가 가장 많이 쓰였어요. 패치 18.5b 판이고 10월 25일 기준이에요. 5·7단계는 표본이 작아 참고치로만 보세요.</p>
+  <table>
+  <tr><th>지옥불 단계</th><th>등장률</th><th>평균 등수</th><th>표본</th></tr>
+  <tr><td>2</td><td>20.00%</td><td>4.31</td><td>65,109</td></tr>
+  <tr><td>3</td><td>2.83%</td><td>4.27</td><td>9,222</td></tr>
+  <tr><td>5</td><td>0.60%</td><td>4.08</td><td>1,958</td></tr>
+  <tr><td>7</td><td>0.15%</td><td>3.58</td><td>487</td></tr>
+  </table>
+
+  <h3>지옥불 켤 때 볼 것</h3>
+  <p>제 해석으로는 지옥불이 혼자 완결되는 특성이라기보다 다른 화상과 겹친다는 문장이 핵심이에요. 그래서 붉은 덩굴정령 같은 화상 아이템이 손에 들어온 판이라면 지옥불과 같이 생각해 볼 만하고, 그런 아이템이 없다면 통계의 평균 등수를 먼저 보는 게 좋아요. 2단계가 20%로 제일 많이 쓰이는데 평균 등수는 4.31이라, 많이 보인다고 강하다는 뜻은 아니에요. 7단계는 평균 3.58로 가장 좋아 보이지만 표본이 487판뿐이라 아직 결론 내기엔 일러요. 다음 패치에서 1/1/3/4%가 그대로인지만 한 번 더 봐 주세요. 패치 바뀌면 다시 정리해 둘게요~</p>
+
+  <p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+  · <a href="https://blog.naver.com/bomding/224423457827" target="_blank">롤토체스 기원자 아리 조합 아이템 정리, 특성 빌드까지 한 번에</a><br>
+  · <a href="https://blog.naver.com/bomding/224408800272" target="_blank">롤토체스시즌18 싸움꾼 마스터 이 렝가덱 사용법 공략</a><br>
+  · <a href="https://blog.naver.com/bomding/224405228193" target="_blank">롤토체스 사냥꾼 시비르 덱 추천 — 점유율 2위 강세덱, 특성 9개 한 번에 켜는 조합</a></p>
+
+  <p><b>참고한 곳</b><br>
+  · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-2/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 패치 18.2 노트</a><br>
+  · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-3/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 패치 18.3 노트 (조회 2026.10.25)</a><br>
+  · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-5/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 패치 18.5 노트 (18.5b 추가 패치 포함)</a><br>
+  · 롤체지지(lolchess.gg) 통계·게임 데이터 — 공식 아님, 조회 2026.10.25</p>
+
+  <p class="tags-line">#롤토체스 #롤토체스지옥불 #지옥불특성 #세트18 #붉은덩굴정령 #화상중첩</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
