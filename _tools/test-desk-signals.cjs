@@ -211,6 +211,29 @@ console.log('\n[11] ★크로스섹션 X (2026-09-23 · L89 3회째 승격) — 
   ok(!S.crossOverlap({ game: '메이플스토리', title: '메이플스토리 아우룸 레기스 공략', sec: 'update' }, { game: '메이플스토리', title: '메이플스토리 주간보스 결정값' }), '주제가 다르면 겹침 아님');
 }
 
+console.log('\n[11-2] ★업데이트 챙길 게임 watch (2026-10-25) — 게임당 정리 ≤ 2 · 공략 ≤ 5 · R4·W1 비대상 · 우선권 pinned > watch > core');
+{
+  const W = (o) => I(Object.assign({ sec: 'watch', game: '원신', demand: D(2) }, o));
+  const rx = (list) => { const r = S.judge(list, false); return list.map((x) => { const d = r.drop.find((y) => y.it === x); return d ? d.rule : 'KEEP'; }); };
+  const recaps = [1, 2, 3].map((k) => W({ title: '원신 6.2 업데이트 정리 ' + k, angleType: k === 2 ? 'info' : 'news', demand: D(k === 3 ? 1 : 2) }));
+  eq(rx(recaps), ['KEEP', 'KEEP', 'R6'], 'R6 정리(news·info 합산)는 게임당 2건 — 수요 낮은 쪽부터');
+  const guides = [1, 2, 3, 4, 5, 6].map((k) => W({ title: '원신 6.2 공략 축' + k, angleType: k === 6 ? 'rank' : 'howto', demand: D(k === 6 ? 1 : 2) }));
+  eq(rx(guides), ['KEEP', 'KEEP', 'KEEP', 'KEEP', 'KEEP', 'R6'], 'R6 공략(howto·rank 합산)은 게임당 5건');
+  eq(rx(recaps.slice(0, 2).concat(guides.slice(0, 5))).filter((x) => x === 'KEEP').length, 7, '정리 2 + 공략 5 = 한 게임 7건까지 산다');
+  eq(rx([W({ title: '원신 정리', angleType: 'news' }), W({ title: '원신 정리 2', angleType: 'news' }), W({ game: '붕괴: 스타레일', title: '스타레일 정리', angleType: 'news' })]), ['KEEP', 'KEEP', 'KEEP'], '상한은 게임마다 따로 센다');
+  eq(rx([W({ title: '원신 공략', angleType: 'howto', demand: D(0) })]), ['KEEP'], 'watch 는 R4(수요 tier 0) 대상 아님 — 사용자가 지정한 게임');
+  const ev = [W({ title: '원신 정리', angleType: 'news' }), W({ game: '붕괴: 스타레일', title: '스타레일 정리', angleType: 'news' }), W({ game: '젠레스 존 제로', title: '젠레스 정리', angleType: 'news' })];
+  eq(rx(ev), ['KEEP', 'KEEP', 'KEEP'], 'watch 정리는 W1(신작·업데이트·화제 소식형 합 2) 대상 아님');
+  const pr = [
+    I({ sec: 'core', game: '원신', title: '원신 6.2 신규 캐릭터 육성 재료', angleType: 'howto', demand: D(2), keywords: ['원신 6.2 육성 재료'] }),
+    W({ title: '원신 6.2 신규 캐릭터 육성 재료 정리', angleType: 'howto', keywords: ['원신 6.2 육성 재료'] }),
+    I({ sec: 'pinned', game: '원신', title: '원신 6.2 신규 캐릭터 육성 재료 총정리', angleType: 'howto', demand: D(2), keywords: ['원신 6.2 육성 재료'] }),
+  ];
+  eq(rx(pr), ['X', 'X', 'KEEP'], '우선권 pinned > watch > core — 같은 게임·각도·주제면 아래 칸이 X');
+  const sorted = S.sortSection('watch', [W({ game: 'A', title: 'A1', demand: D(1) }), W({ game: 'B', title: 'B1', demand: D(3) }), W({ game: 'A', title: 'A2', demand: D(3) })]);
+  eq(sorted.map((x) => x.title), ['A2', 'A1', 'B1'], 'watch 칸 정렬은 게임 묶음 순서 유지(그 안에서만 수요순)');
+}
+
 console.log('\n[12] ★블록리스트 B (2026-09-23 · L95) — _trend/_blocklist.json {game, angle, until}');
 {
   const bl = [

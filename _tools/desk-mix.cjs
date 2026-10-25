@@ -10,7 +10,7 @@
      홈 「주제 비중」 타일이 이 파일만 읽는다(사이트는 네이버·백엔드를 직접 계산하지 않는다).
 
    무엇을 재나
-     supply  최근 7판 게임 항목(pinned·core·guide·new·update·hot)의 angleType 비중. angleType 이 없는 옛 판은
+     supply  최근 7판 게임 항목(pinned·watch·core·guide·new·update·hot)의 angleType 비중. angleType 이 없는 옛 판은
              angle-mix 사다리(제목 정규식)로 대신 센다 — 몇 건을 정규식으로 셌는지 regex 에 남긴다.
      orders  최근 14일 데스크 경유 발주(백엔드 /requests · source=trend-desk)의 각도 비중. 발주 제목을 그 날 데스크 항목과
              맞춰 angleType·분류를 가져온다(못 맞추면 정규식). ★백엔드를 못 읽으면 null — 0 으로 위장하지 않는다.
@@ -39,7 +39,7 @@ const TREND = path.join(ROOT, '_trend', 'trend.json');
 const POSTS = path.join(ROOT, 'posts.json');
 const OUT = path.join(ROOT, '_trend', '_desk-mix.json');
 const FOLLOW = path.join(ROOT, '_trend', '_aib-followup.json');
-const GAME_SECS = ['pinned', 'core', 'guide', 'new', 'update', 'hot'];
+const GAME_SECS = ['pinned', 'watch', 'core', 'guide', 'new', 'update', 'hot'];   /* watch = 업데이트 챙길 게임(10-25) */
 const WRITERS = ['봄딩', '영도'];
 const NOT_GAME = /육아|임신|출산|취미/;
 const DAY = 86400e3;

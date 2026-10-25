@@ -50,18 +50,20 @@
      aib         { s, n, bd, yd, q } — 네이버 AI 브리핑 실검색(aib-check.py · 24h 캐시 · 8초 간격)
                  s = shown(출처 열람) · async(뜨지만 출처 미열람) · none(안 뜸) · unknown(차단·오류) · n = 출처 수 · bd/yd = 봄딩·영도 인용 순위
                  대상 = 게임 6칸 전부(★09-23 소식 칸 포함 — how-to 로 뒤집은 질의로) · 회차 네트워크 상한 --aib-max 안에서
-                 우선순위 guide → pinned → core → new → update → hot(캐시 적중은 공짜).
+                 우선순위 guide → pinned → watch → core → new → update → hot(캐시 적중은 공짜).
      depth       entry(진입형) · play(실전형) · news(소식형) — 타깃 질의로 기계가 판정(R5).
 
    거둬내기 규칙 (2026-09-18 사용자 승인 · 시행 2026-09-19 판부터 · ★09-23 R4 개정 + X·B 신설)
      B   전 칸     _trend/_blocklist.json 의 {game, angle, until} 에 걸림(angle = 제목·질의 포함 문자열 | angleType | '*')  → DROP
      X   전 칸     같은 회차 «다른 칸»에 같은 게임 + 같은 angleType 이 상위 칸에 있고 주제가 겹침(desk-dedup 판정 ≠ OK)   → 뒤 칸 DROP
-                  우선권 pinned > core > guide > new > update > hot. --cross-strict 면 주제 겹침 조건 없이 게임+angleType 만으로.
+                  우선권 pinned > watch > core > guide > new > update > hot. --cross-strict 면 주제 겹침 조건 없이 게임+angleType 만으로.
                   (기본값에 «주제 겹침» 조건을 둔 이유 = 09-20 사용자 승인 «guide 는 게임이 아니라 주제로 양보한다»[[L91]] 와의 충돌 방지)
      R1  new      검색 흔적 없음(tier 0 · 검색량 연동이면 게임·키워드 모두 월 500 미만)                                    → DROP
      R2  hot      angleType=news(논평·결과·매출·논란 — how-to 로 안 뒤집힌 화제)                                             → DROP
          core     angleType=news(소식은 how-to 로 뒤집힐 때만)                                                              → DROP
      R3  pinned   게임당 news 1건 초과(패치 세부 나열)                                                                       → DROP(약한 쪽부터)
+     R6  watch    게임당 정리(news·info) 2건 · 공략(howto·rank) 5건 초과(2026-10-25 사용자 «정리 1~2 · 공략 최대 5»)       → DROP(약한 쪽부터)
+                  ★watch 는 R4(수요 tier 0)·W1(소식형 합 2) 대상이 아니다 — 사용자가 «업데이트 있을 때마다» 다루라고 지정한 게임이다.
      R4  new·update·hot  수요 최저 구간 = tier 0(★09-23 — heat 는 조사원 주관값이라 판정·정렬에서 뺐다 · 표시는 남는다)          → DROP
      R5  전 칸     진입형 질의(설치·가입·하는 법…)인데 신작(최근 14판 new)도 아니고 entryOk 도 없음                            → DROP
      W1  new·update·hot 의 news 합 2건 초과 · 칸 상한 new 3 · update 3 · hot 2 · guide 8                                     → DROP(약한 쪽부터)
@@ -70,7 +72,7 @@
      ★parenting 은 건드리지 않는다(게임 축 밖 · 규칙 = SKILL [A-3]).
 
    정렬 (칸 안)  수요 tier ↓ → 브리핑(뜸·우리 미인용 → 뜸·출처 미열람 → 모름 → 뜸·이미 인용 → 안 뜸) → acRank ↑ → 원래 순서.
-                pinned 는 게임 묶음 순서를 지키고 그 안에서만 정렬한다. (heat 는 09-23 부터 정렬에 쓰지 않는다)
+                pinned·watch 는 게임 묶음 순서를 지키고 그 안에서만 정렬한다. (heat 는 09-23 부터 정렬에 쓰지 않는다)
 
    ★함정
      - 자동완성은 게임명을 «낱말로» 품은 제안만 센다(«애니모»가 «애니모션텍»을 끌어오던 query-miner 교훈 그대로).
@@ -104,9 +106,10 @@ const DEPTH_KO = { entry: '진입형', play: '실전형', news: '소식형' };
 const CAPS = { new: 3, update: 3, hot: 2, guide: 8 };
 const EVENT_SECS = ['new', 'update', 'hot'];
 const NEWS_MAX_EVENT = 2;
-const AIB_SECS = ['guide', 'pinned', 'core', 'new', 'update', 'hot'];   /* ★09-23 소식 칸 포함 · 순서 = 회차 상한 안 우선순위 */
-const GAME_SECS = ['pinned', 'core', 'guide', 'new', 'update', 'hot'];
-const SEC_PRIORITY = { pinned: 0, core: 1, guide: 2, new: 3, update: 4, hot: 5 };   /* X 규칙 우선권(작을수록 상위 칸) */
+const AIB_SECS = ['guide', 'pinned', 'watch', 'core', 'new', 'update', 'hot'];   /* ★09-23 소식 칸 포함 · 순서 = 회차 상한 안 우선순위 */
+const GAME_SECS = ['pinned', 'watch', 'core', 'guide', 'new', 'update', 'hot'];
+const SEC_PRIORITY = { pinned: 0, watch: 1, core: 2, guide: 3, new: 4, update: 5, hot: 6 };   /* X 규칙 우선권(작을수록 상위 칸) · watch = 업데이트 챙길 게임(10-25) */
+const WATCH_MAX = { recap: 2, guide: 5 };   /* R6 — watch 게임당 정리(news·info) · 공략(howto·rank) 상한(2026-10-25 사용자) */
 const BLOCKLIST = path.join(ROOT, '_trend', '_blocklist.json');
 const DD = require('./desk-dedup.cjs');   /* X 규칙의 «주제 겹침» 판정 — 재탕 도구와 같은 자로 잰다 */
 const BLOG = { bd: 'bomding', yd: 'kkodug9' };
@@ -500,7 +503,7 @@ function judge(items, saOn, ctx) {
   });
   const alive = (it) => !drop.has(it);
   const byKey = (list) => list.map((it) => ({ it, k: sortKey(it, items.indexOf(it)) })).sort((x, y) => cmpKey(x.k, y.k)).map((x) => x.it);
-  /* X — 크로스섹션(09-23 · L89 3회째 승격): 상위 칸(pinned>core>guide>new>update>hot)에 같은 게임+같은 angleType 이 살아 있고
+  /* X — 크로스섹션(09-23 · L89 3회째 승격): 상위 칸(pinned>watch>core>guide>new>update>hot)에 같은 게임+같은 angleType 이 살아 있고
      주제가 겹치면(desk-dedup ≠ OK · --cross-strict 면 조건 없음) 뒤 칸을 뺀다. 같은 칸끼리는 조사원·dedup 몫. */
   const strict = !!(ctx && ctx.crossStrict);
   const ordered = items.map((it, i) => ({ it, i })).filter((x) => GAME_SECS.includes(x.it.sec))
@@ -520,6 +523,13 @@ function judge(items, saOn, ctx) {
   const pg = {};
   items.filter((it) => it.sec === 'pinned' && alive(it) && angleTypeOf(it) === 'news').forEach((it) => { (pg[normKey(it.game)] = pg[normKey(it.game)] || []).push(it); });
   Object.values(pg).forEach((list) => byKey(list).slice(1).forEach((it) => mark(it, 'R3', '지정 게임 소식은 게임당 1건(패치 세부 나열 금지)')));
+  /* R6 — watch 게임당 정리 ≤ 2 · 공략 ≤ 5(2026-10-25) */
+  const wg = {};
+  items.filter((it) => it.sec === 'watch' && alive(it)).forEach((it) => {
+    const kind = ['news', 'info'].includes(angleTypeOf(it)) ? 'recap' : 'guide';
+    const k = kind + ':' + normKey(it.game); (wg[k] = wg[k] || { kind, list: [] }).list.push(it);
+  });
+  Object.values(wg).forEach(({ kind, list }) => byKey(list).slice(WATCH_MAX[kind]).forEach((it) => mark(it, 'R6', '업데이트 챙길 게임은 게임당 ' + (kind === 'recap' ? '정리 ' : '공략 ') + WATCH_MAX[kind] + '건까지')));
   /* W1 — new·update·hot news 합 ≤ 2 */
   byKey(items.filter((it) => EVENT_SECS.includes(it.sec) && alive(it) && angleTypeOf(it) === 'news')).slice(NEWS_MAX_EVENT)
     .forEach((it) => mark(it, 'W1', '소식형은 신작·업데이트·화제 합쳐 하루 ' + NEWS_MAX_EVENT + '건까지'));
@@ -528,12 +538,12 @@ function judge(items, saOn, ctx) {
     .forEach((it) => mark(it, 'W1', sec + ' 칸 상한 ' + cap)));
   return { keep: items.filter(alive), drop: [...drop.values()] };
 }
-/* 칸 안 정렬 — pinned 는 게임 묶음 순서 유지 */
+/* 칸 안 정렬 — pinned·watch 는 게임 묶음 순서 유지 */
 function sortSection(key, items) {
   if (key === 'parenting' || items.length < 2) return items;
   const idx = new Map(items.map((it, i) => [it, i]));
   const cmp = (a, b) => cmpKey(sortKey(a, idx.get(a)), sortKey(b, idx.get(b)));
-  if (key !== 'pinned') return items.slice().sort(cmp);
+  if (key !== 'pinned' && key !== 'watch') return items.slice().sort(cmp);
   const order = [], groups = {};
   items.forEach((it) => { const g = normKey(it.game); if (!groups[g]) { groups[g] = []; order.push(g); } groups[g].push(it); });
   return order.flatMap((g) => groups[g].slice().sort(cmp));
@@ -557,7 +567,7 @@ async function computeSignals(items, aibBudget) {
   const words = [];
   gameItems.forEach((it) => { words.push(cleanGame(it.game)); (it.keywords || []).slice(0, 4).forEach((k) => words.push(String(k))); });
   const sa = await saVolumes(words);
-  /* ⑶ AI 브리핑 — guide → pinned → core 순으로 상한까지 */
+  /* ⑶ AI 브리핑 — guide → pinned → watch → core 순으로 상한까지 */
   const aibItems = AIB_SECS.flatMap((s) => gameItems.filter((it) => it.sec === s));
   const aib = aibLookup(aibItems.map(deriveQuery), aibBudget);
   for (const it of gameItems) {
@@ -819,7 +829,7 @@ function secOfPost(folder, reqs, items) {
   return 'other';
 }
 
-module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, tierFromQuery, qModeOf, contentTokens, queryWithGame, demandOf, judge, sortSection, sortKey, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, SEC_PRIORITY, getRequests, deskItems, secOfPost, depthOf, newGamesFrom, DEPTH_KO, blockHit, loadBlocklist, crossOverlap, sameGameKey };
+module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, tierFromQuery, qModeOf, contentTokens, queryWithGame, demandOf, judge, sortSection, sortKey, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, SEC_PRIORITY, WATCH_MAX, getRequests, deskItems, secOfPost, depthOf, newGamesFrom, DEPTH_KO, blockHit, loadBlocklist, crossOverlap, sameGameKey };
 
 if (require.main === module) {
   const cmd = argv[0];

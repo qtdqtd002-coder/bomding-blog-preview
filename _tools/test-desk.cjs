@@ -164,7 +164,7 @@ console.log('\n[7] 경량본(trend-lite.json) 최신성');
    ★게이트 자신도 시험한다: 규칙을 지킨 합성 판 = 0건, 어긴 합성 판 = 기대한 위반만 — 빈 게이트가 초록으로 통과하는 일을 막는다. */
 const RULE_FROM = '2026-09-19';
 const CAPS = { new: 3, update: 3, hot: 2, guide: 8 };
-const GAME = ['pinned', 'core', 'guide', 'new', 'update', 'hot'];
+const GAME = ['pinned', 'watch', 'core', 'guide', 'new', 'update', 'hot'];
 function weekOf(d) { const t = new Date(d + 'T12:00:00Z'); return new Date(t.getTime() - ((t.getUTCDay() + 6) % 7) * 864e5).toISOString().slice(0, 10); }
 /* ★R5(2026-09-21 사용자 «회원가입·설치·하는 법은 너무 기초다») — 진입형 질의는 신작이거나 진입 경로가 바뀐 때(entryOk)만.
    도구(desk-signals)를 불러오지 않고 여기서 따로 판정한다 — 도구가 틀리면 게이트도 같이 틀리는 걸 막는 이 파일의 원칙 그대로. */
@@ -186,6 +186,9 @@ function ruleViolations(e, all) {
   game.filter((x) => (x.k === 'hot' || x.k === 'core') && x.it.angleType === 'news').forEach((x) => v.push('R2:' + x.k));
   const pn = {}; game.filter((x) => x.k === 'pinned' && x.it.angleType === 'news').forEach((x) => { pn[x.it.game] = (pn[x.it.game] || 0) + 1; });
   Object.entries(pn).forEach(([g, n]) => { if (n > 1) v.push('R3:' + g + ' ' + n); });
+  /* R6(2026-10-25 사용자) — 업데이트 챙길 게임은 게임당 정리(news·info) 2 · 공략(howto·rank) 5. 도구(desk-signals R6)와 따로 센다 */
+  const wn = {}; game.filter((x) => x.k === 'watch').forEach(({ it }) => { const k = (['news', 'info'].includes(it.angleType) ? '정리 ' : '공략 ') + it.game; wn[k] = (wn[k] || 0) + 1; });
+  Object.entries(wn).forEach(([k, n]) => { if (n > (k.startsWith('정리') ? 2 : 5)) v.push('R6:' + k + ' ' + n); });
   game.filter((x) => x.k === 'new' && x.it.demand && x.it.demand.tier === 0).forEach(() => v.push('R1:new'));
   /* R4 — ★2026-09-23 개정: 수요 최저 구간 = tier 0(검색광고·자동완성 경로 공통). heat 는 조사원 주관값이라 판정에서 뺐다(감사 E#7). */
   game.filter((x) => ['new', 'update', 'hot'].includes(x.k)).forEach(({ k, it }) => {
@@ -216,6 +219,8 @@ console.log('\n[8] 거둬내기·신호 계약 (시행 ' + RULE_FROM + '~)');
   const I = (o) => Object.assign({ id: Math.random().toString(36).slice(2), title: 't', heat: 2, sources: [{ url: 'https://e.com' }] }, o);
   const good = { date: '2026-09-21', sections: [
     { key: 'pinned', items: [I({ game: '롤토체스', angleType: 'news' }), I({ game: '롤토체스', angleType: 'howto' }), I({ game: '애니모', angleType: 'news' })] },
+    { key: 'watch', items: [I({ game: '원신', angleType: 'news' }), I({ game: '원신', angleType: 'info' }), I({ game: '원신', angleType: 'howto', demand: { tier: 0, src: 'ac' } }),
+      I({ game: '원신', angleType: 'howto' }), I({ game: '원신', angleType: 'rank' }), I({ game: '원신', angleType: 'howto' }), I({ game: '원신', angleType: 'howto' })] },   /* 정리 2 + 공략 5 · tier 0 이어도 R4 아님 */
     { key: 'core', items: [I({ game: '팰월드', angleType: 'howto' })] },
     { key: 'guide', items: [I({ game: '메이플', angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
     { key: 'parenting', items: [I({ game: '아기 가습기' })] },
@@ -226,6 +231,7 @@ console.log('\n[8] 거둬내기·신호 계약 (시행 ' + RULE_FROM + '~)');
   ok(vg.length === 0, '게이트 자기시험 — 규칙을 지킨 합성 판은 위반 0' + (vg.length ? ' (나온 것: ' + vg.join(' · ') + ')' : ''));
   const bad = { date: '2026-09-22', sections: [
     { key: 'pinned', items: [I({ game: '롤토체스', angleType: 'news' }), I({ game: '롤토체스', angleType: 'news' })] },
+    { key: 'watch', items: [I({ game: '원신', angleType: 'news' }), I({ game: '원신', angleType: 'news' }), I({ game: '원신', angleType: 'info' })] },
     { key: 'core', items: [I({ game: '팰월드', angleType: 'news' })] },
     { key: 'guide', items: [I({ game: 'X', angleType: 'info', demand: { tier: 2, src: 'ac' } }),
       I({ game: '메이플', title: '메이플 하는법, 회원가입부터', keywords: ['메이플 하는법'], angleType: 'howto', demand: { tier: 2, src: 'ac' } })] },
@@ -234,9 +240,9 @@ console.log('\n[8] 거둬내기·신호 계약 (시행 ' + RULE_FROM + '~)');
     { key: 'update', items: [] },
     { key: 'hot', items: [I({ game: 'D', angleType: 'news' })] }] };
   const vb = ruleViolations(bad, [bad, good]);
-  const want = ['cap:new', 'W1:', 'R2:core', 'R2:hot', 'R3:롤토체스', 'R1:new', 'R4:new', 'G:guide', 'R5:guide', '육아 주1회'];
+  const want = ['cap:new', 'W1:', 'R2:core', 'R2:hot', 'R3:롤토체스', 'R6:정리 원신', 'R1:new', 'R4:new', 'G:guide', 'R5:guide', '육아 주1회'];
   const miss = want.filter((w) => !vb.some((x) => x.startsWith(w)));
-  ok(miss.length === 0, '게이트 자기시험 — 어긴 합성 판에서 10종 위반을 모두 잡는다' + (miss.length ? ' (놓친 것: ' + miss.join(' · ') + ')' : ''));
+  ok(miss.length === 0, '게이트 자기시험 — 어긴 합성 판에서 ' + want.length + '종 위반을 모두 잡는다' + (miss.length ? ' (놓친 것: ' + miss.join(' · ') + ')' : ''));
 }
 {
   let checked = 0;

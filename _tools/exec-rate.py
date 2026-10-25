@@ -4,7 +4,7 @@
 exec-rate.py — 데스크 규칙 집행률 2개 (2026-10-25 결정서 8번 · LLM 0 · 읽기 전용)
 
 ① how-to 유지율: «소식은 how-to 로 뒤집어서만 제안»(09-18) 규칙이 데스크 → 발주 → 초안 제목 → 라이브 제목 네 단계에서 각각 얼마나 지켜지는가.
-   - 데스크: _trend/trend.json 최근 N일 에디션의 게임 칸(pinned·guide·core·new·update·hot) 항목 angleType(데스크 stamp: howto·rank·news·info)
+   - 데스크: _trend/trend.json 최근 N일 에디션의 게임 칸(pinned·watch·guide·core·new·update·hot) 항목 angleType(데스크 stamp: howto·rank·news·info)
    - 발주:   백엔드 /requests (source=trend-desk · 작성자 봄딩 · 기간 내) topic 을 각도 사다리로 분류
    - 초안:   그 요청들의 최종 title(파이프라인이 적은 제목)을 분류
    - 라이브: _trend/_live-posts.json 봄딩 글(기간 내)의 a(live-ledger 분류)
@@ -20,7 +20,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T = os.path.join(BASE, '_trend')
 API = 'https://34.139.184.70.sslip.io'
-GAME_SECS = ('pinned', 'guide', 'core', 'new', 'update', 'hot')
+GAME_SECS = ('pinned', 'watch', 'guide', 'core', 'new', 'update', 'hot')  # watch = 업데이트 챙길 게임(10-25)
 LADDER = [
     ('공략·방법형', re.compile(r'하는 ?법|방법|공략|(?<!스)위치|얻는 ?법|만드는 ?법|세팅|스킬트리|조합|루트|파밍|재료|퀘스트|보는 ?법|설정|설치|사용법|치트|명령어|염색코드|코디|기댓값|확률|빌드|덱|특성|상성|카운터|강화|각성|승급|재련|우선순위|효율|드랍|주간|일일|보상|스펙|스탯|육성')),
     ('쿠폰형', re.compile(r'쿠폰|코드')),
