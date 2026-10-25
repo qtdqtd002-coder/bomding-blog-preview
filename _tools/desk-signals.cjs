@@ -379,7 +379,9 @@ function aibSummary(r) {
   const s = ['shown', 'async', 'none'].includes(r.status) ? r.status : 'unknown';
   const src = Array.isArray(r.sources) ? r.sources : [];
   const rankOf = (id) => { const h = src.find((x) => String(x.blog || '') === id || String(x.url || '').includes('blog.naver.com/' + id + '/')); return h ? h.rank : null; };
-  return { s, n: src.length, bd: rankOf(BLOG.bd), yd: rankOf(BLOG.yd), at: r.fetchedAt || null };
+  /* top = 출처 상위 3 블로그 id(2026-10-25 결정서 4번 «경쟁 출처») — 발주 모달 «[경쟁 출처]» 줄 · 옛 스탬프엔 없다 */
+  const top = src.slice(0, 3).map((x) => String(x.blog || '')).filter(Boolean);
+  return { s, n: src.length, bd: rankOf(BLOG.bd), yd: rankOf(BLOG.yd), top, at: r.fetchedAt || null };
 }
 function aibFromCache(q) {
   try { const d = JSON.parse(fs.readFileSync(aibCachePath(q), 'utf8')); if (ageH(d.fetchedAt) <= AIB_TTL_H) return d; } catch (e) { }

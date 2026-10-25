@@ -42,6 +42,15 @@
   `preflight.json` 최상위 `b5:{purpose, purposeSource, applied, primaryLinks, primaryHosts, excluded, blocked}` 기록.
   B5 검사 자체가 예외로 죽으면 경고만(fail-open — 드레이너 «도구 고장으로 무인 발행을 세우지 않는다» 처방과 동일).
 
+★2026-10-25 결정서 묶음 A (봄딩만 · 사용자 결정 10-25 «A2 지금 차단 · A1·A3 정본 선반영 후 2주 경고 → 2026-11-08부터 차단»)
+  A2 유형별 분량 밴드(⛔): purpose 로 유형을 가른다 — 공략·정보형(B5 키 ∪ 제품 비교) 2,000~3,000자 · 소식형(출시·사전예약·업데이트·패치·이벤트·콜라보·발표·첫인상·예고·공개) 1,500~2,200자.
+     하한·상한 둘 다 ⛔. purpose 미상(유형 미상)은 2,000~3,000 기준 **경고만**(W10). --min 을 주면 옛 하한 방식으로 돌아간다(밴드 미적용).
+  A1 각도 유실(W11 → 11-08 ⛔): 발주 각도(_qa/research-brief «# 조사 브리핑 — 주제» 또는 order-form [주제] → 없으면 purpose)가 공략·쿠폰·추천·티어인데
+     제목(h1)이 뉴스·소식형으로 분류되면. 분류 사다리 = _tools/live-ledger.cjs 와 동일(첫 일치 우선).
+  A3 제목 40자(h1 글자수 · 공백 포함) 초과 · 소제목 h2 7개 이상(상한 6 = 본문 ≤4 + FAQ + 1)(W12·W13 → 11-08 ⛔).
+  dry-run(10-25 · 최근 30편): A2 7 · A1 1 · 제목 25 · h2 27 — 그래서 A1·A3 는 정본(제목 40자·h2 상한 6)이 집필에 먹힌 뒤 차단으로 올린다.
+  preflight.json 에 `band:{type,lo,hi,chars,blocked}` · `angle:{order,orderSrc,title,lost}` · `a13:{titleLen,titleMax,h2,h2Max,blockFrom}` 추가.
+
 사용
   python preflight.py "<글 HTML 절대경로>" [--writer 봄딩|영도] [--min 2000] [--json] [--strict]
                       [--purpose "<발주 목적>"] [--out-dir <폴더>]
@@ -66,6 +75,24 @@ sys.stdout.reconfigure(encoding='utf-8')
 WD = ['월', '화', '수', '목', '금', '토', '일']
 BAND = {'봄딩': 2000, '영도': 2000, '겜더쿠': 2000, '연봄': 2500, '하루살이': 2000}
 GLOSSARY_DIR = r'C:\Users\qtdqt\Desktop\Claude\_glossary'
+
+# ── 2026-10-25 결정서 묶음 A(봄딩만) — A2 유형별 분량 밴드(⛔) · A1 각도 유실 · A3 제목 40자·h2 상한 6(경고 → A13_BLOCK_FROM 부터 ⛔)
+A_WRITERS = ('봄딩',)
+BAND_BY_TYPE = {'공략·정보형': (2000, 3000), '소식형': (1500, 2200), '미상': (2000, 3000)}
+NEWS_PURPOSE_KEYS = ('출시', '사전예약', '소식', '업데이트', '패치', '이벤트', '콜라보', '출시일', '발표', '첫인상', '예고', '공개')
+TITLE_MAX = 40
+H2_MAX = 6
+A13_BLOCK_FROM = datetime.date(2026, 11, 8)      # 사용자 결정 10-25: 정본 선반영 후 2주 경고, 그 뒤 차단
+# 각도 사다리 — _tools/live-ledger.cjs LADDER 와 같은 순서·정규식(첫 일치 우선). 바꿀 땐 둘을 같이 바꾼다.
+ANGLE_LADDER = [
+    ('공략·방법형', re.compile(r'하는 ?법|방법|공략|(?<!스)위치|얻는 ?법|만드는 ?법|세팅|스킬트리|조합|루트|파밍|재료|퀘스트|보는 ?법|설정|설치|사용법|치트|명령어|염색코드|코디|기댓값|확률|빌드|덱|특성|상성|카운터|강화|각성|승급|재련|우선순위|효율|드랍|주간|일일|보상|스펙|스탯|육성')),
+    ('쿠폰형', re.compile(r'쿠폰|코드')),
+    ('추천·티어·비교형', re.compile(r'티어|추천|순위|BEST|TOP|비교|뭐가 다를|차이', re.I)),
+    ('후기·리뷰형', re.compile(r'후기|리뷰|사용기|써본|첫인상')),
+    ('뉴스·소식형', re.compile(r'출시|사전예약|사전 예약|발표|공개|업데이트|패치|콜라보|이벤트|일정|중단|확정|출시일|정식|소식|근황|생중계|응모')),
+    ('정리·모음형', re.compile(r'총정리|정리|가이드|모음|링크|사이트')),
+]
+GUIDE_ANGLES = ('공략·방법형', '쿠폰형', '추천·티어·비교형')
 
 # ── W2 헤지 종결어미 — 에디토리얼 by-writer/봄딩.md 수기 계수 기준(더라고요류 + 것같아요류 + 추천드려요류)를 그대로 코드화.
 #    (ai-tell-lint 의 HEDGE 는 «수 있습니다/보입니다/편입니다» 까지 넓은 광의 목록 — 그쪽은 어미 비율 표로 따로 본다)
@@ -837,6 +864,98 @@ def sensitive_flag(post, purpose, title):
     }
 
 
+# ────────────────────────────────────────────────────────────── 묶음 A(2026-10-25 · 봄딩)
+def post_type(purpose):
+    """purpose 텍스트 → '공략·정보형' | '소식형' | '미상'. 제품 비교(육아 수익형)는 정보형으로 본다."""
+    p = purpose or ''
+    if not p:
+        return '미상'
+    if any(k in p for k in B5_PURPOSE_SKIP) or any(k in p for k in B5_PURPOSE_KEYS):
+        return '공략·정보형'
+    if any(k in p for k in NEWS_PURPOSE_KEYS):
+        return '소식형'
+    return '미상'
+
+
+def classify_angle(text):
+    for name, rx in ANGLE_LADDER:
+        if rx.search(text or ''):
+            return name
+    return '기타'
+
+
+def order_topic(html_path):
+    """발주 주제 — _qa/order*.md 의 [주제] 줄, 없으면 research-brief.md 머리 «# 조사 브리핑 — <주제> (날짜)»."""
+    qa = os.path.join(os.path.dirname(os.path.abspath(html_path)), '_qa')
+    if not os.path.isdir(qa):
+        return ''
+    for f in sorted(glob.glob(os.path.join(qa, 'order*.md'))) + sorted(glob.glob(os.path.join(qa, 'research-brief.md'))):
+        try:
+            t = io.open(f, encoding='utf-8', errors='replace').read()
+        except Exception:
+            continue
+        m = re.search(r'^\s*\[\s*주제\s*\]\s*(.+)$', t, re.M)
+        if m:
+            return m.group(1).strip()[:120]
+        m = re.search(r'^#\s*조사 브리핑\s*[—\-–]\s*(.+?)\s*(?:\(\d{4}-\d{2}-\d{2}\))?\s*$', t, re.M)
+        if m:
+            return m.group(1).strip()[:120]
+    return ''
+
+
+def h1_text(html):
+    h1 = re.findall(r'<h1\b[^>]*>(.*?)</h1>', html, flags=re.S | re.I)
+    t = h1[0] if h1 else ''
+    if not t:
+        tt = re.findall(r'<title\b[^>]*>(.*?)</title>', html, flags=re.S | re.I)
+        t = tt[0] if tt else ''
+    return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', t)).strip()
+
+
+def check_band(writer, n, purpose, purpose_src, res, min_override=0):
+    """A2 — 봄딩 유형별 분량 밴드. 반환 (issues, warns). 다른 작성자·--min 은 호출부의 옛 하한 로직이 맡는다."""
+    typ = post_type(purpose)
+    lo, hi = BAND_BY_TYPE[typ]
+    res['band'] = {'type': typ, 'lo': lo, 'hi': hi, 'chars': n, 'purpose': purpose, 'purposeSource': purpose_src, 'blocked': False,
+                   'rule': 'A2(2026-10-25) 봄딩 공략·정보형 2,000~3,000 · 소식형 1,500~2,200 ⛔ · 유형 미상은 경고만'}
+    if lo <= n <= hi:
+        return [], []
+    msg = '분량 %d자 — %s 밴드 %d~%d자 밖(purpose «%s» ← %s). 넘치면 조사 말투·반복을 덜고, 모자라면 fluff 말고 **검증된 소재**로 채운다(기획팀 환류 경로)' % (
+        n, typ, lo, hi, purpose or '미상', purpose_src or '-')
+    if typ == '미상':
+        return [], ['W10 ' + msg + ' — purpose 미상이라 경고만(--purpose 또는 _qa/research-brief.md 의 purpose= 줄)']
+    res['band']['blocked'] = True
+    return ['A2 ' + msg], []
+
+
+def check_a1_a3(writer, html, html_path, h2n, purpose, res):
+    """A1 각도 유실 · A3 제목 40자·h2 상한 6 — 봄딩만. A13_BLOCK_FROM 전엔 경고(W11~W13), 그날부터 ⛔. 반환 (issues, warns)."""
+    today = datetime.date.today()
+    block = today >= A13_BLOCK_FROM
+    tag = '⛔' if block else '경고(%s부터 ⛔)' % A13_BLOCK_FROM.strftime('%m-%d')
+    issues, warns = [], []
+    title = h1_text(html)
+    topic = order_topic(html_path)
+    oa, osrc = classify_angle(topic), 'topic'
+    if oa in ('기타', '정리·모음형'):
+        oa, osrc = classify_angle(purpose), 'purpose'
+    ta = classify_angle(title)
+    lost = oa in GUIDE_ANGLES and ta == '뉴스·소식형'
+    res['angle'] = {'order': oa, 'orderSrc': osrc, 'topic': topic, 'title': ta, 'lost': lost, 'blocked': bool(lost and block)}
+    res['a13'] = {'titleLen': len(title), 'titleMax': TITLE_MAX, 'h2': h2n, 'h2Max': H2_MAX, 'blockFrom': A13_BLOCK_FROM.isoformat(),
+                  'titleOver': len(title) > TITLE_MAX, 'h2Over': h2n > H2_MAX, 'blocked': bool(block and (len(title) > TITLE_MAX or h2n > H2_MAX))}
+    if lost:
+        (issues if block else warns).append('%s A1 각도 유실 — 발주 «%s»(%s)인데 제목이 «뉴스·소식형»(«%s»). 제목·리드를 발주 각도(공략·티어)로 다시 쓴다 [%s]'
+                                            % ('W11' if not block else '', oa, osrc, title[:40], tag))
+    if len(title) > TITLE_MAX:
+        (issues if block else warns).append('%s A3 제목 %d자 > %d자 — 모바일 검색 결과에서 뒤가 잘린다(봄딩 자작 중앙 34.5자) [%s]'
+                                            % ('W12' if not block else '', len(title), TITLE_MAX, tag))
+    if h2n > H2_MAX:
+        (issues if block else warns).append('%s A3 소제목 h2 %d개 > %d개 — 봄딩은 붙여넣을 때 h2 를 인용구로 바꾸므로 h2 수 = 라이브 인용구 수(동료 중앙 4.1). 본문 ≤4 + FAQ + 1 [%s]'
+                                            % ('W13' if not block else '', h2n, H2_MAX, tag))
+    return [s.strip() for s in issues], [s.strip() for s in warns]
+
+
 # ────────────────────────────────────────────────────────────── main
 def main():
     ap = argparse.ArgumentParser()
@@ -859,10 +978,21 @@ def main():
     floor = a.min or BAND.get(writer, 2000)
     issues, warns = [], []
     detail = {}
+    # purpose 는 분량 밴드(A2)·B5·B6·sensitive 가 같이 쓴다 — 한 번만 푼다
+    purpose, purpose_src = resolve_purpose(a.purpose, p)
 
     # ① 분량 — «작성자 자가보고를 신뢰하지 마라»(정본)를 코드로 강제
     n, _txt = body_korean_chars(html)
-    if n < floor:
+    if writer in A_WRITERS and not a.min:
+        # ★2026-10-25 A2 — 봄딩은 유형별 밴드(하한·상한 ⛔ · 유형 미상은 경고). 옛 단일 하한은 --min 으로만.
+        try:
+            b_issues, b_warns = check_band(writer, n, purpose, purpose_src, detail)
+        except Exception as e:
+            b_issues, b_warns = [], ['A2 검사 내부 오류 — %s' % e]
+        issues += b_issues
+        warns += b_warns
+        floor = detail.get('band', {}).get('lo', floor)
+    elif n < floor:
         issues.append('분량 %d자 < 하한 %d자(%s) — fluff 말고 **검증된 소재**로 채운다(기획팀 환류 경로)'
                       % (n, floor, writer or '기본'))
 
@@ -906,6 +1036,15 @@ def main():
             warns.append('제목이 «%d%s»을 약속했는데 h2 %d·표행 %d·li %d — 커버 수를 세어 제목 숫자를 맞출 것'
                          % (k, promise.group(2), h2n, max(0, rows - 1), lis))
 
+    # ④-A (2026-10-25 · 봄딩) A1 각도 유실 · A3 제목 40자·h2 상한 6 — A13_BLOCK_FROM 전엔 경고, 그날부터 ⛔
+    if writer in A_WRITERS:
+        try:
+            a_issues, a_warns = check_a1_a3(writer, html, p, h2n, purpose, detail)
+        except Exception as e:
+            a_issues, a_warns = [], ['A1/A3 검사 내부 오류 — %s' % e]
+        issues += a_issues
+        warns += a_warns
+
     # ⑤ 태그 줄 존재(네이버·티스토리 SEO) — 없으면 QA structure 가 반드시 잡는다
     if not re.search(r'class\s*=\s*["\'][^"\']*\btags\b', html, re.I) and '#' not in html[-3000:]:
         warns.append('태그 줄을 못 찾았다 — output-format 의 `.tags` 규격 확인')
@@ -923,7 +1062,6 @@ def main():
 
     # ── B5 1차 출처 링크(차단 · 2026-09-25) — purpose 가 공략·쿠폰·티어 계열인데 official·press 링크 0 이면 exit 1.
     #    purpose = --purpose 우선, 없으면 <글폴더>/_qa/order-form*.md 등에서 추론, 그것도 없으면 미판정(경고 1줄).
-    purpose, purpose_src = resolve_purpose(a.purpose, p)
     try:
         b5_issues, b5_warns = check_primary_links(post, detail, purpose, purpose_src)
     except Exception as e:   # 게이트 코드가 죽어도 발행을 세우지 않는다(fail-open · 경고로 남긴다)
@@ -964,6 +1102,9 @@ def main():
            'issues': issues, 'warns': warns, 'checks': detail, 'sensitive': sens['sensitive'],
            'b5': detail.get('b5', {}),      # 계약(2026-09-25): b5:{purpose, purposeSource, applied, primaryLinks, primaryHosts, excluded, blocked}
            'b6': detail.get('b6', {}),      # 계약(2026-09-26): b6:{writer, purpose, guide, img, imgslot, ss, anchors, min, blocked} — 봄딩·영도만
+           'band': detail.get('band', {}),  # 계약(2026-10-25): band:{type, lo, hi, chars, blocked} — 봄딩만(A2)
+           'angle': detail.get('angle', {}),  # 계약(2026-10-25): angle:{order, orderSrc, topic, title, lost, blocked} — 봄딩만(A1)
+           'a13': detail.get('a13', {}),    # 계약(2026-10-25): a13:{titleLen, titleMax, h2, h2Max, blockFrom, titleOver, h2Over, blocked} — 봄딩만(A3)
            'checkedAt': now, 'file': p}
 
     # ── 항상 쓴다: <글폴더>/_qa/preflight.json · sensitive.json (다른 패키지가 읽는 계약 — 파일명 고정)
@@ -1014,6 +1155,14 @@ def main():
             print('  B6 시각앵커  %s곳(img %s · imgslot %s · B형 .ss %s) · 공략형 %s · 최소 %s%s'
                   % (b6.get('anchors'), b6.get('img'), b6.get('imgslot'), b6.get('ss'), b6.get('guide'), b6.get('min'),
                      ' · ⛔' if b6.get('blocked') else ''))
+        bd = detail.get('band', {})
+        if bd:
+            print('  A2 분량밴드  %s %d~%d자 · 실측 %d자%s' % (bd.get('type'), bd.get('lo', 0), bd.get('hi', 0), bd.get('chars', 0), ' · ⛔' if bd.get('blocked') else ''))
+        ag = detail.get('angle', {}); a13 = detail.get('a13', {})
+        if ag or a13:
+            print('  A1 각도     발주 %s(%s) → 제목 %s%s · A3 제목 %s자(≤%s) · h2 %s(≤%s) · 차단 시작 %s'
+                  % (ag.get('order'), ag.get('orderSrc'), ag.get('title'), ' · 유실' if ag.get('lost') else '',
+                     a13.get('titleLen'), a13.get('titleMax'), a13.get('h2'), a13.get('h2Max'), a13.get('blockFrom')))
         print('  sensitive = %s %s' % (sens['sensitive'], sens['reasons'] or '(반증 투입 사유 없음)'))
         print('  → %s' % os.path.join(out_dir, 'preflight.json') + (' ⚠ 저장 실패: %s' % write_err if write_err else ''))
         if ok and not warns:

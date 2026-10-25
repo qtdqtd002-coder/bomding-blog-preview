@@ -79,6 +79,7 @@
   --s-new:#1F5FA8;
   --s-update:#1F7458;
   --s-hot:#B93F14;
+  --s-refresh:#7A4F10;   /* 「갱신할 글」(2026-10-25 결정서 7번) — 앰버 브라운. 표면 7.2:1 · surface-2 6.7:1(글자 AA) */
   /* ── 그림자: 확산이 넓고 아주 옅게 ── */
   --sh-rest:0 1px 2px rgba(14,17,20,.04), 0 6px 18px -10px rgba(14,17,20,.10);
   --sh-lift:0 1px 2px rgba(14,17,20,.05), 0 12px 30px -12px rgba(14,17,20,.16), 0 40px 72px -40px rgba(14,17,20,.20);
@@ -589,6 +590,30 @@ a{color:inherit; text-decoration:none}
   background:var(--surface-3); color:var(--ink-3); border:1px solid var(--hair-2);
   font-size:12.5px; font-weight:600; line-height:18px; white-space:nowrap;
 }
+/* 데스크 행 칩(2026-10-25 결정서 4번) — 각도·AI 브리핑을 열지 않고 본다. 관련 글 표식과 같은 체급, 색만 다르다 */
+.tr-chip{
+  flex:none; height:20px; padding:0 7px; border-radius:5px;
+  background:var(--surface-2); color:var(--ink-3); border:1px solid var(--hair-2);
+  font-size:12.5px; font-weight:600; line-height:18px; white-space:nowrap;   /* 12.5px = .tr-rel 과 같은 체급(Readable-Floor · 검수 10-25) */
+}
+.tr-chip.aib-on{color:var(--s-guide); border-color:color-mix(in oklab,var(--s-guide) 40%,var(--hair-2))}   /* 뜨는데 우리 미인용 = 자리 */
+.tr-chip.aib-mine{color:var(--s-update); border-color:color-mix(in oklab,var(--s-update) 40%,var(--hair-2))}  /* 이미 인용 중 */
+.tr-chip.aib-off{color:var(--ink-3)}   /* ink-4 는 surface-2 위 4.47:1 미달(검수 10-25 · 네 번째 재발 패턴) */
+.tr-chip.rf{color:var(--s-refresh); border-color:color-mix(in oklab,var(--s-refresh) 40%,var(--hair-2))}        /* 갱신 — N일 남음 */
+.tr-chip.rf-late{color:var(--alert); border-color:color-mix(in oklab,var(--alert) 40%,var(--hair-2))}           /* 갱신 — 기한 지남 */
+.tsec-empty.rf-bad b{color:var(--alert)}
+/* 핀 상자 «추천»(2026-10-25 결정서 5번) — 봄딩 글이 브리핑 출처로 잡힌 게임. 누르면 핀에 추가(지정은 사용자) */
+.pin-sug{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:9px 0; font-size:12.5px; color:var(--ink-3)}   /* 아래 마진 = 입력 줄과 포커스 링 간섭 방지 */
+.pin-sug .pin-sug-l{margin-right:2px}
+.pin-sug button{height:24px; padding:0 9px; border-radius:var(--r-pill); border:1px dashed var(--hair-2); background:var(--surface-2); color:var(--ink-2); font-size:12.5px; font-weight:600; cursor:pointer}
+.pin-sug button:hover{border-color:var(--ink-3)}
+.pin-sug button:disabled{opacity:.45; cursor:default}
+.pin-sug button b{font-weight:600; color:var(--ink-3); margin-left:4px; font-family:"JetBrains Mono",monospace; font-size:12px}
+@media (max-width:860px){ .pin-sug{gap:8px} .pin-sug button{position:relative; height:32px; padding:0 12px} .pin-sug button::after{content:""; position:absolute; inset:-5px} }   /* 터치 표적 40px(시각 32 + 여유 5) */
+/* 글 목록 — 봄딩 네이버 카테고리 추천(2026-10-25 결정서 9번 «안내만») — 칸 안 둘째 줄(인라인이면 128px 칸을 82% 가 넘친다 · 검수 10-25) */
+.row-nc{display:block; margin-top:1px; font-size:12.5px; color:var(--ink-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.row-nc.nc-generic{color:var(--ink-4)}
+.row:hover .row-nc.nc-generic{color:var(--ink-3)}
 /* CTA — 버튼 안의 버튼(트레일링 노브) */
 .cta{
   display:inline-flex; align-items:center; gap:8px; height:34px; padding:0 5px 0 15px;
@@ -1856,8 +1881,15 @@ var mixP=jget('_trend/_desk-mix.json?ts='+Date.now(),null);
 var reopenP=jget('reopen.json?ts='+Date.now(),null);
 /* 홈 «갱신할 글»(2026-10-19) — _tools/refresh-due.py 가 데스크 [E]에서 하루 1회 굽는다(글 폴더 _qa/refresh.json 모음) */
 var refreshP=jget('_trend/_refresh.json?ts='+Date.now(),null);
+/* 2026-10-25 결정서 — 핀 추천(pin-suggest.py) · 봄딩 네이버 카테고리(game-cats.py) · 월간 효자 글(hero-aib.py). 없으면 null(칸·칩만 비움) */
+var pinSugP=jget('_trend/_pin-suggest.json?ts='+Date.now(),null);
+var gameCatsP=jget('_trend/_game-cats.json?ts='+Date.now(),null);
+var heroP=jget('_trend/_hero.json?ts='+Date.now(),null);
 
-Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP,refreshP]).then(function(r){
+Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP,refreshP,pinSugP,gameCatsP,heroP]).then(function(r){
+  PINSUG=(r[14]&&Array.isArray(r[14].games))?r[14]:null;
+  GAMECATS=(r[15]&&r[15].games&&typeof r[15].games==='object')?r[15]:null;
+  HERO=(r[16]&&Array.isArray(r[16].top))?r[16]:null;
   var posts=r[0]||[], pub=r[1]||{}, trend=r[2]||{}, reqs=r[6];
   POSTS_OK=Array.isArray(r[0]); POSTS_AT=Date.now();
   posts.forEach(function(p){ if(p&&p.rel)RELSET[p.rel]=1; });
@@ -1899,6 +1931,7 @@ Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,m
       author:p.author||(a.length>=2?a[0]:'(기타)'),
       title:p.title||a[a.length-1],
       cat:p.cat||'',
+      group:p.group||(a.length>=2?a[1]:''),   /* 게임 폴더 — 봄딩 네이버 카테고리 추천(.row-nc)이 읽는다(2026-10-25 · 검수 🔴 수정) */
       ordered:ordered,
       pubAt:pubAt,
       lead:lead,
@@ -2148,7 +2181,8 @@ function observeRise(root){
            ③발행 편수 = posts.json 의 created(사이트에 실제로 올라간 글) · 실패율 = /requests 의 failed·skipped ÷ 종결
            ④잔여 사용량 = _trend/_quota.json(이 PC 계정 Max 한도 창).
    숫자는 실측만 — 스냅샷이 없으면 «스냅샷 없음»이지 0 이 아니다. 차트는 얇은 막대·2px 표면 간격·범례·툴팁·표 뷰(sr). */
-var USAGE=null, QUOTA=null, CITES=null, MIX=null, REFRESH=null, REQS_OK=false;   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
+var USAGE=null, QUOTA=null, CITES=null, MIX=null, REFRESH=null, REQS_OK=false;
+var PINSUG=null, GAMECATS=null, HERO=null;   /* 2026-10-25 결정서 — 핀 추천 · 게임별 네이버 카테고리 · 월간 효자 글 */   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
 var W_ORDER=PREF.concat(['기타/공용']);
 var LIMIT_LABEL={session:'5시간 창',weekly_all:'7일 전체',weekly_scoped:'7일 모델별'};
 var WD=['일','월','화','수','목','금','토'];
@@ -2954,6 +2988,14 @@ function paintRows(){
   });
   more();
 }
+/* 봄딩 네이버 카테고리 추천(2026-10-25 결정서 9번 «안내만») — _trend/_game-cats.json(게임별 라이브 최다 카테고리). 양식 필드 없음 · 신설은 봄딩 */
+var NC_GENERIC={'신작·업데이트':1,'플레이·공략':1,'게임 테마':1,'게임정보':1};
+function ncHtml(p){
+  if(p.author!=='봄딩'||!GAMECATS||!GAMECATS.games)return '';
+  var g=GAMECATS.games[p.group]; if(!g||!g.cat)return '';
+  var generic=!!NC_GENERIC[g.cat];
+  return '<span class="row-nc'+(generic?' nc-generic':'')+'" title="봄딩 네이버 카테고리 추천 — 이 게임 라이브 글 '+Number(g.total||0)+'편 중 '+Number(g.n||0)+'편이 «'+esc(g.cat)+'»'+(generic?' · 게임 전용 카테고리 없음(신설은 봄딩)':'')+'">네이버 '+esc(g.cat)+'</span>';
+}
 function rowHtml(p){
   return '<div class="row" data-rel="'+esc(p.rel)+'" style="--ac:'+wac(p.author)+'">'+
     '<a class="row-w" href="'+encRel(p.rel)+'" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">'+
@@ -2963,7 +3005,7 @@ function rowHtml(p){
       (p.isNew?'<span class="tag-new">NEW</span>':'')+
       (whyOn(p)&&WHY[p.rel]?'<span class="tag-why">'+esc(whyLabel(WHY[p.rel]))+'</span>':'')+
     '</a>'+
-    '<span class="row-c">'+esc(p.cat||'—')+'</span>'+
+    '<span class="row-c">'+esc(p.cat||'—')+ncHtml(p)+'</span>'+
     '<span class="row-d num'+(p.hasOrder?'':' approx')+'"'+dateTip(p)+'>'+dateTx(p)+'</span>'+
     '<span class="row-l'+(p.lead?'':' approx')+'">'+(p.lead?leadTx(p):'<span aria-hidden="true">—</span><span class="sr">소요 기록 없음</span>')+'</span>'+
     '<span class="row-meta-m"><span class="wnm">'+esc(p.author)+'</span> · <span class="mc">'+esc(p.cat||'—')+'</span> · '+
@@ -3099,14 +3141,18 @@ function refreshChipCounts(){
 /* ══════════ 트렌드 = 일간 토픽 데스크 ══════════ */
 var DESK_SECTIONS=[
   {key:'pinned',    label:'꼭 다룰 게임',      desc:'내가 지정한 게임',           icon:'pin',     ac:'var(--s-pinned)',    at:'var(--s-pinned-t)', cap:40},   /* at = 행 게임명 글자색(원색이 AA 미달인 칸만) */
-  {key:'core',      label:'주로 다루는 게임',   desc:'봄딩·영도가 계속 쓰는 게임',  icon:'star',    ac:'var(--s-core)',      cap:10},
   /* ★2026-09-18 신설 — 최근 신작·업데이트·화제에 오른 게임의 «검색은 있는데 우리 글이 없는» 공략 질문. 상한 8.
-     신작·업데이트·화제의 상한(3/3/2)은 데스크·test-desk §[8] 이 지킨다 — 여기 cap 을 줄이면 지난 판(5건)이 잘려 보여 그대로 둔다 */
+     신작·업데이트·화제의 상한(3/3/2)은 데스크·test-desk §[8] 이 지킨다 — 여기 cap 을 줄이면 지난 판(5건)이 잘려 보여 그대로 둔다.
+     ★2026-10-25 결정서 5번: 핀 바로 아래(2번째)로 — 발주율 공략 8%·핀 7.7% vs 신작·화제 30% */
   {key:'guide',     label:'지금 검색되는 공략', desc:'아직 우리 글이 없는 질문', icon:'book', ac:'var(--s-guide)',   cap:8},
+  {key:'core',      label:'주로 다루는 게임',   desc:'봄딩·영도가 계속 쓰는 게임',  icon:'star',    ac:'var(--s-core)',      cap:10},
   {key:'parenting', label:'육아 제품',         desc:'봄딩 쿠팡 제휴 비교글',      icon:'gift',    ac:'var(--s-parenting)', cap:5},
   {key:'new',       label:'신작 게임',         desc:'막 나왔거나 곧 나오는 게임',  icon:'spark',   ac:'var(--s-new)',       cap:5},
   {key:'update',    label:'최근 업데이트 게임', desc:'화제성 있는 패치·시즌',      icon:'refresh', ac:'var(--s-update)',    cap:5},
-  {key:'hot',       label:'최근 화제되는 게임', desc:'지금 검색·화제가 몰리는 쪽',  icon:'flame',   ac:'var(--s-hot)',       cap:5}
+  {key:'hot',       label:'최근 화제되는 게임', desc:'지금 검색·화제가 몰리는 쪽',  icon:'flame',   ac:'var(--s-hot)',       cap:5},
+  /* ★2026-10-25 결정서 7번 「갱신」 칸 — 에디션(trend.json)에 넣지 않는다. 사이트가 _trend/_refresh.json(refresh-due.py · 기한 도래 글)과
+     _trend/_hero.json(hero-aib.py · 월 1회 효자 3편)을 직접 그린다(refreshItems). 발주는 같은 모달 → 소재 메모 «[리프레시] 기존 글: <rel>» → 러너 -Kind improve */
+  {key:'refresh',   label:'갱신할 글',         desc:'갱신 약속 · 기한순 · 효자 글 월간', icon:'refresh', ac:'var(--s-refresh)', cap:30}
 ];
 var DESK_SEC={}; DESK_SECTIONS.forEach(function(s){ DESK_SEC[s.key]=s; });
 var DESK_PURPOSES=['사전예약','출시·첫인상','업데이트·패치','게임 정보','게임 공략','쿠폰·이벤트','티어·추천','제품 비교·추천','사용 후기·리뷰','기타'];
@@ -3183,6 +3229,10 @@ function deskMaterial(it){
   if(pl)p.push('[주제 깊이] '+pl);
   if(dl)p.push('[검색 수요] '+dl);
   if(al)p.push('[AI 브리핑] '+al+(it.aib&&it.aib.q?' («'+it.aib.q+'» 기준)':''));
+  /* 경쟁 출처(2026-10-25 결정서 4번) — 그 질의의 브리핑 출처 상위 3 블로그(desk-signals stamp aib.top). 옛 판엔 없다 */
+  if(it.aib&&Array.isArray(it.aib.top)&&it.aib.top.length)p.push('[경쟁 출처] '+it.aib.top.map(String).join(' · ')+' — 이 글들이 이미 출처에 있다. 같은 각도면 더 구체적인 질문에 답할 것');
+  if(it.refreshRel)p.push('[리프레시] 기존 글: '+it.refreshRel+' — 제목·네이버 URL 유지, 변동값만 새로('+(it.lane==='영도'?'영도: order-form «글 성격: 효자 리프레시»':'봄딩: bomding-blog-writer 1.5 분기 · output-format §1-6')+') · 같은 폴더·같은 파일명에 덮어쓰고 적재는 outbox-submit -Kind improve');
+  else if(it.sec==='refresh')p.push('[리프레시] 사이트에 초안 폴더가 없는 라이브 글 — 제목 유지, 새 폴더에 작성 뒤 봄딩이 기존 네이버 글을 수정해 올린다');
   if(it.sources.length)p.push('[참고]\n'+it.sources.map(function(s){ return '- '+s.label+' '+s.url; }).join('\n'));
   if(it.coverage.length)p.push('★기존 글 확인 필요: '+it.coverage.map(function(c){
       return c.writer+' 「'+c.title+'」'+(c.words.length?'(겹친 말: '+c.words.join('·')+')':''); }).join(' / ')+
@@ -3215,18 +3265,65 @@ function aibLine(it){
   var a=it&&it.aib; if(!a||!a.s)return '';
   if(a.s==='shown'){
     var mine=[]; if(a.bd)mine.push('봄딩 '+a.bd+'위'); if(a.yd)mine.push('영도 '+a.yd+'위');
-    return '뜸 · 출처 '+(a.n||0)+'곳 · '+(mine.length?mine.join(' · ')+' 인용 중':'우리 글 미인용');
+    var top=(Array.isArray(a.top)&&a.top.length)?' · 출처 상위 '+a.top.map(String).join('·'):'';
+    return '뜸 · 출처 '+(a.n||0)+'곳 · '+(mine.length?mine.join(' · ')+' 인용 중':'우리 글 미인용')+top;
   }
   if(a.s==='async')return '뜸 · 출처 미확인';
   if(a.s==='none')return '안 뜸 — 인용 기대 0';
   return '확인 실패';
+}
+/* 데스크 행 칩(2026-10-25 결정서 4번) — 각도(데스크 stamp angleType)·브리핑 상태를 열지 않고 본다 */
+var ANGLE_LABEL={howto:'공략',rank:'티어·추천',news:'소식',info:'정보'};
+function trChips(it){
+  var out='';
+  if(it.angleType&&ANGLE_LABEL[it.angleType])out+='<span class="tr-chip" title="데스크 각도 분류">'+ANGLE_LABEL[it.angleType]+'</span>';
+  var a=it.aib;
+  if(a&&a.s){
+    if(a.s==='shown')out+=(a.bd||a.yd)
+      ?'<span class="tr-chip aib-mine" title="AI 브리핑에 우리 글이 이미 출처">브리핑 인용 중</span>'
+      :'<span class="tr-chip aib-on" title="AI 브리핑이 뜨는데 우리 글은 출처에 없다 — 쓰면 출처에 들 수 있는 자리">브리핑 뜸·미인용</span>';
+    else if(a.s==='async')out+='<span class="tr-chip" title="브리핑이 뜨지만 출처는 못 봤다">브리핑 뜸</span>';
+    else if(a.s==='none')out+='<span class="tr-chip aib-off" title="이 질의엔 AI 브리핑이 안 뜬다 — 인용 기대 0">브리핑 없음</span>';
+  }
+  if(it.sec==='refresh')out+='<span class="tr-chip '+(it.refreshKind==='hero'?'aib-mine':(it.rfLate?'rf-late':'rf'))+'">'+(it.refreshKind==='hero'?'효자 글':esc(it.rfSt||'기한'))+'</span>';
+  return out;
+}
+/* 「갱신할 글」 칸(2026-10-25 결정서 7번) — _refresh.json(기한 도래) + _hero.json(월간 효자 3편)을 데스크 행 모양으로 */
+var REFRESH_ITEMS=[];
+function unescHtml(s){ var t=document.createElement('textarea'); t.innerHTML=String(s==null?'':s); return t.value; }
+function mkRefreshItem(o){
+  var lane=String(o.lane||'');
+  return {id:o.id, sec:'refresh', game:String(o.game||''), title:String(o.title||''), purpose:'게임 정보', platform:'',
+    why:String(o.why||''), detail:o.detail||[], angle:'기존 글 갱신 — 제목·네이버 URL 유지, 변동값만 새로', when:String(o.when||''), heat:0,
+    lane:(PREF.indexOf(lane)>=0&&INACTIVE.indexOf(lane)<0)?lane:'', keywords:[], angleType:'', depth:'', entryOk:'',
+    demand:null, aib:null, sources:[], coverage:[], refreshRel:String(o.rel||''), refreshKind:o.kind||'due',
+    rfSt:String(o.rfSt||''), rfLate:!!o.rfLate};
+}
+function refreshItems(){
+  var out=[];
+  ((REFRESH&&REFRESH.items)||[]).forEach(function(x){
+    var rel=String(x.rel||''), parts=rel.split('/');
+    /* 지남/남음은 스냅샷에 구운 값이 아니라 지금 날짜로 다시 센다(홈 타일 rfLeft 와 같은 기준) · 같은 글의 약속 여러 건은 due 로 id 를 가른다(검수 🟡) */
+    var left=rfLeft(x.due), late=(left==null)?Number(x.late):-left;
+    var st=isNaN(late)?('기한 '+String(x.due||'')):(late>0?late+'일 지남':(late===0?'오늘 기한':(-late)+'일 남음'));
+    out.push(mkRefreshItem({id:'refresh-'+rel+'@'+String(x.due||''), game:parts[1]||'', title:unescHtml(x.title||parts[2]||''), lane:x.writer,
+      why:st+' — '+String(x.why||''), detail:(Array.isArray(x.fix)?x.fix:[]).map(function(f){ return '고칠 곳: '+f; }),
+      when:'기한 '+String(x.due||''), rel:rel, kind:'due', rfSt:(isNaN(late)?'기한':(late>0?late+'일 지남':(late===0?'오늘':(-late)+'일 남음'))), rfLate:(!isNaN(late)&&late>0)}));
+  });
+  ((HERO&&Array.isArray(HERO.top))?HERO.top:[]).forEach(function(x){
+    out.push(mkRefreshItem({id:'hero-'+String(x.n||x.t), game:x.g||'', title:String(x.t||''), lane:'봄딩',
+      why:'효자 글 — 라이브 제목 질의에서 봄딩 글이 브리핑 출처 '+(x.hits||1)+'회'+(HERO.month?' ('+HERO.month+' 배치)':''),
+      detail:['네이버 글 logNo '+String(x.n||'')+(x.query?' · 질의 «'+x.query+'»':'')+(x.rank?' · 출처 '+x.rank+'위':'')],
+      when:'월 1회 제안', rel:String(x.rel||''), kind:'hero'}));
+  });
+  REFRESH_ITEMS=out; return out;
 }
 function deskItemById(id){
   for(var i=0;i<TREND.length;i++){
     var hit=edItems(TREND[i]).filter(function(x){ return x.id===id; })[0];
     if(hit)return hit;
   }
-  return null;
+  return REFRESH_ITEMS.filter(function(x){ return x.id===id; })[0]||null;
 }
 
 /* 꼭 다룰 게임 상자 — 여기 적은 게임은 다음 회차 데스크가 주제를 최대 5개 만든다
@@ -3243,11 +3340,20 @@ function pinBox(){
       '<span class="pin-note">다음 회차부터 반영</span>'+
       '<span class="pin-n'+(full?' full':'')+'">'+PINS.length+' / '+PINS_MAX+'</span></div>'+
     (PINS.length?'<div class="pin-chips">'+chips+'</div>':'')+
+    pinSugHtml(full)+
     '<form class="pin-add" id="pinForm" autocomplete="off">'+
       '<input id="pinInput" class="pin-i" type="text" maxlength="40"'+(full?' disabled':'')+
         ' placeholder="'+(full?'8칸을 다 썼어요':'게임 이름')+'" aria-label="꼭 다룰 게임 추가">'+
       '<button type="submit" class="pin-go"'+(full?' disabled':'')+'>'+svg('plus')+'<span>추가</span></button>'+
     '</form></div></div></section>';
+}
+/* 핀 «추천»(2026-10-25 결정서 5번) — _trend/_pin-suggest.json(봄딩 글이 브리핑 출처로 잡힌 게임). 핀에 없는 것만, 최대 4. 지정은 사용자가 누른다 */
+function pinSugHtml(full){
+  var games=((PINSUG&&Array.isArray(PINSUG.games))?PINSUG.games:[]).filter(function(g){ return g&&g.game&&!PinSvc.has(g.game); }).slice(0,4);
+  if(!games.length)return '';
+  return '<div class="pin-sug"><span class="pin-sug-l">추천 · 브리핑 출처로 잡힌 게임</span>'+games.map(function(g){
+    return '<button type="button" data-add="'+esc(g.game)+'"'+(full?' disabled':'')+' aria-label="'+esc(g.game)+' 핀에 추가 — 브리핑 출처 '+Number(g.hits||0)+'회" title="봄딩 글이 AI 브리핑 출처에 든 횟수 '+Number(g.hits||0)+' · 최근 '+esc(g.last||'')+'">+ '+esc(g.game)+'<b aria-hidden="true">'+Number(g.hits||0)+'</b></button>';
+  }).join('')+'</div>';
 }
 function repaintPinBox(focus){
   var old=viewEl.querySelector('.pinbox'); if(!old)return;
@@ -3273,6 +3379,17 @@ function bindPinBox(){
       if(ic&&MO.live()){ ic.classList.add('bump'); ic.addEventListener('animationend',function(){ ic.classList.remove('bump'); },{once:true}); }
     }).catch(function(err){
       input.disabled=false; toast('저장 실패: '+((err&&err.message)||err),{kind:'err'});
+    });
+  });
+  viewEl.querySelectorAll('[data-add]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var name=String(b.dataset.add||'').trim(); if(!name)return;
+      if(PinSvc.has(name)){ toast('이미 지정한 게임이에요'); return; }
+      if(PINS.length>=PINS_MAX){ toast('최대 '+PINS_MAX+'개까지예요',{kind:'err'}); return; }
+      b.disabled=true;
+      PinSvc.save(PINS.concat([name])).then(function(){
+        toast('‘'+name+'’ 추가 — 다음 회차부터 반영돼요'); repaintPinBox(false);
+      }).catch(function(err){ b.disabled=false; toast('저장 실패: '+((err&&err.message)||err),{kind:'err'}); });
     });
   });
   viewEl.querySelectorAll('[data-rm]').forEach(function(b){
@@ -3350,8 +3467,8 @@ function trendRow(it){
     : '';
   return '<div class="trow" style="--ac:'+s.ac+(s.at?';--at:'+s.at:'')+'">'+
     '<span class="tr-g">'+esc(it.game||'—')+'</span>'+
-    '<span class="tr-m"><span class="tr-h">'+esc(it.title)+'</span>'+warn+'</span>'+
-    '<button type="button" class="cta" data-req="'+esc(it.id)+'">발주 요청'+
+    '<span class="tr-m"><span class="tr-h">'+esc(it.title)+'</span>'+trChips(it)+warn+'</span>'+
+    '<button type="button" class="cta" data-req="'+esc(it.id)+'">'+(it.sec==='refresh'?'갱신 발주':'발주 요청')+
       '<span class="knob">'+svg('arrowR')+'</span></button>'+
   '</div>';
 }
@@ -3421,8 +3538,9 @@ function renderTrend(o){
   var all=edItems(ed);
   setMeta('<span class="num">'+esc(ed.date)+'</span><span>주제 <b>'+all.length+'</b></span>');
 
+  var rItems=refreshItems();   /* 「갱신할 글」 — 에디션 밖(스냅샷 파일)에서 */
   var stats=DESK_SECTIONS.map(function(s){
-    var n=(ed.sections.filter(function(x){ return x.key===s.key; })[0]||{items:[]}).items.length;
+    var n=(s.key==='refresh')?rItems.length:(ed.sections.filter(function(x){ return x.key===s.key; })[0]||{items:[]}).items.length;
     return '<span class="mh-stat" style="--cc:'+s.ac+'"><b>'+n+'</b>'+esc(s.label)+'</span>';
   }).join('');
   var mast='<section class="tray rise"><div class="core"><div class="masthead">'+
@@ -3434,17 +3552,22 @@ function renderTrend(o){
     '</div></div></section>';
 
   var secs=DESK_SECTIONS.map(function(s){
-    var items=(ed.sections.filter(function(x){ return x.key===s.key; })[0]||{items:[]}).items;
+    var items=(s.key==='refresh')?rItems:(ed.sections.filter(function(x){ return x.key===s.key; })[0]||{items:[]}).items;
     var emptyTx=(s.key==='pinned')
       ? (PINS.length
           ? '지정한 게임 주제는 <b>다음 회차</b>부터 올라와요.'
           : '위 상자에 게임을 지정하면 <b>게임마다 주제 최대 5개</b>가 여기 모여요.')
+      : (s.key==='refresh')
+        ? (REFRESH?'갱신할 약속이 없어요. 효자 글 제안은 <b>매월 1일</b> 올라와요.':'갱신 스냅샷이 아직 없어요.')
       : (s.key==='parenting'&&ed.date>=PAR_WEEKLY_FROM)
         ? parWeeklyTx(ed,dates)
         : '오늘은 이 분류에서 건질 주제가 없었어요.';
-    var body=items.length
+    /* 갱신 칸 — 읽지 못한 refresh.json(bad[])은 0 으로 위장하지 않는다(홈 타일과 같은 규칙 · 검수 🟡) */
+    var rbad=(s.key==='refresh'&&REFRESH&&Array.isArray(REFRESH.bad))?REFRESH.bad.length:0;
+    var body=(items.length
       ? items.map(trendRow).join('')
-      : '<div class="tsec-empty">'+emptyTx+'</div>';
+      : '<div class="tsec-empty">'+emptyTx+'</div>')+
+      (rbad?'<div class="tsec-empty rf-bad">읽지 못한 갱신 기록 <b>'+rbad+'</b>건 — 글 폴더 _qa/refresh.json 형식 확인</div>':'');
     return '<section class="tray tsec rise" style="--ac:'+s.ac+'"><div class="core">'+
       '<div class="tsec-h"><span class="tsec-ic">'+svg(s.icon)+'</span>'+
         '<span class="tsec-t">'+esc(s.label)+'</span><span class="tsec-d">'+esc(s.desc)+'</span>'+

@@ -22,7 +22,7 @@ refresh.json 형식(하나 또는 배열):
 
 exit: 0 = 정상(목록 유무 무관) · 2 = 인자 오류. 형식이 깨진 refresh.json 은 «형식 오류» 줄로 알리고 계속한다.
 """
-import io, os, re, sys, json, glob, argparse, datetime
+import io, os, re, sys, json, glob, argparse, datetime, html as H
 
 try:
     sys.stdout.reconfigure(encoding='utf-8')
@@ -44,7 +44,8 @@ def title_of(folder):
         rel = os.path.relpath(f, ROOT).replace('\\', '/')
         m = re.search(r'<h1\b[^>]*>(.*?)</h1>', raw, re.S) or re.search(r'<title>(.*?)</title>', raw, re.S)
         if m:
-            return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', m.group(1))).strip(), rel
+            # ★엔티티(&amp; 등)는 글자로 푼다 — 사이트가 esc() 로 다시 감싸므로 그대로 두면 «&amp;amp;» 가 보인다(검수 10-25)
+            return re.sub(r'\s+', ' ', H.unescape(re.sub(r'<[^>]+>', '', m.group(1)))).strip(), rel
         return os.path.basename(folder), rel
     return os.path.basename(folder), ''
 

@@ -555,6 +555,8 @@
     '<div class="np2-row"><span class="np2-lbl">제목</span><span class="np2-titletxt">' + esc(TITLE) + '</span><button type="button" data-act="title">제목 복사</button></div>' +
     /* 태그는 복사 본문 밖이지만 «보고 입력»할 수 있게 글자로도 보여 준다(2026-10-09 사용자 요청) */
     (TAGS ? '<div class="np2-row"><span class="np2-lbl">태그</span><span class="np2-tagtxt">' + tagsHtml() + '</span><button type="button" data-act="tags">태그 복사</button></div>' : "") +
+    /* 봄딩 네이버 카테고리 추천(2026-10-25 결정서 9번 «안내만») — _trend/_game-cats.json 을 받아 채운다. 못 받으면 줄을 숨긴 채 둔다 */
+    '<div class="np2-row" id="np2Cat" hidden><span class="np2-lbl">카테고리</span><span class="np2-cattxt"></span></div>' +
     '<div class="np2-row"><button type="button" class="np2-main" data-act="body">본문 복사</button>' +
     '<span class="np2-stat">' + statLine() + "</span></div>" +
     '<div class="np2-row np2-opts">' +
@@ -565,6 +567,19 @@
     '<label><input type="radio" name="np2head" value="h3"' + (headMode === "h3" ? " checked" : "") + '> 큰 글씨</label>' +
     '<label><input type="radio" name="np2head" value="quote"' + (headMode === "quote" ? " checked" : "") + '> 인용구(실험)</label>' +
     "</div>";
+
+  if (!YD) (function () {   /* 봄딩만 — 게임은 경로 조각(…/봄딩/<게임>/…), 루트는 «봄딩» 앞까지(Pages·로컬 http 공통 · file:// 면 fetch 실패 → 숨김 유지) */
+    try {
+      var segs = decodeURIComponent(location.pathname).split('/'); var i = segs.indexOf('봄딩'); if (i < 0) return;
+      var game = segs[i + 1] || ''; var root = segs.slice(0, i).join('/') + '/';
+      fetch(root + '_trend/_game-cats.json', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+        var row = head.querySelector('#np2Cat'), tx = head.querySelector('.np2-cattxt'); if (!row || !tx) return;
+        var g = d && d.games && d.games[game];
+        tx.textContent = (g && g.cat) ? ('추천 «' + g.cat + '» — 이 게임 라이브 글 ' + g.total + '편 중 ' + g.n + '편') : '기록 없음 — 게임 전용 카테고리를 만들지는 봄딩 몫';
+        row.hidden = false;
+      }).catch(function () { });
+    } catch (e) { }
+  })();
 
   function tagsHtml() {   /* 태그 하나가 «#» 뒤에서 줄바꿈되지 않게 낱개로 묶는다 */
     return TAGS.split(/\s+/).map(function (t) { return "<span>" + esc(t) + "</span>"; }).join(" ");
