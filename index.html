@@ -79,6 +79,7 @@
   --s-new:#1F5FA8;
   --s-update:#1F7458;
   --s-hot:#B93F14;
+  --s-watch:#8E2F7E;   /* 「업데이트 챙길 게임」(2026-10-25) — 플럼. 흰 면 7.35:1 · surface-2 6.85:1 · tray 5.93:1(글자 AA) · 기존 8색·봄딩·영도와 최소 ΔE2000 11.5 · 적색맹 모의 9.3(빈 색상 구간 h≈330°) */
   --s-refresh:#7A4F10;   /* 「갱신할 글」(2026-10-25 결정서 7번) — 앰버 브라운. 표면 7.2:1 · surface-2 6.7:1(글자 AA) */
   /* ── 그림자: 확산이 넓고 아주 옅게 ── */
   --sh-rest:0 1px 2px rgba(14,17,20,.04), 0 6px 18px -10px rgba(14,17,20,.10);
@@ -459,9 +460,14 @@ a{color:inherit; text-decoration:none}
 
 /* ══════════ 트렌드 ══════════ */
 .pinbox{margin-bottom:14px}
-.pin-in{padding:14px 16px 16px}
+/* 꼭 다룰 게임 | 업데이트 챙길 게임(2026-10-25) — 한 트레이 안 두 칸. 넓으면 나란히, 좁으면 위아래(헤어라인으로 나눔) */
+.pin-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.pin-grid>.pin-in+.pin-in{box-shadow:inset 1px 0 0 var(--hair)}
+@media (max-width:860px){ .pin-grid{grid-template-columns:minmax(0,1fr)} .pin-grid>.pin-in+.pin-in{box-shadow:inset 0 1px 0 var(--hair)} }
+.pin-in{padding:14px 16px 16px; display:flex; flex-direction:column}   /* 두 칸 입력 줄 높이 맞춤 — 핀 칸에만 추천 줄이 있다(게이트 10-25 🟡1) */
 .pin-h{display:flex; align-items:center; gap:8px; margin-bottom:12px}
 .pin-ic{color:var(--s-pinned); display:flex}
+.pin-watch .pin-ic{color:var(--s-watch)}
 .pin-t{font-size:13.5px; font-weight:700; letter-spacing:-.025em}
 .pin-note{font-size:12px; color:var(--ink-4)}
 .pin-n{margin-left:auto; font-size:11.5px; color:var(--ink-3);
@@ -469,22 +475,24 @@ a{color:inherit; text-decoration:none}
 .pin-n.full{color:var(--alert)}
 .pin-chips{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px}
 .pin-chip{
-  display:inline-flex; align-items:center; gap:2px; height:29px; padding:0 4px 0 12px;
+  display:inline-flex; align-items:center; gap:2px; height:29px; padding:0 4px 0 12px; max-width:100%; min-width:0;
   border-radius:var(--r-pill); background:var(--surface-2);
   box-shadow:0 0 0 1px var(--hair);
   font-size:12.5px; font-weight:600; letter-spacing:-.02em;
   transition:box-shadow var(--t-fast) var(--e)
 }
 .pin-chip:hover{box-shadow:0 0 0 1px var(--hair-2)}
+.pin-chip>span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}   /* 40자 이름이 반폭 칸에서 알약 밖으로 꺾이지 않게(게이트 10-25 🟡4) */
 .pin-x{
-  width:21px; height:21px; border-radius:50%; display:grid; place-items:center;
+  flex:none; position:relative; width:21px; height:21px; border-radius:50%; display:grid; place-items:center;
   color:var(--ink-4); transition:background var(--t-fast) var(--e), color var(--t-fast) var(--e),
                                   transform var(--t-fast) var(--e);
 }
 .pin-x .ic{width:12px; height:12px; stroke-width:1.8}
 .pin-x:hover{background:var(--ink); color:#fff}
 .pin-x:active{transform:scale(.88)}
-.pin-add{display:flex; gap:6px}
+@media (max-width:860px){ .pin-x::after{content:""; position:absolute; inset:-9px} }   /* 터치 표적 39px — 칩 간격 6px+여백 4px 라 이웃과 안 겹친다(게이트 10-25 🟡3) */
+.pin-add{display:flex; gap:6px; margin-top:auto}
 .pin-i{
   flex:1; min-width:0; height:34px; padding:0 13px; border:0; outline:0;
   border-radius:var(--r-pill); background:var(--surface-2);
@@ -1837,6 +1845,35 @@ var PinSvc={
   key:function(s){ return String(s||'').replace(/\s+/g,'').toLowerCase(); },
   has:function(s){ var k=this.key(s),i; for(i=0;i<PINS.length;i++)if(this.key(PINS[i])===k)return true; return false; }
 };
+/* 업데이트 챙길 게임(watch · 2026-10-25) — 꼭 다룰 게임의 «서브 주제» 짝. 계약은 /pins 와 같다(순서 있는 전체 교체 · 최대 8).
+   데스크는 이 게임에 업데이트가 있을 때만 정리 1~2 + 공략 ≤5 를 낸다(규칙 = daily-topic-desk/references/watch-lane.md). */
+var WATCH_MAX=8, WATCH_LS='sseudam_watch_cache', WATCH=[];
+var WatchSvc={
+  isConnected:function(){ return !!CFG.API_BASE; },
+  loadCache:function(){ try{ var a=JSON.parse(localStorage.getItem(WATCH_LS)||'[]');
+    if(Array.isArray(a))WATCH=a.map(String).slice(0,WATCH_MAX); }catch(e){} },
+  load:function(){
+    if(!this.isConnected())return Promise.resolve();
+    return apiGet('/watch?ts='+Date.now()).then(function(r){ return r.ok?r.json():null; })
+      .then(function(d){ if(!d||!Array.isArray(d.games))return;
+        WATCH=d.games.map(String).slice(0,WATCH_MAX); lset(WATCH_LS,JSON.stringify(WATCH)); })
+      .catch(function(){});
+  },
+  save:function(games){
+    if(!this.isConnected())return Promise.reject(new Error('백엔드 미연결 — 서버 저장이 필요해요.'));
+    return fetch(api()+'/watch',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({games:games,source:'site'})}).then(function(r){
+      if(!r.ok)return r.json().catch(function(){ return {}; }).then(function(j){
+        throw new Error(j.error||('HTTP '+r.status)); });
+      return r.json();
+    }).then(function(d){
+      WATCH=(d&&Array.isArray(d.games))?d.games.map(String):games.slice(0,WATCH_MAX);
+      lset(WATCH_LS,JSON.stringify(WATCH)); return WATCH;
+    });
+  },
+  key:function(s){ return PinSvc.key(s); },
+  has:function(s){ var k=this.key(s),i; for(i=0;i<WATCH.length;i++)if(this.key(WATCH[i])===k)return true; return false; }
+};
 
 /* 웹 푸시 — 발행 완료 알림. 백엔드가 status=published 로 바뀔 때 broadcast 한다. */
 function b64ToU8(b64){
@@ -1902,6 +1939,8 @@ var mpubP=MpubSvc.load();
 var whyP=WhySvc.load();
 PinSvc.loadCache();
 var pinP=PinSvc.load();
+WatchSvc.loadCache();
+var watchP=WatchSvc.load();
 /* 발주일자·실패 알림의 단일 출처. 실패해도 화면은 뜬다(발주일은 작성일로 폴백). */
 var reqsP=CFG.API_BASE
   ? bget('/requests?ts='+Date.now(),null)
@@ -1922,7 +1961,7 @@ var pinSugP=jget('_trend/_pin-suggest.json?ts='+Date.now(),null);
 var gameCatsP=jget('_trend/_game-cats.json?ts='+Date.now(),null);
 var heroP=jget('_trend/_hero.json?ts='+Date.now(),null);
 
-Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP,refreshP,pinSugP,gameCatsP,heroP]).then(function(r){
+Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP,refreshP,pinSugP,gameCatsP,heroP,watchP]).then(function(r){
   PINSUG=(r[14]&&Array.isArray(r[14].games))?r[14]:null;
   GAMECATS=(r[15]&&r[15].games&&typeof r[15].games==='object')?r[15]:null;
   HERO=(r[16]&&Array.isArray(r[16].top))?r[16]:null;
@@ -3266,6 +3305,10 @@ var DESK_SECTIONS=[
      신작·업데이트·화제의 상한(3/3/2)은 데스크·test-desk §[8] 이 지킨다 — 여기 cap 을 줄이면 지난 판(5건)이 잘려 보여 그대로 둔다.
      ★2026-10-25 결정서 5번: 핀 바로 아래(2번째)로 — 발주율 공략 8%·핀 7.7% vs 신작·화제 30% */
   {key:'guide',     label:'지금 검색되는 공략', desc:'아직 우리 글이 없는 질문', icon:'book', ac:'var(--s-guide)',   cap:8},
+  /* ★2026-10-25 사용자 지시 — 상자에 지정한 «업데이트 챙길 게임»에 업데이트가 있을 때만 게임당 정리 1~2 + 공략 ≤5. 없으면 빈 칸이 정상.
+     자리 = 공략 칸 다음(3번째) — 결정서 5번(공략 칸 = 핀 바로 다음)을 지킨다.
+     cap 56 = 8종 × 7 · 게임당 상한은 데스크(desk-signals R6)·test-desk §[8] 이 지킨다 */
+  {key:'watch',     label:'업데이트 챙길 게임', desc:'업데이트 있을 때만',         icon:'bell',    ac:'var(--s-watch)',     cap:56},
   {key:'core',      label:'주로 다루는 게임',   desc:'봄딩·영도가 계속 쓰는 게임',  icon:'star',    ac:'var(--s-core)',      cap:10},
   {key:'parenting', label:'육아 제품',         desc:'봄딩 쿠팡 제휴 비교글',      icon:'gift',    ac:'var(--s-parenting)', cap:5},
   {key:'new',       label:'신작 게임',         desc:'막 나왔거나 곧 나오는 게임',  icon:'spark',   ac:'var(--s-new)',       cap:5},
@@ -3487,29 +3530,40 @@ function deskItemById(id){
 }
 
 /* 꼭 다룰 게임 상자 — 여기 적은 게임은 다음 회차 데스크가 주제를 최대 5개 만든다
-   (★2026-09-18 사용자 결정: «3건 바닥»은 공략 질의로 채울 수 있을 때만 — 패치 세부로 바닥을 채우지 않는다) */
+   (★2026-09-18 사용자 결정: «3건 바닥»은 공략 질의로 채울 수 있을 때만 — 패치 세부로 바닥을 채우지 않는다)
+   ★2026-10-25 — 같은 트레이에 «업데이트 챙길 게임» 칸을 나란히 둔다(메인 = 꼭 다룰 게임 · 서브 = 업데이트 있을 때만).
+   두 목록에 같은 게임은 넣지 않는다 — 꼭 다룰 게임이 그 게임의 업데이트를 이미 «분할 연재»로 다룬다. */
+var LISTBOX={
+  pin:  {svc:PinSvc,   list:function(){ return PINS; },  max:PINS_MAX,  icon:'pin',  t:'꼭 다룰 게임',      note:'다음 회차부터 반영', other:'watch',
+         dup:'업데이트 챙길 게임에 있어요 — 거기서 빼고 추가해 주세요'},
+  watch:{svc:WatchSvc, list:function(){ return WATCH; }, max:WATCH_MAX, icon:'bell', t:'업데이트 챙길 게임', note:'업데이트 있을 때만', other:'pin',
+         dup:'꼭 다룰 게임에 이미 있어요 — 업데이트도 거기서 다뤄요'}
+};
 function pinBox(){
-  var full=PINS.length>=PINS_MAX;
-  var chips=PINS.map(function(g,i){
-    return '<span class="pin-chip"><span>'+esc(g)+'</span>'+
+  return '<section class="tray pinbox"><div class="core pin-grid">'+listPanel('pin')+listPanel('watch')+'</div></section>';
+}
+function listPanel(k){
+  var b=LISTBOX[k], items=b.list(), full=items.length>=b.max;
+  var chips=items.map(function(g,i){
+    return '<span class="pin-chip"><span title="'+esc(g)+'">'+esc(g)+'</span>'+
       '<button type="button" class="pin-x" data-rm="'+i+'" aria-label="'+esc(g)+' 빼기">'+svg('x')+'</button></span>';
   }).join('');
-  return '<section class="tray pinbox"><div class="core"><div class="pin-in">'+
-    '<div class="pin-h"><span class="pin-ic">'+svg('pin')+'</span>'+
-      '<span class="pin-t">꼭 다룰 게임</span>'+
-      '<span class="pin-note">다음 회차부터 반영</span>'+
-      '<span class="pin-n'+(full?' full':'')+'">'+PINS.length+' / '+PINS_MAX+'</span></div>'+
-    (PINS.length?'<div class="pin-chips">'+chips+'</div>':'')+
-    pinSugHtml(full)+
-    '<form class="pin-add" id="pinForm" autocomplete="off">'+
-      '<input id="pinInput" class="pin-i" type="text" maxlength="40"'+(full?' disabled':'')+
-        ' placeholder="'+(full?'8칸을 다 썼어요':'게임 이름')+'" aria-label="꼭 다룰 게임 추가">'+
-      '<button type="submit" class="pin-go"'+(full?' disabled':'')+'>'+svg('plus')+'<span>추가</span></button>'+
-    '</form></div></div></section>';
+  return '<div class="pin-in pin-'+k+'" data-box="'+k+'">'+
+    '<div class="pin-h"><span class="pin-ic">'+svg(b.icon)+'</span>'+
+      '<span class="pin-t">'+esc(b.t)+'</span>'+
+      '<span class="pin-note">'+esc(b.note)+'</span>'+
+      '<span class="pin-n'+(full?' full':'')+'">'+items.length+' / '+b.max+'</span></div>'+
+    (items.length?'<div class="pin-chips">'+chips+'</div>':'')+
+    (k==='pin'?pinSugHtml(full):'')+
+    '<form class="pin-add" autocomplete="off">'+
+      '<input class="pin-i" type="text" maxlength="40"'+(full?' disabled':'')+
+        ' placeholder="'+(full?b.max+'칸을 다 썼어요':'게임 이름')+'" aria-label="'+esc(b.t)+' 추가">'+
+      '<button type="submit" class="pin-go" aria-label="'+esc(b.t)+' 추가"'+(full?' disabled':'')+'>'+svg('plus')+'<span>추가</span></button>'+
+    '</form></div>';
 }
 /* 핀 «추천»(2026-10-25 결정서 5번) — _trend/_pin-suggest.json(봄딩 글이 브리핑 출처로 잡힌 게임). 핀에 없는 것만, 최대 4. 지정은 사용자가 누른다 */
 function pinSugHtml(full){
-  var games=((PINSUG&&Array.isArray(PINSUG.games))?PINSUG.games:[]).filter(function(g){ return g&&g.game&&!PinSvc.has(g.game); }).slice(0,4);
+  var games=((PINSUG&&Array.isArray(PINSUG.games))?PINSUG.games:[]).filter(function(g){ return g&&g.game&&!PinSvc.has(g.game)&&!WatchSvc.has(g.game); }).slice(0,4);
   if(!games.length)return '';
   return '<div class="pin-sug"><span class="pin-sug-l">추천 · 브리핑 출처로 잡힌 게임</span>'+games.map(function(g){
     return '<button type="button" data-add="'+esc(g.game)+'"'+(full?' disabled':'')+' aria-label="'+esc(g.game)+' 핀에 추가 — 브리핑 출처 '+Number(g.hits||0)+'회"'+
@@ -3517,56 +3571,60 @@ function pinSugHtml(full){
         rows:[['브리핑 출처',Number(g.hits||0)+'회']].concat(g.last?[['최근',String(g.last)]]:[])})+' data-itip-act>+ '+esc(g.game)+'<b aria-hidden="true">'+Number(g.hits||0)+'</b></button>';
   }).join('')+'</div>';
 }
-function repaintPinBox(focus){
+function repaintPinBox(focusKey){
   var old=viewEl.querySelector('.pinbox'); if(!old)return;
   itipHide(true);   /* 기준 버튼이 갈아끼워지면 카드가 허공에 남는다 */
   var tmp=document.createElement('div'); tmp.innerHTML=pinBox();
   old.replaceWith(tmp.firstElementChild);
   bindPinBox();
-  if(focus){ var i=el('pinInput'); if(i&&!i.disabled)i.focus(); }
+  if(focusKey){ var i=viewEl.querySelector('.pinbox [data-box="'+focusKey+'"] .pin-i'); if(i&&!i.disabled)i.focus(); }
 }
 function bindPinBox(){
-  var form=el('pinForm');
-  if(form)form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var input=el('pinInput'); if(!input)return;
-    var name=input.value.replace(/\s+/g,' ').trim();
-    if(!name){ input.focus(); return; }
-    if(PinSvc.has(name)){ toast('이미 지정한 게임이에요'); input.value=''; input.focus(); return; }
-    if(PINS.length>=PINS_MAX){ toast('최대 '+PINS_MAX+'개까지예요',{kind:'err'}); return; }
-    input.disabled=true;
-    PinSvc.save(PINS.concat([name])).then(function(){
-      toast('‘'+name+'’ 추가 — 다음 회차부터 반영돼요'); repaintPinBox(true);
-      var chips=viewEl.querySelectorAll('.pin-chip'); MO.pop(chips[chips.length-1]);   /* 새 칩이 떠오르고 */
-      var ic=viewEl.querySelector('.pin-ic');                                          /* 핀이 꽂힌다 */
-      if(ic&&MO.live()){ ic.classList.add('bump'); ic.addEventListener('animationend',function(){ ic.classList.remove('bump'); },{once:true}); }
-    }).catch(function(err){
-      input.disabled=false; toast('저장 실패: '+((err&&err.message)||err),{kind:'err'});
-    });
-  });
-  viewEl.querySelectorAll('[data-add]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var name=String(b.dataset.add||'').trim(); if(!name)return;
-      if(PinSvc.has(name)){ toast('이미 지정한 게임이에요'); return; }
-      if(PINS.length>=PINS_MAX){ toast('최대 '+PINS_MAX+'개까지예요',{kind:'err'}); return; }
-      b.disabled=true;
-      PinSvc.save(PINS.concat([name])).then(function(){
-        toast('‘'+name+'’ 추가 — 다음 회차부터 반영돼요'); repaintPinBox(false);
-      }).catch(function(err){ b.disabled=false; toast('저장 실패: '+((err&&err.message)||err),{kind:'err'}); });
-    });
-  });
-  viewEl.querySelectorAll('[data-rm]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var i=Number(b.dataset.rm), name=PINS[i]; if(!name)return;
-      b.disabled=true;
-      var chip=b.closest('.pin-chip');
-      MO.out(chip,null,{scale:.85});                       /* 먼저 접히기 시작하고(낙관), 실패하면 되살린다 */
-      PinSvc.save(PINS.filter(function(_,n){ return n!==i; })).then(function(){
-        toast('‘'+name+'’ 뺐어요'); repaintPinBox(false);
+  viewEl.querySelectorAll('.pinbox [data-box]').forEach(function(panel){
+    var k=panel.dataset.box, b=LISTBOX[k], o=LISTBOX[b.other];
+    /* 추가 — 입력 칸(focus=true)·추천 칩 공용. 이미 있어서 막히면 false(입력 칸을 비워 준다) */
+    function add(name,ctl,focus){
+      if(b.svc.has(name)){ toast('이미 지정한 게임이에요'); return false; }
+      if(o.svc.has(name)){ toast(b.dup,{kind:'err'}); return false; }
+      if(b.list().length>=b.max){ toast('최대 '+b.max+'개까지예요',{kind:'err'}); return true; }
+      ctl.disabled=true;
+      b.svc.save(b.list().concat([name])).then(function(){
+        toast('‘'+name+'’ 추가 — 다음 회차부터 반영돼요'); repaintPinBox(focus?k:'');
+        var np=viewEl.querySelector('.pinbox [data-box="'+k+'"]'); if(!np||!focus)return;
+        var chips=np.querySelectorAll('.pin-chip'); MO.pop(chips[chips.length-1]);   /* 새 칩이 떠오르고 */
+        var ic=np.querySelector('.pin-ic');                                          /* 핀이 꽂힌다 */
+        if(ic&&MO.live()){ ic.classList.add('bump'); ic.addEventListener('animationend',function(){ ic.classList.remove('bump'); },{once:true}); }
       }).catch(function(err){
-        b.disabled=false;
-        if(MO.live()&&chip)MO.g.to(chip,{opacity:1,scale:1,x:0,duration:.25,ease:'expo.out',clearProps:'transform,opacity'});
-        toast('저장 실패: '+((err&&err.message)||err),{kind:'err'});
+        ctl.disabled=false; toast('저장 실패: '+((err&&err.message)||err),{kind:'err'});
+      });
+      return true;
+    }
+    var form=panel.querySelector('.pin-add');
+    if(form)form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var input=form.querySelector('.pin-i'); if(!input)return;
+      var name=input.value.replace(/\s+/g,' ').trim();
+      if(!name){ input.focus(); return; }
+      if(!add(name,input,true)){ input.value=''; input.focus(); }
+    });
+    panel.querySelectorAll('[data-add]').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var name=String(btn.dataset.add||'').trim(); if(name)add(name,btn,false);
+      });
+    });
+    panel.querySelectorAll('[data-rm]').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var list=b.list(), i=Number(btn.dataset.rm), name=list[i]; if(!name)return;
+        btn.disabled=true;
+        var chip=btn.closest('.pin-chip');
+        MO.out(chip,null,{scale:.85});                       /* 먼저 접히기 시작하고(낙관), 실패하면 되살린다 */
+        b.svc.save(list.filter(function(_,n){ return n!==i; })).then(function(){
+          toast('‘'+name+'’ 뺐어요'); repaintPinBox('');
+        }).catch(function(err){
+          btn.disabled=false;
+          if(MO.live()&&chip)MO.g.to(chip,{opacity:1,scale:1,x:0,duration:.25,ease:'expo.out',clearProps:'transform,opacity'});
+          toast('저장 실패: '+((err&&err.message)||err),{kind:'err'});
+        });
       });
     });
   });
@@ -3584,6 +3642,7 @@ function datePager(dates,cur){
 /* ★2026-09-18 — 육아 제품은 «주 1회»(그 주에 아직 안 실었으면 싣는다 = 보통 월요일 판). 다른 날 빈 칸은 «없었다»가 아니라 «주기»다.
    그래서 빈 칸 문구를 바꾸고, 이번 주 육아 판으로 가는 버튼을 단다(불러온 판에서 찾고, 없으면 이번 주 월요일 판). */
 var PAR_WEEKLY_FROM='2026-09-19';
+var WATCH_FROM='2026-10-26';   /* 업데이트 챙길 게임 칸이 처음 채워지는 판(10-25 신설 · 그 전 판의 빈 칸은 «없었다»가 아니다) */
 function parWeekTarget(ed,dates){
   var d=new Date(ed.date+'T12:00:00Z'), mon=new Date(d.getTime()-((d.getUTCDay()+6)%7)*DAY).toISOString().slice(0,10), hit=null;
   TREND.forEach(function(e){
@@ -3716,6 +3775,10 @@ function renderTrend(o){
       ? (PINS.length
           ? '지정한 게임 주제는 <b>다음 회차</b>부터 올라와요.'
           : '위 상자에 게임을 지정하면 <b>게임마다 주제 최대 5개</b>가 여기 모여요.')
+      : (s.key==='watch')
+        ? (ed.date<WATCH_FROM ? '이 칸은 <b>10월 26일 판</b>부터 채워져요.'
+          : WATCH.length ? '지정한 게임에 <b>새 업데이트가 없었어요</b>. 업데이트가 잡히면 정리·공략이 여기 모여요.'
+          : '위 상자에 게임을 지정하면 <b>업데이트가 있을 때마다</b> 정리 1~2편과 공략이 여기 모여요.')
       : (s.key==='refresh')
         ? (REFRESH?'갱신할 약속이 없어요. 효자 글 제안은 <b>매월 1일</b> 올라와요.':'갱신 스냅샷이 아직 없어요.')
       : (s.key==='parenting'&&ed.date>=PAR_WEEKLY_FROM)

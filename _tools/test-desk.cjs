@@ -33,7 +33,8 @@ const deps = [
   /INACTIVE_WRITERS=/.test(inactiveDecl) ? '' : 'var INACTIVE_WRITERS=INACTIVE;',
 ].join('\n');
 
-const src = grabRe(/^[ \t]*(?:const|var|let) DESK_SECTIONS=\[/m, /function pinBox\s*\(/, 'DESK_SECTIONS…deskMaterial');
+/* ★10-25 — 상자 정의(LISTBOX · PinSvc/WatchSvc 참조)가 pinBox 앞에 생겼다. 끝 마커는 둘 중 먼저 나오는 것 */
+const src = grabRe(/^[ \t]*(?:const|var|let) DESK_SECTIONS=\[/m, /(?:^[ \t]*var LISTBOX=|function pinBox\s*\()/m, 'DESK_SECTIONS…deskMaterial');
 const mod = new Function(deps + '\n' + src + '\n return {DESK_SECTIONS,DESK_SEC,normEditions,edItems,deskMaterial,PREF,INACTIVE_WRITERS};')();
 console.log('  · PREF = ' + mod.PREF.join(',') + ' | 휴면 = ' + (mod.INACTIVE_WRITERS.join(',') || '없음'));
 

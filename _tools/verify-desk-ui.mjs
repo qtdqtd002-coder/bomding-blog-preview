@@ -41,6 +41,7 @@ const E1 = { date: '2026-09-23', headline: '합성 판 — 수요일', note: ['�
       why: '9월 쿠폰 3종이 한꺼번에 풀렸고 입력 경로가 설정 메뉴로 옮겨져 «뱀피르 쿠폰 입력» 검색이 몰린다',
       detail: '공식 공지에 따르면 9월 쿠폰 3종은 9월 30일 23시 59분까지 쓸 수 있고 계정당 한 번만 등록된다.\n입력 경로는 9월 12일 패치로 우편함에서 설정 > 계정 > 쿠폰 등록으로 옮겨졌고 iOS 는 웹 쿠폰 페이지에서만 된다.\n보상은 쿠폰마다 다르며 가장 큰 것은 고급 소환권 10장과 강화석 300개다.\n★iOS 웹 쿠폰 페이지 주소는 공지에 링크로만 있어 본문에 직접 적지 못했다 — 확인 필요',
       angle: '기존 봄딩 «뱀피르 쿠폰 모음, 8월 코드 정리»가 코드 목록을 다룬 것과 달리 9월 패치 뒤 바뀐 입력 경로와 iOS 예외를 순서대로 다룬다. 영도 «쿠폰 입력하는 곳»은 패치 전 경로다.' })] },
+  { key: 'watch', items: [I('watch', 1, { game: '원신', title: '원신 6.2 업데이트 정리, 바뀐 것 5가지', purpose: '업데이트·패치', angleType: 'news', demand: { tier: 2, src: 'ac', ac: 10 } })] },   /* ★10-25 업데이트 챙길 게임 */
   { key: 'parenting', items: [] },
   { key: 'new', items: [I('new', 1, { angleType: 'news', demand: { tier: 1, src: 'ac', ac: 2 } })] },
   { key: 'update', items: [I('update', 1, { angleType: 'howto', demand: { tier: 2, src: 'ac', ac: 10 } })] },
@@ -53,7 +54,7 @@ const E3 = { date: '2026-09-21', headline: '합성 판 — 월요일', note: [],
     I('parenting', 2, { game: '아기 칫솔', title: '아기 칫솔 비교', purpose: '제품 비교·추천', lane: '봄딩' })] }] };
 const E4 = { date: '2026-09-18', headline: '합성 판 — 옛 판', note: [], sections: [
   { key: 'new', items: [I('new', 7, { title: '옛 판 항목(신호 없음)' })] }, { key: 'parenting', items: [] }] };
-const SECTIONS = ['pinned', 'core', 'guide', 'parenting', 'new', 'update', 'hot'].map((k) => ({ key: k, label: k }));
+const SECTIONS = ['pinned', 'watch', 'core', 'guide', 'parenting', 'new', 'update', 'hot'].map((k) => ({ key: k, label: k }));
 const FULL = { schema: 2, kind: 'daily-topic-desk', updated: '2026-09-23T06:40:00+09:00', keepDays: 14, sections: SECTIONS, editions: [E1, E2, E3, E4] };
 const LITE = Object.assign({}, FULL, { lite: true, liteDays: 3, full: '_trend/trend.json', allDates: FULL.editions.map((e) => e.date), editions: [E1, E2, E3] });
 const MIX_A = { schema: 1, kind: 'desk-mix', updated: '2026-09-23T06:45:00+09:00', target: { guide: 50 },
@@ -101,6 +102,7 @@ const citeExpect = () => {
 };
 
 /* ── 가짜 백엔드 ── */
+let WATCH_FAKE = [];
 const api = createServer((req, res) => {
   const u = req.url.split('?')[0];
   const done = (code, obj) => { res.writeHead(code, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': '*' }); res.end(JSON.stringify(obj)); };
@@ -108,6 +110,12 @@ const api = createServer((req, res) => {
   if (u === '/why') return done(200, { reasons: [], items: [], counts: {} });
   if (u === '/hidden' || u === '/mpub') return done(200, { rels: [] });
   if (u === '/pins') return done(200, { games: [], max: 8, updatedAt: Date.now() });
+  /* ★10-25 /watch — 상태를 들고 있는 가짜(추가가 칩으로 그려지는지 본다) */
+  if (u === '/watch') {
+    if (req.method !== 'POST') return done(200, { games: WATCH_FAKE, max: 8, updatedAt: Date.now() });
+    let b = ''; req.on('data', (c) => { b += c; }); req.on('end', () => { try { WATCH_FAKE = (JSON.parse(b).games || []).map(String).slice(0, 8); } catch {} done(201, { ok: true, games: WATCH_FAKE, max: 8 }); });
+    return;
+  }
   if (u === '/requests') return done(200, []);
   return done(200, {});
 });
@@ -208,11 +216,22 @@ await open(1920, 1080, false); logs = [];
 chk('트렌드 탭이 뜬다', !!(await goTrend()));
 const secs = await ev(`[...document.querySelectorAll('.tsec .tsec-t')].map(e=>e.textContent)`);
 /* ★10-25 결정서 — 8칸(「갱신할 글」 신설) · 공략 칸은 핀 바로 다음(2번째)으로 올렸다. 옛 검사(7칸 · 3번째)는 그날 개편 뒤 FAIL 로 남아 있었다 */
-chk('8칸 · 공략 칸이 «꼭 다룰 게임» 바로 다음', Array.isArray(secs) && secs.length === 8 && secs[1] === '지금 검색되는 공략' && secs[7] === '갱신할 글', secs);
+/* ★10-25 업데이트 챙길 게임 칸 추가 → 9칸(공략 칸 2번째 유지 · 새 칸 3번째) */
+chk('9칸 · 공략 칸이 «꼭 다룰 게임» 바로 다음 · «업데이트 챙길 게임»(10-25)이 그다음', Array.isArray(secs) && secs.length === 9 && secs[1] === '지금 검색되는 공략' && secs[2] === '업데이트 챙길 게임' && secs[8] === '갱신할 글', secs);
 const gsec = `[...document.querySelectorAll('.tsec')].find(s=>s.querySelector('.tsec-t').textContent==='지금 검색되는 공략')`;
 chk('공략 칸 아이콘이 그려진다(책 — 경로 2개)', (await ev(`(()=>{const s=${gsec};return s?s.querySelectorAll('.tsec-ic svg path').length:0})()`)) === 2);
 chk('공략 칸 색 = --s-guide(#5A6E14)', (await ev(`(()=>{const s=${gsec};return getComputedStyle(s.querySelector('.tsec-ic')).color})()`)) === 'rgb(90, 110, 20)',
   await ev(`(()=>{const s=${gsec};return s?getComputedStyle(s.querySelector('.tsec-ic')).color:null})()`));
+/* ★10-25 업데이트 챙길 게임 — 칸 색·행 · 상자 두 칸(나란히) · 추가 → 칩 · 두 목록 겹침 차단 */
+const wsec = `[...document.querySelectorAll('.tsec')].find(s=>s.querySelector('.tsec-t').textContent==='업데이트 챙길 게임')`;
+chk('업데이트 챙길 게임 칸 색 = --s-watch(#8E2F7E) · 행 1개', await ev(`(()=>{const s=${wsec};return !!s&&getComputedStyle(s.querySelector('.tsec-ic')).color==='rgb(142, 47, 126)'&&s.querySelectorAll('.trow').length===1})()`));
+chk('상자 = 두 칸(꼭 다룰 게임 | 업데이트 챙길 게임) · 넓은 창은 나란히', await ev(`(()=>{const p=document.querySelector('.pinbox [data-box="pin"]'),w=document.querySelector('.pinbox [data-box="watch"]');if(!p||!w)return false;const a=p.getBoundingClientRect(),b=w.getBoundingClientRect();return Math.abs(a.top-b.top)<2&&b.left>=a.right-1&&w.querySelector('.pin-t').textContent==='업데이트 챙길 게임'})()`));
+await ev(`(()=>{const i=document.querySelector('.pinbox [data-box="watch"] .pin-i');i.value='원신';i.form.requestSubmit();return true})()`);
+chk('업데이트 챙길 게임에 추가하면 칩이 생긴다(POST /watch)', !!(await waitFor(`[...document.querySelectorAll('.pinbox [data-box="watch"] .pin-chip')].some(c=>c.textContent.includes('원신'))`, 5000)) && WATCH_FAKE.includes('원신'), WATCH_FAKE);
+await ev(`(()=>{const i=document.querySelector('.pinbox [data-box="pin"] .pin-i');i.value='원 신';i.form.requestSubmit();return true})()`); await sleep(400);
+chk('업데이트 챙길 게임에 있는 게임은 꼭 다룰 게임에 못 넣는다(공백 무시)', await ev(`!document.querySelector('.pinbox [data-box="pin"] .pin-chip')&&document.querySelector('.pinbox [data-box="pin"] .pin-i').value===''`));
+await ev(`document.querySelector('.pinbox [data-box="watch"] .pin-x').click()`);
+chk('칩 빼기 → 목록에서 빠진다', !!(await waitFor(`!document.querySelector('.pinbox [data-box="watch"] .pin-chip')`, 5000)) && WATCH_FAKE.length === 0, WATCH_FAKE);
 chk('공략 칸 행 3개', (await ev(`(()=>{const s=${gsec};return s.querySelectorAll('.trow').length})()`)) === 3);
 /* 게임명 대비 — 칸마다 첫 행 글자색을 흰 면(#FFF)·hover 면(surface-2 #F6F7F9)에 대고 잰다. 12.5px 글자라 4.5 가 기준.
    ★1차 실행에서 첫 행(꼭 다룰 게임 · #A8720F)이 4.13 으로 걸렸다 — 기존 결함이라 글자 단계 --s-pinned-t 를 새로 뒀다 */
@@ -525,6 +544,7 @@ chk('[390] 블로그 활동 부제가 잘리지 않는다(좁은 폭 문구 한 
 await shot('05-home-390', true);
 await goTrend();
 chk('[390] 공략 칸 행이 3개', (await ev(`(()=>{const s=${gsec};return s?s.querySelectorAll('.trow').length:0})()`)) === 3);
+chk('[390] 상자 두 칸은 위아래로 쌓인다(업데이트 챙길 게임이 아래 · 가로 넘침 없음)', await ev(`(()=>{const p=document.querySelector('.pinbox [data-box="pin"]'),w=document.querySelector('.pinbox [data-box="watch"]');if(!p||!w)return false;return w.getBoundingClientRect().top>=p.getBoundingClientRect().bottom-1&&document.documentElement.scrollWidth<=innerWidth})()`));
 /* ★좁은 폭에선 표식을 주제 아랫줄로 내린다 — 같은 줄에 두면 주제 글자가 5자쯤 더 잘린다. «있다»가 아니라 자리(아랫줄·행 안·버튼과 안 겹침)와 주제 폭을 잰다 */
 const relMob = await ev(`(${WR})('syn-guide-3')`);
 const noRelMob = await ev(`(()=>{const b=document.querySelector('[data-req="syn-guide-1"]');const h=b.closest('.trow').querySelector('.tr-h').getBoundingClientRect();return Math.round(h.width)})()`);

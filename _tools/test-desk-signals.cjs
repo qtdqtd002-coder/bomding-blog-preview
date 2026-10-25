@@ -152,7 +152,7 @@ const mm = new Date(Date.now() + 9 * 3600e3).getUTCMonth() + 1, other = mm === 1
 eq([S.staleMonth('쿠폰 ' + other + '월'), S.staleMonth('쿠폰 ' + mm + '월'), S.staleMonth('쿠폰 모음')], [true, false, false], '다른 달 질의만 제외');
 
 console.log('\n[8] 브리핑 요약');
-eq(S.aibSummary({ status: 'shown', sources: [{ rank: 1, blog: 'x' }, { rank: 2, blog: 'bomding' }], fetchedAt: 't' }), { s: 'shown', n: 2, bd: 2, yd: null, at: 't' }, '봄딩 인용 순위');
+eq(S.aibSummary({ status: 'shown', sources: [{ rank: 1, blog: 'x' }, { rank: 2, blog: 'bomding' }], fetchedAt: 't' }), { s: 'shown', n: 2, bd: 2, yd: null, top: ['x', 'bomding'], at: 't' }, '봄딩 인용 순위');   /* top = 경쟁 출처(10-25 결정서 4번) */
 eq(S.aibSummary({ status: 'blocked' }).s, 'unknown', '차단·오류는 unknown');
 
 console.log('\n[9] 글 → 발주 경로(칸)');
