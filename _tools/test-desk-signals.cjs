@@ -250,6 +250,21 @@ console.log('\n[11-3] ★티어표 추천 tier (2026-10-25 · 육아 칸 자리)
   ];
   eq(rx(pr), ['X', 'KEEP'], '우선권 tier > core — 같은 게임 티어 주제는 티어표 칸으로 모인다');
   eq(S.CAPS.tier, 3, 'CAPS.tier = 3');
+  /* ★10-26 실사고 — 티어표 «덱 티어» 후보가 watch 의 단일 덱 추천 2건과 같은 rank 라 X 로 빠졌다(티어표 칸 0건). 한 장 티어표 ↔ 단일 공략은 다른 글 */
+  const W = (o) => I(Object.assign({ sec: 'watch', game: '롤토체스', angleType: 'rank', demand: D(2) }, o));
+  const real = [
+    W({ title: '롤토체스 추천메타 요정 트리스타나 덱, 18.5 트리스타나 마나 50·요정 체력 회복 3/5% 상향 뒤 점유 1.72%', keywords: ['롤토체스 추천메타'] }),
+    W({ title: '롤토체스 추천메타 나무정령 카직스 덱, 18.5 카직스 비고립 피해량 하향 뒤 순방 53.5%와 아이템', keywords: ['롤토체스 추천메타'] }),
+    T({ game: '롤토체스', title: '롤토체스 덱 추천 초보, 18.5b 패치 덱 티어 순방·평균등수 기준', keywords: ['롤토체스 덱 추천 초보'] }),
+  ];
+  eq(rx(real), ['KEEP', 'KEEP', 'KEEP'], '10-26 실데이터: watch 단일 덱 추천 2건이 있어도 «덱 티어» 티어표는 산다');
+  eq(rx(real.slice(2), true), ['KEEP'], '혼자여도 산다');
+  const both = [W({ title: '롤토체스 18.5 덱 티어 정리', keywords: ['롤토체스 덱 티어'] }), T({ game: '롤토체스', title: '롤토체스 18.5 덱 티어, 순방 기준', keywords: ['롤토체스 덱 티어'] })];
+  eq(rx(both), ['KEEP', 'X'], '둘 다 티어표면 겹침 — 상위 칸(watch)이 이긴다');
+  const sx = S.judge([W({ title: '롤토체스 추천메타 요정 트리스타나 덱' }), T({ game: '롤토체스', title: '롤토체스 덱 티어표' })], false, { crossStrict: true });
+  eq(sx.drop.length, 0, '--cross-strict 여도 티어표 ↔ 단일 공략은 X 아님');
+  ok(S.isTierList({ title: '림버스 인격 티어 순위' }) && !S.isTierList({ title: '요정 트리스타나 덱 공략' }), 'isTierList = 제목·첫 키워드에 티어·순위·등급표');
+  eq(rx([T({ game: '롤토체스', title: '롤토체스 요정 트리스타나 덱 공략' })]), ['T'], 'T 티어표 칸인데 제목에 «티어·순위» 없음 → 뺀다');
 }
 
 console.log('\n[12] ★블록리스트 B (2026-09-23 · L95) — _trend/_blocklist.json {game, angle, until}');

@@ -68,6 +68,7 @@
      W1  new·update·hot 의 news 합 2건 초과 · 칸 상한 new 3 · update 3 · hot 2 · guide 8                                     → DROP(약한 쪽부터)
      G   guide    angleType ∈ {howto, rank} 이고 tier ≥ 1                                                                    → 아니면 DROP
      T   tier     angleType = rank 이고 tier ≥ 1 · 게임당 1건 · 칸 상한 3(2026-10-25 사용자 «육아 자리에 티어표 추천»)          → 아니면 DROP
+                  ★10-26: 제목·첫 키워드에 «티어·순위» 필수 · X 는 «티어표 한 장 ↔ 단일 공략» 사이엔 걸지 않는다(둘 다 티어표일 때만)
      ★신호를 못 잰 경우(네트워크 실패)는 그 규칙을 적용하지 않는다(fail-open) — «모름»을 «없음»으로 바꾸지 않는다.
      ★parenting(육아) 칸은 2026-10-25 폐지 — 옛 판 항목은 판정하지 않는다(게임 축 밖).
 
@@ -470,6 +471,10 @@ function blockHit(it, list, today) {
   return null;
 }
 /* X 규칙의 «주제 겹침» — 상위 칸 항목(up)을 «지난 판 항목»처럼 두고 desk-dedup 으로 잰다(OK 가 아니면 겹침) */
+/* «티어표 한 장»인가(10-26 · 티어표 칸 X 예외) — 덱·캐릭터 «하나»를 다루는 공략(예: «요정 트리스타나 덱»)과 «전체를 줄 세운 티어표»는 다른 글이다.
+   10-26 첫 회차: 티어표 후보(롤토체스 18.5b 덱 티어)가 watch 의 단일 덱 추천 2건과 같은 rank 라는 이유로 X 로 빠져 티어표 칸 0건. */
+const TIERLIST_RE = /티어|순위|등급표/;
+function isTierList(it) { return TIERLIST_RE.test(String((it && it.title) || '') + ' ' + String(((it && it.keywords) || [])[0] || '')); }
 function crossOverlap(up, it) {
   try {
     const past = DD.pastItem({ game: up.game, title: up.title, detail: up.detail, angle: up.angle }, 'today', up.sec);
@@ -493,6 +498,7 @@ function judge(items, saOn, ctx) {
     /* T — 티어표 추천(2026-10-25) = 티어·순위 각도이고 찾는 사람이 있어야 한다(도구함 티어표로 그릴 주제) */
     if (sec === 'tier') {
       if (a !== 'rank') mark(it, 'T', '티어표 칸인데 각도가 ' + a);
+      else if (!isTierList(it)) mark(it, 'T', '티어표 칸인데 제목·첫 키워드에 «티어·순위»가 없음(단일 공략은 다른 칸)');
       else if (t === 0) mark(it, 'T', '티어표 칸인데 수요 없음');
     }
     if (sec === 'guide') {
@@ -519,6 +525,8 @@ function judge(items, saOn, ctx) {
       const up = ordered[j].it;
       if (!alive(up) || up.sec === x.it.sec) continue;
       if (!sameGameKey(up.game, x.it.game) || angleTypeOf(up) !== angleTypeOf(x.it)) continue;
+      /* 티어표 칸이 끼면 «티어표 한 장 ↔ 단일 공략»은 다른 글 — 둘 다 티어표일 때만 겹침으로 본다(strict 여도) */
+      if ((up.sec === 'tier' || x.it.sec === 'tier') && isTierList(up) !== isTierList(x.it)) continue;
       if (!strict && !crossOverlap(up, x.it)) continue;
       mark(x.it, 'X', '같은 회차 ' + up.sec + ' 칸에 같은 게임·같은 각도(' + angleTypeOf(up) + (strict ? '' : ')·주제 겹침') + ': «' + String(up.title || '').slice(0, 30) + '»');
       break;
@@ -822,7 +830,7 @@ function secOfPost(folder, reqs, items) {
   return 'other';
 }
 
-module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, tierFromQuery, qModeOf, contentTokens, queryWithGame, demandOf, judge, sortSection, sortKey, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, SEC_PRIORITY, WATCH_MAX, getRequests, deskItems, secOfPost, depthOf, newGamesFrom, DEPTH_KO, blockHit, loadBlocklist, crossOverlap, sameGameKey };
+module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, tierFromQuery, qModeOf, contentTokens, queryWithGame, demandOf, judge, sortSection, sortKey, isTierList, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, SEC_PRIORITY, WATCH_MAX, getRequests, deskItems, secOfPost, depthOf, newGamesFrom, DEPTH_KO, blockHit, loadBlocklist, crossOverlap, sameGameKey };
 
 if (require.main === module) {
   const cmd = argv[0];
