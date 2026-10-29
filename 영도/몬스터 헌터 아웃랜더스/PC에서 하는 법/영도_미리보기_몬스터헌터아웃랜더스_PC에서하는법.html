@@ -1,0 +1,300 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>몬스터헌터 아웃랜더스 PC에서 하는 법, 공식 PC 버전 여부와 에뮬레이터 설치 방법 및 주의할 점은?</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .guidenote{color:#999;font-size:13px;margin-bottom:18px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post ul{font-size:15.5px;line-height:1.95;margin:0 0 18px;padding-left:22px;word-break:keep-all;}
+  .post li{margin:4px 0;}
+  .post b{font-weight:800;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  h3.mini{font-size:15px;font-weight:800;margin:18px 0 8px;color:#333;}
+  .qlog{background:#f5faf7;border:1px solid #cdeeda;border-left:4px solid var(--green);border-radius:8px;padding:14px 18px;margin:6px 0 24px;font-size:14.5px;line-height:1.85;color:#2f2f2f;word-break:keep-all;}
+  .qlog .qh{font-weight:800;color:#0a8a44;margin-bottom:6px;font-size:14.5px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;vertical-align:middle;}
+  .tbl td.l{text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy h3:first-child{margin-top:0;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy a{color:#1a73e8;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;}
+  #copy .phx{color:#1a5fb4;font-weight:700;}
+  .gap.mine{border-color:#7aa2e8;background:#eef4ff;color:#1a4fa0;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">몬스터헌터 아웃랜더스 · 공략</div>
+    <h1 class="title">몬스터헌터 아웃랜더스 PC에서 하는 법, 공식 PC 버전 여부와 에뮬레이터 설치 방법 및 주의할 점은?</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026. 10. 29.</span><span>· 게임</span></div>
+    <div class="guidenote">※ 다른 공략은 댓글을 참고해 주세요.</div>
+
+    <p>오늘 10월 29일 오전 7시에 몬스터헌터 아웃랜더스 한국 서버가 열렸는데요, PC로도 할 수 있는지 궁금해하는 분이 많을 것 같아요. 결론부터 말씀드리면 <b>공식 PC 버전은 가레나 공식 FAQ와 보도자료에서 확인하지 못했고</b>, PC로 하려면 안드로이드 에뮬레이터를 쓰는 길밖에 없습니다.</p>
+    <p>이 글은 2026년 10월 29일 출시 당일 기준인데요, 주인장이 직접 설치해 본 후기가 아니라 가레나 공식 FAQㆍ이용 규약과 에뮬레이터 제공사 안내를 정리한 내용이에요. 무기 티어표는 별도 글이라 여기서는 다루지 않아요.</p>
+    <div class="imgwrap"><!-- 이미지 이유: 도입부 게임 소개용 공식 키비주얼(헌터들이 대형 몬스터와 싸우는 장면) / 출처: 가레나 한국 출시 확정 보도자료(디스이즈게임 게재) https://www.thisisgame.com/articles/428178 / 분류: A형(Tier 2, 보도자료 이미지) -->
+      <img src="img/01-keyvisual.jpg" alt="몬스터헌터 아웃랜더스 키비주얼, 헌터들이 대형 몬스터와 싸우는 장면" width="1200" height="630"></div>
+    <p class="cap">보시면 화려한 전투 장면인데요, 이 화면을 PC로 볼 수 있는지가 오늘 글의 주제입니다.</p>
+    <p class="src">이미지 출처: 가레나 보도자료 · <a href="https://www.thisisgame.com/articles/428178" target="_blank">디스이즈게임 게재</a></p>
+    <div class="qlog"><div class="qh">📜 QUEST LOG ┃ 글 한눈에 보기</div>① 공식 PC 지원 여부 → ② PC로 하는 길 → ③ 에뮬레이터 설치 순서 → ④ 사양과 저장공간 → ⑤ 계정ㆍ서버ㆍ조작 → ⑥ 약관과 제재 주의</div>
+    <h2 class="sec">1. 공식 PC 지원 여부</h2>
+    <p>몬스터헌터 아웃랜더스의 공식 출시 플랫폼은 안드로이드와 iOS이고, PC 클라이언트는 공식 사이트ㆍFAQㆍ보도자료 어디에도 나와 있지 않습니다. 공식 홈페이지 하단의 다운로드 링크도 안드로이드용과 iOS용 두 개뿐이에요.</p>
+    <p>가레나 공식 FAQ의 오픈 안내는 "2026/10/29(목) 오전 07:00:00(UTC+9)에 안드로이드 및 iOS 플랫폼에서 동시 오픈"이라고 적고 있고 PC는 언급이 없어요. 같은 FAQ에 이런 한 줄도 있습니다.</p>
+    <p><b>"【몬스터헌터 아웃랜더스】는 모바일 기기에서 플레이할 수 있도록 개발되었으며, 모바일 기기가 아닌 다른 환경에서 이용 시 발생하는 문제에 대해서는 도움을 드리기 어렵습니다."</b></p>
+    <p>금지한다는 말이 아니라 지원하지 않는다는 말이거든요. 앞으로도 영영 없다는 뜻은 아니고 오늘 기준으로는 여기까지 알려져 있는데요, FAQ 말미에도 업데이트에 따라 일부 내용이 바뀔 수 있다고 적혀 있으니 참고해 주세요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 공식 FAQ의 오픈 일정 문단 + "모바일 기기가 아닌 다른 환경" 안내 문단</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — 브라우저로 <a href="https://mho.garena.com/kr/news/PR33PD" target="_blank">mho.garena.com/kr/news/PR33PD</a> 를 열어 두 문단이 한 화면에 보이게 1컷. 캡처 아래에 출처 주소를 적어 주세요.</div>
+    <p class="cap">지금 보시는 문단처럼 FAQ에 모바일 기준이라는 설명이 그대로 적혀 있어요.</p>
+    <h2 class="sec">2. PC로 하는 방법, 에뮬레이터 하나</h2>
+    <p>지금 확인되는 PC 실행 방법은 안드로이드 에뮬레이터 하나이고, 이건 공식이 아니라 비공식 방법입니다.</p>
+    <table class="tbl">
+      <tr><th>방법</th><th>상태</th><th>비고</th></tr>
+      <tr><td class="l">공식 PC 클라이언트(스팀ㆍ가레나 PC 등)</td><td>미확인</td><td class="l">공식 발표 없음</td></tr>
+      <tr><td class="l">구글 플레이 게임즈 PC</td><td>미확인</td><td class="l">지원 여부는 구글 플레이 게임즈 앱에서 직접 검색해 보세요</td></tr>
+      <tr><td class="l">안드로이드 에뮬레이터</td><td>비공식</td><td class="l">공식 지원 밖, 자기 책임</td></tr>
+    </table>
+    <p>폰이 공식 최소 사양(Android 9ㆍRAM 4GBㆍ저장공간 19GB)을 채운다면 모바일로 하시는 게 나아요. 공식 FAQ가 모바일 밖 환경의 문제는 도움을 드리기 어렵다고 했거든요. 폰 사양이 모자라 PC를 알아보는 분이라면 그때 에뮬레이터를 고려해 보세요.</p>
+    <p>에뮬레이터는 BlueStacksㆍLDPlayerㆍMuMuPlayer가 아웃랜더스 PC 안내 페이지를 내놓았는데요, 세 곳 모두 에뮬레이터 회사의 홍보성 안내라는 점은 감안하세요.</p>
+    <div class="gap"><b>✍️ 직접 조사·입력 필요</b> — 구글 플레이 게임즈 PC 지원 여부<br>
+      구글 지원 게임 목록을 열지 못해 지원 근거도 반대 근거도 확인 못 함. 구글 플레이 게임즈 PC 앱의 지원 게임 검색에서 "몬스터헌터 아웃랜더스"를 직접 검색해 확인한 뒤 이 박스를 한 문장으로 교체(한국 지원 현황 포함).</div>
+    <h2 class="sec">3. 에뮬레이터 설치 순서, BlueStacks 안내 기준</h2>
+    <p>BlueStacks 안내 기준으로는 에뮬레이터를 설치하고 구글 계정으로 로그인한 뒤, 플레이 스토어에서 게임을 받으면 됩니다.</p>
+    <ul>
+      <li>BlueStacks 아웃랜더스 페이지의 'Play Monster Hunter Outlanders on PC' 버튼을 눌러 파일을 받으세요.</li>
+      <li>받은 파일을 실행해 BlueStacks를 설치하고 실행하세요. 관리자 권한이 필요합니다.</li>
+      <li>구글 플레이 스토어에 로그인하세요.</li>
+      <li>스토어에서 몬스터헌터 아웃랜더스를 검색해 설치하세요.</li>
+      <li>실행한 뒤 서버와 로그인 방식을 확인하세요. 이 부분은 아래 5절에서 다시 짚습니다.</li>
+    </ul>
+    <p>한국 구글 플레이 페이지 기준으로 패키지 이름은 com.tencent.mhadv, 개발자 표기는 Level Infinite예요. 이름이 비슷한 다른 앱을 받지 않게 검색 결과에서 이 표기를 꼭 확인하세요. 브라우저로 구글 플레이 페이지를 열면 주소 끝의 'id=' 뒤에 이 패키지 이름이 붙어 있어서 대조하기 쉽습니다.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 에뮬레이터 안 구글 플레이 스토어의 아웃랜더스 설치 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 에뮬레이터를 설치한 뒤 스토어 검색 결과에서 개발자 표기(Level Infinite)가 보이는 컷 1장. 이 글은 주인장 설치 검증 전이라 촬영 전까지 이 자리는 비워 두세요.</div>
+    <p class="cap">이 화면처럼 스토어에서 개발자 표기까지 확인하고 설치하시면 됩니다.</p>
+    <h2 class="sec">4. 필요한 사양과 저장공간</h2>
+    <p>에뮬레이터 안내 기준 최소 사양은 Windows 7 이상, RAM 4GB 이상, 여유 저장공간 10GB이고, 게임 자체는 공식 기준 안드로이드 최소 19GB가 따로 필요합니다. 이 밖에 관리자 권한과 최신 그래픽 드라이버도 갖추라고 안내하는데요, CPU는 Intel이나 AMD(맥은 Apple Silicon)를 쓰는 환경이어야 한다고 해요.</p>
+    <table class="tbl">
+      <tr><th>구분</th><th>OS</th><th>RAM</th><th>저장공간</th><th>기기</th></tr>
+      <tr><td class="l">에뮬레이터 최소(BlueStacks 안내)</td><td>Windows 7 이상</td><td>4GB 이상</td><td>여유 10GB</td><td class="l">해당 없음</td></tr>
+      <tr><td class="l">공식 안드로이드 최소</td><td>Android 9 이상</td><td>4GB</td><td>19GB</td><td class="l">갤럭시 S8 이상</td></tr>
+      <tr><td class="l">공식 안드로이드 권장</td><td>Android 12 이상</td><td>8GB</td><td>22GB</td><td class="l">갤럭시 S23 이상</td></tr>
+      <tr><td class="l">공식 iOS 최소</td><td>iOS 15 이상</td><td>3GB</td><td>18GB</td><td class="l">iPhone 8 Plus 이상</td></tr>
+      <tr><td class="l">공식 iOS 권장</td><td>iOS 17 이상</td><td>6GB</td><td>20GB</td><td class="l">iPhone 13 Pro 이상</td></tr>
+    </table>
+    <p>BlueStacks는 권장 사양을 따로 밝히지 않았어요. 10GB와 19GB를 단순히 더한 약 29GB는 주인장의 추정이니, 공간은 넉넉히 비워 두시길 권합니다. 모바일로 하실 분은 공식 FAQ 기준으로 10월 28일 낮 12시부터 사전 다운로드가 열려 있었는데요, 용량이 19GB 이상이라 와이파이 환경에서 받아 두는 편이 마음 편했을 거예요.</p>
+    <h2 class="sec">5. 계정과 서버, 조작에서 챙길 것</h2>
+    <p>서버는 접속 지역에 따라 자동으로 정해지고 다른 서버로 계정을 옮길 수 없으니, 계정은 구글이나 가레나로 연동해 두세요.</p>
+    <p>서버는 대한민국/아시아·태평양/라틴아메리카/중동·아프리카 네 곳인데요, 다른 지역 서버와는 게임 정보가 공유되지 않고 지역 간 파티나 친구 추가도 안 됩니다.</p>
+    <p>계정은 안드로이드에서 구글ㆍ페이스북ㆍ가레나ㆍ게스트로 연동할 수 있고, iOS는 여기에 Apple이 더해져요. 게스트는 로그아웃ㆍ삭제ㆍ기기 변경 시 복구가 안 되니 피하시고, 다른 기기에서 로그인해 이어 하는 건 되지만 동시 접속은 안 됩니다.</p>
+    <p>조작은 BlueStacks가 키보드와 마우스가 터치보다 이동ㆍ카메라 조작을 부드럽게 해 줄 수 있다고만 안내하고, 구체적인 키 목록은 밝히지 않았어요.</p>
+    <p>지원 언어는 한국어를 포함해 9개이고, 게임 안 '설정' 메뉴의 '언어'에서 바꿀 수 있어요. 컨트롤러는 PocketGamer가 개발진이 완전 지원을 확인했다고 전했는데, 모바일 기기 기준 설명이라 에뮬레이터에서도 된다는 보장은 아닙니다.</p>
+    <div class="gap"><b>✍️ 직접 조사·입력 필요</b> — 에뮬레이터의 한국 서버 접속ㆍ결제 가능 여부, 기본 키 매핑<br>
+      에뮬레이터에서 한국 서버로 접속되는지와 결제 가능 여부는 확인 못 함(FAQ의 "접속 지역에 따라 자동 연결" 문장에서의 추론뿐). 기본 키 매핑도 3사 모두 구체값을 얻지 못함. 에뮬레이터 키 매핑 편집 창에서 이동ㆍ카메라ㆍ공격 배치를 직접 확인해 채우세요.</div>
+    <div class="gap mine"><b>✍️ 주인장 한 줄</b> — 하나만 남기고 지우기 · 안 쓰면 이 줄 통째로 지우기<br>주인장은 이 게임을 〔폰으로만 / 에뮬레이터로만 / 둘 다〕 해 볼 생각입니다.</div>
+    <h2 class="sec">6. 약관과 제재, 에뮬레이터 명시 여부</h2>
+    <p>가레나 이용 규약에 "에뮬레이터"라는 단어는 없지만, 제3자 도구ㆍ보안 탐지 우회ㆍ비공식 설치 파일은 제재 항목으로 적혀 있습니다.</p>
+    <ul>
+      <li>핵ㆍ스크립트ㆍ마우스 매크로 같은 제3자 도구나 자동화 프로그램으로 부당한 이득을 얻는 행위</li>
+      <li>비공식 경로의 설치 파일, 변조 버전 또는 크랙 버전 클라이언트로 로그인하는 행위</li>
+      <li>보안 탐지를 고의로 우회하거나 감시를 회피하는 행위</li>
+    </ul>
+    <p>이 목록이 전부는 아닙니다. 규약은 아래 항목에 한정되지 않는다고 밝히고, 일일이 열거하지 않았더라도 성격이 같거나 비슷한 행위는 운영팀이 이 안내에 준해 판단하고 조치할 수 있다고 적고 있어요. 목록에 에뮬레이터가 없다고 안전하다고 읽으시면 곤란합니다.</p>
+    <p>제재는 게임 이용 제한 1일에서 10년, 재화 회수까지 적혀 있고, 극히 악의적인 경우 법이 허용하는 범위에서 관련 기기도 차단할 수 있다고 해요. 보안 시스템은 실시간 탐지와 사후 검토를 함께 해서 소급 처리될 수도 있다고 합니다.</p>
+    <p>정리하면 에뮬레이터는 금지로 명시되진 않았지만 공식 지원 밖이고, 탐지나 제재 가능성은 공식이 밝히지 않았어요. PocketGamer는 에뮬레이터가 항상 매끄럽게 돌아가진 않을 수 있고 개발진이 계정을 제재할 수도 있다고 경고했는데, 이건 매체 의견이지 공식 입장은 아닙니다. 쓰신다면 키 매핑의 매크로ㆍ연타 자동화 기능은 켜지 마시고, 설치는 반드시 스토어로만 하세요.</p>
+    <div class="gap"><b>✍️ 직접 조사·입력 필요</b> — 에뮬레이터 실제 제재 사례<br>
+      출시 당일이라 에뮬레이터 사용으로 제재받은 사례는 찾지 못함. 며칠 뒤 가레나 공지ㆍ네이버 라운지ㆍ커뮤니티에서 사례가 올라오는지 확인해 이 박스를 교체(없으면 "아직 확인된 사례 없음 + 확인일"로).</div>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 이용 규약의 제3자 도구ㆍ보안 탐지 우회 항목</span></div>
+    <div class="shoot">📸 직접 캡처 권장 — <a href="https://mho.garena.com/kr/news/AJNGWP" target="_blank">mho.garena.com/kr/news/AJNGWP</a> 에서 위 세 항목이 보이는 화면 1컷. 캡처 아래에 출처 주소를 적어 주세요.</div>
+    <p class="cap">보시는 것처럼 규약 목록에서 위 세 항목을 직접 확인하실 수 있어요.</p>
+    <div class="summary">
+      <div class="h">마무리</div>
+      여기까지가 몬스터헌터 아웃랜더스 PC 실행 정리였습니다. 공식 PC 버전은 확인되지 않고, PC로 하려면 비공식 에뮬레이터뿐이며, 규약에 에뮬레이터 언급은 없지만 지원 밖이라 문제가 생겨도 도움받기 어렵다는 게 핵심이에요. 10월 29일 기준 정리였습니다.
+    </div>
+    <p><b>참고한 곳</b><br>
+    · <a href="https://mho.garena.com/kr/news/PR33PD" target="_blank">몬스터헌터 아웃랜더스 공식 FAQ(가레나 한국)</a> (2026.10.29 기준)<br>
+    · <a href="https://mho.garena.com/kr/news/AJNGWP" target="_blank">몬스터헌터 아웃랜더스 이용 규약(가레나 한국)</a><br>
+    · <a href="https://www.bluestacks.com/blog/game-guides/monster-hunter-outlanders/how-to-play-mhol-on-pc-mac-en.html" target="_blank">에뮬레이터 안내 : BlueStacks 아웃랜더스 PC 가이드</a><br>
+    · <a href="https://www.pocketgamer.com/monster-hunter-outlanders/emulators-and-controller-support/" target="_blank">에뮬레이터 안내 : PocketGamer 에뮬레이터ㆍ컨트롤러 정리</a></p>
+    <div class="tags">#몬스터헌터아웃랜더스 #몬헌아웃랜더스 #몬스터헌터아웃랜더스PC #몬헌PC #에뮬레이터 #블루스택 #가레나</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 4곳 + ✍️ 확인 자리:</b> 사진은 위 3번 방식으로 올리시고(사진 1은 보도자료 키비주얼, 나머지는 직접 캡처), ✍️ 자리는 확인 후 한 문장으로 채우거나 지우세요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <span class="ti">📌 제목칸에 따로: 몬스터헌터 아웃랜더스 PC에서 하는 법, 공식 PC 버전 여부와 에뮬레이터 설치 방법 및 주의할 점은?</span>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+    <p>※ 다른 공략은 댓글을 참고해 주세요.</p>
+    <p>오늘 10월 29일 오전 7시에 몬스터헌터 아웃랜더스 한국 서버가 열렸는데요, PC로도 할 수 있는지 궁금해하는 분이 많을 것 같아요. 결론부터 말씀드리면 <b>공식 PC 버전은 가레나 공식 FAQ와 보도자료에서 확인하지 못했고</b>, PC로 하려면 안드로이드 에뮬레이터를 쓰는 길밖에 없습니다.</p>
+    <p>이 글은 2026년 10월 29일 출시 당일 기준인데요, 주인장이 직접 설치해 본 후기가 아니라 가레나 공식 FAQㆍ이용 규약과 에뮬레이터 제공사 안내를 정리한 내용이에요. 무기 티어표는 별도 글이라 여기서는 다루지 않아요.</p>
+    <p class="ph">📷 〔사진 자리 1〕 몬스터헌터 아웃랜더스 키비주얼 — 네이버에서 직접 업로드</p>
+    <p class="phsub">└ 캡션 추천: "보시면 화려한 전투 장면인데요, 이 화면을 PC로 볼 수 있는지가 오늘 글의 주제입니다."</p>
+    <p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "이미지: 디스이즈게임 · 가레나 보도자료 제공" 한 줄을 같이 적어주세요.</p>
+    <p><b>📜 QUEST LOG ┃ 글 한눈에 보기</b><br>① 공식 PC 지원 여부 → ② PC로 하는 길 → ③ 에뮬레이터 설치 순서 → ④ 사양과 저장공간 → ⑤ 계정ㆍ서버ㆍ조작 → ⑥ 약관과 제재 주의</p>
+    <h3>1. 공식 PC 지원 여부</h3>
+    <p>몬스터헌터 아웃랜더스의 공식 출시 플랫폼은 안드로이드와 iOS이고, PC 클라이언트는 공식 사이트ㆍFAQㆍ보도자료 어디에도 나와 있지 않습니다. 공식 홈페이지 하단의 다운로드 링크도 안드로이드용과 iOS용 두 개뿐이에요.</p>
+    <p>가레나 공식 FAQ의 오픈 안내는 "2026/10/29(목) 오전 07:00:00(UTC+9)에 안드로이드 및 iOS 플랫폼에서 동시 오픈"이라고 적고 있고 PC는 언급이 없어요. 같은 FAQ에 이런 한 줄도 있습니다.</p>
+    <p><b>"【몬스터헌터 아웃랜더스】는 모바일 기기에서 플레이할 수 있도록 개발되었으며, 모바일 기기가 아닌 다른 환경에서 이용 시 발생하는 문제에 대해서는 도움을 드리기 어렵습니다."</b></p>
+    <p>금지한다는 말이 아니라 지원하지 않는다는 말이거든요. 앞으로도 영영 없다는 뜻은 아니고 오늘 기준으로는 여기까지 알려져 있는데요, FAQ 말미에도 업데이트에 따라 일부 내용이 바뀔 수 있다고 적혀 있으니 참고해 주세요.</p>
+    <p class="ph">📷 〔사진 자리 2〕 공식 FAQ의 오픈 일정 문단 + "모바일 기기가 아닌 다른 환경" 안내 문단 (직접 캡처) — 네이버에서 직접 업로드</p>
+    <p class="phsub">└ 캡션 추천: "지금 보시는 문단처럼 FAQ에 모바일 기준이라는 설명이 그대로 적혀 있어요."</p>
+    <h3>2. PC로 하는 방법, 에뮬레이터 하나</h3>
+    <p>지금 확인되는 PC 실행 방법은 안드로이드 에뮬레이터 하나이고, 이건 공식이 아니라 비공식 방법입니다.</p>
+    <table>
+      <tr><th>방법</th><th>상태</th><th>비고</th></tr>
+      <tr><td class="l">공식 PC 클라이언트(스팀ㆍ가레나 PC 등)</td><td>미확인</td><td class="l">공식 발표 없음</td></tr>
+      <tr><td class="l">구글 플레이 게임즈 PC</td><td>미확인</td><td class="l">지원 여부는 구글 플레이 게임즈 앱에서 직접 검색해 보세요</td></tr>
+      <tr><td class="l">안드로이드 에뮬레이터</td><td>비공식</td><td class="l">공식 지원 밖, 자기 책임</td></tr>
+    </table>
+    <p>폰이 공식 최소 사양(Android 9ㆍRAM 4GBㆍ저장공간 19GB)을 채운다면 모바일로 하시는 게 나아요. 공식 FAQ가 모바일 밖 환경의 문제는 도움을 드리기 어렵다고 했거든요. 폰 사양이 모자라 PC를 알아보는 분이라면 그때 에뮬레이터를 고려해 보세요.</p>
+    <p>에뮬레이터는 BlueStacksㆍLDPlayerㆍMuMuPlayer가 아웃랜더스 PC 안내 페이지를 내놓았는데요, 세 곳 모두 에뮬레이터 회사의 홍보성 안내라는 점은 감안하세요.</p>
+    <p class="ph">✍️ 〔구글 플레이 게임즈 PC 지원 여부 — 구글 플레이 게임즈 PC 앱에서 직접 검색해 한 문장으로 채우기〕</p>
+    <h3>3. 에뮬레이터 설치 순서, BlueStacks 안내 기준</h3>
+    <p>BlueStacks 안내 기준으로는 에뮬레이터를 설치하고 구글 계정으로 로그인한 뒤, 플레이 스토어에서 게임을 받으면 됩니다.</p>
+    <ul>
+      <li>BlueStacks 아웃랜더스 페이지의 'Play Monster Hunter Outlanders on PC' 버튼을 눌러 파일을 받으세요.</li>
+      <li>받은 파일을 실행해 BlueStacks를 설치하고 실행하세요. 관리자 권한이 필요합니다.</li>
+      <li>구글 플레이 스토어에 로그인하세요.</li>
+      <li>스토어에서 몬스터헌터 아웃랜더스를 검색해 설치하세요.</li>
+      <li>실행한 뒤 서버와 로그인 방식을 확인하세요. 이 부분은 아래 5절에서 다시 짚습니다.</li>
+    </ul>
+    <p>한국 구글 플레이 페이지 기준으로 패키지 이름은 com.tencent.mhadv, 개발자 표기는 Level Infinite예요. 이름이 비슷한 다른 앱을 받지 않게 검색 결과에서 이 표기를 꼭 확인하세요. 브라우저로 구글 플레이 페이지를 열면 주소 끝의 'id=' 뒤에 이 패키지 이름이 붙어 있어서 대조하기 쉽습니다.</p>
+    <p class="ph">📷 〔사진 자리 3〕 에뮬레이터 안 구글 플레이 스토어의 아웃랜더스 설치 화면 (직접 캡처) — 네이버에서 직접 업로드</p>
+    <p class="phsub">└ 캡션 추천: "이 화면처럼 스토어에서 개발자 표기까지 확인하고 설치하시면 됩니다."</p>
+    <h3>4. 필요한 사양과 저장공간</h3>
+    <p>에뮬레이터 안내 기준 최소 사양은 Windows 7 이상, RAM 4GB 이상, 여유 저장공간 10GB이고, 게임 자체는 공식 기준 안드로이드 최소 19GB가 따로 필요합니다. 이 밖에 관리자 권한과 최신 그래픽 드라이버도 갖추라고 안내하는데요, CPU는 Intel이나 AMD(맥은 Apple Silicon)를 쓰는 환경이어야 한다고 해요.</p>
+    <table>
+      <tr><th>구분</th><th>OS</th><th>RAM</th><th>저장공간</th><th>기기</th></tr>
+      <tr><td class="l">에뮬레이터 최소(BlueStacks 안내)</td><td>Windows 7 이상</td><td>4GB 이상</td><td>여유 10GB</td><td class="l">해당 없음</td></tr>
+      <tr><td class="l">공식 안드로이드 최소</td><td>Android 9 이상</td><td>4GB</td><td>19GB</td><td class="l">갤럭시 S8 이상</td></tr>
+      <tr><td class="l">공식 안드로이드 권장</td><td>Android 12 이상</td><td>8GB</td><td>22GB</td><td class="l">갤럭시 S23 이상</td></tr>
+      <tr><td class="l">공식 iOS 최소</td><td>iOS 15 이상</td><td>3GB</td><td>18GB</td><td class="l">iPhone 8 Plus 이상</td></tr>
+      <tr><td class="l">공식 iOS 권장</td><td>iOS 17 이상</td><td>6GB</td><td>20GB</td><td class="l">iPhone 13 Pro 이상</td></tr>
+    </table>
+    <p>BlueStacks는 권장 사양을 따로 밝히지 않았어요. 10GB와 19GB를 단순히 더한 약 29GB는 주인장의 추정이니, 공간은 넉넉히 비워 두시길 권합니다. 모바일로 하실 분은 공식 FAQ 기준으로 10월 28일 낮 12시부터 사전 다운로드가 열려 있었는데요, 용량이 19GB 이상이라 와이파이 환경에서 받아 두는 편이 마음 편했을 거예요.</p>
+    <h3>5. 계정과 서버, 조작에서 챙길 것</h3>
+    <p>서버는 접속 지역에 따라 자동으로 정해지고 다른 서버로 계정을 옮길 수 없으니, 계정은 구글이나 가레나로 연동해 두세요.</p>
+    <p>서버는 대한민국/아시아·태평양/라틴아메리카/중동·아프리카 네 곳인데요, 다른 지역 서버와는 게임 정보가 공유되지 않고 지역 간 파티나 친구 추가도 안 됩니다.</p>
+    <p>계정은 안드로이드에서 구글ㆍ페이스북ㆍ가레나ㆍ게스트로 연동할 수 있고, iOS는 여기에 Apple이 더해져요. 게스트는 로그아웃ㆍ삭제ㆍ기기 변경 시 복구가 안 되니 피하시고, 다른 기기에서 로그인해 이어 하는 건 되지만 동시 접속은 안 됩니다.</p>
+    <p>조작은 BlueStacks가 키보드와 마우스가 터치보다 이동ㆍ카메라 조작을 부드럽게 해 줄 수 있다고만 안내하고, 구체적인 키 목록은 밝히지 않았어요.</p>
+    <p>지원 언어는 한국어를 포함해 9개이고, 게임 안 '설정' 메뉴의 '언어'에서 바꿀 수 있어요. 컨트롤러는 PocketGamer가 개발진이 완전 지원을 확인했다고 전했는데, 모바일 기기 기준 설명이라 에뮬레이터에서도 된다는 보장은 아닙니다.</p>
+    <p class="ph">✍️ 〔에뮬레이터의 한국 서버 접속ㆍ결제 가능 여부와 기본 키 매핑 — 직접 확인해 채우기〕</p>
+    <p class="ph">✍️ 〔주인장 한 줄 — 하나만 남기기〕 주인장은 이 게임을 〔폰으로만 / 에뮬레이터로만 / 둘 다〕 해 볼 생각입니다.</p>
+    <h3>6. 약관과 제재, 에뮬레이터 명시 여부</h3>
+    <p>가레나 이용 규약에 "에뮬레이터"라는 단어는 없지만, 제3자 도구ㆍ보안 탐지 우회ㆍ비공식 설치 파일은 제재 항목으로 적혀 있습니다.</p>
+    <ul>
+      <li>핵ㆍ스크립트ㆍ마우스 매크로 같은 제3자 도구나 자동화 프로그램으로 부당한 이득을 얻는 행위</li>
+      <li>비공식 경로의 설치 파일, 변조 버전 또는 크랙 버전 클라이언트로 로그인하는 행위</li>
+      <li>보안 탐지를 고의로 우회하거나 감시를 회피하는 행위</li>
+    </ul>
+    <p>이 목록이 전부는 아닙니다. 규약은 아래 항목에 한정되지 않는다고 밝히고, 일일이 열거하지 않았더라도 성격이 같거나 비슷한 행위는 운영팀이 이 안내에 준해 판단하고 조치할 수 있다고 적고 있어요. 목록에 에뮬레이터가 없다고 안전하다고 읽으시면 곤란합니다.</p>
+    <p>제재는 게임 이용 제한 1일에서 10년, 재화 회수까지 적혀 있고, 극히 악의적인 경우 법이 허용하는 범위에서 관련 기기도 차단할 수 있다고 해요. 보안 시스템은 실시간 탐지와 사후 검토를 함께 해서 소급 처리될 수도 있다고 합니다.</p>
+    <p>정리하면 에뮬레이터는 금지로 명시되진 않았지만 공식 지원 밖이고, 탐지나 제재 가능성은 공식이 밝히지 않았어요. PocketGamer는 에뮬레이터가 항상 매끄럽게 돌아가진 않을 수 있고 개발진이 계정을 제재할 수도 있다고 경고했는데, 이건 매체 의견이지 공식 입장은 아닙니다. 쓰신다면 키 매핑의 매크로ㆍ연타 자동화 기능은 켜지 마시고, 설치는 반드시 스토어로만 하세요.</p>
+    <p class="ph">✍️ 〔에뮬레이터 실제 제재 사례 — 며칠 뒤 공지ㆍ라운지에서 확인해 한 문장으로 채우기〕</p>
+    <p class="ph">📷 〔사진 자리 4〕 이용 규약의 제3자 도구ㆍ보안 탐지 우회 항목 (직접 캡처) — 네이버에서 직접 업로드</p>
+    <p class="phsub">└ 캡션 추천: "보시는 것처럼 규약 목록에서 위 세 항목을 직접 확인하실 수 있어요."</p>
+    <p><b>마무리</b><br>여기까지가 몬스터헌터 아웃랜더스 PC 실행 정리였습니다. 공식 PC 버전은 확인되지 않고, PC로 하려면 비공식 에뮬레이터뿐이며, 규약에 에뮬레이터 언급은 없지만 지원 밖이라 문제가 생겨도 도움받기 어렵다는 게 핵심이에요. 10월 29일 기준 정리였습니다.</p>
+    <p><b>참고한 곳</b><br>
+    · <a href="https://mho.garena.com/kr/news/PR33PD" target="_blank">몬스터헌터 아웃랜더스 공식 FAQ(가레나 한국)</a> (2026.10.29 기준)<br>
+    · <a href="https://mho.garena.com/kr/news/AJNGWP" target="_blank">몬스터헌터 아웃랜더스 이용 규약(가레나 한국)</a><br>
+    · <a href="https://www.bluestacks.com/blog/game-guides/monster-hunter-outlanders/how-to-play-mhol-on-pc-mac-en.html" target="_blank">에뮬레이터 안내 : BlueStacks 아웃랜더스 PC 가이드</a><br>
+    · <a href="https://www.pocketgamer.com/monster-hunter-outlanders/emulators-and-controller-support/" target="_blank">에뮬레이터 안내 : PocketGamer 에뮬레이터ㆍ컨트롤러 정리</a></p>
+    <p class="tags-line">#몬스터헌터아웃랜더스 #몬헌아웃랜더스 #몬스터헌터아웃랜더스PC #몬헌PC #에뮬레이터 #블루스택 #가레나</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
