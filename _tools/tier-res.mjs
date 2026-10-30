@@ -1,6 +1,6 @@
 // tier-res.mjs — 도구함 「티어표 제작」 캐릭터 리소스 묶음 생성 (2026-09-07)
 //   node _tools/tier-res.mjs --spec <spec.json> [--out _toolbox/tier/res] [--size 512] [--sheet]
-//   · spec = { id, game, aliases?, source:{name,url,rights}, updated, zoom?, focus?, pad?, items:[{id,name,rarity,element,role,url, referer?, zoom?, focus?:{x,y}, pad?}] }
+//   · spec = { id, game, aliases?, source:{name,url,rights}, updated, zoom?, focus?, pad?, pixel?, fit?, items:[{id,name,rarity,element,role,url, referer?, zoom?, focus?:{x,y}, pad?, pixel?, fit?}] }
 //     - aliases = 게임 다른 표기(«쿠키런 크럼블» 등) — manifest·index 에 실려 사이트 «티어표 추천» 칸이 묶음을 찾는다(2026-10-25).
 //     - referer = 그 원본 호스트가 요구하는 Referer. 비우면 호스트 표(REFERER)로 — ★i.namu.wiki 는 Referer 없이 받으면 그림 대신 SVG 자리표시를 준다(10-25 실측).
 //   · 원본(url)을 임시 폴더에 내려받고, 헤드리스 크롬(의존성 0)에서 알파 경계(그림이 있는 상자)를 잰 뒤
@@ -90,7 +90,7 @@ await send('Page.enable'); await send('Runtime.enable');
 const p0 = new Promise(r => loaded = r); await send('Page.navigate', { url: `http://127.0.0.1:${HP}/` }); await Promise.race([p0, sleep(8000)]); loaded = null;
 
 /* 브라우저 쪽 크롭 함수 — 알파 경계 → 정사각(zoom·focus) → size² webp */
-await ev(`window.__crop = async function(src, size, zoom, fx, fy, pad){
+await ev(`window.__crop = async function(src, size, zoom, fx, fy, pad, px, fit){
   const im = new Image(); im.decoding = 'async'; im.src = src; await im.decode();
   const w = im.naturalWidth, h = im.naturalHeight;
   const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(im, 0, 0);
@@ -107,8 +107,13 @@ await ev(`window.__crop = async function(src, size, zoom, fx, fy, pad){
   const sx = Math.round(clampN(l + bw * fx - side / 2, l, l + bw - side));
   const sy = Math.round(clampN(t + bh * fy - side / 2, t, t + bh - side));
   const padPx = Math.round(side * (pad == null ? .06 : pad));
+  /* fit = 아이콘(아이템)처럼 «전체가 보여야 하는» 그림 — 긴 변 기준 정사각에 가운데 놓는다(얼굴 크롭 안 함) */
+  if (fit) { const S = Math.max(bw, bh), q = document.createElement('canvas'); q.width = S; q.height = S; q.getContext('2d').drawImage(c, l, t, bw, bh, Math.floor((S - bw) / 2), Math.floor((S - bh) / 2), bw, bh);
+    const o2 = document.createElement('canvas'); o2.width = size; o2.height = size; const o2x = o2.getContext('2d'); o2x.imageSmoothingEnabled = !px; o2x.imageSmoothingQuality = 'high';
+    const p2 = Math.round(size * (pad == null ? .06 : pad)); o2x.drawImage(q, 0, 0, S, S, p2, p2, size - p2 * 2, size - p2 * 2);
+    return { url: o2.toDataURL('image/webp', .9), w, h, box: [l, t, bw, bh], side: S, sx: l, sy: t, debug: q.toDataURL('image/png') }; }
   const o = document.createElement('canvas'); o.width = size; o.height = size; const ox = o.getContext('2d');
-  ox.imageSmoothingEnabled = true; ox.imageSmoothingQuality = 'high';
+  ox.imageSmoothingEnabled = !px; ox.imageSmoothingQuality = 'high';   /* px = 도트 그림(스타듀 48px 아이콘 등) — 확대해도 흐려지지 않게 최근접 */
   const inner = size - padPx * 2;
   ox.drawImage(c, sx, sy, side, side, padPx, padPx, inner, inner);
   /* 디버그 — 원본 전체(200px 축소) 위에 상자(회색)·크롭 정사각(빨강)·중심 십자 */
@@ -132,7 +137,9 @@ for (const it of items) {
   const fx = it.focus && typeof it.focus.x === 'number' ? it.focus.x : (spec.focus && typeof spec.focus.x === 'number' ? spec.focus.x : undefined);
   const fy = it.focus && typeof it.focus.y === 'number' ? it.focus.y : (spec.focus && typeof spec.focus.y === 'number' ? spec.focus.y : undefined);
   const pad = typeof it.pad === 'number' ? it.pad : spec.pad;
-  const r = await ev(`window.__crop(${JSON.stringify(src)}, ${SIZE}, ${num(zoom)}, ${num(fx)}, ${num(fy)}, ${num(pad)})`);
+  const px = typeof it.pixel === 'boolean' ? it.pixel : !!spec.pixel;
+  const fit = typeof it.fit === 'boolean' ? it.fit : !!spec.fit;
+  const r = await ev(`window.__crop(${JSON.stringify(src)}, ${SIZE}, ${num(zoom)}, ${num(fx)}, ${num(fy)}, ${num(pad)}, ${px}, ${fit})`);
   const file = it.id + '.webp';
   writeFileSync(join(outDir, file), Buffer.from(r.url.split(',')[1], 'base64'));
   manifest.characters.push({ id: it.id, name: it.name, rarity: it.rarity || null, element: it.element || null, role: it.role || null, file, src: { w: r.w, h: r.h, box: r.box, side: r.side, sx: r.sx, sy: r.sy, zoom: zoom == null ? 1 : zoom } });
