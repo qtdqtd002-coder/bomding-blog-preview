@@ -1,0 +1,256 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>도깨비의세계 확률 보는법, 가호 소환·돌파 확률 공식 게시판 찾는 순서</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .post p.cap{font-size:13px;line-height:1.6;margin:0 0 18px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .post p.src{font-size:12px;line-height:1.6;margin:4px 0 24px;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 14px;font-size:13.5px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:7px 6px;text-align:left;vertical-align:middle;word-break:keep-all;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td.c,.tbl th.c{text-align:center;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .gap.mine{border-color:#7aa2e8;background:#eef4ff;color:#1a4fa0;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">도깨비의세계 확률 보는법, 가호 소환·돌파 확률 공식 게시판 찾는 순서</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.10.30</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: 도깨비의세계 확률 보는법 / 도깨비의세계 가호 소환 확률 어디서 보나 / 도깨비의세계 돌파 실패하면 단계 -->
+<p><b>도깨비의세계 확률은 공식 포럼의 '현재 확률 정보' 게시판에서 보고, 바뀌기 전 표는 '기존 확률 정보' 게시판에 따로 있어요.</b> 가호 소환 확률과 돌파 확률도 그 안에 항목별 글로 들어 있답니다.</p>
+<p>도깨비의세계 확률 보는법을 검색해 들어오신 분들은 숫자부터 찾고 싶으실 텐데요, 숫자는 점검 때마다 바뀔 수 있어서 이 글에는 싣지 않고, 어느 게시판의 어느 글을 어떤 순서로 열고 표에서 무엇을 확인하면 되는지만 정리했거든요. 10월 20일까지 확인한 공식 게시판 기준이고, 그 뒤에 바뀐 내용은 확인하지 못했어요.</p>
+<h2 class="sub">도깨비의세계 확률 보는법, 게시판은 어디고 어떤 순서로 찾나요?</h2>
+<p><b>'현재 확률 정보' 게시판에서 입구 글을 열고, 그 안의 12항목 표에서 가호 소환과 돌파를 골라 [확률 보기]를 누르는 순서예요.</b> 두 게시판의 차이부터 표로 볼게요.</p>
+<table class="tbl"><tr><th>게시판</th><th>담는 것</th><th>제목 표기</th><th>언제 보나</th></tr><tr><td><b>현재 확률 정보</b></td><td>지금 적용되는 표</td><td>(26.10.08~)처럼 시작일 뒤에 물결</td><td>내가 쓰는 확률이 궁금할 때</td></tr><tr><td><b>기존 확률 정보</b></td><td>바뀌기 전 표</td><td>(~26.10.10 점검 이전)처럼 물결이 앞</td><td>예전과 비교하고 싶을 때</td></tr></table>
+<!-- 이미지 이유: 독자가 게시판 이름과 목록 제목 표기를 눈으로 찾게 함 / 분류: B형 -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">공식 포럼 '현재 확률 정보' 게시판 목록 화면</span></div>
+<div class="shoot">📌 촬영 가이드: 공식 포럼에서 '현재 확률 정보' 게시판을 연 전체 화면. 목록에 '확률형 아이템 정보 공개', '가호 소환 확률', '돌파 확률' 제목이 보이게, '기존 확률 정보' 메뉴도 한 화면에 있으면 가장 좋아요.</div>
+<p>입구는 '확률형 아이템 정보 공개 (26.10.15 09:00 기준)'라는 글이에요. 주소는 여기예요.<br><a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9333" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9333</a><br>공식 문구가 '각 항목의 [확률 보기]를 선택하시면 상세한 확률 정보를 확인하실 수 있습니다'라서, 이 글이 12항목 목차 역할을 하고 행마다 오른쪽 [확률 보기]가 항목 글로 바로 이어져요.</p>
+<!-- 이미지 이유: 12항목 표와 [확률 보기] 버튼, 가호 소환 행을 짚어 줌 / 분류: B형 -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">'확률형 아이템 정보 공개' 목차 글, 가호 소환 행 강조</span></div>
+<div class="shoot">📌 촬영 가이드: 12항목 표와 행마다 오른쪽 [확률 보기] 버튼이 보이게 찍고, '가호 소환 확률 (가호 주머니)' 행을 박스로 강조해요. 확률 숫자가 없는 화면이라 그대로 써도 돼요.</div>
+<p>12항목은 이름만 줄줄이 나열돼 있어서, 성격별로 묶어 두면 찾기 쉬워요. 이 묶음은 보기 편하게 나눈 거라 공식 분류는 아니에요.</p>
+<ul><li><b>성장 관련</b> : 돌파 - 장비, 가호, 도술 / 장비 등급별 추가 효과 부여 수 / 기운 발현 / 단 봉인해제 / 내면의 길 옵션</li><li><b>뽑기·상자 관련</b> : 가호 소환 확률 (가호 주머니) / 랜덤 상자 확률 (선택 상자 제외 랜덤 상자) / 영석 상점 - 의복 랜덤 열쇠 / 영석 상점 - 염색약 랜덤 상자</li><li><b>외형 관련</b> : 랜덤 염색약 / 의복 합성 / 탈것 합성</li></ul>
+<p>목차 표에서 '가호 소환 확률 (가호 주머니)'는 9번째, '돌파 - 장비, 가호, 도술 확률'은 4번째 행이에요. 돌파는 장비·가호·도술이 한 글에 모여 있어서 '가호 돌파'만 찾으면 헷갈리니 목차 이름 그대로 찾으시면 돼요. 항목 글 직링크는 이렇게 두 개예요.<br>가호 소환 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9267" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9267</a><br>돌파 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9300" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9300</a></p>
+<h2 class="sub">가호 소환 확률표는 게임 안에서도 보이고, 거래 가능·거래 불가 두 열은 뭔가요?</h2>
+<p><b>가호 소환 화면 오른쪽 위에 '확률 정보' 버튼이 있고, 게시판 표의 거래 가능·거래 불가는 서로 다른 칸이라 둘을 다 합쳐야 합계가 맞아요.</b> 소환에는 가호 주머니가 필요한데, 공식 문구로는 도사 수행록 누적 점수 보상과 각종 콘텐츠로 얻을 수 있다고 해요.</p>
+<!-- 이미지 이유: 확률 정보 버튼 위치를 눈으로 찾게 함(화면에 확률 수치 없음) / 출처: 카카오게임즈 공식 포럼 가이드 7837 / 분류: A형 -->
+<div class="imgwrap"><img src="img/gaho-summon-screen-01.png" width="1000" height="562" alt="도깨비의세계 가호 소환 화면, 오른쪽 위 확률 정보 버튼과 아래 1회 10회 소환 버튼"></div>
+<p class="cap">가호 소환 화면 오른쪽 위의 '확률 정보' 버튼이에요. 테스트 환경에서 만든 가이드 화면이라 숫자는 보지 마세요.</p>
+<p class="src">이미지: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7837" target="_blank">카카오게임즈 공식 포럼 가호 가이드 7837</a></p>
+<p>게시판의 가호 소환 표는 등급, 조각 수, 거래 불가 확률, 거래 가능 확률 네 열로 되어 있어요. 공식 원문이 '전체 확률의 합계(100%)는 거래 가능 확률과 거래 불가 확률을 모두 합산한 값입니다'라고 적어 두었으니, 한 등급 줄의 두 칸만 더해서는 합계가 안 나와요. 같은 표를 숫자까지 정리한 건 제 '가호 세트 효과 정리' 글에 있어서 여기서는 다시 옮기지 않았어요.</p>
+<!-- 이미지 이유: 기준일 줄, 합계 문구, 표 머리가 한 화면에 보이게 함 / 분류: B형 -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">가호 소환 확률 글 상단과 표 머리</span></div>
+<div class="shoot">📌 촬영 가이드: '본 확률 정보는 2026년 10월 8일(목) 기준으로 적용됩니다' 줄, '전체 확률의 합계' 줄, 표 머리(등급 / 조각 수 / 거래 불가 확률 / 거래 가능 확률)가 한 화면에 들어오게 찍어요. 숫자 칸은 잘라도 좋아요. 촬영 시점의 기준일이 화면에 남으니 글의 확인일과 맞춰 주세요.</div>
+<div class="gap"><b>✍️ 인게임에서 직접 볼 값</b> — 거래 가능·거래 불가 두 열의 뜻 · 조각 수 열의 뜻 · 소환 화면 '확률 정보' 버튼을 눌렀을 때 열리는 화면 · 천장 여부 · 게임 안에서 포럼까지 가는 메뉴 경로<br>공식 설명을 찾지 못했어요. 인게임에서 확인해 보시면 좋아요.</div>
+<h2 class="sub">돌파 확률표는 어떻게 읽고, 실패하면 단계가 떨어지나요?</h2>
+<p><b>돌파에 실패해도 단계는 떨어지지 않고, 재료만 쓰이면서 지금 단계가 그대로 유지돼요.</b> 공식 문구도 '돌파 실패 시 단계가 하락하지 않으며, 시도에 소모된 재료만 차감되고 현재 단계는 안전하게 유지됩니다'라고 되어 있어요.</p>
+<ul><li>열 이름은 단계, 성공 확률, <b>실패(유지) 확률</b>이고, 그냥 '실패'가 아니라 '(유지)'가 붙어 있어요.</li><li>행 이름은 '0 → 1'처럼 지금 단계에서 다음 단계로 가는 모양이에요.</li><li>장비·가호·도술은 +50까지 강화를 끝내야 돌파할 수 있어요. 자세한 건 성장 가이드에 있어요 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7739" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7739</a></li></ul>
+<!-- 이미지 이유: 실패해도 단계 유지라는 설명을 게임 화면 문구로 뒷받침(화면 속 수치는 인용 안 함) / 출처: 카카오게임즈 공식 포럼 성장 가이드 7739 / 분류: A형 -->
+<div class="imgwrap"><img src="img/limit-break-screen-01.png" width="1000" height="562" alt="도깨비의세계 장비 돌파 화면, 아래쪽에 실패 시 단계가 유지된다는 문구"></div>
+<p class="cap">돌파 화면 아래쪽의 '실패 시, 단계가 유지됩니다' 문구만 봐 주세요. 테스트 환경 가이드 화면이라 숫자는 보지 마세요.</p>
+<p class="src">이미지: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7739" target="_blank">카카오게임즈 공식 포럼 성장 가이드 7739</a></p>
+<p>돌파 글은 장비 표, 가호 표, 도술 표 순서로 이어지고, 표 위의 제목 띠 그림에 '가호 - 돌파' 같은 이름과 등급이 적혀 있어요. 등급이 높을수록 표가 길어지는 구조입니다. 제 '무기 추천' 글에도 실패 시 단계 유지 이야기가 있는데, 표는 공식 게시판에서 직접 보시는 쪽이 가장 정확해요.</p>
+<h2 class="sub">표 위의 '○일 기준으로 적용됩니다'는 무슨 뜻이고, 예전 확률은 어디서 봐요?</h2>
+<p><b>그 날짜는 해당 표가 적용되기 시작한 때로 읽혀요.</b> 가호 소환과 돌파 글 첫 줄은 '본 확률 정보는 2026년 10월 8일(목) 기준으로 적용됩니다'인데요, 장비 추가 효과 글은 기존 쪽이 10월 14일(수) 10:30 기준, 새 글이 10월 15일(목) 09:00 기준이라서 그렇게 읽혀요. 아래 공지에 두 글이 같이 링크돼 있어요. 다만 공식이 직접 풀어 쓴 설명은 아니에요.</p>
+<p>제목의 괄호 표기도 같이 보시면 좋아요.</p>
+<table class="tbl"><tr><th>제목 표기</th><th>예</th><th>뜻</th></tr><tr><td><b>날짜만</b></td><td>(26.10.08~)</td><td>그날부터 적용</td></tr><tr><td><b>날짜 + 시각</b></td><td>(26.10.15 09:00~)</td><td>그날 그 시각부터 적용</td></tr><tr><td><b>기존 확률 정보 쪽</b></td><td>(~26.10.10 점검 이전)</td><td>그 점검 전까지 적용</td></tr></table>
+<p>정정이 들어간 글은 본문에 '내용 수정' 같은 표시가 남아요. 제목에 [내용수정] 말머리가 붙는 글도 있고, 본문에만 표시된 글도 있어요.</p>
+<p>예전 확률은 '기존 확률 정보' 게시판에 있고, 제가 확인한 10월 10일과 10월 15일에는 '점검 후 변경되는 확률 정보 안내' 공지가 올라왔어요. 공식 문구는 '변경된 확률 정보는 ‘현재 확률 정보’ 게시판에서 확인 가능하며, 변경 이전 확률 정보는 ‘기존 확률 정보’ 게시판에서 확인 가능한 점 참고 부탁드립니다'예요. 10월 15일 공지에는 변경 이유가 한 줄 적혀 있고 기존 글과 변경 글 직링크가 같이 붙어 있어요.<br>10월 15일 공지 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=20562" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=20562</a><br>기존 글 예시 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=past_prob&amp;id=20558" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=past_prob&amp;id=20558</a></p>
+<!-- 이미지 이유: 기존 확률 정보 게시판의 '점검 이전' 제목 표기를 보여 줌(선택) / 분류: B형 -->
+<div class="ss"><span class="ico">📷</span><span class="lbl">'기존 확률 정보' 게시판 목록 화면</span></div>
+<div class="shoot">📌 촬영 가이드: 제목의 '(~26.10.xx 점검 이전)' 표기가 보이게 목록을 찍어요. 선택 사항이에요.</div>
+<p>'기존 확률 정보'에는 가호 소환과 돌파 글이 없었어요. 그 뒤에 바뀐 게 있는지는 공지에서 직접 확인해 보세요. 10월 21일에 같은 이름으로 보이는 공지가 하나 더 올라왔는데, 내용은 확인하지 못했어요.<br>10월 21일 공지 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=539215" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=539215</a></p>
+<h2 class="sub">도깨비의세계 확률 자주 묻는 질문</h2>
+<p><b>Q. 표 합계가 딱 맞지 않는 경우도 있나요?</b><br>목차 글에 일부 비율은 소수점 반올림 기준이라 전체 합계가 딱 맞지 않을 수 있다고 적혀 있어요. 그래서 직접 합쳐 봤을 때 살짝 어긋나 보여도 이상한 게 아닐 수 있어요.</p>
+<p><b>Q. 가호 소환에 천장이 있나요?</b><br>소환 확률 글에는 천장 관련 문구가 적혀 있지 않았어요. 있다 없다를 단정할 근거가 없으니 인게임에서 확인해 보시는 게 좋아요.</p>
+<p><b>Q. 가이드 화면의 숫자를 믿어도 되나요?</b><br>가이드 화면은 테스트 환경에서 만들었다고 안내되어 있어요. 숫자는 게시판 표를 기준으로 보세요.</p>
+<p><b>Q. 왜 확률을 공개하나요?</b><br>목차 글에 '관련 법령에 따라 확률형 아이템 정보를 안내해 드립니다'라고 적혀 있어요.</p>
+<h2 class="sub">도깨비의세계 확률 보는법 정리</h2>
+<p>확률 게시판을 열기 전에 메모해 둘 만한 세 줄이에요.</p>
+<ul><li>표 첫 줄과 제목의 날짜가 내가 보려는 시점이 맞는지 먼저 봐요.</li><li>가호 소환이면 거래 가능·거래 불가 두 열, 돌파면 실패(유지) 열을 눈여겨봐요.</li><li>가호 소환 합계는 두 열을 모두 합친 값이 기준이에요.</li></ul>
+<p>저라면 점검이 있었다 싶은 날에는 숫자부터 보지 않고 '점검 후 변경되는 확률 정보 안내' 공지를 먼저 열 것 같아요. 어느 항목이 바뀌었는지부터 알면 표를 훨씬 덜 헤매거든요. 이 글은 10월 20일까지 확인한 공식 게시판 기준이니 지금 표는 게시판에서 직접 보시고 즐겁게 키워 보세요.</p>
+<p><b>✔ 도깨비의세계 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224453436282" target="_blank">도깨비의세계 강화서 획득방법, 비경·필드 보스·상인회 어디서 나오나</a><br>
+· <a href="https://blog.naver.com/bomding/224451723995" target="_blank">도깨비의세계 화첩 조각 얻는 법 4가지, 거래소는 안 돼요</a><br>
+· <a href="https://blog.naver.com/bomding/224450428460" target="_blank">도깨비의세계 순위 뒤집힌 도술 조합 추천, 사냥 인기 4유형·PvP 현황 10월 21일 개편 후 10월 22일 기준</a></p>
+<p><b>참고한 곳</b><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9333" target="_blank">확률형 아이템 정보 공개 (현재 확률 정보 9333)</a><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9267" target="_blank">가호 소환 확률 (현재 확률 정보 9267)</a><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9300" target="_blank">돌파 확률 - 장비, 가호, 도술 (현재 확률 정보 9300)</a></p>
+    <div class="tags">#도깨비의세계 #도깨비의세계확률 #도깨비의세계확률보는법 #도깨비의세계가호소환 #도깨비의세계돌파 #도깨비의세계가호 #확률형아이템 #도깨비의세계공략 #도깨비의세계초보 #모바일MMORPG</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 7가지(약 7분):</b> 📷 <b>사진 6곳</b> 업로드 · ✍️ 직접 조사·입력 1곳. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 도깨비의세계 확률 보는법, 가호 소환·돌파 확률 공식 게시판 찾는 순서</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p><b>도깨비의세계 확률은 공식 포럼의 '현재 확률 정보' 게시판에서 보고, 바뀌기 전 표는 '기존 확률 정보' 게시판에 따로 있어요.</b> 가호 소환 확률과 돌파 확률도 그 안에 항목별 글로 들어 있답니다.</p>
+<p>도깨비의세계 확률 보는법을 검색해 들어오신 분들은 숫자부터 찾고 싶으실 텐데요, 숫자는 점검 때마다 바뀔 수 있어서 이 글에는 싣지 않고, 어느 게시판의 어느 글을 어떤 순서로 열고 표에서 무엇을 확인하면 되는지만 정리했거든요. 10월 20일까지 확인한 공식 게시판 기준이고, 그 뒤에 바뀐 내용은 확인하지 못했어요.</p>
+<h3>도깨비의세계 확률 보는법, 게시판은 어디고 어떤 순서로 찾나요?</h3>
+<p><b>'현재 확률 정보' 게시판에서 입구 글을 열고, 그 안의 12항목 표에서 가호 소환과 돌파를 골라 [확률 보기]를 누르는 순서예요.</b> 두 게시판의 차이부터 표로 볼게요.</p>
+<table><tr><th>게시판</th><th>담는 것</th><th>제목 표기</th><th>언제 보나</th></tr><tr><td class="l"><b>현재 확률 정보</b></td><td>지금 적용되는 표</td><td>(26.10.08~)처럼 시작일 뒤에 물결</td><td>내가 쓰는 확률이 궁금할 때</td></tr><tr><td class="l"><b>기존 확률 정보</b></td><td>바뀌기 전 표</td><td>(~26.10.10 점검 이전)처럼 물결이 앞</td><td>예전과 비교하고 싶을 때</td></tr></table>
+<p class="ph">📷 〔사진 자리 1〕 공식 포럼 '현재 확률 정보' 게시판 목록 화면 — 직접 촬영해서 네이버에서 업로드</p>
+<p>입구는 '확률형 아이템 정보 공개 (26.10.15 09:00 기준)'라는 글이에요. 주소는 여기예요.<br><a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9333" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9333</a><br>공식 문구가 '각 항목의 [확률 보기]를 선택하시면 상세한 확률 정보를 확인하실 수 있습니다'라서, 이 글이 12항목 목차 역할을 하고 행마다 오른쪽 [확률 보기]가 항목 글로 바로 이어져요.</p>
+<p class="ph">📷 〔사진 자리 2〕 '확률형 아이템 정보 공개' 목차 글, 가호 소환 행 강조 — 직접 촬영해서 네이버에서 업로드</p>
+<p>12항목은 이름만 줄줄이 나열돼 있어서, 성격별로 묶어 두면 찾기 쉬워요. 이 묶음은 보기 편하게 나눈 거라 공식 분류는 아니에요.</p>
+<ul><li><b>성장 관련</b> : 돌파 - 장비, 가호, 도술 / 장비 등급별 추가 효과 부여 수 / 기운 발현 / 단 봉인해제 / 내면의 길 옵션</li><li><b>뽑기·상자 관련</b> : 가호 소환 확률 (가호 주머니) / 랜덤 상자 확률 (선택 상자 제외 랜덤 상자) / 영석 상점 - 의복 랜덤 열쇠 / 영석 상점 - 염색약 랜덤 상자</li><li><b>외형 관련</b> : 랜덤 염색약 / 의복 합성 / 탈것 합성</li></ul>
+<p>목차 표에서 '가호 소환 확률 (가호 주머니)'는 9번째, '돌파 - 장비, 가호, 도술 확률'은 4번째 행이에요. 돌파는 장비·가호·도술이 한 글에 모여 있어서 '가호 돌파'만 찾으면 헷갈리니 목차 이름 그대로 찾으시면 돼요. 항목 글 직링크는 이렇게 두 개예요.<br>가호 소환 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9267" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9267</a><br>돌파 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9300" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9300</a></p>
+<h3>가호 소환 확률표는 게임 안에서도 보이고, 거래 가능·거래 불가 두 열은 뭔가요?</h3>
+<p><b>가호 소환 화면 오른쪽 위에 '확률 정보' 버튼이 있고, 게시판 표의 거래 가능·거래 불가는 서로 다른 칸이라 둘을 다 합쳐야 합계가 맞아요.</b> 소환에는 가호 주머니가 필요한데, 공식 문구로는 도사 수행록 누적 점수 보상과 각종 콘텐츠로 얻을 수 있다고 해요.</p>
+<p class="ph">📷 〔사진 자리 3〕 가호 소환 화면 오른쪽 위의 '확률 정보' 버튼(공식 가호 가이드 7837) — 네이버에서 직접 업로드</p>
+<p>가호 소환 화면 오른쪽 위의 '확률 정보' 버튼이에요. 테스트 환경에서 만든 가이드 화면이라 숫자는 보지 마세요.</p>
+<p class="tnote-line">이미지: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7837" target="_blank">카카오게임즈 공식 포럼 가호 가이드 7837</a></p>
+<p>게시판의 가호 소환 표는 등급, 조각 수, 거래 불가 확률, 거래 가능 확률 네 열로 되어 있어요. 공식 원문이 '전체 확률의 합계(100%)는 거래 가능 확률과 거래 불가 확률을 모두 합산한 값입니다'라고 적어 두었으니, 한 등급 줄의 두 칸만 더해서는 합계가 안 나와요. 같은 표를 숫자까지 정리한 건 제 '가호 세트 효과 정리' 글에 있어서 여기서는 다시 옮기지 않았어요.</p>
+<p class="ph">📷 〔사진 자리 4〕 가호 소환 확률 글 상단과 표 머리(기준일 줄·합계 줄·표 머리가 한 화면) — 직접 촬영해서 네이버에서 업로드</p>
+<p>아래 내용은 공식 게시판에서 설명을 찾지 못한 부분이에요. 인게임에서 확인해 보시면 좋아요.</p>
+<ul><li>거래 가능·거래 불가 두 열의 뜻</li><li>조각 수 열의 뜻</li><li>소환 화면 '확률 정보' 버튼을 눌렀을 때 열리는 화면</li><li>천장 여부</li><li>게임 안에서 포럼까지 가는 메뉴 경로</li></ul>
+<h3>돌파 확률표는 어떻게 읽고, 실패하면 단계가 떨어지나요?</h3>
+<p><b>돌파에 실패해도 단계는 떨어지지 않고, 재료만 쓰이면서 지금 단계가 그대로 유지돼요.</b> 공식 문구도 '돌파 실패 시 단계가 하락하지 않으며, 시도에 소모된 재료만 차감되고 현재 단계는 안전하게 유지됩니다'라고 되어 있어요.</p>
+<ul><li>열 이름은 단계, 성공 확률, <b>실패(유지) 확률</b>이고, 그냥 '실패'가 아니라 '(유지)'가 붙어 있어요.</li><li>행 이름은 '0 → 1'처럼 지금 단계에서 다음 단계로 가는 모양이에요.</li><li>장비·가호·도술은 +50까지 강화를 끝내야 돌파할 수 있어요. 자세한 건 성장 가이드에 있어요 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7739" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7739</a></li></ul>
+<p class="ph">📷 〔사진 자리 5〕 장비 돌파 화면 아래쪽 '실패 시, 단계가 유지됩니다' 문구(공식 성장 가이드 7739) — 네이버에서 직접 업로드</p>
+<p>돌파 화면 아래쪽의 '실패 시, 단계가 유지됩니다' 문구만 봐 주세요. 테스트 환경 가이드 화면이라 숫자는 보지 마세요.</p>
+<p class="tnote-line">이미지: <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=guide&amp;id=7739" target="_blank">카카오게임즈 공식 포럼 성장 가이드 7739</a></p>
+<p>돌파 글은 장비 표, 가호 표, 도술 표 순서로 이어지고, 표 위의 제목 띠 그림에 '가호 - 돌파' 같은 이름과 등급이 적혀 있어요. 등급이 높을수록 표가 길어지는 구조입니다. 제 '무기 추천' 글에도 실패 시 단계 유지 이야기가 있는데, 표는 공식 게시판에서 직접 보시는 쪽이 가장 정확해요.</p>
+<h3>표 위의 '○일 기준으로 적용됩니다'는 무슨 뜻이고, 예전 확률은 어디서 봐요?</h3>
+<p><b>그 날짜는 해당 표가 적용되기 시작한 때로 읽혀요.</b> 가호 소환과 돌파 글 첫 줄은 '본 확률 정보는 2026년 10월 8일(목) 기준으로 적용됩니다'인데요, 장비 추가 효과 글은 기존 쪽이 10월 14일(수) 10:30 기준, 새 글이 10월 15일(목) 09:00 기준이라서 그렇게 읽혀요. 아래 공지에 두 글이 같이 링크돼 있어요. 다만 공식이 직접 풀어 쓴 설명은 아니에요.</p>
+<p>제목의 괄호 표기도 같이 보시면 좋아요.</p>
+<table><tr><th>제목 표기</th><th>예</th><th>뜻</th></tr><tr><td class="l"><b>날짜만</b></td><td>(26.10.08~)</td><td>그날부터 적용</td></tr><tr><td class="l"><b>날짜 + 시각</b></td><td>(26.10.15 09:00~)</td><td>그날 그 시각부터 적용</td></tr><tr><td class="l"><b>기존 확률 정보 쪽</b></td><td>(~26.10.10 점검 이전)</td><td>그 점검 전까지 적용</td></tr></table>
+<p>정정이 들어간 글은 본문에 '내용 수정' 같은 표시가 남아요. 제목에 [내용수정] 말머리가 붙는 글도 있고, 본문에만 표시된 글도 있어요.</p>
+<p>예전 확률은 '기존 확률 정보' 게시판에 있고, 제가 확인한 10월 10일과 10월 15일에는 '점검 후 변경되는 확률 정보 안내' 공지가 올라왔어요. 공식 문구는 '변경된 확률 정보는 ‘현재 확률 정보’ 게시판에서 확인 가능하며, 변경 이전 확률 정보는 ‘기존 확률 정보’ 게시판에서 확인 가능한 점 참고 부탁드립니다'예요. 10월 15일 공지에는 변경 이유가 한 줄 적혀 있고 기존 글과 변경 글 직링크가 같이 붙어 있어요.<br>10월 15일 공지 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=20562" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=20562</a><br>기존 글 예시 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=past_prob&amp;id=20558" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=past_prob&amp;id=20558</a></p>
+<p class="ph">📷 〔사진 자리 6〕 '기존 확률 정보' 게시판 목록 화면(선택, '점검 이전' 표기가 보이게) — 직접 촬영해서 네이버에서 업로드</p>
+<p>'기존 확률 정보'에는 가호 소환과 돌파 글이 없었어요. 그 뒤에 바뀐 게 있는지는 공지에서 직접 확인해 보세요. 10월 21일에 같은 이름으로 보이는 공지가 하나 더 올라왔는데, 내용은 확인하지 못했어요.<br>10월 21일 공지 : <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=539215" target="_blank">https://forum.kakaogames.com/dokkaebi/postView/?code=notice&amp;id=539215</a></p>
+<h3>도깨비의세계 확률 자주 묻는 질문</h3>
+<p><b>Q. 표 합계가 딱 맞지 않는 경우도 있나요?</b><br>목차 글에 일부 비율은 소수점 반올림 기준이라 전체 합계가 딱 맞지 않을 수 있다고 적혀 있어요. 그래서 직접 합쳐 봤을 때 살짝 어긋나 보여도 이상한 게 아닐 수 있어요.</p>
+<p><b>Q. 가호 소환에 천장이 있나요?</b><br>소환 확률 글에는 천장 관련 문구가 적혀 있지 않았어요. 있다 없다를 단정할 근거가 없으니 인게임에서 확인해 보시는 게 좋아요.</p>
+<p><b>Q. 가이드 화면의 숫자를 믿어도 되나요?</b><br>가이드 화면은 테스트 환경에서 만들었다고 안내되어 있어요. 숫자는 게시판 표를 기준으로 보세요.</p>
+<p><b>Q. 왜 확률을 공개하나요?</b><br>목차 글에 '관련 법령에 따라 확률형 아이템 정보를 안내해 드립니다'라고 적혀 있어요.</p>
+<h3>도깨비의세계 확률 보는법 정리</h3>
+<p>확률 게시판을 열기 전에 메모해 둘 만한 세 줄이에요.</p>
+<ul><li>표 첫 줄과 제목의 날짜가 내가 보려는 시점이 맞는지 먼저 봐요.</li><li>가호 소환이면 거래 가능·거래 불가 두 열, 돌파면 실패(유지) 열을 눈여겨봐요.</li><li>가호 소환 합계는 두 열을 모두 합친 값이 기준이에요.</li></ul>
+<p>저라면 점검이 있었다 싶은 날에는 숫자부터 보지 않고 '점검 후 변경되는 확률 정보 안내' 공지를 먼저 열 것 같아요. 어느 항목이 바뀌었는지부터 알면 표를 훨씬 덜 헤매거든요. 이 글은 10월 20일까지 확인한 공식 게시판 기준이니 지금 표는 게시판에서 직접 보시고 즐겁게 키워 보세요.</p>
+<p><b>✔ 도깨비의세계 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224453436282" target="_blank">도깨비의세계 강화서 획득방법, 비경·필드 보스·상인회 어디서 나오나</a><br>
+· <a href="https://blog.naver.com/bomding/224451723995" target="_blank">도깨비의세계 화첩 조각 얻는 법 4가지, 거래소는 안 돼요</a><br>
+· <a href="https://blog.naver.com/bomding/224450428460" target="_blank">도깨비의세계 순위 뒤집힌 도술 조합 추천, 사냥 인기 4유형·PvP 현황 10월 21일 개편 후 10월 22일 기준</a></p>
+<p><b>참고한 곳</b><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9333" target="_blank">확률형 아이템 정보 공개 (현재 확률 정보 9333)</a><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9267" target="_blank">가호 소환 확률 (현재 확률 정보 9267)</a><br>
+· <a href="https://forum.kakaogames.com/dokkaebi/postView/?code=prob&amp;id=9300" target="_blank">돌파 확률 - 장비, 가호, 도술 (현재 확률 정보 9300)</a></p>
+<p class="tags-line">#도깨비의세계 #도깨비의세계확률 #도깨비의세계확률보는법 #도깨비의세계가호소환 #도깨비의세계돌파 #도깨비의세계가호 #확률형아이템 #도깨비의세계공략 #도깨비의세계초보 #모바일MMORPG</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
