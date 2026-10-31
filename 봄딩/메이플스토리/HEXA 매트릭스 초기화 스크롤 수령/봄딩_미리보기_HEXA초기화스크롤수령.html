@@ -1,0 +1,337 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>메이플스토리 HEXA 매트릭스 초기화 스크롤 받는 법, 11월 18일까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 8px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;word-break:keep-all;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl td.c,.tbl th.c{text-align:center;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .gap .skel{margin-top:8px;width:100%;border-collapse:collapse;font-size:13px;}
+  .gap .skel th,.gap .skel td{border:1px dashed #e6c64d;padding:6px 8px;text-align:left;color:#9a7b15;}
+  .gap.mine{border-color:#7aa2e8;background:#eef4ff;color:#1a4fa0;}
+  .tl{border:2px solid #EC5C92;border-radius:14px;background:#fff;box-shadow:1px 3px 10px rgba(236,92,146,.12);padding:16px 12px 14px;margin:6px 0 8px;}
+  .tl .row{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;}
+  .tl .nd{flex:1 1 150px;min-width:0;text-align:center;border-radius:10px;background:#FFEFF5;padding:10px 6px 9px;word-break:keep-all;}
+  .tl .nd .k{display:block;font-size:11.5px;font-weight:800;color:#C93C7C;}
+  .tl .nd .t{display:block;font-size:15px;font-weight:800;color:#4a4047;margin:3px 0 2px;}
+  .tl .nd .s{display:block;font-size:12px;color:#8c7f86;}
+  .tl .nd.end{background:#EC5C92;}
+  .tl .nd.end .k,.tl .nd.end .t,.tl .nd.end .s{color:#fff;}
+  .tl .ar{align-self:center;color:#D63E7A;font-weight:800;}
+  .tl .gn{margin:10px 0 0;text-align:center;font-size:12.5px;font-weight:800;color:#D63E7A;border-top:1px dashed #f3c9da;padding-top:9px;word-break:keep-all;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">메이플스토리 HEXA 매트릭스 초기화 스크롤 받는 법, 11월 18일까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 10. 31.</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: HEXA 매트릭스 초기화 스크롤 누가 받나 / 메이플 운영자 NPC 어디서 받나 / 초기화 스크롤 수령 기한과 사용 기한 차이 -->
+    <!-- 갱신: 수령 마감 11/18 23:59 · 유효 기간 11/19 02:00 → _qa/refresh.json 대신 마감 후 종료 표기 필요 -->
+
+    <p>공지에 시각이 두 개 나란히 적혀 있어서 헷갈리기 쉬운 항목이 있어요. HEXA 매트릭스 초기화 스크롤이 그런데요, <b>스크롤을 받을 수 있는 마감은 2026년 11월 18일(수) 오후 11시 59분</b>이고 <b>스크롤의 유효 기간은 11월 19일(목) 오전 2시까지</b>라서 마감이 두 번 있는 셈이거든요. 10월 31일 기준으로 수령 마감까지는 18일 남았어요.</p>
+
+    <p>이 글은 누가 받을 수 있는지, 어디서 어떻게 받는지, 두 마감이 어떻게 다른지까지만 정리했어요. 스크롤이 정확히 무엇을 초기화하는지는 공지에 나와 있지 않아서 네 번째 절에 따로 적어 뒀어요.</p>
+
+    <h2 class="sub">HEXA 매트릭스 초기화 스크롤은 누가 받을 수 있어요?</h2>
+    <p>260레벨 이상이면서 6차 전직까지 마친 대상 직업 캐릭터가 받을 수 있고, 대상 직업은 아래 14개예요.</p>
+
+    <table class="tbl">
+      <tr><th class="c" colspan="4">대상 직업 14개 (공식 표기)</th></tr>
+      <tr><td class="c">다크나이트</td><td class="c">아크메이지(불,독)</td><td class="c">윈드브레이커</td><td class="c">나이트워커</td></tr>
+      <tr><td class="c">팬텀</td><td class="c">은월</td><td class="c">블래스터</td><td class="c">제논</td></tr>
+      <tr><td class="c">데몬 슬레이어</td><td class="c">카이저</td><td class="c">카인</td><td class="c">아크</td></tr>
+      <tr><td class="c">렌</td><td class="c">호영</td><td class="c">&nbsp;</td><td class="c">&nbsp;</td></tr>
+    </table>
+    <p class="src">출처: <a href="https://maplestory.nexon.com/news/update/815" target="_blank">메이플스토리 공식 업데이트 공지 (연무장·HEXA 매트릭스 초기화 스크롤 지원 항목)</a></p>
+
+    <p>레벨이 260을 넘어도 6차 전직이 끝나지 않았으면 대상이 아니고, 반대로 6차까지 마쳤어도 직업이 표에 없으면 해당이 안 돼요. 제일 헷갈리기 쉬운 게 아크메이지인데, 공식 표기로 대상은 '아크메이지(불,독)' 하나뿐이고 '아크메이지(썬,콜)'은 표에 없어요. 내 캐릭터 직업부터 표에서 찾아보시면 돼요.</p>
+
+    <p>이번 지원은 스킬이 수정되면서 캐릭터 설정 효율이 달라진 분들이 HEXA 코어 강화 설정을 부담 없이 다시 짤 수 있도록 마련된 거예요. 적용 시점은 10월 22일(목) 점검 후예요.</p>
+
+    <h2 class="sub">메이플 운영자 NPC는 어디서 만나서 뭘 눌러요?</h2>
+    <p>빠른 이동이나 헤네시스 같은 주요 마을에서 '메이플 운영자' NPC와 대화한 뒤 'HEXA 매트릭스 초기화 스크롤 지급'을 누르면 받아요.</p>
+
+    <ol>
+      <li>수령할 캐릭터로 접속해요.</li>
+      <li>빠른 이동으로 가거나, 헤네시스를 비롯한 주요 마을로 이동해요.</li>
+      <li>'메이플 운영자' NPC와 대화해요.</li>
+      <li>선택지에서 'HEXA 매트릭스 초기화 스크롤 지급'을 눌러요.</li>
+    </ol>
+
+    <!-- 이미지 이유: 수령 동선의 핵심(NPC 선택지) 화면은 직접 촬영해야 하는 내 화면 / 출처: 인게임 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">메이플 운영자 NPC 대화창에서 'HEXA 매트릭스 초기화 스크롤 지급' 선택지</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 헤네시스에서 '메이플 운영자'와 대화해 선택지 목록에 'HEXA 매트릭스 초기화 스크롤 지급' 줄이 한 장에 보이게 찍기</div>
+    <p class="cap">선택지 이름이 공지 문구와 똑같아요.</p>
+    <div class="gap mine"><b>✍️ 봄딩 한 줄</b> — 하나만 남기고 지우기 · 안 쓰면 이 줄 통째로 지우기<br>저는 〔빠른 이동 목록에서 / 헤네시스에 가서 / 가까운 주요 마을에서〕 메이플 운영자를 찾았어요.</div>
+
+    <p>공지에 마을 이름이 직접 나오는 곳은 헤네시스 하나뿐이라, 급하게 찾아가야 한다면 헤네시스부터 가 보시는 게 가장 확실해요.</p>
+
+    <div class="gap"><b>✍️ 직접 조사·입력 필요</b> — 메이플 운영자 NPC가 있는 주요 마을 목록 (공지에는 헤네시스만 명시)<br>
+    확인 위치: 인게임 빠른 이동 목록·월드맵 · 확인되면 아래에 채워주세요.
+      <table class="skel"><tr><th>마을</th><th>메이플 운영자 NPC</th></tr><tr><td>헤네시스</td><td>공지 명시</td></tr><tr><td>그 밖의 마을</td><td>—</td></tr></table>
+    </div>
+
+    <p>지급 조건은 세 가지로 정리돼요.</p>
+    <ul>
+      <li>지급 횟수는 캐릭터당 1회예요.</li>
+      <li>수량은 1개예요.</li>
+      <li>교환이 불가능한 아이템이에요.</li>
+    </ul>
+
+    <p>캐릭터당 1회라서 대상 직업 캐릭터가 여러 명이면 한 명씩 접속해서 따로 받아야 하고, 교환 불가라 거래로 넘겨받는 길도 막혀 있어요. 본캐 한 명만 받고 끝내 버리면 나머지 캐릭터 몫은 그대로 놓치는 거라, 대상 캐릭터를 먼저 쭉 꼽아 보고 움직이는 게 좋아요~</p>
+
+    <!-- 이미지 이유: 받은 뒤 인벤토리 아이템 툴팁(유효 기간 표기) 확인용, 직접 촬영 / 출처: 인게임 직접 캡처 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">인벤토리의 'HEXA 매트릭스 초기화 스크롤' 아이템과 툴팁</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 수령 직후 인벤토리에서 스크롤 위에 마우스를 올려 툴팁 전체(유효 기간 줄 포함)가 보이게 찍기</div>
+    <p class="cap">받고 나면 인벤토리에서 이렇게 보여요.</p>
+
+    <h2 class="sub">수령 마감이랑 사용 마감은 왜 시각이 달라요?</h2>
+    <p>스크롤을 받는 마감은 11월 18일(수) 오후 11시 59분이고, 받은 스크롤의 유효 기간은 11월 19일(목) 오전 2시까지예요.</p>
+
+    <div class="tl">
+      <div class="row">
+        <div class="nd"><span class="k">① 수령 시작</span><span class="t">10/22(목)</span><span class="s">점검 후부터</span></div>
+        <div class="ar">→</div>
+        <div class="nd"><span class="k">② 수령 마감</span><span class="t">11/18(수) 23:59</span><span class="s">NPC에서 받는 마지막 시각</span></div>
+        <div class="ar">→</div>
+        <div class="nd end"><span class="k">③ 유효 기간 끝</span><span class="t">11/19(목) 02:00</span><span class="s">스크롤을 쓸 수 있는 마지막 시각</span></div>
+      </div>
+      <div class="gn">② 와 ③ 사이는 2시간 남짓 · 이미 받은 스크롤만 쓸 수 있는 시간이에요</div>
+    </div>
+    <p class="cap">수령 기간과 유효 기간은 서로 다른 시계예요.</p>
+
+    <p>받는 일과 쓰는 일이 서로 다른 마감이라서, 수령 마감이 지나면 새로 받을 수는 없고 이미 받아 둔 스크롤만 유효 기간 안에 쓸 수 있어요. 마지막 날 저녁에 받을 생각이라면 쓰는 시간까지 같이 계산해 둬야 합니다.</p>
+
+    <p><b>대상 캐릭터 수에 따라 이렇게 나눠 받는 걸 추천드려요</b><br>
+    · 대상 캐릭터가 한두 명이면 접속했을 때 바로 받아 둬요. 수령은 캐릭터당 한 번뿐이라 미룰수록 놓칠 일만 늘어요.<br>
+    · 대상 캐릭터가 여러 명이면 11월 18일 전에 하루에 몇 명씩 나눠서 받아요. 마감 직전(밤 11시대)에 받으면 쓸 수 있는 시간이 두 시간 남짓이라, 캐릭터마다 설정을 다시 짤 시간이 빠듯해요.</p>
+
+    <h2 class="sub">스크롤 효과는 공지에 어디까지 나와 있어요?</h2>
+    <p>스크롤의 구체적인 효과는 공지의 해당 항목에 적혀 있지 않아요.</p>
+
+    <p>공지에 나온 건 초기화 스크롤을 지급한다는 사실과 취지, 대상, 참여 기간, 수령 방법, 지급 조건(캐릭터당 1회·수량 1·교환 불가), 유효 기간까지예요. 어떤 HEXA 코어를 초기화하는지, 쓰고 나서 재설정 규칙이나 환급이 어떻게 되는지는 공지에 없어서 이 글에서는 다루지 않아요. 그래서 지금 정할 수 있는 건 수령을 놓치지 않는 것까지예요.</p>
+
+    <div class="gap"><b>✍️ 직접 조사·입력 필요</b> — 스크롤의 구체적 효과 (공지의 해당 항목에는 없음)<br>
+    확인 위치: 지급받은 스크롤의 인게임 아이템 툴팁 · 확인되면 아래에 채워주세요.
+      <table class="skel"><tr><th>항목</th><th>값(확인 후 입력)</th></tr><tr><td>초기화되는 HEXA 코어 범위</td><td>—</td></tr><tr><td>조각·솔 에르다 환급 여부</td><td>—</td></tr><tr><td>사용 후 재설정 규칙·횟수</td><td>—</td></tr></table>
+    </div>
+
+    <p>참고로 같은 공지의 연무장 항목에도 이 14개 직업이 나와요. 공식 공지 연무장 항목에는 이 직업들의 연무장이 11월 5일(목) 0시~11월 18일(수) 23:59 운영으로 안내돼 있어서, 끝나는 날이 스크롤 수령 마감과 같아요.</p>
+
+    <h2 class="sub">HEXA 매트릭스 초기화 스크롤 정리</h2>
+    <p>저라면 오늘 대상 캐릭터 이름부터 적어 두고, 접속하는 김에 하나씩 받아 둘 것 같아요. 마감 직전에 몰아 받으면 쓸 시간이 너무 짧거든요. 14개 직업에 들어가는 캐릭터가 있으시다면 즐겁게 설정 다시 짜 보시길 바랍니다~</p>
+
+    <p><b>✔ 메이플스토리 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224452949280" target="_blank">메이플스토리 월드 리프 준비 순서, 11월 5일 10시 전에 해둘 것</a><br>
+    · <a href="https://blog.naver.com/bomding/224441949772" target="_blank">메이플스토리 강화코어 V매트릭스 활성화 강화 순서, V POINT 얻는 법부터 초기화까지</a><br>
+    · <a href="https://blog.naver.com/bomding/224424202592" target="_blank">메이플스토리 퍼스널 버닝 켜는 법, 레벨대별 사냥터 4단계 총정리</a></p>
+
+    <p><b>참고한 곳</b> (2026.10.31 기준)<br>
+    · <a href="https://maplestory.nexon.com/news/update/815" target="_blank">메이플스토리 공식 업데이트 공지 - 연무장·HEXA 매트릭스 초기화 스크롤 지원</a></p>
+
+    <div class="tags">#메이플스토리 #HEXA매트릭스 #HEXA매트릭스초기화스크롤 #메이플초기화스크롤 #메이플스토리업데이트 #6차전직 #메이플운영자 #메이플11월18일</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 5가지(약 5분):</b> 📷 <b>사진 2곳</b> 업로드 · ✍️ <b>한 줄 1곳</b>(골라서 하나만 남기기 · 안 쓰면 그 줄 지우기) · ✍️ 직접 조사·입력 2곳. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 메이플스토리 HEXA 매트릭스 초기화 스크롤 받는 법, 11월 18일까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+  <p>공지에 시각이 두 개 나란히 적혀 있어서 헷갈리기 쉬운 항목이 있어요. HEXA 매트릭스 초기화 스크롤이 그런데요, <b>스크롤을 받을 수 있는 마감은 2026년 11월 18일(수) 오후 11시 59분</b>이고 <b>스크롤의 유효 기간은 11월 19일(목) 오전 2시까지</b>라서 마감이 두 번 있는 셈이거든요. 10월 31일 기준으로 수령 마감까지는 18일 남았어요.</p>
+
+  <p>이 글은 누가 받을 수 있는지, 어디서 어떻게 받는지, 두 마감이 어떻게 다른지까지만 정리했어요. 스크롤이 정확히 무엇을 초기화하는지는 공지에 나와 있지 않아서 네 번째 절에 따로 적어 뒀어요.</p>
+
+  <h3>HEXA 매트릭스 초기화 스크롤은 누가 받을 수 있어요?</h3>
+  <p>260레벨 이상이면서 6차 전직까지 마친 대상 직업 캐릭터가 받을 수 있고, 대상 직업은 아래 14개예요.</p>
+
+  <table>
+    <tr><th colspan="4">대상 직업 14개 (공식 표기)</th></tr>
+    <tr><td>다크나이트</td><td>아크메이지(불,독)</td><td>윈드브레이커</td><td>나이트워커</td></tr>
+    <tr><td>팬텀</td><td>은월</td><td>블래스터</td><td>제논</td></tr>
+    <tr><td>데몬 슬레이어</td><td>카이저</td><td>카인</td><td>아크</td></tr>
+    <tr><td>렌</td><td>호영</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+  </table>
+
+  <p>레벨이 260을 넘어도 6차 전직이 끝나지 않았으면 대상이 아니고, 반대로 6차까지 마쳤어도 직업이 표에 없으면 해당이 안 돼요. 제일 헷갈리기 쉬운 게 아크메이지인데, 공식 표기로 대상은 '아크메이지(불,독)' 하나뿐이고 '아크메이지(썬,콜)'은 표에 없어요. 내 캐릭터 직업부터 표에서 찾아보시면 돼요.</p>
+
+  <p>이번 지원은 스킬이 수정되면서 캐릭터 설정 효율이 달라진 분들이 HEXA 코어 강화 설정을 부담 없이 다시 짤 수 있도록 마련된 거예요. 적용 시점은 10월 22일(목) 점검 후예요.</p>
+
+  <h3>메이플 운영자 NPC는 어디서 만나서 뭘 눌러요?</h3>
+  <p>빠른 이동이나 헤네시스 같은 주요 마을에서 '메이플 운영자' NPC와 대화한 뒤 'HEXA 매트릭스 초기화 스크롤 지급'을 누르면 받아요.</p>
+
+  <ol>
+    <li>수령할 캐릭터로 접속해요.</li>
+    <li>빠른 이동으로 가거나, 헤네시스를 비롯한 주요 마을로 이동해요.</li>
+    <li>'메이플 운영자' NPC와 대화해요.</li>
+    <li>선택지에서 'HEXA 매트릭스 초기화 스크롤 지급'을 눌러요.</li>
+  </ol>
+
+  <p class="ph">📷 〔사진 자리 1〕 메이플 운영자 NPC 대화창에서 'HEXA 매트릭스 초기화 스크롤 지급' 선택지 — 네이버에서 직접 업로드<br>└ 캡션 추천: "선택지 이름이 공지 문구와 똑같아요."</p>
+
+  <p class="ph">✍️ 〔봄딩 한 줄 — 하나만 남기기〕 저는 〔빠른 이동 목록에서 / 헤네시스에 가서 / 가까운 주요 마을에서〕 메이플 운영자를 찾았어요.</p>
+
+  <p>공지에 마을 이름이 직접 나오는 곳은 헤네시스 하나뿐이라, 급하게 찾아가야 한다면 헤네시스부터 가 보시는 게 가장 확실해요.</p>
+
+  <p>지급 조건은 세 가지로 정리돼요.</p>
+  <ul>
+    <li>지급 횟수는 캐릭터당 1회예요.</li>
+    <li>수량은 1개예요.</li>
+    <li>교환이 불가능한 아이템이에요.</li>
+  </ul>
+
+  <p>캐릭터당 1회라서 대상 직업 캐릭터가 여러 명이면 한 명씩 접속해서 따로 받아야 하고, 교환 불가라 거래로 넘겨받는 길도 막혀 있어요. 본캐 한 명만 받고 끝내 버리면 나머지 캐릭터 몫은 그대로 놓치는 거라, 대상 캐릭터를 먼저 쭉 꼽아 보고 움직이는 게 좋아요~</p>
+
+  <p class="ph">📷 〔사진 자리 2〕 인벤토리의 'HEXA 매트릭스 초기화 스크롤' 아이템과 툴팁(유효 기간 줄 포함) — 네이버에서 직접 업로드<br>└ 캡션 추천: "받고 나면 인벤토리에서 이렇게 보여요."</p>
+
+  <h3>수령 마감이랑 사용 마감은 왜 시각이 달라요?</h3>
+  <p>스크롤을 받는 마감은 11월 18일(수) 오후 11시 59분이고, 받은 스크롤의 유효 기간은 11월 19일(목) 오전 2시까지예요.</p>
+
+  <ul>
+    <li><b>① 수령 시작</b> — 10월 22일(목) 점검 후부터</li>
+    <li><b>② 수령 마감</b> — 11월 18일(수) 오후 11시 59분, NPC에서 받는 마지막 시각</li>
+    <li><b>③ 유효 기간 끝</b> — 11월 19일(목) 오전 2시, 스크롤을 쓸 수 있는 마지막 시각</li>
+  </ul>
+  <p>② 와 ③ 사이는 2시간 남짓이고, 이미 받은 스크롤만 쓸 수 있는 시간이에요.</p>
+
+  <p>받는 일과 쓰는 일이 서로 다른 마감이라서, 수령 마감이 지나면 새로 받을 수는 없고 이미 받아 둔 스크롤만 유효 기간 안에 쓸 수 있어요. 마지막 날 저녁에 받을 생각이라면 쓰는 시간까지 같이 계산해 둬야 합니다.</p>
+
+  <p><b>대상 캐릭터 수에 따라 이렇게 나눠 받는 걸 추천드려요</b><br>
+  · 대상 캐릭터가 한두 명이면 접속했을 때 바로 받아 둬요. 수령은 캐릭터당 한 번뿐이라 미룰수록 놓칠 일만 늘어요.<br>
+  · 대상 캐릭터가 여러 명이면 11월 18일 전에 하루에 몇 명씩 나눠서 받아요. 마감 직전(밤 11시대)에 받으면 쓸 수 있는 시간이 두 시간 남짓이라, 캐릭터마다 설정을 다시 짤 시간이 빠듯해요.</p>
+
+  <h3>스크롤 효과는 공지에 어디까지 나와 있어요?</h3>
+  <p>스크롤의 구체적인 효과는 공지의 해당 항목에 적혀 있지 않아요.</p>
+
+  <p>공지에 나온 건 초기화 스크롤을 지급한다는 사실과 취지, 대상, 참여 기간, 수령 방법, 지급 조건(캐릭터당 1회·수량 1·교환 불가), 유효 기간까지예요. 어떤 HEXA 코어를 초기화하는지, 쓰고 나서 재설정 규칙이나 환급이 어떻게 되는지는 공지에 없어서 이 글에서는 다루지 않아요. 그래서 지금 정할 수 있는 건 수령을 놓치지 않는 것까지예요.</p>
+
+  <p>참고로 같은 공지의 연무장 항목에도 이 14개 직업이 나와요. 공식 공지 연무장 항목에는 이 직업들의 연무장이 11월 5일(목) 0시~11월 18일(수) 23:59 운영으로 안내돼 있어서, 끝나는 날이 스크롤 수령 마감과 같아요.</p>
+
+  <h3>HEXA 매트릭스 초기화 스크롤 정리</h3>
+  <p>저라면 오늘 대상 캐릭터 이름부터 적어 두고, 접속하는 김에 하나씩 받아 둘 것 같아요. 마감 직전에 몰아 받으면 쓸 시간이 너무 짧거든요. 14개 직업에 들어가는 캐릭터가 있으시다면 즐겁게 설정 다시 짜 보시길 바랍니다~</p>
+
+  <p><b>✔ 메이플스토리 같이 보기 좋은 내용</b><br>
+  · <a href="https://blog.naver.com/bomding/224452949280" target="_blank">메이플스토리 월드 리프 준비 순서, 11월 5일 10시 전에 해둘 것</a><br>
+  · <a href="https://blog.naver.com/bomding/224441949772" target="_blank">메이플스토리 강화코어 V매트릭스 활성화 강화 순서, V POINT 얻는 법부터 초기화까지</a><br>
+  · <a href="https://blog.naver.com/bomding/224424202592" target="_blank">메이플스토리 퍼스널 버닝 켜는 법, 레벨대별 사냥터 4단계 총정리</a></p>
+
+  <p><b>참고한 곳</b> (2026.10.31 기준)<br>
+  · <a href="https://maplestory.nexon.com/news/update/815" target="_blank">메이플스토리 공식 업데이트 공지 - 연무장·HEXA 매트릭스 초기화 스크롤 지원</a></p>
+
+  <p class="tags-line">#메이플스토리 #HEXA매트릭스 #HEXA매트릭스초기화스크롤 #메이플초기화스크롤 #메이플스토리업데이트 #6차전직 #메이플운영자 #메이플11월18일</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
