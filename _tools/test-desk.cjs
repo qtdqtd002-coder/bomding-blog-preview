@@ -258,5 +258,71 @@ console.log('\n[8] 거둬내기·신호 계약 (시행 ' + RULE_FROM + '~)');
   if (!checked) console.log('  SKIP — 시행일 이후 에디션이 아직 없음(규칙은 ' + RULE_FROM + ' 판부터)');
 }
 
+/* [9] 지정 게임 0건 사유 — 2026-11-01 사용자 승인(«0건 사유를 코드 게이트로 강제») · 시행 2026-11-02 판부터.
+   10-29~11-01 지정 칸이 «질의 몫 없음»만으로 웹 조사 없이 0건이 났는데 아무 게이트에도 안 걸렸다(L132·L133).
+   스킬은 «<게임>=N건(사유)를 반드시 남긴다»고 했지만 산문 규칙이라 집행되지 않았다 — 0건 자체가 아니라 «이유 없는 0건»을 막는다.
+   ⑴판에 `pins`(그 회차가 GET /pins 로 읽은 지정 목록 원문) 필수 ⑵지정 게임마다 pinned 항목이 0건이면 note 한 줄에
+   «<게임>=0건(사유)» — 게임명(또는 앞 3글자) 뒤 괄호 사유 · 그 줄에 «0건» ⑶사유가 «질의 없음»뿐이면 위반(1차 자료를 열어 본 사유를 적는다).
+   도구를 불러오지 않고 여기서 따로 판정한다(이 파일의 원칙). */
+const PIN_REASON_FROM = '2026-11-02';
+const pk = (s) => String(s || '').toLowerCase().replace(/[\s·:：\-—–_'"’”“!?.,「」『』<>]/g, '');
+const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const QUERY_ONLY_RE = /^(사유[:：]?)?\s*(검색\s*)?(질의|질의\s*빈칸|질의\s*몫)/;
+const PRIMARY_RE = /공식|공지|자료|출처|url|홈|스팀|카페|포럼|라운지|매체|패치|출시|차단|기발행|기존\s*글|재탕/i;
+function pinReasonViolations(e) {
+  const v = [];
+  if (!Array.isArray(e.pins)) return ['pins 없음(GET /pins 로 읽은 지정 목록을 판에 남길 것)'];
+  const items = ((((e.sections || []).find((s) => s && s.key === 'pinned') || {}).items) || []).filter(Boolean);
+  const notes = (Array.isArray(e.note) ? e.note : [String(e.note || '')]).map(String);
+  for (const p of e.pins) {
+    const key = pk(p);
+    if (!key) continue;
+    const n = items.filter((it) => { const g = pk(it.game); return g && (g.includes(key) || key.includes(g)); }).length;
+    if (n > 0) continue;
+    const aliases = [...new Set([key, key.slice(0, 3)])].filter((a) => a.length >= 2);
+    let reason = null;
+    for (const line of notes) {
+      if (!/0\s*건/.test(line)) continue;
+      const L = line.toLowerCase().replace(/\s/g, '');
+      for (const a of aliases) {
+        const m = L.match(new RegExp(escRe(a) + '[^·,/]{0,12}?(=?0건)?[(（]([^)）]*)'));
+        if (m) { reason = m[2]; break; }
+      }
+      if (reason !== null) break;
+    }
+    if (reason === null) { v.push('사유 없음:' + p); continue; }
+    if (!reason.trim()) v.push('빈 사유:' + p);
+    else if (QUERY_ONLY_RE.test(reason) && !PRIMARY_RE.test(reason)) v.push('질의뿐인 사유:' + p + ' «' + reason.slice(0, 20) + '»');
+  }
+  return v;
+}
+console.log('\n[9] 지정 게임 0건 사유 (시행 ' + PIN_REASON_FROM + '~)');
+{
+  const P = (game) => ({ id: Math.random().toString(36).slice(2), game, title: 't', angleType: 'howto', sources: [{ url: 'https://e.com' }] });
+  const good = { date: '2026-11-02', pins: ['도깨비의 세계', '아주르 프로밀리아', 'GTA6', '몬스터헌터아웃랜더스', '마인크래프트 던전스2'],
+    note: ['지정 게임 3건 — 몬스터헌터 아웃랜더스 2·GTA 6 1', '★지정 0건: 도깨비 0건(공식 포럼 접속 차단) · 아주르 프로밀리아=0건(출시 전 공식 자료 없음)', '마인크래프트 던전스2=0건(사유: 질의는 있으나 공식·매체 근거 1곳뿐)'],
+    sections: [{ key: 'pinned', items: [P('몬스터헌터 아웃랜더스'), P('몬스터헌터 아웃랜더스'), P('GTA 6')] }] };
+  const vg = pinReasonViolations(good);
+  ok(vg.length === 0, '게이트 자기시험 — 사유를 단 0건(표기 변형·앞 3글자·=0건)은 위반 0' + (vg.length ? ' (나온 것: ' + vg.join(' · ') + ')' : ''));
+  ok(pinReasonViolations({ date: '2026-11-02', pins: [], note: [], sections: [] }).length === 0, '게이트 자기시험 — 지정 0종(pins 빈 배열)은 위반 0');
+  const bad = { date: '2026-11-02', pins: ['도깨비의 세계', '아주르 프로밀리아', 'GTA6', '몬스터헌터아웃랜더스'],
+    note: ['★지정 게임 0건 — 도깨비·아주르 프로밀리아·GTA6 공식 자료 없음', '몬스터헌터 아웃랜더스=0건(질의 빈칸에 몫 없음)'], sections: [{ key: 'pinned', items: [] }] };
+  const vb = pinReasonViolations(bad);
+  const want = ['사유 없음:도깨비의 세계', '사유 없음:아주르 프로밀리아', '사유 없음:GTA6', '질의뿐인 사유:몬스터헌터아웃랜더스'];
+  const miss = want.filter((w) => !vb.some((x) => x.startsWith(w)));
+  ok(miss.length === 0 && vb.length === want.length, '게이트 자기시험 — 묶음 사유·질의뿐인 사유 ' + want.length + '종을 잡는다' + (miss.length || vb.length !== want.length ? ' (나온 것: ' + vb.join(' · ') + ')' : ''));
+  ok(pinReasonViolations({ date: '2026-11-02', note: [], sections: [] })[0].startsWith('pins 없음'), '게이트 자기시험 — pins 필드가 없으면 위반');
+}
+{
+  let checked = 0;
+  for (const e of (raw.editions || [])) {
+    if (!e || !e.date || e.date < PIN_REASON_FROM) continue;
+    checked++;
+    const v = pinReasonViolations(e);
+    ok(v.length === 0, e.date + ' 지정 게임 0건 사유' + (v.length ? ' — 위반: ' + v.join(' · ') : ''));
+  }
+  if (!checked) console.log('  SKIP — 시행일 이후 에디션이 아직 없음(규칙은 ' + PIN_REASON_FROM + ' 판부터)');
+}
+
 console.log(fail ? '\n>>> ' + fail + ' FAILED\n' : '\n>>> ALL PASS\n');
 process.exit(fail ? 1 : 0);
