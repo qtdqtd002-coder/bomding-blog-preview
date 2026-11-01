@@ -89,6 +89,44 @@ const citeDoc = (withVisitors) => {
     w('영도', 'kkodug9', { totalVisitors: 17878443, posts: 6885 }, ry)], bench: [] };
 };
 let CITE_VIS = true;
+/* ── 합성 «봄딩 지표» 판(11-01 운영 전략 §7) ── 운영 _kpi.json 은 날마다 달라 검사 기준이 못 된다. 'ok' = 합성 판 · '404' = 파일 없음(집계 전 표기를 본다) */
+const KPI_BOM = { win14: { posts: 50, sy: 470, syPer: 9.4 },
+  win30: { posts: 100, cats: [['신작·업데이트', 54], ['포켓몬고', 20], ['애니모', 11]], topCat: '신작·업데이트', topN: 54, topPct: 54 },
+  refresh: { due: 14, late: 5, maxLate: 10 } };
+const KPI_YD = { win14: { posts: 30, sy: 112, syPer: 3.7 },   /* 영도 = 봄딩과 다른 숫자(칸이 작성자 이름으로 갈리는지 본다) · 값 짧은 카테고리(1줄) ↔ 봄딩 긴 카테고리(2줄)라도 두 차트가 같은 높이에 서야 한다 */
+  win30: { posts: 60, cats: [['게임소식', 25], ['기타', 12]], topCat: '게임소식', topN: 25, topPct: 41 },
+  refresh: { due: 5, late: 0, maxLate: null } };
+const KPI_DOC = { updated: '2026-11-01 06:30', rule: '합성 판', asOf: dayAgo(1), writers: { '봄딩': KPI_BOM, '영도': KPI_YD }, bomding: KPI_BOM };
+let KPI_MODE = 'ok';
+/* ── 합성 «네이버 카테고리 안내» 판(11-01 §9) ── 운영 _game-cats.json 은 날마다 달라 검사 기준이 못 된다.
+   글 목록 행은 실제 posts.json 의 봄딩 글로 그려지므로(ncHtml 은 사이트 클로저 안이라 직접 못 부른다) «그 글들의 rel·폴더»에 맞춰 합성 판을 만든다.
+   글 단위(byPost · j%4): 0 신설 · 1 기존 · 2 범용 · 3 없음(→ 폴더 단위로) / 폴더 단위(k%3): 0 groups 신설 · 1 옛 games 뿐 · 2 groups generic(cat 없음 = 칩 없음).
+   'new' = groups·byPost 가 든 새 형식(+옛 games) · 'legacy' = 옛 games 뿐(ⓓ 폴백). 기대값은 아래 ncExpect 가 «규칙을 따로» 계산한다 */
+const BOM_POSTS = JSON.parse(readFileSync(join(ROOT, 'posts.json'), 'utf8')).filter((p) => p.author === '봄딩');
+const BOM_GROUPS = [...new Set(BOM_POSTS.map((p) => p.group))];
+const GC_NEW = { updated: '2026-11-01 06:30', games: {}, groups: {}, byPost: {} };
+BOM_GROUPS.forEach((g, k) => {
+  if (k % 3 === 0) GC_NEW.groups[g] = { cat: '신설G' + k, status: 'new', n90: k + 1, why: '합성' };
+  else if (k % 3 === 1) GC_NEW.games[g] = { cat: '게임G' + k, n: 3, total: 4, alt: [] };
+  else GC_NEW.groups[g] = { cat: null, status: 'generic', n90: 1, why: '합성' };
+});
+BOM_POSTS.forEach((p, j) => {
+  const k = BOM_GROUPS.indexOf(p.group);
+  if (j % 4 === 0) GC_NEW.byPost[p.rel] = { cat: '글신설' + j, status: 'new', angle: '공략·방법형' };
+  else if (j % 4 === 1) GC_NEW.byPost[p.rel] = { cat: '글기존' + j, status: 'exists', angle: '기타' };
+  else if (j % 4 === 2) GC_NEW.byPost[p.rel] = { cat: '플레이·공략', status: 'generic', angle: '쿠폰형' };
+});
+/* 옛 형식 — 모든 폴더가 games 로만 있다 */
+const GC_LEGACY = { updated: '2026-11-01 06:30', games: Object.fromEntries(BOM_GROUPS.map((g, k) => [g, { cat: '게임G' + k, n: 3, total: 4, alt: [] }])) };
+/* 기대 칩 {t: 글자, c: class} 또는 null — 규칙: byPost → groups(cat 있을 때) → 옛 games → 없음 */
+const ncExpect = (p, doc) => {
+  const bp = doc.byPost && doc.byPost[p.rel], k = BOM_GROUPS.indexOf(p.group), gr = doc.groups && doc.groups[p.group];
+  if (bp) return bp.status === 'new' ? { t: '신설 ' + bp.cat, c: 'row-nc nc-new' } : bp.status === 'exists' ? { t: '네이버 ' + bp.cat, c: 'row-nc' } : { t: '네이버 ' + bp.cat + '(범용)', c: 'row-nc nc-generic' };
+  if (gr && gr.cat) return { t: '신설 ' + gr.cat, c: 'row-nc nc-new' };
+  const g = doc.games && doc.games[p.group];
+  return g && g.cat ? { t: '네이버 ' + g.cat, c: 'row-nc' } : null;
+};
+let GC_MODE = 'new';
 /* 기대값 — 사이트와 따로 센다(만 단위는 소수 첫째자리 «버림»). 달 합 = 그 달 일별 값의 합, 재야 할 구간에 빈 날이 있으면 라벨에 « *» */
 const ko = (n) => n >= 1e4 ? (Math.floor(n / 1e3) / 10).toFixed(1).replace(/\.0$/, '') + '만' : n.toLocaleString('ko-KR');
 const citeExpect = () => {
@@ -131,6 +169,8 @@ const srv = createServer((req, res) => {
   if (p === '/_trend/trend.json') return json(FULL);
   if (p === '/_trend/_desk-mix.json') return json(MIX);
   if (p === '/_trend/_citations.json') return json(citeDoc(CITE_VIS));
+  if (p === '/_trend/_game-cats.json') return json(GC_MODE === 'legacy' ? GC_LEGACY : GC_NEW);
+  if (p === '/_trend/_kpi.json') { if (KPI_MODE === '404') { res.writeHead(404); res.end('nope'); return; } return json(KPI_DOC); }
   const abs = normalize(join(ROOT, p));
   if (!existsSync(abs) || statSync(abs).isDirectory()) { res.writeHead(404); res.end('nope'); return; }
   if (p === '/index.html') {
@@ -479,6 +519,16 @@ const CR = `(i)=>{const cr=document.querySelectorAll('#tileCite .cr')[i],svg=cr.
 /* 사이트가 그 칸을 못 그리면(예외) ev 가 {__err} 를 돌려준다 — 그때는 null 로 받아 아래 검사들이 «FAIL» 로 남게 한다(게이트가 죽지 않게) */
 const V = (x) => (x && !x.__err) ? x : null;
 const cb = V(await ev(`(${CR})(0)`)), cy = V(await ev(`(${CR})(1)`));
+/* 글 통계 행(.ks-stats.ks-3)의 칸들 — 작성자 칸마다 6칸 + 지표 3칸 = 9칸(작성자 이름으로 갈린 값) */
+const KC = `(i)=>{const cr=document.querySelectorAll('#tileCite .cr')[i],row=cr&&cr.querySelector('.ks-stats.ks-3');return row?[...row.children].map(s=>({k:s.querySelector('.ks-k').textContent,v:s.querySelector('.ks-v').textContent,pend:s.querySelector('.ks-v').classList.contains('pend'),t:s.getAttribute('title')})):null}`;
+const kb = await ev(`(${KC})(0)`), ky = await ev(`(${KC})(1)`);
+const kcell = (a, name) => Array.isArray(a) ? a.find((c) => c.k === name) : null;
+chk('[블로그 활동] ★봄딩 칸 글 통계 행(ks-3)에 «14일 글당 공감» 칸이 있고 값 = 9.4 · 행은 9칸', kb && kb.length === 9 && kcell(kb, '14일 글당 공감') && kcell(kb, '14일 글당 공감').v === '9.4' && !kcell(kb, '14일 글당 공감').pend, kb);
+chk('[블로그 활동] ★영도 칸도 9칸 · «14일 글당 공감» = 3.7(봄딩 값이 아니라 영도 값 · 숨은 복제 칸 없음)', ky && ky.length === 9 && kcell(ky, '14일 글당 공감') && kcell(ky, '14일 글당 공감').v === '3.7' && !kcell(ky, '14일 글당 공감').pend && (await ev(`document.querySelectorAll('#tileCite .ks-ghost').length`)) === 0, ky);
+chk('[블로그 활동] 지표 나머지 두 칸 = 봄딩 «신작·업데이트 54%»·«5편» / 영도 «게임소식 41%»·«0편» · 툴팁(title)에 근거(편수·공감 합·2위·기한 글·최대 지연)', kb && ky &&
+  kcell(kb, '30일 최다 카테').v === '신작·업데이트 54%' && kcell(kb, '갱신 지연').v === '5편' && kcell(ky, '30일 최다 카테').v === '게임소식 41%' && kcell(ky, '갱신 지연').v === '0편' &&
+  kcell(kb, '14일 글당 공감').t === '어제까지 14일 발행 50편 · 공감 합 470 · 수집 시점 값' && kcell(kb, '30일 최다 카테').t === '54/100편 · 2위 포켓몬고 20' && kcell(kb, '갱신 지연').t === '기한 글 14편 · 최대 10일' &&
+  kcell(ky, '14일 글당 공감').t === '어제까지 14일 발행 30편 · 공감 합 112 · 수집 시점 값' && kcell(ky, '30일 최다 카테').t === '25/60편 · 2위 기타 12' && kcell(ky, '갱신 지연').t === '기한 글 5편 · 지연 없음', { b: kb && kb.slice(6), y: ky && ky.slice(6) });
 const D1 = md(dayAgo(1)), D4 = md(dayAgo(4)), D5 = md(dayAgo(5));
 chk('[블로그 활동] 영도 칸 막대 = 값이 있는 날만 12개 · 값 없는 날·0명인 날엔 막대 없음(0 위장 금지)', cy && Array.isArray(cy.bars) && cy.bars.filter((h) => h != null).length === 12 && cy.bars[9] == null && cy.bars[10] == null, cy && cy.bars);
 chk('[블로그 활동] ★그려진 픽셀: 막대 높이 비 = 방문자 비(2,500 ÷ 5,000 = 0.5 ±0.02)', cy && cy.bars[13] > 20 && Math.abs(cy.bars[12] / cy.bars[13] - 0.5) <= 0.02, cy && [cy.bars[12], cy.bars[13]]);
@@ -522,13 +572,42 @@ chk('[1920 홈] 주제 비중 막대 세 줄의 시작·끝이 같다(50% 눈금
 chk('[1920 홈] 타일 부제 = 기간(«14일»)만 · 마크 설명문 없음', await ev(`[...document.querySelectorAll('.tile-d')].every(e=>e.textContent==='14일')`), await ev(`[...document.querySelectorAll('.tile-d')].map(e=>e.textContent)`));
 chk('[1920 홈] 콘솔 예외 0', logs.length === 0, logs);
 
+/* ═════ 글 목록 — 봄딩 행의 «네이버 카테고리» 칩(11-01 §9) ═════ 실제 행(#listCore .row)을 읽는다 — 글자·class·그려진 색 */
+const NCROWS = `[...document.querySelectorAll('#listCore .row')].filter(r=>r.querySelector('.row-w span:last-child')&&r.querySelector('.row-w span:last-child').textContent==='봄딩').map(r=>{const e=r.querySelector('.row-nc');return {rel:r.getAttribute('data-rel'),chip:e?{t:e.textContent,c:e.className,ti:e.getAttribute('title'),col:getComputedStyle(e).color}:null}})`;
+const ncCheck = async (doc, label) => {
+  await goTab('posts', `document.querySelectorAll('#listCore .row').length>0`); await sleep(500);
+  const rows = await ev(NCROWS), byRel = new Map(BOM_POSTS.map((p) => [p.rel, p]));
+  const bad = [], seen = { new: 0, gen: 0, plain: 0, none: 0 };
+  for (const r of (Array.isArray(rows) ? rows : [])) {
+    const p = byRel.get(r.rel); if (!p) continue;
+    const e = ncExpect(p, doc), g = r.chip;
+    if (!e && !g) seen.none++; else if (e && g && e.t === g.t && e.c === g.c) { if (/nc-new/.test(g.c)) seen.new++; else if (/nc-generic/.test(g.c)) seen.gen++; else seen.plain++; } else bad.push({ rel: r.rel, exp: e, got: g && { t: g.t, c: g.c } });
+  }
+  return { n: Array.isArray(rows) ? rows.length : -1, bad: bad.slice(0, 3), nbad: bad.length, seen, rows };
+};
+const ncN = await ncCheck(GC_NEW);
+chk('[네이버 카테고리 칩] ★봄딩 행 ' + ncN.n + '개 전부 기대 칩과 같다(글 단위 → 폴더 단위 → 옛 games → 없음 순) · 신설·기존·범용·칩 없음이 모두 한 번 이상 나온다', ncN.n >= 10 && ncN.nbad === 0 && ncN.seen.new > 0 && ncN.seen.gen > 0 && ncN.seen.plain > 0 && ncN.seen.none > 0, { n: ncN.n, nbad: ncN.nbad, bad: ncN.bad, seen: ncN.seen });
+const ncNew = (ncN.rows || []).find((r) => r.chip && /nc-new/.test(r.chip.c)), ncGen = (ncN.rows || []).find((r) => r.chip && /nc-generic/.test(r.chip.c)), ncEx = (ncN.rows || []).find((r) => r.chip && r.chip.c === 'row-nc');
+chk('[네이버 카테고리 칩] 신설 칩 = 경고색(--alert) · title 에 «전용 카테고리가 아직 없다»·«봄딩 판단»·«범용 칸» · 범용 칩 title = «전용 카테고리 없음 … 제목 각도 … → 이 칸» · 기존 칩은 경고색이 아니다', ncNew && ncNew.chip.col === 'rgb(196, 54, 42)' && /^이 게임 전용 카테고리가 아직 없다 — .*신설·기존 글 이동은 봄딩 판단\. 만들 때까진 각도별 범용 칸$/.test(ncNew.chip.ti) &&
+  ncGen && /^전용 카테고리 없음.* · 제목 각도 쿠폰형 → 이 칸$/.test(ncGen.chip.ti) && ncEx && ncEx.chip.col !== 'rgb(196, 54, 42)', { ncNew, ncGen, ncEx });
+await goHome();
+
 /* 두 번째 데이터 — 발주 0건(«건 없음»)·100% 막대·재검 없음 */
-MIX = MIX_B; CITE_VIS = false;   /* 영도 방문자 전무(카운터를 닫았거나 수집 실패) */
+MIX = MIX_B; CITE_VIS = false; KPI_MODE = '404'; GC_MODE = 'legacy';   /* 영도 방문자 전무(카운터를 닫았거나 수집 실패) */
 await open(1920, 1080, false); logs = [];
 await goHome();
 const cyB = V(await ev(`(${CR})(1)`));
 chk('[블로그 활동 B] 방문자가 없으면 막대 없이 글 선 하나(예전 모양 · 빈 막대·0 위장 금지)', cyB && cyB.bars.every((h) => h == null) && cyB.line === 1 && cyB.units.join('|') === '편' && cyB.legend.length === 1 && cyB.legend[0].startsWith('글') && cyB.th.join('|') === '날짜|글' && cyB.stats[0].startsWith('어제 글=') && cyB.noteBelow === true, cyB);
 CITE_VIS = true;
+/* ★11-01 지표 파일이 없으면(404) 봄딩 지표 3칸은 0 이 아니라 «집계 전»(pend) — 칸 자체는 그대로 있다 */
+const kbN = await ev(`(${KC})(0)`);
+const kyN = await ev(`(${KC})(1)`);
+chk('[블로그 활동 B] ★지표 파일이 404 면 두 작성자 모두 3칸이 «집계 전»(pend · 0 위장 금지 · 툴팁 없음) · 기존 6칸은 그대로', kbN && kyN && [kbN, kyN].every((a) => a.length === 9 && ['14일 글당 공감', '30일 최다 카테', '갱신 지연'].every((n) => kcell(a, n) && kcell(a, n).v === '집계 전' && kcell(a, n).pend && !kcell(a, n).t) && a[0].k === '어제 글'), { b: kbN, y: kyN });
+KPI_MODE = 'ok';
+const ncLeg = await ncCheck(GC_LEGACY);
+chk('[네이버 카테고리 칩 B] ★옛 형식(games 만 있는 _game-cats.json)에서도 봄딩 행 ' + ncLeg.n + '개가 옛 칩 그대로(신설 칩 없음 · ⓓ 폴백)', ncLeg.n >= 10 && ncLeg.nbad === 0 && ncLeg.seen.new === 0 && ncLeg.seen.plain > 0, { n: ncLeg.n, nbad: ncLeg.nbad, bad: ncLeg.bad, seen: ncLeg.seen });
+await goHome();
+GC_MODE = 'new';
 const rowsB = await ev(`[...document.querySelectorAll('#tileMix .mx-row')].map(r=>r.querySelector('.mx-t').textContent+'|'+(r.querySelector('.mx-na')?r.querySelector('.mx-na').textContent:'bar'))`);
 chk('발주 0건이면 «건 없음»', rowsB[1] === '발주|건 없음', rowsB);
 chk('100% 이면 회색 칸 없이 잉크 칸 하나 · 끝만 둥글다', await ev(`(()=>{const r=document.querySelectorAll('#tileMix .mx-row')[2];return r.querySelectorAll('.mx-seg').length===1&&!!r.querySelector('.mx-seg.g')&&getComputedStyle(r.querySelector('.mx-seg.g')).borderTopRightRadius==='4px'})()`));

@@ -678,6 +678,8 @@ table.sr td:first-child,table.sr th:first-child{text-align:left}
 .row-nc{display:block; margin-top:1px; font-size:12.5px; color:var(--ink-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .row-nc.nc-generic{color:var(--ink-4)}
 .row:hover .row-nc.nc-generic{color:var(--ink-3)}
+.row-nc.nc-new{color:var(--alert); font-weight:600}   /* 신설 필요(11-01 §9) — 기존 경고 토큰 · 새 색 없음 */
+.row-nc.nc-new .ic{width:11px; height:11px; vertical-align:-1px; margin-right:3px; stroke:currentColor}
 /* CTA — 버튼 안의 버튼(트레일링 노브) */
 .cta{
   display:inline-flex; align-items:center; gap:8px; height:34px; padding:0 5px 0 15px;
@@ -870,6 +872,10 @@ a.rf-t::after{content:""; position:absolute; inset:0}   /* 행 전체가 링크 
 .ks-k{display:block; font-size:12.5px; color:var(--ink-4); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}   /* 라벨 ≥12.5px */
 .ks-v{display:block; font-family:"JetBrains Mono",monospace; font-weight:600; font-size:15px; letter-spacing:-.02em; color:var(--ink); font-variant-numeric:tabular-nums; white-space:nowrap}
 .ks-v.pend{color:var(--ink-4); font-weight:500}
+.ks-v.ks-wrap{white-space:normal; overflow-wrap:anywhere; line-height:1.3; font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif; letter-spacing:-.01em}   /* 카테고리 이름은 길이가 제각각이라 좁은 3열(390)에선 줄을 바꾼다 — 11-01 · ★한글 값은 sans(모노 스택은 한글이 굴림체로 폴백 · 게이트 🟡) */
+.ks-v.pend{font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif}   /* «집계 전»도 한글 — 같은 이유 */
+@media (min-width:861px){ .ks-v.ks-wrap{min-height:2.6em} }   /* 두 칸이 나란할 땐 한 줄이든 두 줄이든 지표 행 높이를 같게(나란한 두 차트의 위 좌표 · 11-01) */
+@media (max-width:520px){ .ks-v.ks-wrap{font-size:13px} }
 .ks-v .ks-f{color:var(--alert)}
 .cr-grid{display:grid; grid-template-columns:1fr 1fr}
 .cr{padding:2px 0 4px; min-width:0}
@@ -1285,6 +1291,7 @@ html.gs .nt{transition:none !important}
               color:var(--ink-3); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
   .row-meta-m .wnm{font-weight:700; color:var(--ac,var(--ink-2))}
   .row-meta-m .mc{min-width:0; overflow:hidden; text-overflow:ellipsis}   /* 넘치면 분류만 말줄임 — 발주일·소요는 끝까지 보인다 */
+  .row-meta-m .mc .row-nc{display:inline; margin:0; font-size:inherit; overflow:visible; white-space:inherit}   /* 11-01 — 좁은 폭에도 카테고리 안내(신설 필요)는 보여야 한다 · 분류 칸 안의 인라인(flex 항목이 아니라 block 으로 안 바뀐다) */
   .row{grid-template-columns:minmax(0,1fr) 40px}
   .arch,.whyb{width:40px; height:40px}   /* 손가락 표적 — ★행에 서는 버튼은 여기에 전부 적는다(가시성만 합치고 크기를 빼면 «같은 어휘»가 깨진다 — 09-14 검수) */
   .row-a{grid-area:a; align-self:center}
@@ -2019,11 +2026,14 @@ var refreshP=jget('_trend/_refresh.json?ts='+Date.now(),null);
 /* 2026-10-25 결정서 — 핀 추천(pin-suggest.py) · 봄딩 네이버 카테고리(game-cats.py) · 월간 효자 글(hero-aib.py). 없으면 null(칸·칩만 비움) */
 var pinSugP=jget('_trend/_pin-suggest.json?ts='+Date.now(),null);
 var gameCatsP=jget('_trend/_game-cats.json?ts='+Date.now(),null);
+/* ★11-01 운영 전략 §7 — 봄딩 지표 3종(14일 글당 공감·30일 최다 카테·갱신 지연). _tools/bomding-kpi.py 가 데스크 [E]에서 하루 1회 굽는다. 없으면 null(칸에 «집계 전») */
+var kpiP=jget('_trend/_kpi.json?ts='+Date.now(),null);
 var heroP=jget('_trend/_hero.json?ts='+Date.now(),null);
 var tierResP=jget('_toolbox/tier/res/index.json?ts='+Date.now(),null);   /* 티어표 리소스 묶음 색인(10-25 · 티어표 칸 «리소스 있음/없음») */
 
-Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP,refreshP,pinSugP,gameCatsP,heroP,watchP,tierResP]).then(function(r){
+Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,mixP,reopenP,refreshP,pinSugP,gameCatsP,heroP,watchP,tierResP,kpiP]).then(function(r){
   TIERRES=(r[18]&&Array.isArray(r[18].bundles))?r[18].bundles:null;
+  KPI=(r[19]&&r[19].writers&&typeof r[19].writers==='object')?r[19]:null;
   PINSUG=(r[14]&&Array.isArray(r[14].games))?r[14]:null;
   GAMECATS=(r[15]&&r[15].games&&typeof r[15].games==='object')?r[15]:null;
   HERO=(r[16]&&Array.isArray(r[16].top))?r[16]:null;
@@ -2320,7 +2330,7 @@ function observeRise(root){
            ④잔여 사용량 = _trend/_quota.json(이 PC 계정 Max 한도 창).
    숫자는 실측만 — 스냅샷이 없으면 «스냅샷 없음»이지 0 이 아니다. 차트는 얇은 막대·2px 표면 간격·범례·툴팁·표 뷰(sr). */
 var USAGE=null, QUOTA=null, CITES=null, MIX=null, REFRESH=null, REQS_OK=false;
-var PINSUG=null, GAMECATS=null, HERO=null, TIERRES=null;   /* 2026-10-25 결정서 — 핀 추천 · 게임별 네이버 카테고리 · 월간 효자 글 */   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
+var PINSUG=null, GAMECATS=null, HERO=null, TIERRES=null, KPI=null;   /* 2026-10-25 결정서 — 핀 추천 · 게임별 네이버 카테고리 · 월간 효자 글 */   /* REQS_OK = 백엔드 /requests 를 실제로 받았는가(빈 배열과 미연결을 구분) */
 var W_ORDER=PREF.concat(['기타/공용']);
 var LIMIT_LABEL={session:'5시간 창',weekly_all:'7일 전체',weekly_scoped:'7일 모델별'};
 var WD=['일','월','화','수','목','금','토'];
@@ -2871,6 +2881,19 @@ function monthVisitors(w,ym,whole){
   return n?{sum:sum, part:n<(whole?dim:lastD)}:null;
 }
 
+/* ★11-01 운영 전략 §7 — 되돌림 기준이 글당 공감·최다 카테 비중이라 매일 보는 자리에 둔다(작성자 칸마다 · 글 통계 행에 3칸을 더 붙여 9칸).
+   값이 없으면 «집계 전»(0 위장 금지) · 글당 공감은 파일이 소수 첫째 자리 «버림» 해서 준 값 그대로(여기서 다시 반올림하지 않는다) */
+function kpiCells(w){
+  var kb=(KPI&&KPI.writers&&KPI.writers[w.name])||null, k14=kb&&kb.win14, k30=kb&&kb.win30, kr=kb&&kb.refresh;
+  var cell=function(k,v,tip,wrap){ return '<span'+(tip?' title="'+esc(tip)+'"':'')+'><span class="ks-k">'+k+'</span><b class="ks-v'+(v==null?' pend':'')+(wrap?' ks-wrap':'')+'">'+(v==null?'집계 전':esc(v))+'</b></span>'; };
+  var v14=(k14&&typeof k14.syPer==='number')?k14.syPer.toFixed(1):null;
+  var t14=v14!=null?'어제까지 14일 발행 '+k14.posts+'편 · 공감 합 '+k14.sy+' · 수집 시점 값':'';
+  var v30=(k30&&k30.topCat&&typeof k30.topPct==='number')?k30.topCat+' '+k30.topPct+'%':null;
+  var t30=v30!=null?k30.topN+'/'+k30.posts+'편'+((k30.cats&&k30.cats[1])?' · 2위 '+k30.cats[1][0]+' '+k30.cats[1][1]:''):'';
+  var vr=(kr&&typeof kr.late==='number')?kr.late+'편':null;
+  var tr=vr!=null?'기한 글 '+kr.due+'편 · '+(kr.maxLate!=null?'최대 '+kr.maxLate+'일':'지연 없음'):'';
+  return cell('14일 글당 공감',v14,t14)+cell('30일 최다 카테',v30,t30,true)+cell('갱신 지연',vr,tr);
+}
 function citeRow(w){
   var L=w.latest||{}, m=w.mate, col=wac(w.name);
   var head='<div class="cr-h"><span class="cr-dot" style="--c:'+col+'"></span><b class="cr-n">'+esc(w.name)+'</b>'+
@@ -2918,7 +2941,7 @@ function citeRow(w){
        몰아치기는 네이버가 말한 «동일·유사 템플릿 대량 발행»과 겹쳐 보인다. ★단 네이버가 공표한 «하루 몇 편» 상한은
        없으므로 임계선을 그리지 않고 실측만 적는다(없는 기준을 지어내지 않는다). */
     '<span><span class="ks-k">대기 초안</span><b class="ks-v">'+waitN(w.name)+'편</b></span>'+
-    '<span><span class="ks-k">최다·일</span><b class="ks-v'+(mxDay==null?' pend':'')+'">'+(mxDay==null?'—':mxDay+'편')+'</b></span></div>';
+    '<span><span class="ks-k">최다·일</span><b class="ks-v'+(mxDay==null?' pend':'')+'">'+(mxDay==null?'—':mxDay+'편')+'</b></span>'+kpiCells(w)+'</div>';
   /* «인용수 비공개» 한 줄은 범례 «아래»에 둔다(10-12) — 스탯과 차트 사이에 두면 그 칸의 차트만 한 줄 내려가 나란한 두 차트의 축이 어긋난다 */
   var note=hasC?'':'<div class="cr-state">인용수 비공개 · 메이트 선정 시 자동 공개</div>';
   /* ── 차트: «막대(왼쪽 축) = 인용, 비공개면 방문자» + «선·점 = 글(오른쪽 축 편)» 콤보. 막대로 그릴 값이 없으면 선 하나 (사용량 타일과 같은 어휘) */
@@ -3259,10 +3282,23 @@ function paintRows(){
   });
   more();
 }
-/* 봄딩 네이버 카테고리 추천(2026-10-25 결정서 9번 «안내만») — _trend/_game-cats.json(게임별 라이브 최다 카테고리). 양식 필드 없음 · 신설은 봄딩 */
+/* 봄딩 네이버 카테고리 추천(2026-10-25 결정서 9번 «안내만» · ★11-01 운영 전략 §9 개정) — _trend/_game-cats.json(game-cats.py).
+   ★글 단위 byPost[p.rel](최근 60일 초안) → 폴더 단위 groups[p.group] 순으로 찾는다. status = exists(전용 칸 있음) · new(전용 칸 없음·글 많음 → 신설 필요 · 신설·이동은 봄딩 판단) ·
+   generic(전용 칸 없음·글 적음 → 각도별 범용 칸). 둘 다 없으면 옛 games(게임별 라이브 최다 카테고리) 경로 그대로. 양식 필드 없음 */
 var NC_GENERIC={'신작·업데이트':1,'플레이·공략':1,'게임 테마':1,'게임정보':1};
 function ncHtml(p){
-  if(p.author!=='봄딩'||!GAMECATS||!GAMECATS.games)return '';
+  if(p.author!=='봄딩'||!GAMECATS)return '';
+  var bp=GAMECATS.byPost&&GAMECATS.byPost[p.rel], gr=GAMECATS.groups&&GAMECATS.groups[p.group];
+  var e=(bp&&bp.cat)?bp:((gr&&gr.cat)?gr:null);   /* 폴더 단위 generic 은 cat 이 null(각도에 따라 칸이 달라서) — 글 단위가 없으면 옛 경로로 */
+  if(e&&(e.status==='new'||e.status==='exists'||e.status==='generic')){
+    var n90=(e.n90!=null)?e.n90:(gr&&gr.n90!=null?gr.n90:null), why=e.why||(gr&&gr.why)||'';
+    if(e.status==='new')
+      return '<span class="row-nc nc-new" title="이 게임 전용 카테고리가 아직 없다 — '+(n90!=null?'최근 90일 '+Number(n90)+'편. ':'')+'신설·기존 글 이동은 봄딩 판단. 만들 때까진 각도별 범용 칸">'+svg('alertTri')+'신설 '+esc(e.cat)+'</span>';   /* 이모지 대신 SVG(사이트 아이콘 방침) */
+    if(e.status==='exists')
+      return '<span class="row-nc" title="봄딩 네이버 카테고리 추천'+(why?' — '+esc(why):'')+'">네이버 '+esc(e.cat)+'</span>';
+    return '<span class="row-nc nc-generic" title="전용 카테고리 없음'+(n90!=null?' · 90일 '+Number(n90)+'편':'')+(e.angle?' · 제목 각도 '+esc(e.angle):'')+' → 이 칸">네이버 '+esc(e.cat)+'(범용)</span>';
+  }
+  if(!GAMECATS.games)return '';
   var g=GAMECATS.games[p.group]; if(!g||!g.cat)return '';
   var generic=!!NC_GENERIC[g.cat];
   return '<span class="row-nc'+(generic?' nc-generic':'')+'" title="봄딩 네이버 카테고리 추천 — 이 게임 라이브 글 '+Number(g.total||0)+'편 중 '+Number(g.n||0)+'편이 «'+esc(g.cat)+'»'+(generic?' · 게임 전용 카테고리 없음(신설은 봄딩)':'')+'">네이버 '+esc(g.cat)+'</span>';
@@ -3279,7 +3315,7 @@ function rowHtml(p){
     '<span class="row-c">'+esc(p.cat||'—')+ncHtml(p)+'</span>'+
     '<span class="row-d num'+(p.hasOrder?'':' approx')+'"'+dateTip(p)+'>'+dateTx(p)+'</span>'+
     '<span class="row-l'+(p.lead?'':' approx')+'">'+(p.lead?leadTx(p):'<span aria-hidden="true">—</span><span class="sr">소요 기록 없음</span>')+'</span>'+
-    '<span class="row-meta-m"><span class="wnm">'+esc(p.author)+'</span> · <span class="mc">'+esc(p.cat||'—')+'</span> · '+
+    '<span class="row-meta-m"><span class="wnm">'+esc(p.author)+'</span> · <span class="mc">'+(ncHtml(p)?ncHtml(p)+' · ':'')+esc(p.cat||'—')+'</span> · '+   /* 11-01 칩은 분류 칸 «안»에 앞서 둔다 — 줄어드는 건 분류 칸 하나뿐이라 발주일·소요가 밀리지 않는다(게이트 🟡 2차) */
       '<span class="num'+(p.hasOrder?'':' approx')+'"'+dateTip(p)+'>'+dateTx(p)+'</span>'+
       (p.lead?leadTx(p):'')+'</span>'+
     '<span class="row-a">'+

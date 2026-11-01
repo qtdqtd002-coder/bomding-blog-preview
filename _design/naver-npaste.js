@@ -442,6 +442,7 @@
     ".np2-x{margin-left:auto;background:#eef0f2;border:0;border-radius:7px;width:32px;height:32px;font-size:16px;cursor:pointer;color:#555;}" +
     ".np2-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:13px;color:#445;}" +
     ".np2-lbl{font-size:12px;color:#889;font-weight:700;}" +
+    ".np2-cattxt.np2-new{color:#b4262a;font-weight:600;}" +   /* 신설 필요만 경고색·굵게 — 세 상태가 한 톤이면 구분이 안 된다(11-01 게이트 🟡) */
     ".np2-titletxt{flex:1 1 220px;font-weight:700;color:#222;font-size:13.5px;line-height:1.4;}" +
     ".np2-tagtxt{flex:1 1 220px;color:#1d6b3e;font-size:13px;line-height:1.55;}.np2-tagtxt span{display:inline-block;white-space:nowrap;}" +
     ".np2-head button{background:#fff;border:1px solid #cfd6dd;border-radius:7px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;color:#234;}" +
@@ -571,11 +572,17 @@
   if (!YD) (function () {   /* 봄딩만 — 게임은 경로 조각(…/봄딩/<게임>/…), 루트는 «봄딩» 앞까지(Pages·로컬 http 공통 · file:// 면 fetch 실패 → 숨김 유지) */
     try {
       var segs = decodeURIComponent(location.pathname).split('/'); var i = segs.indexOf('봄딩'); if (i < 0) return;
-      var game = segs[i + 1] || ''; var root = segs.slice(0, i).join('/') + '/';
+      var game = segs[i + 1] || ''; var root = segs.slice(0, i).join('/') + '/'; var rel = segs.slice(i).join('/');
       fetch(root + '_trend/_game-cats.json', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
         var row = head.querySelector('#np2Cat'), tx = head.querySelector('.np2-cattxt'); if (!row || !tx) return;
-        var g = d && d.games && d.games[game];
-        tx.textContent = (g && g.cat) ? ('추천 «' + g.cat + '» — 이 게임 라이브 글 ' + g.total + '편 중 ' + g.n + '편') : '기록 없음 — 게임 전용 카테고리를 만들지는 봄딩 몫';
+        /* ★11-01 운영 전략 §9 — 셋 중 하나를 또박또박: 있음(그 칸에) · 신설 필요(아직 없음) · 범용(각도별). 기존 글 재분류는 안내하지 않는다 */
+        var bp = d && d.byPost && d.byPost[rel], gr = d && d.groups && d.groups[game], g = d && d.games && d.games[game];
+        var n90 = gr ? (' · 90일 ' + gr.n90 + '편') : '';
+        if (bp && bp.status === 'new') { tx.classList.add('np2-new'); tx.textContent = '⚠️ 카테고리 신설 필요 «' + bp.cat + '» — 아직 없음' + n90 + '. 만들 때까진 «' + (bp.angle === '공략·방법형' || bp.angle === '쿠폰형' || bp.angle === '추천·티어·비교형' || bp.angle === '정리·모음형' ? '플레이·공략' : '신작·업데이트') + '»'; }
+        else if (bp && bp.status === 'exists') tx.textContent = '넣을 카테고리 «' + bp.cat + '»' + (gr && gr.why ? ' (' + gr.why + ')' : '');
+        else if (bp) tx.textContent = '범용 «' + bp.cat + '» — 전용 카테고리 없음' + n90 + ' · 제목 각도 ' + bp.angle;
+        else if (g && g.cat) tx.textContent = '추천 «' + g.cat + '» — 이 게임 라이브 글 ' + g.total + '편 중 ' + g.n + '편';
+        else tx.textContent = '기록 없음 — 공략·방법형은 «플레이·공략», 소식형은 «신작·업데이트»';
         row.hidden = false;
       }).catch(function () { });
     } catch (e) { }
