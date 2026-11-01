@@ -729,17 +729,22 @@ async function cmdQueries() {
     if (r.status !== 0 || r.error) log('⚠ query-miner 실패 — 저장된 질의로 진행: ' + String((r.error && r.error.message) || r.stderr || '').slice(0, 120));
   }
   const qdoc = readJson(QUERIES, { games: [] });
-  const want = new Set(games.map(normKey));
+  const want = new Map(games.map((s) => [normKey(s), s]));
   const cands = [];
+  /* ★표기 변형 묶기(2026-11-01) — 질의 저장소에 «도깨비의 세계»·«도깨비의세계», «GTA 6»·«GTA6» 가 따로 쌓여 둘 다 걸리면
+     같은 질의가 두 번 나왔다(11-01 지정 칸 15건 중 고유 9건). 묶음 키 = 정규화한 게임명, 표시 이름 = --games 로 받은 이름. */
+  const seenBy = new Map();
   (qdoc.games || []).filter((g) => want.has(normKey(g.game))).forEach((g) => {
-    const seen = new Set();
+    const gk = normKey(g.game);
+    if (!seenBy.has(gk)) seenBy.set(gk, new Set());
+    const seen = seenBy.get(gk);
     g.queries.forEach((q) => {
       if (q.nav || !HOWTO_ANGLES.includes(q.angle) || staleMonth(q.q)) return;
       if (Object.values(q.covered || {}).some((a) => a && a.length)) return;   /* 봄딩·영도 어느 쪽이든 이미 쓴 각도 */
       const rest = cleanGame(String(q.q).replace(gameRe(g.game), ' ')).split(' ').filter(Boolean);
       const key = q.angle === '쿠폰형' ? 'coupon' : normKey(rest[0] || q.q);   /* 같은 뜻 변형(쿠폰 번호·쿠폰 입력·쿠폰 코드)은 한 묶음 */
       if (seen.has(key)) return; seen.add(key);
-      cands.push({ game: g.game, q: q.q, angle: q.angle, keywords: [q.q] });
+      cands.push({ game: want.get(gk), q: q.q, angle: q.angle, keywords: [q.q] });
     });
   });
   if (!cands.length) { console.log('발주 후보 질의 0건(전부 기존 글이 덮었거나 이동형)'); return; }
