@@ -697,6 +697,20 @@ def check_refs(post, res, writer):
     return ['W3 «참고한 곳» ' + ' · '.join(w)] if w else []
 
 
+def unbake_figures(post, path):
+    """W4 전용 — bake-figures.mjs 가 PNG 로 구운 도해(<img data-fig="fig-…">)를 _qa/figures 의 원본 블록으로 되돌린다.
+    #copy(작성자 생존본)에는 도해 글자가 그대로 남아 있어, 되돌리지 않으면 «#copy 에만 있는 문장» 오탐이 난다(11-01 판타지포유 실측)."""
+    fig_dir = os.path.join(os.path.dirname(path), '_qa', 'figures')
+
+    def back(m):
+        f = os.path.join(fig_dir, m.group(1) + '.html')
+        try:
+            return open(f, encoding='utf-8').read()
+        except OSError:
+            return m.group(0)
+    return re.sub(r'<div class="imgwrap"><img [^>]*data-fig="(fig-[0-9a-f]{8})"[^>]*></div>', back, post)
+
+
 def check_copy_sync(post, copy, res):
     if not copy:
         res['copy_sync'] = {'present': False}
@@ -1083,7 +1097,7 @@ def main():
         warns += check_faq(post, detail)
         warns += check_hedge(post, detail, n)
         warns += check_refs(post, detail, writer)
-        warns += check_copy_sync(post, copy, detail)
+        warns += check_copy_sync(unbake_figures(post, p), copy, detail)
         warns += check_photo_and_notice(post, copy, detail, widget)
         warns += check_table_numbers(post, detail)
         warns += check_first_person(post, detail)
