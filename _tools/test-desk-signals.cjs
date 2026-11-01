@@ -341,5 +341,26 @@ console.log('\n[13] ★desk-candidates merge · gate (2026-09-23 · [B-0] 접착
   ok(g.note.every((l) => l.length <= 140), 'note 초안은 140자 이하');
 }
 
+console.log('\n[14] 질의 빈칸 — 게임당 기본 상한·표기 변형 묶기 (★2026-11-01)');
+{
+  const pins5 = ['도깨비의 세계', '아주르 프로밀리아', '마인크래프트 던전스2', '몬스터헌터아웃랜더스', 'GTA6'];
+  eq(S.queryLimits({ games: pins5, top: '15' }), { perGame: 3, top: 15, auto: true }, '2종 이상 + --per-game 없음 → 기본 상한 3 (옛 명령 --top 15 로도 독식 없음)');
+  eq(S.queryLimits({ games: pins5.concat(['a', 'b', 'c']), top: '15' }), { perGame: 3, top: 24, auto: true }, '지정 8종 → 칸 수 8×3=24 로 자동 확대');
+  eq(S.queryLimits({ games: ['롤토체스', '메이플스토리', '애니모', '포켓몬 GO', '니케', '원신'], top: '15' }).top, 18, '주력 6종 --top 15 → 18');
+  eq(S.queryLimits({ games: ['도깨비의 세계', '도깨비의세계'], top: '15' }), { perGame: 0, top: 15, auto: false }, '표기 변형 2개는 1종 → 상한 없음');
+  eq(S.queryLimits({ games: ['애니모'] }), { perGame: 0, top: 20, auto: false }, '1종 → 상한 없음(그 게임 몫을 다 본다)');
+  eq(S.queryLimits({ games: pins5, perGame: '0', top: '15' }), { perGame: 0, top: 15, auto: false }, '--per-game 0 을 직접 주면 상한 없음 그대로');
+  eq(S.queryLimits({ games: pins5.concat(['a', 'b', 'c', 'd', 'e', 'f']), perGame: '3', top: '30' }), { perGame: 3, top: 30, auto: false }, '--per-game 직접(티어표 칸) → --top 그대로');
+  eq(S.queryLimits({ games: ['x', 'y'], seeds: true, top: '24' }), { perGame: 3, top: 24, auto: false }, '--seeds(공략 칸) → 기존 기본 3 · --top 그대로');
+  const qdoc = { games: [
+    { game: '도깨비의세계', queries: [{ q: '도깨비의세계 파밍', angle: '공략·방법형' }, { q: '도깨비의 세계 공략법', angle: '공략·방법형' }] },
+    { game: '도깨비의 세계', queries: [{ q: '도깨비의 세계 공략법', angle: '공략·방법형' }, { q: '도깨비의 세계 확률 보는법', angle: '공략·방법형' }] },
+    { game: 'GTA 6', queries: [{ q: 'gta6 스펙', angle: '공략·방법형' }] },
+    { game: 'GTA6', queries: [{ q: 'gta6 스펙', angle: '공략·방법형' }, { q: 'gta6 출시일', angle: '이동형', nav: true }] },
+  ] };
+  const cs = S.collectQueryCands(qdoc, ['도깨비의 세계', 'GTA6']);
+  eq(cs.map((c) => c.game + '|' + c.q), ['도깨비의 세계|도깨비의세계 파밍', '도깨비의 세계|도깨비의 세계 공략법', '도깨비의 세계|도깨비의 세계 확률 보는법', 'GTA6|gta6 스펙'], '표기 변형 저장소 항목을 한 게임으로 묶어 같은 질의 1번만 · 표시 이름 = --games 이름');
+}
+
 console.log('\n' + (bad ? 'FAIL ' + bad + '/' + n : 'ALL PASS ' + n));
 process.exit(bad ? 1 : 0);

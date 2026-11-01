@@ -719,6 +719,46 @@ function staleMonth(q) {
   const now = new Date(Date.now() + 9 * 3600e3).getUTCMonth() + 1;
   return Number(m[1]) !== now;
 }
+/* 질의 저장소 → 후보 질의(이동형·기존 글·지난달 제외 · 같은 뜻 변형 한 묶음).
+   ★표기 변형 묶기(2026-11-01) — 저장소에 «도깨비의 세계»·«도깨비의세계», «GTA 6»·«GTA6» 가 따로 쌓여 둘 다 걸리면
+   같은 질의가 두 번 나왔다(11-01 지정 칸 15건 중 고유 9건). 묶음 키 = 정규화한 게임명, 표시 이름 = --games 로 받은 이름. */
+function collectQueryCands(qdoc, games) {
+  const want = new Map(games.map((s) => [normKey(s), s]));
+  const cands = [], seenBy = new Map();
+  ((qdoc && qdoc.games) || []).filter((g) => want.has(normKey(g.game))).forEach((g) => {
+    const gk = normKey(g.game);
+    if (!seenBy.has(gk)) seenBy.set(gk, new Set());
+    const seen = seenBy.get(gk);
+    (g.queries || []).forEach((q) => {
+      if (q.nav || !HOWTO_ANGLES.includes(q.angle) || staleMonth(q.q)) return;
+      if (Object.values(q.covered || {}).some((a) => a && a.length)) return;   /* 봄딩·영도 어느 쪽이든 이미 쓴 각도 */
+      const rest = cleanGame(String(q.q).replace(gameRe(g.game), ' ')).split(' ').filter(Boolean);
+      const key = q.angle === '쿠폰형' ? 'coupon' : normKey(rest[0] || q.q);   /* 같은 뜻 변형(쿠폰 번호·쿠폰 입력·쿠폰 코드)은 한 묶음 */
+      if (seen.has(key)) return; seen.add(key);
+      cands.push({ game: want.get(gk), q: q.q, angle: q.angle, keywords: [q.q] });
+    });
+  });
+  return cands;
+}
+
+/* ★게임당 상한(2026-09-20) — 09-19 첫 판에서 상위 20건이 시드 12종 중 6종(메이플 6·오버워치 5·롤 4)에 몰려,
+   공략 조사원이 «같은 게임 2건» 규칙과 부딪혀 6건밖에 못 냈다. 게임을 고루 섞어야 상한만큼 뽑힌다.
+   ★2026-11-01 사용자 승인 — --games 로 2종 이상 주면 기본 상한 3(옛 기본 = 상한 없음). 10-29~11-01 지정 칸 질의 15건을
+   도깨비 한 게임이 거의 다 먹어 나머지 지정 게임이 «질의 몫 없음» 0건이 됐다(스킬 지시만으론 회차가 놓칠 수 있다).
+   기본 상한이 걸린 때만 칸 수를 «게임 수 × 상한»까지 늘린다(8종 × 3 = 24 — --top 15 로 뒤 게임이 잘리지 않게).
+   --per-game 을 직접 주면(0 = 상한 없음 포함) 그 값과 --top 을 그대로 쓴다 · 1종이면 상한 없음(그 게임 몫을 다 본다). */
+function queryLimits(o) {
+  const n = new Set((o.games || []).map(normKey)).size;
+  const topArg = o.top == null ? 20 : (Number(o.top) || 20);
+  let perGame, auto = false;
+  if (o.perGame != null) perGame = Math.max(0, Number(o.perGame) || 0);
+  else if (o.seeds) perGame = 3;
+  else if (n >= 2) { perGame = 3; auto = true; }
+  else perGame = 0;
+  const top = Math.max(1, auto ? Math.max(topArg, n * perGame) : topArg);
+  return { perGame, top, auto };
+}
+
 async function cmdQueries() {
   let games = (val('--games', '') || '').split(',').map((s) => s.trim()).filter(Boolean);
   if (!games.length && has('--seeds')) games = await cmdSeeds({ top: Number(val('--seeds', '12')) || 12, print: true });
@@ -729,24 +769,7 @@ async function cmdQueries() {
     if (r.status !== 0 || r.error) log('⚠ query-miner 실패 — 저장된 질의로 진행: ' + String((r.error && r.error.message) || r.stderr || '').slice(0, 120));
   }
   const qdoc = readJson(QUERIES, { games: [] });
-  const want = new Map(games.map((s) => [normKey(s), s]));
-  const cands = [];
-  /* ★표기 변형 묶기(2026-11-01) — 질의 저장소에 «도깨비의 세계»·«도깨비의세계», «GTA 6»·«GTA6» 가 따로 쌓여 둘 다 걸리면
-     같은 질의가 두 번 나왔다(11-01 지정 칸 15건 중 고유 9건). 묶음 키 = 정규화한 게임명, 표시 이름 = --games 로 받은 이름. */
-  const seenBy = new Map();
-  (qdoc.games || []).filter((g) => want.has(normKey(g.game))).forEach((g) => {
-    const gk = normKey(g.game);
-    if (!seenBy.has(gk)) seenBy.set(gk, new Set());
-    const seen = seenBy.get(gk);
-    g.queries.forEach((q) => {
-      if (q.nav || !HOWTO_ANGLES.includes(q.angle) || staleMonth(q.q)) return;
-      if (Object.values(q.covered || {}).some((a) => a && a.length)) return;   /* 봄딩·영도 어느 쪽이든 이미 쓴 각도 */
-      const rest = cleanGame(String(q.q).replace(gameRe(g.game), ' ')).split(' ').filter(Boolean);
-      const key = q.angle === '쿠폰형' ? 'coupon' : normKey(rest[0] || q.q);   /* 같은 뜻 변형(쿠폰 번호·쿠폰 입력·쿠폰 코드)은 한 묶음 */
-      if (seen.has(key)) return; seen.add(key);
-      cands.push({ game: want.get(gk), q: q.q, angle: q.angle, keywords: [q.q] });
-    });
-  });
+  const cands = collectQueryCands(qdoc, games);
   if (!cands.length) { console.log('발주 후보 질의 0건(전부 기존 글이 덮었거나 이동형)'); return; }
   const acByGame = new Map();
   for (const c of cands) { const k = normKey(c.game); if (!acByGame.has(k)) acByGame.set(k, await acBest(c.game, [])); }
@@ -765,16 +788,14 @@ async function cmdQueries() {
   const rankKeyOf = (c, i) => [-(c.demand.tier == null ? -0.5 : c.demand.tier), depthOf({ keywords: [c.q], title: c.q }) === 'entry' ? 1 : 0, aibRank(c.aib), ang[c.angle], i];
   const ranked = cands.map((c, i) => ({ c, k: rankKeyOf(c, i) }))
     .sort((x, y) => cmpKey(x.k, y.k)).map((x) => x.c);
-  /* ★게임당 상한(2026-09-20) — 09-19 첫 판에서 상위 20건이 시드 12종 중 6종(메이플 6·오버워치 5·롤 4)에 몰려,
-     공략 조사원이 «같은 게임 2건» 규칙과 부딪혀 6건밖에 못 냈다. 게임을 고루 섞어야 상한만큼 뽑힌다.
-     --games 로 게임을 직접 준 때(지정·주력)는 그 게임 몫을 다 봐야 하므로 기본 상한 없음. */
-  const PERGAME = Math.max(0, Number(val('--per-game', has('--seeds') ? '3' : '0')) || 0);
+  const lim = queryLimits({ games, seeds: has('--seeds'), perGame: has('--per-game') ? val('--per-game', '') : null, top: has('--top') ? val('--top', '') : null });
+  const PERGAME = lim.perGame;
   let pool = ranked;
   if (PERGAME) {
     const cnt = new Map();
     pool = ranked.filter((c) => { const k = normKey(c.game), n = cnt.get(k) || 0; if (n >= PERGAME) return false; cnt.set(k, n + 1); return true; });
   }
-  const top = pool.slice(0, Math.max(1, Number(val('--top', '20')) || 20));
+  const top = pool.slice(0, lim.top);
   /* ★09-23 — 상위 후보만 «질의 단위»로 다시 잰다(check 와 같은 자 · ≤top 요청). 채굴된 질의라 원문이 자동완성에 있는 게 정상 → 바닥은 1. */
   for (const c of top) {
     const gAc = acByGame.get(normKey(c.game)) || null;
@@ -835,7 +856,7 @@ function secOfPost(folder, reqs, items) {
   return 'other';
 }
 
-module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, tierFromQuery, qModeOf, contentTokens, queryWithGame, demandOf, judge, sortSection, sortKey, isTierList, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, SEC_PRIORITY, WATCH_MAX, getRequests, deskItems, secOfPost, depthOf, newGamesFrom, DEPTH_KO, blockHit, loadBlocklist, crossOverlap, sameGameKey };
+module.exports = { angleOf, angleTypeOf, deriveQuery, tierFromMonthly, tierFromAc, tierFromQuery, qModeOf, contentTokens, queryWithGame, demandOf, judge, sortSection, sortKey, isTierList, aibRank, aibSummary, aibLookup, aibFromCache, saSign, saKey, saNum, gameVariants, staleMonth, CAPS, RULE_FROM, SEC_PRIORITY, WATCH_MAX, getRequests, deskItems, secOfPost, depthOf, newGamesFrom, DEPTH_KO, blockHit, loadBlocklist, crossOverlap, sameGameKey, collectQueryCands, queryLimits };
 
 if (require.main === module) {
   const cmd = argv[0];
