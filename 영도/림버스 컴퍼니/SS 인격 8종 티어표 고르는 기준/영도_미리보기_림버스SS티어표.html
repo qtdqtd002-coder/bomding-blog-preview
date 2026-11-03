@@ -1,0 +1,356 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>림버스 컴퍼니 티어표 SS 인격 8종, 게임메카 기준으로 보는 고르는 법</title>
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;--pt:#2d6cdf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .notice{background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:12.5px;color:#888;margin-bottom:22px;line-height:1.7;}
+  .guidenote{color:#999;font-size:13px;margin-bottom:18px;}
+  .post p{font-size:15.5px;line-height:1.95;margin:0 0 18px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post .q{color:var(--pt);}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  h2.sec{font-size:18px;font-weight:800;margin:30px 0 12px;padding-left:10px;border-left:4px solid var(--green);}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .summary{background:#eefaf2;border:1px solid #cdeeda;border-radius:8px;padding:16px 18px;margin:26px 0 6px;font-size:15px;line-height:1.85;}
+  .summary .h{font-weight:800;color:#0a8a44;margin-bottom:6px;}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+  .btns a{flex:1;min-width:120px;text-align:center;border:1px solid var(--green);color:var(--green);
+    text-decoration:none;padding:11px;border-radius:6px;font-weight:700;font-size:14px;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  /* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+  #npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+  #npBtn:active{transform:translateY(1px);}
+  #npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+  #npBack.open{display:block;}
+  #npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+  #npDrawer.open{display:flex;}
+  .np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+  .np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+  .np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+  .np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+  .np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+  .np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+  .np-guide b{color:#8a6d1f;}
+  .np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+  .np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+  .np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+  #copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:15.5px;line-height:1.95;color:#222;word-break:keep-all;}
+  #copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+  #copy h3:first-child{margin-top:0;}
+  #copy p{margin:0 0 16px;}
+  #copy ul{margin:0 0 16px;padding-left:20px;}
+  #copy li{margin:5px 0;}
+  #copy b{font-weight:800;}
+  #copy a{color:#1a73e8;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+  #copy .phsub{color:#1a5fb4;font-weight:400;font-size:14px;margin-top:-10px;}
+  #copy .tags-line{color:#5a8;}
+  #copy table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+  #copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+  #copy th{background:#f2f2f2;font-weight:700;}
+  #copy td.l{text-align:left;}
+
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .gap .skel{margin-top:8px;width:100%;border-collapse:collapse;font-size:13px;}
+  .gap .skel th,.gap .skel td{border:1px dashed #e6c64d;padding:6px 8px;text-align:left;color:#9a7b15;}
+  .post ul{margin:0 0 18px;padding-left:20px;font-size:15.5px;line-height:1.95;word-break:keep-all;}
+  .post li{margin:4px 0;}
+  .ig{border:1px solid #cdeedd;background:#f4fbf7;border-radius:8px;padding:14px 16px;margin:8px 0 22px;font-size:14px;line-height:1.7;}
+  .ig-h{font-weight:800;color:#15a05a;margin-bottom:8px;}
+  .ig-row{display:flex;gap:10px;align-items:center;margin:5px 0;}
+  .ig-k{flex:0 0 150px;font-weight:700;color:#333;}
+  .ig-v{flex:1;padding:6px 10px;border-radius:5px;background:#fff;border:1px solid #d6efe2;}
+  .ig-b{display:inline-block;min-width:30px;text-align:center;font-family:Consolas,monospace;font-weight:800;border-radius:4px;padding:1px 6px;margin-right:4px;background:#14b8a6;color:#fff;}
+  .ig-b.ss{background:#15a05a;}
+  .ig-b.s{background:#14b8a6;}
+  .ig-b.a{background:#9aa5ab;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/kkodug9 · 영원한도시</div>
+  <div class="post">
+    <div class="cat">게임 공략</div>
+    <h1 class="title">림버스 컴퍼니 티어표 SS 인격 8종, 게임메카 기준으로 보는 고르는 법</h1>
+    <div class="meta"><span class="author">영원한도시</span><span>2026.11.03</span><span>· 게임</span></div>
+    <div class="guidenote">※ 다른 공략은 댓글을 참고해 주세요.</div>
+
+<p>림버스 컴퍼니 티어표를 열면 인격이 57종이나 줄줄이 깔려 있어서, 어느 줄부터 읽어야 할지 막막하실 텐데요. 이 글은 게임메카 국민트리 티어표(<b>최종 업데이트 26/10/30 기준</b>)에서 맨 위 칸인 <b>SS 8종</b>만 뽑아, 인격을 고를 때 무엇을 보면 되는지 정리한 글이에요. 게임메카 <b>한 곳의 평가</b>이고 게임메카 페이지에서는 평가 기준을 찾지 못했어요. 그래서 'SS니까 무조건'보다는 내 인격ㆍ수감자 조합에 맞춰 고르는 쪽으로 읽어 주세요.</p>
+
+<!-- 이미지 이유: 도입부 분위기용 스팀 공식 신규 인격 공지 배너(특정 인격 소개 아님) / 출처: Steam 공지 / 분류: A형 -->
+<div class="imgwrap"><img src="img/steam-newidentity-banner.png" alt="림버스 컴퍼니 스팀 신규 인격 공지 배너, 인물 일러스트 2인과 시즌 띠" width="800" height="450"></div>
+<p class="cap">스팀 신규 인격 공지 배너</p>
+<p class="src">공식 이미지(Project Moon) · 출처: <a href="https://store.steampowered.com/news/app/1973530/view/667254131059071075" target="_blank">림버스 컴퍼니 Steam 공지</a></p>
+
+<p>이 배너는 10월 29일 스팀 신규 인격 공지에 올라온 그림이에요. 인격 이름은 그림에 없고, 아래 표는 10월 30일 게임메카 기준입니다.</p>
+
+<h2 class="sec">1. 게임메카 10월 30일 기준, SS 8종 한눈에</h2>
+
+<p>게임메카 국민트리 10월 30일자 티어표에서 SS는 8종인데요, 전체 57종이 SS 8종ㆍS 14종ㆍA 35종으로 나뉘어 있어요. 아래 표가 그중 SS 8종이에요.</p>
+
+<table class="tbl">
+<tr><th>인격</th><th>수감자</th><th>딜 유형</th></tr>
+<tr><td class="l">오트쿠튀르::르루주 바느질의 왕</td><td>히스클리프</td><td class="l">출혈ㆍ충전 딜러, 체력이 깎일수록 세지고 싱클레어를 돕는 구조</td></tr>
+<tr><td class="l">거미집 검지 아비</td><td>이상</td><td class="l">침잠ㆍ호흡 딜러, 스택을 모아 강화 3스킬로 터뜨리는 타입</td></tr>
+<tr><td class="l">흑수 - 묘 필두</td><td>파우스트</td><td class="l">파열 딜탱, 파열을 이어 가면서 아군까지 지키는 쪽</td></tr>
+<tr><td class="l">거미집의 검</td><td>료슈</td><td class="l">화상ㆍ출혈ㆍ호흡 참격 딜러, 같은 소속이 쓰러질수록 강해짐</td></tr>
+<tr><td class="l">동부 엄지 카포 IIII</td><td>뫼르소</td><td class="l">화상ㆍ진동 딜탱, 특수 탄환을 쓴 양에 따라 부가 효과가 붙음</td></tr>
+<tr><td class="l">홍원 군주</td><td>홍루</td><td class="l">파열ㆍ호흡 딜포터, 다른 흑수 인격과 맞물려 돌아감</td></tr>
+<tr><td class="l">거미집 약지 아비</td><td>홍루</td><td class="l">출혈ㆍ충전 딜러, 예열이 끝나면 광역 화력이 나옴</td></tr>
+<tr><td class="l">거미집 엄지 아비</td><td>로쟈</td><td class="l">화상ㆍ진동 딜러, 강화 3스킬로 막타를 노리는 킬 캐치형</td></tr>
+</table>
+
+<p>거미집 엄지 아비 로쟈의 자세한 운영법은 제 블로그의 「림버스 컴퍼니 신규 인격 거미집 엄지 아비 로쟈 스킬 운영법」 글에 적어 뒀어요. 이 글은 어느 인격이 어떻게 강한지가 아니라 여럿 중에 어떤 기준으로 고르는지에 집중할게요.</p>
+
+<h2 class="sec">2. 티어표 읽는 법, SS는 범용ㆍ대체 불가</h2>
+
+<p>게임메카는 SS를 범용성이 뛰어나서 대신할 인격이 없는 자리, S를 조건을 채워야 빛나는 자리, A를 특정 시너지나 제한된 환경에서 좋은 자리로 정의해요.</p>
+
+<table class="tbl">
+<tr><th>등급</th><th>인원</th><th>게임메카 정의</th></tr>
+<tr><td>SS</td><td>8종</td><td class="l">여러 상황에서 두루 쓰기 좋고 대체할 인격이 없음</td></tr>
+<tr><td>S</td><td>14종</td><td class="l">조건을 맞췄을 때 성능이 확 올라감</td></tr>
+<tr><td>A</td><td>35종</td><td class="l">특정 시너지 조합이나 한정된 환경에서 좋음</td></tr>
+</table>
+
+<p>등급 이름은 매체마다 달라요. 제 엄지 아비 로쟈 글에서는 나무위키를 인용해 '0티어'라고 적었는데요, 같은 인격이 게임메카에서는 SS예요. 척도 이름이 다르니 숫자나 알파벳만 보고 단순 비교하지 마세요.</p>
+
+<h2 class="sec">3. 딜 유형으로 고르기, 딜러 5ㆍ딜탱 2ㆍ딜포터 1</h2>
+
+<p>SS 8종을 게임메카 코멘트에 적힌 역할로 나누면 딜러 5종, 딜탱 2종, 딜포터 1종이에요.</p>
+
+<ul>
+<li><b>딜러 5종</b>: 바느질의 왕(히스클리프), 거미집 검지 아비(이상), 거미집의 검(료슈), 거미집 약지 아비(홍루), 거미집 엄지 아비(로쟈)</li>
+<li><b>딜탱 2종</b>: 흑수 - 묘 필두(파우스트), 동부 엄지 카포 IIII(뫼르소)</li>
+<li><b>딜포터 1종</b>: 홍원 군주(홍루)</li>
+</ul>
+
+<p>키워드가 겹치는 인격도 있어요. 화상ㆍ진동은 카포 IIII와 엄지 아비, 출혈ㆍ충전은 바느질의 왕과 약지 아비, 호흡은 검지 아비ㆍ거미집의 검ㆍ홍원 군주가 한 묶음이더라고요. 지금 키우는 덱의 키워드와 겹치는 쪽부터 후보로 올리는 게 편하겠네요. 딜탱ㆍ딜포터의 정확한 뜻은 게임메카에 따로 설명이 없어서, 역할 정의는 인게임에서 직접 확인해 보세요.</p>
+
+<h2 class="sec">4. 조건이 붙는 SS 체크리스트</h2>
+
+<p>SS 8종 중 코멘트에 편성 조건이 드러난 건 5종이에요. 검지 아비와 엄지 아비 2종은 강화 3스킬 얘기만 있고 편성 조건은 따로 적혀 있지 않아요.</p>
+
+<table class="tbl">
+<tr><th>인격</th><th>뽑기 전에 같이 볼 것</th></tr>
+<tr><td class="l">바느질의 왕</td><td class="l">싱클레어를 키우고 있는지, 체력을 낮출 수단이 있는지</td></tr>
+<tr><td class="l">거미집의 검</td><td class="l">같은 소속 인격을 함께 편성할 수 있는지</td></tr>
+<tr><td class="l">동부 엄지 카포 IIII</td><td class="l">특수 탄환을 소모하는 흐름에 익숙한지</td></tr>
+<tr><td class="l">홍원 군주</td><td class="l">다른 흑수 인격을 갖고 있는지</td></tr>
+<tr><td class="l">거미집 약지 아비</td><td class="l">예열 구간을 버틸 편성이 나오는지</td></tr>
+</table>
+
+<div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 내 인격 목록에서 SS 8종 보유 여부를 확인한 화면</span></div>
+<div class="shoot">📸 직접 촬영 권장 — 인게임 인격 목록에서 수감자별로 필터를 걸어, 위 표의 SS 8종이 내 계정에 있는지 한눈에 보이게 캡처하세요.</div>
+<p class="cap">표의 8종 중 내가 가진 인격이 몇 개인지부터 세어 보세요.</p>
+
+<p>나머지 1종인 묘 필두는 파열을 유지하는 게 핵심이라 파열 덱 여부가 기준이에요. SS 정의는 범용성인데 코멘트엔 조건이 섞여 있어서, 저는 코멘트 쪽을 체크리스트로 쓰자는 입장이에요. 상황별로 갈라 보면 이래요.</p>
+
+<ul>
+<li>싱클레어를 굴리고 있다면 바느질의 왕부터: 코멘트가 싱클레어 보조를 직접 말하고 있어서</li>
+<li>화상ㆍ진동 덱이라면 카포 IIII나 엄지 아비: 두 인격 모두 같은 키워드로 묶여서</li>
+<li>흑수 인격이 여럿이라면 홍원 군주: 코멘트가 다른 흑수 인격과의 상호작용을 직접 말하고 있어서</li>
+<li>편성 조건이 단순한 쪽이 좋다면 검지 아비나 엄지 아비: 코멘트에 편성 조건이 따로 없어서</li>
+</ul>
+
+<h2 class="sec">5. 아비 4종 구분과 SS 없는 수감자 5명</h2>
+
+<p>거미집 아비 중 검지(이상)ㆍ약지(홍루)ㆍ엄지(로쟈)는 SS이고, 중지(오티스)만 A예요. 게임메카 기준이고, 오티스 쪽은 제 블로그의 「림버스 컴퍼니 신규 인격 거미집 중지 아비 오티스(오티아스) …」 글에서 따로 다뤘어요.</p>
+
+<!-- 이미지 이유: 거미집 아비 4종 한눈에 (게임메카 기준) 검지 아비 · 이상 SS 침잠ㆍ호흡 딜러 약지 아비 · 홍루 SS 출혈ㆍ충전 딜러 엄지 아비 · 로쟈 / 출처: 직접 제작 도해(bake-figures 자동 구움) / 분류: 인포그래픽 -->
+    <div class="imgwrap"><img src="img/fig-6409055c.png" width="1324" height="590" alt="거미집 아비 4종 한눈에 (게임메카 기준) 검지 아비 · 이상 SS 침잠ㆍ호흡 딜러 약지 아비 · 홍루 SS 출혈ㆍ충전 딜러 엄지 아비 · 로쟈 SS 화상ㆍ진동 딜러 중지 아비 · 오티스 A 화상ㆍ출혈 딜탱" data-fig="fig-6409055c"></div>
+
+<p>손가락 이름만으로는 헷갈리니 꼭 수감자와 같이 부르세요. 아비라고 다 SS는 아니라는 게 포인트예요. 수감자로 나눠 보면 SS가 있는 쪽은 히스클리프ㆍ이상ㆍ파우스트ㆍ료슈ㆍ뫼르소ㆍ홍루ㆍ로쟈 7명이에요. 홍루만 SS가 2종이고요.</p>
+
+<p>반대로 SS가 없는 수감자는 돈키호테ㆍ싱클레어ㆍ이스마엘ㆍ오티스ㆍ그레고르 5명이에요. 이 중 돈키호테ㆍ싱클레어ㆍ이스마엘ㆍ그레고르는 S가 있고, 오티스는 S도 SS도 없고 A만 2종이에요. 주인장이라면 SS 유무보다 내가 아끼는 수감자의 S를 같이 볼 것 같아요ㅋㅋ.</p>
+
+<h2 class="sec">6. 매체 비교와 자주 묻는 질문</h2>
+
+<p>limbusdeck의 OP 9종과 게임메카 SS 8종은 4종만 겹쳐요.</p>
+
+<p>limbusdeck 한글판은 OP와 Tier 1~3 체계라 SS 자체가 없고, 여러 지표와 주관을 섞은 재미용 참고라고 밝혀 둔 곳이에요. 겹치는 4종은 거미집 검지 아비 이상ㆍ거미집의 검 료슈ㆍ흑수 - 묘 필두 파우스트ㆍ홍원 군주 홍루예요. 두 매체 평가가 갈리는 인격도 있는데요, 동부 엄지 카포 IIII 뫼르소는 게임메카 SS인데 limbusdeck에서는 Tier 2이고, 거미집 중지 아비 오티스는 게임메카 A인데 limbusdeck에서는 Tier 1이에요.</p>
+
+<!-- 이미지 이유: 매체별 등급 이름 비교 게임메카 국민트리 SS › S › A (3단, 10/30 기준) limbusdeck OP › Tier 1 › Tier 2 / 출처: 직접 제작 도해(bake-figures 자동 구움) / 분류: 인포그래픽 -->
+    <div class="imgwrap"><img src="img/fig-ab47cfaa.png" width="1324" height="502" alt="매체별 등급 이름 비교 게임메카 국민트리 SS › S › A (3단, 10/30 기준) limbusdeck OP › Tier 1 › Tier 2 › Tier 3 (10/29 표기) 나무위키 (제 글) 0티어 표기" data-fig="fig-ab47cfaa"></div>
+
+<p><b>Q. SS 인격은 지금 뽑을 수 있나요?</b><br>획득 방법과 현재 추출 가능 여부는 확인하지 못했어요. 인게임 추출 탭에서 직접 확인해 보세요.</p>
+
+<p><b>Q. 티어표는 얼마나 자주 바뀌나요?</b><br>게임메카는 신규 인격이 추가되면 갱신하겠다고 적어 두었어요. 이후 업데이트로 배치가 달라질 수 있으니 글을 볼 때 최종 업데이트 날짜부터 확인하세요.</p>
+
+<div class="summary">이렇게 게임메카 10월 30일 기준 SS 8종을 읽는 법을 정리해 봤는데요, 핵심은 SS 8종을 외우는 게 아니라 내 수감자ㆍ키워드ㆍ조건과 맞는 쪽을 고르는 거예요. 한 곳의 평가라는 점만 기억하고, 내 인격 목록 앞에서 한 번 더 비교해 보세요!</div>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://trees.gamemeca.com/view.php?seq=1584" target="_blank">게임메카 국민트리 림버스 컴퍼니 티어표</a> (최종 업데이트 26/10/30 기준)<br>
+· <a href="https://limbusdeck.com/tier-list" target="_blank">limbusdeck 티어 리스트</a> (10/29 표기)<br>
+· <a href="https://store.steampowered.com/news/app/1973530/view/667254131059071075" target="_blank">림버스 컴퍼니 Steam 신규 인격 공지</a></p>
+
+<p><b>▶ 같이 보면 좋은 글</b><br>
+· <a href="https://blog.naver.com/kkodug9/224442844964" target="_blank">림버스컴퍼니 거울던전 시즌8 5층 등반 가호, 고난 선택 공략</a><br>
+· <a href="https://blog.naver.com/kkodug9/224436736279" target="_blank">림버스 컴퍼니 오트쿠튀르 수선실 로쟈(수료쟈, 수선쟈, 가위쟈) 운영 공략</a><br>
+· <a href="https://blog.naver.com/kkodug9/224429989139" target="_blank">림버스컴퍼니 신발슈, 르누슈, 오트쿠튀르 르누아르 신발관 료슈 운영법 공략</a></p>
+    <div class="tags">#림버스컴퍼니 #림버스컴퍼니티어표 #LimbusCompany #림버스SS인격 #게임메카티어표 #거미집아비 #림버스컴퍼니인격추천 #림버스컴퍼니공략 #할만한모바일게임</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔사진 자리〕</b>는 네이버에서 직접 채우세요 — 미리보기에서 <b>이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 2곳 + 첫 사진 아래 출처 1줄:</b> 위 3번 방식으로 올리시면 돼요. 나머지 본문·리스트·표는 복사로 들어갑니다.</div>
+      <span class="ti">📌 제목칸에 따로: 림버스 컴퍼니 티어표 SS 인격 8종, 게임메카 기준으로 보는 고르는 법</span>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (파란 글씨 자리는 네이버에서 채우기)</p>
+    <div id="copy">
+<p>※ 다른 공략은 댓글을 참고해 주세요.</p>
+
+<p>림버스 컴퍼니 티어표를 열면 인격이 57종이나 줄줄이 깔려 있어서, 어느 줄부터 읽어야 할지 막막하실 텐데요. 이 글은 게임메카 국민트리 티어표(<b>최종 업데이트 26/10/30 기준</b>)에서 맨 위 칸인 <b>SS 8종</b>만 뽑아, 인격을 고를 때 무엇을 보면 되는지 정리한 글이에요. 게임메카 <b>한 곳의 평가</b>이고 게임메카 페이지에서는 평가 기준을 찾지 못했어요. 그래서 'SS니까 무조건'보다는 내 인격ㆍ수감자 조합에 맞춰 고르는 쪽으로 읽어 주세요.</p>
+<p class="ph">📷 〔사진 자리 1〕 스팀 신규 인격 공지 배너 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "스팀 신규 인격 공지 배너"</p>
+<p class="phsub">└ 출처 표기(필수): 사진 바로 아래에 "이미지: Project Moon 제공" 한 줄을 같이 적어주세요.</p>
+<p>이 배너는 10월 29일 스팀 신규 인격 공지에 올라온 그림이에요. 인격 이름은 그림에 없고, 아래 표는 10월 30일 게임메카 기준입니다.</p>
+<h3>1. 게임메카 10월 30일 기준, SS 8종 한눈에</h3>
+<p>게임메카 국민트리 10월 30일자 티어표에서 SS는 8종인데요, 전체 57종이 SS 8종ㆍS 14종ㆍA 35종으로 나뉘어 있어요. 아래 표가 그중 SS 8종이에요.</p>
+<table>
+<tr><th>인격</th><th>수감자</th><th>딜 유형</th></tr>
+<tr><td class="l">오트쿠튀르::르루주 바느질의 왕</td><td>히스클리프</td><td class="l">출혈ㆍ충전 딜러, 체력이 깎일수록 세지고 싱클레어를 돕는 구조</td></tr>
+<tr><td class="l">거미집 검지 아비</td><td>이상</td><td class="l">침잠ㆍ호흡 딜러, 스택을 모아 강화 3스킬로 터뜨리는 타입</td></tr>
+<tr><td class="l">흑수 - 묘 필두</td><td>파우스트</td><td class="l">파열 딜탱, 파열을 이어 가면서 아군까지 지키는 쪽</td></tr>
+<tr><td class="l">거미집의 검</td><td>료슈</td><td class="l">화상ㆍ출혈ㆍ호흡 참격 딜러, 같은 소속이 쓰러질수록 강해짐</td></tr>
+<tr><td class="l">동부 엄지 카포 IIII</td><td>뫼르소</td><td class="l">화상ㆍ진동 딜탱, 특수 탄환을 쓴 양에 따라 부가 효과가 붙음</td></tr>
+<tr><td class="l">홍원 군주</td><td>홍루</td><td class="l">파열ㆍ호흡 딜포터, 다른 흑수 인격과 맞물려 돌아감</td></tr>
+<tr><td class="l">거미집 약지 아비</td><td>홍루</td><td class="l">출혈ㆍ충전 딜러, 예열이 끝나면 광역 화력이 나옴</td></tr>
+<tr><td class="l">거미집 엄지 아비</td><td>로쟈</td><td class="l">화상ㆍ진동 딜러, 강화 3스킬로 막타를 노리는 킬 캐치형</td></tr>
+</table>
+<p>거미집 엄지 아비 로쟈의 자세한 운영법은 제 블로그의 「림버스 컴퍼니 신규 인격 거미집 엄지 아비 로쟈 스킬 운영법」 글에 적어 뒀어요. 이 글은 어느 인격이 어떻게 강한지가 아니라 여럿 중에 어떤 기준으로 고르는지에 집중할게요.</p>
+<h3>2. 티어표 읽는 법, SS는 범용ㆍ대체 불가</h3>
+<p>게임메카는 SS를 범용성이 뛰어나서 대신할 인격이 없는 자리, S를 조건을 채워야 빛나는 자리, A를 특정 시너지나 제한된 환경에서 좋은 자리로 정의해요.</p>
+<table>
+<tr><th>등급</th><th>인원</th><th>게임메카 정의</th></tr>
+<tr><td>SS</td><td>8종</td><td class="l">여러 상황에서 두루 쓰기 좋고 대체할 인격이 없음</td></tr>
+<tr><td>S</td><td>14종</td><td class="l">조건을 맞췄을 때 성능이 확 올라감</td></tr>
+<tr><td>A</td><td>35종</td><td class="l">특정 시너지 조합이나 한정된 환경에서 좋음</td></tr>
+</table>
+<p>등급 이름은 매체마다 달라요. 제 엄지 아비 로쟈 글에서는 나무위키를 인용해 '0티어'라고 적었는데요, 같은 인격이 게임메카에서는 SS예요. 척도 이름이 다르니 숫자나 알파벳만 보고 단순 비교하지 마세요.</p>
+<h3>3. 딜 유형으로 고르기, 딜러 5ㆍ딜탱 2ㆍ딜포터 1</h3>
+<p>SS 8종을 게임메카 코멘트에 적힌 역할로 나누면 딜러 5종, 딜탱 2종, 딜포터 1종이에요.</p>
+<ul>
+<li><b>딜러 5종</b>: 바느질의 왕(히스클리프), 거미집 검지 아비(이상), 거미집의 검(료슈), 거미집 약지 아비(홍루), 거미집 엄지 아비(로쟈)</li>
+<li><b>딜탱 2종</b>: 흑수 - 묘 필두(파우스트), 동부 엄지 카포 IIII(뫼르소)</li>
+<li><b>딜포터 1종</b>: 홍원 군주(홍루)</li>
+</ul>
+<p>키워드가 겹치는 인격도 있어요. 화상ㆍ진동은 카포 IIII와 엄지 아비, 출혈ㆍ충전은 바느질의 왕과 약지 아비, 호흡은 검지 아비ㆍ거미집의 검ㆍ홍원 군주가 한 묶음이더라고요. 지금 키우는 덱의 키워드와 겹치는 쪽부터 후보로 올리는 게 편하겠네요. 딜탱ㆍ딜포터의 정확한 뜻은 게임메카에 따로 설명이 없어서, 역할 정의는 인게임에서 직접 확인해 보세요.</p>
+<h3>4. 조건이 붙는 SS 체크리스트</h3>
+<p>SS 8종 중 코멘트에 편성 조건이 드러난 건 5종이에요. 검지 아비와 엄지 아비 2종은 강화 3스킬 얘기만 있고 편성 조건은 따로 적혀 있지 않아요.</p>
+<table>
+<tr><th>인격</th><th>뽑기 전에 같이 볼 것</th></tr>
+<tr><td class="l">바느질의 왕</td><td class="l">싱클레어를 키우고 있는지, 체력을 낮출 수단이 있는지</td></tr>
+<tr><td class="l">거미집의 검</td><td class="l">같은 소속 인격을 함께 편성할 수 있는지</td></tr>
+<tr><td class="l">동부 엄지 카포 IIII</td><td class="l">특수 탄환을 소모하는 흐름에 익숙한지</td></tr>
+<tr><td class="l">홍원 군주</td><td class="l">다른 흑수 인격을 갖고 있는지</td></tr>
+<tr><td class="l">거미집 약지 아비</td><td class="l">예열 구간을 버틸 편성이 나오는지</td></tr>
+</table>
+<p class="ph">📷 〔사진 자리 2〕 내 인격 목록에서 SS 8종 보유 여부를 확인한 화면 — 네이버에서 직접 업로드</p>
+<p class="phsub">└ 캡션 추천: "표의 8종 중 내가 가진 인격이 몇 개인지부터 세어 보세요."</p>
+<p>나머지 1종인 묘 필두는 파열을 유지하는 게 핵심이라 파열 덱 여부가 기준이에요. SS 정의는 범용성인데 코멘트엔 조건이 섞여 있어서, 저는 코멘트 쪽을 체크리스트로 쓰자는 입장이에요. 상황별로 갈라 보면 이래요.</p>
+<ul>
+<li>싱클레어를 굴리고 있다면 바느질의 왕부터: 코멘트가 싱클레어 보조를 직접 말하고 있어서</li>
+<li>화상ㆍ진동 덱이라면 카포 IIII나 엄지 아비: 두 인격 모두 같은 키워드로 묶여서</li>
+<li>흑수 인격이 여럿이라면 홍원 군주: 코멘트가 다른 흑수 인격과의 상호작용을 직접 말하고 있어서</li>
+<li>편성 조건이 단순한 쪽이 좋다면 검지 아비나 엄지 아비: 코멘트에 편성 조건이 따로 없어서</li>
+</ul>
+<h3>5. 아비 4종 구분과 SS 없는 수감자 5명</h3>
+<p>거미집 아비 중 검지(이상)ㆍ약지(홍루)ㆍ엄지(로쟈)는 SS이고, 중지(오티스)만 A예요. 게임메카 기준이고, 오티스 쪽은 제 블로그의 「림버스 컴퍼니 신규 인격 거미집 중지 아비 오티스(오티아스) …」 글에서 따로 다뤘어요.</p>
+<table>
+<tr><th>인격</th><th>등급</th><th>딜 유형</th></tr>
+<tr><td>검지 아비 · 이상</td><td>SS</td><td class="l">침잠ㆍ호흡 딜러</td></tr>
+<tr><td>약지 아비 · 홍루</td><td>SS</td><td class="l">출혈ㆍ충전 딜러</td></tr>
+<tr><td>엄지 아비 · 로쟈</td><td>SS</td><td class="l">화상ㆍ진동 딜러</td></tr>
+<tr><td>중지 아비 · 오티스</td><td>A</td><td class="l">화상ㆍ출혈 딜탱</td></tr>
+</table>
+<p>손가락 이름만으로는 헷갈리니 꼭 수감자와 같이 부르세요. 아비라고 다 SS는 아니라는 게 포인트예요. 수감자로 나눠 보면 SS가 있는 쪽은 히스클리프ㆍ이상ㆍ파우스트ㆍ료슈ㆍ뫼르소ㆍ홍루ㆍ로쟈 7명이에요. 홍루만 SS가 2종이고요.</p>
+<p>반대로 SS가 없는 수감자는 돈키호테ㆍ싱클레어ㆍ이스마엘ㆍ오티스ㆍ그레고르 5명이에요. 이 중 돈키호테ㆍ싱클레어ㆍ이스마엘ㆍ그레고르는 S가 있고, 오티스는 S도 SS도 없고 A만 2종이에요. 주인장이라면 SS 유무보다 내가 아끼는 수감자의 S를 같이 볼 것 같아요ㅋㅋ.</p>
+<h3>6. 매체 비교와 자주 묻는 질문</h3>
+<p>limbusdeck의 OP 9종과 게임메카 SS 8종은 4종만 겹쳐요.</p>
+<p>limbusdeck 한글판은 OP와 Tier 1~3 체계라 SS 자체가 없고, 여러 지표와 주관을 섞은 재미용 참고라고 밝혀 둔 곳이에요. 겹치는 4종은 거미집 검지 아비 이상ㆍ거미집의 검 료슈ㆍ흑수 - 묘 필두 파우스트ㆍ홍원 군주 홍루예요. 두 매체 평가가 갈리는 인격도 있는데요, 동부 엄지 카포 IIII 뫼르소는 게임메카 SS인데 limbusdeck에서는 Tier 2이고, 거미집 중지 아비 오티스는 게임메카 A인데 limbusdeck에서는 Tier 1이에요.</p>
+<table>
+<tr><th>매체</th><th>등급 체계</th></tr>
+<tr><td>게임메카 국민트리</td><td class="l">SS › S › A (3단, 10/30 기준)</td></tr>
+<tr><td>limbusdeck</td><td class="l">OP › Tier 1 › Tier 2 › Tier 3 (10/29 표기)</td></tr>
+<tr><td>나무위키 (제 글)</td><td class="l">0티어 표기</td></tr>
+</table>
+<p><b>Q. SS 인격은 지금 뽑을 수 있나요?</b><br>획득 방법과 현재 추출 가능 여부는 확인하지 못했어요. 인게임 추출 탭에서 직접 확인해 보세요.</p>
+<p><b>Q. 티어표는 얼마나 자주 바뀌나요?</b><br>게임메카는 신규 인격이 추가되면 갱신하겠다고 적어 두었어요. 이후 업데이트로 배치가 달라질 수 있으니 글을 볼 때 최종 업데이트 날짜부터 확인하세요.</p>
+
+<p>이렇게 게임메카 10월 30일 기준 SS 8종을 읽는 법을 정리해 봤는데요, 핵심은 SS 8종을 외우는 게 아니라 내 수감자ㆍ키워드ㆍ조건과 맞는 쪽을 고르는 거예요. 한 곳의 평가라는 점만 기억하고, 내 인격 목록 앞에서 한 번 더 비교해 보세요!</p>
+
+<p><b>참고한 곳</b><br>
+· <a href="https://trees.gamemeca.com/view.php?seq=1584" target="_blank">게임메카 국민트리 림버스 컴퍼니 티어표</a> (최종 업데이트 26/10/30 기준)<br>
+· <a href="https://limbusdeck.com/tier-list" target="_blank">limbusdeck 티어 리스트</a> (10/29 표기)<br>
+· <a href="https://store.steampowered.com/news/app/1973530/view/667254131059071075" target="_blank">림버스 컴퍼니 Steam 신규 인격 공지</a></p>
+
+<p><b>▶ 같이 보면 좋은 글</b><br>
+· <a href="https://blog.naver.com/kkodug9/224442844964" target="_blank">림버스컴퍼니 거울던전 시즌8 5층 등반 가호, 고난 선택 공략</a><br>
+· <a href="https://blog.naver.com/kkodug9/224436736279" target="_blank">림버스 컴퍼니 오트쿠튀르 수선실 로쟈(수료쟈, 수선쟈, 가위쟈) 운영 공략</a><br>
+· <a href="https://blog.naver.com/kkodug9/224429989139" target="_blank">림버스컴퍼니 신발슈, 르누슈, 오트쿠튀르 르누아르 신발관 료슈 운영법 공략</a></p>
+<p class="tags-line">#림버스컴퍼니 #림버스컴퍼니티어표 #LimbusCompany #림버스SS인격 #게임메카티어표 #거미집아비 #림버스컴퍼니인격추천 #림버스컴퍼니공략 #할만한모바일게임</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false; try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+</body></html>
