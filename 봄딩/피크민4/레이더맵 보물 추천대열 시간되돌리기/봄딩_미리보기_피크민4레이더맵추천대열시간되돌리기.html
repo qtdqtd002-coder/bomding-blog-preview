@@ -1,0 +1,284 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>피크민4 공략 레이더 맵 보물 표시와 추천 대열, 시간 되돌리기</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .chk{display:inline-block;background:#fff4e5;border:1px solid #ffd591;color:#ad6800;font-size:11px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;white-space:nowrap;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .gap.mine{border-color:#7aa2e8;background:#eef4ff;color:#1a4fa0;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">피크민4 공략 레이더 맵 보물 표시와 추천 대열, 시간 되돌리기</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.11.04</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: 피크민4 보물 위치 어떻게 찾나 / 피크민4 추천 대열 X 버튼 뭐예요 / 피크민4 시간 되돌리기 어떻게 하나 -->
+    <!-- 도입유형=A-2(상황 흐름형) · 마무리=B-1 추천 종결형·첫어구="한마디로" -->
+
+    <p><b>피크민 4 : 새싹에서 보물이 어디 있는지 모르겠을 땐 + 버튼으로 태블릿을 열어 레이더 맵의 '★'을 보면 되고, 대열이 막막할 땐 X 버튼으로 추천 대열을 편성하면 되고, 실패했다 싶을 땐 일시 정지 메뉴(− 버튼)의 '시간 되돌리기'를 쓰면 돼요.</b></p>
+    <p>피크민 4를 하다 보면 보물이 어디 있는지 감이 안 잡혀서 같은 길을 빙글빙글 돌게 되거나, 어떤 색 피크민을 데려가야 할지 몰라서 대열 앞에서 한참 멈춰 서게 되거나, 방금 한 선택이 아무래도 틀린 것 같아서 손이 멈추는 순간이 오잖아요. 이런 때 쓰라고 이미 게임 안에 들어 있는 기능들이 있는데요, 오늘은 기능 이름을 하나하나 외우기보다 '이럴 때 이 버튼' 기준으로 풀어볼게요.</p>
+    <p>닌텐도 공식 '피크민 4 : 새싹 가이드'에 나온 내용을 위주로, 처음 하시는 분이나 막히는 순간이 잦은 분 기준으로 정리했어요. 그리고 이 글은 <b>기존 Nintendo Switch 판 공식 가이드 기준</b>이라, Switch 2 에디션에서 조작이 같은지는 확인이 필요합니다.</p>
+
+    <h2 class="sub">피크민4 공략, 보물이 안 보일 땐 레이더 맵의 ★부터 볼까요</h2>
+    <p><b>피크민4에서 보물 위치는 + 버튼을 눌러 태블릿을 연 다음 레이더 맵을 확인하면 '★' 모양으로 표시돼요.</b> 다만 가이드에는 '탐색한 적 있는 범위에서는' 보물이 ★로 표시된다고 적혀 있어요. 아직 한 번도 둘러보지 않은 곳까지 미리 알려 주는 지도는 아니니까, 보물이 안 보이면 그 지역을 조금 더 둘러본 뒤에 레이더 맵을 다시 열어 보는 쪽이 자연스럽겠죠. 그리고 레이더 맵에서 ★에 커서를 맞춘 채 ZL 버튼(이쪽 보기)을 누르면 그 방향으로 시점을 돌릴 수 있어서, ★을 봤는데 어디로 가야 할지 헷갈릴 때 도움이 돼요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 레이더 맵에 ★이 표시된 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — + 버튼으로 태블릿을 열고 레이더 맵 화면을 캡처해 주세요. 같은 지역을 탐색하기 전과 탐색한 뒤로 두 장을 나란히 두면 '탐색한 범위'라는 말이 바로 이해돼요. (공식 가이드 이미지는 가져오지 않아요)</div>
+    <p class="cap">레이더 맵은 한 번 가 본 곳이 채워질수록 보물 위치가 눈에 들어와요</p>
+    <div class="gap mine"><b>✍️ 봄딩 한 줄</b> — 하나만 남기고 지우기 · 안 쓰면 이 줄 통째로 지우기<br>제 레이더 맵에는 ★이 〔여러 개 떠 있었어요 / 몇 개만 떠 있었어요 / 아직 하나도 안 떠 있었어요〕.</div>
+
+    <p>보물을 찾을 때 쓸 수 있는 방법은 가이드에 세 가지가 나와 있어요.</p>
+    <ul>
+      <li>레이더 맵: + 버튼으로 태블릿을 열어 탐색한 범위의 ★을 확인해요.</li>
+      <li>보물 센서: 개발하면 보물에 가까워질수록 센서가 더 강하게 반응해요.</li>
+      <li>와치에게 부탁하기: Y 버튼을 길게 누른 채 L 스틱을 왼쪽으로 하면 부탁 메뉴가 열리고, '임의 설정'을 고르면 지금 찾아야 할 걸 와치가 정해 주고, 보물이나 조난자를 직접 지정해서 찾아 달라고 할 수도 있어요. 와치 등에 타면 찾는 것이 있는 곳까지 데려다줘요.</li>
+    </ul>
+    <div class="gap"><b>✍️ 직접 조사·입력 필요</b> — 보물 센서 개발에 필요한 조건·비용<br>
+    확인 위치: 인게임 개발 메뉴 · 가이드에는 개발 조건이 나와 있지 않아요. 확인되면 아래에 채워주세요.</div>
+
+    <h2 class="sub">피크민4 추천 대열, X 버튼 하나로 편성해도 될까요</h2>
+    <p><b>피크민을 부르거나 돌려보내는 화면에서 X 버튼을 누르면 그 지역 공략에 유리한 추천 대열이 자동으로 편성돼요.</b> 이 화면에는 해당 지역에 유리한 '추천 피크민'이 표시되는데, 이 화면은 오니용 밑에서 A 버튼을 누르면 열려요. X 버튼은 그 추천대로 한 번에 맞춰 주는 버튼인 셈이죠. 어떤 색을 얼마나 데려가야 하는지 처음엔 감 잡기 어려운데, 자동 편성을 출발점으로 삼으면 고민이 확 줄어요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 피크민 부르기·돌려보내기 화면의 추천 피크민 표시</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 피크민을 부르거나 돌려보내는 화면을 열고, 추천 피크민 표시와 X 버튼 안내가 같이 보이는 장면을 캡처해 주세요.</div>
+    <p class="cap">X 버튼 한 번이면 추천 대열이 자동으로 짜여요</p>
+    <div class="gap mine"><b>✍️ 봄딩 한 줄</b> — 하나만 남기고 지우기 · 안 쓰면 이 줄 통째로 지우기<br>저는 〔처음 가는 지역에 들어가기 전에 / 동굴 앞에서 / 색 구성이 헷갈릴 때〕 X 버튼부터 눌러 보는 편이에요.</div>
+
+    <p><b>대열, 이럴 땐 이렇게</b><br>
+    · 처음 가는 지역이라면: 추천 대열로 탐색해 보라고 가이드가 권해요.<br>
+    · 동굴에 들어가기 전이라면: 이쪽도 추천 대열을 권하고 있어요.<br>
+    · 이미 익숙한 지역이라면: 가이드가 권하는 건 '처음 가는 곳'이라서, 익숙한 곳은 내 방식대로 짜 봐도 괜찮겠죠. 이건 가이드 설명이 아니라 제 판단이에요.</p>
+
+    <h2 class="sub">피크민4 시간 되돌리기, 실패했다 싶을 땐 바로 쓰는 게 좋을까요</h2>
+    <p><b>시간 되돌리기는 일시 정지 메뉴(− 버튼)에서 고르면 조금 전 상태에서 다시 시작할 수 있는 기능이에요.</b> 가이드는 실패했다는 생각이 들면 바로 되돌리는 걸 권하고 있어요. '조금 전 상태'로 돌아간다고 했으니, 망설이는 사이에 이것저것 더 하기보다 실패했다 싶을 때 바로 쓰는 게 원하는 지점으로 돌아가기 좋을 것 같아요. 가이드 그림 속 화면에는 '되돌릴 곳 4분 전'처럼 얼마 전으로 돌아갈지 고르는 칸이 보여요. 다만 고를 수 있는 시점이 몇 개인지, 횟수 제한이 있는지는 적혀 있지 않아요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 일시 정지 메뉴의 '시간 되돌리기' 항목</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — − 버튼으로 일시 정지 메뉴를 열고 '시간 되돌리기'가 보이는 화면을 캡처해 주세요.</div>
+    <p class="cap">일시 정지 메뉴 안에 시간 되돌리기가 있어요</p>
+    <div class="gap"><b>✍️ 직접 조사·입력 필요</b> — 고를 수 있는 시점이 몇 개인지, 쓸 수 있는 횟수 제한이 있는지<br>
+    확인 위치: 인게임 일시 정지 메뉴 · 가이드 그림에 '되돌릴 곳 4분 전' 칸은 보이지만 시점 개수는 적혀 있지 않아요. 확인되면 아래에 채워주세요.</div>
+
+    <p><b>시간이 걱정될 땐</b> 레이더 맵(+ 버튼)이나 일시 정지 메뉴(− 버튼)를 열고 있는 동안에는 시간이 흐르지 않아요. 개발로 얻는 순찰 드론을 쓰는 중에도 시간이 멈춘다고 해서, 지도를 천천히 들여다보며 계획을 세울 때 마음이 편하죠.</p>
+    <p><b>조준한 대상을 놓치기 싫을 땐</b> 조준하는 중에 ZR 버튼을 누르면 그 대상이 고정돼요. 고정된 상태에서 ZR 버튼을 다시 누르면 대상을 바꾸거나 풀 수 있고, 조준하는 중에만 쓸 수 있다는 점은 알아 두세요.</p>
+
+    <h2 class="sub">피크민4 공략, 상황별로 한눈에 보면</h2>
+    <p><b>보물이 안 보이면 레이더 맵, 대열이 막막하면 X 버튼, 실패했다 싶으면 시간 되돌리기, 느긋하게 계획하고 싶으면 레이더 맵이나 일시 정지 메뉴를 열면 돼요.</b></p>
+    <table class="tbl">
+      <thead><tr><th>이럴 때</th><th>이 기능</th><th>버튼</th></tr></thead>
+      <tbody>
+        <tr><td>보물이 어디 있는지 모르겠어요</td><td>태블릿의 레이더 맵(★ 표시)</td><td>+ 버튼</td></tr>
+        <tr><td>보물 가까이 가는 중인지 알고 싶어요</td><td>보물 센서(개발 후)</td><td>개발해서 사용</td></tr>
+        <tr><td>찾는 걸 대신 맡기고 싶어요</td><td>와치에게 부탁하기</td><td>Y 길게 누르고 L 스틱 왼쪽</td></tr>
+        <tr><td>어떤 피크민을 데려갈지 막막해요</td><td>추천 대열 자동 편성</td><td>부르기·돌려보내기 화면에서 X 버튼</td></tr>
+        <tr><td>실패한 것 같아요</td><td>시간 되돌리기</td><td>− 버튼(일시 정지 메뉴)</td></tr>
+        <tr><td>시간 신경 쓰지 않고 계획하고 싶어요</td><td>레이더 맵·일시 정지 메뉴(순찰 드론 사용 중에도 정지)</td><td>+ 버튼 / − 버튼</td></tr>
+        <tr><td>조준한 대상을 고정하고 싶어요</td><td>조준 고정</td><td>조준 중 ZR 버튼</td></tr>
+      </tbody>
+    </table>
+    <p class="src">표의 내용은 닌텐도 공식 '피크민 4 : 새싹 가이드' 기준이에요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 컨트롤러 버튼 위치와 기능을 한 장으로 정리한 화면(선택)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 위 표를 직접 플레이하며 확인한 화면 몇 장을 이어 붙이거나, 컨트롤러 사진 위에 +, −, X, ZR 위치를 표시해 한 장으로 정리해 보세요.</div>
+    <p class="cap">버튼 위치를 한 번에 볼 수 있는 정리 컷</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. 시간 되돌리기는 얼마나 전으로 돌아가고, 몇 번까지 쓸 수 있나요?</b><br>
+    돌아갈 시점을 고르는 칸이 있다는 것까지는 가이드 그림에서 확인돼요. 시점이 총 몇 개인지, 몇 번까지 쓸 수 있는지는 공식 가이드에는 안 적혀 있어서 숫자는 적지 않을게요.</p>
+    <p><b>Q. 추천 대열은 몇 마리를 어떤 색으로 편성해 주나요?</b><br>
+    그 지역 공략에 유리한 '추천 피크민'을 기준으로 자동 편성된다는 설명만 가이드에 있고, 마리 수나 색 비율 같은 숫자는 적혀 있지 않아요.</p>
+    <p><b>Q. Switch 2 에디션에서도 같은 버튼으로 쓰나요?</b><br>
+    이 글에서 설명한 버튼은 기존 Switch 판 공식 가이드에 적힌 것이고, Switch 2 에디션에서 같은지는 확인하지 못했어요. 한국 출시 시점이나 에디션 정보는 닌텐도 공식 안내가 나오면 그쪽을 기준으로 보셔야 합니다.</p>
+
+    <h2 class="sub">피크민4 레이더 맵·추천 대열·시간 되돌리기 정리</h2>
+    <p>한마디로 보물 위치는 레이더 맵에, 대열 고민은 X 버튼에, 실수는 시간 되돌리기에 맡겨 두면 마음이 한결 편해요. 어느 기능이든 막히는 순간에 떠올리면 되는 도구라서, 피크민 4 하시는 분들이라면 이 버튼들을 한 번씩 눌러 보시면 좋겠습니다.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.nintendo.com/kr/switch/ampya/guide/index.html" target="_blank">닌텐도 공식 '피크민 4 : 새싹 가이드'</p>
+
+    <div class="tags">#피크민4 #피크민4공략 #피크민4새싹 #레이더맵 #추천대열 #시간되돌리기 #닌텐도스위치</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 6가지(약 5분):</b> 📷 <b>사진 4곳</b> 업로드 · ✍️ <b>한 줄 2곳</b>(골라서 하나만 남기기 · 안 쓰면 그 줄 지우기) · 미리보기의 '직접 조사·입력' 박스 2곳은 복사본에 없어요. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 피크민4 공략 레이더 맵 보물 표시와 추천 대열, 시간 되돌리기</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+    <p><b>피크민 4 : 새싹에서 보물이 어디 있는지 모르겠을 땐 + 버튼으로 태블릿을 열어 레이더 맵의 '★'을 보면 되고, 대열이 막막할 땐 X 버튼으로 추천 대열을 편성하면 되고, 실패했다 싶을 땐 일시 정지 메뉴(− 버튼)의 '시간 되돌리기'를 쓰면 돼요.</b></p>
+    <p>피크민 4를 하다 보면 보물이 어디 있는지 감이 안 잡혀서 같은 길을 빙글빙글 돌게 되거나, 어떤 색 피크민을 데려가야 할지 몰라서 대열 앞에서 한참 멈춰 서게 되거나, 방금 한 선택이 아무래도 틀린 것 같아서 손이 멈추는 순간이 오잖아요. 이런 때 쓰라고 이미 게임 안에 들어 있는 기능들이 있는데요, 오늘은 기능 이름을 하나하나 외우기보다 '이럴 때 이 버튼' 기준으로 풀어볼게요.</p>
+    <p>닌텐도 공식 '피크민 4 : 새싹 가이드'에 나온 내용을 위주로, 처음 하시는 분이나 막히는 순간이 잦은 분 기준으로 정리했어요. 그리고 이 글은 <b>기존 Nintendo Switch 판 공식 가이드 기준</b>이라, Switch 2 에디션에서 조작이 같은지는 확인이 필요합니다.</p>
+
+    <h3>피크민4 공략, 보물이 안 보일 땐 레이더 맵의 ★부터 볼까요</h3>
+    <p><b>피크민4에서 보물 위치는 + 버튼을 눌러 태블릿을 연 다음 레이더 맵을 확인하면 '★' 모양으로 표시돼요.</b> 다만 가이드에는 '탐색한 적 있는 범위에서는' 보물이 ★로 표시된다고 적혀 있어요. 아직 한 번도 둘러보지 않은 곳까지 미리 알려 주는 지도는 아니니까, 보물이 안 보이면 그 지역을 조금 더 둘러본 뒤에 레이더 맵을 다시 열어 보는 쪽이 자연스럽겠죠. 그리고 레이더 맵에서 ★에 커서를 맞춘 채 ZL 버튼(이쪽 보기)을 누르면 그 방향으로 시점을 돌릴 수 있어서, ★을 봤는데 어디로 가야 할지 헷갈릴 때 도움이 돼요.</p>
+    <p class="ph">📷 〔사진 자리 1〕 레이더 맵에 ★이 표시된 화면(탐색 전·후 두 장 추천) — 네이버에서 직접 업로드</p>
+    <p class="ph">└ 캡션 추천: "레이더 맵은 한 번 가 본 곳이 채워질수록 보물 위치가 눈에 들어와요"</p>
+    <p class="ph">✍️ 〔봄딩 한 줄 — 하나만 남기기〕 제 레이더 맵에는 ★이 〔여러 개 떠 있었어요 / 몇 개만 떠 있었어요 / 아직 하나도 안 떠 있었어요〕.</p>
+    <p>보물을 찾을 때 쓸 수 있는 방법은 가이드에 세 가지가 나와 있어요.</p>
+    <ul>
+      <li>레이더 맵: + 버튼으로 태블릿을 열어 탐색한 범위의 ★을 확인해요.</li>
+      <li>보물 센서: 개발하면 보물에 가까워질수록 센서가 더 강하게 반응해요.</li>
+      <li>와치에게 부탁하기: Y 버튼을 길게 누른 채 L 스틱을 왼쪽으로 하면 부탁 메뉴가 열리고, '임의 설정'을 고르면 지금 찾아야 할 걸 와치가 정해 주고, 보물이나 조난자를 직접 지정해서 찾아 달라고 할 수도 있어요. 와치 등에 타면 찾는 것이 있는 곳까지 데려다줘요.</li>
+    </ul>
+
+    <h3>피크민4 추천 대열, X 버튼 하나로 편성해도 될까요</h3>
+    <p><b>피크민을 부르거나 돌려보내는 화면에서 X 버튼을 누르면 그 지역 공략에 유리한 추천 대열이 자동으로 편성돼요.</b> 이 화면에는 해당 지역에 유리한 '추천 피크민'이 표시되는데, 이 화면은 오니용 밑에서 A 버튼을 누르면 열려요. X 버튼은 그 추천대로 한 번에 맞춰 주는 버튼인 셈이죠. 어떤 색을 얼마나 데려가야 하는지 처음엔 감 잡기 어려운데, 자동 편성을 출발점으로 삼으면 고민이 확 줄어요.</p>
+    <p class="ph">📷 〔사진 자리 2〕 피크민 부르기·돌려보내기 화면의 추천 피크민 표시와 X 버튼 안내 — 네이버에서 직접 업로드</p>
+    <p class="ph">└ 캡션 추천: "X 버튼 한 번이면 추천 대열이 자동으로 짜여요"</p>
+    <p class="ph">✍️ 〔봄딩 한 줄 — 하나만 남기기〕 저는 〔처음 가는 지역에 들어가기 전에 / 동굴 앞에서 / 색 구성이 헷갈릴 때〕 X 버튼부터 눌러 보는 편이에요.</p>
+    <p><b>대열, 이럴 땐 이렇게</b><br>
+    · 처음 가는 지역이라면: 추천 대열로 탐색해 보라고 가이드가 권해요.<br>
+    · 동굴에 들어가기 전이라면: 이쪽도 추천 대열을 권하고 있어요.<br>
+    · 이미 익숙한 지역이라면: 가이드가 권하는 건 '처음 가는 곳'이라서, 익숙한 곳은 내 방식대로 짜 봐도 괜찮겠죠. 이건 가이드 설명이 아니라 제 판단이에요.</p>
+
+    <h3>피크민4 시간 되돌리기, 실패했다 싶을 땐 바로 쓰는 게 좋을까요</h3>
+    <p><b>시간 되돌리기는 일시 정지 메뉴(− 버튼)에서 고르면 조금 전 상태에서 다시 시작할 수 있는 기능이에요.</b> 가이드는 실패했다는 생각이 들면 바로 되돌리는 걸 권하고 있어요. '조금 전 상태'로 돌아간다고 했으니, 망설이는 사이에 이것저것 더 하기보다 실패했다 싶을 때 바로 쓰는 게 원하는 지점으로 돌아가기 좋을 것 같아요. 가이드 그림 속 화면에는 '되돌릴 곳 4분 전'처럼 얼마 전으로 돌아갈지 고르는 칸이 보여요. 다만 고를 수 있는 시점이 몇 개인지, 횟수 제한이 있는지는 적혀 있지 않아요.</p>
+    <p class="ph">📷 〔사진 자리 3〕 일시 정지 메뉴의 '시간 되돌리기' 항목 — 네이버에서 직접 업로드</p>
+    <p class="ph">└ 캡션 추천: "일시 정지 메뉴 안에 시간 되돌리기가 있어요"</p>
+    <p><b>시간이 걱정될 땐</b> 레이더 맵(+ 버튼)이나 일시 정지 메뉴(− 버튼)를 열고 있는 동안에는 시간이 흐르지 않아요. 개발로 얻는 순찰 드론을 쓰는 중에도 시간이 멈춘다고 해서, 지도를 천천히 들여다보며 계획을 세울 때 마음이 편하죠.</p>
+    <p><b>조준한 대상을 놓치기 싫을 땐</b> 조준하는 중에 ZR 버튼을 누르면 그 대상이 고정돼요. 고정된 상태에서 ZR 버튼을 다시 누르면 대상을 바꾸거나 풀 수 있고, 조준하는 중에만 쓸 수 있다는 점은 알아 두세요.</p>
+
+    <h3>피크민4 공략, 상황별로 한눈에 보면</h3>
+    <p><b>보물이 안 보이면 레이더 맵, 대열이 막막하면 X 버튼, 실패했다 싶으면 시간 되돌리기, 느긋하게 계획하고 싶으면 레이더 맵이나 일시 정지 메뉴를 열면 돼요.</b></p>
+    <table>
+      <thead><tr><th>이럴 때</th><th>이 기능</th><th>버튼</th></tr></thead>
+      <tbody>
+        <tr><td>보물이 어디 있는지 모르겠어요</td><td>태블릿의 레이더 맵(★ 표시)</td><td>+ 버튼</td></tr>
+        <tr><td>보물 가까이 가는 중인지 알고 싶어요</td><td>보물 센서(개발 후)</td><td>개발해서 사용</td></tr>
+        <tr><td>찾는 걸 대신 맡기고 싶어요</td><td>와치에게 부탁하기</td><td>Y 길게 누르고 L 스틱 왼쪽</td></tr>
+        <tr><td>어떤 피크민을 데려갈지 막막해요</td><td>추천 대열 자동 편성</td><td>부르기·돌려보내기 화면에서 X 버튼</td></tr>
+        <tr><td>실패한 것 같아요</td><td>시간 되돌리기</td><td>− 버튼(일시 정지 메뉴)</td></tr>
+        <tr><td>시간 신경 쓰지 않고 계획하고 싶어요</td><td>레이더 맵·일시 정지 메뉴(순찰 드론 사용 중에도 정지)</td><td>+ 버튼 / − 버튼</td></tr>
+        <tr><td>조준한 대상을 고정하고 싶어요</td><td>조준 고정</td><td>조준 중 ZR 버튼</td></tr>
+      </tbody>
+    </table>
+    <p>표의 내용은 닌텐도 공식 '피크민 4 : 새싹 가이드' 기준이에요.</p>
+    <p class="ph">📷 〔사진 자리 4〕 컨트롤러 버튼 위치와 기능을 한 장으로 정리한 화면(선택) — 네이버에서 직접 업로드</p>
+    <p class="ph">└ 캡션 추천: "버튼 위치를 한 번에 볼 수 있는 정리 컷"</p>
+
+    <h3>자주 묻는 질문</h3>
+    <p><b>Q. 시간 되돌리기는 얼마나 전으로 돌아가고, 몇 번까지 쓸 수 있나요?</b><br>
+    돌아갈 시점을 고르는 칸이 있다는 것까지는 가이드 그림에서 확인돼요. 시점이 총 몇 개인지, 몇 번까지 쓸 수 있는지는 공식 가이드에는 안 적혀 있어서 숫자는 적지 않을게요.</p>
+    <p><b>Q. 추천 대열은 몇 마리를 어떤 색으로 편성해 주나요?</b><br>
+    그 지역 공략에 유리한 '추천 피크민'을 기준으로 자동 편성된다는 설명만 가이드에 있고, 마리 수나 색 비율 같은 숫자는 적혀 있지 않아요.</p>
+    <p><b>Q. Switch 2 에디션에서도 같은 버튼으로 쓰나요?</b><br>
+    이 글에서 설명한 버튼은 기존 Switch 판 공식 가이드에 적힌 것이고, Switch 2 에디션에서 같은지는 확인하지 못했어요. 한국 출시 시점이나 에디션 정보는 닌텐도 공식 안내가 나오면 그쪽을 기준으로 보셔야 합니다.</p>
+
+    <h3>피크민4 레이더 맵·추천 대열·시간 되돌리기 정리</h3>
+    <p>한마디로 보물 위치는 레이더 맵에, 대열 고민은 X 버튼에, 실수는 시간 되돌리기에 맡겨 두면 마음이 한결 편해요. 어느 기능이든 막히는 순간에 떠올리면 되는 도구라서, 피크민 4 하시는 분들이라면 이 버튼들을 한 번씩 눌러 보시면 좋겠습니다.</p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://www.nintendo.com/kr/switch/ampya/guide/index.html" target="_blank">닌텐도 공식 '피크민 4 : 새싹 가이드'</p>
+
+    <p class="tags-line">#피크민4 #피크민4공략 #피크민4새싹 #레이더맵 #추천대열 #시간되돌리기 #닌텐도스위치</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
