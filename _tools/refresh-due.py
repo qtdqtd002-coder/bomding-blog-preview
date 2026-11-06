@@ -51,7 +51,8 @@ def title_of(folder):
 
 
 def load(path):
-    data = json.load(io.open(path, encoding='utf-8'))
+    # ★utf-8-sig — PowerShell(Out-File·Set-Content -Encoding utf8)이 쓴 BOM 붙은 기록도 읽는다(11-06 · 애니모 1건이 «형식 오류»로 목록에서 빠졌다)
+    data = json.load(io.open(path, encoding='utf-8-sig'))
     items = data if isinstance(data, list) else [data]
     for it in items:
         if not isinstance(it, dict) or not DATE_RE.match(str(it.get('due', ''))):

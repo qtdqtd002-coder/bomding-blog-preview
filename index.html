@@ -3640,6 +3640,16 @@ function trChips(it){
     var hero=it.refreshKind==='hero', lab=hero?'효자 글':(it.rfSt||'기한');
     /* 머리가 이미 «N일 남음»·«효자 글»이라 본문은 접두를 뺀 사유(rfWhy)로 — why 를 정규식으로 자르지 않는다(접두가 바뀌면 사유가 잘린다 · 게이트 2차 🟢) */
     out+=chip(hero?'aib-mine':(it.rfLate?'rf-late':'rf'),lab,{h:lab,k:hero?'월간 효자 글':'갱신 약속',p:it.rfWhy||it.why,rows:it.when?[['기한',it.when.replace(/^기한\s*/,'')]]:[]},'rf');
+    /* 이미 보낸 갱신 발주(11-06) — 버튼이 «발주함·갱신함·건너뜀»으로 잠기는 이유를 이 칩 카드가 말한다(러너가 적은 사유 그대로) */
+    var rq=refreshReqOf(it);
+    if(rq){
+      var rl=refreshReqLabel(rq), rd=fmtRel(rq.statusAt||rq.createdAt);
+      out+=chip('',rl+' · '+rd,{h:rl,k:'갱신 발주',
+        p:rq.status==='skipped'?(rq.error||'러너가 바뀐 내용이 없다고 보고 건너뛰었어요.')
+         :rq.status==='published'?'이 글은 이미 갱신해 발행했어요. 다시 보내면 러너가 건너뛰어요.'
+         :'갱신 발주가 큐에 있어요. 끝나면 «갱신함»으로 바뀌어요.',
+        rows:[['발주',fmtRel(rq.createdAt)],['상태',REQ_STATUS_LABEL[rq.status]||rq.status]]},'rq');
+    }
   }
   return out;
 }
@@ -3700,6 +3710,25 @@ function deskItemById(id){
   }
   return REFRESH_ITEMS.filter(function(x){ return x.id===id; })[0]||null;
 }
+/* 갱신 발주 이력(2026-11-06) — 이미 발주·갱신한 글을 또 보내면 러너가 skipped 로 끝내 종 알림에 «작성 실패»가 떴다(11-01 도술 조합 · 11-03 사과게임).
+   큐(/requests)에서 같은 글의 [리프레시] 요청을 찾아 버튼을 «발주함»(접수·발행중)·«갱신함»(발행됨)·«건너뜀»(러너가 변동 0 판정)으로 바꾼다.
+   failed 는 다시 보낼 수 있다. 기한 약속은 같은 기한([시점] 기한 YYYY-MM-DD)만 같은 건 · 효자 글은 그 달 배치 뒤 요청만 센다 */
+var RF_REQ_RANK={received:3,processing:3,published:2,skipped:1};
+function refreshReqOf(it){
+  if(!it||it.sec!=='refresh'||!REQS_OK)return null;
+  var hero=it.refreshKind==='hero', since=(hero&&HERO&&HERO.month)?Date.parse(HERO.month+'-01T00:00:00+09:00'):0, hit=null;
+  REQS.forEach(function(r){
+    var m=String((r&&r.material)||'');
+    if(!RF_REQ_RANK[r&&r.status]||m.indexOf('[리프레시]')<0)return;
+    if(since&&(r.createdAt||0)<since)return;
+    var same=it.refreshRel?(m.indexOf('[리프레시] 기존 글: '+it.refreshRel)>=0||r.postRel===it.refreshRel)
+                         :(String(r.topic||'').trim()===String(it.title||'').trim());
+    if(!same||(!hero&&it.when&&m.indexOf('[시점] '+it.when)<0))return;
+    if(!hit||RF_REQ_RANK[r.status]>RF_REQ_RANK[hit.status]||(RF_REQ_RANK[r.status]===RF_REQ_RANK[hit.status]&&(r.createdAt||0)>(hit.createdAt||0)))hit=r;
+  });
+  return hit;
+}
+function refreshReqLabel(r){ return r.status==='published'?'갱신함':(r.status==='skipped'?'건너뜀':'발주함'); }
 
 /* 꼭 다룰 게임 상자 — 여기 적은 게임은 다음 회차 데스크가 주제를 최대 5개 만든다
    (★2026-09-18 사용자 결정: «3건 바닥»은 공략 질의로 채울 수 있을 때만 — 패치 세부로 바닥을 채우지 않는다)
@@ -3839,8 +3868,14 @@ function trendRow(it){
     '<span class="tr-g">'+esc(it.game||'—')+'</span>'+
     (function(){ var cx=trChips(it)+trWriters(it), n=(cx.match(/class="tr-(chip|wr)/g)||[]).length;
       return '<span class="tr-m'+(n>=4?' many':'')+'"><span class="tr-h">'+esc(it.title)+'</span>'+cx+'</span>'; })()+
-    '<button type="button" class="cta" data-req="'+esc(it.id)+'">'+(it.sec==='refresh'?'갱신 발주':'발주 요청')+
-      '<span class="knob">'+svg('arrowR')+'</span></button>'+
+    (function(){
+      /* 이미 보낸 갱신 발주는 잠근다(11-06 · 재발주 = 러너 skipped = «작성 실패») — 사유는 같은 행 칩 카드에 */
+      var rq=refreshReqOf(it);
+      if(rq)return '<button type="button" class="cta done" disabled aria-label="'+esc(refreshReqLabel(rq)+' — '+it.title)+'">'+esc(refreshReqLabel(rq))+
+        '<span class="knob">'+svg('check')+'</span></button>';
+      return '<button type="button" class="cta" data-req="'+esc(it.id)+'">'+(it.sec==='refresh'?'갱신 발주':'발주 요청')+
+        '<span class="knob">'+svg('arrowR')+'</span></button>';
+    })()+
   '</div>';
 }
 function skel(n){
