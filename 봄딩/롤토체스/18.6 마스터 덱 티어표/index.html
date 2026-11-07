@@ -1,0 +1,375 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>롤토체스 덱 티어 18.6 마스터+ 평균등수·순방률 기준</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:23px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:22px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tbl img{width:48px;height:48px;vertical-align:middle;border-radius:6px;margin-right:8px;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">롤토체스 덱 티어 18.6 마스터+ 평균등수·순방률 기준</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.11.07</span><span>· 게임</span></div>
+
+    <!-- AI브리핑 타깃 질문: ①롤토체스 덱 티어 18.6에서 어떤 덱이 위인가 ②티어는 어떤 기준으로 나눴나 ③점유율 높은 덱이 왜 티어는 낮을 수 있나 ④지금 어떤 덱부터 연습할까 -->
+
+    <p>11월 4일에 18.6이 들어오고 사흘이 지난 11월 7일 토요일, 롤체지지 마스터+ 기록(표본 364,434판)으로 롤토체스 덱 티어를 다시 줄 세워 봤어요. 이번에도 <b>평균등수와 4등 이내로 들어온 비율(순방률)</b> 두 기준으로 S부터 C까지 나눴는데요, 제일 먼저 눈에 들어온 건 점유율 2위 선봉대 알룬이에요. 지난 18.5b 글에서 S였는데 이번엔 B로 내려앉았거든요. 뒤에서는 인기와 성적이 어긋나는 덱을 짚고, 마지막에 어떤 덱부터 연습할지까지 정리해 볼게요.</p>
+
+    <h2 class="sub">롤토체스 덱 티어표, 패치 18.6 마스터+ 기준</h2>
+
+    <p>패치 18.6 마스터+ 기준 S 티어는 협곡야수 드레이븐, 나무정령 드레이븐, 협곡야수 돌거북 세 덱이에요.</p>
+
+    <!-- 이미지 이유: 글의 앵커 티어표 / 출처: 도구함 티어표 제작 렌더(롤체지지 수치) / 분류: A형(제작) -->
+    <div class="imgwrap"><img src="img/tier18-6-tier.png" width="1386" height="2226" alt="롤토체스 세트18 덱 티어표 — 18.6 마스터+ 평균등수·순방률 기준"></div>
+    <p class="cap">점유율 상위 12덱을 S부터 C까지 한 장에 담았어요. 이름 옆 숫자는 아래 표에서 그대로 확인할 수 있어요.</p>
+    <p class="src">이미지: 도구함 티어표 제작 / 수치: 롤체지지</p>
+
+    <ul>
+      <li><b>S (평균등수 4.20 이하, 순방률 54% 이상)</b> 협곡야수 드레이븐 4.00, 나무정령 드레이븐 4.03, 협곡야수 돌거북 4.10이에요. 세 덱 모두 순방률이 56%를 넘어요.</li>
+      <li><b>A (4.21~4.40, 순방률 51.5% 이상)</b> 햇빛 카르마 4.26, 나무정령 아펠리오스 4.30, 주문술사 베이가 4.31, 적응가 마스터 이 4.34예요. 나무정령 아펠리오스는 순방률 54.0%라 S 기준은 넘지만 평균 4.30이 S 선(4.20) 밖이라 A예요.</li>
+      <li><b>B (4.41~4.60, 순방률 47.5% 이상)</b> 기원자 아리 4.45, 원시 시비르 4.57, 개화 아리 4.58이에요. 선봉대 알룬은 평균 4.39라 평균만 보면 A 칸인데, 순방률 50.5%가 A 최소선 51.5%에 못 미쳐 두 기준 중 낮은 쪽인 B에 뒀어요.</li>
+      <li><b>C (4.60 초과)</b> 적응가 아펠리오스 한 덱이 평균 4.68, 순방률 47.8%예요.</li>
+    </ul>
+
+    <p><b>기준</b> 패치 18.6 · 마스터+ 랭크 · 최근 2일 · <a href="https://lolchess.gg/" target="_blank">롤체지지</a> 조회 2026.11.07 13:06 KST · 표본 364,434판 · 패치가 들어온 지 사흘밖에 안 돼서 수치가 아직 흔들릴 수 있고, 18.6b가 적용되면 더 달라질 수 있어요. 점유율 상위 12덱(각 1만 판 이상)만 그렸고, 티어 경계는 이 글의 기준이에요.</p>
+
+    <h2 class="sub">롤토체스 18.6 점유율 상위 12덱 평균등수·순방률 표</h2>
+
+    <p>점유율 상위 12덱 가운데 평균등수가 가장 낮은 덱은 4.00의 협곡야수 드레이븐이고, 순방률이 가장 높은 덱은 57.8%의 협곡야수 돌거북이에요.</p>
+
+    <table class="tbl">
+      <tr><th>덱</th><th>점유율</th><th>평균등수</th><th>순방률</th><th>1위 비율</th><th>티어</th></tr>
+      <!-- 이미지 이유: 표 행의 협곡야수 드레이븐 덱 식별 / 출처: 라이엇게임즈 챔피언 아이콘(Community Dragon) / 분류: B형(공식 에셋) -->
+      <tr><td><img src="img/draven-canyon.webp" alt="협곡야수 드레이븐 덱 대표 챔피언 아이콘" width="128" height="128">협곡야수 드레이븐</td><td>8.97%</td><td>4.00</td><td>56.3%</td><td>25.7%</td><td>S</td></tr>
+      <!-- 이미지 이유: 표 행의 선봉대 알룬 덱 식별 / 출처: 라이엇게임즈 챔피언 아이콘(Community Dragon) / 분류: B형(공식 에셋) -->
+      <tr><td><img src="img/alune-vanguard.webp" alt="선봉대 알룬 덱 대표 챔피언 아이콘" width="128" height="128">선봉대 알룬</td><td>7.13%</td><td>4.39</td><td>50.5%</td><td>18.5%</td><td>B</td></tr>
+      <tr><td>협곡야수 돌거북</td><td>6.03%</td><td>4.10</td><td>57.8%</td><td>13.8%</td><td>S</td></tr>
+      <!-- 이미지 이유: 표 행의 햇빛 카르마 덱 식별 / 출처: 라이엇게임즈 챔피언 아이콘(Community Dragon) / 분류: B형(공식 에셋) -->
+      <tr><td><img src="img/karma-bloom.webp" alt="햇빛 카르마 덱 대표 챔피언 아이콘" width="128" height="128">햇빛 카르마</td><td>6.00%</td><td>4.26</td><td>55.0%</td><td>13.7%</td><td>A</td></tr>
+      <!-- 이미지 이유: 표 행의 나무정령 드레이븐 덱 식별 / 출처: 라이엇게임즈 챔피언 아이콘(Community Dragon) / 분류: B형(공식 에셋) -->
+      <tr><td><img src="img/draven-treant.webp" alt="나무정령 드레이븐 덱 대표 챔피언 아이콘" width="128" height="128">나무정령 드레이븐</td><td>5.34%</td><td>4.03</td><td>56.6%</td><td>22.0%</td><td>S</td></tr>
+      <!-- 이미지 이유: 표 행의 개화 아리 덱 식별 / 출처: 라이엇게임즈 챔피언 아이콘(Community Dragon) / 분류: B형(공식 에셋) -->
+      <tr><td><img src="img/ahri-invoker.webp" alt="개화 아리 덱 대표 챔피언 아이콘" width="128" height="128">개화 아리</td><td>5.18%</td><td>4.58</td><td>48.5%</td><td>10.2%</td><td>B</td></tr>
+      <!-- 이미지 이유: 표 행의 기원자 아리 덱 식별 / 출처: 라이엇게임즈 챔피언 아이콘(Community Dragon) / 분류: B형(공식 에셋) -->
+      <tr><td><img src="img/ahri-invoker.webp" alt="기원자 아리 덱 대표 챔피언 아이콘" width="128" height="128">기원자 아리</td><td>4.88%</td><td>4.45</td><td>51.5%</td><td>11.0%</td><td>B</td></tr>
+      <tr><td>원시 시비르</td><td>4.72%</td><td>4.57</td><td>49.7%</td><td>7.2%</td><td>B</td></tr>
+      <!-- 이미지 이유: 표 행의 주문술사 베이가 덱 식별 / 출처: 라이엇게임즈 챔피언 아이콘(Community Dragon) / 분류: B형(공식 에셋) -->
+      <tr><td><img src="img/veigar-spellcaster.webp" alt="주문술사 베이가 덱 대표 챔피언 아이콘" width="128" height="128">주문술사 베이가</td><td>4.44%</td><td>4.31</td><td>53.5%</td><td>12.5%</td><td>A</td></tr>
+      <!-- 이미지 이유: 표 행의 적응가 아펠리오스 덱 식별 / 출처: 라이엇게임즈 챔피언 아이콘(Community Dragon) / 분류: B형(공식 에셋) -->
+      <tr><td><img src="img/aphelios-adaptor.webp" alt="적응가 아펠리오스 덱 대표 챔피언 아이콘" width="128" height="128">적응가 아펠리오스</td><td>4.33%</td><td>4.68</td><td>47.8%</td><td>5.0%</td><td>C</td></tr>
+      <!-- 이미지 이유: 표 행의 나무정령 아펠리오스 덱 식별 / 출처: 라이엇게임즈 챔피언 아이콘(Community Dragon) / 분류: B형(공식 에셋) -->
+      <tr><td><img src="img/aphelios-treant.webp" alt="나무정령 아펠리오스 덱 대표 챔피언 아이콘" width="128" height="128">나무정령 아펠리오스</td><td>3.66%</td><td>4.30</td><td>54.0%</td><td>12.8%</td><td>A</td></tr>
+      <!-- 이미지 이유: 표 행의 적응가 마스터 이 덱 식별 / 출처: 라이엇게임즈 챔피언 아이콘(Community Dragon) / 분류: B형(공식 에셋) -->
+      <tr><td><img src="img/masteryi-brawler.webp" alt="적응가 마스터 이 덱 대표 챔피언 아이콘" width="128" height="128">적응가 마스터 이</td><td>2.96%</td><td>4.34</td><td>53.1%</td><td>10.7%</td><td>A</td></tr>
+    </table>
+    <p class="src">이미지: 라이엇게임즈 챔피언 아이콘(Community Dragon) · 협곡야수 돌거북·원시 시비르는 전용 아이콘이 없어 이름만 적었어요</p>
+
+    <p>티어는 평균등수로 먼저 칸을 정하고, 순방률이 그 칸의 최소선(S 54%, A 51.5%, B 47.5%)에 못 미치면 한 칸 내리는 식이에요. 점유율은 전체 364,434판 중 그 덱이 차지한 비율이고, 이 12덱을 합치면 전체의 약 64%라 지금 마스터 판의 상당 부분을 덮어요. 평균등수는 낮을수록 좋고, 순방률은 8명 중 4등 안에 든 비율, 1위 비율은 우승한 판의 비율이에요.</p>
+
+    <h2 class="sub">롤토체스 덱 티어와 점유율이 어긋나는 덱, 18.5b와 비교</h2>
+
+    <p>18.6에서도 점유율과 티어는 따로 움직여서, 점유율 2위 선봉대 알룬은 B이고 점유율 10위 적응가 아펠리오스는 C예요.</p>
+
+    <p>선봉대 알룬은 1위 비율 18.5%로 12덱 중 세 번째로 높은데 순방률은 50.5%라, 우승은 자주 하지만 4등 안을 꾸준히 지키지는 못하는 덱이죠. 개화 아리는 점유율 6위(5.18%)인데 평균 4.58에 순방률 48.5%인데요, 18.6에서 개화 특성이 상향됐는데도 평균은 아직 B 구간 아래쪽이네요. 적응가 아펠리오스는 평균 4.68로 12덱 중 가장 높아(나쁜 쪽), 1위 비율도 5.0%로 가장 낮아요.</p>
+
+    <p>지난 18.5b 글과 같은 이름의 덱끼리 견주면 이래요. 다만 그때는 패치 18.5b였고 10월 27일 기록(425,828판)이라 시점이 달라요. 게다가 사이에 18.5c와 18.6이 끼어 있어서 왜 달라졌는지는 단정할 수 없어요.</p>
+
+    <ul>
+      <li>협곡야수 드레이븐: 평균 4.07·순방률 54.8% → 4.00·56.3%로 S를 유지해요.</li>
+      <li>선봉대 알룬: 4.17·54.4%(S) → 4.39·50.5%(B)로 가장 크게 내려갔어요.</li>
+      <li>나무정령 아펠리오스: 4.17·55.8%(S) → 4.30·54.0%(A)예요.</li>
+      <li>적응가 아펠리오스: 4.53·51.0%(B) → 4.68·47.8%(C)예요.</li>
+      <li>적응가 마스터 이: 4.61·48.3% → 4.34·53.1%로 평균이 0.27 좋아졌어요.</li>
+    </ul>
+
+    <p>18.5b 표에서 점유율 1위였던 협곡야수 덩굴정령 이름은 이번 상위 덱 목록에 없고, 대신 협곡야수 돌거북 덱의 핵심 유닛 목록에 덩굴정령이 올라 있어요. 이름만으로 같은 덱이라고 보기는 어려워서 비교 대상에서 제외했어요.</p>
+
+    <h2 class="sub">롤토체스 18.6 패치에서 바뀐 것, 덱 티어와 이어지는 부분</h2>
+
+    <p>드레이븐·알룬·돌거북 같은 대표 챔피언을 직접 바꾼 항목은 없지만, 개화 상향(55→65%)과 나무정령 9기 하향(25→10%)은 덱 이름에 든 특성이 직접 바뀐 것이고, 감시자 보호막 상향이나 코부코·렉사이 상향이 간접으로 닿을 수 있어요.</p>
+
+    <ul>
+      <li>개화: 공격력·주문력 마지막 구간이 55%에서 65%로 올랐어요.</li>
+      <li>나무정령: 9기 활성 구간의 추가 체력이 25%에서 10%로 내려갔어요. 다만 지금 기록의 나무정령 드레이븐 대표 구성은 5기 활성이라 구간이 달라요.</li>
+      <li>감시자: 돌거북·알룬 덱의 핵심 4코인데, 보호막 체력 계수가 10%에서 12%로 올랐어요.</li>
+      <li>코부코·렉사이: 1단계 상향이고, 공식 노트가 티모·베이가 중심 리롤 조합의 더 높은 저점을 기대한다고 적은 만큼 주문술사 베이가와 닿을 수 있어요.</li>
+    </ul>
+
+    <p>그래서 알룬이 내려가고 드레이븐이 올랐다는 걸 패치 탓이라고 말하기는 어려워요. 감시자 상향은 알룬에게 오히려 상향이고, 노트 서두에 적힌 18.5 추가 패치의 카직스·덩굴정령 하향이 겹쳤을 수도 있어서, 원인을 하나로 단정하지는 못하거든요.</p>
+
+    <p>롤체지지에 올라온 18.6b 추가 패치 노트(7일·10일 적용분)를 보면 덱 수치를 바꾸는 항목은 없었고, 수정·편의 개선 위주예요. 공식 18.6 노트에는 아직 이 내용이 없어서 롤체지지 기준이고, 적용 뒤 수치는 조금 달라질 수 있어요.</p>
+
+    <h2 class="sub">롤토체스 18.6 어떤 덱부터 연습할까, 상황별로</h2>
+
+    <p>성적만 보면 협곡야수 드레이븐이 가장 앞서고, 4등 안을 지키는 안정감이 필요하면 협곡야수 돌거북이 맞아요.</p>
+
+    <p><b>덱 고를 때, 이럴 땐 이렇게</b><br>
+    · 1등을 노리고 싶다면 협곡야수 드레이븐이에요. 1위 비율 25.7%가 12덱 중 가장 높고, 핵심 드레이븐·장로 드래곤·마오카이·케넨이 전부 5코라 레벨을 높게 올려야 하는 덱이에요.<br>
+    · 4등 안을 지키고 싶다면 협곡야수 돌거북이에요. 순방률 57.8%로 가장 높고, 핵심에 돌거북 3코, 덩굴정령·감시자 4코가 섞여 있어요.<br>
+    · 드레이븐 연습을 한 번에 두 덱에 쓰고 싶다면 나무정령 드레이븐이에요. 평균 4.03·순방률 56.6%인데 핵심 드레이븐·마오카이·케넨이 협곡야수 드레이븐과 겹쳐요.<br>
+    · 점유율 2위라는 이유로 알룬부터 고르기보다는 순방률 50.5%를 먼저 보고 고르시는 게 좋아요.</p>
+
+    <p>핵심 유닛 아이템은 지금 기록 기준으로 협곡야수 드레이븐의 드레이븐이 구인수의 격노검·무한의 대검·크라켄의 분노, 협곡야수 돌거북의 덩굴정령이 밤의 끝자락·구인수의 격노검·수은으로 잡혀 있어요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+
+    <p><b>Q. 표에 없는 덱 중에 성적 좋은 덱은 없나요?</b><br>있어요. 싸움꾼 마스터 이는 6,688판(점유율 1.84%)에 평균 4.14·순방률 57.0%로 기준상 S 구간이에요. 요정 시비르(2,743판)는 4.19·56.5%, 사냥꾼 장로 드래곤(1,524판)은 4.13·56.4%인데, 표본이 적어 하루 이틀 새 크게 흔들릴 수 있어서 이번 표에는 넣지 않았어요.</p>
+
+    <p><b>Q. 18.6에서 그 밖에 뭐가 바뀌었나요?</b><br>4단계 유닛이 소폭 올랐고 증강과 수호령 값도 조정됐어요.<br>
+    · 말파이트 보호막 735/885 → 750/925, 스킬 피해 40/60 → 100/150<br>
+    · 니달리 공격력형 회복 300/450 → 325/550, 세 번째 사용 추가 피해 125% → 140%<br>
+    · 감시자 보호막 체력 계수 10% → 12%<br>
+    · 골동품 수레 상징 비용 15 → 17골드<br>
+    · 흥청망청 최초 골드 6 → 7<br>
+    1단계 코부코·렉사이와 2단계 어스름늑대도 소폭 상향됐고, 버그 수정 중에는 개화가 꺼져 있을 땐 달오름·햇빛 선물 수호령 업그레이드가 상점에 나오지 않게 고친 것도 있었어요.</p>
+
+    <p><b>Q. 증강 티어도 있나요?</b><br>이 글에는 없어요. 이 글은 덱 성적만 다뤘어요.</p>
+
+    <p>점유율은 알룬이 앞서는데 막상 1위는 드레이븐 쪽이 훨씬 잘 가져가더라고요~ 일단 이번 주는 드레이븐이랑 돌거북부터 만져 보시면 좋을 것 같아요.</p>
+
+    <p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224467748886" target="_blank">롤토체스 감사 임무 보상, 1판 보물 토큰 500개와 20판 미니 챔피언</a><br>
+· <a href="https://blog.naver.com/bomding/224459962199" target="_blank">롤토체스 18.5c 패치, 카직스·덩굴정령·정의의 손길 3건 수치 정리</a><br>
+· <a href="https://blog.naver.com/bomding/224458309918" target="_blank">롤토체스 덱 티어 18.5b 마스터+ 평균등수·순방률 기준</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-6/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 패치 18.6 노트 (조회 2026.11.07)</a><br>
+    · <a href="https://lolchess.gg/" target="_blank">롤체지지 — 덱 통계 (조회 2026.11.07)</a></p>
+
+    <div class="tags">#롤토체스 #롤토체스덱티어 #롤토체스티어표 #롤토체스18.6 #롤토체스세트18 #롤토체스메타</div>
+  </div>
+</div>
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 1가지(약 3분):</b> 📷 <b>사진 1곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 롤토체스 덱 티어 18.6 마스터+ 평균등수·순방률 기준</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+    
+
+    <p>11월 4일에 18.6이 들어오고 사흘이 지난 11월 7일 토요일, 롤체지지 마스터+ 기록(표본 364,434판)으로 롤토체스 덱 티어를 다시 줄 세워 봤어요. 이번에도 <b>평균등수와 4등 이내로 들어온 비율(순방률)</b> 두 기준으로 S부터 C까지 나눴는데요, 제일 먼저 눈에 들어온 건 점유율 2위 선봉대 알룬이에요. 지난 18.5b 글에서 S였는데 이번엔 B로 내려앉았거든요. 뒤에서는 인기와 성적이 어긋나는 덱을 짚고, 마지막에 어떤 덱부터 연습할지까지 정리해 볼게요.</p>
+
+    <h3>롤토체스 덱 티어표, 패치 18.6 마스터+ 기준</h3>
+
+    <p>패치 18.6 마스터+ 기준 S 티어는 협곡야수 드레이븐, 나무정령 드레이븐, 협곡야수 돌거북 세 덱이에요.</p>
+
+    
+    <p class="ph">📷 〔사진 자리 1〕 롤토체스 덱 티어표 — 미리보기에서 이미지 우클릭 → 복사 → 이 자리에 Ctrl+V</p>
+    <ul>
+      <li><b>S (평균등수 4.20 이하, 순방률 54% 이상)</b> 협곡야수 드레이븐 4.00, 나무정령 드레이븐 4.03, 협곡야수 돌거북 4.10이에요. 세 덱 모두 순방률이 56%를 넘어요.</li>
+      <li><b>A (4.21~4.40, 순방률 51.5% 이상)</b> 햇빛 카르마 4.26, 나무정령 아펠리오스 4.30, 주문술사 베이가 4.31, 적응가 마스터 이 4.34예요. 나무정령 아펠리오스는 순방률 54.0%라 S 기준은 넘지만 평균 4.30이 S 선(4.20) 밖이라 A예요.</li>
+      <li><b>B (4.41~4.60, 순방률 47.5% 이상)</b> 기원자 아리 4.45, 원시 시비르 4.57, 개화 아리 4.58이에요. 선봉대 알룬은 평균 4.39라 평균만 보면 A 칸인데, 순방률 50.5%가 A 최소선 51.5%에 못 미쳐 두 기준 중 낮은 쪽인 B에 뒀어요.</li>
+      <li><b>C (4.60 초과)</b> 적응가 아펠리오스 한 덱이 평균 4.68, 순방률 47.8%예요.</li>
+    </ul>
+
+    <p><b>기준</b> 패치 18.6 · 마스터+ 랭크 · 최근 2일 · <a href="https://lolchess.gg/" target="_blank">롤체지지</a> 조회 2026.11.07 13:06 KST · 표본 364,434판 · 패치가 들어온 지 사흘밖에 안 돼서 수치가 아직 흔들릴 수 있고, 18.6b가 적용되면 더 달라질 수 있어요. 점유율 상위 12덱(각 1만 판 이상)만 그렸고, 티어 경계는 이 글의 기준이에요.</p>
+
+    <h3>롤토체스 18.6 점유율 상위 12덱 평균등수·순방률 표</h3>
+
+    <p>점유율 상위 12덱 가운데 평균등수가 가장 낮은 덱은 4.00의 협곡야수 드레이븐이고, 순방률이 가장 높은 덱은 57.8%의 협곡야수 돌거북이에요.</p>
+
+    <table>
+      <tr><th>덱</th><th>점유율</th><th>평균등수</th><th>순방률</th><th>1위 비율</th><th>티어</th></tr>
+      <tr><td>협곡야수 드레이븐</td><td>8.97%</td><td>4.00</td><td>56.3%</td><td>25.7%</td><td>S</td></tr>
+      <tr><td>선봉대 알룬</td><td>7.13%</td><td>4.39</td><td>50.5%</td><td>18.5%</td><td>B</td></tr>
+      <tr><td>협곡야수 돌거북</td><td>6.03%</td><td>4.10</td><td>57.8%</td><td>13.8%</td><td>S</td></tr>
+      <tr><td>햇빛 카르마</td><td>6.00%</td><td>4.26</td><td>55.0%</td><td>13.7%</td><td>A</td></tr>
+      <tr><td>나무정령 드레이븐</td><td>5.34%</td><td>4.03</td><td>56.6%</td><td>22.0%</td><td>S</td></tr>
+      <tr><td>개화 아리</td><td>5.18%</td><td>4.58</td><td>48.5%</td><td>10.2%</td><td>B</td></tr>
+      <tr><td>기원자 아리</td><td>4.88%</td><td>4.45</td><td>51.5%</td><td>11.0%</td><td>B</td></tr>
+      <tr><td>원시 시비르</td><td>4.72%</td><td>4.57</td><td>49.7%</td><td>7.2%</td><td>B</td></tr>
+      <tr><td>주문술사 베이가</td><td>4.44%</td><td>4.31</td><td>53.5%</td><td>12.5%</td><td>A</td></tr>
+      <tr><td>적응가 아펠리오스</td><td>4.33%</td><td>4.68</td><td>47.8%</td><td>5.0%</td><td>C</td></tr>
+      <tr><td>나무정령 아펠리오스</td><td>3.66%</td><td>4.30</td><td>54.0%</td><td>12.8%</td><td>A</td></tr>
+      <tr><td>적응가 마스터 이</td><td>2.96%</td><td>4.34</td><td>53.1%</td><td>10.7%</td><td>A</td></tr>
+    </table>
+    <p>티어는 평균등수로 먼저 칸을 정하고, 순방률이 그 칸의 최소선(S 54%, A 51.5%, B 47.5%)에 못 미치면 한 칸 내리는 식이에요. 점유율은 전체 364,434판 중 그 덱이 차지한 비율이고, 이 12덱을 합치면 전체의 약 64%라 지금 마스터 판의 상당 부분을 덮어요. 평균등수는 낮을수록 좋고, 순방률은 8명 중 4등 안에 든 비율, 1위 비율은 우승한 판의 비율이에요.</p>
+
+    <h3>롤토체스 덱 티어와 점유율이 어긋나는 덱, 18.5b와 비교</h3>
+
+    <p>18.6에서도 점유율과 티어는 따로 움직여서, 점유율 2위 선봉대 알룬은 B이고 점유율 10위 적응가 아펠리오스는 C예요.</p>
+
+    <p>선봉대 알룬은 1위 비율 18.5%로 12덱 중 세 번째로 높은데 순방률은 50.5%라, 우승은 자주 하지만 4등 안을 꾸준히 지키지는 못하는 덱이죠. 개화 아리는 점유율 6위(5.18%)인데 평균 4.58에 순방률 48.5%인데요, 18.6에서 개화 특성이 상향됐는데도 평균은 아직 B 구간 아래쪽이네요. 적응가 아펠리오스는 평균 4.68로 12덱 중 가장 높아(나쁜 쪽), 1위 비율도 5.0%로 가장 낮아요.</p>
+
+    <p>지난 18.5b 글과 같은 이름의 덱끼리 견주면 이래요. 다만 그때는 패치 18.5b였고 10월 27일 기록(425,828판)이라 시점이 달라요. 게다가 사이에 18.5c와 18.6이 끼어 있어서 왜 달라졌는지는 단정할 수 없어요.</p>
+
+    <ul>
+      <li>협곡야수 드레이븐: 평균 4.07·순방률 54.8% → 4.00·56.3%로 S를 유지해요.</li>
+      <li>선봉대 알룬: 4.17·54.4%(S) → 4.39·50.5%(B)로 가장 크게 내려갔어요.</li>
+      <li>나무정령 아펠리오스: 4.17·55.8%(S) → 4.30·54.0%(A)예요.</li>
+      <li>적응가 아펠리오스: 4.53·51.0%(B) → 4.68·47.8%(C)예요.</li>
+      <li>적응가 마스터 이: 4.61·48.3% → 4.34·53.1%로 평균이 0.27 좋아졌어요.</li>
+    </ul>
+
+    <p>18.5b 표에서 점유율 1위였던 협곡야수 덩굴정령 이름은 이번 상위 덱 목록에 없고, 대신 협곡야수 돌거북 덱의 핵심 유닛 목록에 덩굴정령이 올라 있어요. 이름만으로 같은 덱이라고 보기는 어려워서 비교 대상에서 제외했어요.</p>
+
+    <h3>롤토체스 18.6 패치에서 바뀐 것, 덱 티어와 이어지는 부분</h3>
+
+    <p>드레이븐·알룬·돌거북 같은 대표 챔피언을 직접 바꾼 항목은 없지만, 개화 상향(55→65%)과 나무정령 9기 하향(25→10%)은 덱 이름에 든 특성이 직접 바뀐 것이고, 감시자 보호막 상향이나 코부코·렉사이 상향이 간접으로 닿을 수 있어요.</p>
+
+    <ul>
+      <li>개화: 공격력·주문력 마지막 구간이 55%에서 65%로 올랐어요.</li>
+      <li>나무정령: 9기 활성 구간의 추가 체력이 25%에서 10%로 내려갔어요. 다만 지금 기록의 나무정령 드레이븐 대표 구성은 5기 활성이라 구간이 달라요.</li>
+      <li>감시자: 돌거북·알룬 덱의 핵심 4코인데, 보호막 체력 계수가 10%에서 12%로 올랐어요.</li>
+      <li>코부코·렉사이: 1단계 상향이고, 공식 노트가 티모·베이가 중심 리롤 조합의 더 높은 저점을 기대한다고 적은 만큼 주문술사 베이가와 닿을 수 있어요.</li>
+    </ul>
+
+    <p>그래서 알룬이 내려가고 드레이븐이 올랐다는 걸 패치 탓이라고 말하기는 어려워요. 감시자 상향은 알룬에게 오히려 상향이고, 노트 서두에 적힌 18.5 추가 패치의 카직스·덩굴정령 하향이 겹쳤을 수도 있어서, 원인을 하나로 단정하지는 못하거든요.</p>
+
+    <p>롤체지지에 올라온 18.6b 추가 패치 노트(7일·10일 적용분)를 보면 덱 수치를 바꾸는 항목은 없었고, 수정·편의 개선 위주예요. 공식 18.6 노트에는 아직 이 내용이 없어서 롤체지지 기준이고, 적용 뒤 수치는 조금 달라질 수 있어요.</p>
+
+    <h3>롤토체스 18.6 어떤 덱부터 연습할까, 상황별로</h3>
+
+    <p>성적만 보면 협곡야수 드레이븐이 가장 앞서고, 4등 안을 지키는 안정감이 필요하면 협곡야수 돌거북이 맞아요.</p>
+
+    <p><b>덱 고를 때, 이럴 땐 이렇게</b><br>
+    · 1등을 노리고 싶다면 협곡야수 드레이븐이에요. 1위 비율 25.7%가 12덱 중 가장 높고, 핵심 드레이븐·장로 드래곤·마오카이·케넨이 전부 5코라 레벨을 높게 올려야 하는 덱이에요.<br>
+    · 4등 안을 지키고 싶다면 협곡야수 돌거북이에요. 순방률 57.8%로 가장 높고, 핵심에 돌거북 3코, 덩굴정령·감시자 4코가 섞여 있어요.<br>
+    · 드레이븐 연습을 한 번에 두 덱에 쓰고 싶다면 나무정령 드레이븐이에요. 평균 4.03·순방률 56.6%인데 핵심 드레이븐·마오카이·케넨이 협곡야수 드레이븐과 겹쳐요.<br>
+    · 점유율 2위라는 이유로 알룬부터 고르기보다는 순방률 50.5%를 먼저 보고 고르시는 게 좋아요.</p>
+
+    <p>핵심 유닛 아이템은 지금 기록 기준으로 협곡야수 드레이븐의 드레이븐이 구인수의 격노검·무한의 대검·크라켄의 분노, 협곡야수 돌거북의 덩굴정령이 밤의 끝자락·구인수의 격노검·수은으로 잡혀 있어요.</p>
+
+    <h3>자주 묻는 질문</h3>
+
+    <p><b>Q. 표에 없는 덱 중에 성적 좋은 덱은 없나요?</b><br>있어요. 싸움꾼 마스터 이는 6,688판(점유율 1.84%)에 평균 4.14·순방률 57.0%로 기준상 S 구간이에요. 요정 시비르(2,743판)는 4.19·56.5%, 사냥꾼 장로 드래곤(1,524판)은 4.13·56.4%인데, 표본이 적어 하루 이틀 새 크게 흔들릴 수 있어서 이번 표에는 넣지 않았어요.</p>
+
+    <p><b>Q. 18.6에서 그 밖에 뭐가 바뀌었나요?</b><br>4단계 유닛이 소폭 올랐고 증강과 수호령 값도 조정됐어요.<br>
+    · 말파이트 보호막 735/885 → 750/925, 스킬 피해 40/60 → 100/150<br>
+    · 니달리 공격력형 회복 300/450 → 325/550, 세 번째 사용 추가 피해 125% → 140%<br>
+    · 감시자 보호막 체력 계수 10% → 12%<br>
+    · 골동품 수레 상징 비용 15 → 17골드<br>
+    · 흥청망청 최초 골드 6 → 7<br>
+    1단계 코부코·렉사이와 2단계 어스름늑대도 소폭 상향됐고, 버그 수정 중에는 개화가 꺼져 있을 땐 달오름·햇빛 선물 수호령 업그레이드가 상점에 나오지 않게 고친 것도 있었어요.</p>
+
+    <p><b>Q. 증강 티어도 있나요?</b><br>이 글에는 없어요. 이 글은 덱 성적만 다뤘어요.</p>
+
+    <p>점유율은 알룬이 앞서는데 막상 1위는 드레이븐 쪽이 훨씬 잘 가져가더라고요~ 일단 이번 주는 드레이븐이랑 돌거북부터 만져 보시면 좋을 것 같아요.</p>
+
+    <p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224467748886" target="_blank">롤토체스 감사 임무 보상, 1판 보물 토큰 500개와 20판 미니 챔피언</a><br>
+· <a href="https://blog.naver.com/bomding/224459962199" target="_blank">롤토체스 18.5c 패치, 카직스·덩굴정령·정의의 손길 3건 수치 정리</a><br>
+· <a href="https://blog.naver.com/bomding/224458309918" target="_blank">롤토체스 덱 티어 18.5b 마스터+ 평균등수·순방률 기준</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-6/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 패치 18.6 노트 (조회 2026.11.07)</a><br>
+    · <a href="https://lolchess.gg/" target="_blank">롤체지지 — 덱 통계 (조회 2026.11.07)</a></p>
+
+    <p class="tags-line">#롤토체스 #롤토체스덱티어 #롤토체스티어표 #롤토체스18.6 #롤토체스세트18 #롤토체스메타</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
