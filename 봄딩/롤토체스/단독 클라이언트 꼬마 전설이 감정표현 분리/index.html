@@ -1,0 +1,256 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>롤토체스 단독 클라이언트, 꼬마 전설이·감정표현 분리 한 표 정리</title>
+<!-- 태그: 롤토체스, 롤토체스 단독 클라이언트, 롤토체스 꼬마 전설이, 롤토체스 감정표현, 롤토체스 18.6, 롤토체스 세트19 -->
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:23px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:22px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:inline-block;margin:0 4px;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  .gap .skel{margin-top:8px;width:100%;border-collapse:collapse;font-size:13px;}
+  .gap .skel th,.gap .skel td{border:1px dashed #e6c64d;padding:6px 8px;text-align:left;color:#9a7b15;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">롤토체스 단독 클라이언트, 꼬마 전설이·감정표현 분리 한 표 정리</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.11.08</span><span>· 게임</span></div>
+
+    <!-- AI브리핑 타깃 질문: 1.롤토체스 단독 클라이언트로 꼬마 전설이는 어떻게 갈리나 2.롤토체스 감정표현은 언제부터 리그 오브 레전드와 분리되나 -->
+    <!-- 도입 유형: A-4 독자 상황형 / 이미지: 18.6 노트 이미지는 하이라이트 그림뿐이라 쓰지 않음, B형 타임라인 도해와 표로 대체 -->
+
+    <p>롤토체스가 단독 클라이언트로 나오면서 리그 오브 레전드에서 모은 꼬마 전설이랑 감정표현은 어떻게 되나 궁금하신 분들 많으시죠. 이런 꾸미기 연동 소식이 나오면 이미 가진 게 어떻게 되는지부터 궁금해지죠. 그래서 11월 4일(한국 시간)에 올라온 18.6 패치 노트를 읽어 봤는데, 이미 가진 건 두 게임에서 그대로 쓰고 앞으로 새로 나오는 것부터 서로 갈라진다는 게 핵심이에요. 이 글은 18.6 패치 노트와 개발자 문서 기준이라 이후 공지로 달라질 수 있습니다.</p>
+
+    <h2 class="sub">롤토체스 단독 클라이언트로 무엇이 갈라지나요</h2>
+
+    <p>새로 출시되는 꼬마 전설이는 19.1 패치부터 리그 오브 레전드 무작위 총력전에 데려갈 수 없고, 감정표현은 19.2 패치부터 리그 오브 레전드에서 얻은 것과 분리돼요.</p>
+
+    <!-- 이미지 이유: ♥ 패치 번호로 보는 순서 18.6 전략적 팀 전투 단독 클라이언트 출시 19.1 새로 출시되는 꼬마 전설이, 무작위 총력전에는 데려갈 수 없음 / 출처: 직접 제작 도해(bake-figures 자동 구움) / 분류: 인포그래픽 -->
+    <div class="imgwrap"><img src="img/fig-0d11dfc5.png" width="1324" height="376" alt="♥ 패치 번호로 보는 순서 18.6 전략적 팀 전투 단독 클라이언트 출시 19.1 새로 출시되는 꼬마 전설이, 무작위 총력전에는 데려갈 수 없음 19.2 전략적 팀 전투 감정표현이 리그 오브 레전드와 분리" data-fig="fig-0d11dfc5"></div>
+    <p class="cap">날짜는 아직 안 나와서 패치 번호로 적었어요.</p>
+
+    <table class="tbl">
+    <tr><th>구분</th><th>기준 패치</th><th>기준 이후 새로 출시</th><th>기준 이전에 출시된 것</th></tr>
+    <tr><td>꼬마 전설이</td><td>19.1</td><td>리그 오브 레전드 무작위 총력전에 데려갈 수 없음</td><td>칼바람 나락에 계속 데려갈 수 있음</td></tr>
+    <tr><td>감정표현</td><td>19.2</td><td>리그 오브 레전드에서 얻은 감정표현과 분리</td><td>두 게임 모두에서 계속 사용 가능</td></tr>
+    </table>
+
+    <h2 class="sub">왜 따로 쓰게 되는 걸까요</h2>
+
+    <p>전략적 팀 전투와 리그 오브 레전드가 서로 다른 엔진으로 개발되고 있기 때문이에요. 두 게임에서 같이 쓰던 꾸미기 일부가 앞으로는 연동되지 않는다고 안내돼 있고, 예로 든 게 꼬마 전설이와 감정표현이에요. 이 둘 말고 다른 건 아직 안 알려졌어요. 단독 클라이언트 출시는 18.7 이후 세트 19까지 이어질 개선의 토대라는 설명도 붙어 있답니다.</p>
+
+    <h2 class="sub">꼬마 전설이는 출시 시점으로 갈려요</h2>
+
+    <p>꼬마 전설이는 19.1 패치 이전에 출시됐는지, 그 뒤에 새로 출시되는지로 갈려요. 헷갈리기 쉬운 이름이 하나 있는데, 칼바람 나락은 무작위 총력전에서 쓰는 맵 중 하나이고 노트는 두 이름을 한 흐름으로 적었어요(<a href="https://support.riotgames.com/ko-kr/league-of-legends/gameplay/aram-game-mode" target="_blank">라이엇 고객지원 안내</a>). 그래서 이름이 아니라 출시 시점이 기준이고, 지금 키우는 꼬마 전설이는 계속 데리고 다닐 수 있다고 안내돼 있어요. 새로 나오는 쪽이 궁금하시면 세트 19 감사 임무 보상 글을 먼저 보세요.</p>
+
+    <h2 class="sub">감정표현은 한 패치 늦은 19.2부터 갈려요</h2>
+
+    <p>전략적 팀 전투의 감정표현은 19.2 패치부터 리그 오브 레전드에서 얻은 감정표현과 분리돼요.</p>
+
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 롤토체스 단독 클라이언트의 감정표현 보관 화면</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 지금 가진 감정표현이 보이는 목록 화면 · 19.2 적용 전후 비교가 필요하면 적용 뒤에 같은 화면을 한 장 더</div>
+
+    <p>꼬마 전설이는 19.1, 감정표현은 19.2라서 기준 패치가 하나 어긋나 있어요. 19.2 이전에 출시된 감정표현은 두 게임 모두에서 계속 쓸 수 있고, 분리 뒤에 나오는 것이 어느 쪽에서 얻어지고 쓰이는지는 아직 안 알려졌어요. 이미 모아 둔 감정표현이 있는 분은 당장 달라지는 게 없고, 변화는 19.2 이후 새로 나오는 것부터 시작돼요.</p>
+
+    <p><b>내 상황에 따라 이렇게 보시면 돼요</b><br>
+    · 지금 쓰는 꼬마 전설이나 감정표현이 있다면 — 19.1·19.2 이전에 출시된 것이라 지금 쓰는 방식 그대로 이어져요.<br>
+    · 새로 나오는 꼬마 전설이를 노린다면 — 리그 오브 레전드 무작위 총력전에 데려갈 수 없으니 그 용도로 고르실 건지부터 정해 두세요.<br>
+    · 리그 오브 레전드에서 감정표현을 모으고 있다면 — 19.2부터 나오는 것은 롤토체스와 분리되니 그 시점을 기준으로 챙기면 편해요.</p>
+
+    <h2 class="sub">아직 나오지 않은 정보</h2>
+
+    <p>배포 쪽은 단독 클라이언트가 출시되는 만큼 PC와 모바일 모두 배포가 평소보다 오래 걸릴 것으로 예상된다고 하고, 18.6 패치는 다운로드 용량도 크다고 안내돼 있어요. 이후 패치는 정상 규모로 돌아간다고 해요. 18.6 패치를 배포하는 정확한 시각은 각 지역에 적용하면서 지역별로 따로 알려 준다고 해요.</p>
+
+    <div class="gap"><b>✍️ 아직 안 알려진 내용</b> — 공식 노트 본문 기준으로는 아래 항목이 적혀 있지 않아요(노트 이미지는 하이라이트 그림뿐이었어요).<br>확인 위치: 라이엇 공식 공지 · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/dev/new-client-set-19-tease-and-compensation-rewards/" target="_blank">전략적 팀 전투 개발자 문서</a> · 확인되면 이 박스를 실제 내용으로 바꿔 주세요.
+      <table class="skel"><tr><th>항목</th><th>상태</th></tr>
+      <tr><td>19.1·19.2 패치 적용 날짜</td><td>아직 없어요</td></tr>
+      <tr><td>다운로드 용량 수치</td><td>커진다는 안내만 있고 숫자는 없어요</td></tr>
+      <tr><td>설치 방식(따로 받는지)</td><td>안내 없음</td></tr>
+      <tr><td>기존 계정 연동과 로그인 방식</td><td>안내 없음</td></tr>
+      <tr><td>PC·모바일 차이</td><td>개발자 문서에는 PC 다운로드 용량이 평소보다 더 클 예정이라는 말이 있는데 수치는 없고, 모바일은 따로 안 나와 있어요</td></tr>
+      <tr><td>19.2 이후 새 감정표현의 세부 처리</td><td>안내 없음</td></tr>
+      </table>
+    </div>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+
+    <p><b>Q. 단독 클라이언트로 나뉘면 리그 오브 레전드와는 어떻게 오가나요?</b><br>개발자 문서에는 단독 클라이언트가 되어도 리그 오브 레전드(협곡이나 무작위 총력전)와 광장 사이를 버튼 한 번으로 오갈 수 있다고 안내돼 있어요. 따로 받아야 하는지 같은 설치 방식은 아직 안내가 안 나왔네요. 감정표현은 19.2 패치 이전에 출시된 것이라면 두 게임 모두에서 쓸 수 있다고 해요.</p>
+
+    <p>가진 건 건드리지 않고 새로 나오는 것만 갈리는 구조라, 지금 모으던 걸 서둘러 정리할 필요는 없어 보여요.</p>
+
+    <p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224467748886" target="_blank">롤토체스 감사 임무 보상, 1판 보물 토큰 500개와 20판 미니 챔피언</a><br>
+· <a href="https://blog.naver.com/bomding/224459962199" target="_blank">롤토체스 18.5c 패치, 카직스·덩굴정령·정의의 손길 3건 수치 정리</a></p>
+
+    <p><b>참고한 곳</b><br>
+    · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-6/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 18.6 패치 (게시 2026.11.04 한국 시간)</a><br>
+    · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/dev/new-client-set-19-tease-and-compensation-rewards/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 개발자 문서: 클라이언트, 다음 세트 미리보기 및 감사 임무</a><br>
+    · <a href="https://support.riotgames.com/ko-kr/league-of-legends/gameplay/aram-game-mode" target="_blank">라이엇 고객지원 — 무작위 총력전 게임 모드</a></p>
+
+    <div class="tags">#롤토체스 #롤토체스단독클라이언트 #롤토체스꼬마전설이 #롤토체스감정표현 #롤토체스18.6 #롤토체스세트19</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 사진 2곳(약 3분):</b> 📷 <b>사진 2곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 롤토체스 단독 클라이언트, 꼬마 전설이·감정표현 분리 한 표 정리</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+  <p>롤토체스가 단독 클라이언트로 나오면서 리그 오브 레전드에서 모은 꼬마 전설이랑 감정표현은 어떻게 되나 궁금하신 분들 많으시죠. 이런 꾸미기 연동 소식이 나오면 이미 가진 게 어떻게 되는지부터 궁금해지죠. 그래서 11월 4일(한국 시간)에 올라온 18.6 패치 노트를 읽어 봤는데, 이미 가진 건 두 게임에서 그대로 쓰고 앞으로 새로 나오는 것부터 서로 갈라진다는 게 핵심이에요. 이 글은 18.6 패치 노트와 개발자 문서 기준이라 이후 공지로 달라질 수 있습니다.</p>
+  <h3>롤토체스 단독 클라이언트로 무엇이 갈라지나요</h3>
+  <p>새로 출시되는 꼬마 전설이는 19.1 패치부터 리그 오브 레전드 무작위 총력전에 데려갈 수 없고, 감정표현은 19.2 패치부터 리그 오브 레전드에서 얻은 것과 분리돼요.</p>
+  <p class="ph">📷 〔사진 자리 1〕 패치 번호로 보는 순서 도해(18.6 → 19.1 → 19.2) — 네이버에서 직접 업로드</p>
+  <p>날짜는 아직 안 나와서 패치 번호로 적었어요.</p>
+  <table>
+    <tr><th>구분</th><th>기준 패치</th><th>기준 이후 새로 출시</th><th>기준 이전에 출시된 것</th></tr>
+    <tr><td>꼬마 전설이</td><td>19.1</td><td>리그 오브 레전드 무작위 총력전에 데려갈 수 없음</td><td>칼바람 나락에 계속 데려갈 수 있음</td></tr>
+    <tr><td>감정표현</td><td>19.2</td><td>리그 오브 레전드에서 얻은 감정표현과 분리</td><td>두 게임 모두에서 계속 사용 가능</td></tr>
+    </table>
+  <h3>왜 따로 쓰게 되는 걸까요</h3>
+  <p>전략적 팀 전투와 리그 오브 레전드가 서로 다른 엔진으로 개발되고 있기 때문이에요. 두 게임에서 같이 쓰던 꾸미기 일부가 앞으로는 연동되지 않는다고 안내돼 있고, 예로 든 게 꼬마 전설이와 감정표현이에요. 이 둘 말고 다른 건 아직 안 알려졌어요. 단독 클라이언트 출시는 18.7 이후 세트 19까지 이어질 개선의 토대라는 설명도 붙어 있답니다.</p>
+  <h3>꼬마 전설이는 출시 시점으로 갈려요</h3>
+  <p>꼬마 전설이는 19.1 패치 이전에 출시됐는지, 그 뒤에 새로 출시되는지로 갈려요. 헷갈리기 쉬운 이름이 하나 있는데, 칼바람 나락은 무작위 총력전에서 쓰는 맵 중 하나이고 노트는 두 이름을 한 흐름으로 적었어요(<a href="https://support.riotgames.com/ko-kr/league-of-legends/gameplay/aram-game-mode" target="_blank">라이엇 고객지원 안내</a>). 그래서 이름이 아니라 출시 시점이 기준이고, 지금 키우는 꼬마 전설이는 계속 데리고 다닐 수 있다고 안내돼 있어요. 새로 나오는 쪽이 궁금하시면 세트 19 감사 임무 보상 글을 먼저 보세요.</p>
+  <h3>감정표현은 한 패치 늦은 19.2부터 갈려요</h3>
+  <p>전략적 팀 전투의 감정표현은 19.2 패치부터 리그 오브 레전드에서 얻은 감정표현과 분리돼요.</p>
+  <p class="ph">📷 〔사진 자리 2〕 롤토체스 단독 클라이언트의 감정표현 보관 화면 — 네이버에서 직접 업로드</p>
+  <p>꼬마 전설이는 19.1, 감정표현은 19.2라서 기준 패치가 하나 어긋나 있어요. 19.2 이전에 출시된 감정표현은 두 게임 모두에서 계속 쓸 수 있고, 분리 뒤에 나오는 것이 어느 쪽에서 얻어지고 쓰이는지는 아직 안 알려졌어요. 이미 모아 둔 감정표현이 있는 분은 당장 달라지는 게 없고, 변화는 19.2 이후 새로 나오는 것부터 시작돼요.</p>
+  <p><b>내 상황에 따라 이렇게 보시면 돼요</b><br>
+  · 지금 쓰는 꼬마 전설이나 감정표현이 있다면 — 19.1·19.2 이전에 출시된 것이라 지금 쓰는 방식 그대로 이어져요.<br>
+    · 새로 나오는 꼬마 전설이를 노린다면 — 리그 오브 레전드 무작위 총력전에 데려갈 수 없으니 그 용도로 고르실 건지부터 정해 두세요.<br>
+    · 리그 오브 레전드에서 감정표현을 모으고 있다면 — 19.2부터 나오는 것은 롤토체스와 분리되니 그 시점을 기준으로 챙기면 편해요.</p>
+  <h3>아직 나오지 않은 정보</h3>
+  <p>배포 쪽은 단독 클라이언트가 출시되는 만큼 PC와 모바일 모두 배포가 평소보다 오래 걸릴 것으로 예상된다고 하고, 18.6 패치는 다운로드 용량도 크다고 안내돼 있어요. 이후 패치는 정상 규모로 돌아간다고 해요. 18.6 패치를 배포하는 정확한 시각은 각 지역에 적용하면서 지역별로 따로 알려 준다고 해요.</p>
+  <p>아직 안 알려진 내용 — 아래 항목은 공식 노트에 아직 나오지 않았어요. 라이엇 공식 공지와 전략적 팀 전투 개발자 문서에서 확인하실 수 있어요.</p>
+  <ul>
+    <li>19.1·19.2 패치 적용 날짜 — 아직 없어요</li>
+    <li>다운로드 용량 수치 — 커진다는 안내만 있고 숫자는 없어요</li>
+    <li>설치 방식(따로 받는지) — 안내 없음</li>
+    <li>기존 계정 연동과 로그인 방식 — 안내 없음</li>
+    <li>PC·모바일 차이 — 개발자 문서에는 PC 다운로드 용량이 평소보다 더 클 예정이라는 말이 있는데 수치는 없고, 모바일은 따로 안 나와 있어요</li>
+    <li>19.2 이후 새 감정표현의 세부 처리 — 안내 없음</li>
+  </ul>
+  <h3>자주 묻는 질문</h3>
+  <p><b>Q. 단독 클라이언트로 나뉘면 리그 오브 레전드와는 어떻게 오가나요?</b><br>개발자 문서에는 단독 클라이언트가 되어도 리그 오브 레전드(협곡이나 무작위 총력전)와 광장 사이를 버튼 한 번으로 오갈 수 있다고 안내돼 있어요. 따로 받아야 하는지 같은 설치 방식은 아직 안내가 안 나왔네요. 감정표현은 19.2 패치 이전에 출시된 것이라면 두 게임 모두에서 쓸 수 있다고 해요.</p>
+  <p>가진 건 건드리지 않고 새로 나오는 것만 갈리는 구조라, 지금 모으던 걸 서둘러 정리할 필요는 없어 보여요.</p>
+  <p><b>✔ 롤토체스 같이 보기 좋은 내용</b><br>
+· <a href="https://blog.naver.com/bomding/224467748886" target="_blank">롤토체스 감사 임무 보상, 1판 보물 토큰 500개와 20판 미니 챔피언</a><br>
+· <a href="https://blog.naver.com/bomding/224459962199" target="_blank">롤토체스 18.5c 패치, 카직스·덩굴정령·정의의 손길 3건 수치 정리</a></p>
+  <p><b>참고한 곳</b><br>
+    · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/game-updates/teamfight-tactics-patch-18-6/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 18.6 패치 (게시 2026.11.04 한국 시간)</a><br>
+    · <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/news/dev/new-client-set-19-tease-and-compensation-rewards/" target="_blank">라이엇게임즈 공식 — 전략적 팀 전투 개발자 문서: 클라이언트, 다음 세트 미리보기 및 감사 임무</a><br>
+    · <a href="https://support.riotgames.com/ko-kr/league-of-legends/gameplay/aram-game-mode" target="_blank">라이엇 고객지원 — 무작위 총력전 게임 모드</a></p>
+  <p class="tags-line">#롤토체스 #롤토체스단독클라이언트 #롤토체스꼬마전설이 #롤토체스감정표현 #롤토체스18.6 #롤토체스세트19</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
