@@ -226,6 +226,22 @@ for (const [w, h] of [[860, 900], [390, 844]]) {
   chk(`[${w}] 콘솔 예외 0`, logs.length === 0, logs);
 }
 
+/* ── 9) ★11-09 갱신본 — 드레이너가 at(지금)으로 등록한 글은 «맨 위» + «갱신» 표시 · at 없는 옛 꼴은 순서 그대로 · NEW 와 겹치지 않는다 ── */
+const nowAt = (() => { const d = new Date(); const z = (n) => String(n).padStart(2, '0'); return `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}:${z(d.getSeconds())}`; })();
+for (const [w, h] of [[1920, 1080], [860, 900], [390, 844]]) {
+  await scene('갱신' + w, J([{ rel: T1, at: nowAt, why: '갱신본 — 네이버 글에 바뀐 부분을 다시 옮길 것: 시험 문단', source: 'drain' }, T2]), [], [], w, h, w <= 860);
+  const first = await ev(`(()=>{const r=document.querySelector('#listCore .row');return r?r.getAttribute('data-rel'):null})()`);
+  chk(`[갱신 ${w}] 지금 등록한 갱신본이 목록 맨 위`, first === T1, { first });
+  const tag = await ev(`(()=>{const r=document.querySelector('#listCore .row');const t=r&&r.querySelector('.tag-re');return t?{tx:t.textContent,title:t.getAttribute('title'),newAlso:!!r.querySelector('.tag-new'),vis:t.getBoundingClientRect().width>0}:null})()`);
+  chk(`[갱신 ${w}] «갱신» 표시가 보이고 사유가 툴팁에`, !!(tag && tag.tx === '갱신' && tag.vis && /시험 문단/.test(tag.title || '')), tag);
+  chk(`[갱신 ${w}] NEW 와 같이 붙지 않는다`, !!(tag && !tag.newAlso), tag);
+  const t2 = await ev(`(()=>{const rows=[...document.querySelectorAll('#listCore .row')];const i=rows.findIndex(r=>r.getAttribute('data-rel')===${JSON.stringify(T2)});return i})()`);
+  chk(`[갱신 ${w}] at 없는 옛 꼴(문자열)은 맨 위로 끌어올리지 않는다`, t2 !== 0, { idx: t2 });
+  chk(`[갱신 ${w}] 가로 넘침 없음`, await ev(`innerWidth===${w}&&document.documentElement.scrollWidth<=${w}`), await ev(`({iw:innerWidth,sw:document.documentElement.scrollWidth})`));
+  await shot('03-refresh-' + w);
+  chk(`[갱신 ${w}] 콘솔 예외 0`, logs.length === 0, logs);
+}
+
 console.log(`\n${R.length - fail}/${R.length} PASS${fail ? ' · FAIL ' + fail : ''}`);
 try { ws.close(); } catch { }
 chrome.kill(); srv.close(); api.close();

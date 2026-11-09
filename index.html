@@ -344,6 +344,12 @@ table.sr td:first-child,table.sr th:first-child{text-align:left}
   font-size:9.5px; font-weight:700; line-height:17px; letter-spacing:.06em;
   font-family:"JetBrains Mono",monospace;
 }
+/* «갱신» — 이미 올린 글의 갱신본(reopen.json). NEW 와 같은 자리·크기, 채움 대신 테두리(새 글과 구별) */
+.tag-re{
+  flex:none; height:17px; padding:0 6px; border-radius:5px;
+  background:transparent; color:var(--ink); border:1px solid var(--ink);
+  font-size:10.5px; font-weight:700; line-height:15px; letter-spacing:.02em; white-space:nowrap;
+}
 .row-c{font-size:12.5px; color:var(--ink-3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .row-d{font-size:12.5px; color:var(--ink-3); text-align:right}
 /* 발주→발행 소요 — 헤더 행이 없어 초시계 아이콘이 열 머리를 대신한다. 왼쪽 정렬이라 아이콘끼리 세로 줄이 맞는다 */
@@ -2048,9 +2054,11 @@ Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,m
   paintQuota();   /* 상단 고정 잔여 사용량 칩(모든 탭) */
 
   ((pub&&pub.publishedRels)||[]).forEach(function(x){ PUBSET[String(x)]=1; });
+  /* ★11-09 값 = {ts:등록 시각, why} — 드레이너가 갱신본(Kind=improve)을 발행할 때 자동 등록한다. 행을 맨 위로 올리고 «갱신» 표시 */
   ((r[12]&&Array.isArray(r[12].rels))?r[12].rels:[]).forEach(function(x){
-    var rel=(x&&typeof x==='object')?x.rel:x;
-    if(rel&&typeof rel==='string')REOPEN[rel]=1;
+    var o=(x&&typeof x==='object');
+    var rel=o?x.rel:x;
+    if(rel&&typeof rel==='string')REOPEN[rel]={ts:o?toTs(x.at):0, why:(o&&typeof x.why==='string')?x.why:''};
   });
 
   /* 발주일자 = 그 글을 만든 요청의 createdAt(postRel 로 조인). 요청 없이 만든 글은 작성일로 폴백. */
@@ -2073,7 +2081,12 @@ Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,m
     /* 발주→발행 소요 = 사이트에 처음 올라온 시각(created = 그 글의 첫 커밋) − 최초 발주. 요청의 statusAt 은 쓰지 않는다 —
        러너가 몰아서·늦게 보고하면 커밋보다 늦게 찍힌다(09-12 실측 578편: 80%는 5분 안이지만 최대 18.7시간, 커밋 시각이 다른 세 글이 한 시각으로 찍힌 회차도 있음). */
     var pubAt=toTs(created), lead=(ORDER_TS[p.rel]&&pubAt>ORDER_TS[p.rel])?pubAt-ORDER_TS[p.rel]:0;
+    var ro=REOPEN[p.rel]||null;
     return {
+      reopened:!!ro,
+      reTs:ro?ro.ts:0,
+      reWhy:ro?ro.why:'',
+      sortTs:Math.max(ordered,ro?ro.ts:0),   /* 갱신본은 등록 시각으로 맨 위에 — 표시 날짜(발주일)는 그대로 */
       rel:p.rel,
       author:p.author||(a.length>=2?a[0]:'(기타)'),
       title:p.title||a[a.length-1],
@@ -2086,7 +2099,7 @@ Promise.all([postsP,pubP,trendP,hidP,mpubP,pinP,reqsP,usageP,quotaP,citeP,whyP,m
       hasOrder:!!ORDER_TS[p.rel],
       published:(p.published===true)||!!PUBSET[p.rel]
     };
-  }).sort(function(a,b){ return b.ordered-a.ordered; });
+  }).sort(function(a,b){ return b.sortTs-a.sortTs; });
 
   TREND=normEditions(trend);
   TREND_DATES=(trend&&Array.isArray(trend.allDates)&&trend.allDates.length)
@@ -3309,7 +3322,8 @@ function rowHtml(p){
       '<span class="dot"></span><span>'+esc(p.author)+'</span></a>'+
     '<a class="row-t" href="'+encRel(p.rel)+'" target="_blank" rel="noopener" title="'+esc(p.title)+'">'+
       '<span class="tx">'+esc(p.title)+'</span>'+
-      (p.isNew?'<span class="tag-new">NEW</span>':'')+
+      (p.reopened?'<span class="tag-re" title="'+esc('갱신본'+(p.reTs?' '+fmtTs(p.reTs)+' '+hhmm(p.reTs):'')+(p.reWhy?' — '+p.reWhy:' — 네이버 글에 다시 옮길 것'))+'">갱신</span>':
+        (p.isNew?'<span class="tag-new">NEW</span>':''))+
       (whyOn(p)&&WHY[p.rel]?'<span class="tag-why">'+esc(whyLabel(WHY[p.rel]))+'</span>':'')+
     '</a>'+
     '<span class="row-c">'+esc(p.cat||'—')+ncHtml(p)+'</span>'+
