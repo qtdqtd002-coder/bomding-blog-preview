@@ -50,6 +50,9 @@
   A3 제목 40자(h1 글자수 · 공백 포함) 초과 · 소제목 h2 7개 이상(상한 6 = 본문 ≤4 + FAQ + 1)(W12·W13 → 11-08 ⛔).
   dry-run(10-25 · 최근 30편): A2 7 · A1 1 · 제목 25 · h2 27 — 그래서 A1·A3 는 정본(제목 40자·h2 상한 6)이 집필에 먹힌 뒤 차단으로 올린다.
   preflight.json 에 `band:{type,lo,hi,chars,blocked}` · `angle:{order,orderSrc,title,lost}` · `a13:{titleLen,titleMax,h2,h2Max,blockFrom}` 추가.
+  ★2026-11-09 리프레시 면제(사용자 결정 — 전투력·자동사냥 리프레시가 원제목 51자로 막힘): <글폴더>/_qa/refresh-backup.html 이 있으면
+     h1 이 원본과 같을 때 A1·A3 제목은 경고만, h2 는 원본 수 이하일 때 경고만. 바꾸거나 늘렸으면 새 글과 같이 ⛔.
+     a13 에 refresh·refreshKeepTitle·refreshKeepH2·refreshBaseH2 추가.
 
 사용
   python preflight.py "<글 HTML 절대경로>" [--writer 봄딩|영도] [--min 2000] [--json] [--strict]
@@ -942,13 +945,30 @@ def check_band(writer, n, purpose, purpose_src, res, min_override=0):
     return ['A2 ' + msg], []
 
 
+def refresh_baseline(html_path):
+    """리프레시 원본 — <글폴더>/_qa/refresh-backup.html(sseudam-pipeline 5.5 ①: 덮어쓰기 전 원본 복사). 없으면 None.
+    반환 {'title': 원본 h1, 'h2': 원본 본문 h2 수}."""
+    bp = os.path.join(os.path.dirname(os.path.abspath(html_path)), '_qa', 'refresh-backup.html')
+    if not os.path.isfile(bp):
+        return None
+    b = io.open(bp, encoding='utf-8', errors='replace').read()
+    return {'title': h1_text(b), 'h2': len(re.findall(r'<h2\b', strip_excluded(b), flags=re.I))}
+
+
 def check_a1_a3(writer, html, html_path, h2n, purpose, res):
-    """A1 각도 유실 · A3 제목 40자·h2 상한 6 — 봄딩만. A13_BLOCK_FROM 전엔 경고(W11~W13), 그날부터 ⛔. 반환 (issues, warns)."""
+    """A1 각도 유실 · A3 제목 40자·h2 상한 6 — 봄딩만. A13_BLOCK_FROM 전엔 경고(W11~W13), 그날부터 ⛔. 반환 (issues, warns).
+    ★2026-11-09 리프레시 면제(사용자 결정): 리프레시는 «제목·네이버 URL 유지»가 규칙(sseudam-pipeline 5.5 ①)이라
+    _qa/refresh-backup.html 이 있고 h1 이 원본과 같으면 A1·A3 제목은 경고로만, h2 는 원본보다 늘지 않았으면 경고로만.
+    제목을 바꿨거나 h2 를 늘렸으면 새 글과 똑같이 ⛔."""
     today = datetime.date.today()
     block = today >= A13_BLOCK_FROM
     tag = '⛔' if block else '경고(%s부터 ⛔)' % A13_BLOCK_FROM.strftime('%m-%d')
     issues, warns = [], []
     title = h1_text(html)
+    base = refresh_baseline(html_path)
+    keep_title = bool(base and base['title'] and base['title'] == title)
+    keep_h2 = bool(base and h2n <= base['h2'])
+    rtag = '경고 · 리프레시 원제목 유지 면제'
     topic = order_topic(html_path)
     oa, osrc = classify_angle(topic), 'topic'
     if oa in ('기타', '정리·모음형'):
@@ -956,17 +976,25 @@ def check_a1_a3(writer, html, html_path, h2n, purpose, res):
     ta = classify_angle(title)
     lost = oa in GUIDE_ANGLES and ta == '뉴스·소식형'
     res['angle'] = {'order': oa, 'orderSrc': osrc, 'topic': topic, 'title': ta, 'lost': lost, 'blocked': bool(lost and block)}
+    if lost and keep_title:
+        res['angle']['blocked'] = False
+    t_block = block and not keep_title
+    h_block = block and not keep_h2
     res['a13'] = {'titleLen': len(title), 'titleMax': TITLE_MAX, 'h2': h2n, 'h2Max': H2_MAX, 'blockFrom': A13_BLOCK_FROM.isoformat(),
-                  'titleOver': len(title) > TITLE_MAX, 'h2Over': h2n > H2_MAX, 'blocked': bool(block and (len(title) > TITLE_MAX or h2n > H2_MAX))}
+                  'titleOver': len(title) > TITLE_MAX, 'h2Over': h2n > H2_MAX,
+                  'blocked': bool((t_block and len(title) > TITLE_MAX) or (h_block and h2n > H2_MAX)),
+                  'refresh': bool(base), 'refreshKeepTitle': keep_title, 'refreshKeepH2': keep_h2,
+                  'refreshBaseH2': base['h2'] if base else None}
     if lost:
-        (issues if block else warns).append('%s A1 각도 유실 — 발주 «%s»(%s)인데 제목이 «뉴스·소식형»(«%s»). 제목·리드를 발주 각도(공략·티어)로 다시 쓴다 [%s]'
-                                            % ('W11' if not block else '', oa, osrc, title[:40], tag))
+        (issues if t_block else warns).append('%s A1 각도 유실 — 발주 «%s»(%s)인데 제목이 «뉴스·소식형»(«%s»). 제목·리드를 발주 각도(공략·티어)로 다시 쓴다 [%s]'
+                                              % ('W11' if not t_block else '', oa, osrc, title[:40], rtag if (block and keep_title) else tag))
     if len(title) > TITLE_MAX:
-        (issues if block else warns).append('%s A3 제목 %d자 > %d자 — 모바일 검색 결과에서 뒤가 잘린다(봄딩 자작 중앙 34.5자) [%s]'
-                                            % ('W12' if not block else '', len(title), TITLE_MAX, tag))
+        (issues if t_block else warns).append('%s A3 제목 %d자 > %d자 — 모바일 검색 결과에서 뒤가 잘린다(봄딩 자작 중앙 34.5자) [%s]'
+                                              % ('W12' if not t_block else '', len(title), TITLE_MAX, rtag if (block and keep_title) else tag))
     if h2n > H2_MAX:
-        (issues if block else warns).append('%s A3 소제목 h2 %d개 > %d개 — 봄딩은 붙여넣을 때 h2 를 인용구로 바꾸므로 h2 수 = 라이브 인용구 수(동료 중앙 4.1). 본문 ≤4 + FAQ + 1 [%s]'
-                                            % ('W13' if not block else '', h2n, H2_MAX, tag))
+        (issues if h_block else warns).append('%s A3 소제목 h2 %d개 > %d개 — 봄딩은 붙여넣을 때 h2 를 인용구로 바꾸므로 h2 수 = 라이브 인용구 수(동료 중앙 4.1). 본문 ≤4 + FAQ + 1 [%s]'
+                                              % ('W13' if not h_block else '', h2n, H2_MAX,
+                                                 ('경고 · 리프레시 h2 원본 %d개 이하 면제' % base['h2']) if (block and keep_h2) else tag))
     return [s.strip() for s in issues], [s.strip() for s in warns]
 
 
