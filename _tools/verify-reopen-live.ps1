@@ -10,8 +10,14 @@ param(
   [Parameter(Mandatory=$true)][string]$Rels,
   [string]$Site = 'https://qtdqtd002-coder.github.io/bomding-blog-preview',
   [int]$Tries = 6,
-  [int]$WaitSec = 30
+  [int]$WaitSec = 30,
+  [string]$LogFile = ''   # 주면 결과 줄을 시각과 함께 덧붙인다(드레이너 5.6 백그라운드 실행 · .bc-locks/reopen-verify.log)
 )
+# ★11-09 실측: Pages 배포가 9~10분 걸려 30초×6회(3분)로는 늘 FAIL — 드레이너는 -Tries 24(12분)로 백그라운드 실행한다.
+function Emit([string]$s) {
+  Write-Output $s
+  if ($LogFile) { try { Add-Content -LiteralPath $LogFile -Value ('[{0}] {1}' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $s) -Encoding UTF8 } catch {} }
+}
 $ErrorActionPreference = 'Stop'
 $want = @($Rels -split '\|' | ForEach-Object { ([string]$_ -replace '\\','/').Trim().TrimStart('/') } | Where-Object { $_ })
 if ($want.Count -eq 0) { Write-Output 'REOPEN_FAIL (인자) :: -Rels 가 비었다'; exit 2 }
@@ -57,8 +63,8 @@ for ($i = 1; $i -le $Tries; $i++) {
 
 $fail = 0
 foreach ($rel in $want) {
-  if ($state[$rel].Count -eq 0) { Write-Output "REOPEN_OK $rel — 작성 글 목록 맨 위에 «갱신»으로 뜬다" }
-  else { $fail++; Write-Output ("REOPEN_FAIL $rel :: " + ($state[$rel] -join ' · ')) }
+  if ($state[$rel].Count -eq 0) { Emit "REOPEN_OK $rel — 작성 글 목록 맨 위에 «갱신»으로 뜬다" }
+  else { $fail++; Emit ("REOPEN_FAIL $rel :: " + ($state[$rel] -join ' · ') + " (확인 $Tries 회 · ${WaitSec}초 간격)") }
 }
-if ($err.Count -gt 0) { Write-Output ('  참고: ' + ($err -join ' · ')) }
+if ($err.Count -gt 0) { Emit ('  참고: ' + ($err -join ' · ')) }
 exit $(if ($fail -gt 0) { 1 } else { 0 })
