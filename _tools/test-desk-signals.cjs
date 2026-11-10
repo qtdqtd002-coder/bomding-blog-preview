@@ -299,6 +299,21 @@ console.log('\n[13] ★desk-candidates merge · gate (2026-09-23 · [B-0] 접착
   eq(m.items.map((x) => [x.id, x.sec]), [['guide-1', 'guide'], ['new-1', 'new']], 'id = <sec>-<n> · sec 는 파일명/객체에서 · 깨진 항목·파일은 건너뛰고 경고');
   eq(C.toLine(m.items[1]), '모노웨이브 | 모노웨이브 출시일', '«게임 | 제목» 줄 — 제목 속 | 는 공백으로(짝짓기 키가 깨지지 않게)');
   ok(m.warnings.length >= 2, '경고가 남는다(' + m.warnings.length + '건)');
+  /* ★2026-11-10 칸 이름 정규화(L128·L138) — 파일명 변형이 알 수 없는 칸을 만들지 않는다 */
+  const P1 = (t, extra) => Object.assign({ game: 'G', title: t, angleType: 'howto', keywords: [t], sources: [{ url: 'https://e.com' }] }, extra || {});
+  const m2 = C.mergeCands([
+    { file: '_tmp/cand-pinA.json', data: [P1('a1')] },
+    { file: '_tmp/cand-pinnedB.json', data: [P1('b1')] },
+    { file: '_tmp/cand-pinned-a.json', data: [P1('c1')] },
+    { file: '_tmp/cand-core-guide.json', data: [P1('d1'), P1('d2', { sec: 'guide' })] },
+    { file: '_tmp/cand-news.json', data: { items: [P1('n1', { sec: 'update' }), P1('n2', { sec: 'hot' }), P1('n3')] } },
+    { file: '_tmp/cand-zzz.json', data: [P1('z1')] },
+  ]);
+  eq(m2.items.map((x) => x.title + ':' + x.sec), ['a1:pinned', 'b1:pinned', 'c1:pinned', 'd1:core', 'd2:guide', 'n1:update', 'n2:hot'],
+    '칸 이름 정규화 — pinA·pinnedB·pinned-a → pinned · core-guide → core(항목 sec 우선) · news 는 항목 sec 대로');
+  ok(m2.warnings.some((w) => /cand-news.*#3.*건너뜀/.test(w)) && m2.warnings.some((w) => /cand-zzz.*건너뜀/.test(w)),
+    '칸을 못 정한 항목(news 의 sec 없는 항목)·파일(zzz)은 경고와 함께 건너뛴다 — 알 수 없는 칸으로 조용히 싣지 않는다');
+  eq([C.canonSec('PINNED'), C.canonSec('watch-2'), C.canonSec('news'), C.canonSec('')], ['pinned', 'watch', null, null], 'canonSec — 대소문자·접미 번호·섞인 칸·빈 값');
   const cands = [
     { id: 'guide-1', sec: 'guide', game: '팰월드', title: '팰월드 거점 추천', angleType: 'rank' },
     { id: 'guide-2', sec: 'guide', game: '메이플', title: '메이플 하는법', angleType: 'howto' },

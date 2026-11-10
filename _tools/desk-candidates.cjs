@@ -40,21 +40,39 @@ const toLine = (it) => clean1(it.game) + ' | ' + clean1(it.title);
 const normT = (s) => String(s || '').toLowerCase().replace(/\s+/g, '');
 
 /* ── merge ──────────────────────────────────────────────────────────────── */
+/* ★2026-11-10 칸 이름 정규화 — 파일명에서 sec 를 읽던 정규식이 `cand-pinA`→«pina»·`cand-pinnedA`→«pinneda»·`cand-news`→«news» 로
+   알 수 없는 칸을 만들어, 지정 칸 규칙(R·X·G)과 수요 판정이 조용히 안 걸렸다(데스크 L128·L138 — 회차마다 손으로 재병합).
+   이제 ⑴항목의 sec ⑵파일의 {sec} ⑶파일명 순으로 보고, 아는 칸 이름으로 맞춘다(pin*·pinned-a/b → pinned).
+   «news» 처럼 칸 셋이 섞인 이름은 항목마다 sec(new·update·hot)이 있어야 하고, 없으면 그 항목을 경고와 함께 건너뛴다. */
+const KNOWN_SECS = ['pinned', 'guide', 'watch', 'core', 'tier', 'new', 'update', 'hot', 'parenting'];
+function canonSec(s) {
+  const k = String(s == null ? '' : s).toLowerCase().trim();
+  if (!k) return null;
+  if (KNOWN_SECS.includes(k)) return k;
+  if (/^pin/.test(k)) return 'pinned';                       /* pina·pinb·pinneda·pinned-a·pins */
+  const head = k.split(/[-_.\s]/)[0];                         /* core-guide → core · watch-2 → watch */
+  if (KNOWN_SECS.includes(head)) return head;
+  return null;
+}
 /* files: [{ file, sec?, data }] → { items, warnings } · 항목 = 조사원 반환 그대로 + id/sec */
 function mergeCands(files) {
   const items = [], warnings = [];
   const counter = {};
   for (const f of files) {
     const data = f.data;
-    let sec = f.sec || (data && !Array.isArray(data) && data.sec) || null;
-    if (!sec && f.file) { const m = path.basename(f.file).match(/^cand-([a-z]+)/i); if (m) sec = m[1].toLowerCase(); }
+    let rawSec = f.sec || (data && !Array.isArray(data) && data.sec) || null;
+    if (!rawSec && f.file) { const m = path.basename(f.file).match(/^cand-(.+?)(?:\.json)?$/i); if (m) rawSec = m[1]; }
+    const sec = canonSec(rawSec);
     const list = Array.isArray(data) ? data : (data && Array.isArray(data.items)) ? data.items : null;
     if (!list) { warnings.push((f.file || '(메모리)') + ': 배열도 {items} 도 아니다 — 건너뜀'); continue; }
-    if (!sec) { warnings.push((f.file || '(메모리)') + ': sec 를 알 수 없다(파일명 cand-<sec>.json 또는 {sec}) — 건너뜀'); continue; }
+    if (!sec && !list.some((x) => x && canonSec(x.sec))) { warnings.push((f.file || '(메모리)') + ': 칸(sec)을 알 수 없다(«' + (rawSec || '') + '» · 파일명 cand-<칸>.json · {sec} · 항목 sec) — 건너뜀'); continue; }
+    if (rawSec && sec && String(rawSec).toLowerCase().split(/[-_.\s]/)[0] !== sec) warnings.push((f.file || '(메모리)') + ': 칸 이름 «' + rawSec + '» → ' + sec + ' 로 맞춤');
     list.forEach((raw, i) => {
       if (!raw || typeof raw !== 'object') return;
       const it = Object.assign({}, raw);
-      it.sec = String(it.sec || sec);
+      const itSec = canonSec(it.sec) || sec;
+      if (!itSec) { warnings.push((f.file || '(메모리)') + ' #' + (i + 1) + ': 칸(sec) 없음(«' + (it.sec || rawSec || '') + '» — new·update·hot 등으로 적을 것) — 건너뜀'); return; }
+      it.sec = itSec;
       if (!clean1(it.game) || !clean1(it.title)) { warnings.push(it.sec + ' #' + (i + 1) + ': game/title 누락 — 건너뜀'); return; }
       it.game = clean1(it.game); it.title = clean1(it.title);
       counter[it.sec] = (counter[it.sec] || 0) + 1;
@@ -164,7 +182,9 @@ function cmdMerge() {
   writeJson(outJ, items);
   fs.writeFileSync(outT, items.map(toLine).join('\n') + '\n', 'utf8');
   const bySec = {}; items.forEach((it) => { bySec[it.sec] = (bySec[it.sec] || 0) + 1; });
-  console.log('merge — 파일 ' + loaded.length + ' · 후보 ' + items.length + '건(' + Object.entries(bySec).map(([k, v]) => k + ' ' + v).join(' · ') + ') · 경고 ' + warnings.length + ' → ' + outJ + ' · ' + outT);
+  const skipped = warnings.filter((w) => /건너뜀/.test(w)).length;
+  console.log('merge — 파일 ' + loaded.length + ' · 후보 ' + items.length + '건(' + Object.entries(bySec).map(([k, v]) => k + ' ' + v).join(' · ') + ') · 경고 ' + warnings.length
+    + (skipped ? ' · ★건너뜀 ' + skipped + '(위 ⚠ 를 보고 칸 이름을 고쳐 다시 merge)' : '') + ' → ' + outJ + ' · ' + outT);
 }
 
 function cmdGate() {
@@ -188,7 +208,7 @@ function cmdGate() {
   console.log('→ ' + outP + ' — kept 만 상세 조사([A-5])로 넘긴다. flags 가 있는 항목은 angle 에 «기존 X와 달리 Y»를 적게 한다.');
 }
 
-module.exports = { mergeCands, gateItems, toLine, expandGlob };
+module.exports = { mergeCands, gateItems, toLine, expandGlob, canonSec };
 
 if (require.main === module) {
   const run = { merge: cmdMerge, gate: cmdGate }[argv[0]];

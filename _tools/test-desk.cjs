@@ -269,7 +269,22 @@ const pk = (s) => String(s || '').toLowerCase().replace(/[\s·:：\-—–_'"’
 const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const QUERY_ONLY_RE = /^(사유[:：]?)?\s*(검색\s*)?(질의|질의\s*빈칸|질의\s*몫)/;
 const PRIMARY_RE = /공식|공지|자료|출처|url|홈|스팀|카페|포럼|라운지|매체|패치|출시|차단|기발행|기존\s*글|재탕/i;
-function pinReasonViolations(e) {
+/* ★2026-11-10 별칭 — /pins 표기(사용자가 상자에 친 «포켓몬고»)와 항목 game(공식 표기 «포켓몬 GO»)이 글자로 안 닿아
+   지정 항목이 있는데도 «사유 없음»으로 막혔다(L142 · 11-10 회차는 우회로 game 을 비공식 표기로 썼다). 공용 별칭 색인
+   `_glossary/_aliases.json`(core-games·glossary 가 쓰는 같은 파일 · 데이터만 읽는다)의 같은 묶음이면 같은 게임으로 본다. */
+const ALIAS_GROUPS = (() => {
+  try {
+    const raw = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', '_glossary', '_aliases.json'), 'utf8').replace(/^﻿/, ''));
+    return (raw.games || []).map((g) => [...new Set([g.canon, ...(g.aliases || [])].map(pk).filter((k) => k.length >= 2))]);
+  } catch (e) { return []; }
+})();
+function pinKeys(name, groups) {
+  const key = pk(name);
+  const out = new Set(key ? [key] : []);
+  for (const grp of (groups || ALIAS_GROUPS)) if (grp.includes(key)) grp.forEach((k) => out.add(k));
+  return [...out];
+}
+function pinReasonViolations(e, groups) {
   const v = [];
   if (!Array.isArray(e.pins)) return ['pins 없음(GET /pins 로 읽은 지정 목록을 판에 남길 것)'];
   const items = ((((e.sections || []).find((s) => s && s.key === 'pinned') || {}).items) || []).filter(Boolean);
@@ -277,9 +292,10 @@ function pinReasonViolations(e) {
   for (const p of e.pins) {
     const key = pk(p);
     if (!key) continue;
-    const n = items.filter((it) => { const g = pk(it.game); return g && (g.includes(key) || key.includes(g)); }).length;
+    const keys = pinKeys(p, groups);
+    const n = items.filter((it) => { const g = pk(it.game); return g && keys.some((k) => g.includes(k) || k.includes(g)); }).length;
     if (n > 0) continue;
-    const aliases = [...new Set([key, key.slice(0, 3)])].filter((a) => a.length >= 2);
+    const aliases = [...new Set([...keys, key.slice(0, 3)])].filter((a) => a.length >= 2);
     let reason = null;
     for (const line of notes) {
       if (!/0\s*건/.test(line)) continue;
@@ -312,6 +328,15 @@ console.log('\n[9] 지정 게임 0건 사유 (시행 ' + PIN_REASON_FROM + '~)')
   const miss = want.filter((w) => !vb.some((x) => x.startsWith(w)));
   ok(miss.length === 0 && vb.length === want.length, '게이트 자기시험 — 묶음 사유·질의뿐인 사유 ' + want.length + '종을 잡는다' + (miss.length || vb.length !== want.length ? ' (나온 것: ' + vb.join(' · ') + ')' : ''));
   ok(pinReasonViolations({ date: '2026-11-02', note: [], sections: [] })[0].startsWith('pins 없음'), '게이트 자기시험 — pins 필드가 없으면 위반');
+  /* ★11-10 별칭(L142) — /pins «포켓몬고» ↔ 항목 game «포켓몬 GO» */
+  const G = [[pk('포켓몬 GO'), pk('포켓몬고'), pk('Pokémon GO')]];
+  ok(pinReasonViolations({ date: '2026-11-10', pins: ['포켓몬고'], note: [], sections: [{ key: 'pinned', items: [P('포켓몬 GO')] }] }, G).length === 0,
+    '게이트 자기시험 — 별칭 묶음이면 /pins 표기와 공식 표기가 같은 게임(포켓몬고 ↔ 포켓몬 GO)');
+  ok(pinReasonViolations({ date: '2026-11-10', pins: ['포켓몬고'], note: ['포켓몬 GO=0건(공식 공지 없음)'], sections: [{ key: 'pinned', items: [] }] }, G).length === 0,
+    '게이트 자기시험 — 0건 사유도 공식 표기로 적으면 찾는다');
+  ok(pinReasonViolations({ date: '2026-11-10', pins: ['포켓몬고'], note: [], sections: [{ key: 'pinned', items: [P('포켓몬 슬립')] }] }, G)[0] === '사유 없음:포켓몬고',
+    '게이트 자기시험 — 별칭 밖 다른 게임은 여전히 «사유 없음»');
+  ok(pinKeys('포켓몬고').includes(pk('포켓몬 GO')), '실제 별칭 색인(_glossary/_aliases.json)에 포켓몬고 ↔ 포켓몬 GO 묶음이 있다(' + ALIAS_GROUPS.length + '묶음)');
 }
 {
   let checked = 0;

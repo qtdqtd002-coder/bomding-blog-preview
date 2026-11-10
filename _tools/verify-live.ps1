@@ -19,6 +19,11 @@
 #      -Paths '_trend/봄딩/2026-06-25.html','_trend/영도/2026-06-25.html' `
 #      -Contains '2026-06-25' -ContainsPath '_trend/trend.json'
 #
+#  ★2026-11-10 -EditionDate — 트렌드 판 전용. -Contains '<날짜>' 는 지난 판 `when`·`detail` 에 같은 날짜 문자열이 있으면
+#   새 판이 안 올라가도 통과한다(데스크 L139 · 11-07 실사고: 라이브는 11-06 그대로인데 exit 0). -EditionDate 를 주면
+#   -EditionPaths(기본 trend.json·trend-lite.json)를 JSON 으로 읽어 **editions[0].date 가 그 날짜와 같을 때만** 반영으로 본다.
+#    powershell -NoProfile -ExecutionPolicy Bypass -File verify-live.ps1 -Paths '_trend/trend.json','_trend/trend-lite.json','index.html' -EditionDate '2026-11-10'
+#
 #  종료코드: 0 = 라이브 반영 확인  /  1 = 타임아웃·재배포 후에도 미반영(발행 미완료로 취급)
 # ============================================================
 param(
@@ -28,6 +33,8 @@ param(
   [string]$Workflow     = 'deploy-pages.yml',
   [string]$Contains     = '',                                              # (선택) 본문에 있어야 할 문자열
   [string]$ContainsPath = '',                                             # (선택) 위 문자열을 확인할 repo-상대 경로
+  [string]$EditionDate  = '',                                             # (선택) 트렌드 판 editions[0].date 가 이 값이어야 반영(YYYY-MM-DD)
+  [string[]]$EditionPaths = @('_trend/trend.json','_trend/trend-lite.json'),
   [int]$TimeoutSec      = 300,                                            # 1차 대기 한도(초)
   [int]$PollSec         = 12,
   [switch]$Quiet
@@ -65,15 +72,31 @@ function Test-AllLive {
       if ([string]$r.Content -notlike "*$Contains*") { return $false }
     } catch { return $false }
   }
+  if ($EditionDate) {
+    foreach ($ep in $EditionPaths) {
+      $u = "$siteRoot/$(Enc $ep)?cb=$(Cb)"
+      try {
+        $r = Invoke-WebRequest -Uri $u -TimeoutSec 25 -UseBasicParsing -ErrorAction Stop
+        # PS 5.1 의 .Content 는 문자셋을 잘못 짚을 수 있어 원문 바이트를 UTF-8 로 읽는다.
+        $txt = [Text.Encoding]::UTF8.GetString($r.RawContentStream.ToArray())
+        $j = $txt | ConvertFrom-Json
+        $d = if ($j.editions -and @($j.editions).Count -gt 0) { [string]@($j.editions)[0].date } else { '' }
+        if ($d -ne $EditionDate) { $script:LastEdition = "$ep=$d"; return $false }
+      } catch { $script:LastEdition = "$ep=(읽기 실패)"; return $false }
+    }
+  }
   return $true
 }
+$script:LastEdition = ''
 
-Log "검증 시작 — 경로 $($Paths.Count)개$(if($Contains){" + '$Contains' 포함체크"}) (타임아웃 ${TimeoutSec}s)."
+$Paths = @($Paths)
+$EditionPaths = @($EditionPaths | ForEach-Object { $_ -split ',' } | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+Log "검증 시작 — 경로 $($Paths.Count)개$(if($Contains){" + '$Contains' 포함체크"})$(if($EditionDate){" + 판 날짜 '$EditionDate' 체크"}) (타임아웃 ${TimeoutSec}s)."
 $deadline    = (Get-Date).AddSeconds($TimeoutSec)
 $retriggered = $false
 while ($true) {
   if (Test-AllLive) {
-    Log "✓ 라이브 반영 확인 — 전 경로 200$(if($Contains){" · '$Contains' 노출"})."
+    Log "✓ 라이브 반영 확인 — 전 경로 200$(if($Contains){" · '$Contains' 노출"})$(if($EditionDate){" · 최신 판 = $EditionDate"})."
     exit 0
   }
   if ((Get-Date) -ge $deadline) {
@@ -85,7 +108,7 @@ while ($true) {
       Start-Sleep -Seconds 15
       continue
     }
-    Log "✗ 재배포 후에도 라이브 미반영 — '발행 미완료'로 보고. 점검: https://github.com/$Repo/actions"
+    Log "✗ 재배포 후에도 라이브 미반영$(if($script:LastEdition){" (라이브 최신 판: $($script:LastEdition))"}) — '발행 미완료'로 보고. 점검: https://github.com/$Repo/actions"
     exit 1
   }
   Start-Sleep -Seconds $PollSec
