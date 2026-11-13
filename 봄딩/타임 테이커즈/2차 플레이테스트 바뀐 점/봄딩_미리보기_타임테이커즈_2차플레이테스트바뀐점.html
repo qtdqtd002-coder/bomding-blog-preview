@@ -1,0 +1,356 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>타임 테이커즈 2차 플레이테스트 바뀐 점 커티스 앱 이단 점프 대시</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}  /* overflow:hidden 두지 말 것 */
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post b{font-weight:800;}
+  .post ul{margin:0 0 20px;padding-left:22px;}
+  .post li{margin:6px 0;font-size:16px;line-height:1.9;word-break:keep-all;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .tnote{font-size:12px;color:var(--sub);margin:0 0 20px;line-height:1.7;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임정보</div>
+    <h1 class="title">타임 테이커즈 2차 플레이테스트 바뀐 점 커티스 앱 이단 점프 대시</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026. 11. 14.</span><span>· 게임</span></div>
+
+    <p>11월 13일 오전 8시에 2차 스팀 플레이테스트가 열려서 패치노트를 쭉 읽어 봤는데요, 1차 때와 달라진 게 꽤 많더라고요. 타임 테이커즈는 3인이 한 팀을 이뤄 4팀 12명이 맞붙는 3인칭 팀 서바이벌 슈터이고 무료로 즐길 수 있어요. 오늘은 신청 방법 말고 '바뀐 것'만 골라 정리해 볼게요. 참여는 스팀 스토어에서 <b>접근 요청(Request access)</b>을 해 두면 되고, 9월 1차나 3월 CBT에 들어갔던 분은 다시 요청하지 않아도 돼요. 기간 중에는 'Participate'를 눌러도 바로 입장할 수 있어요(공식 공지 기준).</p>
+    <!-- 이미지 이유: 도입 분위기 컷 / 출처: 스팀 공식 공지 «Playtest #2 Is Live!» / 분류: A형(인물 지목 금지) -->
+    <div class="imgwrap"><img src="img/live.png" alt="스팀 플레이테스트 2차 개시 공지 이미지" width="800" height="450"></div>
+    <p class="cap">2차 플레이테스트 개시 공지에 쓰인 이미지예요.</p>
+    <p class="src">이미지 출처: 스팀 공식 공지 / NC · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">2차 플레이테스트, 1차랑 뭐가 달라졌을까요?</h2>
+    <p><b>2차는 11월 13일 오전 8시부터 16일 오전 8시까지 72시간이고, 앱 시스템·커티스·이슬라 벨로스·AI 매치·연구소가 새로 공지됐고 대시와 리스폰도 손봤어요.</b> 11월 11일에 공개된 패치노트를 보니 전후 수치가 같이 나온 것만 표에 담았어요.</p>
+    <!-- 이미지 이유: 72시간 일정 문장 보조 / 출처: 스팀 공식 공지 / NC / 분류: A형(인물 지목 금지) -->
+    <div class="imgwrap"><img src="img/schedule.jpg" alt="타임 테이커즈 스팀 플레이테스트 2차 일정 안내 카드" width="1640" height="923"></div>
+    <p class="cap">2차 플레이테스트 안내 카드예요.</p>
+    <p class="src">이미지 출처: 스팀 공식 공지 / NC · 네이버 본문엔 받아서 재업로드 권장</p>
+    <table class="tbl">
+      <tr><th>항목</th><th>이전</th><th>2차</th></tr>
+      <tr><td>대시 최대 충전</td><td>1회</td><td>2회</td></tr>
+      <tr><td>리스폰 무적</td><td>5초</td><td>3초</td></tr>
+      <tr><td>부활 직후 이속 부스트</td><td>7초</td><td>3.5초</td></tr>
+      <tr><td>버티 Banana Grenade 쿨</td><td>30초</td><td>12초</td></tr>
+      <tr><td>아서 Hold the Line 쿨</td><td>42초</td><td>17초</td></tr>
+    </table>
+    <p>대시 충전이 2회가 되고 리스폰 무적이 3초로 줄었으니, 부활하고 나서의 움직임이 1차 때와는 꽤 다를 것 같아요. Balance 표를 보니 여행자 Q·E 스킬 쿨이 꽤 줄었더라고요. 무기 수치도 손봤는데 V-41 카빈은 좌클릭이 55에서 39로 내려가고 연사는 10에서 12로 올랐답니다. 그 밖에 사망했을 때 처치자의 스캔 외곽선과 벽 너머 이름표가 표시되고, 파라다이스 포드가 준결승·결승에도 나오며, 크로노팩은 5개씩 한 번에 열 수 있고 전투기록에서 바로 신고도 할 수 있어요.</p>
+    <p>이번에 새로 공지된 것들은 아래와 같아요.</p>
+    <ul>
+      <li><b>이슬라 벨로스(Isla Veloz)</b>는 2311년 카리브해 고급 휴양지가 배경인 새 전장이에요. 동력원인 크로노크리스탈이 폭주해 섬의 생명이 사라진 뒤에도 타임 에너지를 계속 내뿜는다는 설정이랍니다</li>
+      <li><b>매칭</b>은 같은 인원수 파티끼리 우선(솔로 포함)이고, PLAY 화면에 AI 매치 메뉴가 생겼어요</li>
+      <li><b>연구소</b>의 '메모리'는 프롤로그와 1부 '타임 에너지'를 한국어로 읽을 수 있고 판을 돌며 타임 에너지가 쌓이면 자동 해금돼요. 여행자의 기록을 전부 열면 테스트 기간에 쓸 수 있는 Legacy 스킨이 나오고, 일일 임무와 업적 UI도 개편됐어요</li>
+    </ul>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: 이슬라 벨로스 맵 로딩 화면 또는 휴양지 풍경 1컷</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 인게임 맵 로딩 화면이나 해변 풍경이 보이는 장면</div>
+    <p class="cap">새 전장 이슬라 벨로스 화면이에요.</p>
+
+    <h2 class="sub">앱 시스템, 실제로 뭘 고르는 건가요?</h2>
+    <p><b>앱 시스템은 여행자·무기·특전 위에 빌드를 한 겹 더 쌓는 방식으로, 최대 3개를 고르고 앱마다 좋은 효과 하나와 나쁜 효과 하나가 같이 붙어요.</b> 3판을 마치면 열리고, 여행자 선택 화면이나 로드아웃 '조합' 탭에서 고르며 프리셋은 계정당 10개까지예요. 3월 CBT나 6월 익스클루시브 테스트에도 레벨업할 때 앱을 설치하는 다른 형태가 있었는데, 이번 패치노트는 경기 전에 3개를 골라 득·실을 맞바꾸는 방식으로 새로 공지했어요. 앱이 22종이라 눈에 띄는 8종만 먼저 보여 드릴게요.</p>
+    <table class="tbl">
+      <tr><th>앱(영문 공식명 · 풀이)</th><th>좋은 점</th><th>나쁜 점</th></tr>
+      <tr><td>Time Collector (시간 수집가)</td><td>타임 에너지 수집 거리 +300%</td><td>타임 에너지 획득 -10%</td></tr>
+      <tr><td>Headhunter (헤드헌터)</td><td>헤드샷 피해 +10%</td><td>받는 헤드샷 피해 +10%</td></tr>
+      <tr><td>Marathoner (마라토너)</td><td>이동 속도 +10%</td><td>대시 -1</td></tr>
+      <tr><td>Over Dash (오버 대시)</td><td>대시 +1</td><td>대시 쿨 +30%</td></tr>
+      <tr><td>Skill Master (스킬 마스터)</td><td>스킬 피해 +20%</td><td>스킬 쿨 +20%</td></tr>
+      <tr><td>Shield Converter (실드 변환기)</td><td>최대 실드 +250</td><td>최대 체력 -200</td></tr>
+      <tr><td>Stealth Leap (은신 점프)</td><td>은신 중 점프력 +400%</td><td>은신 중 받는 피해 +20%</td></tr>
+      <tr><td>Time Linker (타임 링커)</td><td>연결 시 타임 에너지 획득 +10%</td><td>연결 해제 시 타임 에너지 획득 -10%</td></tr>
+    </table>
+    <p>Time Linker의 좋은 점과 나쁜 점은 둘 다 생존 동료가 있을 때만 발동해요. 표에 없는 앱 중에서는 이런 것들이 있어요.</p>
+    <ul>
+      <li><b>Equivalent Exchange</b>는 죽을 때마다 최대 실드·체력이 +10 붙고 대신 리스폰이 +0.5초 늘어요(최대 10중첩)</li>
+      <li><b>Bomb Expert</b>는 폭발형 스킬 사용 +1이 붙는 대신 폭발형 스킬 피해가 -15%예요(조란 Tracking Fire Grenade, 버티 Banana Grenade)</li>
+      <li><b>Deployment Master</b>는 설치형 스킬 사용 +1이 붙는 대신 피해가 -15%예요(에포크 Surprise Mine, 유나 Rec-O-Turret 등)</li>
+      <li><b>Scales of Time</b>은 보유 타임 에너지가 2분 30초 이하면 연사 +15%, 초과하면 무기 피해 -15%예요</li>
+    </ul>
+    <p>Marathoner는 대시를 1 깎고 Over Dash는 1 더하니까, 대시 횟수를 두고 정반대로 움직이는 앱이 같이 있다는 게 재밌네요. 이동 위주로 움직이신다면 표에서 Marathoner(이동 속도 +10%, 대시 -1)나 Over Dash(대시 +1, 대시 쿨 +30%)처럼 대시 횟수가 달라지는 앱을 먼저 보시고, 교전 위주라면 Headhunter(헤드샷 피해 +10%, 받는 헤드샷 피해 +10%)처럼 헤드샷에 득·실이 몰린 앱을 보시면 돼요. 앱 이름은 영문 공식명이고, 괄호 안 한글은 이해하기 쉽게 풀어 적은 거예요. 한글 UI 명칭은 인게임에서 확인해 보세요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 로드아웃 '조합' 탭의 앱 선택 화면(3칸과 득·실 툴팁)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 3판 해금 후 앱 3칸이 채워진 상태</div>
+    <p class="cap">앱 3칸을 채운 선택 화면이에요.</p>
+
+    <h2 class="sub">커티스는 스킬 세 개가 각각 뭘 하나요?</h2>
+    <p><b>커티스는 11월 14일(토) 오전 8시부터 합류하고, 추적 개시는 90m 범위를 스캔하고, 전투 본능은 6초 동안 연사를 +20% 올리고, 은신은 8초 동안 투명해지면서 실드 200을 줘요.</b> 공식 영문 패치노트에는 커티스가 Returning Traveler(복귀 여행자)로 소개돼 있어요. 한글 스킬명은 인벤 기사에 나온 표기예요.</p>
+    <table class="tbl">
+      <tr><th>스킬(영문)</th><th>효과</th><th>쿨</th><th>수치</th></tr>
+      <tr><td>추적 개시 (Track Down)</td><td>주변 스캔으로 오브젝트·적 위치 파악</td><td>20초</td><td>범위 90m · 3초 · 이속 +30%</td></tr>
+      <tr><td>전투 본능 (Survival Instinct)</td><td>일정 시간 무기 연사 증가</td><td>20초</td><td>연사 +20% · 6초</td></tr>
+      <tr><td>은신 (Low Profile)</td><td>투명 + 추가 실드</td><td>78초</td><td>8초 · 실드 200</td></tr>
+    </table>
+    <p>스킬에 붙는 퍽은 레벨마다 하나씩인데, Lv.5(Q)는 Tracking Restart로 쿨이 20초에서 17초로 줄어들어 스캔을 더 자주 돌릴 수 있고 Weak Point Analyzed로 스캔한 대상에게 무기 피해 +10%가 붙어요. Lv.9(E)는 Awakened Instinct로 쿨 17초, Battle Frenzy로 과열 -30%가 붙는답니다.</p>
+    <p>커티스의 은신과 맞닿은 앱도 있어요. Stealth Leap은 은신 중 점프력이 +400%로 오르고, Aggro Star는 90m 안 적에게 위치 노출을 다루는 앱인데 Low Profile 상태는 제외한다고 적혀 있어요.</p>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 3: 여행자 선택 화면의 커티스 카드와 스킬 3종 툴팁</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 14일 오전 8시 이후 캡처</div>
+    <p class="cap">커티스 카드와 스킬 툴팁이에요.</p>
+
+    <h2 class="sub">이단 점프랑 대시, 이동은 어디가 바뀌었나요?</h2>
+    <p><b>이단 점프는 공중에서 한 번만, 대시는 최대 2번까지 충전, 슬라이드는 대시 뒤에도 속도를 이어가요.</b> 이단 점프는 공중에서 한 번만 쓸 수 있다고 보시면 돼요(인벤에는 '재사용 대기시간 삭제'로 적혀 있어요).</p>
+    <table class="tbl">
+      <tr><th>항목</th><th>바뀐 내용</th></tr>
+      <tr><td>이단 점프</td><td>공중에서 한 번만(인벤은 '재사용 대기시간 삭제'로 표기)</td></tr>
+      <tr><td>대시</td><td>최대 충전 2회 · 에임 점에 쿨다운 게이지 · 짚라인 중간에 나오면 공중 대시</td></tr>
+      <tr><td>슬라이드</td><td>대시 직후 속도 유지 · 미끄러지다 낙하해도 유지 · 내리막 가속 · 이속 버프 적용</td></tr>
+      <tr><td>조작</td><td>슬라이드 누르기/토글 설정 추가(기본 PC Ctrl)</td></tr>
+    </table>
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 4: 에임 점 옆 대시 쿨다운 게이지(2칸 충전 상태)</span></div>
+    <div class="shoot">📸 직접 촬영 권장 — 대시를 쓰기 전후 게이지 변화가 보이는 장면</div>
+    <p class="cap">대시 게이지가 2칸 찬 모습이에요.</p>
+    <p>앱 쪽에도 이동과 닿아 있는 게 있는데요, Combat Boots는 전투 중 3초간 이동 속도 +30%인 대신 이동 속도 -10%가 붙고, Zipline Perk는 짚라인을 타면 활력 50%를 회복하는 대신 짚라인 쿨이 +100%랍니다.</p>
+    <!-- 이미지 이유: 전투 중 이동 앱 문단 보조 컷 / 출처: NC 제공(인벤 게재) / 분류: A형(인물 지목 금지) -->
+    <div class="imgwrap"><img src="img/combat.jpg" alt="타임 테이커즈 전투 화면 예시" width="1000" height="563"></div>
+    <p class="cap">전투 화면 예시예요.</p>
+    <p class="src">이미지 출처: NC 제공(인벤 게재) · 네이버 본문엔 받아서 재업로드 권장</p>
+
+    <h2 class="sub">출석이랑 파라다이스 패스, 뭘 받나요?</h2>
+    <p><b>3일 출석으로 프로필 꾸미기 아이템과 스킨 2종을 받고(정식 출시 때 지급·영구), 파라다이스 패스 최종 보상은 여행자 캐시의 코스튬 [네뷸라 화이트]예요.</b> 출석은 매일 오전 8시(KST)에 초기화돼요.</p>
+    <!-- 이미지 이유: 3일 출석 보상 안내 보조 / 출처: 스팀 공식 공지 / NC / 분류: A형(인물 지목 금지) -->
+    <div class="imgwrap"><img src="img/attendance.jpg" alt="2차 플레이테스트 3일 출석 보상 안내" width="1489" height="838"></div>
+    <p class="cap">3일 출석 보상 안내예요.</p>
+    <p class="src">이미지 출처: 스팀 공식 공지 / NC · 네이버 본문엔 받아서 재업로드 권장</p>
+    <table class="tbl">
+      <tr><th>일차</th><th>보상</th></tr>
+      <tr><td>Day 1</td><td>프로필 꾸미기(아이콘·테두리·스티커·명패 각 1개)</td></tr>
+      <tr><td>Day 2</td><td>Flux Navy 스킨</td></tr>
+      <tr><td>Day 3</td><td>Alis Street Vintage: Ice Blue 스킨</td></tr>
+    </table>
+    <p>놓친 날은 판을 돌려 모은 크로노스톤(Chronostones)으로 받을 수 있고, 이틀 이상 놓치면 가장 오래된 날부터 크로노스톤으로 사야 하며, 파라다이스 패스도 크로노스톤으로 기간 중 보상을 얻는 2차 한정 방식이에요.</p>
+
+    <h2 class="sub">자주 묻는 질문</h2>
+    <p><b>Q. NC 계정이 있어야 하나요?</b><br>스토어 페이지 기준 NC 계정이 필요하고, 스팀 계정 연결도 지원돼요.</p>
+    <p><b>Q. 내 PC로 돌아갈까요?</b><br>최소는 RTX 2070·RAM 16GB·저장 공간 20GB, 권장은 RTX 3070이에요.</p>
+    <p><b>Q. 미리 받아 둘 수 있었나요?</b><br>11월 11일 스팀 공지로 사전 다운로드가 열렸어요. 테스트 시작 전에 받아 두면 8시에 바로 들어가기 편해요.</p>
+    <p><b>Q. 한국어와 비용은요?</b><br>한국어를 포함한 17개 언어를 지원하고 무료 플레이예요.</p>
+    <p>저라면 14일 오전 8시 이후에 커티스부터 열어 볼 것 같은데요, 앱 3칸은 좋은 점·나쁜 점 표 보면서 채우시는 걸 추천드려요. 14일에 커티스가 열리면 써 보고 다시 정리해서 들고 올게요~</p>
+
+    <p><b>✔ 타임 테이커즈 같이 보기 좋은 내용</b><br>
+    · <a href="https://blog.naver.com/bomding/224392452789" target="_blank">타임 테이커즈 스팀 플레이테스트 신청방법 9월5일 72시간 무료체험</a></p>
+    <p><b>참고한 곳</b><br>
+    · <a href="https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1849192144177293" target="_blank">스팀 공식 공지 패치노트(앱 시스템·커티스)</a><br>
+    · <a href="https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1846018067924995" target="_blank">스팀 공식 공지 2차 플레이테스트 참여 안내</a><br>
+    · <a href="https://store.steampowered.com/app/3596040/?l=koreana" target="_blank">타임 테이커즈 스팀 스토어 페이지</a><br>
+      · <a href="https://www.inven.co.kr/webzine/news/?news=323256" target="_blank">인벤 신규 전장과 캐릭터 추가 기사</a><br>
+      · <a href="https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1849192144177290" target="_blank">스팀 공식 공지 사전 다운로드 안내</a></p>
+    <p class="tnote">※ 11월 11일 공개 패치노트 기준이며, 테스트 중 수치는 바뀔 수 있어요.</p>
+    <!-- AI브리핑 타깃 질문: 타임 테이커즈 2차 플레이테스트 바뀐 점 / 타임 테이커즈 앱 시스템 뭐예요 / 타임 테이커즈 커티스 스킬 -->
+
+    <div class="tags">#타임 테이커즈 #TimeTakers #2차플레이테스트 #스팀플레이테스트 #커티스 #앱시스템 #NC #미스틸게임즈</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 8가지(약 8분):</b> 📷 <b>사진 8곳</b> 업로드. 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 타임 테이커즈 2차 플레이테스트 바뀐 점 커티스 앱 이단 점프 대시</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+      <p>11월 13일 오전 8시에 2차 스팀 플레이테스트가 열려서 패치노트를 쭉 읽어 봤는데요, 1차 때와 달라진 게 꽤 많더라고요. 타임 테이커즈는 3인이 한 팀을 이뤄 4팀 12명이 맞붙는 3인칭 팀 서바이벌 슈터이고 무료로 즐길 수 있어요. 오늘은 신청 방법 말고 '바뀐 것'만 골라 정리해 볼게요. 참여는 스팀 스토어에서 <b>접근 요청(Request access)</b>을 해 두면 되고, 9월 1차나 3월 CBT에 들어갔던 분은 다시 요청하지 않아도 돼요. 기간 중에는 'Participate'를 눌러도 바로 입장할 수 있어요(공식 공지 기준).</p>
+      <p class="ph">📷 〔사진 자리 1〕 2차 플레이테스트 개시 공지 이미지 — 스팀 공식 공지 / NC, 저장 후 업로드</p>
+
+      <h3>2차 플레이테스트, 1차랑 뭐가 달라졌을까요?</h3>
+      <p><b>2차는 11월 13일 오전 8시부터 16일 오전 8시까지 72시간이고, 앱 시스템·커티스·이슬라 벨로스·AI 매치·연구소가 새로 공지됐고 대시와 리스폰도 손봤어요.</b> 11월 11일에 공개된 패치노트를 보니 전후 수치가 같이 나온 것만 표에 담았어요.</p>
+      <p class="ph">📷 〔사진 자리 2〕 2차 플레이테스트 안내 카드 — 스팀 공식 공지 / NC, 저장 후 업로드</p>
+      <table>
+        <tr><th>항목</th><th>이전</th><th>2차</th></tr>
+        <tr><td class="l">대시 최대 충전</td><td>1회</td><td>2회</td></tr>
+        <tr><td class="l">리스폰 무적</td><td>5초</td><td>3초</td></tr>
+        <tr><td class="l">부활 직후 이속 부스트</td><td>7초</td><td>3.5초</td></tr>
+        <tr><td class="l">버티 Banana Grenade 쿨</td><td>30초</td><td>12초</td></tr>
+        <tr><td class="l">아서 Hold the Line 쿨</td><td>42초</td><td>17초</td></tr>
+      </table>
+      <p>대시 충전이 2회가 되고 리스폰 무적이 3초로 줄었으니, 부활하고 나서의 움직임이 1차 때와는 꽤 다를 것 같아요. Balance 표를 보니 여행자 Q·E 스킬 쿨이 꽤 줄었더라고요. 무기 수치도 손봤는데 V-41 카빈은 좌클릭이 55에서 39로 내려가고 연사는 10에서 12로 올랐답니다. 그 밖에 사망했을 때 처치자의 스캔 외곽선과 벽 너머 이름표가 표시되고, 파라다이스 포드가 준결승·결승에도 나오며, 크로노팩은 5개씩 한 번에 열 수 있고 전투기록에서 바로 신고도 할 수 있어요.</p>
+    <p>이번에 새로 공지된 것들은 아래와 같아요.</p>
+      <ul>
+        <li><b>이슬라 벨로스(Isla Veloz)</b>는 2311년 카리브해 고급 휴양지가 배경인 새 전장이에요. 동력원인 크로노크리스탈이 폭주해 섬의 생명이 사라진 뒤에도 타임 에너지를 계속 내뿜는다는 설정이랍니다</li>
+        <li><b>매칭</b>은 같은 인원수 파티끼리 우선(솔로 포함)이고, PLAY 화면에 AI 매치 메뉴가 생겼어요</li>
+        <li><b>연구소</b>의 '메모리'는 프롤로그와 1부 '타임 에너지'를 한국어로 읽을 수 있고 판을 돌며 타임 에너지가 쌓이면 자동 해금돼요. 여행자의 기록을 전부 열면 테스트 기간에 쓸 수 있는 Legacy 스킨이 나오고, 일일 임무와 업적 UI도 개편됐어요</li>
+      </ul>
+      <p class="ph">📷 〔사진 자리 3〕 이슬라 벨로스 맵 로딩 화면 또는 휴양지 풍경 1컷 — 직접 캡처해서 업로드</p>
+
+      <h3>앱 시스템, 실제로 뭘 고르는 건가요?</h3>
+      <p><b>앱 시스템은 여행자·무기·특전 위에 빌드를 한 겹 더 쌓는 방식으로, 최대 3개를 고르고 앱마다 좋은 효과 하나와 나쁜 효과 하나가 같이 붙어요.</b> 3판을 마치면 열리고, 여행자 선택 화면이나 로드아웃 '조합' 탭에서 고르며 프리셋은 계정당 10개까지예요. 3월 CBT나 6월 익스클루시브 테스트에도 레벨업할 때 앱을 설치하는 다른 형태가 있었는데, 이번 패치노트는 경기 전에 3개를 골라 득·실을 맞바꾸는 방식으로 새로 공지했어요. 앱이 22종이라 눈에 띄는 8종만 먼저 보여 드릴게요.</p>
+      <table>
+        <tr><th>앱(영문 공식명 · 풀이)</th><th>좋은 점</th><th>나쁜 점</th></tr>
+        <tr><td class="l">Time Collector (시간 수집가)</td><td>타임 에너지 수집 거리 +300%</td><td>타임 에너지 획득 -10%</td></tr>
+        <tr><td class="l">Headhunter (헤드헌터)</td><td>헤드샷 피해 +10%</td><td>받는 헤드샷 피해 +10%</td></tr>
+        <tr><td class="l">Marathoner (마라토너)</td><td>이동 속도 +10%</td><td>대시 -1</td></tr>
+        <tr><td class="l">Over Dash (오버 대시)</td><td>대시 +1</td><td>대시 쿨 +30%</td></tr>
+        <tr><td class="l">Skill Master (스킬 마스터)</td><td>스킬 피해 +20%</td><td>스킬 쿨 +20%</td></tr>
+        <tr><td class="l">Shield Converter (실드 변환기)</td><td>최대 실드 +250</td><td>최대 체력 -200</td></tr>
+        <tr><td class="l">Stealth Leap (은신 점프)</td><td>은신 중 점프력 +400%</td><td>은신 중 받는 피해 +20%</td></tr>
+        <tr><td class="l">Time Linker (타임 링커)</td><td>연결 시 타임 에너지 획득 +10%</td><td>연결 해제 시 타임 에너지 획득 -10%</td></tr>
+      </table>
+      <p>Time Linker의 좋은 점과 나쁜 점은 둘 다 생존 동료가 있을 때만 발동해요. 표에 없는 앱 중에서는 이런 것들이 있어요.</p>
+    <ul>
+      <li><b>Equivalent Exchange</b>는 죽을 때마다 최대 실드·체력이 +10 붙고 대신 리스폰이 +0.5초 늘어요(최대 10중첩)</li>
+      <li><b>Bomb Expert</b>는 폭발형 스킬 사용 +1이 붙는 대신 폭발형 스킬 피해가 -15%예요(조란 Tracking Fire Grenade, 버티 Banana Grenade)</li>
+      <li><b>Deployment Master</b>는 설치형 스킬 사용 +1이 붙는 대신 피해가 -15%예요(에포크 Surprise Mine, 유나 Rec-O-Turret 등)</li>
+      <li><b>Scales of Time</b>은 보유 타임 에너지가 2분 30초 이하면 연사 +15%, 초과하면 무기 피해 -15%예요</li>
+    </ul>
+    <p>Marathoner는 대시를 1 깎고 Over Dash는 1 더하니까, 대시 횟수를 두고 정반대로 움직이는 앱이 같이 있다는 게 재밌네요. 이동 위주로 움직이신다면 표에서 Marathoner(이동 속도 +10%, 대시 -1)나 Over Dash(대시 +1, 대시 쿨 +30%)처럼 대시 횟수가 달라지는 앱을 먼저 보시고, 교전 위주라면 Headhunter(헤드샷 피해 +10%, 받는 헤드샷 피해 +10%)처럼 헤드샷에 득·실이 몰린 앱을 보시면 돼요. 앱 이름은 영문 공식명이고, 괄호 안 한글은 이해하기 쉽게 풀어 적은 거예요. 한글 UI 명칭은 인게임에서 확인해 보세요.</p>
+      <p class="ph">📷 〔사진 자리 4〕 로드아웃 '조합' 탭의 앱 선택 화면(3칸과 득·실 툴팁) — 직접 캡처해서 업로드</p>
+
+      <h3>커티스는 스킬 세 개가 각각 뭘 하나요?</h3>
+      <p><b>커티스는 11월 14일(토) 오전 8시부터 합류하고, 추적 개시는 90m 범위를 스캔하고, 전투 본능은 6초 동안 연사를 +20% 올리고, 은신은 8초 동안 투명해지면서 실드 200을 줘요.</b> 공식 영문 패치노트에는 커티스가 Returning Traveler(복귀 여행자)로 소개돼 있어요. 한글 스킬명은 인벤 기사에 나온 표기예요.</p>
+      <table>
+        <tr><th>스킬(영문)</th><th>효과</th><th>쿨</th><th>수치</th></tr>
+        <tr><td class="l">추적 개시 (Track Down)</td><td>주변 스캔으로 오브젝트·적 위치 파악</td><td>20초</td><td>범위 90m · 3초 · 이속 +30%</td></tr>
+        <tr><td class="l">전투 본능 (Survival Instinct)</td><td>일정 시간 무기 연사 증가</td><td>20초</td><td>연사 +20% · 6초</td></tr>
+        <tr><td class="l">은신 (Low Profile)</td><td>투명 + 추가 실드</td><td>78초</td><td>8초 · 실드 200</td></tr>
+      </table>
+      <p>스킬에 붙는 퍽은 레벨마다 하나씩인데, Lv.5(Q)는 Tracking Restart로 쿨이 20초에서 17초로 줄어들어 스캔을 더 자주 돌릴 수 있고 Weak Point Analyzed로 스캔한 대상에게 무기 피해 +10%가 붙어요. Lv.9(E)는 Awakened Instinct로 쿨 17초, Battle Frenzy로 과열 -30%가 붙는답니다.</p>
+    <p>커티스의 은신과 맞닿은 앱도 있어요. Stealth Leap은 은신 중 점프력이 +400%로 오르고, Aggro Star는 90m 안 적에게 위치 노출을 다루는 앱인데 Low Profile 상태는 제외한다고 적혀 있어요.</p>
+      <p class="ph">📷 〔사진 자리 5〕 여행자 선택 화면의 커티스 카드와 스킬 3종 툴팁 — 14일 오전 8시 이후 직접 캡처해서 업로드</p>
+
+      <h3>이단 점프랑 대시, 이동은 어디가 바뀌었나요?</h3>
+      <p><b>이단 점프는 공중에서 한 번만, 대시는 최대 2번까지 충전, 슬라이드는 대시 뒤에도 속도를 이어가요.</b> 이단 점프는 공중에서 한 번만 쓸 수 있다고 보시면 돼요(인벤에는 '재사용 대기시간 삭제'로 적혀 있어요).</p>
+      <table>
+        <tr><th>항목</th><th>바뀐 내용</th></tr>
+        <tr><td class="l">이단 점프</td><td>공중에서 한 번만(인벤은 '재사용 대기시간 삭제'로 표기)</td></tr>
+        <tr><td class="l">대시</td><td>최대 충전 2회 · 에임 점에 쿨다운 게이지 · 짚라인 중간에 나오면 공중 대시</td></tr>
+        <tr><td class="l">슬라이드</td><td>대시 직후 속도 유지 · 미끄러지다 낙하해도 유지 · 내리막 가속 · 이속 버프 적용</td></tr>
+        <tr><td class="l">조작</td><td>슬라이드 누르기/토글 설정 추가(기본 PC Ctrl)</td></tr>
+      </table>
+      <p class="ph">📷 〔사진 자리 6〕 에임 점 옆 대시 쿨다운 게이지(2칸 충전 상태) — 직접 캡처해서 업로드</p>
+    <p>앱 쪽에도 이동과 닿아 있는 게 있는데요, Combat Boots는 전투 중 3초간 이동 속도 +30%인 대신 이동 속도 -10%가 붙고, Zipline Perk는 짚라인을 타면 활력 50%를 회복하는 대신 짚라인 쿨이 +100%랍니다.</p>
+      <p class="ph">📷 〔사진 자리 7〕 전투 화면 예시 — NC 제공(인벤 게재), 저장 후 업로드</p>
+
+      <h3>출석이랑 파라다이스 패스, 뭘 받나요?</h3>
+      <p><b>3일 출석으로 프로필 꾸미기 아이템과 스킨 2종을 받고(정식 출시 때 지급·영구), 파라다이스 패스 최종 보상은 여행자 캐시의 코스튬 [네뷸라 화이트]예요.</b> 출석은 매일 오전 8시(KST)에 초기화돼요.</p>
+      <p class="ph">📷 〔사진 자리 8〕 3일 출석 보상 안내 — 스팀 공식 공지 / NC, 저장 후 업로드</p>
+      <table>
+        <tr><th>일차</th><th>보상</th></tr>
+        <tr><td class="l">Day 1</td><td>프로필 꾸미기(아이콘·테두리·스티커·명패 각 1개)</td></tr>
+        <tr><td class="l">Day 2</td><td>Flux Navy 스킨</td></tr>
+        <tr><td class="l">Day 3</td><td>Alis Street Vintage: Ice Blue 스킨</td></tr>
+      </table>
+      <p>놓친 날은 판을 돌려 모은 크로노스톤(Chronostones)으로 받을 수 있고, 이틀 이상 놓치면 가장 오래된 날부터 크로노스톤으로 사야 하며, 파라다이스 패스도 크로노스톤으로 기간 중 보상을 얻는 2차 한정 방식이에요.</p>
+
+      <h3>자주 묻는 질문</h3>
+      <p><b>Q. NC 계정이 있어야 하나요?</b><br>스토어 페이지 기준 NC 계정이 필요하고, 스팀 계정 연결도 지원돼요.</p>
+      <p><b>Q. 내 PC로 돌아갈까요?</b><br>최소는 RTX 2070·RAM 16GB·저장 공간 20GB, 권장은 RTX 3070이에요.</p>
+      <p><b>Q. 미리 받아 둘 수 있었나요?</b><br>11월 11일 스팀 공지로 사전 다운로드가 열렸어요. 테스트 시작 전에 받아 두면 8시에 바로 들어가기 편해요.</p>
+    <p><b>Q. 한국어와 비용은요?</b><br>한국어를 포함한 17개 언어를 지원하고 무료 플레이예요.</p>
+      <p>저라면 14일 오전 8시 이후에 커티스부터 열어 볼 것 같은데요, 앱 3칸은 좋은 점·나쁜 점 표 보면서 채우시는 걸 추천드려요. 14일에 커티스가 열리면 써 보고 다시 정리해서 들고 올게요~</p>
+
+      <p><b>✔ 타임 테이커즈 같이 보기 좋은 내용</b><br>
+      · <a href="https://blog.naver.com/bomding/224392452789" target="_blank">타임 테이커즈 스팀 플레이테스트 신청방법 9월5일 72시간 무료체험</a></p>
+      <p><b>참고한 곳</b><br>
+      · <a href="https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1849192144177293" target="_blank">스팀 공식 공지 패치노트(앱 시스템·커티스)</a><br>
+      · <a href="https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1846018067924995" target="_blank">스팀 공식 공지 2차 플레이테스트 참여 안내</a><br>
+      · <a href="https://store.steampowered.com/app/3596040/?l=koreana" target="_blank">타임 테이커즈 스팀 스토어 페이지</a><br>
+      · <a href="https://www.inven.co.kr/webzine/news/?news=323256" target="_blank">인벤 신규 전장과 캐릭터 추가 기사</a><br>
+      · <a href="https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1849192144177290" target="_blank">스팀 공식 공지 사전 다운로드 안내</a></p>
+      <p class="tnote-line">※ 11월 11일 공개 패치노트 기준이며, 테스트 중 수치는 바뀔 수 있어요.</p>
+      <p class="tags-line">#타임 테이커즈 #TimeTakers #2차플레이테스트 #스팀플레이테스트 #커티스 #앱시스템 #NC #미스틸게임즈</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
