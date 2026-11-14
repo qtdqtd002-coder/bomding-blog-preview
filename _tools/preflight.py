@@ -221,9 +221,13 @@ NUM_CELL = re.compile(r'\d')
 # ⑤ 티어·추천·순위 글 = 반증 대상(2026-11-14 사용자 결정 7 — 여러 출처를 종합해 순위를 매기는 글이 ①②③ 플래그에서 빠져 반증 없이 나갔다:
 #    몬헌 동료 티어표 🔴2 · 몬헌 무기 추천 갱신 🔴2). purpose 는 ①과 같은 입력만(파이프라인·드레이너 판정이 갈리지 않게).
 #    제목은 «티어·순위·등급표»만 본다 — «추천»은 봄딩·영도 제목의 검색 낱말(«신작게임추천»)이라 제목에서는 안 본다.
-#    ★RANK_SENS_FROM 이전에 만들어진 파일은 미적용 — 이미 검수를 마친 글이 아웃박스 재실행에서 true 로 뒤집혀 «민감글 refute 부재» 로 보류되지 않게.
+#    ★RANK_SENS_FROM 이전부터 있던 글은 미적용 — 이미 검수를 마친 글이 아웃박스 재실행에서 true 로 뒤집혀 «민감글 refute 부재» 로 보류되지 않게.
+#    ★적용 여부는 글마다 **한 번 정해 `_qa/sens-rank.json` 에 적어 둔다**(11-14 검수 🔴 — 첫 판은 파일 생성 시각(getctime)으로 갈랐는데,
+#      Edit·Write 도구와 os.replace 는 Windows 에서 생성 시각을 «지금»으로 바꾼다. 11-15 뒤에 손본 옛 글이 «새 글»이 돼 보류될 수 있었다).
+#      정하는 법 = `_qa` 폴더에 RANK_SENS_FROM 이전 기록이 하나라도 있으면 옛 글(미적용), 없고 지금이 그 뒤면 새 글(적용).
+#    ★한 번 걸린 글은 계속 걸린다(hit) — 아웃박스 재실행은 --purpose 없이 돌아 purpose 쪽 판정이 꺼지고 sensitive.json 을 false 로 덮어썼다(검수 🟡).
 RANK_PURPOSE = re.compile(r'티어|추천|순위')
-RANK_TITLE = re.compile(r'티어|순위|등급표')
+RANK_TITLE = re.compile(r'티어|(?<!우선)순위|등급표')     # «우선순위»는 순위 글이 아니다
 RANK_SENS_FROM = datetime.datetime(2026, 11, 15)
 # W15 소식 글 공식 출처(2026-11-14 사용자 결정 8 — 경고로 시작 · 2주 관찰 뒤 차단 여부 보고): 소식형(출시·사전예약·업데이트…)인데
 #    공식(용어집 소스맵 등재 도메인·official 등급) 링크가 0 이면 경고. 매체 기사만으로 날짜·보상을 적은 글이 통과하던 구멍(다크에덴R).
@@ -238,7 +242,14 @@ W15_PRESS_HOSTS = (
     'ign.com', 'gamespot.com', 'pcgamer.com', 'eurogamer.net', 'polygon.com', 'kotaku.com', 'gematsu.com', '4gamer.net', 'famitsu.com', 'destructoid.com',
     'gamesradar.com', 'pockettactics.com', 'pocketgamer.com', 'game8.co', 'gamewith.jp', 'gamewith.ai', 'gamewith.net', 'mumuplayer.com', 'bluestacks.com', 'ldplayer.net',
     'progameguides.com', 'dexerto.com', 'vg247.com', 'rockpapershotgun.com', 'automaton-media.com', 'gamerant.com', 'thegamer.com', 'siliconera.com',
+    # 11-14 검수 🟡 — 공식으로 잘못 세어지던 매체·모음 사이트
+    'dailygame.co.kr', 'dailyesports.com', 'inews24.com', 'gametoc.co.kr', 'search.naver.com', 'game8.jp', 'gameshot.net', 'gamedonga.co.kr', 'gameabout.com',
+    'mt.co.kr', 'news.nate.com', 'newspim.com', 'asiae.co.kr', 'fnnews.com', 'digitaltoday.co.kr', 'techm.kr', 'sportsseoul.com', 'hankookilbo.com', 'heraldcorp.com',
+    'nocutnews.co.kr', 'khan.co.kr', 'hani.co.kr', 'ajunews.com', 'bloter.net', 'tistory.com', 'namu.wiki',
 )
+# 공식 채널이 여기에 있을 수 있다(공식 카페·X·유튜브) — B5 는 이 호스트들을 «개인·SNS» 로 빼므로 공식 공지를 여기서 가져온 글에 W15 가 거짓 경고를 냈다(검수 🟡).
+# 이 호스트 링크가 본문에 있으면 W15 는 판정하지 않는다.
+W15_MAYBE_OFFICIAL = ('cafe.naver.com', 'x.com', 'twitter.com', 'youtube.com', 'youtu.be', 'facebook.com', 'instagram.com', 'discord.gg', 'discord.com', 'pf.kakao.com')
 
 
 # ────────────────────────────────────────────────────────────── 공통 파싱
@@ -621,10 +632,16 @@ def check_primary_links(post, res, purpose, purpose_src):
         return any(h == w or h.endswith('.' + w) for w in W15_PRESS_HOSTS)
     official = sum(1 for x in primary if not _press(x['host']))
     res['b5']['officialLinks'] = official
-    if W15_NEWS_OFFICIAL and not applies and post_type(purpose) == '소식형' and official == 0:
+    # 대상 = B5 가 안 보는 글 전부(소식형 + «게임 정보»·«신작 소개» 등 — 검수 🟡: 소식형 낱말이 없는 purpose 는 아무 출처 게이트도 없었다). 제품 비교(육아 수익형)는 제외.
+    maybe = sorted(set(e['host'] for e in excluded if any(e['host'] == w or e['host'].endswith('.' + w) for w in W15_MAYBE_OFFICIAL)))
+    if W15_NEWS_OFFICIAL and applies is False and not any(k in purpose for k in B5_PURPOSE_SKIP) and official == 0:
+        if maybe:
+            res['b5']['newsNoOfficial'] = 'unknown'      # 공식 카페·X·유튜브일 수 있다 — 판정하지 않는다
+            return [], []
         res['b5']['newsNoOfficial'] = True
-        return [], ['W15 소식 글 공식 출처 링크 0 — 날짜·보상·가격은 공식 공지가 근거다(매체 기사 %d건뿐) · 공식 공지 링크를 «참고한 곳» 또는 본문에 1개 이상 · 공식 도메인이 화이트리스트 밖이면 용어집 소스맵에 1행 등재'
-                    ' [purpose «%s» · 경고 모드 — 2주 관찰 뒤 차단 여부 결정]' % (len(primary), purpose)]
+        what = ('매체·공략 사이트 %d건뿐' % len(primary)) if primary else '외부 출처 링크 0건'
+        return [], ['W15 공식 출처 링크 0 — 날짜·보상·가격은 공식 공지가 근거다(%s) · 공식 공지 링크를 «참고한 곳» 또는 본문에 1개 이상 · 공식 도메인이 화이트리스트 밖이면 용어집 소스맵에 1행 등재'
+                    ' [purpose «%s» · 경고 — 2주 관찰 뒤 차단 여부 결정]' % (what, purpose)]
     return [], []
 
 
@@ -886,14 +903,44 @@ def check_para_len(post, res, writer):
 
 
 # ────────────────────────────────────────────────────────────── sensitive(반증 투입 플래그)
-def sensitive_flag(post, purpose, title, created=None):
+def rank_decision(html_path):
+    """⑤ 적용 여부 — `<글폴더>/_qa/sens-rank.json` 에 한 번 정해 둔 값을 읽는다. 없으면 새로 정한다.
+    반환 (dict {applies, hit, decidedAt, basis}, 새로 정했는가). 파일 시각이 아니라 «_qa 에 RANK_SENS_FROM 이전 기록이 있는가»로 가른다."""
+    qa = os.path.join(os.path.dirname(os.path.abspath(html_path)), '_qa')
+    mk = os.path.join(qa, 'sens-rank.json')
+    try:
+        j = json.load(io.open(mk, encoding='utf-8'))
+        if isinstance(j, dict) and 'applies' in j:
+            return j, False
+    except Exception:
+        pass
+    older = None
+    try:
+        for fn in os.listdir(qa):
+            if fn == 'sens-rank.json':
+                continue
+            if datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(qa, fn))) < RANK_SENS_FROM:
+                older = fn
+                break
+    except Exception:
+        pass
+    now = datetime.datetime.now()
+    applies = older is None and now >= RANK_SENS_FROM
+    basis = ('_qa 에 %s 이전 기록(%s) — 옛 글' % (RANK_SENS_FROM.strftime('%m-%d'), older)) if older else (
+        '새 글(_qa 에 이전 기록 없음)' if applies else '%s 이전 실행' % RANK_SENS_FROM.strftime('%m-%d'))
+    return {'applies': bool(applies), 'hit': False, 'decidedAt': now.strftime('%Y-%m-%d %H:%M'), 'basis': basis}, True
+
+
+def sensitive_flag(post, purpose, title, rank=None):
     text = ' '.join(t for _, _, t in blocks(post, tags=('p', 'li', 'td', 'th', 'h2', 'h3')))
     reasons = []
-    # ⑤ 티어·추천·순위 글(2026-11-14) — created(파일 생성 시각)가 RANK_SENS_FROM 이후인 글만.
-    if created is not None and created >= RANK_SENS_FROM:
+    # ⑤ 티어·추천·순위 글(2026-11-14) — rank = rank_decision() 의 dict. applies 인 글만, 한 번 걸렸으면(hit) purpose 가 없는 실행에서도 유지.
+    if rank and rank.get('applies'):
         pz = purpose or ''
-        if (pz and not any(k in pz for k in B5_PURPOSE_SKIP) and RANK_PURPOSE.search(pz)) or RANK_TITLE.search(title or ''):
-            reasons.append('⑤ 티어·추천·순위 글(purpose «%s» · 제목 «%s»)' % (pz[:20], re.sub(r'\s+', ' ', (title or '').strip())[:30]))
+        fired = (pz and not any(k in pz for k in B5_PURPOSE_SKIP) and RANK_PURPOSE.search(pz)) or RANK_TITLE.search(title or '')
+        if fired or rank.get('hit'):
+            rank['hit'] = True
+            reasons.append('⑤ 티어·추천·순위 글(purpose «%s» · 제목 «%s»%s)' % (pz[:20], re.sub(r'\s+', ' ', (title or '').strip())[:30], '' if fired else ' · 앞선 실행 판정 유지'))
     signals = {w: len(re.findall(re.escape(w), text)) for w in SENS_SIGNAL_WORDS}
     # ② 부재 단정 — «유일/최초/없다» 가 한 문장이라도 있으면(SKILL: 판정 여지 없음). 문장 단위로 주어 단서와 함께 본다.
     ab = []
@@ -1243,10 +1290,11 @@ def main():
     # sensitive ①(결과형)은 파이프라인과 같은 입력으로 — --purpose 또는 그것을 이어받은 값(←arg)만 쓴다.
     #   추론값(research-brief 등)을 넣으면 파이프라인이 false 로 정한 글이 드레이너 qa-files-check 에서 refute 필수로 뒤집힐 수 있다.
     try:
-        created = datetime.datetime.fromtimestamp(os.path.getctime(p))
+        rank, rank_new = rank_decision(p)
     except Exception:
-        created = None
-    sens = sensitive_flag(post, a.purpose or (purpose if purpose_src.endswith('←arg') else ''), title, created)
+        rank, rank_new = None, False
+    _hit0 = bool(rank and rank.get('hit'))
+    sens = sensitive_flag(post, a.purpose or (purpose if purpose_src.endswith('←arg') else ''), title, rank)
 
     # ── V 문체 수치(2026-11-14 · 봄딩·영도) — 실블로그 기준(_voice/fingerprint.json)과 어미 비율·출처 귀속을 견준다.
     #    mode «observe» = 기록만(_qa/voice.json · _health/voice-log.jsonl — 경고·차단 없음) · «warn» = 경고 · «block» = 차단.
@@ -1259,11 +1307,14 @@ def main():
             _sp.loader.exec_module(_vl)
             vres = _vl.check(html, writer, purpose, title)
             detail['voice'] = vres
-            if not vres.get('skipped') and vres.get('out'):
-                if vres.get('mode') == 'block':
+            # level: ok / warn(실제 글에 없는 값 1개 이상 또는 벗어난 항목 2개 이상) / block(둘 다).
+            # 벗어난 항목이 1개뿐인 글은 실제 글에도 흔해(서너 편 중 한 편) 아무 말도 하지 않는다.
+            _lv = vres.get('level', 'ok')
+            if not vres.get('skipped') and _lv != 'ok':
+                if vres.get('mode') == 'block' and _lv == 'block':
                     issues.append('V ' + _vl.summary(vres))
-                elif vres.get('mode') == 'warn':
-                    warns.append('V ' + _vl.summary(vres) + ' (경고 모드)')
+                elif vres.get('mode') in ('warn', 'block'):
+                    warns.append('V ' + _vl.summary(vres) + ' (경고)')
         except Exception as e:
             detail['voice'] = {'skipped': '검사 내부 오류 — %s' % e}
 
@@ -1278,7 +1329,7 @@ def main():
            'angle': detail.get('angle', {}),  # 계약(2026-10-25): angle:{order, orderSrc, topic, title, lost, blocked} — 봄딩만(A1)
            'a13': detail.get('a13', {}),    # 계약(2026-10-25): a13:{titleLen, titleMax, h2, h2Max, blockFrom, titleOver, h2Over, blocked} — 봄딩만(A3)
            'refreshNew': detail.get('refreshNew', {}),   # 계약(2026-11-14): refreshNew:{rel, sentences, same, ratio, max, sameTitle, blocked} — _qa/refresh-of.json 이 있을 때만(R1)
-           'voice': {k: detail.get('voice', {}).get(k) for k in ('mode', 'type', 'out', 'checks', 'skipped') if k in detail.get('voice', {})},   # 계약(2026-11-14): 문체 수치 — 상세는 _qa/voice.json
+           'voice': {k: detail.get('voice', {}).get(k) for k in ('mode', 'type', 'level', 'out', 'far', 'checks', 'skipped') if k in detail.get('voice', {})},   # 계약(2026-11-14): 문체 수치 — 상세는 _qa/voice.json
            'checkedAt': now, 'file': p}
 
     # ── 항상 쓴다: <글폴더>/_qa/preflight.json · sensitive.json (다른 패키지가 읽는 계약 — 파일명 고정)
@@ -1290,6 +1341,9 @@ def main():
             json.dumps(out, ensure_ascii=False, indent=1))
         io.open(os.path.join(out_dir, 'sensitive.json'), 'w', encoding='utf-8', newline='\n').write(
             json.dumps(sens, ensure_ascii=False, indent=1))
+        if rank and (rank_new or bool(rank.get('hit')) != _hit0):      # ⑤ 적용 여부·걸림은 한 번 정하면 그대로(파일 시각에 기대지 않는다)
+            io.open(os.path.join(out_dir, 'sens-rank.json'), 'w', encoding='utf-8', newline='\n').write(
+                json.dumps(rank, ensure_ascii=False, indent=1))
         _v = detail.get('voice') or {}
         if _v and not _v.get('skipped'):      # 문체 수치 상세 + 관찰 기록(--out-dir 시험 실행은 기록하지 않는다)
             io.open(os.path.join(out_dir, 'voice.json'), 'w', encoding='utf-8', newline='\n').write(

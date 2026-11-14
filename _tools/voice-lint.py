@@ -36,18 +36,20 @@ def _lib():
     return _LIB["m"]
 
 
+def _mode(v):
+    """mode 낱말 정리 — 대소문자·공백을 봐주고, 모르는 값은 observe(조용히 차단으로 가지 않는다)."""
+    v = str(v or "").strip().lower()
+    return v if v in ("observe", "warn", "block") else "observe"
+
+
 def load_fp():
     return json.load(io.open(FP_PATH, encoding="utf-8"))
 
 
-def post_kind(purpose, title):
-    """('공략'|'소식', 근거). purpose 가 있으면 그것으로, 없으면 제목 낱말로."""
-    p = purpose or ""
-    if p:
-        if "제품 비교" in p or "제품비교" in p:
-            return "공략", "purpose"
-        return ("공략" if any(k in p for k in GUIDE_KEYS) else "소식"), "purpose"
-    return ("공략" if GUIDE_TITLE.search(title or "") else "소식"), "title"
+def post_kind(purpose, title, writer=""):
+    """('공략'|'소식'|'기어', 근거) — ★제목 낱말로만 가른다(voicelib.kind_of_title). 기준 표본(실블로그)에는 발주 목적이 없어서,
+    초안만 purpose 로 가르면 기준과 초안의 유형 규칙이 달라진다(11-14 검수: 191편 중 85편이 엇갈렸다). purpose 는 쓰지 않는다."""
+    return _lib().kind_of_title(title or "", writer), "title"
 
 
 def check(html, writer, purpose="", title="", kind=""):
@@ -65,17 +67,23 @@ def check(html, writer, purpose="", title="", kind=""):
         return {"skipped": "산문 %d자 < %d" % (m["한글자수"], MIN_CHARS)}
     src = "arg"
     if not kind:
-        kind, src = post_kind(purpose, title)
+        kind, src = post_kind(purpose, title, writer)
     ent = w["types"].get(kind) or w["types"]["all"]
     used = kind if kind in w["types"] else "all"
     checks = []
     for g in ent["gates"]:
         v = m[g["metric"]]
         ok = v <= g["value"] if g["op"] == "<=" else v >= g["value"]
-        checks.append({"metric": g["metric"], "value": v, "op": g["op"], "limit": g["value"],
-                       "realMed": ent["dist"][g["metric"]]["med"], "ok": bool(ok)})
-    return {"writer": writer, "type": kind, "typeSrc": src, "basis": used, "basisN": ent["n"], "mode": fp.get("mode", "observe"),
-            "chars": m["한글자수"], "metrics": m, "checks": checks, "out": sum(1 for c in checks if not c["ok"]),
+        hard = g.get("hard", g["value"])                       # v1 기준 파일(hard 없음)이면 soft 와 같은 선
+        far = not (v <= hard if g["op"] == "<=" else v >= hard)
+        checks.append({"metric": g["metric"], "value": v, "op": g["op"], "limit": g["value"], "hard": hard,
+                       "realMed": ent["dist"][g["metric"]]["med"], "ok": bool(ok), "far": bool(far)})
+    n_out = sum(1 for c in checks if not c["ok"])
+    n_far = sum(1 for c in checks if c["far"])
+    # level — warn: 실제 글에 없는 값(hard) 1개 이상 또는 벗어난 항목 2개 이상 · block: 둘 다(_voice/tools/build_fingerprint.level 과 같은 규칙)
+    lv = "block" if (n_far >= 1 and n_out >= 2) else ("warn" if (n_far >= 1 or n_out >= 2) else "ok")
+    return {"writer": writer, "type": kind, "typeSrc": src, "basis": used, "basisN": ent["n"], "mode": _mode(os.environ.get("SSEUDAM_VOICE_MODE") or fp.get("mode", "observe")),   # 환경 변수는 사본 시험용(운영은 fingerprint.json)
+            "chars": m["한글자수"], "metrics": m, "checks": checks, "out": n_out, "far": n_far, "level": lv,
             "fpBuilt": fp.get("built"), "checkedAt": time.strftime("%Y-%m-%d %H:%M")}
 
 
@@ -83,10 +91,13 @@ def summary(res):
     """한 줄 요약(preflight 경고·기록용)."""
     if res.get("skipped"):
         return "문체 수치 미판정(%s)" % res["skipped"]
-    bad = ["«%s» %s(기준 %s %s · 실제 중앙 %s)" % (c["metric"], c["value"], c["op"], c["limit"], c["realMed"]) for c in res["checks"] if not c["ok"]]
+    bad = ["«%s» %s(기준 %s %s · 실제 중앙 %s%s)" % (c["metric"], c["value"], c["op"], c["limit"], c["realMed"], " · 실제 글에 없는 값" if c.get("far") else "")
+           for c in res["checks"] if not c["ok"]]
     if not bad:
-        return "문체 수치 기준 안(%s · %s형 · 표본 %d편)" % (res["writer"], res["type"], res["basisN"])
-    return "문체 수치 이탈 %d/%d — %s [%s 실블로그 %s형 %d편 기준]" % (res["out"], len(res["checks"]), " · ".join(bad), res["writer"], res["basis"], res["basisN"])
+        return "문체 수치 기준 안(%s · %s형 · 비광고 실제 글 %d편 기준)" % (res["writer"], res["type"], res["basisN"])
+    tag = {"ok": "참고(실제 글도 서너 편 중 한 편은 한 항목쯤 벗어난다)", "warn": "주의", "block": "실제 글과 다름"}[res.get("level", "ok")]
+    return "문체 수치 %s — 벗어난 항목 %d/%d(그중 실제 글에 없는 값 %d): %s [%s 비광고 실제 글 %s형 %d편 기준]" % (
+        tag, res["out"], len(res["checks"]), res.get("far", 0), " · ".join(bad), res["writer"], res["basis"], res["basisN"])
 
 
 def log(res, path):
@@ -95,7 +106,7 @@ def log(res, path):
     try:
         os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
         row = {"at": res["checkedAt"], "file": os.path.relpath(path, BASE).replace("\\", "/"), "writer": res["writer"], "type": res["type"],
-               "mode": res["mode"], "out": res["out"], "chars": res["chars"]}
+               "mode": res["mode"], "out": res["out"], "far": res.get("far", 0), "level": res.get("level", ""), "chars": res["chars"]}
         for c in res["checks"]:
             row[c["metric"]] = c["value"]
         io.open(LOG_PATH, "a", encoding="utf-8", newline="\n").write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -129,7 +140,8 @@ def run_file(path, writer, purpose="", kind="", do_log=True, quiet=False):
         print("  " + summary(res))
         if not res.get("skipped"):
             for c in res["checks"]:
-                print("   %s %-8s 초안 %6.2f · 기준 %s %5.2f · 실제 중앙 %5.2f" % ("✓" if c["ok"] else "✗", c["metric"], c["value"], c["op"], c["limit"], c["realMed"]))
+                print("   %s %-8s 초안 %6.2f · 기준 %s %5.2f · 실제 중앙 %5.2f%s" % ("✓" if c["ok"] else "✗", c["metric"], c["value"], c["op"], c["limit"], c["realMed"],
+                      (" · 실제 글에 없는 값(한계 %s)" % c["hard"]) if c.get("far") else ""))
             m = res["metrics"]
             print("   참고: 네요 %.2f · 일인칭 %.2f · 문장평균 %.1f자 · 긴문장비 %.2f · 산문 %d자 · mode=%s" % (m["네요"], m["일인칭"], m["문장평균"], m["긴문장비"], m["한글자수"], res["mode"]))
     return res
@@ -145,7 +157,9 @@ def scan(writer, n):
     rows = [r for r in rows if not r.get("skipped")]
     if not rows:
         print("대상 없음"); return
-    print("%s 최근 %d편 — 기준 이탈 0개 %d편 · 1개 %d · 2개 %d · 3개+ %d" % (writer, len(rows), *(sum(1 for r in rows if r["out"] == k) for k in (0, 1, 2)), sum(1 for r in rows if r["out"] >= 3)))
+    print("%s 최근 %d편 — 판정 ok %d · 주의 %d · 실제 글과 다름 %d | 벗어난 항목 0개 %d편 · 1개 %d · 2개 %d · 3개+ %d" % (
+        writer, len(rows), *(sum(1 for r in rows if r.get("level") == k) for k in ("ok", "warn", "block")),
+        *(sum(1 for r in rows if r["out"] == k) for k in (0, 1, 2)), sum(1 for r in rows if r["out"] >= 3)))
     for metric in [c["metric"] for c in rows[0]["checks"]]:
         bad = sum(1 for r in rows for c in r["checks"] if c["metric"] == metric and not c["ok"])
         vals = sorted(c["value"] for r in rows for c in r["checks"] if c["metric"] == metric)
@@ -174,8 +188,8 @@ def log_summary(days):
         if not rows:
             continue
         med = lambda k: sorted(r.get(k, 0) for r in rows)[len(rows) // 2]
-        print("voice-log %s 최근 %d일 %d편(mode=%s) — 기준 이탈 0개 %d편 · 1개 %d · 2개+ %d | 중앙: 해요체합 %.2f · ~습니다 %.2f · ~는데요 %.2f · 출처귀속 %.2f" % (
-            w, days, len(rows), mode, sum(1 for r in rows if r["out"] == 0), sum(1 for r in rows if r["out"] == 1), sum(1 for r in rows if r["out"] >= 2),
+        print("voice-log %s 최근 %d일 %d편(mode=%s) — 판정 ok %d편 · 주의 %d · 실제 글과 다름 %d | 중앙: 해요체합 %.2f · ~습니다 %.2f · ~는데요 %.2f · 출처귀속 %.2f" % (
+            w, days, len(rows), mode, sum(1 for r in rows if r.get("level") == "ok"), sum(1 for r in rows if r.get("level") == "warn"), sum(1 for r in rows if r.get("level") == "block"),
             med("해요체합"), med("습니다"), med("는데요"), med("출처귀속")))
 
 

@@ -105,6 +105,7 @@ let KPI_MODE = 'ok';
 const BOM_POSTS = JSON.parse(readFileSync(join(ROOT, 'posts.json'), 'utf8')).filter((p) => p.author === '봄딩');
 const BOM_GROUPS = [...new Set(BOM_POSTS.map((p) => p.group))];
 /* «이미 쓴 글» 줄 검사의 기준 글(2026-11-14) — 봄딩 롤토체스 최신 글. 없으면 그 검사를 건너뛴다 */
+let POSTS_EXTRA = [];   /* «이미 쓴 글» 줄 이스케이프 검사 때만 채운다(맨 끝의 별도 로드) — 그 밖의 검사는 실제 posts.json 그대로 */
 const DUP_POST = BOM_POSTS.filter((p) => p.group === '롤토체스').sort((x, y) => String(y.created).localeCompare(String(x.created)))[0] || null;
 const GC_NEW = { updated: '2026-11-01 06:30', games: {}, groups: {}, byPost: {} };
 BOM_GROUPS.forEach((g, k) => {
@@ -175,6 +176,7 @@ const srv = createServer((req, res) => {
   if (p === '/_trend/_kpi.json') { if (KPI_MODE === '404') { res.writeHead(404); res.end('nope'); return; } return json(KPI_DOC); }
   const abs = normalize(join(ROOT, p));
   if (!existsSync(abs) || statSync(abs).isDirectory()) { res.writeHead(404); res.end('nope'); return; }
+  if (p === '/posts.json' && POSTS_EXTRA.length) return json(JSON.parse(readFileSync(abs, 'utf8').replace(/^\uFEFF/, '')).concat(POSTS_EXTRA));
   if (p === '/index.html') {
     let html = readFileSync(INDEX, 'utf8');
     html = html.replace(/API_BASE\s*:\s*'[^']*'/, "API_BASE:'http://127.0.0.1:" + AP + "'");
@@ -768,6 +770,74 @@ const missingIcons = [...iconUses].filter(([n]) => !ICON_KEYS.has(n));
 chk('쓰는 아이콘 이름이 전부 아이콘 사전(I{})에 있다(index.html + _toolbox·_cal ' + LAZY.length + '파일 · 이름 ' + iconUses.size + '개)', ICON_KEYS.size > 20 && iconUses.size > 10 && missingIcons.length === 0, { missing: missingIcons, keys: ICON_KEYS.size });
 chk('★도구함 제목 검사기의 신호 아이콘 넷(alertTri·alert·check·info)이 사전에 있다', ['alertTri', 'alert', 'check', 'info'].every((n) => ICON_KEYS.has(n) && iconUses.has(n)), ['alertTri', 'alert', 'check', 'info'].map((n) => n + ':' + ICON_KEYS.has(n) + '/' + iconUses.has(n)));
 
+/* ★2026-11-14 검수 🟡(Y8) — 발주 모달 «이미 쓴 글» 판정. 모달 검사는 «뜬다»만 봤다. «뜨면 안 되는 것이 안 뜨는가»를 잰다.
+   판정 함수(orderDupes)는 사이트 클로저 안이라 페이지에서 못 부른다 → index.html 소스에서 그 구간(var DUP_STOP= … function openOrder 앞)을 떼어 Node 에서 돌린다.
+   변이 4종으로 확인: 같은 게임 필터 제거 · 절반 기준 제거 · 날짜 낱말 허용 · 앞머리 일치 → 각각 아래 검사가 FAIL */
+{
+  const a = CSSSRC.indexOf('var DUP_STOP='), b = CSSSRC.indexOf('function openOrder(it,opener){');
+  let T = null, err = null;
+  try {
+    const mk = new Function('POSTS', CSSSRC.slice(a, b) + '\nreturn orderDupes;');
+    const P = [];
+    const add = (g, t) => P.push({ author: '봄딩', group: g, title: t, rel: 'syn/' + P.length, pubAt: 1 });
+    add('브롤스타즈', '브롤스타즈 신규 스킨 가격 한눈에'); add('롤', '롤 신규 스킨 가격 한눈에');
+    add('시험게임', '시험게임 알파 베타 감마 델타'); add('시험게임', '시험게임 11월 28일 소식'); add('시험게임', '시험게임 메가 레이드 데이'); add('시험게임', '시험게임 무료 디럭스 차이');
+    const od = mk(P);
+    T = (g, t) => od('봄딩', g, t).map((x) => x.title);
+  } catch (e) { err = String(e); }
+  chk('«이미 쓴 글» 판정 함수를 index.html 에서 떼어 돌릴 수 있다', a > 0 && b > a && !!T, { a, b, err });
+  if (T) {
+    const og = T('롤', '롤 신규 스킨 가격 한눈에');
+    chk('«이미 쓴 글» 판정 — 이름이 짧은 게임(롤)은 다른 게임(브롤스타즈) 글을 끌어오지 않는다 · 같은 게임 글은 뜬다', og.length === 1 && og[0].indexOf('롤 ') === 0, og);
+    const half = T('시험게임', '시험게임 알파 베타 사과 포도 수박'), halfOk = T('시험게임', '시험게임 알파 베타 사과'), one = T('시험게임', '시험게임 알파 사과');
+    chk('«이미 쓴 글» 판정 — 주제 낱말의 절반 이상·2개 이상 겹칠 때만(5개 중 2개 ✗ · 3개 중 2개 ○ · 1개 ✗)', half.length === 0 && halfOk.length === 1 && one.length === 0, { half, halfOk, one });
+    const date = T('시험게임', '시험게임 11월 28일 다른이야기 또다른'), prefix = T('시험게임', '시험게임 메가독침붕 메가헬가 레이드'), josa = T('시험게임', '시험게임 무료와 디럭스를 견주기');
+    chk('«이미 쓴 글» 판정 — 날짜 낱말(11월·28일)끼리는 겹침이 아니다 · 앞머리만 같은 낱말(메가독침붕↔메가)도 아니다 · 조사가 붙은 꼴(무료와↔무료)은 같다',
+      date.length === 0 && prefix.length === 0 && josa.length === 1, { date, prefix, josa });
+  }
+}
+/* 글 제목의 꺾쇠가 태그로 들어가지 않는가 — 합성 글 1편을 posts.json 에 얹어 한 번 더 연다(변이: dupLine 의 esc 제거 → FAIL) */
+{
+  POSTS_EXTRA = [{ author: '봄딩', group: '롤토체스', title: '롤토체스 <b id="xssb">엑스</b> 시험용 낱말 묶음', rel: '봄딩/롤토체스/syn-x/x.html', created: '2000-01-01 00:00:00' }];   /* 경로 조각이 «_»·«.»로 시작하면 사이트가 목록에서 뺀다 */
+  await open(1366, 768, false);
+  await goTab('trend', `!!document.querySelector('[data-req="syn-pinned-1"]')`);
+  await click(`[data-req="syn-pinned-1"]`); await waitFor(`!!document.querySelector('.brief')`, 5000); await sleep(500);
+  const x = await ev(`(async()=>{const q=(s)=>document.querySelector(s);const t=q('#oTopic');t.value='롤토체스 엑스 시험용 낱말 묶음';
+    q('#oChips .wchip[data-w="봄딩"]').click();t.dispatchEvent(new Event('input',{bubbles:true}));await new Promise(r=>setTimeout(r,300));
+    const b=q('#oDup');return {el:!!b.querySelector('#xssb'),text:b.textContent.includes('<b id="xssb">'),t:b.textContent.slice(0,90)}})()`);
+  chk('[1366×768] «이미 쓴 글» 줄 — 글 제목의 꺾쇠는 글자로 나온다(태그로 들어가지 않는다)', x && x.el === false && x.text === true, x);
+  POSTS_EXTRA = [];
+}
+/* ★3차 게이트 🟡(11-15) — 줄이 3건(긴 제목 접힘 포함)이면 모달이 커지고, 가운데 정렬이라 커진 만큼의 절반이 위로 밀렸다(1920: 칩 40px · 치는 중 주제 칸 19px).
+   고친 것 = 줄이 처음 바뀌기 직전에 모달 윗변을 붙박는다. 잰다: ① 한 글자씩 쳐서 줄이 뜨는 순간 주제 칸·모달 윗변이 안 움직인다 ② 칩을 눌러도 모달 윗변이 안 움직인다
+   ③ 창 크기를 바꾸면 붙박음이 풀려 다시 가운데(위아래 여백 차 ≤2px). 변이: 붙박는 줄 제거 → ①② FAIL */
+{
+  const LT = ['롤토체스 덱 티어 마스터 평균등수 순방률 기준으로 다시 보는 이번 패치 추천 조합 다섯 가지와 운영 순서', '롤토체스 덱 티어 평균등수 순방률 마스터 구간 기준 정리, 초보가 따라 하기 쉬운 순서대로',
+    '롤토체스 마스터 덱 티어 순방률 평균등수 기준 한눈에 보기와 아이템 우선 배치 요령까지'];
+  POSTS_EXTRA = LT.map((t, i) => ({ author: '봄딩', group: '롤토체스', title: t, rel: '봄딩/롤토체스/syn-l' + i + '/x.html', created: '2000-01-0' + (i + 1) + ' 00:00:00' }));
+  await open(1920, 1080, false);
+  await goTab('trend', `!!document.querySelector('[data-req="syn-pinned-1"]')`);
+  await click(`[data-req="syn-pinned-1"]`); await waitFor(`!!document.querySelector('.brief')`, 5000); await sleep(900);
+  const pin = await ev(`(async()=>{const q=(s)=>document.querySelector(s);const w=(ms)=>new Promise(r=>setTimeout(r,ms));const top=(e)=>Math.round(e.getBoundingClientRect().top*10)/10;
+    const m=q('.mdl'),t=q('#oTopic'),c=q('#oChips'),b=q('#oDup');
+    q('#oChips .wchip[data-w="봄딩"]').click();await w(250);
+    const r={m0:top(m),t0:top(t),h0:Math.round(m.getBoundingClientRect().height),n0:b.querySelectorAll('.od-t').length};
+    const s='롤토체스 덱 티어 마스터 평균등수 순방률 기준';t.value='';
+    for(const ch of s){t.value+=ch;t.dispatchEvent(new Event('input',{bubbles:true}));await w(15)}
+    await w(300);
+    r.n1=b.querySelectorAll('.od-t').length;r.m1=top(m);r.t1=top(t);r.h1=Math.round(m.getBoundingClientRect().height);
+    q('#oChips .wchip[data-w="영도"]').click();await w(250);r.m2=top(m);r.n2=b.querySelectorAll('.od-t').length;
+    q('#oChips .wchip[data-w="봄딩"]').click();await w(300);r.m3=top(m);r.n3=b.querySelectorAll('.od-t').length;r.pinned=!!m._pin;
+    return r})()`);
+  chk('[1920×1080] «이미 쓴 글» 3건 — 치는 중 줄이 떠 모달이 커져도 주제 칸·모달 윗변이 제자리(±2px) · 모달은 실제로 커졌다',
+    pin && pin.n0 === 0 && pin.n1 === 3 && pin.h1 > pin.h0 + 20 && Math.abs(pin.m1 - pin.m0) <= 2 && Math.abs(pin.t1 - pin.t0) <= 2, pin);
+  chk('[1920×1080] «이미 쓴 글» 3건 — 작성자 칩을 바꿔 줄이 사라졌다 다시 떠도 모달 윗변이 제자리(±2px)',
+    pin && pin.n2 === 0 && pin.n3 === 3 && Math.abs(pin.m2 - pin.m0) <= 2 && Math.abs(pin.m3 - pin.m0) <= 2 && pin.pinned === true, pin);
+  await send('Emulation.setDeviceMetricsOverride', { width: 1600, height: 900, deviceScaleFactor: 1, mobile: false }); await sleep(500);
+  const un = await ev(`(()=>{const m=document.querySelector('.mdl'),r=m.getBoundingClientRect();return {pin:!!m._pin,mt:m.style.marginTop,gapTop:Math.round(r.top),gapBottom:Math.round(innerHeight-r.bottom)}})()`);
+  chk('[1920→1600×900] 창 크기를 바꾸면 붙박음이 풀리고 모달이 다시 가운데(위아래 여백 차 ≤2px)', un && un.pin === false && un.mt === '' && Math.abs(un.gapTop - un.gapBottom) <= 2, un);
+  POSTS_EXTRA = [];
+}
 console.log(`\n${R.length - fail}/${R.length} PASS${fail ? ' · FAIL ' + fail : ''} · 스크린샷 ${OUT}`);
 try { ws.close(); } catch { }
 chrome.kill(); srv.close(); api.close();
