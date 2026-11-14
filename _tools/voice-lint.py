@@ -1,0 +1,166 @@
+# voice-lint.py — 문체 수치(어미 비율·출처 귀속) 를 «작성자 실블로그 기준»과 견준다 (2026-11-14 신설 · LLM 0)
+# 배경: 봄딩·영도 실블로그는 «~습니다·~는데요» 뼈대(«~어요» 거의 0)인데 우리 초안은 «~어요»체였다(쓰담/docs/2026-11-14_쓰담_구조진단_개선기획안.html).
+#   ai-tell-lint 의 어미표는 «세기만» 했다 — 이 도구는 같은 식으로 센 값을 기준선과 비교해 판정을 낸다.
+# 기준 = Desktop\Claude\_voice\fingerprint.json (실블로그 2026-05-30 이전 글 표본 · _voice/tools/build_fingerprint.py 가 만든다)
+#   mode: "observe" = 기록만(집필·게이트에 안 보임) · "warn" = preflight 경고 · "block" = preflight 차단
+#   ★차단 승격은 사용자 보고 뒤에만(2026-11-14 결정 2 — 2주 관찰 뒤).
+# 사용:
+#   python _tools/voice-lint.py <글.html> --writer 봄딩 [--purpose "<발주 목적>"] [--type 공략|소식] [--no-log]
+#   python _tools/voice-lint.py --scan 봄딩 30        # 최근 30편 일괄(기록 안 함 · 분포 확인용)
+# 출력: 표 + `<글폴더>/_qa/voice.json` + Desktop\Claude\_health\voice-log.jsonl 1줄(관찰 기록). exit 는 항상 0(판정은 preflight 가 mode 로).
+import os, re, sys, io, json, glob, time, importlib.util
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))           # BlogPreview
+ROOT = os.path.dirname(BASE)                                                 # Desktop\Claude
+VOICE = os.path.join(ROOT, "_voice")
+FP_PATH = os.path.join(VOICE, "fingerprint.json")
+LOG_PATH = os.path.join(ROOT, "_health", "voice-log.jsonl")
+GUIDE_KEYS = ("공략", "쿠폰", "티어", "추천", "순위", "가이드")
+GUIDE_TITLE = re.compile(r"공략|방법|하는\s?법|얻는|티어|쿠폰|가이드|조합|위치|레시피|스킬|세팅|팁|육성")
+MIN_CHARS = 600
+_LIB = {"m": None}
+
+
+def _lib():
+    if _LIB["m"] is None:
+        spec = importlib.util.spec_from_file_location("voicelib", os.path.join(VOICE, "tools", "voicelib.py"))
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        _LIB["m"] = m
+    return _LIB["m"]
+
+
+def load_fp():
+    return json.load(io.open(FP_PATH, encoding="utf-8"))
+
+
+def post_kind(purpose, title):
+    """('공략'|'소식', 근거). purpose 가 있으면 그것으로, 없으면 제목 낱말로."""
+    p = purpose or ""
+    if p:
+        if "제품 비교" in p or "제품비교" in p:
+            return "공략", "purpose"
+        return ("공략" if any(k in p for k in GUIDE_KEYS) else "소식"), "purpose"
+    return ("공략" if GUIDE_TITLE.search(title or "") else "소식"), "title"
+
+
+def check(html, writer, purpose="", title="", kind=""):
+    """dict 를 돌려준다. 기준·표본이 없거나 글이 너무 짧으면 {'skipped': 사유}."""
+    if not os.path.exists(FP_PATH):
+        return {"skipped": "fingerprint.json 없음"}
+    fp = load_fp()
+    w = fp.get("writers", {}).get(writer)
+    if not w:
+        return {"skipped": "기준 없는 작성자 %s" % writer}
+    lib = _lib()
+    text = lib.prose_of_html(html, is_path=False)
+    m = lib.metrics(text)
+    if m["한글자수"] < MIN_CHARS:
+        return {"skipped": "산문 %d자 < %d" % (m["한글자수"], MIN_CHARS)}
+    src = "arg"
+    if not kind:
+        kind, src = post_kind(purpose, title)
+    ent = w["types"].get(kind) or w["types"]["all"]
+    used = kind if kind in w["types"] else "all"
+    checks = []
+    for g in ent["gates"]:
+        v = m[g["metric"]]
+        ok = v <= g["value"] if g["op"] == "<=" else v >= g["value"]
+        checks.append({"metric": g["metric"], "value": v, "op": g["op"], "limit": g["value"],
+                       "realMed": ent["dist"][g["metric"]]["med"], "ok": bool(ok)})
+    return {"writer": writer, "type": kind, "typeSrc": src, "basis": used, "basisN": ent["n"], "mode": fp.get("mode", "observe"),
+            "chars": m["한글자수"], "metrics": m, "checks": checks, "out": sum(1 for c in checks if not c["ok"]),
+            "fpBuilt": fp.get("built"), "checkedAt": time.strftime("%Y-%m-%d %H:%M")}
+
+
+def summary(res):
+    """한 줄 요약(preflight 경고·기록용)."""
+    if res.get("skipped"):
+        return "문체 수치 미판정(%s)" % res["skipped"]
+    bad = ["«%s» %s(기준 %s %s · 실제 중앙 %s)" % (c["metric"], c["value"], c["op"], c["limit"], c["realMed"]) for c in res["checks"] if not c["ok"]]
+    if not bad:
+        return "문체 수치 기준 안(%s · %s형 · 표본 %d편)" % (res["writer"], res["type"], res["basisN"])
+    return "문체 수치 이탈 %d/%d — %s [%s 실블로그 %s형 %d편 기준]" % (res["out"], len(res["checks"]), " · ".join(bad), res["writer"], res["basis"], res["basisN"])
+
+
+def log(res, path):
+    if res.get("skipped"):
+        return
+    try:
+        os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
+        row = {"at": res["checkedAt"], "file": os.path.relpath(path, BASE).replace("\\", "/"), "writer": res["writer"], "type": res["type"],
+               "mode": res["mode"], "out": res["out"], "chars": res["chars"]}
+        for c in res["checks"]:
+            row[c["metric"]] = c["value"]
+        io.open(LOG_PATH, "a", encoding="utf-8", newline="\n").write(json.dumps(row, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
+def save(res, path):
+    try:
+        d = os.path.join(os.path.dirname(path), "_qa")
+        os.makedirs(d, exist_ok=True)
+        io.open(os.path.join(d, "voice.json"), "w", encoding="utf-8", newline="\n").write(json.dumps(res, ensure_ascii=False, indent=1))
+    except Exception:
+        pass
+
+
+def title_of(html):
+    m = re.search(r"(?is)<h1\b[^>]*>(.*?)</h1>", html)
+    return re.sub(r"<[^>]+>", "", m.group(1)).strip() if m else ""
+
+
+def run_file(path, writer, purpose="", kind="", do_log=True, quiet=False):
+    html = io.open(path, encoding="utf-8", errors="replace").read()
+    res = check(html, writer, purpose, title_of(html), kind)
+    if not res.get("skipped"):
+        save(res, path)
+        if do_log:
+            log(res, path)
+    if not quiet:
+        print("[%s] %s" % (writer, os.path.relpath(path, BASE)))
+        print("  " + summary(res))
+        if not res.get("skipped"):
+            for c in res["checks"]:
+                print("   %s %-8s 초안 %6.2f · 기준 %s %5.2f · 실제 중앙 %5.2f" % ("✓" if c["ok"] else "✗", c["metric"], c["value"], c["op"], c["limit"], c["realMed"]))
+            m = res["metrics"]
+            print("   참고: 네요 %.2f · 일인칭 %.2f · 문장평균 %.1f자 · 긴문장비 %.2f · 산문 %d자 · mode=%s" % (m["네요"], m["일인칭"], m["문장평균"], m["긴문장비"], m["한글자수"], res["mode"]))
+    return res
+
+
+def scan(writer, n):
+    files = [f for f in glob.glob(os.path.join(BASE, writer, "**", "%s_미리보기_*.html" % writer), recursive=True) if "\\_qa\\" not in f and "/_qa/" not in f]
+    files.sort(key=os.path.getmtime, reverse=True)
+    rows = []
+    for f in files[:n]:      # 일괄 확인은 아무것도 쓰지 않는다(_qa/voice.json·기록은 preflight·단건 실행만)
+        html = io.open(f, encoding="utf-8", errors="replace").read()
+        rows.append(check(html, writer, "", title_of(html)))
+    rows = [r for r in rows if not r.get("skipped")]
+    if not rows:
+        print("대상 없음"); return
+    print("%s 최근 %d편 — 기준 이탈 0개 %d편 · 1개 %d · 2개 %d · 3개+ %d" % (writer, len(rows), *(sum(1 for r in rows if r["out"] == k) for k in (0, 1, 2)), sum(1 for r in rows if r["out"] >= 3)))
+    for metric in [c["metric"] for c in rows[0]["checks"]]:
+        bad = sum(1 for r in rows for c in r["checks"] if c["metric"] == metric and not c["ok"])
+        vals = sorted(c["value"] for r in rows for c in r["checks"] if c["metric"] == metric)
+        print("   %-8s 이탈 %d/%d · 초안 중앙 %.2f" % (metric, bad, len(rows), vals[len(vals) // 2]))
+
+
+if __name__ == "__main__":
+    a = sys.argv[1:]
+    if not a:
+        print(__doc__ or "usage: voice-lint.py <html> --writer 봄딩"); sys.exit(0)
+    if a[0] == "--scan":
+        scan(a[1], int(a[2]) if len(a) > 2 else 30); sys.exit(0)
+
+    def opt(name, default=""):
+        return a[a.index(name) + 1] if name in a and a.index(name) + 1 < len(a) else default
+    path = os.path.abspath(a[0])
+    writer = opt("--writer") or next((w for w in ("봄딩", "영도") if ("\\%s\\" % w) in path or ("/%s/" % w) in path), "")
+    run_file(path, writer, opt("--purpose"), opt("--type"), do_log="--no-log" not in a)
+    sys.exit(0)

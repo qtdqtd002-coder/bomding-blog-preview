@@ -218,6 +218,16 @@ ABSENCE_SKIP = re.compile(r'없으신|없는\s*분|없다면|없으면|없어도
 RESULT_WORDS = re.compile(r'결과|순위|랭킹|매출|시세|점유율|동접|우승|승률|1위|톱\s?\d|TOP\s?\d|메타크리틱|평점', re.I)
 RESULT_PURPOSE = re.compile(r'결과|순위|시세|매출|평가|랭킹', re.I)
 NUM_CELL = re.compile(r'\d')
+# ⑤ 티어·추천·순위 글 = 반증 대상(2026-11-14 사용자 결정 7 — 여러 출처를 종합해 순위를 매기는 글이 ①②③ 플래그에서 빠져 반증 없이 나갔다:
+#    몬헌 동료 티어표 🔴2 · 몬헌 무기 추천 갱신 🔴2). purpose 는 ①과 같은 입력만(파이프라인·드레이너 판정이 갈리지 않게).
+#    제목은 «티어·순위·등급표»만 본다 — «추천»은 봄딩·영도 제목의 검색 낱말(«신작게임추천»)이라 제목에서는 안 본다.
+#    ★RANK_SENS_FROM 이전에 만들어진 파일은 미적용 — 이미 검수를 마친 글이 아웃박스 재실행에서 true 로 뒤집혀 «민감글 refute 부재» 로 보류되지 않게.
+RANK_PURPOSE = re.compile(r'티어|추천|순위')
+RANK_TITLE = re.compile(r'티어|순위|등급표')
+RANK_SENS_FROM = datetime.datetime(2026, 11, 15)
+# W15 소식 글 공식 출처(2026-11-14 사용자 결정 8 — 경고로 시작 · 2주 관찰 뒤 차단 여부 보고): 소식형(출시·사전예약·업데이트…)인데
+#    공식(용어집 소스맵 등재 도메인·official 등급) 링크가 0 이면 경고. 매체 기사만으로 날짜·보상을 적은 글이 통과하던 구멍(다크에덴R).
+W15_NEWS_OFFICIAL = True
 
 
 # ────────────────────────────────────────────────────────────── 공통 파싱
@@ -594,6 +604,13 @@ def check_primary_links(post, res, purpose, purpose_src):
         ex = ', '.join(sorted(set('%s(%s)' % (e['host'], e['why']) for e in excluded))) or '없음'
         return ['B5 1차 출처 링크 0 — 공략·쿠폰·티어 글은 공식·매체 출처 링크 ≥1 필수(참고한 곳 R5 또는 본문) · 출처를 넣거나 purpose 를 낮춰라 · 공식 도메인이 화이트리스트 밖이면 용어집 소스맵(_glossary/<게임>.md «소스맵»)에 1행 등재'
                 ' [purpose «%s» ← %s · a href %d개 · 제외 %s]' % (purpose, purpose_src, len(urls), ex)], []
+    # W15(2026-11-14 · 경고) — 소식형인데 공식 링크 0. B5 대상(공략·쿠폰·티어)이 아닐 때만 본다.
+    official = sum(1 for x in primary if x['tier'] == 'official')
+    res['b5']['officialLinks'] = official
+    if W15_NEWS_OFFICIAL and not applies and post_type(purpose) == '소식형' and official == 0:
+        res['b5']['newsNoOfficial'] = True
+        return [], ['W15 소식 글 공식 출처 링크 0 — 날짜·보상·가격은 공식 공지가 근거다(매체 기사 %d건뿐) · 공식 공지 링크를 «참고한 곳» 또는 본문에 1개 이상 · 공식 도메인이 화이트리스트 밖이면 용어집 소스맵에 1행 등재'
+                    ' [purpose «%s» · 경고 모드 — 2주 관찰 뒤 차단 여부 결정]' % (len(primary), purpose)]
     return [], []
 
 
@@ -855,9 +872,14 @@ def check_para_len(post, res, writer):
 
 
 # ────────────────────────────────────────────────────────────── sensitive(반증 투입 플래그)
-def sensitive_flag(post, purpose, title):
+def sensitive_flag(post, purpose, title, created=None):
     text = ' '.join(t for _, _, t in blocks(post, tags=('p', 'li', 'td', 'th', 'h2', 'h3')))
     reasons = []
+    # ⑤ 티어·추천·순위 글(2026-11-14) — created(파일 생성 시각)가 RANK_SENS_FROM 이후인 글만.
+    if created is not None and created >= RANK_SENS_FROM:
+        pz = purpose or ''
+        if (pz and not any(k in pz for k in B5_PURPOSE_SKIP) and RANK_PURPOSE.search(pz)) or RANK_TITLE.search(title or ''):
+            reasons.append('⑤ 티어·추천·순위 글(purpose «%s» · 제목 «%s»)' % (pz[:20], re.sub(r'\s+', ' ', (title or '').strip())[:30]))
     signals = {w: len(re.findall(re.escape(w), text)) for w in SENS_SIGNAL_WORDS}
     # ② 부재 단정 — «유일/최초/없다» 가 한 문장이라도 있으면(SKILL: 판정 여지 없음). 문장 단위로 주어 단서와 함께 본다.
     ab = []
@@ -883,7 +905,7 @@ def sensitive_flag(post, purpose, title):
         reasons.append('③ 수치 밀집 표 %d개(숫자 셀 6+)' % dense)
     return {
         'sensitive': bool(reasons), 'reasons': reasons, 'signals': signals,
-        'rule': 'game-blog-publish §2 반증 투입 기준 ①②③ 코드화(2026-09-23) — ④ D±7 결합 조건은 코드가 못 본다(파이프라인이 알면 덧씌움)',
+        'rule': 'game-blog-publish §2 반증 투입 기준 ①②③ 코드화(2026-09-23) + ⑤ 티어·추천·순위 글(2026-11-14 · %s 이후 생성 글) — ④ D±7 결합 조건은 코드가 못 본다(파이프라인이 알면 덧씌움)' % RANK_SENS_FROM.strftime('%m-%d'),
         'checkedAt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M'),
     }
 
@@ -1206,7 +1228,30 @@ def main():
 
     # sensitive ①(결과형)은 파이프라인과 같은 입력으로 — --purpose 또는 그것을 이어받은 값(←arg)만 쓴다.
     #   추론값(research-brief 등)을 넣으면 파이프라인이 false 로 정한 글이 드레이너 qa-files-check 에서 refute 필수로 뒤집힐 수 있다.
-    sens = sensitive_flag(post, a.purpose or (purpose if purpose_src.endswith('←arg') else ''), title)
+    try:
+        created = datetime.datetime.fromtimestamp(os.path.getctime(p))
+    except Exception:
+        created = None
+    sens = sensitive_flag(post, a.purpose or (purpose if purpose_src.endswith('←arg') else ''), title, created)
+
+    # ── V 문체 수치(2026-11-14 · 봄딩·영도) — 실블로그 기준(_voice/fingerprint.json)과 어미 비율·출처 귀속을 견준다.
+    #    mode «observe» = 기록만(_qa/voice.json · _health/voice-log.jsonl — 경고·차단 없음) · «warn» = 경고 · «block» = 차단.
+    #    승격은 사용자 보고 뒤에만(결정 2). 도구·기준 파일이 없거나 죽어도 발행은 세우지 않는다(fail-open).
+    if writer in ('봄딩', '영도'):
+        try:
+            import importlib.util as _ilu
+            _sp = _ilu.spec_from_file_location('voice_lint', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'voice-lint.py'))
+            _vl = _ilu.module_from_spec(_sp)
+            _sp.loader.exec_module(_vl)
+            vres = _vl.check(html, writer, purpose, title)
+            detail['voice'] = vres
+            if not vres.get('skipped') and vres.get('out'):
+                if vres.get('mode') == 'block':
+                    issues.append('V ' + _vl.summary(vres))
+                elif vres.get('mode') == 'warn':
+                    warns.append('V ' + _vl.summary(vres) + ' (경고 모드)')
+        except Exception as e:
+            detail['voice'] = {'skipped': '검사 내부 오류 — %s' % e}
 
     ok = not issues
     now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
@@ -1219,6 +1264,7 @@ def main():
            'angle': detail.get('angle', {}),  # 계약(2026-10-25): angle:{order, orderSrc, topic, title, lost, blocked} — 봄딩만(A1)
            'a13': detail.get('a13', {}),    # 계약(2026-10-25): a13:{titleLen, titleMax, h2, h2Max, blockFrom, titleOver, h2Over, blocked} — 봄딩만(A3)
            'refreshNew': detail.get('refreshNew', {}),   # 계약(2026-11-14): refreshNew:{rel, sentences, same, ratio, max, sameTitle, blocked} — _qa/refresh-of.json 이 있을 때만(R1)
+           'voice': {k: detail.get('voice', {}).get(k) for k in ('mode', 'type', 'out', 'checks', 'skipped') if k in detail.get('voice', {})},   # 계약(2026-11-14): 문체 수치 — 상세는 _qa/voice.json
            'checkedAt': now, 'file': p}
 
     # ── 항상 쓴다: <글폴더>/_qa/preflight.json · sensitive.json (다른 패키지가 읽는 계약 — 파일명 고정)
@@ -1230,6 +1276,12 @@ def main():
             json.dumps(out, ensure_ascii=False, indent=1))
         io.open(os.path.join(out_dir, 'sensitive.json'), 'w', encoding='utf-8', newline='\n').write(
             json.dumps(sens, ensure_ascii=False, indent=1))
+        _v = detail.get('voice') or {}
+        if _v and not _v.get('skipped'):      # 문체 수치 상세 + 관찰 기록(--out-dir 시험 실행은 기록하지 않는다)
+            io.open(os.path.join(out_dir, 'voice.json'), 'w', encoding='utf-8', newline='\n').write(
+                json.dumps(_v, ensure_ascii=False, indent=1))
+            if not a.out_dir:
+                _vl.log(_v, p)
     except Exception as e:
         write_err = str(e)
 
