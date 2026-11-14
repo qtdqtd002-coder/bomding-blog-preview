@@ -53,6 +53,13 @@
   ★2026-11-09 리프레시 면제(사용자 결정 — 전투력·자동사냥 리프레시가 원제목 51자로 막힘): <글폴더>/_qa/refresh-backup.html 이 있으면
      h1 이 원본과 같을 때 A1·A3 제목은 경고만, h2 는 원본 수 이하일 때 경고만. 바꾸거나 늘렸으면 새 글과 같이 ⛔.
      a13 에 refresh·refreshKeepTitle·refreshKeepH2·refreshBaseH2 추가.
+     (★11-14부터 «갱신»은 새 폴더의 새 글이라 refresh-backup.html 이 생기지 않는다 — 이 면제는 옛 같은 주소 개선본에만 남는다.)
+
+★2026-11-14 R1 갱신 = 새 글(⛔ · 사용자 결정 «같은 주제를 최신 정보로 다시 조사해 새 글로 · 이전 글은 참고만»)
+  <글폴더>/_qa/refresh-of.json {"rel":"<이전 글 rel>"} 이 있으면(sseudam-pipeline 5.5 가 쓴다) 이전 글 본문과 문장 단위로 대조한다.
+  산문(p·li) 문장(정규화 20자 이상) 중 이전 글에 «그대로» 있는 비율 > 10% 면 ⛔ · 이전 글과 같은 파일이면(덮어쓰기) ⛔ · 제목(h1)이 같으면 ⛔.
+  근거 실측(11-14 · 옛 갱신 7편): 바뀐 곳만 고친 글 88~93% · 절반쯤 고친 글 19~63% · 새로 쓴 글 0%.
+  이전 글 파일을 못 찾거나 rel 이 비었으면 경고만(fail-open). preflight.json 에 `refreshNew:{rel,sentences,same,ratio,max,sameTitle,blocked}`.
 
 사용
   python preflight.py "<글 HTML 절대경로>" [--writer 봄딩|영도] [--min 2000] [--json] [--strict]
@@ -998,6 +1005,62 @@ def check_a1_a3(writer, html, html_path, h2n, purpose, res):
     return [s.strip() for s in issues], [s.strip() for s in warns]
 
 
+# ────────────────────────────────────────────────────────────── R1 갱신 = 새 글(2026-11-14 · 차단)
+REFRESH_SAME_MAX = 0.10     # 이전 글 문장을 그대로 쓴 비율 상한(새로 쓴 글 실측 0% · 바뀐 곳만 고친 글 88~93%)
+REFRESH_MIN_SENT = 20       # 정규화 글자수 — 이보다 짧은 문장(인사·감탄)은 세지 않는다
+
+
+def prose_sentences(html):
+    """본문(.post · #copy 제외) 산문 p·li 의 문장을 norm() 으로 정규화해 돌려준다(REFRESH_MIN_SENT 이상만)."""
+    post, _copy = split_post_copy(html)
+    out = []
+    for _tag, _cls, text in blocks(post, ('p', 'li')):
+        for s in sentences(text):
+            k = norm(s)
+            if len(k) >= REFRESH_MIN_SENT:
+                out.append(k)
+    return out
+
+
+def check_refresh_new(html, html_path, res):
+    """R1 — 갱신 글이 이전 글을 베끼지 않았는가. <글폴더>/_qa/refresh-of.json 이 없으면 미적용. 반환 (issues, warns)."""
+    here = os.path.abspath(html_path)
+    rp = os.path.join(os.path.dirname(here), '_qa', 'refresh-of.json')
+    if not os.path.isfile(rp):
+        return [], []
+    try:
+        meta = json.loads(io.open(rp, encoding='utf-8-sig').read())
+    except Exception as e:
+        return [], ['R1 refresh-of.json 형식 오류 — 이전 글 대조 생략(%s)' % e]
+    rel = str((meta or {}).get('rel') or '').strip().replace('\\', '/')
+    res['refreshNew'] = {'rel': rel, 'sentences': 0, 'same': 0, 'ratio': None, 'max': REFRESH_SAME_MAX,
+                         'sameTitle': False, 'blocked': False}
+    if not rel:
+        return [], ['R1 이전 글 초안 없음(refresh-of.json rel 빈값) — 문장 대조 생략']
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))     # BlogPreview/
+    old = os.path.normpath(os.path.join(root, rel))
+    if not os.path.isfile(old):
+        return [], ['R1 이전 글 파일 없음(%s) — 문장 대조 생략' % rel]
+    if os.path.normcase(old) == os.path.normcase(here):
+        res['refreshNew']['blocked'] = True
+        return ['R1 갱신 글이 이전 글과 같은 파일이다 — 갱신은 덮어쓰지 않고 새 폴더·새 제목의 새 글로 쓴다(sseudam-pipeline 5.5)'], []
+    old_html = io.open(old, encoding='utf-8', errors='replace').read()
+    old_set = set(prose_sentences(old_html))
+    new = prose_sentences(html)
+    same = sum(1 for s in new if s in old_set)
+    ratio = (same / float(len(new))) if new else 0.0
+    same_title = bool(h1_text(html)) and h1_text(html) == h1_text(old_html)
+    res['refreshNew'].update({'sentences': len(new), 'same': same, 'ratio': round(ratio, 3), 'sameTitle': same_title})
+    issues = []
+    if ratio > REFRESH_SAME_MAX:
+        issues.append('R1 갱신 글이 이전 글 문장을 그대로 썼다 — %d/%d문장(%.0f%% > %.0f%%). 이전 글은 참고만 하고 구성·문장을 새로 쓴다'
+                      % (same, len(new), ratio * 100, REFRESH_SAME_MAX * 100))
+    if same_title:
+        issues.append('R1 갱신 글 제목이 이전 글과 같다 — 새 글이므로 제목을 새로 짓는다(40자 규칙 적용)')
+    res['refreshNew']['blocked'] = bool(issues)
+    return issues, []
+
+
 # ────────────────────────────────────────────────────────────── main
 def main():
     ap = argparse.ArgumentParser()
@@ -1087,6 +1150,14 @@ def main():
         issues += a_issues
         warns += a_warns
 
+    # ④-R (2026-11-14) R1 갱신 = 새 글 — _qa/refresh-of.json 이 있을 때만. 게이트 코드가 죽어도 발행은 세우지 않는다(fail-open).
+    try:
+        r_issues, r_warns = check_refresh_new(html, p, detail)
+    except Exception as e:
+        r_issues, r_warns = [], ['R1 검사 내부 오류 — %s' % e]
+    issues += r_issues
+    warns += r_warns
+
     # ⑤ 태그 줄 존재(네이버·티스토리 SEO) — 없으면 QA structure 가 반드시 잡는다
     if not re.search(r'class\s*=\s*["\'][^"\']*\btags\b', html, re.I) and '#' not in html[-3000:]:
         warns.append('태그 줄을 못 찾았다 — output-format 의 `.tags` 규격 확인')
@@ -1147,6 +1218,7 @@ def main():
            'band': detail.get('band', {}),  # 계약(2026-10-25): band:{type, lo, hi, chars, blocked} — 봄딩만(A2)
            'angle': detail.get('angle', {}),  # 계약(2026-10-25): angle:{order, orderSrc, topic, title, lost, blocked} — 봄딩만(A1)
            'a13': detail.get('a13', {}),    # 계약(2026-10-25): a13:{titleLen, titleMax, h2, h2Max, blockFrom, titleOver, h2Over, blocked} — 봄딩만(A3)
+           'refreshNew': detail.get('refreshNew', {}),   # 계약(2026-11-14): refreshNew:{rel, sentences, same, ratio, max, sameTitle, blocked} — _qa/refresh-of.json 이 있을 때만(R1)
            'checkedAt': now, 'file': p}
 
     # ── 항상 쓴다: <글폴더>/_qa/preflight.json · sensitive.json (다른 패키지가 읽는 계약 — 파일명 고정)
@@ -1205,6 +1277,12 @@ def main():
             print('  A1 각도     발주 %s(%s) → 제목 %s%s · A3 제목 %s자(≤%s) · h2 %s(≤%s) · 차단 시작 %s'
                   % (ag.get('order'), ag.get('orderSrc'), ag.get('title'), ' · 유실' if ag.get('lost') else '',
                      a13.get('titleLen'), a13.get('titleMax'), a13.get('h2'), a13.get('h2Max'), a13.get('blockFrom')))
+        rn = detail.get('refreshNew', {})
+        if rn:
+            print('  R1 갱신=새글 이전 글 %s · 그대로 쓴 문장 %s/%s(%s · 상한 %.0f%%)%s%s'
+                  % (rn.get('rel') or '(초안 없음)', rn.get('same'), rn.get('sentences'),
+                     ('%.0f%%' % (rn['ratio'] * 100)) if rn.get('ratio') is not None else '미측정', REFRESH_SAME_MAX * 100,
+                     ' · 제목 같음' if rn.get('sameTitle') else '', ' · ⛔' if rn.get('blocked') else ''))
         print('  sensitive = %s %s' % (sens['sensitive'], sens['reasons'] or '(반증 투입 사유 없음)'))
         print('  → %s' % os.path.join(out_dir, 'preflight.json') + (' ⚠ 저장 실패: %s' % write_err if write_err else ''))
         if ok and not warns:
