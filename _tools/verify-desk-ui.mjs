@@ -104,6 +104,8 @@ let KPI_MODE = 'ok';
    'new' = groups·byPost 가 든 새 형식(+옛 games) · 'legacy' = 옛 games 뿐(ⓓ 폴백). 기대값은 아래 ncExpect 가 «규칙을 따로» 계산한다 */
 const BOM_POSTS = JSON.parse(readFileSync(join(ROOT, 'posts.json'), 'utf8')).filter((p) => p.author === '봄딩');
 const BOM_GROUPS = [...new Set(BOM_POSTS.map((p) => p.group))];
+/* «이미 쓴 글» 줄 검사의 기준 글(2026-11-14) — 봄딩 롤토체스 최신 글. 없으면 그 검사를 건너뛴다 */
+const DUP_POST = BOM_POSTS.filter((p) => p.group === '롤토체스').sort((x, y) => String(y.created).localeCompare(String(x.created)))[0] || null;
 const GC_NEW = { updated: '2026-11-01 06:30', games: {}, groups: {}, byPost: {} };
 BOM_GROUPS.forEach((g, k) => {
   if (k % 3 === 0) GC_NEW.groups[g] = { cat: '신설G' + k, status: 'new', n90: k + 1, why: '합성' };
@@ -633,6 +635,24 @@ for (const [w, h] of [[1920, 940], [1536, 730], [1366, 630]]) {
   chk(`[${w}×${h}] 발주 모달을 열자마자 «관련 글» 줄(2건+한마디)이 다 보인다 · 본문이 내려가 있지 않다`, rs && rs.seen && rs.li.length === 3 && st === 0, { seen: rs && rs.seen, li: rs && rs.li.length, scrollTop: st });
   chk(`[${w}×${h}] 주제 칸 포커스는 그대로 간다 · 콘솔 예외 0`, (await ev(`!!document.activeElement&&document.activeElement.id==='oTopic'`)) && logs.length === 0, logs);
   await ev(`document.querySelector('.mdl [data-close]').click()`); await sleep(450);
+  /* ★2026-11-14 발주 모달 «이미 쓴 글» 줄(사용자 결정 6) — 고른 작성자가 같은 게임으로 쓴 글과 주제가 겹치면 칩 아래 한 줄.
+     «있다»가 아니라 «본문을 맨 아래로 내린 채 칩을 눌러도 줄이 본문 안에 다 보이는가»까지 잰다(게이트 🟡1 — 작은 창에서 반쯤 잘렸다).
+     기준 글 = 실제 posts.json 의 봄딩 롤토체스 최신 글(합성 판 syn-pinned-1 의 게임이 롤토체스) */
+  if (DUP_POST) {
+    await click(`[data-req="syn-pinned-1"]`); await waitFor(`!!document.querySelector('.brief')`, 5000); await sleep(500);
+    const dup = await ev(`(async()=>{const q=(x)=>document.querySelector(x);const mb=q('.mdl-b');mb.scrollTop=mb.scrollHeight;
+      const t=q('#oTopic');t.value=${JSON.stringify(DUP_POST.title)};t.dispatchEvent(new Event('input',{bubbles:true}));
+      q('#oChips .wchip[data-w="봄딩"]').click();await new Promise(r=>setTimeout(r,350));
+      const b=q('#oDup'),br=b.getBoundingClientRect(),mr=mb.getBoundingClientRect();
+      const one={text:b.textContent,inside:br.top>=mr.top-1&&br.bottom<=mr.bottom+1,h:Math.round(br.height),color:getComputedStyle(b.querySelector('span')||b).color,
+        warn:document.querySelectorAll('.mdl .f-hint.warn').length,lines:b.querySelectorAll('.od-t').length,ow:mb.scrollWidth<=mb.clientWidth+1};
+      q('#oChips .wchip[data-w="영도"]').click();await new Promise(r=>setTimeout(r,250));
+      one.after=q('#oDup').textContent;return one})()`);
+    chk(`[${w}×${h}] 발주 모달 «이미 쓴 글» 줄 — 봄딩을 고르면 같은 게임·같은 주제의 기존 글 제목이 뜬다(건마다 한 줄)`, dup && dup.text.includes(DUP_POST.title) && dup.text.startsWith('봄딩이 이미 쓴 글') && dup.lines >= 1, dup && { text: dup.text.slice(0, 80), lines: dup.lines });
+    chk(`[${w}×${h}] «이미 쓴 글» 줄이 본문 안에 다 보인다(맨 아래로 내린 뒤 칩을 눌러도) · 경고색 아님 · 가로 넘침 없음`, dup && dup.inside && dup.h > 0 && dup.color === 'rgb(73, 79, 87)' && dup.warn === 0 && dup.ow, dup && { inside: dup.inside, h: dup.h, color: dup.color, warn: dup.warn, ow: dup.ow });
+    chk(`[${w}×${h}] 작성자를 영도로 바꾸면 봄딩 글 제목이 사라진다`, dup && !dup.after.includes(DUP_POST.title), dup && dup.after.slice(0, 60));
+    await ev(`document.querySelector('.mdl [data-close]').click()`); await sleep(450);
+  }
   /* ★10-25 1920 개편 — 본문이 1620 까지 넓어지자 FAB(새 글 요청)가 목록 오른쪽 끝의 발주 버튼을 덮었다(1366 실측). 화면에 보이는 발주 버튼·칩 어느 것도 FAB 와 겹치지 않는다 */
   const fabHit = await ev(`(()=>{const f=document.getElementById('fab').getBoundingClientRect();const hit=[...document.querySelectorAll('.cta,.tr-chip,.tr-wr,.fsearch')].filter(e=>{const b=e.getBoundingClientRect();return b.width&&b.bottom>f.top&&b.top<f.bottom&&b.right>f.left&&b.left<f.right});const dl=document.querySelector('.tsec .trow:last-child');if(dl)dl.scrollIntoView({block:'end'});return {fab:[Math.round(f.left),Math.round(f.width)],hit:hit.length}})()`);
   await sleep(300);

@@ -228,6 +228,17 @@ RANK_SENS_FROM = datetime.datetime(2026, 11, 15)
 # W15 소식 글 공식 출처(2026-11-14 사용자 결정 8 — 경고로 시작 · 2주 관찰 뒤 차단 여부 보고): 소식형(출시·사전예약·업데이트…)인데
 #    공식(용어집 소스맵 등재 도메인·official 등급) 링크가 0 이면 경고. 매체 기사만으로 날짜·보상을 적은 글이 통과하던 구멍(다크에덴R).
 W15_NEWS_OFFICIAL = True
+#    ★«공식» 판정 = 1차 출처 링크 중 «매체·공략 사이트가 아닌 것». url-verify 의 tier 는 공식 도메인 목록 없이는 전부 press 로 나오고, 용어집 소스맵에는 매체도 올라가므로
+#    (11-14 실측: 다크에덴R 용어집의 위키트리가 공식으로 세어졌다) 여기서는 알려진 매체·공략 사이트를 빼는 쪽으로 센다. 목록에 없는 매체는 공식으로 세어진다(놓침 — 경고 모드 관찰 대상).
+W15_PRESS_HOSTS = (
+    'inven.co.kr', 'gamemeca.com', 'ruliweb.com', 'thisisgame.com', 'gameinsight.co.kr', 'gamefocus.co.kr', 'gamevu.co.kr', 'khgames.co.kr', 'gamechosun.co.kr',
+    'hungryapp.co.kr', 'gametoc.hankyung.com', 'wikitree.co.kr', 'zdnet.co.kr', 'etnews.com', 'mk.co.kr', 'hankyung.com', 'sedaily.com', 'edaily.co.kr', 'yna.co.kr',
+    'newsis.com', 'news1.kr', 'dailian.co.kr', 'betanews.net', 'bodnara.co.kr', 'sateconomy.co.kr', 'ipnn.co.kr', 'news.naver.com', 'n.news.naver.com', 'v.daum.net',
+    'sports.naver.com', 'game.donga.com', 'gameple.co.kr', 'gamesdonga.com', 'econovill.com', 'ddaily.co.kr', 'it.chosun.com', 'chosun.com', 'donga.com', 'joongang.co.kr',
+    'ign.com', 'gamespot.com', 'pcgamer.com', 'eurogamer.net', 'polygon.com', 'kotaku.com', 'gematsu.com', '4gamer.net', 'famitsu.com', 'destructoid.com',
+    'gamesradar.com', 'pockettactics.com', 'pocketgamer.com', 'game8.co', 'gamewith.jp', 'gamewith.ai', 'gamewith.net', 'mumuplayer.com', 'bluestacks.com', 'ldplayer.net',
+    'progameguides.com', 'dexerto.com', 'vg247.com', 'rockpapershotgun.com', 'automaton-media.com', 'gamerant.com', 'thegamer.com', 'siliconera.com',
+)
 
 
 # ────────────────────────────────────────────────────────────── 공통 파싱
@@ -605,7 +616,10 @@ def check_primary_links(post, res, purpose, purpose_src):
         return ['B5 1차 출처 링크 0 — 공략·쿠폰·티어 글은 공식·매체 출처 링크 ≥1 필수(참고한 곳 R5 또는 본문) · 출처를 넣거나 purpose 를 낮춰라 · 공식 도메인이 화이트리스트 밖이면 용어집 소스맵(_glossary/<게임>.md «소스맵»)에 1행 등재'
                 ' [purpose «%s» ← %s · a href %d개 · 제외 %s]' % (purpose, purpose_src, len(urls), ex)], []
     # W15(2026-11-14 · 경고) — 소식형인데 공식 링크 0. B5 대상(공략·쿠폰·티어)이 아닐 때만 본다.
-    official = sum(1 for x in primary if x['tier'] == 'official')
+    def _press(h):
+        h = h[4:] if h.startswith('www.') else h
+        return any(h == w or h.endswith('.' + w) for w in W15_PRESS_HOSTS)
+    official = sum(1 for x in primary if not _press(x['host']))
     res['b5']['officialLinks'] = official
     if W15_NEWS_OFFICIAL and not applies and post_type(purpose) == '소식형' and official == 0:
         res['b5']['newsNoOfficial'] = True

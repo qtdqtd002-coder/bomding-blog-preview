@@ -1105,6 +1105,10 @@ select.f-i{
 .f-hint.on .ic{color:var(--ink-2)}
 .f-hint.warn{color:var(--alert)}
 .f-hint.warn .ic{color:var(--alert)}
+/* 발주 모달 «이미 쓴 글» 줄(2026-11-14) — 늘 그려 두고 비면 높이 0(읽어 주는 영역은 숨겼다 드러내면 안 읽힌다) · 제목은 건마다 한 줄 · 어절 중간에서 끊지 않는다 */
+.o-dup:empty{margin-top:0}
+.o-dup>span{min-width:0; word-break:keep-all; overflow-wrap:anywhere}
+.o-dup .od-t{display:block}
 .f-hl{margin:0; padding-left:16px; display:flex; flex-direction:column; gap:3px}
 .f-chips{display:flex; flex-wrap:wrap; gap:6px}
 .wchip{
@@ -4158,6 +4162,41 @@ function copyOrderForm(o){
     }catch(e){ toast('복사에 실패했어요',{kind:'err'}); }
   }
 }
+/* 발주 «이미 쓴 글» 알림(2026-11-14 사용자 결정 6) — 고른 작성자가 같은 게임으로 이미 쓴 글(사이트에 올라온 초안 포함) 중
+   주제 낱말이 2개 이상이면서 절반 이상 겹치는 것을 한 줄로 알린다. ★막지 않는다(발주는 사람이 정한다).
+   요약 카드의 «관련 글»(판을 만들 때 데스크가 대조 · 작성자 무관)과 다른 점 = «지금 사이트에 있는 글»과 «고른 작성자»로 본다 —
+   판이 나온 뒤에 쓰인 글, 작성자 단위 중복(러너가 발주 뒤에 «이미 쓴 글»로 건너뛰던 것: GO패스·GTA6·아주르)을 발주 전에 보인다.
+   ★경고색을 쓰지 않는다 — 10-11 에 칩 아래 빨간 «이미 다룬 글» 줄을 «막는 표시가 아니라 참고»라 걷어냈다(verify-desk-ui 가 모달의 경고색 힌트 0 을 본다). 값 글자색(.f-hint.on) + info 아이콘. */
+var DUP_STOP={'정리':1,'총정리':1,'방법':1,'하는':1,'하는법':1,'받는':1,'받는법':1,'얻는':1,'얻는법':1,'공략':1,'가이드':1,'추천':1,'이벤트':1,
+  '보상':1,'업데이트':1,'출시':1,'출시일':1,'사전예약':1,'기준':1,'모음':1,'안내':1,'소식':1,'최신':1,'이번':1,'관련':1};
+function dupKey(s){ return String(s||'').toLowerCase().replace(/[^0-9a-z가-힣]/g,''); }
+function josa(w,a,b){ w=String(w||''); var c=w.charCodeAt(w.length-1); return (c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28)?a:b; }   /* 받침 있으면 a(이) 없으면 b(가) */
+function dupWords(s,gameKey){
+  var out=[];
+  String(s||'').toLowerCase().split(/[^0-9a-z가-힣]+/).forEach(function(w){
+    if(w.length<2||DUP_STOP[w]||out.indexOf(w)>=0)return;
+    if(gameKey&&gameKey.indexOf(w)>=0)return;      /* 게임 이름을 이루는 낱말은 겹침으로 세지 않는다 */
+    out.push(w);
+  });
+  return out;
+}
+function dupSame(a,b){ return a===b||(a.length>=2&&b.length>=2&&(a.indexOf(b)===0||b.indexOf(a)===0)); }   /* «무료와»↔«무료» — 조사가 붙은 꼴 */
+function orderDupes(writer,game,topic){
+  if(!writer||!POSTS.length)return [];
+  var gk=dupKey(game), tw=dupWords(topic,gk), res=[];
+  if(tw.length<2)return [];
+  POSTS.forEach(function(p){
+    if(p.author!==writer)return;
+    var pg=dupKey(p.group), pt=dupKey(p.title);
+    if(gk&&!((pg&&(pg===gk||pg.indexOf(gk)>=0||gk.indexOf(pg)>=0))||pt.indexOf(gk)>=0))return;   /* 같은 게임 글만 */
+    var pw=dupWords(p.title,gk), n=0;
+    tw.forEach(function(a){ if(pw.some(function(b){ return dupSame(a,b); }))n++; });
+    if(n>=2&&n/tw.length>=0.5)res.push({title:p.title,rel:p.rel,n:n,at:p.pubAt||0});   /* 주제 낱말의 절반 이상이 겹칠 때만 — 2개만 겹쳐도 띄우면 같은 게임 글마다 뜬다(최근 14판 19% → 4.5%) */
+  });
+  res.sort(function(a,b){ return b.n-a.n||b.at-a.at; });
+  return res.slice(0,3);
+}
+
 function openOrder(it,opener){
   var s=DESK_SEC[it.sec]||DESK_SECTIONS[0];
   var pre=it.lane||'';
@@ -4205,6 +4244,7 @@ function openOrder(it,opener){
       '<textarea id="oMaterial" class="f-i f-ta">'+esc(deskMaterial(it))+'</textarea>'+
       '<label class="f-l">작성자</label>'+
       '<div class="f-chips" id="oChips">'+writerChips(pre)+'</div>'+
+      '<div class="f-hint on o-dup" id="oDup" aria-live="polite"></div>'+
     '</div>'+
     '<div class="mdl-f">'+
       '<button type="button" class="ghost" id="oCopy">'+svg('copy')+'양식 복사</button>'+
@@ -4215,7 +4255,22 @@ function openOrder(it,opener){
 
   var $=function(q){ return back.querySelector(q); };
   var writer=pre;
-  bindWriterChips($('#oChips'),function(w){ writer=w; });
+  /* «이미 쓴 글» 줄 — 작성자를 고르거나 주제를 고칠 때마다 다시 본다. 갱신 발주(refreshRel)는 기존 글이 있는 게 당연하니 보지 않는다 */
+  function dupLine(){
+    var box=$('#oDup'); if(!box)return;
+    var d=it.refreshRel?[]:orderDupes(writer,it.game,$('#oTopic').value);
+    /* 요약 카드 «관련 글»에 이미 같은 작성자·같은 제목으로 나온 글은 뺀다 — 한 모달에 같은 제목이 두 번 나오면 «돼요»와 «이미 있어요»가 섞여 읽힌다(11-14 게이트 🟡3) */
+    var shown={}; it.coverage.forEach(function(c){ if(c.writer===writer)shown[dupKey(c.title)]=1; });
+    d=d.filter(function(x){ return !shown[dupKey(x.title)]; });
+    var h=d.length?svg('info')+'<span>'+esc(writer)+josa(writer,'이','가')+' 이미 쓴 글'+
+      d.map(function(x){ return '<span class="od-t">「'+esc(x.title)+'」</span>'; }).join('')+'</span>':'';
+    if(box._h===h)return;                 /* 같은 내용이면 건드리지 않는다 — 주제를 칠 때마다 다시 읽히지 않게 */
+    var was=!!box._h; box._h=h; box.innerHTML=h;
+    if(h&&!was&&box.scrollIntoView)box.scrollIntoView({block:'nearest'});   /* 작은 창에서 줄이 본문 아래로 반쯤 잘렸다(1366×630 · 게이트 🟡1) */
+  }
+  bindWriterChips($('#oChips'),function(w){ writer=w; dupLine(); });
+  $('#oTopic').addEventListener('input',dupLine);
+  dupLine();
   function msg(t,k){ var m=$('#oMsg'); m.textContent=t; m.className='mdl-msg'+(k?' '+k:''); }
   if(!RequestService.isConnected())msg('백엔드 미연결 — 임시 저장만 됩니다','err');
   $('#oCopy').addEventListener('click',function(){
