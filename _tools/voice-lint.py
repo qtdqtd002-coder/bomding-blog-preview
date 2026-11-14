@@ -7,6 +7,7 @@
 # 사용:
 #   python _tools/voice-lint.py <글.html> --writer 봄딩 [--purpose "<발주 목적>"] [--type 공략|소식] [--no-log]
 #   python _tools/voice-lint.py --scan 봄딩 30        # 최근 30편 일괄(기록 안 함 · 분포 확인용)
+#   python _tools/voice-lint.py --log-summary 7      # 관찰 기록 요약(주간 헬스체크 3c · 글마다 마지막 기록만)
 # 출력: 표 + `<글폴더>/_qa/voice.json` + Desktop\Claude\_health\voice-log.jsonl 1줄(관찰 기록). exit 는 항상 0(판정은 preflight 가 mode 로).
 import os, re, sys, io, json, glob, time, importlib.util
 
@@ -151,10 +152,39 @@ def scan(writer, n):
         print("   %-8s 이탈 %d/%d · 초안 중앙 %.2f" % (metric, bad, len(rows), vals[len(vals) // 2]))
 
 
+def log_summary(days):
+    """관찰 기록(_health/voice-log.jsonl) 요약 한 줄씩 — 글(file)마다 마지막 기록만 센다."""
+    import datetime
+    if not os.path.exists(LOG_PATH):
+        print("voice-log: 기록 없음(%s)" % LOG_PATH); return
+    since = (datetime.datetime.now() - datetime.timedelta(days=days)).strftime("%Y-%m-%d %H:%M")
+    last = {}
+    for ln in io.open(LOG_PATH, encoding="utf-8"):
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        if r.get("at", "") >= since:
+            last[r.get("file")] = r
+    if not last:
+        print("voice-log: 최근 %d일 기록 0편" % days); return
+    mode = load_fp().get("mode", "?") if os.path.exists(FP_PATH) else "?"
+    for w in ("봄딩", "영도"):
+        rows = [r for r in last.values() if r.get("writer") == w]
+        if not rows:
+            continue
+        med = lambda k: sorted(r.get(k, 0) for r in rows)[len(rows) // 2]
+        print("voice-log %s 최근 %d일 %d편(mode=%s) — 기준 이탈 0개 %d편 · 1개 %d · 2개+ %d | 중앙: 해요체합 %.2f · ~습니다 %.2f · ~는데요 %.2f · 출처귀속 %.2f" % (
+            w, days, len(rows), mode, sum(1 for r in rows if r["out"] == 0), sum(1 for r in rows if r["out"] == 1), sum(1 for r in rows if r["out"] >= 2),
+            med("해요체합"), med("습니다"), med("는데요"), med("출처귀속")))
+
+
 if __name__ == "__main__":
     a = sys.argv[1:]
     if not a:
         print(__doc__ or "usage: voice-lint.py <html> --writer 봄딩"); sys.exit(0)
+    if a[0] == "--log-summary":
+        log_summary(int(a[1]) if len(a) > 1 else 7); sys.exit(0)
     if a[0] == "--scan":
         scan(a[1], int(a[2]) if len(a) > 2 else 30); sys.exit(0)
 

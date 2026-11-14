@@ -68,6 +68,9 @@ def main():
     desk_typed = [d for d in desk if d['angleType']]
     desk_sh = share(desk_typed, lambda d: d['angleType'] in TYPE_HOWTO)
     desk_sh['untyped'] = len(desk) - len(desk_typed)
+    # ★2026-11-14 같은 분류기 비교 — 데스크는 stamp angleType(LLM 라벨), 발주·초안은 제목 사다리(정규식)라 «데스크 85% → 발주 52%»가
+    #   실제 유실인지 분류기 차이인지 가를 수 없었다. 데스크 제목도 같은 사다리로 한 번 더 세어 나란히 낸다(deskByLadder).
+    desk_ladder = share(desk, lambda d: classify(d['title']) in HOWTO)
     # ② 발주·초안(백엔드)
     reqs = []
     try:
@@ -92,16 +95,16 @@ def main():
     split_desk_title = sum(1 for d in desk if split_rx.search(d['title']))
     split_orders = sum(1 for q in win if split_rx.search(q.get('topic', '')))
     out = {'updated': datetime.datetime.now().strftime('%Y-%m-%d %H:%M'), 'window': '%s~%s(%d일)' % (since, today.isoformat(), days),
-           'howto': {'desk': desk_sh, 'order': order_sh, 'draft': draft_sh, 'live': live_sh, 'lostAtTitle': [{'topic': q.get('topic', '')[:50], 'title': q.get('title', '')[:60]} for q in lost][:10]},
+           'howto': {'desk': desk_sh, 'deskByLadder': desk_ladder, 'order': order_sh, 'draft': draft_sh, 'live': live_sh, 'lostAtTitle': [{'topic': q.get('topic', '')[:50], 'title': q.get('title', '')[:60]} for q in lost][:10]},
            'split': {'deskFlagged': split_desk, 'deskByTitle': split_desk_title, 'orders': split_orders,
                      'basis': 'stamp split 필드 ' + ('있음' if split_desk else '없음(제목의 1편·2편·상·하 로 근사)')},
            'apiError': api_err,
-           'rule': 'how-to = 공략·방법형+쿠폰형+추천·티어·비교형 · 데스크=stamp angleType(howto·rank) · 발주=topic 분류 · 초안=요청 title 분류 · 라이브=live-ledger a'}
+           'rule': 'how-to = 공략·방법형+쿠폰형+추천·티어·비교형 · 데스크=stamp angleType(howto·rank) · deskByLadder=데스크 제목을 발주와 같은 사다리로(11-14 — 유실 판정은 이 값과 발주를 견준다) · 발주=topic 분류 · 초안=요청 title 분류 · 라이브=live-ledger a'}
     os.makedirs(os.path.join(BASE, '_health'), exist_ok=True)
     io.open(os.path.join(BASE, '_health', 'exec-rate.json'), 'w', encoding='utf-8', newline='\n').write(json.dumps(out, ensure_ascii=False, indent=1))
     f = lambda s: ('%s%%(%d/%d)' % (int(s['rate'] * 100), s['howto'], s['n'])) if s['rate'] is not None else '-'
-    print('exec-rate %s: how-to 데스크 %s → 발주 %s → 초안 %s → 라이브 %s · 각도 유실(발주 공략→제목 소식) %d · 분할: 데스크 표식 %d(제목 근사 %d) → 발주 %d%s' % (
-        out['window'], f(desk_sh), f(order_sh), f(draft_sh), f(live_sh), len(lost), split_desk, split_desk_title, split_orders, (' · API 오류 ' + api_err) if api_err else ''))
+    print('exec-rate %s: how-to 데스크 %s(제목 사다리로는 %s) → 발주 %s → 초안 %s → 라이브 %s · 각도 유실(발주 공략→제목 소식) %d · 분할: 데스크 표식 %d(제목 근사 %d) → 발주 %d%s' % (
+        out['window'], f(desk_sh), f(desk_ladder), f(order_sh), f(draft_sh), f(live_sh), len(lost), split_desk, split_desk_title, split_orders, (' · API 오류 ' + api_err) if api_err else ''))
     if pr:
         for q in lost:
             print('  유실:', q.get('topic', '')[:40], '→', q.get('title', '')[:50])

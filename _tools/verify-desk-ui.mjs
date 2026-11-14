@@ -642,14 +642,18 @@ for (const [w, h] of [[1920, 940], [1536, 730], [1366, 630]]) {
     await click(`[data-req="syn-pinned-1"]`); await waitFor(`!!document.querySelector('.brief')`, 5000); await sleep(500);
     const dup = await ev(`(async()=>{const q=(x)=>document.querySelector(x);const mb=q('.mdl-b');mb.scrollTop=mb.scrollHeight;
       const t=q('#oTopic');t.value=${JSON.stringify(DUP_POST.title)};t.dispatchEvent(new Event('input',{bubbles:true}));
+      const c0=q('#oChips').getBoundingClientRect().top;
       q('#oChips .wchip[data-w="봄딩"]').click();await new Promise(r=>setTimeout(r,350));
+      const shift=Math.round(q('#oChips').getBoundingClientRect().top-c0);
       const b=q('#oDup'),br=b.getBoundingClientRect(),mr=mb.getBoundingClientRect();
       const one={text:b.textContent,inside:br.top>=mr.top-1&&br.bottom<=mr.bottom+1,h:Math.round(br.height),color:getComputedStyle(b.querySelector('span')||b).color,
-        warn:document.querySelectorAll('.mdl .f-hint.warn').length,lines:b.querySelectorAll('.od-t').length,ow:mb.scrollWidth<=mb.clientWidth+1};
+        warn:document.querySelectorAll('.mdl .f-hint.warn').length,lines:b.querySelectorAll('.od-t').length,ow:mb.scrollWidth<=mb.clientWidth+1,shift:shift};
       q('#oChips .wchip[data-w="영도"]').click();await new Promise(r=>setTimeout(r,250));
       one.after=q('#oDup').textContent;return one})()`);
     chk(`[${w}×${h}] 발주 모달 «이미 쓴 글» 줄 — 봄딩을 고르면 같은 게임·같은 주제의 기존 글 제목이 뜬다(건마다 한 줄)`, dup && dup.text.includes(DUP_POST.title) && dup.text.startsWith('봄딩이 이미 쓴 글') && dup.lines >= 1, dup && { text: dup.text.slice(0, 80), lines: dup.lines });
     chk(`[${w}×${h}] «이미 쓴 글» 줄이 본문 안에 다 보인다(맨 아래로 내린 뒤 칩을 눌러도) · 경고색 아님 · 가로 넘침 없음`, dup && dup.inside && dup.h > 0 && dup.color === 'rgb(73, 79, 87)' && dup.warn === 0 && dup.ow, dup && { inside: dup.inside, h: dup.h, color: dup.color, warn: dup.warn, ow: dup.ow });
+    /* 2차 게이트 🟡 — 줄이 생기며 모달이 커져 칩이 눌린 자리 밑으로 밀렸다(1920 에서 33px). 한 줄 자리를 비워 두므로 1건이면 0, 건이 늘면 늘어난 줄의 절반(가운데 정렬)까지만 */
+    if (w === 1920) chk(`[${w}×${h}] «이미 쓴 글» 줄이 떠도 칩이 눌린 자리에서 거의 안 움직인다(늘어난 줄의 절반 이내)`, dup && Math.abs(dup.shift) <= 10 * Math.max(0, dup.lines - 1) + 2, dup && { shift: dup.shift, lines: dup.lines });
     chk(`[${w}×${h}] 작성자를 영도로 바꾸면 봄딩 글 제목이 사라진다`, dup && !dup.after.includes(DUP_POST.title), dup && dup.after.slice(0, 60));
     await ev(`document.querySelector('.mdl [data-close]').click()`); await sleep(450);
   }

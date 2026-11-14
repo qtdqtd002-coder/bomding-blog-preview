@@ -1105,8 +1105,9 @@ select.f-i{
 .f-hint.on .ic{color:var(--ink-2)}
 .f-hint.warn{color:var(--alert)}
 .f-hint.warn .ic{color:var(--alert)}
-/* 발주 모달 «이미 쓴 글» 줄(2026-11-14) — 늘 그려 두고 비면 높이 0(읽어 주는 영역은 숨겼다 드러내면 안 읽힌다) · 제목은 건마다 한 줄 · 어절 중간에서 끊지 않는다 */
-.o-dup:empty{margin-top:0}
+/* 발주 모달 «이미 쓴 글» 줄(2026-11-14) — 늘 그려 두고 두 줄 자리(머리말 + 제목 1건)를 비워 둔다(줄이 생길 때 칩이 눌린 자리 밑으로 밀렸다 · 2차 게이트 🟡 · 읽어 주는 영역은 숨겼다 드러내면 안 읽힌다)
+   제목은 건마다 한 줄 · 어절 중간에서 끊지 않는다 */
+.o-dup{min-height:3.1em}
 .o-dup>span{min-width:0; word-break:keep-all; overflow-wrap:anywhere}
 .o-dup .od-t{display:block}
 .f-hl{margin:0; padding-left:16px; display:flex; flex-direction:column; gap:3px}
@@ -4256,7 +4257,7 @@ function openOrder(it,opener){
   var $=function(q){ return back.querySelector(q); };
   var writer=pre;
   /* «이미 쓴 글» 줄 — 작성자를 고르거나 주제를 고칠 때마다 다시 본다. 갱신 발주(refreshRel)는 기존 글이 있는 게 당연하니 보지 않는다 */
-  function dupLine(){
+  function dupLine(byChip){
     var box=$('#oDup'); if(!box)return;
     var d=it.refreshRel?[]:orderDupes(writer,it.game,$('#oTopic').value);
     /* 요약 카드 «관련 글»에 이미 같은 작성자·같은 제목으로 나온 글은 뺀다 — 한 모달에 같은 제목이 두 번 나오면 «돼요»와 «이미 있어요»가 섞여 읽힌다(11-14 게이트 🟡3) */
@@ -4266,10 +4267,11 @@ function openOrder(it,opener){
       d.map(function(x){ return '<span class="od-t">「'+esc(x.title)+'」</span>'; }).join('')+'</span>':'';
     if(box._h===h)return;                 /* 같은 내용이면 건드리지 않는다 — 주제를 칠 때마다 다시 읽히지 않게 */
     var was=!!box._h; box._h=h; box.innerHTML=h;
-    if(h&&!was&&box.scrollIntoView)box.scrollIntoView({block:'nearest'});   /* 작은 창에서 줄이 본문 아래로 반쯤 잘렸다(1366×630 · 게이트 🟡1) */
+    /* 작은 창에서 줄이 본문 아래로 반쯤 잘렸다(1366×630 · 게이트 🟡1) — 칩을 눌렀을 때만 끌어온다. 주제를 치는 중에 끌어오면 입력 칸이 튄다(2차 게이트 🟡) */
+    if(byChip===true&&h&&box.scrollIntoView)box.scrollIntoView({block:'nearest'});
   }
-  bindWriterChips($('#oChips'),function(w){ writer=w; dupLine(); });
-  $('#oTopic').addEventListener('input',dupLine);
+  bindWriterChips($('#oChips'),function(w){ writer=w; dupLine(true); });
+  $('#oTopic').addEventListener('input',function(){ dupLine(false); });
   dupLine();
   function msg(t,k){ var m=$('#oMsg'); m.textContent=t; m.className='mdl-msg'+(k?' '+k:''); }
   if(!RequestService.isConnected())msg('백엔드 미연결 — 임시 저장만 됩니다','err');
