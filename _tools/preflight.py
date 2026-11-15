@@ -1318,6 +1318,25 @@ def main():
         except Exception as e:
             detail['voice'] = {'skipped': '검사 내부 오류 — %s' % e}
 
+    # ── W16 본문 «숫자+단위» ↔ 사실 목록(2026-11-15 · 봄딩 사실 목록 방식 · 정본 shared/blog-writing/facts-method.md).
+    #    <글폴더>/_qa/facts.md 가 있는 글만. 본문의 «숫자+단위»·날짜 짝·코드가 목록의 값에 글자로 있는지 본다(Desktop/Claude/_voice/tools/fact_lock.py).
+    #    ★경고만 — 값이 맞아도 «조건이 바뀐» 오류는 못 보고(집필 뒤 qa-fact 몫), 집필이 스스로 센 수(«2종»)도 걸린다. 도구·파일이 없으면 건너뛴다(fail-open).
+    _facts = os.path.join(os.path.dirname(os.path.abspath(p)), '_qa', 'facts.md')
+    if os.path.exists(_facts):
+        try:
+            _fl_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), '_voice', 'tools')
+            if _fl_dir not in sys.path:
+                sys.path.insert(0, _fl_dir)
+            import fact_lock as _fl
+            _fr = _fl.run_html(post, io.open(_facts, encoding='utf-8', errors='replace').read())      # post = 위젯·#copy 를 뺀 본문(위젯 안내문 «약 5분»이 걸렸다)
+            _out = [x['value'] for x in _fr.get('numbersOut', [])] + ['코드 ' + c for c in _fr.get('codesOut', [])]
+            detail['factlock'] = {'numbers': _fr.get('numbers'), 'out': _out, 'baseline': _fr.get('baseline'), 'version': _fr.get('version')}
+            if _out:
+                warns.append('W16 사실 목록(_qa/facts.md)에 없는 값 %d개 — %s · 목록의 「값」 칸 글자 그대로 쓰거나(스스로 센 수 포함) 빼거나, 목록에 추가 요청'
+                             % (len(_out), ' · '.join(_out[:8]) + (' …' if len(_out) > 8 else '')))
+        except Exception as e:
+            detail['factlock'] = {'skipped': '검사 내부 오류 — %s' % e}
+
     ok = not issues
     now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
     out = {'ok': ok, 'chars': n, 'floor': floor, 'writer': writer,
