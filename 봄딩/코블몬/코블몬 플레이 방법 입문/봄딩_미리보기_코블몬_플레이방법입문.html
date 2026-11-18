@@ -1,0 +1,302 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>코블몬 시작 방법 총정리, 설치부터 첫 포획까지</title>
+<link rel="stylesheet" href="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/nanumsquare.css">
+<style>
+  :root{--ink:#2f2f2f;--sub:#8c8c8c;--line:#e8e8e8;--green:#03c75a;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f1f3f5;font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;color:var(--ink);}
+  .wrap{max-width:720px;margin:24px auto;background:#fff;border:1px solid var(--line);border-radius:6px;}
+  .topbar{display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub);}
+  .topbar .badge{background:var(--green);color:#fff;font-weight:700;border-radius:4px;padding:2px 7px;font-size:12px;}
+  .post{padding:28px 28px 40px;}
+  .cat{color:var(--green);font-size:13px;font-weight:700;margin-bottom:8px;}
+  h1.title{font-size:24px;line-height:1.4;margin:0 0 14px;font-weight:800;letter-spacing:-.3px;}
+  .meta{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:22px;}
+  .meta .author{font-weight:700;color:#555;}
+  .post p{font-size:16px;line-height:1.95;margin:0 0 20px;word-break:keep-all;}
+  .post ul,.post ol{margin:0 0 20px;padding-left:20px;}
+  .post li{font-size:16px;line-height:1.9;margin:4px 0;word-break:keep-all;}
+  .post b{font-weight:800;}
+  h2.sub{font-size:19px;font-weight:800;margin:34px 0 14px;letter-spacing:-.3px;}
+  .ss{border:2px dashed #c9d6df;background:#f5f9fc;border-radius:8px;margin:6px 0 8px;padding:34px 16px;text-align:center;color:#5b7589;}
+  .ss .ico{font-size:30px;display:block;margin-bottom:6px;}
+  .ss .lbl{font-size:13.5px;font-weight:700;}
+  .cap{text-align:center;color:var(--sub);font-size:13px;margin:0 0 24px;}
+  .imgwrap{margin:6px 0 6px;text-align:center;}
+  .imgwrap img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block;margin:0 auto;}
+  .src{text-align:center;font-size:12px;color:var(--sub);margin:4px 0 24px;line-height:1.6;}
+  .src a{color:#1a73e8;text-decoration:none;}
+  .shoot{border:1px dashed #b9c6cf;border-top:none;background:#fbfdff;border-radius:0 0 8px 8px;margin:-6px 0 6px;padding:9px 12px;font-size:12px;color:#5b7589;line-height:1.7;}
+  .shoot a{color:#1a73e8;text-decoration:none;}
+  .tbl{width:100%;border-collapse:collapse;margin:4px 0 22px;font-size:14px;}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  .tbl th{background:#f7f8fa;font-weight:700;}
+  .gap{border:2px dashed #e0a800;background:#fff8e6;border-radius:8px;margin:8px 0 20px;padding:14px 16px;color:#8a6d00;font-size:14px;line-height:1.6;}
+  .gap b{color:#7a5d00;}
+  .gap.mine{border-color:#7aa2e8;background:#eef4ff;color:#1a4fa0;}
+  .tags{margin-top:22px;color:#9aa;font-size:13px;}
+  #copy .ph{color:#1a5fb4;font-weight:700;}
+/* ===== 네이버 붙여넣기 위젯 (미리보기 전용 — 네이버 복사엔 안 들어감) ===== */
+#npBtn{position:fixed;top:14px;right:14px;z-index:99998;background:#03c75a;color:#fff;border:0;border-radius:9px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 3px 12px rgba(3,199,90,.4);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕",sans-serif;}
+#npBtn:active{transform:translateY(1px);}
+#npBack{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:99999;display:none;}
+#npBack.open{display:block;}
+#npDrawer{position:fixed;top:0;right:0;height:100vh;width:min(700px,96vw);background:#eceff3;z-index:100000;display:none;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18);font-family:'NanumSquare','나눔스퀘어',"Apple SD Gothic Neo","맑은 고딕","Malgun Gothic",sans-serif;}
+#npDrawer.open{display:flex;}
+.np-head{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px;background:#fff;border-bottom:1px solid #dfe3e8;}
+.np-head .np-t{font-size:15px;font-weight:800;color:#1d6b3e;}
+.np-head .np-copy{margin-left:auto;background:#03c75a;color:#fff;border:0;border-radius:7px;padding:9px 15px;font-size:13.5px;font-weight:800;cursor:pointer;}
+.np-head .np-x{background:#eef0f2;border:0;border-radius:7px;width:34px;height:34px;font-size:17px;cursor:pointer;color:#555;}
+.np-body{flex:1 1 auto;overflow:auto;padding:16px 16px 40px;}
+.np-guide{background:#fff8e6;border:1px solid #f0d264;border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;color:#6b5a2e;margin-bottom:14px;}
+.np-guide h2{margin:0 0 8px;font-size:14.5px;color:#8a6d1f;}
+.np-guide b{color:#8a6d1f;}
+.np-guide .qbox{margin-top:11px;padding:10px 12px;background:#eafaf0;border:1px solid #b7e6c9;border-radius:6px;color:#1d6b3e;font-size:12.5px;line-height:1.6;}
+.np-guide .ti{display:inline-block;background:#fff;border:1px solid #e3cf8a;border-radius:5px;padding:3px 8px;margin:6px 6px 0 0;font-size:12px;color:#5a4a1f;}
+.np-lbl{font-size:12px;color:#9aa;margin:0 0 6px;}
+#copy{background:#fff;border:2px dashed #03c75a;border-radius:8px;padding:24px 24px 30px;font-size:16px;line-height:1.95;color:#222;}
+#copy h3{font-size:17px;font-weight:800;margin:28px 0 10px;color:#111;}
+#copy p{margin:0 0 16px;}
+#copy ul{margin:0 0 16px;padding-left:20px;}
+#copy li{margin:5px 0;}
+#copy b{font-weight:800;}
+#copy .notice-line{font-weight:800;}
+#copy .spec{color:#333;}
+#copy .ph{color:#1a5fb4;font-weight:700;}
+#copy .minus-line{color:#9a4a3a;}
+#copy .warn-line{color:#b5651d;}
+#copy .tags-line{color:#5a8;}
+#copy table{border-collapse:collapse;width:100%;margin:10px 0 8px;font-size:13.5px;}
+#copy th,#copy td{border:1px solid #cccccc;padding:7px 9px;text-align:center;vertical-align:middle;}
+#copy th{background:#f2f2f2;font-weight:700;}
+#copy td.l{text-align:left;font-weight:700;}
+#copy .tnote-line{font-size:12.5px;color:#888;}
+</style></head><body>
+<div class="wrap">
+  <div class="topbar"><span class="badge">blog</span> blog.naver.com/bomding · 봄딩 게임</div>
+  <div class="post">
+    <div class="cat">게임 정보 · 코블몬</div>
+    <h1 class="title">코블몬 시작 방법 총정리, 설치부터 첫 포획까지</h1>
+    <div class="meta"><span class="author">봄딩</span><span>2026.11.19</span><span>· 게임</span></div>
+    <!-- AI브리핑 타깃 질문: 코블몬 어떻게 설치하나 / 코블몬 스타터는 어떻게 고르나 / 코블몬 몬스터볼은 어떻게 만들고 던지나 -->
+
+    <p>마인크래프트 자바 에디션 1.21.1에서 <b>Modrinth 앱으로 Cobblemon 모드팩을 설치하고 Play를 누르면 코블몬을 한 번에 시작할 수 있습니다.</b> 설치부터 스타터 선택, 몬스터볼 포획, 회복과 보관까지 순서대로 따라 하실 수 있게 정리했는데요, 처음이시라면 위에서부터 차례로 보시면 되겠습니다. 중간에 막히는 부분이 생겨도 맨 아래 체크 목록에서 한 번에 찾아보실 수 있습니다.</p>
+
+    <!-- 이미지 이유: 도입 대표 컷, 코블몬 포켓몬이 마인크래프트 세계에 나온 모습 / 출처: Modrinth Cobblemon 갤러리 «Pancham Family» / 분류: A형 -->
+    <div class="imgwrap"><img src="img/pancham.jpg" alt="마인크래프트 세계에 등장한 코블몬 포켓몬" width="1280" height="720"></div>
+    <p class="cap">코블몬 공식 갤러리 컷 «Pancham Family»</p>
+    <p class="src">이미지 출처: <a href="https://modrinth.com/mod/cobblemon" target="_blank">Cobblemon Modrinth 갤러리</a></p>
+
+    <h2 class="sub">코블몬이란, 마인크래프트 포켓몬 모드 한눈에 보기</h2>
+    <p>코블몬은 마인크래프트에서 포켓몬을 잡고 키울 수 있는 오픈소스 포켓몬 모드입니다. 잡을 수 있는 포켓몬이 800마리가 넘고, 마인크래프트 자바 에디션 전용이라 베드락 에디션에서는 즐길 수 없는데요. 가장 최근 버전은 2026년 10월 27일에 올라온 1.8.4이고, 마인크래프트 1.21.1용입니다. 그러니 설치하기 전에 내가 쓰는 마인크래프트가 자바 에디션인지부터 확인해 보시는 게 좋겠습니다.</p>
+    <p>레벨을 올려 새 기술을 배우고 진화시키는 것까지 되는데, 진화 시점을 플레이어가 직접 정할 수 있다는 점이 저는 제일 반갑네요. 혼자 즐겨도 되지만 멀티플레이에서는 친구와 포켓몬을 교환하고 배틀까지 할 수 있는데요. 서버는 멀티플레이 메뉴에 추가하는 방식이라, 같이 하실 분이 있다면 더 재미있을 듯합니다. 포켓몬을 잡고 키우고 친구와 나누는 것까지 한 게임 안에서 모두 해 볼 수 있습니다.</p>
+
+    <h2 class="sub">코블몬 설치하는 법, Modrinth 앱으로 한 번에</h2>
+    <p>Modrinth 앱에서 Cobblemon 모드팩을 받는 설치법이 간단한 편입니다. 앱 검색창에 Cobblemon을 입력하면 모드팩이 Cobblemon [Fabric]과 Cobblemon [NeoForge] 두 가지로 나오는데요. 그중 하나를 설치한 뒤 홈 화면에서 모드팩에 마우스를 올려 Play를 누르면 시작됩니다. Fabric이 성능이 더 좋은 편이라, 고민되신다면 Fabric 쪽이 무난하겠습니다.</p>
+
+    <!-- 이미지 이유: 설치 첫 단계, 검색창에 Cobblemon을 입력한 앱 화면 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 1: Modrinth 앱 검색창에 Cobblemon 입력한 화면</span></div>
+    <div class="shoot">📸 직접 촬영 — 모드팩 두 종류(Fabric·NeoForge)가 함께 보이게</div>
+    <p class="cap">Modrinth 앱에서 Cobblemon 검색</p>
+
+    <p>앱을 쓰지 않고 직접 설치하신다면 고르신 로더에 맞춰 mods 폴더에 아래 파일을 넣으시면 됩니다.</p>
+    <ul>
+      <li>Fabric: Fabric API와 Cobblemon-Fabric</li>
+      <li>NeoForge: Kotlin for Forge와 Cobblemon-NeoForge</li>
+    </ul>
+    <p>런처는 Modrinth 앱 말고도 Prism Launcher나 CurseForge 앱으로 설치할 수 있습니다. CurseForge 앱은 Download Standalone을 눌러야 Overwolf 앱이 같이 깔리지 않으니 이 부분만 챙기세요. 런처는 이렇게 세 가지라서, 이미 쓰는 런처가 있다면 그쪽을 따라가셔도 됩니다.</p>
+
+    <p><b>설치 방법, 이럴 땐 이렇게 고르세요</b></p>
+    <ul>
+      <li>설치가 처음이라면 Modrinth 앱 모드팩이 간단한 편입니다. 앱 검색 결과에 모드팩 두 가지가 바로 나오기 때문입니다.</li>
+      <li>NeoForge로 설치하신다면 Kotlin for Forge를 함께 넣어야 합니다.</li>
+    </ul>
+
+    <h2 class="sub">코블몬 스타터 고르기, 너로 정했다!</h2>
+    <p>처음 들어가면 화면에 안내되는 키를 눌러 스타팅 포켓몬 선택 화면을 엽니다. 여기서 «너로 정했다!» 버튼을 누르면 첫 포켓몬이 정해지는데요. 지방 탭이 여러 개 있고(관동지방·팔데아지방 등) 대부분 지방별로 세 마리 중에서 고르며, 예를 들어 관동지방은 Bulbasaur·Charmander·Squirtle, 팔데아지방은 Sprigatito·Fuecoco·Quaxly이고 고르는 포켓몬은 모두 10레벨로 시작합니다. 탭을 넘겨 가며 비교해 보시고 마음에 드는 한 마리를 정하시면 되겠습니다.</p>
+
+    <!-- 이미지 이유: 스타터 선택 화면 직접 촬영 자리, 버튼 문구 «너로 정했다!» 확인용 / 분류: B형 -->
+    <div class="ss"><span class="ico">📷</span><span class="lbl">스샷 2: 스타터 선택 화면(너로 정했다! 버튼이 보이게)</span></div>
+    <div class="shoot">📸 직접 촬영 — 후보 목록과 버튼이 한 화면에 나오게</div>
+    <p class="cap">스타터 선택 화면</p>
+    <div class="gap mine"><b>✍️ 봄딩 한 줄</b> — 하나만 남기고 지우기 · 안 쓰면 이 줄 통째로 지우기<br>제가 고른다면 〔관동지방 후보 / 팔데아지방 후보 / 화면에서 제일 끌리는 쪽〕이에요.</div>
+
+    <p>스타터를 고르지 않은 채 포켓몬부터 받았다면, 가진 포켓몬을 전부 PC에 넣은 뒤 화면에 안내되는 키를 눌러 고르시면 됩니다. 이미 한 번 고르셨다면 다시 고를 수는 없으니, 선택 화면에서 후보를 충분히 살펴보고 정하시는 편이 좋겠네요. 스타터를 정했다면 다음은 몬스터볼을 만들어 야생 포켓몬을 잡으러 나서시면 됩니다.</p>
+
+    <h2 class="sub">코블몬 몬스터볼 만들기, 포획과 배틀 움직임</h2>
+    <p>기본 몬스터볼은 빨간규토리(Red Apricorn) 4개와 구리 주괴로 만들고, 포획률은 1배입니다. 만든 볼은 핫바에서 선택해 손에 든 다음 포켓몬을 향해 던지면 되는데요. 배틀 중에 보이는 잡는다(Catch) 버튼만 누른다고 잡히는 건 아니고, 직접 볼을 들어 조준해서 던져야 합니다. 첫 포획을 노리는 분들이 자주 헷갈리는 부분이 아닐까 싶네요.</p>
+
+    <!-- 이미지 이유: 몬스터볼 재료 규토리 설명 바로 옆, 규토리 열매가 달린 나무 / 출처: Modrinth Cobblemon 갤러리 «Apricorn Tree» / 분류: A형 -->
+    <div class="imgwrap"><img src="img/apricorn.jpg" alt="규토리 열매가 달린 나무" width="1280" height="720"></div>
+    <p class="cap">코블몬 공식 갤러리 컷 «Apricorn Tree»</p>
+    <p class="src">이미지 출처: <a href="https://modrinth.com/mod/cobblemon" target="_blank">Cobblemon Modrinth 갤러리</a></p>
+
+    <p><b>던진 볼이 빗나가거나 실패했을 때</b></p>
+    <ul>
+      <li>빗나간 볼은 땅에 아이템으로 떨어져서 다시 주울 수 있습니다.</li>
+      <li>포획에 실패해 포켓몬이 깨고 나온 볼은 회수할 수 없어요.</li>
+    </ul>
+    <p>빗나간 볼은 땅에서 주울 수 있지만, 포획에 실패해 포켓몬이 깨고 나온 볼은 되찾을 수 없으니 빨간규토리와 구리 주괴를 넉넉히 챙겨 두시면 좋겠습니다.</p>
+
+    <p><b>배틀 중에는 이렇게 움직여요</b></p>
+    <p>코블몬에는 배틀 중 자유 이동을 켜고 끄는 기능이 있는데요. 자유 이동을 켜 두면 배틀 중에도 건축이나 채굴, 몹 전투를 그대로 할 수 있습니다. 배틀을 걸어 둔 채로 주변 블록을 캐거나 몹을 상대하는 것도 막히지 않으니 마인크래프트 감각 그대로 움직이시면 됩니다. 기본 키는 M(상태창)·R(선택한 포켓몬 꺼내기)이고 설정에서 바꿀 수 있습니다.</p>
+
+    <!-- 이미지 이유: 배틀 화면 설명 자리, 배틀 중 시야와 화면 구성 / 출처: Modrinth Cobblemon 갤러리 «Battle!» / 분류: A형 -->
+    <div class="imgwrap"><img src="img/battle.jpg" alt="코블몬 배틀 화면" width="1280" height="720"></div>
+    <p class="cap">코블몬 공식 갤러리 컷 «Battle!»</p>
+    <p class="src">이미지 출처: <a href="https://modrinth.com/mod/cobblemon" target="_blank">Cobblemon Modrinth 갤러리</a></p>
+
+    <h2 class="sub">코블몬 회복 장치, PC, 도감 기본</h2>
+    <p>다친 포켓몬은 회복 장치로 치료하고, 잡은 포켓몬은 PC에 보관하는 것이 기본 흐름입니다. 마을에 들를 일이 있다면 포켓센터가 있는지 둘러보시는 것도 좋은 방법입니다.</p>
+    <table class="tbl">
+      <tr><th>항목</th><th>알아둘 점</th></tr>
+      <tr><td>회복 장치</td><td>파티 포켓몬을 회복시키는 블록이고, 설치 직후 충전량은 0</td></tr>
+      <tr><td>포켓센터</td><td>마을에 생성되며 안에 회복 장치가 있음(1.6부터)</td></tr>
+      <tr><td>PC</td><td>포켓몬 보관 시스템 블록, 박스는 기본 40개이고 설정에서 바꿀 수 있음</td></tr>
+      <tr><td>포켓몬 도감</td><td>들고 우클릭을 누르고 있으면 포켓몬이 스캔됨</td></tr>
+    </table>
+    <p>새로 만난 포켓몬이 보이면 도감을 들고 우클릭을 꾹 눌러 보시는 게 좋고, PC는 파티가 가득 찼을 때를 대비해 하나 마련해 두시면 마음이 편하겠습니다.</p>
+
+    <!-- 이미지 이유: 도감 항목 바로 아래, 도감 화면과 스캔 장면 / 출처: Modrinth Cobblemon 갤러리 «Pokédex», «Pokédex Scanning» / 분류: A형 -->
+    <div class="imgwrap"><img src="img/pokedex.jpg" alt="코블몬 포켓몬 도감 화면" width="1280" height="678"></div>
+    <p class="cap">코블몬 공식 갤러리 컷 «Pokédex»</p>
+    <div class="imgwrap"><img src="img/scan.jpg" alt="도감으로 야생 포켓몬을 스캔하는 화면" width="1173" height="606"></div>
+    <p class="cap">코블몬 공식 갤러리 컷 «Pokédex Scanning»</p>
+    <p class="src">이미지 출처: <a href="https://modrinth.com/mod/cobblemon" target="_blank">Cobblemon Modrinth 갤러리</a></p>
+
+    <h2 class="sub">코블몬 막힐 때 체크할 것</h2>
+    <p>막혔을 때는 에디션과 파티 상태, 한국어 표기부터 확인해 보시면 됩니다.</p>
+    <ul>
+      <li>베드락 에디션(콘솔·모바일)에서는 코블몬을 할 수 없습니다.</li>
+      <li>파티가 꽉 차 있으면 잡은 포켓몬이 자동으로 PC로 넘어갑니다.</li>
+      <li>한국어로는 몬스터볼, 회복 장치, 포켓몬 도감, 상태창 열기처럼 번역돼 있어요.</li>
+      <li>공식 서버는 없고, 공개 서버는 공식 사이트나 디스코드의 서버 목록에서 찾아 멀티플레이 메뉴에 추가하면 됩니다.</li>
+    </ul>
+    <p>직접 눌러 가며 기능을 익히고 싶으시다면 제작진이 만든 튜토리얼 월드 Cobbled Farms도 있는데요. 모드 기능을 대화형으로 안내해 주는 월드라, 글보다 직접 움직이며 익히는 편이 맞는 분께 어울리겠습니다. 일단 Modrinth 앱에서 모드팩부터 설치해 두고 스타터를 골라 보시면 좋을 거 같아요. 막히는 부분은 게임 안 안내를 한 번 확인해 보세요. 즐거운 포획 되시길 바랍니다.</p>
+
+    <p><b>참고한 곳</b> (2026.11.19 기준)<br>
+    · <a href="https://modrinth.com/mod/cobblemon" target="_blank">Cobblemon Modrinth</a><br>
+    · <a href="https://wiki.cobblemon.com/index.php/Guides/Installation" target="_blank">Cobblemon 공식 위키(설치 가이드)</a><br>
+    · <a href="https://cobblemon.com" target="_blank">Cobblemon 공식 사이트</a></p>
+
+    <div class="tags">#코블몬 #Cobblemon #마인크래프트포켓몬모드 #코블몬설치 #코블몬스타터 #코블몬몬스터볼</div>
+  </div>
+</div>
+
+<!-- ============ 네이버 붙여넣기 위젯 (우측상단·미리보기 전용) ============ -->
+<button id="npBtn" type="button">📋 네이버 붙여넣기용 복사</button>
+<div id="npBack"></div>
+<div id="npDrawer" role="dialog" aria-label="네이버 붙여넣기용 본문">
+  <div class="np-head">
+    <span class="np-t">📋 네이버 붙여넣기용</span>
+    <button class="np-copy" id="npCopy" type="button">본문 전체 복사</button>
+    <button class="np-x" id="npClose" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="np-body">
+    <div class="np-guide">
+      <h2>이렇게 쓰세요</h2>
+      <b>1.</b> 위 <b>[본문 전체 복사]</b> 버튼을 누르거나, 초록 점선 <b>안쪽만</b> 드래그해서 복사하세요.<br>
+      <b>2.</b> 네이버 글쓰기 <b>본문</b>에 그대로 붙여넣기(Ctrl+V) → 볼드·리스트·표는 대체로 살아납니다.<br>
+      <b>3.</b> <b>파란 글씨 〔자리〕</b>는 네이버에서 직접 채우세요 — 📷 사진은 <b>미리보기에서 이미지 우클릭 → "이미지 복사" → 네이버 그 자리에서 Ctrl+V</b>(파일 저장 불필요 · 붙여넣은 뒤 <b>오른쪽 라이브러리에 뜨는지</b> 확인).<br>
+      <b>4.</b> 표가 깨져 보이면 네이버 <b>표 기능</b>으로 다시 만들면 됩니다(셀 내용은 그대로 복붙).
+      <div class="qbox">⏱ <b>직접 채울 건 8가지(약 8분):</b> 📷 <b>사진 7곳</b> 업로드 · ✍️ <b>한 줄 1곳</b>(골라서 하나만 남기기 · 안 쓰면 그 줄 지우기). 나머지 본문·볼드·리스트·표는 복사로 들어가요.</div>
+      <div style="margin-top:8px;"><span class="ti">📌 제목칸에 따로: 코블몬 시작 방법 총정리, 설치부터 첫 포획까지</span></div>
+    </div>
+    <p class="np-lbl">↓ 초록 점선 안쪽이 네이버로 들어갈 본문입니다 (자리표시 파란 글씨는 네이버에서 채우기)</p>
+    <div id="copy">
+<p><b>마인크래프트 자바 에디션 1.21.1에서 Modrinth 앱으로 Cobblemon 모드팩을 설치하고 Play를 누르면 코블몬을 한 번에 시작할 수 있습니다.</b> 설치부터 스타터 선택, 몬스터볼 포획, 회복과 보관까지 순서대로 따라 하실 수 있게 정리했는데요, 처음이시라면 위에서부터 차례로 보시면 되겠습니다. 중간에 막히는 부분이 생겨도 맨 아래 체크 목록에서 한 번에 찾아보실 수 있습니다.</p>
+<p class="ph">📷 〔사진 자리 1〕 코블몬 대표 컷(Pancham Family) — Modrinth Cobblemon 갤러리에서 저장 후 업로드</p>
+<h3>코블몬이란, 마인크래프트 포켓몬 모드 한눈에 보기</h3>
+<p>코블몬은 마인크래프트에서 포켓몬을 잡고 키울 수 있는 오픈소스 포켓몬 모드입니다. 잡을 수 있는 포켓몬이 800마리가 넘고, 마인크래프트 자바 에디션 전용이라 베드락 에디션에서는 즐길 수 없는데요. 가장 최근 버전은 2026년 10월 27일에 올라온 1.8.4이고, 마인크래프트 1.21.1용입니다. 그러니 설치하기 전에 내가 쓰는 마인크래프트가 자바 에디션인지부터 확인해 보시는 게 좋겠습니다.</p>
+<p>레벨을 올려 새 기술을 배우고 진화시키는 것까지 되는데, 진화 시점을 플레이어가 직접 정할 수 있다는 점이 저는 제일 반갑네요. 혼자 즐겨도 되지만 멀티플레이에서는 친구와 포켓몬을 교환하고 배틀까지 할 수 있는데요. 서버는 멀티플레이 메뉴에 추가하는 방식이라, 같이 하실 분이 있다면 더 재미있을 듯합니다. 포켓몬을 잡고 키우고 친구와 나누는 것까지 한 게임 안에서 모두 해 볼 수 있습니다.</p>
+<h3>코블몬 설치하는 법, Modrinth 앱으로 한 번에</h3>
+<p>Modrinth 앱에서 Cobblemon 모드팩을 받는 설치법이 간단한 편입니다. 앱 검색창에 Cobblemon을 입력하면 모드팩이 Cobblemon [Fabric]과 Cobblemon [NeoForge] 두 가지로 나오는데요. 그중 하나를 설치한 뒤 홈 화면에서 모드팩에 마우스를 올려 Play를 누르면 시작됩니다. Fabric이 성능이 더 좋은 편이라, 고민되신다면 Fabric 쪽이 무난하겠습니다.</p>
+<p class="ph">📷 〔사진 자리 2〕 Modrinth 앱 검색창에 Cobblemon 입력한 화면 — 직접 촬영 후 업로드</p>
+<p>앱을 쓰지 않고 직접 설치하신다면 고르신 로더에 맞춰 mods 폴더에 아래 파일을 넣으시면 됩니다.</p>
+<ul>
+<li>Fabric: Fabric API와 Cobblemon-Fabric</li>
+<li>NeoForge: Kotlin for Forge와 Cobblemon-NeoForge</li>
+</ul>
+<p>런처는 Modrinth 앱 말고도 Prism Launcher나 CurseForge 앱으로 설치할 수 있습니다. CurseForge 앱은 Download Standalone을 눌러야 Overwolf 앱이 같이 깔리지 않으니 이 부분만 챙기세요. 런처는 이렇게 세 가지라서, 이미 쓰는 런처가 있다면 그쪽을 따라가셔도 됩니다.</p>
+<p><b>설치 방법, 이럴 땐 이렇게 고르세요</b></p>
+<ul>
+<li>설치가 처음이라면 Modrinth 앱 모드팩이 간단한 편입니다. 앱 검색 결과에 모드팩 두 가지가 바로 나오기 때문입니다.</li>
+<li>NeoForge로 설치하신다면 Kotlin for Forge를 함께 넣어야 합니다.</li>
+</ul>
+<h3>코블몬 스타터 고르기, 너로 정했다!</h3>
+<p>처음 들어가면 화면에 안내되는 키를 눌러 스타팅 포켓몬 선택 화면을 엽니다. 여기서 «너로 정했다!» 버튼을 누르면 첫 포켓몬이 정해지는데요. 지방 탭이 여러 개 있고(관동지방·팔데아지방 등) 대부분 지방별로 세 마리 중에서 고르며, 예를 들어 관동지방은 Bulbasaur·Charmander·Squirtle, 팔데아지방은 Sprigatito·Fuecoco·Quaxly이고 고르는 포켓몬은 모두 10레벨로 시작합니다. 탭을 넘겨 가며 비교해 보시고 마음에 드는 한 마리를 정하시면 되겠습니다.</p>
+<p class="ph">📷 〔사진 자리 3〕 스타터 선택 화면(너로 정했다! 버튼이 보이게) — 직접 촬영 후 업로드</p>
+
+<p>스타터를 고르지 않은 채 포켓몬부터 받았다면, 가진 포켓몬을 전부 PC에 넣은 뒤 화면에 안내되는 키를 눌러 고르시면 됩니다. 이미 한 번 고르셨다면 다시 고를 수는 없으니, 선택 화면에서 후보를 충분히 살펴보고 정하시는 편이 좋겠네요. 스타터를 정했다면 다음은 몬스터볼을 만들어 야생 포켓몬을 잡으러 나서시면 됩니다.</p>
+<h3>코블몬 몬스터볼 만들기, 포획과 배틀 움직임</h3>
+<p>기본 몬스터볼은 빨간규토리(Red Apricorn) 4개와 구리 주괴로 만들고, 포획률은 1배입니다. 만든 볼은 핫바에서 선택해 손에 든 다음 포켓몬을 향해 던지면 되는데요. 배틀 중에 보이는 잡는다(Catch) 버튼만 누른다고 잡히는 건 아니고, 직접 볼을 들어 조준해서 던져야 합니다. 첫 포획을 노리는 분들이 자주 헷갈리는 부분이 아닐까 싶네요.</p>
+<p class="ph">📷 〔사진 자리 4〕 규토리 열매가 달린 나무(Apricorn Tree) — Modrinth Cobblemon 갤러리에서 저장 후 업로드</p>
+<p><b>던진 볼이 빗나가거나 실패했을 때</b></p>
+<ul>
+<li>빗나간 볼은 땅에 아이템으로 떨어져서 다시 주울 수 있습니다.</li>
+<li>포획에 실패해 포켓몬이 깨고 나온 볼은 회수할 수 없어요.</li>
+</ul>
+<p>빗나간 볼은 땅에서 주울 수 있지만, 포획에 실패해 포켓몬이 깨고 나온 볼은 되찾을 수 없으니 빨간규토리와 구리 주괴를 넉넉히 챙겨 두시면 좋겠습니다.</p>
+<p><b>배틀 중에는 이렇게 움직여요</b></p>
+<p>코블몬에는 배틀 중 자유 이동을 켜고 끄는 기능이 있는데요. 자유 이동을 켜 두면 배틀 중에도 건축이나 채굴, 몹 전투를 그대로 할 수 있습니다. 배틀을 걸어 둔 채로 주변 블록을 캐거나 몹을 상대하는 것도 막히지 않으니 마인크래프트 감각 그대로 움직이시면 됩니다. 기본 키는 M(상태창)·R(선택한 포켓몬 꺼내기)이고 설정에서 바꿀 수 있습니다.</p>
+<p class="ph">📷 〔사진 자리 5〕 배틀 화면(Battle!) — Modrinth Cobblemon 갤러리에서 저장 후 업로드</p>
+<h3>코블몬 회복 장치, PC, 도감 기본</h3>
+<p>다친 포켓몬은 회복 장치로 치료하고, 잡은 포켓몬은 PC에 보관하는 것이 기본 흐름입니다. 마을에 들를 일이 있다면 포켓센터가 있는지 둘러보시는 것도 좋은 방법입니다.</p>
+<table border="1">
+<tr><th>항목</th><th>알아둘 점</th></tr>
+<tr><td>회복 장치</td><td>파티 포켓몬을 회복시키는 블록이고, 설치 직후 충전량은 0</td></tr>
+<tr><td>포켓센터</td><td>마을에 생성되며 안에 회복 장치가 있음(1.6부터)</td></tr>
+<tr><td>PC</td><td>포켓몬 보관 시스템 블록, 박스는 기본 40개이고 설정에서 바꿀 수 있음</td></tr>
+<tr><td>포켓몬 도감</td><td>들고 우클릭을 누르고 있으면 포켓몬이 스캔됨</td></tr>
+</table>
+<p>새로 만난 포켓몬이 보이면 도감을 들고 우클릭을 꾹 눌러 보시는 게 좋고, PC는 파티가 가득 찼을 때를 대비해 하나 마련해 두시면 마음이 편하겠습니다.</p>
+<p class="ph">📷 〔사진 자리 6〕 포켓몬 도감 화면(Pokédex) — Modrinth Cobblemon 갤러리에서 저장 후 업로드</p>
+<p class="ph">📷 〔사진 자리 7〕 도감 스캔 장면(Pokédex Scanning) — Modrinth Cobblemon 갤러리에서 저장 후 업로드</p>
+<h3>코블몬 막힐 때 체크할 것</h3>
+<p>막혔을 때는 에디션과 파티 상태, 한국어 표기부터 확인해 보시면 됩니다.</p>
+<ul>
+<li>베드락 에디션(콘솔·모바일)에서는 코블몬을 할 수 없습니다.</li>
+<li>파티가 꽉 차 있으면 잡은 포켓몬이 자동으로 PC로 넘어갑니다.</li>
+<li>한국어로는 몬스터볼, 회복 장치, 포켓몬 도감, 상태창 열기처럼 번역돼 있어요.</li>
+<li>공식 서버는 없고, 공개 서버는 공식 사이트나 디스코드의 서버 목록에서 찾아 멀티플레이 메뉴에 추가하면 됩니다.</li>
+</ul>
+<p>직접 눌러 가며 기능을 익히고 싶으시다면 제작진이 만든 튜토리얼 월드 Cobbled Farms도 있는데요. 모드 기능을 대화형으로 안내해 주는 월드라, 글보다 직접 움직이며 익히는 편이 맞는 분께 어울리겠습니다. 일단 Modrinth 앱에서 모드팩부터 설치해 두고 스타터를 골라 보시면 좋을 거 같아요. 막히는 부분은 게임 안 안내를 한 번 확인해 보세요. 즐거운 포획 되시길 바랍니다.</p>
+<p><b>참고한 곳</b> (2026.11.19 기준)<br>
+· <a href="https://modrinth.com/mod/cobblemon" target="_blank">Cobblemon Modrinth</a><br>
+· <a href="https://wiki.cobblemon.com/index.php/Guides/Installation" target="_blank">Cobblemon 공식 위키(설치 가이드)</a><br>
+· <a href="https://cobblemon.com" target="_blank">Cobblemon 공식 사이트</a></p>
+<p class="tags-line">#코블몬 #Cobblemon #마인크래프트포켓몬모드 #코블몬설치 #코블몬스타터 #코블몬몬스터볼</p>
+</div>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('npBtn'),drawer=document.getElementById('npDrawer'),
+      back=document.getElementById('npBack'),closeBtn=document.getElementById('npClose'),
+      copyBtn=document.getElementById('npCopy');
+  function open(){ drawer.classList.add('open'); back.classList.add('open'); }
+  function close(){ drawer.classList.remove('open'); back.classList.remove('open'); }
+  btn.addEventListener('click',open);
+  back.addEventListener('click',close);
+  closeBtn.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  copyBtn.addEventListener('click',function(){
+    var el=document.getElementById('copy');
+    var range=document.createRange(); range.selectNodeContents(el);
+    var sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    var ok=false;
+    /* ★배경색 없음: 크롬은 선택영역을 직렬화할 때 «효력 있는 배경색»을 조상을 타고 올라가 찾아 첫 블록 style 에 박는다.
+       복사 동안만 #copy→html 조상의 배경을 transparent 로 내렸다 되돌린다(동기라 화면엔 안 보임). */
+    try{ var _r=[]; for(var _e=el; _e; _e=_e.parentElement){ _r.push([_e,_e.style.backgroundColor]); _e.style.backgroundColor='transparent'; }
+         ok=document.execCommand('copy');
+         for(var _i=0;_i<_r.length;_i++) _r[_i][0].style.backgroundColor=_r[_i][1]; }catch(e){ ok=false; }
+    sel.removeAllRanges();
+    if(ok){ copyBtn.textContent='✅ 복사됨! 네이버에 붙여넣기'; setTimeout(function(){ copyBtn.textContent='본문 전체 복사'; },3000); }
+    else { alert('자동 복사가 안 됐어요. 초록 점선 안쪽을 직접 드래그해서 복사(Ctrl+C)해 주세요.'); }
+  });
+})();
+</script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/naver-npaste.js" defer></script>
+<script src="https://qtdqtd002-coder.github.io/bomding-blog-preview/_design/bomding-imagebox.js" defer></script>
+</body></html>
